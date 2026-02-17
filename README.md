@@ -11,18 +11,27 @@ Metal.NET.slnx
 │   │   ├── Bool8.cs                   ← ObjC BOOL type
 │   │   ├── NSString.cs / NSError.cs   ← Foundation types
 │   │   └── MTLStructs.cs             ← Value-type structs (MTLOrigin, MTLSize, etc.)
-│   ├── Definitions/                   ← JSON API definitions (auto-generated)
+│   ├── metal-cpp/                     ← metal-cpp headers (direct pipeline)
+│   │   ├── Metal/
+│   │   │   ├── MTLDevice.hpp
+│   │   │   ├── MTLCommandQueue.hpp
+│   │   │   └── ...
+│   │   ├── Foundation/
+│   │   └── QuartzCore/
+│   ├── Definitions/                   ← JSON API definitions (legacy / manual overrides)
 │   │   ├── enums.json                 ← All Metal enums
 │   │   ├── MTLDevice.json             ← MTLDevice protocol binding
-│   │   ├── MTLCommandQueue.json       ← ...
 │   │   └── ...
 │   └── Metal.NET.csproj               ← References the Source Generator
 │
 ├── Metal.NET.Generator/               ← C# Source Generator (compile-time)
-│   ├── MetalBindingsGenerator.cs      ← Reads JSON → produces .g.cs files
-│   └── Models.cs                      ← JSON deserialization models
+│   ├── MetalBindingsGenerator.cs      ← Reads .hpp or .json → produces .g.cs files
+│   ├── HeaderClassParser.cs           ← Parses C++ class declarations + selectors
+│   ├── HeaderEnumParser.cs            ← Parses C++ enum definitions
+│   ├── HeaderTypeMapper.cs            ← C++ → C# type mapping
+│   └── Models.cs                      ← Shared definition models
 │
-└── Metal.NET.HeaderParser/            ← CLI tool to parse metal-cpp headers
+└── Metal.NET.HeaderParser/            ← CLI tool (legacy: parse headers → JSON)
     ├── Program.cs                     ← Entry point
     ├── EnumParser.cs                  ← Parses _MTL_ENUM/_MTL_OPTIONS
     ├── ClassParser.cs                 ← Parses class declarations + selectors
@@ -32,25 +41,53 @@ Metal.NET.slnx
 
 ## How to Update Bindings When Metal API Changes
 
-### Step 1: Download latest metal-cpp
+### Option A: Direct Pipeline (Recommended)
+
+Place the metal-cpp headers directly in the project — the Source Generator parses them at compile time, no intermediate steps needed.
+
+#### Step 1: Download latest metal-cpp
 
 Go to **https://developer.apple.com/metal/cpp/** and download the latest archive.
-Extract it to a local folder, e.g. `./metal-cpp/`.
 
-The extracted folder should contain:
+#### Step 2: Copy headers into the project
+
+Copy the extracted `Metal/`, `Foundation/`, and `QuartzCore/` directories into `Metal.NET/metal-cpp/`:
+
 ```
-metal-cpp/
+Metal.NET/metal-cpp/
 ├── Metal/
 │   ├── MTLDevice.hpp
 │   ├── MTLCommandQueue.hpp
 │   ├── MTLTexture.hpp
+│   ├── MTLDevicePrivate.hpp
 │   └── ...
 ├── Foundation/
 ├── QuartzCore/
 └── ...
 ```
 
-### Step 2: Run the header parser
+#### Step 3: Build
+
+```bash
+dotnet build Metal.NET
+```
+
+The Source Generator will automatically:
+1. Parse selector definitions from `*Private.hpp` files
+2. Parse enum definitions from `MTL*.hpp` headers
+3. Parse class/protocol declarations and match methods to selectors
+4. Generate C# bindings directly — no JSON intermediate files needed
+
+### Option B: JSON Pipeline (Legacy)
+
+You can still use JSON definitions for fine-grained control or manual overrides. Both pipelines work simultaneously — JSON definitions take priority for types they define.
+
+#### Step 1: Download latest metal-cpp
+
+Go to **https://developer.apple.com/metal/cpp/** and download the latest archive.
+Extract it to a local folder, e.g. `./metal-cpp/`.
+
+#### Step 2: Run the header parser
 
 ```bash
 dotnet run --project Metal.NET.HeaderParser -- ./metal-cpp ./Metal.NET/Definitions
@@ -62,20 +99,20 @@ This will:
 3. Parse class/protocol declarations and match methods to selectors
 4. Write JSON definition files to `Metal.NET/Definitions/`
 
-### Step 3: Review and build
+#### Step 3: Review and build
 
 ```bash
-# Review the generated JSON for any issues
+# Review the generated JSON files for any issues
 # Then build — the Source Generator will produce C# bindings
 dotnet build Metal.NET
 ```
 
-### Step 4: Fix any issues
+### Fix any issues
 
 The parser handles ~90% of cases automatically. You may need to manually fix:
 - Methods with complex parameter patterns
 - Custom selector mappings that couldn't be resolved
-- New value-struct types (add them to `MTLStructs.cs` and `TypeMapper.cs`)
+- New value-struct types (add them to `MTLStructs.cs` and `HeaderTypeMapper.cs`)
 
 ## JSON Definition Format
 
