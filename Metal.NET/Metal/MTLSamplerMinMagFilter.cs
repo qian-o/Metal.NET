@@ -2,7 +2,7 @@
 
 public enum MTLSamplerMinMagFilter : uint
 {
-    Nearest = 0,
+    SamplerMinMagFilterNearest = 0,
 
-    Linear = 1
+    SamplerMinMagFilterLinear = 1
 }

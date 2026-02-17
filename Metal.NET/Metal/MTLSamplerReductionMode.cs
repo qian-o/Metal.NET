@@ -2,9 +2,9 @@
 
 public enum MTLSamplerReductionMode : uint
 {
-    WeightedAverage = 0,
+    SamplerReductionModeWeightedAverage = 0,
 
-    Minimum = 1,
+    SamplerReductionModeMinimum = 1,
 
-    Maximum = 2
+    SamplerReductionModeMaximum = 2
 }

@@ -2,9 +2,9 @@
 
 public enum MTLMathMode : int
 {
-    Safe = 0,
+    MathModeSafe = 0,
 
-    Relaxed = 1,
+    MathModeRelaxed = 1,
 
-    Fast = 2
+    MathModeFast = 2
 }

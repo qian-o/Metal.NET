@@ -2,9 +2,9 @@
 
 public enum MTLSamplerBorderColor : uint
 {
-    TransparentBlack = 0,
+    SamplerBorderColorTransparentBlack = 0,
 
-    OpaqueBlack = 1,
+    SamplerBorderColorOpaqueBlack = 1,
 
-    OpaqueWhite = 2
+    SamplerBorderColorOpaqueWhite = 2
 }

@@ -2,7 +2,7 @@
 
 public enum MTLSparseTextureRegionAlignmentMode : uint
 {
-    Outward = 0,
+    SparseTextureRegionAlignmentModeOutward = 0,
 
-    Inward = 1
+    SparseTextureRegionAlignmentModeInward = 1
 }

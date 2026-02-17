@@ -2,7 +2,7 @@
 
 public enum MTLBufferSparseTier : int
 {
-    None = 0,
+    BufferSparseTierNone = 0,
 
-    _1 = 1
+    BufferSparseTier1 = 1
 }

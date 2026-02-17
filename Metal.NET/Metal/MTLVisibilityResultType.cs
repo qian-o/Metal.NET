@@ -2,7 +2,7 @@
 
 public enum MTLVisibilityResultType : int
 {
-    Reset = 0,
+    VisibilityResultTypeReset = 0,
 
-    Accumulate = 1
+    VisibilityResultTypeAccumulate = 1
 }

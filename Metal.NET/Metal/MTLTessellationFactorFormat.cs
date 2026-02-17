@@ -2,5 +2,5 @@
 
 public enum MTLTessellationFactorFormat : uint
 {
-    Half = 0
+    TessellationFactorFormatHalf = 0
 }

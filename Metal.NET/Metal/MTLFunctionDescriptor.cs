@@ -34,10 +34,10 @@ public class MTLFunctionDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetName, value.NativePtr);
     }
 
-    public nuint Options
+    public MTLFunctionOptions Options
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionDescriptorSelector.Options);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetOptions, value);
+        get => (MTLFunctionOptions)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFunctionDescriptorSelector.Options));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetOptions, (uint)value);
     }
 
     public NSString SpecializedName

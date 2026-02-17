@@ -2,13 +2,13 @@
 
 public enum MTLVertexStepFunction : uint
 {
-    Constant = 0,
+    VertexStepFunctionConstant = 0,
 
-    PerVertex = 1,
+    VertexStepFunctionPerVertex = 1,
 
-    PerInstance = 2,
+    VertexStepFunctionPerInstance = 2,
 
-    PerPatch = 3,
+    VertexStepFunctionPerPatch = 3,
 
-    PerPatchControlPoint = 4
+    VertexStepFunctionPerPatchControlPoint = 4
 }

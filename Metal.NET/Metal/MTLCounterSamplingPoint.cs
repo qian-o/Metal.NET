@@ -2,13 +2,13 @@
 
 public enum MTLCounterSamplingPoint : uint
 {
-    AtStageBoundary = 0,
+    CounterSamplingPointAtStageBoundary = 0,
 
-    AtDrawBoundary = 1,
+    CounterSamplingPointAtDrawBoundary = 1,
 
-    AtDispatchBoundary = 2,
+    CounterSamplingPointAtDispatchBoundary = 2,
 
-    AtTileDispatchBoundary = 3,
+    CounterSamplingPointAtTileDispatchBoundary = 3,
 
-    AtBlitBoundary = 4
+    CounterSamplingPointAtBlitBoundary = 4
 }

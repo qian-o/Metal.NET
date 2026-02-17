@@ -2,9 +2,9 @@
 
 public enum MTLShaderValidation : int
 {
-    Default = 0,
+    ShaderValidationDefault = 0,
 
-    Enabled = 1,
+    ShaderValidationEnabled = 1,
 
-    Disabled = 2
+    ShaderValidationDisabled = 2
 }

@@ -2,11 +2,11 @@
 
 public enum MTLBindingAccess : uint
 {
-    ReadOnly = 0,
+    BindingAccessReadOnly = 0,
 
-    ReadWrite = 1,
+    BindingAccessReadWrite = 1,
 
-    WriteOnly = 2,
+    BindingAccessWriteOnly = 2,
 
     ArgumentAccessReadOnly = 0,
 

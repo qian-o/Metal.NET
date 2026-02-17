@@ -2,7 +2,7 @@
 
 public enum MTLIOCompressionStatus : int
 {
-    Complete = 0,
+    IOCompressionStatusComplete = 0,
 
-    Error = 1
+    IOCompressionStatusError = 1
 }

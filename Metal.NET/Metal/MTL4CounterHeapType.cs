@@ -2,7 +2,7 @@
 
 public enum MTL4CounterHeapType : int
 {
-    Invalid = 0,
+    CounterHeapTypeInvalid = 0,
 
-    Timestamp = 1
+    CounterHeapTypeTimestamp = 1
 }

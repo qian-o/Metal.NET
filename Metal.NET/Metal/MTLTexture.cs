@@ -154,9 +154,9 @@ public class MTLTexture : IDisposable
         get => (MTLTextureType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTextureSelector.TextureType));
     }
 
-    public nuint Usage
+    public MTLTextureUsage Usage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.Usage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTextureSelector.Usage));
     }
 
     public nuint Width

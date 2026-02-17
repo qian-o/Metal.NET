@@ -2,11 +2,11 @@
 
 public enum MTLTessellationFactorStepFunction : uint
 {
-    Constant = 0,
+    TessellationFactorStepFunctionConstant = 0,
 
-    PerPatch = 1,
+    TessellationFactorStepFunctionPerPatch = 1,
 
-    PerInstance = 2,
+    TessellationFactorStepFunctionPerInstance = 2,
 
-    PerPatchAndPerInstance = 3
+    TessellationFactorStepFunctionPerPatchAndPerInstance = 3
 }

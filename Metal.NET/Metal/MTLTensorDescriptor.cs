@@ -38,10 +38,10 @@ public class MTLTensorDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetHazardTrackingMode, (uint)value);
     }
 
-    public nuint ResourceOptions
+    public MTLResourceOptions ResourceOptions
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorSelector.ResourceOptions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetResourceOptions, value);
+        get => (MTLResourceOptions)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTensorDescriptorSelector.ResourceOptions));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetResourceOptions, (uint)value);
     }
 
     public MTLStorageMode StorageMode
@@ -56,10 +56,10 @@ public class MTLTensorDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetStrides, value.NativePtr);
     }
 
-    public nuint Usage
+    public MTLTensorUsage Usage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorSelector.Usage);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetUsage, value);
+        get => (MTLTensorUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTensorDescriptorSelector.Usage));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetUsage, (uint)value);
     }
 
     public static implicit operator nint(MTLTensorDescriptor value)

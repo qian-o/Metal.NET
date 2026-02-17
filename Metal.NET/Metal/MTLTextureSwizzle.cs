@@ -2,15 +2,15 @@
 
 public enum MTLTextureSwizzle : byte
 {
-    Zero = 0,
+    TextureSwizzleZero = 0,
 
-    One = 1,
+    TextureSwizzleOne = 1,
 
-    Red = 2,
+    TextureSwizzleRed = 2,
 
-    Green = 3,
+    TextureSwizzleGreen = 3,
 
-    Blue = 4,
+    TextureSwizzleBlue = 4,
 
-    Alpha = 5
+    TextureSwizzleAlpha = 5
 }

@@ -2,7 +2,7 @@
 
 public enum MTLMatrixLayout : int
 {
-    ColumnMajor = 0,
+    MatrixLayoutColumnMajor = 0,
 
-    RowMajor = 1
+    MatrixLayoutRowMajor = 1
 }

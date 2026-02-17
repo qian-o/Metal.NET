@@ -39,9 +39,9 @@ public class MTLTensor : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Strides));
     }
 
-    public nuint Usage
+    public MTLTensorUsage Usage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorSelector.Usage);
+        get => (MTLTensorUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTensorSelector.Usage));
     }
 
     public void GetBytes(nint bytes, MTLTensorExtents strides, MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions)

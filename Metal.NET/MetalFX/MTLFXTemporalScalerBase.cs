@@ -14,24 +14,24 @@ public class MTLFXTemporalScalerBase : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint ColorTextureUsage
+    public MTLTextureUsage ColorTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalScalerBaseSelector.ColorTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalScalerBaseSelector.ColorTextureUsage));
     }
 
-    public nuint DepthTextureUsage
+    public MTLTextureUsage DepthTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalScalerBaseSelector.DepthTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalScalerBaseSelector.DepthTextureUsage));
     }
 
-    public nuint MotionTextureUsage
+    public MTLTextureUsage MotionTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalScalerBaseSelector.MotionTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalScalerBaseSelector.MotionTextureUsage));
     }
 
-    public nuint OutputTextureUsage
+    public MTLTextureUsage OutputTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalScalerBaseSelector.OutputTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalScalerBaseSelector.OutputTextureUsage));
     }
 
     public nuint InputContentWidth
@@ -112,9 +112,9 @@ public class MTLFXTemporalScalerBase : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerBaseSelector.SetReactiveMaskTexture, value.NativePtr);
     }
 
-    public nuint ReactiveTextureUsage
+    public MTLTextureUsage ReactiveTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalScalerBaseSelector.ReactiveTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalScalerBaseSelector.ReactiveTextureUsage));
     }
 
     public Bool8 Reset

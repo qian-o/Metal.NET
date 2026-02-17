@@ -14,64 +14,64 @@ public class MTLFXTemporalDenoisedScalerBase : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint ColorTextureUsage
+    public MTLTextureUsage ColorTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.ColorTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.ColorTextureUsage));
     }
 
-    public nuint DepthTextureUsage
+    public MTLTextureUsage DepthTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DepthTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DepthTextureUsage));
     }
 
-    public nuint MotionTextureUsage
+    public MTLTextureUsage MotionTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.MotionTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.MotionTextureUsage));
     }
 
-    public nuint ReactiveTextureUsage
+    public MTLTextureUsage ReactiveTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.ReactiveTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.ReactiveTextureUsage));
     }
 
-    public nuint DiffuseAlbedoTextureUsage
+    public MTLTextureUsage DiffuseAlbedoTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DiffuseAlbedoTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DiffuseAlbedoTextureUsage));
     }
 
-    public nuint SpecularAlbedoTextureUsage
+    public MTLTextureUsage SpecularAlbedoTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SpecularAlbedoTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SpecularAlbedoTextureUsage));
     }
 
-    public nuint NormalTextureUsage
+    public MTLTextureUsage NormalTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.NormalTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.NormalTextureUsage));
     }
 
-    public nuint RoughnessTextureUsage
+    public MTLTextureUsage RoughnessTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.RoughnessTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.RoughnessTextureUsage));
     }
 
-    public nuint SpecularHitDistanceTextureUsage
+    public MTLTextureUsage SpecularHitDistanceTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SpecularHitDistanceTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SpecularHitDistanceTextureUsage));
     }
 
-    public nuint DenoiseStrengthMaskTextureUsage
+    public MTLTextureUsage DenoiseStrengthMaskTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DenoiseStrengthMaskTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DenoiseStrengthMaskTextureUsage));
     }
 
-    public nuint TransparencyOverlayTextureUsage
+    public MTLTextureUsage TransparencyOverlayTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.TransparencyOverlayTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.TransparencyOverlayTextureUsage));
     }
 
-    public nuint OutputTextureUsage
+    public MTLTextureUsage OutputTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.OutputTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.OutputTextureUsage));
     }
 
     public MTLTexture ColorTexture

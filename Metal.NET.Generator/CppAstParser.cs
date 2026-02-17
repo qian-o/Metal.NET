@@ -22,6 +22,10 @@ public static class CppAstParser
     private static readonly HashSet<string> s_bindableNamespaces = ["MTL", "MTL4", "MTLFX", "CA"];
     private static readonly HashSet<string> s_nsNamespace = ["NS"];
 
+    // ── _MTL_OPTIONS typedef names mapped to their full C# enum names ──
+    // e.g., "MTL.RenderStages" -> "MTLRenderStages"
+    private static readonly Dictionary<string, string> s_optionsTypedefs = new();
+
     // ── Foundation types with hand-written implementations ──
     private static readonly HashSet<string> s_handWrittenTypes = ["NSString", "NSError", "NSArray"];
 
@@ -122,6 +126,7 @@ public static class CppAstParser
     public static ParseResult Parse(string metalCppDir, string stubsDir)
     {
         var result = new ParseResult();
+        s_optionsTypedefs.Clear();
 
         // Find system C++ include dirs
         var systemIncludes = new List<string>();
@@ -206,10 +211,16 @@ public static class CppAstParser
                 continue;
             }
 
-            // Walk all namespaces in this compilation
+            // Walk all namespaces in two passes:
+            // 1. First pass: collect enums (populates s_optionsTypedefs for _MTL_OPTIONS types)
+            // 2. Second pass: collect classes and free functions (can now resolve typedef-based enum params)
             foreach (var ns in compilation.Namespaces)
             {
-                WalkNamespace(ns, result, hppPath);
+                WalkNamespaceEnums(ns, result);
+            }
+            foreach (var ns in compilation.Namespaces)
+            {
+                WalkNamespaceClasses(ns, result, hppPath);
             }
         }
 
@@ -228,13 +239,12 @@ public static class CppAstParser
         _ => "Metal",
     };
 
-    private static void WalkNamespace(CppNamespace ns, ParseResult result, string sourceFile)
+    private static void WalkNamespaceEnums(CppNamespace ns, ParseResult result)
     {
         string nsName = ns.Name;
 
         if (s_bindableNamespaces.Contains(nsName))
         {
-            // Parse enums
             foreach (var cppEnum in ns.Enums)
             {
                 var enumDef = ConvertEnum(cppEnum, nsName);
@@ -244,7 +254,22 @@ public static class CppAstParser
                     result.Enums.Add(enumDef);
                 }
             }
+        }
 
+        // Recurse into nested namespaces (skip Private)
+        foreach (var child in ns.Namespaces)
+        {
+            if (child.Name == "Private") continue;
+            WalkNamespaceEnums(child, result);
+        }
+    }
+
+    private static void WalkNamespaceClasses(CppNamespace ns, ParseResult result, string sourceFile)
+    {
+        string nsName = ns.Name;
+
+        if (s_bindableNamespaces.Contains(nsName))
+        {
             // Parse classes/protocols
             foreach (var cppClass in ns.Classes)
             {
@@ -279,10 +304,6 @@ public static class CppAstParser
         else if (s_nsNamespace.Contains(nsName))
         {
             // Foundation namespace - only generate whitelisted classes
-            foreach (var cppEnum in ns.Enums)
-            {
-                // Skip NS enums - they're Foundation internal
-            }
             foreach (var cppClass in ns.Classes)
             {
                 string fullName = $"NS{cppClass.Name}";
@@ -304,7 +325,7 @@ public static class CppAstParser
         foreach (var child in ns.Namespaces)
         {
             if (child.Name == "Private") continue;
-            WalkNamespace(child, result, sourceFile);
+            WalkNamespaceClasses(child, result, sourceFile);
         }
     }
 
@@ -346,6 +367,12 @@ public static class CppAstParser
         string fullName = $"{prefix}{enumName}";
         bool isFlags = string.IsNullOrEmpty(cppEnum.Name); // Anonymous enums from _MTL_OPTIONS are always flags
 
+        // Record _MTL_OPTIONS typedefs for type mapping
+        if (isFlags)
+        {
+            s_optionsTypedefs[$"{ns}.{enumName}"] = fullName;
+        }
+
         var enumDef = new EnumDef
         {
             Name = fullName,
@@ -353,18 +380,10 @@ public static class CppAstParser
             IsFlags = isFlags,
         };
 
-        // Determine the prefix to strip from member names
-        string memberPrefix = enumName;
-
         var seen = new HashSet<string>();
         foreach (var item in cppEnum.Items)
         {
             string memberName = item.Name;
-
-            // Strip the enum type prefix from member names
-            // e.g., PixelFormatRGBA8Unorm -> RGBA8Unorm
-            if (memberName.StartsWith(memberPrefix))
-                memberName = memberName.Substring(memberPrefix.Length);
 
             // Handle digit-prefixed names (e.g., "1_0" -> "_1_0")
             if (memberName.Length > 0 && char.IsDigit(memberName[0]))
@@ -814,6 +833,16 @@ public static class CppAstParser
             if (tdName == "task_id_token_t") return "nint";
             if (tdName == "kern_return_t") return "uint";
             if (tdName == "CGSize") return "CGSize";
+
+            // Check if this typedef is from _MTL_OPTIONS (flags enum)
+            string? parentNs = td.FullParentName;
+            if (!string.IsNullOrEmpty(parentNs))
+            {
+                string key = $"{parentNs}.{tdName}";
+                if (s_optionsTypedefs.TryGetValue(key, out var enumTypeName))
+                    return enumTypeName;
+            }
+
             // Recurse into the underlying type
             return MapType(td.ElementType, ns, prefix);
         }

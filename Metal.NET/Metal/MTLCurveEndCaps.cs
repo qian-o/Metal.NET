@@ -2,9 +2,9 @@
 
 public enum MTLCurveEndCaps : int
 {
-    None = 0,
+    CurveEndCapsNone = 0,
 
-    Disk = 1,
+    CurveEndCapsDisk = 1,
 
-    Sphere = 2
+    CurveEndCapsSphere = 2
 }

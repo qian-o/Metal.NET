@@ -2,11 +2,11 @@
 
 public enum MTL4CompilerTaskStatus : int
 {
-    None = 0,
+    CompilerTaskStatusNone = 0,
 
-    Scheduled = 1,
+    CompilerTaskStatusScheduled = 1,
 
-    Compiling = 2,
+    CompilerTaskStatusCompiling = 2,
 
-    Finished = 3
+    CompilerTaskStatusFinished = 3
 }

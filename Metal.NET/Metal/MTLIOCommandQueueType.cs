@@ -2,7 +2,7 @@
 
 public enum MTLIOCommandQueueType : int
 {
-    Concurrent = 0,
+    IOCommandQueueTypeConcurrent = 0,
 
-    Serial = 1
+    IOCommandQueueTypeSerial = 1
 }

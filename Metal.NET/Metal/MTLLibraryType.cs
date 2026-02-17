@@ -2,7 +2,7 @@
 
 public enum MTLLibraryType : int
 {
-    Executable = 0,
+    LibraryTypeExecutable = 0,
 
-    Dynamic = 1
+    LibraryTypeDynamic = 1
 }

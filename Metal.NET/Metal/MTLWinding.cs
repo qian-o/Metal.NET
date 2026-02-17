@@ -2,7 +2,7 @@
 
 public enum MTLWinding : uint
 {
-    Clockwise = 0,
+    WindingClockwise = 0,
 
-    CounterClockwise = 1
+    WindingCounterClockwise = 1
 }

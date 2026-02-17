@@ -14,10 +14,10 @@ public class MTL4PipelineDataSetSerializerDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint Configuration
+    public MTL4PipelineDataSetSerializerConfiguration Configuration
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.Configuration);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.SetConfiguration, value);
+        get => (MTL4PipelineDataSetSerializerConfiguration)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.Configuration));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.SetConfiguration, (uint)value);
     }
 
     public static implicit operator nint(MTL4PipelineDataSetSerializerDescriptor value)

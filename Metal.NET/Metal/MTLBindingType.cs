@@ -2,27 +2,27 @@
 
 public enum MTLBindingType : int
 {
-    Buffer = 0,
+    BindingTypeBuffer = 0,
 
-    ThreadgroupMemory = 1,
+    BindingTypeThreadgroupMemory = 1,
 
-    Texture = 2,
+    BindingTypeTexture = 2,
 
-    Sampler = 3,
+    BindingTypeSampler = 3,
 
-    ImageblockData = 16,
+    BindingTypeImageblockData = 16,
 
-    Imageblock = 17,
+    BindingTypeImageblock = 17,
 
-    VisibleFunctionTable = 24,
+    BindingTypeVisibleFunctionTable = 24,
 
-    PrimitiveAccelerationStructure = 25,
+    BindingTypePrimitiveAccelerationStructure = 25,
 
-    InstanceAccelerationStructure = 26,
+    BindingTypeInstanceAccelerationStructure = 26,
 
-    IntersectionFunctionTable = 27,
+    BindingTypeIntersectionFunctionTable = 27,
 
-    ObjectPayload = 34,
+    BindingTypeObjectPayload = 34,
 
-    Tensor = 37
+    BindingTypeTensor = 37
 }

@@ -40,9 +40,9 @@ public class MTLHeap : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapSelector.SetLabel, value.NativePtr);
     }
 
-    public nuint ResourceOptions
+    public MTLResourceOptions ResourceOptions
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.ResourceOptions);
+        get => (MTLResourceOptions)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapSelector.ResourceOptions));
     }
 
     public nuint Size
@@ -100,16 +100,16 @@ public class MTLHeap : IDisposable
         return result;
     }
 
-    public MTLBuffer NewBuffer(nuint length, nuint options)
+    public MTLBuffer NewBuffer(nuint length, MTLResourceOptions options)
     {
-        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewBufferOptions, length, options));
+        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewBufferOptions, length, (uint)options));
 
         return result;
     }
 
-    public MTLBuffer NewBuffer(nuint length, nuint options, nuint offset)
+    public MTLBuffer NewBuffer(nuint length, MTLResourceOptions options, nuint offset)
     {
-        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewBufferOptionsOffset, length, options, offset));
+        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewBufferOptionsOffset, length, (uint)options, offset));
 
         return result;
     }

@@ -25,9 +25,9 @@ public class MTLCommandEncoder : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.SetLabel, value.NativePtr);
     }
 
-    public void BarrierAfterQueueStages(nuint afterQueueStages, nuint beforeStages)
+    public void BarrierAfterQueueStages(MTLStages afterQueueStages, MTLStages beforeStages)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.BarrierAfterQueueStagesBeforeStages, afterQueueStages, beforeStages);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.BarrierAfterQueueStagesBeforeStages, (uint)afterQueueStages, (uint)beforeStages);
     }
 
     public void EndEncoding()

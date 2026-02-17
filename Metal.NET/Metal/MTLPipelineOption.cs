@@ -3,13 +3,13 @@
 [Flags]
 public enum MTLPipelineOption : uint
 {
-    None = 0,
+    PipelineOptionNone = 0,
 
-    ArgumentInfo = 1,
+    PipelineOptionArgumentInfo = 1,
 
-    BindingInfo = 1,
+    PipelineOptionBindingInfo = 1,
 
-    BufferTypeInfo = 2,
+    PipelineOptionBufferTypeInfo = 2,
 
-    FailOnBinaryArchiveMiss = 4
+    PipelineOptionFailOnBinaryArchiveMiss = 4
 }

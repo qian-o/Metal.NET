@@ -14,14 +14,14 @@ public class MTLFXSpatialScalerBase : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint ColorTextureUsage
+    public MTLTextureUsage ColorTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.ColorTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXSpatialScalerBaseSelector.ColorTextureUsage));
     }
 
-    public nuint OutputTextureUsage
+    public MTLTextureUsage OutputTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.OutputTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXSpatialScalerBaseSelector.OutputTextureUsage));
     }
 
     public nuint InputContentWidth

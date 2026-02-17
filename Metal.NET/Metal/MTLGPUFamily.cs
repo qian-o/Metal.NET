@@ -2,41 +2,41 @@
 
 public enum MTLGPUFamily : int
 {
-    Apple1 = 1001,
+    GPUFamilyApple1 = 1001,
 
-    Apple2 = 1002,
+    GPUFamilyApple2 = 1002,
 
-    Apple3 = 1003,
+    GPUFamilyApple3 = 1003,
 
-    Apple4 = 1004,
+    GPUFamilyApple4 = 1004,
 
-    Apple5 = 1005,
+    GPUFamilyApple5 = 1005,
 
-    Apple6 = 1006,
+    GPUFamilyApple6 = 1006,
 
-    Apple7 = 1007,
+    GPUFamilyApple7 = 1007,
 
-    Apple8 = 1008,
+    GPUFamilyApple8 = 1008,
 
-    Apple9 = 1009,
+    GPUFamilyApple9 = 1009,
 
-    Apple10 = 1010,
+    GPUFamilyApple10 = 1010,
 
-    Mac1 = 2001,
+    GPUFamilyMac1 = 2001,
 
-    Mac2 = 2002,
+    GPUFamilyMac2 = 2002,
 
-    Common1 = 3001,
+    GPUFamilyCommon1 = 3001,
 
-    Common2 = 3002,
+    GPUFamilyCommon2 = 3002,
 
-    Common3 = 3003,
+    GPUFamilyCommon3 = 3003,
 
-    MacCatalyst1 = 4001,
+    GPUFamilyMacCatalyst1 = 4001,
 
-    MacCatalyst2 = 4002,
+    GPUFamilyMacCatalyst2 = 4002,
 
-    Metal3 = 5001,
+    GPUFamilyMetal3 = 5001,
 
-    Metal4 = 5002
+    GPUFamilyMetal4 = 5002
 }

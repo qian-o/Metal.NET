@@ -2,7 +2,7 @@
 
 public enum MTLMathFloatingPointFunctions : int
 {
-    Fast = 0,
+    MathFloatingPointFunctionsFast = 0,
 
-    Precise = 1
+    MathFloatingPointFunctionsPrecise = 1
 }

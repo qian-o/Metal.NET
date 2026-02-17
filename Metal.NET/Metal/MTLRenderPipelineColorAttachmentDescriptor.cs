@@ -73,10 +73,10 @@ public class MTLRenderPipelineColorAttachmentDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetSourceRGBBlendFactor, (uint)value);
     }
 
-    public nuint WriteMask
+    public MTLColorWriteMask WriteMask
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.WriteMask);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetWriteMask, value);
+        get => (MTLColorWriteMask)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.WriteMask));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetWriteMask, (uint)value);
     }
 
     public static implicit operator nint(MTLRenderPipelineColorAttachmentDescriptor value)

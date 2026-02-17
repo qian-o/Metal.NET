@@ -3,9 +3,9 @@
 [Flags]
 public enum MTLBarrierScope : uint
 {
-    Buffers = 1,
+    BarrierScopeBuffers = 1,
 
-    Textures = 2,
+    BarrierScopeTextures = 2,
 
-    RenderTargets = 4
+    BarrierScopeRenderTargets = 4
 }

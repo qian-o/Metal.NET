@@ -2,7 +2,7 @@
 
 public enum MTLTriangleFillMode : uint
 {
-    Fill = 0,
+    TriangleFillModeFill = 0,
 
-    Lines = 1
+    TriangleFillModeLines = 1
 }

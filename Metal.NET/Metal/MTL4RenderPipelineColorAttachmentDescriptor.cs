@@ -68,10 +68,10 @@ public class MTL4RenderPipelineColorAttachmentDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorSelector.SetSourceRGBBlendFactor, (uint)value);
     }
 
-    public nuint WriteMask
+    public MTLColorWriteMask WriteMask
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorSelector.WriteMask);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorSelector.SetWriteMask, value);
+        get => (MTLColorWriteMask)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorSelector.WriteMask));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorSelector.SetWriteMask, (uint)value);
     }
 
     public void Reset()

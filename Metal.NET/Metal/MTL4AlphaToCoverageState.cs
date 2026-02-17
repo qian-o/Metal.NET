@@ -2,7 +2,7 @@
 
 public enum MTL4AlphaToCoverageState : int
 {
-    Disabled = 0,
+    AlphaToCoverageStateDisabled = 0,
 
-    Enabled = 1
+    AlphaToCoverageStateEnabled = 1
 }

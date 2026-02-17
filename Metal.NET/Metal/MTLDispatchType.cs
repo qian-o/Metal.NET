@@ -2,7 +2,7 @@
 
 public enum MTLDispatchType : uint
 {
-    Serial = 0,
+    DispatchTypeSerial = 0,
 
-    Concurrent = 1
+    DispatchTypeConcurrent = 1
 }

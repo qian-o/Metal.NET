@@ -2,5 +2,5 @@
 
 public enum MTLFunctionLogType : uint
 {
-    Validation = 0
+    FunctionLogTypeValidation = 0
 }

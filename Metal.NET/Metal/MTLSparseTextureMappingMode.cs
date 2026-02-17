@@ -2,7 +2,7 @@
 
 public enum MTLSparseTextureMappingMode : uint
 {
-    Map = 0,
+    SparseTextureMappingModeMap = 0,
 
-    Unmap = 1
+    SparseTextureMappingModeUnmap = 1
 }

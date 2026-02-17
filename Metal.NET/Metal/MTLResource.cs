@@ -55,9 +55,9 @@ public class MTLResource : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceSelector.SetLabel, value.NativePtr);
     }
 
-    public nuint ResourceOptions
+    public MTLResourceOptions ResourceOptions
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.ResourceOptions);
+        get => (MTLResourceOptions)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLResourceSelector.ResourceOptions));
     }
 
     public MTLStorageMode StorageMode

@@ -2,7 +2,7 @@
 
 public enum MTL4IndirectCommandBufferSupportState : int
 {
-    Disabled = 0,
+    IndirectCommandBufferSupportStateDisabled = 0,
 
-    Enabled = 1
+    IndirectCommandBufferSupportStateEnabled = 1
 }

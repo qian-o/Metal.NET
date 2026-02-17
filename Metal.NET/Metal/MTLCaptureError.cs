@@ -2,9 +2,9 @@
 
 public enum MTLCaptureError : int
 {
-    NotSupported = 1,
+    CaptureErrorNotSupported = 1,
 
-    AlreadyCapturing = 2,
+    CaptureErrorAlreadyCapturing = 2,
 
-    InvalidDescriptor = 3
+    CaptureErrorInvalidDescriptor = 3
 }

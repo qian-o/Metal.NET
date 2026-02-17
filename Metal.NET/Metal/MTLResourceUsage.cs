@@ -3,9 +3,9 @@
 [Flags]
 public enum MTLResourceUsage : uint
 {
-    Read = 1,
+    ResourceUsageRead = 1,
 
-    Write = 2,
+    ResourceUsageWrite = 2,
 
-    Sample = 4
+    ResourceUsageSample = 4
 }

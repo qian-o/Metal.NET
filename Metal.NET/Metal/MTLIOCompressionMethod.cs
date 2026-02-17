@@ -2,13 +2,13 @@
 
 public enum MTLIOCompressionMethod : int
 {
-    Zlib = 0,
+    IOCompressionMethodZlib = 0,
 
-    LZFSE = 1,
+    IOCompressionMethodLZFSE = 1,
 
-    LZ4 = 2,
+    IOCompressionMethodLZ4 = 2,
 
-    LZMA = 3,
+    IOCompressionMethodLZMA = 3,
 
-    LZBitmap = 4
+    IOCompressionMethodLZBitmap = 4
 }

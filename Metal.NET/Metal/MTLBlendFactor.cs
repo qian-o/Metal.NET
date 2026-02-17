@@ -2,43 +2,43 @@
 
 public enum MTLBlendFactor : uint
 {
-    Zero = 0,
+    BlendFactorZero = 0,
 
-    One = 1,
+    BlendFactorOne = 1,
 
-    SourceColor = 2,
+    BlendFactorSourceColor = 2,
 
-    OneMinusSourceColor = 3,
+    BlendFactorOneMinusSourceColor = 3,
 
-    SourceAlpha = 4,
+    BlendFactorSourceAlpha = 4,
 
-    OneMinusSourceAlpha = 5,
+    BlendFactorOneMinusSourceAlpha = 5,
 
-    DestinationColor = 6,
+    BlendFactorDestinationColor = 6,
 
-    OneMinusDestinationColor = 7,
+    BlendFactorOneMinusDestinationColor = 7,
 
-    DestinationAlpha = 8,
+    BlendFactorDestinationAlpha = 8,
 
-    OneMinusDestinationAlpha = 9,
+    BlendFactorOneMinusDestinationAlpha = 9,
 
-    SourceAlphaSaturated = 10,
+    BlendFactorSourceAlphaSaturated = 10,
 
-    BlendColor = 11,
+    BlendFactorBlendColor = 11,
 
-    OneMinusBlendColor = 12,
+    BlendFactorOneMinusBlendColor = 12,
 
-    BlendAlpha = 13,
+    BlendFactorBlendAlpha = 13,
 
-    OneMinusBlendAlpha = 14,
+    BlendFactorOneMinusBlendAlpha = 14,
 
-    Source1Color = 15,
+    BlendFactorSource1Color = 15,
 
-    OneMinusSource1Color = 16,
+    BlendFactorOneMinusSource1Color = 16,
 
-    Source1Alpha = 17,
+    BlendFactorSource1Alpha = 17,
 
-    OneMinusSource1Alpha = 18,
+    BlendFactorOneMinusSource1Alpha = 18,
 
-    Unspecialized = 19
+    BlendFactorUnspecialized = 19
 }

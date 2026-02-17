@@ -2,15 +2,15 @@
 
 public enum MTLLibraryError : uint
 {
-    Unsupported = 1,
+    LibraryErrorUnsupported = 1,
 
-    Internal = 2,
+    LibraryErrorInternal = 2,
 
-    CompileFailure = 3,
+    LibraryErrorCompileFailure = 3,
 
-    CompileWarning = 4,
+    LibraryErrorCompileWarning = 4,
 
-    FunctionNotFound = 5,
+    LibraryErrorFunctionNotFound = 5,
 
-    FileNotFound = 6
+    LibraryErrorFileNotFound = 6
 }

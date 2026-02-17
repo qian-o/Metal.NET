@@ -2,7 +2,7 @@
 
 public enum MTLIndexType : uint
 {
-    UInt16 = 0,
+    IndexTypeUInt16 = 0,
 
-    UInt32 = 1
+    IndexTypeUInt32 = 1
 }

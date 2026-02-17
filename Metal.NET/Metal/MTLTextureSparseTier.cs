@@ -2,9 +2,9 @@
 
 public enum MTLTextureSparseTier : int
 {
-    None = 0,
+    TextureSparseTierNone = 0,
 
-    _1 = 1,
+    TextureSparseTier1 = 1,
 
-    _2 = 2
+    TextureSparseTier2 = 2
 }

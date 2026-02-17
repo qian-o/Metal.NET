@@ -38,10 +38,10 @@ public class MTLHeapDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorSelector.SetMaxCompatiblePlacementSparsePageSize, (uint)value);
     }
 
-    public nuint ResourceOptions
+    public MTLResourceOptions ResourceOptions
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapDescriptorSelector.ResourceOptions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorSelector.SetResourceOptions, value);
+        get => (MTLResourceOptions)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapDescriptorSelector.ResourceOptions));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorSelector.SetResourceOptions, (uint)value);
     }
 
     public nuint Size

@@ -2,7 +2,7 @@
 
 public enum MTLLibraryOptimizationLevel : int
 {
-    Default = 0,
+    LibraryOptimizationLevelDefault = 0,
 
-    Size = 1
+    LibraryOptimizationLevelSize = 1
 }

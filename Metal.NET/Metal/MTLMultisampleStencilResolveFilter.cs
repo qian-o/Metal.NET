@@ -2,7 +2,7 @@
 
 public enum MTLMultisampleStencilResolveFilter : uint
 {
-    Sample0 = 0,
+    MultisampleStencilResolveFilterSample0 = 0,
 
-    DepthResolvedSample = 1
+    MultisampleStencilResolveFilterDepthResolvedSample = 1
 }

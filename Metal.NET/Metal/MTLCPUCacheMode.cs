@@ -2,7 +2,7 @@
 
 public enum MTLCPUCacheMode : uint
 {
-    DefaultCache = 0,
+    CPUCacheModeDefaultCache = 0,
 
-    WriteCombined = 1
+    CPUCacheModeWriteCombined = 1
 }

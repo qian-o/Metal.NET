@@ -2,7 +2,7 @@
 
 public enum MTLCompileSymbolVisibility : int
 {
-    Default = 0,
+    CompileSymbolVisibilityDefault = 0,
 
-    Hidden = 1
+    CompileSymbolVisibilityHidden = 1
 }

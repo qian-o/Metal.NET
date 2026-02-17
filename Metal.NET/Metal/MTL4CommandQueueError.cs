@@ -2,17 +2,17 @@
 
 public enum MTL4CommandQueueError : int
 {
-    None = 0,
+    CommandQueueErrorNone = 0,
 
-    Timeout = 1,
+    CommandQueueErrorTimeout = 1,
 
-    NotPermitted = 2,
+    CommandQueueErrorNotPermitted = 2,
 
-    OutOfMemory = 3,
+    CommandQueueErrorOutOfMemory = 3,
 
-    DeviceRemoved = 4,
+    CommandQueueErrorDeviceRemoved = 4,
 
-    AccessRevoked = 5,
+    CommandQueueErrorAccessRevoked = 5,
 
-    Internal = 6
+    CommandQueueErrorInternal = 6
 }

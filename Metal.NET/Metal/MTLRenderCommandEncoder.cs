@@ -114,9 +114,9 @@ public class MTLRenderCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.ExecuteCommandsInBufferIndirectRangeBufferIndirectBufferOffset, indirectCommandbuffer.NativePtr, indirectRangeBuffer.NativePtr, indirectBufferOffset);
     }
 
-    public void MemoryBarrier(nuint scope, nuint after, nuint before)
+    public void MemoryBarrier(MTLBarrierScope scope, MTLRenderStages after, MTLRenderStages before)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.MemoryBarrierAfterBefore, scope, after, before);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.MemoryBarrierAfterBefore, (uint)scope, (uint)after, (uint)before);
     }
 
     public void SampleCountersInBuffer(MTLCounterSampleBuffer sampleBuffer, nuint sampleIndex, Bool8 barrier)
@@ -139,9 +139,9 @@ public class MTLRenderCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetColorStoreActionColorAttachmentIndex, (uint)storeAction, colorAttachmentIndex);
     }
 
-    public void SetColorStoreActionOptions(nuint storeActionOptions, nuint colorAttachmentIndex)
+    public void SetColorStoreActionOptions(MTLStoreActionOptions storeActionOptions, nuint colorAttachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetColorStoreActionOptionsColorAttachmentIndex, storeActionOptions, colorAttachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetColorStoreActionOptionsColorAttachmentIndex, (uint)storeActionOptions, colorAttachmentIndex);
     }
 
     public void SetCullMode(MTLCullMode cullMode)
@@ -169,9 +169,9 @@ public class MTLRenderCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetDepthStoreAction, (uint)storeAction);
     }
 
-    public void SetDepthStoreActionOptions(nuint storeActionOptions)
+    public void SetDepthStoreActionOptions(MTLStoreActionOptions storeActionOptions)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetDepthStoreActionOptions, storeActionOptions);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetDepthStoreActionOptions, (uint)storeActionOptions);
     }
 
     public void SetDepthTestBounds(float minBound, float maxBound)
@@ -324,9 +324,9 @@ public class MTLRenderCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetStencilStoreAction, (uint)storeAction);
     }
 
-    public void SetStencilStoreActionOptions(nuint storeActionOptions)
+    public void SetStencilStoreActionOptions(MTLStoreActionOptions storeActionOptions)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetStencilStoreActionOptions, storeActionOptions);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetStencilStoreActionOptions, (uint)storeActionOptions);
     }
 
     public void SetTessellationFactorBuffer(MTLBuffer buffer, nuint offset, nuint instanceStride)
@@ -479,9 +479,9 @@ public class MTLRenderCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.TextureBarrier);
     }
 
-    public void UpdateFence(MTLFence fence, nuint stages)
+    public void UpdateFence(MTLFence fence, MTLRenderStages stages)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.UpdateFenceStages, fence.NativePtr, stages);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.UpdateFenceStages, fence.NativePtr, (uint)stages);
     }
 
     public void UseHeap(MTLHeap heap)
@@ -489,24 +489,24 @@ public class MTLRenderCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.UseHeap, heap.NativePtr);
     }
 
-    public void UseHeap(MTLHeap heap, nuint stages)
+    public void UseHeap(MTLHeap heap, MTLRenderStages stages)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.UseHeapStages, heap.NativePtr, stages);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.UseHeapStages, heap.NativePtr, (uint)stages);
     }
 
-    public void UseResource(MTLResource resource, nuint usage)
+    public void UseResource(MTLResource resource, MTLResourceUsage usage)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.UseResourceUsage, resource.NativePtr, usage);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.UseResourceUsage, resource.NativePtr, (uint)usage);
     }
 
-    public void UseResource(MTLResource resource, nuint usage, nuint stages)
+    public void UseResource(MTLResource resource, MTLResourceUsage usage, MTLRenderStages stages)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.UseResourceUsageStages, resource.NativePtr, usage, stages);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.UseResourceUsageStages, resource.NativePtr, (uint)usage, (uint)stages);
     }
 
-    public void WaitForFence(MTLFence fence, nuint stages)
+    public void WaitForFence(MTLFence fence, MTLRenderStages stages)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.WaitForFenceStages, fence.NativePtr, stages);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.WaitForFenceStages, fence.NativePtr, (uint)stages);
     }
 
     public static implicit operator nint(MTLRenderCommandEncoder value)

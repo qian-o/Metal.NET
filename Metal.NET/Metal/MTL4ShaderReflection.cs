@@ -3,9 +3,9 @@
 [Flags]
 public enum MTL4ShaderReflection : uint
 {
-    None = 0,
+    ShaderReflectionNone = 0,
 
-    BindingInfo = 1,
+    ShaderReflectionBindingInfo = 1,
 
-    BufferTypeInfo = 2
+    ShaderReflectionBufferTypeInfo = 2
 }

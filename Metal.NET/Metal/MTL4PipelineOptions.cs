@@ -14,10 +14,10 @@ public class MTL4PipelineOptions : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint ShaderReflection
+    public MTL4ShaderReflection ShaderReflection
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4PipelineOptionsSelector.ShaderReflection);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineOptionsSelector.SetShaderReflection, value);
+        get => (MTL4ShaderReflection)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4PipelineOptionsSelector.ShaderReflection));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineOptionsSelector.SetShaderReflection, (uint)value);
     }
 
     public MTLShaderValidation ShaderValidation

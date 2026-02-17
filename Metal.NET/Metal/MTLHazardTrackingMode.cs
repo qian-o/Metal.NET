@@ -2,9 +2,9 @@
 
 public enum MTLHazardTrackingMode : uint
 {
-    Default = 0,
+    HazardTrackingModeDefault = 0,
 
-    Untracked = 1,
+    HazardTrackingModeUntracked = 1,
 
-    Tracked = 2
+    HazardTrackingModeTracked = 2
 }

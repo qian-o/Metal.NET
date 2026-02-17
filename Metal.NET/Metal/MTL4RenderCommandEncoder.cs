@@ -94,9 +94,9 @@ public class MTL4RenderCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderSelector.ExecuteCommandsInBufferIndirectRangeBuffer, indirectCommandBuffer.NativePtr, indirectRangeBuffer);
     }
 
-    public void SetArgumentTable(MTL4ArgumentTable argumentTable, nuint stages)
+    public void SetArgumentTable(MTL4ArgumentTable argumentTable, MTLRenderStages stages)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderSelector.SetArgumentTableStages, argumentTable.NativePtr, stages);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderSelector.SetArgumentTableStages, argumentTable.NativePtr, (uint)stages);
     }
 
     public void SetBlendColor(float red, float green, float blue, float alpha)
@@ -214,9 +214,9 @@ public class MTL4RenderCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderSelector.SetVisibilityResultModeOffset, (uint)mode, offset);
     }
 
-    public void WriteTimestamp(MTL4TimestampGranularity granularity, nuint stage, MTL4CounterHeap counterHeap, nuint index)
+    public void WriteTimestamp(MTL4TimestampGranularity granularity, MTLRenderStages stage, MTL4CounterHeap counterHeap, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderSelector.WriteTimestampStageCounterHeapIndex, (uint)granularity, stage, counterHeap.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderSelector.WriteTimestampStageCounterHeapIndex, (uint)granularity, (uint)stage, counterHeap.NativePtr, index);
     }
 
     public static implicit operator nint(MTL4RenderCommandEncoder value)

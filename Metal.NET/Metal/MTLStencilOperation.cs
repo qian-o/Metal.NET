@@ -2,19 +2,19 @@
 
 public enum MTLStencilOperation : uint
 {
-    Keep = 0,
+    StencilOperationKeep = 0,
 
-    Zero = 1,
+    StencilOperationZero = 1,
 
-    Replace = 2,
+    StencilOperationReplace = 2,
 
-    IncrementClamp = 3,
+    StencilOperationIncrementClamp = 3,
 
-    DecrementClamp = 4,
+    StencilOperationDecrementClamp = 4,
 
-    Invert = 5,
+    StencilOperationInvert = 5,
 
-    IncrementWrap = 6,
+    StencilOperationIncrementWrap = 6,
 
-    DecrementWrap = 7
+    StencilOperationDecrementWrap = 7
 }

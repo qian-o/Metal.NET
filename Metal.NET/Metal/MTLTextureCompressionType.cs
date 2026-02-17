@@ -2,7 +2,7 @@
 
 public enum MTLTextureCompressionType : int
 {
-    Lossless = 0,
+    TextureCompressionTypeLossless = 0,
 
-    Lossy = 1
+    TextureCompressionTypeLossy = 1
 }

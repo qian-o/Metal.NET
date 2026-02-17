@@ -2,11 +2,11 @@
 
 public enum MTLTessellationPartitionMode : uint
 {
-    Pow2 = 0,
+    TessellationPartitionModePow2 = 0,
 
-    Integer = 1,
+    TessellationPartitionModeInteger = 1,
 
-    FractionalOdd = 2,
+    TessellationPartitionModeFractionalOdd = 2,
 
-    FractionalEven = 3
+    TessellationPartitionModeFractionalEven = 3
 }

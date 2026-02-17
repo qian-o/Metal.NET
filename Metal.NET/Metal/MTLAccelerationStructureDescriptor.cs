@@ -20,10 +20,10 @@ public class MTLAccelerationStructureDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint Usage
+    public MTLAccelerationStructureUsage Usage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureDescriptorSelector.Usage);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureDescriptorSelector.SetUsage, value);
+        get => (MTLAccelerationStructureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLAccelerationStructureDescriptorSelector.Usage));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureDescriptorSelector.SetUsage, (uint)value);
     }
 
     public static implicit operator nint(MTLAccelerationStructureDescriptor value)

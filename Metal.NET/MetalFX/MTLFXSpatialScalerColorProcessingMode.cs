@@ -2,9 +2,9 @@
 
 public enum MTLFXSpatialScalerColorProcessingMode : int
 {
-    Perceptual = 0,
+    SpatialScalerColorProcessingModePerceptual = 0,
 
-    Linear = 1,
+    SpatialScalerColorProcessingModeLinear = 1,
 
-    HDR = 2
+    SpatialScalerColorProcessingModeHDR = 2
 }

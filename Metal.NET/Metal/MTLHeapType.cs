@@ -2,9 +2,9 @@
 
 public enum MTLHeapType : int
 {
-    Automatic = 0,
+    HeapTypeAutomatic = 0,
 
-    Placement = 1,
+    HeapTypePlacement = 1,
 
-    Sparse = 2
+    HeapTypeSparse = 2
 }

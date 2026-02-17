@@ -2,11 +2,11 @@
 
 public enum MTLPrimitiveTopologyClass : uint
 {
-    Unspecified = 0,
+    PrimitiveTopologyClassUnspecified = 0,
 
-    Point = 1,
+    PrimitiveTopologyClassPoint = 1,
 
-    Line = 2,
+    PrimitiveTopologyClassLine = 2,
 
-    Triangle = 3
+    PrimitiveTopologyClassTriangle = 3
 }

@@ -80,10 +80,10 @@ public class MTLTextureDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorSelector.SetPlacementSparsePageSize, (uint)value);
     }
 
-    public nuint ResourceOptions
+    public MTLResourceOptions ResourceOptions
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureDescriptorSelector.ResourceOptions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorSelector.SetResourceOptions, value);
+        get => (MTLResourceOptions)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTextureDescriptorSelector.ResourceOptions));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorSelector.SetResourceOptions, (uint)value);
     }
 
     public nuint SampleCount
@@ -110,10 +110,10 @@ public class MTLTextureDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorSelector.SetTextureType, (uint)value);
     }
 
-    public nuint Usage
+    public MTLTextureUsage Usage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureDescriptorSelector.Usage);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorSelector.SetUsage, value);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTextureDescriptorSelector.Usage));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorSelector.SetUsage, (uint)value);
     }
 
     public nuint Width
@@ -139,9 +139,9 @@ public class MTLTextureDescriptor : IDisposable
         return result;
     }
 
-    public static MTLTextureDescriptor TextureBufferDescriptor(MTLPixelFormat pixelFormat, nuint width, nuint resourceOptions, nuint usage)
+    public static MTLTextureDescriptor TextureBufferDescriptor(MTLPixelFormat pixelFormat, nuint width, MTLResourceOptions resourceOptions, MTLTextureUsage usage)
     {
-        MTLTextureDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLTextureDescriptorSelector.TextureBufferDescriptorWidthResourceOptionsUsage, (uint)pixelFormat, width, resourceOptions, usage));
+        MTLTextureDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLTextureDescriptorSelector.TextureBufferDescriptorWidthResourceOptionsUsage, (uint)pixelFormat, width, (uint)resourceOptions, (uint)usage));
 
         return result;
     }

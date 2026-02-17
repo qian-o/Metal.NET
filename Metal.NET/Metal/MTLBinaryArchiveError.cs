@@ -2,13 +2,13 @@
 
 public enum MTLBinaryArchiveError : uint
 {
-    None = 0,
+    BinaryArchiveErrorNone = 0,
 
-    InvalidFile = 1,
+    BinaryArchiveErrorInvalidFile = 1,
 
-    UnexpectedElement = 2,
+    BinaryArchiveErrorUnexpectedElement = 2,
 
-    CompilationFailure = 3,
+    BinaryArchiveErrorCompilationFailure = 3,
 
-    InternalError = 4
+    BinaryArchiveErrorInternalError = 4
 }

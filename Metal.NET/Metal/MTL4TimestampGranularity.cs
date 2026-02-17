@@ -2,7 +2,7 @@
 
 public enum MTL4TimestampGranularity : int
 {
-    Relaxed = 0,
+    TimestampGranularityRelaxed = 0,
 
-    Precise = 1
+    TimestampGranularityPrecise = 1
 }

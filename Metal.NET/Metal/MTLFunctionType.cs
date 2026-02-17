@@ -2,17 +2,17 @@
 
 public enum MTLFunctionType : uint
 {
-    Vertex = 1,
+    FunctionTypeVertex = 1,
 
-    Fragment = 2,
+    FunctionTypeFragment = 2,
 
-    Kernel = 3,
+    FunctionTypeKernel = 3,
 
-    Visible = 5,
+    FunctionTypeVisible = 5,
 
-    Intersection = 6,
+    FunctionTypeIntersection = 6,
 
-    Mesh = 7,
+    FunctionTypeMesh = 7,
 
-    Object = 8
+    FunctionTypeObject = 8
 }

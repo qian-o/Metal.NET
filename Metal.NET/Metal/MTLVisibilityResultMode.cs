@@ -2,9 +2,9 @@
 
 public enum MTLVisibilityResultMode : uint
 {
-    Disabled = 0,
+    VisibilityResultModeDisabled = 0,
 
-    Boolean = 1,
+    VisibilityResultModeBoolean = 1,
 
-    Counting = 2
+    VisibilityResultModeCounting = 2
 }

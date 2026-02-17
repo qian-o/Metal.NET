@@ -2,7 +2,7 @@
 
 public enum MTLIOError : int
 {
-    URLInvalid = 1,
+    IOErrorURLInvalid = 1,
 
-    Internal = 2
+    IOErrorInternal = 2
 }

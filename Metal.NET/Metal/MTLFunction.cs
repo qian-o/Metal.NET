@@ -40,9 +40,9 @@ public class MTLFunction : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.Name));
     }
 
-    public nuint Options
+    public MTLFunctionOptions Options
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionSelector.Options);
+        get => (MTLFunctionOptions)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFunctionSelector.Options));
     }
 
     public nint PatchControlPointCount

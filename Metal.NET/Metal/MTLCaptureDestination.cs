@@ -2,7 +2,7 @@
 
 public enum MTLCaptureDestination : int
 {
-    DeveloperTools = 1,
+    CaptureDestinationDeveloperTools = 1,
 
-    GPUTraceDocument = 2
+    CaptureDestinationGPUTraceDocument = 2
 }

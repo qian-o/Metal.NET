@@ -54,9 +54,9 @@ public class MTLCommandBuffer : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.Error));
     }
 
-    public nuint ErrorOptions
+    public MTLCommandBufferErrorOption ErrorOptions
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandBufferSelector.ErrorOptions);
+        get => (MTLCommandBufferErrorOption)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLCommandBufferSelector.ErrorOptions));
     }
 
     public double KernelEndTime

@@ -2,7 +2,7 @@
 
 public enum MTLDepthClipMode : uint
 {
-    Clip = 0,
+    DepthClipModeClip = 0,
 
-    Clamp = 1
+    DepthClipModeClamp = 1
 }

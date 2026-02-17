@@ -2,9 +2,9 @@
 
 public enum MTLTessellationControlPointIndexType : uint
 {
-    None = 0,
+    TessellationControlPointIndexTypeNone = 0,
 
-    UInt16 = 1,
+    TessellationControlPointIndexTypeUInt16 = 1,
 
-    UInt32 = 2
+    TessellationControlPointIndexTypeUInt32 = 2
 }

@@ -367,23 +367,23 @@ public partial class MTLDevice : IDisposable
         return result;
     }
 
-    public MTLBuffer NewBuffer(nuint length, nuint options)
+    public MTLBuffer NewBuffer(nuint length, MTLResourceOptions options)
     {
-        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferOptions, length, options));
+        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferOptions, length, (uint)options));
 
         return result;
     }
 
-    public MTLBuffer NewBuffer(nint pointer, nuint length, nuint options)
+    public MTLBuffer NewBuffer(nint pointer, nuint length, MTLResourceOptions options)
     {
-        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferLengthOptions, pointer, length, options));
+        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferLengthOptions, pointer, length, (uint)options));
 
         return result;
     }
 
-    public MTLBuffer NewBuffer(nuint length, nuint options, MTLSparsePageSize placementSparsePageSize)
+    public MTLBuffer NewBuffer(nuint length, MTLResourceOptions options, MTLSparsePageSize placementSparsePageSize)
     {
-        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferOptionsPlacementSparsePageSize, length, options, (uint)placementSparsePageSize));
+        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferOptionsPlacementSparsePageSize, length, (uint)options, (uint)placementSparsePageSize));
 
         return result;
     }
@@ -450,18 +450,18 @@ public partial class MTLDevice : IDisposable
         return result;
     }
 
-    public MTLComputePipelineState NewComputePipelineState(MTLFunction computeFunction, nuint options, nint reflection, out NSError? error)
+    public MTLComputePipelineState NewComputePipelineState(MTLFunction computeFunction, MTLPipelineOption options, nint reflection, out NSError? error)
     {
-        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewComputePipelineStateOptionsReflectionError, computeFunction.NativePtr, options, reflection, out nint errorPtr));
+        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewComputePipelineStateOptionsReflectionError, computeFunction.NativePtr, (uint)options, reflection, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
     }
 
-    public MTLComputePipelineState NewComputePipelineState(MTLComputePipelineDescriptor descriptor, nuint options, nint reflection, out NSError? error)
+    public MTLComputePipelineState NewComputePipelineState(MTLComputePipelineDescriptor descriptor, MTLPipelineOption options, nint reflection, out NSError? error)
     {
-        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewComputePipelineStateOptionsReflectionError, descriptor.NativePtr, options, reflection, out nint errorPtr));
+        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewComputePipelineStateOptionsReflectionError, descriptor.NativePtr, (uint)options, reflection, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -598,9 +598,9 @@ public partial class MTLDevice : IDisposable
         return result;
     }
 
-    public MTLIndirectCommandBuffer NewIndirectCommandBuffer(MTLIndirectCommandBufferDescriptor descriptor, nuint maxCount, nuint options)
+    public MTLIndirectCommandBuffer NewIndirectCommandBuffer(MTLIndirectCommandBufferDescriptor descriptor, nuint maxCount, MTLResourceOptions options)
     {
-        MTLIndirectCommandBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewIndirectCommandBufferMaxCountOptions, descriptor.NativePtr, maxCount, options));
+        MTLIndirectCommandBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewIndirectCommandBufferMaxCountOptions, descriptor.NativePtr, maxCount, (uint)options));
 
         return result;
     }
@@ -708,27 +708,27 @@ public partial class MTLDevice : IDisposable
         return result;
     }
 
-    public MTLRenderPipelineState NewRenderPipelineState(MTLRenderPipelineDescriptor descriptor, nuint options, nint reflection, out NSError? error)
+    public MTLRenderPipelineState NewRenderPipelineState(MTLRenderPipelineDescriptor descriptor, MTLPipelineOption options, nint reflection, out NSError? error)
     {
-        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateOptionsReflectionError, descriptor.NativePtr, options, reflection, out nint errorPtr));
+        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateOptionsReflectionError, descriptor.NativePtr, (uint)options, reflection, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
     }
 
-    public MTLRenderPipelineState NewRenderPipelineState(MTLTileRenderPipelineDescriptor descriptor, nuint options, nint reflection, out NSError? error)
+    public MTLRenderPipelineState NewRenderPipelineState(MTLTileRenderPipelineDescriptor descriptor, MTLPipelineOption options, nint reflection, out NSError? error)
     {
-        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateOptionsReflectionError, descriptor.NativePtr, options, reflection, out nint errorPtr));
+        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateOptionsReflectionError, descriptor.NativePtr, (uint)options, reflection, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
     }
 
-    public MTLRenderPipelineState NewRenderPipelineState(MTLMeshRenderPipelineDescriptor descriptor, nuint options, nint reflection, out NSError? error)
+    public MTLRenderPipelineState NewRenderPipelineState(MTLMeshRenderPipelineDescriptor descriptor, MTLPipelineOption options, nint reflection, out NSError? error)
     {
-        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateOptionsReflectionError, descriptor.NativePtr, options, reflection, out nint errorPtr));
+        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateOptionsReflectionError, descriptor.NativePtr, (uint)options, reflection, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 

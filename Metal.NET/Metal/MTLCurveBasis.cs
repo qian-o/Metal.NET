@@ -2,11 +2,11 @@
 
 public enum MTLCurveBasis : int
 {
-    BSpline = 0,
+    CurveBasisBSpline = 0,
 
-    CatmullRom = 1,
+    CurveBasisCatmullRom = 1,
 
-    Linear = 2,
+    CurveBasisLinear = 2,
 
-    Bezier = 3
+    CurveBasisBezier = 3
 }

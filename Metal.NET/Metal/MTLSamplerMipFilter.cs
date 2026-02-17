@@ -2,9 +2,9 @@
 
 public enum MTLSamplerMipFilter : uint
 {
-    NotMipmapped = 0,
+    SamplerMipFilterNotMipmapped = 0,
 
-    Nearest = 1,
+    SamplerMipFilterNearest = 1,
 
-    Linear = 2
+    SamplerMipFilterLinear = 2
 }

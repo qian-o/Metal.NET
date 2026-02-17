@@ -2,15 +2,15 @@
 
 public enum MTLCommandBufferStatus : uint
 {
-    NotEnqueued = 0,
+    CommandBufferStatusNotEnqueued = 0,
 
-    Enqueued = 1,
+    CommandBufferStatusEnqueued = 1,
 
-    Committed = 2,
+    CommandBufferStatusCommitted = 2,
 
-    Scheduled = 3,
+    CommandBufferStatusScheduled = 3,
 
-    Completed = 4,
+    CommandBufferStatusCompleted = 4,
 
-    Error = 5
+    CommandBufferStatusError = 5
 }

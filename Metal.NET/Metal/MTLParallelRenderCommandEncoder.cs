@@ -24,9 +24,9 @@ public class MTLParallelRenderCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetColorStoreActionColorAttachmentIndex, (uint)storeAction, colorAttachmentIndex);
     }
 
-    public void SetColorStoreActionOptions(nuint storeActionOptions, nuint colorAttachmentIndex)
+    public void SetColorStoreActionOptions(MTLStoreActionOptions storeActionOptions, nuint colorAttachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetColorStoreActionOptionsColorAttachmentIndex, storeActionOptions, colorAttachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetColorStoreActionOptionsColorAttachmentIndex, (uint)storeActionOptions, colorAttachmentIndex);
     }
 
     public void SetDepthStoreAction(MTLStoreAction storeAction)
@@ -34,9 +34,9 @@ public class MTLParallelRenderCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetDepthStoreAction, (uint)storeAction);
     }
 
-    public void SetDepthStoreActionOptions(nuint storeActionOptions)
+    public void SetDepthStoreActionOptions(MTLStoreActionOptions storeActionOptions)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetDepthStoreActionOptions, storeActionOptions);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetDepthStoreActionOptions, (uint)storeActionOptions);
     }
 
     public void SetStencilStoreAction(MTLStoreAction storeAction)
@@ -44,9 +44,9 @@ public class MTLParallelRenderCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetStencilStoreAction, (uint)storeAction);
     }
 
-    public void SetStencilStoreActionOptions(nuint storeActionOptions)
+    public void SetStencilStoreActionOptions(MTLStoreActionOptions storeActionOptions)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetStencilStoreActionOptions, storeActionOptions);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetStencilStoreActionOptions, (uint)storeActionOptions);
     }
 
     public static implicit operator nint(MTLParallelRenderCommandEncoder value)

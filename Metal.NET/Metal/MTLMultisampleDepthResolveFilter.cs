@@ -2,9 +2,9 @@
 
 public enum MTLMultisampleDepthResolveFilter : uint
 {
-    Sample0 = 0,
+    MultisampleDepthResolveFilterSample0 = 0,
 
-    Min = 1,
+    MultisampleDepthResolveFilterMin = 1,
 
-    Max = 2
+    MultisampleDepthResolveFilterMax = 2
 }

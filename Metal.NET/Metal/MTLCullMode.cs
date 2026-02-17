@@ -2,9 +2,9 @@
 
 public enum MTLCullMode : uint
 {
-    None = 0,
+    CullModeNone = 0,
 
-    Front = 1,
+    CullModeFront = 1,
 
-    Back = 2
+    CullModeBack = 2
 }

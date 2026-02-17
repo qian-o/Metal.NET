@@ -2,13 +2,13 @@
 
 public enum MTLAccelerationStructureInstanceDescriptorType : uint
 {
-    Default = 0,
+    AccelerationStructureInstanceDescriptorTypeDefault = 0,
 
-    UserID = 1,
+    AccelerationStructureInstanceDescriptorTypeUserID = 1,
 
-    Motion = 2,
+    AccelerationStructureInstanceDescriptorTypeMotion = 2,
 
-    Indirect = 3,
+    AccelerationStructureInstanceDescriptorTypeIndirect = 3,
 
-    IndirectMotion = 4
+    AccelerationStructureInstanceDescriptorTypeIndirectMotion = 4
 }

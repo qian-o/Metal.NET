@@ -2,7 +2,7 @@
 
 public enum MTLCurveType : int
 {
-    Round = 0,
+    CurveTypeRound = 0,
 
-    Flat = 1
+    CurveTypeFlat = 1
 }

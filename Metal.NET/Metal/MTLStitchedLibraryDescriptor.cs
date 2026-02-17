@@ -38,10 +38,10 @@ public class MTLStitchedLibraryDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetFunctions, value.NativePtr);
     }
 
-    public nuint Options
+    public MTLStitchedLibraryOptions Options
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStitchedLibraryDescriptorSelector.Options);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetOptions, value);
+        get => (MTLStitchedLibraryOptions)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLStitchedLibraryDescriptorSelector.Options));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetOptions, (uint)value);
     }
 
     public static implicit operator nint(MTLStitchedLibraryDescriptor value)

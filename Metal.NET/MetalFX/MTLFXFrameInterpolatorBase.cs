@@ -14,29 +14,29 @@ public class MTLFXFrameInterpolatorBase : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint ColorTextureUsage
+    public MTLTextureUsage ColorTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseSelector.ColorTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXFrameInterpolatorBaseSelector.ColorTextureUsage));
     }
 
-    public nuint OutputTextureUsage
+    public MTLTextureUsage OutputTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseSelector.OutputTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXFrameInterpolatorBaseSelector.OutputTextureUsage));
     }
 
-    public nuint DepthTextureUsage
+    public MTLTextureUsage DepthTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseSelector.DepthTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXFrameInterpolatorBaseSelector.DepthTextureUsage));
     }
 
-    public nuint MotionTextureUsage
+    public MTLTextureUsage MotionTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseSelector.MotionTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXFrameInterpolatorBaseSelector.MotionTextureUsage));
     }
 
-    public nuint UiTextureUsage
+    public MTLTextureUsage UiTextureUsage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseSelector.UiTextureUsage);
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXFrameInterpolatorBaseSelector.UiTextureUsage));
     }
 
     public MTLPixelFormat ColorTextureFormat
