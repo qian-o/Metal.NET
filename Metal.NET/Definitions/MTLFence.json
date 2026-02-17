@@ -1,0 +1,10 @@
+﻿{
+  "name": "MTLFence",
+  "isClass": false,
+  "properties": [
+    { "name": "device", "type": "MTLDevice", "readonly": true },
+    { "name": "label", "type": "NSString", "readonly": false }
+  ],
+  "methods": [],
+  "staticMethods": []
+}

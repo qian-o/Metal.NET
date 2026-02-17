@@ -1,0 +1,55 @@
+﻿{
+  "name": "MTLCommandBuffer",
+  "isClass": false,
+  "properties": [
+    { "name": "label", "type": "NSString", "readonly": false },
+    { "name": "status", "type": "uint", "readonly": true }
+  ],
+  "methods": [
+    {
+      "name": "renderCommandEncoderWithDescriptor",
+      "selector": "renderCommandEncoderWithDescriptor:",
+      "returnType": "MTLRenderCommandEncoder",
+      "parameters": [
+        { "name": "descriptor", "type": "MTLRenderPassDescriptor" }
+      ]
+    },
+    {
+      "name": "computeCommandEncoder",
+      "selector": "computeCommandEncoder",
+      "returnType": "MTLComputeCommandEncoder"
+    },
+    {
+      "name": "blitCommandEncoder",
+      "selector": "blitCommandEncoder",
+      "returnType": "MTLBlitCommandEncoder"
+    },
+    {
+      "name": "commit",
+      "selector": "commit",
+      "returnType": "void"
+    },
+    {
+      "name": "presentDrawable",
+      "selector": "presentDrawable:",
+      "returnType": "void",
+      "parameters": [
+        { "name": "drawable", "type": "CAMetalDrawable" }
+      ]
+    },
+    {
+      "name": "waitUntilCompleted",
+      "selector": "waitUntilCompleted",
+      "returnType": "void"
+    },
+    {
+      "name": "addCompletedHandler",
+      "selector": "addCompletedHandler:",
+      "returnType": "void",
+      "parameters": [
+        { "name": "block", "type": "IntPtr" }
+      ]
+    }
+  ],
+  "staticMethods": []
+}

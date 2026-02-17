@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="Metal.NET.Generator/Metal.NET.Generator.csproj" />
+  <Project Path="Metal.NET.HeaderParser/Metal.NET.HeaderParser.csproj" />
+  <Project Path="Metal.NET/Metal.NET.csproj" />
+</Solution>

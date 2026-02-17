@@ -1,0 +1,365 @@
+﻿{
+  "enums": [
+    {
+      "name": "MTLPixelFormat",
+      "underlyingType": "uint",
+      "members": [
+        { "name": "Invalid", "value": "0" },
+        { "name": "A8Unorm", "value": "1" },
+        { "name": "R8Unorm", "value": "10" },
+        { "name": "R8Unorm_sRGB", "value": "11" },
+        { "name": "R8Snorm", "value": "12" },
+        { "name": "R8Uint", "value": "13" },
+        { "name": "R8Sint", "value": "14" },
+        { "name": "R16Unorm", "value": "20" },
+        { "name": "R16Snorm", "value": "22" },
+        { "name": "R16Uint", "value": "23" },
+        { "name": "R16Sint", "value": "24" },
+        { "name": "R16Float", "value": "25" },
+        { "name": "RG8Unorm", "value": "30" },
+        { "name": "RG8Snorm", "value": "32" },
+        { "name": "RG8Uint", "value": "33" },
+        { "name": "RG8Sint", "value": "34" },
+        { "name": "R32Uint", "value": "53" },
+        { "name": "R32Sint", "value": "54" },
+        { "name": "R32Float", "value": "55" },
+        { "name": "RG16Unorm", "value": "60" },
+        { "name": "RG16Snorm", "value": "62" },
+        { "name": "RG16Uint", "value": "63" },
+        { "name": "RG16Sint", "value": "64" },
+        { "name": "RG16Float", "value": "65" },
+        { "name": "RGBA8Unorm", "value": "70" },
+        { "name": "RGBA8Unorm_sRGB", "value": "71" },
+        { "name": "RGBA8Snorm", "value": "72" },
+        { "name": "RGBA8Uint", "value": "73" },
+        { "name": "RGBA8Sint", "value": "74" },
+        { "name": "BGRA8Unorm", "value": "80" },
+        { "name": "BGRA8Unorm_sRGB", "value": "81" },
+        { "name": "RGB10A2Unorm", "value": "90" },
+        { "name": "RGB10A2Uint", "value": "91" },
+        { "name": "RG11B10Float", "value": "92" },
+        { "name": "RGB9E5Float", "value": "93" },
+        { "name": "RG32Uint", "value": "103" },
+        { "name": "RG32Sint", "value": "104" },
+        { "name": "RG32Float", "value": "105" },
+        { "name": "RGBA16Unorm", "value": "110" },
+        { "name": "RGBA16Snorm", "value": "112" },
+        { "name": "RGBA16Uint", "value": "113" },
+        { "name": "RGBA16Sint", "value": "114" },
+        { "name": "RGBA16Float", "value": "115" },
+        { "name": "RGBA32Uint", "value": "123" },
+        { "name": "RGBA32Sint", "value": "124" },
+        { "name": "RGBA32Float", "value": "125" },
+        { "name": "Depth16Unorm", "value": "250" },
+        { "name": "Depth32Float", "value": "252" },
+        { "name": "Stencil8", "value": "253" },
+        { "name": "Depth24Unorm_Stencil8", "value": "255" },
+        { "name": "Depth32Float_Stencil8", "value": "260" }
+      ]
+    },
+    {
+      "name": "MTLTextureType",
+      "underlyingType": "uint",
+      "members": [
+        { "name": "Type1D", "value": "0" },
+        { "name": "Type1DArray", "value": "1" },
+        { "name": "Type2D", "value": "2" },
+        { "name": "Type2DArray", "value": "3" },
+        { "name": "Type2DMultisample", "value": "4" },
+        { "name": "TypeCube", "value": "5" },
+        { "name": "TypeCubeArray", "value": "6" },
+        { "name": "Type3D", "value": "7" }
+      ]
+    },
+    {
+      "name": "MTLLoadAction",
+      "underlyingType": "uint",
+      "members": [
+        { "name": "DontCare", "value": "0" },
+        { "name": "Load", "value": "1" },
+        { "name": "Clear", "value": "2" }
+      ]
+    },
+    {
+      "name": "MTLStoreAction",
+      "underlyingType": "uint",
+      "members": [
+        { "name": "DontCare", "value": "0" },
+        { "name": "Store", "value": "1" },
+        { "name": "MultisampleResolve", "value": "2" },
+        { "name": "StoreAndMultisampleResolve", "value": "3" },
+        { "name": "Unknown", "value": "4" }
+      ]
+    },
+    {
+      "name": "MTLPrimitiveType",
+      "underlyingType": "uint",
+      "members": [
+        { "name": "Point", "value": "0" },
+        { "name": "Line", "value": "1" },
+        { "name": "LineStrip", "value": "2" },
+        { "name": "Triangle", "value": "3" },
+        { "name": "TriangleStrip", "value": "4" }
+      ]
+    },
+    {
+      "name": "MTLIndexType",
+      "underlyingType": "uint",
+      "members": [
+        { "name": "UInt16", "value": "0" },
+        { "name": "UInt32", "value": "1" }
+      ]
+    },
+    {
+      "name": "MTLCullMode",
+      "underlyingType": "uint",
+      "members": [
+        { "name": "None", "value": "0" },
+        { "name": "Front", "value": "1" },
+        { "name": "Back", "value": "2" }
+      ]
+    },
+    {
+      "name": "MTLWinding",
+      "underlyingType": "uint",
+      "members": [
+        { "name": "Clockwise", "value": "0" },
+        { "name": "CounterClockwise", "value": "1" }
+      ]
+    },
+    {
+      "name": "MTLTriangleFillMode",
+      "underlyingType": "uint",
+      "members": [
+        { "name": "Fill", "value": "0" },
+        { "name": "Lines", "value": "1" }
+      ]
+    },
+    {
+      "name": "MTLCompareFunction",
+      "underlyingType": "uint",
+      "members": [
+        { "name": "Never", "value": "0" },
+        { "name": "Less", "value": "1" },
+        { "name": "Equal", "value": "2" },
+        { "name": "LessEqual", "value": "3" },
+        { "name": "Greater", "value": "4" },
+        { "name": "NotEqual", "value": "5" },
+        { "name": "GreaterEqual", "value": "6" },
+        { "name": "Always", "value": "7" }
+      ]
+    },
+    {
+      "name": "MTLStencilOperation",
+      "underlyingType": "uint",
+      "members": [
+        { "name": "Keep", "value": "0" },
+        { "name": "Zero", "value": "1" },
+        { "name": "Replace", "value": "2" },
+        { "name": "IncrementClamp", "value": "3" },
+        { "name": "DecrementClamp", "value": "4" },
+        { "name": "Invert", "value": "5" },
+        { "name": "IncrementWrap", "value": "6" },
+        { "name": "DecrementWrap", "value": "7" }
+      ]
+    },
+    {
+      "name": "MTLBlendFactor",
+      "underlyingType": "uint",
+      "members": [
+        { "name": "Zero", "value": "0" },
+        { "name": "One", "value": "1" },
+        { "name": "SourceColor", "value": "2" },
+        { "name": "OneMinusSourceColor", "value": "3" },
+        { "name": "SourceAlpha", "value": "4" },
+        { "name": "OneMinusSourceAlpha", "value": "5" },
+        { "name": "DestinationColor", "value": "6" },
+        { "name": "OneMinusDestinationColor", "value": "7" },
+        { "name": "DestinationAlpha", "value": "8" },
+        { "name": "OneMinusDestinationAlpha", "value": "9" },
+        { "name": "SourceAlphaSaturated", "value": "10" },
+        { "name": "BlendColor", "value": "11" },
+        { "name": "OneMinusBlendColor", "value": "12" },
+        { "name": "BlendAlpha", "value": "13" },
+        { "name": "OneMinusBlendAlpha", "value": "14" }
+      ]
+    },
+    {
+      "name": "MTLBlendOperation",
+      "underlyingType": "uint",
+      "members": [
+        { "name": "Add", "value": "0" },
+        { "name": "Subtract", "value": "1" },
+        { "name": "ReverseSubtract", "value": "2" },
+        { "name": "Min", "value": "3" },
+        { "name": "Max", "value": "4" }
+      ]
+    },
+    {
+      "name": "MTLColorWriteMask",
+      "underlyingType": "uint",
+      "isFlags": true,
+      "members": [
+        { "name": "None", "value": "0" },
+        { "name": "Red", "value": "0x8" },
+        { "name": "Green", "value": "0x4" },
+        { "name": "Blue", "value": "0x2" },
+        { "name": "Alpha", "value": "0x1" },
+        { "name": "All", "value": "0xf" }
+      ]
+    },
+    {
+      "name": "MTLVertexFormat",
+      "underlyingType": "uint",
+      "members": [
+        { "name": "Invalid", "value": "0" },
+        { "name": "UChar2", "value": "1" },
+        { "name": "UChar3", "value": "2" },
+        { "name": "UChar4", "value": "3" },
+        { "name": "Char2", "value": "4" },
+        { "name": "Char3", "value": "5" },
+        { "name": "Char4", "value": "6" },
+        { "name": "UChar2Normalized", "value": "7" },
+        { "name": "UChar3Normalized", "value": "8" },
+        { "name": "UChar4Normalized", "value": "9" },
+        { "name": "Char2Normalized", "value": "10" },
+        { "name": "Char3Normalized", "value": "11" },
+        { "name": "Char4Normalized", "value": "12" },
+        { "name": "UShort2", "value": "13" },
+        { "name": "UShort3", "value": "14" },
+        { "name": "UShort4", "value": "15" },
+        { "name": "Short2", "value": "16" },
+        { "name": "Short3", "value": "17" },
+        { "name": "Short4", "value": "18" },
+        { "name": "Half2", "value": "25" },
+        { "name": "Half3", "value": "26" },
+        { "name": "Half4", "value": "27" },
+        { "name": "Float", "value": "28" },
+        { "name": "Float2", "value": "29" },
+        { "name": "Float3", "value": "30" },
+        { "name": "Float4", "value": "31" },
+        { "name": "Int", "value": "32" },
+        { "name": "Int2", "value": "33" },
+        { "name": "Int3", "value": "34" },
+        { "name": "Int4", "value": "35" },
+        { "name": "UInt", "value": "36" },
+        { "name": "UInt2", "value": "37" },
+        { "name": "UInt3", "value": "38" },
+        { "name": "UInt4", "value": "39" }
+      ]
+    },
+    {
+      "name": "MTLVertexStepFunction",
+      "underlyingType": "uint",
+      "members": [
+        { "name": "Constant", "value": "0" },
+        { "name": "PerVertex", "value": "1" },
+        { "name": "PerInstance", "value": "2" },
+        { "name": "PerPatch", "value": "3" },
+        { "name": "PerPatchControlPoint", "value": "4" }
+      ]
+    },
+    {
+      "name": "MTLSamplerMinMagFilter",
+      "underlyingType": "uint",
+      "members": [
+        { "name": "Nearest", "value": "0" },
+        { "name": "Linear", "value": "1" }
+      ]
+    },
+    {
+      "name": "MTLSamplerMipFilter",
+      "underlyingType": "uint",
+      "members": [
+        { "name": "NotMipmapped", "value": "0" },
+        { "name": "Nearest", "value": "1" },
+        { "name": "Linear", "value": "2" }
+      ]
+    },
+    {
+      "name": "MTLSamplerAddressMode",
+      "underlyingType": "uint",
+      "members": [
+        { "name": "ClampToEdge", "value": "0" },
+        { "name": "MirrorClampToEdge", "value": "1" },
+        { "name": "Repeat", "value": "2" },
+        { "name": "MirrorRepeat", "value": "3" },
+        { "name": "ClampToZero", "value": "4" },
+        { "name": "ClampToBorderColor", "value": "5" }
+      ]
+    },
+    {
+      "name": "MTLResourceOptions",
+      "underlyingType": "uint",
+      "isFlags": true,
+      "members": [
+        { "name": "CPUCacheModeDefaultCache", "value": "0" },
+        { "name": "CPUCacheModeWriteCombined", "value": "1" },
+        { "name": "StorageModeShared", "value": "0 << 4" },
+        { "name": "StorageModeManaged", "value": "1 << 4" },
+        { "name": "StorageModePrivate", "value": "2 << 4" },
+        { "name": "StorageModeMemoryless", "value": "3 << 4" },
+        { "name": "HazardTrackingModeUntracked", "value": "1 << 8" }
+      ]
+    },
+    {
+      "name": "MTLStorageMode",
+      "underlyingType": "uint",
+      "members": [
+        { "name": "Shared", "value": "0" },
+        { "name": "Managed", "value": "1" },
+        { "name": "Private", "value": "2" },
+        { "name": "Memoryless", "value": "3" }
+      ]
+    },
+    {
+      "name": "MTLTextureUsage",
+      "underlyingType": "uint",
+      "isFlags": true,
+      "members": [
+        { "name": "Unknown", "value": "0x0000" },
+        { "name": "ShaderRead", "value": "0x0001" },
+        { "name": "ShaderWrite", "value": "0x0002" },
+        { "name": "RenderTarget", "value": "0x0004" },
+        { "name": "PixelFormatView", "value": "0x0010" }
+      ]
+    },
+    {
+      "name": "MTLFunctionType",
+      "underlyingType": "uint",
+      "members": [
+        { "name": "Vertex", "value": "1" },
+        { "name": "Fragment", "value": "2" },
+        { "name": "Kernel", "value": "3" }
+      ]
+    },
+    {
+      "name": "MTLCommandBufferStatus",
+      "underlyingType": "uint",
+      "members": [
+        { "name": "NotEnqueued", "value": "0" },
+        { "name": "Enqueued", "value": "1" },
+        { "name": "Committed", "value": "2" },
+        { "name": "Scheduled", "value": "3" },
+        { "name": "Completed", "value": "4" },
+        { "name": "Error", "value": "5" }
+      ]
+    },
+    {
+      "name": "MTLLanguageVersion",
+      "underlyingType": "uint",
+      "members": [
+        { "name": "v1_0", "value": "(1 << 16)" },
+        { "name": "v1_1", "value": "(1 << 16) + 1" },
+        { "name": "v1_2", "value": "(1 << 16) + 2" },
+        { "name": "v2_0", "value": "(2 << 16)" },
+        { "name": "v2_1", "value": "(2 << 16) + 1" },
+        { "name": "v2_2", "value": "(2 << 16) + 2" },
+        { "name": "v2_3", "value": "(2 << 16) + 3" },
+        { "name": "v2_4", "value": "(2 << 16) + 4" },
+        { "name": "v3_0", "value": "(3 << 16)" },
+        { "name": "v3_1", "value": "(3 << 16) + 1" }
+      ]
+    }
+  ]
+}

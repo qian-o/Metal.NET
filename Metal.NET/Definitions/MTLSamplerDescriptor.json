@@ -1,0 +1,21 @@
+﻿{
+  "name": "MTLSamplerDescriptor",
+  "isClass": true,
+  "objCClass": "MTLSamplerDescriptor",
+  "properties": [
+    { "name": "sAddressMode", "type": "uint", "readonly": false, "setSelector": "setSAddressMode:" },
+    { "name": "tAddressMode", "type": "uint", "readonly": false, "setSelector": "setTAddressMode:" },
+    { "name": "rAddressMode", "type": "uint", "readonly": false, "setSelector": "setRAddressMode:" },
+    { "name": "minFilter", "type": "uint", "readonly": false, "setSelector": "setMinFilter:" },
+    { "name": "magFilter", "type": "uint", "readonly": false, "setSelector": "setMagFilter:" },
+    { "name": "mipFilter", "type": "uint", "readonly": false, "setSelector": "setMipFilter:" },
+    { "name": "lodMinClamp", "type": "float", "readonly": false, "setSelector": "setLodMinClamp:" },
+    { "name": "lodMaxClamp", "type": "float", "readonly": false, "setSelector": "setLodMaxClamp:" },
+    { "name": "maxAnisotropy", "type": "UIntPtr", "readonly": false, "setSelector": "setMaxAnisotropy:" },
+    { "name": "compareFunction", "type": "uint", "readonly": false, "setSelector": "setCompareFunction:" },
+    { "name": "borderColor", "type": "uint", "readonly": false, "setSelector": "setBorderColor:" },
+    { "name": "label", "type": "NSString", "readonly": false }
+  ],
+  "methods": [],
+  "staticMethods": []
+}

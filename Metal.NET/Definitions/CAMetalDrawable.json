@@ -1,0 +1,9 @@
+﻿{
+  "name": "CAMetalDrawable",
+  "isClass": false,
+  "properties": [
+    { "name": "texture", "type": "MTLTexture", "readonly": true }
+  ],
+  "methods": [],
+  "staticMethods": []
+}

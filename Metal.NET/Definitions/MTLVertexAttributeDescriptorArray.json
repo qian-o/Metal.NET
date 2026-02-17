@@ -1,0 +1,16 @@
+﻿{
+  "name": "MTLVertexAttributeDescriptorArray",
+  "isClass": false,
+  "properties": [],
+  "methods": [
+    {
+      "name": "objectAtIndexedSubscript",
+      "selector": "objectAtIndexedSubscript:",
+      "returnType": "MTLVertexAttributeDescriptor",
+      "parameters": [
+        { "name": "index", "type": "UIntPtr" }
+      ]
+    }
+  ],
+  "staticMethods": []
+}

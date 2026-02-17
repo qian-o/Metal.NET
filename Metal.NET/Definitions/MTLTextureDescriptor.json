@@ -1,0 +1,21 @@
+﻿{
+  "name": "MTLTextureDescriptor",
+  "isClass": true,
+  "objCClass": "MTLTextureDescriptor",
+  "properties": [
+    { "name": "textureType", "type": "uint", "readonly": false, "setSelector": "setTextureType:" },
+    { "name": "pixelFormat", "type": "uint", "readonly": false, "setSelector": "setPixelFormat:" },
+    { "name": "width", "type": "UIntPtr", "readonly": false, "setSelector": "setWidth:" },
+    { "name": "height", "type": "UIntPtr", "readonly": false, "setSelector": "setHeight:" },
+    { "name": "depth", "type": "UIntPtr", "readonly": false, "setSelector": "setDepth:" },
+    { "name": "mipmapLevelCount", "type": "UIntPtr", "readonly": false, "setSelector": "setMipmapLevelCount:" },
+    { "name": "sampleCount", "type": "UIntPtr", "readonly": false, "setSelector": "setSampleCount:" },
+    { "name": "arrayLength", "type": "UIntPtr", "readonly": false, "setSelector": "setArrayLength:" },
+    { "name": "resourceOptions", "type": "uint", "readonly": false, "setSelector": "setResourceOptions:" },
+    { "name": "cpuCacheMode", "type": "uint", "readonly": false, "setSelector": "setCpuCacheMode:" },
+    { "name": "storageMode", "type": "uint", "readonly": false, "setSelector": "setStorageMode:" },
+    { "name": "usage", "type": "uint", "readonly": false, "setSelector": "setUsage:" }
+  ],
+  "methods": [],
+  "staticMethods": []
+}

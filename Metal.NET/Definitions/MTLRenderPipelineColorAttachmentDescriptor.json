@@ -1,0 +1,17 @@
+﻿{
+  "name": "MTLRenderPipelineColorAttachmentDescriptor",
+  "isClass": false,
+  "properties": [
+    { "name": "pixelFormat", "type": "uint", "readonly": false, "setSelector": "setPixelFormat:" },
+    { "name": "blendingEnabled", "type": "Bool8", "readonly": false, "getSelector": "isBlendingEnabled", "setSelector": "setBlendingEnabled:" },
+    { "name": "sourceRGBBlendFactor", "type": "uint", "readonly": false, "setSelector": "setSourceRGBBlendFactor:" },
+    { "name": "destinationRGBBlendFactor", "type": "uint", "readonly": false, "setSelector": "setDestinationRGBBlendFactor:" },
+    { "name": "rgbBlendOperation", "type": "uint", "readonly": false, "setSelector": "setRgbBlendOperation:" },
+    { "name": "sourceAlphaBlendFactor", "type": "uint", "readonly": false, "setSelector": "setSourceAlphaBlendFactor:" },
+    { "name": "destinationAlphaBlendFactor", "type": "uint", "readonly": false, "setSelector": "setDestinationAlphaBlendFactor:" },
+    { "name": "alphaBlendOperation", "type": "uint", "readonly": false, "setSelector": "setAlphaBlendOperation:" },
+    { "name": "writeMask", "type": "uint", "readonly": false, "setSelector": "setWriteMask:" }
+  ],
+  "methods": [],
+  "staticMethods": []
+}

@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <RootNamespace>Metal.NET</RootNamespace>
+  </PropertyGroup>
+
+  <!-- Source Generator reference -->
+  <ItemGroup>
+    <ProjectReference Include="..\Metal.NET.Generator\Metal.NET.Generator.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <!-- Feed all JSON definition files to the generator -->
+  <ItemGroup>
+    <AdditionalFiles Include="Definitions\**\*.json" />
+  </ItemGroup>
+
+</Project>

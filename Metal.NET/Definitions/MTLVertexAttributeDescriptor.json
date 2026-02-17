@@ -1,0 +1,11 @@
+﻿{
+  "name": "MTLVertexAttributeDescriptor",
+  "isClass": false,
+  "properties": [
+    { "name": "format", "type": "uint", "readonly": false, "setSelector": "setFormat:" },
+    { "name": "offset", "type": "UIntPtr", "readonly": false, "setSelector": "setOffset:" },
+    { "name": "bufferIndex", "type": "UIntPtr", "readonly": false, "setSelector": "setBufferIndex:" }
+  ],
+  "methods": [],
+  "staticMethods": []
+}

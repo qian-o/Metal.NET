@@ -1,0 +1,13 @@
+﻿{
+  "name": "MTLDepthStencilDescriptor",
+  "isClass": true,
+  "objCClass": "MTLDepthStencilDescriptor",
+  "properties": [
+    { "name": "depthCompareFunction", "type": "uint", "readonly": false, "setSelector": "setDepthCompareFunction:" },
+    { "name": "depthWriteEnabled", "type": "Bool8", "readonly": false, "getSelector": "isDepthWriteEnabled", "setSelector": "setDepthWriteEnabled:" },
+    { "name": "frontFaceStencil", "type": "MTLStencilDescriptor", "readonly": false, "setSelector": "setFrontFaceStencil:" },
+    { "name": "backFaceStencil", "type": "MTLStencilDescriptor", "readonly": false, "setSelector": "setBackFaceStencil:" }
+  ],
+  "methods": [],
+  "staticMethods": []
+}

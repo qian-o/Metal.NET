@@ -1,0 +1,73 @@
+﻿{
+  "name": "MTLBlitCommandEncoder",
+  "isClass": false,
+  "properties": [],
+  "methods": [
+    {
+      "name": "endEncoding",
+      "selector": "endEncoding",
+      "returnType": "void"
+    },
+    {
+      "name": "copyFromBufferToBuffer",
+      "selector": "copyFromBuffer:sourceOffset:toBuffer:destinationOffset:size:",
+      "returnType": "void",
+      "parameters": [
+        { "name": "sourceBuffer", "type": "MTLBuffer" },
+        { "name": "sourceOffset", "type": "UIntPtr" },
+        { "name": "destinationBuffer", "type": "MTLBuffer" },
+        { "name": "destinationOffset", "type": "UIntPtr" },
+        { "name": "size", "type": "UIntPtr" }
+      ]
+    },
+    {
+      "name": "copyFromBufferToTexture",
+      "selector": "copyFromBuffer:sourceOffset:sourceBytesPerRow:sourceBytesPerImage:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:",
+      "returnType": "void",
+      "parameters": [
+        { "name": "sourceBuffer", "type": "MTLBuffer" },
+        { "name": "sourceOffset", "type": "UIntPtr" },
+        { "name": "sourceBytesPerRow", "type": "UIntPtr" },
+        { "name": "sourceBytesPerImage", "type": "UIntPtr" },
+        { "name": "sourceSize", "type": "MTLSize" },
+        { "name": "destinationTexture", "type": "MTLTexture" },
+        { "name": "destinationSlice", "type": "UIntPtr" },
+        { "name": "destinationLevel", "type": "UIntPtr" },
+        { "name": "destinationOrigin", "type": "MTLOrigin" }
+      ]
+    },
+    {
+      "name": "copyFromTextureToTexture",
+      "selector": "copyFromTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:",
+      "returnType": "void",
+      "parameters": [
+        { "name": "sourceTexture", "type": "MTLTexture" },
+        { "name": "sourceSlice", "type": "UIntPtr" },
+        { "name": "sourceLevel", "type": "UIntPtr" },
+        { "name": "sourceOrigin", "type": "MTLOrigin" },
+        { "name": "sourceSize", "type": "MTLSize" },
+        { "name": "destinationTexture", "type": "MTLTexture" },
+        { "name": "destinationSlice", "type": "UIntPtr" },
+        { "name": "destinationLevel", "type": "UIntPtr" },
+        { "name": "destinationOrigin", "type": "MTLOrigin" }
+      ]
+    },
+    {
+      "name": "generateMipmapsForTexture",
+      "selector": "generateMipmapsForTexture:",
+      "returnType": "void",
+      "parameters": [
+        { "name": "texture", "type": "MTLTexture" }
+      ]
+    },
+    {
+      "name": "synchronizeResource",
+      "selector": "synchronizeResource:",
+      "returnType": "void",
+      "parameters": [
+        { "name": "resource", "type": "IntPtr" }
+      ]
+    }
+  ],
+  "staticMethods": []
+}

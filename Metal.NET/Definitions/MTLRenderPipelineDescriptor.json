@@ -1,0 +1,32 @@
+﻿{
+  "name": "MTLRenderPipelineDescriptor",
+  "isClass": true,
+  "objCClass": "MTLRenderPipelineDescriptor",
+  "properties": [
+    { "name": "vertexFunction", "type": "MTLFunction", "readonly": false, "setSelector": "setVertexFunction:" },
+    { "name": "fragmentFunction", "type": "MTLFunction", "readonly": false, "setSelector": "setFragmentFunction:" },
+    { "name": "vertexDescriptor", "type": "MTLVertexDescriptor", "readonly": false, "setSelector": "setVertexDescriptor:" },
+    { "name": "sampleCount", "type": "UIntPtr", "readonly": false, "setSelector": "setSampleCount:" },
+    { "name": "colorAttachments", "type": "MTLRenderPipelineColorAttachmentDescriptorArray", "readonly": true },
+    { "name": "alphaToCoverageEnabled", "type": "Bool8", "readonly": false, "getSelector": "isAlphaToCoverageEnabled", "setSelector": "setAlphaToCoverageEnabled:" }
+  ],
+  "methods": [
+    {
+      "name": "setDepthAttachmentPixelFormat",
+      "selector": "setDepthAttachmentPixelFormat:",
+      "returnType": "void",
+      "parameters": [
+        { "name": "pixelFormat", "type": "MTLPixelFormat" }
+      ]
+    },
+    {
+      "name": "setStencilAttachmentPixelFormat",
+      "selector": "setStencilAttachmentPixelFormat:",
+      "returnType": "void",
+      "parameters": [
+        { "name": "pixelFormat", "type": "MTLPixelFormat" }
+      ]
+    }
+  ],
+  "staticMethods": []
+}

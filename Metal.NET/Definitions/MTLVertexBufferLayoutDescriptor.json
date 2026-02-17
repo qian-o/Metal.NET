@@ -1,0 +1,11 @@
+﻿{
+  "name": "MTLVertexBufferLayoutDescriptor",
+  "isClass": false,
+  "properties": [
+    { "name": "stride", "type": "UIntPtr", "readonly": false, "setSelector": "setStride:" },
+    { "name": "stepFunction", "type": "uint", "readonly": false, "setSelector": "setStepFunction:" },
+    { "name": "stepRate", "type": "UIntPtr", "readonly": false, "setSelector": "setStepRate:" }
+  ],
+  "methods": [],
+  "staticMethods": []
+}

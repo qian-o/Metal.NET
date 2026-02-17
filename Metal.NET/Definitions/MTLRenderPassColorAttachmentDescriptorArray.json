@@ -1,0 +1,16 @@
+﻿{
+  "name": "MTLRenderPassColorAttachmentDescriptorArray",
+  "isClass": false,
+  "properties": [],
+  "methods": [
+    {
+      "name": "objectAtIndexedSubscript",
+      "selector": "objectAtIndexedSubscript:",
+      "returnType": "MTLRenderPassColorAttachmentDescriptor",
+      "parameters": [
+        { "name": "index", "type": "UIntPtr" }
+      ]
+    }
+  ],
+  "staticMethods": []
+}

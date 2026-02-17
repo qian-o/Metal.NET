@@ -1,0 +1,11 @@
+﻿{
+  "name": "MTLVertexDescriptor",
+  "isClass": true,
+  "objCClass": "MTLVertexDescriptor",
+  "properties": [
+    { "name": "layouts", "type": "MTLVertexBufferLayoutDescriptorArray", "readonly": true },
+    { "name": "attributes", "type": "MTLVertexAttributeDescriptorArray", "readonly": true }
+  ],
+  "methods": [],
+  "staticMethods": []
+}
