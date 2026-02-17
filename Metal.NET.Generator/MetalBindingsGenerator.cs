@@ -484,7 +484,6 @@ public class MetalBindingsGenerator
             "Bool8" or "bool" => ("ObjectiveCRuntime.MsgSendBool", false),
             "int" => ("ObjectiveCRuntime.MsgSendInt", false),
             "uint" => ("ObjectiveCRuntime.MsgSendUInt", false),
-            "ulong" => ("ObjectiveCRuntime.MsgSendULong", false),
             "float" => ("ObjectiveCRuntime.MsgSendFloat", false),
             "double" => ("ObjectiveCRuntime.MsgSendDouble", false),
             "nuint" => ("ObjectiveCRuntime.MsgSendNUInt", false),
@@ -506,7 +505,6 @@ public class MetalBindingsGenerator
         if (type is "Bool8") return name;
         if (type is "bool") return $"(byte)({name} ? 1 : 0)";
         if (type is "uint" or "int" or "byte" or "sbyte" or "short" or "ushort") return name;
-        if (type is "ulong" or "long") return name;
         return name;
     }
 
@@ -521,7 +519,6 @@ public class MetalBindingsGenerator
         if (type is "Bool8") return "Bool8";
         if (type is "bool") return "byte";
         if (type is "uint" or "int" or "byte" or "sbyte" or "short" or "ushort") return type;
-        if (type is "ulong" or "long") return type;
         return "nint";
     }
 
@@ -581,7 +578,6 @@ public class MetalBindingsGenerator
         if (retType is "Bool8" or "bool") return "Bool8";
         if (retType is "int") return "int";
         if (retType is "uint") return "uint";
-        if (retType is "ulong") return "ulong";
         if (retType is "float") return "float";
         if (retType is "double") return "double";
         if (retType is "nuint") return "nuint";
@@ -598,7 +594,6 @@ public class MetalBindingsGenerator
         "Bool8" => "MsgSendBool",
         "int" => "MsgSendInt",
         "uint" => "MsgSendUInt",
-        "ulong" => "MsgSendULong",
         "float" => "MsgSendFloat",
         "double" => "MsgSendDouble",
         "nuint" => "MsgSendNUInt",
