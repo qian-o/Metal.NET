@@ -2,9 +2,15 @@
 
 public class MTLRenderPassDepthAttachmentDescriptor : IDisposable
 {
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLRenderPassDepthAttachmentDescriptor");
+
     public MTLRenderPassDepthAttachmentDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    public MTLRenderPassDepthAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    {
     }
 
     ~MTLRenderPassDepthAttachmentDescriptor()
@@ -13,6 +19,18 @@ public class MTLRenderPassDepthAttachmentDescriptor : IDisposable
     }
 
     public nint NativePtr { get; }
+
+    public double ClearDepth
+    {
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLRenderPassDepthAttachmentDescriptorSelector.ClearDepth);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorSelector.SetClearDepth, value);
+    }
+
+    public MTLMultisampleDepthResolveFilter DepthResolveFilter
+    {
+        get => (MTLMultisampleDepthResolveFilter)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPassDepthAttachmentDescriptorSelector.DepthResolveFilter));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorSelector.SetDepthResolveFilter, (uint)value);
+    }
 
     public static implicit operator nint(MTLRenderPassDepthAttachmentDescriptor value)
     {
@@ -37,24 +55,6 @@ public class MTLRenderPassDepthAttachmentDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLRenderPassDepthAttachmentDescriptor");
-
-    public MTLRenderPassDepthAttachmentDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
-    {
-    }
-
-    public double ClearDepth
-    {
-        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLRenderPassDepthAttachmentDescriptorSelector.ClearDepth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorSelector.SetClearDepth, value);
-    }
-
-    public MTLMultisampleDepthResolveFilter DepthResolveFilter
-    {
-        get => (MTLMultisampleDepthResolveFilter)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPassDepthAttachmentDescriptorSelector.DepthResolveFilter));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorSelector.SetDepthResolveFilter, (uint)value);
     }
 
 }

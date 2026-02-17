@@ -14,6 +14,24 @@ public class MTLRenderPipelineFunctionsDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public NSArray FragmentAdditionalBinaryFunctions
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineFunctionsDescriptorSelector.FragmentAdditionalBinaryFunctions));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineFunctionsDescriptorSelector.SetFragmentAdditionalBinaryFunctions, value.NativePtr);
+    }
+
+    public NSArray TileAdditionalBinaryFunctions
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineFunctionsDescriptorSelector.TileAdditionalBinaryFunctions));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineFunctionsDescriptorSelector.SetTileAdditionalBinaryFunctions, value.NativePtr);
+    }
+
+    public NSArray VertexAdditionalBinaryFunctions
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineFunctionsDescriptorSelector.VertexAdditionalBinaryFunctions));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineFunctionsDescriptorSelector.SetVertexAdditionalBinaryFunctions, value.NativePtr);
+    }
+
     public static implicit operator nint(MTLRenderPipelineFunctionsDescriptor value)
     {
         return value.NativePtr;
@@ -37,24 +55,6 @@ public class MTLRenderPipelineFunctionsDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public NSArray FragmentAdditionalBinaryFunctions
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineFunctionsDescriptorSelector.FragmentAdditionalBinaryFunctions));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineFunctionsDescriptorSelector.SetFragmentAdditionalBinaryFunctions, value.NativePtr);
-    }
-
-    public NSArray TileAdditionalBinaryFunctions
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineFunctionsDescriptorSelector.TileAdditionalBinaryFunctions));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineFunctionsDescriptorSelector.SetTileAdditionalBinaryFunctions, value.NativePtr);
-    }
-
-    public NSArray VertexAdditionalBinaryFunctions
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineFunctionsDescriptorSelector.VertexAdditionalBinaryFunctions));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineFunctionsDescriptorSelector.SetVertexAdditionalBinaryFunctions, value.NativePtr);
     }
 
 }

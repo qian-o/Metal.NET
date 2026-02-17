@@ -14,6 +14,54 @@ public class MTLAccelerationStructureGeometryDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public Bool8 AllowDuplicateIntersectionFunctionInvocation
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.AllowDuplicateIntersectionFunctionInvocation);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.SetAllowDuplicateIntersectionFunctionInvocation, value);
+    }
+
+    public nuint IntersectionFunctionTableOffset
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.IntersectionFunctionTableOffset);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.SetIntersectionFunctionTableOffset, (nuint)value);
+    }
+
+    public NSString Label
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.SetLabel, value.NativePtr);
+    }
+
+    public Bool8 Opaque
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.Opaque);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.SetOpaque, value);
+    }
+
+    public MTLBuffer PrimitiveDataBuffer
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.PrimitiveDataBuffer));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.SetPrimitiveDataBuffer, value.NativePtr);
+    }
+
+    public nuint PrimitiveDataBufferOffset
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.PrimitiveDataBufferOffset);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.SetPrimitiveDataBufferOffset, (nuint)value);
+    }
+
+    public nuint PrimitiveDataElementSize
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.PrimitiveDataElementSize);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.SetPrimitiveDataElementSize, (nuint)value);
+    }
+
+    public nuint PrimitiveDataStride
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.PrimitiveDataStride);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.SetPrimitiveDataStride, (nuint)value);
+    }
+
     public static implicit operator nint(MTLAccelerationStructureGeometryDescriptor value)
     {
         return value.NativePtr;
@@ -37,54 +85,6 @@ public class MTLAccelerationStructureGeometryDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public Bool8 AllowDuplicateIntersectionFunctionInvocation
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.AllowDuplicateIntersectionFunctionInvocation);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.SetAllowDuplicateIntersectionFunctionInvocation, value);
-    }
-
-    public nuint IntersectionFunctionTableOffset
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.IntersectionFunctionTableOffset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.SetIntersectionFunctionTableOffset, (nuint)value);
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.SetLabel, value.NativePtr);
-    }
-
-    public Bool8 Opaque
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.Opaque);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.SetOpaque, value);
-    }
-
-    public MTLBuffer PrimitiveDataBuffer
-    {
-        get => new MTLBuffer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.PrimitiveDataBuffer));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.SetPrimitiveDataBuffer, value.NativePtr);
-    }
-
-    public nuint PrimitiveDataBufferOffset
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.PrimitiveDataBufferOffset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.SetPrimitiveDataBufferOffset, (nuint)value);
-    }
-
-    public nuint PrimitiveDataElementSize
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.PrimitiveDataElementSize);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.SetPrimitiveDataElementSize, (nuint)value);
-    }
-
-    public nuint PrimitiveDataStride
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.PrimitiveDataStride);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.SetPrimitiveDataStride, (nuint)value);
     }
 
 }

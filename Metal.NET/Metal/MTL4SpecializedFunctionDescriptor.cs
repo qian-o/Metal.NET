@@ -14,6 +14,24 @@ public class MTL4SpecializedFunctionDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLFunctionConstantValues ConstantValues
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4SpecializedFunctionDescriptorSelector.ConstantValues));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorSelector.SetConstantValues, value.NativePtr);
+    }
+
+    public MTL4FunctionDescriptor FunctionDescriptor
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4SpecializedFunctionDescriptorSelector.FunctionDescriptor));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorSelector.SetFunctionDescriptor, value.NativePtr);
+    }
+
+    public NSString SpecializedName
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4SpecializedFunctionDescriptorSelector.SpecializedName));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorSelector.SetSpecializedName, value.NativePtr);
+    }
+
     public static implicit operator nint(MTL4SpecializedFunctionDescriptor value)
     {
         return value.NativePtr;
@@ -37,24 +55,6 @@ public class MTL4SpecializedFunctionDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLFunctionConstantValues ConstantValues
-    {
-        get => new MTLFunctionConstantValues(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4SpecializedFunctionDescriptorSelector.ConstantValues));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorSelector.SetConstantValues, value.NativePtr);
-    }
-
-    public MTL4FunctionDescriptor FunctionDescriptor
-    {
-        get => new MTL4FunctionDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4SpecializedFunctionDescriptorSelector.FunctionDescriptor));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorSelector.SetFunctionDescriptor, value.NativePtr);
-    }
-
-    public NSString SpecializedName
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4SpecializedFunctionDescriptorSelector.SpecializedName));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorSelector.SetSpecializedName, value.NativePtr);
     }
 
 }

@@ -14,6 +14,18 @@ public class MTL4CounterHeapDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public nuint Count
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CounterHeapDescriptorSelector.Count);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapDescriptorSelector.SetCount, (nuint)value);
+    }
+
+    public MTL4CounterHeapType Type
+    {
+        get => (MTL4CounterHeapType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4CounterHeapDescriptorSelector.Type));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapDescriptorSelector.SetType, (uint)value);
+    }
+
     public static implicit operator nint(MTL4CounterHeapDescriptor value)
     {
         return value.NativePtr;
@@ -37,18 +49,6 @@ public class MTL4CounterHeapDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public nuint Count
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CounterHeapDescriptorSelector.Count);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapDescriptorSelector.SetCount, (nuint)value);
-    }
-
-    public MTL4CounterHeapType Type
-    {
-        get => (MTL4CounterHeapType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4CounterHeapDescriptorSelector.Type));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapDescriptorSelector.SetType, (uint)value);
     }
 
 }

@@ -14,6 +14,24 @@ public class MTL4PipelineStageDynamicLinkingDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public NSArray BinaryLinkedFunctions
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.BinaryLinkedFunctions));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.SetBinaryLinkedFunctions, value.NativePtr);
+    }
+
+    public nuint MaxCallStackDepth
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.MaxCallStackDepth);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.SetMaxCallStackDepth, (nuint)value);
+    }
+
+    public NSArray PreloadedLibraries
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.PreloadedLibraries));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.SetPreloadedLibraries, value.NativePtr);
+    }
+
     public static implicit operator nint(MTL4PipelineStageDynamicLinkingDescriptor value)
     {
         return value.NativePtr;
@@ -37,24 +55,6 @@ public class MTL4PipelineStageDynamicLinkingDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public NSArray BinaryLinkedFunctions
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.BinaryLinkedFunctions));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.SetBinaryLinkedFunctions, value.NativePtr);
-    }
-
-    public nuint MaxCallStackDepth
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.MaxCallStackDepth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.SetMaxCallStackDepth, (nuint)value);
-    }
-
-    public NSArray PreloadedLibraries
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.PreloadedLibraries));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.SetPreloadedLibraries, value.NativePtr);
     }
 
 }

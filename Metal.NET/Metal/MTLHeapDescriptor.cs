@@ -2,9 +2,15 @@
 
 public class MTLHeapDescriptor : IDisposable
 {
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLHeapDescriptor");
+
     public MTLHeapDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    public MTLHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    {
     }
 
     ~MTLHeapDescriptor()
@@ -13,37 +19,6 @@ public class MTLHeapDescriptor : IDisposable
     }
 
     public nint NativePtr { get; }
-
-    public static implicit operator nint(MTLHeapDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLHeapDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLHeapDescriptor");
-
-    public MTLHeapDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
-    {
-    }
 
     public MTLCPUCacheMode CpuCacheMode
     {
@@ -91,6 +66,31 @@ public class MTLHeapDescriptor : IDisposable
     {
         get => (MTLHeapType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapDescriptorSelector.Type));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorSelector.SetType, (uint)value);
+    }
+
+    public static implicit operator nint(MTLHeapDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLHeapDescriptor(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

@@ -14,6 +14,24 @@ public class MTLCommandBufferDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public nuint ErrorOptions
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandBufferDescriptorSelector.ErrorOptions);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetErrorOptions, (nuint)value);
+    }
+
+    public MTLLogState LogState
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferDescriptorSelector.LogState));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetLogState, value.NativePtr);
+    }
+
+    public Bool8 RetainedReferences
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCommandBufferDescriptorSelector.RetainedReferences);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetRetainedReferences, value);
+    }
+
     public static implicit operator nint(MTLCommandBufferDescriptor value)
     {
         return value.NativePtr;
@@ -37,24 +55,6 @@ public class MTLCommandBufferDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public nuint ErrorOptions
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandBufferDescriptorSelector.ErrorOptions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetErrorOptions, (nuint)value);
-    }
-
-    public MTLLogState LogState
-    {
-        get => new MTLLogState(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferDescriptorSelector.LogState));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetLogState, value.NativePtr);
-    }
-
-    public Bool8 RetainedReferences
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCommandBufferDescriptorSelector.RetainedReferences);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetRetainedReferences, value);
     }
 
 }

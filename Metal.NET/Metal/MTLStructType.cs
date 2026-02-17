@@ -14,6 +14,15 @@ public class MTLStructType : IDisposable
 
     public nint NativePtr { get; }
 
+    public NSArray Members => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeSelector.Members));
+
+    public MTLStructMember MemberByName(NSString name)
+    {
+        MTLStructMember result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeSelector.MemberByName, name.NativePtr));
+
+        return result;
+    }
+
     public static implicit operator nint(MTLStructType value)
     {
         return value.NativePtr;
@@ -37,18 +46,6 @@ public class MTLStructType : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public NSArray Members
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeSelector.Members));
-    }
-
-    public MTLStructMember MemberByName(NSString name)
-    {
-        MTLStructMember result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeSelector.MemberByName, name.NativePtr));
-
-        return result;
     }
 
 }

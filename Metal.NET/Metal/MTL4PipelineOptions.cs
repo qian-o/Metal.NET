@@ -14,6 +14,18 @@ public class MTL4PipelineOptions : IDisposable
 
     public nint NativePtr { get; }
 
+    public nuint ShaderReflection
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4PipelineOptionsSelector.ShaderReflection);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineOptionsSelector.SetShaderReflection, (nuint)value);
+    }
+
+    public MTLShaderValidation ShaderValidation
+    {
+        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4PipelineOptionsSelector.ShaderValidation));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineOptionsSelector.SetShaderValidation, (uint)value);
+    }
+
     public static implicit operator nint(MTL4PipelineOptions value)
     {
         return value.NativePtr;
@@ -37,18 +49,6 @@ public class MTL4PipelineOptions : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public nuint ShaderReflection
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4PipelineOptionsSelector.ShaderReflection);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineOptionsSelector.SetShaderReflection, (nuint)value);
-    }
-
-    public MTLShaderValidation ShaderValidation
-    {
-        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4PipelineOptionsSelector.ShaderValidation));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineOptionsSelector.SetShaderValidation, (uint)value);
     }
 
 }

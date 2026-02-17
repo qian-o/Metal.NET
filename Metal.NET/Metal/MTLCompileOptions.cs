@@ -2,9 +2,15 @@
 
 public class MTLCompileOptions : IDisposable
 {
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLCompileOptions");
+
     public MTLCompileOptions(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    public MTLCompileOptions() : this(ObjectiveCRuntime.AllocInit(s_class))
+    {
     }
 
     ~MTLCompileOptions()
@@ -13,37 +19,6 @@ public class MTLCompileOptions : IDisposable
     }
 
     public nint NativePtr { get; }
-
-    public static implicit operator nint(MTLCompileOptions value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLCompileOptions(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLCompileOptions");
-
-    public MTLCompileOptions() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
-    {
-    }
 
     public Bool8 AllowReferencingUndefinedSymbols
     {
@@ -71,7 +46,7 @@ public class MTLCompileOptions : IDisposable
 
     public NSString InstallName
     {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.InstallName));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.InstallName));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetInstallName, value.NativePtr);
     }
 
@@ -83,7 +58,7 @@ public class MTLCompileOptions : IDisposable
 
     public NSArray Libraries
     {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.Libraries));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.Libraries));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetLibraries, value.NativePtr);
     }
 
@@ -127,6 +102,31 @@ public class MTLCompileOptions : IDisposable
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCompileOptionsSelector.PreserveInvariance);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetPreserveInvariance, value);
+    }
+
+    public static implicit operator nint(MTLCompileOptions value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLCompileOptions(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

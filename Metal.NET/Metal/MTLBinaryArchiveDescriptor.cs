@@ -2,9 +2,15 @@
 
 public class MTLBinaryArchiveDescriptor : IDisposable
 {
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLBinaryArchiveDescriptor");
+
     public MTLBinaryArchiveDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    public MTLBinaryArchiveDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    {
     }
 
     ~MTLBinaryArchiveDescriptor()
@@ -13,6 +19,12 @@ public class MTLBinaryArchiveDescriptor : IDisposable
     }
 
     public nint NativePtr { get; }
+
+    public NSURL Url
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveDescriptorSelector.Url));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBinaryArchiveDescriptorSelector.SetUrl, value.NativePtr);
+    }
 
     public static implicit operator nint(MTLBinaryArchiveDescriptor value)
     {
@@ -37,18 +49,6 @@ public class MTLBinaryArchiveDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLBinaryArchiveDescriptor");
-
-    public MTLBinaryArchiveDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
-    {
-    }
-
-    public NSURL Url
-    {
-        get => new NSURL(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveDescriptorSelector.Url));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBinaryArchiveDescriptorSelector.SetUrl, value.NativePtr);
     }
 
 }

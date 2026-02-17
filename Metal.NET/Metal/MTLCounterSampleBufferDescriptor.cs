@@ -14,6 +14,30 @@ public class MTLCounterSampleBufferDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLCounterSet CounterSet
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferDescriptorSelector.CounterSet));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetCounterSet, value.NativePtr);
+    }
+
+    public NSString Label
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferDescriptorSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetLabel, value.NativePtr);
+    }
+
+    public nuint SampleCount
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCounterSampleBufferDescriptorSelector.SampleCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetSampleCount, (nuint)value);
+    }
+
+    public MTLStorageMode StorageMode
+    {
+        get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLCounterSampleBufferDescriptorSelector.StorageMode));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetStorageMode, (uint)value);
+    }
+
     public static implicit operator nint(MTLCounterSampleBufferDescriptor value)
     {
         return value.NativePtr;
@@ -37,30 +61,6 @@ public class MTLCounterSampleBufferDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLCounterSet CounterSet
-    {
-        get => new MTLCounterSet(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferDescriptorSelector.CounterSet));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetCounterSet, value.NativePtr);
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferDescriptorSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetLabel, value.NativePtr);
-    }
-
-    public nuint SampleCount
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCounterSampleBufferDescriptorSelector.SampleCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetSampleCount, (nuint)value);
-    }
-
-    public MTLStorageMode StorageMode
-    {
-        get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLCounterSampleBufferDescriptorSelector.StorageMode));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetStorageMode, (uint)value);
     }
 
 }

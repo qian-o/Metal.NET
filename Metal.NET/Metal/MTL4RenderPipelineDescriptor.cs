@@ -2,9 +2,15 @@
 
 public class MTL4RenderPipelineDescriptor : IDisposable
 {
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineDescriptor");
+
     public MTL4RenderPipelineDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    public MTL4RenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    {
     }
 
     ~MTL4RenderPipelineDescriptor()
@@ -13,37 +19,6 @@ public class MTL4RenderPipelineDescriptor : IDisposable
     }
 
     public nint NativePtr { get; }
-
-    public static implicit operator nint(MTL4RenderPipelineDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4RenderPipelineDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineDescriptor");
-
-    public MTL4RenderPipelineDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
-    {
-    }
 
     public MTL4AlphaToCoverageState AlphaToCoverageState
     {
@@ -63,20 +38,17 @@ public class MTL4RenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetColorAttachmentMappingState, (uint)value);
     }
 
-    public MTL4RenderPipelineColorAttachmentDescriptorArray ColorAttachments
-    {
-        get => new MTL4RenderPipelineColorAttachmentDescriptorArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.ColorAttachments));
-    }
+    public MTL4RenderPipelineColorAttachmentDescriptorArray ColorAttachments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.ColorAttachments));
 
     public MTL4FunctionDescriptor FragmentFunctionDescriptor
     {
-        get => new MTL4FunctionDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.FragmentFunctionDescriptor));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.FragmentFunctionDescriptor));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetFragmentFunctionDescriptor, value.NativePtr);
     }
 
     public MTL4StaticLinkingDescriptor FragmentStaticLinkingDescriptor
     {
-        get => new MTL4StaticLinkingDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.FragmentStaticLinkingDescriptor));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.FragmentStaticLinkingDescriptor));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetFragmentStaticLinkingDescriptor, value.NativePtr);
     }
 
@@ -86,10 +58,7 @@ public class MTL4RenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetInputPrimitiveTopology, (uint)value);
     }
 
-    public Bool8 IsRasterizationEnabled
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4RenderPipelineDescriptorSelector.IsRasterizationEnabled);
-    }
+    public Bool8 IsRasterizationEnabled => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4RenderPipelineDescriptorSelector.IsRasterizationEnabled);
 
     public nuint MaxVertexAmplificationCount
     {
@@ -129,25 +98,50 @@ public class MTL4RenderPipelineDescriptor : IDisposable
 
     public MTLVertexDescriptor VertexDescriptor
     {
-        get => new MTLVertexDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.VertexDescriptor));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.VertexDescriptor));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetVertexDescriptor, value.NativePtr);
     }
 
     public MTL4FunctionDescriptor VertexFunctionDescriptor
     {
-        get => new MTL4FunctionDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.VertexFunctionDescriptor));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.VertexFunctionDescriptor));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetVertexFunctionDescriptor, value.NativePtr);
     }
 
     public MTL4StaticLinkingDescriptor VertexStaticLinkingDescriptor
     {
-        get => new MTL4StaticLinkingDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.VertexStaticLinkingDescriptor));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.VertexStaticLinkingDescriptor));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetVertexStaticLinkingDescriptor, value.NativePtr);
     }
 
     public void Reset()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.Reset);
+    }
+
+    public static implicit operator nint(MTL4RenderPipelineDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTL4RenderPipelineDescriptor(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

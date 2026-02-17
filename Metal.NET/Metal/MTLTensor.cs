@@ -14,6 +14,28 @@ public class MTLTensor : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLBuffer Buffer => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Buffer));
+
+    public nuint BufferOffset => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorSelector.BufferOffset);
+
+    public MTLTensorDataType DataType => (MTLTensorDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTensorSelector.DataType));
+
+    public MTLTensorExtents Dimensions => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Dimensions));
+
+    public MTLTensorExtents Strides => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Strides));
+
+    public nuint Usage => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorSelector.Usage);
+
+    public void GetBytes(int bytes, MTLTensorExtents strides, MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorSelector.GetBytesStridesSliceOriginSliceDimensions, bytes, strides.NativePtr, sliceOrigin.NativePtr, sliceDimensions.NativePtr);
+    }
+
+    public void ReplaceSliceOrigin(MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions, int bytes, MTLTensorExtents strides)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorSelector.ReplaceSliceOriginSliceDimensionsBytesStrides, sliceOrigin.NativePtr, sliceDimensions.NativePtr, bytes, strides.NativePtr);
+    }
+
     public static implicit operator nint(MTLTensor value)
     {
         return value.NativePtr;
@@ -37,46 +59,6 @@ public class MTLTensor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLBuffer Buffer
-    {
-        get => new MTLBuffer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Buffer));
-    }
-
-    public nuint BufferOffset
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorSelector.BufferOffset);
-    }
-
-    public MTLTensorDataType DataType
-    {
-        get => (MTLTensorDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTensorSelector.DataType));
-    }
-
-    public MTLTensorExtents Dimensions
-    {
-        get => new MTLTensorExtents(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Dimensions));
-    }
-
-    public MTLTensorExtents Strides
-    {
-        get => new MTLTensorExtents(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Strides));
-    }
-
-    public nuint Usage
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorSelector.Usage);
-    }
-
-    public void GetBytes(int bytes, MTLTensorExtents strides, MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorSelector.GetBytesStridesSliceOriginSliceDimensions, bytes, strides.NativePtr, sliceOrigin.NativePtr, sliceDimensions.NativePtr);
-    }
-
-    public void ReplaceSliceOrigin(MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions, int bytes, MTLTensorExtents strides)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorSelector.ReplaceSliceOriginSliceDimensionsBytesStrides, sliceOrigin.NativePtr, sliceDimensions.NativePtr, bytes, strides.NativePtr);
     }
 
 }

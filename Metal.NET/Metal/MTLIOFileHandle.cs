@@ -14,6 +14,12 @@ public class MTLIOFileHandle : IDisposable
 
     public nint NativePtr { get; }
 
+    public NSString Label
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOFileHandleSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOFileHandleSelector.SetLabel, value.NativePtr);
+    }
+
     public static implicit operator nint(MTLIOFileHandle value)
     {
         return value.NativePtr;
@@ -37,12 +43,6 @@ public class MTLIOFileHandle : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOFileHandleSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOFileHandleSelector.SetLabel, value.NativePtr);
     }
 
 }

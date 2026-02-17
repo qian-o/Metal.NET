@@ -14,6 +14,17 @@ public class MTL4CommandAllocator : IDisposable
 
     public nint NativePtr { get; }
 
+    public nuint AllocatedSize => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CommandAllocatorSelector.AllocatedSize);
+
+    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorSelector.Device));
+
+    public NSString Label => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorSelector.Label));
+
+    public void Reset()
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandAllocatorSelector.Reset);
+    }
+
     public static implicit operator nint(MTL4CommandAllocator value)
     {
         return value.NativePtr;
@@ -37,26 +48,6 @@ public class MTL4CommandAllocator : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public nuint AllocatedSize
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CommandAllocatorSelector.AllocatedSize);
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorSelector.Device));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorSelector.Label));
-    }
-
-    public void Reset()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandAllocatorSelector.Reset);
     }
 
 }

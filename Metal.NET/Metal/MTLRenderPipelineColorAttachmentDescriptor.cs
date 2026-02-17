@@ -2,9 +2,15 @@
 
 public class MTLRenderPipelineColorAttachmentDescriptor : IDisposable
 {
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLRenderPipelineColorAttachmentDescriptor");
+
     public MTLRenderPipelineColorAttachmentDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    public MTLRenderPipelineColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    {
     }
 
     ~MTLRenderPipelineColorAttachmentDescriptor()
@@ -13,37 +19,6 @@ public class MTLRenderPipelineColorAttachmentDescriptor : IDisposable
     }
 
     public nint NativePtr { get; }
-
-    public static implicit operator nint(MTLRenderPipelineColorAttachmentDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLRenderPipelineColorAttachmentDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLRenderPipelineColorAttachmentDescriptor");
-
-    public MTLRenderPipelineColorAttachmentDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
-    {
-    }
 
     public MTLBlendOperation AlphaBlendOperation
     {
@@ -69,10 +44,7 @@ public class MTLRenderPipelineColorAttachmentDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetDestinationRGBBlendFactor, (uint)value);
     }
 
-    public Bool8 IsBlendingEnabled
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.IsBlendingEnabled);
-    }
+    public Bool8 IsBlendingEnabled => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.IsBlendingEnabled);
 
     public MTLPixelFormat PixelFormat
     {
@@ -102,6 +74,31 @@ public class MTLRenderPipelineColorAttachmentDescriptor : IDisposable
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.WriteMask);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetWriteMask, (nuint)value);
+    }
+
+    public static implicit operator nint(MTLRenderPipelineColorAttachmentDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLRenderPipelineColorAttachmentDescriptor(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

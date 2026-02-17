@@ -14,6 +14,10 @@ public class MTLSamplerState : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSamplerStateSelector.Device));
+
+    public NSString Label => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSamplerStateSelector.Label));
+
     public static implicit operator nint(MTLSamplerState value)
     {
         return value.NativePtr;
@@ -37,16 +41,6 @@ public class MTLSamplerState : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSamplerStateSelector.Device));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSamplerStateSelector.Label));
     }
 
 }

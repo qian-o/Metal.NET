@@ -14,39 +14,11 @@ public class MTLBinaryArchive : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLBinaryArchive value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLBinaryArchive(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveSelector.Device));
-    }
+    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveSelector.Device));
 
     public NSString Label
     {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveSelector.Label));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBinaryArchiveSelector.SetLabel, value.NativePtr);
     }
 
@@ -111,6 +83,31 @@ public class MTLBinaryArchive : IDisposable
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
+    }
+
+    public static implicit operator nint(MTLBinaryArchive value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLBinaryArchive(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

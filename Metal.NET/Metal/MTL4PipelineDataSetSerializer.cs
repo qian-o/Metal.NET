@@ -14,6 +14,24 @@ public class MTL4PipelineDataSetSerializer : IDisposable
 
     public nint NativePtr { get; }
 
+    public Bool8 SerializeAsArchiveAndFlushToURL(NSURL url, out NSError? error)
+    {
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4PipelineDataSetSerializerSelector.SerializeAsArchiveAndFlushToURLError, url.NativePtr, out nint errorPtr);
+
+        error = errorPtr is not 0 ? new(errorPtr) : null;
+
+        return result;
+    }
+
+    public nint SerializeAsPipelinesScript(out NSError? error)
+    {
+        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDataSetSerializerSelector.SerializeAsPipelinesScript, out nint errorPtr);
+
+        error = errorPtr is not 0 ? new(errorPtr) : null;
+
+        return result;
+    }
+
     public static implicit operator nint(MTL4PipelineDataSetSerializer value)
     {
         return value.NativePtr;
@@ -37,24 +55,6 @@ public class MTL4PipelineDataSetSerializer : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public Bool8 SerializeAsArchiveAndFlushToURL(NSURL url, out NSError? error)
-    {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4PipelineDataSetSerializerSelector.SerializeAsArchiveAndFlushToURLError, url.NativePtr, out nint errorPtr);
-
-        error = errorPtr is not 0 ? new(errorPtr) : null;
-
-        return result;
-    }
-
-    public nint SerializeAsPipelinesScript(out NSError? error)
-    {
-        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDataSetSerializerSelector.SerializeAsPipelinesScript, out nint errorPtr);
-
-        error = errorPtr is not 0 ? new(errorPtr) : null;
-
-        return result;
     }
 
 }

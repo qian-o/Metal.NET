@@ -2,9 +2,15 @@
 
 public class MTLRenderPassStencilAttachmentDescriptor : IDisposable
 {
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLRenderPassStencilAttachmentDescriptor");
+
     public MTLRenderPassStencilAttachmentDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    public MTLRenderPassStencilAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    {
     }
 
     ~MTLRenderPassStencilAttachmentDescriptor()
@@ -13,6 +19,18 @@ public class MTLRenderPassStencilAttachmentDescriptor : IDisposable
     }
 
     public nint NativePtr { get; }
+
+    public uint ClearStencil
+    {
+        get => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.ClearStencil);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.SetClearStencil, value);
+    }
+
+    public MTLMultisampleStencilResolveFilter StencilResolveFilter
+    {
+        get => (MTLMultisampleStencilResolveFilter)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.StencilResolveFilter));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.SetStencilResolveFilter, (uint)value);
+    }
 
     public static implicit operator nint(MTLRenderPassStencilAttachmentDescriptor value)
     {
@@ -37,24 +55,6 @@ public class MTLRenderPassStencilAttachmentDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLRenderPassStencilAttachmentDescriptor");
-
-    public MTLRenderPassStencilAttachmentDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
-    {
-    }
-
-    public uint ClearStencil
-    {
-        get => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.ClearStencil);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.SetClearStencil, value);
-    }
-
-    public MTLMultisampleStencilResolveFilter StencilResolveFilter
-    {
-        get => (MTLMultisampleStencilResolveFilter)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.StencilResolveFilter));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.SetStencilResolveFilter, (uint)value);
     }
 
 }

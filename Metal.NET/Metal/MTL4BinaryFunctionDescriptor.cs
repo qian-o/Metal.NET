@@ -14,6 +14,24 @@ public class MTL4BinaryFunctionDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTL4FunctionDescriptor FunctionDescriptor
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4BinaryFunctionDescriptorSelector.FunctionDescriptor));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorSelector.SetFunctionDescriptor, value.NativePtr);
+    }
+
+    public NSString Name
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4BinaryFunctionDescriptorSelector.Name));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorSelector.SetName, value.NativePtr);
+    }
+
+    public nuint Options
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4BinaryFunctionDescriptorSelector.Options);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorSelector.SetOptions, (nuint)value);
+    }
+
     public static implicit operator nint(MTL4BinaryFunctionDescriptor value)
     {
         return value.NativePtr;
@@ -37,24 +55,6 @@ public class MTL4BinaryFunctionDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTL4FunctionDescriptor FunctionDescriptor
-    {
-        get => new MTL4FunctionDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4BinaryFunctionDescriptorSelector.FunctionDescriptor));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorSelector.SetFunctionDescriptor, value.NativePtr);
-    }
-
-    public NSString Name
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4BinaryFunctionDescriptorSelector.Name));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorSelector.SetName, value.NativePtr);
-    }
-
-    public nuint Options
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4BinaryFunctionDescriptorSelector.Options);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorSelector.SetOptions, (nuint)value);
     }
 
 }

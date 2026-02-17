@@ -14,6 +14,14 @@ public class MTLEvent : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLEventSelector.Device));
+
+    public NSString Label
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLEventSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLEventSelector.SetLabel, value.NativePtr);
+    }
+
     public static implicit operator nint(MTLEvent value)
     {
         return value.NativePtr;
@@ -37,17 +45,6 @@ public class MTLEvent : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLEventSelector.Device));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLEventSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLEventSelector.SetLabel, value.NativePtr);
     }
 
 }

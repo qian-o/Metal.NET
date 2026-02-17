@@ -14,6 +14,14 @@ public class MTLFunctionLog : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLFunctionLogDebugLocation DebugLocation => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.DebugLocation));
+
+    public NSString EncoderLabel => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.EncoderLabel));
+
+    public MTLFunction Function => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.Function));
+
+    public MTLFunctionLogType Type => (MTLFunctionLogType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFunctionLogSelector.Type));
+
     public static implicit operator nint(MTLFunctionLog value)
     {
         return value.NativePtr;
@@ -37,26 +45,6 @@ public class MTLFunctionLog : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLFunctionLogDebugLocation DebugLocation
-    {
-        get => new MTLFunctionLogDebugLocation(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.DebugLocation));
-    }
-
-    public NSString EncoderLabel
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.EncoderLabel));
-    }
-
-    public MTLFunction Function
-    {
-        get => new MTLFunction(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.Function));
-    }
-
-    public MTLFunctionLogType Type
-    {
-        get => (MTLFunctionLogType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFunctionLogSelector.Type));
     }
 
 }

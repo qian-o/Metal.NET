@@ -14,6 +14,8 @@ public class MTLAllocation : IDisposable
 
     public nint NativePtr { get; }
 
+    public nuint AllocatedSize => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAllocationSelector.AllocatedSize);
+
     public static implicit operator nint(MTLAllocation value)
     {
         return value.NativePtr;
@@ -37,11 +39,6 @@ public class MTLAllocation : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public nuint AllocatedSize
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAllocationSelector.AllocatedSize);
     }
 
 }

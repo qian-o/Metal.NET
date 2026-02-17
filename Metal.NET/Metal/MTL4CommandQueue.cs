@@ -14,40 +14,9 @@ public class MTL4CommandQueue : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTL4CommandQueue value)
-    {
-        return value.NativePtr;
-    }
+    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueSelector.Device));
 
-    public static implicit operator MTL4CommandQueue(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueSelector.Device));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueSelector.Label));
-    }
+    public NSString Label => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueSelector.Label));
 
     public void AddResidencySet(MTLResidencySet residencySet)
     {
@@ -97,6 +66,31 @@ public class MTL4CommandQueue : IDisposable
     public void Wait(MTLDrawable drawable)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.Wait, drawable.NativePtr);
+    }
+
+    public static implicit operator nint(MTL4CommandQueue value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTL4CommandQueue(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

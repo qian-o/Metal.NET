@@ -14,6 +14,10 @@ public class MTLSharedTextureHandle : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedTextureHandleSelector.Device));
+
+    public NSString Label => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedTextureHandleSelector.Label));
+
     public static implicit operator nint(MTLSharedTextureHandle value)
     {
         return value.NativePtr;
@@ -37,16 +41,6 @@ public class MTLSharedTextureHandle : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedTextureHandleSelector.Device));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedTextureHandleSelector.Label));
     }
 
 }

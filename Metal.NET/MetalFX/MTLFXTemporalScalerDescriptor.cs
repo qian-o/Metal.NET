@@ -14,31 +14,6 @@ public class MTLFXTemporalScalerDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLFXTemporalScalerDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLFXTemporalScalerDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLFXTemporalScalerDescriptor");
 
     public MTLPixelFormat ColorTextureFormat
@@ -89,15 +64,9 @@ public class MTLFXTemporalScalerDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorSelector.SetOutputHeight, (nuint)value);
     }
 
-    public Bool8 IsAutoExposureEnabled
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalScalerDescriptorSelector.IsAutoExposureEnabled);
-    }
+    public Bool8 IsAutoExposureEnabled => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalScalerDescriptorSelector.IsAutoExposureEnabled);
 
-    public Bool8 IsInputContentPropertiesEnabled
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalScalerDescriptorSelector.IsInputContentPropertiesEnabled);
-    }
+    public Bool8 IsInputContentPropertiesEnabled => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalScalerDescriptorSelector.IsInputContentPropertiesEnabled);
 
     public Bool8 RequiresSynchronousInitialization
     {
@@ -105,10 +74,7 @@ public class MTLFXTemporalScalerDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorSelector.SetRequiresSynchronousInitialization, value);
     }
 
-    public Bool8 IsReactiveMaskTextureEnabled
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalScalerDescriptorSelector.IsReactiveMaskTextureEnabled);
-    }
+    public Bool8 IsReactiveMaskTextureEnabled => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalScalerDescriptorSelector.IsReactiveMaskTextureEnabled);
 
     public MTLPixelFormat ReactiveMaskTextureFormat
     {
@@ -155,6 +121,31 @@ public class MTLFXTemporalScalerDescriptor : IDisposable
         MTLFXTemporalScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerDescriptorSelector.NewTemporalScalerPCompiler, pDevice.NativePtr, pCompiler.NativePtr));
 
         return result;
+    }
+
+    public static implicit operator nint(MTLFXTemporalScalerDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLFXTemporalScalerDescriptor(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public static float SupportedInputContentMinScale(MTLDevice pDevice)

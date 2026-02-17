@@ -14,6 +14,25 @@ public class MTLDynamicLibrary : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibrarySelector.Device));
+
+    public NSString InstallName => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibrarySelector.InstallName));
+
+    public NSString Label
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibrarySelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDynamicLibrarySelector.SetLabel, value.NativePtr);
+    }
+
+    public Bool8 SerializeToURL(NSURL url, out NSError? error)
+    {
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDynamicLibrarySelector.SerializeToURLError, url.NativePtr, out nint errorPtr);
+
+        error = errorPtr is not 0 ? new(errorPtr) : null;
+
+        return result;
+    }
+
     public static implicit operator nint(MTLDynamicLibrary value)
     {
         return value.NativePtr;
@@ -37,31 +56,6 @@ public class MTLDynamicLibrary : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibrarySelector.Device));
-    }
-
-    public NSString InstallName
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibrarySelector.InstallName));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibrarySelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDynamicLibrarySelector.SetLabel, value.NativePtr);
-    }
-
-    public Bool8 SerializeToURL(NSURL url, out NSError? error)
-    {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDynamicLibrarySelector.SerializeToURLError, url.NativePtr, out nint errorPtr);
-
-        error = errorPtr is not 0 ? new(errorPtr) : null;
-
-        return result;
     }
 
 }

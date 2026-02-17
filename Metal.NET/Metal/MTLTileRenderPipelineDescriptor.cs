@@ -2,9 +2,15 @@
 
 public class MTLTileRenderPipelineDescriptor : IDisposable
 {
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLTileRenderPipelineDescriptor");
+
     public MTLTileRenderPipelineDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    public MTLTileRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    {
     }
 
     ~MTLTileRenderPipelineDescriptor()
@@ -14,57 +20,23 @@ public class MTLTileRenderPipelineDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLTileRenderPipelineDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLTileRenderPipelineDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLTileRenderPipelineDescriptor");
-
-    public MTLTileRenderPipelineDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
-    {
-    }
-
     public NSArray BinaryArchives
     {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.BinaryArchives));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.BinaryArchives));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetBinaryArchives, value.NativePtr);
     }
 
-    public MTLTileRenderPipelineColorAttachmentDescriptorArray ColorAttachments
-    {
-        get => new MTLTileRenderPipelineColorAttachmentDescriptorArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.ColorAttachments));
-    }
+    public MTLTileRenderPipelineColorAttachmentDescriptorArray ColorAttachments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.ColorAttachments));
 
     public NSString Label
     {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.Label));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetLabel, value.NativePtr);
     }
 
     public MTLLinkedFunctions LinkedFunctions
     {
-        get => new MTLLinkedFunctions(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.LinkedFunctions));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.LinkedFunctions));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetLinkedFunctions, value.NativePtr);
     }
 
@@ -82,7 +54,7 @@ public class MTLTileRenderPipelineDescriptor : IDisposable
 
     public NSArray PreloadedLibraries
     {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.PreloadedLibraries));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.PreloadedLibraries));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetPreloadedLibraries, value.NativePtr);
     }
 
@@ -110,20 +82,42 @@ public class MTLTileRenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetThreadgroupSizeMatchesTileSize, value);
     }
 
-    public MTLPipelineBufferDescriptorArray TileBuffers
-    {
-        get => new MTLPipelineBufferDescriptorArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.TileBuffers));
-    }
+    public MTLPipelineBufferDescriptorArray TileBuffers => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.TileBuffers));
 
     public MTLFunction TileFunction
     {
-        get => new MTLFunction(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.TileFunction));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.TileFunction));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetTileFunction, value.NativePtr);
     }
 
     public void Reset()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.Reset);
+    }
+
+    public static implicit operator nint(MTLTileRenderPipelineDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLTileRenderPipelineDescriptor(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

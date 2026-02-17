@@ -14,6 +14,14 @@ public class MTLFunctionLogDebugLocation : IDisposable
 
     public nint NativePtr { get; }
 
+    public NSURL URL => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogDebugLocationSelector.URL));
+
+    public nuint Column => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationSelector.Column);
+
+    public NSString FunctionName => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogDebugLocationSelector.FunctionName));
+
+    public nuint Line => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationSelector.Line);
+
     public static implicit operator nint(MTLFunctionLogDebugLocation value)
     {
         return value.NativePtr;
@@ -37,26 +45,6 @@ public class MTLFunctionLogDebugLocation : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public NSURL URL
-    {
-        get => new NSURL(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogDebugLocationSelector.URL));
-    }
-
-    public nuint Column
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationSelector.Column);
-    }
-
-    public NSString FunctionName
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogDebugLocationSelector.FunctionName));
-    }
-
-    public nuint Line
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationSelector.Line);
     }
 
 }

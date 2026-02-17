@@ -14,46 +14,15 @@ public class MTLIOCommandBuffer : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLIOCommandBuffer value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLIOCommandBuffer(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    public NSError Error
-    {
-        get => new NSError(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferSelector.Error));
-    }
+    public NSError Error => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferSelector.Error));
 
     public NSString Label
     {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferSelector.Label));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.SetLabel, value.NativePtr);
     }
 
-    public MTLIOStatus Status
-    {
-        get => (MTLIOStatus)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLIOCommandBufferSelector.Status));
-    }
+    public MTLIOStatus Status => (MTLIOStatus)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLIOCommandBufferSelector.Status));
 
     public void AddBarrier()
     {
@@ -123,6 +92,31 @@ public class MTLIOCommandBuffer : IDisposable
     public void WaitUntilCompleted()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.WaitUntilCompleted);
+    }
+
+    public static implicit operator nint(MTLIOCommandBuffer value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLIOCommandBuffer(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

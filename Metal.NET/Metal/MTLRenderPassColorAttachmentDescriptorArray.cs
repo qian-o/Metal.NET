@@ -14,6 +14,18 @@ public class MTLRenderPassColorAttachmentDescriptorArray : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLRenderPassColorAttachmentDescriptor Object(uint attachmentIndex)
+    {
+        MTLRenderPassColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.Object, (nuint)attachmentIndex));
+
+        return result;
+    }
+
+    public void SetObject(MTLRenderPassColorAttachmentDescriptor attachment, uint attachmentIndex)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nuint)attachmentIndex);
+    }
+
     public static implicit operator nint(MTLRenderPassColorAttachmentDescriptorArray value)
     {
         return value.NativePtr;
@@ -37,18 +49,6 @@ public class MTLRenderPassColorAttachmentDescriptorArray : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLRenderPassColorAttachmentDescriptor Object(uint attachmentIndex)
-    {
-        MTLRenderPassColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.Object, (nuint)attachmentIndex));
-
-        return result;
-    }
-
-    public void SetObject(MTLRenderPassColorAttachmentDescriptor attachment, uint attachmentIndex)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nuint)attachmentIndex);
     }
 
 }

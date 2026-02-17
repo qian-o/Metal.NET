@@ -14,35 +14,7 @@ public class MTL4ComputeCommandEncoder : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTL4ComputeCommandEncoder value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4ComputeCommandEncoder(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    public nuint Stages
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4ComputeCommandEncoderSelector.Stages);
-    }
+    public nuint Stages => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4ComputeCommandEncoderSelector.Stages);
 
     public void BuildAccelerationStructure(MTLAccelerationStructure accelerationStructure, MTL4AccelerationStructureDescriptor descriptor, MTL4BufferRange scratchBuffer)
     {
@@ -217,6 +189,31 @@ public class MTL4ComputeCommandEncoder : IDisposable
     public void WriteTimestamp(MTL4TimestampGranularity granularity, MTL4CounterHeap counterHeap, uint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.WriteTimestampCounterHeapIndex, (uint)granularity, counterHeap.NativePtr, (nuint)index);
+    }
+
+    public static implicit operator nint(MTL4ComputeCommandEncoder value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTL4ComputeCommandEncoder(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

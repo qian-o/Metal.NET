@@ -14,6 +14,10 @@ public class MTLComputePipelineReflection : IDisposable
 
     public nint NativePtr { get; }
 
+    public NSArray Arguments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineReflectionSelector.Arguments));
+
+    public NSArray Bindings => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineReflectionSelector.Bindings));
+
     public static implicit operator nint(MTLComputePipelineReflection value)
     {
         return value.NativePtr;
@@ -37,16 +41,6 @@ public class MTLComputePipelineReflection : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public NSArray Arguments
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineReflectionSelector.Arguments));
-    }
-
-    public NSArray Bindings
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineReflectionSelector.Bindings));
     }
 
 }

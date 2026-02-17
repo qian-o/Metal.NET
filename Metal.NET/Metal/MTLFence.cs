@@ -14,6 +14,14 @@ public class MTLFence : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFenceSelector.Device));
+
+    public NSString Label
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFenceSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFenceSelector.SetLabel, value.NativePtr);
+    }
+
     public static implicit operator nint(MTLFence value)
     {
         return value.NativePtr;
@@ -37,17 +45,6 @@ public class MTLFence : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFenceSelector.Device));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFenceSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFenceSelector.SetLabel, value.NativePtr);
     }
 
 }

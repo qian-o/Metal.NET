@@ -14,6 +14,18 @@ public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray :
 
     public nint NativePtr { get; }
 
+    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor Object(uint attachmentIndex)
+    {
+        MTLAccelerationStructurePassSampleBufferAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArraySelector.Object, (nuint)attachmentIndex));
+
+        return result;
+    }
+
+    public void SetObject(MTLAccelerationStructurePassSampleBufferAttachmentDescriptor attachment, uint attachmentIndex)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nuint)attachmentIndex);
+    }
+
     public static implicit operator nint(MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray value)
     {
         return value.NativePtr;
@@ -37,18 +49,6 @@ public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray :
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor Object(uint attachmentIndex)
-    {
-        MTLAccelerationStructurePassSampleBufferAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArraySelector.Object, (nuint)attachmentIndex));
-
-        return result;
-    }
-
-    public void SetObject(MTLAccelerationStructurePassSampleBufferAttachmentDescriptor attachment, uint attachmentIndex)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nuint)attachmentIndex);
     }
 
 }

@@ -14,31 +14,6 @@ public class MTLSharedEvent : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLSharedEvent value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLSharedEvent(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
     public nuint SignaledValue
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSharedEventSelector.SignaledValue);
@@ -62,6 +37,31 @@ public class MTLSharedEvent : IDisposable
         Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLSharedEventSelector.WaitUntilSignaledValueMilliseconds, (nuint)value, (nuint)milliseconds);
 
         return result;
+    }
+
+    public static implicit operator nint(MTLSharedEvent value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLSharedEvent(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

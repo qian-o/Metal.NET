@@ -14,6 +14,18 @@ public class MTLRasterizationRateLayerArray : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLRasterizationRateLayerDescriptor Object(uint layerIndex)
+    {
+        MTLRasterizationRateLayerDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerArraySelector.Object, (nuint)layerIndex));
+
+        return result;
+    }
+
+    public void SetObject(MTLRasterizationRateLayerDescriptor layer, uint layerIndex)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateLayerArraySelector.SetObjectLayerIndex, layer.NativePtr, (nuint)layerIndex);
+    }
+
     public static implicit operator nint(MTLRasterizationRateLayerArray value)
     {
         return value.NativePtr;
@@ -37,18 +49,6 @@ public class MTLRasterizationRateLayerArray : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLRasterizationRateLayerDescriptor Object(uint layerIndex)
-    {
-        MTLRasterizationRateLayerDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerArraySelector.Object, (nuint)layerIndex));
-
-        return result;
-    }
-
-    public void SetObject(MTLRasterizationRateLayerDescriptor layer, uint layerIndex)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateLayerArraySelector.SetObjectLayerIndex, layer.NativePtr, (nuint)layerIndex);
     }
 
 }

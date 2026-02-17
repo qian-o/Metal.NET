@@ -14,6 +14,12 @@ public class MTL4CommandBufferOptions : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLLogState LogState
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferOptionsSelector.LogState));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferOptionsSelector.SetLogState, value.NativePtr);
+    }
+
     public static implicit operator nint(MTL4CommandBufferOptions value)
     {
         return value.NativePtr;
@@ -37,12 +43,6 @@ public class MTL4CommandBufferOptions : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLLogState LogState
-    {
-        get => new MTLLogState(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferOptionsSelector.LogState));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferOptionsSelector.SetLogState, value.NativePtr);
     }
 
 }

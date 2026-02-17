@@ -14,34 +14,9 @@ public class MTL4ComputePipelineDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTL4ComputePipelineDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4ComputePipelineDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
     public MTL4FunctionDescriptor ComputeFunctionDescriptor
     {
-        get => new MTL4FunctionDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ComputePipelineDescriptorSelector.ComputeFunctionDescriptor));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ComputePipelineDescriptorSelector.ComputeFunctionDescriptor));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetComputeFunctionDescriptor, value.NativePtr);
     }
 
@@ -53,7 +28,7 @@ public class MTL4ComputePipelineDescriptor : IDisposable
 
     public MTL4StaticLinkingDescriptor StaticLinkingDescriptor
     {
-        get => new MTL4StaticLinkingDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ComputePipelineDescriptorSelector.StaticLinkingDescriptor));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ComputePipelineDescriptorSelector.StaticLinkingDescriptor));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetStaticLinkingDescriptor, value.NativePtr);
     }
 
@@ -78,6 +53,31 @@ public class MTL4ComputePipelineDescriptor : IDisposable
     public void Reset()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.Reset);
+    }
+
+    public static implicit operator nint(MTL4ComputePipelineDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTL4ComputePipelineDescriptor(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

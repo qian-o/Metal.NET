@@ -14,6 +14,18 @@ public class MTLRenderPassSampleBufferAttachmentDescriptorArray : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLRenderPassSampleBufferAttachmentDescriptor Object(uint attachmentIndex)
+    {
+        MTLRenderPassSampleBufferAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorArraySelector.Object, (nuint)attachmentIndex));
+
+        return result;
+    }
+
+    public void SetObject(MTLRenderPassSampleBufferAttachmentDescriptor attachment, uint attachmentIndex)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nuint)attachmentIndex);
+    }
+
     public static implicit operator nint(MTLRenderPassSampleBufferAttachmentDescriptorArray value)
     {
         return value.NativePtr;
@@ -37,18 +49,6 @@ public class MTLRenderPassSampleBufferAttachmentDescriptorArray : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLRenderPassSampleBufferAttachmentDescriptor Object(uint attachmentIndex)
-    {
-        MTLRenderPassSampleBufferAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorArraySelector.Object, (nuint)attachmentIndex));
-
-        return result;
-    }
-
-    public void SetObject(MTLRenderPassSampleBufferAttachmentDescriptor attachment, uint attachmentIndex)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nuint)attachmentIndex);
     }
 
 }

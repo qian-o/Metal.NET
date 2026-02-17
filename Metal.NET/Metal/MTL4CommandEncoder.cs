@@ -14,39 +14,11 @@ public class MTL4CommandEncoder : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTL4CommandEncoder value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4CommandEncoder(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    public MTL4CommandBuffer CommandBuffer
-    {
-        get => new MTL4CommandBuffer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandEncoderSelector.CommandBuffer));
-    }
+    public MTL4CommandBuffer CommandBuffer => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandEncoderSelector.CommandBuffer));
 
     public NSString Label
     {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandEncoderSelector.Label));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandEncoderSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandEncoderSelector.SetLabel, value.NativePtr);
     }
 
@@ -93,6 +65,31 @@ public class MTL4CommandEncoder : IDisposable
     public void WaitForFence(MTLFence fence, uint beforeEncoderStages)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandEncoderSelector.WaitForFenceBeforeEncoderStages, fence.NativePtr, (nuint)beforeEncoderStages);
+    }
+
+    public static implicit operator nint(MTL4CommandEncoder value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTL4CommandEncoder(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

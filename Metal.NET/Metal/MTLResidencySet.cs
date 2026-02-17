@@ -14,55 +14,15 @@ public class MTLResidencySet : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLResidencySet value)
-    {
-        return value.NativePtr;
-    }
+    public NSArray AllAllocations => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.AllAllocations));
 
-    public static implicit operator MTLResidencySet(nint value)
-    {
-        return new(value);
-    }
+    public nuint AllocatedSize => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResidencySetSelector.AllocatedSize);
 
-    public void Dispose()
-    {
-        Release();
+    public nuint AllocationCount => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResidencySetSelector.AllocationCount);
 
-        GC.SuppressFinalize(this);
-    }
+    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.Device));
 
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    public NSArray AllAllocations
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.AllAllocations));
-    }
-
-    public nuint AllocatedSize
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResidencySetSelector.AllocatedSize);
-    }
-
-    public nuint AllocationCount
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResidencySetSelector.AllocationCount);
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.Device));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.Label));
-    }
+    public NSString Label => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.Label));
 
     public void AddAllocation(MTLAllocation allocation)
     {
@@ -99,6 +59,31 @@ public class MTLResidencySet : IDisposable
     public void RequestResidency()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetSelector.RequestResidency);
+    }
+
+    public static implicit operator nint(MTLResidencySet value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLResidencySet(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

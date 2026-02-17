@@ -14,6 +14,21 @@ public class MTL4MachineLearningCommandEncoder : IDisposable
 
     public nint NativePtr { get; }
 
+    public void DispatchNetwork(MTLHeap heap)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderSelector.DispatchNetwork, heap.NativePtr);
+    }
+
+    public void SetArgumentTable(MTL4ArgumentTable argumentTable)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderSelector.SetArgumentTable, argumentTable.NativePtr);
+    }
+
+    public void SetPipelineState(MTL4MachineLearningPipelineState pipelineState)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderSelector.SetPipelineState, pipelineState.NativePtr);
+    }
+
     public static implicit operator nint(MTL4MachineLearningCommandEncoder value)
     {
         return value.NativePtr;
@@ -37,21 +52,6 @@ public class MTL4MachineLearningCommandEncoder : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public void DispatchNetwork(MTLHeap heap)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderSelector.DispatchNetwork, heap.NativePtr);
-    }
-
-    public void SetArgumentTable(MTL4ArgumentTable argumentTable)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderSelector.SetArgumentTable, argumentTable.NativePtr);
-    }
-
-    public void SetPipelineState(MTL4MachineLearningPipelineState pipelineState)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderSelector.SetPipelineState, pipelineState.NativePtr);
     }
 
 }

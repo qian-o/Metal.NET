@@ -14,6 +14,18 @@ public class MTLCommandQueueDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLLogState LogState
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueDescriptorSelector.LogState));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueDescriptorSelector.SetLogState, value.NativePtr);
+    }
+
+    public nuint MaxCommandBufferCount
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandQueueDescriptorSelector.MaxCommandBufferCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueDescriptorSelector.SetMaxCommandBufferCount, (nuint)value);
+    }
+
     public static implicit operator nint(MTLCommandQueueDescriptor value)
     {
         return value.NativePtr;
@@ -37,18 +49,6 @@ public class MTLCommandQueueDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLLogState LogState
-    {
-        get => new MTLLogState(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueDescriptorSelector.LogState));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueDescriptorSelector.SetLogState, value.NativePtr);
-    }
-
-    public nuint MaxCommandBufferCount
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandQueueDescriptorSelector.MaxCommandBufferCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueDescriptorSelector.SetMaxCommandBufferCount, (nuint)value);
     }
 
 }

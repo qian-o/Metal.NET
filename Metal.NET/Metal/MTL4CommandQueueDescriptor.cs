@@ -14,6 +14,18 @@ public class MTL4CommandQueueDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public nint FeedbackQueue
+    {
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueDescriptorSelector.FeedbackQueue);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueDescriptorSelector.SetFeedbackQueue, value);
+    }
+
+    public NSString Label
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueDescriptorSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueDescriptorSelector.SetLabel, value.NativePtr);
+    }
+
     public static implicit operator nint(MTL4CommandQueueDescriptor value)
     {
         return value.NativePtr;
@@ -37,18 +49,6 @@ public class MTL4CommandQueueDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public nint FeedbackQueue
-    {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueDescriptorSelector.FeedbackQueue);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueDescriptorSelector.SetFeedbackQueue, value);
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueDescriptorSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueDescriptorSelector.SetLabel, value.NativePtr);
     }
 
 }

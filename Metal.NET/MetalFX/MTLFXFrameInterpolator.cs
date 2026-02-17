@@ -14,6 +14,11 @@ public class MTLFXFrameInterpolator : IDisposable
 
     public nint NativePtr { get; }
 
+    public void EncodeToCommandBuffer(MTLCommandBuffer commandBuffer)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorSelector.EncodeToCommandBuffer, commandBuffer.NativePtr);
+    }
+
     public static implicit operator nint(MTLFXFrameInterpolator value)
     {
         return value.NativePtr;
@@ -37,11 +42,6 @@ public class MTLFXFrameInterpolator : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public void EncodeToCommandBuffer(MTLCommandBuffer commandBuffer)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorSelector.EncodeToCommandBuffer, commandBuffer.NativePtr);
     }
 
 }

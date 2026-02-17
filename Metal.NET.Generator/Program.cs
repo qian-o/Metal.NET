@@ -36,28 +36,14 @@ var parsed = CppAstParser.Parse(metalCppDir, stubsDir);
 
 Console.WriteLine($"Parsed: {parsed.Enums.Count} enums, {parsed.Classes.Count} classes, {parsed.FreeFunctions.Count} free functions");
 
-// Clean the generated .g.cs files from all output subfolders
-var subfolders = new[] { "Metal", "Foundation", "QuartzCore", "MetalFX" };
-foreach (var sub in subfolders)
-{
-    var subDir = Path.Combine(outputDir, sub);
-    if (Directory.Exists(subDir))
-    {
-        foreach (var file in Directory.GetFiles(subDir, "*.g.cs"))
-        {
-            File.Delete(file);
-        }
-    }
-}
-
-// Run the generator
+// Run the generator (overwrites existing files; hand-written files are preserved)
 var generator = new MetalBindingsGenerator(outputDir);
 generator.Execute(parsed);
 
-var generatedCount = subfolders
+var generatedCount = new[] { "Metal", "Foundation", "QuartzCore", "MetalFX", "Common" }
     .Select(sub => Path.Combine(outputDir, sub))
     .Where(Directory.Exists)
-    .SelectMany(dir => Directory.GetFiles(dir, "*.g.cs"))
+    .SelectMany(dir => Directory.GetFiles(dir, "*.cs"))
     .Count();
 Console.WriteLine($"Generated {generatedCount} files in {outputDir}");
 

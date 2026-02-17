@@ -14,6 +14,33 @@ public class MTLCommandQueue : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLCommandBuffer CommandBuffer => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.CommandBuffer));
+
+    public MTLCommandBuffer CommandBufferWithUnretainedReferences => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.CommandBufferWithUnretainedReferences));
+
+    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.Device));
+
+    public NSString Label
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueSelector.SetLabel, value.NativePtr);
+    }
+
+    public void AddResidencySet(MTLResidencySet residencySet)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueSelector.AddResidencySet, residencySet.NativePtr);
+    }
+
+    public void InsertDebugCaptureBoundary()
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueSelector.InsertDebugCaptureBoundary);
+    }
+
+    public void RemoveResidencySet(MTLResidencySet residencySet)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueSelector.RemoveResidencySet, residencySet.NativePtr);
+    }
+
     public static implicit operator nint(MTLCommandQueue value)
     {
         return value.NativePtr;
@@ -37,42 +64,6 @@ public class MTLCommandQueue : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLCommandBuffer CommandBuffer
-    {
-        get => new MTLCommandBuffer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.CommandBuffer));
-    }
-
-    public MTLCommandBuffer CommandBufferWithUnretainedReferences
-    {
-        get => new MTLCommandBuffer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.CommandBufferWithUnretainedReferences));
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.Device));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueSelector.SetLabel, value.NativePtr);
-    }
-
-    public void AddResidencySet(MTLResidencySet residencySet)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueSelector.AddResidencySet, residencySet.NativePtr);
-    }
-
-    public void InsertDebugCaptureBoundary()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueSelector.InsertDebugCaptureBoundary);
-    }
-
-    public void RemoveResidencySet(MTLResidencySet residencySet)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueSelector.RemoveResidencySet, residencySet.NativePtr);
     }
 
 }

@@ -14,6 +14,27 @@ public class MTLIndirectCommandBuffer : IDisposable
 
     public nint NativePtr { get; }
 
+    public nuint Size => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferSelector.Size);
+
+    public MTLIndirectComputeCommand IndirectComputeCommand(uint commandIndex)
+    {
+        MTLIndirectComputeCommand result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectComputeCommand, (nuint)commandIndex));
+
+        return result;
+    }
+
+    public MTLIndirectRenderCommand IndirectRenderCommand(uint commandIndex)
+    {
+        MTLIndirectRenderCommand result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectRenderCommand, (nuint)commandIndex));
+
+        return result;
+    }
+
+    public void Reset(NSRange range)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferSelector.Reset, range);
+    }
+
     public static implicit operator nint(MTLIndirectCommandBuffer value)
     {
         return value.NativePtr;
@@ -37,30 +58,6 @@ public class MTLIndirectCommandBuffer : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public nuint Size
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferSelector.Size);
-    }
-
-    public MTLIndirectComputeCommand IndirectComputeCommand(uint commandIndex)
-    {
-        MTLIndirectComputeCommand result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectComputeCommand, (nuint)commandIndex));
-
-        return result;
-    }
-
-    public MTLIndirectRenderCommand IndirectRenderCommand(uint commandIndex)
-    {
-        MTLIndirectRenderCommand result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectRenderCommand, (nuint)commandIndex));
-
-        return result;
-    }
-
-    public void Reset(NSRange range)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferSelector.Reset, range);
     }
 
 }

@@ -14,31 +14,6 @@ public class MTLBlitCommandEncoder : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLBlitCommandEncoder value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLBlitCommandEncoder(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
     public void CopyFromBuffer(MTLBuffer sourceBuffer, uint sourceOffset, uint sourceBytesPerRow, uint sourceBytesPerImage, MTLSize sourceSize, MTLTexture destinationTexture, uint destinationSlice, uint destinationLevel, MTLOrigin destinationOrigin)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.CopyFromBufferSourceOffsetSourceBytesPerRowSourceBytesPerImageSourceSizeDestinationTextureDestinationSliceDestinationLevelDestinationOrigin, sourceBuffer.NativePtr, (nuint)sourceOffset, (nuint)sourceBytesPerRow, (nuint)sourceBytesPerImage, sourceSize, destinationTexture.NativePtr, (nuint)destinationSlice, (nuint)destinationLevel, destinationOrigin);
@@ -167,6 +142,31 @@ public class MTLBlitCommandEncoder : IDisposable
     public void WaitForFence(MTLFence fence)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.WaitForFence, fence.NativePtr);
+    }
+
+    public static implicit operator nint(MTLBlitCommandEncoder value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLBlitCommandEncoder(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

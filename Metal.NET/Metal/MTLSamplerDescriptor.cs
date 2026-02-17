@@ -2,9 +2,15 @@
 
 public class MTLSamplerDescriptor : IDisposable
 {
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLSamplerDescriptor");
+
     public MTLSamplerDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    public MTLSamplerDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    {
     }
 
     ~MTLSamplerDescriptor()
@@ -13,37 +19,6 @@ public class MTLSamplerDescriptor : IDisposable
     }
 
     public nint NativePtr { get; }
-
-    public static implicit operator nint(MTLSamplerDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLSamplerDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLSamplerDescriptor");
-
-    public MTLSamplerDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
-    {
-    }
 
     public MTLSamplerBorderColor BorderColor
     {
@@ -59,7 +34,7 @@ public class MTLSamplerDescriptor : IDisposable
 
     public NSString Label
     {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSamplerDescriptorSelector.Label));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSamplerDescriptorSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetLabel, value.NativePtr);
     }
 
@@ -145,6 +120,31 @@ public class MTLSamplerDescriptor : IDisposable
     {
         get => (MTLSamplerAddressMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLSamplerDescriptorSelector.TAddressMode));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetTAddressMode, (uint)value);
+    }
+
+    public static implicit operator nint(MTLSamplerDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLSamplerDescriptor(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

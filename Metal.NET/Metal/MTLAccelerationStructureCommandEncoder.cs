@@ -14,31 +14,6 @@ public class MTLAccelerationStructureCommandEncoder : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLAccelerationStructureCommandEncoder value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLAccelerationStructureCommandEncoder(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
     public void BuildAccelerationStructure(MTLAccelerationStructure accelerationStructure, MTLAccelerationStructureDescriptor descriptor, MTLBuffer scratchBuffer, uint scratchBufferOffset)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderSelector.BuildAccelerationStructureDescriptorScratchBufferScratchBufferOffset, accelerationStructure.NativePtr, descriptor.NativePtr, scratchBuffer.NativePtr, (nuint)scratchBufferOffset);
@@ -97,6 +72,31 @@ public class MTLAccelerationStructureCommandEncoder : IDisposable
     public void WriteCompactedAccelerationStructureSize(MTLAccelerationStructure accelerationStructure, MTLBuffer buffer, uint offset, MTLDataType sizeDataType)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderSelector.WriteCompactedAccelerationStructureSizeBufferOffsetSizeDataType, accelerationStructure.NativePtr, buffer.NativePtr, (nuint)offset, (uint)sizeDataType);
+    }
+
+    public static implicit operator nint(MTLAccelerationStructureCommandEncoder value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLAccelerationStructureCommandEncoder(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

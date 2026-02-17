@@ -14,6 +14,17 @@ public class MTLRasterizationRateMap : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapSelector.Device));
+
+    public NSString Label => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapSelector.Label));
+
+    public nuint LayerCount => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRasterizationRateMapSelector.LayerCount);
+
+    public void CopyParameterDataToBuffer(MTLBuffer buffer, uint offset)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapSelector.CopyParameterDataToBufferOffset, buffer.NativePtr, (nuint)offset);
+    }
+
     public static implicit operator nint(MTLRasterizationRateMap value)
     {
         return value.NativePtr;
@@ -37,26 +48,6 @@ public class MTLRasterizationRateMap : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapSelector.Device));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapSelector.Label));
-    }
-
-    public nuint LayerCount
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRasterizationRateMapSelector.LayerCount);
-    }
-
-    public void CopyParameterDataToBuffer(MTLBuffer buffer, uint offset)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapSelector.CopyParameterDataToBufferOffset, buffer.NativePtr, (nuint)offset);
     }
 
 }

@@ -14,40 +14,15 @@ public class MTL4MachineLearningPipelineDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTL4MachineLearningPipelineDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4MachineLearningPipelineDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
     public NSString Label
     {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.Label));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetLabel, value.NativePtr);
     }
 
     public MTL4FunctionDescriptor MachineLearningFunctionDescriptor
     {
-        get => new MTL4FunctionDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.MachineLearningFunctionDescriptor));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.MachineLearningFunctionDescriptor));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetMachineLearningFunctionDescriptor, value.NativePtr);
     }
 
@@ -71,6 +46,31 @@ public class MTL4MachineLearningPipelineDescriptor : IDisposable
     public void SetInputDimensions(NSArray dimensions, NSRange range)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetInputDimensionsRange, dimensions.NativePtr, range);
+    }
+
+    public static implicit operator nint(MTL4MachineLearningPipelineDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTL4MachineLearningPipelineDescriptor(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

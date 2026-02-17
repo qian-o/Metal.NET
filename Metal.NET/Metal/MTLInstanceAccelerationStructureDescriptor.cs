@@ -2,9 +2,15 @@
 
 public class MTLInstanceAccelerationStructureDescriptor : IDisposable
 {
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLInstanceAccelerationStructureDescriptor");
+
     public MTLInstanceAccelerationStructureDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    public MTLInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    {
     }
 
     ~MTLInstanceAccelerationStructureDescriptor()
@@ -14,37 +20,6 @@ public class MTLInstanceAccelerationStructureDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLInstanceAccelerationStructureDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLInstanceAccelerationStructureDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLInstanceAccelerationStructureDescriptor");
-
-    public MTLInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
-    {
-    }
-
     public nuint InstanceCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.InstanceCount);
@@ -53,7 +28,7 @@ public class MTLInstanceAccelerationStructureDescriptor : IDisposable
 
     public MTLBuffer InstanceDescriptorBuffer
     {
-        get => new MTLBuffer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.InstanceDescriptorBuffer));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.InstanceDescriptorBuffer));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.SetInstanceDescriptorBuffer, value.NativePtr);
     }
 
@@ -83,13 +58,13 @@ public class MTLInstanceAccelerationStructureDescriptor : IDisposable
 
     public NSArray InstancedAccelerationStructures
     {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.InstancedAccelerationStructures));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.InstancedAccelerationStructures));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.SetInstancedAccelerationStructures, value.NativePtr);
     }
 
     public MTLBuffer MotionTransformBuffer
     {
-        get => new MTLBuffer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.MotionTransformBuffer));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.MotionTransformBuffer));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.SetMotionTransformBuffer, value.NativePtr);
     }
 
@@ -115,6 +90,31 @@ public class MTLInstanceAccelerationStructureDescriptor : IDisposable
     {
         get => (MTLTransformType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.MotionTransformType));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.SetMotionTransformType, (uint)value);
+    }
+
+    public static implicit operator nint(MTLInstanceAccelerationStructureDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLInstanceAccelerationStructureDescriptor(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public static MTLInstanceAccelerationStructureDescriptor Descriptor()

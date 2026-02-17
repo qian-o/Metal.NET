@@ -2,9 +2,15 @@
 
 public class MTLDepthStencilDescriptor : IDisposable
 {
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLDepthStencilDescriptor");
+
     public MTLDepthStencilDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    public MTLDepthStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    {
     }
 
     ~MTLDepthStencilDescriptor()
@@ -13,6 +19,38 @@ public class MTLDepthStencilDescriptor : IDisposable
     }
 
     public nint NativePtr { get; }
+
+    public MTLStencilDescriptor BackFaceStencil
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorSelector.BackFaceStencil));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetBackFaceStencil, value.NativePtr);
+    }
+
+    public MTLCompareFunction DepthCompareFunction
+    {
+        get => (MTLCompareFunction)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDepthStencilDescriptorSelector.DepthCompareFunction));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetDepthCompareFunction, (uint)value);
+    }
+
+    public Bool8 DepthWriteEnabled
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDepthStencilDescriptorSelector.DepthWriteEnabled);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetDepthWriteEnabled, value);
+    }
+
+    public MTLStencilDescriptor FrontFaceStencil
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorSelector.FrontFaceStencil));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetFrontFaceStencil, value.NativePtr);
+    }
+
+    public Bool8 IsDepthWriteEnabled => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDepthStencilDescriptorSelector.IsDepthWriteEnabled);
+
+    public NSString Label
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetLabel, value.NativePtr);
+    }
 
     public static implicit operator nint(MTLDepthStencilDescriptor value)
     {
@@ -37,47 +75,6 @@ public class MTLDepthStencilDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLDepthStencilDescriptor");
-
-    public MTLDepthStencilDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
-    {
-    }
-
-    public MTLStencilDescriptor BackFaceStencil
-    {
-        get => new MTLStencilDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorSelector.BackFaceStencil));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetBackFaceStencil, value.NativePtr);
-    }
-
-    public MTLCompareFunction DepthCompareFunction
-    {
-        get => (MTLCompareFunction)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDepthStencilDescriptorSelector.DepthCompareFunction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetDepthCompareFunction, (uint)value);
-    }
-
-    public Bool8 DepthWriteEnabled
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDepthStencilDescriptorSelector.DepthWriteEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetDepthWriteEnabled, value);
-    }
-
-    public MTLStencilDescriptor FrontFaceStencil
-    {
-        get => new MTLStencilDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorSelector.FrontFaceStencil));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetFrontFaceStencil, value.NativePtr);
-    }
-
-    public Bool8 IsDepthWriteEnabled
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDepthStencilDescriptorSelector.IsDepthWriteEnabled);
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetLabel, value.NativePtr);
     }
 
 }

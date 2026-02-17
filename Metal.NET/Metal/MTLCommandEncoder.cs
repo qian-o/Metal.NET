@@ -14,39 +14,11 @@ public class MTLCommandEncoder : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLCommandEncoder value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLCommandEncoder(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandEncoderSelector.Device));
-    }
+    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandEncoderSelector.Device));
 
     public NSString Label
     {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandEncoderSelector.Label));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandEncoderSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.SetLabel, value.NativePtr);
     }
 
@@ -73,6 +45,31 @@ public class MTLCommandEncoder : IDisposable
     public void PushDebugGroup(NSString @string)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.PushDebugGroup, @string.NativePtr);
+    }
+
+    public static implicit operator nint(MTLCommandEncoder value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLCommandEncoder(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

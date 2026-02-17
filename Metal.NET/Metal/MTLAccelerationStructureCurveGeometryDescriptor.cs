@@ -14,36 +14,11 @@ public class MTLAccelerationStructureCurveGeometryDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLAccelerationStructureCurveGeometryDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLAccelerationStructureCurveGeometryDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureCurveGeometryDescriptor");
 
     public MTLBuffer ControlPointBuffer
     {
-        get => new MTLBuffer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.ControlPointBuffer));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.ControlPointBuffer));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetControlPointBuffer, value.NativePtr);
     }
 
@@ -91,7 +66,7 @@ public class MTLAccelerationStructureCurveGeometryDescriptor : IDisposable
 
     public MTLBuffer IndexBuffer
     {
-        get => new MTLBuffer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.IndexBuffer));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.IndexBuffer));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetIndexBuffer, value.NativePtr);
     }
 
@@ -109,7 +84,7 @@ public class MTLAccelerationStructureCurveGeometryDescriptor : IDisposable
 
     public MTLBuffer RadiusBuffer
     {
-        get => new MTLBuffer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.RadiusBuffer));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.RadiusBuffer));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetRadiusBuffer, value.NativePtr);
     }
 
@@ -141,6 +116,31 @@ public class MTLAccelerationStructureCurveGeometryDescriptor : IDisposable
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SegmentCount);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetSegmentCount, (nuint)value);
+    }
+
+    public static implicit operator nint(MTLAccelerationStructureCurveGeometryDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLAccelerationStructureCurveGeometryDescriptor(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public static MTLAccelerationStructureCurveGeometryDescriptor Descriptor()

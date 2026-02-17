@@ -14,6 +14,8 @@ public class MTLTextureSwizzleChannels : IDisposable
 
     public nint NativePtr { get; }
 
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLTextureSwizzleChannels");
+
     public static implicit operator nint(MTLTextureSwizzleChannels value)
     {
         return value.NativePtr;
@@ -38,8 +40,6 @@ public class MTLTextureSwizzleChannels : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLTextureSwizzleChannels");
 
     public static MTLTextureSwizzleChannels Default()
     {

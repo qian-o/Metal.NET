@@ -14,6 +14,24 @@ public class MTL4StaticLinkingDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public NSArray FunctionDescriptors
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StaticLinkingDescriptorSelector.FunctionDescriptors));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StaticLinkingDescriptorSelector.SetFunctionDescriptors, value.NativePtr);
+    }
+
+    public nint Groups
+    {
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StaticLinkingDescriptorSelector.Groups);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StaticLinkingDescriptorSelector.SetGroups, value);
+    }
+
+    public NSArray PrivateFunctionDescriptors
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StaticLinkingDescriptorSelector.PrivateFunctionDescriptors));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StaticLinkingDescriptorSelector.SetPrivateFunctionDescriptors, value.NativePtr);
+    }
+
     public static implicit operator nint(MTL4StaticLinkingDescriptor value)
     {
         return value.NativePtr;
@@ -37,24 +55,6 @@ public class MTL4StaticLinkingDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public NSArray FunctionDescriptors
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StaticLinkingDescriptorSelector.FunctionDescriptors));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StaticLinkingDescriptorSelector.SetFunctionDescriptors, value.NativePtr);
-    }
-
-    public nint Groups
-    {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StaticLinkingDescriptorSelector.Groups);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StaticLinkingDescriptorSelector.SetGroups, value);
-    }
-
-    public NSArray PrivateFunctionDescriptors
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StaticLinkingDescriptorSelector.PrivateFunctionDescriptors));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StaticLinkingDescriptorSelector.SetPrivateFunctionDescriptors, value.NativePtr);
     }
 
 }

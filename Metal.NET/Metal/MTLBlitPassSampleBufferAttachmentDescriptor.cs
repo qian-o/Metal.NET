@@ -14,6 +14,24 @@ public class MTLBlitPassSampleBufferAttachmentDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public nuint EndOfEncoderSampleIndex
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.EndOfEncoderSampleIndex);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.SetEndOfEncoderSampleIndex, (nuint)value);
+    }
+
+    public MTLCounterSampleBuffer SampleBuffer
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.SampleBuffer));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.SetSampleBuffer, value.NativePtr);
+    }
+
+    public nuint StartOfEncoderSampleIndex
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.StartOfEncoderSampleIndex);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.SetStartOfEncoderSampleIndex, (nuint)value);
+    }
+
     public static implicit operator nint(MTLBlitPassSampleBufferAttachmentDescriptor value)
     {
         return value.NativePtr;
@@ -37,24 +55,6 @@ public class MTLBlitPassSampleBufferAttachmentDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public nuint EndOfEncoderSampleIndex
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.EndOfEncoderSampleIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.SetEndOfEncoderSampleIndex, (nuint)value);
-    }
-
-    public MTLCounterSampleBuffer SampleBuffer
-    {
-        get => new MTLCounterSampleBuffer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.SampleBuffer));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.SetSampleBuffer, value.NativePtr);
-    }
-
-    public nuint StartOfEncoderSampleIndex
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.StartOfEncoderSampleIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.SetStartOfEncoderSampleIndex, (nuint)value);
     }
 
 }

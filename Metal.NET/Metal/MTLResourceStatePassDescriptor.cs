@@ -14,6 +14,10 @@ public class MTLResourceStatePassDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLResourceStatePassDescriptor");
+
+    public MTLResourceStatePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceStatePassDescriptorSelector.SampleBufferAttachments));
+
     public static implicit operator nint(MTLResourceStatePassDescriptor value)
     {
         return value.NativePtr;
@@ -37,13 +41,6 @@ public class MTLResourceStatePassDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLResourceStatePassDescriptor");
-
-    public MTLResourceStatePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
-    {
-        get => new MTLResourceStatePassSampleBufferAttachmentDescriptorArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceStatePassDescriptorSelector.SampleBufferAttachments));
     }
 
     public static MTLResourceStatePassDescriptor ResourceStatePassDescriptor()

@@ -14,6 +14,26 @@ public class MTLCaptureScope : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeSelector.Device));
+
+    public NSString Label
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeSelector.SetLabel, value.NativePtr);
+    }
+
+    public MTLCommandQueue CommandQueue => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeSelector.CommandQueue));
+
+    public void BeginScope()
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeSelector.BeginScope);
+    }
+
+    public void EndScope()
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeSelector.EndScope);
+    }
+
     public static implicit operator nint(MTLCaptureScope value)
     {
         return value.NativePtr;
@@ -37,32 +57,6 @@ public class MTLCaptureScope : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeSelector.Device));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeSelector.SetLabel, value.NativePtr);
-    }
-
-    public MTLCommandQueue CommandQueue
-    {
-        get => new MTLCommandQueue(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeSelector.CommandQueue));
-    }
-
-    public void BeginScope()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeSelector.BeginScope);
-    }
-
-    public void EndScope()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeSelector.EndScope);
     }
 
 }

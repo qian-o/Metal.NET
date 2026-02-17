@@ -14,6 +14,12 @@ public class MTLFunctionHandle : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionHandleSelector.Device));
+
+    public MTLFunctionType FunctionType => (MTLFunctionType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFunctionHandleSelector.FunctionType));
+
+    public NSString Name => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionHandleSelector.Name));
+
     public static implicit operator nint(MTLFunctionHandle value)
     {
         return value.NativePtr;
@@ -37,21 +43,6 @@ public class MTLFunctionHandle : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionHandleSelector.Device));
-    }
-
-    public MTLFunctionType FunctionType
-    {
-        get => (MTLFunctionType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFunctionHandleSelector.FunctionType));
-    }
-
-    public NSString Name
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionHandleSelector.Name));
     }
 
 }

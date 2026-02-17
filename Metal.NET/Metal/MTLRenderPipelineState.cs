@@ -14,95 +14,31 @@ public class MTLRenderPipelineState : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLRenderPipelineState value)
-    {
-        return value.NativePtr;
-    }
+    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Device));
 
-    public static implicit operator MTLRenderPipelineState(nint value)
-    {
-        return new(value);
-    }
+    public nuint ImageblockSampleLength => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.ImageblockSampleLength);
 
-    public void Dispose()
-    {
-        Release();
+    public NSString Label => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Label));
 
-        GC.SuppressFinalize(this);
-    }
+    public nuint MaxTotalThreadgroupsPerMeshGrid => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.MaxTotalThreadgroupsPerMeshGrid);
 
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
+    public nuint MaxTotalThreadsPerMeshThreadgroup => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.MaxTotalThreadsPerMeshThreadgroup);
 
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Device));
-    }
+    public nuint MaxTotalThreadsPerObjectThreadgroup => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.MaxTotalThreadsPerObjectThreadgroup);
 
-    public nuint ImageblockSampleLength
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.ImageblockSampleLength);
-    }
+    public nuint MaxTotalThreadsPerThreadgroup => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.MaxTotalThreadsPerThreadgroup);
 
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Label));
-    }
+    public nuint MeshThreadExecutionWidth => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.MeshThreadExecutionWidth);
 
-    public nuint MaxTotalThreadgroupsPerMeshGrid
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.MaxTotalThreadgroupsPerMeshGrid);
-    }
+    public nuint ObjectThreadExecutionWidth => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.ObjectThreadExecutionWidth);
 
-    public nuint MaxTotalThreadsPerMeshThreadgroup
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.MaxTotalThreadsPerMeshThreadgroup);
-    }
+    public MTLRenderPipelineReflection Reflection => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Reflection));
 
-    public nuint MaxTotalThreadsPerObjectThreadgroup
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.MaxTotalThreadsPerObjectThreadgroup);
-    }
+    public MTLShaderValidation ShaderValidation => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPipelineStateSelector.ShaderValidation));
 
-    public nuint MaxTotalThreadsPerThreadgroup
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.MaxTotalThreadsPerThreadgroup);
-    }
+    public Bool8 SupportIndirectCommandBuffers => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineStateSelector.SupportIndirectCommandBuffers);
 
-    public nuint MeshThreadExecutionWidth
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.MeshThreadExecutionWidth);
-    }
-
-    public nuint ObjectThreadExecutionWidth
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.ObjectThreadExecutionWidth);
-    }
-
-    public MTLRenderPipelineReflection Reflection
-    {
-        get => new MTLRenderPipelineReflection(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Reflection));
-    }
-
-    public MTLShaderValidation ShaderValidation
-    {
-        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPipelineStateSelector.ShaderValidation));
-    }
-
-    public Bool8 SupportIndirectCommandBuffers
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineStateSelector.SupportIndirectCommandBuffers);
-    }
-
-    public Bool8 ThreadgroupSizeMatchesTileSize
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineStateSelector.ThreadgroupSizeMatchesTileSize);
-    }
+    public Bool8 ThreadgroupSizeMatchesTileSize => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineStateSelector.ThreadgroupSizeMatchesTileSize);
 
     public MTLFunctionHandle FunctionHandle(NSString name, uint stage)
     {
@@ -169,6 +105,31 @@ public class MTLRenderPipelineState : IDisposable
         MTLVisibleFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewVisibleFunctionTableStage, descriptor.NativePtr, (nuint)stage));
 
         return result;
+    }
+
+    public static implicit operator nint(MTLRenderPipelineState value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLRenderPipelineState(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

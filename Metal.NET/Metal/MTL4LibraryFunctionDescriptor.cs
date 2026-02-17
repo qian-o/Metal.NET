@@ -14,6 +14,18 @@ public class MTL4LibraryFunctionDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLLibrary Library
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryFunctionDescriptorSelector.Library));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorSelector.SetLibrary, value.NativePtr);
+    }
+
+    public NSString Name
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryFunctionDescriptorSelector.Name));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorSelector.SetName, value.NativePtr);
+    }
+
     public static implicit operator nint(MTL4LibraryFunctionDescriptor value)
     {
         return value.NativePtr;
@@ -37,18 +49,6 @@ public class MTL4LibraryFunctionDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLLibrary Library
-    {
-        get => new MTLLibrary(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryFunctionDescriptorSelector.Library));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorSelector.SetLibrary, value.NativePtr);
-    }
-
-    public NSString Name
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryFunctionDescriptorSelector.Name));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorSelector.SetName, value.NativePtr);
     }
 
 }

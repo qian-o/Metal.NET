@@ -14,31 +14,6 @@ public class MTLRenderPassAttachmentDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLRenderPassAttachmentDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLRenderPassAttachmentDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
     public nuint DepthPlane
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.DepthPlane);
@@ -77,7 +52,7 @@ public class MTLRenderPassAttachmentDescriptor : IDisposable
 
     public MTLTexture ResolveTexture
     {
-        get => new MTLTexture(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassAttachmentDescriptorSelector.ResolveTexture));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassAttachmentDescriptorSelector.ResolveTexture));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetResolveTexture, value.NativePtr);
     }
 
@@ -101,8 +76,33 @@ public class MTLRenderPassAttachmentDescriptor : IDisposable
 
     public MTLTexture Texture
     {
-        get => new MTLTexture(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassAttachmentDescriptorSelector.Texture));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassAttachmentDescriptorSelector.Texture));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetTexture, value.NativePtr);
+    }
+
+    public static implicit operator nint(MTLRenderPassAttachmentDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLRenderPassAttachmentDescriptor(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

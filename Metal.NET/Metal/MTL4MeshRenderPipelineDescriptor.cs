@@ -14,31 +14,6 @@ public class MTL4MeshRenderPipelineDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTL4MeshRenderPipelineDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4MeshRenderPipelineDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
     public MTL4AlphaToCoverageState AlphaToCoverageState
     {
         get => (MTL4AlphaToCoverageState)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.AlphaToCoverageState));
@@ -57,27 +32,21 @@ public class MTL4MeshRenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetColorAttachmentMappingState, (uint)value);
     }
 
-    public MTL4RenderPipelineColorAttachmentDescriptorArray ColorAttachments
-    {
-        get => new MTL4RenderPipelineColorAttachmentDescriptorArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.ColorAttachments));
-    }
+    public MTL4RenderPipelineColorAttachmentDescriptorArray ColorAttachments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.ColorAttachments));
 
     public MTL4FunctionDescriptor FragmentFunctionDescriptor
     {
-        get => new MTL4FunctionDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.FragmentFunctionDescriptor));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.FragmentFunctionDescriptor));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetFragmentFunctionDescriptor, value.NativePtr);
     }
 
     public MTL4StaticLinkingDescriptor FragmentStaticLinkingDescriptor
     {
-        get => new MTL4StaticLinkingDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.FragmentStaticLinkingDescriptor));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.FragmentStaticLinkingDescriptor));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetFragmentStaticLinkingDescriptor, value.NativePtr);
     }
 
-    public Bool8 IsRasterizationEnabled
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.IsRasterizationEnabled);
-    }
+    public Bool8 IsRasterizationEnabled => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.IsRasterizationEnabled);
 
     public nuint MaxTotalThreadgroupsPerMeshGrid
     {
@@ -105,13 +74,13 @@ public class MTL4MeshRenderPipelineDescriptor : IDisposable
 
     public MTL4FunctionDescriptor MeshFunctionDescriptor
     {
-        get => new MTL4FunctionDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.MeshFunctionDescriptor));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.MeshFunctionDescriptor));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetMeshFunctionDescriptor, value.NativePtr);
     }
 
     public MTL4StaticLinkingDescriptor MeshStaticLinkingDescriptor
     {
-        get => new MTL4StaticLinkingDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.MeshStaticLinkingDescriptor));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.MeshStaticLinkingDescriptor));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetMeshStaticLinkingDescriptor, value.NativePtr);
     }
 
@@ -123,13 +92,13 @@ public class MTL4MeshRenderPipelineDescriptor : IDisposable
 
     public MTL4FunctionDescriptor ObjectFunctionDescriptor
     {
-        get => new MTL4FunctionDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.ObjectFunctionDescriptor));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.ObjectFunctionDescriptor));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetObjectFunctionDescriptor, value.NativePtr);
     }
 
     public MTL4StaticLinkingDescriptor ObjectStaticLinkingDescriptor
     {
-        get => new MTL4StaticLinkingDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.ObjectStaticLinkingDescriptor));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.ObjectStaticLinkingDescriptor));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetObjectStaticLinkingDescriptor, value.NativePtr);
     }
 
@@ -184,6 +153,31 @@ public class MTL4MeshRenderPipelineDescriptor : IDisposable
     public void Reset()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.Reset);
+    }
+
+    public static implicit operator nint(MTL4MeshRenderPipelineDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTL4MeshRenderPipelineDescriptor(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

@@ -14,31 +14,6 @@ public class MTLFXSpatialScalerDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLFXSpatialScalerDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLFXSpatialScalerDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLFXSpatialScalerDescriptor");
 
     public MTLPixelFormat ColorTextureFormat
@@ -95,6 +70,31 @@ public class MTLFXSpatialScalerDescriptor : IDisposable
         MTLFXSpatialScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorSelector.NewSpatialScalerPCompiler, pDevice.NativePtr, pCompiler.NativePtr));
 
         return result;
+    }
+
+    public static implicit operator nint(MTLFXSpatialScalerDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLFXSpatialScalerDescriptor(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public static Bool8 SupportsDevice(MTLDevice pDevice)

@@ -14,6 +14,12 @@ public class MTLTensorBinding : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLTensorExtents Dimensions => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindingSelector.Dimensions));
+
+    public MTLDataType IndexType => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTensorBindingSelector.IndexType));
+
+    public MTLTensorDataType TensorDataType => (MTLTensorDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTensorBindingSelector.TensorDataType));
+
     public static implicit operator nint(MTLTensorBinding value)
     {
         return value.NativePtr;
@@ -37,21 +43,6 @@ public class MTLTensorBinding : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLTensorExtents Dimensions
-    {
-        get => new MTLTensorExtents(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindingSelector.Dimensions));
-    }
-
-    public MTLDataType IndexType
-    {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTensorBindingSelector.IndexType));
-    }
-
-    public MTLTensorDataType TensorDataType
-    {
-        get => (MTLTensorDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTensorBindingSelector.TensorDataType));
     }
 
 }

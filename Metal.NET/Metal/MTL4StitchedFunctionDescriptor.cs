@@ -14,6 +14,18 @@ public class MTL4StitchedFunctionDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public NSArray FunctionDescriptors
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StitchedFunctionDescriptorSelector.FunctionDescriptors));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorSelector.SetFunctionDescriptors, value.NativePtr);
+    }
+
+    public MTLFunctionStitchingGraph FunctionGraph
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StitchedFunctionDescriptorSelector.FunctionGraph));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorSelector.SetFunctionGraph, value.NativePtr);
+    }
+
     public static implicit operator nint(MTL4StitchedFunctionDescriptor value)
     {
         return value.NativePtr;
@@ -37,18 +49,6 @@ public class MTL4StitchedFunctionDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public NSArray FunctionDescriptors
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StitchedFunctionDescriptorSelector.FunctionDescriptors));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorSelector.SetFunctionDescriptors, value.NativePtr);
-    }
-
-    public MTLFunctionStitchingGraph FunctionGraph
-    {
-        get => new MTLFunctionStitchingGraph(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StitchedFunctionDescriptorSelector.FunctionGraph));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorSelector.SetFunctionGraph, value.NativePtr);
     }
 
 }

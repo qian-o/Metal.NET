@@ -14,63 +14,35 @@ public class MTLComputePipelineDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLComputePipelineDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLComputePipelineDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
     public NSArray BinaryArchives
     {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.BinaryArchives));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.BinaryArchives));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetBinaryArchives, value.NativePtr);
     }
 
-    public MTLPipelineBufferDescriptorArray Buffers
-    {
-        get => new MTLPipelineBufferDescriptorArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.Buffers));
-    }
+    public MTLPipelineBufferDescriptorArray Buffers => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.Buffers));
 
     public MTLFunction ComputeFunction
     {
-        get => new MTLFunction(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.ComputeFunction));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.ComputeFunction));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetComputeFunction, value.NativePtr);
     }
 
     public NSArray InsertLibraries
     {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.InsertLibraries));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.InsertLibraries));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetInsertLibraries, value.NativePtr);
     }
 
     public NSString Label
     {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.Label));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetLabel, value.NativePtr);
     }
 
     public MTLLinkedFunctions LinkedFunctions
     {
-        get => new MTLLinkedFunctions(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.LinkedFunctions));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.LinkedFunctions));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetLinkedFunctions, value.NativePtr);
     }
 
@@ -88,7 +60,7 @@ public class MTLComputePipelineDescriptor : IDisposable
 
     public NSArray PreloadedLibraries
     {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.PreloadedLibraries));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.PreloadedLibraries));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetPreloadedLibraries, value.NativePtr);
     }
 
@@ -100,7 +72,7 @@ public class MTLComputePipelineDescriptor : IDisposable
 
     public MTLStageInputOutputDescriptor StageInputDescriptor
     {
-        get => new MTLStageInputOutputDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.StageInputDescriptor));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.StageInputDescriptor));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetStageInputDescriptor, value.NativePtr);
     }
 
@@ -125,6 +97,31 @@ public class MTLComputePipelineDescriptor : IDisposable
     public void Reset()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.Reset);
+    }
+
+    public static implicit operator nint(MTLComputePipelineDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLComputePipelineDescriptor(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

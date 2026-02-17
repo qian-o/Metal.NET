@@ -2,9 +2,15 @@
 
 public class MTLIndirectCommandBufferDescriptor : IDisposable
 {
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLIndirectCommandBufferDescriptor");
+
     public MTLIndirectCommandBufferDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    public MTLIndirectCommandBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    {
     }
 
     ~MTLIndirectCommandBufferDescriptor()
@@ -13,37 +19,6 @@ public class MTLIndirectCommandBufferDescriptor : IDisposable
     }
 
     public nint NativePtr { get; }
-
-    public static implicit operator nint(MTLIndirectCommandBufferDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLIndirectCommandBufferDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLIndirectCommandBufferDescriptor");
-
-    public MTLIndirectCommandBufferDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
-    {
-    }
 
     public nuint CommandTypes
     {
@@ -157,6 +132,31 @@ public class MTLIndirectCommandBufferDescriptor : IDisposable
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SupportRayTracing);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetSupportRayTracing, value);
+    }
+
+    public static implicit operator nint(MTLIndirectCommandBufferDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLIndirectCommandBufferDescriptor(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

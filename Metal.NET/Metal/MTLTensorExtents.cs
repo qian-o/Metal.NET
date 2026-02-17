@@ -14,6 +14,15 @@ public class MTLTensorExtents : IDisposable
 
     public nint NativePtr { get; }
 
+    public nuint Rank => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorExtentsSelector.Rank);
+
+    public nint ExtentAtDimensionIndex(uint dimensionIndex)
+    {
+        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorExtentsSelector.ExtentAtDimensionIndex, (nuint)dimensionIndex);
+
+        return result;
+    }
+
     public static implicit operator nint(MTLTensorExtents value)
     {
         return value.NativePtr;
@@ -37,18 +46,6 @@ public class MTLTensorExtents : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public nuint Rank
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorExtentsSelector.Rank);
-    }
-
-    public nint ExtentAtDimensionIndex(uint dimensionIndex)
-    {
-        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorExtentsSelector.ExtentAtDimensionIndex, (nuint)dimensionIndex);
-
-        return result;
     }
 
 }

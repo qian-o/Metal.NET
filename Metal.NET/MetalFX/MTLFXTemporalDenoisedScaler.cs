@@ -14,6 +14,11 @@ public class MTLFXTemporalDenoisedScaler : IDisposable
 
     public nint NativePtr { get; }
 
+    public void EncodeToCommandBuffer(MTLCommandBuffer commandBuffer)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerSelector.EncodeToCommandBuffer, commandBuffer.NativePtr);
+    }
+
     public static implicit operator nint(MTLFXTemporalDenoisedScaler value)
     {
         return value.NativePtr;
@@ -37,11 +42,6 @@ public class MTLFXTemporalDenoisedScaler : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public void EncodeToCommandBuffer(MTLCommandBuffer commandBuffer)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerSelector.EncodeToCommandBuffer, commandBuffer.NativePtr);
     }
 
 }

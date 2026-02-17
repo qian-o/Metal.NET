@@ -14,31 +14,6 @@ public class MTLArgumentDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLArgumentDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLArgumentDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLArgumentDescriptor");
 
     public MTLBindingAccess Access
@@ -75,6 +50,31 @@ public class MTLArgumentDescriptor : IDisposable
     {
         get => (MTLTextureType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentDescriptorSelector.TextureType));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetTextureType, (uint)value);
+    }
+
+    public static implicit operator nint(MTLArgumentDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLArgumentDescriptor(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public static MTLArgumentDescriptor ArgumentDescriptor()

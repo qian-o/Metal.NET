@@ -14,6 +14,13 @@ public class MTLIOScratchBufferAllocator : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLIOScratchBuffer NewScratchBuffer(uint minimumSize)
+    {
+        MTLIOScratchBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOScratchBufferAllocatorSelector.NewScratchBuffer, (nuint)minimumSize));
+
+        return result;
+    }
+
     public static implicit operator nint(MTLIOScratchBufferAllocator value)
     {
         return value.NativePtr;
@@ -37,13 +44,6 @@ public class MTLIOScratchBufferAllocator : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLIOScratchBuffer NewScratchBuffer(uint minimumSize)
-    {
-        MTLIOScratchBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOScratchBufferAllocatorSelector.NewScratchBuffer, (nuint)minimumSize));
-
-        return result;
     }
 
 }

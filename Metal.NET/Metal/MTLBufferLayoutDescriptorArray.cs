@@ -14,6 +14,18 @@ public class MTLBufferLayoutDescriptorArray : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLBufferLayoutDescriptor Object(uint index)
+    {
+        MTLBufferLayoutDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArraySelector.Object, (nuint)index));
+
+        return result;
+    }
+
+    public void SetObject(MTLBufferLayoutDescriptor bufferDesc, uint index)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorArraySelector.SetObjectIndex, bufferDesc.NativePtr, (nuint)index);
+    }
+
     public static implicit operator nint(MTLBufferLayoutDescriptorArray value)
     {
         return value.NativePtr;
@@ -37,18 +49,6 @@ public class MTLBufferLayoutDescriptorArray : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLBufferLayoutDescriptor Object(uint index)
-    {
-        MTLBufferLayoutDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArraySelector.Object, (nuint)index));
-
-        return result;
-    }
-
-    public void SetObject(MTLBufferLayoutDescriptor bufferDesc, uint index)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorArraySelector.SetObjectIndex, bufferDesc.NativePtr, (nuint)index);
     }
 
 }

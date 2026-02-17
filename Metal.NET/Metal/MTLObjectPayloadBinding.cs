@@ -14,6 +14,10 @@ public class MTLObjectPayloadBinding : IDisposable
 
     public nint NativePtr { get; }
 
+    public nuint ObjectPayloadAlignment => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLObjectPayloadBindingSelector.ObjectPayloadAlignment);
+
+    public nuint ObjectPayloadDataSize => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLObjectPayloadBindingSelector.ObjectPayloadDataSize);
+
     public static implicit operator nint(MTLObjectPayloadBinding value)
     {
         return value.NativePtr;
@@ -37,16 +41,6 @@ public class MTLObjectPayloadBinding : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public nuint ObjectPayloadAlignment
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLObjectPayloadBindingSelector.ObjectPayloadAlignment);
-    }
-
-    public nuint ObjectPayloadDataSize
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLObjectPayloadBindingSelector.ObjectPayloadDataSize);
     }
 
 }

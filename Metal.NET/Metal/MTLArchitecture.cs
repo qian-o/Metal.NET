@@ -14,6 +14,8 @@ public class MTLArchitecture : IDisposable
 
     public nint NativePtr { get; }
 
+    public NSString Name => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArchitectureSelector.Name));
+
     public static implicit operator nint(MTLArchitecture value)
     {
         return value.NativePtr;
@@ -37,11 +39,6 @@ public class MTLArchitecture : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public NSString Name
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArchitectureSelector.Name));
     }
 
 }

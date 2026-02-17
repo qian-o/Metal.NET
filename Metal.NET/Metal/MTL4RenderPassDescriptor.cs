@@ -2,9 +2,15 @@
 
 public class MTL4RenderPassDescriptor : IDisposable
 {
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4RenderPassDescriptor");
+
     public MTL4RenderPassDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    public MTL4RenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    {
     }
 
     ~MTL4RenderPassDescriptor()
@@ -14,41 +20,7 @@ public class MTL4RenderPassDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTL4RenderPassDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4RenderPassDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4RenderPassDescriptor");
-
-    public MTL4RenderPassDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
-    {
-    }
-
-    public MTLRenderPassColorAttachmentDescriptorArray ColorAttachments
-    {
-        get => new MTLRenderPassColorAttachmentDescriptorArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.ColorAttachments));
-    }
+    public MTLRenderPassColorAttachmentDescriptorArray ColorAttachments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.ColorAttachments));
 
     public nuint DefaultRasterSampleCount
     {
@@ -58,7 +30,7 @@ public class MTL4RenderPassDescriptor : IDisposable
 
     public MTLRenderPassDepthAttachmentDescriptor DepthAttachment
     {
-        get => new MTLRenderPassDepthAttachmentDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.DepthAttachment));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.DepthAttachment));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetDepthAttachment, value.NativePtr);
     }
 
@@ -70,7 +42,7 @@ public class MTL4RenderPassDescriptor : IDisposable
 
     public MTLRasterizationRateMap RasterizationRateMap
     {
-        get => new MTLRasterizationRateMap(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.RasterizationRateMap));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.RasterizationRateMap));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetRasterizationRateMap, value.NativePtr);
     }
 
@@ -94,7 +66,7 @@ public class MTL4RenderPassDescriptor : IDisposable
 
     public MTLRenderPassStencilAttachmentDescriptor StencilAttachment
     {
-        get => new MTLRenderPassStencilAttachmentDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.StencilAttachment));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.StencilAttachment));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetStencilAttachment, value.NativePtr);
     }
 
@@ -124,7 +96,7 @@ public class MTL4RenderPassDescriptor : IDisposable
 
     public MTLBuffer VisibilityResultBuffer
     {
-        get => new MTLBuffer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.VisibilityResultBuffer));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.VisibilityResultBuffer));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetVisibilityResultBuffer, value.NativePtr);
     }
 
@@ -144,6 +116,31 @@ public class MTL4RenderPassDescriptor : IDisposable
     public void SetSamplePositions(MTLSamplePosition positions, uint count)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetSamplePositionsCount, positions, (nuint)count);
+    }
+
+    public static implicit operator nint(MTL4RenderPassDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTL4RenderPassDescriptor(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

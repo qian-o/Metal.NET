@@ -14,56 +14,19 @@ public class MTLLibrary : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLLibrary value)
-    {
-        return value.NativePtr;
-    }
+    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.Device));
 
-    public static implicit operator MTLLibrary(nint value)
-    {
-        return new(value);
-    }
+    public NSArray FunctionNames => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.FunctionNames));
 
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.Device));
-    }
-
-    public NSArray FunctionNames
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.FunctionNames));
-    }
-
-    public NSString InstallName
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.InstallName));
-    }
+    public NSString InstallName => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.InstallName));
 
     public NSString Label
     {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.Label));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLibrarySelector.SetLabel, value.NativePtr);
     }
 
-    public MTLLibraryType Type
-    {
-        get => (MTLLibraryType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLLibrarySelector.Type));
-    }
+    public MTLLibraryType Type => (MTLLibraryType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLLibrarySelector.Type));
 
     public MTLFunction NewFunction(NSString functionName)
     {
@@ -119,6 +82,31 @@ public class MTLLibrary : IDisposable
         MTLFunctionReflection result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.ReflectionForFunction, functionName.NativePtr));
 
         return result;
+    }
+
+    public static implicit operator nint(MTLLibrary value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLLibrary(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

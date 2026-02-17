@@ -14,6 +14,22 @@ public class MTLRenderPipelineReflection : IDisposable
 
     public nint NativePtr { get; }
 
+    public NSArray FragmentArguments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.FragmentArguments));
+
+    public NSArray FragmentBindings => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.FragmentBindings));
+
+    public NSArray MeshBindings => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.MeshBindings));
+
+    public NSArray ObjectBindings => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.ObjectBindings));
+
+    public NSArray TileArguments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.TileArguments));
+
+    public NSArray TileBindings => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.TileBindings));
+
+    public NSArray VertexArguments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.VertexArguments));
+
+    public NSArray VertexBindings => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.VertexBindings));
+
     public static implicit operator nint(MTLRenderPipelineReflection value)
     {
         return value.NativePtr;
@@ -37,46 +53,6 @@ public class MTLRenderPipelineReflection : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public NSArray FragmentArguments
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.FragmentArguments));
-    }
-
-    public NSArray FragmentBindings
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.FragmentBindings));
-    }
-
-    public NSArray MeshBindings
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.MeshBindings));
-    }
-
-    public NSArray ObjectBindings
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.ObjectBindings));
-    }
-
-    public NSArray TileArguments
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.TileArguments));
-    }
-
-    public NSArray TileBindings
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.TileBindings));
-    }
-
-    public NSArray VertexArguments
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.VertexArguments));
-    }
-
-    public NSArray VertexBindings
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.VertexBindings));
     }
 
 }

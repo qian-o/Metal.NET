@@ -2,9 +2,15 @@
 
 public class MTLAttributeDescriptor : IDisposable
 {
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLAttributeDescriptor");
+
     public MTLAttributeDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    public MTLAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    {
     }
 
     ~MTLAttributeDescriptor()
@@ -13,6 +19,24 @@ public class MTLAttributeDescriptor : IDisposable
     }
 
     public nint NativePtr { get; }
+
+    public nuint BufferIndex
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorSelector.BufferIndex);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetBufferIndex, (nuint)value);
+    }
+
+    public MTLAttributeFormat Format
+    {
+        get => (MTLAttributeFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLAttributeDescriptorSelector.Format));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetFormat, (uint)value);
+    }
+
+    public nuint Offset
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorSelector.Offset);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetOffset, (nuint)value);
+    }
 
     public static implicit operator nint(MTLAttributeDescriptor value)
     {
@@ -37,30 +61,6 @@ public class MTLAttributeDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLAttributeDescriptor");
-
-    public MTLAttributeDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
-    {
-    }
-
-    public nuint BufferIndex
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorSelector.BufferIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetBufferIndex, (nuint)value);
-    }
-
-    public MTLAttributeFormat Format
-    {
-        get => (MTLAttributeFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLAttributeDescriptorSelector.Format));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetFormat, (uint)value);
-    }
-
-    public nuint Offset
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorSelector.Offset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetOffset, (nuint)value);
     }
 
 }

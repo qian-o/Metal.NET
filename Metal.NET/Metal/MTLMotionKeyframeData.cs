@@ -14,6 +14,20 @@ public class MTLMotionKeyframeData : IDisposable
 
     public nint NativePtr { get; }
 
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLMotionKeyframeData");
+
+    public MTLBuffer Buffer
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMotionKeyframeDataSelector.Buffer));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataSelector.SetBuffer, value.NativePtr);
+    }
+
+    public nuint Offset
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLMotionKeyframeDataSelector.Offset);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataSelector.SetOffset, (nuint)value);
+    }
+
     public static implicit operator nint(MTLMotionKeyframeData value)
     {
         return value.NativePtr;
@@ -37,20 +51,6 @@ public class MTLMotionKeyframeData : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLMotionKeyframeData");
-
-    public MTLBuffer Buffer
-    {
-        get => new MTLBuffer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMotionKeyframeDataSelector.Buffer));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataSelector.SetBuffer, value.NativePtr);
-    }
-
-    public nuint Offset
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLMotionKeyframeDataSelector.Offset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataSelector.SetOffset, (nuint)value);
     }
 
     public static MTLMotionKeyframeData Data()

@@ -2,9 +2,15 @@
 
 public class MTLVertexBufferLayoutDescriptor : IDisposable
 {
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLVertexBufferLayoutDescriptor");
+
     public MTLVertexBufferLayoutDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    public MTLVertexBufferLayoutDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    {
     }
 
     ~MTLVertexBufferLayoutDescriptor()
@@ -13,6 +19,24 @@ public class MTLVertexBufferLayoutDescriptor : IDisposable
     }
 
     public nint NativePtr { get; }
+
+    public MTLVertexStepFunction StepFunction
+    {
+        get => (MTLVertexStepFunction)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLVertexBufferLayoutDescriptorSelector.StepFunction));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorSelector.SetStepFunction, (uint)value);
+    }
+
+    public nuint StepRate
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexBufferLayoutDescriptorSelector.StepRate);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorSelector.SetStepRate, (nuint)value);
+    }
+
+    public nuint Stride
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexBufferLayoutDescriptorSelector.Stride);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorSelector.SetStride, (nuint)value);
+    }
 
     public static implicit operator nint(MTLVertexBufferLayoutDescriptor value)
     {
@@ -37,30 +61,6 @@ public class MTLVertexBufferLayoutDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLVertexBufferLayoutDescriptor");
-
-    public MTLVertexBufferLayoutDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
-    {
-    }
-
-    public MTLVertexStepFunction StepFunction
-    {
-        get => (MTLVertexStepFunction)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLVertexBufferLayoutDescriptorSelector.StepFunction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorSelector.SetStepFunction, (uint)value);
-    }
-
-    public nuint StepRate
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexBufferLayoutDescriptorSelector.StepRate);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorSelector.SetStepRate, (nuint)value);
-    }
-
-    public nuint Stride
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexBufferLayoutDescriptorSelector.Stride);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorSelector.SetStride, (nuint)value);
     }
 
 }

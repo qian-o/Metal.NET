@@ -2,14 +2,14 @@
 
 public class CAMetalLayer : IDisposable
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("CAMetalLayer");
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("CAMetalLayer");
 
     public CAMetalLayer(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(Class))
+    public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(s_class))
     {
     }
 
@@ -28,7 +28,7 @@ public class CAMetalLayer : IDisposable
 
     public MTLPixelFormat PixelFormat
     {
-        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendUInt(NativePtr, CAMetalLayerSelector.PixelFormat);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, CAMetalLayerSelector.PixelFormat));
         set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetPixelFormat, (uint)value);
     }
 
@@ -93,8 +93,11 @@ public class CAMetalLayer : IDisposable
 
     public static CAMetalLayer Layer()
     {
-        return new(ObjectiveCRuntime.MsgSendPtr(Class, CAMetalLayerSelector.Layer));
+        CAMetalLayer result = new(ObjectiveCRuntime.MsgSendPtr(s_class, CAMetalLayerSelector.Layer));
+
+        return result;
     }
+
 }
 
 file class CAMetalLayerSelector

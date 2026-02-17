@@ -14,31 +14,6 @@ public class MTLResourceStateCommandEncoder : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLResourceStateCommandEncoder value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLResourceStateCommandEncoder(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
     public void MoveTextureMappingsFromTexture(MTLTexture sourceTexture, uint sourceSlice, uint sourceLevel, MTLOrigin sourceOrigin, MTLSize sourceSize, MTLTexture destinationTexture, uint destinationSlice, uint destinationLevel, MTLOrigin destinationOrigin)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStateCommandEncoderSelector.MoveTextureMappingsFromTextureSourceSliceSourceLevelSourceOriginSourceSizeDestinationTextureDestinationSliceDestinationLevelDestinationOrigin, sourceTexture.NativePtr, (nuint)sourceSlice, (nuint)sourceLevel, sourceOrigin, sourceSize, destinationTexture.NativePtr, (nuint)destinationSlice, (nuint)destinationLevel, destinationOrigin);
@@ -67,6 +42,31 @@ public class MTLResourceStateCommandEncoder : IDisposable
     public void WaitForFence(MTLFence fence)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStateCommandEncoderSelector.WaitForFence, fence.NativePtr);
+    }
+
+    public static implicit operator nint(MTLResourceStateCommandEncoder value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLResourceStateCommandEncoder(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

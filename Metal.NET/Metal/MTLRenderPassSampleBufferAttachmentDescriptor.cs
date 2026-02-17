@@ -14,6 +14,36 @@ public class MTLRenderPassSampleBufferAttachmentDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public nuint EndOfFragmentSampleIndex
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.EndOfFragmentSampleIndex);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SetEndOfFragmentSampleIndex, (nuint)value);
+    }
+
+    public nuint EndOfVertexSampleIndex
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.EndOfVertexSampleIndex);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SetEndOfVertexSampleIndex, (nuint)value);
+    }
+
+    public MTLCounterSampleBuffer SampleBuffer
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SampleBuffer));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SetSampleBuffer, value.NativePtr);
+    }
+
+    public nuint StartOfFragmentSampleIndex
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.StartOfFragmentSampleIndex);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SetStartOfFragmentSampleIndex, (nuint)value);
+    }
+
+    public nuint StartOfVertexSampleIndex
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.StartOfVertexSampleIndex);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SetStartOfVertexSampleIndex, (nuint)value);
+    }
+
     public static implicit operator nint(MTLRenderPassSampleBufferAttachmentDescriptor value)
     {
         return value.NativePtr;
@@ -37,36 +67,6 @@ public class MTLRenderPassSampleBufferAttachmentDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public nuint EndOfFragmentSampleIndex
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.EndOfFragmentSampleIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SetEndOfFragmentSampleIndex, (nuint)value);
-    }
-
-    public nuint EndOfVertexSampleIndex
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.EndOfVertexSampleIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SetEndOfVertexSampleIndex, (nuint)value);
-    }
-
-    public MTLCounterSampleBuffer SampleBuffer
-    {
-        get => new MTLCounterSampleBuffer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SampleBuffer));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SetSampleBuffer, value.NativePtr);
-    }
-
-    public nuint StartOfFragmentSampleIndex
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.StartOfFragmentSampleIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SetStartOfFragmentSampleIndex, (nuint)value);
-    }
-
-    public nuint StartOfVertexSampleIndex
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.StartOfVertexSampleIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SetStartOfVertexSampleIndex, (nuint)value);
     }
 
 }

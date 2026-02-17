@@ -14,6 +14,16 @@ public class MTLBufferBinding : IDisposable
 
     public nint NativePtr { get; }
 
+    public nuint BufferAlignment => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingSelector.BufferAlignment);
+
+    public nuint BufferDataSize => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingSelector.BufferDataSize);
+
+    public MTLDataType BufferDataType => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLBufferBindingSelector.BufferDataType));
+
+    public MTLPointerType BufferPointerType => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindingSelector.BufferPointerType));
+
+    public MTLStructType BufferStructType => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindingSelector.BufferStructType));
+
     public static implicit operator nint(MTLBufferBinding value)
     {
         return value.NativePtr;
@@ -37,31 +47,6 @@ public class MTLBufferBinding : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public nuint BufferAlignment
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingSelector.BufferAlignment);
-    }
-
-    public nuint BufferDataSize
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingSelector.BufferDataSize);
-    }
-
-    public MTLDataType BufferDataType
-    {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLBufferBindingSelector.BufferDataType));
-    }
-
-    public MTLPointerType BufferPointerType
-    {
-        get => new MTLPointerType(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindingSelector.BufferPointerType));
-    }
-
-    public MTLStructType BufferStructType
-    {
-        get => new MTLStructType(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindingSelector.BufferStructType));
     }
 
 }

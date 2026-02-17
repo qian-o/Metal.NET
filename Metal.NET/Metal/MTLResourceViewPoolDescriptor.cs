@@ -14,6 +14,18 @@ public class MTLResourceViewPoolDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public NSString Label
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolDescriptorSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceViewPoolDescriptorSelector.SetLabel, value.NativePtr);
+    }
+
+    public nuint ResourceViewCount
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceViewPoolDescriptorSelector.ResourceViewCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceViewPoolDescriptorSelector.SetResourceViewCount, (nuint)value);
+    }
+
     public static implicit operator nint(MTLResourceViewPoolDescriptor value)
     {
         return value.NativePtr;
@@ -37,18 +49,6 @@ public class MTLResourceViewPoolDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolDescriptorSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceViewPoolDescriptorSelector.SetLabel, value.NativePtr);
-    }
-
-    public nuint ResourceViewCount
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceViewPoolDescriptorSelector.ResourceViewCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceViewPoolDescriptorSelector.SetResourceViewCount, (nuint)value);
     }
 
 }

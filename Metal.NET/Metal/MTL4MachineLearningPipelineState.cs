@@ -14,6 +14,14 @@ public class MTL4MachineLearningPipelineState : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Device));
+
+    public nuint IntermediatesHeapSize => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4MachineLearningPipelineStateSelector.IntermediatesHeapSize);
+
+    public NSString Label => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Label));
+
+    public MTL4MachineLearningPipelineReflection Reflection => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Reflection));
+
     public static implicit operator nint(MTL4MachineLearningPipelineState value)
     {
         return value.NativePtr;
@@ -37,26 +45,6 @@ public class MTL4MachineLearningPipelineState : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Device));
-    }
-
-    public nuint IntermediatesHeapSize
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4MachineLearningPipelineStateSelector.IntermediatesHeapSize);
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Label));
-    }
-
-    public MTL4MachineLearningPipelineReflection Reflection
-    {
-        get => new MTL4MachineLearningPipelineReflection(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Reflection));
     }
 
 }

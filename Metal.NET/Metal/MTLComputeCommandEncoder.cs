@@ -14,35 +14,7 @@ public class MTLComputeCommandEncoder : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLComputeCommandEncoder value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLComputeCommandEncoder(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    public MTLDispatchType DispatchType
-    {
-        get => (MTLDispatchType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLComputeCommandEncoderSelector.DispatchType));
-    }
+    public MTLDispatchType DispatchType => (MTLDispatchType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLComputeCommandEncoderSelector.DispatchType));
 
     public void DispatchThreadgroups(MTLSize threadgroupsPerGrid, MTLSize threadsPerThreadgroup)
     {
@@ -182,6 +154,31 @@ public class MTLComputeCommandEncoder : IDisposable
     public void WaitForFence(MTLFence fence)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.WaitForFence, fence.NativePtr);
+    }
+
+    public static implicit operator nint(MTLComputeCommandEncoder value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLComputeCommandEncoder(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

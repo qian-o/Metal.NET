@@ -14,6 +14,15 @@ public class MTL4CompilerTask : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTL4Compiler Compiler => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskSelector.Compiler));
+
+    public MTL4CompilerTaskStatus Status => (MTL4CompilerTaskStatus)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4CompilerTaskSelector.Status));
+
+    public void WaitUntilCompleted()
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerTaskSelector.WaitUntilCompleted);
+    }
+
     public static implicit operator nint(MTL4CompilerTask value)
     {
         return value.NativePtr;
@@ -37,21 +46,6 @@ public class MTL4CompilerTask : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTL4Compiler Compiler
-    {
-        get => new MTL4Compiler(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskSelector.Compiler));
-    }
-
-    public MTL4CompilerTaskStatus Status
-    {
-        get => (MTL4CompilerTaskStatus)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4CompilerTaskSelector.Status));
-    }
-
-    public void WaitUntilCompleted()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerTaskSelector.WaitUntilCompleted);
     }
 
 }

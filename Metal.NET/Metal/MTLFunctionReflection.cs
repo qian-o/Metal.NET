@@ -14,6 +14,8 @@ public class MTLFunctionReflection : IDisposable
 
     public nint NativePtr { get; }
 
+    public NSArray Bindings => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionReflectionSelector.Bindings));
+
     public static implicit operator nint(MTLFunctionReflection value)
     {
         return value.NativePtr;
@@ -37,11 +39,6 @@ public class MTLFunctionReflection : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public NSArray Bindings
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionReflectionSelector.Bindings));
     }
 
 }

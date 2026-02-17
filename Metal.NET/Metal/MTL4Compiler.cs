@@ -14,45 +14,11 @@ public class MTL4Compiler : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTL4Compiler value)
-    {
-        return value.NativePtr;
-    }
+    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.Device));
 
-    public static implicit operator MTL4Compiler(nint value)
-    {
-        return new(value);
-    }
+    public NSString Label => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.Label));
 
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.Device));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.Label));
-    }
-
-    public MTL4PipelineDataSetSerializer PipelineDataSetSerializer
-    {
-        get => new MTL4PipelineDataSetSerializer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.PipelineDataSetSerializer));
-    }
+    public MTL4PipelineDataSetSerializer PipelineDataSetSerializer => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.PipelineDataSetSerializer));
 
     public MTL4BinaryFunction NewBinaryFunction(MTL4BinaryFunctionDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError? error)
     {
@@ -191,6 +157,31 @@ public class MTL4Compiler : IDisposable
         MTL4CompilerTask result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewRenderPipelineStateBySpecializationPPipelineFunction, pDescriptor.NativePtr, pPipeline.NativePtr, function));
 
         return result;
+    }
+
+    public static implicit operator nint(MTL4Compiler value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTL4Compiler(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

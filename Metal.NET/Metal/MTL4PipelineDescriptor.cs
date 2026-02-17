@@ -14,6 +14,18 @@ public class MTL4PipelineDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public NSString Label
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDescriptorSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDescriptorSelector.SetLabel, value.NativePtr);
+    }
+
+    public MTL4PipelineOptions Options
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDescriptorSelector.Options));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDescriptorSelector.SetOptions, value.NativePtr);
+    }
+
     public static implicit operator nint(MTL4PipelineDescriptor value)
     {
         return value.NativePtr;
@@ -37,18 +49,6 @@ public class MTL4PipelineDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDescriptorSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDescriptorSelector.SetLabel, value.NativePtr);
-    }
-
-    public MTL4PipelineOptions Options
-    {
-        get => new MTL4PipelineOptions(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDescriptorSelector.Options));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDescriptorSelector.SetOptions, value.NativePtr);
     }
 
 }

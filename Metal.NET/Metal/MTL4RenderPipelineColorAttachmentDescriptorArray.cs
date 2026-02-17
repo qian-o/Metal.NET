@@ -14,6 +14,23 @@ public class MTL4RenderPipelineColorAttachmentDescriptorArray : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTL4RenderPipelineColorAttachmentDescriptor Object(uint attachmentIndex)
+    {
+        MTL4RenderPipelineColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.Object, (nuint)attachmentIndex));
+
+        return result;
+    }
+
+    public void Reset()
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.Reset);
+    }
+
+    public void SetObject(MTL4RenderPipelineColorAttachmentDescriptor attachment, uint attachmentIndex)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nuint)attachmentIndex);
+    }
+
     public static implicit operator nint(MTL4RenderPipelineColorAttachmentDescriptorArray value)
     {
         return value.NativePtr;
@@ -37,23 +54,6 @@ public class MTL4RenderPipelineColorAttachmentDescriptorArray : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTL4RenderPipelineColorAttachmentDescriptor Object(uint attachmentIndex)
-    {
-        MTL4RenderPipelineColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.Object, (nuint)attachmentIndex));
-
-        return result;
-    }
-
-    public void Reset()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.Reset);
-    }
-
-    public void SetObject(MTL4RenderPipelineColorAttachmentDescriptor attachment, uint attachmentIndex)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nuint)attachmentIndex);
     }
 
 }

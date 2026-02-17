@@ -14,51 +14,17 @@ public class MTL4CommandBuffer : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTL4CommandBuffer value)
-    {
-        return value.NativePtr;
-    }
+    public MTL4ComputeCommandEncoder ComputeCommandEncoder => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.ComputeCommandEncoder));
 
-    public static implicit operator MTL4CommandBuffer(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    public MTL4ComputeCommandEncoder ComputeCommandEncoder
-    {
-        get => new MTL4ComputeCommandEncoder(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.ComputeCommandEncoder));
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.Device));
-    }
+    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.Device));
 
     public NSString Label
     {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.Label));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.SetLabel, value.NativePtr);
     }
 
-    public MTL4MachineLearningCommandEncoder MachineLearningCommandEncoder
-    {
-        get => new MTL4MachineLearningCommandEncoder(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.MachineLearningCommandEncoder));
-    }
+    public MTL4MachineLearningCommandEncoder MachineLearningCommandEncoder => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.MachineLearningCommandEncoder));
 
     public void BeginCommandBuffer(MTL4CommandAllocator allocator)
     {
@@ -112,6 +78,31 @@ public class MTL4CommandBuffer : IDisposable
     public void WriteTimestampIntoHeap(MTL4CounterHeap counterHeap, uint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.WriteTimestampIntoHeapIndex, counterHeap.NativePtr, (nuint)index);
+    }
+
+    public static implicit operator nint(MTL4CommandBuffer value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTL4CommandBuffer(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

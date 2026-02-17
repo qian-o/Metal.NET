@@ -14,6 +14,28 @@ public class MTL4CounterHeap : IDisposable
 
     public nint NativePtr { get; }
 
+    public nuint Count => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CounterHeapSelector.Count);
+
+    public NSString Label
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapSelector.SetLabel, value.NativePtr);
+    }
+
+    public MTL4CounterHeapType Type => (MTL4CounterHeapType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4CounterHeapSelector.Type));
+
+    public void InvalidateCounterRange(NSRange range)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapSelector.InvalidateCounterRange, range);
+    }
+
+    public nint ResolveCounterRange(NSRange range)
+    {
+        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapSelector.ResolveCounterRange, range);
+
+        return result;
+    }
+
     public static implicit operator nint(MTL4CounterHeap value)
     {
         return value.NativePtr;
@@ -37,34 +59,6 @@ public class MTL4CounterHeap : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public nuint Count
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CounterHeapSelector.Count);
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapSelector.SetLabel, value.NativePtr);
-    }
-
-    public MTL4CounterHeapType Type
-    {
-        get => (MTL4CounterHeapType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4CounterHeapSelector.Type));
-    }
-
-    public void InvalidateCounterRange(NSRange range)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapSelector.InvalidateCounterRange, range);
-    }
-
-    public nint ResolveCounterRange(NSRange range)
-    {
-        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapSelector.ResolveCounterRange, range);
-
-        return result;
     }
 
 }

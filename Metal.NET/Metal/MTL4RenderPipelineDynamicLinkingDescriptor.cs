@@ -14,6 +14,16 @@ public class MTL4RenderPipelineDynamicLinkingDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTL4PipelineStageDynamicLinkingDescriptor FragmentLinkingDescriptor => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorSelector.FragmentLinkingDescriptor));
+
+    public MTL4PipelineStageDynamicLinkingDescriptor MeshLinkingDescriptor => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorSelector.MeshLinkingDescriptor));
+
+    public MTL4PipelineStageDynamicLinkingDescriptor ObjectLinkingDescriptor => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorSelector.ObjectLinkingDescriptor));
+
+    public MTL4PipelineStageDynamicLinkingDescriptor TileLinkingDescriptor => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorSelector.TileLinkingDescriptor));
+
+    public MTL4PipelineStageDynamicLinkingDescriptor VertexLinkingDescriptor => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorSelector.VertexLinkingDescriptor));
+
     public static implicit operator nint(MTL4RenderPipelineDynamicLinkingDescriptor value)
     {
         return value.NativePtr;
@@ -37,31 +47,6 @@ public class MTL4RenderPipelineDynamicLinkingDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTL4PipelineStageDynamicLinkingDescriptor FragmentLinkingDescriptor
-    {
-        get => new MTL4PipelineStageDynamicLinkingDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorSelector.FragmentLinkingDescriptor));
-    }
-
-    public MTL4PipelineStageDynamicLinkingDescriptor MeshLinkingDescriptor
-    {
-        get => new MTL4PipelineStageDynamicLinkingDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorSelector.MeshLinkingDescriptor));
-    }
-
-    public MTL4PipelineStageDynamicLinkingDescriptor ObjectLinkingDescriptor
-    {
-        get => new MTL4PipelineStageDynamicLinkingDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorSelector.ObjectLinkingDescriptor));
-    }
-
-    public MTL4PipelineStageDynamicLinkingDescriptor TileLinkingDescriptor
-    {
-        get => new MTL4PipelineStageDynamicLinkingDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorSelector.TileLinkingDescriptor));
-    }
-
-    public MTL4PipelineStageDynamicLinkingDescriptor VertexLinkingDescriptor
-    {
-        get => new MTL4PipelineStageDynamicLinkingDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorSelector.VertexLinkingDescriptor));
     }
 
 }

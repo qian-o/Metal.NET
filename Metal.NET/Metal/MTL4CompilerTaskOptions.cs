@@ -14,6 +14,12 @@ public class MTL4CompilerTaskOptions : IDisposable
 
     public nint NativePtr { get; }
 
+    public NSArray LookupArchives
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskOptionsSelector.LookupArchives));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerTaskOptionsSelector.SetLookupArchives, value.NativePtr);
+    }
+
     public static implicit operator nint(MTL4CompilerTaskOptions value)
     {
         return value.NativePtr;
@@ -37,12 +43,6 @@ public class MTL4CompilerTaskOptions : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public NSArray LookupArchives
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskOptionsSelector.LookupArchives));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerTaskOptionsSelector.SetLookupArchives, value.NativePtr);
     }
 
 }

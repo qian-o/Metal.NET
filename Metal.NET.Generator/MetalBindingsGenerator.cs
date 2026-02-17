@@ -1,4 +1,4 @@
-﻿using System.Text;
+using System.Text;
 
 namespace Metal.NET.Generator;
 
@@ -7,7 +7,6 @@ public class MetalBindingsGenerator
     private readonly string _outputDir;
     private readonly HashSet<string> _knownEnums = new();
 
-    // Collect all unique MsgSend signatures needed: (returnType, [paramTypes...])
     private readonly HashSet<string> _msgSendSignatures = new();
 
     public MetalBindingsGenerator(string outputDir)
@@ -53,7 +52,6 @@ public class MetalBindingsGenerator
             list.Add(f);
         }
 
-        // First pass: collect all MsgSend signatures needed
         foreach (var cls in parsed.Classes)
         {
             CollectSignatures(cls);
@@ -85,8 +83,7 @@ public class MetalBindingsGenerator
             }
         }
 
-        // Generate ObjectiveCRuntime overloads
-        GenerateRuntimeOverloads();
+        GenerateMergedRuntime();
     }
 
     private void GenerateStubClass(string typeName)
@@ -94,7 +91,8 @@ public class MetalBindingsGenerator
         var sb = new StringBuilder();
         sb.AppendLine("namespace Metal.NET;");
         sb.AppendLine();
-        EmitClassBoilerplate(sb, typeName, hasLibraryImports: false);
+        EmitClassHeader(sb, typeName, hasLibraryImports: false, isConcreteClass: false, objcClassName: null);
+        EmitClassFooter(sb, typeName);
         sb.AppendLine("}");
 
         var folder = GetFolderForType(typeName);
@@ -159,20 +157,11 @@ public class MetalBindingsGenerator
         sb.AppendLine("namespace Metal.NET;");
         sb.AppendLine();
 
-        EmitClassBoilerplate(sb, def.Name, hasLibraryImports);
+        bool isConcreteClass = def.IsClass && def.ObjCClass != null;
+        EmitClassHeader(sb, def.Name, hasLibraryImports, isConcreteClass, isConcreteClass ? def.ObjCClass : null);
 
-        // Alloc (for concrete classes)
         bool hasStaticMethods = def.StaticMethods.Count > 0;
-        if (def.IsClass && def.ObjCClass != null)
-        {
-            sb.AppendLine($"    private static readonly nint s_class = ObjectiveCRuntime.GetClass(\"{def.ObjCClass}\");");
-            sb.AppendLine();
-            sb.AppendLine($"    public {def.Name}() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register(\"alloc\")), Selector.Register(\"init\")))");
-            sb.AppendLine("    {");
-            sb.AppendLine("    }");
-            sb.AppendLine();
-        }
-        else if (hasStaticMethods)
+        if (!isConcreteClass && hasStaticMethods)
         {
             sb.AppendLine($"    private static readonly nint s_class = ObjectiveCRuntime.GetClass(\"{def.Name}\");");
             sb.AppendLine();
@@ -187,21 +176,24 @@ public class MetalBindingsGenerator
             var propName = ToPascalCase(p.Name);
 
             if (retCSharp.Invoke.Contains("TODO"))
-            {
                 continue;
+
+            var getExpr = WrapReturnInline(p.Type, $"{retCSharp.Invoke}(NativePtr, {def.Name}Selector.{getSel})");
+
+            if (p.Readonly)
+            {
+                sb.AppendLine($"    public {p.Type} {propName} => {getExpr};");
             }
-
-            sb.AppendLine($"    public {p.Type} {propName}");
-            sb.AppendLine("    {");
-            sb.AppendLine($"        get => {WrapReturn(p.Type, $"{retCSharp.Invoke}(NativePtr, {def.Name}Selector.{getSel})")};");
-
-            if (!p.Readonly)
+            else
             {
                 var setSelKey = p.SetSelector ?? $"set{Capitalize(p.Name)}:";
                 var setSel = selectors[setSelKey];
+                sb.AppendLine($"    public {p.Type} {propName}");
+                sb.AppendLine("    {");
+                sb.AppendLine($"        get => {getExpr};");
                 sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {def.Name}Selector.{setSel}, {UnwrapParam(p.Type, "value")});");
+                sb.AppendLine("    }");
             }
-            sb.AppendLine("    }");
             sb.AppendLine();
         }
 
@@ -211,7 +203,36 @@ public class MetalBindingsGenerator
             EmitMethod(sb, def.Name, m, selectors, isStatic: false);
         }
 
-        // Static methods
+        // Implicit operators
+        sb.AppendLine($"    public static implicit operator nint({def.Name} value)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        return value.NativePtr;");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine($"    public static implicit operator {def.Name}(nint value)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        return new(value);");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+
+        // Dispose + Release
+        sb.AppendLine("    public void Dispose()");
+        sb.AppendLine("    {");
+        sb.AppendLine("        Release();");
+        sb.AppendLine();
+        sb.AppendLine("        GC.SuppressFinalize(this);");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    private void Release()");
+        sb.AppendLine("    {");
+        sb.AppendLine("        if (NativePtr is not 0)");
+        sb.AppendLine("        {");
+        sb.AppendLine("            ObjectiveCRuntime.Release(NativePtr);");
+        sb.AppendLine("        }");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+
+        // Static methods at bottom
         foreach (var m in def.StaticMethods)
         {
             EmitMethod(sb, def.Name, m, selectors, isStatic: true);
@@ -229,7 +250,7 @@ public class MetalBindingsGenerator
         sb.AppendLine("}");
         sb.AppendLine();
 
-        // Selector cache as file-scoped class (at the bottom of the file)
+        // Selector cache at the bottom of the file
         sb.AppendLine($"file class {def.Name}Selector");
         sb.AppendLine("{");
         var first = true;
@@ -244,15 +265,31 @@ public class MetalBindingsGenerator
         WriteSource(def.Folder, $"{def.Name}.cs", sb.ToString());
     }
 
-    private static void EmitClassBoilerplate(StringBuilder sb, string name, bool hasLibraryImports)
+    private static void EmitClassHeader(StringBuilder sb, string name, bool hasLibraryImports, bool isConcreteClass, string? objcClassName)
     {
         sb.AppendLine($"public{(hasLibraryImports ? " partial" : "")} class {name} : IDisposable");
         sb.AppendLine("{");
+
+        if (isConcreteClass && objcClassName != null)
+        {
+            sb.AppendLine($"    private static readonly nint s_class = ObjectiveCRuntime.GetClass(\"{objcClassName}\");");
+            sb.AppendLine();
+        }
+
         sb.AppendLine($"    public {name}(nint nativePtr)");
         sb.AppendLine("    {");
         sb.AppendLine("        ObjectiveCRuntime.Retain(NativePtr = nativePtr);");
         sb.AppendLine("    }");
         sb.AppendLine();
+
+        if (isConcreteClass)
+        {
+            sb.AppendLine($"    public {name}() : this(ObjectiveCRuntime.AllocInit(s_class))");
+            sb.AppendLine("    {");
+            sb.AppendLine("    }");
+            sb.AppendLine();
+        }
+
         sb.AppendLine($"    ~{name}()");
         sb.AppendLine("    {");
         sb.AppendLine("        Release();");
@@ -260,6 +297,10 @@ public class MetalBindingsGenerator
         sb.AppendLine();
         sb.AppendLine("    public nint NativePtr { get; }");
         sb.AppendLine();
+    }
+
+    private static void EmitClassFooter(StringBuilder sb, string name)
+    {
         sb.AppendLine($"    public static implicit operator nint({name} value)");
         sb.AppendLine("    {");
         sb.AppendLine("        return value.NativePtr;");
@@ -307,9 +348,7 @@ public class MetalBindingsGenerator
         var retCall = MapReturnCall(retType);
 
         if (retCall.Invoke.Contains("TODO"))
-        {
             return;
-        }
 
         sb.AppendLine($"    public {staticMod}{retType} {methodName}({paramsStr})");
         sb.AppendLine("    {");
@@ -326,7 +365,6 @@ public class MetalBindingsGenerator
 
         var argsStr = string.Join(", ", argParts);
 
-        // Record the signature for runtime overload generation
         var runtimeParamTypes = m.Parameters.Select(p => GetRuntimeParamType(p.Type)).ToList();
         var runtimeReturnType = MapReturnRuntimeType(retType);
         RecordMsgSendSignature(runtimeReturnType, runtimeParamTypes, m.HasErrorOut);
@@ -338,13 +376,12 @@ public class MetalBindingsGenerator
         else
         {
             var resultExpr = $"{retCall.Invoke}({argsStr})";
-            var wrapped = WrapReturnVar(retType, resultExpr);
             if (IsObjCWrapper(retType) || retCall.NeedsWrap)
                 sb.AppendLine($"        {retType} result = new({retCall.Invoke}({argsStr}));");
             else if (IsLikelyEnum(retType))
-                sb.AppendLine($"        {retType} result = {wrapped};");
+                sb.AppendLine($"        {retType} result = ({retType}){resultExpr};");
             else
-                sb.AppendLine($"        {retType} result = {wrapped};");
+                sb.AppendLine($"        {retType} result = {resultExpr};");
         }
 
         if (m.HasErrorOut)
@@ -405,7 +442,7 @@ public class MetalBindingsGenerator
         }
         else if (wrapReturn)
         {
-            sb.AppendLine($"        return new {f.ReturnType}({f.NativeName}({forwardArgsStr}));");
+            sb.AppendLine($"        return new({f.NativeName}({forwardArgsStr}));");
         }
         else
         {
@@ -413,6 +450,15 @@ public class MetalBindingsGenerator
         }
         sb.AppendLine("    }");
         sb.AppendLine();
+    }
+
+    private static string WrapReturnInline(string type, string expr)
+    {
+        if (IsLikelyEnum(type))
+            return $"({type})({expr})";
+        var call = MapReturnCall(type);
+        if (!call.NeedsWrap) return expr;
+        return $"new({expr})";
     }
 
     private static (string Invoke, bool NeedsWrap) MapReturnCall(string type)
@@ -433,24 +479,6 @@ public class MetalBindingsGenerator
         };
     }
 
-    private static string WrapReturn(string type, string expr)
-    {
-        if (IsLikelyEnum(type))
-            return $"({type})({expr})";
-        var call = MapReturnCall(type);
-        if (!call.NeedsWrap) return expr;
-        return $"new {type}({expr})";
-    }
-
-    private static string WrapReturnVar(string type, string varName)
-    {
-        if (IsLikelyEnum(type))
-            return $"({type}){varName}";
-        var call = MapReturnCall(type);
-        if (!call.NeedsWrap) return varName;
-        return $"new({varName})";
-    }
-
     private static string UnwrapParam(string type, string name)
     {
         if (IsKnownValueStruct(type)) return name;
@@ -466,9 +494,6 @@ public class MetalBindingsGenerator
         return name;
     }
 
-    /// <summary>
-    /// Map a C# parameter type to the actual runtime type used in MsgSend overload signatures.
-    /// </summary>
     private static string GetRuntimeParamType(string type)
     {
         if (IsKnownValueStruct(type)) return type;
@@ -507,8 +532,6 @@ public class MetalBindingsGenerator
 
         var fieldName = SelectorToFieldName(selector);
 
-        // Check for collision: if the same field name already exists for a different selector,
-        // disambiguate by counting colons (number of arguments)
         if (dict.Values.Any(v => v == fieldName))
         {
             var colonCount = selector.Count(c => c == ':');
@@ -547,9 +570,7 @@ public class MetalBindingsGenerator
         if (retType is "nuint") return "nuint";
         if (retType is "nint") return "nint";
         if (IsLikelyEnum(retType)) return "uint";
-        // Value structs need stret — not supported, should be filtered before calling this
         if (IsKnownValueStruct(retType)) return "nint";
-        // ObjC wrapper or nint
         return "nint";
     }
 
@@ -563,7 +584,7 @@ public class MetalBindingsGenerator
         "float" => "MsgSendFloat",
         "double" => "MsgSendDouble",
         "nuint" => "MsgSendNUInt",
-        _ => "MsgSendPtr", // fallback
+        _ => "MsgSendPtr",
     };
 
     private void RecordMsgSendSignature(string runtimeReturnType, List<string> runtimeParamTypes, bool hasErrorOut)
@@ -574,7 +595,6 @@ public class MetalBindingsGenerator
 
     private void CollectSignatures(ObjCClassDef cls)
     {
-        // Collect from properties
         foreach (var p in cls.Properties)
         {
             var retCall = MapReturnCall(p.Type);
@@ -590,7 +610,6 @@ public class MetalBindingsGenerator
             }
         }
 
-        // Collect from methods
         foreach (var m in cls.Methods.Concat(cls.StaticMethods))
         {
             var retCall = MapReturnCall(m.ReturnType);
@@ -602,16 +621,48 @@ public class MetalBindingsGenerator
         }
     }
 
-    private void GenerateRuntimeOverloads()
+    private void GenerateMergedRuntime()
     {
         var sb = new StringBuilder();
         sb.AppendLine("using System.Runtime.InteropServices;");
+        sb.AppendLine("using System.Text;");
         sb.AppendLine();
         sb.AppendLine("namespace Metal.NET;");
         sb.AppendLine();
-        sb.AppendLine("public static unsafe partial class ObjectiveCRuntime");
+        sb.AppendLine("internal static unsafe partial class ObjectiveCRuntime");
         sb.AppendLine("{");
 
+        sb.AppendLine("    [LibraryImport(\"/usr/lib/libobjc.A.dylib\", EntryPoint = \"objc_getClass\")]");
+        sb.AppendLine("    public static partial nint GetClass(byte* name);");
+        sb.AppendLine();
+        sb.AppendLine("    [LibraryImport(\"/usr/lib/libobjc.A.dylib\", EntryPoint = \"sel_registerName\")]");
+        sb.AppendLine("    public static partial Selector RegisterName(byte* name);");
+        sb.AppendLine();
+        sb.AppendLine("    public static nint Retain(nint obj)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        return MsgSendPtr(obj, Selector.Register(\"retain\"));");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    public static void Release(nint obj)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        MsgSend(obj, Selector.Register(\"release\"));");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    public static nint GetClass(string name)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        fixed (byte* utf8 = Encoding.UTF8.GetBytes(name + '\\0'))");
+        sb.AppendLine("        {");
+        sb.AppendLine("            return GetClass(utf8);");
+        sb.AppendLine("        }");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    public static nint AllocInit(nint @class)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        return MsgSendPtr(MsgSendPtr(@class, Selector.Register(\"alloc\")), Selector.Register(\"init\"));");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+
+        var overloadsByGroup = new Dictionary<string, List<string>>();
         var emittedSigs = new HashSet<string>();
 
         foreach (var sig in _msgSendSignatures.OrderBy(s => s))
@@ -625,7 +676,6 @@ public class MetalBindingsGenerator
             var methodName = MsgSendMethodName(retType);
             var csRetType = retType == "void" ? "void" : retType;
 
-            // Build parameter list
             var paramParts = new List<string> { "nint receiver", "Selector selector" };
             char letter = 'a';
             foreach (var pt in paramTypes)
@@ -640,19 +690,39 @@ public class MetalBindingsGenerator
 
             var paramStr = string.Join(", ", paramParts);
 
-            // Deduplicate: same method name + same param types = same overload
             var dedupKey = $"{csRetType} {methodName}({paramStr})";
             if (!emittedSigs.Add(dedupKey))
                 continue;
 
-            sb.AppendLine($"    [LibraryImport(\"/usr/lib/libobjc.A.dylib\", EntryPoint = \"objc_msgSend\")]");
-            sb.AppendLine($"    public static partial {csRetType} {methodName}({paramStr});");
+            var groupName = methodName;
+            if (!overloadsByGroup.TryGetValue(groupName, out var list))
+            {
+                list = new List<string>();
+                overloadsByGroup[groupName] = list;
+            }
+
+            var overloadSb = new StringBuilder();
+            overloadSb.AppendLine($"    [LibraryImport(\"/usr/lib/libobjc.A.dylib\", EntryPoint = \"objc_msgSend\")]");
+            overloadSb.Append($"    public static partial {csRetType} {methodName}({paramStr});");
+            list.Add(overloadSb.ToString());
+        }
+
+        foreach (var group in overloadsByGroup.OrderBy(g => g.Key))
+        {
+            sb.AppendLine($"    #region {group.Key}");
+            sb.AppendLine();
+            for (int i = 0; i < group.Value.Count; i++)
+            {
+                sb.AppendLine(group.Value[i]);
+                sb.AppendLine();
+            }
+            sb.AppendLine("    #endregion");
             sb.AppendLine();
         }
 
         sb.AppendLine("}");
 
-        WriteSource("Common", "ObjectiveCRuntime.Generated.cs", sb.ToString());
+        WriteSource("Common", "ObjectiveCRuntime.cs", sb.ToString());
     }
 
     private static string Capitalize(string s)

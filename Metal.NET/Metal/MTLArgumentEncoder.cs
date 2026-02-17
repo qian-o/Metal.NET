@@ -14,49 +14,15 @@ public class MTLArgumentEncoder : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLArgumentEncoder value)
-    {
-        return value.NativePtr;
-    }
+    public nuint Alignment => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentEncoderSelector.Alignment);
 
-    public static implicit operator MTLArgumentEncoder(nint value)
-    {
-        return new(value);
-    }
+    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderSelector.Device));
 
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    public nuint Alignment
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentEncoderSelector.Alignment);
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderSelector.Device));
-    }
-
-    public nuint EncodedLength
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentEncoderSelector.EncodedLength);
-    }
+    public nuint EncodedLength => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentEncoderSelector.EncodedLength);
 
     public NSString Label
     {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderSelector.Label));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetLabel, value.NativePtr);
     }
 
@@ -132,6 +98,31 @@ public class MTLArgumentEncoder : IDisposable
     public void SetVisibleFunctionTable(MTLVisibleFunctionTable visibleFunctionTable, uint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetVisibleFunctionTableIndex, visibleFunctionTable.NativePtr, (nuint)index);
+    }
+
+    public static implicit operator nint(MTLArgumentEncoder value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLArgumentEncoder(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

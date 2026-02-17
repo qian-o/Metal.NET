@@ -2,9 +2,15 @@
 
 public class MTLComputePassDescriptor : IDisposable
 {
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLComputePassDescriptor");
+
     public MTLComputePassDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    public MTLComputePassDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    {
     }
 
     ~MTLComputePassDescriptor()
@@ -13,6 +19,14 @@ public class MTLComputePassDescriptor : IDisposable
     }
 
     public nint NativePtr { get; }
+
+    public MTLDispatchType DispatchType
+    {
+        get => (MTLDispatchType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLComputePassDescriptorSelector.DispatchType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePassDescriptorSelector.SetDispatchType, (uint)value);
+    }
+
+    public MTLComputePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePassDescriptorSelector.SampleBufferAttachments));
 
     public static implicit operator nint(MTLComputePassDescriptor value)
     {
@@ -37,23 +51,6 @@ public class MTLComputePassDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLComputePassDescriptor");
-
-    public MTLComputePassDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
-    {
-    }
-
-    public MTLDispatchType DispatchType
-    {
-        get => (MTLDispatchType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLComputePassDescriptorSelector.DispatchType));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePassDescriptorSelector.SetDispatchType, (uint)value);
-    }
-
-    public MTLComputePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
-    {
-        get => new MTLComputePassSampleBufferAttachmentDescriptorArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePassDescriptorSelector.SampleBufferAttachments));
     }
 
     public static MTLComputePassDescriptor ComputePassDescriptor()

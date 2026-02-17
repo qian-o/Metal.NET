@@ -14,6 +14,11 @@ public class MTL4CommitOptions : IDisposable
 
     public nint NativePtr { get; }
 
+    public void AddFeedbackHandler(int function)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommitOptionsSelector.AddFeedbackHandler, function);
+    }
+
     public static implicit operator nint(MTL4CommitOptions value)
     {
         return value.NativePtr;
@@ -37,11 +42,6 @@ public class MTL4CommitOptions : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public void AddFeedbackHandler(int function)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommitOptionsSelector.AddFeedbackHandler, function);
     }
 
 }

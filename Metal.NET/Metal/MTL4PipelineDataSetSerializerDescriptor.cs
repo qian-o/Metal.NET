@@ -14,6 +14,12 @@ public class MTL4PipelineDataSetSerializerDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public nuint Configuration
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.Configuration);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.SetConfiguration, (nuint)value);
+    }
+
     public static implicit operator nint(MTL4PipelineDataSetSerializerDescriptor value)
     {
         return value.NativePtr;
@@ -37,12 +43,6 @@ public class MTL4PipelineDataSetSerializerDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public nuint Configuration
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.Configuration);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.SetConfiguration, (nuint)value);
     }
 
 }

@@ -2,9 +2,15 @@
 
 public class MTLTextureDescriptor : IDisposable
 {
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLTextureDescriptor");
+
     public MTLTextureDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    public MTLTextureDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    {
     }
 
     ~MTLTextureDescriptor()
@@ -13,37 +19,6 @@ public class MTLTextureDescriptor : IDisposable
     }
 
     public nint NativePtr { get; }
-
-    public static implicit operator nint(MTLTextureDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLTextureDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLTextureDescriptor");
-
-    public MTLTextureDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
-    {
-    }
 
     public Bool8 AllowGPUOptimizedContents
     {
@@ -125,7 +100,7 @@ public class MTLTextureDescriptor : IDisposable
 
     public MTLTextureSwizzleChannels Swizzle
     {
-        get => new MTLTextureSwizzleChannels(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureDescriptorSelector.Swizzle));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureDescriptorSelector.Swizzle));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorSelector.SetSwizzle, value.NativePtr);
     }
 
@@ -145,6 +120,31 @@ public class MTLTextureDescriptor : IDisposable
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureDescriptorSelector.Width);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorSelector.SetWidth, (nuint)value);
+    }
+
+    public static implicit operator nint(MTLTextureDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLTextureDescriptor(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public static MTLTextureDescriptor Texture2DDescriptor(MTLPixelFormat pixelFormat, uint width, uint height, Bool8 mipmapped)

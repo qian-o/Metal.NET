@@ -14,6 +14,30 @@ public class MTLDrawable : IDisposable
 
     public nint NativePtr { get; }
 
+    public nuint DrawableID => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDrawableSelector.DrawableID);
+
+    public double PresentedTime => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLDrawableSelector.PresentedTime);
+
+    public void AddPresentedHandler(int function)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableSelector.AddPresentedHandler, function);
+    }
+
+    public void Present()
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableSelector.Present);
+    }
+
+    public void PresentAfterMinimumDuration(double duration)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableSelector.PresentAfterMinimumDuration, duration);
+    }
+
+    public void PresentAtTime(double presentationTime)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableSelector.PresentAtTime, presentationTime);
+    }
+
     public static implicit operator nint(MTLDrawable value)
     {
         return value.NativePtr;
@@ -37,36 +61,6 @@ public class MTLDrawable : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public nuint DrawableID
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDrawableSelector.DrawableID);
-    }
-
-    public double PresentedTime
-    {
-        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLDrawableSelector.PresentedTime);
-    }
-
-    public void AddPresentedHandler(int function)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableSelector.AddPresentedHandler, function);
-    }
-
-    public void Present()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableSelector.Present);
-    }
-
-    public void PresentAfterMinimumDuration(double duration)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableSelector.PresentAfterMinimumDuration, duration);
-    }
-
-    public void PresentAtTime(double presentationTime)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableSelector.PresentAtTime, presentationTime);
     }
 
 }

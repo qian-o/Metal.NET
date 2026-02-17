@@ -14,31 +14,6 @@ public class MTLIntersectionFunctionTable : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLIntersectionFunctionTable value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLIntersectionFunctionTable(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
     public void SetBuffer(MTLBuffer buffer, uint offset, uint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetBufferOffsetIndex, buffer.NativePtr, (nuint)offset, (nuint)index);
@@ -72,6 +47,31 @@ public class MTLIntersectionFunctionTable : IDisposable
     public void SetVisibleFunctionTable(MTLVisibleFunctionTable functionTable, uint bufferIndex)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetVisibleFunctionTableBufferIndex, functionTable.NativePtr, (nuint)bufferIndex);
+    }
+
+    public static implicit operator nint(MTLIntersectionFunctionTable value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLIntersectionFunctionTable(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

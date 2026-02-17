@@ -14,31 +14,6 @@ public class MTLMeshRenderPipelineDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLMeshRenderPipelineDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLMeshRenderPipelineDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
     public Bool8 AlphaToCoverageEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorSelector.AlphaToCoverageEnabled);
@@ -53,14 +28,11 @@ public class MTLMeshRenderPipelineDescriptor : IDisposable
 
     public NSArray BinaryArchives
     {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.BinaryArchives));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.BinaryArchives));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetBinaryArchives, value.NativePtr);
     }
 
-    public MTLRenderPipelineColorAttachmentDescriptorArray ColorAttachments
-    {
-        get => new MTLRenderPipelineColorAttachmentDescriptorArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.ColorAttachments));
-    }
+    public MTLRenderPipelineColorAttachmentDescriptorArray ColorAttachments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.ColorAttachments));
 
     public MTLPixelFormat DepthAttachmentPixelFormat
     {
@@ -68,41 +40,29 @@ public class MTLMeshRenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetDepthAttachmentPixelFormat, (uint)value);
     }
 
-    public MTLPipelineBufferDescriptorArray FragmentBuffers
-    {
-        get => new MTLPipelineBufferDescriptorArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.FragmentBuffers));
-    }
+    public MTLPipelineBufferDescriptorArray FragmentBuffers => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.FragmentBuffers));
 
     public MTLFunction FragmentFunction
     {
-        get => new MTLFunction(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.FragmentFunction));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.FragmentFunction));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetFragmentFunction, value.NativePtr);
     }
 
     public MTLLinkedFunctions FragmentLinkedFunctions
     {
-        get => new MTLLinkedFunctions(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.FragmentLinkedFunctions));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.FragmentLinkedFunctions));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetFragmentLinkedFunctions, value.NativePtr);
     }
 
-    public Bool8 IsAlphaToCoverageEnabled
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorSelector.IsAlphaToCoverageEnabled);
-    }
+    public Bool8 IsAlphaToCoverageEnabled => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorSelector.IsAlphaToCoverageEnabled);
 
-    public Bool8 IsAlphaToOneEnabled
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorSelector.IsAlphaToOneEnabled);
-    }
+    public Bool8 IsAlphaToOneEnabled => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorSelector.IsAlphaToOneEnabled);
 
-    public Bool8 IsRasterizationEnabled
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorSelector.IsRasterizationEnabled);
-    }
+    public Bool8 IsRasterizationEnabled => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorSelector.IsRasterizationEnabled);
 
     public NSString Label
     {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.Label));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetLabel, value.NativePtr);
     }
 
@@ -130,20 +90,17 @@ public class MTLMeshRenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetMaxVertexAmplificationCount, (nuint)value);
     }
 
-    public MTLPipelineBufferDescriptorArray MeshBuffers
-    {
-        get => new MTLPipelineBufferDescriptorArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.MeshBuffers));
-    }
+    public MTLPipelineBufferDescriptorArray MeshBuffers => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.MeshBuffers));
 
     public MTLFunction MeshFunction
     {
-        get => new MTLFunction(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.MeshFunction));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.MeshFunction));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetMeshFunction, value.NativePtr);
     }
 
     public MTLLinkedFunctions MeshLinkedFunctions
     {
-        get => new MTLLinkedFunctions(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.MeshLinkedFunctions));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.MeshLinkedFunctions));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetMeshLinkedFunctions, value.NativePtr);
     }
 
@@ -153,20 +110,17 @@ public class MTLMeshRenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth, value);
     }
 
-    public MTLPipelineBufferDescriptorArray ObjectBuffers
-    {
-        get => new MTLPipelineBufferDescriptorArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.ObjectBuffers));
-    }
+    public MTLPipelineBufferDescriptorArray ObjectBuffers => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.ObjectBuffers));
 
     public MTLFunction ObjectFunction
     {
-        get => new MTLFunction(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.ObjectFunction));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.ObjectFunction));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetObjectFunction, value.NativePtr);
     }
 
     public MTLLinkedFunctions ObjectLinkedFunctions
     {
-        get => new MTLLinkedFunctions(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.ObjectLinkedFunctions));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.ObjectLinkedFunctions));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetObjectLinkedFunctions, value.NativePtr);
     }
 
@@ -215,6 +169,31 @@ public class MTLMeshRenderPipelineDescriptor : IDisposable
     public void Reset()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.Reset);
+    }
+
+    public static implicit operator nint(MTLMeshRenderPipelineDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLMeshRenderPipelineDescriptor(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

@@ -14,40 +14,9 @@ public class MTL4RenderCommandEncoder : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTL4RenderCommandEncoder value)
-    {
-        return value.NativePtr;
-    }
+    public nuint TileHeight => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderCommandEncoderSelector.TileHeight);
 
-    public static implicit operator MTL4RenderCommandEncoder(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    public nuint TileHeight
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderCommandEncoderSelector.TileHeight);
-    }
-
-    public nuint TileWidth
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderCommandEncoderSelector.TileWidth);
-    }
+    public nuint TileWidth => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderCommandEncoderSelector.TileWidth);
 
     public void DispatchThreadsPerTile(MTLSize threadsPerTile)
     {
@@ -242,6 +211,31 @@ public class MTL4RenderCommandEncoder : IDisposable
     public void WriteTimestamp(MTL4TimestampGranularity granularity, uint stage, MTL4CounterHeap counterHeap, uint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderSelector.WriteTimestampStageCounterHeapIndex, (uint)granularity, (nuint)stage, counterHeap.NativePtr, (nuint)index);
+    }
+
+    public static implicit operator nint(MTL4RenderCommandEncoder value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTL4RenderCommandEncoder(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

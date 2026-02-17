@@ -14,31 +14,6 @@ public class MTLTensorDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLTensorDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLTensorDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
     public MTLCPUCacheMode CpuCacheMode
     {
         get => (MTLCPUCacheMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTensorDescriptorSelector.CpuCacheMode));
@@ -53,7 +28,7 @@ public class MTLTensorDescriptor : IDisposable
 
     public MTLTensorExtents Dimensions
     {
-        get => new MTLTensorExtents(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorDescriptorSelector.Dimensions));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorDescriptorSelector.Dimensions));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetDimensions, value.NativePtr);
     }
 
@@ -77,7 +52,7 @@ public class MTLTensorDescriptor : IDisposable
 
     public MTLTensorExtents Strides
     {
-        get => new MTLTensorExtents(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorDescriptorSelector.Strides));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorDescriptorSelector.Strides));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetStrides, value.NativePtr);
     }
 
@@ -85,6 +60,31 @@ public class MTLTensorDescriptor : IDisposable
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorSelector.Usage);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetUsage, (nuint)value);
+    }
+
+    public static implicit operator nint(MTLTensorDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLTensorDescriptor(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

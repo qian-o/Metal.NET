@@ -14,31 +14,6 @@ public class MTLFXFrameInterpolatorDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLFXFrameInterpolatorDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLFXFrameInterpolatorDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLFXFrameInterpolatorDescriptor");
 
     public MTLPixelFormat ColorTextureFormat
@@ -65,14 +40,11 @@ public class MTLFXFrameInterpolatorDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetMotionTextureFormat, (uint)value);
     }
 
-    public MTLPixelFormat UiTextureFormat
-    {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.UiTextureFormat));
-    }
+    public MTLPixelFormat UiTextureFormat => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.UiTextureFormat));
 
     public MTLFXFrameInterpolatableScaler Scaler
     {
-        get => new MTLFXFrameInterpolatableScaler(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.Scaler));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.Scaler));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetScaler, value.NativePtr);
     }
 
@@ -117,6 +89,31 @@ public class MTLFXFrameInterpolatorDescriptor : IDisposable
         MTLFXFrameInterpolator result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.NewFrameInterpolatorPCompiler, pDevice.NativePtr, pCompiler.NativePtr));
 
         return result;
+    }
+
+    public static implicit operator nint(MTLFXFrameInterpolatorDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLFXFrameInterpolatorDescriptor(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public static Bool8 SupportsMetal4FX(MTLDevice device)

@@ -14,40 +14,9 @@ public class MTL4ArgumentTable : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTL4ArgumentTable value)
-    {
-        return value.NativePtr;
-    }
+    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArgumentTableSelector.Device));
 
-    public static implicit operator MTL4ArgumentTable(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArgumentTableSelector.Device));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArgumentTableSelector.Label));
-    }
+    public NSString Label => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArgumentTableSelector.Label));
 
     public void SetAddress(uint gpuAddress, uint bindingIndex)
     {
@@ -72,6 +41,31 @@ public class MTL4ArgumentTable : IDisposable
     public void SetTexture(MTLResourceID resourceID, uint bindingIndex)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetTextureBindingIndex, resourceID, (nuint)bindingIndex);
+    }
+
+    public static implicit operator nint(MTL4ArgumentTable value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTL4ArgumentTable(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

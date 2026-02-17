@@ -14,6 +14,24 @@ public class MTL4LibraryDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public NSString Name
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryDescriptorSelector.Name));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorSelector.SetName, value.NativePtr);
+    }
+
+    public MTLCompileOptions Options
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryDescriptorSelector.Options));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorSelector.SetOptions, value.NativePtr);
+    }
+
+    public NSString Source
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryDescriptorSelector.Source));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorSelector.SetSource, value.NativePtr);
+    }
+
     public static implicit operator nint(MTL4LibraryDescriptor value)
     {
         return value.NativePtr;
@@ -37,24 +55,6 @@ public class MTL4LibraryDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public NSString Name
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryDescriptorSelector.Name));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorSelector.SetName, value.NativePtr);
-    }
-
-    public MTLCompileOptions Options
-    {
-        get => new MTLCompileOptions(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryDescriptorSelector.Options));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorSelector.SetOptions, value.NativePtr);
-    }
-
-    public NSString Source
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryDescriptorSelector.Source));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorSelector.SetSource, value.NativePtr);
     }
 
 }

@@ -14,31 +14,6 @@ public class MTLIndirectRenderCommand : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLIndirectRenderCommand value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLIndirectRenderCommand(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
     public void ClearBarrier()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.ClearBarrier);
@@ -147,6 +122,31 @@ public class MTLIndirectRenderCommand : IDisposable
     public void SetVertexBuffer(MTLBuffer buffer, uint offset, uint stride, uint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetVertexBufferOffsetStrideIndex, buffer.NativePtr, (nuint)offset, (nuint)stride, (nuint)index);
+    }
+
+    public static implicit operator nint(MTLIndirectRenderCommand value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLIndirectRenderCommand(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

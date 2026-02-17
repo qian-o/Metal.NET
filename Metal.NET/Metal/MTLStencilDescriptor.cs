@@ -2,9 +2,15 @@
 
 public class MTLStencilDescriptor : IDisposable
 {
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLStencilDescriptor");
+
     public MTLStencilDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    public MTLStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    {
     }
 
     ~MTLStencilDescriptor()
@@ -13,37 +19,6 @@ public class MTLStencilDescriptor : IDisposable
     }
 
     public nint NativePtr { get; }
-
-    public static implicit operator nint(MTLStencilDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLStencilDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLStencilDescriptor");
-
-    public MTLStencilDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
-    {
-    }
 
     public MTLStencilOperation DepthFailureOperation
     {
@@ -79,6 +54,31 @@ public class MTLStencilDescriptor : IDisposable
     {
         get => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLStencilDescriptorSelector.WriteMask);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetWriteMask, value);
+    }
+
+    public static implicit operator nint(MTLStencilDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLStencilDescriptor(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

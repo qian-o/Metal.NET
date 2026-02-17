@@ -2,9 +2,15 @@
 
 public class MTLVertexDescriptor : IDisposable
 {
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLVertexDescriptor");
+
     public MTLVertexDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    public MTLVertexDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    {
     }
 
     ~MTLVertexDescriptor()
@@ -13,6 +19,15 @@ public class MTLVertexDescriptor : IDisposable
     }
 
     public nint NativePtr { get; }
+
+    public MTLVertexAttributeDescriptorArray Attributes => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorSelector.Attributes));
+
+    public MTLVertexBufferLayoutDescriptorArray Layouts => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorSelector.Layouts));
+
+    public void Reset()
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexDescriptorSelector.Reset);
+    }
 
     public static implicit operator nint(MTLVertexDescriptor value)
     {
@@ -37,27 +52,6 @@ public class MTLVertexDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLVertexDescriptor");
-
-    public MTLVertexDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
-    {
-    }
-
-    public MTLVertexAttributeDescriptorArray Attributes
-    {
-        get => new MTLVertexAttributeDescriptorArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorSelector.Attributes));
-    }
-
-    public MTLVertexBufferLayoutDescriptorArray Layouts
-    {
-        get => new MTLVertexBufferLayoutDescriptorArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorSelector.Layouts));
-    }
-
-    public void Reset()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexDescriptorSelector.Reset);
     }
 
     public static MTLVertexDescriptor VertexDescriptor()

@@ -14,6 +14,11 @@ public class MTLLogState : IDisposable
 
     public nint NativePtr { get; }
 
+    public void AddLogHandler(int handler)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLLogStateSelector.AddLogHandler, handler);
+    }
+
     public static implicit operator nint(MTLLogState value)
     {
         return value.NativePtr;
@@ -37,11 +42,6 @@ public class MTLLogState : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public void AddLogHandler(int handler)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLLogStateSelector.AddLogHandler, handler);
     }
 
 }

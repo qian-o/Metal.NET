@@ -14,81 +14,29 @@ public class MTLHeap : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLHeap value)
-    {
-        return value.NativePtr;
-    }
+    public MTLCPUCacheMode CpuCacheMode => (MTLCPUCacheMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapSelector.CpuCacheMode));
 
-    public static implicit operator MTLHeap(nint value)
-    {
-        return new(value);
-    }
+    public nuint CurrentAllocatedSize => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.CurrentAllocatedSize);
 
-    public void Dispose()
-    {
-        Release();
+    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.Device));
 
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    public MTLCPUCacheMode CpuCacheMode
-    {
-        get => (MTLCPUCacheMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapSelector.CpuCacheMode));
-    }
-
-    public nuint CurrentAllocatedSize
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.CurrentAllocatedSize);
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.Device));
-    }
-
-    public MTLHazardTrackingMode HazardTrackingMode
-    {
-        get => (MTLHazardTrackingMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapSelector.HazardTrackingMode));
-    }
+    public MTLHazardTrackingMode HazardTrackingMode => (MTLHazardTrackingMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapSelector.HazardTrackingMode));
 
     public NSString Label
     {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.Label));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapSelector.SetLabel, value.NativePtr);
     }
 
-    public nuint ResourceOptions
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.ResourceOptions);
-    }
+    public nuint ResourceOptions => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.ResourceOptions);
 
-    public nuint Size
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.Size);
-    }
+    public nuint Size => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.Size);
 
-    public MTLStorageMode StorageMode
-    {
-        get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapSelector.StorageMode));
-    }
+    public MTLStorageMode StorageMode => (MTLStorageMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapSelector.StorageMode));
 
-    public MTLHeapType Type
-    {
-        get => (MTLHeapType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapSelector.Type));
-    }
+    public MTLHeapType Type => (MTLHeapType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapSelector.Type));
 
-    public nuint UsedSize
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.UsedSize);
-    }
+    public nuint UsedSize => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.UsedSize);
 
     public nuint MaxAvailableSize(uint alignment)
     {
@@ -158,6 +106,31 @@ public class MTLHeap : IDisposable
         MTLPurgeableState result = (MTLPurgeableState)ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapSelector.SetPurgeableState, (uint)state);
 
         return result;
+    }
+
+    public static implicit operator nint(MTLHeap value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLHeap(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

@@ -14,55 +14,15 @@ public class MTLBuffer : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLBuffer value)
-    {
-        return value.NativePtr;
-    }
+    public nint Contents => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.Contents);
 
-    public static implicit operator MTLBuffer(nint value)
-    {
-        return new(value);
-    }
+    public nuint GpuAddress => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferSelector.GpuAddress);
 
-    public void Dispose()
-    {
-        Release();
+    public nuint Length => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferSelector.Length);
 
-        GC.SuppressFinalize(this);
-    }
+    public MTLBuffer RemoteStorageBuffer => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.RemoteStorageBuffer));
 
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    public nint Contents
-    {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.Contents);
-    }
-
-    public nuint GpuAddress
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferSelector.GpuAddress);
-    }
-
-    public nuint Length
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferSelector.Length);
-    }
-
-    public MTLBuffer RemoteStorageBuffer
-    {
-        get => new MTLBuffer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.RemoteStorageBuffer));
-    }
-
-    public MTLBufferSparseTier SparseBufferTier
-    {
-        get => (MTLBufferSparseTier)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLBufferSelector.SparseBufferTier));
-    }
+    public MTLBufferSparseTier SparseBufferTier => (MTLBufferSparseTier)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLBufferSelector.SparseBufferTier));
 
     public void AddDebugMarker(NSString marker, NSRange range)
     {
@@ -100,6 +60,31 @@ public class MTLBuffer : IDisposable
     public void RemoveAllDebugMarkers()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferSelector.RemoveAllDebugMarkers);
+    }
+
+    public static implicit operator nint(MTLBuffer value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLBuffer(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

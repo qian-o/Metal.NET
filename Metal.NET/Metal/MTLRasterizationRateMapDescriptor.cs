@@ -2,9 +2,15 @@
 
 public class MTLRasterizationRateMapDescriptor : IDisposable
 {
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLRasterizationRateMapDescriptor");
+
     public MTLRasterizationRateMapDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    public MTLRasterizationRateMapDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    {
     }
 
     ~MTLRasterizationRateMapDescriptor()
@@ -13,6 +19,28 @@ public class MTLRasterizationRateMapDescriptor : IDisposable
     }
 
     public nint NativePtr { get; }
+
+    public NSString Label
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetLabel, value.NativePtr);
+    }
+
+    public nuint LayerCount => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRasterizationRateMapDescriptorSelector.LayerCount);
+
+    public MTLRasterizationRateLayerArray Layers => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Layers));
+
+    public MTLRasterizationRateLayerDescriptor Layer(uint layerIndex)
+    {
+        MTLRasterizationRateLayerDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Layer, (nuint)layerIndex));
+
+        return result;
+    }
+
+    public void SetLayer(MTLRasterizationRateLayerDescriptor layer, uint layerIndex)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetLayerLayerIndex, layer.NativePtr, (nuint)layerIndex);
+    }
 
     public static implicit operator nint(MTLRasterizationRateMapDescriptor value)
     {
@@ -37,40 +65,6 @@ public class MTLRasterizationRateMapDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLRasterizationRateMapDescriptor");
-
-    public MTLRasterizationRateMapDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
-    {
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetLabel, value.NativePtr);
-    }
-
-    public nuint LayerCount
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRasterizationRateMapDescriptorSelector.LayerCount);
-    }
-
-    public MTLRasterizationRateLayerArray Layers
-    {
-        get => new MTLRasterizationRateLayerArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Layers));
-    }
-
-    public MTLRasterizationRateLayerDescriptor Layer(uint layerIndex)
-    {
-        MTLRasterizationRateLayerDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Layer, (nuint)layerIndex));
-
-        return result;
-    }
-
-    public void SetLayer(MTLRasterizationRateLayerDescriptor layer, uint layerIndex)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetLayerLayerIndex, layer.NativePtr, (nuint)layerIndex);
     }
 
     public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptor(MTLSize screenSize)

@@ -16,200 +16,73 @@ public partial class MTLDevice : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(MTLDevice value)
-    {
-        return value.NativePtr;
-    }
+    public nint Architecture => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.Architecture);
 
-    public static implicit operator MTLDevice(nint value)
-    {
-        return new(value);
-    }
+    public Bool8 AreBarycentricCoordsSupported => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.AreBarycentricCoordsSupported);
 
-    public void Dispose()
-    {
-        Release();
+    public Bool8 AreProgrammableSamplePositionsSupported => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.AreProgrammableSamplePositionsSupported);
 
-        GC.SuppressFinalize(this);
-    }
+    public Bool8 AreRasterOrderGroupsSupported => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.AreRasterOrderGroupsSupported);
 
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
+    public MTLArgumentBuffersTier ArgumentBuffersSupport => (MTLArgumentBuffersTier)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDeviceSelector.ArgumentBuffersSupport));
 
-    public nint Architecture
-    {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.Architecture);
-    }
+    public Bool8 BarycentricCoordsSupported => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.BarycentricCoordsSupported);
 
-    public Bool8 AreBarycentricCoordsSupported
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.AreBarycentricCoordsSupported);
-    }
+    public NSArray CounterSets => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.CounterSets));
 
-    public Bool8 AreProgrammableSamplePositionsSupported
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.AreProgrammableSamplePositionsSupported);
-    }
+    public nuint CurrentAllocatedSize => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.CurrentAllocatedSize);
 
-    public Bool8 AreRasterOrderGroupsSupported
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.AreRasterOrderGroupsSupported);
-    }
+    public Bool8 Depth24Stencil8PixelFormatSupported => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.Depth24Stencil8PixelFormatSupported);
 
-    public MTLArgumentBuffersTier ArgumentBuffersSupport
-    {
-        get => (MTLArgumentBuffersTier)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDeviceSelector.ArgumentBuffersSupport));
-    }
+    public Bool8 HasUnifiedMemory => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.HasUnifiedMemory);
 
-    public Bool8 BarycentricCoordsSupported
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.BarycentricCoordsSupported);
-    }
+    public Bool8 Headless => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.Headless);
 
-    public NSArray CounterSets
-    {
-        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.CounterSets));
-    }
+    public Bool8 IsDepth24Stencil8PixelFormatSupported => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.IsDepth24Stencil8PixelFormatSupported);
 
-    public nuint CurrentAllocatedSize
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.CurrentAllocatedSize);
-    }
+    public Bool8 IsHeadless => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.IsHeadless);
 
-    public Bool8 Depth24Stencil8PixelFormatSupported
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.Depth24Stencil8PixelFormatSupported);
-    }
+    public Bool8 IsLowPower => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.IsLowPower);
 
-    public Bool8 HasUnifiedMemory
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.HasUnifiedMemory);
-    }
+    public Bool8 IsRemovable => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.IsRemovable);
 
-    public Bool8 Headless
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.Headless);
-    }
+    public MTLDeviceLocation Location => (MTLDeviceLocation)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDeviceSelector.Location));
 
-    public Bool8 IsDepth24Stencil8PixelFormatSupported
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.IsDepth24Stencil8PixelFormatSupported);
-    }
+    public nuint LocationNumber => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.LocationNumber);
 
-    public Bool8 IsHeadless
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.IsHeadless);
-    }
+    public Bool8 LowPower => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.LowPower);
 
-    public Bool8 IsLowPower
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.IsLowPower);
-    }
+    public nuint MaxArgumentBufferSamplerCount => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.MaxArgumentBufferSamplerCount);
 
-    public Bool8 IsRemovable
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.IsRemovable);
-    }
+    public nuint MaxBufferLength => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.MaxBufferLength);
 
-    public MTLDeviceLocation Location
-    {
-        get => (MTLDeviceLocation)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDeviceSelector.Location));
-    }
+    public nuint MaxThreadgroupMemoryLength => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.MaxThreadgroupMemoryLength);
 
-    public nuint LocationNumber
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.LocationNumber);
-    }
+    public nuint MaxTransferRate => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.MaxTransferRate);
 
-    public Bool8 LowPower
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.LowPower);
-    }
+    public nuint MaximumConcurrentCompilationTaskCount => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.MaximumConcurrentCompilationTaskCount);
 
-    public nuint MaxArgumentBufferSamplerCount
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.MaxArgumentBufferSamplerCount);
-    }
+    public NSString Name => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.Name));
 
-    public nuint MaxBufferLength
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.MaxBufferLength);
-    }
+    public uint PeerCount => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDeviceSelector.PeerCount);
 
-    public nuint MaxThreadgroupMemoryLength
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.MaxThreadgroupMemoryLength);
-    }
+    public nuint PeerGroupID => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.PeerGroupID);
 
-    public nuint MaxTransferRate
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.MaxTransferRate);
-    }
+    public uint PeerIndex => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDeviceSelector.PeerIndex);
 
-    public nuint MaximumConcurrentCompilationTaskCount
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.MaximumConcurrentCompilationTaskCount);
-    }
+    public Bool8 ProgrammableSamplePositionsSupported => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.ProgrammableSamplePositionsSupported);
 
-    public NSString Name
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.Name));
-    }
+    public nuint QueryTimestampFrequency => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.QueryTimestampFrequency);
 
-    public uint PeerCount
-    {
-        get => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDeviceSelector.PeerCount);
-    }
+    public Bool8 RasterOrderGroupsSupported => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.RasterOrderGroupsSupported);
 
-    public nuint PeerGroupID
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.PeerGroupID);
-    }
+    public MTLReadWriteTextureTier ReadWriteTextureSupport => (MTLReadWriteTextureTier)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDeviceSelector.ReadWriteTextureSupport));
 
-    public uint PeerIndex
-    {
-        get => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDeviceSelector.PeerIndex);
-    }
+    public nuint RecommendedMaxWorkingSetSize => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.RecommendedMaxWorkingSetSize);
 
-    public Bool8 ProgrammableSamplePositionsSupported
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.ProgrammableSamplePositionsSupported);
-    }
+    public nuint RegistryID => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.RegistryID);
 
-    public nuint QueryTimestampFrequency
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.QueryTimestampFrequency);
-    }
-
-    public Bool8 RasterOrderGroupsSupported
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.RasterOrderGroupsSupported);
-    }
-
-    public MTLReadWriteTextureTier ReadWriteTextureSupport
-    {
-        get => (MTLReadWriteTextureTier)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDeviceSelector.ReadWriteTextureSupport));
-    }
-
-    public nuint RecommendedMaxWorkingSetSize
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.RecommendedMaxWorkingSetSize);
-    }
-
-    public nuint RegistryID
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.RegistryID);
-    }
-
-    public Bool8 Removable
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.Removable);
-    }
+    public Bool8 Removable => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.Removable);
 
     public Bool8 ShouldMaximizeConcurrentCompilation
     {
@@ -217,75 +90,33 @@ public partial class MTLDevice : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.SetShouldMaximizeConcurrentCompilation, value);
     }
 
-    public nuint SparseTileSizeInBytes
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.SparseTileSizeInBytes);
-    }
+    public nuint SparseTileSizeInBytes => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.SparseTileSizeInBytes);
 
-    public Bool8 Supports32BitFloatFiltering
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.Supports32BitFloatFiltering);
-    }
+    public Bool8 Supports32BitFloatFiltering => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.Supports32BitFloatFiltering);
 
-    public Bool8 Supports32BitMSAA
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.Supports32BitMSAA);
-    }
+    public Bool8 Supports32BitMSAA => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.Supports32BitMSAA);
 
-    public Bool8 SupportsBCTextureCompression
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsBCTextureCompression);
-    }
+    public Bool8 SupportsBCTextureCompression => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsBCTextureCompression);
 
-    public Bool8 SupportsDynamicLibraries
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsDynamicLibraries);
-    }
+    public Bool8 SupportsDynamicLibraries => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsDynamicLibraries);
 
-    public Bool8 SupportsFunctionPointers
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsFunctionPointers);
-    }
+    public Bool8 SupportsFunctionPointers => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsFunctionPointers);
 
-    public Bool8 SupportsFunctionPointersFromRender
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsFunctionPointersFromRender);
-    }
+    public Bool8 SupportsFunctionPointersFromRender => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsFunctionPointersFromRender);
 
-    public Bool8 SupportsPrimitiveMotionBlur
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsPrimitiveMotionBlur);
-    }
+    public Bool8 SupportsPrimitiveMotionBlur => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsPrimitiveMotionBlur);
 
-    public Bool8 SupportsPullModelInterpolation
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsPullModelInterpolation);
-    }
+    public Bool8 SupportsPullModelInterpolation => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsPullModelInterpolation);
 
-    public Bool8 SupportsQueryTextureLOD
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsQueryTextureLOD);
-    }
+    public Bool8 SupportsQueryTextureLOD => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsQueryTextureLOD);
 
-    public Bool8 SupportsRaytracing
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsRaytracing);
-    }
+    public Bool8 SupportsRaytracing => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsRaytracing);
 
-    public Bool8 SupportsRaytracingFromRender
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsRaytracingFromRender);
-    }
+    public Bool8 SupportsRaytracingFromRender => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsRaytracingFromRender);
 
-    public Bool8 SupportsRenderDynamicLibraries
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsRenderDynamicLibraries);
-    }
+    public Bool8 SupportsRenderDynamicLibraries => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsRenderDynamicLibraries);
 
-    public Bool8 SupportsShaderBarycentricCoordinates
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsShaderBarycentricCoordinates);
-    }
+    public Bool8 SupportsShaderBarycentricCoordinates => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsShaderBarycentricCoordinates);
 
     public nint AccelerationStructureSizes(MTLAccelerationStructureDescriptor descriptor)
     {
@@ -895,12 +726,37 @@ public partial class MTLDevice : IDisposable
         return result;
     }
 
+    public static implicit operator nint(MTLDevice value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLDevice(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
+    }
+
     [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLCreateSystemDefaultDevice")]
     private static partial nint MTLCreateSystemDefaultDevice();
 
     public static MTLDevice CreateSystemDefaultDevice()
     {
-        return new MTLDevice(MTLCreateSystemDefaultDevice());
+        return new(MTLCreateSystemDefaultDevice());
     }
 
     [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLCopyAllDevices")]
@@ -908,7 +764,7 @@ public partial class MTLDevice : IDisposable
 
     public static NSArray CopyAllDevices()
     {
-        return new NSArray(MTLCopyAllDevices());
+        return new(MTLCopyAllDevices());
     }
 
     [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLCopyAllDevicesWithObserver")]
@@ -916,7 +772,7 @@ public partial class MTLDevice : IDisposable
 
     public static NSArray CopyAllDevicesWithObserver(nint pOutObserver, nint handler)
     {
-        return new NSArray(MTLCopyAllDevicesWithObserver(pOutObserver, handler));
+        return new(MTLCopyAllDevicesWithObserver(pOutObserver, handler));
     }
 
     [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLRemoveDeviceObserver")]

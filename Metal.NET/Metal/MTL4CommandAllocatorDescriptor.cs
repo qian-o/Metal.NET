@@ -14,6 +14,12 @@ public class MTL4CommandAllocatorDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public NSString Label
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorDescriptorSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandAllocatorDescriptorSelector.SetLabel, value.NativePtr);
+    }
+
     public static implicit operator nint(MTL4CommandAllocatorDescriptor value)
     {
         return value.NativePtr;
@@ -37,12 +43,6 @@ public class MTL4CommandAllocatorDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorDescriptorSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandAllocatorDescriptorSelector.SetLabel, value.NativePtr);
     }
 
 }

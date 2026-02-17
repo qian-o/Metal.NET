@@ -14,6 +14,24 @@ public class MTLArrayType : IDisposable
 
     public nint NativePtr { get; }
 
+    public nuint ArgumentIndexStride => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeSelector.ArgumentIndexStride);
+
+    public nuint ArrayLength => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeSelector.ArrayLength);
+
+    public MTLArrayType ElementArrayType => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeSelector.ElementArrayType));
+
+    public MTLPointerType ElementPointerType => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeSelector.ElementPointerType));
+
+    public MTLStructType ElementStructType => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeSelector.ElementStructType));
+
+    public MTLTensorReferenceType ElementTensorReferenceType => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeSelector.ElementTensorReferenceType));
+
+    public MTLTextureReferenceType ElementTextureReferenceType => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeSelector.ElementTextureReferenceType));
+
+    public MTLDataType ElementType => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArrayTypeSelector.ElementType));
+
+    public nuint Stride => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeSelector.Stride);
+
     public static implicit operator nint(MTLArrayType value)
     {
         return value.NativePtr;
@@ -37,51 +55,6 @@ public class MTLArrayType : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public nuint ArgumentIndexStride
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeSelector.ArgumentIndexStride);
-    }
-
-    public nuint ArrayLength
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeSelector.ArrayLength);
-    }
-
-    public MTLArrayType ElementArrayType
-    {
-        get => new MTLArrayType(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeSelector.ElementArrayType));
-    }
-
-    public MTLPointerType ElementPointerType
-    {
-        get => new MTLPointerType(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeSelector.ElementPointerType));
-    }
-
-    public MTLStructType ElementStructType
-    {
-        get => new MTLStructType(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeSelector.ElementStructType));
-    }
-
-    public MTLTensorReferenceType ElementTensorReferenceType
-    {
-        get => new MTLTensorReferenceType(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeSelector.ElementTensorReferenceType));
-    }
-
-    public MTLTextureReferenceType ElementTextureReferenceType
-    {
-        get => new MTLTextureReferenceType(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeSelector.ElementTextureReferenceType));
-    }
-
-    public MTLDataType ElementType
-    {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArrayTypeSelector.ElementType));
-    }
-
-    public nuint Stride
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeSelector.Stride);
     }
 
 }

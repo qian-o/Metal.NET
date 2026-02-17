@@ -14,6 +14,8 @@ public class MTLIOScratchBuffer : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLBuffer Buffer => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOScratchBufferSelector.Buffer));
+
     public static implicit operator nint(MTLIOScratchBuffer value)
     {
         return value.NativePtr;
@@ -37,11 +39,6 @@ public class MTLIOScratchBuffer : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public MTLBuffer Buffer
-    {
-        get => new MTLBuffer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOScratchBufferSelector.Buffer));
     }
 
 }

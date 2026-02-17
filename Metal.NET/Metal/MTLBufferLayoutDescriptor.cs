@@ -2,9 +2,15 @@
 
 public class MTLBufferLayoutDescriptor : IDisposable
 {
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLBufferLayoutDescriptor");
+
     public MTLBufferLayoutDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    public MTLBufferLayoutDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    {
     }
 
     ~MTLBufferLayoutDescriptor()
@@ -13,6 +19,24 @@ public class MTLBufferLayoutDescriptor : IDisposable
     }
 
     public nint NativePtr { get; }
+
+    public MTLStepFunction StepFunction
+    {
+        get => (MTLStepFunction)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLBufferLayoutDescriptorSelector.StepFunction));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStepFunction, (uint)value);
+    }
+
+    public nuint StepRate
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferLayoutDescriptorSelector.StepRate);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStepRate, (nuint)value);
+    }
+
+    public nuint Stride
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferLayoutDescriptorSelector.Stride);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStride, (nuint)value);
+    }
 
     public static implicit operator nint(MTLBufferLayoutDescriptor value)
     {
@@ -37,30 +61,6 @@ public class MTLBufferLayoutDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLBufferLayoutDescriptor");
-
-    public MTLBufferLayoutDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
-    {
-    }
-
-    public MTLStepFunction StepFunction
-    {
-        get => (MTLStepFunction)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLBufferLayoutDescriptorSelector.StepFunction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStepFunction, (uint)value);
-    }
-
-    public nuint StepRate
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferLayoutDescriptorSelector.StepRate);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStepRate, (nuint)value);
-    }
-
-    public nuint Stride
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferLayoutDescriptorSelector.Stride);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStride, (nuint)value);
     }
 
 }
