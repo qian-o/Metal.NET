@@ -4,7 +4,10 @@ public class MTL4RenderPipelineColorAttachmentDescriptorArray : IDisposable
 {
     public MTL4RenderPipelineColorAttachmentDescriptorArray(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTL4RenderPipelineColorAttachmentDescriptorArray()

@@ -4,7 +4,10 @@ public class MTL4CompilerTaskOptions : IDisposable
 {
     public MTL4CompilerTaskOptions(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTL4CompilerTaskOptions()

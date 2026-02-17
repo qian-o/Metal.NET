@@ -6,7 +6,10 @@ public class MTLStitchedLibraryDescriptor : IDisposable
 
     public MTLStitchedLibraryDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLStitchedLibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))

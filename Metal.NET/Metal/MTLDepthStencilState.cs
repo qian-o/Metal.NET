@@ -4,7 +4,10 @@ public class MTLDepthStencilState : IDisposable
 {
     public MTLDepthStencilState(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLDepthStencilState()

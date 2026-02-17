@@ -6,7 +6,10 @@ public class MTLBlitPassDescriptor : IDisposable
 
     public MTLBlitPassDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLBlitPassDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))

@@ -4,7 +4,10 @@ public class MTL4LibraryFunctionDescriptor : IDisposable
 {
     public MTL4LibraryFunctionDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTL4LibraryFunctionDescriptor()

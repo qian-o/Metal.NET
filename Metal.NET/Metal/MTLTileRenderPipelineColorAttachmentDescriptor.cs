@@ -6,7 +6,10 @@ public class MTLTileRenderPipelineColorAttachmentDescriptor : IDisposable
 
     public MTLTileRenderPipelineColorAttachmentDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLTileRenderPipelineColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))

@@ -4,7 +4,10 @@ public class MTLIntersectionFunctionTable : IDisposable
 {
     public MTLIntersectionFunctionTable(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLIntersectionFunctionTable()

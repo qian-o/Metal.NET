@@ -6,7 +6,10 @@ public class MTLIOCommandQueueDescriptor : IDisposable
 
     public MTLIOCommandQueueDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLIOCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))

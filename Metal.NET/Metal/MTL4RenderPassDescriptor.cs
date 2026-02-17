@@ -6,7 +6,10 @@ public class MTL4RenderPassDescriptor : IDisposable
 
     public MTL4RenderPassDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTL4RenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))

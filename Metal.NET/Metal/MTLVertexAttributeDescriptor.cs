@@ -6,7 +6,10 @@ public class MTLVertexAttributeDescriptor : IDisposable
 
     public MTLVertexAttributeDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLVertexAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))

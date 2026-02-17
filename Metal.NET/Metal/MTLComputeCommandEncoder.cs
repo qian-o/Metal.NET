@@ -4,7 +4,10 @@ public class MTLComputeCommandEncoder : IDisposable
 {
     public MTLComputeCommandEncoder(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLComputeCommandEncoder()

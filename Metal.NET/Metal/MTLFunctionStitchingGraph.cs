@@ -6,7 +6,10 @@ public class MTLFunctionStitchingGraph : IDisposable
 
     public MTLFunctionStitchingGraph(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLFunctionStitchingGraph() : this(ObjectiveCRuntime.AllocInit(Class))

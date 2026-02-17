@@ -6,7 +6,10 @@ public class MTLTextureDescriptor : IDisposable
 
     public MTLTextureDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLTextureDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))

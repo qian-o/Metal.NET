@@ -6,7 +6,10 @@ public class MTLRenderPassDepthAttachmentDescriptor : IDisposable
 
     public MTLRenderPassDepthAttachmentDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLRenderPassDepthAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))

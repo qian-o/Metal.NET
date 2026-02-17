@@ -6,7 +6,10 @@ public class MTLTextureViewPool : IDisposable
 
     public MTLTextureViewPool(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLTextureViewPool() : this(ObjectiveCRuntime.AllocInit(Class))

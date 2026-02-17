@@ -6,7 +6,10 @@ public class MTLRasterizationRateMapDescriptor : IDisposable
 
     public MTLRasterizationRateMapDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLRasterizationRateMapDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))

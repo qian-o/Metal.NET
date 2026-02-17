@@ -6,7 +6,10 @@ public class MTLCaptureDescriptor : IDisposable
 
     public MTLCaptureDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLCaptureDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))

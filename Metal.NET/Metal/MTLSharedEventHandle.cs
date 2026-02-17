@@ -6,7 +6,10 @@ public class MTLSharedEventHandle : IDisposable
 
     public MTLSharedEventHandle(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLSharedEventHandle() : this(ObjectiveCRuntime.AllocInit(Class))

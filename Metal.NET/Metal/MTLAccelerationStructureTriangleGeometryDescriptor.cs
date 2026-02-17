@@ -4,7 +4,10 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor : IDisposable
 {
     public MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLAccelerationStructureTriangleGeometryDescriptor()

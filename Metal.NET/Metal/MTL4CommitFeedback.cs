@@ -4,7 +4,10 @@ public class MTL4CommitFeedback : IDisposable
 {
     public MTL4CommitFeedback(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTL4CommitFeedback()

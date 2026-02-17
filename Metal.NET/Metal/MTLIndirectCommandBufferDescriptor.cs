@@ -6,7 +6,10 @@ public class MTLIndirectCommandBufferDescriptor : IDisposable
 
     public MTLIndirectCommandBufferDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLIndirectCommandBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))

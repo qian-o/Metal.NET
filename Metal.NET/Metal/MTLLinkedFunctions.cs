@@ -6,7 +6,10 @@ public class MTLLinkedFunctions : IDisposable
 
     public MTLLinkedFunctions(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(Class))

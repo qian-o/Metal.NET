@@ -4,7 +4,10 @@ public class MTL4MachineLearningPipelineReflection : IDisposable
 {
     public MTL4MachineLearningPipelineReflection(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTL4MachineLearningPipelineReflection()

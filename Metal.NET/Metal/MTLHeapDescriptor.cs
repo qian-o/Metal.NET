@@ -6,7 +6,10 @@ public class MTLHeapDescriptor : IDisposable
 
     public MTLHeapDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))

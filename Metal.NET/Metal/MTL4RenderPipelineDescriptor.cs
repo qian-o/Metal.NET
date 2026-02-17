@@ -6,7 +6,10 @@ public class MTL4RenderPipelineDescriptor : IDisposable
 
     public MTL4RenderPipelineDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTL4RenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))

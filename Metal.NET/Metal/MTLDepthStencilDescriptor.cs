@@ -6,7 +6,10 @@ public class MTLDepthStencilDescriptor : IDisposable
 
     public MTLDepthStencilDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLDepthStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))

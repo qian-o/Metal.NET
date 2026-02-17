@@ -6,7 +6,10 @@ public class MTLBufferLayoutDescriptor : IDisposable
 
     public MTLBufferLayoutDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLBufferLayoutDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))

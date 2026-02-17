@@ -6,7 +6,10 @@ public class MTLAttributeDescriptor : IDisposable
 
     public MTLAttributeDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))

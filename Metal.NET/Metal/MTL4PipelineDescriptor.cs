@@ -4,7 +4,10 @@ public class MTL4PipelineDescriptor : IDisposable
 {
     public MTL4PipelineDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTL4PipelineDescriptor()

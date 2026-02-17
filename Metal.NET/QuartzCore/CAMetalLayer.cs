@@ -6,7 +6,10 @@ public class CAMetalLayer : IDisposable
 
     public CAMetalLayer(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(Class))

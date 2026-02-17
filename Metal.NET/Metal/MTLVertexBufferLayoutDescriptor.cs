@@ -6,7 +6,10 @@ public class MTLVertexBufferLayoutDescriptor : IDisposable
 
     public MTLVertexBufferLayoutDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLVertexBufferLayoutDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))

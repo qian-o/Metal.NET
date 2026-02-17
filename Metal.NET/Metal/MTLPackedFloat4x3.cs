@@ -4,7 +4,10 @@ public class MTLPackedFloat4x3 : IDisposable
 {
     public MTLPackedFloat4x3(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLPackedFloat4x3()

@@ -6,7 +6,10 @@ public class MTLRenderPassDescriptor : IDisposable
 
     public MTLRenderPassDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLRenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))

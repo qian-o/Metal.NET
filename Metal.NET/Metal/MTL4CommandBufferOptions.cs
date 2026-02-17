@@ -4,7 +4,10 @@ public class MTL4CommandBufferOptions : IDisposable
 {
     public MTL4CommandBufferOptions(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTL4CommandBufferOptions()

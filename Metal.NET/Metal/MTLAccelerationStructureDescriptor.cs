@@ -6,7 +6,10 @@ public class MTLAccelerationStructureDescriptor : IDisposable
 
     public MTLAccelerationStructureDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))

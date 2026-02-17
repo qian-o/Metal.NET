@@ -6,7 +6,10 @@ public class MTLComputePassDescriptor : IDisposable
 
     public MTLComputePassDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLComputePassDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))

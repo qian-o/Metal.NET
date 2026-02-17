@@ -4,7 +4,10 @@ public class MTL4PipelineOptions : IDisposable
 {
     public MTL4PipelineOptions(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTL4PipelineOptions()

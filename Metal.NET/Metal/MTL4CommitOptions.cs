@@ -4,7 +4,10 @@ public class MTL4CommitOptions : IDisposable
 {
     public MTL4CommitOptions(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTL4CommitOptions()

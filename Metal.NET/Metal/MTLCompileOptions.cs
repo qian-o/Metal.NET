@@ -6,7 +6,10 @@ public class MTLCompileOptions : IDisposable
 
     public MTLCompileOptions(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLCompileOptions() : this(ObjectiveCRuntime.AllocInit(Class))

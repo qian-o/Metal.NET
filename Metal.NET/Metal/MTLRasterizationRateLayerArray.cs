@@ -4,7 +4,10 @@ public class MTLRasterizationRateLayerArray : IDisposable
 {
     public MTLRasterizationRateLayerArray(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLRasterizationRateLayerArray()

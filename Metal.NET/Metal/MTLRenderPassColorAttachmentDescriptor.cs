@@ -6,7 +6,10 @@ public class MTLRenderPassColorAttachmentDescriptor : IDisposable
 
     public MTLRenderPassColorAttachmentDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLRenderPassColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))

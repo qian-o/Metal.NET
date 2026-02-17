@@ -6,7 +6,10 @@ public class MTLResidencySetDescriptor : IDisposable
 
     public MTLResidencySetDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLResidencySetDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
