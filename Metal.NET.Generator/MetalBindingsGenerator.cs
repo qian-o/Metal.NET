@@ -257,7 +257,7 @@ public class MetalBindingsGenerator
             EmitMethod(sb, def.Name, m, isStatic: true);
         }
 
-        // ── Free C functions (DllImport) ──
+        // ── Free C functions (LibraryImport) ──
         if (freeFunctions != null && freeFunctions.Count > 0)
         {
             foreach (var f in freeFunctions)
