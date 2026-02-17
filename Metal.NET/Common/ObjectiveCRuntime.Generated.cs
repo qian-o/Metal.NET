@@ -2,7 +2,7 @@
 
 namespace Metal.NET;
 
-public static unsafe partial class ObjectiveCRuntime
+internal static unsafe partial class ObjectiveCRuntime
 {
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial Bool8 MsgSendBool(nint receiver, Selector selector);

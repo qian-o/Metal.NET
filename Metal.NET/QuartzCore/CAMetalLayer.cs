@@ -2,9 +2,20 @@
 
 public class CAMetalLayer : IDisposable
 {
-    public CAMetalLayer(nint nativePtr)
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("CAMetalLayer");
+
+    public CAMetalLayer(nint nativePtr, bool retained)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        NativePtr = nativePtr;
+
+        if (!retained)
+        {
+            ObjectiveCRuntime.Retain(NativePtr);
+        }
+    }
+
+    public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(Class), false)
+    {
     }
 
     ~CAMetalLayer()
@@ -14,46 +25,15 @@ public class CAMetalLayer : IDisposable
 
     public nint NativePtr { get; }
 
-    public static implicit operator nint(CAMetalLayer value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator CAMetalLayer(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("CAMetalLayer");
-
-    public CAMetalLayer() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
-    {
-    }
-
     public MTLDevice Device
     {
-        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.Device));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.Device));
         set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetDevice, value.NativePtr);
     }
 
     public MTLPixelFormat PixelFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, CAMetalLayerSelector.PixelFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendUInt(NativePtr, CAMetalLayerSelector.PixelFormat);
         set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetPixelFormat, (uint)value);
     }
 
@@ -63,10 +43,7 @@ public class CAMetalLayer : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetFramebufferOnly, value);
     }
 
-    public CAMetalDrawable NextDrawable
-    {
-        get => new CAMetalDrawable(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.NextDrawable));
-    }
+    public CAMetalDrawable NextDrawable => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.NextDrawable));
 
     public nuint MaximumDrawableCount
     {
@@ -92,18 +69,37 @@ public class CAMetalLayer : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetAllowsNextDrawableTimeout, value);
     }
 
-    public MTLResidencySet ResidencySet
+    public MTLResidencySet ResidencySet => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.ResidencySet));
+
+    public static implicit operator nint(CAMetalLayer value)
     {
-        get => new MTLResidencySet(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.ResidencySet));
+        return value.NativePtr;
+    }
+
+    public static implicit operator CAMetalLayer(nint value)
+    {
+        return new(value, false);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public static CAMetalLayer Layer()
     {
-        CAMetalLayer result = new(ObjectiveCRuntime.MsgSendPtr(s_class, CAMetalLayerSelector.Layer));
-
-        return result;
+        return new(ObjectiveCRuntime.MsgSendPtr(Class, CAMetalLayerSelector.Layer), true);
     }
-
 }
 
 file class CAMetalLayerSelector
