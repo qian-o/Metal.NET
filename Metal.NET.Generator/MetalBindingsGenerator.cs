@@ -315,7 +315,6 @@ public class MetalBindingsGenerator : IIncrementalGenerator
     {
         var selField = $"{typeName}_Selectors.{SelectorFieldName(m.Selector)}";
         var retType = m.ReturnType;
-        var retCall = MapReturnCall(retType);
 
         // Build parameter list
         var paramList = new List<string>();
@@ -329,6 +328,17 @@ public class MetalBindingsGenerator : IIncrementalGenerator
         var staticMod = isStatic ? "static " : "";
         var receiver = isStatic ? "s_class" : "NativePtr";
 
+        // Determine which objc_msgSend variant to use
+        var retCall = MapReturnCall(retType);
+
+        // Skip methods whose return type requires stret (value struct return)
+        if (retCall.Invoke.Contains("TODO"))
+        {
+            sb.AppendLine($"    // TODO: {m.Name} (value-struct return type {retType} requires objc_msgSend_stret)");
+            sb.AppendLine();
+            return;
+        }
+
         sb.AppendLine($"    public {staticMod}{retType} {m.Name}({paramsStr})");
         sb.AppendLine("    {");
 
@@ -341,8 +351,38 @@ public class MetalBindingsGenerator : IIncrementalGenerator
         if (m.HasErrorOut) argParts.Add("out error");
 
         var argsStr = string.Join(", ", argParts);
+        var hasParams = m.Parameters.Count > 0 || m.HasErrorOut;
 
-        if (retType == "void")
+        // Special case: Bool8/bool return with params — bool8_objc_msgSend has no param overloads
+        if (retType == "Bool8" && hasParams)
+        {
+            sb.AppendLine($"        return (byte)ObjectiveCRuntime.intptr_objc_msgSend({argsStr}) != 0;");
+        }
+        else if (retType == "bool" && hasParams)
+        {
+            sb.AppendLine($"        return (byte)ObjectiveCRuntime.intptr_objc_msgSend({argsStr}) != 0;");
+        }
+        // Special case: UIntPtr/nuint return with params — UIntPtr_objc_msgSend has no param overloads
+        else if ((retType == "UIntPtr" || retType == "nuint") && hasParams)
+        {
+            sb.AppendLine($"        return (UIntPtr)(ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
+        }
+        // Special case: uint/enum return with params — uint_objc_msgSend has no param overloads
+        else if (retType == "uint" && hasParams)
+        {
+            sb.AppendLine($"        return (uint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
+        }
+        // Enum return with params — use intptr and cast
+        else if (IsLikelyEnum(retType) && hasParams)
+        {
+            sb.AppendLine($"        return ({retType})(uint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
+        }
+        // Special case: ulong return with params — ulong_objc_msgSend may not have param overloads
+        else if (retType == "ulong" && hasParams)
+        {
+            sb.AppendLine($"        return (ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
+        }
+        else if (retType == "void")
         {
             sb.AppendLine($"        ObjectiveCRuntime.objc_msgSend({argsStr});");
         }
@@ -430,6 +470,9 @@ public class MetalBindingsGenerator : IIncrementalGenerator
         // UIntPtr → IntPtr (same register size)
         if (type is "UIntPtr" or "nuint") return $"(IntPtr){name}";
 
+        // Enum types → cast to uint then to IntPtr
+        if (IsLikelyEnum(type)) return $"(IntPtr)(uint){name}";
+
         // ObjC wrappers → .NativePtr (which is IntPtr)
         if (IsObjCWrapper(type)) return $"{name}.NativePtr";
 
@@ -485,6 +528,16 @@ public class MetalBindingsGenerator : IIncrementalGenerator
         "MTL4PipelineState", "MTL4CommandBufferOptions", "MTL4CompilerTaskOptions",
         "MTL4CommitOptions",
         "MTLLogState", "MTLLogContainer",
+        "MTLLinkedFunctions",
+        // Types ending with common enum suffixes but actually ObjC classes/protocols
+        "MTLArrayType", "MTLStructType", "MTLPointerType", "MTLType",
+        "MTLTextureReferenceType", "MTLTensorReferenceType",
+        "MTLCaptureScope", "MTLCounterSet", "MTLResidencySet",
+        "MTLComputePipelineReflection", "MTLRenderPipelineReflection",
+        "MTLFunctionReflection",
+        "MTL4BinaryFunction", "MTL4MachineLearningPipelineState",
+        "MTL4MachineLearningPipelineReflection", "MTL4PipelineOptions",
+        "MTLFunctionLogDebugLocation",
     };
 
     private static bool IsLikelyEnum(string type)
@@ -507,7 +560,8 @@ public class MetalBindingsGenerator : IIncrementalGenerator
             || type.EndsWith("Family") || type.EndsWith("Priority") || type.EndsWith("Method")
             || type.EndsWith("Mutability") || type.EndsWith("Class") || type.EndsWith("Color")
             || type.EndsWith("Option") || type.EndsWith("Validation") || type.EndsWith("Signature")
-            || type.EndsWith("Functions") || type.EndsWith("Configuration") || type.EndsWith("Reflection");
+            || type.EndsWith("Functions") || type.EndsWith("Configuration") || type.EndsWith("Reflection")
+            || type.EndsWith("Location") || type.EndsWith("PageSize");
     }
 
     private static void AddSelector(Dictionary<string, string> dict, string selector)

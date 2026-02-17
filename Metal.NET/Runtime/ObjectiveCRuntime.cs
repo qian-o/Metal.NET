@@ -51,6 +51,12 @@ public static unsafe class ObjectiveCRuntime
     [DllImport(ObjCLibrary, EntryPoint = "objc_msgSend")]
     public static extern void objc_msgSend(IntPtr receiver, Selector selector, IntPtr a, IntPtr b, IntPtr c, IntPtr d, IntPtr e, IntPtr f, IntPtr g, IntPtr h, IntPtr i, IntPtr j);
 
+    [DllImport(ObjCLibrary, EntryPoint = "objc_msgSend")]
+    public static extern void objc_msgSend(IntPtr receiver, Selector selector, IntPtr a, IntPtr b, IntPtr c, IntPtr d, IntPtr e, IntPtr f, IntPtr g, IntPtr h, IntPtr i, IntPtr j, IntPtr k);
+
+    [DllImport(ObjCLibrary, EntryPoint = "objc_msgSend")]
+    public static extern void objc_msgSend(IntPtr receiver, Selector selector, IntPtr a, IntPtr b, IntPtr c, IntPtr d, IntPtr e, IntPtr f, IntPtr g, IntPtr h, IntPtr i, IntPtr j, IntPtr k, IntPtr l);
+
     // ═══════════════════════════════════════════════════════════════════
     // void returns — value struct args (these cannot be cast to IntPtr)
     // ═══════════════════════════════════════════════════════════════════
@@ -102,15 +108,33 @@ public static unsafe class ObjectiveCRuntime
     [DllImport(ObjCLibrary, EntryPoint = "objc_msgSend")]
     public static extern IntPtr intptr_objc_msgSend(IntPtr receiver, Selector selector, IntPtr a, IntPtr b, IntPtr c);
 
+    [DllImport(ObjCLibrary, EntryPoint = "objc_msgSend")]
+    public static extern IntPtr intptr_objc_msgSend(IntPtr receiver, Selector selector, IntPtr a, IntPtr b, IntPtr c, IntPtr d);
+
+    [DllImport(ObjCLibrary, EntryPoint = "objc_msgSend")]
+    public static extern IntPtr intptr_objc_msgSend(IntPtr receiver, Selector selector, IntPtr a, IntPtr b, IntPtr c, IntPtr d, IntPtr e);
+
+    [DllImport(ObjCLibrary, EntryPoint = "objc_msgSend")]
+    public static extern IntPtr intptr_objc_msgSend(IntPtr receiver, Selector selector, IntPtr a, IntPtr b, IntPtr c, IntPtr d, IntPtr e, IntPtr f);
+
     // ═══════════════════════════════════════════════════════════════════
     // IntPtr returns — with out NSError
     // ═══════════════════════════════════════════════════════════════════
+
+    [DllImport(ObjCLibrary, EntryPoint = "objc_msgSend")]
+    public static extern IntPtr intptr_objc_msgSend(IntPtr receiver, Selector selector, out NSError error);
 
     [DllImport(ObjCLibrary, EntryPoint = "objc_msgSend")]
     public static extern IntPtr intptr_objc_msgSend(IntPtr receiver, Selector selector, IntPtr a, out NSError error);
 
     [DllImport(ObjCLibrary, EntryPoint = "objc_msgSend")]
     public static extern IntPtr intptr_objc_msgSend(IntPtr receiver, Selector selector, IntPtr a, IntPtr b, out NSError error);
+
+    [DllImport(ObjCLibrary, EntryPoint = "objc_msgSend")]
+    public static extern IntPtr intptr_objc_msgSend(IntPtr receiver, Selector selector, IntPtr a, IntPtr b, IntPtr c, out NSError error);
+
+    [DllImport(ObjCLibrary, EntryPoint = "objc_msgSend")]
+    public static extern IntPtr intptr_objc_msgSend(IntPtr receiver, Selector selector, IntPtr a, IntPtr b, IntPtr c, IntPtr d, out NSError error);
 
     // ═══════════════════════════════════════════════════════════════════
     // Typed returns (no args) — for property getters

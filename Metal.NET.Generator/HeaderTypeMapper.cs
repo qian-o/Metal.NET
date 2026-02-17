@@ -23,7 +23,13 @@ internal static class HeaderTypeMapper
         if (t.Contains("[]"))
             return null;
 
+        // Check if original type was a pointer
+        bool isPointer = t.Contains('*');
         t = t.TrimEnd('*', '&').Trim();
+
+        // void* (pointer to raw data) maps to IntPtr, not void
+        if (t == "void" && isPointer)
+            return "IntPtr";
 
         // Remove namespace prefixes
         t = StripNamespace(t);

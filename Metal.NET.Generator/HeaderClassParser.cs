@@ -350,9 +350,36 @@ internal static class HeaderClassParser
                 if (!methodSignatures.Add(sigKey))
                     continue; // skip duplicate method signature
 
+                // Skip methods with parameter type combinations that the runtime can't handle
+                // (e.g., mixed float/value-struct params with other types)
+                if (HasUnsupportedParamCombination(method))
+                    continue;
+
                 def.Methods.Add(method);
             }
         }
+    }
+
+    /// <summary>
+    /// Check if a method has parameter type combinations that the ObjC runtime
+    /// can't handle (e.g., float/double mixed with other param types, or value
+    /// struct params that need special handling).
+    /// </summary>
+    private static bool HasUnsupportedParamCombination(MethodDef method)
+    {
+        if (method.Parameters.Count == 0) return false;
+
+        foreach (var p in method.Parameters)
+        {
+            // Value structs need special objc_msgSend overloads that may not exist
+            if (HeaderTypeMapper.IsValueStruct(p.Type))
+                return true;
+            // Float/double with other params need special overloads
+            if (p.Type is "float" or "double" && method.Parameters.Count > 1)
+                return true;
+        }
+
+        return false;
     }
 
     /// <summary>
