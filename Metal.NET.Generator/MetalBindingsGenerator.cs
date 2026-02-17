@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 
 namespace Metal.NET.Generator;
 
@@ -292,7 +292,10 @@ public class MetalBindingsGenerator
 
         sb.AppendLine($"    public {name}(nint nativePtr)");
         sb.AppendLine("    {");
-        sb.AppendLine("        ObjectiveCRuntime.Retain(NativePtr = nativePtr);");
+        sb.AppendLine("        if (nativePtr is not 0)");
+        sb.AppendLine("        {");
+        sb.AppendLine("            ObjectiveCRuntime.Retain(NativePtr = nativePtr);");
+        sb.AppendLine("        }");
         sb.AppendLine("    }");
         sb.AppendLine();
 
