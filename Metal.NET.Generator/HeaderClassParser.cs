@@ -33,8 +33,9 @@ internal static class HeaderClassParser
     // ── Regex patterns ──
 
     // Class declaration: "class Device : public NS::Referencing<Device>"
+    // Also matches NS::Copying and NS::SecureCoding
     private static readonly Regex s_classDeclRegex = new Regex(
-        @"class\s+(\w+)\s*:\s*public\s+(NS::Referencing|NS::CopiedBy)<",
+        @"class\s+(\w+)\s*:\s*public\s+(NS::Referencing|NS::CopiedBy|NS::Copying|NS::SecureCoding)\s*<",
         RegexOptions.Compiled);
 
     // Method declaration in the public section:
@@ -50,8 +51,9 @@ internal static class HeaderClassParser
         RegexOptions.Compiled);
 
     // Selector definition: _MTL_PRIVATE_DEF_SEL(methodCppName_, "selector:name:")
+    // Also handles _MTLFX_PRIVATE_DEF_SEL
     private static readonly Regex s_selectorDefRegex = new Regex(
-        @"_(?:MTL|NS)_PRIVATE_DEF_SEL\s*\(\s*(\w+)\s*,\s*""([^""]+)""\s*\)",
+        @"_(?:MTL|NS|MTLFX)_PRIVATE_DEF_SEL\s*\(\s*(\w+)\s*,\s*""([^""]+)""\s*\)",
         RegexOptions.Compiled);
 
     // Inline implementation with selector:
@@ -68,6 +70,9 @@ internal static class HeaderClassParser
         Dictionary<string, string> selectorMap)
     {
         var results = new List<ObjCClassDef>();
+
+        // Detect which namespace(s) are used in this file
+        var namespacePrefixes = DetectNamespacePrefixes(content);
 
         // Also extract inline selectors from this file
         foreach (Match m in s_inlineSelectorRegex.Matches(content))
@@ -90,8 +95,10 @@ internal static class HeaderClassParser
         {
             var rawClassName = classMatch.Groups[1].Value;
 
-            // Determine if this is an ObjC class or protocol
-            var csName = $"MTL{rawClassName}";
+            // Determine the namespace prefix for this class based on its position in the content
+            var csPrefix = GetNamespacePrefix(content, classMatch.Index, namespacePrefixes);
+
+            var csName = $"{csPrefix}{rawClassName}";
             var isClass = IsDescriptorOrConcreteClass(rawClassName);
 
             // Find the class body (from the match to the closing "};")
@@ -118,11 +125,91 @@ internal static class HeaderClassParser
         return results;
     }
 
+    /// <summary>
+    /// Detect all namespace blocks and their positions in the content.
+    /// Returns list of (startIndex, prefix) tuples.
+    /// </summary>
+    private static List<(int start, string prefix)> DetectNamespacePrefixes(string content)
+    {
+        var result = new List<(int start, string prefix)>();
+        var nsRegex = new Regex(@"^namespace\s+(\w+)\s*$", RegexOptions.Multiline);
+        foreach (Match m in nsRegex.Matches(content))
+        {
+            var ns = m.Groups[1].Value;
+            string prefix;
+            switch (ns)
+            {
+                case "MTL": prefix = "MTL"; break;
+                case "MTL4": prefix = "MTL4"; break;
+                case "MTLFX": prefix = "MTLFX"; break;
+                case "MTL4FX": prefix = "MTL4FX"; break;
+                case "CA": prefix = "CA"; break;
+                default: prefix = "MTL"; break;
+            }
+            result.Add((m.Index, prefix));
+        }
+        return result;
+    }
+
+    /// <summary>
+    /// Get the namespace prefix for a class at a given position in the content.
+    /// </summary>
+    private static string GetNamespacePrefix(string content, int classIndex,
+        List<(int start, string prefix)> namespacePrefixes)
+    {
+        // Find the closest namespace declaration before the class
+        string prefix = "MTL"; // default
+        foreach (var (start, p) in namespacePrefixes)
+        {
+            if (start < classIndex)
+                prefix = p;
+            else
+                break;
+        }
+        return prefix;
+    }
+
     private static void ParseMethods(string classBody, string className,
         Dictionary<string, string> selectorMap, ObjCClassDef def)
     {
+        // Determine the namespace prefix of the containing class for type resolution
+        var nsPrefix = "MTL";
+        if (def.Name.StartsWith("MTL4FX")) nsPrefix = "MTL4FX";
+        else if (def.Name.StartsWith("MTLFX")) nsPrefix = "MTLFX";
+        else if (def.Name.StartsWith("MTL4")) nsPrefix = "MTL4";
+
+        // Track method signatures to avoid duplicates
+        var methodSignatures = new HashSet<string>();
+        // Track property names
+        var propertyNames = new HashSet<string>();
+        // Track methods that overlap with property names (to resolve conflicts later)
+        var methodNameOverlaps = new HashSet<string>();
+
         var lines = classBody.Split('\n');
         bool inPublic = false;
+
+        // First pass: collect all method names that have parameterized versions
+        foreach (var line in lines)
+        {
+            var trimmed = line.Trim();
+            if (trimmed == "public:") { inPublic = true; continue; }
+            if (trimmed == "private:" || trimmed == "protected:") { inPublic = false; continue; }
+            if (!inPublic) continue;
+
+            var mMatch = s_methodDeclRegex.Match(line);
+            if (!mMatch.Success) continue;
+
+            var mName = mMatch.Groups[2].Value.Trim();
+            var mParams = mMatch.Groups[3].Value.Trim();
+            var mIsConst = mMatch.Groups[4].Success;
+
+            // If a name appears both as no-param-const (property getter) and with params,
+            // it should be a method, not a property
+            if (!string.IsNullOrEmpty(mParams) && !IsPropertySetter(mName, mParams))
+                methodNameOverlaps.Add(mName);
+        }
+
+        inPublic = false;
 
         foreach (var line in lines)
         {
@@ -148,13 +235,26 @@ internal static class HeaderClassParser
             var paramStr = methodMatch.Groups[3].Value.Trim();
             var isConst = methodMatch.Groups[4].Success;
 
-            var returnTypeCs = HeaderTypeMapper.ToCSharpType(returnTypeCpp);
+            // Skip methods with array-of-pointer parameters (e.g. "const MTL::Buffer* const buffers[]")
+            if (paramStr.Contains("[]"))
+                continue;
+
+            var returnTypeCs = MapTypeInContext(returnTypeCpp, nsPrefix);
+
+            // Skip methods with unsupported return types
+            if (returnTypeCs == null)
+                continue;
+
+            // Escape C# keywords used as method names
+            if (HeaderTypeMapper.IsCSharpKeyword(methodName))
+                methodName = $"@{methodName}";
 
             // Resolve the ObjC selector
-            var selector = ResolveSelector(className, methodName, paramStr, selectorMap);
+            var selector = ResolveSelector(className, methodName.TrimStart('@'), paramStr, selectorMap);
 
             // Determine if this is a property getter/setter
-            if (IsPropertyGetter(methodName, paramStr, isConst))
+            var rawName = methodName.TrimStart('@');
+            if (IsPropertyGetter(rawName, paramStr, isConst) && !methodNameOverlaps.Contains(rawName))
             {
                 var existingProp = def.Properties.FirstOrDefault(p => p.Name == methodName);
                 if (existingProp == null)
@@ -164,27 +264,30 @@ internal static class HeaderClassParser
                         Name = methodName,
                         Type = returnTypeCs,
                         Readonly = true,
-                        GetSelector = selector != methodName ? selector : null,
+                        GetSelector = selector != rawName ? selector : null,
                     });
                 }
             }
-            else if (IsPropertySetter(methodName, paramStr))
+            else if (IsPropertySetter(rawName, paramStr))
             {
-                var getterName = char.ToLower(methodName[3]) + methodName.Substring(4);
+                var getterName = char.ToLower(rawName[3]) + rawName.Substring(4);
+                if (HeaderTypeMapper.IsCSharpKeyword(getterName))
+                    getterName = $"@{getterName}";
                 var existingProp = def.Properties.FirstOrDefault(p => p.Name == getterName);
                 if (existingProp != null)
                 {
                     existingProp.Readonly = false;
-                    existingProp.SetSelector = selector != null ? selector : $"set{methodName.Substring(3)}:";
+                    existingProp.SetSelector = selector != null ? selector : $"set{rawName.Substring(3)}:";
                 }
                 // If no getter exists, still create a write-only property
                 else
                 {
-                    var paramType = ParseSingleParam(paramStr);
+                    var paramType = ParseSingleParamInContext(paramStr, nsPrefix);
+                    if (paramType == null) continue; // unsupported param type
                     def.Properties.Add(new PropertyDef
                     {
                         Name = getterName,
-                        Type = paramType ?? returnTypeCs,
+                        Type = paramType,
                         Readonly = false,
                         SetSelector = selector,
                     });
@@ -196,13 +299,16 @@ internal static class HeaderClassParser
                 var method = new MethodDef
                 {
                     Name = methodName,
-                    Selector = selector ?? methodName,
+                    Selector = selector ?? rawName,
                     ReturnType = returnTypeCs,
                 };
 
                 if (!string.IsNullOrEmpty(paramStr))
                 {
                     var parsedParams = ParseParams(paramStr);
+
+                    // Check if any parameter has an unsupported type
+                    bool hasUnsupported = false;
 
                     // Check if last param is "NS::Error**" — that's an error-out param
                     if (parsedParams.Count > 0 &&
@@ -215,17 +321,82 @@ internal static class HeaderClassParser
 
                     if (parsedParams.Count > 0)
                     {
-                        method.Parameters = parsedParams.Select(p => new ParamDef
+                        var convertedParams = new List<ParamDef>();
+                        foreach (var p in parsedParams)
                         {
-                            Name = p.name,
-                            Type = HeaderTypeMapper.ToCSharpType(p.type),
-                        }).ToList();
+                            var csType = MapTypeInContext(p.type, nsPrefix);
+                            if (csType == null) { hasUnsupported = true; break; }
+
+                            var paramName = p.name;
+                            if (HeaderTypeMapper.IsCSharpKeyword(paramName))
+                                paramName = $"@{paramName}";
+
+                            convertedParams.Add(new ParamDef
+                            {
+                                Name = paramName,
+                                Type = csType,
+                            });
+                        }
+                        if (hasUnsupported) continue; // skip entire method
+                        method.Parameters = convertedParams;
                     }
                 }
+
+                // Build a signature key for dedup: "methodName(type1,type2,...)"
+                var sigTypes = string.Join(",", method.Parameters.Select(p => p.Type));
+                var sigKey = $"{method.Name}({sigTypes})";
+                if (method.HasErrorOut) sigKey += "+err";
+
+                if (!methodSignatures.Add(sigKey))
+                    continue; // skip duplicate method signature
 
                 def.Methods.Add(method);
             }
         }
+    }
+
+    /// <summary>
+    /// Maps a C++ type to C#, using the containing class's namespace prefix
+    /// for types without an explicit namespace qualifier.
+    /// </summary>
+    private static string? MapTypeInContext(string cppType, string nsPrefix)
+    {
+        // If the type has an explicit namespace qualifier (e.g. "MTL4::Foo", "MTL::Bar"),
+        // let the standard mapper handle it.
+        if (cppType.Contains("::"))
+            return HeaderTypeMapper.ToCSharpType(cppType);
+
+        var mapped = HeaderTypeMapper.ToCSharpType(cppType);
+        if (mapped == null) return null;
+
+        // If the containing class is in MTL4/MTLFX namespace, and the type doesn't have
+        // an explicit namespace, and was mapped with default MTL prefix, re-prefix it
+        // to match the containing namespace. This handles unqualified forward declarations
+        // like "BinaryFunction*" inside an MTL4 class.
+        if (nsPrefix != "MTL" && !HeaderTypeMapper.IsPrimitive(mapped)
+            && mapped.StartsWith("MTL") && !mapped.StartsWith(nsPrefix)
+            && !mapped.StartsWith("MTL4") && !mapped.StartsWith("MTLFX")
+            && !HeaderTypeMapper.IsValueStruct(mapped))
+        {
+            mapped = nsPrefix + mapped.Substring(3);
+        }
+
+        return mapped;
+    }
+
+    private static string? ParseSingleParamInContext(string paramStr, string nsPrefix)
+    {
+        // Skip if it contains array syntax
+        if (paramStr.Contains("[]")) return null;
+
+        var parts = paramStr.Trim().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length >= 2)
+        {
+            var typeParts = new string[parts.Length - 1];
+            Array.Copy(parts, typeParts, parts.Length - 1);
+            return MapTypeInContext(string.Join(" ", typeParts), nsPrefix);
+        }
+        return null;
     }
 
     private static bool IsPropertyGetter(string name, string paramStr, bool isConst)
@@ -243,6 +414,9 @@ internal static class HeaderClassParser
 
     private static string? ParseSingleParam(string paramStr)
     {
+        // Skip if it contains array syntax
+        if (paramStr.Contains("[]")) return null;
+
         var parts = paramStr.Trim().Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
         if (parts.Length >= 2)
         {

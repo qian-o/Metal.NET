@@ -94,3 +94,23 @@ public struct CGSize
         this.height = height;
     }
 }
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLSamplePosition
+{
+    public float x;
+    public float y;
+
+    public MTLSamplePosition(float x, float y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLSizeAndAlign
+{
+    public UIntPtr size;
+    public UIntPtr align;
+}
