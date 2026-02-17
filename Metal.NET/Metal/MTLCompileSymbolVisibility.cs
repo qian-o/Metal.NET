@@ -1,0 +1,8 @@
+﻿namespace Metal.NET;
+
+public enum MTLCompileSymbolVisibility : int
+{
+    Default = 0,
+
+    Hidden = 1
+}

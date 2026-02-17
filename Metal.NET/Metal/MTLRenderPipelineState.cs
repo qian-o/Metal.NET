@@ -1,0 +1,184 @@
+﻿namespace Metal.NET;
+
+public class MTLRenderPipelineState : IDisposable
+{
+    public MTLRenderPipelineState(nint nativePtr)
+    {
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    ~MTLRenderPipelineState()
+    {
+        Release();
+    }
+
+    public nint NativePtr { get; }
+
+    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Device));
+
+    public nuint ImageblockSampleLength => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.ImageblockSampleLength);
+
+    public NSString Label => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Label));
+
+    public nuint MaxTotalThreadgroupsPerMeshGrid => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.MaxTotalThreadgroupsPerMeshGrid);
+
+    public nuint MaxTotalThreadsPerMeshThreadgroup => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.MaxTotalThreadsPerMeshThreadgroup);
+
+    public nuint MaxTotalThreadsPerObjectThreadgroup => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.MaxTotalThreadsPerObjectThreadgroup);
+
+    public nuint MaxTotalThreadsPerThreadgroup => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.MaxTotalThreadsPerThreadgroup);
+
+    public nuint MeshThreadExecutionWidth => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.MeshThreadExecutionWidth);
+
+    public nuint ObjectThreadExecutionWidth => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.ObjectThreadExecutionWidth);
+
+    public MTLRenderPipelineReflection Reflection => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Reflection));
+
+    public MTLShaderValidation ShaderValidation => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPipelineStateSelector.ShaderValidation));
+
+    public Bool8 SupportIndirectCommandBuffers => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineStateSelector.SupportIndirectCommandBuffers);
+
+    public Bool8 ThreadgroupSizeMatchesTileSize => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineStateSelector.ThreadgroupSizeMatchesTileSize);
+
+    public MTLFunctionHandle FunctionHandle(NSString name, nuint stage)
+    {
+        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleStage, name.NativePtr, stage));
+
+        return result;
+    }
+
+    public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function, nuint stage)
+    {
+        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleStage, function.NativePtr, stage));
+
+        return result;
+    }
+
+    public MTLFunctionHandle FunctionHandle(MTLFunction function, nuint stage)
+    {
+        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleStage, function.NativePtr, stage));
+
+        return result;
+    }
+
+    public nuint ImageblockMemoryLength(MTLSize imageblockDimensions)
+    {
+        nuint result = ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.ImageblockMemoryLength, imageblockDimensions);
+
+        return result;
+    }
+
+    public MTLIntersectionFunctionTable NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor, nuint stage)
+    {
+        MTLIntersectionFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewIntersectionFunctionTableStage, descriptor.NativePtr, stage));
+
+        return result;
+    }
+
+    public MTL4PipelineDescriptor NewRenderPipelineDescriptor()
+    {
+        MTL4PipelineDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineDescriptor));
+
+        return result;
+    }
+
+    public MTLRenderPipelineState NewRenderPipelineState(MTL4RenderPipelineBinaryFunctionsDescriptor binaryFunctionsDescriptor, out NSError? error)
+    {
+        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineStateError, binaryFunctionsDescriptor.NativePtr, out nint errorPtr));
+
+        error = errorPtr is not 0 ? new(errorPtr) : null;
+
+        return result;
+    }
+
+    public MTLRenderPipelineState NewRenderPipelineState(MTLRenderPipelineFunctionsDescriptor additionalBinaryFunctions, out NSError? error)
+    {
+        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineStateError, additionalBinaryFunctions.NativePtr, out nint errorPtr));
+
+        error = errorPtr is not 0 ? new(errorPtr) : null;
+
+        return result;
+    }
+
+    public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor, nuint stage)
+    {
+        MTLVisibleFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewVisibleFunctionTableStage, descriptor.NativePtr, stage));
+
+        return result;
+    }
+
+    public static implicit operator nint(MTLRenderPipelineState value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLRenderPipelineState(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
+    }
+
+}
+
+file class MTLRenderPipelineStateSelector
+{
+    public static readonly Selector Device = Selector.Register("device");
+
+    public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
+
+    public static readonly Selector ImageblockSampleLength = Selector.Register("imageblockSampleLength");
+
+    public static readonly Selector Label = Selector.Register("label");
+
+    public static readonly Selector MaxTotalThreadgroupsPerMeshGrid = Selector.Register("maxTotalThreadgroupsPerMeshGrid");
+
+    public static readonly Selector MaxTotalThreadsPerMeshThreadgroup = Selector.Register("maxTotalThreadsPerMeshThreadgroup");
+
+    public static readonly Selector MaxTotalThreadsPerObjectThreadgroup = Selector.Register("maxTotalThreadsPerObjectThreadgroup");
+
+    public static readonly Selector MaxTotalThreadsPerThreadgroup = Selector.Register("maxTotalThreadsPerThreadgroup");
+
+    public static readonly Selector MeshThreadExecutionWidth = Selector.Register("meshThreadExecutionWidth");
+
+    public static readonly Selector ObjectThreadExecutionWidth = Selector.Register("objectThreadExecutionWidth");
+
+    public static readonly Selector Reflection = Selector.Register("reflection");
+
+    public static readonly Selector RequiredThreadsPerMeshThreadgroup = Selector.Register("requiredThreadsPerMeshThreadgroup");
+
+    public static readonly Selector RequiredThreadsPerObjectThreadgroup = Selector.Register("requiredThreadsPerObjectThreadgroup");
+
+    public static readonly Selector RequiredThreadsPerTileThreadgroup = Selector.Register("requiredThreadsPerTileThreadgroup");
+
+    public static readonly Selector ShaderValidation = Selector.Register("shaderValidation");
+
+    public static readonly Selector SupportIndirectCommandBuffers = Selector.Register("supportIndirectCommandBuffers");
+
+    public static readonly Selector ThreadgroupSizeMatchesTileSize = Selector.Register("threadgroupSizeMatchesTileSize");
+
+    public static readonly Selector FunctionHandleStage = Selector.Register("functionHandle:stage:");
+
+    public static readonly Selector ImageblockMemoryLength = Selector.Register("imageblockMemoryLength:");
+
+    public static readonly Selector NewIntersectionFunctionTableStage = Selector.Register("newIntersectionFunctionTable:stage:");
+
+    public static readonly Selector NewRenderPipelineDescriptor = Selector.Register("newRenderPipelineDescriptor");
+
+    public static readonly Selector NewRenderPipelineStateError = Selector.Register("newRenderPipelineState:error:");
+
+    public static readonly Selector NewVisibleFunctionTableStage = Selector.Register("newVisibleFunctionTable:stage:");
+}

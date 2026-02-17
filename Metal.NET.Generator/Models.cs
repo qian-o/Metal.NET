@@ -10,6 +10,9 @@ public class EnumDef
     public string UnderlyingType { get; set; } = "uint";
     public bool IsFlags { get; set; }
     public List<EnumMemberDef> Members { get; set; } = new();
+
+    /// <summary>Subfolder matching metal-cpp structure: "Metal", "Foundation", "QuartzCore", "MetalFX".</summary>
+    public string Folder { get; set; } = "Metal";
 }
 
 public class EnumMemberDef
@@ -18,25 +21,11 @@ public class EnumMemberDef
     public string Value { get; set; } = "0";
 }
 
-// ── Struct definitions (value-type structs like MTLOrigin, MTLSize, etc.) ──
-
-public class StructDef
-{
-    public string Name { get; set; } = "";
-    public List<StructFieldDef> Fields { get; set; } = new();
-}
-
-public class StructFieldDef
-{
-    public string Name { get; set; } = "";
-    public string Type { get; set; } = "";
-}
-
 // ── Objective-C protocol / class bindings ──
 
 public class ObjCClassDef
 {
-    /// <summary>The C# struct name, e.g. "MTLDevice".</summary>
+    /// <summary>The C# class name, e.g. "MTLDevice".</summary>
     public string Name { get; set; } = "";
 
     /// <summary>Whether this wraps an Objective-C class (true) or protocol (false).</summary>
@@ -53,6 +42,9 @@ public class ObjCClassDef
 
     /// <summary>Static / class methods.</summary>
     public List<MethodDef> StaticMethods { get; set; } = new();
+
+    /// <summary>Subfolder matching metal-cpp structure: "Metal", "Foundation", "QuartzCore", "MetalFX".</summary>
+    public string Folder { get; set; } = "Metal";
 }
 
 public class PropertyDef
@@ -92,14 +84,25 @@ public class ParamDef
     public string Type { get; set; } = "";
 }
 
-// ── Root definitions file containers ──
+// ── Free C function declarations (extern "C") ──
 
-public class EnumsFile
+public class FreeFunctionDef
 {
-    public List<EnumDef> Enums { get; set; } = new();
-}
+    /// <summary>The C function name, e.g. "MTLCreateSystemDefaultDevice".</summary>
+    public string NativeName { get; set; } = "";
 
-public class StructsFile
-{
-    public List<StructDef> Structs { get; set; } = new();
+    /// <summary>The C# method name, e.g. "CreateSystemDefaultDevice".</summary>
+    public string Name { get; set; } = "";
+
+    /// <summary>Return type (C# type name).</summary>
+    public string ReturnType { get; set; } = "void";
+
+    /// <summary>Parameters.</summary>
+    public List<ParamDef> Parameters { get; set; } = new();
+
+    /// <summary>The target class to inject this into, e.g. "MTLDevice".</summary>
+    public string TargetClass { get; set; } = "";
+
+    /// <summary>The native framework library path for [LibraryImport].</summary>
+    public string FrameworkLibrary { get; set; } = "/System/Library/Frameworks/Metal.framework/Metal";
 }

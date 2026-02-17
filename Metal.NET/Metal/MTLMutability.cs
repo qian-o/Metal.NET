@@ -1,0 +1,10 @@
+﻿namespace Metal.NET;
+
+public enum MTLMutability : uint
+{
+    Default = 0,
+
+    Mutable = 1,
+
+    Immutable = 2
+}

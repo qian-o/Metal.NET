@@ -1,0 +1,8 @@
+﻿namespace Metal.NET;
+
+public enum MTLCaptureDestination : int
+{
+    DeveloperTools = 1,
+
+    GPUTraceDocument = 2
+}

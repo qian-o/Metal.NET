@@ -1,9 +1,0 @@
-﻿{
-  "name": "MTLDepthStencilState",
-  "isClass": false,
-  "properties": [
-    { "name": "label", "type": "NSString", "readonly": true }
-  ],
-  "methods": [],
-  "staticMethods": []
-}

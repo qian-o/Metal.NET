@@ -1,0 +1,8 @@
+﻿namespace Metal.NET;
+
+public enum MTL4IndirectCommandBufferSupportState : int
+{
+    Disabled = 0,
+
+    Enabled = 1
+}

@@ -1,0 +1,12 @@
+﻿namespace Metal.NET;
+
+public enum MTL4CompilerTaskStatus : int
+{
+    None = 0,
+
+    Scheduled = 1,
+
+    Compiling = 2,
+
+    Finished = 3
+}

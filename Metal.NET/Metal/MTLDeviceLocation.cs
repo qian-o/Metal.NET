@@ -1,0 +1,12 @@
+﻿namespace Metal.NET;
+
+public enum MTLDeviceLocation : uint
+{
+    BuiltIn = 0,
+
+    Slot = 1,
+
+    External = 2,
+
+    Unspecified = 4294967295
+}

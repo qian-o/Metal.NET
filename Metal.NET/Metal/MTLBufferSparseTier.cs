@@ -1,0 +1,8 @@
+﻿namespace Metal.NET;
+
+public enum MTLBufferSparseTier : int
+{
+    None = 0,
+
+    _1 = 1
+}
