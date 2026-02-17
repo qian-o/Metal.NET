@@ -77,10 +77,11 @@ internal static class HeaderClassParser
             var selField = m.Groups[3].Value;
 
             var key = $"{className}.{methodName}";
-            string? sel;
-            if (!selectorMap.ContainsKey(key) && selectorMap.TryGetValue(selField, out sel))
+            // If we don't already have a class.method mapping, try to resolve it
+            // from the selector field name extracted from the inline implementation
+            if (!selectorMap.ContainsKey(key) && selectorMap.TryGetValue(selField, out var sel))
             {
-                selectorMap[key] = sel!;
+                selectorMap[key] = sel;
             }
         }
 
@@ -286,8 +287,7 @@ internal static class HeaderClassParser
     {
         // Try class.method key first
         var key = $"{className}.{methodName}";
-        string? sel;
-        if (selectorMap.TryGetValue(key, out sel)) return sel!;
+        if (selectorMap.TryGetValue(key, out var sel)) return sel;
 
         // Try the C++ mangled selector field name
         var fieldVariants = new[]
@@ -297,7 +297,7 @@ internal static class HeaderClassParser
         };
         foreach (var f in fieldVariants)
         {
-            if (selectorMap.TryGetValue(f, out sel)) return sel!;
+            if (selectorMap.TryGetValue(f, out sel)) return sel;
         }
 
         // Fallback: construct the selector from the method name
