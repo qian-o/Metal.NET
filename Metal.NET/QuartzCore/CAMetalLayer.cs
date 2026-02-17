@@ -38,7 +38,10 @@ public class CAMetalLayer : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetFramebufferOnly, value);
     }
 
-    public CAMetalDrawable NextDrawable => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.NextDrawable));
+    public CAMetalDrawable NextDrawable
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.NextDrawable));
+    }
 
     public nuint MaximumDrawableCount
     {
@@ -76,6 +79,13 @@ public class CAMetalLayer : IDisposable
         return new(value);
     }
 
+    public static CAMetalLayer Layer()
+    {
+        CAMetalLayer result = new(ObjectiveCRuntime.MsgSendPtr(Class, CAMetalLayerSelector.Layer));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -89,13 +99,6 @@ public class CAMetalLayer : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public static CAMetalLayer Layer()
-    {
-        CAMetalLayer result = new(ObjectiveCRuntime.MsgSendPtr(Class, CAMetalLayerSelector.Layer));
-
-        return result;
     }
 }
 
