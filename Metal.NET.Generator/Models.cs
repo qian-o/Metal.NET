@@ -10,6 +10,9 @@ public class EnumDef
     public string UnderlyingType { get; set; } = "uint";
     public bool IsFlags { get; set; }
     public List<EnumMemberDef> Members { get; set; } = new();
+
+    /// <summary>Subfolder matching metal-cpp structure: "Metal", "Foundation", "QuartzCore", "MetalFX".</summary>
+    public string Folder { get; set; } = "Metal";
 }
 
 public class EnumMemberDef
@@ -22,7 +25,7 @@ public class EnumMemberDef
 
 public class ObjCClassDef
 {
-    /// <summary>The C# struct name, e.g. "MTLDevice".</summary>
+    /// <summary>The C# class name, e.g. "MTLDevice".</summary>
     public string Name { get; set; } = "";
 
     /// <summary>Whether this wraps an Objective-C class (true) or protocol (false).</summary>
@@ -39,6 +42,9 @@ public class ObjCClassDef
 
     /// <summary>Static / class methods.</summary>
     public List<MethodDef> StaticMethods { get; set; } = new();
+
+    /// <summary>Subfolder matching metal-cpp structure: "Metal", "Foundation", "QuartzCore", "MetalFX".</summary>
+    public string Folder { get; set; } = "Metal";
 }
 
 public class PropertyDef

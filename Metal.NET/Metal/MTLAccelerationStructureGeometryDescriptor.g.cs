@@ -1,0 +1,83 @@
+﻿using System;
+using System.Runtime.InteropServices;
+
+namespace Metal.NET;
+
+internal static class MTLAccelerationStructureGeometryDescriptor_Selectors
+{
+    internal static readonly Selector setAllowDuplicateIntersectionFunctionInvocation_ = Selector.Register("setAllowDuplicateIntersectionFunctionInvocation:");
+    internal static readonly Selector setIntersectionFunctionTableOffset_ = Selector.Register("setIntersectionFunctionTableOffset:");
+    internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
+    internal static readonly Selector setOpaque_ = Selector.Register("setOpaque:");
+    internal static readonly Selector setPrimitiveDataBuffer_ = Selector.Register("setPrimitiveDataBuffer:");
+    internal static readonly Selector setPrimitiveDataBufferOffset_ = Selector.Register("setPrimitiveDataBufferOffset:");
+    internal static readonly Selector setPrimitiveDataElementSize_ = Selector.Register("setPrimitiveDataElementSize:");
+    internal static readonly Selector setPrimitiveDataStride_ = Selector.Register("setPrimitiveDataStride:");
+}
+
+public class MTLAccelerationStructureGeometryDescriptor : IDisposable
+{
+    public nint NativePtr { get; }
+
+    public MTLAccelerationStructureGeometryDescriptor(nint ptr) => NativePtr = ptr;
+
+    public bool IsNull => NativePtr == 0;
+
+    public static implicit operator nint(MTLAccelerationStructureGeometryDescriptor o) => o.NativePtr;
+    public static implicit operator MTLAccelerationStructureGeometryDescriptor(nint ptr) => new MTLAccelerationStructureGeometryDescriptor(ptr);
+
+    ~MTLAccelerationStructureGeometryDescriptor() => Release();
+
+    public void Dispose()
+    {
+        Release();
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr != 0)
+            ObjectiveCRuntime.Release(NativePtr);
+    }
+
+    public void SetAllowDuplicateIntersectionFunctionInvocation(Bool8 allowDuplicateIntersectionFunctionInvocation)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureGeometryDescriptor_Selectors.setAllowDuplicateIntersectionFunctionInvocation_, (nint)allowDuplicateIntersectionFunctionInvocation.Value);
+    }
+
+    public void SetIntersectionFunctionTableOffset(nuint intersectionFunctionTableOffset)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureGeometryDescriptor_Selectors.setIntersectionFunctionTableOffset_, (nint)intersectionFunctionTableOffset);
+    }
+
+    public void SetLabel(NSString label)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureGeometryDescriptor_Selectors.setLabel_, label.NativePtr);
+    }
+
+    public void SetOpaque(Bool8 opaque)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureGeometryDescriptor_Selectors.setOpaque_, (nint)opaque.Value);
+    }
+
+    public void SetPrimitiveDataBuffer(MTLBuffer primitiveDataBuffer)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureGeometryDescriptor_Selectors.setPrimitiveDataBuffer_, primitiveDataBuffer.NativePtr);
+    }
+
+    public void SetPrimitiveDataBufferOffset(nuint primitiveDataBufferOffset)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureGeometryDescriptor_Selectors.setPrimitiveDataBufferOffset_, (nint)primitiveDataBufferOffset);
+    }
+
+    public void SetPrimitiveDataElementSize(nuint primitiveDataElementSize)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureGeometryDescriptor_Selectors.setPrimitiveDataElementSize_, (nint)primitiveDataElementSize);
+    }
+
+    public void SetPrimitiveDataStride(nuint primitiveDataStride)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureGeometryDescriptor_Selectors.setPrimitiveDataStride_, (nint)primitiveDataStride);
+    }
+
+}

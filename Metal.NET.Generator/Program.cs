@@ -7,7 +7,7 @@ var generatorDir = AppContext.BaseDirectory;
 var projectDir = Path.GetFullPath(Path.Combine(generatorDir, "..", "..", ".."));
 var metalCppDir = Path.Combine(projectDir, "metal-cpp");
 var stubsDir = Path.Combine(projectDir, "stubs");
-var outputDir = Path.GetFullPath(Path.Combine(projectDir, "..", "Metal.NET", "Generated"));
+var outputDir = Path.GetFullPath(Path.Combine(projectDir, "..", "Metal.NET"));
 
 // Allow overriding via command-line arguments
 if (args.Length >= 1) metalCppDir = Path.GetFullPath(args[0]);
@@ -36,12 +36,17 @@ var parsed = CppAstParser.Parse(metalCppDir, stubsDir);
 
 Console.WriteLine($"Parsed: {parsed.Enums.Count} enums, {parsed.Classes.Count} classes, {parsed.FreeFunctions.Count} free functions");
 
-// Clean the output directory
-if (Directory.Exists(outputDir))
+// Clean the generated .g.cs files from all output subfolders
+var subfolders = new[] { "Metal", "Foundation", "QuartzCore", "MetalFX" };
+foreach (var sub in subfolders)
 {
-    foreach (var file in Directory.GetFiles(outputDir, "*.g.cs"))
+    var subDir = Path.Combine(outputDir, sub);
+    if (Directory.Exists(subDir))
     {
-        File.Delete(file);
+        foreach (var file in Directory.GetFiles(subDir, "*.g.cs"))
+        {
+            File.Delete(file);
+        }
     }
 }
 
@@ -49,7 +54,11 @@ if (Directory.Exists(outputDir))
 var generator = new MetalBindingsGenerator(outputDir);
 generator.Execute(parsed);
 
-var generatedCount = Directory.GetFiles(outputDir, "*.g.cs").Length;
+var generatedCount = subfolders
+    .Select(sub => Path.Combine(outputDir, sub))
+    .Where(Directory.Exists)
+    .SelectMany(dir => Directory.GetFiles(dir, "*.g.cs"))
+    .Count();
 Console.WriteLine($"Generated {generatedCount} files in {outputDir}");
 
 return 0;

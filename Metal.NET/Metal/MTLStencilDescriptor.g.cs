@@ -1,0 +1,80 @@
+﻿using System;
+using System.Runtime.InteropServices;
+
+namespace Metal.NET;
+
+internal static class MTLStencilDescriptor_Selectors
+{
+    internal static readonly Selector setDepthFailureOperation_ = Selector.Register("setDepthFailureOperation:");
+    internal static readonly Selector setDepthStencilPassOperation_ = Selector.Register("setDepthStencilPassOperation:");
+    internal static readonly Selector setReadMask_ = Selector.Register("setReadMask:");
+    internal static readonly Selector setStencilCompareFunction_ = Selector.Register("setStencilCompareFunction:");
+    internal static readonly Selector setStencilFailureOperation_ = Selector.Register("setStencilFailureOperation:");
+    internal static readonly Selector setWriteMask_ = Selector.Register("setWriteMask:");
+}
+
+public class MTLStencilDescriptor : IDisposable
+{
+    public nint NativePtr { get; }
+
+    public MTLStencilDescriptor(nint ptr) => NativePtr = ptr;
+
+    public bool IsNull => NativePtr == 0;
+
+    public static implicit operator nint(MTLStencilDescriptor o) => o.NativePtr;
+    public static implicit operator MTLStencilDescriptor(nint ptr) => new MTLStencilDescriptor(ptr);
+
+    ~MTLStencilDescriptor() => Release();
+
+    public void Dispose()
+    {
+        Release();
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr != 0)
+            ObjectiveCRuntime.Release(NativePtr);
+    }
+
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLStencilDescriptor");
+
+    public static MTLStencilDescriptor New()
+    {
+        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
+        ptr = ObjectiveCRuntime.intptr_objc_msgSend(ptr, Selector.Register("init"));
+        return new MTLStencilDescriptor(ptr);
+    }
+
+    public void SetDepthFailureOperation(MTLStencilOperation depthFailureOperation)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.setDepthFailureOperation_, (nint)(uint)depthFailureOperation);
+    }
+
+    public void SetDepthStencilPassOperation(MTLStencilOperation depthStencilPassOperation)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.setDepthStencilPassOperation_, (nint)(uint)depthStencilPassOperation);
+    }
+
+    public void SetReadMask(uint readMask)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.setReadMask_, (nint)readMask);
+    }
+
+    public void SetStencilCompareFunction(MTLCompareFunction stencilCompareFunction)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.setStencilCompareFunction_, (nint)(uint)stencilCompareFunction);
+    }
+
+    public void SetStencilFailureOperation(MTLStencilOperation stencilFailureOperation)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.setStencilFailureOperation_, (nint)(uint)stencilFailureOperation);
+    }
+
+    public void SetWriteMask(uint writeMask)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.setWriteMask_, (nint)writeMask);
+    }
+
+}

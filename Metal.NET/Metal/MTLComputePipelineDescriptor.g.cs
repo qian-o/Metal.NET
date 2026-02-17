@@ -1,0 +1,125 @@
+﻿using System;
+using System.Runtime.InteropServices;
+
+namespace Metal.NET;
+
+internal static class MTLComputePipelineDescriptor_Selectors
+{
+    internal static readonly Selector reset = Selector.Register("reset");
+    internal static readonly Selector setBinaryArchives_ = Selector.Register("setBinaryArchives:");
+    internal static readonly Selector setComputeFunction_ = Selector.Register("setComputeFunction:");
+    internal static readonly Selector setInsertLibraries_ = Selector.Register("setInsertLibraries:");
+    internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
+    internal static readonly Selector setLinkedFunctions_ = Selector.Register("setLinkedFunctions:");
+    internal static readonly Selector setMaxCallStackDepth_ = Selector.Register("setMaxCallStackDepth:");
+    internal static readonly Selector setMaxTotalThreadsPerThreadgroup_ = Selector.Register("setMaxTotalThreadsPerThreadgroup:");
+    internal static readonly Selector setPreloadedLibraries_ = Selector.Register("setPreloadedLibraries:");
+    internal static readonly Selector setRequiredThreadsPerThreadgroup_ = Selector.Register("setRequiredThreadsPerThreadgroup:");
+    internal static readonly Selector setShaderValidation_ = Selector.Register("setShaderValidation:");
+    internal static readonly Selector setStageInputDescriptor_ = Selector.Register("setStageInputDescriptor:");
+    internal static readonly Selector setSupportAddingBinaryFunctions_ = Selector.Register("setSupportAddingBinaryFunctions:");
+    internal static readonly Selector setSupportIndirectCommandBuffers_ = Selector.Register("setSupportIndirectCommandBuffers:");
+    internal static readonly Selector setThreadGroupSizeIsMultipleOfThreadExecutionWidth_ = Selector.Register("setThreadGroupSizeIsMultipleOfThreadExecutionWidth:");
+}
+
+public class MTLComputePipelineDescriptor : IDisposable
+{
+    public nint NativePtr { get; }
+
+    public MTLComputePipelineDescriptor(nint ptr) => NativePtr = ptr;
+
+    public bool IsNull => NativePtr == 0;
+
+    public static implicit operator nint(MTLComputePipelineDescriptor o) => o.NativePtr;
+    public static implicit operator MTLComputePipelineDescriptor(nint ptr) => new MTLComputePipelineDescriptor(ptr);
+
+    ~MTLComputePipelineDescriptor() => Release();
+
+    public void Dispose()
+    {
+        Release();
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr != 0)
+            ObjectiveCRuntime.Release(NativePtr);
+    }
+
+    public void Reset()
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLComputePipelineDescriptor_Selectors.reset);
+    }
+
+    public void SetBinaryArchives(NSArray binaryArchives)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLComputePipelineDescriptor_Selectors.setBinaryArchives_, binaryArchives.NativePtr);
+    }
+
+    public void SetComputeFunction(MTLFunction computeFunction)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLComputePipelineDescriptor_Selectors.setComputeFunction_, computeFunction.NativePtr);
+    }
+
+    public void SetInsertLibraries(NSArray insertLibraries)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLComputePipelineDescriptor_Selectors.setInsertLibraries_, insertLibraries.NativePtr);
+    }
+
+    public void SetLabel(NSString label)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLComputePipelineDescriptor_Selectors.setLabel_, label.NativePtr);
+    }
+
+    public void SetLinkedFunctions(MTLLinkedFunctions linkedFunctions)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLComputePipelineDescriptor_Selectors.setLinkedFunctions_, linkedFunctions.NativePtr);
+    }
+
+    public void SetMaxCallStackDepth(nuint maxCallStackDepth)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLComputePipelineDescriptor_Selectors.setMaxCallStackDepth_, (nint)maxCallStackDepth);
+    }
+
+    public void SetMaxTotalThreadsPerThreadgroup(nuint maxTotalThreadsPerThreadgroup)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLComputePipelineDescriptor_Selectors.setMaxTotalThreadsPerThreadgroup_, (nint)maxTotalThreadsPerThreadgroup);
+    }
+
+    public void SetPreloadedLibraries(NSArray preloadedLibraries)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLComputePipelineDescriptor_Selectors.setPreloadedLibraries_, preloadedLibraries.NativePtr);
+    }
+
+    public void SetRequiredThreadsPerThreadgroup(MTLSize requiredThreadsPerThreadgroup)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLComputePipelineDescriptor_Selectors.setRequiredThreadsPerThreadgroup_, requiredThreadsPerThreadgroup);
+    }
+
+    public void SetShaderValidation(MTLShaderValidation shaderValidation)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLComputePipelineDescriptor_Selectors.setShaderValidation_, (nint)(uint)shaderValidation);
+    }
+
+    public void SetStageInputDescriptor(MTLStageInputOutputDescriptor stageInputDescriptor)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLComputePipelineDescriptor_Selectors.setStageInputDescriptor_, stageInputDescriptor.NativePtr);
+    }
+
+    public void SetSupportAddingBinaryFunctions(Bool8 supportAddingBinaryFunctions)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLComputePipelineDescriptor_Selectors.setSupportAddingBinaryFunctions_, (nint)supportAddingBinaryFunctions.Value);
+    }
+
+    public void SetSupportIndirectCommandBuffers(Bool8 supportIndirectCommandBuffers)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLComputePipelineDescriptor_Selectors.setSupportIndirectCommandBuffers_, (nint)supportIndirectCommandBuffers.Value);
+    }
+
+    public void SetThreadGroupSizeIsMultipleOfThreadExecutionWidth(Bool8 threadGroupSizeIsMultipleOfThreadExecutionWidth)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLComputePipelineDescriptor_Selectors.setThreadGroupSizeIsMultipleOfThreadExecutionWidth_, (nint)threadGroupSizeIsMultipleOfThreadExecutionWidth.Value);
+    }
+
+}

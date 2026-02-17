@@ -219,6 +219,15 @@ public static class CppAstParser
         return result;
     }
 
+    private static string NamespaceToFolder(string ns) => ns switch
+    {
+        "MTL" or "MTL4" => "Metal",
+        "CA" => "QuartzCore",
+        "NS" => "Foundation",
+        "MTLFX" => "MetalFX",
+        _ => "Metal",
+    };
+
     private static void WalkNamespace(CppNamespace ns, ParseResult result, string sourceFile)
     {
         string nsName = ns.Name;
@@ -230,7 +239,10 @@ public static class CppAstParser
             {
                 var enumDef = ConvertEnum(cppEnum, nsName);
                 if (enumDef != null)
+                {
+                    enumDef.Folder = NamespaceToFolder(nsName);
                     result.Enums.Add(enumDef);
+                }
             }
 
             // Parse classes/protocols
@@ -250,7 +262,10 @@ public static class CppAstParser
 
                 var classDef = ConvertClass(cppClass, nsName);
                 if (classDef != null)
+                {
+                    classDef.Folder = NamespaceToFolder(nsName);
                     result.Classes.Add(classDef);
+                }
             }
 
             // Parse free functions
@@ -278,7 +293,10 @@ public static class CppAstParser
 
                 var classDef = ConvertClass(cppClass, nsName);
                 if (classDef != null)
+                {
+                    classDef.Folder = NamespaceToFolder(nsName);
                     result.Classes.Add(classDef);
+                }
             }
         }
 

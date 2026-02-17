@@ -13,9 +13,11 @@ public class MetalBindingsGenerator
         Directory.CreateDirectory(outputDir);
     }
 
-    private void WriteSource(string hintName, string content)
+    private void WriteSource(string folder, string hintName, string content)
     {
-        var path = Path.Combine(_outputDir, hintName);
+        var dir = Path.Combine(_outputDir, folder);
+        Directory.CreateDirectory(dir);
+        var path = Path.Combine(dir, hintName);
         File.WriteAllText(path, content, Encoding.UTF8);
     }
 
@@ -90,10 +92,9 @@ public class MetalBindingsGenerator
         sb.AppendLine();
         sb.AppendLine("namespace Metal.NET;");
         sb.AppendLine();
-        sb.AppendLine("[StructLayout(LayoutKind.Sequential)]");
-        sb.AppendLine($"public readonly struct {typeName}");
+        sb.AppendLine($"public class {typeName} : IDisposable");
         sb.AppendLine("{");
-        sb.AppendLine("    public readonly nint NativePtr;");
+        sb.AppendLine("    public nint NativePtr { get; }");
         sb.AppendLine();
         sb.AppendLine($"    public {typeName}(nint ptr) => NativePtr = ptr;");
         sb.AppendLine();
@@ -101,9 +102,32 @@ public class MetalBindingsGenerator
         sb.AppendLine();
         sb.AppendLine($"    public static implicit operator nint({typeName} o) => o.NativePtr;");
         sb.AppendLine($"    public static implicit operator {typeName}(nint ptr) => new {typeName}(ptr);");
+        sb.AppendLine();
+        sb.AppendLine($"    ~{typeName}() => Release();");
+        sb.AppendLine();
+        sb.AppendLine("    public void Dispose()");
+        sb.AppendLine("    {");
+        sb.AppendLine("        Release();");
+        sb.AppendLine("        GC.SuppressFinalize(this);");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    private void Release()");
+        sb.AppendLine("    {");
+        sb.AppendLine("        if (NativePtr != 0)");
+        sb.AppendLine("            ObjectiveCRuntime.Release(NativePtr);");
+        sb.AppendLine("    }");
         sb.AppendLine("}");
 
-        WriteSource($"{typeName}.g.cs", sb.ToString());
+        var folder = GetFolderForType(typeName);
+        WriteSource(folder, $"{typeName}.g.cs", sb.ToString());
+    }
+
+    private static string GetFolderForType(string typeName)
+    {
+        if (typeName.StartsWith("CA")) return "QuartzCore";
+        if (typeName.StartsWith("MTLFX")) return "MetalFX";
+        if (typeName.StartsWith("NS")) return "Foundation";
+        return "Metal";
     }
 
     // ──────────────────── Enum generation ────────────────────
@@ -125,7 +149,7 @@ public class MetalBindingsGenerator
         }
         sb.AppendLine("}");
 
-        WriteSource($"{e.Name}.g.cs", sb.ToString());
+        WriteSource(e.Folder, $"{e.Name}.g.cs", sb.ToString());
     }
 
     // ──────────────────── ObjC class / protocol generation ────────────────────
@@ -166,12 +190,11 @@ public class MetalBindingsGenerator
         sb.AppendLine("}");
         sb.AppendLine();
 
-        // ── Struct wrapper ──
+        // ── Class wrapper ──
         bool hasLibraryImports = freeFunctions != null && freeFunctions.Count > 0;
-        sb.AppendLine("[StructLayout(LayoutKind.Sequential)]");
-        sb.AppendLine($"public readonly{(hasLibraryImports ? " partial" : "")} struct {def.Name}");
+        sb.AppendLine($"public{(hasLibraryImports ? " partial" : "")} class {def.Name} : IDisposable");
         sb.AppendLine("{");
-        sb.AppendLine("    public readonly nint NativePtr;");
+        sb.AppendLine("    public nint NativePtr { get; }");
         sb.AppendLine();
         sb.AppendLine($"    public {def.Name}(nint ptr) => NativePtr = ptr;");
         sb.AppendLine();
@@ -180,6 +203,20 @@ public class MetalBindingsGenerator
         sb.AppendLine($"    public static implicit operator nint({def.Name} o) => o.NativePtr;");
         sb.AppendLine($"    public static implicit operator {def.Name}(nint ptr) => new {def.Name}(ptr);");
         sb.AppendLine();
+        sb.AppendLine($"    ~{def.Name}() => Release();");
+        sb.AppendLine();
+        sb.AppendLine("    public void Dispose()");
+        sb.AppendLine("    {");
+        sb.AppendLine("        Release();");
+        sb.AppendLine("        GC.SuppressFinalize(this);");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    private void Release()");
+        sb.AppendLine("    {");
+        sb.AppendLine("        if (NativePtr != 0)");
+        sb.AppendLine("            ObjectiveCRuntime.Release(NativePtr);");
+        sb.AppendLine("    }");
+        sb.AppendLine();
 
         // ── Alloc (for classes) ──
         bool hasStaticMethods = def.StaticMethods.Count > 0;
@@ -187,21 +224,11 @@ public class MetalBindingsGenerator
         {
             sb.AppendLine($"    private static readonly nint s_class = ObjectiveCRuntime.GetClass(\"{def.ObjCClass}\");");
             sb.AppendLine();
-            sb.AppendLine($"    public static {def.Name} Alloc()");
-            sb.AppendLine("    {");
-            sb.AppendLine("        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register(\"alloc\"));");
-            sb.AppendLine($"        return new {def.Name}(ptr);");
-            sb.AppendLine("    }");
-            sb.AppendLine();
-            sb.AppendLine($"    public {def.Name} Init()");
-            sb.AppendLine("    {");
-            sb.AppendLine("        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register(\"init\"));");
-            sb.AppendLine($"        return new {def.Name}(ptr);");
-            sb.AppendLine("    }");
-            sb.AppendLine();
             sb.AppendLine($"    public static {def.Name} New()");
             sb.AppendLine("    {");
-            sb.AppendLine("        return Alloc().Init();");
+            sb.AppendLine("        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register(\"alloc\"));");
+            sb.AppendLine("        ptr = ObjectiveCRuntime.intptr_objc_msgSend(ptr, Selector.Register(\"init\"));");
+            sb.AppendLine($"        return new {def.Name}(ptr);");
             sb.AppendLine("    }");
             sb.AppendLine();
         }
@@ -260,13 +287,9 @@ public class MetalBindingsGenerator
             }
         }
 
-        // Retain / Release helpers
-        sb.AppendLine("    public void Retain() => ObjectiveCRuntime.Retain(NativePtr);");
-        sb.AppendLine("    public void Release() => ObjectiveCRuntime.Release(NativePtr);");
-
         sb.AppendLine("}");
 
-        WriteSource($"{def.Name}.g.cs", sb.ToString());
+        WriteSource(def.Folder, $"{def.Name}.g.cs", sb.ToString());
     }
 
     // ── Helpers ──
@@ -307,58 +330,65 @@ public class MetalBindingsGenerator
         {
             argParts.Add(UnwrapParam(p.Type, p.Name));
         }
-        if (m.HasErrorOut) argParts.Add("out error");
+        if (m.HasErrorOut)
+        {
+            sb.AppendLine("        nint __errorPtr = 0;");
+            argParts.Add("out __errorPtr");
+        }
 
         var argsStr = string.Join(", ", argParts);
         var hasParams = m.Parameters.Count > 0 || m.HasErrorOut;
 
-        // Special case: Bool8/bool return with params — bool8_objc_msgSend has no param overloads
-        if (retType == "Bool8" && hasParams)
-        {
-            sb.AppendLine($"        return (byte)ObjectiveCRuntime.intptr_objc_msgSend({argsStr}) != 0;");
-        }
-        else if (retType == "bool" && hasParams)
-        {
-            sb.AppendLine($"        return (byte)ObjectiveCRuntime.intptr_objc_msgSend({argsStr}) != 0;");
-        }
-        // Special case: nuint return with params — nuint_objc_msgSend has no param overloads
-        else if (retType == "nuint" && hasParams)
-        {
-            sb.AppendLine($"        return (nuint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
-        }
-        // Special case: float return with params — float_objc_msgSend has no param overloads
-        else if (retType == "float" && hasParams)
-        {
-            sb.AppendLine($"        return BitConverter.Int32BitsToSingle((int)ObjectiveCRuntime.intptr_objc_msgSend({argsStr}));");
-        }
-        // Special case: double return with params — double_objc_msgSend has no param overloads
-        else if (retType == "double" && hasParams)
-        {
-            sb.AppendLine($"        return BitConverter.Int64BitsToDouble((long)ObjectiveCRuntime.intptr_objc_msgSend({argsStr}));");
-        }
-        // Special case: uint/enum return with params — uint_objc_msgSend has no param overloads
-        else if (retType == "uint" && hasParams)
-        {
-            sb.AppendLine($"        return (uint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
-        }
-        // Enum return with params — use intptr and cast
-        else if (IsLikelyEnum(retType) && hasParams)
-        {
-            sb.AppendLine($"        return ({retType})(uint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
-        }
-        // Special case: ulong return with params — ulong_objc_msgSend may not have param overloads
-        else if (retType == "ulong" && hasParams)
-        {
-            sb.AppendLine($"        return (ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
-        }
-        else if (retType == "void")
+        if (retType == "void")
         {
             sb.AppendLine($"        ObjectiveCRuntime.objc_msgSend({argsStr});");
         }
+        else if (retType == "Bool8" && hasParams)
+        {
+            sb.AppendLine($"        var __r = (byte)ObjectiveCRuntime.intptr_objc_msgSend({argsStr}) != 0;");
+        }
+        else if (retType == "bool" && hasParams)
+        {
+            sb.AppendLine($"        var __r = (byte)ObjectiveCRuntime.intptr_objc_msgSend({argsStr}) != 0;");
+        }
+        else if (retType == "nuint" && hasParams)
+        {
+            sb.AppendLine($"        var __r = (nuint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
+        }
+        else if (retType == "float" && hasParams)
+        {
+            sb.AppendLine($"        var __r = BitConverter.Int32BitsToSingle((int)ObjectiveCRuntime.intptr_objc_msgSend({argsStr}));");
+        }
+        else if (retType == "double" && hasParams)
+        {
+            sb.AppendLine($"        var __r = BitConverter.Int64BitsToDouble((long)ObjectiveCRuntime.intptr_objc_msgSend({argsStr}));");
+        }
+        else if (retType == "uint" && hasParams)
+        {
+            sb.AppendLine($"        var __r = (uint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
+        }
+        else if (IsLikelyEnum(retType) && hasParams)
+        {
+            sb.AppendLine($"        var __r = ({retType})(uint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
+        }
+        else if (retType == "ulong" && hasParams)
+        {
+            sb.AppendLine($"        var __r = (ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
+        }
         else
         {
-            sb.AppendLine($"        var __result = {retCall.Invoke}({argsStr});");
-            sb.AppendLine($"        return {WrapReturnVar(retType, "__result")};");
+            var resultExpr = $"{retCall.Invoke}({argsStr})";
+            sb.AppendLine($"        var __r = {WrapReturnVar(retType, resultExpr)};");
+        }
+
+        if (m.HasErrorOut)
+        {
+            sb.AppendLine("        error = new NSError(__errorPtr);");
+        }
+
+        if (retType != "void")
+        {
+            sb.AppendLine("        return __r;");
         }
 
         sb.AppendLine("    }");

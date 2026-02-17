@@ -1,0 +1,191 @@
+﻿using System;
+using System.Runtime.InteropServices;
+
+namespace Metal.NET;
+
+internal static class MTLMeshRenderPipelineDescriptor_Selectors
+{
+    internal static readonly Selector reset = Selector.Register("reset");
+    internal static readonly Selector setAlphaToCoverageEnabled_ = Selector.Register("setAlphaToCoverageEnabled:");
+    internal static readonly Selector setAlphaToOneEnabled_ = Selector.Register("setAlphaToOneEnabled:");
+    internal static readonly Selector setBinaryArchives_ = Selector.Register("setBinaryArchives:");
+    internal static readonly Selector setDepthAttachmentPixelFormat_ = Selector.Register("setDepthAttachmentPixelFormat:");
+    internal static readonly Selector setFragmentFunction_ = Selector.Register("setFragmentFunction:");
+    internal static readonly Selector setFragmentLinkedFunctions_ = Selector.Register("setFragmentLinkedFunctions:");
+    internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
+    internal static readonly Selector setMaxTotalThreadgroupsPerMeshGrid_ = Selector.Register("setMaxTotalThreadgroupsPerMeshGrid:");
+    internal static readonly Selector setMaxTotalThreadsPerMeshThreadgroup_ = Selector.Register("setMaxTotalThreadsPerMeshThreadgroup:");
+    internal static readonly Selector setMaxTotalThreadsPerObjectThreadgroup_ = Selector.Register("setMaxTotalThreadsPerObjectThreadgroup:");
+    internal static readonly Selector setMaxVertexAmplificationCount_ = Selector.Register("setMaxVertexAmplificationCount:");
+    internal static readonly Selector setMeshFunction_ = Selector.Register("setMeshFunction:");
+    internal static readonly Selector setMeshLinkedFunctions_ = Selector.Register("setMeshLinkedFunctions:");
+    internal static readonly Selector setMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth_ = Selector.Register("setMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth:");
+    internal static readonly Selector setObjectFunction_ = Selector.Register("setObjectFunction:");
+    internal static readonly Selector setObjectLinkedFunctions_ = Selector.Register("setObjectLinkedFunctions:");
+    internal static readonly Selector setObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth_ = Selector.Register("setObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth:");
+    internal static readonly Selector setPayloadMemoryLength_ = Selector.Register("setPayloadMemoryLength:");
+    internal static readonly Selector setRasterSampleCount_ = Selector.Register("setRasterSampleCount:");
+    internal static readonly Selector setRasterizationEnabled_ = Selector.Register("setRasterizationEnabled:");
+    internal static readonly Selector setRequiredThreadsPerMeshThreadgroup_ = Selector.Register("setRequiredThreadsPerMeshThreadgroup:");
+    internal static readonly Selector setRequiredThreadsPerObjectThreadgroup_ = Selector.Register("setRequiredThreadsPerObjectThreadgroup:");
+    internal static readonly Selector setShaderValidation_ = Selector.Register("setShaderValidation:");
+    internal static readonly Selector setStencilAttachmentPixelFormat_ = Selector.Register("setStencilAttachmentPixelFormat:");
+    internal static readonly Selector setSupportIndirectCommandBuffers_ = Selector.Register("setSupportIndirectCommandBuffers:");
+}
+
+public class MTLMeshRenderPipelineDescriptor : IDisposable
+{
+    public nint NativePtr { get; }
+
+    public MTLMeshRenderPipelineDescriptor(nint ptr) => NativePtr = ptr;
+
+    public bool IsNull => NativePtr == 0;
+
+    public static implicit operator nint(MTLMeshRenderPipelineDescriptor o) => o.NativePtr;
+    public static implicit operator MTLMeshRenderPipelineDescriptor(nint ptr) => new MTLMeshRenderPipelineDescriptor(ptr);
+
+    ~MTLMeshRenderPipelineDescriptor() => Release();
+
+    public void Dispose()
+    {
+        Release();
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr != 0)
+            ObjectiveCRuntime.Release(NativePtr);
+    }
+
+    public void Reset()
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.reset);
+    }
+
+    public void SetAlphaToCoverageEnabled(Bool8 alphaToCoverageEnabled)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setAlphaToCoverageEnabled_, (nint)alphaToCoverageEnabled.Value);
+    }
+
+    public void SetAlphaToOneEnabled(Bool8 alphaToOneEnabled)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setAlphaToOneEnabled_, (nint)alphaToOneEnabled.Value);
+    }
+
+    public void SetBinaryArchives(NSArray binaryArchives)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setBinaryArchives_, binaryArchives.NativePtr);
+    }
+
+    public void SetDepthAttachmentPixelFormat(MTLPixelFormat depthAttachmentPixelFormat)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setDepthAttachmentPixelFormat_, (nint)(uint)depthAttachmentPixelFormat);
+    }
+
+    public void SetFragmentFunction(MTLFunction fragmentFunction)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setFragmentFunction_, fragmentFunction.NativePtr);
+    }
+
+    public void SetFragmentLinkedFunctions(MTLLinkedFunctions fragmentLinkedFunctions)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setFragmentLinkedFunctions_, fragmentLinkedFunctions.NativePtr);
+    }
+
+    public void SetLabel(NSString label)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setLabel_, label.NativePtr);
+    }
+
+    public void SetMaxTotalThreadgroupsPerMeshGrid(nuint maxTotalThreadgroupsPerMeshGrid)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setMaxTotalThreadgroupsPerMeshGrid_, (nint)maxTotalThreadgroupsPerMeshGrid);
+    }
+
+    public void SetMaxTotalThreadsPerMeshThreadgroup(nuint maxTotalThreadsPerMeshThreadgroup)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setMaxTotalThreadsPerMeshThreadgroup_, (nint)maxTotalThreadsPerMeshThreadgroup);
+    }
+
+    public void SetMaxTotalThreadsPerObjectThreadgroup(nuint maxTotalThreadsPerObjectThreadgroup)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setMaxTotalThreadsPerObjectThreadgroup_, (nint)maxTotalThreadsPerObjectThreadgroup);
+    }
+
+    public void SetMaxVertexAmplificationCount(nuint maxVertexAmplificationCount)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setMaxVertexAmplificationCount_, (nint)maxVertexAmplificationCount);
+    }
+
+    public void SetMeshFunction(MTLFunction meshFunction)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setMeshFunction_, meshFunction.NativePtr);
+    }
+
+    public void SetMeshLinkedFunctions(MTLLinkedFunctions meshLinkedFunctions)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setMeshLinkedFunctions_, meshLinkedFunctions.NativePtr);
+    }
+
+    public void SetMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth(Bool8 meshThreadgroupSizeIsMultipleOfThreadExecutionWidth)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth_, (nint)meshThreadgroupSizeIsMultipleOfThreadExecutionWidth.Value);
+    }
+
+    public void SetObjectFunction(MTLFunction objectFunction)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setObjectFunction_, objectFunction.NativePtr);
+    }
+
+    public void SetObjectLinkedFunctions(MTLLinkedFunctions objectLinkedFunctions)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setObjectLinkedFunctions_, objectLinkedFunctions.NativePtr);
+    }
+
+    public void SetObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth(Bool8 objectThreadgroupSizeIsMultipleOfThreadExecutionWidth)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth_, (nint)objectThreadgroupSizeIsMultipleOfThreadExecutionWidth.Value);
+    }
+
+    public void SetPayloadMemoryLength(nuint payloadMemoryLength)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setPayloadMemoryLength_, (nint)payloadMemoryLength);
+    }
+
+    public void SetRasterSampleCount(nuint rasterSampleCount)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setRasterSampleCount_, (nint)rasterSampleCount);
+    }
+
+    public void SetRasterizationEnabled(Bool8 rasterizationEnabled)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setRasterizationEnabled_, (nint)rasterizationEnabled.Value);
+    }
+
+    public void SetRequiredThreadsPerMeshThreadgroup(MTLSize requiredThreadsPerMeshThreadgroup)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setRequiredThreadsPerMeshThreadgroup_, requiredThreadsPerMeshThreadgroup);
+    }
+
+    public void SetRequiredThreadsPerObjectThreadgroup(MTLSize requiredThreadsPerObjectThreadgroup)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setRequiredThreadsPerObjectThreadgroup_, requiredThreadsPerObjectThreadgroup);
+    }
+
+    public void SetShaderValidation(MTLShaderValidation shaderValidation)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setShaderValidation_, (nint)(uint)shaderValidation);
+    }
+
+    public void SetStencilAttachmentPixelFormat(MTLPixelFormat stencilAttachmentPixelFormat)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setStencilAttachmentPixelFormat_, (nint)(uint)stencilAttachmentPixelFormat);
+    }
+
+    public void SetSupportIndirectCommandBuffers(Bool8 supportIndirectCommandBuffers)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMeshRenderPipelineDescriptor_Selectors.setSupportIndirectCommandBuffers_, (nint)supportIndirectCommandBuffers.Value);
+    }
+
+}

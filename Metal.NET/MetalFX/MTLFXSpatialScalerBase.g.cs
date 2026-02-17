@@ -1,0 +1,65 @@
+﻿using System;
+using System.Runtime.InteropServices;
+
+namespace Metal.NET;
+
+internal static class MTLFXSpatialScalerBase_Selectors
+{
+    internal static readonly Selector setInputContentWidth_ = Selector.Register("setInputContentWidth:");
+    internal static readonly Selector setInputContentHeight_ = Selector.Register("setInputContentHeight:");
+    internal static readonly Selector setColorTexture_ = Selector.Register("setColorTexture:");
+    internal static readonly Selector setOutputTexture_ = Selector.Register("setOutputTexture:");
+    internal static readonly Selector setFence_ = Selector.Register("setFence:");
+}
+
+public class MTLFXSpatialScalerBase : IDisposable
+{
+    public nint NativePtr { get; }
+
+    public MTLFXSpatialScalerBase(nint ptr) => NativePtr = ptr;
+
+    public bool IsNull => NativePtr == 0;
+
+    public static implicit operator nint(MTLFXSpatialScalerBase o) => o.NativePtr;
+    public static implicit operator MTLFXSpatialScalerBase(nint ptr) => new MTLFXSpatialScalerBase(ptr);
+
+    ~MTLFXSpatialScalerBase() => Release();
+
+    public void Dispose()
+    {
+        Release();
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr != 0)
+            ObjectiveCRuntime.Release(NativePtr);
+    }
+
+    public void SetInputContentWidth(nuint width)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.setInputContentWidth_, (nint)width);
+    }
+
+    public void SetInputContentHeight(nuint height)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.setInputContentHeight_, (nint)height);
+    }
+
+    public void SetColorTexture(MTLTexture pTexture)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.setColorTexture_, pTexture.NativePtr);
+    }
+
+    public void SetOutputTexture(MTLTexture pTexture)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.setOutputTexture_, pTexture.NativePtr);
+    }
+
+    public void SetFence(MTLFence pFence)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.setFence_, pFence.NativePtr);
+    }
+
+}

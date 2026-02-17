@@ -1,0 +1,134 @@
+﻿using System;
+using System.Runtime.InteropServices;
+
+namespace Metal.NET;
+
+internal static class MTLCompileOptions_Selectors
+{
+    internal static readonly Selector setAllowReferencingUndefinedSymbols_ = Selector.Register("setAllowReferencingUndefinedSymbols:");
+    internal static readonly Selector setCompileSymbolVisibility_ = Selector.Register("setCompileSymbolVisibility:");
+    internal static readonly Selector setEnableLogging_ = Selector.Register("setEnableLogging:");
+    internal static readonly Selector setFastMathEnabled_ = Selector.Register("setFastMathEnabled:");
+    internal static readonly Selector setInstallName_ = Selector.Register("setInstallName:");
+    internal static readonly Selector setLanguageVersion_ = Selector.Register("setLanguageVersion:");
+    internal static readonly Selector setLibraries_ = Selector.Register("setLibraries:");
+    internal static readonly Selector setLibraryType_ = Selector.Register("setLibraryType:");
+    internal static readonly Selector setMathFloatingPointFunctions_ = Selector.Register("setMathFloatingPointFunctions:");
+    internal static readonly Selector setMathMode_ = Selector.Register("setMathMode:");
+    internal static readonly Selector setMaxTotalThreadsPerThreadgroup_ = Selector.Register("setMaxTotalThreadsPerThreadgroup:");
+    internal static readonly Selector setOptimizationLevel_ = Selector.Register("setOptimizationLevel:");
+    internal static readonly Selector setPreprocessorMacros_ = Selector.Register("setPreprocessorMacros:");
+    internal static readonly Selector setPreserveInvariance_ = Selector.Register("setPreserveInvariance:");
+    internal static readonly Selector setRequiredThreadsPerThreadgroup_ = Selector.Register("setRequiredThreadsPerThreadgroup:");
+}
+
+public class MTLCompileOptions : IDisposable
+{
+    public nint NativePtr { get; }
+
+    public MTLCompileOptions(nint ptr) => NativePtr = ptr;
+
+    public bool IsNull => NativePtr == 0;
+
+    public static implicit operator nint(MTLCompileOptions o) => o.NativePtr;
+    public static implicit operator MTLCompileOptions(nint ptr) => new MTLCompileOptions(ptr);
+
+    ~MTLCompileOptions() => Release();
+
+    public void Dispose()
+    {
+        Release();
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr != 0)
+            ObjectiveCRuntime.Release(NativePtr);
+    }
+
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLCompileOptions");
+
+    public static MTLCompileOptions New()
+    {
+        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
+        ptr = ObjectiveCRuntime.intptr_objc_msgSend(ptr, Selector.Register("init"));
+        return new MTLCompileOptions(ptr);
+    }
+
+    public void SetAllowReferencingUndefinedSymbols(Bool8 allowReferencingUndefinedSymbols)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setAllowReferencingUndefinedSymbols_, (nint)allowReferencingUndefinedSymbols.Value);
+    }
+
+    public void SetCompileSymbolVisibility(MTLCompileSymbolVisibility compileSymbolVisibility)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setCompileSymbolVisibility_, (nint)(uint)compileSymbolVisibility);
+    }
+
+    public void SetEnableLogging(Bool8 enableLogging)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setEnableLogging_, (nint)enableLogging.Value);
+    }
+
+    public void SetFastMathEnabled(Bool8 fastMathEnabled)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setFastMathEnabled_, (nint)fastMathEnabled.Value);
+    }
+
+    public void SetInstallName(NSString installName)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setInstallName_, installName.NativePtr);
+    }
+
+    public void SetLanguageVersion(MTLLanguageVersion languageVersion)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setLanguageVersion_, (nint)(uint)languageVersion);
+    }
+
+    public void SetLibraries(NSArray libraries)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setLibraries_, libraries.NativePtr);
+    }
+
+    public void SetLibraryType(MTLLibraryType libraryType)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setLibraryType_, (nint)(uint)libraryType);
+    }
+
+    public void SetMathFloatingPointFunctions(MTLMathFloatingPointFunctions mathFloatingPointFunctions)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setMathFloatingPointFunctions_, (nint)(uint)mathFloatingPointFunctions);
+    }
+
+    public void SetMathMode(MTLMathMode mathMode)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setMathMode_, (nint)(uint)mathMode);
+    }
+
+    public void SetMaxTotalThreadsPerThreadgroup(nuint maxTotalThreadsPerThreadgroup)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setMaxTotalThreadsPerThreadgroup_, (nint)maxTotalThreadsPerThreadgroup);
+    }
+
+    public void SetOptimizationLevel(MTLLibraryOptimizationLevel optimizationLevel)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setOptimizationLevel_, (nint)(uint)optimizationLevel);
+    }
+
+    public void SetPreprocessorMacros(nint preprocessorMacros)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setPreprocessorMacros_, preprocessorMacros);
+    }
+
+    public void SetPreserveInvariance(Bool8 preserveInvariance)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setPreserveInvariance_, (nint)preserveInvariance.Value);
+    }
+
+    public void SetRequiredThreadsPerThreadgroup(MTLSize requiredThreadsPerThreadgroup)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setRequiredThreadsPerThreadgroup_, requiredThreadsPerThreadgroup);
+    }
+
+}

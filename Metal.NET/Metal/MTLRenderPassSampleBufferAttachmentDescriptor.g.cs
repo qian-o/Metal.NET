@@ -1,0 +1,65 @@
+﻿using System;
+using System.Runtime.InteropServices;
+
+namespace Metal.NET;
+
+internal static class MTLRenderPassSampleBufferAttachmentDescriptor_Selectors
+{
+    internal static readonly Selector setEndOfFragmentSampleIndex_ = Selector.Register("setEndOfFragmentSampleIndex:");
+    internal static readonly Selector setEndOfVertexSampleIndex_ = Selector.Register("setEndOfVertexSampleIndex:");
+    internal static readonly Selector setSampleBuffer_ = Selector.Register("setSampleBuffer:");
+    internal static readonly Selector setStartOfFragmentSampleIndex_ = Selector.Register("setStartOfFragmentSampleIndex:");
+    internal static readonly Selector setStartOfVertexSampleIndex_ = Selector.Register("setStartOfVertexSampleIndex:");
+}
+
+public class MTLRenderPassSampleBufferAttachmentDescriptor : IDisposable
+{
+    public nint NativePtr { get; }
+
+    public MTLRenderPassSampleBufferAttachmentDescriptor(nint ptr) => NativePtr = ptr;
+
+    public bool IsNull => NativePtr == 0;
+
+    public static implicit operator nint(MTLRenderPassSampleBufferAttachmentDescriptor o) => o.NativePtr;
+    public static implicit operator MTLRenderPassSampleBufferAttachmentDescriptor(nint ptr) => new MTLRenderPassSampleBufferAttachmentDescriptor(ptr);
+
+    ~MTLRenderPassSampleBufferAttachmentDescriptor() => Release();
+
+    public void Dispose()
+    {
+        Release();
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr != 0)
+            ObjectiveCRuntime.Release(NativePtr);
+    }
+
+    public void SetEndOfFragmentSampleIndex(nuint endOfFragmentSampleIndex)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptor_Selectors.setEndOfFragmentSampleIndex_, (nint)endOfFragmentSampleIndex);
+    }
+
+    public void SetEndOfVertexSampleIndex(nuint endOfVertexSampleIndex)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptor_Selectors.setEndOfVertexSampleIndex_, (nint)endOfVertexSampleIndex);
+    }
+
+    public void SetSampleBuffer(MTLCounterSampleBuffer sampleBuffer)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptor_Selectors.setSampleBuffer_, sampleBuffer.NativePtr);
+    }
+
+    public void SetStartOfFragmentSampleIndex(nuint startOfFragmentSampleIndex)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptor_Selectors.setStartOfFragmentSampleIndex_, (nint)startOfFragmentSampleIndex);
+    }
+
+    public void SetStartOfVertexSampleIndex(nuint startOfVertexSampleIndex)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptor_Selectors.setStartOfVertexSampleIndex_, (nint)startOfVertexSampleIndex);
+    }
+
+}
