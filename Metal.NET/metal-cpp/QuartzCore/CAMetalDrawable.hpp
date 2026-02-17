@@ -1,15 +1,8 @@
-/*
-See the LICENSE.txt file for this sample’s licensing information.
-
-Abstract:
-Metal-CPP Header
-*/
-
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------
 //
 // QuartzCore/CAMetalDrawable.hpp
 //
-// Copyright 2020-2022 Apple Inc.
+// Copyright 2020-2024 Apple Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -51,14 +44,14 @@ public:
 
 _CA_INLINE CA::MetalLayer* CA::MetalDrawable::layer() const
 {
-    return Object::sendMessage<MetalLayer*>(this, _MTL_PRIVATE_SEL(layer));
+    return Object::sendMessage<MetalLayer*>(this, _CA_PRIVATE_SEL(layer));
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 _CA_INLINE MTL::Texture* CA::MetalDrawable::texture() const
 {
-    return Object::sendMessage<MTL::Texture*>(this, _MTL_PRIVATE_SEL(texture));
+    return Object::sendMessage<MTL::Texture*>(this, _CA_PRIVATE_SEL(texture));
 }
 
 //-------------------------------------------------------------------------------------------------------------------------------------------------------------
