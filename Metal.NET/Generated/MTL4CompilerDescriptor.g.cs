@@ -6,9 +6,7 @@ namespace Metal.NET;
 
 internal static class MTL4CompilerDescriptor_Selectors
 {
-    internal static readonly Selector label = Selector.Register("label");
     internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
-    internal static readonly Selector pipelineDataSetSerializer = Selector.Register("pipelineDataSetSerializer");
     internal static readonly Selector setPipelineDataSetSerializer_ = Selector.Register("setPipelineDataSetSerializer:");
 }
 
@@ -24,35 +22,14 @@ public readonly struct MTL4CompilerDescriptor
     public static implicit operator nint(MTL4CompilerDescriptor o) => o.NativePtr;
     public static implicit operator MTL4CompilerDescriptor(nint ptr) => new MTL4CompilerDescriptor(ptr);
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4CompilerDescriptor");
-
-    public static MTL4CompilerDescriptor Alloc()
+    public void SetLabel(NSString label)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTL4CompilerDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CompilerDescriptor_Selectors.setLabel_, label.NativePtr);
     }
 
-    public MTL4CompilerDescriptor Init()
+    public void SetPipelineDataSetSerializer(MTL4PipelineDataSetSerializer pipelineDataSetSerializer)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTL4CompilerDescriptor(ptr);
-    }
-
-    public static MTL4CompilerDescriptor New()
-    {
-        return Alloc().Init();
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CompilerDescriptor_Selectors.label));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CompilerDescriptor_Selectors.setLabel_, value.NativePtr);
-    }
-
-    public MTL4PipelineDataSetSerializer PipelineDataSetSerializer
-    {
-        get => new MTL4PipelineDataSetSerializer(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CompilerDescriptor_Selectors.pipelineDataSetSerializer));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CompilerDescriptor_Selectors.setPipelineDataSetSerializer_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CompilerDescriptor_Selectors.setPipelineDataSetSerializer_, pipelineDataSetSerializer.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

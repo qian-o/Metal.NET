@@ -6,13 +6,12 @@ namespace Metal.NET;
 
 internal static class MTLCaptureManager_Selectors
 {
-    internal static readonly Selector defaultCaptureScope = Selector.Register("defaultCaptureScope");
+    internal static readonly Selector newCaptureScope_ = Selector.Register("newCaptureScope:");
     internal static readonly Selector setDefaultCaptureScope_ = Selector.Register("setDefaultCaptureScope:");
-    internal static readonly Selector isCapturing = Selector.Register("isCapturing");
-    internal static readonly Selector newCaptureScope = Selector.Register("newCaptureScope");
-    internal static readonly Selector startCapture = Selector.Register("startCapture");
+    internal static readonly Selector startCapture_error_ = Selector.Register("startCapture:error:");
+    internal static readonly Selector startCapture_ = Selector.Register("startCapture:");
     internal static readonly Selector stopCapture = Selector.Register("stopCapture");
-    internal static readonly Selector supportsDestination = Selector.Register("supportsDestination");
+    internal static readonly Selector supportsDestination_ = Selector.Register("supportsDestination:");
     internal static readonly Selector sharedCaptureManager = Selector.Register("sharedCaptureManager");
 }
 
@@ -30,53 +29,47 @@ public readonly struct MTLCaptureManager
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLCaptureManager");
 
-    public MTLCaptureScope DefaultCaptureScope
-    {
-        get => new MTLCaptureScope(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCaptureManager_Selectors.defaultCaptureScope));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureManager_Selectors.setDefaultCaptureScope_, value.NativePtr);
-    }
-
-    public Bool8 IsCapturing
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLCaptureManager_Selectors.isCapturing);
-    }
-
     public MTLCaptureScope NewCaptureScope(MTLDevice device)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCaptureManager_Selectors.newCaptureScope, device.NativePtr);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCaptureManager_Selectors.newCaptureScope_, device.NativePtr);
         return new MTLCaptureScope(__result);
     }
 
     public MTLCaptureScope NewCaptureScope(MTLCommandQueue commandQueue)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCaptureManager_Selectors.newCaptureScope, commandQueue.NativePtr);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCaptureManager_Selectors.newCaptureScope_, commandQueue.NativePtr);
         return new MTLCaptureScope(__result);
     }
 
     public MTLCaptureScope NewCaptureScope(MTL4CommandQueue commandQueue)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCaptureManager_Selectors.newCaptureScope, commandQueue.NativePtr);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCaptureManager_Selectors.newCaptureScope_, commandQueue.NativePtr);
         return new MTLCaptureScope(__result);
+    }
+
+    public void SetDefaultCaptureScope(MTLCaptureScope defaultCaptureScope)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureManager_Selectors.setDefaultCaptureScope_, defaultCaptureScope.NativePtr);
     }
 
     public Bool8 StartCapture(MTLCaptureDescriptor descriptor, out NSError error)
     {
-        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCaptureManager_Selectors.startCapture, descriptor.NativePtr, out error) != 0;
+        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCaptureManager_Selectors.startCapture_error_, descriptor.NativePtr, out error) != 0;
     }
 
     public void StartCapture(MTLDevice device)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureManager_Selectors.startCapture, device.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureManager_Selectors.startCapture_, device.NativePtr);
     }
 
     public void StartCapture(MTLCommandQueue commandQueue)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureManager_Selectors.startCapture, commandQueue.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureManager_Selectors.startCapture_, commandQueue.NativePtr);
     }
 
     public void StartCapture(MTLCaptureScope captureScope)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureManager_Selectors.startCapture, captureScope.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureManager_Selectors.startCapture_, captureScope.NativePtr);
     }
 
     public void StopCapture()
@@ -86,7 +79,7 @@ public readonly struct MTLCaptureManager
 
     public Bool8 SupportsDestination(MTLCaptureDestination destination)
     {
-        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCaptureManager_Selectors.supportsDestination, (nint)(uint)destination) != 0;
+        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCaptureManager_Selectors.supportsDestination_, (nint)(uint)destination) != 0;
     }
 
     public static MTLCaptureManager SharedCaptureManager()

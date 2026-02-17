@@ -6,12 +6,8 @@ namespace Metal.NET;
 
 internal static class MTL4ArgumentTable_Selectors
 {
-    internal static readonly Selector device = Selector.Register("device");
-    internal static readonly Selector label = Selector.Register("label");
-    internal static readonly Selector setAddress = Selector.Register("setAddress");
-    internal static readonly Selector setResource = Selector.Register("setResource");
-    internal static readonly Selector setSamplerState = Selector.Register("setSamplerState");
-    internal static readonly Selector setTexture = Selector.Register("setTexture");
+    internal static readonly Selector setAddress_bindingIndex_ = Selector.Register("setAddress:bindingIndex:");
+    internal static readonly Selector setAddress_stride_bindingIndex_ = Selector.Register("setAddress:stride:bindingIndex:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -26,39 +22,14 @@ public readonly struct MTL4ArgumentTable
     public static implicit operator nint(MTL4ArgumentTable o) => o.NativePtr;
     public static implicit operator MTL4ArgumentTable(nint ptr) => new MTL4ArgumentTable(ptr);
 
-    public MTLDevice Device
+    public void SetAddress(nuint gpuAddress, nuint bindingIndex)
     {
-        get => new MTLDevice(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4ArgumentTable_Selectors.device));
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTable_Selectors.setAddress_bindingIndex_, (nint)gpuAddress, (nint)bindingIndex);
     }
 
-    public NSString Label
+    public void SetAddress(nuint gpuAddress, nuint stride, nuint bindingIndex)
     {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4ArgumentTable_Selectors.label));
-    }
-
-    public void SetAddress(ulong gpuAddress, nuint bindingIndex)
-    {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTable_Selectors.setAddress, (nint)gpuAddress, (nint)bindingIndex);
-    }
-
-    public void SetAddress(ulong gpuAddress, nuint stride, nuint bindingIndex)
-    {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTable_Selectors.setAddress, (nint)gpuAddress, (nint)stride, (nint)bindingIndex);
-    }
-
-    public void SetResource(ulong resourceID, nuint bindingIndex)
-    {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTable_Selectors.setResource, (nint)resourceID, (nint)bindingIndex);
-    }
-
-    public void SetSamplerState(ulong resourceID, nuint bindingIndex)
-    {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTable_Selectors.setSamplerState, (nint)resourceID, (nint)bindingIndex);
-    }
-
-    public void SetTexture(ulong resourceID, nuint bindingIndex)
-    {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTable_Selectors.setTexture, (nint)resourceID, (nint)bindingIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTable_Selectors.setAddress_stride_bindingIndex_, (nint)gpuAddress, (nint)stride, (nint)bindingIndex);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

@@ -6,7 +6,6 @@ namespace Metal.NET;
 
 internal static class MTL4CompilerTaskOptions_Selectors
 {
-    internal static readonly Selector lookupArchives = Selector.Register("lookupArchives");
     internal static readonly Selector setLookupArchives_ = Selector.Register("setLookupArchives:");
 }
 
@@ -22,10 +21,9 @@ public readonly struct MTL4CompilerTaskOptions
     public static implicit operator nint(MTL4CompilerTaskOptions o) => o.NativePtr;
     public static implicit operator MTL4CompilerTaskOptions(nint ptr) => new MTL4CompilerTaskOptions(ptr);
 
-    public NSArray LookupArchives
+    public void SetLookupArchives(NSArray lookupArchives)
     {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CompilerTaskOptions_Selectors.lookupArchives));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CompilerTaskOptions_Selectors.setLookupArchives_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CompilerTaskOptions_Selectors.setLookupArchives_, lookupArchives.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

@@ -6,8 +6,8 @@ namespace Metal.NET;
 
 internal static class MTLBufferLayoutDescriptorArray_Selectors
 {
-    internal static readonly Selector @object = Selector.Register("object");
-    internal static readonly Selector setObject = Selector.Register("setObject");
+    internal static readonly Selector object_ = Selector.Register("object:");
+    internal static readonly Selector setObject_index_ = Selector.Register("setObject:index:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -24,13 +24,13 @@ public readonly struct MTLBufferLayoutDescriptorArray
 
     public MTLBufferLayoutDescriptor Object(nuint index)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBufferLayoutDescriptorArray_Selectors.@object, (nint)index);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBufferLayoutDescriptorArray_Selectors.object_, (nint)index);
         return new MTLBufferLayoutDescriptor(__result);
     }
 
     public void SetObject(MTLBufferLayoutDescriptor bufferDesc, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBufferLayoutDescriptorArray_Selectors.setObject, bufferDesc.NativePtr, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBufferLayoutDescriptorArray_Selectors.setObject_index_, bufferDesc.NativePtr, (nint)index);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

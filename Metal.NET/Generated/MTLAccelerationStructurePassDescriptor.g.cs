@@ -6,7 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLAccelerationStructurePassDescriptor_Selectors
 {
-    internal static readonly Selector sampleBufferAttachments = Selector.Register("sampleBufferAttachments");
     internal static readonly Selector accelerationStructurePassDescriptor = Selector.Register("accelerationStructurePassDescriptor");
 }
 
@@ -23,28 +22,6 @@ public readonly struct MTLAccelerationStructurePassDescriptor
     public static implicit operator MTLAccelerationStructurePassDescriptor(nint ptr) => new MTLAccelerationStructurePassDescriptor(ptr);
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLAccelerationStructurePassDescriptor");
-
-    public static MTLAccelerationStructurePassDescriptor Alloc()
-    {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTLAccelerationStructurePassDescriptor(ptr);
-    }
-
-    public MTLAccelerationStructurePassDescriptor Init()
-    {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTLAccelerationStructurePassDescriptor(ptr);
-    }
-
-    public static MTLAccelerationStructurePassDescriptor New()
-    {
-        return Alloc().Init();
-    }
-
-    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
-    {
-        get => new MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLAccelerationStructurePassDescriptor_Selectors.sampleBufferAttachments));
-    }
 
     public static MTLAccelerationStructurePassDescriptor AccelerationStructurePassDescriptor()
     {

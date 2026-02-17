@@ -6,7 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLCounter_Selectors
 {
-    internal static readonly Selector name = Selector.Register("name");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -20,11 +19,6 @@ public readonly struct MTLCounter
 
     public static implicit operator nint(MTLCounter o) => o.NativePtr;
     public static implicit operator MTLCounter(nint ptr) => new MTLCounter(ptr);
-
-    public NSString Name
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCounter_Selectors.name));
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

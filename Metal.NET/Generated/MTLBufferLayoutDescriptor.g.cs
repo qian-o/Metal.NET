@@ -6,11 +6,8 @@ namespace Metal.NET;
 
 internal static class MTLBufferLayoutDescriptor_Selectors
 {
-    internal static readonly Selector stepFunction = Selector.Register("stepFunction");
     internal static readonly Selector setStepFunction_ = Selector.Register("setStepFunction:");
-    internal static readonly Selector stepRate = Selector.Register("stepRate");
     internal static readonly Selector setStepRate_ = Selector.Register("setStepRate:");
-    internal static readonly Selector stride = Selector.Register("stride");
     internal static readonly Selector setStride_ = Selector.Register("setStride:");
 }
 
@@ -45,22 +42,19 @@ public readonly struct MTLBufferLayoutDescriptor
         return Alloc().Init();
     }
 
-    public MTLStepFunction StepFunction
+    public void SetStepFunction(MTLStepFunction stepFunction)
     {
-        get => (MTLStepFunction)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLBufferLayoutDescriptor_Selectors.stepFunction));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBufferLayoutDescriptor_Selectors.setStepFunction_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBufferLayoutDescriptor_Selectors.setStepFunction_, (nint)(uint)stepFunction);
     }
 
-    public nuint StepRate
+    public void SetStepRate(nuint stepRate)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLBufferLayoutDescriptor_Selectors.stepRate);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBufferLayoutDescriptor_Selectors.setStepRate_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBufferLayoutDescriptor_Selectors.setStepRate_, (nint)stepRate);
     }
 
-    public nuint Stride
+    public void SetStride(nuint stride)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLBufferLayoutDescriptor_Selectors.stride);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBufferLayoutDescriptor_Selectors.setStride_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBufferLayoutDescriptor_Selectors.setStride_, (nint)stride);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

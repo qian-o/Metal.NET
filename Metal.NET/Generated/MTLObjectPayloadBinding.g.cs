@@ -6,8 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLObjectPayloadBinding_Selectors
 {
-    internal static readonly Selector objectPayloadAlignment = Selector.Register("objectPayloadAlignment");
-    internal static readonly Selector objectPayloadDataSize = Selector.Register("objectPayloadDataSize");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -21,16 +19,6 @@ public readonly struct MTLObjectPayloadBinding
 
     public static implicit operator nint(MTLObjectPayloadBinding o) => o.NativePtr;
     public static implicit operator MTLObjectPayloadBinding(nint ptr) => new MTLObjectPayloadBinding(ptr);
-
-    public nuint ObjectPayloadAlignment
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLObjectPayloadBinding_Selectors.objectPayloadAlignment);
-    }
-
-    public nuint ObjectPayloadDataSize
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLObjectPayloadBinding_Selectors.objectPayloadDataSize);
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

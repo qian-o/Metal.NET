@@ -6,17 +6,12 @@ namespace Metal.NET;
 
 internal static class MTLParallelRenderCommandEncoder_Selectors
 {
-    internal static readonly Selector depthStoreAction = Selector.Register("depthStoreAction");
+    internal static readonly Selector setColorStoreAction_colorAttachmentIndex_ = Selector.Register("setColorStoreAction:colorAttachmentIndex:");
+    internal static readonly Selector setColorStoreActionOptions_colorAttachmentIndex_ = Selector.Register("setColorStoreActionOptions:colorAttachmentIndex:");
     internal static readonly Selector setDepthStoreAction_ = Selector.Register("setDepthStoreAction:");
-    internal static readonly Selector depthStoreActionOptions = Selector.Register("depthStoreActionOptions");
     internal static readonly Selector setDepthStoreActionOptions_ = Selector.Register("setDepthStoreActionOptions:");
-    internal static readonly Selector stencilStoreAction = Selector.Register("stencilStoreAction");
     internal static readonly Selector setStencilStoreAction_ = Selector.Register("setStencilStoreAction:");
-    internal static readonly Selector stencilStoreActionOptions = Selector.Register("stencilStoreActionOptions");
     internal static readonly Selector setStencilStoreActionOptions_ = Selector.Register("setStencilStoreActionOptions:");
-    internal static readonly Selector renderCommandEncoder = Selector.Register("renderCommandEncoder");
-    internal static readonly Selector setColorStoreAction = Selector.Register("setColorStoreAction");
-    internal static readonly Selector setColorStoreActionOptions = Selector.Register("setColorStoreActionOptions");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -31,44 +26,34 @@ public readonly struct MTLParallelRenderCommandEncoder
     public static implicit operator nint(MTLParallelRenderCommandEncoder o) => o.NativePtr;
     public static implicit operator MTLParallelRenderCommandEncoder(nint ptr) => new MTLParallelRenderCommandEncoder(ptr);
 
-    public MTLStoreAction DepthStoreAction
-    {
-        get => (MTLStoreAction)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLParallelRenderCommandEncoder_Selectors.depthStoreAction));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoder_Selectors.setDepthStoreAction_, (nint)(uint)value);
-    }
-
-    public MTLStoreActionOptions DepthStoreActionOptions
-    {
-        get => (MTLStoreActionOptions)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLParallelRenderCommandEncoder_Selectors.depthStoreActionOptions));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoder_Selectors.setDepthStoreActionOptions_, (nint)(uint)value);
-    }
-
-    public MTLStoreAction StencilStoreAction
-    {
-        get => (MTLStoreAction)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLParallelRenderCommandEncoder_Selectors.stencilStoreAction));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoder_Selectors.setStencilStoreAction_, (nint)(uint)value);
-    }
-
-    public MTLStoreActionOptions StencilStoreActionOptions
-    {
-        get => (MTLStoreActionOptions)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLParallelRenderCommandEncoder_Selectors.stencilStoreActionOptions));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoder_Selectors.setStencilStoreActionOptions_, (nint)(uint)value);
-    }
-
-    public MTLRenderCommandEncoder RenderCommandEncoder()
-    {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLParallelRenderCommandEncoder_Selectors.renderCommandEncoder);
-        return new MTLRenderCommandEncoder(__result);
-    }
-
     public void SetColorStoreAction(MTLStoreAction storeAction, nuint colorAttachmentIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoder_Selectors.setColorStoreAction, (nint)(uint)storeAction, (nint)colorAttachmentIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoder_Selectors.setColorStoreAction_colorAttachmentIndex_, (nint)(uint)storeAction, (nint)colorAttachmentIndex);
     }
 
-    public void SetColorStoreActionOptions(MTLStoreActionOptions storeActionOptions, nuint colorAttachmentIndex)
+    public void SetColorStoreActionOptions(nuint storeActionOptions, nuint colorAttachmentIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoder_Selectors.setColorStoreActionOptions, (nint)(uint)storeActionOptions, (nint)colorAttachmentIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoder_Selectors.setColorStoreActionOptions_colorAttachmentIndex_, (nint)storeActionOptions, (nint)colorAttachmentIndex);
+    }
+
+    public void SetDepthStoreAction(MTLStoreAction storeAction)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoder_Selectors.setDepthStoreAction_, (nint)(uint)storeAction);
+    }
+
+    public void SetDepthStoreActionOptions(nuint storeActionOptions)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoder_Selectors.setDepthStoreActionOptions_, (nint)storeActionOptions);
+    }
+
+    public void SetStencilStoreAction(MTLStoreAction storeAction)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoder_Selectors.setStencilStoreAction_, (nint)(uint)storeAction);
+    }
+
+    public void SetStencilStoreActionOptions(nuint storeActionOptions)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoder_Selectors.setStencilStoreActionOptions_, (nint)storeActionOptions);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

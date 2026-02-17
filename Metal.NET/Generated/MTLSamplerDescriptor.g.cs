@@ -6,39 +6,22 @@ namespace Metal.NET;
 
 internal static class MTLSamplerDescriptor_Selectors
 {
-    internal static readonly Selector borderColor = Selector.Register("borderColor");
     internal static readonly Selector setBorderColor_ = Selector.Register("setBorderColor:");
-    internal static readonly Selector compareFunction = Selector.Register("compareFunction");
     internal static readonly Selector setCompareFunction_ = Selector.Register("setCompareFunction:");
-    internal static readonly Selector label = Selector.Register("label");
     internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
-    internal static readonly Selector lodAverage = Selector.Register("lodAverage");
     internal static readonly Selector setLodAverage_ = Selector.Register("setLodAverage:");
-    internal static readonly Selector lodBias = Selector.Register("lodBias");
     internal static readonly Selector setLodBias_ = Selector.Register("setLodBias:");
-    internal static readonly Selector lodMaxClamp = Selector.Register("lodMaxClamp");
     internal static readonly Selector setLodMaxClamp_ = Selector.Register("setLodMaxClamp:");
-    internal static readonly Selector lodMinClamp = Selector.Register("lodMinClamp");
     internal static readonly Selector setLodMinClamp_ = Selector.Register("setLodMinClamp:");
-    internal static readonly Selector magFilter = Selector.Register("magFilter");
     internal static readonly Selector setMagFilter_ = Selector.Register("setMagFilter:");
-    internal static readonly Selector maxAnisotropy = Selector.Register("maxAnisotropy");
     internal static readonly Selector setMaxAnisotropy_ = Selector.Register("setMaxAnisotropy:");
-    internal static readonly Selector minFilter = Selector.Register("minFilter");
     internal static readonly Selector setMinFilter_ = Selector.Register("setMinFilter:");
-    internal static readonly Selector mipFilter = Selector.Register("mipFilter");
     internal static readonly Selector setMipFilter_ = Selector.Register("setMipFilter:");
-    internal static readonly Selector normalizedCoordinates = Selector.Register("normalizedCoordinates");
     internal static readonly Selector setNormalizedCoordinates_ = Selector.Register("setNormalizedCoordinates:");
-    internal static readonly Selector rAddressMode = Selector.Register("rAddressMode");
     internal static readonly Selector setRAddressMode_ = Selector.Register("setRAddressMode:");
-    internal static readonly Selector reductionMode = Selector.Register("reductionMode");
     internal static readonly Selector setReductionMode_ = Selector.Register("setReductionMode:");
-    internal static readonly Selector sAddressMode = Selector.Register("sAddressMode");
     internal static readonly Selector setSAddressMode_ = Selector.Register("setSAddressMode:");
-    internal static readonly Selector supportArgumentBuffers = Selector.Register("supportArgumentBuffers");
     internal static readonly Selector setSupportArgumentBuffers_ = Selector.Register("setSupportArgumentBuffers:");
-    internal static readonly Selector tAddressMode = Selector.Register("tAddressMode");
     internal static readonly Selector setTAddressMode_ = Selector.Register("setTAddressMode:");
 }
 
@@ -73,106 +56,89 @@ public readonly struct MTLSamplerDescriptor
         return Alloc().Init();
     }
 
-    public MTLSamplerBorderColor BorderColor
+    public void SetBorderColor(MTLSamplerBorderColor borderColor)
     {
-        get => (MTLSamplerBorderColor)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.borderColor));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setBorderColor_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setBorderColor_, (nint)(uint)borderColor);
     }
 
-    public MTLCompareFunction CompareFunction
+    public void SetCompareFunction(MTLCompareFunction compareFunction)
     {
-        get => (MTLCompareFunction)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.compareFunction));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setCompareFunction_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setCompareFunction_, (nint)(uint)compareFunction);
     }
 
-    public NSString Label
+    public void SetLabel(NSString label)
     {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.label));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setLabel_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setLabel_, label.NativePtr);
     }
 
-    public Bool8 LodAverage
+    public void SetLodAverage(Bool8 lodAverage)
     {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.lodAverage);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setLodAverage_, (nint)value.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setLodAverage_, (nint)lodAverage.Value);
     }
 
-    public float LodBias
+    public void SetLodBias(float lodBias)
     {
-        get => ObjectiveCRuntime.float_objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.lodBias);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setLodBias_, value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setLodBias_, lodBias);
     }
 
-    public float LodMaxClamp
+    public void SetLodMaxClamp(float lodMaxClamp)
     {
-        get => ObjectiveCRuntime.float_objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.lodMaxClamp);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setLodMaxClamp_, value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setLodMaxClamp_, lodMaxClamp);
     }
 
-    public float LodMinClamp
+    public void SetLodMinClamp(float lodMinClamp)
     {
-        get => ObjectiveCRuntime.float_objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.lodMinClamp);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setLodMinClamp_, value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setLodMinClamp_, lodMinClamp);
     }
 
-    public MTLSamplerMinMagFilter MagFilter
+    public void SetMagFilter(MTLSamplerMinMagFilter magFilter)
     {
-        get => (MTLSamplerMinMagFilter)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.magFilter));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setMagFilter_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setMagFilter_, (nint)(uint)magFilter);
     }
 
-    public nuint MaxAnisotropy
+    public void SetMaxAnisotropy(nuint maxAnisotropy)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.maxAnisotropy);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setMaxAnisotropy_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setMaxAnisotropy_, (nint)maxAnisotropy);
     }
 
-    public MTLSamplerMinMagFilter MinFilter
+    public void SetMinFilter(MTLSamplerMinMagFilter minFilter)
     {
-        get => (MTLSamplerMinMagFilter)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.minFilter));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setMinFilter_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setMinFilter_, (nint)(uint)minFilter);
     }
 
-    public MTLSamplerMipFilter MipFilter
+    public void SetMipFilter(MTLSamplerMipFilter mipFilter)
     {
-        get => (MTLSamplerMipFilter)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.mipFilter));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setMipFilter_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setMipFilter_, (nint)(uint)mipFilter);
     }
 
-    public Bool8 NormalizedCoordinates
+    public void SetNormalizedCoordinates(Bool8 normalizedCoordinates)
     {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.normalizedCoordinates);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setNormalizedCoordinates_, (nint)value.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setNormalizedCoordinates_, (nint)normalizedCoordinates.Value);
     }
 
-    public MTLSamplerAddressMode RAddressMode
+    public void SetRAddressMode(MTLSamplerAddressMode rAddressMode)
     {
-        get => (MTLSamplerAddressMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.rAddressMode));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setRAddressMode_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setRAddressMode_, (nint)(uint)rAddressMode);
     }
 
-    public MTLSamplerReductionMode ReductionMode
+    public void SetReductionMode(MTLSamplerReductionMode reductionMode)
     {
-        get => (MTLSamplerReductionMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.reductionMode));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setReductionMode_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setReductionMode_, (nint)(uint)reductionMode);
     }
 
-    public MTLSamplerAddressMode SAddressMode
+    public void SetSAddressMode(MTLSamplerAddressMode sAddressMode)
     {
-        get => (MTLSamplerAddressMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.sAddressMode));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setSAddressMode_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setSAddressMode_, (nint)(uint)sAddressMode);
     }
 
-    public Bool8 SupportArgumentBuffers
+    public void SetSupportArgumentBuffers(Bool8 supportArgumentBuffers)
     {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.supportArgumentBuffers);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setSupportArgumentBuffers_, (nint)value.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setSupportArgumentBuffers_, (nint)supportArgumentBuffers.Value);
     }
 
-    public MTLSamplerAddressMode TAddressMode
+    public void SetTAddressMode(MTLSamplerAddressMode tAddressMode)
     {
-        get => (MTLSamplerAddressMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.tAddressMode));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setTAddressMode_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSamplerDescriptor_Selectors.setTAddressMode_, (nint)(uint)tAddressMode);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

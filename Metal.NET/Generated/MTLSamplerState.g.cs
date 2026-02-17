@@ -6,9 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLSamplerState_Selectors
 {
-    internal static readonly Selector device = Selector.Register("device");
-    internal static readonly Selector gpuResourceID = Selector.Register("gpuResourceID");
-    internal static readonly Selector label = Selector.Register("label");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -22,21 +19,6 @@ public readonly struct MTLSamplerState
 
     public static implicit operator nint(MTLSamplerState o) => o.NativePtr;
     public static implicit operator MTLSamplerState(nint ptr) => new MTLSamplerState(ptr);
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLSamplerState_Selectors.device));
-    }
-
-    public ulong GpuResourceID
-    {
-        get => ObjectiveCRuntime.ulong_objc_msgSend(NativePtr, MTLSamplerState_Selectors.gpuResourceID);
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLSamplerState_Selectors.label));
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

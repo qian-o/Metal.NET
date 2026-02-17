@@ -6,39 +6,10 @@ namespace Metal.NET;
 
 internal static class MTLTexture_Selectors
 {
-    internal static readonly Selector allowGPUOptimizedContents = Selector.Register("allowGPUOptimizedContents");
-    internal static readonly Selector arrayLength = Selector.Register("arrayLength");
-    internal static readonly Selector buffer = Selector.Register("buffer");
-    internal static readonly Selector bufferBytesPerRow = Selector.Register("bufferBytesPerRow");
-    internal static readonly Selector bufferOffset = Selector.Register("bufferOffset");
-    internal static readonly Selector compressionType = Selector.Register("compressionType");
-    internal static readonly Selector depth = Selector.Register("depth");
-    internal static readonly Selector firstMipmapInTail = Selector.Register("firstMipmapInTail");
-    internal static readonly Selector framebufferOnly = Selector.Register("framebufferOnly");
-    internal static readonly Selector gpuResourceID = Selector.Register("gpuResourceID");
-    internal static readonly Selector height = Selector.Register("height");
-    internal static readonly Selector iosurface = Selector.Register("iosurface");
-    internal static readonly Selector iosurfacePlane = Selector.Register("iosurfacePlane");
-    internal static readonly Selector isFramebufferOnly = Selector.Register("isFramebufferOnly");
-    internal static readonly Selector isShareable = Selector.Register("isShareable");
-    internal static readonly Selector isSparse = Selector.Register("isSparse");
-    internal static readonly Selector mipmapLevelCount = Selector.Register("mipmapLevelCount");
-    internal static readonly Selector parentRelativeLevel = Selector.Register("parentRelativeLevel");
-    internal static readonly Selector parentRelativeSlice = Selector.Register("parentRelativeSlice");
-    internal static readonly Selector parentTexture = Selector.Register("parentTexture");
-    internal static readonly Selector pixelFormat = Selector.Register("pixelFormat");
-    internal static readonly Selector remoteStorageTexture = Selector.Register("remoteStorageTexture");
-    internal static readonly Selector rootResource = Selector.Register("rootResource");
-    internal static readonly Selector sampleCount = Selector.Register("sampleCount");
-    internal static readonly Selector shareable = Selector.Register("shareable");
-    internal static readonly Selector sparseTextureTier = Selector.Register("sparseTextureTier");
-    internal static readonly Selector tailSizeInBytes = Selector.Register("tailSizeInBytes");
-    internal static readonly Selector textureType = Selector.Register("textureType");
-    internal static readonly Selector usage = Selector.Register("usage");
-    internal static readonly Selector width = Selector.Register("width");
-    internal static readonly Selector newRemoteTextureViewForDevice = Selector.Register("newRemoteTextureViewForDevice");
+    internal static readonly Selector newRemoteTextureViewForDevice_ = Selector.Register("newRemoteTextureViewForDevice:");
     internal static readonly Selector newSharedTextureHandle = Selector.Register("newSharedTextureHandle");
-    internal static readonly Selector newTextureView = Selector.Register("newTextureView");
+    internal static readonly Selector newTextureView_ = Selector.Register("newTextureView:");
+    internal static readonly Selector replaceRegion_level_slice_pixelBytes_bytesPerRow_bytesPerImage_ = Selector.Register("replaceRegion:level:slice:pixelBytes:bytesPerRow:bytesPerImage:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -53,159 +24,9 @@ public readonly struct MTLTexture
     public static implicit operator nint(MTLTexture o) => o.NativePtr;
     public static implicit operator MTLTexture(nint ptr) => new MTLTexture(ptr);
 
-    public Bool8 AllowGPUOptimizedContents
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLTexture_Selectors.allowGPUOptimizedContents);
-    }
-
-    public nuint ArrayLength
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLTexture_Selectors.arrayLength);
-    }
-
-    public MTLBuffer Buffer
-    {
-        get => new MTLBuffer(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTexture_Selectors.buffer));
-    }
-
-    public nuint BufferBytesPerRow
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLTexture_Selectors.bufferBytesPerRow);
-    }
-
-    public nuint BufferOffset
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLTexture_Selectors.bufferOffset);
-    }
-
-    public MTLTextureCompressionType CompressionType
-    {
-        get => (MTLTextureCompressionType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLTexture_Selectors.compressionType));
-    }
-
-    public nuint Depth
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLTexture_Selectors.depth);
-    }
-
-    public nuint FirstMipmapInTail
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLTexture_Selectors.firstMipmapInTail);
-    }
-
-    public Bool8 FramebufferOnly
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLTexture_Selectors.framebufferOnly);
-    }
-
-    public ulong GpuResourceID
-    {
-        get => ObjectiveCRuntime.ulong_objc_msgSend(NativePtr, MTLTexture_Selectors.gpuResourceID);
-    }
-
-    public nuint Height
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLTexture_Selectors.height);
-    }
-
-    public nint Iosurface
-    {
-        get => ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTexture_Selectors.iosurface);
-    }
-
-    public nuint IosurfacePlane
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLTexture_Selectors.iosurfacePlane);
-    }
-
-    public Bool8 IsFramebufferOnly
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLTexture_Selectors.isFramebufferOnly);
-    }
-
-    public Bool8 IsShareable
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLTexture_Selectors.isShareable);
-    }
-
-    public Bool8 IsSparse
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLTexture_Selectors.isSparse);
-    }
-
-    public nuint MipmapLevelCount
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLTexture_Selectors.mipmapLevelCount);
-    }
-
-    public nuint ParentRelativeLevel
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLTexture_Selectors.parentRelativeLevel);
-    }
-
-    public nuint ParentRelativeSlice
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLTexture_Selectors.parentRelativeSlice);
-    }
-
-    public MTLTexture ParentTexture
-    {
-        get => new MTLTexture(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTexture_Selectors.parentTexture));
-    }
-
-    public MTLPixelFormat PixelFormat
-    {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLTexture_Selectors.pixelFormat));
-    }
-
-    public MTLTexture RemoteStorageTexture
-    {
-        get => new MTLTexture(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTexture_Selectors.remoteStorageTexture));
-    }
-
-    public MTLResource RootResource
-    {
-        get => new MTLResource(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTexture_Selectors.rootResource));
-    }
-
-    public nuint SampleCount
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLTexture_Selectors.sampleCount);
-    }
-
-    public Bool8 Shareable
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLTexture_Selectors.shareable);
-    }
-
-    public MTLTextureSparseTier SparseTextureTier
-    {
-        get => (MTLTextureSparseTier)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLTexture_Selectors.sparseTextureTier));
-    }
-
-    public nuint TailSizeInBytes
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLTexture_Selectors.tailSizeInBytes);
-    }
-
-    public MTLTextureType TextureType
-    {
-        get => (MTLTextureType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLTexture_Selectors.textureType));
-    }
-
-    public MTLTextureUsage Usage
-    {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLTexture_Selectors.usage));
-    }
-
-    public nuint Width
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLTexture_Selectors.width);
-    }
-
     public MTLTexture NewRemoteTextureViewForDevice(MTLDevice device)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTexture_Selectors.newRemoteTextureViewForDevice, device.NativePtr);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTexture_Selectors.newRemoteTextureViewForDevice_, device.NativePtr);
         return new MTLTexture(__result);
     }
 
@@ -217,20 +38,19 @@ public readonly struct MTLTexture
 
     public MTLTexture NewTextureView(MTLPixelFormat pixelFormat)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTexture_Selectors.newTextureView, (nint)(uint)pixelFormat);
-        return new MTLTexture(__result);
-    }
-
-    public MTLTexture NewTextureView(MTLPixelFormat pixelFormat, MTLTextureType textureType, nint levelRange, nint sliceRange)
-    {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTexture_Selectors.newTextureView, (nint)(uint)pixelFormat, (nint)(uint)textureType, levelRange, sliceRange);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTexture_Selectors.newTextureView_, (nint)(uint)pixelFormat);
         return new MTLTexture(__result);
     }
 
     public MTLTexture NewTextureView(MTLTextureViewDescriptor descriptor)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTexture_Selectors.newTextureView, descriptor.NativePtr);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTexture_Selectors.newTextureView_, descriptor.NativePtr);
         return new MTLTexture(__result);
+    }
+
+    public void ReplaceRegion(MTLRegion region, nuint level, nuint slice, nint pixelBytes, nuint bytesPerRow, nuint bytesPerImage)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTexture_Selectors.replaceRegion_level_slice_pixelBytes_bytesPerRow_bytesPerImage_, region, (nint)level, (nint)slice, pixelBytes, (nint)bytesPerRow, (nint)bytesPerImage);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

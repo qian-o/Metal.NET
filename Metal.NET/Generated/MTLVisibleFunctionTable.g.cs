@@ -6,8 +6,7 @@ namespace Metal.NET;
 
 internal static class MTLVisibleFunctionTable_Selectors
 {
-    internal static readonly Selector gpuResourceID = Selector.Register("gpuResourceID");
-    internal static readonly Selector setFunction = Selector.Register("setFunction");
+    internal static readonly Selector setFunction_index_ = Selector.Register("setFunction:index:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -22,14 +21,9 @@ public readonly struct MTLVisibleFunctionTable
     public static implicit operator nint(MTLVisibleFunctionTable o) => o.NativePtr;
     public static implicit operator MTLVisibleFunctionTable(nint ptr) => new MTLVisibleFunctionTable(ptr);
 
-    public ulong GpuResourceID
-    {
-        get => ObjectiveCRuntime.ulong_objc_msgSend(NativePtr, MTLVisibleFunctionTable_Selectors.gpuResourceID);
-    }
-
     public void SetFunction(MTLFunctionHandle function, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVisibleFunctionTable_Selectors.setFunction, function.NativePtr, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVisibleFunctionTable_Selectors.setFunction_index_, function.NativePtr, (nint)index);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

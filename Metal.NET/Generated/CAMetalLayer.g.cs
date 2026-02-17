@@ -6,24 +6,13 @@ namespace Metal.NET;
 
 internal static class CAMetalLayer_Selectors
 {
-    internal static readonly Selector device = Selector.Register("device");
     internal static readonly Selector setDevice_ = Selector.Register("setDevice:");
-    internal static readonly Selector pixelFormat = Selector.Register("pixelFormat");
     internal static readonly Selector setPixelFormat_ = Selector.Register("setPixelFormat:");
-    internal static readonly Selector framebufferOnly = Selector.Register("framebufferOnly");
     internal static readonly Selector setFramebufferOnly_ = Selector.Register("setFramebufferOnly:");
-    internal static readonly Selector drawableSize = Selector.Register("drawableSize");
-    internal static readonly Selector setDrawableSize_ = Selector.Register("setDrawableSize:");
-    internal static readonly Selector maximumDrawableCount = Selector.Register("maximumDrawableCount");
     internal static readonly Selector setMaximumDrawableCount_ = Selector.Register("setMaximumDrawableCount:");
-    internal static readonly Selector displaySyncEnabled = Selector.Register("displaySyncEnabled");
     internal static readonly Selector setDisplaySyncEnabled_ = Selector.Register("setDisplaySyncEnabled:");
-    internal static readonly Selector colorspace = Selector.Register("colorspace");
     internal static readonly Selector setColorspace_ = Selector.Register("setColorspace:");
-    internal static readonly Selector allowsNextDrawableTimeout = Selector.Register("allowsNextDrawableTimeout");
     internal static readonly Selector setAllowsNextDrawableTimeout_ = Selector.Register("setAllowsNextDrawableTimeout:");
-    internal static readonly Selector residencySet = Selector.Register("residencySet");
-    internal static readonly Selector nextDrawable = Selector.Register("nextDrawable");
     internal static readonly Selector layer = Selector.Register("layer");
 }
 
@@ -58,59 +47,39 @@ public readonly struct CAMetalLayer
         return Alloc().Init();
     }
 
-    public MTLDevice Device
+    public void SetDevice(MTLDevice device)
     {
-        get => new MTLDevice(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, CAMetalLayer_Selectors.device));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, CAMetalLayer_Selectors.setDevice_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, CAMetalLayer_Selectors.setDevice_, device.NativePtr);
     }
 
-    public MTLPixelFormat PixelFormat
+    public void SetPixelFormat(MTLPixelFormat pixelFormat)
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, CAMetalLayer_Selectors.pixelFormat));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, CAMetalLayer_Selectors.setPixelFormat_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, CAMetalLayer_Selectors.setPixelFormat_, (nint)(uint)pixelFormat);
     }
 
-    public Bool8 FramebufferOnly
+    public void SetFramebufferOnly(Bool8 framebufferOnly)
     {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, CAMetalLayer_Selectors.framebufferOnly);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, CAMetalLayer_Selectors.setFramebufferOnly_, (nint)value.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, CAMetalLayer_Selectors.setFramebufferOnly_, (nint)framebufferOnly.Value);
     }
 
-    // TODO: DrawableSize (value-struct return type CGSize requires objc_msgSend_stret)
-
-    public nuint MaximumDrawableCount
+    public void SetMaximumDrawableCount(nuint maximumDrawableCount)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, CAMetalLayer_Selectors.maximumDrawableCount);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, CAMetalLayer_Selectors.setMaximumDrawableCount_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, CAMetalLayer_Selectors.setMaximumDrawableCount_, (nint)maximumDrawableCount);
     }
 
-    public Bool8 DisplaySyncEnabled
+    public void SetDisplaySyncEnabled(Bool8 displaySyncEnabled)
     {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, CAMetalLayer_Selectors.displaySyncEnabled);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, CAMetalLayer_Selectors.setDisplaySyncEnabled_, (nint)value.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, CAMetalLayer_Selectors.setDisplaySyncEnabled_, (nint)displaySyncEnabled.Value);
     }
 
-    public nint Colorspace
+    public void SetColorspace(nint colorspace)
     {
-        get => ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, CAMetalLayer_Selectors.colorspace);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, CAMetalLayer_Selectors.setColorspace_, value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, CAMetalLayer_Selectors.setColorspace_, colorspace);
     }
 
-    public Bool8 AllowsNextDrawableTimeout
+    public void SetAllowsNextDrawableTimeout(Bool8 allowsNextDrawableTimeout)
     {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, CAMetalLayer_Selectors.allowsNextDrawableTimeout);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, CAMetalLayer_Selectors.setAllowsNextDrawableTimeout_, (nint)value.Value);
-    }
-
-    public MTLResidencySet ResidencySet
-    {
-        get => new MTLResidencySet(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, CAMetalLayer_Selectors.residencySet));
-    }
-
-    public CAMetalDrawable NextDrawable()
-    {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, CAMetalLayer_Selectors.nextDrawable);
-        return new CAMetalDrawable(__result);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, CAMetalLayer_Selectors.setAllowsNextDrawableTimeout_, (nint)allowsNextDrawableTimeout.Value);
     }
 
     public static CAMetalLayer Layer()

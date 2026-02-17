@@ -6,34 +6,19 @@ namespace Metal.NET;
 
 internal static class MTL4RenderPassDescriptor_Selectors
 {
-    internal static readonly Selector colorAttachments = Selector.Register("colorAttachments");
-    internal static readonly Selector defaultRasterSampleCount = Selector.Register("defaultRasterSampleCount");
     internal static readonly Selector setDefaultRasterSampleCount_ = Selector.Register("setDefaultRasterSampleCount:");
-    internal static readonly Selector depthAttachment = Selector.Register("depthAttachment");
     internal static readonly Selector setDepthAttachment_ = Selector.Register("setDepthAttachment:");
-    internal static readonly Selector imageblockSampleLength = Selector.Register("imageblockSampleLength");
     internal static readonly Selector setImageblockSampleLength_ = Selector.Register("setImageblockSampleLength:");
-    internal static readonly Selector rasterizationRateMap = Selector.Register("rasterizationRateMap");
     internal static readonly Selector setRasterizationRateMap_ = Selector.Register("setRasterizationRateMap:");
-    internal static readonly Selector renderTargetArrayLength = Selector.Register("renderTargetArrayLength");
     internal static readonly Selector setRenderTargetArrayLength_ = Selector.Register("setRenderTargetArrayLength:");
-    internal static readonly Selector renderTargetHeight = Selector.Register("renderTargetHeight");
     internal static readonly Selector setRenderTargetHeight_ = Selector.Register("setRenderTargetHeight:");
-    internal static readonly Selector renderTargetWidth = Selector.Register("renderTargetWidth");
     internal static readonly Selector setRenderTargetWidth_ = Selector.Register("setRenderTargetWidth:");
-    internal static readonly Selector stencilAttachment = Selector.Register("stencilAttachment");
     internal static readonly Selector setStencilAttachment_ = Selector.Register("setStencilAttachment:");
-    internal static readonly Selector supportColorAttachmentMapping = Selector.Register("supportColorAttachmentMapping");
     internal static readonly Selector setSupportColorAttachmentMapping_ = Selector.Register("setSupportColorAttachmentMapping:");
-    internal static readonly Selector threadgroupMemoryLength = Selector.Register("threadgroupMemoryLength");
     internal static readonly Selector setThreadgroupMemoryLength_ = Selector.Register("setThreadgroupMemoryLength:");
-    internal static readonly Selector tileHeight = Selector.Register("tileHeight");
     internal static readonly Selector setTileHeight_ = Selector.Register("setTileHeight:");
-    internal static readonly Selector tileWidth = Selector.Register("tileWidth");
     internal static readonly Selector setTileWidth_ = Selector.Register("setTileWidth:");
-    internal static readonly Selector visibilityResultBuffer = Selector.Register("visibilityResultBuffer");
     internal static readonly Selector setVisibilityResultBuffer_ = Selector.Register("setVisibilityResultBuffer:");
-    internal static readonly Selector visibilityResultType = Selector.Register("visibilityResultType");
     internal static readonly Selector setVisibilityResultType_ = Selector.Register("setVisibilityResultType:");
 }
 
@@ -68,93 +53,74 @@ public readonly struct MTL4RenderPassDescriptor
         return Alloc().Init();
     }
 
-    public MTLRenderPassColorAttachmentDescriptorArray ColorAttachments
+    public void SetDefaultRasterSampleCount(nuint defaultRasterSampleCount)
     {
-        get => new MTLRenderPassColorAttachmentDescriptorArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.colorAttachments));
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setDefaultRasterSampleCount_, (nint)defaultRasterSampleCount);
     }
 
-    public nuint DefaultRasterSampleCount
+    public void SetDepthAttachment(MTLRenderPassDepthAttachmentDescriptor depthAttachment)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.defaultRasterSampleCount);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setDefaultRasterSampleCount_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setDepthAttachment_, depthAttachment.NativePtr);
     }
 
-    public MTLRenderPassDepthAttachmentDescriptor DepthAttachment
+    public void SetImageblockSampleLength(nuint imageblockSampleLength)
     {
-        get => new MTLRenderPassDepthAttachmentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.depthAttachment));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setDepthAttachment_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setImageblockSampleLength_, (nint)imageblockSampleLength);
     }
 
-    public nuint ImageblockSampleLength
+    public void SetRasterizationRateMap(MTLRasterizationRateMap rasterizationRateMap)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.imageblockSampleLength);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setImageblockSampleLength_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setRasterizationRateMap_, rasterizationRateMap.NativePtr);
     }
 
-    public MTLRasterizationRateMap RasterizationRateMap
+    public void SetRenderTargetArrayLength(nuint renderTargetArrayLength)
     {
-        get => new MTLRasterizationRateMap(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.rasterizationRateMap));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setRasterizationRateMap_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setRenderTargetArrayLength_, (nint)renderTargetArrayLength);
     }
 
-    public nuint RenderTargetArrayLength
+    public void SetRenderTargetHeight(nuint renderTargetHeight)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.renderTargetArrayLength);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setRenderTargetArrayLength_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setRenderTargetHeight_, (nint)renderTargetHeight);
     }
 
-    public nuint RenderTargetHeight
+    public void SetRenderTargetWidth(nuint renderTargetWidth)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.renderTargetHeight);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setRenderTargetHeight_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setRenderTargetWidth_, (nint)renderTargetWidth);
     }
 
-    public nuint RenderTargetWidth
+    public void SetStencilAttachment(MTLRenderPassStencilAttachmentDescriptor stencilAttachment)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.renderTargetWidth);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setRenderTargetWidth_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setStencilAttachment_, stencilAttachment.NativePtr);
     }
 
-    public MTLRenderPassStencilAttachmentDescriptor StencilAttachment
+    public void SetSupportColorAttachmentMapping(Bool8 supportColorAttachmentMapping)
     {
-        get => new MTLRenderPassStencilAttachmentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.stencilAttachment));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setStencilAttachment_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setSupportColorAttachmentMapping_, (nint)supportColorAttachmentMapping.Value);
     }
 
-    public Bool8 SupportColorAttachmentMapping
+    public void SetThreadgroupMemoryLength(nuint threadgroupMemoryLength)
     {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.supportColorAttachmentMapping);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setSupportColorAttachmentMapping_, (nint)value.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setThreadgroupMemoryLength_, (nint)threadgroupMemoryLength);
     }
 
-    public nuint ThreadgroupMemoryLength
+    public void SetTileHeight(nuint tileHeight)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.threadgroupMemoryLength);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setThreadgroupMemoryLength_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setTileHeight_, (nint)tileHeight);
     }
 
-    public nuint TileHeight
+    public void SetTileWidth(nuint tileWidth)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.tileHeight);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setTileHeight_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setTileWidth_, (nint)tileWidth);
     }
 
-    public nuint TileWidth
+    public void SetVisibilityResultBuffer(MTLBuffer visibilityResultBuffer)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.tileWidth);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setTileWidth_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setVisibilityResultBuffer_, visibilityResultBuffer.NativePtr);
     }
 
-    public MTLBuffer VisibilityResultBuffer
+    public void SetVisibilityResultType(MTLVisibilityResultType visibilityResultType)
     {
-        get => new MTLBuffer(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.visibilityResultBuffer));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setVisibilityResultBuffer_, value.NativePtr);
-    }
-
-    public MTLVisibilityResultType VisibilityResultType
-    {
-        get => (MTLVisibilityResultType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.visibilityResultType));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setVisibilityResultType_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPassDescriptor_Selectors.setVisibilityResultType_, (nint)(uint)visibilityResultType);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

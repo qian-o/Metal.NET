@@ -6,33 +6,19 @@ namespace Metal.NET;
 
 internal static class MTLTileRenderPipelineDescriptor_Selectors
 {
-    internal static readonly Selector binaryArchives = Selector.Register("binaryArchives");
-    internal static readonly Selector setBinaryArchives_ = Selector.Register("setBinaryArchives:");
-    internal static readonly Selector colorAttachments = Selector.Register("colorAttachments");
-    internal static readonly Selector label = Selector.Register("label");
-    internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
-    internal static readonly Selector linkedFunctions = Selector.Register("linkedFunctions");
-    internal static readonly Selector setLinkedFunctions_ = Selector.Register("setLinkedFunctions:");
-    internal static readonly Selector maxCallStackDepth = Selector.Register("maxCallStackDepth");
-    internal static readonly Selector setMaxCallStackDepth_ = Selector.Register("setMaxCallStackDepth:");
-    internal static readonly Selector maxTotalThreadsPerThreadgroup = Selector.Register("maxTotalThreadsPerThreadgroup");
-    internal static readonly Selector setMaxTotalThreadsPerThreadgroup_ = Selector.Register("setMaxTotalThreadsPerThreadgroup:");
-    internal static readonly Selector preloadedLibraries = Selector.Register("preloadedLibraries");
-    internal static readonly Selector setPreloadedLibraries_ = Selector.Register("setPreloadedLibraries:");
-    internal static readonly Selector rasterSampleCount = Selector.Register("rasterSampleCount");
-    internal static readonly Selector setRasterSampleCount_ = Selector.Register("setRasterSampleCount:");
-    internal static readonly Selector requiredThreadsPerThreadgroup = Selector.Register("requiredThreadsPerThreadgroup");
-    internal static readonly Selector setRequiredThreadsPerThreadgroup_ = Selector.Register("setRequiredThreadsPerThreadgroup:");
-    internal static readonly Selector shaderValidation = Selector.Register("shaderValidation");
-    internal static readonly Selector setShaderValidation_ = Selector.Register("setShaderValidation:");
-    internal static readonly Selector supportAddingBinaryFunctions = Selector.Register("supportAddingBinaryFunctions");
-    internal static readonly Selector setSupportAddingBinaryFunctions_ = Selector.Register("setSupportAddingBinaryFunctions:");
-    internal static readonly Selector threadgroupSizeMatchesTileSize = Selector.Register("threadgroupSizeMatchesTileSize");
-    internal static readonly Selector setThreadgroupSizeMatchesTileSize_ = Selector.Register("setThreadgroupSizeMatchesTileSize:");
-    internal static readonly Selector tileFunction = Selector.Register("tileFunction");
-    internal static readonly Selector setTileFunction_ = Selector.Register("setTileFunction:");
-    internal static readonly Selector tileBuffers = Selector.Register("tileBuffers");
     internal static readonly Selector reset = Selector.Register("reset");
+    internal static readonly Selector setBinaryArchives_ = Selector.Register("setBinaryArchives:");
+    internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
+    internal static readonly Selector setLinkedFunctions_ = Selector.Register("setLinkedFunctions:");
+    internal static readonly Selector setMaxCallStackDepth_ = Selector.Register("setMaxCallStackDepth:");
+    internal static readonly Selector setMaxTotalThreadsPerThreadgroup_ = Selector.Register("setMaxTotalThreadsPerThreadgroup:");
+    internal static readonly Selector setPreloadedLibraries_ = Selector.Register("setPreloadedLibraries:");
+    internal static readonly Selector setRasterSampleCount_ = Selector.Register("setRasterSampleCount:");
+    internal static readonly Selector setRequiredThreadsPerThreadgroup_ = Selector.Register("setRequiredThreadsPerThreadgroup:");
+    internal static readonly Selector setShaderValidation_ = Selector.Register("setShaderValidation:");
+    internal static readonly Selector setSupportAddingBinaryFunctions_ = Selector.Register("setSupportAddingBinaryFunctions:");
+    internal static readonly Selector setThreadgroupSizeMatchesTileSize_ = Selector.Register("setThreadgroupSizeMatchesTileSize:");
+    internal static readonly Selector setTileFunction_ = Selector.Register("setTileFunction:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -66,87 +52,69 @@ public readonly struct MTLTileRenderPipelineDescriptor
         return Alloc().Init();
     }
 
-    public NSArray BinaryArchives
-    {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.binaryArchives));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.setBinaryArchives_, value.NativePtr);
-    }
-
-    public MTLTileRenderPipelineColorAttachmentDescriptorArray ColorAttachments
-    {
-        get => new MTLTileRenderPipelineColorAttachmentDescriptorArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.colorAttachments));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.label));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.setLabel_, value.NativePtr);
-    }
-
-    public MTLLinkedFunctions LinkedFunctions
-    {
-        get => new MTLLinkedFunctions(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.linkedFunctions));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.setLinkedFunctions_, value.NativePtr);
-    }
-
-    public nuint MaxCallStackDepth
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.maxCallStackDepth);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.setMaxCallStackDepth_, (nint)value);
-    }
-
-    public nuint MaxTotalThreadsPerThreadgroup
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.maxTotalThreadsPerThreadgroup);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.setMaxTotalThreadsPerThreadgroup_, (nint)value);
-    }
-
-    public NSArray PreloadedLibraries
-    {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.preloadedLibraries));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.setPreloadedLibraries_, value.NativePtr);
-    }
-
-    public nuint RasterSampleCount
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.rasterSampleCount);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.setRasterSampleCount_, (nint)value);
-    }
-
-    // TODO: RequiredThreadsPerThreadgroup (value-struct return type MTLSize requires objc_msgSend_stret)
-
-    public MTLShaderValidation ShaderValidation
-    {
-        get => (MTLShaderValidation)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.shaderValidation));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.setShaderValidation_, (nint)(uint)value);
-    }
-
-    public Bool8 SupportAddingBinaryFunctions
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.supportAddingBinaryFunctions);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.setSupportAddingBinaryFunctions_, (nint)value.Value);
-    }
-
-    public Bool8 ThreadgroupSizeMatchesTileSize
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.threadgroupSizeMatchesTileSize);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.setThreadgroupSizeMatchesTileSize_, (nint)value.Value);
-    }
-
-    public MTLFunction TileFunction
-    {
-        get => new MTLFunction(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.tileFunction));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.setTileFunction_, value.NativePtr);
-    }
-
-    public MTLPipelineBufferDescriptorArray TileBuffers
-    {
-        get => new MTLPipelineBufferDescriptorArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.tileBuffers));
-    }
-
     public void Reset()
     {
         ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.reset);
+    }
+
+    public void SetBinaryArchives(NSArray binaryArchives)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.setBinaryArchives_, binaryArchives.NativePtr);
+    }
+
+    public void SetLabel(NSString label)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.setLabel_, label.NativePtr);
+    }
+
+    public void SetLinkedFunctions(MTLLinkedFunctions linkedFunctions)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.setLinkedFunctions_, linkedFunctions.NativePtr);
+    }
+
+    public void SetMaxCallStackDepth(nuint maxCallStackDepth)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.setMaxCallStackDepth_, (nint)maxCallStackDepth);
+    }
+
+    public void SetMaxTotalThreadsPerThreadgroup(nuint maxTotalThreadsPerThreadgroup)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.setMaxTotalThreadsPerThreadgroup_, (nint)maxTotalThreadsPerThreadgroup);
+    }
+
+    public void SetPreloadedLibraries(NSArray preloadedLibraries)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.setPreloadedLibraries_, preloadedLibraries.NativePtr);
+    }
+
+    public void SetRasterSampleCount(nuint rasterSampleCount)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.setRasterSampleCount_, (nint)rasterSampleCount);
+    }
+
+    public void SetRequiredThreadsPerThreadgroup(MTLSize requiredThreadsPerThreadgroup)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.setRequiredThreadsPerThreadgroup_, requiredThreadsPerThreadgroup);
+    }
+
+    public void SetShaderValidation(MTLShaderValidation shaderValidation)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.setShaderValidation_, (nint)(uint)shaderValidation);
+    }
+
+    public void SetSupportAddingBinaryFunctions(Bool8 supportAddingBinaryFunctions)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.setSupportAddingBinaryFunctions_, (nint)supportAddingBinaryFunctions.Value);
+    }
+
+    public void SetThreadgroupSizeMatchesTileSize(Bool8 threadgroupSizeMatchesTileSize)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.setThreadgroupSizeMatchesTileSize_, (nint)threadgroupSizeMatchesTileSize.Value);
+    }
+
+    public void SetTileFunction(MTLFunction tileFunction)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineDescriptor_Selectors.setTileFunction_, tileFunction.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

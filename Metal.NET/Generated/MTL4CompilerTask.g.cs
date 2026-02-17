@@ -6,8 +6,6 @@ namespace Metal.NET;
 
 internal static class MTL4CompilerTask_Selectors
 {
-    internal static readonly Selector compiler = Selector.Register("compiler");
-    internal static readonly Selector status = Selector.Register("status");
     internal static readonly Selector waitUntilCompleted = Selector.Register("waitUntilCompleted");
 }
 
@@ -22,16 +20,6 @@ public readonly struct MTL4CompilerTask
 
     public static implicit operator nint(MTL4CompilerTask o) => o.NativePtr;
     public static implicit operator MTL4CompilerTask(nint ptr) => new MTL4CompilerTask(ptr);
-
-    public MTL4Compiler Compiler
-    {
-        get => new MTL4Compiler(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CompilerTask_Selectors.compiler));
-    }
-
-    public MTL4CompilerTaskStatus Status
-    {
-        get => (MTL4CompilerTaskStatus)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTL4CompilerTask_Selectors.status));
-    }
 
     public void WaitUntilCompleted()
     {

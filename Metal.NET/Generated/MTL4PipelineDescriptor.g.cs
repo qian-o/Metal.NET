@@ -6,9 +6,7 @@ namespace Metal.NET;
 
 internal static class MTL4PipelineDescriptor_Selectors
 {
-    internal static readonly Selector label = Selector.Register("label");
     internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
-    internal static readonly Selector options = Selector.Register("options");
     internal static readonly Selector setOptions_ = Selector.Register("setOptions:");
 }
 
@@ -24,35 +22,14 @@ public readonly struct MTL4PipelineDescriptor
     public static implicit operator nint(MTL4PipelineDescriptor o) => o.NativePtr;
     public static implicit operator MTL4PipelineDescriptor(nint ptr) => new MTL4PipelineDescriptor(ptr);
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4PipelineDescriptor");
-
-    public static MTL4PipelineDescriptor Alloc()
+    public void SetLabel(NSString label)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTL4PipelineDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineDescriptor_Selectors.setLabel_, label.NativePtr);
     }
 
-    public MTL4PipelineDescriptor Init()
+    public void SetOptions(MTL4PipelineOptions options)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTL4PipelineDescriptor(ptr);
-    }
-
-    public static MTL4PipelineDescriptor New()
-    {
-        return Alloc().Init();
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4PipelineDescriptor_Selectors.label));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineDescriptor_Selectors.setLabel_, value.NativePtr);
-    }
-
-    public MTL4PipelineOptions Options
-    {
-        get => new MTL4PipelineOptions(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4PipelineDescriptor_Selectors.options));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineDescriptor_Selectors.setOptions_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineDescriptor_Selectors.setOptions_, options.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

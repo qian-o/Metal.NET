@@ -6,21 +6,13 @@ namespace Metal.NET;
 
 internal static class MTLHeapDescriptor_Selectors
 {
-    internal static readonly Selector cpuCacheMode = Selector.Register("cpuCacheMode");
     internal static readonly Selector setCpuCacheMode_ = Selector.Register("setCpuCacheMode:");
-    internal static readonly Selector hazardTrackingMode = Selector.Register("hazardTrackingMode");
     internal static readonly Selector setHazardTrackingMode_ = Selector.Register("setHazardTrackingMode:");
-    internal static readonly Selector maxCompatiblePlacementSparsePageSize = Selector.Register("maxCompatiblePlacementSparsePageSize");
     internal static readonly Selector setMaxCompatiblePlacementSparsePageSize_ = Selector.Register("setMaxCompatiblePlacementSparsePageSize:");
-    internal static readonly Selector resourceOptions = Selector.Register("resourceOptions");
     internal static readonly Selector setResourceOptions_ = Selector.Register("setResourceOptions:");
-    internal static readonly Selector size = Selector.Register("size");
     internal static readonly Selector setSize_ = Selector.Register("setSize:");
-    internal static readonly Selector sparsePageSize = Selector.Register("sparsePageSize");
     internal static readonly Selector setSparsePageSize_ = Selector.Register("setSparsePageSize:");
-    internal static readonly Selector storageMode = Selector.Register("storageMode");
     internal static readonly Selector setStorageMode_ = Selector.Register("setStorageMode:");
-    internal static readonly Selector type = Selector.Register("type");
     internal static readonly Selector setType_ = Selector.Register("setType:");
 }
 
@@ -55,52 +47,44 @@ public readonly struct MTLHeapDescriptor
         return Alloc().Init();
     }
 
-    public MTLCPUCacheMode CpuCacheMode
+    public void SetCpuCacheMode(MTLCPUCacheMode cpuCacheMode)
     {
-        get => (MTLCPUCacheMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.cpuCacheMode));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.setCpuCacheMode_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.setCpuCacheMode_, (nint)(uint)cpuCacheMode);
     }
 
-    public MTLHazardTrackingMode HazardTrackingMode
+    public void SetHazardTrackingMode(MTLHazardTrackingMode hazardTrackingMode)
     {
-        get => (MTLHazardTrackingMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.hazardTrackingMode));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.setHazardTrackingMode_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.setHazardTrackingMode_, (nint)(uint)hazardTrackingMode);
     }
 
-    public MTLSparsePageSize MaxCompatiblePlacementSparsePageSize
+    public void SetMaxCompatiblePlacementSparsePageSize(MTLSparsePageSize maxCompatiblePlacementSparsePageSize)
     {
-        get => (MTLSparsePageSize)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.maxCompatiblePlacementSparsePageSize));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.setMaxCompatiblePlacementSparsePageSize_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.setMaxCompatiblePlacementSparsePageSize_, (nint)(uint)maxCompatiblePlacementSparsePageSize);
     }
 
-    public MTLResourceOptions ResourceOptions
+    public void SetResourceOptions(nuint resourceOptions)
     {
-        get => (MTLResourceOptions)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.resourceOptions));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.setResourceOptions_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.setResourceOptions_, (nint)resourceOptions);
     }
 
-    public nuint Size
+    public void SetSize(nuint size)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.size);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.setSize_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.setSize_, (nint)size);
     }
 
-    public MTLSparsePageSize SparsePageSize
+    public void SetSparsePageSize(MTLSparsePageSize sparsePageSize)
     {
-        get => (MTLSparsePageSize)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.sparsePageSize));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.setSparsePageSize_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.setSparsePageSize_, (nint)(uint)sparsePageSize);
     }
 
-    public MTLStorageMode StorageMode
+    public void SetStorageMode(MTLStorageMode storageMode)
     {
-        get => (MTLStorageMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.storageMode));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.setStorageMode_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.setStorageMode_, (nint)(uint)storageMode);
     }
 
-    public MTLHeapType Type
+    public void SetType(MTLHeapType type)
     {
-        get => (MTLHeapType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.type));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.setType_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptor_Selectors.setType_, (nint)(uint)type);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

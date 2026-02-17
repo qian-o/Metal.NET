@@ -6,11 +6,8 @@ namespace Metal.NET;
 
 internal static class MTLCommandBufferDescriptor_Selectors
 {
-    internal static readonly Selector errorOptions = Selector.Register("errorOptions");
     internal static readonly Selector setErrorOptions_ = Selector.Register("setErrorOptions:");
-    internal static readonly Selector logState = Selector.Register("logState");
     internal static readonly Selector setLogState_ = Selector.Register("setLogState:");
-    internal static readonly Selector retainedReferences = Selector.Register("retainedReferences");
     internal static readonly Selector setRetainedReferences_ = Selector.Register("setRetainedReferences:");
 }
 
@@ -26,41 +23,19 @@ public readonly struct MTLCommandBufferDescriptor
     public static implicit operator nint(MTLCommandBufferDescriptor o) => o.NativePtr;
     public static implicit operator MTLCommandBufferDescriptor(nint ptr) => new MTLCommandBufferDescriptor(ptr);
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLCommandBufferDescriptor");
-
-    public static MTLCommandBufferDescriptor Alloc()
+    public void SetErrorOptions(nuint errorOptions)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTLCommandBufferDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferDescriptor_Selectors.setErrorOptions_, (nint)errorOptions);
     }
 
-    public MTLCommandBufferDescriptor Init()
+    public void SetLogState(MTLLogState logState)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTLCommandBufferDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferDescriptor_Selectors.setLogState_, logState.NativePtr);
     }
 
-    public static MTLCommandBufferDescriptor New()
+    public void SetRetainedReferences(Bool8 retainedReferences)
     {
-        return Alloc().Init();
-    }
-
-    public MTLCommandBufferErrorOption ErrorOptions
-    {
-        get => (MTLCommandBufferErrorOption)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLCommandBufferDescriptor_Selectors.errorOptions));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferDescriptor_Selectors.setErrorOptions_, (nint)(uint)value);
-    }
-
-    public MTLLogState LogState
-    {
-        get => new MTLLogState(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBufferDescriptor_Selectors.logState));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferDescriptor_Selectors.setLogState_, value.NativePtr);
-    }
-
-    public Bool8 RetainedReferences
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLCommandBufferDescriptor_Selectors.retainedReferences);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferDescriptor_Selectors.setRetainedReferences_, (nint)value.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferDescriptor_Selectors.setRetainedReferences_, (nint)retainedReferences.Value);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

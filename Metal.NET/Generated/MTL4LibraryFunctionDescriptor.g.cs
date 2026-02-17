@@ -6,9 +6,7 @@ namespace Metal.NET;
 
 internal static class MTL4LibraryFunctionDescriptor_Selectors
 {
-    internal static readonly Selector library = Selector.Register("library");
     internal static readonly Selector setLibrary_ = Selector.Register("setLibrary:");
-    internal static readonly Selector name = Selector.Register("name");
     internal static readonly Selector setName_ = Selector.Register("setName:");
 }
 
@@ -24,35 +22,14 @@ public readonly struct MTL4LibraryFunctionDescriptor
     public static implicit operator nint(MTL4LibraryFunctionDescriptor o) => o.NativePtr;
     public static implicit operator MTL4LibraryFunctionDescriptor(nint ptr) => new MTL4LibraryFunctionDescriptor(ptr);
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4LibraryFunctionDescriptor");
-
-    public static MTL4LibraryFunctionDescriptor Alloc()
+    public void SetLibrary(MTLLibrary library)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTL4LibraryFunctionDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4LibraryFunctionDescriptor_Selectors.setLibrary_, library.NativePtr);
     }
 
-    public MTL4LibraryFunctionDescriptor Init()
+    public void SetName(NSString name)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTL4LibraryFunctionDescriptor(ptr);
-    }
-
-    public static MTL4LibraryFunctionDescriptor New()
-    {
-        return Alloc().Init();
-    }
-
-    public MTLLibrary Library
-    {
-        get => new MTLLibrary(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4LibraryFunctionDescriptor_Selectors.library));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4LibraryFunctionDescriptor_Selectors.setLibrary_, value.NativePtr);
-    }
-
-    public NSString Name
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4LibraryFunctionDescriptor_Selectors.name));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4LibraryFunctionDescriptor_Selectors.setName_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4LibraryFunctionDescriptor_Selectors.setName_, name.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

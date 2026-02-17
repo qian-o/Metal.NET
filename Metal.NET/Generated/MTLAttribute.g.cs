@@ -6,15 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLAttribute_Selectors
 {
-    internal static readonly Selector active = Selector.Register("active");
-    internal static readonly Selector attributeIndex = Selector.Register("attributeIndex");
-    internal static readonly Selector attributeType = Selector.Register("attributeType");
-    internal static readonly Selector isActive = Selector.Register("isActive");
-    internal static readonly Selector isPatchControlPointData = Selector.Register("isPatchControlPointData");
-    internal static readonly Selector isPatchData = Selector.Register("isPatchData");
-    internal static readonly Selector name = Selector.Register("name");
-    internal static readonly Selector patchControlPointData = Selector.Register("patchControlPointData");
-    internal static readonly Selector patchData = Selector.Register("patchData");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -28,51 +19,6 @@ public readonly struct MTLAttribute
 
     public static implicit operator nint(MTLAttribute o) => o.NativePtr;
     public static implicit operator MTLAttribute(nint ptr) => new MTLAttribute(ptr);
-
-    public Bool8 Active
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLAttribute_Selectors.active);
-    }
-
-    public nuint AttributeIndex
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLAttribute_Selectors.attributeIndex);
-    }
-
-    public MTLDataType AttributeType
-    {
-        get => (MTLDataType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLAttribute_Selectors.attributeType));
-    }
-
-    public Bool8 IsActive
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLAttribute_Selectors.isActive);
-    }
-
-    public Bool8 IsPatchControlPointData
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLAttribute_Selectors.isPatchControlPointData);
-    }
-
-    public Bool8 IsPatchData
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLAttribute_Selectors.isPatchData);
-    }
-
-    public NSString Name
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLAttribute_Selectors.name));
-    }
-
-    public Bool8 PatchControlPointData
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLAttribute_Selectors.patchControlPointData);
-    }
-
-    public Bool8 PatchData
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLAttribute_Selectors.patchData);
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

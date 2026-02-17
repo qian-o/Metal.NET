@@ -6,9 +6,7 @@ namespace Metal.NET;
 
 internal static class MTL4CommandQueueDescriptor_Selectors
 {
-    internal static readonly Selector feedbackQueue = Selector.Register("feedbackQueue");
     internal static readonly Selector setFeedbackQueue_ = Selector.Register("setFeedbackQueue:");
-    internal static readonly Selector label = Selector.Register("label");
     internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
 }
 
@@ -24,35 +22,14 @@ public readonly struct MTL4CommandQueueDescriptor
     public static implicit operator nint(MTL4CommandQueueDescriptor o) => o.NativePtr;
     public static implicit operator MTL4CommandQueueDescriptor(nint ptr) => new MTL4CommandQueueDescriptor(ptr);
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4CommandQueueDescriptor");
-
-    public static MTL4CommandQueueDescriptor Alloc()
+    public void SetFeedbackQueue(nint feedbackQueue)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTL4CommandQueueDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandQueueDescriptor_Selectors.setFeedbackQueue_, feedbackQueue);
     }
 
-    public MTL4CommandQueueDescriptor Init()
+    public void SetLabel(NSString label)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTL4CommandQueueDescriptor(ptr);
-    }
-
-    public static MTL4CommandQueueDescriptor New()
-    {
-        return Alloc().Init();
-    }
-
-    public nint FeedbackQueue
-    {
-        get => ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CommandQueueDescriptor_Selectors.feedbackQueue);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandQueueDescriptor_Selectors.setFeedbackQueue_, value);
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CommandQueueDescriptor_Selectors.label));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandQueueDescriptor_Selectors.setLabel_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandQueueDescriptor_Selectors.setLabel_, label.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

@@ -6,7 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLResourceStatePassDescriptor_Selectors
 {
-    internal static readonly Selector sampleBufferAttachments = Selector.Register("sampleBufferAttachments");
     internal static readonly Selector resourceStatePassDescriptor = Selector.Register("resourceStatePassDescriptor");
 }
 
@@ -23,28 +22,6 @@ public readonly struct MTLResourceStatePassDescriptor
     public static implicit operator MTLResourceStatePassDescriptor(nint ptr) => new MTLResourceStatePassDescriptor(ptr);
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLResourceStatePassDescriptor");
-
-    public static MTLResourceStatePassDescriptor Alloc()
-    {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTLResourceStatePassDescriptor(ptr);
-    }
-
-    public MTLResourceStatePassDescriptor Init()
-    {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTLResourceStatePassDescriptor(ptr);
-    }
-
-    public static MTLResourceStatePassDescriptor New()
-    {
-        return Alloc().Init();
-    }
-
-    public MTLResourceStatePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
-    {
-        get => new MTLResourceStatePassSampleBufferAttachmentDescriptorArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLResourceStatePassDescriptor_Selectors.sampleBufferAttachments));
-    }
 
     public static MTLResourceStatePassDescriptor ResourceStatePassDescriptor()
     {

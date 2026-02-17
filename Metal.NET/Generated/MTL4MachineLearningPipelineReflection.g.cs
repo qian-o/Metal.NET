@@ -6,7 +6,6 @@ namespace Metal.NET;
 
 internal static class MTL4MachineLearningPipelineReflection_Selectors
 {
-    internal static readonly Selector bindings = Selector.Register("bindings");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -20,11 +19,6 @@ public readonly struct MTL4MachineLearningPipelineReflection
 
     public static implicit operator nint(MTL4MachineLearningPipelineReflection o) => o.NativePtr;
     public static implicit operator MTL4MachineLearningPipelineReflection(nint ptr) => new MTL4MachineLearningPipelineReflection(ptr);
-
-    public NSArray Bindings
-    {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4MachineLearningPipelineReflection_Selectors.bindings));
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

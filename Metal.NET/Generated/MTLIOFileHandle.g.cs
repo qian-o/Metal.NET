@@ -6,7 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLIOFileHandle_Selectors
 {
-    internal static readonly Selector label = Selector.Register("label");
     internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
 }
 
@@ -22,10 +21,9 @@ public readonly struct MTLIOFileHandle
     public static implicit operator nint(MTLIOFileHandle o) => o.NativePtr;
     public static implicit operator MTLIOFileHandle(nint ptr) => new MTLIOFileHandle(ptr);
 
-    public NSString Label
+    public void SetLabel(NSString label)
     {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLIOFileHandle_Selectors.label));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOFileHandle_Selectors.setLabel_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOFileHandle_Selectors.setLabel_, label.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

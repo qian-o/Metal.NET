@@ -6,9 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLCommandBufferEncoderInfo_Selectors
 {
-    internal static readonly Selector debugSignposts = Selector.Register("debugSignposts");
-    internal static readonly Selector errorState = Selector.Register("errorState");
-    internal static readonly Selector label = Selector.Register("label");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -22,21 +19,6 @@ public readonly struct MTLCommandBufferEncoderInfo
 
     public static implicit operator nint(MTLCommandBufferEncoderInfo o) => o.NativePtr;
     public static implicit operator MTLCommandBufferEncoderInfo(nint ptr) => new MTLCommandBufferEncoderInfo(ptr);
-
-    public NSArray DebugSignposts
-    {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBufferEncoderInfo_Selectors.debugSignposts));
-    }
-
-    public MTLCommandEncoderErrorState ErrorState
-    {
-        get => (MTLCommandEncoderErrorState)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLCommandBufferEncoderInfo_Selectors.errorState));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBufferEncoderInfo_Selectors.label));
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

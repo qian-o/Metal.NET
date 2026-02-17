@@ -6,7 +6,7 @@ namespace Metal.NET;
 
 internal static class MTLIOScratchBufferAllocator_Selectors
 {
-    internal static readonly Selector newScratchBuffer = Selector.Register("newScratchBuffer");
+    internal static readonly Selector newScratchBuffer_ = Selector.Register("newScratchBuffer:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -23,7 +23,7 @@ public readonly struct MTLIOScratchBufferAllocator
 
     public MTLIOScratchBuffer NewScratchBuffer(nuint minimumSize)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLIOScratchBufferAllocator_Selectors.newScratchBuffer, (nint)minimumSize);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLIOScratchBufferAllocator_Selectors.newScratchBuffer_, (nint)minimumSize);
         return new MTLIOScratchBuffer(__result);
     }
 

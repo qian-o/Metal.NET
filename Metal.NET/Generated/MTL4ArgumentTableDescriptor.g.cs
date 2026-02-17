@@ -6,17 +6,11 @@ namespace Metal.NET;
 
 internal static class MTL4ArgumentTableDescriptor_Selectors
 {
-    internal static readonly Selector initializeBindings = Selector.Register("initializeBindings");
     internal static readonly Selector setInitializeBindings_ = Selector.Register("setInitializeBindings:");
-    internal static readonly Selector label = Selector.Register("label");
     internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
-    internal static readonly Selector maxBufferBindCount = Selector.Register("maxBufferBindCount");
     internal static readonly Selector setMaxBufferBindCount_ = Selector.Register("setMaxBufferBindCount:");
-    internal static readonly Selector maxSamplerStateBindCount = Selector.Register("maxSamplerStateBindCount");
     internal static readonly Selector setMaxSamplerStateBindCount_ = Selector.Register("setMaxSamplerStateBindCount:");
-    internal static readonly Selector maxTextureBindCount = Selector.Register("maxTextureBindCount");
     internal static readonly Selector setMaxTextureBindCount_ = Selector.Register("setMaxTextureBindCount:");
-    internal static readonly Selector supportAttributeStrides = Selector.Register("supportAttributeStrides");
     internal static readonly Selector setSupportAttributeStrides_ = Selector.Register("setSupportAttributeStrides:");
 }
 
@@ -32,59 +26,34 @@ public readonly struct MTL4ArgumentTableDescriptor
     public static implicit operator nint(MTL4ArgumentTableDescriptor o) => o.NativePtr;
     public static implicit operator MTL4ArgumentTableDescriptor(nint ptr) => new MTL4ArgumentTableDescriptor(ptr);
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4ArgumentTableDescriptor");
-
-    public static MTL4ArgumentTableDescriptor Alloc()
+    public void SetInitializeBindings(Bool8 initializeBindings)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTL4ArgumentTableDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptor_Selectors.setInitializeBindings_, (nint)initializeBindings.Value);
     }
 
-    public MTL4ArgumentTableDescriptor Init()
+    public void SetLabel(NSString label)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTL4ArgumentTableDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptor_Selectors.setLabel_, label.NativePtr);
     }
 
-    public static MTL4ArgumentTableDescriptor New()
+    public void SetMaxBufferBindCount(nuint maxBufferBindCount)
     {
-        return Alloc().Init();
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptor_Selectors.setMaxBufferBindCount_, (nint)maxBufferBindCount);
     }
 
-    public Bool8 InitializeBindings
+    public void SetMaxSamplerStateBindCount(nuint maxSamplerStateBindCount)
     {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTL4ArgumentTableDescriptor_Selectors.initializeBindings);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptor_Selectors.setInitializeBindings_, (nint)value.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptor_Selectors.setMaxSamplerStateBindCount_, (nint)maxSamplerStateBindCount);
     }
 
-    public NSString Label
+    public void SetMaxTextureBindCount(nuint maxTextureBindCount)
     {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4ArgumentTableDescriptor_Selectors.label));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptor_Selectors.setLabel_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptor_Selectors.setMaxTextureBindCount_, (nint)maxTextureBindCount);
     }
 
-    public nuint MaxBufferBindCount
+    public void SetSupportAttributeStrides(Bool8 supportAttributeStrides)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTL4ArgumentTableDescriptor_Selectors.maxBufferBindCount);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptor_Selectors.setMaxBufferBindCount_, (nint)value);
-    }
-
-    public nuint MaxSamplerStateBindCount
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTL4ArgumentTableDescriptor_Selectors.maxSamplerStateBindCount);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptor_Selectors.setMaxSamplerStateBindCount_, (nint)value);
-    }
-
-    public nuint MaxTextureBindCount
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTL4ArgumentTableDescriptor_Selectors.maxTextureBindCount);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptor_Selectors.setMaxTextureBindCount_, (nint)value);
-    }
-
-    public Bool8 SupportAttributeStrides
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTL4ArgumentTableDescriptor_Selectors.supportAttributeStrides);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptor_Selectors.setSupportAttributeStrides_, (nint)value.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptor_Selectors.setSupportAttributeStrides_, (nint)supportAttributeStrides.Value);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

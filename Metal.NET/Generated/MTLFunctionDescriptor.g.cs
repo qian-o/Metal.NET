@@ -6,15 +6,10 @@ namespace Metal.NET;
 
 internal static class MTLFunctionDescriptor_Selectors
 {
-    internal static readonly Selector binaryArchives = Selector.Register("binaryArchives");
     internal static readonly Selector setBinaryArchives_ = Selector.Register("setBinaryArchives:");
-    internal static readonly Selector constantValues = Selector.Register("constantValues");
     internal static readonly Selector setConstantValues_ = Selector.Register("setConstantValues:");
-    internal static readonly Selector name = Selector.Register("name");
     internal static readonly Selector setName_ = Selector.Register("setName:");
-    internal static readonly Selector options = Selector.Register("options");
     internal static readonly Selector setOptions_ = Selector.Register("setOptions:");
-    internal static readonly Selector specializedName = Selector.Register("specializedName");
     internal static readonly Selector setSpecializedName_ = Selector.Register("setSpecializedName:");
     internal static readonly Selector functionDescriptor = Selector.Register("functionDescriptor");
 }
@@ -33,51 +28,29 @@ public readonly struct MTLFunctionDescriptor
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLFunctionDescriptor");
 
-    public static MTLFunctionDescriptor Alloc()
+    public void SetBinaryArchives(NSArray binaryArchives)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTLFunctionDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionDescriptor_Selectors.setBinaryArchives_, binaryArchives.NativePtr);
     }
 
-    public MTLFunctionDescriptor Init()
+    public void SetConstantValues(MTLFunctionConstantValues constantValues)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTLFunctionDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionDescriptor_Selectors.setConstantValues_, constantValues.NativePtr);
     }
 
-    public static MTLFunctionDescriptor New()
+    public void SetName(NSString name)
     {
-        return Alloc().Init();
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionDescriptor_Selectors.setName_, name.NativePtr);
     }
 
-    public NSArray BinaryArchives
+    public void SetOptions(nuint options)
     {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionDescriptor_Selectors.binaryArchives));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionDescriptor_Selectors.setBinaryArchives_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionDescriptor_Selectors.setOptions_, (nint)options);
     }
 
-    public MTLFunctionConstantValues ConstantValues
+    public void SetSpecializedName(NSString specializedName)
     {
-        get => new MTLFunctionConstantValues(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionDescriptor_Selectors.constantValues));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionDescriptor_Selectors.setConstantValues_, value.NativePtr);
-    }
-
-    public NSString Name
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionDescriptor_Selectors.name));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionDescriptor_Selectors.setName_, value.NativePtr);
-    }
-
-    public MTLFunctionOptions Options
-    {
-        get => (MTLFunctionOptions)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFunctionDescriptor_Selectors.options));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionDescriptor_Selectors.setOptions_, (nint)(uint)value);
-    }
-
-    public NSString SpecializedName
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionDescriptor_Selectors.specializedName));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionDescriptor_Selectors.setSpecializedName_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionDescriptor_Selectors.setSpecializedName_, specializedName.NativePtr);
     }
 
     public static MTLFunctionDescriptor FunctionDescriptor()

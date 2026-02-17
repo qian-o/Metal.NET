@@ -6,7 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLAccelerationStructureDescriptor_Selectors
 {
-    internal static readonly Selector usage = Selector.Register("usage");
     internal static readonly Selector setUsage_ = Selector.Register("setUsage:");
 }
 
@@ -41,10 +40,9 @@ public readonly struct MTLAccelerationStructureDescriptor
         return Alloc().Init();
     }
 
-    public MTLAccelerationStructureUsage Usage
+    public void SetUsage(nuint usage)
     {
-        get => (MTLAccelerationStructureUsage)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLAccelerationStructureDescriptor_Selectors.usage));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureDescriptor_Selectors.setUsage_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureDescriptor_Selectors.setUsage_, (nint)usage);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

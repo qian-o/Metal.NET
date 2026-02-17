@@ -6,11 +6,8 @@ namespace Metal.NET;
 
 internal static class MTLIndirectCommandBuffer_Selectors
 {
-    internal static readonly Selector gpuResourceID = Selector.Register("gpuResourceID");
-    internal static readonly Selector size = Selector.Register("size");
-    internal static readonly Selector indirectComputeCommand = Selector.Register("indirectComputeCommand");
-    internal static readonly Selector indirectRenderCommand = Selector.Register("indirectRenderCommand");
-    internal static readonly Selector reset = Selector.Register("reset");
+    internal static readonly Selector indirectComputeCommand_ = Selector.Register("indirectComputeCommand:");
+    internal static readonly Selector indirectRenderCommand_ = Selector.Register("indirectRenderCommand:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -25,31 +22,16 @@ public readonly struct MTLIndirectCommandBuffer
     public static implicit operator nint(MTLIndirectCommandBuffer o) => o.NativePtr;
     public static implicit operator MTLIndirectCommandBuffer(nint ptr) => new MTLIndirectCommandBuffer(ptr);
 
-    public ulong GpuResourceID
-    {
-        get => ObjectiveCRuntime.ulong_objc_msgSend(NativePtr, MTLIndirectCommandBuffer_Selectors.gpuResourceID);
-    }
-
-    public nuint Size
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLIndirectCommandBuffer_Selectors.size);
-    }
-
     public MTLIndirectComputeCommand IndirectComputeCommand(nuint commandIndex)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLIndirectCommandBuffer_Selectors.indirectComputeCommand, (nint)commandIndex);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLIndirectCommandBuffer_Selectors.indirectComputeCommand_, (nint)commandIndex);
         return new MTLIndirectComputeCommand(__result);
     }
 
     public MTLIndirectRenderCommand IndirectRenderCommand(nuint commandIndex)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLIndirectCommandBuffer_Selectors.indirectRenderCommand, (nint)commandIndex);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLIndirectCommandBuffer_Selectors.indirectRenderCommand_, (nint)commandIndex);
         return new MTLIndirectRenderCommand(__result);
-    }
-
-    public void Reset(nint range)
-    {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBuffer_Selectors.reset, range);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

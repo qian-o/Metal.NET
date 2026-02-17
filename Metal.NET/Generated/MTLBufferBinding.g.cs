@@ -6,11 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLBufferBinding_Selectors
 {
-    internal static readonly Selector bufferAlignment = Selector.Register("bufferAlignment");
-    internal static readonly Selector bufferDataSize = Selector.Register("bufferDataSize");
-    internal static readonly Selector bufferDataType = Selector.Register("bufferDataType");
-    internal static readonly Selector bufferPointerType = Selector.Register("bufferPointerType");
-    internal static readonly Selector bufferStructType = Selector.Register("bufferStructType");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -24,31 +19,6 @@ public readonly struct MTLBufferBinding
 
     public static implicit operator nint(MTLBufferBinding o) => o.NativePtr;
     public static implicit operator MTLBufferBinding(nint ptr) => new MTLBufferBinding(ptr);
-
-    public nuint BufferAlignment
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLBufferBinding_Selectors.bufferAlignment);
-    }
-
-    public nuint BufferDataSize
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLBufferBinding_Selectors.bufferDataSize);
-    }
-
-    public MTLDataType BufferDataType
-    {
-        get => (MTLDataType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLBufferBinding_Selectors.bufferDataType));
-    }
-
-    public MTLPointerType BufferPointerType
-    {
-        get => new MTLPointerType(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBufferBinding_Selectors.bufferPointerType));
-    }
-
-    public MTLStructType BufferStructType
-    {
-        get => new MTLStructType(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBufferBinding_Selectors.bufferStructType));
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

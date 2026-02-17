@@ -6,13 +6,7 @@ namespace Metal.NET;
 
 internal static class MTLRasterizationRateLayerDescriptor_Selectors
 {
-    internal static readonly Selector horizontal = Selector.Register("horizontal");
-    internal static readonly Selector horizontalSampleStorage = Selector.Register("horizontalSampleStorage");
-    internal static readonly Selector maxSampleCount = Selector.Register("maxSampleCount");
-    internal static readonly Selector sampleCount = Selector.Register("sampleCount");
     internal static readonly Selector setSampleCount_ = Selector.Register("setSampleCount:");
-    internal static readonly Selector vertical = Selector.Register("vertical");
-    internal static readonly Selector verticalSampleStorage = Selector.Register("verticalSampleStorage");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -46,28 +40,9 @@ public readonly struct MTLRasterizationRateLayerDescriptor
         return Alloc().Init();
     }
 
-    public MTLRasterizationRateSampleArray Horizontal
+    public void SetSampleCount(MTLSize sampleCount)
     {
-        get => new MTLRasterizationRateSampleArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRasterizationRateLayerDescriptor_Selectors.horizontal));
-    }
-
-    public float HorizontalSampleStorage
-    {
-        get => ObjectiveCRuntime.float_objc_msgSend(NativePtr, MTLRasterizationRateLayerDescriptor_Selectors.horizontalSampleStorage);
-    }
-
-    // TODO: MaxSampleCount (value-struct return type MTLSize requires objc_msgSend_stret)
-
-    // TODO: SampleCount (value-struct return type MTLSize requires objc_msgSend_stret)
-
-    public MTLRasterizationRateSampleArray Vertical
-    {
-        get => new MTLRasterizationRateSampleArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRasterizationRateLayerDescriptor_Selectors.vertical));
-    }
-
-    public float VerticalSampleStorage
-    {
-        get => ObjectiveCRuntime.float_objc_msgSend(NativePtr, MTLRasterizationRateLayerDescriptor_Selectors.verticalSampleStorage);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateLayerDescriptor_Selectors.setSampleCount_, sampleCount);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

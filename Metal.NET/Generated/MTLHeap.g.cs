@@ -6,23 +6,15 @@ namespace Metal.NET;
 
 internal static class MTLHeap_Selectors
 {
-    internal static readonly Selector cpuCacheMode = Selector.Register("cpuCacheMode");
-    internal static readonly Selector currentAllocatedSize = Selector.Register("currentAllocatedSize");
-    internal static readonly Selector device = Selector.Register("device");
-    internal static readonly Selector hazardTrackingMode = Selector.Register("hazardTrackingMode");
-    internal static readonly Selector label = Selector.Register("label");
+    internal static readonly Selector maxAvailableSize_ = Selector.Register("maxAvailableSize:");
+    internal static readonly Selector newAccelerationStructure_ = Selector.Register("newAccelerationStructure:");
+    internal static readonly Selector newAccelerationStructure_offset_ = Selector.Register("newAccelerationStructure:offset:");
+    internal static readonly Selector newBuffer_options_ = Selector.Register("newBuffer:options:");
+    internal static readonly Selector newBuffer_options_offset_ = Selector.Register("newBuffer:options:offset:");
+    internal static readonly Selector newTexture_ = Selector.Register("newTexture:");
+    internal static readonly Selector newTexture_offset_ = Selector.Register("newTexture:offset:");
     internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
-    internal static readonly Selector resourceOptions = Selector.Register("resourceOptions");
-    internal static readonly Selector purgeableState = Selector.Register("purgeableState");
     internal static readonly Selector setPurgeableState_ = Selector.Register("setPurgeableState:");
-    internal static readonly Selector size = Selector.Register("size");
-    internal static readonly Selector storageMode = Selector.Register("storageMode");
-    internal static readonly Selector type = Selector.Register("type");
-    internal static readonly Selector usedSize = Selector.Register("usedSize");
-    internal static readonly Selector maxAvailableSize = Selector.Register("maxAvailableSize");
-    internal static readonly Selector newAccelerationStructure = Selector.Register("newAccelerationStructure");
-    internal static readonly Selector newBuffer = Selector.Register("newBuffer");
-    internal static readonly Selector newTexture = Selector.Register("newTexture");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -37,114 +29,67 @@ public readonly struct MTLHeap
     public static implicit operator nint(MTLHeap o) => o.NativePtr;
     public static implicit operator MTLHeap(nint ptr) => new MTLHeap(ptr);
 
-    public MTLCPUCacheMode CpuCacheMode
-    {
-        get => (MTLCPUCacheMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLHeap_Selectors.cpuCacheMode));
-    }
-
-    public nuint CurrentAllocatedSize
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLHeap_Selectors.currentAllocatedSize);
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLHeap_Selectors.device));
-    }
-
-    public MTLHazardTrackingMode HazardTrackingMode
-    {
-        get => (MTLHazardTrackingMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLHeap_Selectors.hazardTrackingMode));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLHeap_Selectors.label));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeap_Selectors.setLabel_, value.NativePtr);
-    }
-
-    public MTLResourceOptions ResourceOptions
-    {
-        get => (MTLResourceOptions)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLHeap_Selectors.resourceOptions));
-    }
-
-    public MTLPurgeableState PurgeableState
-    {
-        get => (MTLPurgeableState)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLHeap_Selectors.purgeableState));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeap_Selectors.setPurgeableState_, (nint)(uint)value);
-    }
-
-    public nuint Size
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLHeap_Selectors.size);
-    }
-
-    public MTLStorageMode StorageMode
-    {
-        get => (MTLStorageMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLHeap_Selectors.storageMode));
-    }
-
-    public MTLHeapType Type
-    {
-        get => (MTLHeapType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLHeap_Selectors.type));
-    }
-
-    public nuint UsedSize
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLHeap_Selectors.usedSize);
-    }
-
     public nuint MaxAvailableSize(nuint alignment)
     {
-        return (nuint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLHeap_Selectors.maxAvailableSize, (nint)alignment);
+        return (nuint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLHeap_Selectors.maxAvailableSize_, (nint)alignment);
     }
 
     public MTLAccelerationStructure NewAccelerationStructure(nuint size)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLHeap_Selectors.newAccelerationStructure, (nint)size);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLHeap_Selectors.newAccelerationStructure_, (nint)size);
         return new MTLAccelerationStructure(__result);
     }
 
     public MTLAccelerationStructure NewAccelerationStructure(MTLAccelerationStructureDescriptor descriptor)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLHeap_Selectors.newAccelerationStructure, descriptor.NativePtr);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLHeap_Selectors.newAccelerationStructure_, descriptor.NativePtr);
         return new MTLAccelerationStructure(__result);
     }
 
     public MTLAccelerationStructure NewAccelerationStructure(nuint size, nuint offset)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLHeap_Selectors.newAccelerationStructure, (nint)size, (nint)offset);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLHeap_Selectors.newAccelerationStructure_offset_, (nint)size, (nint)offset);
         return new MTLAccelerationStructure(__result);
     }
 
     public MTLAccelerationStructure NewAccelerationStructure(MTLAccelerationStructureDescriptor descriptor, nuint offset)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLHeap_Selectors.newAccelerationStructure, descriptor.NativePtr, (nint)offset);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLHeap_Selectors.newAccelerationStructure_offset_, descriptor.NativePtr, (nint)offset);
         return new MTLAccelerationStructure(__result);
     }
 
-    public MTLBuffer NewBuffer(nuint length, MTLResourceOptions options)
+    public MTLBuffer NewBuffer(nuint length, nuint options)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLHeap_Selectors.newBuffer, (nint)length, (nint)(uint)options);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLHeap_Selectors.newBuffer_options_, (nint)length, (nint)options);
         return new MTLBuffer(__result);
     }
 
-    public MTLBuffer NewBuffer(nuint length, MTLResourceOptions options, nuint offset)
+    public MTLBuffer NewBuffer(nuint length, nuint options, nuint offset)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLHeap_Selectors.newBuffer, (nint)length, (nint)(uint)options, (nint)offset);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLHeap_Selectors.newBuffer_options_offset_, (nint)length, (nint)options, (nint)offset);
         return new MTLBuffer(__result);
     }
 
     public MTLTexture NewTexture(MTLTextureDescriptor descriptor)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLHeap_Selectors.newTexture, descriptor.NativePtr);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLHeap_Selectors.newTexture_, descriptor.NativePtr);
         return new MTLTexture(__result);
     }
 
     public MTLTexture NewTexture(MTLTextureDescriptor descriptor, nuint offset)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLHeap_Selectors.newTexture, descriptor.NativePtr, (nint)offset);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLHeap_Selectors.newTexture_offset_, descriptor.NativePtr, (nint)offset);
         return new MTLTexture(__result);
+    }
+
+    public void SetLabel(NSString label)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeap_Selectors.setLabel_, label.NativePtr);
+    }
+
+    public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
+    {
+        return (MTLPurgeableState)(uint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLHeap_Selectors.setPurgeableState_, (nint)(uint)state);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

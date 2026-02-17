@@ -6,8 +6,9 @@ namespace Metal.NET;
 
 internal static class MTLTextureViewPool_Selectors
 {
-    internal static readonly Selector setTextureView = Selector.Register("setTextureView");
-    internal static readonly Selector setTextureViewFromBuffer = Selector.Register("setTextureViewFromBuffer");
+    internal static readonly Selector setTextureView_index_ = Selector.Register("setTextureView:index:");
+    internal static readonly Selector setTextureView_descriptor_index_ = Selector.Register("setTextureView:descriptor:index:");
+    internal static readonly Selector setTextureViewFromBuffer_descriptor_offset_bytesPerRow_index_ = Selector.Register("setTextureViewFromBuffer:descriptor:offset:bytesPerRow:index:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -22,20 +23,30 @@ public readonly struct MTLTextureViewPool
     public static implicit operator nint(MTLTextureViewPool o) => o.NativePtr;
     public static implicit operator MTLTextureViewPool(nint ptr) => new MTLTextureViewPool(ptr);
 
-    public ulong SetTextureView(MTLTexture texture, nuint index)
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLTextureViewPool");
+
+    public static MTLTextureViewPool Alloc()
     {
-        return (ulong)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTextureViewPool_Selectors.setTextureView, texture.NativePtr, (nint)index);
+        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
+        return new MTLTextureViewPool(ptr);
     }
 
-    public ulong SetTextureView(MTLTexture texture, MTLTextureViewDescriptor descriptor, nuint index)
+    public MTLTextureViewPool Init()
     {
-        return (ulong)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTextureViewPool_Selectors.setTextureView, texture.NativePtr, descriptor.NativePtr, (nint)index);
+        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
+        return new MTLTextureViewPool(ptr);
     }
 
-    public ulong SetTextureViewFromBuffer(MTLBuffer buffer, MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow, nuint index)
+    public static MTLTextureViewPool New()
     {
-        return (ulong)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTextureViewPool_Selectors.setTextureViewFromBuffer, buffer.NativePtr, descriptor.NativePtr, (nint)offset, (nint)bytesPerRow, (nint)index);
+        return Alloc().Init();
     }
+
+    // TODO: SetTextureView (value-struct return type MTLResourceID requires objc_msgSend_stret)
+
+    // TODO: SetTextureView (value-struct return type MTLResourceID requires objc_msgSend_stret)
+
+    // TODO: SetTextureViewFromBuffer (value-struct return type MTLResourceID requires objc_msgSend_stret)
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

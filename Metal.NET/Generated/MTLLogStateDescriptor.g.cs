@@ -6,9 +6,7 @@ namespace Metal.NET;
 
 internal static class MTLLogStateDescriptor_Selectors
 {
-    internal static readonly Selector bufferSize = Selector.Register("bufferSize");
     internal static readonly Selector setBufferSize_ = Selector.Register("setBufferSize:");
-    internal static readonly Selector level = Selector.Register("level");
     internal static readonly Selector setLevel_ = Selector.Register("setLevel:");
 }
 
@@ -24,35 +22,14 @@ public readonly struct MTLLogStateDescriptor
     public static implicit operator nint(MTLLogStateDescriptor o) => o.NativePtr;
     public static implicit operator MTLLogStateDescriptor(nint ptr) => new MTLLogStateDescriptor(ptr);
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLLogStateDescriptor");
-
-    public static MTLLogStateDescriptor Alloc()
+    public void SetBufferSize(nint bufferSize)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTLLogStateDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLogStateDescriptor_Selectors.setBufferSize_, bufferSize);
     }
 
-    public MTLLogStateDescriptor Init()
+    public void SetLevel(MTLLogLevel level)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTLLogStateDescriptor(ptr);
-    }
-
-    public static MTLLogStateDescriptor New()
-    {
-        return Alloc().Init();
-    }
-
-    public nint BufferSize
-    {
-        get => ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLogStateDescriptor_Selectors.bufferSize);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLogStateDescriptor_Selectors.setBufferSize_, value);
-    }
-
-    public MTLLogLevel Level
-    {
-        get => (MTLLogLevel)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLLogStateDescriptor_Selectors.level));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLogStateDescriptor_Selectors.setLevel_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLogStateDescriptor_Selectors.setLevel_, (nint)(uint)level);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

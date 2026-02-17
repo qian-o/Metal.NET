@@ -6,18 +6,9 @@ namespace Metal.NET;
 
 internal static class MTLFunction_Selectors
 {
-    internal static readonly Selector device = Selector.Register("device");
-    internal static readonly Selector functionConstantsDictionary = Selector.Register("functionConstantsDictionary");
-    internal static readonly Selector functionType = Selector.Register("functionType");
-    internal static readonly Selector label = Selector.Register("label");
+    internal static readonly Selector newArgumentEncoder_ = Selector.Register("newArgumentEncoder:");
+    internal static readonly Selector newArgumentEncoder_reflection_ = Selector.Register("newArgumentEncoder:reflection:");
     internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
-    internal static readonly Selector name = Selector.Register("name");
-    internal static readonly Selector options = Selector.Register("options");
-    internal static readonly Selector patchControlPointCount = Selector.Register("patchControlPointCount");
-    internal static readonly Selector patchType = Selector.Register("patchType");
-    internal static readonly Selector stageInputAttributes = Selector.Register("stageInputAttributes");
-    internal static readonly Selector vertexAttributes = Selector.Register("vertexAttributes");
-    internal static readonly Selector newArgumentEncoder = Selector.Register("newArgumentEncoder");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -32,61 +23,21 @@ public readonly struct MTLFunction
     public static implicit operator nint(MTLFunction o) => o.NativePtr;
     public static implicit operator MTLFunction(nint ptr) => new MTLFunction(ptr);
 
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunction_Selectors.device));
-    }
-
-    public nint FunctionConstantsDictionary
-    {
-        get => ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunction_Selectors.functionConstantsDictionary);
-    }
-
-    public MTLFunctionType FunctionType
-    {
-        get => (MTLFunctionType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFunction_Selectors.functionType));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunction_Selectors.label));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunction_Selectors.setLabel_, value.NativePtr);
-    }
-
-    public NSString Name
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunction_Selectors.name));
-    }
-
-    public MTLFunctionOptions Options
-    {
-        get => (MTLFunctionOptions)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFunction_Selectors.options));
-    }
-
-    public nint PatchControlPointCount
-    {
-        get => ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunction_Selectors.patchControlPointCount);
-    }
-
-    public MTLPatchType PatchType
-    {
-        get => (MTLPatchType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFunction_Selectors.patchType));
-    }
-
-    public NSArray StageInputAttributes
-    {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunction_Selectors.stageInputAttributes));
-    }
-
-    public NSArray VertexAttributes
-    {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunction_Selectors.vertexAttributes));
-    }
-
     public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunction_Selectors.newArgumentEncoder, (nint)bufferIndex);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunction_Selectors.newArgumentEncoder_, (nint)bufferIndex);
         return new MTLArgumentEncoder(__result);
+    }
+
+    public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex, nint reflection)
+    {
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunction_Selectors.newArgumentEncoder_reflection_, (nint)bufferIndex, reflection);
+        return new MTLArgumentEncoder(__result);
+    }
+
+    public void SetLabel(NSString label)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunction_Selectors.setLabel_, label.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

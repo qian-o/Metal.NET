@@ -6,55 +6,31 @@ namespace Metal.NET;
 
 internal static class MTL4MeshRenderPipelineDescriptor_Selectors
 {
-    internal static readonly Selector alphaToCoverageState = Selector.Register("alphaToCoverageState");
-    internal static readonly Selector setAlphaToCoverageState_ = Selector.Register("setAlphaToCoverageState:");
-    internal static readonly Selector alphaToOneState = Selector.Register("alphaToOneState");
-    internal static readonly Selector setAlphaToOneState_ = Selector.Register("setAlphaToOneState:");
-    internal static readonly Selector colorAttachmentMappingState = Selector.Register("colorAttachmentMappingState");
-    internal static readonly Selector setColorAttachmentMappingState_ = Selector.Register("setColorAttachmentMappingState:");
-    internal static readonly Selector colorAttachments = Selector.Register("colorAttachments");
-    internal static readonly Selector fragmentFunctionDescriptor = Selector.Register("fragmentFunctionDescriptor");
-    internal static readonly Selector setFragmentFunctionDescriptor_ = Selector.Register("setFragmentFunctionDescriptor:");
-    internal static readonly Selector fragmentStaticLinkingDescriptor = Selector.Register("fragmentStaticLinkingDescriptor");
-    internal static readonly Selector setFragmentStaticLinkingDescriptor_ = Selector.Register("setFragmentStaticLinkingDescriptor:");
-    internal static readonly Selector isRasterizationEnabled = Selector.Register("isRasterizationEnabled");
-    internal static readonly Selector maxTotalThreadgroupsPerMeshGrid = Selector.Register("maxTotalThreadgroupsPerMeshGrid");
-    internal static readonly Selector setMaxTotalThreadgroupsPerMeshGrid_ = Selector.Register("setMaxTotalThreadgroupsPerMeshGrid:");
-    internal static readonly Selector maxTotalThreadsPerMeshThreadgroup = Selector.Register("maxTotalThreadsPerMeshThreadgroup");
-    internal static readonly Selector setMaxTotalThreadsPerMeshThreadgroup_ = Selector.Register("setMaxTotalThreadsPerMeshThreadgroup:");
-    internal static readonly Selector maxTotalThreadsPerObjectThreadgroup = Selector.Register("maxTotalThreadsPerObjectThreadgroup");
-    internal static readonly Selector setMaxTotalThreadsPerObjectThreadgroup_ = Selector.Register("setMaxTotalThreadsPerObjectThreadgroup:");
-    internal static readonly Selector maxVertexAmplificationCount = Selector.Register("maxVertexAmplificationCount");
-    internal static readonly Selector setMaxVertexAmplificationCount_ = Selector.Register("setMaxVertexAmplificationCount:");
-    internal static readonly Selector meshFunctionDescriptor = Selector.Register("meshFunctionDescriptor");
-    internal static readonly Selector setMeshFunctionDescriptor_ = Selector.Register("setMeshFunctionDescriptor:");
-    internal static readonly Selector meshStaticLinkingDescriptor = Selector.Register("meshStaticLinkingDescriptor");
-    internal static readonly Selector setMeshStaticLinkingDescriptor_ = Selector.Register("setMeshStaticLinkingDescriptor:");
-    internal static readonly Selector meshThreadgroupSizeIsMultipleOfThreadExecutionWidth = Selector.Register("meshThreadgroupSizeIsMultipleOfThreadExecutionWidth");
-    internal static readonly Selector setMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth_ = Selector.Register("setMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth:");
-    internal static readonly Selector objectFunctionDescriptor = Selector.Register("objectFunctionDescriptor");
-    internal static readonly Selector setObjectFunctionDescriptor_ = Selector.Register("setObjectFunctionDescriptor:");
-    internal static readonly Selector objectStaticLinkingDescriptor = Selector.Register("objectStaticLinkingDescriptor");
-    internal static readonly Selector setObjectStaticLinkingDescriptor_ = Selector.Register("setObjectStaticLinkingDescriptor:");
-    internal static readonly Selector objectThreadgroupSizeIsMultipleOfThreadExecutionWidth = Selector.Register("objectThreadgroupSizeIsMultipleOfThreadExecutionWidth");
-    internal static readonly Selector setObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth_ = Selector.Register("setObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth:");
-    internal static readonly Selector payloadMemoryLength = Selector.Register("payloadMemoryLength");
-    internal static readonly Selector setPayloadMemoryLength_ = Selector.Register("setPayloadMemoryLength:");
-    internal static readonly Selector rasterSampleCount = Selector.Register("rasterSampleCount");
-    internal static readonly Selector setRasterSampleCount_ = Selector.Register("setRasterSampleCount:");
-    internal static readonly Selector rasterizationEnabled = Selector.Register("rasterizationEnabled");
-    internal static readonly Selector setRasterizationEnabled_ = Selector.Register("setRasterizationEnabled:");
-    internal static readonly Selector requiredThreadsPerMeshThreadgroup = Selector.Register("requiredThreadsPerMeshThreadgroup");
-    internal static readonly Selector setRequiredThreadsPerMeshThreadgroup_ = Selector.Register("setRequiredThreadsPerMeshThreadgroup:");
-    internal static readonly Selector requiredThreadsPerObjectThreadgroup = Selector.Register("requiredThreadsPerObjectThreadgroup");
-    internal static readonly Selector setRequiredThreadsPerObjectThreadgroup_ = Selector.Register("setRequiredThreadsPerObjectThreadgroup:");
-    internal static readonly Selector supportFragmentBinaryLinking = Selector.Register("supportFragmentBinaryLinking");
-    internal static readonly Selector setSupportFragmentBinaryLinking_ = Selector.Register("setSupportFragmentBinaryLinking:");
-    internal static readonly Selector supportMeshBinaryLinking = Selector.Register("supportMeshBinaryLinking");
-    internal static readonly Selector setSupportMeshBinaryLinking_ = Selector.Register("setSupportMeshBinaryLinking:");
-    internal static readonly Selector supportObjectBinaryLinking = Selector.Register("supportObjectBinaryLinking");
-    internal static readonly Selector setSupportObjectBinaryLinking_ = Selector.Register("setSupportObjectBinaryLinking:");
     internal static readonly Selector reset = Selector.Register("reset");
+    internal static readonly Selector setAlphaToCoverageState_ = Selector.Register("setAlphaToCoverageState:");
+    internal static readonly Selector setAlphaToOneState_ = Selector.Register("setAlphaToOneState:");
+    internal static readonly Selector setColorAttachmentMappingState_ = Selector.Register("setColorAttachmentMappingState:");
+    internal static readonly Selector setFragmentFunctionDescriptor_ = Selector.Register("setFragmentFunctionDescriptor:");
+    internal static readonly Selector setFragmentStaticLinkingDescriptor_ = Selector.Register("setFragmentStaticLinkingDescriptor:");
+    internal static readonly Selector setMaxTotalThreadgroupsPerMeshGrid_ = Selector.Register("setMaxTotalThreadgroupsPerMeshGrid:");
+    internal static readonly Selector setMaxTotalThreadsPerMeshThreadgroup_ = Selector.Register("setMaxTotalThreadsPerMeshThreadgroup:");
+    internal static readonly Selector setMaxTotalThreadsPerObjectThreadgroup_ = Selector.Register("setMaxTotalThreadsPerObjectThreadgroup:");
+    internal static readonly Selector setMaxVertexAmplificationCount_ = Selector.Register("setMaxVertexAmplificationCount:");
+    internal static readonly Selector setMeshFunctionDescriptor_ = Selector.Register("setMeshFunctionDescriptor:");
+    internal static readonly Selector setMeshStaticLinkingDescriptor_ = Selector.Register("setMeshStaticLinkingDescriptor:");
+    internal static readonly Selector setMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth_ = Selector.Register("setMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth:");
+    internal static readonly Selector setObjectFunctionDescriptor_ = Selector.Register("setObjectFunctionDescriptor:");
+    internal static readonly Selector setObjectStaticLinkingDescriptor_ = Selector.Register("setObjectStaticLinkingDescriptor:");
+    internal static readonly Selector setObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth_ = Selector.Register("setObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth:");
+    internal static readonly Selector setPayloadMemoryLength_ = Selector.Register("setPayloadMemoryLength:");
+    internal static readonly Selector setRasterSampleCount_ = Selector.Register("setRasterSampleCount:");
+    internal static readonly Selector setRasterizationEnabled_ = Selector.Register("setRasterizationEnabled:");
+    internal static readonly Selector setRequiredThreadsPerMeshThreadgroup_ = Selector.Register("setRequiredThreadsPerMeshThreadgroup:");
+    internal static readonly Selector setRequiredThreadsPerObjectThreadgroup_ = Selector.Register("setRequiredThreadsPerObjectThreadgroup:");
+    internal static readonly Selector setSupportFragmentBinaryLinking_ = Selector.Register("setSupportFragmentBinaryLinking:");
+    internal static readonly Selector setSupportIndirectCommandBuffers_ = Selector.Register("setSupportIndirectCommandBuffers:");
+    internal static readonly Selector setSupportMeshBinaryLinking_ = Selector.Register("setSupportMeshBinaryLinking:");
+    internal static readonly Selector setSupportObjectBinaryLinking_ = Selector.Register("setSupportObjectBinaryLinking:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -69,168 +45,129 @@ public readonly struct MTL4MeshRenderPipelineDescriptor
     public static implicit operator nint(MTL4MeshRenderPipelineDescriptor o) => o.NativePtr;
     public static implicit operator MTL4MeshRenderPipelineDescriptor(nint ptr) => new MTL4MeshRenderPipelineDescriptor(ptr);
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4MeshRenderPipelineDescriptor");
-
-    public static MTL4MeshRenderPipelineDescriptor Alloc()
-    {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTL4MeshRenderPipelineDescriptor(ptr);
-    }
-
-    public MTL4MeshRenderPipelineDescriptor Init()
-    {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTL4MeshRenderPipelineDescriptor(ptr);
-    }
-
-    public static MTL4MeshRenderPipelineDescriptor New()
-    {
-        return Alloc().Init();
-    }
-
-    public MTL4AlphaToCoverageState AlphaToCoverageState
-    {
-        get => (MTL4AlphaToCoverageState)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.alphaToCoverageState));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setAlphaToCoverageState_, (nint)(uint)value);
-    }
-
-    public MTL4AlphaToOneState AlphaToOneState
-    {
-        get => (MTL4AlphaToOneState)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.alphaToOneState));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setAlphaToOneState_, (nint)(uint)value);
-    }
-
-    public MTL4LogicalToPhysicalColorAttachmentMappingState ColorAttachmentMappingState
-    {
-        get => (MTL4LogicalToPhysicalColorAttachmentMappingState)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.colorAttachmentMappingState));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setColorAttachmentMappingState_, (nint)(uint)value);
-    }
-
-    public MTL4RenderPipelineColorAttachmentDescriptorArray ColorAttachments
-    {
-        get => new MTL4RenderPipelineColorAttachmentDescriptorArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.colorAttachments));
-    }
-
-    public MTL4FunctionDescriptor FragmentFunctionDescriptor
-    {
-        get => new MTL4FunctionDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.fragmentFunctionDescriptor));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setFragmentFunctionDescriptor_, value.NativePtr);
-    }
-
-    public MTL4StaticLinkingDescriptor FragmentStaticLinkingDescriptor
-    {
-        get => new MTL4StaticLinkingDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.fragmentStaticLinkingDescriptor));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setFragmentStaticLinkingDescriptor_, value.NativePtr);
-    }
-
-    public Bool8 IsRasterizationEnabled
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.isRasterizationEnabled);
-    }
-
-    public nuint MaxTotalThreadgroupsPerMeshGrid
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.maxTotalThreadgroupsPerMeshGrid);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setMaxTotalThreadgroupsPerMeshGrid_, (nint)value);
-    }
-
-    public nuint MaxTotalThreadsPerMeshThreadgroup
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.maxTotalThreadsPerMeshThreadgroup);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setMaxTotalThreadsPerMeshThreadgroup_, (nint)value);
-    }
-
-    public nuint MaxTotalThreadsPerObjectThreadgroup
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.maxTotalThreadsPerObjectThreadgroup);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setMaxTotalThreadsPerObjectThreadgroup_, (nint)value);
-    }
-
-    public nuint MaxVertexAmplificationCount
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.maxVertexAmplificationCount);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setMaxVertexAmplificationCount_, (nint)value);
-    }
-
-    public MTL4FunctionDescriptor MeshFunctionDescriptor
-    {
-        get => new MTL4FunctionDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.meshFunctionDescriptor));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setMeshFunctionDescriptor_, value.NativePtr);
-    }
-
-    public MTL4StaticLinkingDescriptor MeshStaticLinkingDescriptor
-    {
-        get => new MTL4StaticLinkingDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.meshStaticLinkingDescriptor));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setMeshStaticLinkingDescriptor_, value.NativePtr);
-    }
-
-    public Bool8 MeshThreadgroupSizeIsMultipleOfThreadExecutionWidth
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.meshThreadgroupSizeIsMultipleOfThreadExecutionWidth);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth_, (nint)value.Value);
-    }
-
-    public MTL4FunctionDescriptor ObjectFunctionDescriptor
-    {
-        get => new MTL4FunctionDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.objectFunctionDescriptor));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setObjectFunctionDescriptor_, value.NativePtr);
-    }
-
-    public MTL4StaticLinkingDescriptor ObjectStaticLinkingDescriptor
-    {
-        get => new MTL4StaticLinkingDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.objectStaticLinkingDescriptor));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setObjectStaticLinkingDescriptor_, value.NativePtr);
-    }
-
-    public Bool8 ObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.objectThreadgroupSizeIsMultipleOfThreadExecutionWidth);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth_, (nint)value.Value);
-    }
-
-    public nuint PayloadMemoryLength
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.payloadMemoryLength);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setPayloadMemoryLength_, (nint)value);
-    }
-
-    public nuint RasterSampleCount
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.rasterSampleCount);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setRasterSampleCount_, (nint)value);
-    }
-
-    public Bool8 RasterizationEnabled
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.rasterizationEnabled);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setRasterizationEnabled_, (nint)value.Value);
-    }
-
-    // TODO: RequiredThreadsPerMeshThreadgroup (value-struct return type MTLSize requires objc_msgSend_stret)
-
-    // TODO: RequiredThreadsPerObjectThreadgroup (value-struct return type MTLSize requires objc_msgSend_stret)
-
-    public Bool8 SupportFragmentBinaryLinking
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.supportFragmentBinaryLinking);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setSupportFragmentBinaryLinking_, (nint)value.Value);
-    }
-
-    public Bool8 SupportMeshBinaryLinking
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.supportMeshBinaryLinking);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setSupportMeshBinaryLinking_, (nint)value.Value);
-    }
-
-    public Bool8 SupportObjectBinaryLinking
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.supportObjectBinaryLinking);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setSupportObjectBinaryLinking_, (nint)value.Value);
-    }
-
     public void Reset()
     {
         ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.reset);
+    }
+
+    public void SetAlphaToCoverageState(MTL4AlphaToCoverageState alphaToCoverageState)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setAlphaToCoverageState_, (nint)(uint)alphaToCoverageState);
+    }
+
+    public void SetAlphaToOneState(MTL4AlphaToOneState alphaToOneState)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setAlphaToOneState_, (nint)(uint)alphaToOneState);
+    }
+
+    public void SetColorAttachmentMappingState(MTL4LogicalToPhysicalColorAttachmentMappingState colorAttachmentMappingState)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setColorAttachmentMappingState_, (nint)(uint)colorAttachmentMappingState);
+    }
+
+    public void SetFragmentFunctionDescriptor(MTL4FunctionDescriptor fragmentFunctionDescriptor)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setFragmentFunctionDescriptor_, fragmentFunctionDescriptor.NativePtr);
+    }
+
+    public void SetFragmentStaticLinkingDescriptor(MTL4StaticLinkingDescriptor fragmentStaticLinkingDescriptor)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setFragmentStaticLinkingDescriptor_, fragmentStaticLinkingDescriptor.NativePtr);
+    }
+
+    public void SetMaxTotalThreadgroupsPerMeshGrid(nuint maxTotalThreadgroupsPerMeshGrid)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setMaxTotalThreadgroupsPerMeshGrid_, (nint)maxTotalThreadgroupsPerMeshGrid);
+    }
+
+    public void SetMaxTotalThreadsPerMeshThreadgroup(nuint maxTotalThreadsPerMeshThreadgroup)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setMaxTotalThreadsPerMeshThreadgroup_, (nint)maxTotalThreadsPerMeshThreadgroup);
+    }
+
+    public void SetMaxTotalThreadsPerObjectThreadgroup(nuint maxTotalThreadsPerObjectThreadgroup)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setMaxTotalThreadsPerObjectThreadgroup_, (nint)maxTotalThreadsPerObjectThreadgroup);
+    }
+
+    public void SetMaxVertexAmplificationCount(nuint maxVertexAmplificationCount)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setMaxVertexAmplificationCount_, (nint)maxVertexAmplificationCount);
+    }
+
+    public void SetMeshFunctionDescriptor(MTL4FunctionDescriptor meshFunctionDescriptor)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setMeshFunctionDescriptor_, meshFunctionDescriptor.NativePtr);
+    }
+
+    public void SetMeshStaticLinkingDescriptor(MTL4StaticLinkingDescriptor meshStaticLinkingDescriptor)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setMeshStaticLinkingDescriptor_, meshStaticLinkingDescriptor.NativePtr);
+    }
+
+    public void SetMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth(Bool8 meshThreadgroupSizeIsMultipleOfThreadExecutionWidth)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth_, (nint)meshThreadgroupSizeIsMultipleOfThreadExecutionWidth.Value);
+    }
+
+    public void SetObjectFunctionDescriptor(MTL4FunctionDescriptor objectFunctionDescriptor)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setObjectFunctionDescriptor_, objectFunctionDescriptor.NativePtr);
+    }
+
+    public void SetObjectStaticLinkingDescriptor(MTL4StaticLinkingDescriptor objectStaticLinkingDescriptor)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setObjectStaticLinkingDescriptor_, objectStaticLinkingDescriptor.NativePtr);
+    }
+
+    public void SetObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth(Bool8 objectThreadgroupSizeIsMultipleOfThreadExecutionWidth)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth_, (nint)objectThreadgroupSizeIsMultipleOfThreadExecutionWidth.Value);
+    }
+
+    public void SetPayloadMemoryLength(nuint payloadMemoryLength)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setPayloadMemoryLength_, (nint)payloadMemoryLength);
+    }
+
+    public void SetRasterSampleCount(nuint rasterSampleCount)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setRasterSampleCount_, (nint)rasterSampleCount);
+    }
+
+    public void SetRasterizationEnabled(Bool8 rasterizationEnabled)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setRasterizationEnabled_, (nint)rasterizationEnabled.Value);
+    }
+
+    public void SetRequiredThreadsPerMeshThreadgroup(MTLSize requiredThreadsPerMeshThreadgroup)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setRequiredThreadsPerMeshThreadgroup_, requiredThreadsPerMeshThreadgroup);
+    }
+
+    public void SetRequiredThreadsPerObjectThreadgroup(MTLSize requiredThreadsPerObjectThreadgroup)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setRequiredThreadsPerObjectThreadgroup_, requiredThreadsPerObjectThreadgroup);
+    }
+
+    public void SetSupportFragmentBinaryLinking(Bool8 supportFragmentBinaryLinking)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setSupportFragmentBinaryLinking_, (nint)supportFragmentBinaryLinking.Value);
+    }
+
+    public void SetSupportIndirectCommandBuffers(MTL4IndirectCommandBufferSupportState supportIndirectCommandBuffers)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setSupportIndirectCommandBuffers_, (nint)(uint)supportIndirectCommandBuffers);
+    }
+
+    public void SetSupportMeshBinaryLinking(Bool8 supportMeshBinaryLinking)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setSupportMeshBinaryLinking_, (nint)supportMeshBinaryLinking.Value);
+    }
+
+    public void SetSupportObjectBinaryLinking(Bool8 supportObjectBinaryLinking)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MeshRenderPipelineDescriptor_Selectors.setSupportObjectBinaryLinking_, (nint)supportObjectBinaryLinking.Value);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

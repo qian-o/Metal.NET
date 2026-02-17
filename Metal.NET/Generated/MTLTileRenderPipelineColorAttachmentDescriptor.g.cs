@@ -6,7 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLTileRenderPipelineColorAttachmentDescriptor_Selectors
 {
-    internal static readonly Selector pixelFormat = Selector.Register("pixelFormat");
     internal static readonly Selector setPixelFormat_ = Selector.Register("setPixelFormat:");
 }
 
@@ -41,10 +40,9 @@ public readonly struct MTLTileRenderPipelineColorAttachmentDescriptor
         return Alloc().Init();
     }
 
-    public MTLPixelFormat PixelFormat
+    public void SetPixelFormat(MTLPixelFormat pixelFormat)
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptor_Selectors.pixelFormat));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptor_Selectors.setPixelFormat_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptor_Selectors.setPixelFormat_, (nint)(uint)pixelFormat);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

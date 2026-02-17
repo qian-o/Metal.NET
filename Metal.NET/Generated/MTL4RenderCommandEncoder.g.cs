@@ -6,42 +6,33 @@ namespace Metal.NET;
 
 internal static class MTL4RenderCommandEncoder_Selectors
 {
-    internal static readonly Selector colorAttachmentMap = Selector.Register("colorAttachmentMap");
+    internal static readonly Selector dispatchThreadsPerTile_ = Selector.Register("dispatchThreadsPerTile:");
+    internal static readonly Selector drawIndexedPrimitives_indexCount_indexType_indexBuffer_indexBufferLength_ = Selector.Register("drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferLength:");
+    internal static readonly Selector drawIndexedPrimitives_indexCount_indexType_indexBuffer_indexBufferLength_instanceCount_ = Selector.Register("drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferLength:instanceCount:");
+    internal static readonly Selector drawIndexedPrimitives_indexCount_indexType_indexBuffer_indexBufferLength_instanceCount_baseVertex_baseInstance_ = Selector.Register("drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferLength:instanceCount:baseVertex:baseInstance:");
+    internal static readonly Selector drawIndexedPrimitives_indexType_indexBuffer_indexBufferLength_indirectBuffer_ = Selector.Register("drawIndexedPrimitives:indexType:indexBuffer:indexBufferLength:indirectBuffer:");
+    internal static readonly Selector drawPrimitives_vertexStart_vertexCount_ = Selector.Register("drawPrimitives:vertexStart:vertexCount:");
+    internal static readonly Selector drawPrimitives_vertexStart_vertexCount_instanceCount_ = Selector.Register("drawPrimitives:vertexStart:vertexCount:instanceCount:");
+    internal static readonly Selector drawPrimitives_vertexStart_vertexCount_instanceCount_baseInstance_ = Selector.Register("drawPrimitives:vertexStart:vertexCount:instanceCount:baseInstance:");
+    internal static readonly Selector drawPrimitives_indirectBuffer_ = Selector.Register("drawPrimitives:indirectBuffer:");
+    internal static readonly Selector executeCommandsInBuffer_indirectRangeBuffer_ = Selector.Register("executeCommandsInBuffer:indirectRangeBuffer:");
+    internal static readonly Selector setArgumentTable_stages_ = Selector.Register("setArgumentTable:stages:");
     internal static readonly Selector setColorAttachmentMap_ = Selector.Register("setColorAttachmentMap:");
-    internal static readonly Selector cullMode = Selector.Register("cullMode");
+    internal static readonly Selector setColorStoreAction_colorAttachmentIndex_ = Selector.Register("setColorStoreAction:colorAttachmentIndex:");
     internal static readonly Selector setCullMode_ = Selector.Register("setCullMode:");
-    internal static readonly Selector depthClipMode = Selector.Register("depthClipMode");
     internal static readonly Selector setDepthClipMode_ = Selector.Register("setDepthClipMode:");
-    internal static readonly Selector depthStencilState = Selector.Register("depthStencilState");
     internal static readonly Selector setDepthStencilState_ = Selector.Register("setDepthStencilState:");
-    internal static readonly Selector depthStoreAction = Selector.Register("depthStoreAction");
     internal static readonly Selector setDepthStoreAction_ = Selector.Register("setDepthStoreAction:");
-    internal static readonly Selector frontFacingWinding = Selector.Register("frontFacingWinding");
     internal static readonly Selector setFrontFacingWinding_ = Selector.Register("setFrontFacingWinding:");
-    internal static readonly Selector renderPipelineState = Selector.Register("renderPipelineState");
+    internal static readonly Selector setObjectThreadgroupMemoryLength_index_ = Selector.Register("setObjectThreadgroupMemoryLength:index:");
     internal static readonly Selector setRenderPipelineState_ = Selector.Register("setRenderPipelineState:");
-    internal static readonly Selector scissorRect = Selector.Register("scissorRect");
-    internal static readonly Selector setScissorRect_ = Selector.Register("setScissorRect:");
-    internal static readonly Selector stencilReferenceValue = Selector.Register("stencilReferenceValue");
     internal static readonly Selector setStencilReferenceValue_ = Selector.Register("setStencilReferenceValue:");
-    internal static readonly Selector stencilStoreAction = Selector.Register("stencilStoreAction");
+    internal static readonly Selector setStencilReferenceValues_backReferenceValue_ = Selector.Register("setStencilReferenceValues:backReferenceValue:");
     internal static readonly Selector setStencilStoreAction_ = Selector.Register("setStencilStoreAction:");
-    internal static readonly Selector triangleFillMode = Selector.Register("triangleFillMode");
+    internal static readonly Selector setThreadgroupMemoryLength_offset_index_ = Selector.Register("setThreadgroupMemoryLength:offset:index:");
     internal static readonly Selector setTriangleFillMode_ = Selector.Register("setTriangleFillMode:");
-    internal static readonly Selector viewport = Selector.Register("viewport");
-    internal static readonly Selector setViewport_ = Selector.Register("setViewport:");
-    internal static readonly Selector tileHeight = Selector.Register("tileHeight");
-    internal static readonly Selector tileWidth = Selector.Register("tileWidth");
-    internal static readonly Selector drawIndexedPrimitives = Selector.Register("drawIndexedPrimitives");
-    internal static readonly Selector drawPrimitives = Selector.Register("drawPrimitives");
-    internal static readonly Selector executeCommandsInBuffer = Selector.Register("executeCommandsInBuffer");
-    internal static readonly Selector setArgumentTable = Selector.Register("setArgumentTable");
-    internal static readonly Selector setColorStoreAction = Selector.Register("setColorStoreAction");
-    internal static readonly Selector setObjectThreadgroupMemoryLength = Selector.Register("setObjectThreadgroupMemoryLength");
-    internal static readonly Selector setStencilReferenceValues = Selector.Register("setStencilReferenceValues");
-    internal static readonly Selector setThreadgroupMemoryLength = Selector.Register("setThreadgroupMemoryLength");
-    internal static readonly Selector setVisibilityResultMode = Selector.Register("setVisibilityResultMode");
-    internal static readonly Selector writeTimestamp = Selector.Register("writeTimestamp");
+    internal static readonly Selector setVisibilityResultMode_offset_ = Selector.Register("setVisibilityResultMode:offset:");
+    internal static readonly Selector writeTimestamp_stage_counterHeap_index_ = Selector.Register("writeTimestamp:stage:counterHeap:index:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -56,163 +47,139 @@ public readonly struct MTL4RenderCommandEncoder
     public static implicit operator nint(MTL4RenderCommandEncoder o) => o.NativePtr;
     public static implicit operator MTL4RenderCommandEncoder(nint ptr) => new MTL4RenderCommandEncoder(ptr);
 
-    public MTLLogicalToPhysicalColorAttachmentMap ColorAttachmentMap
+    public void DispatchThreadsPerTile(MTLSize threadsPerTile)
     {
-        get => new MTLLogicalToPhysicalColorAttachmentMap(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.colorAttachmentMap));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setColorAttachmentMap_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.dispatchThreadsPerTile_, threadsPerTile);
     }
 
-    public MTLCullMode CullMode
+    public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, nuint indexBuffer, nuint indexBufferLength)
     {
-        get => (MTLCullMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.cullMode));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setCullMode_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.drawIndexedPrimitives_indexCount_indexType_indexBuffer_indexBufferLength_, (nint)(uint)primitiveType, (nint)indexCount, (nint)(uint)indexType, (nint)indexBuffer, (nint)indexBufferLength);
     }
 
-    public MTLDepthClipMode DepthClipMode
+    public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, nuint indexBuffer, nuint indexBufferLength, nuint instanceCount)
     {
-        get => (MTLDepthClipMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.depthClipMode));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setDepthClipMode_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.drawIndexedPrimitives_indexCount_indexType_indexBuffer_indexBufferLength_instanceCount_, (nint)(uint)primitiveType, (nint)indexCount, (nint)(uint)indexType, (nint)indexBuffer, (nint)indexBufferLength, (nint)instanceCount);
     }
 
-    public MTLDepthStencilState DepthStencilState
+    public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, nuint indexBuffer, nuint indexBufferLength, nuint instanceCount, nint baseVertex, nuint baseInstance)
     {
-        get => new MTLDepthStencilState(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.depthStencilState));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setDepthStencilState_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.drawIndexedPrimitives_indexCount_indexType_indexBuffer_indexBufferLength_instanceCount_baseVertex_baseInstance_, (nint)(uint)primitiveType, (nint)indexCount, (nint)(uint)indexType, (nint)indexBuffer, (nint)indexBufferLength, (nint)instanceCount, baseVertex, (nint)baseInstance);
     }
 
-    public MTLStoreAction DepthStoreAction
+    public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, MTLIndexType indexType, nuint indexBuffer, nuint indexBufferLength, nuint indirectBuffer)
     {
-        get => (MTLStoreAction)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.depthStoreAction));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setDepthStoreAction_, (nint)(uint)value);
-    }
-
-    public MTLWinding FrontFacingWinding
-    {
-        get => (MTLWinding)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.frontFacingWinding));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setFrontFacingWinding_, (nint)(uint)value);
-    }
-
-    public MTLRenderPipelineState RenderPipelineState
-    {
-        get => new MTLRenderPipelineState(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.renderPipelineState));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setRenderPipelineState_, value.NativePtr);
-    }
-
-    // TODO: ScissorRect (value-struct return type MTLScissorRect requires objc_msgSend_stret)
-
-    public uint StencilReferenceValue
-    {
-        get => ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.stencilReferenceValue);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setStencilReferenceValue_, (nint)value);
-    }
-
-    public MTLStoreAction StencilStoreAction
-    {
-        get => (MTLStoreAction)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.stencilStoreAction));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setStencilStoreAction_, (nint)(uint)value);
-    }
-
-    public MTLTriangleFillMode TriangleFillMode
-    {
-        get => (MTLTriangleFillMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.triangleFillMode));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setTriangleFillMode_, (nint)(uint)value);
-    }
-
-    // TODO: Viewport (value-struct return type MTLViewport requires objc_msgSend_stret)
-
-    public nuint TileHeight
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.tileHeight);
-    }
-
-    public nuint TileWidth
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.tileWidth);
-    }
-
-    public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, ulong indexBuffer, nuint indexBufferLength)
-    {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.drawIndexedPrimitives, (nint)(uint)primitiveType, (nint)indexCount, (nint)(uint)indexType, (nint)indexBuffer, (nint)indexBufferLength);
-    }
-
-    public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, ulong indexBuffer, nuint indexBufferLength, nuint instanceCount)
-    {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.drawIndexedPrimitives, (nint)(uint)primitiveType, (nint)indexCount, (nint)(uint)indexType, (nint)indexBuffer, (nint)indexBufferLength, (nint)instanceCount);
-    }
-
-    public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, ulong indexBuffer, nuint indexBufferLength, nuint instanceCount, nint baseVertex, nuint baseInstance)
-    {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.drawIndexedPrimitives, (nint)(uint)primitiveType, (nint)indexCount, (nint)(uint)indexType, (nint)indexBuffer, (nint)indexBufferLength, (nint)instanceCount, baseVertex, (nint)baseInstance);
-    }
-
-    public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, MTLIndexType indexType, ulong indexBuffer, nuint indexBufferLength, ulong indirectBuffer)
-    {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.drawIndexedPrimitives, (nint)(uint)primitiveType, (nint)(uint)indexType, (nint)indexBuffer, (nint)indexBufferLength, (nint)indirectBuffer);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.drawIndexedPrimitives_indexType_indexBuffer_indexBufferLength_indirectBuffer_, (nint)(uint)primitiveType, (nint)(uint)indexType, (nint)indexBuffer, (nint)indexBufferLength, (nint)indirectBuffer);
     }
 
     public void DrawPrimitives(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.drawPrimitives, (nint)(uint)primitiveType, (nint)vertexStart, (nint)vertexCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.drawPrimitives_vertexStart_vertexCount_, (nint)(uint)primitiveType, (nint)vertexStart, (nint)vertexCount);
     }
 
     public void DrawPrimitives(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount, nuint instanceCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.drawPrimitives, (nint)(uint)primitiveType, (nint)vertexStart, (nint)vertexCount, (nint)instanceCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.drawPrimitives_vertexStart_vertexCount_instanceCount_, (nint)(uint)primitiveType, (nint)vertexStart, (nint)vertexCount, (nint)instanceCount);
     }
 
     public void DrawPrimitives(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount, nuint instanceCount, nuint baseInstance)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.drawPrimitives, (nint)(uint)primitiveType, (nint)vertexStart, (nint)vertexCount, (nint)instanceCount, (nint)baseInstance);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.drawPrimitives_vertexStart_vertexCount_instanceCount_baseInstance_, (nint)(uint)primitiveType, (nint)vertexStart, (nint)vertexCount, (nint)instanceCount, (nint)baseInstance);
     }
 
-    public void DrawPrimitives(MTLPrimitiveType primitiveType, ulong indirectBuffer)
+    public void DrawPrimitives(MTLPrimitiveType primitiveType, nuint indirectBuffer)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.drawPrimitives, (nint)(uint)primitiveType, (nint)indirectBuffer);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.drawPrimitives_indirectBuffer_, (nint)(uint)primitiveType, (nint)indirectBuffer);
     }
 
-    public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, nint executionRange)
+    public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, nuint indirectRangeBuffer)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.executeCommandsInBuffer, indirectCommandBuffer.NativePtr, executionRange);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.executeCommandsInBuffer_indirectRangeBuffer_, indirectCommandBuffer.NativePtr, (nint)indirectRangeBuffer);
     }
 
-    public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, ulong indirectRangeBuffer)
+    public void SetArgumentTable(MTL4ArgumentTable argumentTable, nuint stages)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.executeCommandsInBuffer, indirectCommandBuffer.NativePtr, (nint)indirectRangeBuffer);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setArgumentTable_stages_, argumentTable.NativePtr, (nint)stages);
     }
 
-    public void SetArgumentTable(MTL4ArgumentTable argumentTable, MTLRenderStages stages)
+    public void SetColorAttachmentMap(MTLLogicalToPhysicalColorAttachmentMap mapping)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setArgumentTable, argumentTable.NativePtr, (nint)(uint)stages);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setColorAttachmentMap_, mapping.NativePtr);
     }
 
     public void SetColorStoreAction(MTLStoreAction storeAction, nuint colorAttachmentIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setColorStoreAction, (nint)(uint)storeAction, (nint)colorAttachmentIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setColorStoreAction_colorAttachmentIndex_, (nint)(uint)storeAction, (nint)colorAttachmentIndex);
+    }
+
+    public void SetCullMode(MTLCullMode cullMode)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setCullMode_, (nint)(uint)cullMode);
+    }
+
+    public void SetDepthClipMode(MTLDepthClipMode depthClipMode)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setDepthClipMode_, (nint)(uint)depthClipMode);
+    }
+
+    public void SetDepthStencilState(MTLDepthStencilState depthStencilState)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setDepthStencilState_, depthStencilState.NativePtr);
+    }
+
+    public void SetDepthStoreAction(MTLStoreAction storeAction)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setDepthStoreAction_, (nint)(uint)storeAction);
+    }
+
+    public void SetFrontFacingWinding(MTLWinding frontFacingWinding)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setFrontFacingWinding_, (nint)(uint)frontFacingWinding);
     }
 
     public void SetObjectThreadgroupMemoryLength(nuint length, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setObjectThreadgroupMemoryLength, (nint)length, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setObjectThreadgroupMemoryLength_index_, (nint)length, (nint)index);
+    }
+
+    public void SetRenderPipelineState(MTLRenderPipelineState pipelineState)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setRenderPipelineState_, pipelineState.NativePtr);
+    }
+
+    public void SetStencilReferenceValue(uint referenceValue)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setStencilReferenceValue_, (nint)referenceValue);
     }
 
     public void SetStencilReferenceValues(uint frontReferenceValue, uint backReferenceValue)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setStencilReferenceValues, (nint)frontReferenceValue, (nint)backReferenceValue);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setStencilReferenceValues_backReferenceValue_, (nint)frontReferenceValue, (nint)backReferenceValue);
+    }
+
+    public void SetStencilStoreAction(MTLStoreAction storeAction)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setStencilStoreAction_, (nint)(uint)storeAction);
     }
 
     public void SetThreadgroupMemoryLength(nuint length, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setThreadgroupMemoryLength, (nint)length, (nint)offset, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setThreadgroupMemoryLength_offset_index_, (nint)length, (nint)offset, (nint)index);
+    }
+
+    public void SetTriangleFillMode(MTLTriangleFillMode fillMode)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setTriangleFillMode_, (nint)(uint)fillMode);
     }
 
     public void SetVisibilityResultMode(MTLVisibilityResultMode mode, nuint offset)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setVisibilityResultMode, (nint)(uint)mode, (nint)offset);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.setVisibilityResultMode_offset_, (nint)(uint)mode, (nint)offset);
     }
 
-    public void WriteTimestamp(MTL4TimestampGranularity granularity, MTLRenderStages stage, MTL4CounterHeap counterHeap, nuint index)
+    public void WriteTimestamp(MTL4TimestampGranularity granularity, nuint stage, MTL4CounterHeap counterHeap, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.writeTimestamp, (nint)(uint)granularity, (nint)(uint)stage, counterHeap.NativePtr, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderCommandEncoder_Selectors.writeTimestamp_stage_counterHeap_index_, (nint)(uint)granularity, (nint)stage, counterHeap.NativePtr, (nint)index);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

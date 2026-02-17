@@ -6,17 +6,11 @@ namespace Metal.NET;
 
 internal static class MTLStencilDescriptor_Selectors
 {
-    internal static readonly Selector depthFailureOperation = Selector.Register("depthFailureOperation");
     internal static readonly Selector setDepthFailureOperation_ = Selector.Register("setDepthFailureOperation:");
-    internal static readonly Selector depthStencilPassOperation = Selector.Register("depthStencilPassOperation");
     internal static readonly Selector setDepthStencilPassOperation_ = Selector.Register("setDepthStencilPassOperation:");
-    internal static readonly Selector readMask = Selector.Register("readMask");
     internal static readonly Selector setReadMask_ = Selector.Register("setReadMask:");
-    internal static readonly Selector stencilCompareFunction = Selector.Register("stencilCompareFunction");
     internal static readonly Selector setStencilCompareFunction_ = Selector.Register("setStencilCompareFunction:");
-    internal static readonly Selector stencilFailureOperation = Selector.Register("stencilFailureOperation");
     internal static readonly Selector setStencilFailureOperation_ = Selector.Register("setStencilFailureOperation:");
-    internal static readonly Selector writeMask = Selector.Register("writeMask");
     internal static readonly Selector setWriteMask_ = Selector.Register("setWriteMask:");
 }
 
@@ -51,40 +45,34 @@ public readonly struct MTLStencilDescriptor
         return Alloc().Init();
     }
 
-    public MTLStencilOperation DepthFailureOperation
+    public void SetDepthFailureOperation(MTLStencilOperation depthFailureOperation)
     {
-        get => (MTLStencilOperation)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.depthFailureOperation));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.setDepthFailureOperation_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.setDepthFailureOperation_, (nint)(uint)depthFailureOperation);
     }
 
-    public MTLStencilOperation DepthStencilPassOperation
+    public void SetDepthStencilPassOperation(MTLStencilOperation depthStencilPassOperation)
     {
-        get => (MTLStencilOperation)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.depthStencilPassOperation));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.setDepthStencilPassOperation_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.setDepthStencilPassOperation_, (nint)(uint)depthStencilPassOperation);
     }
 
-    public uint ReadMask
+    public void SetReadMask(uint readMask)
     {
-        get => ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.readMask);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.setReadMask_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.setReadMask_, (nint)readMask);
     }
 
-    public MTLCompareFunction StencilCompareFunction
+    public void SetStencilCompareFunction(MTLCompareFunction stencilCompareFunction)
     {
-        get => (MTLCompareFunction)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.stencilCompareFunction));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.setStencilCompareFunction_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.setStencilCompareFunction_, (nint)(uint)stencilCompareFunction);
     }
 
-    public MTLStencilOperation StencilFailureOperation
+    public void SetStencilFailureOperation(MTLStencilOperation stencilFailureOperation)
     {
-        get => (MTLStencilOperation)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.stencilFailureOperation));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.setStencilFailureOperation_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.setStencilFailureOperation_, (nint)(uint)stencilFailureOperation);
     }
 
-    public uint WriteMask
+    public void SetWriteMask(uint writeMask)
     {
-        get => ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.writeMask);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.setWriteMask_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStencilDescriptor_Selectors.setWriteMask_, (nint)writeMask);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

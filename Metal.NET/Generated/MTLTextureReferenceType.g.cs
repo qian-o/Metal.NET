@@ -6,10 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLTextureReferenceType_Selectors
 {
-    internal static readonly Selector access = Selector.Register("access");
-    internal static readonly Selector isDepthTexture = Selector.Register("isDepthTexture");
-    internal static readonly Selector textureDataType = Selector.Register("textureDataType");
-    internal static readonly Selector textureType = Selector.Register("textureType");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -23,26 +19,6 @@ public readonly struct MTLTextureReferenceType
 
     public static implicit operator nint(MTLTextureReferenceType o) => o.NativePtr;
     public static implicit operator MTLTextureReferenceType(nint ptr) => new MTLTextureReferenceType(ptr);
-
-    public MTLBindingAccess Access
-    {
-        get => (MTLBindingAccess)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLTextureReferenceType_Selectors.access));
-    }
-
-    public Bool8 IsDepthTexture
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLTextureReferenceType_Selectors.isDepthTexture);
-    }
-
-    public MTLDataType TextureDataType
-    {
-        get => (MTLDataType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLTextureReferenceType_Selectors.textureDataType));
-    }
-
-    public MTLTextureType TextureType
-    {
-        get => (MTLTextureType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLTextureReferenceType_Selectors.textureType));
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

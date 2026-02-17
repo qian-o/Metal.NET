@@ -6,11 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLResourceViewPool_Selectors
 {
-    internal static readonly Selector baseResourceID = Selector.Register("baseResourceID");
-    internal static readonly Selector device = Selector.Register("device");
-    internal static readonly Selector label = Selector.Register("label");
-    internal static readonly Selector resourceViewCount = Selector.Register("resourceViewCount");
-    internal static readonly Selector copyResourceViewsFromPool = Selector.Register("copyResourceViewsFromPool");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -24,31 +19,6 @@ public readonly struct MTLResourceViewPool
 
     public static implicit operator nint(MTLResourceViewPool o) => o.NativePtr;
     public static implicit operator MTLResourceViewPool(nint ptr) => new MTLResourceViewPool(ptr);
-
-    public ulong BaseResourceID
-    {
-        get => ObjectiveCRuntime.ulong_objc_msgSend(NativePtr, MTLResourceViewPool_Selectors.baseResourceID);
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLResourceViewPool_Selectors.device));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLResourceViewPool_Selectors.label));
-    }
-
-    public nuint ResourceViewCount
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLResourceViewPool_Selectors.resourceViewCount);
-    }
-
-    public ulong CopyResourceViewsFromPool(MTLResourceViewPool sourcePool, nint sourceRange, nuint destinationIndex)
-    {
-        return (ulong)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLResourceViewPool_Selectors.copyResourceViewsFromPool, sourcePool.NativePtr, sourceRange, (nint)destinationIndex);
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

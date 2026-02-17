@@ -4,7 +4,10 @@ using System.Runtime.InteropServices;
 
 namespace Metal.NET;
 
-/// <summary>Stub wrapper for MTL4FunctionDescriptor (methods not yet bound).</summary>
+internal static class MTL4FunctionDescriptor_Selectors
+{
+}
+
 [StructLayout(LayoutKind.Sequential)]
 public readonly struct MTL4FunctionDescriptor
 {
@@ -16,4 +19,7 @@ public readonly struct MTL4FunctionDescriptor
 
     public static implicit operator nint(MTL4FunctionDescriptor o) => o.NativePtr;
     public static implicit operator MTL4FunctionDescriptor(nint ptr) => new MTL4FunctionDescriptor(ptr);
+
+    public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
+    public void Release() => ObjectiveCRuntime.Release(NativePtr);
 }

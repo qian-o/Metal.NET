@@ -7,8 +7,8 @@ namespace Metal.NET;
 internal static class MTLFunctionConstantValues_Selectors
 {
     internal static readonly Selector reset = Selector.Register("reset");
-    internal static readonly Selector setConstantValue = Selector.Register("setConstantValue");
-    internal static readonly Selector setConstantValues = Selector.Register("setConstantValues");
+    internal static readonly Selector setConstantValue_type_index_ = Selector.Register("setConstantValue:type:index:");
+    internal static readonly Selector setConstantValue_type_name_ = Selector.Register("setConstantValue:type:name:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -30,17 +30,12 @@ public readonly struct MTLFunctionConstantValues
 
     public void SetConstantValue(nint value, MTLDataType type, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionConstantValues_Selectors.setConstantValue, value, (nint)(uint)type, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionConstantValues_Selectors.setConstantValue_type_index_, value, (nint)(uint)type, (nint)index);
     }
 
     public void SetConstantValue(nint value, MTLDataType type, NSString name)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionConstantValues_Selectors.setConstantValue, value, (nint)(uint)type, name.NativePtr);
-    }
-
-    public void SetConstantValues(nint values, MTLDataType type, nint range)
-    {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionConstantValues_Selectors.setConstantValues, values, (nint)(uint)type, range);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionConstantValues_Selectors.setConstantValue_type_name_, value, (nint)(uint)type, name.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

@@ -6,8 +6,7 @@ namespace Metal.NET;
 
 internal static class MTLTensorExtents_Selectors
 {
-    internal static readonly Selector rank = Selector.Register("rank");
-    internal static readonly Selector extentAtDimensionIndex = Selector.Register("extentAtDimensionIndex");
+    internal static readonly Selector extentAtDimensionIndex_ = Selector.Register("extentAtDimensionIndex:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -22,14 +21,9 @@ public readonly struct MTLTensorExtents
     public static implicit operator nint(MTLTensorExtents o) => o.NativePtr;
     public static implicit operator MTLTensorExtents(nint ptr) => new MTLTensorExtents(ptr);
 
-    public nuint Rank
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLTensorExtents_Selectors.rank);
-    }
-
     public nint ExtentAtDimensionIndex(nuint dimensionIndex)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTensorExtents_Selectors.extentAtDimensionIndex, (nint)dimensionIndex);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTensorExtents_Selectors.extentAtDimensionIndex_, (nint)dimensionIndex);
         return __result;
     }
 

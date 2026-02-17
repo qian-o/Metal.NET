@@ -6,8 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLComputePipelineReflection_Selectors
 {
-    internal static readonly Selector arguments = Selector.Register("arguments");
-    internal static readonly Selector bindings = Selector.Register("bindings");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -21,16 +19,6 @@ public readonly struct MTLComputePipelineReflection
 
     public static implicit operator nint(MTLComputePipelineReflection o) => o.NativePtr;
     public static implicit operator MTLComputePipelineReflection(nint ptr) => new MTLComputePipelineReflection(ptr);
-
-    public NSArray Arguments
-    {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLComputePipelineReflection_Selectors.arguments));
-    }
-
-    public NSArray Bindings
-    {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLComputePipelineReflection_Selectors.bindings));
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

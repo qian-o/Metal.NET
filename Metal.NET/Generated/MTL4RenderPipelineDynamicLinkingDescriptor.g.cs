@@ -6,11 +6,6 @@ namespace Metal.NET;
 
 internal static class MTL4RenderPipelineDynamicLinkingDescriptor_Selectors
 {
-    internal static readonly Selector fragmentLinkingDescriptor = Selector.Register("fragmentLinkingDescriptor");
-    internal static readonly Selector meshLinkingDescriptor = Selector.Register("meshLinkingDescriptor");
-    internal static readonly Selector objectLinkingDescriptor = Selector.Register("objectLinkingDescriptor");
-    internal static readonly Selector tileLinkingDescriptor = Selector.Register("tileLinkingDescriptor");
-    internal static readonly Selector vertexLinkingDescriptor = Selector.Register("vertexLinkingDescriptor");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -24,50 +19,6 @@ public readonly struct MTL4RenderPipelineDynamicLinkingDescriptor
 
     public static implicit operator nint(MTL4RenderPipelineDynamicLinkingDescriptor o) => o.NativePtr;
     public static implicit operator MTL4RenderPipelineDynamicLinkingDescriptor(nint ptr) => new MTL4RenderPipelineDynamicLinkingDescriptor(ptr);
-
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineDynamicLinkingDescriptor");
-
-    public static MTL4RenderPipelineDynamicLinkingDescriptor Alloc()
-    {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTL4RenderPipelineDynamicLinkingDescriptor(ptr);
-    }
-
-    public MTL4RenderPipelineDynamicLinkingDescriptor Init()
-    {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTL4RenderPipelineDynamicLinkingDescriptor(ptr);
-    }
-
-    public static MTL4RenderPipelineDynamicLinkingDescriptor New()
-    {
-        return Alloc().Init();
-    }
-
-    public MTL4PipelineStageDynamicLinkingDescriptor FragmentLinkingDescriptor
-    {
-        get => new MTL4PipelineStageDynamicLinkingDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptor_Selectors.fragmentLinkingDescriptor));
-    }
-
-    public MTL4PipelineStageDynamicLinkingDescriptor MeshLinkingDescriptor
-    {
-        get => new MTL4PipelineStageDynamicLinkingDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptor_Selectors.meshLinkingDescriptor));
-    }
-
-    public MTL4PipelineStageDynamicLinkingDescriptor ObjectLinkingDescriptor
-    {
-        get => new MTL4PipelineStageDynamicLinkingDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptor_Selectors.objectLinkingDescriptor));
-    }
-
-    public MTL4PipelineStageDynamicLinkingDescriptor TileLinkingDescriptor
-    {
-        get => new MTL4PipelineStageDynamicLinkingDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptor_Selectors.tileLinkingDescriptor));
-    }
-
-    public MTL4PipelineStageDynamicLinkingDescriptor VertexLinkingDescriptor
-    {
-        get => new MTL4PipelineStageDynamicLinkingDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptor_Selectors.vertexLinkingDescriptor));
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

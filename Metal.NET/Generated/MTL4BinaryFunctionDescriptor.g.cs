@@ -6,11 +6,8 @@ namespace Metal.NET;
 
 internal static class MTL4BinaryFunctionDescriptor_Selectors
 {
-    internal static readonly Selector functionDescriptor = Selector.Register("functionDescriptor");
     internal static readonly Selector setFunctionDescriptor_ = Selector.Register("setFunctionDescriptor:");
-    internal static readonly Selector name = Selector.Register("name");
     internal static readonly Selector setName_ = Selector.Register("setName:");
-    internal static readonly Selector options = Selector.Register("options");
     internal static readonly Selector setOptions_ = Selector.Register("setOptions:");
 }
 
@@ -26,41 +23,19 @@ public readonly struct MTL4BinaryFunctionDescriptor
     public static implicit operator nint(MTL4BinaryFunctionDescriptor o) => o.NativePtr;
     public static implicit operator MTL4BinaryFunctionDescriptor(nint ptr) => new MTL4BinaryFunctionDescriptor(ptr);
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4BinaryFunctionDescriptor");
-
-    public static MTL4BinaryFunctionDescriptor Alloc()
+    public void SetFunctionDescriptor(MTL4FunctionDescriptor functionDescriptor)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTL4BinaryFunctionDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4BinaryFunctionDescriptor_Selectors.setFunctionDescriptor_, functionDescriptor.NativePtr);
     }
 
-    public MTL4BinaryFunctionDescriptor Init()
+    public void SetName(NSString name)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTL4BinaryFunctionDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4BinaryFunctionDescriptor_Selectors.setName_, name.NativePtr);
     }
 
-    public static MTL4BinaryFunctionDescriptor New()
+    public void SetOptions(nuint options)
     {
-        return Alloc().Init();
-    }
-
-    public MTL4FunctionDescriptor FunctionDescriptor
-    {
-        get => new MTL4FunctionDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4BinaryFunctionDescriptor_Selectors.functionDescriptor));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4BinaryFunctionDescriptor_Selectors.setFunctionDescriptor_, value.NativePtr);
-    }
-
-    public NSString Name
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4BinaryFunctionDescriptor_Selectors.name));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4BinaryFunctionDescriptor_Selectors.setName_, value.NativePtr);
-    }
-
-    public MTL4BinaryFunctionOptions Options
-    {
-        get => (MTL4BinaryFunctionOptions)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTL4BinaryFunctionDescriptor_Selectors.options));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4BinaryFunctionDescriptor_Selectors.setOptions_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4BinaryFunctionDescriptor_Selectors.setOptions_, (nint)options);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

@@ -6,10 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLTensorReferenceType_Selectors
 {
-    internal static readonly Selector access = Selector.Register("access");
-    internal static readonly Selector dimensions = Selector.Register("dimensions");
-    internal static readonly Selector indexType = Selector.Register("indexType");
-    internal static readonly Selector tensorDataType = Selector.Register("tensorDataType");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -23,26 +19,6 @@ public readonly struct MTLTensorReferenceType
 
     public static implicit operator nint(MTLTensorReferenceType o) => o.NativePtr;
     public static implicit operator MTLTensorReferenceType(nint ptr) => new MTLTensorReferenceType(ptr);
-
-    public MTLBindingAccess Access
-    {
-        get => (MTLBindingAccess)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLTensorReferenceType_Selectors.access));
-    }
-
-    public MTLTensorExtents Dimensions
-    {
-        get => new MTLTensorExtents(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTensorReferenceType_Selectors.dimensions));
-    }
-
-    public MTLDataType IndexType
-    {
-        get => (MTLDataType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLTensorReferenceType_Selectors.indexType));
-    }
-
-    public MTLTensorDataType TensorDataType
-    {
-        get => (MTLTensorDataType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLTensorReferenceType_Selectors.tensorDataType));
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

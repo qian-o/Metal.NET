@@ -6,14 +6,8 @@ namespace Metal.NET;
 
 internal static class MTLRasterizationRateMap_Selectors
 {
-    internal static readonly Selector device = Selector.Register("device");
-    internal static readonly Selector label = Selector.Register("label");
-    internal static readonly Selector layerCount = Selector.Register("layerCount");
-    internal static readonly Selector parameterBufferSizeAndAlign = Selector.Register("parameterBufferSizeAndAlign");
-    internal static readonly Selector physicalGranularity = Selector.Register("physicalGranularity");
-    internal static readonly Selector screenSize = Selector.Register("screenSize");
-    internal static readonly Selector copyParameterDataToBuffer = Selector.Register("copyParameterDataToBuffer");
-    internal static readonly Selector physicalSize = Selector.Register("physicalSize");
+    internal static readonly Selector copyParameterDataToBuffer_offset_ = Selector.Register("copyParameterDataToBuffer:offset:");
+    internal static readonly Selector physicalSize_ = Selector.Register("physicalSize:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -28,30 +22,9 @@ public readonly struct MTLRasterizationRateMap
     public static implicit operator nint(MTLRasterizationRateMap o) => o.NativePtr;
     public static implicit operator MTLRasterizationRateMap(nint ptr) => new MTLRasterizationRateMap(ptr);
 
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRasterizationRateMap_Selectors.device));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRasterizationRateMap_Selectors.label));
-    }
-
-    public nuint LayerCount
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLRasterizationRateMap_Selectors.layerCount);
-    }
-
-    // TODO: ParameterBufferSizeAndAlign (value-struct return type MTLSizeAndAlign requires objc_msgSend_stret)
-
-    // TODO: PhysicalGranularity (value-struct return type MTLSize requires objc_msgSend_stret)
-
-    // TODO: ScreenSize (value-struct return type MTLSize requires objc_msgSend_stret)
-
     public void CopyParameterDataToBuffer(MTLBuffer buffer, nuint offset)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateMap_Selectors.copyParameterDataToBuffer, buffer.NativePtr, (nint)offset);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateMap_Selectors.copyParameterDataToBuffer_offset_, buffer.NativePtr, (nint)offset);
     }
 
     // TODO: PhysicalSize (value-struct return type MTLSize requires objc_msgSend_stret)

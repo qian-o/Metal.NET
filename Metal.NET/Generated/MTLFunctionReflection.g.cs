@@ -6,7 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLFunctionReflection_Selectors
 {
-    internal static readonly Selector bindings = Selector.Register("bindings");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -20,11 +19,6 @@ public readonly struct MTLFunctionReflection
 
     public static implicit operator nint(MTLFunctionReflection o) => o.NativePtr;
     public static implicit operator MTLFunctionReflection(nint ptr) => new MTLFunctionReflection(ptr);
-
-    public NSArray Bindings
-    {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionReflection_Selectors.bindings));
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

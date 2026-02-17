@@ -6,7 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLIOScratchBuffer_Selectors
 {
-    internal static readonly Selector buffer = Selector.Register("buffer");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -20,11 +19,6 @@ public readonly struct MTLIOScratchBuffer
 
     public static implicit operator nint(MTLIOScratchBuffer o) => o.NativePtr;
     public static implicit operator MTLIOScratchBuffer(nint ptr) => new MTLIOScratchBuffer(ptr);
-
-    public MTLBuffer Buffer
-    {
-        get => new MTLBuffer(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLIOScratchBuffer_Selectors.buffer));
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

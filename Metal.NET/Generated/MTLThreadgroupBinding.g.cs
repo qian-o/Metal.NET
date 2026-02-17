@@ -6,8 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLThreadgroupBinding_Selectors
 {
-    internal static readonly Selector threadgroupMemoryAlignment = Selector.Register("threadgroupMemoryAlignment");
-    internal static readonly Selector threadgroupMemoryDataSize = Selector.Register("threadgroupMemoryDataSize");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -21,16 +19,6 @@ public readonly struct MTLThreadgroupBinding
 
     public static implicit operator nint(MTLThreadgroupBinding o) => o.NativePtr;
     public static implicit operator MTLThreadgroupBinding(nint ptr) => new MTLThreadgroupBinding(ptr);
-
-    public nuint ThreadgroupMemoryAlignment
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLThreadgroupBinding_Selectors.threadgroupMemoryAlignment);
-    }
-
-    public nuint ThreadgroupMemoryDataSize
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLThreadgroupBinding_Selectors.threadgroupMemoryDataSize);
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

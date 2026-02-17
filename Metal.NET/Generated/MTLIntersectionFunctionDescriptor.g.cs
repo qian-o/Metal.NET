@@ -4,7 +4,10 @@ using System.Runtime.InteropServices;
 
 namespace Metal.NET;
 
-/// <summary>Stub wrapper for MTLIntersectionFunctionDescriptor (methods not yet bound).</summary>
+internal static class MTLIntersectionFunctionDescriptor_Selectors
+{
+}
+
 [StructLayout(LayoutKind.Sequential)]
 public readonly struct MTLIntersectionFunctionDescriptor
 {
@@ -16,4 +19,7 @@ public readonly struct MTLIntersectionFunctionDescriptor
 
     public static implicit operator nint(MTLIntersectionFunctionDescriptor o) => o.NativePtr;
     public static implicit operator MTLIntersectionFunctionDescriptor(nint ptr) => new MTLIntersectionFunctionDescriptor(ptr);
+
+    public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
+    public void Release() => ObjectiveCRuntime.Release(NativePtr);
 }

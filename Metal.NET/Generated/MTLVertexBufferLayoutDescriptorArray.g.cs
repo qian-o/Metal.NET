@@ -6,8 +6,8 @@ namespace Metal.NET;
 
 internal static class MTLVertexBufferLayoutDescriptorArray_Selectors
 {
-    internal static readonly Selector @object = Selector.Register("object");
-    internal static readonly Selector setObject = Selector.Register("setObject");
+    internal static readonly Selector object_ = Selector.Register("object:");
+    internal static readonly Selector setObject_index_ = Selector.Register("setObject:index:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -24,13 +24,13 @@ public readonly struct MTLVertexBufferLayoutDescriptorArray
 
     public MTLVertexBufferLayoutDescriptor Object(nuint index)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLVertexBufferLayoutDescriptorArray_Selectors.@object, (nint)index);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLVertexBufferLayoutDescriptorArray_Selectors.object_, (nint)index);
         return new MTLVertexBufferLayoutDescriptor(__result);
     }
 
     public void SetObject(MTLVertexBufferLayoutDescriptor bufferDesc, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVertexBufferLayoutDescriptorArray_Selectors.setObject, bufferDesc.NativePtr, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVertexBufferLayoutDescriptorArray_Selectors.setObject_index_, bufferDesc.NativePtr, (nint)index);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

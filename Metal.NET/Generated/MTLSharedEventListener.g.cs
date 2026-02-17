@@ -6,7 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLSharedEventListener_Selectors
 {
-    internal static readonly Selector dispatchQueue = Selector.Register("dispatchQueue");
     internal static readonly Selector sharedListener = Selector.Register("sharedListener");
 }
 
@@ -23,11 +22,6 @@ public readonly struct MTLSharedEventListener
     public static implicit operator MTLSharedEventListener(nint ptr) => new MTLSharedEventListener(ptr);
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLSharedEventListener");
-
-    public nint DispatchQueue
-    {
-        get => ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLSharedEventListener_Selectors.dispatchQueue);
-    }
 
     public static MTLSharedEventListener SharedListener()
     {

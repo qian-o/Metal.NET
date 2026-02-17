@@ -6,11 +6,8 @@ namespace Metal.NET;
 
 internal static class MTLAttributeDescriptor_Selectors
 {
-    internal static readonly Selector bufferIndex = Selector.Register("bufferIndex");
     internal static readonly Selector setBufferIndex_ = Selector.Register("setBufferIndex:");
-    internal static readonly Selector format = Selector.Register("format");
     internal static readonly Selector setFormat_ = Selector.Register("setFormat:");
-    internal static readonly Selector offset = Selector.Register("offset");
     internal static readonly Selector setOffset_ = Selector.Register("setOffset:");
 }
 
@@ -45,22 +42,19 @@ public readonly struct MTLAttributeDescriptor
         return Alloc().Init();
     }
 
-    public nuint BufferIndex
+    public void SetBufferIndex(nuint bufferIndex)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLAttributeDescriptor_Selectors.bufferIndex);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAttributeDescriptor_Selectors.setBufferIndex_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAttributeDescriptor_Selectors.setBufferIndex_, (nint)bufferIndex);
     }
 
-    public MTLAttributeFormat Format
+    public void SetFormat(MTLAttributeFormat format)
     {
-        get => (MTLAttributeFormat)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLAttributeDescriptor_Selectors.format));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAttributeDescriptor_Selectors.setFormat_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAttributeDescriptor_Selectors.setFormat_, (nint)(uint)format);
     }
 
-    public nuint Offset
+    public void SetOffset(nuint offset)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLAttributeDescriptor_Selectors.offset);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAttributeDescriptor_Selectors.setOffset_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAttributeDescriptor_Selectors.setOffset_, (nint)offset);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

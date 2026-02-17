@@ -6,16 +6,10 @@ namespace Metal.NET;
 
 internal static class MTLDepthStencilDescriptor_Selectors
 {
-    internal static readonly Selector backFaceStencil = Selector.Register("backFaceStencil");
     internal static readonly Selector setBackFaceStencil_ = Selector.Register("setBackFaceStencil:");
-    internal static readonly Selector depthCompareFunction = Selector.Register("depthCompareFunction");
     internal static readonly Selector setDepthCompareFunction_ = Selector.Register("setDepthCompareFunction:");
-    internal static readonly Selector depthWriteEnabled = Selector.Register("depthWriteEnabled");
     internal static readonly Selector setDepthWriteEnabled_ = Selector.Register("setDepthWriteEnabled:");
-    internal static readonly Selector frontFaceStencil = Selector.Register("frontFaceStencil");
     internal static readonly Selector setFrontFaceStencil_ = Selector.Register("setFrontFaceStencil:");
-    internal static readonly Selector isDepthWriteEnabled = Selector.Register("isDepthWriteEnabled");
-    internal static readonly Selector label = Selector.Register("label");
     internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
 }
 
@@ -50,39 +44,29 @@ public readonly struct MTLDepthStencilDescriptor
         return Alloc().Init();
     }
 
-    public MTLStencilDescriptor BackFaceStencil
+    public void SetBackFaceStencil(MTLStencilDescriptor backFaceStencil)
     {
-        get => new MTLStencilDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLDepthStencilDescriptor_Selectors.backFaceStencil));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDepthStencilDescriptor_Selectors.setBackFaceStencil_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDepthStencilDescriptor_Selectors.setBackFaceStencil_, backFaceStencil.NativePtr);
     }
 
-    public MTLCompareFunction DepthCompareFunction
+    public void SetDepthCompareFunction(MTLCompareFunction depthCompareFunction)
     {
-        get => (MTLCompareFunction)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLDepthStencilDescriptor_Selectors.depthCompareFunction));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDepthStencilDescriptor_Selectors.setDepthCompareFunction_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDepthStencilDescriptor_Selectors.setDepthCompareFunction_, (nint)(uint)depthCompareFunction);
     }
 
-    public Bool8 DepthWriteEnabled
+    public void SetDepthWriteEnabled(Bool8 depthWriteEnabled)
     {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLDepthStencilDescriptor_Selectors.depthWriteEnabled);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDepthStencilDescriptor_Selectors.setDepthWriteEnabled_, (nint)value.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDepthStencilDescriptor_Selectors.setDepthWriteEnabled_, (nint)depthWriteEnabled.Value);
     }
 
-    public MTLStencilDescriptor FrontFaceStencil
+    public void SetFrontFaceStencil(MTLStencilDescriptor frontFaceStencil)
     {
-        get => new MTLStencilDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLDepthStencilDescriptor_Selectors.frontFaceStencil));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDepthStencilDescriptor_Selectors.setFrontFaceStencil_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDepthStencilDescriptor_Selectors.setFrontFaceStencil_, frontFaceStencil.NativePtr);
     }
 
-    public Bool8 IsDepthWriteEnabled
+    public void SetLabel(NSString label)
     {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLDepthStencilDescriptor_Selectors.isDepthWriteEnabled);
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLDepthStencilDescriptor_Selectors.label));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDepthStencilDescriptor_Selectors.setLabel_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDepthStencilDescriptor_Selectors.setLabel_, label.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

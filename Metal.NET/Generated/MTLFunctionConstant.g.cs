@@ -6,10 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLFunctionConstant_Selectors
 {
-    internal static readonly Selector index = Selector.Register("index");
-    internal static readonly Selector name = Selector.Register("name");
-    internal static readonly Selector required = Selector.Register("required");
-    internal static readonly Selector type = Selector.Register("type");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -23,26 +19,6 @@ public readonly struct MTLFunctionConstant
 
     public static implicit operator nint(MTLFunctionConstant o) => o.NativePtr;
     public static implicit operator MTLFunctionConstant(nint ptr) => new MTLFunctionConstant(ptr);
-
-    public nuint Index
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLFunctionConstant_Selectors.index);
-    }
-
-    public NSString Name
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionConstant_Selectors.name));
-    }
-
-    public Bool8 Required
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLFunctionConstant_Selectors.required);
-    }
-
-    public MTLDataType Type
-    {
-        get => (MTLDataType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFunctionConstant_Selectors.type));
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

@@ -6,12 +6,7 @@ namespace Metal.NET;
 
 internal static class MTL4CounterHeap_Selectors
 {
-    internal static readonly Selector count = Selector.Register("count");
-    internal static readonly Selector label = Selector.Register("label");
     internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
-    internal static readonly Selector type = Selector.Register("type");
-    internal static readonly Selector invalidateCounterRange = Selector.Register("invalidateCounterRange");
-    internal static readonly Selector resolveCounterRange = Selector.Register("resolveCounterRange");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -26,31 +21,9 @@ public readonly struct MTL4CounterHeap
     public static implicit operator nint(MTL4CounterHeap o) => o.NativePtr;
     public static implicit operator MTL4CounterHeap(nint ptr) => new MTL4CounterHeap(ptr);
 
-    public nuint Count
+    public void SetLabel(NSString label)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTL4CounterHeap_Selectors.count);
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CounterHeap_Selectors.label));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CounterHeap_Selectors.setLabel_, value.NativePtr);
-    }
-
-    public MTL4CounterHeapType Type
-    {
-        get => (MTL4CounterHeapType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTL4CounterHeap_Selectors.type));
-    }
-
-    public void InvalidateCounterRange(nint range)
-    {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CounterHeap_Selectors.invalidateCounterRange, range);
-    }
-
-    public nint ResolveCounterRange(nint range)
-    {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CounterHeap_Selectors.resolveCounterRange, range);
-        return __result;
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CounterHeap_Selectors.setLabel_, label.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

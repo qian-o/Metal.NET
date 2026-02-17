@@ -6,8 +6,8 @@ namespace Metal.NET;
 
 internal static class MTLRasterizationRateLayerArray_Selectors
 {
-    internal static readonly Selector @object = Selector.Register("object");
-    internal static readonly Selector setObject = Selector.Register("setObject");
+    internal static readonly Selector object_ = Selector.Register("object:");
+    internal static readonly Selector setObject_layerIndex_ = Selector.Register("setObject:layerIndex:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -24,13 +24,13 @@ public readonly struct MTLRasterizationRateLayerArray
 
     public MTLRasterizationRateLayerDescriptor Object(nuint layerIndex)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRasterizationRateLayerArray_Selectors.@object, (nint)layerIndex);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRasterizationRateLayerArray_Selectors.object_, (nint)layerIndex);
         return new MTLRasterizationRateLayerDescriptor(__result);
     }
 
     public void SetObject(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateLayerArray_Selectors.setObject, layer.NativePtr, (nint)layerIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateLayerArray_Selectors.setObject_layerIndex_, layer.NativePtr, (nint)layerIndex);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

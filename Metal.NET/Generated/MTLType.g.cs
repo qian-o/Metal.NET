@@ -6,7 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLType_Selectors
 {
-    internal static readonly Selector dataType = Selector.Register("dataType");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -20,11 +19,6 @@ public readonly struct MTLType
 
     public static implicit operator nint(MTLType o) => o.NativePtr;
     public static implicit operator MTLType(nint ptr) => new MTLType(ptr);
-
-    public MTLDataType DataType
-    {
-        get => (MTLDataType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLType_Selectors.dataType));
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

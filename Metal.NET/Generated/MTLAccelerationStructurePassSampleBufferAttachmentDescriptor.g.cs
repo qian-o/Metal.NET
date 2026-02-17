@@ -6,11 +6,8 @@ namespace Metal.NET;
 
 internal static class MTLAccelerationStructurePassSampleBufferAttachmentDescriptor_Selectors
 {
-    internal static readonly Selector endOfEncoderSampleIndex = Selector.Register("endOfEncoderSampleIndex");
     internal static readonly Selector setEndOfEncoderSampleIndex_ = Selector.Register("setEndOfEncoderSampleIndex:");
-    internal static readonly Selector sampleBuffer = Selector.Register("sampleBuffer");
     internal static readonly Selector setSampleBuffer_ = Selector.Register("setSampleBuffer:");
-    internal static readonly Selector startOfEncoderSampleIndex = Selector.Register("startOfEncoderSampleIndex");
     internal static readonly Selector setStartOfEncoderSampleIndex_ = Selector.Register("setStartOfEncoderSampleIndex:");
 }
 
@@ -26,41 +23,19 @@ public readonly struct MTLAccelerationStructurePassSampleBufferAttachmentDescrip
     public static implicit operator nint(MTLAccelerationStructurePassSampleBufferAttachmentDescriptor o) => o.NativePtr;
     public static implicit operator MTLAccelerationStructurePassSampleBufferAttachmentDescriptor(nint ptr) => new MTLAccelerationStructurePassSampleBufferAttachmentDescriptor(ptr);
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLAccelerationStructurePassSampleBufferAttachmentDescriptor");
-
-    public static MTLAccelerationStructurePassSampleBufferAttachmentDescriptor Alloc()
+    public void SetEndOfEncoderSampleIndex(nuint endOfEncoderSampleIndex)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTLAccelerationStructurePassSampleBufferAttachmentDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptor_Selectors.setEndOfEncoderSampleIndex_, (nint)endOfEncoderSampleIndex);
     }
 
-    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor Init()
+    public void SetSampleBuffer(MTLCounterSampleBuffer sampleBuffer)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTLAccelerationStructurePassSampleBufferAttachmentDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptor_Selectors.setSampleBuffer_, sampleBuffer.NativePtr);
     }
 
-    public static MTLAccelerationStructurePassSampleBufferAttachmentDescriptor New()
+    public void SetStartOfEncoderSampleIndex(nuint startOfEncoderSampleIndex)
     {
-        return Alloc().Init();
-    }
-
-    public nuint EndOfEncoderSampleIndex
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptor_Selectors.endOfEncoderSampleIndex);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptor_Selectors.setEndOfEncoderSampleIndex_, (nint)value);
-    }
-
-    public MTLCounterSampleBuffer SampleBuffer
-    {
-        get => new MTLCounterSampleBuffer(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptor_Selectors.sampleBuffer));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptor_Selectors.setSampleBuffer_, value.NativePtr);
-    }
-
-    public nuint StartOfEncoderSampleIndex
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptor_Selectors.startOfEncoderSampleIndex);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptor_Selectors.setStartOfEncoderSampleIndex_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptor_Selectors.setStartOfEncoderSampleIndex_, (nint)startOfEncoderSampleIndex);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

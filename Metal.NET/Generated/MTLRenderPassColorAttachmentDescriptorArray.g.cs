@@ -6,8 +6,8 @@ namespace Metal.NET;
 
 internal static class MTLRenderPassColorAttachmentDescriptorArray_Selectors
 {
-    internal static readonly Selector @object = Selector.Register("object");
-    internal static readonly Selector setObject = Selector.Register("setObject");
+    internal static readonly Selector object_ = Selector.Register("object:");
+    internal static readonly Selector setObject_attachmentIndex_ = Selector.Register("setObject:attachmentIndex:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -24,13 +24,13 @@ public readonly struct MTLRenderPassColorAttachmentDescriptorArray
 
     public MTLRenderPassColorAttachmentDescriptor Object(nuint attachmentIndex)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorArray_Selectors.@object, (nint)attachmentIndex);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorArray_Selectors.object_, (nint)attachmentIndex);
         return new MTLRenderPassColorAttachmentDescriptor(__result);
     }
 
     public void SetObject(MTLRenderPassColorAttachmentDescriptor attachment, nuint attachmentIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorArray_Selectors.setObject, attachment.NativePtr, (nint)attachmentIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorArray_Selectors.setObject_attachmentIndex_, attachment.NativePtr, (nint)attachmentIndex);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

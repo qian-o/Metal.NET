@@ -6,7 +6,6 @@ namespace Metal.NET;
 
 internal static class MTL4PipelineDataSetSerializerDescriptor_Selectors
 {
-    internal static readonly Selector configuration = Selector.Register("configuration");
     internal static readonly Selector setConfiguration_ = Selector.Register("setConfiguration:");
 }
 
@@ -22,29 +21,9 @@ public readonly struct MTL4PipelineDataSetSerializerDescriptor
     public static implicit operator nint(MTL4PipelineDataSetSerializerDescriptor o) => o.NativePtr;
     public static implicit operator MTL4PipelineDataSetSerializerDescriptor(nint ptr) => new MTL4PipelineDataSetSerializerDescriptor(ptr);
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4PipelineDataSetSerializerDescriptor");
-
-    public static MTL4PipelineDataSetSerializerDescriptor Alloc()
+    public void SetConfiguration(nuint configuration)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTL4PipelineDataSetSerializerDescriptor(ptr);
-    }
-
-    public MTL4PipelineDataSetSerializerDescriptor Init()
-    {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTL4PipelineDataSetSerializerDescriptor(ptr);
-    }
-
-    public static MTL4PipelineDataSetSerializerDescriptor New()
-    {
-        return Alloc().Init();
-    }
-
-    public MTL4PipelineDataSetSerializerConfiguration Configuration
-    {
-        get => (MTL4PipelineDataSetSerializerConfiguration)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTL4PipelineDataSetSerializerDescriptor_Selectors.configuration));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineDataSetSerializerDescriptor_Selectors.setConfiguration_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineDataSetSerializerDescriptor_Selectors.setConfiguration_, (nint)configuration);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

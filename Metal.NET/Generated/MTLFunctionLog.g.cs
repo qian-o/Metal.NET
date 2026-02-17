@@ -6,10 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLFunctionLog_Selectors
 {
-    internal static readonly Selector debugLocation = Selector.Register("debugLocation");
-    internal static readonly Selector encoderLabel = Selector.Register("encoderLabel");
-    internal static readonly Selector function = Selector.Register("function");
-    internal static readonly Selector type = Selector.Register("type");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -23,26 +19,6 @@ public readonly struct MTLFunctionLog
 
     public static implicit operator nint(MTLFunctionLog o) => o.NativePtr;
     public static implicit operator MTLFunctionLog(nint ptr) => new MTLFunctionLog(ptr);
-
-    public MTLFunctionLogDebugLocation DebugLocation
-    {
-        get => new MTLFunctionLogDebugLocation(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionLog_Selectors.debugLocation));
-    }
-
-    public NSString EncoderLabel
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionLog_Selectors.encoderLabel));
-    }
-
-    public MTLFunction Function
-    {
-        get => new MTLFunction(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionLog_Selectors.function));
-    }
-
-    public MTLFunctionLogType Type
-    {
-        get => (MTLFunctionLogType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFunctionLog_Selectors.type));
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

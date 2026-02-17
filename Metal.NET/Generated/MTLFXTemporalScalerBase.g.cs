@@ -6,54 +6,21 @@ namespace Metal.NET;
 
 internal static class MTLFXTemporalScalerBase_Selectors
 {
-    internal static readonly Selector colorTextureUsage = Selector.Register("colorTextureUsage");
-    internal static readonly Selector depthTextureUsage = Selector.Register("depthTextureUsage");
-    internal static readonly Selector motionTextureUsage = Selector.Register("motionTextureUsage");
-    internal static readonly Selector outputTextureUsage = Selector.Register("outputTextureUsage");
-    internal static readonly Selector inputContentWidth = Selector.Register("inputContentWidth");
     internal static readonly Selector setInputContentWidth_ = Selector.Register("setInputContentWidth:");
-    internal static readonly Selector inputContentHeight = Selector.Register("inputContentHeight");
     internal static readonly Selector setInputContentHeight_ = Selector.Register("setInputContentHeight:");
-    internal static readonly Selector colorTexture = Selector.Register("colorTexture");
     internal static readonly Selector setColorTexture_ = Selector.Register("setColorTexture:");
-    internal static readonly Selector depthTexture = Selector.Register("depthTexture");
     internal static readonly Selector setDepthTexture_ = Selector.Register("setDepthTexture:");
-    internal static readonly Selector motionTexture = Selector.Register("motionTexture");
     internal static readonly Selector setMotionTexture_ = Selector.Register("setMotionTexture:");
-    internal static readonly Selector outputTexture = Selector.Register("outputTexture");
     internal static readonly Selector setOutputTexture_ = Selector.Register("setOutputTexture:");
-    internal static readonly Selector exposureTexture = Selector.Register("exposureTexture");
     internal static readonly Selector setExposureTexture_ = Selector.Register("setExposureTexture:");
-    internal static readonly Selector preExposure = Selector.Register("preExposure");
     internal static readonly Selector setPreExposure_ = Selector.Register("setPreExposure:");
-    internal static readonly Selector jitterOffsetX = Selector.Register("jitterOffsetX");
     internal static readonly Selector setJitterOffsetX_ = Selector.Register("setJitterOffsetX:");
-    internal static readonly Selector jitterOffsetY = Selector.Register("jitterOffsetY");
     internal static readonly Selector setJitterOffsetY_ = Selector.Register("setJitterOffsetY:");
-    internal static readonly Selector motionVectorScaleX = Selector.Register("motionVectorScaleX");
     internal static readonly Selector setMotionVectorScaleX_ = Selector.Register("setMotionVectorScaleX:");
-    internal static readonly Selector motionVectorScaleY = Selector.Register("motionVectorScaleY");
     internal static readonly Selector setMotionVectorScaleY_ = Selector.Register("setMotionVectorScaleY:");
-    internal static readonly Selector reactiveMaskTexture = Selector.Register("reactiveMaskTexture");
     internal static readonly Selector setReactiveMaskTexture_ = Selector.Register("setReactiveMaskTexture:");
-    internal static readonly Selector reactiveTextureUsage = Selector.Register("reactiveTextureUsage");
-    internal static readonly Selector reset = Selector.Register("reset");
     internal static readonly Selector setReset_ = Selector.Register("setReset:");
-    internal static readonly Selector isDepthReversed = Selector.Register("isDepthReversed");
-    internal static readonly Selector depthReversed = Selector.Register("depthReversed");
     internal static readonly Selector setDepthReversed_ = Selector.Register("setDepthReversed:");
-    internal static readonly Selector colorTextureFormat = Selector.Register("colorTextureFormat");
-    internal static readonly Selector depthTextureFormat = Selector.Register("depthTextureFormat");
-    internal static readonly Selector motionTextureFormat = Selector.Register("motionTextureFormat");
-    internal static readonly Selector reactiveTextureFormat = Selector.Register("reactiveTextureFormat");
-    internal static readonly Selector outputTextureFormat = Selector.Register("outputTextureFormat");
-    internal static readonly Selector inputWidth = Selector.Register("inputWidth");
-    internal static readonly Selector inputHeight = Selector.Register("inputHeight");
-    internal static readonly Selector outputWidth = Selector.Register("outputWidth");
-    internal static readonly Selector outputHeight = Selector.Register("outputHeight");
-    internal static readonly Selector inputContentMinScale = Selector.Register("inputContentMinScale");
-    internal static readonly Selector inputContentMaxScale = Selector.Register("inputContentMaxScale");
-    internal static readonly Selector fence = Selector.Register("fence");
     internal static readonly Selector setFence_ = Selector.Register("setFence:");
 }
 
@@ -69,185 +36,84 @@ public readonly struct MTLFXTemporalScalerBase
     public static implicit operator nint(MTLFXTemporalScalerBase o) => o.NativePtr;
     public static implicit operator MTLFXTemporalScalerBase(nint ptr) => new MTLFXTemporalScalerBase(ptr);
 
-    public MTLTextureUsage ColorTextureUsage
+    public void SetInputContentWidth(nuint width)
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.colorTextureUsage));
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setInputContentWidth_, (nint)width);
     }
 
-    public MTLTextureUsage DepthTextureUsage
+    public void SetInputContentHeight(nuint height)
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.depthTextureUsage));
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setInputContentHeight_, (nint)height);
     }
 
-    public MTLTextureUsage MotionTextureUsage
+    public void SetColorTexture(MTLTexture pTexture)
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.motionTextureUsage));
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setColorTexture_, pTexture.NativePtr);
     }
 
-    public MTLTextureUsage OutputTextureUsage
+    public void SetDepthTexture(MTLTexture pTexture)
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.outputTextureUsage));
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setDepthTexture_, pTexture.NativePtr);
     }
 
-    public nuint InputContentWidth
+    public void SetMotionTexture(MTLTexture pTexture)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.inputContentWidth);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setInputContentWidth_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setMotionTexture_, pTexture.NativePtr);
     }
 
-    public nuint InputContentHeight
+    public void SetOutputTexture(MTLTexture pTexture)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.inputContentHeight);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setInputContentHeight_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setOutputTexture_, pTexture.NativePtr);
     }
 
-    public MTLTexture ColorTexture
+    public void SetExposureTexture(MTLTexture pTexture)
     {
-        get => new MTLTexture(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.colorTexture));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setColorTexture_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setExposureTexture_, pTexture.NativePtr);
     }
 
-    public MTLTexture DepthTexture
+    public void SetPreExposure(float preExposure)
     {
-        get => new MTLTexture(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.depthTexture));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setDepthTexture_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setPreExposure_, preExposure);
     }
 
-    public MTLTexture MotionTexture
+    public void SetJitterOffsetX(float offset)
     {
-        get => new MTLTexture(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.motionTexture));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setMotionTexture_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setJitterOffsetX_, offset);
     }
 
-    public MTLTexture OutputTexture
+    public void SetJitterOffsetY(float offset)
     {
-        get => new MTLTexture(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.outputTexture));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setOutputTexture_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setJitterOffsetY_, offset);
     }
 
-    public MTLTexture ExposureTexture
+    public void SetMotionVectorScaleX(float scale)
     {
-        get => new MTLTexture(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.exposureTexture));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setExposureTexture_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setMotionVectorScaleX_, scale);
     }
 
-    public float PreExposure
+    public void SetMotionVectorScaleY(float scale)
     {
-        get => ObjectiveCRuntime.float_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.preExposure);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setPreExposure_, value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setMotionVectorScaleY_, scale);
     }
 
-    public float JitterOffsetX
+    public void SetReactiveMaskTexture(MTLTexture reactiveMaskTexture)
     {
-        get => ObjectiveCRuntime.float_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.jitterOffsetX);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setJitterOffsetX_, value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setReactiveMaskTexture_, reactiveMaskTexture.NativePtr);
     }
 
-    public float JitterOffsetY
+    public void SetReset(Bool8 reset)
     {
-        get => ObjectiveCRuntime.float_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.jitterOffsetY);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setJitterOffsetY_, value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setReset_, (nint)reset.Value);
     }
 
-    public float MotionVectorScaleX
+    public void SetDepthReversed(Bool8 depthReversed)
     {
-        get => ObjectiveCRuntime.float_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.motionVectorScaleX);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setMotionVectorScaleX_, value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setDepthReversed_, (nint)depthReversed.Value);
     }
 
-    public float MotionVectorScaleY
+    public void SetFence(MTLFence pFence)
     {
-        get => ObjectiveCRuntime.float_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.motionVectorScaleY);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setMotionVectorScaleY_, value);
-    }
-
-    public MTLTexture ReactiveMaskTexture
-    {
-        get => new MTLTexture(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.reactiveMaskTexture));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setReactiveMaskTexture_, value.NativePtr);
-    }
-
-    public MTLTextureUsage ReactiveTextureUsage
-    {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.reactiveTextureUsage));
-    }
-
-    public Bool8 Reset
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.reset);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setReset_, (nint)value.Value);
-    }
-
-    public Bool8 IsDepthReversed
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.isDepthReversed);
-    }
-
-    public Bool8 DepthReversed
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.depthReversed);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setDepthReversed_, (nint)value.Value);
-    }
-
-    public MTLPixelFormat ColorTextureFormat
-    {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.colorTextureFormat));
-    }
-
-    public MTLPixelFormat DepthTextureFormat
-    {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.depthTextureFormat));
-    }
-
-    public MTLPixelFormat MotionTextureFormat
-    {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.motionTextureFormat));
-    }
-
-    public MTLPixelFormat ReactiveTextureFormat
-    {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.reactiveTextureFormat));
-    }
-
-    public MTLPixelFormat OutputTextureFormat
-    {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.outputTextureFormat));
-    }
-
-    public nuint InputWidth
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.inputWidth);
-    }
-
-    public nuint InputHeight
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.inputHeight);
-    }
-
-    public nuint OutputWidth
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.outputWidth);
-    }
-
-    public nuint OutputHeight
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.outputHeight);
-    }
-
-    public float InputContentMinScale
-    {
-        get => ObjectiveCRuntime.float_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.inputContentMinScale);
-    }
-
-    public float InputContentMaxScale
-    {
-        get => ObjectiveCRuntime.float_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.inputContentMaxScale);
-    }
-
-    public MTLFence Fence
-    {
-        get => new MTLFence(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.fence));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setFence_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerBase_Selectors.setFence_, pFence.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

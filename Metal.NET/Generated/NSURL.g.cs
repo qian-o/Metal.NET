@@ -24,16 +24,16 @@ public readonly struct NSURL
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("NSURL");
 
-    public nint InitFileURLWithPath(NSString pPath)
+    public NSURL InitFileURLWithPath(NSString pPath)
     {
         var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, NSURL_Selectors.initFileURLWithPath_, pPath.NativePtr);
-        return __result;
+        return new NSURL(__result);
     }
 
-    public static nint FileURLWithPath(NSString pPath)
+    public static NSURL FileURLWithPath(NSString pPath)
     {
         var __result = ObjectiveCRuntime.intptr_objc_msgSend(s_class, NSURL_Selectors.fileURLWithPath_, pPath.NativePtr);
-        return __result;
+        return new NSURL(__result);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

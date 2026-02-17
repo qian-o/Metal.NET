@@ -6,9 +6,6 @@ namespace Metal.NET;
 
 internal static class MTL4CommandAllocator_Selectors
 {
-    internal static readonly Selector device = Selector.Register("device");
-    internal static readonly Selector label = Selector.Register("label");
-    internal static readonly Selector allocatedSize = Selector.Register("allocatedSize");
     internal static readonly Selector reset = Selector.Register("reset");
 }
 
@@ -23,22 +20,6 @@ public readonly struct MTL4CommandAllocator
 
     public static implicit operator nint(MTL4CommandAllocator o) => o.NativePtr;
     public static implicit operator MTL4CommandAllocator(nint ptr) => new MTL4CommandAllocator(ptr);
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CommandAllocator_Selectors.device));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CommandAllocator_Selectors.label));
-    }
-
-    public ulong AllocatedSize()
-    {
-        var __result = ObjectiveCRuntime.ulong_objc_msgSend(NativePtr, MTL4CommandAllocator_Selectors.allocatedSize);
-        return __result;
-    }
 
     public void Reset()
     {

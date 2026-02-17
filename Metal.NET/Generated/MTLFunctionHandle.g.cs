@@ -6,10 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLFunctionHandle_Selectors
 {
-    internal static readonly Selector device = Selector.Register("device");
-    internal static readonly Selector functionType = Selector.Register("functionType");
-    internal static readonly Selector gpuResourceID = Selector.Register("gpuResourceID");
-    internal static readonly Selector name = Selector.Register("name");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -23,26 +19,6 @@ public readonly struct MTLFunctionHandle
 
     public static implicit operator nint(MTLFunctionHandle o) => o.NativePtr;
     public static implicit operator MTLFunctionHandle(nint ptr) => new MTLFunctionHandle(ptr);
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionHandle_Selectors.device));
-    }
-
-    public MTLFunctionType FunctionType
-    {
-        get => (MTLFunctionType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFunctionHandle_Selectors.functionType));
-    }
-
-    public ulong GpuResourceID
-    {
-        get => ObjectiveCRuntime.ulong_objc_msgSend(NativePtr, MTLFunctionHandle_Selectors.gpuResourceID);
-    }
-
-    public NSString Name
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionHandle_Selectors.name));
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

@@ -6,27 +6,16 @@ namespace Metal.NET;
 
 internal static class MTLRenderPassAttachmentDescriptor_Selectors
 {
-    internal static readonly Selector depthPlane = Selector.Register("depthPlane");
     internal static readonly Selector setDepthPlane_ = Selector.Register("setDepthPlane:");
-    internal static readonly Selector level = Selector.Register("level");
     internal static readonly Selector setLevel_ = Selector.Register("setLevel:");
-    internal static readonly Selector loadAction = Selector.Register("loadAction");
     internal static readonly Selector setLoadAction_ = Selector.Register("setLoadAction:");
-    internal static readonly Selector resolveDepthPlane = Selector.Register("resolveDepthPlane");
     internal static readonly Selector setResolveDepthPlane_ = Selector.Register("setResolveDepthPlane:");
-    internal static readonly Selector resolveLevel = Selector.Register("resolveLevel");
     internal static readonly Selector setResolveLevel_ = Selector.Register("setResolveLevel:");
-    internal static readonly Selector resolveSlice = Selector.Register("resolveSlice");
     internal static readonly Selector setResolveSlice_ = Selector.Register("setResolveSlice:");
-    internal static readonly Selector resolveTexture = Selector.Register("resolveTexture");
     internal static readonly Selector setResolveTexture_ = Selector.Register("setResolveTexture:");
-    internal static readonly Selector slice = Selector.Register("slice");
     internal static readonly Selector setSlice_ = Selector.Register("setSlice:");
-    internal static readonly Selector storeAction = Selector.Register("storeAction");
     internal static readonly Selector setStoreAction_ = Selector.Register("setStoreAction:");
-    internal static readonly Selector storeActionOptions = Selector.Register("storeActionOptions");
     internal static readonly Selector setStoreActionOptions_ = Selector.Register("setStoreActionOptions:");
-    internal static readonly Selector texture = Selector.Register("texture");
     internal static readonly Selector setTexture_ = Selector.Register("setTexture:");
 }
 
@@ -42,89 +31,59 @@ public readonly struct MTLRenderPassAttachmentDescriptor
     public static implicit operator nint(MTLRenderPassAttachmentDescriptor o) => o.NativePtr;
     public static implicit operator MTLRenderPassAttachmentDescriptor(nint ptr) => new MTLRenderPassAttachmentDescriptor(ptr);
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLRenderPassAttachmentDescriptor");
-
-    public static MTLRenderPassAttachmentDescriptor Alloc()
+    public void SetDepthPlane(nuint depthPlane)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTLRenderPassAttachmentDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.setDepthPlane_, (nint)depthPlane);
     }
 
-    public MTLRenderPassAttachmentDescriptor Init()
+    public void SetLevel(nuint level)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTLRenderPassAttachmentDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.setLevel_, (nint)level);
     }
 
-    public static MTLRenderPassAttachmentDescriptor New()
+    public void SetLoadAction(MTLLoadAction loadAction)
     {
-        return Alloc().Init();
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.setLoadAction_, (nint)(uint)loadAction);
     }
 
-    public nuint DepthPlane
+    public void SetResolveDepthPlane(nuint resolveDepthPlane)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.depthPlane);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.setDepthPlane_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.setResolveDepthPlane_, (nint)resolveDepthPlane);
     }
 
-    public nuint Level
+    public void SetResolveLevel(nuint resolveLevel)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.level);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.setLevel_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.setResolveLevel_, (nint)resolveLevel);
     }
 
-    public MTLLoadAction LoadAction
+    public void SetResolveSlice(nuint resolveSlice)
     {
-        get => (MTLLoadAction)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.loadAction));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.setLoadAction_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.setResolveSlice_, (nint)resolveSlice);
     }
 
-    public nuint ResolveDepthPlane
+    public void SetResolveTexture(MTLTexture resolveTexture)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.resolveDepthPlane);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.setResolveDepthPlane_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.setResolveTexture_, resolveTexture.NativePtr);
     }
 
-    public nuint ResolveLevel
+    public void SetSlice(nuint slice)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.resolveLevel);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.setResolveLevel_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.setSlice_, (nint)slice);
     }
 
-    public nuint ResolveSlice
+    public void SetStoreAction(MTLStoreAction storeAction)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.resolveSlice);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.setResolveSlice_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.setStoreAction_, (nint)(uint)storeAction);
     }
 
-    public MTLTexture ResolveTexture
+    public void SetStoreActionOptions(nuint storeActionOptions)
     {
-        get => new MTLTexture(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.resolveTexture));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.setResolveTexture_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.setStoreActionOptions_, (nint)storeActionOptions);
     }
 
-    public nuint Slice
+    public void SetTexture(MTLTexture texture)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.slice);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.setSlice_, (nint)value);
-    }
-
-    public MTLStoreAction StoreAction
-    {
-        get => (MTLStoreAction)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.storeAction));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.setStoreAction_, (nint)(uint)value);
-    }
-
-    public MTLStoreActionOptions StoreActionOptions
-    {
-        get => (MTLStoreActionOptions)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.storeActionOptions));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.setStoreActionOptions_, (nint)(uint)value);
-    }
-
-    public MTLTexture Texture
-    {
-        get => new MTLTexture(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.texture));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.setTexture_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassAttachmentDescriptor_Selectors.setTexture_, texture.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

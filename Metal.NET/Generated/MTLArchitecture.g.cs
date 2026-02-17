@@ -6,7 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLArchitecture_Selectors
 {
-    internal static readonly Selector name = Selector.Register("name");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -20,11 +19,6 @@ public readonly struct MTLArchitecture
 
     public static implicit operator nint(MTLArchitecture o) => o.NativePtr;
     public static implicit operator MTLArchitecture(nint ptr) => new MTLArchitecture(ptr);
-
-    public NSString Name
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLArchitecture_Selectors.name));
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

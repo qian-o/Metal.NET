@@ -6,7 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLPipelineBufferDescriptor_Selectors
 {
-    internal static readonly Selector mutability = Selector.Register("mutability");
     internal static readonly Selector setMutability_ = Selector.Register("setMutability:");
 }
 
@@ -22,29 +21,9 @@ public readonly struct MTLPipelineBufferDescriptor
     public static implicit operator nint(MTLPipelineBufferDescriptor o) => o.NativePtr;
     public static implicit operator MTLPipelineBufferDescriptor(nint ptr) => new MTLPipelineBufferDescriptor(ptr);
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLPipelineBufferDescriptor");
-
-    public static MTLPipelineBufferDescriptor Alloc()
+    public void SetMutability(MTLMutability mutability)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTLPipelineBufferDescriptor(ptr);
-    }
-
-    public MTLPipelineBufferDescriptor Init()
-    {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTLPipelineBufferDescriptor(ptr);
-    }
-
-    public static MTLPipelineBufferDescriptor New()
-    {
-        return Alloc().Init();
-    }
-
-    public MTLMutability Mutability
-    {
-        get => (MTLMutability)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLPipelineBufferDescriptor_Selectors.mutability));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPipelineBufferDescriptor_Selectors.setMutability_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPipelineBufferDescriptor_Selectors.setMutability_, (nint)(uint)mutability);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

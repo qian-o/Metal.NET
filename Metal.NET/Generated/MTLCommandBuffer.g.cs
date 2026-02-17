@@ -6,33 +6,19 @@ namespace Metal.NET;
 
 internal static class MTLCommandBuffer_Selectors
 {
-    internal static readonly Selector GPUEndTime = Selector.Register("GPUEndTime");
-    internal static readonly Selector GPUStartTime = Selector.Register("GPUStartTime");
-    internal static readonly Selector commandQueue = Selector.Register("commandQueue");
-    internal static readonly Selector device = Selector.Register("device");
-    internal static readonly Selector error = Selector.Register("error");
-    internal static readonly Selector errorOptions = Selector.Register("errorOptions");
-    internal static readonly Selector kernelEndTime = Selector.Register("kernelEndTime");
-    internal static readonly Selector kernelStartTime = Selector.Register("kernelStartTime");
-    internal static readonly Selector label = Selector.Register("label");
-    internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
-    internal static readonly Selector logs = Selector.Register("logs");
-    internal static readonly Selector retainedReferences = Selector.Register("retainedReferences");
-    internal static readonly Selector status = Selector.Register("status");
-    internal static readonly Selector accelerationStructureCommandEncoder = Selector.Register("accelerationStructureCommandEncoder");
-    internal static readonly Selector blitCommandEncoder = Selector.Register("blitCommandEncoder");
+    internal static readonly Selector addCompletedHandler_ = Selector.Register("addCompletedHandler:");
+    internal static readonly Selector addScheduledHandler_ = Selector.Register("addScheduledHandler:");
     internal static readonly Selector commit = Selector.Register("commit");
-    internal static readonly Selector computeCommandEncoder = Selector.Register("computeCommandEncoder");
-    internal static readonly Selector encodeSignalEvent = Selector.Register("encodeSignalEvent");
-    internal static readonly Selector encodeWait = Selector.Register("encodeWait");
+    internal static readonly Selector encodeSignalEvent_value_ = Selector.Register("encodeSignalEvent:value:");
+    internal static readonly Selector encodeWait_value_ = Selector.Register("encodeWait:value:");
     internal static readonly Selector enqueue = Selector.Register("enqueue");
-    internal static readonly Selector parallelRenderCommandEncoder = Selector.Register("parallelRenderCommandEncoder");
+    internal static readonly Selector parallelRenderCommandEncoder_ = Selector.Register("parallelRenderCommandEncoder:");
     internal static readonly Selector popDebugGroup = Selector.Register("popDebugGroup");
-    internal static readonly Selector presentDrawable = Selector.Register("presentDrawable");
-    internal static readonly Selector pushDebugGroup = Selector.Register("pushDebugGroup");
-    internal static readonly Selector renderCommandEncoder = Selector.Register("renderCommandEncoder");
-    internal static readonly Selector resourceStateCommandEncoder = Selector.Register("resourceStateCommandEncoder");
-    internal static readonly Selector useResidencySet = Selector.Register("useResidencySet");
+    internal static readonly Selector presentDrawable_ = Selector.Register("presentDrawable:");
+    internal static readonly Selector pushDebugGroup_ = Selector.Register("pushDebugGroup:");
+    internal static readonly Selector renderCommandEncoder_ = Selector.Register("renderCommandEncoder:");
+    internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
+    internal static readonly Selector useResidencySet_ = Selector.Register("useResidencySet:");
     internal static readonly Selector waitUntilCompleted = Selector.Register("waitUntilCompleted");
     internal static readonly Selector waitUntilScheduled = Selector.Register("waitUntilScheduled");
 }
@@ -49,89 +35,14 @@ public readonly struct MTLCommandBuffer
     public static implicit operator nint(MTLCommandBuffer o) => o.NativePtr;
     public static implicit operator MTLCommandBuffer(nint ptr) => new MTLCommandBuffer(ptr);
 
-    public double GPUEndTime
+    public void AddCompletedHandler(nint function)
     {
-        get => ObjectiveCRuntime.double_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.GPUEndTime);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.addCompletedHandler_, function);
     }
 
-    public double GPUStartTime
+    public void AddScheduledHandler(nint function)
     {
-        get => ObjectiveCRuntime.double_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.GPUStartTime);
-    }
-
-    public MTLCommandQueue CommandQueue
-    {
-        get => new MTLCommandQueue(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.commandQueue));
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.device));
-    }
-
-    public NSError Error
-    {
-        get => new NSError(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.error));
-    }
-
-    public MTLCommandBufferErrorOption ErrorOptions
-    {
-        get => (MTLCommandBufferErrorOption)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.errorOptions));
-    }
-
-    public double KernelEndTime
-    {
-        get => ObjectiveCRuntime.double_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.kernelEndTime);
-    }
-
-    public double KernelStartTime
-    {
-        get => ObjectiveCRuntime.double_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.kernelStartTime);
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.label));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.setLabel_, value.NativePtr);
-    }
-
-    public MTLLogContainer Logs
-    {
-        get => new MTLLogContainer(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.logs));
-    }
-
-    public Bool8 RetainedReferences
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.retainedReferences);
-    }
-
-    public MTLCommandBufferStatus Status
-    {
-        get => (MTLCommandBufferStatus)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.status));
-    }
-
-    public MTLAccelerationStructureCommandEncoder AccelerationStructureCommandEncoder()
-    {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.accelerationStructureCommandEncoder);
-        return new MTLAccelerationStructureCommandEncoder(__result);
-    }
-
-    public MTLAccelerationStructureCommandEncoder AccelerationStructureCommandEncoder(MTLAccelerationStructurePassDescriptor descriptor)
-    {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.accelerationStructureCommandEncoder, descriptor.NativePtr);
-        return new MTLAccelerationStructureCommandEncoder(__result);
-    }
-
-    public MTLBlitCommandEncoder BlitCommandEncoder()
-    {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.blitCommandEncoder);
-        return new MTLBlitCommandEncoder(__result);
-    }
-
-    public MTLBlitCommandEncoder BlitCommandEncoder(MTLBlitPassDescriptor blitPassDescriptor)
-    {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.blitCommandEncoder, blitPassDescriptor.NativePtr);
-        return new MTLBlitCommandEncoder(__result);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.addScheduledHandler_, function);
     }
 
     public void Commit()
@@ -139,32 +50,14 @@ public readonly struct MTLCommandBuffer
         ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.commit);
     }
 
-    public MTLComputeCommandEncoder ComputeCommandEncoder(MTLComputePassDescriptor computePassDescriptor)
+    public void EncodeSignalEvent(MTLEvent @event, nuint value)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.computeCommandEncoder, computePassDescriptor.NativePtr);
-        return new MTLComputeCommandEncoder(__result);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.encodeSignalEvent_value_, @event.NativePtr, (nint)value);
     }
 
-    public MTLComputeCommandEncoder ComputeCommandEncoder()
+    public void EncodeWait(MTLEvent @event, nuint value)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.computeCommandEncoder);
-        return new MTLComputeCommandEncoder(__result);
-    }
-
-    public MTLComputeCommandEncoder ComputeCommandEncoder(MTLDispatchType dispatchType)
-    {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.computeCommandEncoder, (nint)(uint)dispatchType);
-        return new MTLComputeCommandEncoder(__result);
-    }
-
-    public void EncodeSignalEvent(MTLEvent @event, ulong value)
-    {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.encodeSignalEvent, @event.NativePtr, (nint)value);
-    }
-
-    public void EncodeWait(MTLEvent @event, ulong value)
-    {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.encodeWait, @event.NativePtr, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.encodeWait_value_, @event.NativePtr, (nint)value);
     }
 
     public void Enqueue()
@@ -174,7 +67,7 @@ public readonly struct MTLCommandBuffer
 
     public MTLParallelRenderCommandEncoder ParallelRenderCommandEncoder(MTLRenderPassDescriptor renderPassDescriptor)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.parallelRenderCommandEncoder, renderPassDescriptor.NativePtr);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.parallelRenderCommandEncoder_, renderPassDescriptor.NativePtr);
         return new MTLParallelRenderCommandEncoder(__result);
     }
 
@@ -185,35 +78,28 @@ public readonly struct MTLCommandBuffer
 
     public void PresentDrawable(MTLDrawable drawable)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.presentDrawable, drawable.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.presentDrawable_, drawable.NativePtr);
     }
 
     public void PushDebugGroup(NSString @string)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.pushDebugGroup, @string.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.pushDebugGroup_, @string.NativePtr);
     }
 
     public MTLRenderCommandEncoder RenderCommandEncoder(MTLRenderPassDescriptor renderPassDescriptor)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.renderCommandEncoder, renderPassDescriptor.NativePtr);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.renderCommandEncoder_, renderPassDescriptor.NativePtr);
         return new MTLRenderCommandEncoder(__result);
     }
 
-    public MTLResourceStateCommandEncoder ResourceStateCommandEncoder()
+    public void SetLabel(NSString label)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.resourceStateCommandEncoder);
-        return new MTLResourceStateCommandEncoder(__result);
-    }
-
-    public MTLResourceStateCommandEncoder ResourceStateCommandEncoder(MTLResourceStatePassDescriptor resourceStatePassDescriptor)
-    {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.resourceStateCommandEncoder, resourceStatePassDescriptor.NativePtr);
-        return new MTLResourceStateCommandEncoder(__result);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.setLabel_, label.NativePtr);
     }
 
     public void UseResidencySet(MTLResidencySet residencySet)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.useResidencySet, residencySet.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBuffer_Selectors.useResidencySet_, residencySet.NativePtr);
     }
 
     public void WaitUntilCompleted()

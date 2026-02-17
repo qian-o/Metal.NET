@@ -6,14 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLBinding_Selectors
 {
-    internal static readonly Selector access = Selector.Register("access");
-    internal static readonly Selector argument = Selector.Register("argument");
-    internal static readonly Selector index = Selector.Register("index");
-    internal static readonly Selector isArgument = Selector.Register("isArgument");
-    internal static readonly Selector isUsed = Selector.Register("isUsed");
-    internal static readonly Selector name = Selector.Register("name");
-    internal static readonly Selector type = Selector.Register("type");
-    internal static readonly Selector used = Selector.Register("used");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -27,46 +19,6 @@ public readonly struct MTLBinding
 
     public static implicit operator nint(MTLBinding o) => o.NativePtr;
     public static implicit operator MTLBinding(nint ptr) => new MTLBinding(ptr);
-
-    public MTLBindingAccess Access
-    {
-        get => (MTLBindingAccess)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLBinding_Selectors.access));
-    }
-
-    public Bool8 Argument
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLBinding_Selectors.argument);
-    }
-
-    public nuint Index
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLBinding_Selectors.index);
-    }
-
-    public Bool8 IsArgument
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLBinding_Selectors.isArgument);
-    }
-
-    public Bool8 IsUsed
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLBinding_Selectors.isUsed);
-    }
-
-    public NSString Name
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBinding_Selectors.name));
-    }
-
-    public MTLBindingType Type
-    {
-        get => (MTLBindingType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLBinding_Selectors.type));
-    }
-
-    public Bool8 Used
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLBinding_Selectors.used);
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

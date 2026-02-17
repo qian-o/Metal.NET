@@ -6,13 +6,9 @@ namespace Metal.NET;
 
 internal static class MTLLinkedFunctions_Selectors
 {
-    internal static readonly Selector binaryFunctions = Selector.Register("binaryFunctions");
     internal static readonly Selector setBinaryFunctions_ = Selector.Register("setBinaryFunctions:");
-    internal static readonly Selector functions = Selector.Register("functions");
     internal static readonly Selector setFunctions_ = Selector.Register("setFunctions:");
-    internal static readonly Selector groups = Selector.Register("groups");
     internal static readonly Selector setGroups_ = Selector.Register("setGroups:");
-    internal static readonly Selector privateFunctions = Selector.Register("privateFunctions");
     internal static readonly Selector setPrivateFunctions_ = Selector.Register("setPrivateFunctions:");
     internal static readonly Selector linkedFunctions = Selector.Register("linkedFunctions");
 }
@@ -31,28 +27,41 @@ public readonly struct MTLLinkedFunctions
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLLinkedFunctions");
 
-    public NSArray BinaryFunctions
+    public static MTLLinkedFunctions Alloc()
     {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLinkedFunctions_Selectors.binaryFunctions));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLinkedFunctions_Selectors.setBinaryFunctions_, value.NativePtr);
+        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
+        return new MTLLinkedFunctions(ptr);
     }
 
-    public NSArray Functions
+    public MTLLinkedFunctions Init()
     {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLinkedFunctions_Selectors.functions));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLinkedFunctions_Selectors.setFunctions_, value.NativePtr);
+        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
+        return new MTLLinkedFunctions(ptr);
     }
 
-    public nint Groups
+    public static MTLLinkedFunctions New()
     {
-        get => ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLinkedFunctions_Selectors.groups);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLinkedFunctions_Selectors.setGroups_, value);
+        return Alloc().Init();
     }
 
-    public NSArray PrivateFunctions
+    public void SetBinaryFunctions(NSArray binaryFunctions)
     {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLinkedFunctions_Selectors.privateFunctions));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLinkedFunctions_Selectors.setPrivateFunctions_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLinkedFunctions_Selectors.setBinaryFunctions_, binaryFunctions.NativePtr);
+    }
+
+    public void SetFunctions(NSArray functions)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLinkedFunctions_Selectors.setFunctions_, functions.NativePtr);
+    }
+
+    public void SetGroups(nint groups)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLinkedFunctions_Selectors.setGroups_, groups);
+    }
+
+    public void SetPrivateFunctions(NSArray privateFunctions)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLinkedFunctions_Selectors.setPrivateFunctions_, privateFunctions.NativePtr);
     }
 
     public static MTLLinkedFunctions LinkedFunctions()

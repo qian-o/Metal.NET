@@ -6,7 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLRenderPassColorAttachmentDescriptor_Selectors
 {
-    internal static readonly Selector clearColor = Selector.Register("clearColor");
     internal static readonly Selector setClearColor_ = Selector.Register("setClearColor:");
 }
 
@@ -41,7 +40,10 @@ public readonly struct MTLRenderPassColorAttachmentDescriptor
         return Alloc().Init();
     }
 
-    // TODO: ClearColor (value-struct return type MTLClearColor requires objc_msgSend_stret)
+    public void SetClearColor(MTLClearColor clearColor)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassColorAttachmentDescriptor_Selectors.setClearColor_, clearColor);
+    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

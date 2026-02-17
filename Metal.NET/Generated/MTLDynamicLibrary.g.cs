@@ -6,11 +6,8 @@ namespace Metal.NET;
 
 internal static class MTLDynamicLibrary_Selectors
 {
-    internal static readonly Selector device = Selector.Register("device");
-    internal static readonly Selector installName = Selector.Register("installName");
-    internal static readonly Selector label = Selector.Register("label");
+    internal static readonly Selector serializeToURL_error_ = Selector.Register("serializeToURL:error:");
     internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
-    internal static readonly Selector serializeToURL = Selector.Register("serializeToURL");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -25,25 +22,14 @@ public readonly struct MTLDynamicLibrary
     public static implicit operator nint(MTLDynamicLibrary o) => o.NativePtr;
     public static implicit operator MTLDynamicLibrary(nint ptr) => new MTLDynamicLibrary(ptr);
 
-    public MTLDevice Device
+    public Bool8 SerializeToURL(NSURL url, out NSError error)
     {
-        get => new MTLDevice(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLDynamicLibrary_Selectors.device));
+        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLDynamicLibrary_Selectors.serializeToURL_error_, url.NativePtr, out error) != 0;
     }
 
-    public NSString InstallName
+    public void SetLabel(NSString label)
     {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLDynamicLibrary_Selectors.installName));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLDynamicLibrary_Selectors.label));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDynamicLibrary_Selectors.setLabel_, value.NativePtr);
-    }
-
-    public Bool8 SerializeToURL(nint url, out NSError error)
-    {
-        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLDynamicLibrary_Selectors.serializeToURL, url, out error) != 0;
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDynamicLibrary_Selectors.setLabel_, label.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

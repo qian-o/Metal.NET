@@ -6,8 +6,8 @@ namespace Metal.NET;
 
 internal static class MTL4PipelineDataSetSerializer_Selectors
 {
-    internal static readonly Selector serializeAsArchiveAndFlushToURL = Selector.Register("serializeAsArchiveAndFlushToURL");
-    internal static readonly Selector serializeAsPipelinesScript = Selector.Register("serializeAsPipelinesScript");
+    internal static readonly Selector serializeAsArchiveAndFlushToURL_error_ = Selector.Register("serializeAsArchiveAndFlushToURL:error:");
+    internal static readonly Selector serializeAsPipelinesScript_ = Selector.Register("serializeAsPipelinesScript:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -22,14 +22,14 @@ public readonly struct MTL4PipelineDataSetSerializer
     public static implicit operator nint(MTL4PipelineDataSetSerializer o) => o.NativePtr;
     public static implicit operator MTL4PipelineDataSetSerializer(nint ptr) => new MTL4PipelineDataSetSerializer(ptr);
 
-    public Bool8 SerializeAsArchiveAndFlushToURL(nint url, out NSError error)
+    public Bool8 SerializeAsArchiveAndFlushToURL(NSURL url, out NSError error)
     {
-        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4PipelineDataSetSerializer_Selectors.serializeAsArchiveAndFlushToURL, url, out error) != 0;
+        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4PipelineDataSetSerializer_Selectors.serializeAsArchiveAndFlushToURL_error_, url.NativePtr, out error) != 0;
     }
 
     public nint SerializeAsPipelinesScript(out NSError error)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4PipelineDataSetSerializer_Selectors.serializeAsPipelinesScript, out error);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4PipelineDataSetSerializer_Selectors.serializeAsPipelinesScript_, out error);
         return __result;
     }
 

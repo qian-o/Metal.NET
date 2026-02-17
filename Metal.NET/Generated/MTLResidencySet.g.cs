@@ -6,17 +6,12 @@ namespace Metal.NET;
 
 internal static class MTLResidencySet_Selectors
 {
-    internal static readonly Selector allAllocations = Selector.Register("allAllocations");
-    internal static readonly Selector allocatedSize = Selector.Register("allocatedSize");
-    internal static readonly Selector allocationCount = Selector.Register("allocationCount");
-    internal static readonly Selector device = Selector.Register("device");
-    internal static readonly Selector label = Selector.Register("label");
-    internal static readonly Selector addAllocation = Selector.Register("addAllocation");
+    internal static readonly Selector addAllocation_ = Selector.Register("addAllocation:");
     internal static readonly Selector commit = Selector.Register("commit");
-    internal static readonly Selector containsAllocation = Selector.Register("containsAllocation");
+    internal static readonly Selector containsAllocation_ = Selector.Register("containsAllocation:");
     internal static readonly Selector endResidency = Selector.Register("endResidency");
     internal static readonly Selector removeAllAllocations = Selector.Register("removeAllAllocations");
-    internal static readonly Selector removeAllocation = Selector.Register("removeAllocation");
+    internal static readonly Selector removeAllocation_ = Selector.Register("removeAllocation:");
     internal static readonly Selector requestResidency = Selector.Register("requestResidency");
 }
 
@@ -32,34 +27,9 @@ public readonly struct MTLResidencySet
     public static implicit operator nint(MTLResidencySet o) => o.NativePtr;
     public static implicit operator MTLResidencySet(nint ptr) => new MTLResidencySet(ptr);
 
-    public NSArray AllAllocations
-    {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLResidencySet_Selectors.allAllocations));
-    }
-
-    public ulong AllocatedSize
-    {
-        get => ObjectiveCRuntime.ulong_objc_msgSend(NativePtr, MTLResidencySet_Selectors.allocatedSize);
-    }
-
-    public nuint AllocationCount
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLResidencySet_Selectors.allocationCount);
-    }
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLResidencySet_Selectors.device));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLResidencySet_Selectors.label));
-    }
-
     public void AddAllocation(MTLAllocation allocation)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResidencySet_Selectors.addAllocation, allocation.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResidencySet_Selectors.addAllocation_, allocation.NativePtr);
     }
 
     public void Commit()
@@ -69,7 +39,7 @@ public readonly struct MTLResidencySet
 
     public Bool8 ContainsAllocation(MTLAllocation anAllocation)
     {
-        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLResidencySet_Selectors.containsAllocation, anAllocation.NativePtr) != 0;
+        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLResidencySet_Selectors.containsAllocation_, anAllocation.NativePtr) != 0;
     }
 
     public void EndResidency()
@@ -84,7 +54,7 @@ public readonly struct MTLResidencySet
 
     public void RemoveAllocation(MTLAllocation allocation)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResidencySet_Selectors.removeAllocation, allocation.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResidencySet_Selectors.removeAllocation_, allocation.NativePtr);
     }
 
     public void RequestResidency()

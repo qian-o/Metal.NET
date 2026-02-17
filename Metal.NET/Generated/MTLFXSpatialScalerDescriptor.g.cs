@@ -6,21 +6,15 @@ namespace Metal.NET;
 
 internal static class MTLFXSpatialScalerDescriptor_Selectors
 {
-    internal static readonly Selector colorTextureFormat = Selector.Register("colorTextureFormat");
     internal static readonly Selector setColorTextureFormat_ = Selector.Register("setColorTextureFormat:");
-    internal static readonly Selector outputTextureFormat = Selector.Register("outputTextureFormat");
     internal static readonly Selector setOutputTextureFormat_ = Selector.Register("setOutputTextureFormat:");
-    internal static readonly Selector inputWidth = Selector.Register("inputWidth");
     internal static readonly Selector setInputWidth_ = Selector.Register("setInputWidth:");
-    internal static readonly Selector inputHeight = Selector.Register("inputHeight");
     internal static readonly Selector setInputHeight_ = Selector.Register("setInputHeight:");
-    internal static readonly Selector outputWidth = Selector.Register("outputWidth");
     internal static readonly Selector setOutputWidth_ = Selector.Register("setOutputWidth:");
-    internal static readonly Selector outputHeight = Selector.Register("outputHeight");
     internal static readonly Selector setOutputHeight_ = Selector.Register("setOutputHeight:");
-    internal static readonly Selector colorProcessingMode = Selector.Register("colorProcessingMode");
     internal static readonly Selector setColorProcessingMode_ = Selector.Register("setColorProcessingMode:");
-    internal static readonly Selector newSpatialScalerWithDevice_ = Selector.Register("newSpatialScalerWithDevice:");
+    internal static readonly Selector newSpatialScaler_ = Selector.Register("newSpatialScaler:");
+    internal static readonly Selector newSpatialScaler_pCompiler_ = Selector.Register("newSpatialScaler:pCompiler:");
     internal static readonly Selector supportsDevice_ = Selector.Register("supportsDevice:");
     internal static readonly Selector supportsMetal4FX_ = Selector.Register("supportsMetal4FX:");
 }
@@ -39,75 +33,51 @@ public readonly struct MTLFXSpatialScalerDescriptor
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLFXSpatialScalerDescriptor");
 
-    public static MTLFXSpatialScalerDescriptor Alloc()
+    public void SetColorTextureFormat(MTLPixelFormat format)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTLFXSpatialScalerDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.setColorTextureFormat_, (nint)(uint)format);
     }
 
-    public MTLFXSpatialScalerDescriptor Init()
+    public void SetOutputTextureFormat(MTLPixelFormat format)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTLFXSpatialScalerDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.setOutputTextureFormat_, (nint)(uint)format);
     }
 
-    public static MTLFXSpatialScalerDescriptor New()
+    public void SetInputWidth(nuint width)
     {
-        return Alloc().Init();
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.setInputWidth_, (nint)width);
     }
 
-    public MTLPixelFormat ColorTextureFormat
+    public void SetInputHeight(nuint height)
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.colorTextureFormat));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.setColorTextureFormat_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.setInputHeight_, (nint)height);
     }
 
-    public MTLPixelFormat OutputTextureFormat
+    public void SetOutputWidth(nuint width)
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.outputTextureFormat));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.setOutputTextureFormat_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.setOutputWidth_, (nint)width);
     }
 
-    public nuint InputWidth
+    public void SetOutputHeight(nuint height)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.inputWidth);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.setInputWidth_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.setOutputHeight_, (nint)height);
     }
 
-    public nuint InputHeight
+    public void SetColorProcessingMode(MTLFXSpatialScalerColorProcessingMode mode)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.inputHeight);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.setInputHeight_, (nint)value);
-    }
-
-    public nuint OutputWidth
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.outputWidth);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.setOutputWidth_, (nint)value);
-    }
-
-    public nuint OutputHeight
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.outputHeight);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.setOutputHeight_, (nint)value);
-    }
-
-    public MTLFXSpatialScalerColorProcessingMode ColorProcessingMode
-    {
-        get => (MTLFXSpatialScalerColorProcessingMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.colorProcessingMode));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.setColorProcessingMode_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.setColorProcessingMode_, (nint)(uint)mode);
     }
 
     public MTLFXSpatialScaler NewSpatialScaler(MTLDevice pDevice)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.newSpatialScalerWithDevice_, pDevice.NativePtr);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.newSpatialScaler_, pDevice.NativePtr);
         return new MTLFXSpatialScaler(__result);
     }
 
-    public MTL4FXSpatialScaler NewSpatialScaler(MTLDevice pDevice, MTL4Compiler pCompiler)
+    public MTLFXSpatialScaler NewSpatialScaler(MTLDevice pDevice, MTL4Compiler pCompiler)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.newSpatialScalerWithDevice_, pDevice.NativePtr, pCompiler.NativePtr);
-        return new MTL4FXSpatialScaler(__result);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFXSpatialScalerDescriptor_Selectors.newSpatialScaler_pCompiler_, pDevice.NativePtr, pCompiler.NativePtr);
+        return new MTLFXSpatialScaler(__result);
     }
 
     public static Bool8 SupportsDevice(MTLDevice pDevice)

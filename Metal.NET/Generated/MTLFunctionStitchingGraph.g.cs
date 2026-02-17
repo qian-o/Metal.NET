@@ -6,13 +6,9 @@ namespace Metal.NET;
 
 internal static class MTLFunctionStitchingGraph_Selectors
 {
-    internal static readonly Selector attributes = Selector.Register("attributes");
     internal static readonly Selector setAttributes_ = Selector.Register("setAttributes:");
-    internal static readonly Selector functionName = Selector.Register("functionName");
     internal static readonly Selector setFunctionName_ = Selector.Register("setFunctionName:");
-    internal static readonly Selector nodes = Selector.Register("nodes");
     internal static readonly Selector setNodes_ = Selector.Register("setNodes:");
-    internal static readonly Selector outputNode = Selector.Register("outputNode");
     internal static readonly Selector setOutputNode_ = Selector.Register("setOutputNode:");
 }
 
@@ -28,28 +24,43 @@ public readonly struct MTLFunctionStitchingGraph
     public static implicit operator nint(MTLFunctionStitchingGraph o) => o.NativePtr;
     public static implicit operator MTLFunctionStitchingGraph(nint ptr) => new MTLFunctionStitchingGraph(ptr);
 
-    public NSArray Attributes
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingGraph");
+
+    public static MTLFunctionStitchingGraph Alloc()
     {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionStitchingGraph_Selectors.attributes));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraph_Selectors.setAttributes_, value.NativePtr);
+        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
+        return new MTLFunctionStitchingGraph(ptr);
     }
 
-    public NSString FunctionName
+    public MTLFunctionStitchingGraph Init()
     {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionStitchingGraph_Selectors.functionName));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraph_Selectors.setFunctionName_, value.NativePtr);
+        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
+        return new MTLFunctionStitchingGraph(ptr);
     }
 
-    public NSArray Nodes
+    public static MTLFunctionStitchingGraph New()
     {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionStitchingGraph_Selectors.nodes));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraph_Selectors.setNodes_, value.NativePtr);
+        return Alloc().Init();
     }
 
-    public MTLFunctionStitchingFunctionNode OutputNode
+    public void SetAttributes(NSArray attributes)
     {
-        get => new MTLFunctionStitchingFunctionNode(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionStitchingGraph_Selectors.outputNode));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraph_Selectors.setOutputNode_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraph_Selectors.setAttributes_, attributes.NativePtr);
+    }
+
+    public void SetFunctionName(NSString functionName)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraph_Selectors.setFunctionName_, functionName.NativePtr);
+    }
+
+    public void SetNodes(NSArray nodes)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraph_Selectors.setNodes_, nodes.NativePtr);
+    }
+
+    public void SetOutputNode(MTLFunctionStitchingFunctionNode outputNode)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraph_Selectors.setOutputNode_, outputNode.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

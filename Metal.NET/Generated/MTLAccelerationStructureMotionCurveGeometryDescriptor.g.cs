@@ -6,35 +6,20 @@ namespace Metal.NET;
 
 internal static class MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors
 {
-    internal static readonly Selector controlPointBuffers = Selector.Register("controlPointBuffers");
     internal static readonly Selector setControlPointBuffers_ = Selector.Register("setControlPointBuffers:");
-    internal static readonly Selector controlPointCount = Selector.Register("controlPointCount");
     internal static readonly Selector setControlPointCount_ = Selector.Register("setControlPointCount:");
-    internal static readonly Selector controlPointFormat = Selector.Register("controlPointFormat");
     internal static readonly Selector setControlPointFormat_ = Selector.Register("setControlPointFormat:");
-    internal static readonly Selector controlPointStride = Selector.Register("controlPointStride");
     internal static readonly Selector setControlPointStride_ = Selector.Register("setControlPointStride:");
-    internal static readonly Selector curveBasis = Selector.Register("curveBasis");
     internal static readonly Selector setCurveBasis_ = Selector.Register("setCurveBasis:");
-    internal static readonly Selector curveEndCaps = Selector.Register("curveEndCaps");
     internal static readonly Selector setCurveEndCaps_ = Selector.Register("setCurveEndCaps:");
-    internal static readonly Selector curveType = Selector.Register("curveType");
     internal static readonly Selector setCurveType_ = Selector.Register("setCurveType:");
-    internal static readonly Selector indexBuffer = Selector.Register("indexBuffer");
     internal static readonly Selector setIndexBuffer_ = Selector.Register("setIndexBuffer:");
-    internal static readonly Selector indexBufferOffset = Selector.Register("indexBufferOffset");
     internal static readonly Selector setIndexBufferOffset_ = Selector.Register("setIndexBufferOffset:");
-    internal static readonly Selector indexType = Selector.Register("indexType");
     internal static readonly Selector setIndexType_ = Selector.Register("setIndexType:");
-    internal static readonly Selector radiusBuffers = Selector.Register("radiusBuffers");
     internal static readonly Selector setRadiusBuffers_ = Selector.Register("setRadiusBuffers:");
-    internal static readonly Selector radiusFormat = Selector.Register("radiusFormat");
     internal static readonly Selector setRadiusFormat_ = Selector.Register("setRadiusFormat:");
-    internal static readonly Selector radiusStride = Selector.Register("radiusStride");
     internal static readonly Selector setRadiusStride_ = Selector.Register("setRadiusStride:");
-    internal static readonly Selector segmentControlPointCount = Selector.Register("segmentControlPointCount");
     internal static readonly Selector setSegmentControlPointCount_ = Selector.Register("setSegmentControlPointCount:");
-    internal static readonly Selector segmentCount = Selector.Register("segmentCount");
     internal static readonly Selector setSegmentCount_ = Selector.Register("setSegmentCount:");
     internal static readonly Selector descriptor = Selector.Register("descriptor");
 }
@@ -53,111 +38,79 @@ public readonly struct MTLAccelerationStructureMotionCurveGeometryDescriptor
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureMotionCurveGeometryDescriptor");
 
-    public static MTLAccelerationStructureMotionCurveGeometryDescriptor Alloc()
+    public void SetControlPointBuffers(NSArray controlPointBuffers)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTLAccelerationStructureMotionCurveGeometryDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setControlPointBuffers_, controlPointBuffers.NativePtr);
     }
 
-    public MTLAccelerationStructureMotionCurveGeometryDescriptor Init()
+    public void SetControlPointCount(nuint controlPointCount)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTLAccelerationStructureMotionCurveGeometryDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setControlPointCount_, (nint)controlPointCount);
     }
 
-    public static MTLAccelerationStructureMotionCurveGeometryDescriptor New()
+    public void SetControlPointFormat(MTLAttributeFormat controlPointFormat)
     {
-        return Alloc().Init();
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setControlPointFormat_, (nint)(uint)controlPointFormat);
     }
 
-    public NSArray ControlPointBuffers
+    public void SetControlPointStride(nuint controlPointStride)
     {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.controlPointBuffers));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setControlPointBuffers_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setControlPointStride_, (nint)controlPointStride);
     }
 
-    public nuint ControlPointCount
+    public void SetCurveBasis(MTLCurveBasis curveBasis)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.controlPointCount);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setControlPointCount_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setCurveBasis_, (nint)(uint)curveBasis);
     }
 
-    public MTLAttributeFormat ControlPointFormat
+    public void SetCurveEndCaps(MTLCurveEndCaps curveEndCaps)
     {
-        get => (MTLAttributeFormat)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.controlPointFormat));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setControlPointFormat_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setCurveEndCaps_, (nint)(uint)curveEndCaps);
     }
 
-    public nuint ControlPointStride
+    public void SetCurveType(MTLCurveType curveType)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.controlPointStride);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setControlPointStride_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setCurveType_, (nint)(uint)curveType);
     }
 
-    public MTLCurveBasis CurveBasis
+    public void SetIndexBuffer(MTLBuffer indexBuffer)
     {
-        get => (MTLCurveBasis)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.curveBasis));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setCurveBasis_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setIndexBuffer_, indexBuffer.NativePtr);
     }
 
-    public MTLCurveEndCaps CurveEndCaps
+    public void SetIndexBufferOffset(nuint indexBufferOffset)
     {
-        get => (MTLCurveEndCaps)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.curveEndCaps));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setCurveEndCaps_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setIndexBufferOffset_, (nint)indexBufferOffset);
     }
 
-    public MTLCurveType CurveType
+    public void SetIndexType(MTLIndexType indexType)
     {
-        get => (MTLCurveType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.curveType));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setCurveType_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setIndexType_, (nint)(uint)indexType);
     }
 
-    public MTLBuffer IndexBuffer
+    public void SetRadiusBuffers(NSArray radiusBuffers)
     {
-        get => new MTLBuffer(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.indexBuffer));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setIndexBuffer_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setRadiusBuffers_, radiusBuffers.NativePtr);
     }
 
-    public nuint IndexBufferOffset
+    public void SetRadiusFormat(MTLAttributeFormat radiusFormat)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.indexBufferOffset);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setIndexBufferOffset_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setRadiusFormat_, (nint)(uint)radiusFormat);
     }
 
-    public MTLIndexType IndexType
+    public void SetRadiusStride(nuint radiusStride)
     {
-        get => (MTLIndexType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.indexType));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setIndexType_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setRadiusStride_, (nint)radiusStride);
     }
 
-    public NSArray RadiusBuffers
+    public void SetSegmentControlPointCount(nuint segmentControlPointCount)
     {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.radiusBuffers));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setRadiusBuffers_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setSegmentControlPointCount_, (nint)segmentControlPointCount);
     }
 
-    public MTLAttributeFormat RadiusFormat
+    public void SetSegmentCount(nuint segmentCount)
     {
-        get => (MTLAttributeFormat)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.radiusFormat));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setRadiusFormat_, (nint)(uint)value);
-    }
-
-    public nuint RadiusStride
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.radiusStride);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setRadiusStride_, (nint)value);
-    }
-
-    public nuint SegmentControlPointCount
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.segmentControlPointCount);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setSegmentControlPointCount_, (nint)value);
-    }
-
-    public nuint SegmentCount
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.segmentCount);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setSegmentCount_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptor_Selectors.setSegmentCount_, (nint)segmentCount);
     }
 
     public static MTLAccelerationStructureMotionCurveGeometryDescriptor Descriptor()

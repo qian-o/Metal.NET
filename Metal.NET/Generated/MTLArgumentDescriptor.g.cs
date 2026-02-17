@@ -6,17 +6,11 @@ namespace Metal.NET;
 
 internal static class MTLArgumentDescriptor_Selectors
 {
-    internal static readonly Selector access = Selector.Register("access");
     internal static readonly Selector setAccess_ = Selector.Register("setAccess:");
-    internal static readonly Selector arrayLength = Selector.Register("arrayLength");
     internal static readonly Selector setArrayLength_ = Selector.Register("setArrayLength:");
-    internal static readonly Selector constantBlockAlignment = Selector.Register("constantBlockAlignment");
     internal static readonly Selector setConstantBlockAlignment_ = Selector.Register("setConstantBlockAlignment:");
-    internal static readonly Selector dataType = Selector.Register("dataType");
     internal static readonly Selector setDataType_ = Selector.Register("setDataType:");
-    internal static readonly Selector index = Selector.Register("index");
     internal static readonly Selector setIndex_ = Selector.Register("setIndex:");
-    internal static readonly Selector textureType = Selector.Register("textureType");
     internal static readonly Selector setTextureType_ = Selector.Register("setTextureType:");
     internal static readonly Selector argumentDescriptor = Selector.Register("argumentDescriptor");
 }
@@ -35,57 +29,34 @@ public readonly struct MTLArgumentDescriptor
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLArgumentDescriptor");
 
-    public static MTLArgumentDescriptor Alloc()
+    public void SetAccess(MTLBindingAccess access)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTLArgumentDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.setAccess_, (nint)(uint)access);
     }
 
-    public MTLArgumentDescriptor Init()
+    public void SetArrayLength(nuint arrayLength)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTLArgumentDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.setArrayLength_, (nint)arrayLength);
     }
 
-    public static MTLArgumentDescriptor New()
+    public void SetConstantBlockAlignment(nuint constantBlockAlignment)
     {
-        return Alloc().Init();
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.setConstantBlockAlignment_, (nint)constantBlockAlignment);
     }
 
-    public MTLBindingAccess Access
+    public void SetDataType(MTLDataType dataType)
     {
-        get => (MTLBindingAccess)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.access));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.setAccess_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.setDataType_, (nint)(uint)dataType);
     }
 
-    public nuint ArrayLength
+    public void SetIndex(nuint index)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.arrayLength);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.setArrayLength_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.setIndex_, (nint)index);
     }
 
-    public nuint ConstantBlockAlignment
+    public void SetTextureType(MTLTextureType textureType)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.constantBlockAlignment);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.setConstantBlockAlignment_, (nint)value);
-    }
-
-    public MTLDataType DataType
-    {
-        get => (MTLDataType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.dataType));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.setDataType_, (nint)(uint)value);
-    }
-
-    public nuint Index
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.index);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.setIndex_, (nint)value);
-    }
-
-    public MTLTextureType TextureType
-    {
-        get => (MTLTextureType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.textureType));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.setTextureType_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.setTextureType_, (nint)(uint)textureType);
     }
 
     public static MTLArgumentDescriptor ArgumentDescriptor()

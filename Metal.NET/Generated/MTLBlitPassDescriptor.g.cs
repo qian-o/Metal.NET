@@ -6,7 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLBlitPassDescriptor_Selectors
 {
-    internal static readonly Selector sampleBufferAttachments = Selector.Register("sampleBufferAttachments");
     internal static readonly Selector blitPassDescriptor = Selector.Register("blitPassDescriptor");
 }
 
@@ -39,11 +38,6 @@ public readonly struct MTLBlitPassDescriptor
     public static MTLBlitPassDescriptor New()
     {
         return Alloc().Init();
-    }
-
-    public MTLBlitPassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
-    {
-        get => new MTLBlitPassSampleBufferAttachmentDescriptorArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBlitPassDescriptor_Selectors.sampleBufferAttachments));
     }
 
     public static MTLBlitPassDescriptor BlitPassDescriptor()

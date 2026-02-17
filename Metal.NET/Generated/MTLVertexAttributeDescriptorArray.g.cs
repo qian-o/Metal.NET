@@ -6,8 +6,8 @@ namespace Metal.NET;
 
 internal static class MTLVertexAttributeDescriptorArray_Selectors
 {
-    internal static readonly Selector @object = Selector.Register("object");
-    internal static readonly Selector setObject = Selector.Register("setObject");
+    internal static readonly Selector object_ = Selector.Register("object:");
+    internal static readonly Selector setObject_index_ = Selector.Register("setObject:index:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -24,13 +24,13 @@ public readonly struct MTLVertexAttributeDescriptorArray
 
     public MTLVertexAttributeDescriptor Object(nuint index)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLVertexAttributeDescriptorArray_Selectors.@object, (nint)index);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLVertexAttributeDescriptorArray_Selectors.object_, (nint)index);
         return new MTLVertexAttributeDescriptor(__result);
     }
 
     public void SetObject(MTLVertexAttributeDescriptor attributeDesc, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVertexAttributeDescriptorArray_Selectors.setObject, attributeDesc.NativePtr, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVertexAttributeDescriptorArray_Selectors.setObject_index_, attributeDesc.NativePtr, (nint)index);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

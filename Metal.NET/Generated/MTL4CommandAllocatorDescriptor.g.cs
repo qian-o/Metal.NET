@@ -6,7 +6,6 @@ namespace Metal.NET;
 
 internal static class MTL4CommandAllocatorDescriptor_Selectors
 {
-    internal static readonly Selector label = Selector.Register("label");
     internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
 }
 
@@ -22,29 +21,9 @@ public readonly struct MTL4CommandAllocatorDescriptor
     public static implicit operator nint(MTL4CommandAllocatorDescriptor o) => o.NativePtr;
     public static implicit operator MTL4CommandAllocatorDescriptor(nint ptr) => new MTL4CommandAllocatorDescriptor(ptr);
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4CommandAllocatorDescriptor");
-
-    public static MTL4CommandAllocatorDescriptor Alloc()
+    public void SetLabel(NSString label)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTL4CommandAllocatorDescriptor(ptr);
-    }
-
-    public MTL4CommandAllocatorDescriptor Init()
-    {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTL4CommandAllocatorDescriptor(ptr);
-    }
-
-    public static MTL4CommandAllocatorDescriptor New()
-    {
-        return Alloc().Init();
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CommandAllocatorDescriptor_Selectors.label));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandAllocatorDescriptor_Selectors.setLabel_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandAllocatorDescriptor_Selectors.setLabel_, label.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

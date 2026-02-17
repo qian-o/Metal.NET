@@ -6,8 +6,8 @@ namespace Metal.NET;
 
 internal static class MTLPipelineBufferDescriptorArray_Selectors
 {
-    internal static readonly Selector @object = Selector.Register("object");
-    internal static readonly Selector setObject = Selector.Register("setObject");
+    internal static readonly Selector object_ = Selector.Register("object:");
+    internal static readonly Selector setObject_bufferIndex_ = Selector.Register("setObject:bufferIndex:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -24,13 +24,13 @@ public readonly struct MTLPipelineBufferDescriptorArray
 
     public MTLPipelineBufferDescriptor Object(nuint bufferIndex)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLPipelineBufferDescriptorArray_Selectors.@object, (nint)bufferIndex);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLPipelineBufferDescriptorArray_Selectors.object_, (nint)bufferIndex);
         return new MTLPipelineBufferDescriptor(__result);
     }
 
     public void SetObject(MTLPipelineBufferDescriptor buffer, nuint bufferIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPipelineBufferDescriptorArray_Selectors.setObject, buffer.NativePtr, (nint)bufferIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPipelineBufferDescriptorArray_Selectors.setObject_bufferIndex_, buffer.NativePtr, (nint)bufferIndex);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

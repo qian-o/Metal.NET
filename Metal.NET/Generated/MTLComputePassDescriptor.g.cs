@@ -6,9 +6,7 @@ namespace Metal.NET;
 
 internal static class MTLComputePassDescriptor_Selectors
 {
-    internal static readonly Selector dispatchType = Selector.Register("dispatchType");
     internal static readonly Selector setDispatchType_ = Selector.Register("setDispatchType:");
-    internal static readonly Selector sampleBufferAttachments = Selector.Register("sampleBufferAttachments");
     internal static readonly Selector computePassDescriptor = Selector.Register("computePassDescriptor");
 }
 
@@ -43,15 +41,9 @@ public readonly struct MTLComputePassDescriptor
         return Alloc().Init();
     }
 
-    public MTLDispatchType DispatchType
+    public void SetDispatchType(MTLDispatchType dispatchType)
     {
-        get => (MTLDispatchType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLComputePassDescriptor_Selectors.dispatchType));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLComputePassDescriptor_Selectors.setDispatchType_, (nint)(uint)value);
-    }
-
-    public MTLComputePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
-    {
-        get => new MTLComputePassSampleBufferAttachmentDescriptorArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLComputePassDescriptor_Selectors.sampleBufferAttachments));
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLComputePassDescriptor_Selectors.setDispatchType_, (nint)(uint)dispatchType);
     }
 
     public static MTLComputePassDescriptor ComputePassDescriptor()

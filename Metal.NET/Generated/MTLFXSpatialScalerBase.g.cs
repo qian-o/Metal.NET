@@ -6,24 +6,10 @@ namespace Metal.NET;
 
 internal static class MTLFXSpatialScalerBase_Selectors
 {
-    internal static readonly Selector colorTextureUsage = Selector.Register("colorTextureUsage");
-    internal static readonly Selector outputTextureUsage = Selector.Register("outputTextureUsage");
-    internal static readonly Selector inputContentWidth = Selector.Register("inputContentWidth");
     internal static readonly Selector setInputContentWidth_ = Selector.Register("setInputContentWidth:");
-    internal static readonly Selector inputContentHeight = Selector.Register("inputContentHeight");
     internal static readonly Selector setInputContentHeight_ = Selector.Register("setInputContentHeight:");
-    internal static readonly Selector colorTexture = Selector.Register("colorTexture");
     internal static readonly Selector setColorTexture_ = Selector.Register("setColorTexture:");
-    internal static readonly Selector outputTexture = Selector.Register("outputTexture");
     internal static readonly Selector setOutputTexture_ = Selector.Register("setOutputTexture:");
-    internal static readonly Selector colorTextureFormat = Selector.Register("colorTextureFormat");
-    internal static readonly Selector outputTextureFormat = Selector.Register("outputTextureFormat");
-    internal static readonly Selector inputWidth = Selector.Register("inputWidth");
-    internal static readonly Selector inputHeight = Selector.Register("inputHeight");
-    internal static readonly Selector outputWidth = Selector.Register("outputWidth");
-    internal static readonly Selector outputHeight = Selector.Register("outputHeight");
-    internal static readonly Selector colorProcessingMode = Selector.Register("colorProcessingMode");
-    internal static readonly Selector fence = Selector.Register("fence");
     internal static readonly Selector setFence_ = Selector.Register("setFence:");
 }
 
@@ -39,79 +25,29 @@ public readonly struct MTLFXSpatialScalerBase
     public static implicit operator nint(MTLFXSpatialScalerBase o) => o.NativePtr;
     public static implicit operator MTLFXSpatialScalerBase(nint ptr) => new MTLFXSpatialScalerBase(ptr);
 
-    public MTLTextureUsage ColorTextureUsage
+    public void SetInputContentWidth(nuint width)
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.colorTextureUsage));
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.setInputContentWidth_, (nint)width);
     }
 
-    public MTLTextureUsage OutputTextureUsage
+    public void SetInputContentHeight(nuint height)
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.outputTextureUsage));
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.setInputContentHeight_, (nint)height);
     }
 
-    public nuint InputContentWidth
+    public void SetColorTexture(MTLTexture pTexture)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.inputContentWidth);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.setInputContentWidth_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.setColorTexture_, pTexture.NativePtr);
     }
 
-    public nuint InputContentHeight
+    public void SetOutputTexture(MTLTexture pTexture)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.inputContentHeight);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.setInputContentHeight_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.setOutputTexture_, pTexture.NativePtr);
     }
 
-    public MTLTexture ColorTexture
+    public void SetFence(MTLFence pFence)
     {
-        get => new MTLTexture(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.colorTexture));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.setColorTexture_, value.NativePtr);
-    }
-
-    public MTLTexture OutputTexture
-    {
-        get => new MTLTexture(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.outputTexture));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.setOutputTexture_, value.NativePtr);
-    }
-
-    public MTLPixelFormat ColorTextureFormat
-    {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.colorTextureFormat));
-    }
-
-    public MTLPixelFormat OutputTextureFormat
-    {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.outputTextureFormat));
-    }
-
-    public nuint InputWidth
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.inputWidth);
-    }
-
-    public nuint InputHeight
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.inputHeight);
-    }
-
-    public nuint OutputWidth
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.outputWidth);
-    }
-
-    public nuint OutputHeight
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.outputHeight);
-    }
-
-    public MTLFXSpatialScalerColorProcessingMode ColorProcessingMode
-    {
-        get => (MTLFXSpatialScalerColorProcessingMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.colorProcessingMode));
-    }
-
-    public MTLFence Fence
-    {
-        get => new MTLFence(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.fence));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.setFence_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerBase_Selectors.setFence_, pFence.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

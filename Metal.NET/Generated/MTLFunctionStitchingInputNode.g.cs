@@ -6,7 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLFunctionStitchingInputNode_Selectors
 {
-    internal static readonly Selector argumentIndex = Selector.Register("argumentIndex");
     internal static readonly Selector setArgumentIndex_ = Selector.Register("setArgumentIndex:");
 }
 
@@ -22,10 +21,28 @@ public readonly struct MTLFunctionStitchingInputNode
     public static implicit operator nint(MTLFunctionStitchingInputNode o) => o.NativePtr;
     public static implicit operator MTLFunctionStitchingInputNode(nint ptr) => new MTLFunctionStitchingInputNode(ptr);
 
-    public nuint ArgumentIndex
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingInputNode");
+
+    public static MTLFunctionStitchingInputNode Alloc()
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLFunctionStitchingInputNode_Selectors.argumentIndex);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingInputNode_Selectors.setArgumentIndex_, (nint)value);
+        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
+        return new MTLFunctionStitchingInputNode(ptr);
+    }
+
+    public MTLFunctionStitchingInputNode Init()
+    {
+        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
+        return new MTLFunctionStitchingInputNode(ptr);
+    }
+
+    public static MTLFunctionStitchingInputNode New()
+    {
+        return Alloc().Init();
+    }
+
+    public void SetArgumentIndex(nuint argumentIndex)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingInputNode_Selectors.setArgumentIndex_, (nint)argumentIndex);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

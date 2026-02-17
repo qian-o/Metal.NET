@@ -6,21 +6,11 @@ namespace Metal.NET;
 
 internal static class MTLComputePipelineState_Selectors
 {
-    internal static readonly Selector device = Selector.Register("device");
-    internal static readonly Selector gpuResourceID = Selector.Register("gpuResourceID");
-    internal static readonly Selector label = Selector.Register("label");
-    internal static readonly Selector maxTotalThreadsPerThreadgroup = Selector.Register("maxTotalThreadsPerThreadgroup");
-    internal static readonly Selector reflection = Selector.Register("reflection");
-    internal static readonly Selector requiredThreadsPerThreadgroup = Selector.Register("requiredThreadsPerThreadgroup");
-    internal static readonly Selector shaderValidation = Selector.Register("shaderValidation");
-    internal static readonly Selector staticThreadgroupMemoryLength = Selector.Register("staticThreadgroupMemoryLength");
-    internal static readonly Selector supportIndirectCommandBuffers = Selector.Register("supportIndirectCommandBuffers");
-    internal static readonly Selector threadExecutionWidth = Selector.Register("threadExecutionWidth");
-    internal static readonly Selector functionHandle = Selector.Register("functionHandle");
-    internal static readonly Selector newComputePipelineStateWithBinaryFunctions = Selector.Register("newComputePipelineStateWithBinaryFunctions");
-    internal static readonly Selector newComputePipelineState = Selector.Register("newComputePipelineState");
-    internal static readonly Selector newIntersectionFunctionTable = Selector.Register("newIntersectionFunctionTable");
-    internal static readonly Selector newVisibleFunctionTable = Selector.Register("newVisibleFunctionTable");
+    internal static readonly Selector functionHandle_ = Selector.Register("functionHandle:");
+    internal static readonly Selector newComputePipelineStateWithBinaryFunctions_error_ = Selector.Register("newComputePipelineStateWithBinaryFunctions:error:");
+    internal static readonly Selector newComputePipelineState_error_ = Selector.Register("newComputePipelineState:error:");
+    internal static readonly Selector newIntersectionFunctionTable_ = Selector.Register("newIntersectionFunctionTable:");
+    internal static readonly Selector newVisibleFunctionTable_ = Selector.Register("newVisibleFunctionTable:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -35,92 +25,45 @@ public readonly struct MTLComputePipelineState
     public static implicit operator nint(MTLComputePipelineState o) => o.NativePtr;
     public static implicit operator MTLComputePipelineState(nint ptr) => new MTLComputePipelineState(ptr);
 
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLComputePipelineState_Selectors.device));
-    }
-
-    public ulong GpuResourceID
-    {
-        get => ObjectiveCRuntime.ulong_objc_msgSend(NativePtr, MTLComputePipelineState_Selectors.gpuResourceID);
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLComputePipelineState_Selectors.label));
-    }
-
-    public nuint MaxTotalThreadsPerThreadgroup
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLComputePipelineState_Selectors.maxTotalThreadsPerThreadgroup);
-    }
-
-    public MTLComputePipelineReflection Reflection
-    {
-        get => new MTLComputePipelineReflection(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLComputePipelineState_Selectors.reflection));
-    }
-
-    // TODO: RequiredThreadsPerThreadgroup (value-struct return type MTLSize requires objc_msgSend_stret)
-
-    public MTLShaderValidation ShaderValidation
-    {
-        get => (MTLShaderValidation)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLComputePipelineState_Selectors.shaderValidation));
-    }
-
-    public nuint StaticThreadgroupMemoryLength
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLComputePipelineState_Selectors.staticThreadgroupMemoryLength);
-    }
-
-    public Bool8 SupportIndirectCommandBuffers
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLComputePipelineState_Selectors.supportIndirectCommandBuffers);
-    }
-
-    public nuint ThreadExecutionWidth
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLComputePipelineState_Selectors.threadExecutionWidth);
-    }
-
     public MTLFunctionHandle FunctionHandle(NSString name)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLComputePipelineState_Selectors.functionHandle, name.NativePtr);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLComputePipelineState_Selectors.functionHandle_, name.NativePtr);
         return new MTLFunctionHandle(__result);
     }
 
     public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLComputePipelineState_Selectors.functionHandle, function.NativePtr);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLComputePipelineState_Selectors.functionHandle_, function.NativePtr);
         return new MTLFunctionHandle(__result);
     }
 
     public MTLFunctionHandle FunctionHandle(MTLFunction function)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLComputePipelineState_Selectors.functionHandle, function.NativePtr);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLComputePipelineState_Selectors.functionHandle_, function.NativePtr);
         return new MTLFunctionHandle(__result);
     }
 
     public MTLComputePipelineState NewComputePipelineStateWithBinaryFunctions(NSArray additionalBinaryFunctions, out NSError error)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLComputePipelineState_Selectors.newComputePipelineStateWithBinaryFunctions, additionalBinaryFunctions.NativePtr, out error);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLComputePipelineState_Selectors.newComputePipelineStateWithBinaryFunctions_error_, additionalBinaryFunctions.NativePtr, out error);
         return new MTLComputePipelineState(__result);
     }
 
     public MTLComputePipelineState NewComputePipelineState(NSArray functions, out NSError error)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLComputePipelineState_Selectors.newComputePipelineState, functions.NativePtr, out error);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLComputePipelineState_Selectors.newComputePipelineState_error_, functions.NativePtr, out error);
         return new MTLComputePipelineState(__result);
     }
 
     public MTLIntersectionFunctionTable NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLComputePipelineState_Selectors.newIntersectionFunctionTable, descriptor.NativePtr);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLComputePipelineState_Selectors.newIntersectionFunctionTable_, descriptor.NativePtr);
         return new MTLIntersectionFunctionTable(__result);
     }
 
     public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLComputePipelineState_Selectors.newVisibleFunctionTable, descriptor.NativePtr);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLComputePipelineState_Selectors.newVisibleFunctionTable_, descriptor.NativePtr);
         return new MTLVisibleFunctionTable(__result);
     }
 

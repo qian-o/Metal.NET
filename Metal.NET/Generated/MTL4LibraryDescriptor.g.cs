@@ -6,11 +6,8 @@ namespace Metal.NET;
 
 internal static class MTL4LibraryDescriptor_Selectors
 {
-    internal static readonly Selector name = Selector.Register("name");
     internal static readonly Selector setName_ = Selector.Register("setName:");
-    internal static readonly Selector options = Selector.Register("options");
     internal static readonly Selector setOptions_ = Selector.Register("setOptions:");
-    internal static readonly Selector source = Selector.Register("source");
     internal static readonly Selector setSource_ = Selector.Register("setSource:");
 }
 
@@ -26,41 +23,19 @@ public readonly struct MTL4LibraryDescriptor
     public static implicit operator nint(MTL4LibraryDescriptor o) => o.NativePtr;
     public static implicit operator MTL4LibraryDescriptor(nint ptr) => new MTL4LibraryDescriptor(ptr);
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4LibraryDescriptor");
-
-    public static MTL4LibraryDescriptor Alloc()
+    public void SetName(NSString name)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTL4LibraryDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4LibraryDescriptor_Selectors.setName_, name.NativePtr);
     }
 
-    public MTL4LibraryDescriptor Init()
+    public void SetOptions(MTLCompileOptions options)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTL4LibraryDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4LibraryDescriptor_Selectors.setOptions_, options.NativePtr);
     }
 
-    public static MTL4LibraryDescriptor New()
+    public void SetSource(NSString source)
     {
-        return Alloc().Init();
-    }
-
-    public NSString Name
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4LibraryDescriptor_Selectors.name));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4LibraryDescriptor_Selectors.setName_, value.NativePtr);
-    }
-
-    public MTLCompileOptions Options
-    {
-        get => new MTLCompileOptions(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4LibraryDescriptor_Selectors.options));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4LibraryDescriptor_Selectors.setOptions_, value.NativePtr);
-    }
-
-    public NSString Source
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4LibraryDescriptor_Selectors.source));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4LibraryDescriptor_Selectors.setSource_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4LibraryDescriptor_Selectors.setSource_, source.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

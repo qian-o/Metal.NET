@@ -6,8 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLVertexDescriptor_Selectors
 {
-    internal static readonly Selector attributes = Selector.Register("attributes");
-    internal static readonly Selector layouts = Selector.Register("layouts");
     internal static readonly Selector reset = Selector.Register("reset");
     internal static readonly Selector vertexDescriptor = Selector.Register("vertexDescriptor");
 }
@@ -41,16 +39,6 @@ public readonly struct MTLVertexDescriptor
     public static MTLVertexDescriptor New()
     {
         return Alloc().Init();
-    }
-
-    public MTLVertexAttributeDescriptorArray Attributes
-    {
-        get => new MTLVertexAttributeDescriptorArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLVertexDescriptor_Selectors.attributes));
-    }
-
-    public MTLVertexBufferLayoutDescriptorArray Layouts
-    {
-        get => new MTLVertexBufferLayoutDescriptorArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLVertexDescriptor_Selectors.layouts));
     }
 
     public void Reset()

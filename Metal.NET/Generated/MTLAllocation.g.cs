@@ -6,7 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLAllocation_Selectors
 {
-    internal static readonly Selector allocatedSize = Selector.Register("allocatedSize");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -20,11 +19,6 @@ public readonly struct MTLAllocation
 
     public static implicit operator nint(MTLAllocation o) => o.NativePtr;
     public static implicit operator MTLAllocation(nint ptr) => new MTLAllocation(ptr);
-
-    public nuint AllocatedSize
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLAllocation_Selectors.allocatedSize);
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

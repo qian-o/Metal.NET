@@ -6,11 +6,8 @@ namespace Metal.NET;
 
 internal static class MTLFunctionStitchingFunctionNode_Selectors
 {
-    internal static readonly Selector arguments = Selector.Register("arguments");
     internal static readonly Selector setArguments_ = Selector.Register("setArguments:");
-    internal static readonly Selector controlDependencies = Selector.Register("controlDependencies");
     internal static readonly Selector setControlDependencies_ = Selector.Register("setControlDependencies:");
-    internal static readonly Selector name = Selector.Register("name");
     internal static readonly Selector setName_ = Selector.Register("setName:");
 }
 
@@ -26,22 +23,38 @@ public readonly struct MTLFunctionStitchingFunctionNode
     public static implicit operator nint(MTLFunctionStitchingFunctionNode o) => o.NativePtr;
     public static implicit operator MTLFunctionStitchingFunctionNode(nint ptr) => new MTLFunctionStitchingFunctionNode(ptr);
 
-    public NSArray Arguments
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingFunctionNode");
+
+    public static MTLFunctionStitchingFunctionNode Alloc()
     {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionStitchingFunctionNode_Selectors.arguments));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingFunctionNode_Selectors.setArguments_, value.NativePtr);
+        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
+        return new MTLFunctionStitchingFunctionNode(ptr);
     }
 
-    public NSArray ControlDependencies
+    public MTLFunctionStitchingFunctionNode Init()
     {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionStitchingFunctionNode_Selectors.controlDependencies));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingFunctionNode_Selectors.setControlDependencies_, value.NativePtr);
+        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
+        return new MTLFunctionStitchingFunctionNode(ptr);
     }
 
-    public NSString Name
+    public static MTLFunctionStitchingFunctionNode New()
     {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionStitchingFunctionNode_Selectors.name));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingFunctionNode_Selectors.setName_, value.NativePtr);
+        return Alloc().Init();
+    }
+
+    public void SetArguments(NSArray arguments)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingFunctionNode_Selectors.setArguments_, arguments.NativePtr);
+    }
+
+    public void SetControlDependencies(NSArray controlDependencies)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingFunctionNode_Selectors.setControlDependencies_, controlDependencies.NativePtr);
+    }
+
+    public void SetName(NSString name)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingFunctionNode_Selectors.setName_, name.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

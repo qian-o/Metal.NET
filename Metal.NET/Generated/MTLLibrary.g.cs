@@ -6,15 +6,15 @@ namespace Metal.NET;
 
 internal static class MTLLibrary_Selectors
 {
-    internal static readonly Selector device = Selector.Register("device");
-    internal static readonly Selector functionNames = Selector.Register("functionNames");
-    internal static readonly Selector installName = Selector.Register("installName");
-    internal static readonly Selector label = Selector.Register("label");
+    internal static readonly Selector newFunction_ = Selector.Register("newFunction:");
+    internal static readonly Selector newFunction_constantValues_error_ = Selector.Register("newFunction:constantValues:error:");
+    internal static readonly Selector newFunction_error_ = Selector.Register("newFunction:error:");
+    internal static readonly Selector newFunction_pConstantValues_completionHandler_ = Selector.Register("newFunction:pConstantValues:completionHandler:");
+    internal static readonly Selector newFunction_completionHandler_ = Selector.Register("newFunction:completionHandler:");
+    internal static readonly Selector newIntersectionFunction_error_ = Selector.Register("newIntersectionFunction:error:");
+    internal static readonly Selector newIntersectionFunction_completionHandler_ = Selector.Register("newIntersectionFunction:completionHandler:");
+    internal static readonly Selector reflectionForFunction_ = Selector.Register("reflectionForFunction:");
     internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
-    internal static readonly Selector type = Selector.Register("type");
-    internal static readonly Selector newFunction = Selector.Register("newFunction");
-    internal static readonly Selector newIntersectionFunction = Selector.Register("newIntersectionFunction");
-    internal static readonly Selector reflectionForFunction = Selector.Register("reflectionForFunction");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -29,60 +29,54 @@ public readonly struct MTLLibrary
     public static implicit operator nint(MTLLibrary o) => o.NativePtr;
     public static implicit operator MTLLibrary(nint ptr) => new MTLLibrary(ptr);
 
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLibrary_Selectors.device));
-    }
-
-    public NSArray FunctionNames
-    {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLibrary_Selectors.functionNames));
-    }
-
-    public NSString InstallName
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLibrary_Selectors.installName));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLibrary_Selectors.label));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLibrary_Selectors.setLabel_, value.NativePtr);
-    }
-
-    public MTLLibraryType Type
-    {
-        get => (MTLLibraryType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLLibrary_Selectors.type));
-    }
-
     public MTLFunction NewFunction(NSString functionName)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLibrary_Selectors.newFunction, functionName.NativePtr);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLibrary_Selectors.newFunction_, functionName.NativePtr);
         return new MTLFunction(__result);
     }
 
     public MTLFunction NewFunction(NSString name, MTLFunctionConstantValues constantValues, out NSError error)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLibrary_Selectors.newFunction, name.NativePtr, constantValues.NativePtr, out error);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLibrary_Selectors.newFunction_constantValues_error_, name.NativePtr, constantValues.NativePtr, out error);
         return new MTLFunction(__result);
     }
 
     public MTLFunction NewFunction(MTLFunctionDescriptor descriptor, out NSError error)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLibrary_Selectors.newFunction, descriptor.NativePtr, out error);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLibrary_Selectors.newFunction_error_, descriptor.NativePtr, out error);
         return new MTLFunction(__result);
+    }
+
+    public void NewFunction(NSString pFunctionName, MTLFunctionConstantValues pConstantValues, nint completionHandler)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLibrary_Selectors.newFunction_pConstantValues_completionHandler_, pFunctionName.NativePtr, pConstantValues.NativePtr, completionHandler);
+    }
+
+    public void NewFunction(MTLFunctionDescriptor pDescriptor, nint completionHandler)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLibrary_Selectors.newFunction_completionHandler_, pDescriptor.NativePtr, completionHandler);
     }
 
     public MTLFunction NewIntersectionFunction(MTLIntersectionFunctionDescriptor descriptor, out NSError error)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLibrary_Selectors.newIntersectionFunction, descriptor.NativePtr, out error);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLibrary_Selectors.newIntersectionFunction_error_, descriptor.NativePtr, out error);
         return new MTLFunction(__result);
+    }
+
+    public void NewIntersectionFunction(MTLIntersectionFunctionDescriptor pDescriptor, nint completionHandler)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLibrary_Selectors.newIntersectionFunction_completionHandler_, pDescriptor.NativePtr, completionHandler);
     }
 
     public MTLFunctionReflection ReflectionForFunction(NSString functionName)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLibrary_Selectors.reflectionForFunction, functionName.NativePtr);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLibrary_Selectors.reflectionForFunction_, functionName.NativePtr);
         return new MTLFunctionReflection(__result);
+    }
+
+    public void SetLabel(NSString label)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLibrary_Selectors.setLabel_, label.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

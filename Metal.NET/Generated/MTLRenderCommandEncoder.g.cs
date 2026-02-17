@@ -6,91 +6,86 @@ namespace Metal.NET;
 
 internal static class MTLRenderCommandEncoder_Selectors
 {
-    internal static readonly Selector colorAttachmentMap = Selector.Register("colorAttachmentMap");
+    internal static readonly Selector dispatchThreadsPerTile_ = Selector.Register("dispatchThreadsPerTile:");
+    internal static readonly Selector drawIndexedPatches_patchStart_patchCount_patchIndexBuffer_patchIndexBufferOffset_controlPointIndexBuffer_controlPointIndexBufferOffset_instanceCount_baseInstance_ = Selector.Register("drawIndexedPatches:patchStart:patchCount:patchIndexBuffer:patchIndexBufferOffset:controlPointIndexBuffer:controlPointIndexBufferOffset:instanceCount:baseInstance:");
+    internal static readonly Selector drawIndexedPatches_patchIndexBuffer_patchIndexBufferOffset_controlPointIndexBuffer_controlPointIndexBufferOffset_indirectBuffer_indirectBufferOffset_ = Selector.Register("drawIndexedPatches:patchIndexBuffer:patchIndexBufferOffset:controlPointIndexBuffer:controlPointIndexBufferOffset:indirectBuffer:indirectBufferOffset:");
+    internal static readonly Selector drawIndexedPrimitives_indexCount_indexType_indexBuffer_indexBufferOffset_instanceCount_ = Selector.Register("drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferOffset:instanceCount:");
+    internal static readonly Selector drawIndexedPrimitives_indexCount_indexType_indexBuffer_indexBufferOffset_ = Selector.Register("drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferOffset:");
+    internal static readonly Selector drawIndexedPrimitives_indexCount_indexType_indexBuffer_indexBufferOffset_instanceCount_baseVertex_baseInstance_ = Selector.Register("drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferOffset:instanceCount:baseVertex:baseInstance:");
+    internal static readonly Selector drawIndexedPrimitives_indexType_indexBuffer_indexBufferOffset_indirectBuffer_indirectBufferOffset_ = Selector.Register("drawIndexedPrimitives:indexType:indexBuffer:indexBufferOffset:indirectBuffer:indirectBufferOffset:");
+    internal static readonly Selector drawPatches_patchStart_patchCount_patchIndexBuffer_patchIndexBufferOffset_instanceCount_baseInstance_ = Selector.Register("drawPatches:patchStart:patchCount:patchIndexBuffer:patchIndexBufferOffset:instanceCount:baseInstance:");
+    internal static readonly Selector drawPatches_patchIndexBuffer_patchIndexBufferOffset_indirectBuffer_indirectBufferOffset_ = Selector.Register("drawPatches:patchIndexBuffer:patchIndexBufferOffset:indirectBuffer:indirectBufferOffset:");
+    internal static readonly Selector drawPrimitives_vertexStart_vertexCount_instanceCount_ = Selector.Register("drawPrimitives:vertexStart:vertexCount:instanceCount:");
+    internal static readonly Selector drawPrimitives_vertexStart_vertexCount_ = Selector.Register("drawPrimitives:vertexStart:vertexCount:");
+    internal static readonly Selector drawPrimitives_vertexStart_vertexCount_instanceCount_baseInstance_ = Selector.Register("drawPrimitives:vertexStart:vertexCount:instanceCount:baseInstance:");
+    internal static readonly Selector drawPrimitives_indirectBuffer_indirectBufferOffset_ = Selector.Register("drawPrimitives:indirectBuffer:indirectBufferOffset:");
+    internal static readonly Selector executeCommandsInBuffer_indirectRangeBuffer_indirectBufferOffset_ = Selector.Register("executeCommandsInBuffer:indirectRangeBuffer:indirectBufferOffset:");
+    internal static readonly Selector memoryBarrier_after_before_ = Selector.Register("memoryBarrier:after:before:");
+    internal static readonly Selector sampleCountersInBuffer_sampleIndex_barrier_ = Selector.Register("sampleCountersInBuffer:sampleIndex:barrier:");
     internal static readonly Selector setColorAttachmentMap_ = Selector.Register("setColorAttachmentMap:");
-    internal static readonly Selector cullMode = Selector.Register("cullMode");
+    internal static readonly Selector setColorStoreAction_colorAttachmentIndex_ = Selector.Register("setColorStoreAction:colorAttachmentIndex:");
+    internal static readonly Selector setColorStoreActionOptions_colorAttachmentIndex_ = Selector.Register("setColorStoreActionOptions:colorAttachmentIndex:");
     internal static readonly Selector setCullMode_ = Selector.Register("setCullMode:");
-    internal static readonly Selector depthClipMode = Selector.Register("depthClipMode");
     internal static readonly Selector setDepthClipMode_ = Selector.Register("setDepthClipMode:");
-    internal static readonly Selector depthStencilState = Selector.Register("depthStencilState");
     internal static readonly Selector setDepthStencilState_ = Selector.Register("setDepthStencilState:");
-    internal static readonly Selector depthStoreAction = Selector.Register("depthStoreAction");
     internal static readonly Selector setDepthStoreAction_ = Selector.Register("setDepthStoreAction:");
-    internal static readonly Selector depthStoreActionOptions = Selector.Register("depthStoreActionOptions");
     internal static readonly Selector setDepthStoreActionOptions_ = Selector.Register("setDepthStoreActionOptions:");
-    internal static readonly Selector frontFacingWinding = Selector.Register("frontFacingWinding");
+    internal static readonly Selector setFragmentAccelerationStructure_bufferIndex_ = Selector.Register("setFragmentAccelerationStructure:bufferIndex:");
+    internal static readonly Selector setFragmentBuffer_offset_index_ = Selector.Register("setFragmentBuffer:offset:index:");
+    internal static readonly Selector setFragmentBufferOffset_index_ = Selector.Register("setFragmentBufferOffset:index:");
+    internal static readonly Selector setFragmentBytes_length_index_ = Selector.Register("setFragmentBytes:length:index:");
+    internal static readonly Selector setFragmentIntersectionFunctionTable_bufferIndex_ = Selector.Register("setFragmentIntersectionFunctionTable:bufferIndex:");
+    internal static readonly Selector setFragmentSamplerState_index_ = Selector.Register("setFragmentSamplerState:index:");
+    internal static readonly Selector setFragmentTexture_index_ = Selector.Register("setFragmentTexture:index:");
+    internal static readonly Selector setFragmentVisibleFunctionTable_bufferIndex_ = Selector.Register("setFragmentVisibleFunctionTable:bufferIndex:");
     internal static readonly Selector setFrontFacingWinding_ = Selector.Register("setFrontFacingWinding:");
-    internal static readonly Selector renderPipelineState = Selector.Register("renderPipelineState");
+    internal static readonly Selector setMeshBuffer_offset_index_ = Selector.Register("setMeshBuffer:offset:index:");
+    internal static readonly Selector setMeshBufferOffset_index_ = Selector.Register("setMeshBufferOffset:index:");
+    internal static readonly Selector setMeshBytes_length_index_ = Selector.Register("setMeshBytes:length:index:");
+    internal static readonly Selector setMeshSamplerState_index_ = Selector.Register("setMeshSamplerState:index:");
+    internal static readonly Selector setMeshTexture_index_ = Selector.Register("setMeshTexture:index:");
+    internal static readonly Selector setObjectBuffer_offset_index_ = Selector.Register("setObjectBuffer:offset:index:");
+    internal static readonly Selector setObjectBufferOffset_index_ = Selector.Register("setObjectBufferOffset:index:");
+    internal static readonly Selector setObjectBytes_length_index_ = Selector.Register("setObjectBytes:length:index:");
+    internal static readonly Selector setObjectSamplerState_index_ = Selector.Register("setObjectSamplerState:index:");
+    internal static readonly Selector setObjectTexture_index_ = Selector.Register("setObjectTexture:index:");
+    internal static readonly Selector setObjectThreadgroupMemoryLength_index_ = Selector.Register("setObjectThreadgroupMemoryLength:index:");
     internal static readonly Selector setRenderPipelineState_ = Selector.Register("setRenderPipelineState:");
-    internal static readonly Selector scissorRect = Selector.Register("scissorRect");
-    internal static readonly Selector setScissorRect_ = Selector.Register("setScissorRect:");
-    internal static readonly Selector stencilReferenceValue = Selector.Register("stencilReferenceValue");
     internal static readonly Selector setStencilReferenceValue_ = Selector.Register("setStencilReferenceValue:");
-    internal static readonly Selector stencilStoreAction = Selector.Register("stencilStoreAction");
+    internal static readonly Selector setStencilReferenceValues_backReferenceValue_ = Selector.Register("setStencilReferenceValues:backReferenceValue:");
     internal static readonly Selector setStencilStoreAction_ = Selector.Register("setStencilStoreAction:");
-    internal static readonly Selector stencilStoreActionOptions = Selector.Register("stencilStoreActionOptions");
     internal static readonly Selector setStencilStoreActionOptions_ = Selector.Register("setStencilStoreActionOptions:");
-    internal static readonly Selector tessellationFactorScale = Selector.Register("tessellationFactorScale");
+    internal static readonly Selector setTessellationFactorBuffer_offset_instanceStride_ = Selector.Register("setTessellationFactorBuffer:offset:instanceStride:");
     internal static readonly Selector setTessellationFactorScale_ = Selector.Register("setTessellationFactorScale:");
-    internal static readonly Selector triangleFillMode = Selector.Register("triangleFillMode");
+    internal static readonly Selector setThreadgroupMemoryLength_offset_index_ = Selector.Register("setThreadgroupMemoryLength:offset:index:");
+    internal static readonly Selector setTileAccelerationStructure_bufferIndex_ = Selector.Register("setTileAccelerationStructure:bufferIndex:");
+    internal static readonly Selector setTileBuffer_offset_index_ = Selector.Register("setTileBuffer:offset:index:");
+    internal static readonly Selector setTileBufferOffset_index_ = Selector.Register("setTileBufferOffset:index:");
+    internal static readonly Selector setTileBytes_length_index_ = Selector.Register("setTileBytes:length:index:");
+    internal static readonly Selector setTileIntersectionFunctionTable_bufferIndex_ = Selector.Register("setTileIntersectionFunctionTable:bufferIndex:");
+    internal static readonly Selector setTileSamplerState_index_ = Selector.Register("setTileSamplerState:index:");
+    internal static readonly Selector setTileTexture_index_ = Selector.Register("setTileTexture:index:");
+    internal static readonly Selector setTileVisibleFunctionTable_bufferIndex_ = Selector.Register("setTileVisibleFunctionTable:bufferIndex:");
     internal static readonly Selector setTriangleFillMode_ = Selector.Register("setTriangleFillMode:");
-    internal static readonly Selector viewport = Selector.Register("viewport");
-    internal static readonly Selector setViewport_ = Selector.Register("setViewport:");
-    internal static readonly Selector tileHeight = Selector.Register("tileHeight");
-    internal static readonly Selector tileWidth = Selector.Register("tileWidth");
-    internal static readonly Selector drawIndexedPatches = Selector.Register("drawIndexedPatches");
-    internal static readonly Selector drawIndexedPrimitives = Selector.Register("drawIndexedPrimitives");
-    internal static readonly Selector drawPatches = Selector.Register("drawPatches");
-    internal static readonly Selector drawPrimitives = Selector.Register("drawPrimitives");
-    internal static readonly Selector executeCommandsInBuffer = Selector.Register("executeCommandsInBuffer");
-    internal static readonly Selector memoryBarrier = Selector.Register("memoryBarrier");
-    internal static readonly Selector sampleCountersInBuffer = Selector.Register("sampleCountersInBuffer");
-    internal static readonly Selector setColorStoreAction = Selector.Register("setColorStoreAction");
-    internal static readonly Selector setColorStoreActionOptions = Selector.Register("setColorStoreActionOptions");
-    internal static readonly Selector setFragmentAccelerationStructure = Selector.Register("setFragmentAccelerationStructure");
-    internal static readonly Selector setFragmentBuffer = Selector.Register("setFragmentBuffer");
-    internal static readonly Selector setFragmentBufferOffset = Selector.Register("setFragmentBufferOffset");
-    internal static readonly Selector setFragmentBytes = Selector.Register("setFragmentBytes");
-    internal static readonly Selector setFragmentIntersectionFunctionTable = Selector.Register("setFragmentIntersectionFunctionTable");
-    internal static readonly Selector setFragmentSamplerState = Selector.Register("setFragmentSamplerState");
-    internal static readonly Selector setFragmentTexture = Selector.Register("setFragmentTexture");
-    internal static readonly Selector setFragmentVisibleFunctionTable = Selector.Register("setFragmentVisibleFunctionTable");
-    internal static readonly Selector setMeshBuffer = Selector.Register("setMeshBuffer");
-    internal static readonly Selector setMeshBufferOffset = Selector.Register("setMeshBufferOffset");
-    internal static readonly Selector setMeshBytes = Selector.Register("setMeshBytes");
-    internal static readonly Selector setMeshSamplerState = Selector.Register("setMeshSamplerState");
-    internal static readonly Selector setMeshTexture = Selector.Register("setMeshTexture");
-    internal static readonly Selector setObjectBuffer = Selector.Register("setObjectBuffer");
-    internal static readonly Selector setObjectBufferOffset = Selector.Register("setObjectBufferOffset");
-    internal static readonly Selector setObjectBytes = Selector.Register("setObjectBytes");
-    internal static readonly Selector setObjectSamplerState = Selector.Register("setObjectSamplerState");
-    internal static readonly Selector setObjectTexture = Selector.Register("setObjectTexture");
-    internal static readonly Selector setObjectThreadgroupMemoryLength = Selector.Register("setObjectThreadgroupMemoryLength");
-    internal static readonly Selector setStencilReferenceValues = Selector.Register("setStencilReferenceValues");
-    internal static readonly Selector setTessellationFactorBuffer = Selector.Register("setTessellationFactorBuffer");
-    internal static readonly Selector setThreadgroupMemoryLength = Selector.Register("setThreadgroupMemoryLength");
-    internal static readonly Selector setTileAccelerationStructure = Selector.Register("setTileAccelerationStructure");
-    internal static readonly Selector setTileBuffer = Selector.Register("setTileBuffer");
-    internal static readonly Selector setTileBufferOffset = Selector.Register("setTileBufferOffset");
-    internal static readonly Selector setTileBytes = Selector.Register("setTileBytes");
-    internal static readonly Selector setTileIntersectionFunctionTable = Selector.Register("setTileIntersectionFunctionTable");
-    internal static readonly Selector setTileSamplerState = Selector.Register("setTileSamplerState");
-    internal static readonly Selector setTileTexture = Selector.Register("setTileTexture");
-    internal static readonly Selector setTileVisibleFunctionTable = Selector.Register("setTileVisibleFunctionTable");
-    internal static readonly Selector setVertexAccelerationStructure = Selector.Register("setVertexAccelerationStructure");
-    internal static readonly Selector setVertexBuffer = Selector.Register("setVertexBuffer");
-    internal static readonly Selector setVertexBufferOffset = Selector.Register("setVertexBufferOffset");
-    internal static readonly Selector setVertexBytes = Selector.Register("setVertexBytes");
-    internal static readonly Selector setVertexIntersectionFunctionTable = Selector.Register("setVertexIntersectionFunctionTable");
-    internal static readonly Selector setVertexSamplerState = Selector.Register("setVertexSamplerState");
-    internal static readonly Selector setVertexTexture = Selector.Register("setVertexTexture");
-    internal static readonly Selector setVertexVisibleFunctionTable = Selector.Register("setVertexVisibleFunctionTable");
-    internal static readonly Selector setVisibilityResultMode = Selector.Register("setVisibilityResultMode");
+    internal static readonly Selector setVertexAccelerationStructure_bufferIndex_ = Selector.Register("setVertexAccelerationStructure:bufferIndex:");
+    internal static readonly Selector setVertexBuffer_offset_index_ = Selector.Register("setVertexBuffer:offset:index:");
+    internal static readonly Selector setVertexBuffer_offset_stride_index_ = Selector.Register("setVertexBuffer:offset:stride:index:");
+    internal static readonly Selector setVertexBufferOffset_index_ = Selector.Register("setVertexBufferOffset:index:");
+    internal static readonly Selector setVertexBufferOffset_stride_index_ = Selector.Register("setVertexBufferOffset:stride:index:");
+    internal static readonly Selector setVertexBytes_length_index_ = Selector.Register("setVertexBytes:length:index:");
+    internal static readonly Selector setVertexBytes_length_stride_index_ = Selector.Register("setVertexBytes:length:stride:index:");
+    internal static readonly Selector setVertexIntersectionFunctionTable_bufferIndex_ = Selector.Register("setVertexIntersectionFunctionTable:bufferIndex:");
+    internal static readonly Selector setVertexSamplerState_index_ = Selector.Register("setVertexSamplerState:index:");
+    internal static readonly Selector setVertexTexture_index_ = Selector.Register("setVertexTexture:index:");
+    internal static readonly Selector setVertexVisibleFunctionTable_bufferIndex_ = Selector.Register("setVertexVisibleFunctionTable:bufferIndex:");
+    internal static readonly Selector setVisibilityResultMode_offset_ = Selector.Register("setVisibilityResultMode:offset:");
     internal static readonly Selector textureBarrier = Selector.Register("textureBarrier");
-    internal static readonly Selector updateFence = Selector.Register("updateFence");
-    internal static readonly Selector useHeap = Selector.Register("useHeap");
-    internal static readonly Selector useResource = Selector.Register("useResource");
-    internal static readonly Selector waitForFence = Selector.Register("waitForFence");
+    internal static readonly Selector updateFence_stages_ = Selector.Register("updateFence:stages:");
+    internal static readonly Selector useHeap_ = Selector.Register("useHeap:");
+    internal static readonly Selector useHeap_stages_ = Selector.Register("useHeap:stages:");
+    internal static readonly Selector useResource_usage_ = Selector.Register("useResource:usage:");
+    internal static readonly Selector useResource_usage_stages_ = Selector.Register("useResource:usage:stages:");
+    internal static readonly Selector waitForFence_stages_ = Selector.Register("waitForFence:stages:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -105,396 +100,369 @@ public readonly struct MTLRenderCommandEncoder
     public static implicit operator nint(MTLRenderCommandEncoder o) => o.NativePtr;
     public static implicit operator MTLRenderCommandEncoder(nint ptr) => new MTLRenderCommandEncoder(ptr);
 
-    public MTLLogicalToPhysicalColorAttachmentMap ColorAttachmentMap
+    public void DispatchThreadsPerTile(MTLSize threadsPerTile)
     {
-        get => new MTLLogicalToPhysicalColorAttachmentMap(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.colorAttachmentMap));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setColorAttachmentMap_, value.NativePtr);
-    }
-
-    public MTLCullMode CullMode
-    {
-        get => (MTLCullMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.cullMode));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setCullMode_, (nint)(uint)value);
-    }
-
-    public MTLDepthClipMode DepthClipMode
-    {
-        get => (MTLDepthClipMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.depthClipMode));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setDepthClipMode_, (nint)(uint)value);
-    }
-
-    public MTLDepthStencilState DepthStencilState
-    {
-        get => new MTLDepthStencilState(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.depthStencilState));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setDepthStencilState_, value.NativePtr);
-    }
-
-    public MTLStoreAction DepthStoreAction
-    {
-        get => (MTLStoreAction)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.depthStoreAction));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setDepthStoreAction_, (nint)(uint)value);
-    }
-
-    public MTLStoreActionOptions DepthStoreActionOptions
-    {
-        get => (MTLStoreActionOptions)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.depthStoreActionOptions));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setDepthStoreActionOptions_, (nint)(uint)value);
-    }
-
-    public MTLWinding FrontFacingWinding
-    {
-        get => (MTLWinding)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.frontFacingWinding));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setFrontFacingWinding_, (nint)(uint)value);
-    }
-
-    public MTLRenderPipelineState RenderPipelineState
-    {
-        get => new MTLRenderPipelineState(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.renderPipelineState));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setRenderPipelineState_, value.NativePtr);
-    }
-
-    // TODO: ScissorRect (value-struct return type MTLScissorRect requires objc_msgSend_stret)
-
-    public uint StencilReferenceValue
-    {
-        get => ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.stencilReferenceValue);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setStencilReferenceValue_, (nint)value);
-    }
-
-    public MTLStoreAction StencilStoreAction
-    {
-        get => (MTLStoreAction)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.stencilStoreAction));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setStencilStoreAction_, (nint)(uint)value);
-    }
-
-    public MTLStoreActionOptions StencilStoreActionOptions
-    {
-        get => (MTLStoreActionOptions)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.stencilStoreActionOptions));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setStencilStoreActionOptions_, (nint)(uint)value);
-    }
-
-    public float TessellationFactorScale
-    {
-        get => ObjectiveCRuntime.float_objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.tessellationFactorScale);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setTessellationFactorScale_, value);
-    }
-
-    public MTLTriangleFillMode TriangleFillMode
-    {
-        get => (MTLTriangleFillMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.triangleFillMode));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setTriangleFillMode_, (nint)(uint)value);
-    }
-
-    // TODO: Viewport (value-struct return type MTLViewport requires objc_msgSend_stret)
-
-    public nuint TileHeight
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.tileHeight);
-    }
-
-    public nuint TileWidth
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.tileWidth);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.dispatchThreadsPerTile_, threadsPerTile);
     }
 
     public void DrawIndexedPatches(nuint numberOfPatchControlPoints, nuint patchStart, nuint patchCount, MTLBuffer patchIndexBuffer, nuint patchIndexBufferOffset, MTLBuffer controlPointIndexBuffer, nuint controlPointIndexBufferOffset, nuint instanceCount, nuint baseInstance)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawIndexedPatches, (nint)numberOfPatchControlPoints, (nint)patchStart, (nint)patchCount, patchIndexBuffer.NativePtr, (nint)patchIndexBufferOffset, controlPointIndexBuffer.NativePtr, (nint)controlPointIndexBufferOffset, (nint)instanceCount, (nint)baseInstance);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawIndexedPatches_patchStart_patchCount_patchIndexBuffer_patchIndexBufferOffset_controlPointIndexBuffer_controlPointIndexBufferOffset_instanceCount_baseInstance_, (nint)numberOfPatchControlPoints, (nint)patchStart, (nint)patchCount, patchIndexBuffer.NativePtr, (nint)patchIndexBufferOffset, controlPointIndexBuffer.NativePtr, (nint)controlPointIndexBufferOffset, (nint)instanceCount, (nint)baseInstance);
     }
 
     public void DrawIndexedPatches(nuint numberOfPatchControlPoints, MTLBuffer patchIndexBuffer, nuint patchIndexBufferOffset, MTLBuffer controlPointIndexBuffer, nuint controlPointIndexBufferOffset, MTLBuffer indirectBuffer, nuint indirectBufferOffset)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawIndexedPatches, (nint)numberOfPatchControlPoints, patchIndexBuffer.NativePtr, (nint)patchIndexBufferOffset, controlPointIndexBuffer.NativePtr, (nint)controlPointIndexBufferOffset, indirectBuffer.NativePtr, (nint)indirectBufferOffset);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawIndexedPatches_patchIndexBuffer_patchIndexBufferOffset_controlPointIndexBuffer_controlPointIndexBufferOffset_indirectBuffer_indirectBufferOffset_, (nint)numberOfPatchControlPoints, patchIndexBuffer.NativePtr, (nint)patchIndexBufferOffset, controlPointIndexBuffer.NativePtr, (nint)controlPointIndexBufferOffset, indirectBuffer.NativePtr, (nint)indirectBufferOffset);
     }
 
     public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, MTLBuffer indexBuffer, nuint indexBufferOffset, nuint instanceCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawIndexedPrimitives, (nint)(uint)primitiveType, (nint)indexCount, (nint)(uint)indexType, indexBuffer.NativePtr, (nint)indexBufferOffset, (nint)instanceCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawIndexedPrimitives_indexCount_indexType_indexBuffer_indexBufferOffset_instanceCount_, (nint)(uint)primitiveType, (nint)indexCount, (nint)(uint)indexType, indexBuffer.NativePtr, (nint)indexBufferOffset, (nint)instanceCount);
     }
 
     public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, MTLBuffer indexBuffer, nuint indexBufferOffset)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawIndexedPrimitives, (nint)(uint)primitiveType, (nint)indexCount, (nint)(uint)indexType, indexBuffer.NativePtr, (nint)indexBufferOffset);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawIndexedPrimitives_indexCount_indexType_indexBuffer_indexBufferOffset_, (nint)(uint)primitiveType, (nint)indexCount, (nint)(uint)indexType, indexBuffer.NativePtr, (nint)indexBufferOffset);
     }
 
     public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, MTLBuffer indexBuffer, nuint indexBufferOffset, nuint instanceCount, nint baseVertex, nuint baseInstance)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawIndexedPrimitives, (nint)(uint)primitiveType, (nint)indexCount, (nint)(uint)indexType, indexBuffer.NativePtr, (nint)indexBufferOffset, (nint)instanceCount, baseVertex, (nint)baseInstance);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawIndexedPrimitives_indexCount_indexType_indexBuffer_indexBufferOffset_instanceCount_baseVertex_baseInstance_, (nint)(uint)primitiveType, (nint)indexCount, (nint)(uint)indexType, indexBuffer.NativePtr, (nint)indexBufferOffset, (nint)instanceCount, baseVertex, (nint)baseInstance);
     }
 
     public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, MTLIndexType indexType, MTLBuffer indexBuffer, nuint indexBufferOffset, MTLBuffer indirectBuffer, nuint indirectBufferOffset)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawIndexedPrimitives, (nint)(uint)primitiveType, (nint)(uint)indexType, indexBuffer.NativePtr, (nint)indexBufferOffset, indirectBuffer.NativePtr, (nint)indirectBufferOffset);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawIndexedPrimitives_indexType_indexBuffer_indexBufferOffset_indirectBuffer_indirectBufferOffset_, (nint)(uint)primitiveType, (nint)(uint)indexType, indexBuffer.NativePtr, (nint)indexBufferOffset, indirectBuffer.NativePtr, (nint)indirectBufferOffset);
     }
 
     public void DrawPatches(nuint numberOfPatchControlPoints, nuint patchStart, nuint patchCount, MTLBuffer patchIndexBuffer, nuint patchIndexBufferOffset, nuint instanceCount, nuint baseInstance)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawPatches, (nint)numberOfPatchControlPoints, (nint)patchStart, (nint)patchCount, patchIndexBuffer.NativePtr, (nint)patchIndexBufferOffset, (nint)instanceCount, (nint)baseInstance);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawPatches_patchStart_patchCount_patchIndexBuffer_patchIndexBufferOffset_instanceCount_baseInstance_, (nint)numberOfPatchControlPoints, (nint)patchStart, (nint)patchCount, patchIndexBuffer.NativePtr, (nint)patchIndexBufferOffset, (nint)instanceCount, (nint)baseInstance);
     }
 
     public void DrawPatches(nuint numberOfPatchControlPoints, MTLBuffer patchIndexBuffer, nuint patchIndexBufferOffset, MTLBuffer indirectBuffer, nuint indirectBufferOffset)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawPatches, (nint)numberOfPatchControlPoints, patchIndexBuffer.NativePtr, (nint)patchIndexBufferOffset, indirectBuffer.NativePtr, (nint)indirectBufferOffset);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawPatches_patchIndexBuffer_patchIndexBufferOffset_indirectBuffer_indirectBufferOffset_, (nint)numberOfPatchControlPoints, patchIndexBuffer.NativePtr, (nint)patchIndexBufferOffset, indirectBuffer.NativePtr, (nint)indirectBufferOffset);
     }
 
     public void DrawPrimitives(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount, nuint instanceCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawPrimitives, (nint)(uint)primitiveType, (nint)vertexStart, (nint)vertexCount, (nint)instanceCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawPrimitives_vertexStart_vertexCount_instanceCount_, (nint)(uint)primitiveType, (nint)vertexStart, (nint)vertexCount, (nint)instanceCount);
     }
 
     public void DrawPrimitives(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawPrimitives, (nint)(uint)primitiveType, (nint)vertexStart, (nint)vertexCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawPrimitives_vertexStart_vertexCount_, (nint)(uint)primitiveType, (nint)vertexStart, (nint)vertexCount);
     }
 
     public void DrawPrimitives(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount, nuint instanceCount, nuint baseInstance)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawPrimitives, (nint)(uint)primitiveType, (nint)vertexStart, (nint)vertexCount, (nint)instanceCount, (nint)baseInstance);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawPrimitives_vertexStart_vertexCount_instanceCount_baseInstance_, (nint)(uint)primitiveType, (nint)vertexStart, (nint)vertexCount, (nint)instanceCount, (nint)baseInstance);
     }
 
     public void DrawPrimitives(MTLPrimitiveType primitiveType, MTLBuffer indirectBuffer, nuint indirectBufferOffset)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawPrimitives, (nint)(uint)primitiveType, indirectBuffer.NativePtr, (nint)indirectBufferOffset);
-    }
-
-    public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, nint executionRange)
-    {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.executeCommandsInBuffer, indirectCommandBuffer.NativePtr, executionRange);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.drawPrimitives_indirectBuffer_indirectBufferOffset_, (nint)(uint)primitiveType, indirectBuffer.NativePtr, (nint)indirectBufferOffset);
     }
 
     public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandbuffer, MTLBuffer indirectRangeBuffer, nuint indirectBufferOffset)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.executeCommandsInBuffer, indirectCommandbuffer.NativePtr, indirectRangeBuffer.NativePtr, (nint)indirectBufferOffset);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.executeCommandsInBuffer_indirectRangeBuffer_indirectBufferOffset_, indirectCommandbuffer.NativePtr, indirectRangeBuffer.NativePtr, (nint)indirectBufferOffset);
     }
 
-    public void MemoryBarrier(MTLBarrierScope scope, MTLRenderStages after, MTLRenderStages before)
+    public void MemoryBarrier(nuint scope, nuint after, nuint before)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.memoryBarrier, (nint)(uint)scope, (nint)(uint)after, (nint)(uint)before);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.memoryBarrier_after_before_, (nint)scope, (nint)after, (nint)before);
     }
 
     public void SampleCountersInBuffer(MTLCounterSampleBuffer sampleBuffer, nuint sampleIndex, Bool8 barrier)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.sampleCountersInBuffer, sampleBuffer.NativePtr, (nint)sampleIndex, (nint)barrier.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.sampleCountersInBuffer_sampleIndex_barrier_, sampleBuffer.NativePtr, (nint)sampleIndex, (nint)barrier.Value);
+    }
+
+    public void SetColorAttachmentMap(MTLLogicalToPhysicalColorAttachmentMap mapping)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setColorAttachmentMap_, mapping.NativePtr);
     }
 
     public void SetColorStoreAction(MTLStoreAction storeAction, nuint colorAttachmentIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setColorStoreAction, (nint)(uint)storeAction, (nint)colorAttachmentIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setColorStoreAction_colorAttachmentIndex_, (nint)(uint)storeAction, (nint)colorAttachmentIndex);
     }
 
-    public void SetColorStoreActionOptions(MTLStoreActionOptions storeActionOptions, nuint colorAttachmentIndex)
+    public void SetColorStoreActionOptions(nuint storeActionOptions, nuint colorAttachmentIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setColorStoreActionOptions, (nint)(uint)storeActionOptions, (nint)colorAttachmentIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setColorStoreActionOptions_colorAttachmentIndex_, (nint)storeActionOptions, (nint)colorAttachmentIndex);
+    }
+
+    public void SetCullMode(MTLCullMode cullMode)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setCullMode_, (nint)(uint)cullMode);
+    }
+
+    public void SetDepthClipMode(MTLDepthClipMode depthClipMode)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setDepthClipMode_, (nint)(uint)depthClipMode);
+    }
+
+    public void SetDepthStencilState(MTLDepthStencilState depthStencilState)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setDepthStencilState_, depthStencilState.NativePtr);
+    }
+
+    public void SetDepthStoreAction(MTLStoreAction storeAction)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setDepthStoreAction_, (nint)(uint)storeAction);
+    }
+
+    public void SetDepthStoreActionOptions(nuint storeActionOptions)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setDepthStoreActionOptions_, (nint)storeActionOptions);
     }
 
     public void SetFragmentAccelerationStructure(MTLAccelerationStructure accelerationStructure, nuint bufferIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setFragmentAccelerationStructure, accelerationStructure.NativePtr, (nint)bufferIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setFragmentAccelerationStructure_bufferIndex_, accelerationStructure.NativePtr, (nint)bufferIndex);
     }
 
     public void SetFragmentBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setFragmentBuffer, buffer.NativePtr, (nint)offset, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setFragmentBuffer_offset_index_, buffer.NativePtr, (nint)offset, (nint)index);
     }
 
     public void SetFragmentBufferOffset(nuint offset, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setFragmentBufferOffset, (nint)offset, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setFragmentBufferOffset_index_, (nint)offset, (nint)index);
     }
 
     public void SetFragmentBytes(nint bytes, nuint length, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setFragmentBytes, bytes, (nint)length, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setFragmentBytes_length_index_, bytes, (nint)length, (nint)index);
     }
 
     public void SetFragmentIntersectionFunctionTable(MTLIntersectionFunctionTable intersectionFunctionTable, nuint bufferIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setFragmentIntersectionFunctionTable, intersectionFunctionTable.NativePtr, (nint)bufferIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setFragmentIntersectionFunctionTable_bufferIndex_, intersectionFunctionTable.NativePtr, (nint)bufferIndex);
     }
 
     public void SetFragmentSamplerState(MTLSamplerState sampler, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setFragmentSamplerState, sampler.NativePtr, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setFragmentSamplerState_index_, sampler.NativePtr, (nint)index);
     }
 
     public void SetFragmentTexture(MTLTexture texture, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setFragmentTexture, texture.NativePtr, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setFragmentTexture_index_, texture.NativePtr, (nint)index);
     }
 
     public void SetFragmentVisibleFunctionTable(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setFragmentVisibleFunctionTable, functionTable.NativePtr, (nint)bufferIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setFragmentVisibleFunctionTable_bufferIndex_, functionTable.NativePtr, (nint)bufferIndex);
+    }
+
+    public void SetFrontFacingWinding(MTLWinding frontFacingWinding)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setFrontFacingWinding_, (nint)(uint)frontFacingWinding);
     }
 
     public void SetMeshBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setMeshBuffer, buffer.NativePtr, (nint)offset, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setMeshBuffer_offset_index_, buffer.NativePtr, (nint)offset, (nint)index);
     }
 
     public void SetMeshBufferOffset(nuint offset, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setMeshBufferOffset, (nint)offset, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setMeshBufferOffset_index_, (nint)offset, (nint)index);
     }
 
     public void SetMeshBytes(nint bytes, nuint length, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setMeshBytes, bytes, (nint)length, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setMeshBytes_length_index_, bytes, (nint)length, (nint)index);
     }
 
     public void SetMeshSamplerState(MTLSamplerState sampler, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setMeshSamplerState, sampler.NativePtr, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setMeshSamplerState_index_, sampler.NativePtr, (nint)index);
     }
 
     public void SetMeshTexture(MTLTexture texture, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setMeshTexture, texture.NativePtr, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setMeshTexture_index_, texture.NativePtr, (nint)index);
     }
 
     public void SetObjectBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setObjectBuffer, buffer.NativePtr, (nint)offset, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setObjectBuffer_offset_index_, buffer.NativePtr, (nint)offset, (nint)index);
     }
 
     public void SetObjectBufferOffset(nuint offset, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setObjectBufferOffset, (nint)offset, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setObjectBufferOffset_index_, (nint)offset, (nint)index);
     }
 
     public void SetObjectBytes(nint bytes, nuint length, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setObjectBytes, bytes, (nint)length, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setObjectBytes_length_index_, bytes, (nint)length, (nint)index);
     }
 
     public void SetObjectSamplerState(MTLSamplerState sampler, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setObjectSamplerState, sampler.NativePtr, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setObjectSamplerState_index_, sampler.NativePtr, (nint)index);
     }
 
     public void SetObjectTexture(MTLTexture texture, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setObjectTexture, texture.NativePtr, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setObjectTexture_index_, texture.NativePtr, (nint)index);
     }
 
     public void SetObjectThreadgroupMemoryLength(nuint length, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setObjectThreadgroupMemoryLength, (nint)length, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setObjectThreadgroupMemoryLength_index_, (nint)length, (nint)index);
+    }
+
+    public void SetRenderPipelineState(MTLRenderPipelineState pipelineState)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setRenderPipelineState_, pipelineState.NativePtr);
+    }
+
+    public void SetStencilReferenceValue(uint referenceValue)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setStencilReferenceValue_, (nint)referenceValue);
     }
 
     public void SetStencilReferenceValues(uint frontReferenceValue, uint backReferenceValue)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setStencilReferenceValues, (nint)frontReferenceValue, (nint)backReferenceValue);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setStencilReferenceValues_backReferenceValue_, (nint)frontReferenceValue, (nint)backReferenceValue);
+    }
+
+    public void SetStencilStoreAction(MTLStoreAction storeAction)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setStencilStoreAction_, (nint)(uint)storeAction);
+    }
+
+    public void SetStencilStoreActionOptions(nuint storeActionOptions)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setStencilStoreActionOptions_, (nint)storeActionOptions);
     }
 
     public void SetTessellationFactorBuffer(MTLBuffer buffer, nuint offset, nuint instanceStride)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setTessellationFactorBuffer, buffer.NativePtr, (nint)offset, (nint)instanceStride);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setTessellationFactorBuffer_offset_instanceStride_, buffer.NativePtr, (nint)offset, (nint)instanceStride);
+    }
+
+    public void SetTessellationFactorScale(float scale)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setTessellationFactorScale_, scale);
     }
 
     public void SetThreadgroupMemoryLength(nuint length, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setThreadgroupMemoryLength, (nint)length, (nint)offset, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setThreadgroupMemoryLength_offset_index_, (nint)length, (nint)offset, (nint)index);
     }
 
     public void SetTileAccelerationStructure(MTLAccelerationStructure accelerationStructure, nuint bufferIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setTileAccelerationStructure, accelerationStructure.NativePtr, (nint)bufferIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setTileAccelerationStructure_bufferIndex_, accelerationStructure.NativePtr, (nint)bufferIndex);
     }
 
     public void SetTileBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setTileBuffer, buffer.NativePtr, (nint)offset, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setTileBuffer_offset_index_, buffer.NativePtr, (nint)offset, (nint)index);
     }
 
     public void SetTileBufferOffset(nuint offset, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setTileBufferOffset, (nint)offset, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setTileBufferOffset_index_, (nint)offset, (nint)index);
     }
 
     public void SetTileBytes(nint bytes, nuint length, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setTileBytes, bytes, (nint)length, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setTileBytes_length_index_, bytes, (nint)length, (nint)index);
     }
 
     public void SetTileIntersectionFunctionTable(MTLIntersectionFunctionTable intersectionFunctionTable, nuint bufferIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setTileIntersectionFunctionTable, intersectionFunctionTable.NativePtr, (nint)bufferIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setTileIntersectionFunctionTable_bufferIndex_, intersectionFunctionTable.NativePtr, (nint)bufferIndex);
     }
 
     public void SetTileSamplerState(MTLSamplerState sampler, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setTileSamplerState, sampler.NativePtr, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setTileSamplerState_index_, sampler.NativePtr, (nint)index);
     }
 
     public void SetTileTexture(MTLTexture texture, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setTileTexture, texture.NativePtr, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setTileTexture_index_, texture.NativePtr, (nint)index);
     }
 
     public void SetTileVisibleFunctionTable(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setTileVisibleFunctionTable, functionTable.NativePtr, (nint)bufferIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setTileVisibleFunctionTable_bufferIndex_, functionTable.NativePtr, (nint)bufferIndex);
+    }
+
+    public void SetTriangleFillMode(MTLTriangleFillMode fillMode)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setTriangleFillMode_, (nint)(uint)fillMode);
     }
 
     public void SetVertexAccelerationStructure(MTLAccelerationStructure accelerationStructure, nuint bufferIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVertexAccelerationStructure, accelerationStructure.NativePtr, (nint)bufferIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVertexAccelerationStructure_bufferIndex_, accelerationStructure.NativePtr, (nint)bufferIndex);
     }
 
     public void SetVertexBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVertexBuffer, buffer.NativePtr, (nint)offset, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVertexBuffer_offset_index_, buffer.NativePtr, (nint)offset, (nint)index);
     }
 
     public void SetVertexBuffer(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVertexBuffer, buffer.NativePtr, (nint)offset, (nint)stride, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVertexBuffer_offset_stride_index_, buffer.NativePtr, (nint)offset, (nint)stride, (nint)index);
     }
 
     public void SetVertexBufferOffset(nuint offset, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVertexBufferOffset, (nint)offset, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVertexBufferOffset_index_, (nint)offset, (nint)index);
     }
 
     public void SetVertexBufferOffset(nuint offset, nuint stride, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVertexBufferOffset, (nint)offset, (nint)stride, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVertexBufferOffset_stride_index_, (nint)offset, (nint)stride, (nint)index);
     }
 
     public void SetVertexBytes(nint bytes, nuint length, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVertexBytes, bytes, (nint)length, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVertexBytes_length_index_, bytes, (nint)length, (nint)index);
     }
 
     public void SetVertexBytes(nint bytes, nuint length, nuint stride, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVertexBytes, bytes, (nint)length, (nint)stride, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVertexBytes_length_stride_index_, bytes, (nint)length, (nint)stride, (nint)index);
     }
 
     public void SetVertexIntersectionFunctionTable(MTLIntersectionFunctionTable intersectionFunctionTable, nuint bufferIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVertexIntersectionFunctionTable, intersectionFunctionTable.NativePtr, (nint)bufferIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVertexIntersectionFunctionTable_bufferIndex_, intersectionFunctionTable.NativePtr, (nint)bufferIndex);
     }
 
     public void SetVertexSamplerState(MTLSamplerState sampler, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVertexSamplerState, sampler.NativePtr, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVertexSamplerState_index_, sampler.NativePtr, (nint)index);
     }
 
     public void SetVertexTexture(MTLTexture texture, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVertexTexture, texture.NativePtr, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVertexTexture_index_, texture.NativePtr, (nint)index);
     }
 
     public void SetVertexVisibleFunctionTable(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVertexVisibleFunctionTable, functionTable.NativePtr, (nint)bufferIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVertexVisibleFunctionTable_bufferIndex_, functionTable.NativePtr, (nint)bufferIndex);
     }
 
     public void SetVisibilityResultMode(MTLVisibilityResultMode mode, nuint offset)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVisibilityResultMode, (nint)(uint)mode, (nint)offset);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.setVisibilityResultMode_offset_, (nint)(uint)mode, (nint)offset);
     }
 
     public void TextureBarrier()
@@ -502,34 +470,34 @@ public readonly struct MTLRenderCommandEncoder
         ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.textureBarrier);
     }
 
-    public void UpdateFence(MTLFence fence, MTLRenderStages stages)
+    public void UpdateFence(MTLFence fence, nuint stages)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.updateFence, fence.NativePtr, (nint)(uint)stages);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.updateFence_stages_, fence.NativePtr, (nint)stages);
     }
 
     public void UseHeap(MTLHeap heap)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.useHeap, heap.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.useHeap_, heap.NativePtr);
     }
 
-    public void UseHeap(MTLHeap heap, MTLRenderStages stages)
+    public void UseHeap(MTLHeap heap, nuint stages)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.useHeap, heap.NativePtr, (nint)(uint)stages);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.useHeap_stages_, heap.NativePtr, (nint)stages);
     }
 
-    public void UseResource(MTLResource resource, MTLResourceUsage usage)
+    public void UseResource(MTLResource resource, nuint usage)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.useResource, resource.NativePtr, (nint)(uint)usage);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.useResource_usage_, resource.NativePtr, (nint)usage);
     }
 
-    public void UseResource(MTLResource resource, MTLResourceUsage usage, MTLRenderStages stages)
+    public void UseResource(MTLResource resource, nuint usage, nuint stages)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.useResource, resource.NativePtr, (nint)(uint)usage, (nint)(uint)stages);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.useResource_usage_stages_, resource.NativePtr, (nint)usage, (nint)stages);
     }
 
-    public void WaitForFence(MTLFence fence, MTLRenderStages stages)
+    public void WaitForFence(MTLFence fence, nuint stages)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.waitForFence, fence.NativePtr, (nint)(uint)stages);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderCommandEncoder_Selectors.waitForFence_stages_, fence.NativePtr, (nint)stages);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

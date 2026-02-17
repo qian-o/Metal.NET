@@ -6,8 +6,6 @@ namespace Metal.NET;
 
 internal static class MTL4BinaryFunction_Selectors
 {
-    internal static readonly Selector functionType = Selector.Register("functionType");
-    internal static readonly Selector name = Selector.Register("name");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -21,16 +19,6 @@ public readonly struct MTL4BinaryFunction
 
     public static implicit operator nint(MTL4BinaryFunction o) => o.NativePtr;
     public static implicit operator MTL4BinaryFunction(nint ptr) => new MTL4BinaryFunction(ptr);
-
-    public MTLFunctionType FunctionType
-    {
-        get => (MTLFunctionType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTL4BinaryFunction_Selectors.functionType));
-    }
-
-    public NSString Name
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4BinaryFunction_Selectors.name));
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

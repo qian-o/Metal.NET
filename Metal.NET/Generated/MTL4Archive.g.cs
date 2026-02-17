@@ -6,11 +6,12 @@ namespace Metal.NET;
 
 internal static class MTL4Archive_Selectors
 {
-    internal static readonly Selector label = Selector.Register("label");
+    internal static readonly Selector newBinaryFunction_error_ = Selector.Register("newBinaryFunction:error:");
+    internal static readonly Selector newComputePipelineState_error_ = Selector.Register("newComputePipelineState:error:");
+    internal static readonly Selector newComputePipelineState_dynamicLinkingDescriptor_error_ = Selector.Register("newComputePipelineState:dynamicLinkingDescriptor:error:");
+    internal static readonly Selector newRenderPipelineState_error_ = Selector.Register("newRenderPipelineState:error:");
+    internal static readonly Selector newRenderPipelineState_dynamicLinkingDescriptor_error_ = Selector.Register("newRenderPipelineState:dynamicLinkingDescriptor:error:");
     internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
-    internal static readonly Selector newBinaryFunction = Selector.Register("newBinaryFunction");
-    internal static readonly Selector newComputePipelineState = Selector.Register("newComputePipelineState");
-    internal static readonly Selector newRenderPipelineState = Selector.Register("newRenderPipelineState");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -25,40 +26,39 @@ public readonly struct MTL4Archive
     public static implicit operator nint(MTL4Archive o) => o.NativePtr;
     public static implicit operator MTL4Archive(nint ptr) => new MTL4Archive(ptr);
 
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Archive_Selectors.label));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4Archive_Selectors.setLabel_, value.NativePtr);
-    }
-
     public MTL4BinaryFunction NewBinaryFunction(MTL4BinaryFunctionDescriptor descriptor, out NSError error)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Archive_Selectors.newBinaryFunction, descriptor.NativePtr, out error);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Archive_Selectors.newBinaryFunction_error_, descriptor.NativePtr, out error);
         return new MTL4BinaryFunction(__result);
     }
 
     public MTLComputePipelineState NewComputePipelineState(MTL4ComputePipelineDescriptor descriptor, out NSError error)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Archive_Selectors.newComputePipelineState, descriptor.NativePtr, out error);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Archive_Selectors.newComputePipelineState_error_, descriptor.NativePtr, out error);
         return new MTLComputePipelineState(__result);
     }
 
     public MTLComputePipelineState NewComputePipelineState(MTL4ComputePipelineDescriptor descriptor, MTL4PipelineStageDynamicLinkingDescriptor dynamicLinkingDescriptor, out NSError error)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Archive_Selectors.newComputePipelineState, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out error);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Archive_Selectors.newComputePipelineState_dynamicLinkingDescriptor_error_, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out error);
         return new MTLComputePipelineState(__result);
     }
 
     public MTLRenderPipelineState NewRenderPipelineState(MTL4PipelineDescriptor descriptor, out NSError error)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Archive_Selectors.newRenderPipelineState, descriptor.NativePtr, out error);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Archive_Selectors.newRenderPipelineState_error_, descriptor.NativePtr, out error);
         return new MTLRenderPipelineState(__result);
     }
 
     public MTLRenderPipelineState NewRenderPipelineState(MTL4PipelineDescriptor descriptor, MTL4RenderPipelineDynamicLinkingDescriptor dynamicLinkingDescriptor, out NSError error)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Archive_Selectors.newRenderPipelineState, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out error);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Archive_Selectors.newRenderPipelineState_dynamicLinkingDescriptor_error_, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out error);
         return new MTLRenderPipelineState(__result);
+    }
+
+    public void SetLabel(NSString label)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4Archive_Selectors.setLabel_, label.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

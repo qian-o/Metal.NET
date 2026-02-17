@@ -6,15 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLStructMember_Selectors
 {
-    internal static readonly Selector argumentIndex = Selector.Register("argumentIndex");
-    internal static readonly Selector dataType = Selector.Register("dataType");
-    internal static readonly Selector name = Selector.Register("name");
-    internal static readonly Selector offset = Selector.Register("offset");
-    internal static readonly Selector arrayType = Selector.Register("arrayType");
-    internal static readonly Selector pointerType = Selector.Register("pointerType");
-    internal static readonly Selector structType = Selector.Register("structType");
-    internal static readonly Selector tensorReferenceType = Selector.Register("tensorReferenceType");
-    internal static readonly Selector textureReferenceType = Selector.Register("textureReferenceType");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -28,56 +19,6 @@ public readonly struct MTLStructMember
 
     public static implicit operator nint(MTLStructMember o) => o.NativePtr;
     public static implicit operator MTLStructMember(nint ptr) => new MTLStructMember(ptr);
-
-    public nuint ArgumentIndex
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLStructMember_Selectors.argumentIndex);
-    }
-
-    public MTLDataType DataType
-    {
-        get => (MTLDataType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLStructMember_Selectors.dataType));
-    }
-
-    public NSString Name
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLStructMember_Selectors.name));
-    }
-
-    public nuint Offset
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLStructMember_Selectors.offset);
-    }
-
-    public MTLArrayType ArrayType()
-    {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLStructMember_Selectors.arrayType);
-        return new MTLArrayType(__result);
-    }
-
-    public MTLPointerType PointerType()
-    {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLStructMember_Selectors.pointerType);
-        return new MTLPointerType(__result);
-    }
-
-    public MTLStructType StructType()
-    {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLStructMember_Selectors.structType);
-        return new MTLStructType(__result);
-    }
-
-    public MTLTensorReferenceType TensorReferenceType()
-    {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLStructMember_Selectors.tensorReferenceType);
-        return new MTLTensorReferenceType(__result);
-    }
-
-    public MTLTextureReferenceType TextureReferenceType()
-    {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLStructMember_Selectors.textureReferenceType);
-        return new MTLTextureReferenceType(__result);
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

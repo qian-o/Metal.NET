@@ -6,13 +6,9 @@ namespace Metal.NET;
 
 internal static class MTLStitchedLibraryDescriptor_Selectors
 {
-    internal static readonly Selector binaryArchives = Selector.Register("binaryArchives");
     internal static readonly Selector setBinaryArchives_ = Selector.Register("setBinaryArchives:");
-    internal static readonly Selector functionGraphs = Selector.Register("functionGraphs");
     internal static readonly Selector setFunctionGraphs_ = Selector.Register("setFunctionGraphs:");
-    internal static readonly Selector functions = Selector.Register("functions");
     internal static readonly Selector setFunctions_ = Selector.Register("setFunctions:");
-    internal static readonly Selector options = Selector.Register("options");
     internal static readonly Selector setOptions_ = Selector.Register("setOptions:");
 }
 
@@ -47,28 +43,24 @@ public readonly struct MTLStitchedLibraryDescriptor
         return Alloc().Init();
     }
 
-    public NSArray BinaryArchives
+    public void SetBinaryArchives(NSArray binaryArchives)
     {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLStitchedLibraryDescriptor_Selectors.binaryArchives));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStitchedLibraryDescriptor_Selectors.setBinaryArchives_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStitchedLibraryDescriptor_Selectors.setBinaryArchives_, binaryArchives.NativePtr);
     }
 
-    public NSArray FunctionGraphs
+    public void SetFunctionGraphs(NSArray functionGraphs)
     {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLStitchedLibraryDescriptor_Selectors.functionGraphs));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStitchedLibraryDescriptor_Selectors.setFunctionGraphs_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStitchedLibraryDescriptor_Selectors.setFunctionGraphs_, functionGraphs.NativePtr);
     }
 
-    public NSArray Functions
+    public void SetFunctions(NSArray functions)
     {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLStitchedLibraryDescriptor_Selectors.functions));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStitchedLibraryDescriptor_Selectors.setFunctions_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStitchedLibraryDescriptor_Selectors.setFunctions_, functions.NativePtr);
     }
 
-    public MTLStitchedLibraryOptions Options
+    public void SetOptions(nuint options)
     {
-        get => (MTLStitchedLibraryOptions)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLStitchedLibraryDescriptor_Selectors.options));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStitchedLibraryDescriptor_Selectors.setOptions_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStitchedLibraryDescriptor_Selectors.setOptions_, (nint)options);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

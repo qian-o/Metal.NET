@@ -6,11 +6,8 @@ namespace Metal.NET;
 
 internal static class MTLRenderPipelineFunctionsDescriptor_Selectors
 {
-    internal static readonly Selector fragmentAdditionalBinaryFunctions = Selector.Register("fragmentAdditionalBinaryFunctions");
     internal static readonly Selector setFragmentAdditionalBinaryFunctions_ = Selector.Register("setFragmentAdditionalBinaryFunctions:");
-    internal static readonly Selector tileAdditionalBinaryFunctions = Selector.Register("tileAdditionalBinaryFunctions");
     internal static readonly Selector setTileAdditionalBinaryFunctions_ = Selector.Register("setTileAdditionalBinaryFunctions:");
-    internal static readonly Selector vertexAdditionalBinaryFunctions = Selector.Register("vertexAdditionalBinaryFunctions");
     internal static readonly Selector setVertexAdditionalBinaryFunctions_ = Selector.Register("setVertexAdditionalBinaryFunctions:");
 }
 
@@ -26,41 +23,19 @@ public readonly struct MTLRenderPipelineFunctionsDescriptor
     public static implicit operator nint(MTLRenderPipelineFunctionsDescriptor o) => o.NativePtr;
     public static implicit operator MTLRenderPipelineFunctionsDescriptor(nint ptr) => new MTLRenderPipelineFunctionsDescriptor(ptr);
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLRenderPipelineFunctionsDescriptor");
-
-    public static MTLRenderPipelineFunctionsDescriptor Alloc()
+    public void SetFragmentAdditionalBinaryFunctions(NSArray fragmentAdditionalBinaryFunctions)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTLRenderPipelineFunctionsDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineFunctionsDescriptor_Selectors.setFragmentAdditionalBinaryFunctions_, fragmentAdditionalBinaryFunctions.NativePtr);
     }
 
-    public MTLRenderPipelineFunctionsDescriptor Init()
+    public void SetTileAdditionalBinaryFunctions(NSArray tileAdditionalBinaryFunctions)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTLRenderPipelineFunctionsDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineFunctionsDescriptor_Selectors.setTileAdditionalBinaryFunctions_, tileAdditionalBinaryFunctions.NativePtr);
     }
 
-    public static MTLRenderPipelineFunctionsDescriptor New()
+    public void SetVertexAdditionalBinaryFunctions(NSArray vertexAdditionalBinaryFunctions)
     {
-        return Alloc().Init();
-    }
-
-    public NSArray FragmentAdditionalBinaryFunctions
-    {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPipelineFunctionsDescriptor_Selectors.fragmentAdditionalBinaryFunctions));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineFunctionsDescriptor_Selectors.setFragmentAdditionalBinaryFunctions_, value.NativePtr);
-    }
-
-    public NSArray TileAdditionalBinaryFunctions
-    {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPipelineFunctionsDescriptor_Selectors.tileAdditionalBinaryFunctions));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineFunctionsDescriptor_Selectors.setTileAdditionalBinaryFunctions_, value.NativePtr);
-    }
-
-    public NSArray VertexAdditionalBinaryFunctions
-    {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPipelineFunctionsDescriptor_Selectors.vertexAdditionalBinaryFunctions));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineFunctionsDescriptor_Selectors.setVertexAdditionalBinaryFunctions_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineFunctionsDescriptor_Selectors.setVertexAdditionalBinaryFunctions_, vertexAdditionalBinaryFunctions.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

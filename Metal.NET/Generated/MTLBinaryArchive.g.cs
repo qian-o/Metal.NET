@@ -6,16 +6,14 @@ namespace Metal.NET;
 
 internal static class MTLBinaryArchive_Selectors
 {
-    internal static readonly Selector device = Selector.Register("device");
-    internal static readonly Selector label = Selector.Register("label");
+    internal static readonly Selector addComputePipelineFunctions_error_ = Selector.Register("addComputePipelineFunctions:error:");
+    internal static readonly Selector addFunction_library_error_ = Selector.Register("addFunction:library:error:");
+    internal static readonly Selector addLibrary_error_ = Selector.Register("addLibrary:error:");
+    internal static readonly Selector addMeshRenderPipelineFunctions_error_ = Selector.Register("addMeshRenderPipelineFunctions:error:");
+    internal static readonly Selector addRenderPipelineFunctions_error_ = Selector.Register("addRenderPipelineFunctions:error:");
+    internal static readonly Selector addTileRenderPipelineFunctions_error_ = Selector.Register("addTileRenderPipelineFunctions:error:");
+    internal static readonly Selector serializeToURL_error_ = Selector.Register("serializeToURL:error:");
     internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
-    internal static readonly Selector addComputePipelineFunctions = Selector.Register("addComputePipelineFunctions");
-    internal static readonly Selector addFunction = Selector.Register("addFunction");
-    internal static readonly Selector addLibrary = Selector.Register("addLibrary");
-    internal static readonly Selector addMeshRenderPipelineFunctions = Selector.Register("addMeshRenderPipelineFunctions");
-    internal static readonly Selector addRenderPipelineFunctions = Selector.Register("addRenderPipelineFunctions");
-    internal static readonly Selector addTileRenderPipelineFunctions = Selector.Register("addTileRenderPipelineFunctions");
-    internal static readonly Selector serializeToURL = Selector.Register("serializeToURL");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -30,50 +28,44 @@ public readonly struct MTLBinaryArchive
     public static implicit operator nint(MTLBinaryArchive o) => o.NativePtr;
     public static implicit operator MTLBinaryArchive(nint ptr) => new MTLBinaryArchive(ptr);
 
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBinaryArchive_Selectors.device));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBinaryArchive_Selectors.label));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBinaryArchive_Selectors.setLabel_, value.NativePtr);
-    }
-
     public Bool8 AddComputePipelineFunctions(MTLComputePipelineDescriptor descriptor, out NSError error)
     {
-        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBinaryArchive_Selectors.addComputePipelineFunctions, descriptor.NativePtr, out error) != 0;
+        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBinaryArchive_Selectors.addComputePipelineFunctions_error_, descriptor.NativePtr, out error) != 0;
     }
 
     public Bool8 AddFunction(MTLFunctionDescriptor descriptor, MTLLibrary library, out NSError error)
     {
-        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBinaryArchive_Selectors.addFunction, descriptor.NativePtr, library.NativePtr, out error) != 0;
+        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBinaryArchive_Selectors.addFunction_library_error_, descriptor.NativePtr, library.NativePtr, out error) != 0;
     }
 
     public Bool8 AddLibrary(MTLStitchedLibraryDescriptor descriptor, out NSError error)
     {
-        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBinaryArchive_Selectors.addLibrary, descriptor.NativePtr, out error) != 0;
+        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBinaryArchive_Selectors.addLibrary_error_, descriptor.NativePtr, out error) != 0;
     }
 
     public Bool8 AddMeshRenderPipelineFunctions(MTLMeshRenderPipelineDescriptor descriptor, out NSError error)
     {
-        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBinaryArchive_Selectors.addMeshRenderPipelineFunctions, descriptor.NativePtr, out error) != 0;
+        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBinaryArchive_Selectors.addMeshRenderPipelineFunctions_error_, descriptor.NativePtr, out error) != 0;
     }
 
     public Bool8 AddRenderPipelineFunctions(MTLRenderPipelineDescriptor descriptor, out NSError error)
     {
-        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBinaryArchive_Selectors.addRenderPipelineFunctions, descriptor.NativePtr, out error) != 0;
+        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBinaryArchive_Selectors.addRenderPipelineFunctions_error_, descriptor.NativePtr, out error) != 0;
     }
 
     public Bool8 AddTileRenderPipelineFunctions(MTLTileRenderPipelineDescriptor descriptor, out NSError error)
     {
-        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBinaryArchive_Selectors.addTileRenderPipelineFunctions, descriptor.NativePtr, out error) != 0;
+        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBinaryArchive_Selectors.addTileRenderPipelineFunctions_error_, descriptor.NativePtr, out error) != 0;
     }
 
-    public Bool8 SerializeToURL(nint url, out NSError error)
+    public Bool8 SerializeToURL(NSURL url, out NSError error)
     {
-        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBinaryArchive_Selectors.serializeToURL, url, out error) != 0;
+        return (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBinaryArchive_Selectors.serializeToURL_error_, url.NativePtr, out error) != 0;
+    }
+
+    public void SetLabel(NSString label)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBinaryArchive_Selectors.setLabel_, label.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

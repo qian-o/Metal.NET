@@ -6,7 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLVisibleFunctionTableDescriptor_Selectors
 {
-    internal static readonly Selector functionCount = Selector.Register("functionCount");
     internal static readonly Selector setFunctionCount_ = Selector.Register("setFunctionCount:");
     internal static readonly Selector visibleFunctionTableDescriptor = Selector.Register("visibleFunctionTableDescriptor");
 }
@@ -25,27 +24,9 @@ public readonly struct MTLVisibleFunctionTableDescriptor
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLVisibleFunctionTableDescriptor");
 
-    public static MTLVisibleFunctionTableDescriptor Alloc()
+    public void SetFunctionCount(nuint functionCount)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTLVisibleFunctionTableDescriptor(ptr);
-    }
-
-    public MTLVisibleFunctionTableDescriptor Init()
-    {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTLVisibleFunctionTableDescriptor(ptr);
-    }
-
-    public static MTLVisibleFunctionTableDescriptor New()
-    {
-        return Alloc().Init();
-    }
-
-    public nuint FunctionCount
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLVisibleFunctionTableDescriptor_Selectors.functionCount);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVisibleFunctionTableDescriptor_Selectors.setFunctionCount_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVisibleFunctionTableDescriptor_Selectors.setFunctionCount_, (nint)functionCount);
     }
 
     public static MTLVisibleFunctionTableDescriptor VisibleFunctionTableDescriptor()

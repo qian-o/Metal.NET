@@ -4,7 +4,10 @@ using System.Runtime.InteropServices;
 
 namespace Metal.NET;
 
-/// <summary>Stub wrapper for MTLLogContainer (methods not yet bound).</summary>
+internal static class MTLLogContainer_Selectors
+{
+}
+
 [StructLayout(LayoutKind.Sequential)]
 public readonly struct MTLLogContainer
 {
@@ -16,4 +19,7 @@ public readonly struct MTLLogContainer
 
     public static implicit operator nint(MTLLogContainer o) => o.NativePtr;
     public static implicit operator MTLLogContainer(nint ptr) => new MTLLogContainer(ptr);
+
+    public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
+    public void Release() => ObjectiveCRuntime.Release(NativePtr);
 }

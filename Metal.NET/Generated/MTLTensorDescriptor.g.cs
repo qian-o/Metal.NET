@@ -6,21 +6,13 @@ namespace Metal.NET;
 
 internal static class MTLTensorDescriptor_Selectors
 {
-    internal static readonly Selector cpuCacheMode = Selector.Register("cpuCacheMode");
     internal static readonly Selector setCpuCacheMode_ = Selector.Register("setCpuCacheMode:");
-    internal static readonly Selector dataType = Selector.Register("dataType");
     internal static readonly Selector setDataType_ = Selector.Register("setDataType:");
-    internal static readonly Selector dimensions = Selector.Register("dimensions");
     internal static readonly Selector setDimensions_ = Selector.Register("setDimensions:");
-    internal static readonly Selector hazardTrackingMode = Selector.Register("hazardTrackingMode");
     internal static readonly Selector setHazardTrackingMode_ = Selector.Register("setHazardTrackingMode:");
-    internal static readonly Selector resourceOptions = Selector.Register("resourceOptions");
     internal static readonly Selector setResourceOptions_ = Selector.Register("setResourceOptions:");
-    internal static readonly Selector storageMode = Selector.Register("storageMode");
     internal static readonly Selector setStorageMode_ = Selector.Register("setStorageMode:");
-    internal static readonly Selector strides = Selector.Register("strides");
     internal static readonly Selector setStrides_ = Selector.Register("setStrides:");
-    internal static readonly Selector usage = Selector.Register("usage");
     internal static readonly Selector setUsage_ = Selector.Register("setUsage:");
 }
 
@@ -36,71 +28,44 @@ public readonly struct MTLTensorDescriptor
     public static implicit operator nint(MTLTensorDescriptor o) => o.NativePtr;
     public static implicit operator MTLTensorDescriptor(nint ptr) => new MTLTensorDescriptor(ptr);
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLTensorDescriptor");
-
-    public static MTLTensorDescriptor Alloc()
+    public void SetCpuCacheMode(MTLCPUCacheMode cpuCacheMode)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTLTensorDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.setCpuCacheMode_, (nint)(uint)cpuCacheMode);
     }
 
-    public MTLTensorDescriptor Init()
+    public void SetDataType(MTLTensorDataType dataType)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTLTensorDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.setDataType_, (nint)(uint)dataType);
     }
 
-    public static MTLTensorDescriptor New()
+    public void SetDimensions(MTLTensorExtents dimensions)
     {
-        return Alloc().Init();
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.setDimensions_, dimensions.NativePtr);
     }
 
-    public MTLCPUCacheMode CpuCacheMode
+    public void SetHazardTrackingMode(MTLHazardTrackingMode hazardTrackingMode)
     {
-        get => (MTLCPUCacheMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.cpuCacheMode));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.setCpuCacheMode_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.setHazardTrackingMode_, (nint)(uint)hazardTrackingMode);
     }
 
-    public MTLTensorDataType DataType
+    public void SetResourceOptions(nuint resourceOptions)
     {
-        get => (MTLTensorDataType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.dataType));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.setDataType_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.setResourceOptions_, (nint)resourceOptions);
     }
 
-    public MTLTensorExtents Dimensions
+    public void SetStorageMode(MTLStorageMode storageMode)
     {
-        get => new MTLTensorExtents(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.dimensions));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.setDimensions_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.setStorageMode_, (nint)(uint)storageMode);
     }
 
-    public MTLHazardTrackingMode HazardTrackingMode
+    public void SetStrides(MTLTensorExtents strides)
     {
-        get => (MTLHazardTrackingMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.hazardTrackingMode));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.setHazardTrackingMode_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.setStrides_, strides.NativePtr);
     }
 
-    public MTLResourceOptions ResourceOptions
+    public void SetUsage(nuint usage)
     {
-        get => (MTLResourceOptions)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.resourceOptions));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.setResourceOptions_, (nint)(uint)value);
-    }
-
-    public MTLStorageMode StorageMode
-    {
-        get => (MTLStorageMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.storageMode));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.setStorageMode_, (nint)(uint)value);
-    }
-
-    public MTLTensorExtents Strides
-    {
-        get => new MTLTensorExtents(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.strides));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.setStrides_, value.NativePtr);
-    }
-
-    public MTLTensorUsage Usage
-    {
-        get => (MTLTensorUsage)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.usage));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.setUsage_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTensorDescriptor_Selectors.setUsage_, (nint)usage);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

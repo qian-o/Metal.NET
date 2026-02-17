@@ -6,9 +6,7 @@ namespace Metal.NET;
 
 internal static class MTL4CounterHeapDescriptor_Selectors
 {
-    internal static readonly Selector count = Selector.Register("count");
     internal static readonly Selector setCount_ = Selector.Register("setCount:");
-    internal static readonly Selector type = Selector.Register("type");
     internal static readonly Selector setType_ = Selector.Register("setType:");
 }
 
@@ -24,35 +22,14 @@ public readonly struct MTL4CounterHeapDescriptor
     public static implicit operator nint(MTL4CounterHeapDescriptor o) => o.NativePtr;
     public static implicit operator MTL4CounterHeapDescriptor(nint ptr) => new MTL4CounterHeapDescriptor(ptr);
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4CounterHeapDescriptor");
-
-    public static MTL4CounterHeapDescriptor Alloc()
+    public void SetCount(nuint count)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTL4CounterHeapDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CounterHeapDescriptor_Selectors.setCount_, (nint)count);
     }
 
-    public MTL4CounterHeapDescriptor Init()
+    public void SetType(MTL4CounterHeapType type)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTL4CounterHeapDescriptor(ptr);
-    }
-
-    public static MTL4CounterHeapDescriptor New()
-    {
-        return Alloc().Init();
-    }
-
-    public nuint Count
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTL4CounterHeapDescriptor_Selectors.count);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CounterHeapDescriptor_Selectors.setCount_, (nint)value);
-    }
-
-    public MTL4CounterHeapType Type
-    {
-        get => (MTL4CounterHeapType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTL4CounterHeapDescriptor_Selectors.type));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CounterHeapDescriptor_Selectors.setType_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CounterHeapDescriptor_Selectors.setType_, (nint)(uint)type);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

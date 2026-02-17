@@ -6,8 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLSharedTextureHandle_Selectors
 {
-    internal static readonly Selector device = Selector.Register("device");
-    internal static readonly Selector label = Selector.Register("label");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -21,16 +19,6 @@ public readonly struct MTLSharedTextureHandle
 
     public static implicit operator nint(MTLSharedTextureHandle o) => o.NativePtr;
     public static implicit operator MTLSharedTextureHandle(nint ptr) => new MTLSharedTextureHandle(ptr);
-
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLSharedTextureHandle_Selectors.device));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLSharedTextureHandle_Selectors.label));
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

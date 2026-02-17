@@ -6,13 +6,9 @@ namespace Metal.NET;
 
 internal static class MTLCounterSampleBufferDescriptor_Selectors
 {
-    internal static readonly Selector counterSet = Selector.Register("counterSet");
     internal static readonly Selector setCounterSet_ = Selector.Register("setCounterSet:");
-    internal static readonly Selector label = Selector.Register("label");
     internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
-    internal static readonly Selector sampleCount = Selector.Register("sampleCount");
     internal static readonly Selector setSampleCount_ = Selector.Register("setSampleCount:");
-    internal static readonly Selector storageMode = Selector.Register("storageMode");
     internal static readonly Selector setStorageMode_ = Selector.Register("setStorageMode:");
 }
 
@@ -28,47 +24,24 @@ public readonly struct MTLCounterSampleBufferDescriptor
     public static implicit operator nint(MTLCounterSampleBufferDescriptor o) => o.NativePtr;
     public static implicit operator MTLCounterSampleBufferDescriptor(nint ptr) => new MTLCounterSampleBufferDescriptor(ptr);
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLCounterSampleBufferDescriptor");
-
-    public static MTLCounterSampleBufferDescriptor Alloc()
+    public void SetCounterSet(MTLCounterSet counterSet)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTLCounterSampleBufferDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCounterSampleBufferDescriptor_Selectors.setCounterSet_, counterSet.NativePtr);
     }
 
-    public MTLCounterSampleBufferDescriptor Init()
+    public void SetLabel(NSString label)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTLCounterSampleBufferDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCounterSampleBufferDescriptor_Selectors.setLabel_, label.NativePtr);
     }
 
-    public static MTLCounterSampleBufferDescriptor New()
+    public void SetSampleCount(nuint sampleCount)
     {
-        return Alloc().Init();
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCounterSampleBufferDescriptor_Selectors.setSampleCount_, (nint)sampleCount);
     }
 
-    public MTLCounterSet CounterSet
+    public void SetStorageMode(MTLStorageMode storageMode)
     {
-        get => new MTLCounterSet(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCounterSampleBufferDescriptor_Selectors.counterSet));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCounterSampleBufferDescriptor_Selectors.setCounterSet_, value.NativePtr);
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCounterSampleBufferDescriptor_Selectors.label));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCounterSampleBufferDescriptor_Selectors.setLabel_, value.NativePtr);
-    }
-
-    public nuint SampleCount
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLCounterSampleBufferDescriptor_Selectors.sampleCount);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCounterSampleBufferDescriptor_Selectors.setSampleCount_, (nint)value);
-    }
-
-    public MTLStorageMode StorageMode
-    {
-        get => (MTLStorageMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLCounterSampleBufferDescriptor_Selectors.storageMode));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCounterSampleBufferDescriptor_Selectors.setStorageMode_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCounterSampleBufferDescriptor_Selectors.setStorageMode_, (nint)(uint)storageMode);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

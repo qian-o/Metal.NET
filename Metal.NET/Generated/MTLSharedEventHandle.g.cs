@@ -6,7 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLSharedEventHandle_Selectors
 {
-    internal static readonly Selector label = Selector.Register("label");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -21,9 +20,23 @@ public readonly struct MTLSharedEventHandle
     public static implicit operator nint(MTLSharedEventHandle o) => o.NativePtr;
     public static implicit operator MTLSharedEventHandle(nint ptr) => new MTLSharedEventHandle(ptr);
 
-    public NSString Label
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLSharedEventHandle");
+
+    public static MTLSharedEventHandle Alloc()
     {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLSharedEventHandle_Selectors.label));
+        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
+        return new MTLSharedEventHandle(ptr);
+    }
+
+    public MTLSharedEventHandle Init()
+    {
+        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
+        return new MTLSharedEventHandle(ptr);
+    }
+
+    public static MTLSharedEventHandle New()
+    {
+        return Alloc().Init();
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

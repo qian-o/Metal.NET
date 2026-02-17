@@ -6,18 +6,16 @@ namespace Metal.NET;
 
 internal static class MTL4CommandBuffer_Selectors
 {
-    internal static readonly Selector device = Selector.Register("device");
-    internal static readonly Selector label = Selector.Register("label");
-    internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
-    internal static readonly Selector beginCommandBuffer = Selector.Register("beginCommandBuffer");
-    internal static readonly Selector computeCommandEncoder = Selector.Register("computeCommandEncoder");
+    internal static readonly Selector beginCommandBuffer_ = Selector.Register("beginCommandBuffer:");
+    internal static readonly Selector beginCommandBuffer_options_ = Selector.Register("beginCommandBuffer:options:");
     internal static readonly Selector endCommandBuffer = Selector.Register("endCommandBuffer");
-    internal static readonly Selector machineLearningCommandEncoder = Selector.Register("machineLearningCommandEncoder");
     internal static readonly Selector popDebugGroup = Selector.Register("popDebugGroup");
-    internal static readonly Selector pushDebugGroup = Selector.Register("pushDebugGroup");
-    internal static readonly Selector renderCommandEncoder = Selector.Register("renderCommandEncoder");
-    internal static readonly Selector useResidencySet = Selector.Register("useResidencySet");
-    internal static readonly Selector writeTimestampIntoHeap = Selector.Register("writeTimestampIntoHeap");
+    internal static readonly Selector pushDebugGroup_ = Selector.Register("pushDebugGroup:");
+    internal static readonly Selector renderCommandEncoder_ = Selector.Register("renderCommandEncoder:");
+    internal static readonly Selector renderCommandEncoder_options_ = Selector.Register("renderCommandEncoder:options:");
+    internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
+    internal static readonly Selector useResidencySet_ = Selector.Register("useResidencySet:");
+    internal static readonly Selector writeTimestampIntoHeap_index_ = Selector.Register("writeTimestampIntoHeap:index:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -32,42 +30,19 @@ public readonly struct MTL4CommandBuffer
     public static implicit operator nint(MTL4CommandBuffer o) => o.NativePtr;
     public static implicit operator MTL4CommandBuffer(nint ptr) => new MTL4CommandBuffer(ptr);
 
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CommandBuffer_Selectors.device));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CommandBuffer_Selectors.label));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandBuffer_Selectors.setLabel_, value.NativePtr);
-    }
-
     public void BeginCommandBuffer(MTL4CommandAllocator allocator)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandBuffer_Selectors.beginCommandBuffer, allocator.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandBuffer_Selectors.beginCommandBuffer_, allocator.NativePtr);
     }
 
     public void BeginCommandBuffer(MTL4CommandAllocator allocator, MTL4CommandBufferOptions options)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandBuffer_Selectors.beginCommandBuffer, allocator.NativePtr, options.NativePtr);
-    }
-
-    public MTL4ComputeCommandEncoder ComputeCommandEncoder()
-    {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CommandBuffer_Selectors.computeCommandEncoder);
-        return new MTL4ComputeCommandEncoder(__result);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandBuffer_Selectors.beginCommandBuffer_options_, allocator.NativePtr, options.NativePtr);
     }
 
     public void EndCommandBuffer()
     {
         ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandBuffer_Selectors.endCommandBuffer);
-    }
-
-    public MTL4MachineLearningCommandEncoder MachineLearningCommandEncoder()
-    {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CommandBuffer_Selectors.machineLearningCommandEncoder);
-        return new MTL4MachineLearningCommandEncoder(__result);
     }
 
     public void PopDebugGroup()
@@ -77,29 +52,34 @@ public readonly struct MTL4CommandBuffer
 
     public void PushDebugGroup(NSString @string)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandBuffer_Selectors.pushDebugGroup, @string.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandBuffer_Selectors.pushDebugGroup_, @string.NativePtr);
     }
 
     public MTL4RenderCommandEncoder RenderCommandEncoder(MTL4RenderPassDescriptor descriptor)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CommandBuffer_Selectors.renderCommandEncoder, descriptor.NativePtr);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CommandBuffer_Selectors.renderCommandEncoder_, descriptor.NativePtr);
         return new MTL4RenderCommandEncoder(__result);
     }
 
-    public MTL4RenderCommandEncoder RenderCommandEncoder(MTL4RenderPassDescriptor descriptor, MTL4RenderEncoderOptions options)
+    public MTL4RenderCommandEncoder RenderCommandEncoder(MTL4RenderPassDescriptor descriptor, nuint options)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CommandBuffer_Selectors.renderCommandEncoder, descriptor.NativePtr, (nint)(uint)options);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CommandBuffer_Selectors.renderCommandEncoder_options_, descriptor.NativePtr, (nint)options);
         return new MTL4RenderCommandEncoder(__result);
+    }
+
+    public void SetLabel(NSString label)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandBuffer_Selectors.setLabel_, label.NativePtr);
     }
 
     public void UseResidencySet(MTLResidencySet residencySet)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandBuffer_Selectors.useResidencySet, residencySet.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandBuffer_Selectors.useResidencySet_, residencySet.NativePtr);
     }
 
     public void WriteTimestampIntoHeap(MTL4CounterHeap counterHeap, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandBuffer_Selectors.writeTimestampIntoHeap, counterHeap.NativePtr, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandBuffer_Selectors.writeTimestampIntoHeap_index_, counterHeap.NativePtr, (nint)index);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

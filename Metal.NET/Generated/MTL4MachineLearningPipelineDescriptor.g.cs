@@ -6,13 +6,11 @@ namespace Metal.NET;
 
 internal static class MTL4MachineLearningPipelineDescriptor_Selectors
 {
-    internal static readonly Selector label = Selector.Register("label");
-    internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
-    internal static readonly Selector machineLearningFunctionDescriptor = Selector.Register("machineLearningFunctionDescriptor");
-    internal static readonly Selector setMachineLearningFunctionDescriptor_ = Selector.Register("setMachineLearningFunctionDescriptor:");
-    internal static readonly Selector inputDimensionsAtBufferIndex = Selector.Register("inputDimensionsAtBufferIndex");
+    internal static readonly Selector inputDimensionsAtBufferIndex_ = Selector.Register("inputDimensionsAtBufferIndex:");
     internal static readonly Selector reset = Selector.Register("reset");
-    internal static readonly Selector setInputDimensions = Selector.Register("setInputDimensions");
+    internal static readonly Selector setInputDimensions_bufferIndex_ = Selector.Register("setInputDimensions:bufferIndex:");
+    internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
+    internal static readonly Selector setMachineLearningFunctionDescriptor_ = Selector.Register("setMachineLearningFunctionDescriptor:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -27,40 +25,9 @@ public readonly struct MTL4MachineLearningPipelineDescriptor
     public static implicit operator nint(MTL4MachineLearningPipelineDescriptor o) => o.NativePtr;
     public static implicit operator MTL4MachineLearningPipelineDescriptor(nint ptr) => new MTL4MachineLearningPipelineDescriptor(ptr);
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4MachineLearningPipelineDescriptor");
-
-    public static MTL4MachineLearningPipelineDescriptor Alloc()
-    {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTL4MachineLearningPipelineDescriptor(ptr);
-    }
-
-    public MTL4MachineLearningPipelineDescriptor Init()
-    {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTL4MachineLearningPipelineDescriptor(ptr);
-    }
-
-    public static MTL4MachineLearningPipelineDescriptor New()
-    {
-        return Alloc().Init();
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4MachineLearningPipelineDescriptor_Selectors.label));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MachineLearningPipelineDescriptor_Selectors.setLabel_, value.NativePtr);
-    }
-
-    public MTL4FunctionDescriptor MachineLearningFunctionDescriptor
-    {
-        get => new MTL4FunctionDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4MachineLearningPipelineDescriptor_Selectors.machineLearningFunctionDescriptor));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MachineLearningPipelineDescriptor_Selectors.setMachineLearningFunctionDescriptor_, value.NativePtr);
-    }
-
     public MTLTensorExtents InputDimensionsAtBufferIndex(nint bufferIndex)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4MachineLearningPipelineDescriptor_Selectors.inputDimensionsAtBufferIndex, bufferIndex);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4MachineLearningPipelineDescriptor_Selectors.inputDimensionsAtBufferIndex_, bufferIndex);
         return new MTLTensorExtents(__result);
     }
 
@@ -71,12 +38,17 @@ public readonly struct MTL4MachineLearningPipelineDescriptor
 
     public void SetInputDimensions(MTLTensorExtents dimensions, nint bufferIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MachineLearningPipelineDescriptor_Selectors.setInputDimensions, dimensions.NativePtr, bufferIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MachineLearningPipelineDescriptor_Selectors.setInputDimensions_bufferIndex_, dimensions.NativePtr, bufferIndex);
     }
 
-    public void SetInputDimensions(NSArray dimensions, nint range)
+    public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MachineLearningPipelineDescriptor_Selectors.setInputDimensions, dimensions.NativePtr, range);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MachineLearningPipelineDescriptor_Selectors.setLabel_, label.NativePtr);
+    }
+
+    public void SetMachineLearningFunctionDescriptor(MTL4FunctionDescriptor machineLearningFunctionDescriptor)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MachineLearningPipelineDescriptor_Selectors.setMachineLearningFunctionDescriptor_, machineLearningFunctionDescriptor.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

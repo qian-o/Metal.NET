@@ -10,6 +10,8 @@
 
     <ItemGroup>
       <PackageReference Include="CppAst" Version="0.24.0" />
+      <PackageReference Include="libclang.runtime.linux-x64" Version="20.1.2" />
+      <PackageReference Include="libClangSharp.runtime.linux-x64" Version="20.1.2" />
     </ItemGroup>
 
 </Project>

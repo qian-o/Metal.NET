@@ -6,10 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLFunctionLogDebugLocation_Selectors
 {
-    internal static readonly Selector URL = Selector.Register("URL");
-    internal static readonly Selector column = Selector.Register("column");
-    internal static readonly Selector functionName = Selector.Register("functionName");
-    internal static readonly Selector line = Selector.Register("line");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -23,26 +19,6 @@ public readonly struct MTLFunctionLogDebugLocation
 
     public static implicit operator nint(MTLFunctionLogDebugLocation o) => o.NativePtr;
     public static implicit operator MTLFunctionLogDebugLocation(nint ptr) => new MTLFunctionLogDebugLocation(ptr);
-
-    public nint URL
-    {
-        get => ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionLogDebugLocation_Selectors.URL);
-    }
-
-    public nuint Column
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLFunctionLogDebugLocation_Selectors.column);
-    }
-
-    public NSString FunctionName
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionLogDebugLocation_Selectors.functionName));
-    }
-
-    public nuint Line
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLFunctionLogDebugLocation_Selectors.line);
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

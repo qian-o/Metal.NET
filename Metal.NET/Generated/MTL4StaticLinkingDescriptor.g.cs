@@ -6,11 +6,8 @@ namespace Metal.NET;
 
 internal static class MTL4StaticLinkingDescriptor_Selectors
 {
-    internal static readonly Selector functionDescriptors = Selector.Register("functionDescriptors");
     internal static readonly Selector setFunctionDescriptors_ = Selector.Register("setFunctionDescriptors:");
-    internal static readonly Selector groups = Selector.Register("groups");
     internal static readonly Selector setGroups_ = Selector.Register("setGroups:");
-    internal static readonly Selector privateFunctionDescriptors = Selector.Register("privateFunctionDescriptors");
     internal static readonly Selector setPrivateFunctionDescriptors_ = Selector.Register("setPrivateFunctionDescriptors:");
 }
 
@@ -26,41 +23,19 @@ public readonly struct MTL4StaticLinkingDescriptor
     public static implicit operator nint(MTL4StaticLinkingDescriptor o) => o.NativePtr;
     public static implicit operator MTL4StaticLinkingDescriptor(nint ptr) => new MTL4StaticLinkingDescriptor(ptr);
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4StaticLinkingDescriptor");
-
-    public static MTL4StaticLinkingDescriptor Alloc()
+    public void SetFunctionDescriptors(NSArray functionDescriptors)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTL4StaticLinkingDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4StaticLinkingDescriptor_Selectors.setFunctionDescriptors_, functionDescriptors.NativePtr);
     }
 
-    public MTL4StaticLinkingDescriptor Init()
+    public void SetGroups(nint groups)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTL4StaticLinkingDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4StaticLinkingDescriptor_Selectors.setGroups_, groups);
     }
 
-    public static MTL4StaticLinkingDescriptor New()
+    public void SetPrivateFunctionDescriptors(NSArray privateFunctionDescriptors)
     {
-        return Alloc().Init();
-    }
-
-    public NSArray FunctionDescriptors
-    {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4StaticLinkingDescriptor_Selectors.functionDescriptors));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4StaticLinkingDescriptor_Selectors.setFunctionDescriptors_, value.NativePtr);
-    }
-
-    public nint Groups
-    {
-        get => ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4StaticLinkingDescriptor_Selectors.groups);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4StaticLinkingDescriptor_Selectors.setGroups_, value);
-    }
-
-    public NSArray PrivateFunctionDescriptors
-    {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4StaticLinkingDescriptor_Selectors.privateFunctionDescriptors));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4StaticLinkingDescriptor_Selectors.setPrivateFunctionDescriptors_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4StaticLinkingDescriptor_Selectors.setPrivateFunctionDescriptors_, privateFunctionDescriptors.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

@@ -114,3 +114,100 @@ public struct MTLSizeAndAlign
     public nuint Size;
     public nuint Align;
 }
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLRange
+{
+    public nuint Location;
+    public nuint Length;
+
+    public MTLRange(nuint location, nuint length)
+    {
+        Location = location;
+        Length = length;
+    }
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLResourceID
+{
+    public ulong Impl;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLVertexAmplificationViewMapping
+{
+    public uint ViewportArrayIndexOffset;
+    public uint RenderTargetArrayIndexOffset;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTL4Origin
+{
+    public nuint X;
+    public nuint Y;
+    public nuint Z;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTL4Size
+{
+    public nuint Width;
+    public nuint Height;
+    public nuint Depth;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTL4Range
+{
+    public nuint Location;
+    public nuint Length;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTL4BufferRange
+{
+    public nuint Offset;
+    public nuint Length;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct NSRange
+{
+    public nuint Location;
+    public nuint Length;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTL4CopySparseBufferMappingOperation
+{
+    public nuint SourceStartPage;
+    public nuint DestinationStartPage;
+    public nuint PageCount;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTL4CopySparseTextureMappingOperation
+{
+    public MTLRegion SourceRegion;
+    public nuint SourceMipLevel;
+    public nuint SourceSlice;
+    public MTL4Origin DestinationOrigin;
+    public nuint DestinationMipLevel;
+    public nuint DestinationSlice;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTL4UpdateSparseBufferMappingOperation
+{
+    public nuint StartPage;
+    public nuint PageCount;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTL4UpdateSparseTextureMappingOperation
+{
+    public MTLRegion Region;
+    public nuint MipLevel;
+    public nuint Slice;
+}

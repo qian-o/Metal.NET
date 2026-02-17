@@ -6,8 +6,7 @@ namespace Metal.NET;
 
 internal static class MTLStructType_Selectors
 {
-    internal static readonly Selector members = Selector.Register("members");
-    internal static readonly Selector memberByName = Selector.Register("memberByName");
+    internal static readonly Selector memberByName_ = Selector.Register("memberByName:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -22,14 +21,9 @@ public readonly struct MTLStructType
     public static implicit operator nint(MTLStructType o) => o.NativePtr;
     public static implicit operator MTLStructType(nint ptr) => new MTLStructType(ptr);
 
-    public NSArray Members
-    {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLStructType_Selectors.members));
-    }
-
     public MTLStructMember MemberByName(NSString name)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLStructType_Selectors.memberByName, name.NativePtr);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLStructType_Selectors.memberByName_, name.NativePtr);
         return new MTLStructMember(__result);
     }
 

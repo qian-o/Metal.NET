@@ -6,13 +6,8 @@ namespace Metal.NET;
 
 internal static class MTLTextureViewDescriptor_Selectors
 {
-    internal static readonly Selector levelRange = Selector.Register("levelRange");
-    internal static readonly Selector setLevelRange_ = Selector.Register("setLevelRange:");
-    internal static readonly Selector pixelFormat = Selector.Register("pixelFormat");
     internal static readonly Selector setPixelFormat_ = Selector.Register("setPixelFormat:");
-    internal static readonly Selector sliceRange = Selector.Register("sliceRange");
-    internal static readonly Selector setSliceRange_ = Selector.Register("setSliceRange:");
-    internal static readonly Selector textureType = Selector.Register("textureType");
+    internal static readonly Selector setSwizzle_ = Selector.Register("setSwizzle:");
     internal static readonly Selector setTextureType_ = Selector.Register("setTextureType:");
 }
 
@@ -47,28 +42,19 @@ public readonly struct MTLTextureViewDescriptor
         return Alloc().Init();
     }
 
-    public nint LevelRange
+    public void SetPixelFormat(MTLPixelFormat pixelFormat)
     {
-        get => ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTextureViewDescriptor_Selectors.levelRange);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureViewDescriptor_Selectors.setLevelRange_, value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureViewDescriptor_Selectors.setPixelFormat_, (nint)(uint)pixelFormat);
     }
 
-    public MTLPixelFormat PixelFormat
+    public void SetSwizzle(MTLTextureSwizzleChannels swizzle)
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLTextureViewDescriptor_Selectors.pixelFormat));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureViewDescriptor_Selectors.setPixelFormat_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureViewDescriptor_Selectors.setSwizzle_, swizzle.NativePtr);
     }
 
-    public nint SliceRange
+    public void SetTextureType(MTLTextureType textureType)
     {
-        get => ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTextureViewDescriptor_Selectors.sliceRange);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureViewDescriptor_Selectors.setSliceRange_, value);
-    }
-
-    public MTLTextureType TextureType
-    {
-        get => (MTLTextureType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLTextureViewDescriptor_Selectors.textureType));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureViewDescriptor_Selectors.setTextureType_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureViewDescriptor_Selectors.setTextureType_, (nint)(uint)textureType);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

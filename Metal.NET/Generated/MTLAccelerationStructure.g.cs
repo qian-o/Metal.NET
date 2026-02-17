@@ -6,8 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLAccelerationStructure_Selectors
 {
-    internal static readonly Selector gpuResourceID = Selector.Register("gpuResourceID");
-    internal static readonly Selector size = Selector.Register("size");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -21,16 +19,6 @@ public readonly struct MTLAccelerationStructure
 
     public static implicit operator nint(MTLAccelerationStructure o) => o.NativePtr;
     public static implicit operator MTLAccelerationStructure(nint ptr) => new MTLAccelerationStructure(ptr);
-
-    public ulong GpuResourceID
-    {
-        get => ObjectiveCRuntime.ulong_objc_msgSend(NativePtr, MTLAccelerationStructure_Selectors.gpuResourceID);
-    }
-
-    public nuint Size
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLAccelerationStructure_Selectors.size);
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

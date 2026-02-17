@@ -6,11 +6,8 @@ namespace Metal.NET;
 
 internal static class MTL4SpecializedFunctionDescriptor_Selectors
 {
-    internal static readonly Selector constantValues = Selector.Register("constantValues");
     internal static readonly Selector setConstantValues_ = Selector.Register("setConstantValues:");
-    internal static readonly Selector functionDescriptor = Selector.Register("functionDescriptor");
     internal static readonly Selector setFunctionDescriptor_ = Selector.Register("setFunctionDescriptor:");
-    internal static readonly Selector specializedName = Selector.Register("specializedName");
     internal static readonly Selector setSpecializedName_ = Selector.Register("setSpecializedName:");
 }
 
@@ -26,41 +23,19 @@ public readonly struct MTL4SpecializedFunctionDescriptor
     public static implicit operator nint(MTL4SpecializedFunctionDescriptor o) => o.NativePtr;
     public static implicit operator MTL4SpecializedFunctionDescriptor(nint ptr) => new MTL4SpecializedFunctionDescriptor(ptr);
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4SpecializedFunctionDescriptor");
-
-    public static MTL4SpecializedFunctionDescriptor Alloc()
+    public void SetConstantValues(MTLFunctionConstantValues constantValues)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTL4SpecializedFunctionDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4SpecializedFunctionDescriptor_Selectors.setConstantValues_, constantValues.NativePtr);
     }
 
-    public MTL4SpecializedFunctionDescriptor Init()
+    public void SetFunctionDescriptor(MTL4FunctionDescriptor functionDescriptor)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTL4SpecializedFunctionDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4SpecializedFunctionDescriptor_Selectors.setFunctionDescriptor_, functionDescriptor.NativePtr);
     }
 
-    public static MTL4SpecializedFunctionDescriptor New()
+    public void SetSpecializedName(NSString specializedName)
     {
-        return Alloc().Init();
-    }
-
-    public MTLFunctionConstantValues ConstantValues
-    {
-        get => new MTLFunctionConstantValues(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4SpecializedFunctionDescriptor_Selectors.constantValues));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4SpecializedFunctionDescriptor_Selectors.setConstantValues_, value.NativePtr);
-    }
-
-    public MTL4FunctionDescriptor FunctionDescriptor
-    {
-        get => new MTL4FunctionDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4SpecializedFunctionDescriptor_Selectors.functionDescriptor));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4SpecializedFunctionDescriptor_Selectors.setFunctionDescriptor_, value.NativePtr);
-    }
-
-    public NSString SpecializedName
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4SpecializedFunctionDescriptor_Selectors.specializedName));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4SpecializedFunctionDescriptor_Selectors.setSpecializedName_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4SpecializedFunctionDescriptor_Selectors.setSpecializedName_, specializedName.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

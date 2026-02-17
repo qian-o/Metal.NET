@@ -6,13 +6,12 @@ namespace Metal.NET;
 
 internal static class MTL4CommandQueue_Selectors
 {
-    internal static readonly Selector device = Selector.Register("device");
-    internal static readonly Selector label = Selector.Register("label");
-    internal static readonly Selector addResidencySet = Selector.Register("addResidencySet");
-    internal static readonly Selector removeResidencySet = Selector.Register("removeResidencySet");
-    internal static readonly Selector signalDrawable = Selector.Register("signalDrawable");
-    internal static readonly Selector signalEvent = Selector.Register("signalEvent");
-    internal static readonly Selector wait = Selector.Register("wait");
+    internal static readonly Selector addResidencySet_ = Selector.Register("addResidencySet:");
+    internal static readonly Selector removeResidencySet_ = Selector.Register("removeResidencySet:");
+    internal static readonly Selector signalDrawable_ = Selector.Register("signalDrawable:");
+    internal static readonly Selector signalEvent_value_ = Selector.Register("signalEvent:value:");
+    internal static readonly Selector wait_value_ = Selector.Register("wait:value:");
+    internal static readonly Selector wait_ = Selector.Register("wait:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -27,44 +26,34 @@ public readonly struct MTL4CommandQueue
     public static implicit operator nint(MTL4CommandQueue o) => o.NativePtr;
     public static implicit operator MTL4CommandQueue(nint ptr) => new MTL4CommandQueue(ptr);
 
-    public MTLDevice Device
-    {
-        get => new MTLDevice(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CommandQueue_Selectors.device));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CommandQueue_Selectors.label));
-    }
-
     public void AddResidencySet(MTLResidencySet residencySet)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandQueue_Selectors.addResidencySet, residencySet.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandQueue_Selectors.addResidencySet_, residencySet.NativePtr);
     }
 
     public void RemoveResidencySet(MTLResidencySet residencySet)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandQueue_Selectors.removeResidencySet, residencySet.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandQueue_Selectors.removeResidencySet_, residencySet.NativePtr);
     }
 
     public void SignalDrawable(MTLDrawable drawable)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandQueue_Selectors.signalDrawable, drawable.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandQueue_Selectors.signalDrawable_, drawable.NativePtr);
     }
 
-    public void SignalEvent(MTLEvent @event, ulong value)
+    public void SignalEvent(MTLEvent @event, nuint value)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandQueue_Selectors.signalEvent, @event.NativePtr, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandQueue_Selectors.signalEvent_value_, @event.NativePtr, (nint)value);
     }
 
-    public void Wait(MTLEvent @event, ulong value)
+    public void Wait(MTLEvent @event, nuint value)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandQueue_Selectors.wait, @event.NativePtr, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandQueue_Selectors.wait_value_, @event.NativePtr, (nint)value);
     }
 
     public void Wait(MTLDrawable drawable)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandQueue_Selectors.wait, drawable.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandQueue_Selectors.wait_, drawable.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

@@ -6,17 +6,11 @@ namespace Metal.NET;
 
 internal static class MTLPrimitiveAccelerationStructureDescriptor_Selectors
 {
-    internal static readonly Selector geometryDescriptors = Selector.Register("geometryDescriptors");
     internal static readonly Selector setGeometryDescriptors_ = Selector.Register("setGeometryDescriptors:");
-    internal static readonly Selector motionEndBorderMode = Selector.Register("motionEndBorderMode");
     internal static readonly Selector setMotionEndBorderMode_ = Selector.Register("setMotionEndBorderMode:");
-    internal static readonly Selector motionEndTime = Selector.Register("motionEndTime");
     internal static readonly Selector setMotionEndTime_ = Selector.Register("setMotionEndTime:");
-    internal static readonly Selector motionKeyframeCount = Selector.Register("motionKeyframeCount");
     internal static readonly Selector setMotionKeyframeCount_ = Selector.Register("setMotionKeyframeCount:");
-    internal static readonly Selector motionStartBorderMode = Selector.Register("motionStartBorderMode");
     internal static readonly Selector setMotionStartBorderMode_ = Selector.Register("setMotionStartBorderMode:");
-    internal static readonly Selector motionStartTime = Selector.Register("motionStartTime");
     internal static readonly Selector setMotionStartTime_ = Selector.Register("setMotionStartTime:");
     internal static readonly Selector descriptor = Selector.Register("descriptor");
 }
@@ -52,40 +46,34 @@ public readonly struct MTLPrimitiveAccelerationStructureDescriptor
         return Alloc().Init();
     }
 
-    public NSArray GeometryDescriptors
+    public void SetGeometryDescriptors(NSArray geometryDescriptors)
     {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.geometryDescriptors));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.setGeometryDescriptors_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.setGeometryDescriptors_, geometryDescriptors.NativePtr);
     }
 
-    public MTLMotionBorderMode MotionEndBorderMode
+    public void SetMotionEndBorderMode(MTLMotionBorderMode motionEndBorderMode)
     {
-        get => (MTLMotionBorderMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.motionEndBorderMode));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.setMotionEndBorderMode_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.setMotionEndBorderMode_, (nint)(uint)motionEndBorderMode);
     }
 
-    public float MotionEndTime
+    public void SetMotionEndTime(float motionEndTime)
     {
-        get => ObjectiveCRuntime.float_objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.motionEndTime);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.setMotionEndTime_, value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.setMotionEndTime_, motionEndTime);
     }
 
-    public nuint MotionKeyframeCount
+    public void SetMotionKeyframeCount(nuint motionKeyframeCount)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.motionKeyframeCount);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.setMotionKeyframeCount_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.setMotionKeyframeCount_, (nint)motionKeyframeCount);
     }
 
-    public MTLMotionBorderMode MotionStartBorderMode
+    public void SetMotionStartBorderMode(MTLMotionBorderMode motionStartBorderMode)
     {
-        get => (MTLMotionBorderMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.motionStartBorderMode));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.setMotionStartBorderMode_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.setMotionStartBorderMode_, (nint)(uint)motionStartBorderMode);
     }
 
-    public float MotionStartTime
+    public void SetMotionStartTime(float motionStartTime)
     {
-        get => ObjectiveCRuntime.float_objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.motionStartTime);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.setMotionStartTime_, value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.setMotionStartTime_, motionStartTime);
     }
 
     public static MTLPrimitiveAccelerationStructureDescriptor Descriptor()

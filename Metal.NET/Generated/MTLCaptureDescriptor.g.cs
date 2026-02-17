@@ -6,11 +6,8 @@ namespace Metal.NET;
 
 internal static class MTLCaptureDescriptor_Selectors
 {
-    internal static readonly Selector captureObject = Selector.Register("captureObject");
     internal static readonly Selector setCaptureObject_ = Selector.Register("setCaptureObject:");
-    internal static readonly Selector destination = Selector.Register("destination");
     internal static readonly Selector setDestination_ = Selector.Register("setDestination:");
-    internal static readonly Selector outputURL = Selector.Register("outputURL");
     internal static readonly Selector setOutputURL_ = Selector.Register("setOutputURL:");
 }
 
@@ -45,22 +42,19 @@ public readonly struct MTLCaptureDescriptor
         return Alloc().Init();
     }
 
-    public nint CaptureObject
+    public void SetCaptureObject(nint captureObject)
     {
-        get => ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCaptureDescriptor_Selectors.captureObject);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureDescriptor_Selectors.setCaptureObject_, value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureDescriptor_Selectors.setCaptureObject_, captureObject);
     }
 
-    public MTLCaptureDestination Destination
+    public void SetDestination(MTLCaptureDestination destination)
     {
-        get => (MTLCaptureDestination)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLCaptureDescriptor_Selectors.destination));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureDescriptor_Selectors.setDestination_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureDescriptor_Selectors.setDestination_, (nint)(uint)destination);
     }
 
-    public nint OutputURL
+    public void SetOutputURL(NSURL outputURL)
     {
-        get => ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCaptureDescriptor_Selectors.outputURL);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureDescriptor_Selectors.setOutputURL_, value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureDescriptor_Selectors.setOutputURL_, outputURL.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

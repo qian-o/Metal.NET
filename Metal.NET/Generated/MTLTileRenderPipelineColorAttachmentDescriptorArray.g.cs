@@ -6,8 +6,8 @@ namespace Metal.NET;
 
 internal static class MTLTileRenderPipelineColorAttachmentDescriptorArray_Selectors
 {
-    internal static readonly Selector @object = Selector.Register("object");
-    internal static readonly Selector setObject = Selector.Register("setObject");
+    internal static readonly Selector object_ = Selector.Register("object:");
+    internal static readonly Selector setObject_attachmentIndex_ = Selector.Register("setObject:attachmentIndex:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -24,13 +24,13 @@ public readonly struct MTLTileRenderPipelineColorAttachmentDescriptorArray
 
     public MTLTileRenderPipelineColorAttachmentDescriptor Object(nuint attachmentIndex)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorArray_Selectors.@object, (nint)attachmentIndex);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorArray_Selectors.object_, (nint)attachmentIndex);
         return new MTLTileRenderPipelineColorAttachmentDescriptor(__result);
     }
 
     public void SetObject(MTLTileRenderPipelineColorAttachmentDescriptor attachment, nuint attachmentIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorArray_Selectors.setObject, attachment.NativePtr, (nint)attachmentIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorArray_Selectors.setObject_attachmentIndex_, attachment.NativePtr, (nint)attachmentIndex);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

@@ -6,13 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLPointerType_Selectors
 {
-    internal static readonly Selector access = Selector.Register("access");
-    internal static readonly Selector alignment = Selector.Register("alignment");
-    internal static readonly Selector dataSize = Selector.Register("dataSize");
-    internal static readonly Selector elementIsArgumentBuffer = Selector.Register("elementIsArgumentBuffer");
-    internal static readonly Selector elementType = Selector.Register("elementType");
-    internal static readonly Selector elementArrayType = Selector.Register("elementArrayType");
-    internal static readonly Selector elementStructType = Selector.Register("elementStructType");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -26,43 +19,6 @@ public readonly struct MTLPointerType
 
     public static implicit operator nint(MTLPointerType o) => o.NativePtr;
     public static implicit operator MTLPointerType(nint ptr) => new MTLPointerType(ptr);
-
-    public MTLBindingAccess Access
-    {
-        get => (MTLBindingAccess)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLPointerType_Selectors.access));
-    }
-
-    public nuint Alignment
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLPointerType_Selectors.alignment);
-    }
-
-    public nuint DataSize
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLPointerType_Selectors.dataSize);
-    }
-
-    public Bool8 ElementIsArgumentBuffer
-    {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLPointerType_Selectors.elementIsArgumentBuffer);
-    }
-
-    public MTLDataType ElementType
-    {
-        get => (MTLDataType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLPointerType_Selectors.elementType));
-    }
-
-    public MTLArrayType ElementArrayType()
-    {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLPointerType_Selectors.elementArrayType);
-        return new MTLArrayType(__result);
-    }
-
-    public MTLStructType ElementStructType()
-    {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLPointerType_Selectors.elementStructType);
-        return new MTLStructType(__result);
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

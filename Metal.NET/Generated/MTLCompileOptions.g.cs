@@ -6,35 +6,20 @@ namespace Metal.NET;
 
 internal static class MTLCompileOptions_Selectors
 {
-    internal static readonly Selector allowReferencingUndefinedSymbols = Selector.Register("allowReferencingUndefinedSymbols");
     internal static readonly Selector setAllowReferencingUndefinedSymbols_ = Selector.Register("setAllowReferencingUndefinedSymbols:");
-    internal static readonly Selector compileSymbolVisibility = Selector.Register("compileSymbolVisibility");
     internal static readonly Selector setCompileSymbolVisibility_ = Selector.Register("setCompileSymbolVisibility:");
-    internal static readonly Selector enableLogging = Selector.Register("enableLogging");
     internal static readonly Selector setEnableLogging_ = Selector.Register("setEnableLogging:");
-    internal static readonly Selector fastMathEnabled = Selector.Register("fastMathEnabled");
     internal static readonly Selector setFastMathEnabled_ = Selector.Register("setFastMathEnabled:");
-    internal static readonly Selector installName = Selector.Register("installName");
     internal static readonly Selector setInstallName_ = Selector.Register("setInstallName:");
-    internal static readonly Selector languageVersion = Selector.Register("languageVersion");
     internal static readonly Selector setLanguageVersion_ = Selector.Register("setLanguageVersion:");
-    internal static readonly Selector libraries = Selector.Register("libraries");
     internal static readonly Selector setLibraries_ = Selector.Register("setLibraries:");
-    internal static readonly Selector libraryType = Selector.Register("libraryType");
     internal static readonly Selector setLibraryType_ = Selector.Register("setLibraryType:");
-    internal static readonly Selector mathFloatingPointFunctions = Selector.Register("mathFloatingPointFunctions");
     internal static readonly Selector setMathFloatingPointFunctions_ = Selector.Register("setMathFloatingPointFunctions:");
-    internal static readonly Selector mathMode = Selector.Register("mathMode");
     internal static readonly Selector setMathMode_ = Selector.Register("setMathMode:");
-    internal static readonly Selector maxTotalThreadsPerThreadgroup = Selector.Register("maxTotalThreadsPerThreadgroup");
     internal static readonly Selector setMaxTotalThreadsPerThreadgroup_ = Selector.Register("setMaxTotalThreadsPerThreadgroup:");
-    internal static readonly Selector optimizationLevel = Selector.Register("optimizationLevel");
     internal static readonly Selector setOptimizationLevel_ = Selector.Register("setOptimizationLevel:");
-    internal static readonly Selector preprocessorMacros = Selector.Register("preprocessorMacros");
     internal static readonly Selector setPreprocessorMacros_ = Selector.Register("setPreprocessorMacros:");
-    internal static readonly Selector preserveInvariance = Selector.Register("preserveInvariance");
     internal static readonly Selector setPreserveInvariance_ = Selector.Register("setPreserveInvariance:");
-    internal static readonly Selector requiredThreadsPerThreadgroup = Selector.Register("requiredThreadsPerThreadgroup");
     internal static readonly Selector setRequiredThreadsPerThreadgroup_ = Selector.Register("setRequiredThreadsPerThreadgroup:");
 }
 
@@ -69,91 +54,80 @@ public readonly struct MTLCompileOptions
         return Alloc().Init();
     }
 
-    public Bool8 AllowReferencingUndefinedSymbols
+    public void SetAllowReferencingUndefinedSymbols(Bool8 allowReferencingUndefinedSymbols)
     {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLCompileOptions_Selectors.allowReferencingUndefinedSymbols);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setAllowReferencingUndefinedSymbols_, (nint)value.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setAllowReferencingUndefinedSymbols_, (nint)allowReferencingUndefinedSymbols.Value);
     }
 
-    public MTLCompileSymbolVisibility CompileSymbolVisibility
+    public void SetCompileSymbolVisibility(MTLCompileSymbolVisibility compileSymbolVisibility)
     {
-        get => (MTLCompileSymbolVisibility)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLCompileOptions_Selectors.compileSymbolVisibility));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setCompileSymbolVisibility_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setCompileSymbolVisibility_, (nint)(uint)compileSymbolVisibility);
     }
 
-    public Bool8 EnableLogging
+    public void SetEnableLogging(Bool8 enableLogging)
     {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLCompileOptions_Selectors.enableLogging);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setEnableLogging_, (nint)value.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setEnableLogging_, (nint)enableLogging.Value);
     }
 
-    public Bool8 FastMathEnabled
+    public void SetFastMathEnabled(Bool8 fastMathEnabled)
     {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLCompileOptions_Selectors.fastMathEnabled);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setFastMathEnabled_, (nint)value.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setFastMathEnabled_, (nint)fastMathEnabled.Value);
     }
 
-    public NSString InstallName
+    public void SetInstallName(NSString installName)
     {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCompileOptions_Selectors.installName));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setInstallName_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setInstallName_, installName.NativePtr);
     }
 
-    public MTLLanguageVersion LanguageVersion
+    public void SetLanguageVersion(MTLLanguageVersion languageVersion)
     {
-        get => (MTLLanguageVersion)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLCompileOptions_Selectors.languageVersion));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setLanguageVersion_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setLanguageVersion_, (nint)(uint)languageVersion);
     }
 
-    public NSArray Libraries
+    public void SetLibraries(NSArray libraries)
     {
-        get => new NSArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCompileOptions_Selectors.libraries));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setLibraries_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setLibraries_, libraries.NativePtr);
     }
 
-    public MTLLibraryType LibraryType
+    public void SetLibraryType(MTLLibraryType libraryType)
     {
-        get => (MTLLibraryType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLCompileOptions_Selectors.libraryType));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setLibraryType_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setLibraryType_, (nint)(uint)libraryType);
     }
 
-    public MTLMathFloatingPointFunctions MathFloatingPointFunctions
+    public void SetMathFloatingPointFunctions(MTLMathFloatingPointFunctions mathFloatingPointFunctions)
     {
-        get => (MTLMathFloatingPointFunctions)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLCompileOptions_Selectors.mathFloatingPointFunctions));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setMathFloatingPointFunctions_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setMathFloatingPointFunctions_, (nint)(uint)mathFloatingPointFunctions);
     }
 
-    public MTLMathMode MathMode
+    public void SetMathMode(MTLMathMode mathMode)
     {
-        get => (MTLMathMode)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLCompileOptions_Selectors.mathMode));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setMathMode_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setMathMode_, (nint)(uint)mathMode);
     }
 
-    public nuint MaxTotalThreadsPerThreadgroup
+    public void SetMaxTotalThreadsPerThreadgroup(nuint maxTotalThreadsPerThreadgroup)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLCompileOptions_Selectors.maxTotalThreadsPerThreadgroup);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setMaxTotalThreadsPerThreadgroup_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setMaxTotalThreadsPerThreadgroup_, (nint)maxTotalThreadsPerThreadgroup);
     }
 
-    public MTLLibraryOptimizationLevel OptimizationLevel
+    public void SetOptimizationLevel(MTLLibraryOptimizationLevel optimizationLevel)
     {
-        get => (MTLLibraryOptimizationLevel)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLCompileOptions_Selectors.optimizationLevel));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setOptimizationLevel_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setOptimizationLevel_, (nint)(uint)optimizationLevel);
     }
 
-    public nint PreprocessorMacros
+    public void SetPreprocessorMacros(nint preprocessorMacros)
     {
-        get => ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCompileOptions_Selectors.preprocessorMacros);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setPreprocessorMacros_, value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setPreprocessorMacros_, preprocessorMacros);
     }
 
-    public Bool8 PreserveInvariance
+    public void SetPreserveInvariance(Bool8 preserveInvariance)
     {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLCompileOptions_Selectors.preserveInvariance);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setPreserveInvariance_, (nint)value.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setPreserveInvariance_, (nint)preserveInvariance.Value);
     }
 
-    // TODO: RequiredThreadsPerThreadgroup (value-struct return type MTLSize requires objc_msgSend_stret)
+    public void SetRequiredThreadsPerThreadgroup(MTLSize requiredThreadsPerThreadgroup)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCompileOptions_Selectors.setRequiredThreadsPerThreadgroup_, requiredThreadsPerThreadgroup);
+    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

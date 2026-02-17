@@ -5,6 +5,7 @@ namespace Metal.NET.Generator;
 public class MetalBindingsGenerator
 {
     private readonly string _outputDir;
+    private readonly HashSet<string> _knownEnums = new();
 
     public MetalBindingsGenerator(string outputDir)
     {
@@ -18,167 +19,67 @@ public class MetalBindingsGenerator
         File.WriteAllText(path, content, Encoding.UTF8);
     }
 
-    public void Execute(IReadOnlyList<(string FileName, string Content)> files)
-    {
-        if (files.Count == 0) return;
-
-        // Step 1: Parse selector definitions from *Private.hpp files
-        var selectorMap = new Dictionary<string, string>();
-        foreach (var (fileName, content) in files)
-        {
-            if (fileName.EndsWith("Private.hpp"))
-            {
-                var sels = HeaderClassParser.ParseSelectorDefs(content);
-                foreach (var kv in sels)
-                {
-                    if (!selectorMap.ContainsKey(kv.Key))
-                        selectorMap[kv.Key] = kv.Value;
-                }
-            }
-        }
-
-        // Step 2: Parse enums from MTL*.hpp and MTLFX*.hpp files
-        var allEnums = new List<EnumDef>();
-        foreach (var (fileName, content) in files)
-        {
-            if (!fileName.StartsWith("MTL")) continue;
-
-            var enums = HeaderEnumParser.Parse(content);
-            allEnums.AddRange(enums);
-        }
-
-        // Deduplicate enums by name
-        var seenEnums = new Dictionary<string, EnumDef>();
-        foreach (var e in allEnums)
-        {
-            if (!seenEnums.ContainsKey(e.Name))
-                seenEnums[e.Name] = e;
-        }
-
-        foreach (var e in seenEnums.Values.OrderBy(e => e.Name))
-        {
-            GenerateEnumDef(e);
-        }
-
-        // Step 3: Parse extern "C" free functions from header files
-        var freeFunctionsByClass = new Dictionary<string, List<FreeFunctionDef>>();
-        foreach (var (fileName, content) in files)
-        {
-            var freeFuncs = HeaderClassParser.ParseFreeFunctions(content);
-            foreach (var f in freeFuncs)
-            {
-                if (!freeFunctionsByClass.TryGetValue(f.TargetClass, out var list))
-                {
-                    list = new List<FreeFunctionDef>();
-                    freeFunctionsByClass[f.TargetClass] = list;
-                }
-                list.Add(f);
-            }
-        }
-
-        // Step 4: Parse classes/protocols from MTL*.hpp files (including MTL4*.hpp)
-        var generatedClasses = new HashSet<string>();
-        foreach (var (fileName, content) in files)
-        {
-            var baseName = Path.GetFileNameWithoutExtension(fileName);
-            if (!baseName.StartsWith("MTL")) continue;
-
-            // Skip Private, Defines, HeaderBridge files
-            if (baseName.EndsWith("Private") || baseName == "MTLDefines" ||
-                baseName == "MTLHeaderBridge" || baseName == "MTLFXDefines")
-                continue;
-
-            var classes = HeaderClassParser.Parse(content, baseName, selectorMap);
-            foreach (var cls in classes)
-            {
-                if (generatedClasses.Add(cls.Name))
-                {
-                    freeFunctionsByClass.TryGetValue(cls.Name, out var freeFuncs);
-                    GenerateObjCClassDef(cls, freeFuncs);
-                }
-            }
-        }
-
-        // Step 5: Parse QuartzCore CA*.hpp files
-        foreach (var (fileName, content) in files)
-        {
-            var baseName = Path.GetFileNameWithoutExtension(fileName);
-            if (!baseName.StartsWith("CA")) continue;
-
-            var classes = HeaderClassParser.Parse(content, baseName, selectorMap);
-            foreach (var cls in classes)
-            {
-                if (!cls.Name.StartsWith("CA"))
-                    cls.Name = $"CA{cls.Name.TrimStart('M', 'T', 'L')}";
-
-                if (generatedClasses.Add(cls.Name))
-                {
-                    freeFunctionsByClass.TryGetValue(cls.Name, out var freeFuncs);
-                    GenerateObjCClassDef(cls, freeFuncs);
-                }
-            }
-        }
-
-        // Step 6: Parse Foundation NS*.hpp files
-        foreach (var (fileName, content) in files)
-        {
-            var baseName = Path.GetFileNameWithoutExtension(fileName);
-            if (!baseName.StartsWith("NS")) continue;
-
-            // Only generate a whitelist of Foundation classes that are commonly
-            // used in Metal code and have straightforward bindings
-            if (!s_generatableNsFiles.Contains(baseName))
-                continue;
-
-            var classes = HeaderClassParser.Parse(content, baseName, selectorMap);
-            foreach (var cls in classes)
-            {
-                if (!cls.Name.StartsWith("NS"))
-                    cls.Name = $"NS{cls.Name}";
-
-                // Skip NS types that have hand-written Runtime implementations
-                // with special C# convenience methods
-                if (s_handWrittenNsTypes.Contains(cls.Name))
-                    continue;
-
-                if (generatedClasses.Add(cls.Name))
-                {
-                    freeFunctionsByClass.TryGetValue(cls.Name, out var freeFuncs);
-                    GenerateObjCClassDef(cls, freeFuncs);
-                }
-            }
-        }
-
-        // Step 7: Generate stub structs for referenced but undefined types
-        var referencedTypes = CollectReferencedTypes(generatedClasses);
-        var missingTypes = new HashSet<string>();
-        foreach (var t in referencedTypes)
-        {
-            if (!generatedClasses.Contains(t) && !seenEnums.ContainsKey(t))
-                missingTypes.Add(t);
-        }
-        foreach (var missingType in missingTypes.OrderBy(t => t))
-        {
-            GenerateStubStruct(missingType);
-            generatedClasses.Add(missingType);
-        }
-    }
-
     /// <summary>
-    /// Collects all ObjC wrapper types referenced by generated classes
-    /// (from properties and method parameters/return types).
+    /// Generate bindings from a pre-parsed CppAst result.
     /// </summary>
-    private HashSet<string> CollectReferencedTypes(HashSet<string> generatedClasses)
+    public void Execute(ParseResult parsed)
     {
-        // We can't easily introspect the already-generated code, so we maintain a static list
-        // of known referenced-but-empty types that commonly appear in Metal headers.
-        return new HashSet<string>
+        // Build the set of known enum names for accurate type classification
+        _knownEnums.Clear();
+        s_runtimeKnownEnums.Clear();
+        foreach (var e in parsed.Enums)
+        {
+            _knownEnums.Add(e.Name);
+            s_runtimeKnownEnums.Add(e.Name);
+        }
+
+        // Generate enums
+        var seenEnums = new HashSet<string>();
+        foreach (var e in parsed.Enums.OrderBy(e => e.Name))
+        {
+            if (seenEnums.Add(e.Name))
+                GenerateEnumDef(e);
+        }
+
+        // Group free functions by target class
+        var freeFunctionsByClass = new Dictionary<string, List<FreeFunctionDef>>();
+        foreach (var f in parsed.FreeFunctions)
+        {
+            if (!freeFunctionsByClass.TryGetValue(f.TargetClass, out var list))
+            {
+                list = new List<FreeFunctionDef>();
+                freeFunctionsByClass[f.TargetClass] = list;
+            }
+            list.Add(f);
+        }
+
+        // Generate classes/protocols
+        var generatedClasses = new HashSet<string>();
+        foreach (var cls in parsed.Classes.OrderBy(c => c.Name))
+        {
+            if (generatedClasses.Add(cls.Name))
+            {
+                freeFunctionsByClass.TryGetValue(cls.Name, out var freeFuncs);
+                GenerateObjCClassDef(cls, freeFuncs);
+            }
+        }
+
+        // Generate stub structs for referenced but undefined types
+        var stubTypes = new HashSet<string>
         {
             "MTLLogState", "MTLLogContainer",
             "MTLFXFrameInterpolatableScaler",
             "MTL4FunctionDescriptor",
             "MTLIntersectionFunctionDescriptor",
         };
+        foreach (var missingType in stubTypes.OrderBy(t => t))
+        {
+            if (!generatedClasses.Contains(missingType) && !seenEnums.Contains(missingType))
+            {
+                GenerateStubStruct(missingType);
+                generatedClasses.Add(missingType);
+            }
+        }
     }
 
     private void GenerateStubStruct(string typeName)
@@ -270,8 +171,9 @@ public class MetalBindingsGenerator
         sb.AppendLine();
 
         // ── Struct wrapper ──
+        bool hasLibraryImports = freeFunctions != null && freeFunctions.Count > 0;
         sb.AppendLine("[StructLayout(LayoutKind.Sequential)]");
-        sb.AppendLine($"public readonly struct {def.Name}");
+        sb.AppendLine($"public readonly{(hasLibraryImports ? " partial" : "")} struct {def.Name}");
         sb.AppendLine("{");
         sb.AppendLine("    public readonly nint NativePtr;");
         sb.AppendLine();
@@ -508,9 +410,9 @@ public class MetalBindingsGenerator
             && IsObjCWrapper(f.ReturnType);
         var externReturnType = wrapReturn ? "nint" : f.ReturnType;
 
-        // Emit the DllImport declaration as a private static extern
-        sb.AppendLine($"    [DllImport(\"{f.FrameworkLibrary}\")]");
-        sb.AppendLine($"    private static extern {externReturnType} {f.NativeName}({externParamsStr});");
+        // Emit the LibraryImport declaration as a private static partial
+        sb.AppendLine($"    [LibraryImport(\"{f.FrameworkLibrary}\", EntryPoint = \"{f.NativeName}\")]");
+        sb.AppendLine($"    private static partial {externReturnType} {f.NativeName}({externParamsStr});");
         sb.AppendLine();
 
         // Emit the public static wrapper method
@@ -624,88 +526,15 @@ public class MetalBindingsGenerator
         return $"(nint){name}";
     }
 
-    private static bool IsObjCWrapper(string type)
-    {
-        // ObjC wrapper types: start with MTL/NS/CA, not value structs, not enums, not primitives
-        if (IsKnownValueStruct(type) || IsLikelyEnum(type)) return false;
-        return type.StartsWith("MTL") || type.StartsWith("NS") || type.StartsWith("CA");
-    }
+    private static bool IsObjCWrapper(string type) => CppAstParser.IsObjCWrapper(type);
+    private static bool IsKnownValueStruct(string type) => CppAstParser.IsKnownValueStruct(type);
+    private static bool IsLikelyEnum(string type) => CppAstParser.IsLikelyEnum(type) || s_runtimeKnownEnums.Contains(type);
 
-    private static bool IsKnownValueStruct(string type)
-    {
-        return type is "MTLOrigin" or "MTLSize" or "MTLRegion" or "MTLViewport"
-            or "MTLScissorRect" or "MTLClearColor" or "MTLSamplePosition" or "CGSize"
-            or "MTLSizeAndAlign";
-    }
-
-    // Known ObjC wrapper class/protocol types that should NOT be treated as enums
-    // even though their names end with enum-like suffixes.
-    private static readonly System.Collections.Generic.HashSet<string> s_knownWrapperTypes = new()
-    {
-        "MTLFunction", "MTLCompileOptions", "MTLComputePipelineState",
-        "MTLRenderPipelineState", "MTLDepthStencilState", "MTLSamplerState",
-        "MTLFence", "MTLRenderPassDescriptor", "MTLVertexDescriptor",
-        "MTLRenderPipelineColorAttachmentDescriptor",
-        "MTLRenderPipelineColorAttachmentDescriptorArray",
-        "MTLRenderPassColorAttachmentDescriptor",
-        "MTLRenderPassColorAttachmentDescriptorArray",
-        "MTLRenderPassDepthAttachmentDescriptor",
-        "MTLRenderPassStencilAttachmentDescriptor",
-        "MTLVertexBufferLayoutDescriptor",
-        "MTLVertexBufferLayoutDescriptorArray",
-        "MTLVertexAttributeDescriptor",
-        "MTLVertexAttributeDescriptorArray",
-        "MTLStencilDescriptor",
-        "MTL4PipelineState", "MTL4CommandBufferOptions", "MTL4CompilerTaskOptions",
-        "MTL4CommitOptions",
-        "MTLLogState", "MTLLogContainer",
-        "MTLLinkedFunctions",
-        // Types ending with common enum suffixes but actually ObjC classes/protocols
-        "MTLArrayType", "MTLStructType", "MTLPointerType", "MTLType",
-        "MTLTextureReferenceType", "MTLTensorReferenceType",
-        "MTLCaptureScope", "MTLCounterSet", "MTLResidencySet",
-        "MTLComputePipelineReflection", "MTLRenderPipelineReflection",
-        "MTLFunctionReflection",
-        "MTL4BinaryFunction", "MTL4MachineLearningPipelineState",
-        "MTL4MachineLearningPipelineReflection", "MTL4PipelineOptions",
-        "MTLFunctionLogDebugLocation",
-    };
-
-    // NS types that have hand-written Runtime implementations with special C# methods
-    private static readonly System.Collections.Generic.HashSet<string> s_handWrittenNsTypes = new()
-    {
-        "NSString", "NSError", "NSArray",
-    };
-
-    // Foundation files that are safe to generate (simple bindings, no complex C++ templates)
-    private static readonly System.Collections.Generic.HashSet<string> s_generatableNsFiles = new()
-    {
-        "NSURL",
-    };
-
-    private static bool IsLikelyEnum(string type)
-    {
-        // Exclude known wrapper types first
-        if (s_knownWrapperTypes.Contains(type)) return false;
-
-        // Enum types in Metal follow a naming convention
-        if (!type.StartsWith("MTL")) return false;
-        return type.Contains("Format")
-            || type.EndsWith("Action") || type.EndsWith("Mode") || type.EndsWith("Type")
-            || type.EndsWith("Function") || type.EndsWith("Operation") || type.EndsWith("Factor")
-            || type.EndsWith("Mask") || type.EndsWith("Options") || type.EndsWith("Filter")
-            || type.EndsWith("Usage") || type.EndsWith("Version") || type.EndsWith("Status")
-            || type.EndsWith("Set") || type.EndsWith("Winding") || type.EndsWith("Granularity")
-            || type.EndsWith("Stages") || type.EndsWith("State") || type.EndsWith("Tier")
-            || type.EndsWith("Scope") || type.EndsWith("Access") || type.EndsWith("Level")
-            || type.EndsWith("Layout") || type.EndsWith("Destination") || type.EndsWith("Point")
-            || type.EndsWith("Basis") || type.EndsWith("Caps") || type.EndsWith("Visibility")
-            || type.EndsWith("Family") || type.EndsWith("Priority") || type.EndsWith("Method")
-            || type.EndsWith("Mutability") || type.EndsWith("Class") || type.EndsWith("Color")
-            || type.EndsWith("Option") || type.EndsWith("Validation") || type.EndsWith("Signature")
-            || type.EndsWith("Functions") || type.EndsWith("Configuration") || type.EndsWith("Reflection")
-            || type.EndsWith("Location") || type.EndsWith("PageSize");
-    }
+    /// <summary>
+    /// Enum names discovered from CppAst at generation time.
+    /// Populated before class generation begins.
+    /// </summary>
+    private static readonly HashSet<string> s_runtimeKnownEnums = new();
 
     private static void AddSelector(Dictionary<string, string> dict, string selector)
     {
@@ -720,7 +549,7 @@ public class MetalBindingsGenerator
         // "newBufferWithLength:options:" -> "newBufferWithLength_options_"
         var name = selector.Replace(":", "_");
         // Escape C# keywords
-        if (HeaderTypeMapper.IsCSharpKeyword(name))
+        if (CppAstParser.IsCSharpKeyword(name))
             name = $"@{name}";
         return name;
     }

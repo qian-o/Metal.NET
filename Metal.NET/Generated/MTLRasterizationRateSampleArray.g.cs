@@ -6,8 +6,8 @@ namespace Metal.NET;
 
 internal static class MTLRasterizationRateSampleArray_Selectors
 {
-    internal static readonly Selector @object = Selector.Register("object");
-    internal static readonly Selector setObject = Selector.Register("setObject");
+    internal static readonly Selector object_ = Selector.Register("object:");
+    internal static readonly Selector setObject_index_ = Selector.Register("setObject:index:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -24,13 +24,13 @@ public readonly struct MTLRasterizationRateSampleArray
 
     public nint Object(nuint index)
     {
-        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRasterizationRateSampleArray_Selectors.@object, (nint)index);
+        var __result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRasterizationRateSampleArray_Selectors.object_, (nint)index);
         return __result;
     }
 
     public void SetObject(nint value, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateSampleArray_Selectors.setObject, value, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateSampleArray_Selectors.setObject_index_, value, (nint)index);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

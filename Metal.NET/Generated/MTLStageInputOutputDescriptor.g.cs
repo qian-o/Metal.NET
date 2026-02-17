@@ -6,13 +6,9 @@ namespace Metal.NET;
 
 internal static class MTLStageInputOutputDescriptor_Selectors
 {
-    internal static readonly Selector attributes = Selector.Register("attributes");
-    internal static readonly Selector indexBufferIndex = Selector.Register("indexBufferIndex");
-    internal static readonly Selector setIndexBufferIndex_ = Selector.Register("setIndexBufferIndex:");
-    internal static readonly Selector indexType = Selector.Register("indexType");
-    internal static readonly Selector setIndexType_ = Selector.Register("setIndexType:");
-    internal static readonly Selector layouts = Selector.Register("layouts");
     internal static readonly Selector reset = Selector.Register("reset");
+    internal static readonly Selector setIndexBufferIndex_ = Selector.Register("setIndexBufferIndex:");
+    internal static readonly Selector setIndexType_ = Selector.Register("setIndexType:");
     internal static readonly Selector stageInputOutputDescriptor = Selector.Register("stageInputOutputDescriptor");
 }
 
@@ -47,31 +43,19 @@ public readonly struct MTLStageInputOutputDescriptor
         return Alloc().Init();
     }
 
-    public MTLAttributeDescriptorArray Attributes
-    {
-        get => new MTLAttributeDescriptorArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLStageInputOutputDescriptor_Selectors.attributes));
-    }
-
-    public nuint IndexBufferIndex
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLStageInputOutputDescriptor_Selectors.indexBufferIndex);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStageInputOutputDescriptor_Selectors.setIndexBufferIndex_, (nint)value);
-    }
-
-    public MTLIndexType IndexType
-    {
-        get => (MTLIndexType)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLStageInputOutputDescriptor_Selectors.indexType));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStageInputOutputDescriptor_Selectors.setIndexType_, (nint)(uint)value);
-    }
-
-    public MTLBufferLayoutDescriptorArray Layouts
-    {
-        get => new MTLBufferLayoutDescriptorArray(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLStageInputOutputDescriptor_Selectors.layouts));
-    }
-
     public void Reset()
     {
         ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStageInputOutputDescriptor_Selectors.reset);
+    }
+
+    public void SetIndexBufferIndex(nuint indexBufferIndex)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStageInputOutputDescriptor_Selectors.setIndexBufferIndex_, (nint)indexBufferIndex);
+    }
+
+    public void SetIndexType(MTLIndexType indexType)
+    {
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStageInputOutputDescriptor_Selectors.setIndexType_, (nint)(uint)indexType);
     }
 
     public static MTLStageInputOutputDescriptor StageInputOutputDescriptor()

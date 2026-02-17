@@ -6,8 +6,6 @@ namespace Metal.NET;
 
 internal static class CAMetalDrawable_Selectors
 {
-    internal static readonly Selector layer = Selector.Register("layer");
-    internal static readonly Selector texture = Selector.Register("texture");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -21,16 +19,6 @@ public readonly struct CAMetalDrawable
 
     public static implicit operator nint(CAMetalDrawable o) => o.NativePtr;
     public static implicit operator CAMetalDrawable(nint ptr) => new CAMetalDrawable(ptr);
-
-    public CAMetalLayer Layer
-    {
-        get => new CAMetalLayer(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, CAMetalDrawable_Selectors.layer));
-    }
-
-    public MTLTexture Texture
-    {
-        get => new MTLTexture(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, CAMetalDrawable_Selectors.texture));
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);

@@ -6,8 +6,6 @@ namespace Metal.NET;
 
 internal static class MTLEvent_Selectors
 {
-    internal static readonly Selector device = Selector.Register("device");
-    internal static readonly Selector label = Selector.Register("label");
     internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
 }
 
@@ -23,15 +21,9 @@ public readonly struct MTLEvent
     public static implicit operator nint(MTLEvent o) => o.NativePtr;
     public static implicit operator MTLEvent(nint ptr) => new MTLEvent(ptr);
 
-    public MTLDevice Device
+    public void SetLabel(NSString label)
     {
-        get => new MTLDevice(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLEvent_Selectors.device));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLEvent_Selectors.label));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLEvent_Selectors.setLabel_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLEvent_Selectors.setLabel_, label.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

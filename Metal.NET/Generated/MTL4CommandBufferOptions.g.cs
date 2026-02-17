@@ -6,7 +6,6 @@ namespace Metal.NET;
 
 internal static class MTL4CommandBufferOptions_Selectors
 {
-    internal static readonly Selector logState = Selector.Register("logState");
     internal static readonly Selector setLogState_ = Selector.Register("setLogState:");
 }
 
@@ -22,10 +21,9 @@ public readonly struct MTL4CommandBufferOptions
     public static implicit operator nint(MTL4CommandBufferOptions o) => o.NativePtr;
     public static implicit operator MTL4CommandBufferOptions(nint ptr) => new MTL4CommandBufferOptions(ptr);
 
-    public MTLLogState LogState
+    public void SetLogState(MTLLogState logState)
     {
-        get => new MTLLogState(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CommandBufferOptions_Selectors.logState));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandBufferOptions_Selectors.setLogState_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandBufferOptions_Selectors.setLogState_, logState.NativePtr);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

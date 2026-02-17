@@ -6,9 +6,9 @@ namespace Metal.NET;
 
 internal static class MTLLogicalToPhysicalColorAttachmentMap_Selectors
 {
-    internal static readonly Selector getPhysicalIndex = Selector.Register("getPhysicalIndex");
+    internal static readonly Selector getPhysicalIndex_ = Selector.Register("getPhysicalIndex:");
     internal static readonly Selector reset = Selector.Register("reset");
-    internal static readonly Selector setPhysicalIndex = Selector.Register("setPhysicalIndex");
+    internal static readonly Selector setPhysicalIndex_logicalIndex_ = Selector.Register("setPhysicalIndex:logicalIndex:");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -25,7 +25,7 @@ public readonly struct MTLLogicalToPhysicalColorAttachmentMap
 
     public nuint GetPhysicalIndex(nuint logicalIndex)
     {
-        return (nuint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMap_Selectors.getPhysicalIndex, (nint)logicalIndex);
+        return (nuint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMap_Selectors.getPhysicalIndex_, (nint)logicalIndex);
     }
 
     public void Reset()
@@ -35,7 +35,7 @@ public readonly struct MTLLogicalToPhysicalColorAttachmentMap
 
     public void SetPhysicalIndex(nuint physicalIndex, nuint logicalIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMap_Selectors.setPhysicalIndex, (nint)physicalIndex, (nint)logicalIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMap_Selectors.setPhysicalIndex_logicalIndex_, (nint)physicalIndex, (nint)logicalIndex);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

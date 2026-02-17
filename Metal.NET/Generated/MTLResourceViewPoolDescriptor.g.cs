@@ -6,9 +6,7 @@ namespace Metal.NET;
 
 internal static class MTLResourceViewPoolDescriptor_Selectors
 {
-    internal static readonly Selector label = Selector.Register("label");
     internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
-    internal static readonly Selector resourceViewCount = Selector.Register("resourceViewCount");
     internal static readonly Selector setResourceViewCount_ = Selector.Register("setResourceViewCount:");
 }
 
@@ -24,35 +22,14 @@ public readonly struct MTLResourceViewPoolDescriptor
     public static implicit operator nint(MTLResourceViewPoolDescriptor o) => o.NativePtr;
     public static implicit operator MTLResourceViewPoolDescriptor(nint ptr) => new MTLResourceViewPoolDescriptor(ptr);
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLResourceViewPoolDescriptor");
-
-    public static MTLResourceViewPoolDescriptor Alloc()
+    public void SetLabel(NSString label)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
-        return new MTLResourceViewPoolDescriptor(ptr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResourceViewPoolDescriptor_Selectors.setLabel_, label.NativePtr);
     }
 
-    public MTLResourceViewPoolDescriptor Init()
+    public void SetResourceViewCount(nuint resourceViewCount)
     {
-        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, Selector.Register("init"));
-        return new MTLResourceViewPoolDescriptor(ptr);
-    }
-
-    public static MTLResourceViewPoolDescriptor New()
-    {
-        return Alloc().Init();
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLResourceViewPoolDescriptor_Selectors.label));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResourceViewPoolDescriptor_Selectors.setLabel_, value.NativePtr);
-    }
-
-    public nuint ResourceViewCount
-    {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLResourceViewPoolDescriptor_Selectors.resourceViewCount);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResourceViewPoolDescriptor_Selectors.setResourceViewCount_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResourceViewPoolDescriptor_Selectors.setResourceViewCount_, (nint)resourceViewCount);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

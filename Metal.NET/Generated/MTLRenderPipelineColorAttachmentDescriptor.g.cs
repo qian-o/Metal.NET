@@ -6,24 +6,14 @@ namespace Metal.NET;
 
 internal static class MTLRenderPipelineColorAttachmentDescriptor_Selectors
 {
-    internal static readonly Selector alphaBlendOperation = Selector.Register("alphaBlendOperation");
     internal static readonly Selector setAlphaBlendOperation_ = Selector.Register("setAlphaBlendOperation:");
-    internal static readonly Selector blendingEnabled = Selector.Register("blendingEnabled");
     internal static readonly Selector setBlendingEnabled_ = Selector.Register("setBlendingEnabled:");
-    internal static readonly Selector destinationAlphaBlendFactor = Selector.Register("destinationAlphaBlendFactor");
     internal static readonly Selector setDestinationAlphaBlendFactor_ = Selector.Register("setDestinationAlphaBlendFactor:");
-    internal static readonly Selector destinationRGBBlendFactor = Selector.Register("destinationRGBBlendFactor");
     internal static readonly Selector setDestinationRGBBlendFactor_ = Selector.Register("setDestinationRGBBlendFactor:");
-    internal static readonly Selector isBlendingEnabled = Selector.Register("isBlendingEnabled");
-    internal static readonly Selector pixelFormat = Selector.Register("pixelFormat");
     internal static readonly Selector setPixelFormat_ = Selector.Register("setPixelFormat:");
-    internal static readonly Selector rgbBlendOperation = Selector.Register("rgbBlendOperation");
     internal static readonly Selector setRgbBlendOperation_ = Selector.Register("setRgbBlendOperation:");
-    internal static readonly Selector sourceAlphaBlendFactor = Selector.Register("sourceAlphaBlendFactor");
     internal static readonly Selector setSourceAlphaBlendFactor_ = Selector.Register("setSourceAlphaBlendFactor:");
-    internal static readonly Selector sourceRGBBlendFactor = Selector.Register("sourceRGBBlendFactor");
     internal static readonly Selector setSourceRGBBlendFactor_ = Selector.Register("setSourceRGBBlendFactor:");
-    internal static readonly Selector writeMask = Selector.Register("writeMask");
     internal static readonly Selector setWriteMask_ = Selector.Register("setWriteMask:");
 }
 
@@ -58,63 +48,49 @@ public readonly struct MTLRenderPipelineColorAttachmentDescriptor
         return Alloc().Init();
     }
 
-    public MTLBlendOperation AlphaBlendOperation
+    public void SetAlphaBlendOperation(MTLBlendOperation alphaBlendOperation)
     {
-        get => (MTLBlendOperation)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.alphaBlendOperation));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.setAlphaBlendOperation_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.setAlphaBlendOperation_, (nint)(uint)alphaBlendOperation);
     }
 
-    public Bool8 BlendingEnabled
+    public void SetBlendingEnabled(Bool8 blendingEnabled)
     {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.blendingEnabled);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.setBlendingEnabled_, (nint)value.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.setBlendingEnabled_, (nint)blendingEnabled.Value);
     }
 
-    public MTLBlendFactor DestinationAlphaBlendFactor
+    public void SetDestinationAlphaBlendFactor(MTLBlendFactor destinationAlphaBlendFactor)
     {
-        get => (MTLBlendFactor)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.destinationAlphaBlendFactor));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.setDestinationAlphaBlendFactor_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.setDestinationAlphaBlendFactor_, (nint)(uint)destinationAlphaBlendFactor);
     }
 
-    public MTLBlendFactor DestinationRGBBlendFactor
+    public void SetDestinationRGBBlendFactor(MTLBlendFactor destinationRGBBlendFactor)
     {
-        get => (MTLBlendFactor)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.destinationRGBBlendFactor));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.setDestinationRGBBlendFactor_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.setDestinationRGBBlendFactor_, (nint)(uint)destinationRGBBlendFactor);
     }
 
-    public Bool8 IsBlendingEnabled
+    public void SetPixelFormat(MTLPixelFormat pixelFormat)
     {
-        get => ObjectiveCRuntime.bool8_objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.isBlendingEnabled);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.setPixelFormat_, (nint)(uint)pixelFormat);
     }
 
-    public MTLPixelFormat PixelFormat
+    public void SetRgbBlendOperation(MTLBlendOperation rgbBlendOperation)
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.pixelFormat));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.setPixelFormat_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.setRgbBlendOperation_, (nint)(uint)rgbBlendOperation);
     }
 
-    public MTLBlendOperation RgbBlendOperation
+    public void SetSourceAlphaBlendFactor(MTLBlendFactor sourceAlphaBlendFactor)
     {
-        get => (MTLBlendOperation)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.rgbBlendOperation));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.setRgbBlendOperation_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.setSourceAlphaBlendFactor_, (nint)(uint)sourceAlphaBlendFactor);
     }
 
-    public MTLBlendFactor SourceAlphaBlendFactor
+    public void SetSourceRGBBlendFactor(MTLBlendFactor sourceRGBBlendFactor)
     {
-        get => (MTLBlendFactor)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.sourceAlphaBlendFactor));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.setSourceAlphaBlendFactor_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.setSourceRGBBlendFactor_, (nint)(uint)sourceRGBBlendFactor);
     }
 
-    public MTLBlendFactor SourceRGBBlendFactor
+    public void SetWriteMask(nuint writeMask)
     {
-        get => (MTLBlendFactor)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.sourceRGBBlendFactor));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.setSourceRGBBlendFactor_, (nint)(uint)value);
-    }
-
-    public MTLColorWriteMask WriteMask
-    {
-        get => (MTLColorWriteMask)(ObjectiveCRuntime.uint_objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.writeMask));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.setWriteMask_, (nint)(uint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptor_Selectors.setWriteMask_, (nint)writeMask);
     }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);

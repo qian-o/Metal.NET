@@ -6,9 +6,7 @@ namespace Metal.NET;
 
 internal static class MTLMotionKeyframeData_Selectors
 {
-    internal static readonly Selector buffer = Selector.Register("buffer");
     internal static readonly Selector setBuffer_ = Selector.Register("setBuffer:");
-    internal static readonly Selector offset = Selector.Register("offset");
     internal static readonly Selector setOffset_ = Selector.Register("setOffset:");
     internal static readonly Selector data = Selector.Register("data");
 }
@@ -27,16 +25,14 @@ public readonly struct MTLMotionKeyframeData
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLMotionKeyframeData");
 
-    public MTLBuffer Buffer
+    public void SetBuffer(MTLBuffer buffer)
     {
-        get => new MTLBuffer(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLMotionKeyframeData_Selectors.buffer));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMotionKeyframeData_Selectors.setBuffer_, value.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMotionKeyframeData_Selectors.setBuffer_, buffer.NativePtr);
     }
 
-    public nuint Offset
+    public void SetOffset(nuint offset)
     {
-        get => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, MTLMotionKeyframeData_Selectors.offset);
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMotionKeyframeData_Selectors.setOffset_, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMotionKeyframeData_Selectors.setOffset_, (nint)offset);
     }
 
     public static MTLMotionKeyframeData Data()

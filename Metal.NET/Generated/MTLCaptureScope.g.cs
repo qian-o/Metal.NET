@@ -6,10 +6,7 @@ namespace Metal.NET;
 
 internal static class MTLCaptureScope_Selectors
 {
-    internal static readonly Selector device = Selector.Register("device");
-    internal static readonly Selector label = Selector.Register("label");
     internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
-    internal static readonly Selector commandQueue = Selector.Register("commandQueue");
     internal static readonly Selector beginScope = Selector.Register("beginScope");
     internal static readonly Selector endScope = Selector.Register("endScope");
 }
@@ -26,20 +23,9 @@ public readonly struct MTLCaptureScope
     public static implicit operator nint(MTLCaptureScope o) => o.NativePtr;
     public static implicit operator MTLCaptureScope(nint ptr) => new MTLCaptureScope(ptr);
 
-    public MTLDevice Device
+    public void SetLabel(NSString pLabel)
     {
-        get => new MTLDevice(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCaptureScope_Selectors.device));
-    }
-
-    public NSString Label
-    {
-        get => new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCaptureScope_Selectors.label));
-        set => ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureScope_Selectors.setLabel_, value.NativePtr);
-    }
-
-    public MTLCommandQueue CommandQueue
-    {
-        get => new MTLCommandQueue(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCaptureScope_Selectors.commandQueue));
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureScope_Selectors.setLabel_, pLabel.NativePtr);
     }
 
     public void BeginScope()

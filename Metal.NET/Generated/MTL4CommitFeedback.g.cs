@@ -6,9 +6,6 @@ namespace Metal.NET;
 
 internal static class MTL4CommitFeedback_Selectors
 {
-    internal static readonly Selector GPUEndTime = Selector.Register("GPUEndTime");
-    internal static readonly Selector GPUStartTime = Selector.Register("GPUStartTime");
-    internal static readonly Selector error = Selector.Register("error");
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -22,21 +19,6 @@ public readonly struct MTL4CommitFeedback
 
     public static implicit operator nint(MTL4CommitFeedback o) => o.NativePtr;
     public static implicit operator MTL4CommitFeedback(nint ptr) => new MTL4CommitFeedback(ptr);
-
-    public double GPUEndTime
-    {
-        get => ObjectiveCRuntime.double_objc_msgSend(NativePtr, MTL4CommitFeedback_Selectors.GPUEndTime);
-    }
-
-    public double GPUStartTime
-    {
-        get => ObjectiveCRuntime.double_objc_msgSend(NativePtr, MTL4CommitFeedback_Selectors.GPUStartTime);
-    }
-
-    public NSError Error
-    {
-        get => new NSError(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CommitFeedback_Selectors.error));
-    }
 
     public void Retain() => ObjectiveCRuntime.Retain(NativePtr);
     public void Release() => ObjectiveCRuntime.Release(NativePtr);
