@@ -288,6 +288,10 @@ internal static class HeaderClassParser
             var paramStr = methodMatch.Groups[3].Value.Trim();
             var isConst = methodMatch.Groups[4].Success;
 
+            // Skip alloc/init — we generate those automatically for classes
+            if (methodName == "alloc" || methodName == "init")
+                continue;
+
             // Skip methods with array-of-pointer parameters (e.g. "const MTL::Buffer* const buffers[]")
             if (paramStr.Contains("[]"))
                 continue;

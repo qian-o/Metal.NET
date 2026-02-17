@@ -8,19 +8,20 @@ namespace Metal.NET;
 [StructLayout(LayoutKind.Sequential)]
 public readonly struct NSArray
 {
-    public readonly IntPtr NativePtr;
+    public readonly nint NativePtr;
 
-    public NSArray(IntPtr ptr) => NativePtr = ptr;
+    public NSArray(nint ptr) => NativePtr = ptr;
 
-    public static implicit operator IntPtr(NSArray a) => a.NativePtr;
+    public static implicit operator nint(NSArray a) => a.NativePtr;
+    public static implicit operator NSArray(nint ptr) => new(ptr);
 
-    public bool IsNull => NativePtr == IntPtr.Zero;
+    public bool IsNull => NativePtr == 0;
 
     private static readonly Selector s_count = Selector.Register("count");
     private static readonly Selector s_objectAtIndex = Selector.Register("objectAtIndex:");
 
-    public UIntPtr count => ObjectiveCRuntime.UIntPtr_objc_msgSend(NativePtr, s_count);
+    public nuint Count => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, s_count);
 
-    public IntPtr objectAtIndex(UIntPtr index)
-        => ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, s_objectAtIndex, (IntPtr)index);
+    public nint ObjectAtIndex(nuint index)
+        => ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, s_objectAtIndex, (nint)index);
 }

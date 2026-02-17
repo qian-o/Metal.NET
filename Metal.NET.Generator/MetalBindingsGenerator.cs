@@ -159,6 +159,8 @@ public class MetalBindingsGenerator : IIncrementalGenerator
         {
             "MTLLogState", "MTLLogContainer",
             "MTLFXFrameInterpolatableScaler",
+            "MTL4FunctionDescriptor",
+            "MTLIntersectionFunctionDescriptor",
         };
     }
 
@@ -175,14 +177,14 @@ public class MetalBindingsGenerator : IIncrementalGenerator
         sb.AppendLine("[StructLayout(LayoutKind.Sequential)]");
         sb.AppendLine($"public readonly struct {typeName}");
         sb.AppendLine("{");
-        sb.AppendLine("    public readonly IntPtr NativePtr;");
+        sb.AppendLine("    public readonly nint NativePtr;");
         sb.AppendLine();
-        sb.AppendLine($"    public {typeName}(IntPtr ptr) => NativePtr = ptr;");
+        sb.AppendLine($"    public {typeName}(nint ptr) => NativePtr = ptr;");
         sb.AppendLine();
-        sb.AppendLine("    public bool IsNull => NativePtr == IntPtr.Zero;");
+        sb.AppendLine("    public bool IsNull => NativePtr == 0;");
         sb.AppendLine();
-        sb.AppendLine($"    public static implicit operator IntPtr({typeName} o) => o.NativePtr;");
-        sb.AppendLine($"    public static implicit operator {typeName}(IntPtr ptr) => new {typeName}(ptr);");
+        sb.AppendLine($"    public static implicit operator nint({typeName} o) => o.NativePtr;");
+        sb.AppendLine($"    public static implicit operator {typeName}(nint ptr) => new {typeName}(ptr);");
         sb.AppendLine("}");
 
         ctx.AddSource($"{typeName}.g.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
@@ -253,21 +255,21 @@ public class MetalBindingsGenerator : IIncrementalGenerator
         sb.AppendLine("[StructLayout(LayoutKind.Sequential)]");
         sb.AppendLine($"public readonly struct {def.Name}");
         sb.AppendLine("{");
-        sb.AppendLine("    public readonly IntPtr NativePtr;");
+        sb.AppendLine("    public readonly nint NativePtr;");
         sb.AppendLine();
-        sb.AppendLine($"    public {def.Name}(IntPtr ptr) => NativePtr = ptr;");
+        sb.AppendLine($"    public {def.Name}(nint ptr) => NativePtr = ptr;");
         sb.AppendLine();
-        sb.AppendLine("    public bool IsNull => NativePtr == IntPtr.Zero;");
+        sb.AppendLine("    public bool IsNull => NativePtr == 0;");
         sb.AppendLine();
-        sb.AppendLine($"    public static implicit operator IntPtr({def.Name} o) => o.NativePtr;");
-        sb.AppendLine($"    public static implicit operator {def.Name}(IntPtr ptr) => new {def.Name}(ptr);");
+        sb.AppendLine($"    public static implicit operator nint({def.Name} o) => o.NativePtr;");
+        sb.AppendLine($"    public static implicit operator {def.Name}(nint ptr) => new {def.Name}(ptr);");
         sb.AppendLine();
 
         // ── Alloc (for classes) ──
         bool hasStaticMethods = def.StaticMethods.Count > 0;
         if (def.IsClass && def.ObjCClass != null)
         {
-            sb.AppendLine($"    private static readonly IntPtr s_class = ObjectiveCRuntime.GetClass(\"{def.ObjCClass}\");");
+            sb.AppendLine($"    private static readonly nint s_class = ObjectiveCRuntime.GetClass(\"{def.ObjCClass}\");");
             sb.AppendLine();
             sb.AppendLine($"    public static {def.Name} Alloc()");
             sb.AppendLine("    {");
@@ -290,7 +292,7 @@ public class MetalBindingsGenerator : IIncrementalGenerator
         else if (hasStaticMethods)
         {
             // Types with static factory methods need s_class even if not a "descriptor" class
-            sb.AppendLine($"    private static readonly IntPtr s_class = ObjectiveCRuntime.GetClass(\"{def.Name}\");");
+            sb.AppendLine($"    private static readonly nint s_class = ObjectiveCRuntime.GetClass(\"{def.Name}\");");
             sb.AppendLine();
         }
 
@@ -299,16 +301,17 @@ public class MetalBindingsGenerator : IIncrementalGenerator
         {
             var getSel = SelectorFieldName(p.GetSelector ?? p.Name);
             var retCSharp = MapReturnCall(p.Type);
+            var propName = ToPascalCase(p.Name);
 
             // Skip properties whose getter returns a value struct (needs objc_msgSend_stret)
             if (retCSharp.Invoke.Contains("TODO"))
             {
-                sb.AppendLine($"    // TODO: {p.Name} (value-struct return type {p.Type} requires objc_msgSend_stret)");
+                sb.AppendLine($"    // TODO: {propName} (value-struct return type {p.Type} requires objc_msgSend_stret)");
                 sb.AppendLine();
                 continue;
             }
 
-            sb.AppendLine($"    public {p.Type} {p.Name}");
+            sb.AppendLine($"    public {p.Type} {propName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => {WrapReturn(p.Type, $"{retCSharp.Invoke}(NativePtr, {def.Name}_Selectors.{getSel})")};");
 
@@ -349,6 +352,7 @@ public class MetalBindingsGenerator : IIncrementalGenerator
     {
         var selField = $"{typeName}_Selectors.{SelectorFieldName(m.Selector)}";
         var retType = m.ReturnType;
+        var methodName = ToPascalCase(m.Name);
 
         // Build parameter list
         var paramList = new List<string>();
@@ -368,12 +372,12 @@ public class MetalBindingsGenerator : IIncrementalGenerator
         // Skip methods whose return type requires stret (value struct return)
         if (retCall.Invoke.Contains("TODO"))
         {
-            sb.AppendLine($"    // TODO: {m.Name} (value-struct return type {retType} requires objc_msgSend_stret)");
+            sb.AppendLine($"    // TODO: {methodName} (value-struct return type {retType} requires objc_msgSend_stret)");
             sb.AppendLine();
             return;
         }
 
-        sb.AppendLine($"    public {staticMod}{retType} {m.Name}({paramsStr})");
+        sb.AppendLine($"    public {staticMod}{retType} {methodName}({paramsStr})");
         sb.AppendLine("    {");
 
         // Build args for objc_msgSend
@@ -396,10 +400,10 @@ public class MetalBindingsGenerator : IIncrementalGenerator
         {
             sb.AppendLine($"        return (byte)ObjectiveCRuntime.intptr_objc_msgSend({argsStr}) != 0;");
         }
-        // Special case: UIntPtr/nuint return with params — UIntPtr_objc_msgSend has no param overloads
-        else if ((retType == "UIntPtr" || retType == "nuint") && hasParams)
+        // Special case: nuint return with params — nuint_objc_msgSend has no param overloads
+        else if (retType == "nuint" && hasParams)
         {
-            sb.AppendLine($"        return (UIntPtr)(ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
+            sb.AppendLine($"        return (nuint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
         }
         // Special case: float return with params — float_objc_msgSend has no param overloads
         else if (retType == "float" && hasParams)
@@ -451,14 +455,14 @@ public class MetalBindingsGenerator : IIncrementalGenerator
             "ulong" => ("ObjectiveCRuntime.ulong_objc_msgSend", false),
             "float" => ("ObjectiveCRuntime.float_objc_msgSend", false),
             "double" => ("ObjectiveCRuntime.double_objc_msgSend", false),
-            "UIntPtr" or "nuint" => ("ObjectiveCRuntime.UIntPtr_objc_msgSend", false),
-            "IntPtr" or "nint" => ("ObjectiveCRuntime.intptr_objc_msgSend", false),
+            "nuint" => ("ObjectiveCRuntime.nuint_objc_msgSend", false),
+            "nint" => ("ObjectiveCRuntime.intptr_objc_msgSend", false),
             // Value structs cannot be returned via intptr_objc_msgSend; skip generation.
             _ when IsKnownValueStruct(type) => ("/* TODO: stret */", false),
             // Enum types: return as uint and cast to enum
             _ when IsLikelyEnum(type) => ("ObjectiveCRuntime.uint_objc_msgSend", false),
             // Anything else (struct wrappers like MTLCommandQueue, NSString, etc.)
-            // is returned as IntPtr and wrapped in the struct constructor.
+            // is returned as nint and wrapped in the struct constructor.
             _ => ("ObjectiveCRuntime.intptr_objc_msgSend", true),
         };
     }
@@ -508,33 +512,30 @@ public class MetalBindingsGenerator : IIncrementalGenerator
         // Float/double have dedicated overloads
         if (type is "float" or "double") return name;
 
-        // IntPtr is already the target type
-        if (type is "IntPtr" or "nint") return name;
+        // nint is already the target type
+        if (type is "nint") return name;
 
-        // UIntPtr → IntPtr (same register size)
-        if (type is "UIntPtr" or "nuint") return $"(IntPtr){name}";
+        // nuint → nint (same register size)
+        if (type is "nuint") return $"(nint){name}";
 
-        // Enum types → cast to uint then to IntPtr
-        if (IsLikelyEnum(type)) return $"(IntPtr)(uint){name}";
+        // Enum types → cast to uint then to nint
+        if (IsLikelyEnum(type)) return $"(nint)(uint){name}";
 
-        // ObjC wrappers → .NativePtr (which is IntPtr)
+        // ObjC wrappers → .NativePtr (which is nint)
         if (IsObjCWrapper(type)) return $"{name}.NativePtr";
 
-        // Bool8 → IntPtr
-        if (type is "Bool8") return $"(IntPtr){name}.Value";
-        if (type is "bool") return $"(IntPtr)({name} ? 1 : 0)";
+        // Bool8 → nint
+        if (type is "Bool8") return $"(nint){name}.Value";
+        if (type is "bool") return $"(nint)({name} ? 1 : 0)";
 
-        // Numeric primitives → IntPtr
+        // Numeric primitives → nint
         if (type is "uint" or "int" or "byte" or "sbyte" or "short" or "ushort")
-            return $"(IntPtr){name}";
+            return $"(nint){name}";
         if (type is "ulong" or "long")
-            return $"(IntPtr){name}";
-
-        // Enum types → IntPtr via uint
-        if (IsLikelyEnum(type)) return $"(IntPtr)(uint){name}";
+            return $"(nint){name}";
 
         // Fallback — assume ObjC wrapper
-        return $"(IntPtr){name}";
+        return $"(nint){name}";
     }
 
     private static bool IsObjCWrapper(string type)
@@ -642,5 +643,26 @@ public class MetalBindingsGenerator : IIncrementalGenerator
     {
         if (string.IsNullOrEmpty(s)) return s;
         return char.ToUpperInvariant(s[0]) + s.Substring(1);
+    }
+
+    /// <summary>
+    /// Converts a camelCase method/property name to PascalCase.
+    /// Preserves well-known prefixes like MTL, CA, NS, GPU, CPU, MTLFX, etc.
+    /// Handles @-prefixed keywords by stripping @ and capitalizing.
+    /// </summary>
+    private static string ToPascalCase(string name)
+    {
+        if (string.IsNullOrEmpty(name)) return name;
+
+        // Strip @ prefix (C# keyword escape)
+        if (name.StartsWith("@"))
+            name = name.Substring(1);
+
+        // Already PascalCase (starts with uppercase or well-known prefix)
+        if (char.IsUpper(name[0]))
+            return name;
+
+        // Simple capitalize first letter
+        return char.ToUpperInvariant(name[0]) + name.Substring(1);
     }
 }

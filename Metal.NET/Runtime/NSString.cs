@@ -8,18 +8,18 @@ namespace Metal.NET;
 [StructLayout(LayoutKind.Sequential)]
 public readonly struct NSString
 {
-    public readonly IntPtr NativePtr;
+    public readonly nint NativePtr;
 
-    public NSString(IntPtr ptr) => NativePtr = ptr;
+    public NSString(nint ptr) => NativePtr = ptr;
 
-    public static implicit operator IntPtr(NSString s) => s.NativePtr;
-    public static implicit operator NSString(IntPtr ptr) => new(ptr);
+    public static implicit operator nint(NSString s) => s.NativePtr;
+    public static implicit operator NSString(nint ptr) => new(ptr);
 
-    public bool IsNull => NativePtr == IntPtr.Zero;
+    public bool IsNull => NativePtr == 0;
 
     private static readonly Selector s_UTF8String = Selector.Register("UTF8String");
     private static readonly Selector s_stringWithUTF8String = Selector.Register("stringWithUTF8String:");
-    private static readonly IntPtr s_class = ObjectiveCRuntime.GetClass("NSString");
+    private static readonly nint s_class = ObjectiveCRuntime.GetClass("NSString");
 
     public string GetValue()
     {
@@ -31,7 +31,7 @@ public readonly struct NSString
     {
         fixed (byte* utf8 = System.Text.Encoding.UTF8.GetBytes(value + '\0'))
         {
-            var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, s_stringWithUTF8String, (IntPtr)utf8);
+            var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, s_stringWithUTF8String, (nint)utf8);
             return new NSString(ptr);
         }
     }

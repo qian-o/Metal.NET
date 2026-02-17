@@ -8,13 +8,14 @@ namespace Metal.NET;
 [StructLayout(LayoutKind.Sequential)]
 public readonly struct NSError
 {
-    public readonly IntPtr NativePtr;
+    public readonly nint NativePtr;
 
-    public NSError(IntPtr ptr) => NativePtr = ptr;
+    public NSError(nint ptr) => NativePtr = ptr;
 
-    public static implicit operator IntPtr(NSError e) => e.NativePtr;
+    public static implicit operator nint(NSError e) => e.NativePtr;
+    public static implicit operator NSError(nint ptr) => new(ptr);
 
-    public bool IsNull => NativePtr == IntPtr.Zero;
+    public bool IsNull => NativePtr == 0;
 
     private static readonly Selector s_localizedDescription = Selector.Register("localizedDescription");
     private static readonly Selector s_code = Selector.Register("code");
@@ -29,7 +30,7 @@ public readonly struct NSError
         }
     }
 
-    public long Code => (long)ObjectiveCRuntime.UIntPtr_objc_msgSend(NativePtr, s_code);
+    public long Code => (long)ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, s_code);
 
     public string Domain
     {

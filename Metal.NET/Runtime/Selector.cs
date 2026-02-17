@@ -8,9 +8,9 @@ namespace Metal.NET;
 [StructLayout(LayoutKind.Sequential)]
 public readonly struct Selector
 {
-    public readonly IntPtr NativePtr;
+    public readonly nint NativePtr;
 
-    public Selector(IntPtr ptr) => NativePtr = ptr;
+    public Selector(nint ptr) => NativePtr = ptr;
 
     public static unsafe Selector Register(string name)
     {

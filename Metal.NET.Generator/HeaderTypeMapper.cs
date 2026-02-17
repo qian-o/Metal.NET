@@ -31,13 +31,13 @@ internal static class HeaderTypeMapper
         bool isPointer = t.Contains('*');
         t = t.TrimEnd('*', '&').Trim();
 
-        // void* (pointer to raw data) maps to IntPtr, not void
+        // void* (pointer to raw data) maps to nint, not void
         if (t == "void" && isPointer)
-            return "IntPtr";
+            return "nint";
 
-        // const char* → IntPtr (C string pointer)
+        // const char* → nint (C string pointer)
         if (t == "char" && isPointer)
-            return "IntPtr";
+            return "nint";
 
         // Remove namespace prefixes
         t = StripNamespace(t);
@@ -70,27 +70,27 @@ internal static class HeaderTypeMapper
             case "unsigned char": return "byte";
             case "signed char": return "sbyte";
             case "unichar": return "ushort";
-            case "UInteger": return "UIntPtr";
-            case "Integer": return "IntPtr";
+            case "UInteger": return "nuint";
+            case "Integer": return "nint";
 
             // Foundation
             case "String": return "NSString";
             case "Error": return "NSError";
             case "Array": return "NSArray";
-            case "Object": return "IntPtr";
-            case "URL": return "IntPtr";
-            case "Bundle": return "IntPtr";
-            case "Dictionary": return "IntPtr";
-            case "Number": return "IntPtr";
+            case "Object": return "nint";
+            case "URL": return "nint";
+            case "Bundle": return "nint";
+            case "Dictionary": return "nint";
+            case "Number": return "nint";
             case "Data":
             case "dispatch_data_t":
-                return "IntPtr";
+                return "nint";
 
             // Opaque handle / platform types
-            case "dispatch_queue_t": return "IntPtr";
-            case "IOSurfaceRef": return "IntPtr";
-            case "CGColorSpaceRef": return "IntPtr";
-            case "task_id_token_t": return "IntPtr";
+            case "dispatch_queue_t": return "nint";
+            case "IOSurfaceRef": return "nint";
+            case "CGColorSpaceRef": return "nint";
+            case "task_id_token_t": return "nint";
 
             // CFTimeInterval is a double
             case "CFTimeInterval": return "double";
@@ -109,7 +109,7 @@ internal static class HeaderTypeMapper
             // Metal small value types mapped to primitives
             case "GPUAddress": return "ulong";
             case "ResourceID": return "ulong";
-            case "Range": return "IntPtr";
+            case "Range": return "nint";
 
             default:
                 // Skip callback/block/handler types — these can't be represented as simple types
@@ -201,7 +201,7 @@ internal static class HeaderTypeMapper
             || csType == "byte" || csType == "sbyte" || csType == "short" || csType == "ushort"
             || csType == "uint" || csType == "ulong"
             || csType == "int" || csType == "long"
-            || csType == "IntPtr" || csType == "UIntPtr" || csType == "nint" || csType == "nuint";
+            || csType == "nint" || csType == "nuint";
     }
 
     /// <summary>

@@ -5,112 +5,112 @@ namespace Metal.NET;
 [StructLayout(LayoutKind.Sequential)]
 public struct MTLOrigin
 {
-    public UIntPtr x;
-    public UIntPtr y;
-    public UIntPtr z;
+    public nuint X;
+    public nuint Y;
+    public nuint Z;
 
     public MTLOrigin(uint x, uint y, uint z)
     {
-        this.x = (UIntPtr)x;
-        this.y = (UIntPtr)y;
-        this.z = (UIntPtr)z;
+        X = x;
+        Y = y;
+        Z = z;
     }
 }
 
 [StructLayout(LayoutKind.Sequential)]
 public struct MTLSize
 {
-    public UIntPtr width;
-    public UIntPtr height;
-    public UIntPtr depth;
+    public nuint Width;
+    public nuint Height;
+    public nuint Depth;
 
     public MTLSize(uint width, uint height, uint depth)
     {
-        this.width = (UIntPtr)width;
-        this.height = (UIntPtr)height;
-        this.depth = (UIntPtr)depth;
+        Width = width;
+        Height = height;
+        Depth = depth;
     }
 }
 
 [StructLayout(LayoutKind.Sequential)]
 public struct MTLRegion
 {
-    public MTLOrigin origin;
-    public MTLSize size;
+    public MTLOrigin Origin;
+    public MTLSize Size;
 
     public MTLRegion(MTLOrigin origin, MTLSize size)
     {
-        this.origin = origin;
-        this.size = size;
+        Origin = origin;
+        Size = size;
     }
 }
 
 [StructLayout(LayoutKind.Sequential)]
 public struct MTLViewport
 {
-    public double originX;
-    public double originY;
-    public double width;
-    public double height;
-    public double znear;
-    public double zfar;
+    public double OriginX;
+    public double OriginY;
+    public double Width;
+    public double Height;
+    public double Znear;
+    public double Zfar;
 }
 
 [StructLayout(LayoutKind.Sequential)]
 public struct MTLScissorRect
 {
-    public UIntPtr x;
-    public UIntPtr y;
-    public UIntPtr width;
-    public UIntPtr height;
+    public nuint X;
+    public nuint Y;
+    public nuint Width;
+    public nuint Height;
 }
 
 [StructLayout(LayoutKind.Sequential)]
 public struct MTLClearColor
 {
-    public double red;
-    public double green;
-    public double blue;
-    public double alpha;
+    public double Red;
+    public double Green;
+    public double Blue;
+    public double Alpha;
 
     public MTLClearColor(double red, double green, double blue, double alpha)
     {
-        this.red = red;
-        this.green = green;
-        this.blue = blue;
-        this.alpha = alpha;
+        Red = red;
+        Green = green;
+        Blue = blue;
+        Alpha = alpha;
     }
 }
 
 [StructLayout(LayoutKind.Sequential)]
 public struct CGSize
 {
-    public double width;
-    public double height;
+    public double Width;
+    public double Height;
 
     public CGSize(double width, double height)
     {
-        this.width = width;
-        this.height = height;
+        Width = width;
+        Height = height;
     }
 }
 
 [StructLayout(LayoutKind.Sequential)]
 public struct MTLSamplePosition
 {
-    public float x;
-    public float y;
+    public float X;
+    public float Y;
 
     public MTLSamplePosition(float x, float y)
     {
-        this.x = x;
-        this.y = y;
+        X = x;
+        Y = y;
     }
 }
 
 [StructLayout(LayoutKind.Sequential)]
 public struct MTLSizeAndAlign
 {
-    public UIntPtr size;
-    public UIntPtr align;
+    public nuint Size;
+    public nuint Align;
 }
