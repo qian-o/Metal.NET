@@ -5,9 +5,6 @@
 /// </summary>
 public class NSArray : IDisposable
 {
-    private static readonly Selector selCount = Selector.Register("count");
-    private static readonly Selector selObjectAtIndex = Selector.Register("objectAtIndex:");
-
     public NSArray(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
@@ -20,7 +17,7 @@ public class NSArray : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint Count => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, selCount);
+    public nuint Count => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, NSArraySelector.Count);
 
     public static implicit operator nint(NSArray value)
     {
@@ -34,7 +31,7 @@ public class NSArray : IDisposable
 
     public nint ObjectAtIndex(int index)
     {
-        return ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, selObjectAtIndex, index);
+        return ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, NSArraySelector.ObjectAtIndex, index);
     }
 
     public void Dispose()
@@ -51,4 +48,11 @@ public class NSArray : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
+}
+
+file class NSArraySelector
+{
+    public static readonly Selector Count = Selector.Register("count");
+
+    public static readonly Selector ObjectAtIndex = Selector.Register("objectAtIndex:");
 }
