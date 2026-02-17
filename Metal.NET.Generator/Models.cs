@@ -18,20 +18,6 @@ public class EnumMemberDef
     public string Value { get; set; } = "0";
 }
 
-// ── Struct definitions (value-type structs like MTLOrigin, MTLSize, etc.) ──
-
-public class StructDef
-{
-    public string Name { get; set; } = "";
-    public List<StructFieldDef> Fields { get; set; } = new();
-}
-
-public class StructFieldDef
-{
-    public string Name { get; set; } = "";
-    public string Type { get; set; } = "";
-}
-
 // ── Objective-C protocol / class bindings ──
 
 public class ObjCClassDef
@@ -90,16 +76,4 @@ public class ParamDef
 {
     public string Name { get; set; } = "";
     public string Type { get; set; } = "";
-}
-
-// ── Root definitions file containers ──
-
-public class EnumsFile
-{
-    public List<EnumDef> Enums { get; set; } = new();
-}
-
-public class StructsFile
-{
-    public List<StructDef> Structs { get; set; } = new();
 }

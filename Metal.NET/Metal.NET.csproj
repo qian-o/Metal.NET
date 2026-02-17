@@ -15,12 +15,7 @@
                       ReferenceOutputAssembly="false" />
   </ItemGroup>
 
-  <!-- Feed all JSON definition files to the generator -->
-  <ItemGroup>
-    <AdditionalFiles Include="Definitions\**\*.json" />
-  </ItemGroup>
-
-  <!-- Feed metal-cpp headers directly to the generator (unified pipeline) -->
+  <!-- Feed metal-cpp headers directly to the generator -->
   <ItemGroup>
     <AdditionalFiles Include="metal-cpp\**\*.hpp" />
   </ItemGroup>
