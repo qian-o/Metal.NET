@@ -1,10 +1,11 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
+using System.Text;
 
 namespace Metal.NET;
 
 public class NSString : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("NSString");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("NSString");
 
     public NSString(nint nativePtr)
     {
@@ -18,15 +19,7 @@ public class NSString : IDisposable
 
     public nint NativePtr { get; }
 
-    public string Value
-    {
-        get
-        {
-            nint utf8Ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSStringSelector.Utf8String);
-
-            return Marshal.PtrToStringUTF8(utf8Ptr) ?? string.Empty;
-        }
-    }
+    public string Value => Marshal.PtrToStringUTF8(ObjectiveCRuntime.MsgSendPtr(NativePtr, NSStringSelector.Utf8String)) ?? string.Empty;
 
     public static implicit operator nint(NSString value)
     {
@@ -38,9 +31,12 @@ public class NSString : IDisposable
         return new(value);
     }
 
-    public static implicit operator NSString(string value)
+    public static unsafe implicit operator NSString(string value)
     {
-        return From(value);
+        fixed (byte* utf8 = Encoding.UTF8.GetBytes(value + '\0'))
+        {
+            return new(ObjectiveCRuntime.MsgSendPtr(Class, NSStringSelector.StringWithUtf8String, (nint)utf8));
+        }
     }
 
     public static implicit operator string(NSString value)
@@ -48,7 +44,10 @@ public class NSString : IDisposable
         return value.Value;
     }
 
-    public override string ToString() => Value;
+    public override string ToString()
+    {
+        return Value;
+    }
 
     public void Dispose()
     {
@@ -62,14 +61,6 @@ public class NSString : IDisposable
         if (NativePtr is not 0)
         {
             ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
-    public static unsafe NSString From(string value)
-    {
-        fixed (byte* utf8 = System.Text.Encoding.UTF8.GetBytes(value + '\0'))
-        {
-            return new(ObjectiveCRuntime.MsgSendPtr(s_class, NSStringSelector.StringWithUtf8String, (nint)utf8));
         }
     }
 }
