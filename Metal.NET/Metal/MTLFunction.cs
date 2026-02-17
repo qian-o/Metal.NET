@@ -38,16 +38,16 @@ public class MTLFunction : IDisposable
 
     public NSArray VertexAttributes => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.VertexAttributes));
 
-    public MTLArgumentEncoder NewArgumentEncoder(uint bufferIndex)
+    public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex)
     {
-        MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.NewArgumentEncoder, (nuint)bufferIndex));
+        MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.NewArgumentEncoder, bufferIndex));
 
         return result;
     }
 
-    public MTLArgumentEncoder NewArgumentEncoder(uint bufferIndex, int reflection)
+    public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex, nint reflection)
     {
-        MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.NewArgumentEncoderReflection, (nuint)bufferIndex, reflection));
+        MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.NewArgumentEncoderReflection, bufferIndex, reflection));
 
         return result;
     }

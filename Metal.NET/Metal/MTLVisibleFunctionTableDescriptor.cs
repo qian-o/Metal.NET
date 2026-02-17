@@ -14,12 +14,12 @@ public class MTLVisibleFunctionTableDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLVisibleFunctionTableDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVisibleFunctionTableDescriptor");
 
     public nuint FunctionCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVisibleFunctionTableDescriptorSelector.FunctionCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVisibleFunctionTableDescriptorSelector.SetFunctionCount, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVisibleFunctionTableDescriptorSelector.SetFunctionCount, value);
     }
 
     public static implicit operator nint(MTLVisibleFunctionTableDescriptor value)
@@ -49,7 +49,7 @@ public class MTLVisibleFunctionTableDescriptor : IDisposable
 
     public static MTLVisibleFunctionTableDescriptor VisibleFunctionTableDescriptor()
     {
-        MTLVisibleFunctionTableDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(s_class, MTLVisibleFunctionTableDescriptorSelector.VisibleFunctionTableDescriptor));
+        MTLVisibleFunctionTableDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLVisibleFunctionTableDescriptorSelector.VisibleFunctionTableDescriptor));
 
         return result;
     }

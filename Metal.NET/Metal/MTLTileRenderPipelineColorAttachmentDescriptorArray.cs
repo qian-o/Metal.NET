@@ -14,16 +14,16 @@ public class MTLTileRenderPipelineColorAttachmentDescriptorArray : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLTileRenderPipelineColorAttachmentDescriptor Object(uint attachmentIndex)
+    public MTLTileRenderPipelineColorAttachmentDescriptor Object(nuint attachmentIndex)
     {
-        MTLTileRenderPipelineColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorArraySelector.Object, (nuint)attachmentIndex));
+        MTLTileRenderPipelineColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorArraySelector.Object, attachmentIndex));
 
         return result;
     }
 
-    public void SetObject(MTLTileRenderPipelineColorAttachmentDescriptor attachment, uint attachmentIndex)
+    public void SetObject(MTLTileRenderPipelineColorAttachmentDescriptor attachment, nuint attachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nuint)attachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, attachmentIndex);
     }
 
     public static implicit operator nint(MTLTileRenderPipelineColorAttachmentDescriptorArray value)

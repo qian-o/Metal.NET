@@ -25,13 +25,13 @@ public class MTLFXTemporalScalerBase : IDisposable
     public nuint InputContentWidth
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalScalerBaseSelector.InputContentWidth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerBaseSelector.SetInputContentWidth, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerBaseSelector.SetInputContentWidth, value);
     }
 
     public nuint InputContentHeight
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalScalerBaseSelector.InputContentHeight);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerBaseSelector.SetInputContentHeight, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerBaseSelector.SetInputContentHeight, value);
     }
 
     public MTLTexture ColorTexture

@@ -2,14 +2,14 @@
 
 public class MTLStageInputOutputDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLStageInputOutputDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStageInputOutputDescriptor");
 
     public MTLStageInputOutputDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLStageInputOutputDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLStageInputOutputDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -25,7 +25,7 @@ public class MTLStageInputOutputDescriptor : IDisposable
     public nuint IndexBufferIndex
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStageInputOutputDescriptorSelector.IndexBufferIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStageInputOutputDescriptorSelector.SetIndexBufferIndex, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStageInputOutputDescriptorSelector.SetIndexBufferIndex, value);
     }
 
     public MTLIndexType IndexType
@@ -68,7 +68,7 @@ public class MTLStageInputOutputDescriptor : IDisposable
 
     public static MTLStageInputOutputDescriptor StageInputOutputDescriptor()
     {
-        MTLStageInputOutputDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(s_class, MTLStageInputOutputDescriptorSelector.StageInputOutputDescriptor));
+        MTLStageInputOutputDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLStageInputOutputDescriptorSelector.StageInputOutputDescriptor));
 
         return result;
     }

@@ -14,7 +14,7 @@ public class MTLFXFrameInterpolatorDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLFXFrameInterpolatorDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFXFrameInterpolatorDescriptor");
 
     public MTLPixelFormat ColorTextureFormat
     {
@@ -51,25 +51,25 @@ public class MTLFXFrameInterpolatorDescriptor : IDisposable
     public nuint InputWidth
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.InputWidth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetInputWidth, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetInputWidth, value);
     }
 
     public nuint InputHeight
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.InputHeight);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetInputHeight, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetInputHeight, value);
     }
 
     public nuint OutputWidth
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.OutputWidth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetOutputWidth, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetOutputWidth, value);
     }
 
     public nuint OutputHeight
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.OutputHeight);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetOutputHeight, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetOutputHeight, value);
     }
 
     public void SetUITextureFormat(MTLPixelFormat uiTextureFormat)
@@ -118,14 +118,14 @@ public class MTLFXFrameInterpolatorDescriptor : IDisposable
 
     public static Bool8 SupportsMetal4FX(MTLDevice device)
     {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(s_class, MTLFXFrameInterpolatorDescriptorSelector.SupportsMetal4FX, device.NativePtr);
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(Class, MTLFXFrameInterpolatorDescriptorSelector.SupportsMetal4FX, device.NativePtr);
 
         return result;
     }
 
     public static Bool8 SupportsDevice(MTLDevice device)
     {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(s_class, MTLFXFrameInterpolatorDescriptorSelector.SupportsDevice, device.NativePtr);
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(Class, MTLFXFrameInterpolatorDescriptorSelector.SupportsDevice, device.NativePtr);
 
         return result;
     }

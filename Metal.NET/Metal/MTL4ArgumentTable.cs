@@ -18,29 +18,29 @@ public class MTL4ArgumentTable : IDisposable
 
     public NSString Label => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArgumentTableSelector.Label));
 
-    public void SetAddress(uint gpuAddress, uint bindingIndex)
+    public void SetAddress(nuint gpuAddress, nuint bindingIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetAddressBindingIndex, (nuint)gpuAddress, (nuint)bindingIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetAddressBindingIndex, gpuAddress, bindingIndex);
     }
 
-    public void SetAddress(uint gpuAddress, uint stride, uint bindingIndex)
+    public void SetAddress(nuint gpuAddress, nuint stride, nuint bindingIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetAddressStrideBindingIndex, (nuint)gpuAddress, (nuint)stride, (nuint)bindingIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetAddressStrideBindingIndex, gpuAddress, stride, bindingIndex);
     }
 
-    public void SetResource(MTLResourceID resourceID, uint bindingIndex)
+    public void SetResource(MTLResourceID resourceID, nuint bindingIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetResourceBindingIndex, resourceID, (nuint)bindingIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetResourceBindingIndex, resourceID, bindingIndex);
     }
 
-    public void SetSamplerState(MTLResourceID resourceID, uint bindingIndex)
+    public void SetSamplerState(MTLResourceID resourceID, nuint bindingIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetSamplerStateBindingIndex, resourceID, (nuint)bindingIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetSamplerStateBindingIndex, resourceID, bindingIndex);
     }
 
-    public void SetTexture(MTLResourceID resourceID, uint bindingIndex)
+    public void SetTexture(MTLResourceID resourceID, nuint bindingIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetTextureBindingIndex, resourceID, (nuint)bindingIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetTextureBindingIndex, resourceID, bindingIndex);
     }
 
     public static implicit operator nint(MTL4ArgumentTable value)

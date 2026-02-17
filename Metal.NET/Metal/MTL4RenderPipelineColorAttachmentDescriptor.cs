@@ -2,14 +2,14 @@
 
 public class MTL4RenderPipelineColorAttachmentDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineColorAttachmentDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineColorAttachmentDescriptor");
 
     public MTL4RenderPipelineColorAttachmentDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTL4RenderPipelineColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTL4RenderPipelineColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -71,7 +71,7 @@ public class MTL4RenderPipelineColorAttachmentDescriptor : IDisposable
     public nuint WriteMask
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorSelector.WriteMask);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorSelector.SetWriteMask, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorSelector.SetWriteMask, value);
     }
 
     public void Reset()

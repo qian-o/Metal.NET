@@ -2,14 +2,14 @@
 
 public class CAMetalLayer : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("CAMetalLayer");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("CAMetalLayer");
 
     public CAMetalLayer(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -43,7 +43,7 @@ public class CAMetalLayer : IDisposable
     public nuint MaximumDrawableCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, CAMetalLayerSelector.MaximumDrawableCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetMaximumDrawableCount, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetMaximumDrawableCount, value);
     }
 
     public Bool8 DisplaySyncEnabled
@@ -93,7 +93,7 @@ public class CAMetalLayer : IDisposable
 
     public static CAMetalLayer Layer()
     {
-        CAMetalLayer result = new(ObjectiveCRuntime.MsgSendPtr(s_class, CAMetalLayerSelector.Layer));
+        CAMetalLayer result = new(ObjectiveCRuntime.MsgSendPtr(Class, CAMetalLayerSelector.Layer));
 
         return result;
     }

@@ -2,14 +2,14 @@
 
 public class MTLPrimitiveAccelerationStructureDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLPrimitiveAccelerationStructureDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPrimitiveAccelerationStructureDescriptor");
 
     public MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLPrimitiveAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLPrimitiveAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -41,7 +41,7 @@ public class MTLPrimitiveAccelerationStructureDescriptor : IDisposable
     public nuint MotionKeyframeCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.MotionKeyframeCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetMotionKeyframeCount, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetMotionKeyframeCount, value);
     }
 
     public MTLMotionBorderMode MotionStartBorderMode
@@ -83,7 +83,7 @@ public class MTLPrimitiveAccelerationStructureDescriptor : IDisposable
 
     public static MTLPrimitiveAccelerationStructureDescriptor Descriptor()
     {
-        MTLPrimitiveAccelerationStructureDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(s_class, MTLPrimitiveAccelerationStructureDescriptorSelector.Descriptor));
+        MTLPrimitiveAccelerationStructureDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLPrimitiveAccelerationStructureDescriptorSelector.Descriptor));
 
         return result;
     }

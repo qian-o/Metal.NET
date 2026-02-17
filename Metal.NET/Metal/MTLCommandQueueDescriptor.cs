@@ -23,7 +23,7 @@ public class MTLCommandQueueDescriptor : IDisposable
     public nuint MaxCommandBufferCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandQueueDescriptorSelector.MaxCommandBufferCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueDescriptorSelector.SetMaxCommandBufferCount, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueDescriptorSelector.SetMaxCommandBufferCount, value);
     }
 
     public static implicit operator nint(MTLCommandQueueDescriptor value)

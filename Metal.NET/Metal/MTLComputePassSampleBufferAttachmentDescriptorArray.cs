@@ -14,16 +14,16 @@ public class MTLComputePassSampleBufferAttachmentDescriptorArray : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLComputePassSampleBufferAttachmentDescriptor Object(uint attachmentIndex)
+    public MTLComputePassSampleBufferAttachmentDescriptor Object(nuint attachmentIndex)
     {
-        MTLComputePassSampleBufferAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorArraySelector.Object, (nuint)attachmentIndex));
+        MTLComputePassSampleBufferAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorArraySelector.Object, attachmentIndex));
 
         return result;
     }
 
-    public void SetObject(MTLComputePassSampleBufferAttachmentDescriptor attachment, uint attachmentIndex)
+    public void SetObject(MTLComputePassSampleBufferAttachmentDescriptor attachment, nuint attachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nuint)attachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, attachmentIndex);
     }
 
     public static implicit operator nint(MTLComputePassSampleBufferAttachmentDescriptorArray value)

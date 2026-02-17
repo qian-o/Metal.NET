@@ -14,7 +14,7 @@ public class MTL4CommitOptions : IDisposable
 
     public nint NativePtr { get; }
 
-    public void AddFeedbackHandler(int function)
+    public void AddFeedbackHandler(nint function)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommitOptionsSelector.AddFeedbackHandler, function);
     }

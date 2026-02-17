@@ -2,14 +2,14 @@
 
 public class MTLAccelerationStructureDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureDescriptor");
 
     public MTLAccelerationStructureDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -23,7 +23,7 @@ public class MTLAccelerationStructureDescriptor : IDisposable
     public nuint Usage
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureDescriptorSelector.Usage);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureDescriptorSelector.SetUsage, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureDescriptorSelector.SetUsage, value);
     }
 
     public static implicit operator nint(MTLAccelerationStructureDescriptor value)

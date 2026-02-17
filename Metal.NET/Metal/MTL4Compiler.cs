@@ -47,7 +47,7 @@ public class MTL4Compiler : IDisposable
         return result;
     }
 
-    public MTL4CompilerTask NewComputePipelineState(MTL4ComputePipelineDescriptor pDescriptor, MTL4CompilerTaskOptions options, int function)
+    public MTL4CompilerTask NewComputePipelineState(MTL4ComputePipelineDescriptor pDescriptor, MTL4CompilerTaskOptions options, nint function)
     {
         MTL4CompilerTask result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewComputePipelineStateOptionsFunction, pDescriptor.NativePtr, options.NativePtr, function));
 
@@ -72,14 +72,14 @@ public class MTL4Compiler : IDisposable
         return result;
     }
 
-    public MTL4CompilerTask NewDynamicLibrary(MTLLibrary pLibrary, int function)
+    public MTL4CompilerTask NewDynamicLibrary(MTLLibrary pLibrary, nint function)
     {
         MTL4CompilerTask result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewDynamicLibraryFunction, pLibrary.NativePtr, function));
 
         return result;
     }
 
-    public MTL4CompilerTask NewDynamicLibrary(NSURL pURL, int function)
+    public MTL4CompilerTask NewDynamicLibrary(NSURL pURL, nint function)
     {
         MTL4CompilerTask result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewDynamicLibraryFunction, pURL.NativePtr, function));
 
@@ -95,7 +95,7 @@ public class MTL4Compiler : IDisposable
         return result;
     }
 
-    public MTL4CompilerTask NewLibrary(MTL4LibraryDescriptor pDescriptor, int function)
+    public MTL4CompilerTask NewLibrary(MTL4LibraryDescriptor pDescriptor, nint function)
     {
         MTL4CompilerTask result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewLibraryFunction, pDescriptor.NativePtr, function));
 
@@ -111,7 +111,7 @@ public class MTL4Compiler : IDisposable
         return result;
     }
 
-    public MTL4CompilerTask NewMachineLearningPipelineState(MTL4MachineLearningPipelineDescriptor pDescriptor, int function)
+    public MTL4CompilerTask NewMachineLearningPipelineState(MTL4MachineLearningPipelineDescriptor pDescriptor, nint function)
     {
         MTL4CompilerTask result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewMachineLearningPipelineStateFunction, pDescriptor.NativePtr, function));
 
@@ -136,7 +136,7 @@ public class MTL4Compiler : IDisposable
         return result;
     }
 
-    public MTL4CompilerTask NewRenderPipelineState(MTL4PipelineDescriptor pDescriptor, MTL4CompilerTaskOptions options, int function)
+    public MTL4CompilerTask NewRenderPipelineState(MTL4PipelineDescriptor pDescriptor, MTL4CompilerTaskOptions options, nint function)
     {
         MTL4CompilerTask result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewRenderPipelineStateOptionsFunction, pDescriptor.NativePtr, options.NativePtr, function));
 
@@ -152,7 +152,7 @@ public class MTL4Compiler : IDisposable
         return result;
     }
 
-    public MTL4CompilerTask NewRenderPipelineStateBySpecialization(MTL4PipelineDescriptor pDescriptor, MTLRenderPipelineState pPipeline, int function)
+    public MTL4CompilerTask NewRenderPipelineStateBySpecialization(MTL4PipelineDescriptor pDescriptor, MTLRenderPipelineState pPipeline, nint function)
     {
         MTL4CompilerTask result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewRenderPipelineStateBySpecializationPPipelineFunction, pDescriptor.NativePtr, pPipeline.NativePtr, function));
 

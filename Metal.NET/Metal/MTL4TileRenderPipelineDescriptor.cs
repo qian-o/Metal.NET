@@ -2,14 +2,14 @@
 
 public class MTL4TileRenderPipelineDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4TileRenderPipelineDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4TileRenderPipelineDescriptor");
 
     public MTL4TileRenderPipelineDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTL4TileRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTL4TileRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -25,13 +25,13 @@ public class MTL4TileRenderPipelineDescriptor : IDisposable
     public nuint MaxTotalThreadsPerThreadgroup
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4TileRenderPipelineDescriptorSelector.MaxTotalThreadsPerThreadgroup);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetMaxTotalThreadsPerThreadgroup, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetMaxTotalThreadsPerThreadgroup, value);
     }
 
     public nuint RasterSampleCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4TileRenderPipelineDescriptorSelector.RasterSampleCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetRasterSampleCount, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetRasterSampleCount, value);
     }
 
     public MTL4StaticLinkingDescriptor StaticLinkingDescriptor

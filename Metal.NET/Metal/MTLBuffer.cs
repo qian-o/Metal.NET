@@ -41,18 +41,18 @@ public class MTLBuffer : IDisposable
         return result;
     }
 
-    public MTLTensor NewTensor(MTLTensorDescriptor descriptor, uint offset, out NSError? error)
+    public MTLTensor NewTensor(MTLTensorDescriptor descriptor, nuint offset, out NSError? error)
     {
-        MTLTensor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.NewTensorOffsetError, descriptor.NativePtr, (nuint)offset, out nint errorPtr));
+        MTLTensor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.NewTensorOffsetError, descriptor.NativePtr, offset, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
     }
 
-    public MTLTexture NewTexture(MTLTextureDescriptor descriptor, uint offset, uint bytesPerRow)
+    public MTLTexture NewTexture(MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow)
     {
-        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.NewTextureOffsetBytesPerRow, descriptor.NativePtr, (nuint)offset, (nuint)bytesPerRow));
+        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.NewTextureOffsetBytesPerRow, descriptor.NativePtr, offset, bytesPerRow));
 
         return result;
     }

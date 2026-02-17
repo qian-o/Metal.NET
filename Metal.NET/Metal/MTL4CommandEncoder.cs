@@ -22,19 +22,19 @@ public class MTL4CommandEncoder : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandEncoderSelector.SetLabel, value.NativePtr);
     }
 
-    public void BarrierAfterEncoderStages(uint afterEncoderStages, uint beforeEncoderStages, uint visibilityOptions)
+    public void BarrierAfterEncoderStages(nuint afterEncoderStages, nuint beforeEncoderStages, nuint visibilityOptions)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandEncoderSelector.BarrierAfterEncoderStagesBeforeEncoderStagesVisibilityOptions, (nuint)afterEncoderStages, (nuint)beforeEncoderStages, (nuint)visibilityOptions);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandEncoderSelector.BarrierAfterEncoderStagesBeforeEncoderStagesVisibilityOptions, afterEncoderStages, beforeEncoderStages, visibilityOptions);
     }
 
-    public void BarrierAfterQueueStages(uint afterQueueStages, uint beforeStages, uint visibilityOptions)
+    public void BarrierAfterQueueStages(nuint afterQueueStages, nuint beforeStages, nuint visibilityOptions)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandEncoderSelector.BarrierAfterQueueStagesBeforeStagesVisibilityOptions, (nuint)afterQueueStages, (nuint)beforeStages, (nuint)visibilityOptions);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandEncoderSelector.BarrierAfterQueueStagesBeforeStagesVisibilityOptions, afterQueueStages, beforeStages, visibilityOptions);
     }
 
-    public void BarrierAfterStages(uint afterStages, uint beforeQueueStages, uint visibilityOptions)
+    public void BarrierAfterStages(nuint afterStages, nuint beforeQueueStages, nuint visibilityOptions)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandEncoderSelector.BarrierAfterStagesBeforeQueueStagesVisibilityOptions, (nuint)afterStages, (nuint)beforeQueueStages, (nuint)visibilityOptions);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandEncoderSelector.BarrierAfterStagesBeforeQueueStagesVisibilityOptions, afterStages, beforeQueueStages, visibilityOptions);
     }
 
     public void EndEncoding()
@@ -57,14 +57,14 @@ public class MTL4CommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandEncoderSelector.PushDebugGroup, @string.NativePtr);
     }
 
-    public void UpdateFence(MTLFence fence, uint afterEncoderStages)
+    public void UpdateFence(MTLFence fence, nuint afterEncoderStages)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandEncoderSelector.UpdateFenceAfterEncoderStages, fence.NativePtr, (nuint)afterEncoderStages);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandEncoderSelector.UpdateFenceAfterEncoderStages, fence.NativePtr, afterEncoderStages);
     }
 
-    public void WaitForFence(MTLFence fence, uint beforeEncoderStages)
+    public void WaitForFence(MTLFence fence, nuint beforeEncoderStages)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandEncoderSelector.WaitForFenceBeforeEncoderStages, fence.NativePtr, (nuint)beforeEncoderStages);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandEncoderSelector.WaitForFenceBeforeEncoderStages, fence.NativePtr, beforeEncoderStages);
     }
 
     public static implicit operator nint(MTL4CommandEncoder value)

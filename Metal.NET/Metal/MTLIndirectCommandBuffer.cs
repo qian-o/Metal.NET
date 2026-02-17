@@ -16,16 +16,16 @@ public class MTLIndirectCommandBuffer : IDisposable
 
     public nuint Size => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferSelector.Size);
 
-    public MTLIndirectComputeCommand IndirectComputeCommand(uint commandIndex)
+    public MTLIndirectComputeCommand IndirectComputeCommand(nuint commandIndex)
     {
-        MTLIndirectComputeCommand result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectComputeCommand, (nuint)commandIndex));
+        MTLIndirectComputeCommand result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectComputeCommand, commandIndex));
 
         return result;
     }
 
-    public MTLIndirectRenderCommand IndirectRenderCommand(uint commandIndex)
+    public MTLIndirectRenderCommand IndirectRenderCommand(nuint commandIndex)
     {
-        MTLIndirectRenderCommand result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectRenderCommand, (nuint)commandIndex));
+        MTLIndirectRenderCommand result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectRenderCommand, commandIndex));
 
         return result;
     }

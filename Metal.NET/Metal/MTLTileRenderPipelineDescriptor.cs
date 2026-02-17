@@ -2,14 +2,14 @@
 
 public class MTLTileRenderPipelineDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLTileRenderPipelineDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTileRenderPipelineDescriptor");
 
     public MTLTileRenderPipelineDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLTileRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLTileRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -43,13 +43,13 @@ public class MTLTileRenderPipelineDescriptor : IDisposable
     public nuint MaxCallStackDepth
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTileRenderPipelineDescriptorSelector.MaxCallStackDepth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetMaxCallStackDepth, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetMaxCallStackDepth, value);
     }
 
     public nuint MaxTotalThreadsPerThreadgroup
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTileRenderPipelineDescriptorSelector.MaxTotalThreadsPerThreadgroup);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetMaxTotalThreadsPerThreadgroup, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetMaxTotalThreadsPerThreadgroup, value);
     }
 
     public NSArray PreloadedLibraries
@@ -61,7 +61,7 @@ public class MTLTileRenderPipelineDescriptor : IDisposable
     public nuint RasterSampleCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTileRenderPipelineDescriptorSelector.RasterSampleCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetRasterSampleCount, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetRasterSampleCount, value);
     }
 
     public MTLShaderValidation ShaderValidation

@@ -14,9 +14,9 @@ public class MTL4RenderPipelineColorAttachmentDescriptorArray : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTL4RenderPipelineColorAttachmentDescriptor Object(uint attachmentIndex)
+    public MTL4RenderPipelineColorAttachmentDescriptor Object(nuint attachmentIndex)
     {
-        MTL4RenderPipelineColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.Object, (nuint)attachmentIndex));
+        MTL4RenderPipelineColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.Object, attachmentIndex));
 
         return result;
     }
@@ -26,9 +26,9 @@ public class MTL4RenderPipelineColorAttachmentDescriptorArray : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.Reset);
     }
 
-    public void SetObject(MTL4RenderPipelineColorAttachmentDescriptor attachment, uint attachmentIndex)
+    public void SetObject(MTL4RenderPipelineColorAttachmentDescriptor attachment, nuint attachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nuint)attachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, attachmentIndex);
     }
 
     public static implicit operator nint(MTL4RenderPipelineColorAttachmentDescriptorArray value)

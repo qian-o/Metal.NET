@@ -334,9 +334,6 @@ internal static unsafe partial class ObjectiveCRuntime
     public static partial void MsgSend(nint receiver, Selector selector, uint a, nuint b, uint c, nuint d, nuint e, nuint f, nint g, nuint h);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    public static partial void MsgSend(nint receiver, Selector selector, uint a, uint b);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial void MsgSend(nint receiver, Selector selector, uint a, uint b, nint c, nuint d, nint e, nuint f);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -396,6 +393,9 @@ internal static unsafe partial class ObjectiveCRuntime
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial nuint MsgSendNUInt(nint receiver, Selector selector, MTLSize a);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    public static partial nuint MsgSendNUInt(nint receiver, Selector selector, nint a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial nuint MsgSendNUInt(nint receiver, Selector selector, nuint a);
@@ -503,9 +503,6 @@ internal static unsafe partial class ObjectiveCRuntime
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial uint MsgSendUInt(nint receiver, Selector selector);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    public static partial uint MsgSendUInt(nint receiver, Selector selector, nint a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial uint MsgSendUInt(nint receiver, Selector selector, uint a);

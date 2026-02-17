@@ -74,14 +74,14 @@ public class MTLTexture : IDisposable
 
     public nuint Width => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.Width);
 
-    public void GetBytes(int pixelBytes, uint bytesPerRow, uint bytesPerImage, MTLRegion region, uint level, uint slice)
+    public void GetBytes(nint pixelBytes, nuint bytesPerRow, nuint bytesPerImage, MTLRegion region, nuint level, nuint slice)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureSelector.GetBytesBytesPerRowBytesPerImageRegionLevelSlice, pixelBytes, (nuint)bytesPerRow, (nuint)bytesPerImage, region, (nuint)level, (nuint)slice);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureSelector.GetBytesBytesPerRowBytesPerImageRegionLevelSlice, pixelBytes, bytesPerRow, bytesPerImage, region, level, slice);
     }
 
-    public void GetBytes(int pixelBytes, uint bytesPerRow, MTLRegion region, uint level)
+    public void GetBytes(nint pixelBytes, nuint bytesPerRow, MTLRegion region, nuint level)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureSelector.GetBytesBytesPerRowRegionLevel, pixelBytes, (nuint)bytesPerRow, region, (nuint)level);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureSelector.GetBytesBytesPerRowRegionLevel, pixelBytes, bytesPerRow, region, level);
     }
 
     public MTLTexture NewRemoteTextureViewForDevice(MTLDevice device)
@@ -126,14 +126,14 @@ public class MTLTexture : IDisposable
         return result;
     }
 
-    public void ReplaceRegion(MTLRegion region, uint level, uint slice, int pixelBytes, uint bytesPerRow, uint bytesPerImage)
+    public void ReplaceRegion(MTLRegion region, nuint level, nuint slice, nint pixelBytes, nuint bytesPerRow, nuint bytesPerImage)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureSelector.ReplaceRegionLevelSlicePixelBytesBytesPerRowBytesPerImage, region, (nuint)level, (nuint)slice, pixelBytes, (nuint)bytesPerRow, (nuint)bytesPerImage);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureSelector.ReplaceRegionLevelSlicePixelBytesBytesPerRowBytesPerImage, region, level, slice, pixelBytes, bytesPerRow, bytesPerImage);
     }
 
-    public void ReplaceRegion(MTLRegion region, uint level, int pixelBytes, uint bytesPerRow)
+    public void ReplaceRegion(MTLRegion region, nuint level, nint pixelBytes, nuint bytesPerRow)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureSelector.ReplaceRegionLevelPixelBytesBytesPerRow, region, (nuint)level, pixelBytes, (nuint)bytesPerRow);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureSelector.ReplaceRegionLevelPixelBytesBytesPerRow, region, level, pixelBytes, bytesPerRow);
     }
 
     public static implicit operator nint(MTLTexture value)

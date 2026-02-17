@@ -58,9 +58,9 @@ public class MTL4CommandBuffer : IDisposable
         return result;
     }
 
-    public MTL4RenderCommandEncoder RenderCommandEncoder(MTL4RenderPassDescriptor descriptor, uint options)
+    public MTL4RenderCommandEncoder RenderCommandEncoder(MTL4RenderPassDescriptor descriptor, nuint options)
     {
-        MTL4RenderCommandEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.RenderCommandEncoderOptions, descriptor.NativePtr, (nuint)options));
+        MTL4RenderCommandEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.RenderCommandEncoderOptions, descriptor.NativePtr, options));
 
         return result;
     }
@@ -75,9 +75,9 @@ public class MTL4CommandBuffer : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.UseResidencySet, residencySet.NativePtr);
     }
 
-    public void WriteTimestampIntoHeap(MTL4CounterHeap counterHeap, uint index)
+    public void WriteTimestampIntoHeap(MTL4CounterHeap counterHeap, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.WriteTimestampIntoHeapIndex, counterHeap.NativePtr, (nuint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.WriteTimestampIntoHeapIndex, counterHeap.NativePtr, index);
     }
 
     public static implicit operator nint(MTL4CommandBuffer value)

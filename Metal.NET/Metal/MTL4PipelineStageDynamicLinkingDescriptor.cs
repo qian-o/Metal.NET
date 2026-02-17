@@ -23,7 +23,7 @@ public class MTL4PipelineStageDynamicLinkingDescriptor : IDisposable
     public nuint MaxCallStackDepth
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.MaxCallStackDepth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.SetMaxCallStackDepth, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.SetMaxCallStackDepth, value);
     }
 
     public NSArray PreloadedLibraries

@@ -29,7 +29,7 @@ public class MTLIOCommandBuffer : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.AddBarrier);
     }
 
-    public void AddCompletedHandler(int function)
+    public void AddCompletedHandler(nint function)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.AddCompletedHandler, function);
     }
@@ -39,9 +39,9 @@ public class MTLIOCommandBuffer : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.Commit);
     }
 
-    public void CopyStatusToBuffer(MTLBuffer buffer, uint offset)
+    public void CopyStatusToBuffer(MTLBuffer buffer, nuint offset)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.CopyStatusToBufferOffset, buffer.NativePtr, (nuint)offset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.CopyStatusToBufferOffset, buffer.NativePtr, offset);
     }
 
     public void Enqueue()
@@ -49,19 +49,19 @@ public class MTLIOCommandBuffer : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.Enqueue);
     }
 
-    public void LoadBuffer(MTLBuffer buffer, uint offset, uint size, MTLIOFileHandle sourceHandle, uint sourceHandleOffset)
+    public void LoadBuffer(MTLBuffer buffer, nuint offset, nuint size, MTLIOFileHandle sourceHandle, nuint sourceHandleOffset)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.LoadBufferOffsetSizeSourceHandleSourceHandleOffset, buffer.NativePtr, (nuint)offset, (nuint)size, sourceHandle.NativePtr, (nuint)sourceHandleOffset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.LoadBufferOffsetSizeSourceHandleSourceHandleOffset, buffer.NativePtr, offset, size, sourceHandle.NativePtr, sourceHandleOffset);
     }
 
-    public void LoadBytes(int pointer, uint size, MTLIOFileHandle sourceHandle, uint sourceHandleOffset)
+    public void LoadBytes(nint pointer, nuint size, MTLIOFileHandle sourceHandle, nuint sourceHandleOffset)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.LoadBytesSizeSourceHandleSourceHandleOffset, pointer, (nuint)size, sourceHandle.NativePtr, (nuint)sourceHandleOffset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.LoadBytesSizeSourceHandleSourceHandleOffset, pointer, size, sourceHandle.NativePtr, sourceHandleOffset);
     }
 
-    public void LoadTexture(MTLTexture texture, uint slice, uint level, MTLSize size, uint sourceBytesPerRow, uint sourceBytesPerImage, MTLOrigin destinationOrigin, MTLIOFileHandle sourceHandle, uint sourceHandleOffset)
+    public void LoadTexture(MTLTexture texture, nuint slice, nuint level, MTLSize size, nuint sourceBytesPerRow, nuint sourceBytesPerImage, MTLOrigin destinationOrigin, MTLIOFileHandle sourceHandle, nuint sourceHandleOffset)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.LoadTextureSliceLevelSizeSourceBytesPerRowSourceBytesPerImageDestinationOriginSourceHandleSourceHandleOffset, texture.NativePtr, (nuint)slice, (nuint)level, size, (nuint)sourceBytesPerRow, (nuint)sourceBytesPerImage, destinationOrigin, sourceHandle.NativePtr, (nuint)sourceHandleOffset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.LoadTextureSliceLevelSizeSourceBytesPerRowSourceBytesPerImageDestinationOriginSourceHandleSourceHandleOffset, texture.NativePtr, slice, level, size, sourceBytesPerRow, sourceBytesPerImage, destinationOrigin, sourceHandle.NativePtr, sourceHandleOffset);
     }
 
     public void PopDebugGroup()
@@ -74,9 +74,9 @@ public class MTLIOCommandBuffer : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.PushDebugGroup, @string.NativePtr);
     }
 
-    public void SignalEvent(MTLSharedEvent @event, uint value)
+    public void SignalEvent(MTLSharedEvent @event, nuint value)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.SignalEventValue, @event.NativePtr, (nuint)value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.SignalEventValue, @event.NativePtr, value);
     }
 
     public void TryCancel()
@@ -84,9 +84,9 @@ public class MTLIOCommandBuffer : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.TryCancel);
     }
 
-    public void Wait(MTLSharedEvent @event, uint value)
+    public void Wait(MTLSharedEvent @event, nuint value)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.WaitValue, @event.NativePtr, (nuint)value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.WaitValue, @event.NativePtr, value);
     }
 
     public void WaitUntilCompleted()

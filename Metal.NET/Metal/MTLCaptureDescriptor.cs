@@ -2,14 +2,14 @@
 
 public class MTLCaptureDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLCaptureDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCaptureDescriptor");
 
     public MTLCaptureDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLCaptureDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLCaptureDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 

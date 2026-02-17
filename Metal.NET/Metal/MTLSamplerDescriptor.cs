@@ -2,14 +2,14 @@
 
 public class MTLSamplerDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLSamplerDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLSamplerDescriptor");
 
     public MTLSamplerDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLSamplerDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLSamplerDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -71,7 +71,7 @@ public class MTLSamplerDescriptor : IDisposable
     public nuint MaxAnisotropy
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSamplerDescriptorSelector.MaxAnisotropy);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetMaxAnisotropy, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetMaxAnisotropy, value);
     }
 
     public MTLSamplerMinMagFilter MinFilter

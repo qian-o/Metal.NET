@@ -14,9 +14,9 @@ public class MTLVisibleFunctionTable : IDisposable
 
     public nint NativePtr { get; }
 
-    public void SetFunction(MTLFunctionHandle function, uint index)
+    public void SetFunction(MTLFunctionHandle function, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLVisibleFunctionTableSelector.SetFunctionIndex, function.NativePtr, (nuint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLVisibleFunctionTableSelector.SetFunctionIndex, function.NativePtr, index);
     }
 
     public static implicit operator nint(MTLVisibleFunctionTable value)

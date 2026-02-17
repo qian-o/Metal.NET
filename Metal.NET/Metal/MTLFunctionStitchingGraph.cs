@@ -2,14 +2,14 @@
 
 public class MTLFunctionStitchingGraph : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingGraph");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingGraph");
 
     public MTLFunctionStitchingGraph(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLFunctionStitchingGraph() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLFunctionStitchingGraph() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 

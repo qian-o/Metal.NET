@@ -14,16 +14,16 @@ public class MTLResourceStatePassSampleBufferAttachmentDescriptorArray : IDispos
 
     public nint NativePtr { get; }
 
-    public MTLResourceStatePassSampleBufferAttachmentDescriptor Object(uint attachmentIndex)
+    public MTLResourceStatePassSampleBufferAttachmentDescriptor Object(nuint attachmentIndex)
     {
-        MTLResourceStatePassSampleBufferAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorArraySelector.Object, (nuint)attachmentIndex));
+        MTLResourceStatePassSampleBufferAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorArraySelector.Object, attachmentIndex));
 
         return result;
     }
 
-    public void SetObject(MTLResourceStatePassSampleBufferAttachmentDescriptor attachment, uint attachmentIndex)
+    public void SetObject(MTLResourceStatePassSampleBufferAttachmentDescriptor attachment, nuint attachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nuint)attachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, attachmentIndex);
     }
 
     public static implicit operator nint(MTLResourceStatePassSampleBufferAttachmentDescriptorArray value)

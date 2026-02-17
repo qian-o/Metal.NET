@@ -2,14 +2,14 @@
 
 public class MTLVertexBufferLayoutDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLVertexBufferLayoutDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexBufferLayoutDescriptor");
 
     public MTLVertexBufferLayoutDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLVertexBufferLayoutDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLVertexBufferLayoutDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -29,13 +29,13 @@ public class MTLVertexBufferLayoutDescriptor : IDisposable
     public nuint StepRate
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexBufferLayoutDescriptorSelector.StepRate);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorSelector.SetStepRate, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorSelector.SetStepRate, value);
     }
 
     public nuint Stride
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexBufferLayoutDescriptorSelector.Stride);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorSelector.SetStride, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorSelector.SetStride, value);
     }
 
     public static implicit operator nint(MTLVertexBufferLayoutDescriptor value)

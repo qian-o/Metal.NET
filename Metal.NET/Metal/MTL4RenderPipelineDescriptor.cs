@@ -2,14 +2,14 @@
 
 public class MTL4RenderPipelineDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineDescriptor");
 
     public MTL4RenderPipelineDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTL4RenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTL4RenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -63,13 +63,13 @@ public class MTL4RenderPipelineDescriptor : IDisposable
     public nuint MaxVertexAmplificationCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderPipelineDescriptorSelector.MaxVertexAmplificationCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetMaxVertexAmplificationCount, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetMaxVertexAmplificationCount, value);
     }
 
     public nuint RasterSampleCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderPipelineDescriptorSelector.RasterSampleCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetRasterSampleCount, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetRasterSampleCount, value);
     }
 
     public Bool8 RasterizationEnabled

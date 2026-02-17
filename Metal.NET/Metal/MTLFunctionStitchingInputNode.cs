@@ -2,14 +2,14 @@
 
 public class MTLFunctionStitchingInputNode : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingInputNode");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingInputNode");
 
     public MTLFunctionStitchingInputNode(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLFunctionStitchingInputNode() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLFunctionStitchingInputNode() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -23,7 +23,7 @@ public class MTLFunctionStitchingInputNode : IDisposable
     public nuint ArgumentIndex
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionStitchingInputNodeSelector.ArgumentIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionStitchingInputNodeSelector.SetArgumentIndex, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionStitchingInputNodeSelector.SetArgumentIndex, value);
     }
 
     public static implicit operator nint(MTLFunctionStitchingInputNode value)

@@ -14,12 +14,12 @@ public class MTLIntersectionFunctionTableDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLIntersectionFunctionTableDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIntersectionFunctionTableDescriptor");
 
     public nuint FunctionCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIntersectionFunctionTableDescriptorSelector.FunctionCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableDescriptorSelector.SetFunctionCount, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableDescriptorSelector.SetFunctionCount, value);
     }
 
     public static implicit operator nint(MTLIntersectionFunctionTableDescriptor value)
@@ -49,7 +49,7 @@ public class MTLIntersectionFunctionTableDescriptor : IDisposable
 
     public static MTLIntersectionFunctionTableDescriptor IntersectionFunctionTableDescriptor()
     {
-        MTLIntersectionFunctionTableDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(s_class, MTLIntersectionFunctionTableDescriptorSelector.IntersectionFunctionTableDescriptor));
+        MTLIntersectionFunctionTableDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLIntersectionFunctionTableDescriptorSelector.IntersectionFunctionTableDescriptor));
 
         return result;
     }

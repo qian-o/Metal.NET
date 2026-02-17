@@ -2,14 +2,14 @@
 
 public class MTLAttributeDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLAttributeDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAttributeDescriptor");
 
     public MTLAttributeDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -23,7 +23,7 @@ public class MTLAttributeDescriptor : IDisposable
     public nuint BufferIndex
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorSelector.BufferIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetBufferIndex, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetBufferIndex, value);
     }
 
     public MTLAttributeFormat Format
@@ -35,7 +35,7 @@ public class MTLAttributeDescriptor : IDisposable
     public nuint Offset
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorSelector.Offset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetOffset, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetOffset, value);
     }
 
     public static implicit operator nint(MTLAttributeDescriptor value)

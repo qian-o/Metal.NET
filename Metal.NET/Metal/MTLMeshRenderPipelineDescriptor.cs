@@ -69,25 +69,25 @@ public class MTLMeshRenderPipelineDescriptor : IDisposable
     public nuint MaxTotalThreadgroupsPerMeshGrid
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLMeshRenderPipelineDescriptorSelector.MaxTotalThreadgroupsPerMeshGrid);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetMaxTotalThreadgroupsPerMeshGrid, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetMaxTotalThreadgroupsPerMeshGrid, value);
     }
 
     public nuint MaxTotalThreadsPerMeshThreadgroup
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLMeshRenderPipelineDescriptorSelector.MaxTotalThreadsPerMeshThreadgroup);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetMaxTotalThreadsPerMeshThreadgroup, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetMaxTotalThreadsPerMeshThreadgroup, value);
     }
 
     public nuint MaxTotalThreadsPerObjectThreadgroup
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLMeshRenderPipelineDescriptorSelector.MaxTotalThreadsPerObjectThreadgroup);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetMaxTotalThreadsPerObjectThreadgroup, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetMaxTotalThreadsPerObjectThreadgroup, value);
     }
 
     public nuint MaxVertexAmplificationCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLMeshRenderPipelineDescriptorSelector.MaxVertexAmplificationCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetMaxVertexAmplificationCount, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetMaxVertexAmplificationCount, value);
     }
 
     public MTLPipelineBufferDescriptorArray MeshBuffers => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.MeshBuffers));
@@ -133,13 +133,13 @@ public class MTLMeshRenderPipelineDescriptor : IDisposable
     public nuint PayloadMemoryLength
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLMeshRenderPipelineDescriptorSelector.PayloadMemoryLength);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetPayloadMemoryLength, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetPayloadMemoryLength, value);
     }
 
     public nuint RasterSampleCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLMeshRenderPipelineDescriptorSelector.RasterSampleCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetRasterSampleCount, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetRasterSampleCount, value);
     }
 
     public Bool8 RasterizationEnabled

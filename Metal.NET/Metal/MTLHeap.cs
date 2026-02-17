@@ -38,16 +38,16 @@ public class MTLHeap : IDisposable
 
     public nuint UsedSize => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.UsedSize);
 
-    public nuint MaxAvailableSize(uint alignment)
+    public nuint MaxAvailableSize(nuint alignment)
     {
-        nuint result = ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.MaxAvailableSize, (nuint)alignment);
+        nuint result = ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.MaxAvailableSize, alignment);
 
         return result;
     }
 
-    public MTLAccelerationStructure NewAccelerationStructure(uint size)
+    public MTLAccelerationStructure NewAccelerationStructure(nuint size)
     {
-        MTLAccelerationStructure result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewAccelerationStructure, (nuint)size));
+        MTLAccelerationStructure result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewAccelerationStructure, size));
 
         return result;
     }
@@ -59,30 +59,30 @@ public class MTLHeap : IDisposable
         return result;
     }
 
-    public MTLAccelerationStructure NewAccelerationStructure(uint size, uint offset)
+    public MTLAccelerationStructure NewAccelerationStructure(nuint size, nuint offset)
     {
-        MTLAccelerationStructure result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewAccelerationStructureOffset, (nuint)size, (nuint)offset));
+        MTLAccelerationStructure result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewAccelerationStructureOffset, size, offset));
 
         return result;
     }
 
-    public MTLAccelerationStructure NewAccelerationStructure(MTLAccelerationStructureDescriptor descriptor, uint offset)
+    public MTLAccelerationStructure NewAccelerationStructure(MTLAccelerationStructureDescriptor descriptor, nuint offset)
     {
-        MTLAccelerationStructure result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewAccelerationStructureOffset, descriptor.NativePtr, (nuint)offset));
+        MTLAccelerationStructure result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewAccelerationStructureOffset, descriptor.NativePtr, offset));
 
         return result;
     }
 
-    public MTLBuffer NewBuffer(uint length, uint options)
+    public MTLBuffer NewBuffer(nuint length, nuint options)
     {
-        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewBufferOptions, (nuint)length, (nuint)options));
+        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewBufferOptions, length, options));
 
         return result;
     }
 
-    public MTLBuffer NewBuffer(uint length, uint options, uint offset)
+    public MTLBuffer NewBuffer(nuint length, nuint options, nuint offset)
     {
-        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewBufferOptionsOffset, (nuint)length, (nuint)options, (nuint)offset));
+        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewBufferOptionsOffset, length, options, offset));
 
         return result;
     }
@@ -94,9 +94,9 @@ public class MTLHeap : IDisposable
         return result;
     }
 
-    public MTLTexture NewTexture(MTLTextureDescriptor descriptor, uint offset)
+    public MTLTexture NewTexture(MTLTextureDescriptor descriptor, nuint offset)
     {
-        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewTextureOffset, descriptor.NativePtr, (nuint)offset));
+        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewTextureOffset, descriptor.NativePtr, offset));
 
         return result;
     }

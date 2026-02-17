@@ -14,16 +14,16 @@ public class MTLPipelineBufferDescriptorArray : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLPipelineBufferDescriptor Object(uint bufferIndex)
+    public MTLPipelineBufferDescriptor Object(nuint bufferIndex)
     {
-        MTLPipelineBufferDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPipelineBufferDescriptorArraySelector.Object, (nuint)bufferIndex));
+        MTLPipelineBufferDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPipelineBufferDescriptorArraySelector.Object, bufferIndex));
 
         return result;
     }
 
-    public void SetObject(MTLPipelineBufferDescriptor buffer, uint bufferIndex)
+    public void SetObject(MTLPipelineBufferDescriptor buffer, nuint bufferIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorArraySelector.SetObjectBufferIndex, buffer.NativePtr, (nuint)bufferIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorArraySelector.SetObjectBufferIndex, buffer.NativePtr, bufferIndex);
     }
 
     public static implicit operator nint(MTLPipelineBufferDescriptorArray value)

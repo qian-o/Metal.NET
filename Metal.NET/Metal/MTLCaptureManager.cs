@@ -14,7 +14,7 @@ public class MTLCaptureManager : IDisposable
 
     public nint NativePtr { get; }
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLCaptureManager");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCaptureManager");
 
     public MTLCaptureScope DefaultCaptureScope
     {
@@ -108,7 +108,7 @@ public class MTLCaptureManager : IDisposable
 
     public static MTLCaptureManager SharedCaptureManager()
     {
-        MTLCaptureManager result = new(ObjectiveCRuntime.MsgSendPtr(s_class, MTLCaptureManagerSelector.SharedCaptureManager));
+        MTLCaptureManager result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLCaptureManagerSelector.SharedCaptureManager));
 
         return result;
     }

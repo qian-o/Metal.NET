@@ -14,16 +14,16 @@ public class MTLAttributeDescriptorArray : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLAttributeDescriptor Object(uint index)
+    public MTLAttributeDescriptor Object(nuint index)
     {
-        MTLAttributeDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeDescriptorArraySelector.Object, (nuint)index));
+        MTLAttributeDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeDescriptorArraySelector.Object, index));
 
         return result;
     }
 
-    public void SetObject(MTLAttributeDescriptor attributeDesc, uint index)
+    public void SetObject(MTLAttributeDescriptor attributeDesc, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorArraySelector.SetObjectIndex, attributeDesc.NativePtr, (nuint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorArraySelector.SetObjectIndex, attributeDesc.NativePtr, index);
     }
 
     public static implicit operator nint(MTLAttributeDescriptorArray value)

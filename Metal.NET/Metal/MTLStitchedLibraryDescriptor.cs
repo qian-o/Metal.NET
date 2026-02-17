@@ -2,14 +2,14 @@
 
 public class MTLStitchedLibraryDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLStitchedLibraryDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStitchedLibraryDescriptor");
 
     public MTLStitchedLibraryDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLStitchedLibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLStitchedLibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -41,7 +41,7 @@ public class MTLStitchedLibraryDescriptor : IDisposable
     public nuint Options
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStitchedLibraryDescriptorSelector.Options);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetOptions, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetOptions, value);
     }
 
     public static implicit operator nint(MTLStitchedLibraryDescriptor value)

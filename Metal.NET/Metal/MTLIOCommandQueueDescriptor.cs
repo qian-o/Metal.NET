@@ -2,14 +2,14 @@
 
 public class MTLIOCommandQueueDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLIOCommandQueueDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIOCommandQueueDescriptor");
 
     public MTLIOCommandQueueDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLIOCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLIOCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -23,13 +23,13 @@ public class MTLIOCommandQueueDescriptor : IDisposable
     public nuint MaxCommandBufferCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIOCommandQueueDescriptorSelector.MaxCommandBufferCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetMaxCommandBufferCount, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetMaxCommandBufferCount, value);
     }
 
     public nuint MaxCommandsInFlight
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIOCommandQueueDescriptorSelector.MaxCommandsInFlight);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetMaxCommandsInFlight, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetMaxCommandsInFlight, value);
     }
 
     public MTLIOPriority Priority

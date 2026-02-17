@@ -2,14 +2,14 @@
 
 public class MTLRenderPipelineDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLRenderPipelineDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPipelineDescriptor");
 
     public MTLRenderPipelineDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -89,31 +89,31 @@ public class MTLRenderPipelineDescriptor : IDisposable
     public nuint MaxFragmentCallStackDepth
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorSelector.MaxFragmentCallStackDepth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetMaxFragmentCallStackDepth, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetMaxFragmentCallStackDepth, value);
     }
 
     public nuint MaxTessellationFactor
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorSelector.MaxTessellationFactor);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetMaxTessellationFactor, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetMaxTessellationFactor, value);
     }
 
     public nuint MaxVertexAmplificationCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorSelector.MaxVertexAmplificationCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetMaxVertexAmplificationCount, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetMaxVertexAmplificationCount, value);
     }
 
     public nuint MaxVertexCallStackDepth
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorSelector.MaxVertexCallStackDepth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetMaxVertexCallStackDepth, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetMaxVertexCallStackDepth, value);
     }
 
     public nuint RasterSampleCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorSelector.RasterSampleCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetRasterSampleCount, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetRasterSampleCount, value);
     }
 
     public Bool8 RasterizationEnabled
@@ -125,7 +125,7 @@ public class MTLRenderPipelineDescriptor : IDisposable
     public nuint SampleCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorSelector.SampleCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetSampleCount, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetSampleCount, value);
     }
 
     public MTLShaderValidation ShaderValidation

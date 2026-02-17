@@ -2,14 +2,14 @@
 
 public class MTLBufferLayoutDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLBufferLayoutDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLBufferLayoutDescriptor");
 
     public MTLBufferLayoutDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLBufferLayoutDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLBufferLayoutDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -29,13 +29,13 @@ public class MTLBufferLayoutDescriptor : IDisposable
     public nuint StepRate
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferLayoutDescriptorSelector.StepRate);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStepRate, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStepRate, value);
     }
 
     public nuint Stride
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferLayoutDescriptorSelector.Stride);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStride, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStride, value);
     }
 
     public static implicit operator nint(MTLBufferLayoutDescriptor value)

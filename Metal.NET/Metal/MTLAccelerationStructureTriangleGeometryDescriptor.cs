@@ -14,7 +14,7 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureTriangleGeometryDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureTriangleGeometryDescriptor");
 
     public MTLBuffer IndexBuffer
     {
@@ -25,7 +25,7 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor : IDisposable
     public nuint IndexBufferOffset
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.IndexBufferOffset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetIndexBufferOffset, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetIndexBufferOffset, value);
     }
 
     public MTLIndexType IndexType
@@ -43,7 +43,7 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor : IDisposable
     public nuint TransformationMatrixBufferOffset
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.TransformationMatrixBufferOffset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetTransformationMatrixBufferOffset, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetTransformationMatrixBufferOffset, value);
     }
 
     public MTLMatrixLayout TransformationMatrixLayout
@@ -55,7 +55,7 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor : IDisposable
     public nuint TriangleCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.TriangleCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetTriangleCount, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetTriangleCount, value);
     }
 
     public MTLBuffer VertexBuffer
@@ -67,7 +67,7 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor : IDisposable
     public nuint VertexBufferOffset
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.VertexBufferOffset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetVertexBufferOffset, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetVertexBufferOffset, value);
     }
 
     public MTLAttributeFormat VertexFormat
@@ -79,7 +79,7 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor : IDisposable
     public nuint VertexStride
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.VertexStride);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetVertexStride, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetVertexStride, value);
     }
 
     public static implicit operator nint(MTLAccelerationStructureTriangleGeometryDescriptor value)
@@ -109,7 +109,7 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor : IDisposable
 
     public static MTLAccelerationStructureTriangleGeometryDescriptor Descriptor()
     {
-        MTLAccelerationStructureTriangleGeometryDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(s_class, MTLAccelerationStructureTriangleGeometryDescriptorSelector.Descriptor));
+        MTLAccelerationStructureTriangleGeometryDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructureTriangleGeometryDescriptorSelector.Descriptor));
 
         return result;
     }

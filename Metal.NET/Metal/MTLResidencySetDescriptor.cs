@@ -2,14 +2,14 @@
 
 public class MTLResidencySetDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLResidencySetDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResidencySetDescriptor");
 
     public MTLResidencySetDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLResidencySetDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLResidencySetDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -23,7 +23,7 @@ public class MTLResidencySetDescriptor : IDisposable
     public nuint InitialCapacity
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResidencySetDescriptorSelector.InitialCapacity);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetDescriptorSelector.SetInitialCapacity, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetDescriptorSelector.SetInitialCapacity, value);
     }
 
     public NSString Label

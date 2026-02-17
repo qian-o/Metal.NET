@@ -23,14 +23,14 @@ public class MTL4CommandQueue : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.AddResidencySet, residencySet.NativePtr);
     }
 
-    public void CopyBufferMappingsFromBuffer(MTLBuffer sourceBuffer, MTLBuffer destinationBuffer, MTL4CopySparseBufferMappingOperation operations, uint count)
+    public void CopyBufferMappingsFromBuffer(MTLBuffer sourceBuffer, MTLBuffer destinationBuffer, MTL4CopySparseBufferMappingOperation operations, nuint count)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.CopyBufferMappingsFromBufferDestinationBufferOperationsCount, sourceBuffer.NativePtr, destinationBuffer.NativePtr, operations, (nuint)count);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.CopyBufferMappingsFromBufferDestinationBufferOperationsCount, sourceBuffer.NativePtr, destinationBuffer.NativePtr, operations, count);
     }
 
-    public void CopyTextureMappingsFromTexture(MTLTexture sourceTexture, MTLTexture destinationTexture, MTL4CopySparseTextureMappingOperation operations, uint count)
+    public void CopyTextureMappingsFromTexture(MTLTexture sourceTexture, MTLTexture destinationTexture, MTL4CopySparseTextureMappingOperation operations, nuint count)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.CopyTextureMappingsFromTextureDestinationTextureOperationsCount, sourceTexture.NativePtr, destinationTexture.NativePtr, operations, (nuint)count);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.CopyTextureMappingsFromTextureDestinationTextureOperationsCount, sourceTexture.NativePtr, destinationTexture.NativePtr, operations, count);
     }
 
     public void RemoveResidencySet(MTLResidencySet residencySet)
@@ -43,24 +43,24 @@ public class MTL4CommandQueue : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.SignalDrawable, drawable.NativePtr);
     }
 
-    public void SignalEvent(MTLEvent @event, uint value)
+    public void SignalEvent(MTLEvent @event, nuint value)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.SignalEventValue, @event.NativePtr, (nuint)value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.SignalEventValue, @event.NativePtr, value);
     }
 
-    public void UpdateBufferMappings(MTLBuffer buffer, MTLHeap heap, MTL4UpdateSparseBufferMappingOperation operations, uint count)
+    public void UpdateBufferMappings(MTLBuffer buffer, MTLHeap heap, MTL4UpdateSparseBufferMappingOperation operations, nuint count)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.UpdateBufferMappingsHeapOperationsCount, buffer.NativePtr, heap.NativePtr, operations, (nuint)count);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.UpdateBufferMappingsHeapOperationsCount, buffer.NativePtr, heap.NativePtr, operations, count);
     }
 
-    public void UpdateTextureMappings(MTLTexture texture, MTLHeap heap, MTL4UpdateSparseTextureMappingOperation operations, uint count)
+    public void UpdateTextureMappings(MTLTexture texture, MTLHeap heap, MTL4UpdateSparseTextureMappingOperation operations, nuint count)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.UpdateTextureMappingsHeapOperationsCount, texture.NativePtr, heap.NativePtr, operations, (nuint)count);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.UpdateTextureMappingsHeapOperationsCount, texture.NativePtr, heap.NativePtr, operations, count);
     }
 
-    public void Wait(MTLEvent @event, uint value)
+    public void Wait(MTLEvent @event, nuint value)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.WaitValue, @event.NativePtr, (nuint)value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.WaitValue, @event.NativePtr, value);
     }
 
     public void Wait(MTLDrawable drawable)

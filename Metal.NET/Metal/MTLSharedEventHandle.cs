@@ -2,14 +2,14 @@
 
 public class MTLSharedEventHandle : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLSharedEventHandle");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLSharedEventHandle");
 
     public MTLSharedEventHandle(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLSharedEventHandle() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLSharedEventHandle() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 

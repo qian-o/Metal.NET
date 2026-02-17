@@ -14,16 +14,16 @@ public class MTLBufferLayoutDescriptorArray : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLBufferLayoutDescriptor Object(uint index)
+    public MTLBufferLayoutDescriptor Object(nuint index)
     {
-        MTLBufferLayoutDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArraySelector.Object, (nuint)index));
+        MTLBufferLayoutDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArraySelector.Object, index));
 
         return result;
     }
 
-    public void SetObject(MTLBufferLayoutDescriptor bufferDesc, uint index)
+    public void SetObject(MTLBufferLayoutDescriptor bufferDesc, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorArraySelector.SetObjectIndex, bufferDesc.NativePtr, (nuint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorArraySelector.SetObjectIndex, bufferDesc.NativePtr, index);
     }
 
     public static implicit operator nint(MTLBufferLayoutDescriptorArray value)

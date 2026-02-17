@@ -2,14 +2,14 @@
 
 public class MTLDepthStencilDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLDepthStencilDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLDepthStencilDescriptor");
 
     public MTLDepthStencilDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLDepthStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLDepthStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 

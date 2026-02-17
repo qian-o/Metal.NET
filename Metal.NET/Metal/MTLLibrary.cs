@@ -53,12 +53,12 @@ public class MTLLibrary : IDisposable
         return result;
     }
 
-    public void NewFunction(NSString pFunctionName, MTLFunctionConstantValues pConstantValues, int completionHandler)
+    public void NewFunction(NSString pFunctionName, MTLFunctionConstantValues pConstantValues, nint completionHandler)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLLibrarySelector.NewFunctionPConstantValuesCompletionHandler, pFunctionName.NativePtr, pConstantValues.NativePtr, completionHandler);
     }
 
-    public void NewFunction(MTLFunctionDescriptor pDescriptor, int completionHandler)
+    public void NewFunction(MTLFunctionDescriptor pDescriptor, nint completionHandler)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLLibrarySelector.NewFunctionCompletionHandler, pDescriptor.NativePtr, completionHandler);
     }
@@ -72,7 +72,7 @@ public class MTLLibrary : IDisposable
         return result;
     }
 
-    public void NewIntersectionFunction(MTLIntersectionFunctionDescriptor pDescriptor, int completionHandler)
+    public void NewIntersectionFunction(MTLIntersectionFunctionDescriptor pDescriptor, nint completionHandler)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLLibrarySelector.NewIntersectionFunctionCompletionHandler, pDescriptor.NativePtr, completionHandler);
     }

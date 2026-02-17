@@ -26,7 +26,7 @@ public class MTL4MachineLearningPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetMachineLearningFunctionDescriptor, value.NativePtr);
     }
 
-    public MTLTensorExtents InputDimensionsAtBufferIndex(int bufferIndex)
+    public MTLTensorExtents InputDimensionsAtBufferIndex(nint bufferIndex)
     {
         MTLTensorExtents result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.InputDimensionsAtBufferIndex, bufferIndex));
 
@@ -38,7 +38,7 @@ public class MTL4MachineLearningPipelineDescriptor : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.Reset);
     }
 
-    public void SetInputDimensions(MTLTensorExtents dimensions, int bufferIndex)
+    public void SetInputDimensions(MTLTensorExtents dimensions, nint bufferIndex)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetInputDimensionsBufferIndex, dimensions.NativePtr, bufferIndex);
     }

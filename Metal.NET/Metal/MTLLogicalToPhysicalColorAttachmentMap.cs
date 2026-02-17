@@ -14,9 +14,9 @@ public class MTLLogicalToPhysicalColorAttachmentMap : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint GetPhysicalIndex(uint logicalIndex)
+    public nuint GetPhysicalIndex(nuint logicalIndex)
     {
-        nuint result = ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLLogicalToPhysicalColorAttachmentMapSelector.GetPhysicalIndex, (nuint)logicalIndex);
+        nuint result = ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLLogicalToPhysicalColorAttachmentMapSelector.GetPhysicalIndex, logicalIndex);
 
         return result;
     }
@@ -26,9 +26,9 @@ public class MTLLogicalToPhysicalColorAttachmentMap : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapSelector.Reset);
     }
 
-    public void SetPhysicalIndex(uint physicalIndex, uint logicalIndex)
+    public void SetPhysicalIndex(nuint physicalIndex, nuint logicalIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapSelector.SetPhysicalIndexLogicalIndex, (nuint)physicalIndex, (nuint)logicalIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapSelector.SetPhysicalIndexLogicalIndex, physicalIndex, logicalIndex);
     }
 
     public static implicit operator nint(MTLLogicalToPhysicalColorAttachmentMap value)

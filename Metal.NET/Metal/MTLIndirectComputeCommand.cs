@@ -44,19 +44,19 @@ public class MTLIndirectComputeCommand : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetComputePipelineState, pipelineState.NativePtr);
     }
 
-    public void SetImageblockWidth(uint width, uint height)
+    public void SetImageblockWidth(nuint width, nuint height)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetImageblockWidthHeight, (nuint)width, (nuint)height);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetImageblockWidthHeight, width, height);
     }
 
-    public void SetKernelBuffer(MTLBuffer buffer, uint offset, uint index)
+    public void SetKernelBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetKernelBufferOffsetIndex, buffer.NativePtr, (nuint)offset, (nuint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetKernelBufferOffsetIndex, buffer.NativePtr, offset, index);
     }
 
-    public void SetKernelBuffer(MTLBuffer buffer, uint offset, uint stride, uint index)
+    public void SetKernelBuffer(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetKernelBufferOffsetStrideIndex, buffer.NativePtr, (nuint)offset, (nuint)stride, (nuint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetKernelBufferOffsetStrideIndex, buffer.NativePtr, offset, stride, index);
     }
 
     public void SetStageInRegion(MTLRegion region)
@@ -64,9 +64,9 @@ public class MTLIndirectComputeCommand : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetStageInRegion, region);
     }
 
-    public void SetThreadgroupMemoryLength(uint length, uint index)
+    public void SetThreadgroupMemoryLength(nuint length, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetThreadgroupMemoryLengthIndex, (nuint)length, (nuint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetThreadgroupMemoryLengthIndex, length, index);
     }
 
     public static implicit operator nint(MTLIndirectComputeCommand value)

@@ -2,14 +2,14 @@
 
 public class MTLTextureViewDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLTextureViewDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTextureViewDescriptor");
 
     public MTLTextureViewDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLTextureViewDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLTextureViewDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 

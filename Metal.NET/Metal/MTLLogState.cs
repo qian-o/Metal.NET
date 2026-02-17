@@ -14,7 +14,7 @@ public class MTLLogState : IDisposable
 
     public nint NativePtr { get; }
 
-    public void AddLogHandler(int handler)
+    public void AddLogHandler(nint handler)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLLogStateSelector.AddLogHandler, handler);
     }

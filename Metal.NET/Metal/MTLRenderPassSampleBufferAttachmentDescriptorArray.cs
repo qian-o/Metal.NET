@@ -14,16 +14,16 @@ public class MTLRenderPassSampleBufferAttachmentDescriptorArray : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLRenderPassSampleBufferAttachmentDescriptor Object(uint attachmentIndex)
+    public MTLRenderPassSampleBufferAttachmentDescriptor Object(nuint attachmentIndex)
     {
-        MTLRenderPassSampleBufferAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorArraySelector.Object, (nuint)attachmentIndex));
+        MTLRenderPassSampleBufferAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorArraySelector.Object, attachmentIndex));
 
         return result;
     }
 
-    public void SetObject(MTLRenderPassSampleBufferAttachmentDescriptor attachment, uint attachmentIndex)
+    public void SetObject(MTLRenderPassSampleBufferAttachmentDescriptor attachment, nuint attachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nuint)attachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, attachmentIndex);
     }
 
     public static implicit operator nint(MTLRenderPassSampleBufferAttachmentDescriptorArray value)

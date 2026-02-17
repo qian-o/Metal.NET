@@ -24,7 +24,7 @@ public class NSError : IDisposable
         }
     }
 
-    public long Code => (long)ObjectiveCRuntime.MsgSendNUInt(NativePtr, NSErrorSelector.Code);
+    public nint Code => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorSelector.Code);
 
     public string Domain
     {

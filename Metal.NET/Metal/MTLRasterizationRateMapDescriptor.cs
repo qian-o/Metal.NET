@@ -2,14 +2,14 @@
 
 public class MTLRasterizationRateMapDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLRasterizationRateMapDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRasterizationRateMapDescriptor");
 
     public MTLRasterizationRateMapDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLRasterizationRateMapDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLRasterizationRateMapDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -30,16 +30,16 @@ public class MTLRasterizationRateMapDescriptor : IDisposable
 
     public MTLRasterizationRateLayerArray Layers => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Layers));
 
-    public MTLRasterizationRateLayerDescriptor Layer(uint layerIndex)
+    public MTLRasterizationRateLayerDescriptor Layer(nuint layerIndex)
     {
-        MTLRasterizationRateLayerDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Layer, (nuint)layerIndex));
+        MTLRasterizationRateLayerDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Layer, layerIndex));
 
         return result;
     }
 
-    public void SetLayer(MTLRasterizationRateLayerDescriptor layer, uint layerIndex)
+    public void SetLayer(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetLayerLayerIndex, layer.NativePtr, (nuint)layerIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetLayerLayerIndex, layer.NativePtr, layerIndex);
     }
 
     public static implicit operator nint(MTLRasterizationRateMapDescriptor value)
@@ -69,21 +69,21 @@ public class MTLRasterizationRateMapDescriptor : IDisposable
 
     public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptor(MTLSize screenSize)
     {
-        MTLRasterizationRateMapDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(s_class, MTLRasterizationRateMapDescriptorSelector.RasterizationRateMapDescriptor, screenSize));
+        MTLRasterizationRateMapDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLRasterizationRateMapDescriptorSelector.RasterizationRateMapDescriptor, screenSize));
 
         return result;
     }
 
     public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptor(MTLSize screenSize, MTLRasterizationRateLayerDescriptor layer)
     {
-        MTLRasterizationRateMapDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(s_class, MTLRasterizationRateMapDescriptorSelector.RasterizationRateMapDescriptorLayer, screenSize, layer.NativePtr));
+        MTLRasterizationRateMapDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLRasterizationRateMapDescriptorSelector.RasterizationRateMapDescriptorLayer, screenSize, layer.NativePtr));
 
         return result;
     }
 
-    public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptor(MTLSize screenSize, uint layerCount, int layers)
+    public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptor(MTLSize screenSize, nuint layerCount, nint layers)
     {
-        MTLRasterizationRateMapDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(s_class, MTLRasterizationRateMapDescriptorSelector.RasterizationRateMapDescriptorLayerCountLayers, screenSize, (nuint)layerCount, layers));
+        MTLRasterizationRateMapDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLRasterizationRateMapDescriptorSelector.RasterizationRateMapDescriptorLayerCountLayers, screenSize, layerCount, layers));
 
         return result;
     }

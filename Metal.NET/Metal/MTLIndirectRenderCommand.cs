@@ -19,14 +19,14 @@ public class MTLIndirectRenderCommand : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.ClearBarrier);
     }
 
-    public void DrawIndexedPatches(uint numberOfPatchControlPoints, uint patchStart, uint patchCount, MTLBuffer patchIndexBuffer, uint patchIndexBufferOffset, MTLBuffer controlPointIndexBuffer, uint controlPointIndexBufferOffset, uint instanceCount, uint baseInstance, MTLBuffer buffer, uint offset, uint instanceStride)
+    public void DrawIndexedPatches(nuint numberOfPatchControlPoints, nuint patchStart, nuint patchCount, MTLBuffer patchIndexBuffer, nuint patchIndexBufferOffset, MTLBuffer controlPointIndexBuffer, nuint controlPointIndexBufferOffset, nuint instanceCount, nuint baseInstance, MTLBuffer buffer, nuint offset, nuint instanceStride)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.DrawIndexedPatchesPatchStartPatchCountPatchIndexBufferPatchIndexBufferOffsetControlPointIndexBufferControlPointIndexBufferOffsetInstanceCountBaseInstanceBufferOffsetInstanceStride, (nuint)numberOfPatchControlPoints, (nuint)patchStart, (nuint)patchCount, patchIndexBuffer.NativePtr, (nuint)patchIndexBufferOffset, controlPointIndexBuffer.NativePtr, (nuint)controlPointIndexBufferOffset, (nuint)instanceCount, (nuint)baseInstance, buffer.NativePtr, (nuint)offset, (nuint)instanceStride);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.DrawIndexedPatchesPatchStartPatchCountPatchIndexBufferPatchIndexBufferOffsetControlPointIndexBufferControlPointIndexBufferOffsetInstanceCountBaseInstanceBufferOffsetInstanceStride, numberOfPatchControlPoints, patchStart, patchCount, patchIndexBuffer.NativePtr, patchIndexBufferOffset, controlPointIndexBuffer.NativePtr, controlPointIndexBufferOffset, instanceCount, baseInstance, buffer.NativePtr, offset, instanceStride);
     }
 
-    public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, uint indexCount, MTLIndexType indexType, MTLBuffer indexBuffer, uint indexBufferOffset, uint instanceCount, int baseVertex, uint baseInstance)
+    public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, MTLBuffer indexBuffer, nuint indexBufferOffset, nuint instanceCount, nint baseVertex, nuint baseInstance)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferOffsetInstanceCountBaseVertexBaseInstance, (uint)primitiveType, (nuint)indexCount, (uint)indexType, indexBuffer.NativePtr, (nuint)indexBufferOffset, (nuint)instanceCount, baseVertex, (nuint)baseInstance);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferOffsetInstanceCountBaseVertexBaseInstance, (uint)primitiveType, indexCount, (uint)indexType, indexBuffer.NativePtr, indexBufferOffset, instanceCount, baseVertex, baseInstance);
     }
 
     public void DrawMeshThreadgroups(MTLSize threadgroupsPerGrid, MTLSize threadsPerObjectThreadgroup, MTLSize threadsPerMeshThreadgroup)
@@ -39,14 +39,14 @@ public class MTLIndirectRenderCommand : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.DrawMeshThreadsThreadsPerObjectThreadgroupThreadsPerMeshThreadgroup, threadsPerGrid, threadsPerObjectThreadgroup, threadsPerMeshThreadgroup);
     }
 
-    public void DrawPatches(uint numberOfPatchControlPoints, uint patchStart, uint patchCount, MTLBuffer patchIndexBuffer, uint patchIndexBufferOffset, uint instanceCount, uint baseInstance, MTLBuffer buffer, uint offset, uint instanceStride)
+    public void DrawPatches(nuint numberOfPatchControlPoints, nuint patchStart, nuint patchCount, MTLBuffer patchIndexBuffer, nuint patchIndexBufferOffset, nuint instanceCount, nuint baseInstance, MTLBuffer buffer, nuint offset, nuint instanceStride)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.DrawPatchesPatchStartPatchCountPatchIndexBufferPatchIndexBufferOffsetInstanceCountBaseInstanceBufferOffsetInstanceStride, (nuint)numberOfPatchControlPoints, (nuint)patchStart, (nuint)patchCount, patchIndexBuffer.NativePtr, (nuint)patchIndexBufferOffset, (nuint)instanceCount, (nuint)baseInstance, buffer.NativePtr, (nuint)offset, (nuint)instanceStride);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.DrawPatchesPatchStartPatchCountPatchIndexBufferPatchIndexBufferOffsetInstanceCountBaseInstanceBufferOffsetInstanceStride, numberOfPatchControlPoints, patchStart, patchCount, patchIndexBuffer.NativePtr, patchIndexBufferOffset, instanceCount, baseInstance, buffer.NativePtr, offset, instanceStride);
     }
 
-    public void DrawPrimitives(MTLPrimitiveType primitiveType, uint vertexStart, uint vertexCount, uint instanceCount, uint baseInstance)
+    public void DrawPrimitives(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount, nuint instanceCount, nuint baseInstance)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.DrawPrimitivesVertexStartVertexCountInstanceCountBaseInstance, (uint)primitiveType, (nuint)vertexStart, (nuint)vertexCount, (nuint)instanceCount, (nuint)baseInstance);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.DrawPrimitivesVertexStartVertexCountInstanceCountBaseInstance, (uint)primitiveType, vertexStart, vertexCount, instanceCount, baseInstance);
     }
 
     public void Reset()
@@ -79,9 +79,9 @@ public class MTLIndirectRenderCommand : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetDepthStencilState, depthStencilState.NativePtr);
     }
 
-    public void SetFragmentBuffer(MTLBuffer buffer, uint offset, uint index)
+    public void SetFragmentBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetFragmentBufferOffsetIndex, buffer.NativePtr, (nuint)offset, (nuint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetFragmentBufferOffsetIndex, buffer.NativePtr, offset, index);
     }
 
     public void SetFrontFacingWinding(MTLWinding frontFacingWindning)
@@ -89,19 +89,19 @@ public class MTLIndirectRenderCommand : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetFrontFacingWinding, (uint)frontFacingWindning);
     }
 
-    public void SetMeshBuffer(MTLBuffer buffer, uint offset, uint index)
+    public void SetMeshBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetMeshBufferOffsetIndex, buffer.NativePtr, (nuint)offset, (nuint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetMeshBufferOffsetIndex, buffer.NativePtr, offset, index);
     }
 
-    public void SetObjectBuffer(MTLBuffer buffer, uint offset, uint index)
+    public void SetObjectBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetObjectBufferOffsetIndex, buffer.NativePtr, (nuint)offset, (nuint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetObjectBufferOffsetIndex, buffer.NativePtr, offset, index);
     }
 
-    public void SetObjectThreadgroupMemoryLength(uint length, uint index)
+    public void SetObjectThreadgroupMemoryLength(nuint length, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetObjectThreadgroupMemoryLengthIndex, (nuint)length, (nuint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetObjectThreadgroupMemoryLengthIndex, length, index);
     }
 
     public void SetRenderPipelineState(MTLRenderPipelineState pipelineState)
@@ -114,14 +114,14 @@ public class MTLIndirectRenderCommand : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetTriangleFillMode, (uint)fillMode);
     }
 
-    public void SetVertexBuffer(MTLBuffer buffer, uint offset, uint index)
+    public void SetVertexBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetVertexBufferOffsetIndex, buffer.NativePtr, (nuint)offset, (nuint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetVertexBufferOffsetIndex, buffer.NativePtr, offset, index);
     }
 
-    public void SetVertexBuffer(MTLBuffer buffer, uint offset, uint stride, uint index)
+    public void SetVertexBuffer(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetVertexBufferOffsetStrideIndex, buffer.NativePtr, (nuint)offset, (nuint)stride, (nuint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetVertexBufferOffsetStrideIndex, buffer.NativePtr, offset, stride, index);
     }
 
     public static implicit operator nint(MTLIndirectRenderCommand value)

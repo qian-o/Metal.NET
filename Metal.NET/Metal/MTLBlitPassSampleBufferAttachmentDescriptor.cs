@@ -17,7 +17,7 @@ public class MTLBlitPassSampleBufferAttachmentDescriptor : IDisposable
     public nuint EndOfEncoderSampleIndex
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.EndOfEncoderSampleIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.SetEndOfEncoderSampleIndex, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.SetEndOfEncoderSampleIndex, value);
     }
 
     public MTLCounterSampleBuffer SampleBuffer
@@ -29,7 +29,7 @@ public class MTLBlitPassSampleBufferAttachmentDescriptor : IDisposable
     public nuint StartOfEncoderSampleIndex
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.StartOfEncoderSampleIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.SetStartOfEncoderSampleIndex, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.SetStartOfEncoderSampleIndex, value);
     }
 
     public static implicit operator nint(MTLBlitPassSampleBufferAttachmentDescriptor value)

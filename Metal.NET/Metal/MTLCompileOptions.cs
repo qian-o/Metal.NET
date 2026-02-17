@@ -2,14 +2,14 @@
 
 public class MTLCompileOptions : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLCompileOptions");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCompileOptions");
 
     public MTLCompileOptions(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLCompileOptions() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLCompileOptions() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -83,7 +83,7 @@ public class MTLCompileOptions : IDisposable
     public nuint MaxTotalThreadsPerThreadgroup
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCompileOptionsSelector.MaxTotalThreadsPerThreadgroup);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetMaxTotalThreadsPerThreadgroup, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetMaxTotalThreadsPerThreadgroup, value);
     }
 
     public MTLLibraryOptimizationLevel OptimizationLevel

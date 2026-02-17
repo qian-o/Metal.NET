@@ -14,16 +14,16 @@ public class MTLVertexAttributeDescriptorArray : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLVertexAttributeDescriptor Object(uint index)
+    public MTLVertexAttributeDescriptor Object(nuint index)
     {
-        MTLVertexAttributeDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeDescriptorArraySelector.Object, (nuint)index));
+        MTLVertexAttributeDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeDescriptorArraySelector.Object, index));
 
         return result;
     }
 
-    public void SetObject(MTLVertexAttributeDescriptor attributeDesc, uint index)
+    public void SetObject(MTLVertexAttributeDescriptor attributeDesc, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorArraySelector.SetObjectIndex, attributeDesc.NativePtr, (nuint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorArraySelector.SetObjectIndex, attributeDesc.NativePtr, index);
     }
 
     public static implicit operator nint(MTLVertexAttributeDescriptorArray value)

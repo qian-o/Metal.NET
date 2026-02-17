@@ -2,14 +2,14 @@
 
 public class MTLFunctionStitchingFunctionNode : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingFunctionNode");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingFunctionNode");
 
     public MTLFunctionStitchingFunctionNode(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLFunctionStitchingFunctionNode() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLFunctionStitchingFunctionNode() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 

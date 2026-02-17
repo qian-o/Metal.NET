@@ -14,7 +14,7 @@ public class MTLFunctionDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLFunctionDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionDescriptor");
 
     public NSArray BinaryArchives
     {
@@ -37,7 +37,7 @@ public class MTLFunctionDescriptor : IDisposable
     public nuint Options
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionDescriptorSelector.Options);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetOptions, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetOptions, value);
     }
 
     public NSString SpecializedName
@@ -73,7 +73,7 @@ public class MTLFunctionDescriptor : IDisposable
 
     public static MTLFunctionDescriptor FunctionDescriptor()
     {
-        MTLFunctionDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(s_class, MTLFunctionDescriptorSelector.FunctionDescriptor));
+        MTLFunctionDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLFunctionDescriptorSelector.FunctionDescriptor));
 
         return result;
     }

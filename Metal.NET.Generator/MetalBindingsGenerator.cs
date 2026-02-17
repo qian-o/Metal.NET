@@ -166,7 +166,7 @@ public class MetalBindingsGenerator
         bool hasStaticMethods = def.StaticMethods.Count > 0;
         if (!isConcreteClass && hasStaticMethods)
         {
-            sb.AppendLine($"    private static readonly nint s_class = ObjectiveCRuntime.GetClass(\"{def.Name}\");");
+            sb.AppendLine($"    private static readonly nint Class = ObjectiveCRuntime.GetClass(\"{def.Name}\");");
             sb.AppendLine();
         }
 
@@ -175,26 +175,27 @@ public class MetalBindingsGenerator
         {
             var getSelKey = p.GetSelector ?? p.Name;
             var getSel = selectors[getSelKey];
-            var retCSharp = MapReturnCall(p.Type);
+            var propType = NormalizeType(p.Type);
+            var retCSharp = MapReturnCall(propType);
             var propName = ToPascalCase(p.Name);
 
             if (retCSharp.Invoke.Contains("TODO"))
                 continue;
 
-            var getExpr = WrapReturnInline(p.Type, $"{retCSharp.Invoke}(NativePtr, {def.Name}Selector.{getSel})");
+            var getExpr = WrapReturnInline(propType, $"{retCSharp.Invoke}(NativePtr, {def.Name}Selector.{getSel})");
 
             if (p.Readonly)
             {
-                sb.AppendLine($"    public {p.Type} {propName} => {getExpr};");
+                sb.AppendLine($"    public {propType} {propName} => {getExpr};");
             }
             else
             {
                 var setSelKey = p.SetSelector ?? $"set{Capitalize(p.Name)}:";
                 var setSel = selectors[setSelKey];
-                sb.AppendLine($"    public {p.Type} {propName}");
+                sb.AppendLine($"    public {propType} {propName}");
                 sb.AppendLine("    {");
                 sb.AppendLine($"        get => {getExpr};");
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {def.Name}Selector.{setSel}, {UnwrapParam(p.Type, "value")});");
+                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {def.Name}Selector.{setSel}, {UnwrapParam(propType, "value")});");
                 sb.AppendLine("    }");
             }
             sb.AppendLine();
@@ -275,7 +276,7 @@ public class MetalBindingsGenerator
 
         if (isConcreteClass && objcClassName != null)
         {
-            sb.AppendLine($"    private static readonly nint s_class = ObjectiveCRuntime.GetClass(\"{objcClassName}\");");
+            sb.AppendLine($"    private static readonly nint Class = ObjectiveCRuntime.GetClass(\"{objcClassName}\");");
             sb.AppendLine();
         }
 
@@ -287,7 +288,7 @@ public class MetalBindingsGenerator
 
         if (isConcreteClass)
         {
-            sb.AppendLine($"    public {name}() : this(ObjectiveCRuntime.AllocInit(s_class))");
+            sb.AppendLine($"    public {name}() : this(ObjectiveCRuntime.AllocInit(Class))");
             sb.AppendLine("    {");
             sb.AppendLine("    }");
             sb.AppendLine();
@@ -334,19 +335,19 @@ public class MetalBindingsGenerator
     private void EmitMethod(StringBuilder sb, string typeName, MethodDef m, Dictionary<string, string> selectors, bool isStatic)
     {
         var selField = $"{typeName}Selector.{selectors[m.Selector]}";
-        var retType = m.ReturnType;
+        var retType = NormalizeType(m.ReturnType);
         var methodName = ToPascalCase(m.Name);
 
         var paramList = new List<string>();
         foreach (var p in m.Parameters)
         {
-            paramList.Add($"{MapParamType(p.Type)} {p.Name}");
+            paramList.Add($"{NormalizeType(p.Type)} {p.Name}");
         }
         if (m.HasErrorOut) paramList.Add("out NSError? error");
 
         var paramsStr = string.Join(", ", paramList);
         var staticMod = isStatic ? "static " : "";
-        var receiver = isStatic ? "s_class" : "NativePtr";
+        var receiver = isStatic ? "Class" : "NativePtr";
 
         var retCall = MapReturnCall(retType);
 
@@ -359,7 +360,7 @@ public class MetalBindingsGenerator
         var argParts = new List<string> { receiver, selField };
         foreach (var p in m.Parameters)
         {
-            argParts.Add(UnwrapParam(p.Type, p.Name));
+            argParts.Add(UnwrapParam(NormalizeType(p.Type), p.Name));
         }
         if (m.HasErrorOut)
         {
@@ -368,7 +369,7 @@ public class MetalBindingsGenerator
 
         var argsStr = string.Join(", ", argParts);
 
-        var runtimeParamTypes = m.Parameters.Select(p => GetRuntimeParamType(p.Type)).ToList();
+        var runtimeParamTypes = m.Parameters.Select(p => GetRuntimeParamType(NormalizeType(p.Type))).ToList();
         var runtimeReturnType = MapReturnRuntimeType(retType);
         RecordMsgSendSignature(runtimeReturnType, runtimeParamTypes, m.HasErrorOut);
 
@@ -487,7 +488,7 @@ public class MetalBindingsGenerator
         if (IsKnownValueStruct(type)) return name;
         if (type is "float" or "double") return name;
         if (type is "nint") return name;
-        if (type is "nuint") return $"(nuint){name}";
+        if (type is "nuint") return name;
         if (IsLikelyEnum(type)) return $"(uint){name}";
         if (IsObjCWrapper(type)) return $"{name}.NativePtr";
         if (type is "Bool8") return name;
@@ -518,14 +519,19 @@ public class MetalBindingsGenerator
 
     private static readonly HashSet<string> s_runtimeKnownEnums = new();
 
-    private static string MapParamType(string type)
+    private static string NormalizeType(string type)
     {
         return type switch
         {
-            "nuint" => "uint",
-            "nint" => "int",
+            "int" => "nint",
+            "uint" => "nuint",
             _ => type,
         };
+    }
+
+    private static string MapParamType(string type)
+    {
+        return type;
     }
 
     private static void AddSelector(Dictionary<string, string> dict, string selector)
@@ -600,26 +606,28 @@ public class MetalBindingsGenerator
     {
         foreach (var p in cls.Properties)
         {
-            var retCall = MapReturnCall(p.Type);
+            var propType = NormalizeType(p.Type);
+            var retCall = MapReturnCall(propType);
             if (retCall.Invoke.Contains("TODO")) continue;
 
-            var getRetType = MapReturnRuntimeType(p.Type);
+            var getRetType = MapReturnRuntimeType(propType);
             RecordMsgSendSignature(getRetType, new List<string>(), false);
 
             if (!p.Readonly)
             {
-                var setParamType = GetRuntimeParamType(p.Type);
+                var setParamType = GetRuntimeParamType(propType);
                 RecordMsgSendSignature("void", new List<string> { setParamType }, false);
             }
         }
 
         foreach (var m in cls.Methods.Concat(cls.StaticMethods))
         {
-            var retCall = MapReturnCall(m.ReturnType);
+            var normalizedRetType = NormalizeType(m.ReturnType);
+            var retCall = MapReturnCall(normalizedRetType);
             if (retCall.Invoke.Contains("TODO")) continue;
 
-            var runtimeParamTypes = m.Parameters.Select(p => GetRuntimeParamType(p.Type)).ToList();
-            var runtimeReturnType = MapReturnRuntimeType(m.ReturnType);
+            var runtimeParamTypes = m.Parameters.Select(p => GetRuntimeParamType(NormalizeType(p.Type))).ToList();
+            var runtimeReturnType = MapReturnRuntimeType(normalizedRetType);
             RecordMsgSendSignature(runtimeReturnType, runtimeParamTypes, m.HasErrorOut);
         }
     }

@@ -23,7 +23,7 @@ public class MTLResourceViewPoolDescriptor : IDisposable
     public nuint ResourceViewCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceViewPoolDescriptorSelector.ResourceViewCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceViewPoolDescriptorSelector.SetResourceViewCount, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceViewPoolDescriptorSelector.SetResourceViewCount, value);
     }
 
     public static implicit operator nint(MTLResourceViewPoolDescriptor value)

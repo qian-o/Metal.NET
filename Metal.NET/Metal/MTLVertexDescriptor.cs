@@ -2,14 +2,14 @@
 
 public class MTLVertexDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLVertexDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexDescriptor");
 
     public MTLVertexDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLVertexDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLVertexDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -56,7 +56,7 @@ public class MTLVertexDescriptor : IDisposable
 
     public static MTLVertexDescriptor VertexDescriptor()
     {
-        MTLVertexDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(s_class, MTLVertexDescriptorSelector.VertexDescriptor));
+        MTLVertexDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLVertexDescriptorSelector.VertexDescriptor));
 
         return result;
     }

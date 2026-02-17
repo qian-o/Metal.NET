@@ -40,23 +40,23 @@ public class MTLRenderPipelineState : IDisposable
 
     public Bool8 ThreadgroupSizeMatchesTileSize => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineStateSelector.ThreadgroupSizeMatchesTileSize);
 
-    public MTLFunctionHandle FunctionHandle(NSString name, uint stage)
+    public MTLFunctionHandle FunctionHandle(NSString name, nuint stage)
     {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleStage, name.NativePtr, (nuint)stage));
+        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleStage, name.NativePtr, stage));
 
         return result;
     }
 
-    public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function, uint stage)
+    public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function, nuint stage)
     {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleStage, function.NativePtr, (nuint)stage));
+        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleStage, function.NativePtr, stage));
 
         return result;
     }
 
-    public MTLFunctionHandle FunctionHandle(MTLFunction function, uint stage)
+    public MTLFunctionHandle FunctionHandle(MTLFunction function, nuint stage)
     {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleStage, function.NativePtr, (nuint)stage));
+        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleStage, function.NativePtr, stage));
 
         return result;
     }
@@ -68,9 +68,9 @@ public class MTLRenderPipelineState : IDisposable
         return result;
     }
 
-    public MTLIntersectionFunctionTable NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor, uint stage)
+    public MTLIntersectionFunctionTable NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor, nuint stage)
     {
-        MTLIntersectionFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewIntersectionFunctionTableStage, descriptor.NativePtr, (nuint)stage));
+        MTLIntersectionFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewIntersectionFunctionTableStage, descriptor.NativePtr, stage));
 
         return result;
     }
@@ -100,9 +100,9 @@ public class MTLRenderPipelineState : IDisposable
         return result;
     }
 
-    public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor, uint stage)
+    public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor, nuint stage)
     {
-        MTLVisibleFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewVisibleFunctionTableStage, descriptor.NativePtr, (nuint)stage));
+        MTLVisibleFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewVisibleFunctionTableStage, descriptor.NativePtr, stage));
 
         return result;
     }

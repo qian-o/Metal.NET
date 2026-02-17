@@ -29,7 +29,7 @@ public class NSArray : IDisposable
         return new(value);
     }
 
-    public nint ObjectAtIndex(int index)
+    public nint ObjectAtIndex(nint index)
     {
         return ObjectiveCRuntime.MsgSendPtr(NativePtr, NSArraySelector.ObjectAtIndex, index);
     }

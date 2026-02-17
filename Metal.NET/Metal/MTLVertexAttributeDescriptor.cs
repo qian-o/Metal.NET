@@ -2,14 +2,14 @@
 
 public class MTLVertexAttributeDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLVertexAttributeDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexAttributeDescriptor");
 
     public MTLVertexAttributeDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLVertexAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLVertexAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -23,7 +23,7 @@ public class MTLVertexAttributeDescriptor : IDisposable
     public nuint BufferIndex
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeDescriptorSelector.BufferIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorSelector.SetBufferIndex, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorSelector.SetBufferIndex, value);
     }
 
     public MTLVertexFormat Format
@@ -35,7 +35,7 @@ public class MTLVertexAttributeDescriptor : IDisposable
     public nuint Offset
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeDescriptorSelector.Offset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorSelector.SetOffset, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorSelector.SetOffset, value);
     }
 
     public static implicit operator nint(MTLVertexAttributeDescriptor value)

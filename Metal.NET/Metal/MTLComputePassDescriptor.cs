@@ -2,14 +2,14 @@
 
 public class MTLComputePassDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLComputePassDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePassDescriptor");
 
     public MTLComputePassDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLComputePassDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLComputePassDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -55,7 +55,7 @@ public class MTLComputePassDescriptor : IDisposable
 
     public static MTLComputePassDescriptor ComputePassDescriptor()
     {
-        MTLComputePassDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(s_class, MTLComputePassDescriptorSelector.ComputePassDescriptor));
+        MTLComputePassDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLComputePassDescriptorSelector.ComputePassDescriptor));
 
         return result;
     }

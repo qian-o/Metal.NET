@@ -2,14 +2,14 @@
 
 public class MTL4RenderPassDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4RenderPassDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPassDescriptor");
 
     public MTL4RenderPassDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTL4RenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTL4RenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -25,7 +25,7 @@ public class MTL4RenderPassDescriptor : IDisposable
     public nuint DefaultRasterSampleCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorSelector.DefaultRasterSampleCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetDefaultRasterSampleCount, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetDefaultRasterSampleCount, value);
     }
 
     public MTLRenderPassDepthAttachmentDescriptor DepthAttachment
@@ -37,7 +37,7 @@ public class MTL4RenderPassDescriptor : IDisposable
     public nuint ImageblockSampleLength
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorSelector.ImageblockSampleLength);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetImageblockSampleLength, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetImageblockSampleLength, value);
     }
 
     public MTLRasterizationRateMap RasterizationRateMap
@@ -49,19 +49,19 @@ public class MTL4RenderPassDescriptor : IDisposable
     public nuint RenderTargetArrayLength
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorSelector.RenderTargetArrayLength);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetRenderTargetArrayLength, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetRenderTargetArrayLength, value);
     }
 
     public nuint RenderTargetHeight
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorSelector.RenderTargetHeight);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetRenderTargetHeight, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetRenderTargetHeight, value);
     }
 
     public nuint RenderTargetWidth
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorSelector.RenderTargetWidth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetRenderTargetWidth, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetRenderTargetWidth, value);
     }
 
     public MTLRenderPassStencilAttachmentDescriptor StencilAttachment
@@ -79,19 +79,19 @@ public class MTL4RenderPassDescriptor : IDisposable
     public nuint ThreadgroupMemoryLength
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorSelector.ThreadgroupMemoryLength);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetThreadgroupMemoryLength, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetThreadgroupMemoryLength, value);
     }
 
     public nuint TileHeight
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorSelector.TileHeight);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetTileHeight, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetTileHeight, value);
     }
 
     public nuint TileWidth
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorSelector.TileWidth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetTileWidth, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetTileWidth, value);
     }
 
     public MTLBuffer VisibilityResultBuffer
@@ -106,16 +106,16 @@ public class MTL4RenderPassDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetVisibilityResultType, (uint)value);
     }
 
-    public nuint GetSamplePositions(MTLSamplePosition positions, uint count)
+    public nuint GetSamplePositions(MTLSamplePosition positions, nuint count)
     {
-        nuint result = ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorSelector.GetSamplePositionsCount, positions, (nuint)count);
+        nuint result = ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorSelector.GetSamplePositionsCount, positions, count);
 
         return result;
     }
 
-    public void SetSamplePositions(MTLSamplePosition positions, uint count)
+    public void SetSamplePositions(MTLSamplePosition positions, nuint count)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetSamplePositionsCount, positions, (nuint)count);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetSamplePositionsCount, positions, count);
     }
 
     public static implicit operator nint(MTL4RenderPassDescriptor value)

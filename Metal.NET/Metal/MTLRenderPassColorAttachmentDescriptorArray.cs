@@ -14,16 +14,16 @@ public class MTLRenderPassColorAttachmentDescriptorArray : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLRenderPassColorAttachmentDescriptor Object(uint attachmentIndex)
+    public MTLRenderPassColorAttachmentDescriptor Object(nuint attachmentIndex)
     {
-        MTLRenderPassColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.Object, (nuint)attachmentIndex));
+        MTLRenderPassColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.Object, attachmentIndex));
 
         return result;
     }
 
-    public void SetObject(MTLRenderPassColorAttachmentDescriptor attachment, uint attachmentIndex)
+    public void SetObject(MTLRenderPassColorAttachmentDescriptor attachment, nuint attachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nuint)attachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, attachmentIndex);
     }
 
     public static implicit operator nint(MTLRenderPassColorAttachmentDescriptorArray value)

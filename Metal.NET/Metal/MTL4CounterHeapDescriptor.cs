@@ -17,7 +17,7 @@ public class MTL4CounterHeapDescriptor : IDisposable
     public nuint Count
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CounterHeapDescriptorSelector.Count);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapDescriptorSelector.SetCount, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapDescriptorSelector.SetCount, value);
     }
 
     public MTL4CounterHeapType Type

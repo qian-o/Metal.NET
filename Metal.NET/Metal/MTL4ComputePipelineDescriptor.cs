@@ -23,7 +23,7 @@ public class MTL4ComputePipelineDescriptor : IDisposable
     public nuint MaxTotalThreadsPerThreadgroup
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4ComputePipelineDescriptorSelector.MaxTotalThreadsPerThreadgroup);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetMaxTotalThreadsPerThreadgroup, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetMaxTotalThreadsPerThreadgroup, value);
     }
 
     public MTL4StaticLinkingDescriptor StaticLinkingDescriptor

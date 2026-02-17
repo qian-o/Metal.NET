@@ -17,7 +17,7 @@ public class MTLSharedEvent : IDisposable
     public nuint SignaledValue
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSharedEventSelector.SignaledValue);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSharedEventSelector.SetSignaledValue, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSharedEventSelector.SetSignaledValue, value);
     }
 
     public MTLSharedEventHandle NewSharedEventHandle()
@@ -27,14 +27,14 @@ public class MTLSharedEvent : IDisposable
         return result;
     }
 
-    public void NotifyListener(MTLSharedEventListener listener, uint value, int function)
+    public void NotifyListener(MTLSharedEventListener listener, nuint value, nint function)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLSharedEventSelector.NotifyListenerValueFunction, listener.NativePtr, (nuint)value, function);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLSharedEventSelector.NotifyListenerValueFunction, listener.NativePtr, value, function);
     }
 
-    public Bool8 WaitUntilSignaledValue(uint value, uint milliseconds)
+    public Bool8 WaitUntilSignaledValue(nuint value, nuint milliseconds)
     {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLSharedEventSelector.WaitUntilSignaledValueMilliseconds, (nuint)value, (nuint)milliseconds);
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLSharedEventSelector.WaitUntilSignaledValueMilliseconds, value, milliseconds);
 
         return result;
     }

@@ -50,12 +50,12 @@ public class MTLCommandBuffer : IDisposable
 
     public MTLCommandBufferStatus Status => (MTLCommandBufferStatus)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLCommandBufferSelector.Status));
 
-    public void AddCompletedHandler(int function)
+    public void AddCompletedHandler(nint function)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.AddCompletedHandler, function);
     }
 
-    public void AddScheduledHandler(int function)
+    public void AddScheduledHandler(nint function)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.AddScheduledHandler, function);
     }
@@ -65,14 +65,14 @@ public class MTLCommandBuffer : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.Commit);
     }
 
-    public void EncodeSignalEvent(MTLEvent @event, uint value)
+    public void EncodeSignalEvent(MTLEvent @event, nuint value)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.EncodeSignalEventValue, @event.NativePtr, (nuint)value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.EncodeSignalEventValue, @event.NativePtr, value);
     }
 
-    public void EncodeWait(MTLEvent @event, uint value)
+    public void EncodeWait(MTLEvent @event, nuint value)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.EncodeWaitValue, @event.NativePtr, (nuint)value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.EncodeWaitValue, @event.NativePtr, value);
     }
 
     public void Enqueue()

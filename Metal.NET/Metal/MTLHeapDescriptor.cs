@@ -2,14 +2,14 @@
 
 public class MTLHeapDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLHeapDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLHeapDescriptor");
 
     public MTLHeapDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -41,13 +41,13 @@ public class MTLHeapDescriptor : IDisposable
     public nuint ResourceOptions
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapDescriptorSelector.ResourceOptions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorSelector.SetResourceOptions, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorSelector.SetResourceOptions, value);
     }
 
     public nuint Size
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapDescriptorSelector.Size);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorSelector.SetSize, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorSelector.SetSize, value);
     }
 
     public MTLSparsePageSize SparsePageSize

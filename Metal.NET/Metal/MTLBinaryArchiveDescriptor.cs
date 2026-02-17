@@ -2,14 +2,14 @@
 
 public class MTLBinaryArchiveDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLBinaryArchiveDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLBinaryArchiveDescriptor");
 
     public MTLBinaryArchiveDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLBinaryArchiveDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLBinaryArchiveDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 

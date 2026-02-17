@@ -2,14 +2,14 @@
 
 public class MTLRenderPassColorAttachmentDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLRenderPassColorAttachmentDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassColorAttachmentDescriptor");
 
     public MTLRenderPassColorAttachmentDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLRenderPassColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLRenderPassColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 

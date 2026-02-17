@@ -2,14 +2,14 @@
 
 public class MTLLinkedFunctions : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLLinkedFunctions");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLLinkedFunctions");
 
     public MTLLinkedFunctions(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -71,7 +71,7 @@ public class MTLLinkedFunctions : IDisposable
 
     public static MTLLinkedFunctions LinkedFunctions()
     {
-        MTLLinkedFunctions result = new(ObjectiveCRuntime.MsgSendPtr(s_class, MTLLinkedFunctionsSelector.LinkedFunctions));
+        MTLLinkedFunctions result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLLinkedFunctionsSelector.LinkedFunctions));
 
         return result;
     }

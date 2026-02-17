@@ -2,14 +2,14 @@
 
 public class MTLRenderPassDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLRenderPassDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassDescriptor");
 
     public MTLRenderPassDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLRenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLRenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -25,7 +25,7 @@ public class MTLRenderPassDescriptor : IDisposable
     public nuint DefaultRasterSampleCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorSelector.DefaultRasterSampleCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorSelector.SetDefaultRasterSampleCount, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorSelector.SetDefaultRasterSampleCount, value);
     }
 
     public MTLRenderPassDepthAttachmentDescriptor DepthAttachment
@@ -37,7 +37,7 @@ public class MTLRenderPassDescriptor : IDisposable
     public nuint ImageblockSampleLength
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorSelector.ImageblockSampleLength);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorSelector.SetImageblockSampleLength, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorSelector.SetImageblockSampleLength, value);
     }
 
     public MTLRasterizationRateMap RasterizationRateMap
@@ -49,19 +49,19 @@ public class MTLRenderPassDescriptor : IDisposable
     public nuint RenderTargetArrayLength
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorSelector.RenderTargetArrayLength);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorSelector.SetRenderTargetArrayLength, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorSelector.SetRenderTargetArrayLength, value);
     }
 
     public nuint RenderTargetHeight
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorSelector.RenderTargetHeight);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorSelector.SetRenderTargetHeight, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorSelector.SetRenderTargetHeight, value);
     }
 
     public nuint RenderTargetWidth
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorSelector.RenderTargetWidth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorSelector.SetRenderTargetWidth, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorSelector.SetRenderTargetWidth, value);
     }
 
     public MTLRenderPassSampleBufferAttachmentDescriptorArray SampleBufferAttachments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassDescriptorSelector.SampleBufferAttachments));
@@ -81,19 +81,19 @@ public class MTLRenderPassDescriptor : IDisposable
     public nuint ThreadgroupMemoryLength
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorSelector.ThreadgroupMemoryLength);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorSelector.SetThreadgroupMemoryLength, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorSelector.SetThreadgroupMemoryLength, value);
     }
 
     public nuint TileHeight
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorSelector.TileHeight);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorSelector.SetTileHeight, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorSelector.SetTileHeight, value);
     }
 
     public nuint TileWidth
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorSelector.TileWidth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorSelector.SetTileWidth, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorSelector.SetTileWidth, value);
     }
 
     public MTLBuffer VisibilityResultBuffer
@@ -108,16 +108,16 @@ public class MTLRenderPassDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorSelector.SetVisibilityResultType, (uint)value);
     }
 
-    public nuint GetSamplePositions(MTLSamplePosition positions, uint count)
+    public nuint GetSamplePositions(MTLSamplePosition positions, nuint count)
     {
-        nuint result = ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorSelector.GetSamplePositionsCount, positions, (nuint)count);
+        nuint result = ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorSelector.GetSamplePositionsCount, positions, count);
 
         return result;
     }
 
-    public void SetSamplePositions(MTLSamplePosition positions, uint count)
+    public void SetSamplePositions(MTLSamplePosition positions, nuint count)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorSelector.SetSamplePositionsCount, positions, (nuint)count);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorSelector.SetSamplePositionsCount, positions, count);
     }
 
     public static implicit operator nint(MTLRenderPassDescriptor value)
@@ -147,7 +147,7 @@ public class MTLRenderPassDescriptor : IDisposable
 
     public static MTLRenderPassDescriptor RenderPassDescriptor()
     {
-        MTLRenderPassDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(s_class, MTLRenderPassDescriptorSelector.RenderPassDescriptor));
+        MTLRenderPassDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLRenderPassDescriptorSelector.RenderPassDescriptor));
 
         return result;
     }

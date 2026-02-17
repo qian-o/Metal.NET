@@ -18,7 +18,7 @@ public class MTLDrawable : IDisposable
 
     public double PresentedTime => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLDrawableSelector.PresentedTime);
 
-    public void AddPresentedHandler(int function)
+    public void AddPresentedHandler(nint function)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableSelector.AddPresentedHandler, function);
     }

@@ -64,11 +64,11 @@ public partial class MTLDevice : IDisposable
 
     public NSString Name => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.Name));
 
-    public uint PeerCount => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDeviceSelector.PeerCount);
+    public nuint PeerCount => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.PeerCount);
 
     public nuint PeerGroupID => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.PeerGroupID);
 
-    public uint PeerIndex => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDeviceSelector.PeerIndex);
+    public nuint PeerIndex => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.PeerIndex);
 
     public Bool8 ProgrammableSamplePositionsSupported => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.ProgrammableSamplePositionsSupported);
 
@@ -125,14 +125,14 @@ public partial class MTLDevice : IDisposable
         return result;
     }
 
-    public void ConvertSparsePixelRegions(MTLRegion pixelRegions, MTLRegion tileRegions, MTLSize tileSize, MTLSparseTextureRegionAlignmentMode mode, uint numRegions)
+    public void ConvertSparsePixelRegions(MTLRegion pixelRegions, MTLRegion tileRegions, MTLSize tileSize, MTLSparseTextureRegionAlignmentMode mode, nuint numRegions)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.ConvertSparsePixelRegionsTileRegionsTileSizeModeNumRegions, pixelRegions, tileRegions, tileSize, (uint)mode, (nuint)numRegions);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.ConvertSparsePixelRegionsTileRegionsTileSizeModeNumRegions, pixelRegions, tileRegions, tileSize, (uint)mode, numRegions);
     }
 
-    public void ConvertSparseTileRegions(MTLRegion tileRegions, MTLRegion pixelRegions, MTLSize tileSize, uint numRegions)
+    public void ConvertSparseTileRegions(MTLRegion tileRegions, MTLRegion pixelRegions, MTLSize tileSize, nuint numRegions)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.ConvertSparseTileRegionsPixelRegionsTileSizeNumRegions, tileRegions, pixelRegions, tileSize, (nuint)numRegions);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.ConvertSparseTileRegionsPixelRegionsTileSizeNumRegions, tileRegions, pixelRegions, tileSize, numRegions);
     }
 
     public MTLFunctionHandle FunctionHandle(MTLFunction function)
@@ -149,9 +149,9 @@ public partial class MTLDevice : IDisposable
         return result;
     }
 
-    public void GetDefaultSamplePositions(MTLSamplePosition positions, uint count)
+    public void GetDefaultSamplePositions(MTLSamplePosition positions, nuint count)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.GetDefaultSamplePositionsCount, positions, (nuint)count);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.GetDefaultSamplePositionsCount, positions, count);
     }
 
     public nuint MinimumLinearTextureAlignmentForPixelFormat(MTLPixelFormat format)
@@ -168,9 +168,9 @@ public partial class MTLDevice : IDisposable
         return result;
     }
 
-    public MTLAccelerationStructure NewAccelerationStructure(uint size)
+    public MTLAccelerationStructure NewAccelerationStructure(nuint size)
     {
-        MTLAccelerationStructure result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewAccelerationStructure, (nuint)size));
+        MTLAccelerationStructure result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewAccelerationStructure, size));
 
         return result;
     }
@@ -223,23 +223,23 @@ public partial class MTLDevice : IDisposable
         return result;
     }
 
-    public MTLBuffer NewBuffer(uint length, uint options)
+    public MTLBuffer NewBuffer(nuint length, nuint options)
     {
-        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferOptions, (nuint)length, (nuint)options));
+        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferOptions, length, options));
 
         return result;
     }
 
-    public MTLBuffer NewBuffer(int pointer, uint length, uint options)
+    public MTLBuffer NewBuffer(nint pointer, nuint length, nuint options)
     {
-        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferLengthOptions, pointer, (nuint)length, (nuint)options));
+        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferLengthOptions, pointer, length, options));
 
         return result;
     }
 
-    public MTLBuffer NewBuffer(uint length, uint options, MTLSparsePageSize placementSparsePageSize)
+    public MTLBuffer NewBuffer(nuint length, nuint options, MTLSparsePageSize placementSparsePageSize)
     {
-        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferOptionsPlacementSparsePageSize, (nuint)length, (nuint)options, (uint)placementSparsePageSize));
+        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferOptionsPlacementSparsePageSize, length, options, (uint)placementSparsePageSize));
 
         return result;
     }
@@ -274,9 +274,9 @@ public partial class MTLDevice : IDisposable
         return result;
     }
 
-    public MTLCommandQueue NewCommandQueue(uint maxCommandBufferCount)
+    public MTLCommandQueue NewCommandQueue(nuint maxCommandBufferCount)
     {
-        MTLCommandQueue result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewCommandQueue1, (nuint)maxCommandBufferCount));
+        MTLCommandQueue result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewCommandQueue1, maxCommandBufferCount));
 
         return result;
     }
@@ -306,25 +306,25 @@ public partial class MTLDevice : IDisposable
         return result;
     }
 
-    public MTLComputePipelineState NewComputePipelineState(MTLFunction computeFunction, uint options, int reflection, out NSError? error)
+    public MTLComputePipelineState NewComputePipelineState(MTLFunction computeFunction, nuint options, nint reflection, out NSError? error)
     {
-        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewComputePipelineStateOptionsReflectionError, computeFunction.NativePtr, (nuint)options, reflection, out nint errorPtr));
+        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewComputePipelineStateOptionsReflectionError, computeFunction.NativePtr, options, reflection, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
     }
 
-    public MTLComputePipelineState NewComputePipelineState(MTLComputePipelineDescriptor descriptor, uint options, int reflection, out NSError? error)
+    public MTLComputePipelineState NewComputePipelineState(MTLComputePipelineDescriptor descriptor, nuint options, nint reflection, out NSError? error)
     {
-        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewComputePipelineStateOptionsReflectionError, descriptor.NativePtr, (nuint)options, reflection, out nint errorPtr));
+        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewComputePipelineStateOptionsReflectionError, descriptor.NativePtr, options, reflection, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
     }
 
-    public void NewComputePipelineState(MTLFunction pFunction, int completionHandler)
+    public void NewComputePipelineState(MTLFunction pFunction, nint completionHandler)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.NewComputePipelineStateCompletionHandler, pFunction.NativePtr, completionHandler);
     }
@@ -354,7 +354,7 @@ public partial class MTLDevice : IDisposable
         return result;
     }
 
-    public MTLLibrary NewDefaultLibrary(int bundle, out NSError? error)
+    public MTLLibrary NewDefaultLibrary(nint bundle, out NSError? error)
     {
         MTLLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewDefaultLibraryError, bundle, out nint errorPtr));
 
@@ -454,9 +454,9 @@ public partial class MTLDevice : IDisposable
         return result;
     }
 
-    public MTLIndirectCommandBuffer NewIndirectCommandBuffer(MTLIndirectCommandBufferDescriptor descriptor, uint maxCount, uint options)
+    public MTLIndirectCommandBuffer NewIndirectCommandBuffer(MTLIndirectCommandBufferDescriptor descriptor, nuint maxCount, nuint options)
     {
-        MTLIndirectCommandBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewIndirectCommandBufferMaxCountOptions, descriptor.NativePtr, (nuint)maxCount, (nuint)options));
+        MTLIndirectCommandBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewIndirectCommandBufferMaxCountOptions, descriptor.NativePtr, maxCount, options));
 
         return result;
     }
@@ -479,7 +479,7 @@ public partial class MTLDevice : IDisposable
         return result;
     }
 
-    public MTLLibrary NewLibrary(int data, out NSError? error)
+    public MTLLibrary NewLibrary(nint data, out NSError? error)
     {
         MTLLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewLibraryError, data, out nint errorPtr));
 
@@ -506,12 +506,12 @@ public partial class MTLDevice : IDisposable
         return result;
     }
 
-    public void NewLibrary(NSString pSource, MTLCompileOptions pOptions, int completionHandler)
+    public void NewLibrary(NSString pSource, MTLCompileOptions pOptions, nint completionHandler)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.NewLibraryPOptionsCompletionHandler, pSource.NativePtr, pOptions.NativePtr, completionHandler);
     }
 
-    public void NewLibrary(MTLStitchedLibraryDescriptor pDescriptor, int completionHandler)
+    public void NewLibrary(MTLStitchedLibraryDescriptor pDescriptor, nint completionHandler)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.NewLibraryCompletionHandler, pDescriptor.NativePtr, completionHandler);
     }
@@ -564,34 +564,34 @@ public partial class MTLDevice : IDisposable
         return result;
     }
 
-    public MTLRenderPipelineState NewRenderPipelineState(MTLRenderPipelineDescriptor descriptor, uint options, int reflection, out NSError? error)
+    public MTLRenderPipelineState NewRenderPipelineState(MTLRenderPipelineDescriptor descriptor, nuint options, nint reflection, out NSError? error)
     {
-        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateOptionsReflectionError, descriptor.NativePtr, (nuint)options, reflection, out nint errorPtr));
+        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateOptionsReflectionError, descriptor.NativePtr, options, reflection, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
     }
 
-    public MTLRenderPipelineState NewRenderPipelineState(MTLTileRenderPipelineDescriptor descriptor, uint options, int reflection, out NSError? error)
+    public MTLRenderPipelineState NewRenderPipelineState(MTLTileRenderPipelineDescriptor descriptor, nuint options, nint reflection, out NSError? error)
     {
-        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateOptionsReflectionError, descriptor.NativePtr, (nuint)options, reflection, out nint errorPtr));
+        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateOptionsReflectionError, descriptor.NativePtr, options, reflection, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
     }
 
-    public MTLRenderPipelineState NewRenderPipelineState(MTLMeshRenderPipelineDescriptor descriptor, uint options, int reflection, out NSError? error)
+    public MTLRenderPipelineState NewRenderPipelineState(MTLMeshRenderPipelineDescriptor descriptor, nuint options, nint reflection, out NSError? error)
     {
-        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateOptionsReflectionError, descriptor.NativePtr, (nuint)options, reflection, out nint errorPtr));
+        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateOptionsReflectionError, descriptor.NativePtr, options, reflection, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
     }
 
-    public void NewRenderPipelineState(MTLRenderPipelineDescriptor pDescriptor, int completionHandler)
+    public void NewRenderPipelineState(MTLRenderPipelineDescriptor pDescriptor, nint completionHandler)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.NewRenderPipelineStateCompletionHandler, pDescriptor.NativePtr, completionHandler);
     }
@@ -656,9 +656,9 @@ public partial class MTLDevice : IDisposable
         return result;
     }
 
-    public MTLTexture NewTexture(MTLTextureDescriptor descriptor, int iosurface, uint plane)
+    public MTLTexture NewTexture(MTLTextureDescriptor descriptor, nint iosurface, nuint plane)
     {
-        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewTextureIosurfacePlane, descriptor.NativePtr, iosurface, (nuint)plane));
+        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewTextureIosurfacePlane, descriptor.NativePtr, iosurface, plane));
 
         return result;
     }
@@ -672,7 +672,7 @@ public partial class MTLDevice : IDisposable
         return result;
     }
 
-    public void SampleTimestamps(int cpuTimestamp, int gpuTimestamp)
+    public void SampleTimestamps(nint cpuTimestamp, nint gpuTimestamp)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.SampleTimestampsGpuTimestamp, cpuTimestamp, gpuTimestamp);
     }
@@ -705,23 +705,23 @@ public partial class MTLDevice : IDisposable
         return result;
     }
 
-    public Bool8 SupportsRasterizationRateMap(uint layerCount)
+    public Bool8 SupportsRasterizationRateMap(nuint layerCount)
     {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsRasterizationRateMap, (nuint)layerCount);
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsRasterizationRateMap, layerCount);
 
         return result;
     }
 
-    public Bool8 SupportsTextureSampleCount(uint sampleCount)
+    public Bool8 SupportsTextureSampleCount(nuint sampleCount)
     {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsTextureSampleCount, (nuint)sampleCount);
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsTextureSampleCount, sampleCount);
 
         return result;
     }
 
-    public Bool8 SupportsVertexAmplificationCount(uint count)
+    public Bool8 SupportsVertexAmplificationCount(nuint count)
     {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsVertexAmplificationCount, (nuint)count);
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsVertexAmplificationCount, count);
 
         return result;
     }

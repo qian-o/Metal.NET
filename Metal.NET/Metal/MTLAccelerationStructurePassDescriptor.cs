@@ -14,7 +14,7 @@ public class MTLAccelerationStructurePassDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLAccelerationStructurePassDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructurePassDescriptor");
 
     public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructurePassDescriptorSelector.SampleBufferAttachments));
 
@@ -45,7 +45,7 @@ public class MTLAccelerationStructurePassDescriptor : IDisposable
 
     public static MTLAccelerationStructurePassDescriptor AccelerationStructurePassDescriptor()
     {
-        MTLAccelerationStructurePassDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(s_class, MTLAccelerationStructurePassDescriptorSelector.AccelerationStructurePassDescriptor));
+        MTLAccelerationStructurePassDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructurePassDescriptorSelector.AccelerationStructurePassDescriptor));
 
         return result;
     }

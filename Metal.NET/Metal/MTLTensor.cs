@@ -26,12 +26,12 @@ public class MTLTensor : IDisposable
 
     public nuint Usage => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorSelector.Usage);
 
-    public void GetBytes(int bytes, MTLTensorExtents strides, MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions)
+    public void GetBytes(nint bytes, MTLTensorExtents strides, MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorSelector.GetBytesStridesSliceOriginSliceDimensions, bytes, strides.NativePtr, sliceOrigin.NativePtr, sliceDimensions.NativePtr);
     }
 
-    public void ReplaceSliceOrigin(MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions, int bytes, MTLTensorExtents strides)
+    public void ReplaceSliceOrigin(MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions, nint bytes, MTLTensorExtents strides)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorSelector.ReplaceSliceOriginSliceDimensionsBytesStrides, sliceOrigin.NativePtr, sliceDimensions.NativePtr, bytes, strides.NativePtr);
     }

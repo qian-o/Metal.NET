@@ -14,16 +14,16 @@ public class MTLRasterizationRateSampleArray : IDisposable
 
     public nint NativePtr { get; }
 
-    public nint Object(uint index)
+    public nint Object(nuint index)
     {
-        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateSampleArraySelector.Object, (nuint)index);
+        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateSampleArraySelector.Object, index);
 
         return result;
     }
 
-    public void SetObject(int value, uint index)
+    public void SetObject(nint value, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateSampleArraySelector.SetObjectIndex, value, (nuint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateSampleArraySelector.SetObjectIndex, value, index);
     }
 
     public static implicit operator nint(MTLRasterizationRateSampleArray value)

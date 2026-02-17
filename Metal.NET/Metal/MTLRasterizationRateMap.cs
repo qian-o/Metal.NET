@@ -20,9 +20,9 @@ public class MTLRasterizationRateMap : IDisposable
 
     public nuint LayerCount => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRasterizationRateMapSelector.LayerCount);
 
-    public void CopyParameterDataToBuffer(MTLBuffer buffer, uint offset)
+    public void CopyParameterDataToBuffer(MTLBuffer buffer, nuint offset)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapSelector.CopyParameterDataToBufferOffset, buffer.NativePtr, (nuint)offset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapSelector.CopyParameterDataToBufferOffset, buffer.NativePtr, offset);
     }
 
     public static implicit operator nint(MTLRasterizationRateMap value)

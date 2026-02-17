@@ -14,7 +14,7 @@ public class MTLArgumentDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLArgumentDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArgumentDescriptor");
 
     public MTLBindingAccess Access
     {
@@ -25,13 +25,13 @@ public class MTLArgumentDescriptor : IDisposable
     public nuint ArrayLength
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorSelector.ArrayLength);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetArrayLength, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetArrayLength, value);
     }
 
     public nuint ConstantBlockAlignment
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorSelector.ConstantBlockAlignment);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetConstantBlockAlignment, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetConstantBlockAlignment, value);
     }
 
     public MTLDataType DataType
@@ -43,7 +43,7 @@ public class MTLArgumentDescriptor : IDisposable
     public nuint Index
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorSelector.Index);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetIndex, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetIndex, value);
     }
 
     public MTLTextureType TextureType
@@ -79,7 +79,7 @@ public class MTLArgumentDescriptor : IDisposable
 
     public static MTLArgumentDescriptor ArgumentDescriptor()
     {
-        MTLArgumentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(s_class, MTLArgumentDescriptorSelector.ArgumentDescriptor));
+        MTLArgumentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLArgumentDescriptorSelector.ArgumentDescriptor));
 
         return result;
     }

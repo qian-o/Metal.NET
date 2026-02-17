@@ -43,9 +43,9 @@ public class MTLResource : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceSelector.MakeAliasable);
     }
 
-    public uint SetOwner(int task_id_token)
+    public nuint SetOwner(nint task_id_token)
     {
-        uint result = ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLResourceSelector.SetOwner, task_id_token);
+        nuint result = ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.SetOwner, task_id_token);
 
         return result;
     }

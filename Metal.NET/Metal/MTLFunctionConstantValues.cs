@@ -19,17 +19,17 @@ public class MTLFunctionConstantValues : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.Reset);
     }
 
-    public void SetConstantValue(int value, MTLDataType type, uint index)
+    public void SetConstantValue(nint value, MTLDataType type, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValueTypeIndex, value, (uint)type, (nuint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValueTypeIndex, value, (uint)type, index);
     }
 
-    public void SetConstantValue(int value, MTLDataType type, NSString name)
+    public void SetConstantValue(nint value, MTLDataType type, NSString name)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValueTypeName, value, (uint)type, name.NativePtr);
     }
 
-    public void SetConstantValues(int values, MTLDataType type, NSRange range)
+    public void SetConstantValues(nint values, MTLDataType type, NSRange range)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValuesTypeRange, values, (uint)type, range);
     }

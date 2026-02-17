@@ -2,14 +2,14 @@
 
 public class MTLRasterizationRateLayerDescriptor : IDisposable
 {
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLRasterizationRateLayerDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRasterizationRateLayerDescriptor");
 
     public MTLRasterizationRateLayerDescriptor(nint nativePtr)
     {
         ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public MTLRasterizationRateLayerDescriptor() : this(ObjectiveCRuntime.AllocInit(s_class))
+    public MTLRasterizationRateLayerDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 

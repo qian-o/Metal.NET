@@ -14,7 +14,7 @@ public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor : IDisp
 
     public nint NativePtr { get; }
 
-    private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor");
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor");
 
     public NSArray BoundingBoxBuffers
     {
@@ -25,13 +25,13 @@ public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor : IDisp
     public nuint BoundingBoxCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.BoundingBoxCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.SetBoundingBoxCount, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.SetBoundingBoxCount, value);
     }
 
     public nuint BoundingBoxStride
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.BoundingBoxStride);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.SetBoundingBoxStride, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.SetBoundingBoxStride, value);
     }
 
     public static implicit operator nint(MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor value)
@@ -61,7 +61,7 @@ public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor : IDisp
 
     public static MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor Descriptor()
     {
-        MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(s_class, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.Descriptor));
+        MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.Descriptor));
 
         return result;
     }

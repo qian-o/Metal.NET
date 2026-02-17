@@ -29,7 +29,7 @@ public class MTLCounterSampleBufferDescriptor : IDisposable
     public nuint SampleCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCounterSampleBufferDescriptorSelector.SampleCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetSampleCount, (nuint)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetSampleCount, value);
     }
 
     public MTLStorageMode StorageMode
