@@ -39,8 +39,28 @@ public class MTL4CommitFeedback : IDisposable
         }
     }
 
+    public double GPUEndTime
+    {
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTL4CommitFeedbackSelector.GPUEndTime);
+    }
+
+    public double GPUStartTime
+    {
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTL4CommitFeedbackSelector.GPUStartTime);
+    }
+
+    public NSError Error
+    {
+        get => new NSError(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommitFeedbackSelector.Error));
+    }
+
 }
 
 file class MTL4CommitFeedbackSelector
 {
+    public static readonly Selector GPUEndTime = Selector.Register("GPUEndTime");
+
+    public static readonly Selector GPUStartTime = Selector.Register("GPUStartTime");
+
+    public static readonly Selector Error = Selector.Register("error");
 }

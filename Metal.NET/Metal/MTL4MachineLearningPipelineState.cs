@@ -39,8 +39,35 @@ public class MTL4MachineLearningPipelineState : IDisposable
         }
     }
 
+    public MTLDevice Device
+    {
+        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Device));
+    }
+
+    public nuint IntermediatesHeapSize
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4MachineLearningPipelineStateSelector.IntermediatesHeapSize);
+    }
+
+    public NSString Label
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Label));
+    }
+
+    public MTL4MachineLearningPipelineReflection Reflection
+    {
+        get => new MTL4MachineLearningPipelineReflection(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Reflection));
+    }
+
 }
 
 file class MTL4MachineLearningPipelineStateSelector
 {
+    public static readonly Selector Device = Selector.Register("device");
+
+    public static readonly Selector IntermediatesHeapSize = Selector.Register("intermediatesHeapSize");
+
+    public static readonly Selector Label = Selector.Register("label");
+
+    public static readonly Selector Reflection = Selector.Register("reflection");
 }

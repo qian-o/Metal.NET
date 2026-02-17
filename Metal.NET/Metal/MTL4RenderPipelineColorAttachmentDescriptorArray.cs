@@ -41,7 +41,7 @@ public class MTL4RenderPipelineColorAttachmentDescriptorArray : IDisposable
 
     public MTL4RenderPipelineColorAttachmentDescriptor Object(uint attachmentIndex)
     {
-        MTL4RenderPipelineColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.Object, (nint)attachmentIndex));
+        MTL4RenderPipelineColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.Object, (nuint)attachmentIndex));
 
         return result;
     }
@@ -53,7 +53,7 @@ public class MTL4RenderPipelineColorAttachmentDescriptorArray : IDisposable
 
     public void SetObject(MTL4RenderPipelineColorAttachmentDescriptor attachment, uint attachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nint)attachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nuint)attachmentIndex);
     }
 
 }

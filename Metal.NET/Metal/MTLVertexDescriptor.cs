@@ -41,12 +41,18 @@ public class MTLVertexDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLVertexDescriptor");
 
-    public static MTLVertexDescriptor New()
+    public MTLVertexDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
     {
-        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc"));
-        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register("init"));
+    }
 
-        return new MTLVertexDescriptor(ptr);
+    public MTLVertexAttributeDescriptorArray Attributes
+    {
+        get => new MTLVertexAttributeDescriptorArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorSelector.Attributes));
+    }
+
+    public MTLVertexBufferLayoutDescriptorArray Layouts
+    {
+        get => new MTLVertexBufferLayoutDescriptorArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorSelector.Layouts));
     }
 
     public void Reset()
@@ -65,6 +71,10 @@ public class MTLVertexDescriptor : IDisposable
 
 file class MTLVertexDescriptorSelector
 {
+    public static readonly Selector Attributes = Selector.Register("attributes");
+
+    public static readonly Selector Layouts = Selector.Register("layouts");
+
     public static readonly Selector Reset = Selector.Register("reset");
 
     public static readonly Selector VertexDescriptor = Selector.Register("vertexDescriptor");

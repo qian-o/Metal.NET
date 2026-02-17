@@ -41,22 +41,21 @@ public class MTLBinaryArchiveDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLBinaryArchiveDescriptor");
 
-    public static MTLBinaryArchiveDescriptor New()
+    public MTLBinaryArchiveDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
     {
-        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc"));
-        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register("init"));
-
-        return new MTLBinaryArchiveDescriptor(ptr);
     }
 
-    public void SetUrl(NSURL url)
+    public NSURL Url
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBinaryArchiveDescriptorSelector.SetUrl, url.NativePtr);
+        get => new NSURL(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveDescriptorSelector.Url));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBinaryArchiveDescriptorSelector.SetUrl, value.NativePtr);
     }
 
 }
 
 file class MTLBinaryArchiveDescriptorSelector
 {
+    public static readonly Selector Url = Selector.Register("url");
+
     public static readonly Selector SetUrl = Selector.Register("setUrl:");
 }

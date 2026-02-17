@@ -41,29 +41,34 @@ public class MTLFunctionDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLFunctionDescriptor");
 
-    public void SetBinaryArchives(NSArray binaryArchives)
+    public NSArray BinaryArchives
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetBinaryArchives, binaryArchives.NativePtr);
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.BinaryArchives));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetBinaryArchives, value.NativePtr);
     }
 
-    public void SetConstantValues(MTLFunctionConstantValues constantValues)
+    public MTLFunctionConstantValues ConstantValues
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetConstantValues, constantValues.NativePtr);
+        get => new MTLFunctionConstantValues(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.ConstantValues));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetConstantValues, value.NativePtr);
     }
 
-    public void SetName(NSString name)
+    public NSString Name
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetName, name.NativePtr);
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.Name));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetName, value.NativePtr);
     }
 
-    public void SetOptions(uint options)
+    public nuint Options
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetOptions, (nint)options);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionDescriptorSelector.Options);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetOptions, (nuint)value);
     }
 
-    public void SetSpecializedName(NSString specializedName)
+    public NSString SpecializedName
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetSpecializedName, specializedName.NativePtr);
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.SpecializedName));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetSpecializedName, value.NativePtr);
     }
 
     public static MTLFunctionDescriptor FunctionDescriptor()
@@ -77,13 +82,23 @@ public class MTLFunctionDescriptor : IDisposable
 
 file class MTLFunctionDescriptorSelector
 {
+    public static readonly Selector BinaryArchives = Selector.Register("binaryArchives");
+
     public static readonly Selector SetBinaryArchives = Selector.Register("setBinaryArchives:");
+
+    public static readonly Selector ConstantValues = Selector.Register("constantValues");
 
     public static readonly Selector SetConstantValues = Selector.Register("setConstantValues:");
 
+    public static readonly Selector Name = Selector.Register("name");
+
     public static readonly Selector SetName = Selector.Register("setName:");
 
+    public static readonly Selector Options = Selector.Register("options");
+
     public static readonly Selector SetOptions = Selector.Register("setOptions:");
+
+    public static readonly Selector SpecializedName = Selector.Register("specializedName");
 
     public static readonly Selector SetSpecializedName = Selector.Register("setSpecializedName:");
 

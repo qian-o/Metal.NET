@@ -39,8 +39,14 @@ public class MTLArchitecture : IDisposable
         }
     }
 
+    public NSString Name
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArchitectureSelector.Name));
+    }
+
 }
 
 file class MTLArchitectureSelector
 {
+    public static readonly Selector Name = Selector.Register("name");
 }

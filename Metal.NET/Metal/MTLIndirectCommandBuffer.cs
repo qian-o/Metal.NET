@@ -39,25 +39,41 @@ public class MTLIndirectCommandBuffer : IDisposable
         }
     }
 
+    public nuint Size
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferSelector.Size);
+    }
+
     public MTLIndirectComputeCommand IndirectComputeCommand(uint commandIndex)
     {
-        MTLIndirectComputeCommand result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectComputeCommand, (nint)commandIndex));
+        MTLIndirectComputeCommand result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectComputeCommand, (nuint)commandIndex));
 
         return result;
     }
 
     public MTLIndirectRenderCommand IndirectRenderCommand(uint commandIndex)
     {
-        MTLIndirectRenderCommand result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectRenderCommand, (nint)commandIndex));
+        MTLIndirectRenderCommand result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectRenderCommand, (nuint)commandIndex));
 
         return result;
+    }
+
+    public void Reset(NSRange range)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferSelector.Reset, range);
     }
 
 }
 
 file class MTLIndirectCommandBufferSelector
 {
+    public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
+
+    public static readonly Selector Size = Selector.Register("size");
+
     public static readonly Selector IndirectComputeCommand = Selector.Register("indirectComputeCommand:");
 
     public static readonly Selector IndirectRenderCommand = Selector.Register("indirectRenderCommand:");
+
+    public static readonly Selector Reset = Selector.Register("reset:");
 }

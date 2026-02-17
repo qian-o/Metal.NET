@@ -39,14 +39,17 @@ public class MTLPipelineBufferDescriptor : IDisposable
         }
     }
 
-    public void SetMutability(MTLMutability mutability)
+    public MTLMutability Mutability
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorSelector.SetMutability, (nint)(uint)mutability);
+        get => (MTLMutability)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLPipelineBufferDescriptorSelector.Mutability));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorSelector.SetMutability, (uint)value);
     }
 
 }
 
 file class MTLPipelineBufferDescriptorSelector
 {
+    public static readonly Selector Mutability = Selector.Register("mutability");
+
     public static readonly Selector SetMutability = Selector.Register("setMutability:");
 }

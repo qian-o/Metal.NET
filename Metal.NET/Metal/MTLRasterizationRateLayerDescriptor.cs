@@ -41,22 +41,45 @@ public class MTLRasterizationRateLayerDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLRasterizationRateLayerDescriptor");
 
-    public static MTLRasterizationRateLayerDescriptor New()
+    public MTLRasterizationRateLayerDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
     {
-        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc"));
-        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register("init"));
-
-        return new MTLRasterizationRateLayerDescriptor(ptr);
     }
 
-    public void SetSampleCount(MTLSize sampleCount)
+    public MTLRasterizationRateSampleArray Horizontal
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateLayerDescriptorSelector.SetSampleCount, sampleCount);
+        get => new MTLRasterizationRateSampleArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.Horizontal));
+    }
+
+    public nint HorizontalSampleStorage
+    {
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.HorizontalSampleStorage);
+    }
+
+    public MTLRasterizationRateSampleArray Vertical
+    {
+        get => new MTLRasterizationRateSampleArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.Vertical));
+    }
+
+    public nint VerticalSampleStorage
+    {
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.VerticalSampleStorage);
     }
 
 }
 
 file class MTLRasterizationRateLayerDescriptorSelector
 {
+    public static readonly Selector Horizontal = Selector.Register("horizontal");
+
+    public static readonly Selector HorizontalSampleStorage = Selector.Register("horizontalSampleStorage");
+
+    public static readonly Selector MaxSampleCount = Selector.Register("maxSampleCount");
+
+    public static readonly Selector SampleCount = Selector.Register("sampleCount");
+
     public static readonly Selector SetSampleCount = Selector.Register("setSampleCount:");
+
+    public static readonly Selector Vertical = Selector.Register("vertical");
+
+    public static readonly Selector VerticalSampleStorage = Selector.Register("verticalSampleStorage");
 }

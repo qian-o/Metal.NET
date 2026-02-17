@@ -41,36 +41,41 @@ public class MTLCaptureDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLCaptureDescriptor");
 
-    public static MTLCaptureDescriptor New()
+    public MTLCaptureDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
     {
-        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc"));
-        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register("init"));
-
-        return new MTLCaptureDescriptor(ptr);
     }
 
-    public void SetCaptureObject(int captureObject)
+    public nint CaptureObject
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorSelector.SetCaptureObject, captureObject);
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureDescriptorSelector.CaptureObject);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorSelector.SetCaptureObject, value);
     }
 
-    public void SetDestination(MTLCaptureDestination destination)
+    public MTLCaptureDestination Destination
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorSelector.SetDestination, (nint)(uint)destination);
+        get => (MTLCaptureDestination)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLCaptureDescriptorSelector.Destination));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorSelector.SetDestination, (uint)value);
     }
 
-    public void SetOutputURL(NSURL outputURL)
+    public NSURL OutputURL
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorSelector.SetOutputURL, outputURL.NativePtr);
+        get => new NSURL(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureDescriptorSelector.OutputURL));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorSelector.SetOutputURL, value.NativePtr);
     }
 
 }
 
 file class MTLCaptureDescriptorSelector
 {
+    public static readonly Selector CaptureObject = Selector.Register("captureObject");
+
     public static readonly Selector SetCaptureObject = Selector.Register("setCaptureObject:");
 
+    public static readonly Selector Destination = Selector.Register("destination");
+
     public static readonly Selector SetDestination = Selector.Register("setDestination:");
+
+    public static readonly Selector OutputURL = Selector.Register("outputURL");
 
     public static readonly Selector SetOutputURL = Selector.Register("setOutputURL:");
 }

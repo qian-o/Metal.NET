@@ -39,6 +39,16 @@ public class MTLDrawable : IDisposable
         }
     }
 
+    public nuint DrawableID
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDrawableSelector.DrawableID);
+    }
+
+    public double PresentedTime
+    {
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLDrawableSelector.PresentedTime);
+    }
+
     public void AddPresentedHandler(int function)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableSelector.AddPresentedHandler, function);
@@ -63,6 +73,10 @@ public class MTLDrawable : IDisposable
 
 file class MTLDrawableSelector
 {
+    public static readonly Selector DrawableID = Selector.Register("drawableID");
+
+    public static readonly Selector PresentedTime = Selector.Register("presentedTime");
+
     public static readonly Selector AddPresentedHandler = Selector.Register("addPresentedHandler:");
 
     public static readonly Selector Present = Selector.Register("present");

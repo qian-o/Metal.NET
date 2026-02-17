@@ -39,8 +39,35 @@ public class MTLFunctionLogDebugLocation : IDisposable
         }
     }
 
+    public NSURL URL
+    {
+        get => new NSURL(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogDebugLocationSelector.URL));
+    }
+
+    public nuint Column
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationSelector.Column);
+    }
+
+    public NSString FunctionName
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogDebugLocationSelector.FunctionName));
+    }
+
+    public nuint Line
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationSelector.Line);
+    }
+
 }
 
 file class MTLFunctionLogDebugLocationSelector
 {
+    public static readonly Selector URL = Selector.Register("URL");
+
+    public static readonly Selector Column = Selector.Register("column");
+
+    public static readonly Selector FunctionName = Selector.Register("functionName");
+
+    public static readonly Selector Line = Selector.Register("line");
 }

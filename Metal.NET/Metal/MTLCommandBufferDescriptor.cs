@@ -39,28 +39,37 @@ public class MTLCommandBufferDescriptor : IDisposable
         }
     }
 
-    public void SetErrorOptions(uint errorOptions)
+    public nuint ErrorOptions
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetErrorOptions, (nint)errorOptions);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandBufferDescriptorSelector.ErrorOptions);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetErrorOptions, (nuint)value);
     }
 
-    public void SetLogState(MTLLogState logState)
+    public MTLLogState LogState
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetLogState, logState.NativePtr);
+        get => new MTLLogState(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferDescriptorSelector.LogState));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetLogState, value.NativePtr);
     }
 
-    public void SetRetainedReferences(Bool8 retainedReferences)
+    public Bool8 RetainedReferences
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetRetainedReferences, (nint)retainedReferences.Value);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCommandBufferDescriptorSelector.RetainedReferences);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetRetainedReferences, value);
     }
 
 }
 
 file class MTLCommandBufferDescriptorSelector
 {
+    public static readonly Selector ErrorOptions = Selector.Register("errorOptions");
+
     public static readonly Selector SetErrorOptions = Selector.Register("setErrorOptions:");
 
+    public static readonly Selector LogState = Selector.Register("logState");
+
     public static readonly Selector SetLogState = Selector.Register("setLogState:");
+
+    public static readonly Selector RetainedReferences = Selector.Register("retainedReferences");
 
     public static readonly Selector SetRetainedReferences = Selector.Register("setRetainedReferences:");
 }

@@ -41,17 +41,19 @@ public class MTLComputePassDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLComputePassDescriptor");
 
-    public static MTLComputePassDescriptor New()
+    public MTLComputePassDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
     {
-        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc"));
-        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register("init"));
-
-        return new MTLComputePassDescriptor(ptr);
     }
 
-    public void SetDispatchType(MTLDispatchType dispatchType)
+    public MTLDispatchType DispatchType
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePassDescriptorSelector.SetDispatchType, (nint)(uint)dispatchType);
+        get => (MTLDispatchType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLComputePassDescriptorSelector.DispatchType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePassDescriptorSelector.SetDispatchType, (uint)value);
+    }
+
+    public MTLComputePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
+    {
+        get => new MTLComputePassSampleBufferAttachmentDescriptorArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePassDescriptorSelector.SampleBufferAttachments));
     }
 
     public static MTLComputePassDescriptor ComputePassDescriptor()
@@ -65,7 +67,11 @@ public class MTLComputePassDescriptor : IDisposable
 
 file class MTLComputePassDescriptorSelector
 {
+    public static readonly Selector DispatchType = Selector.Register("dispatchType");
+
     public static readonly Selector SetDispatchType = Selector.Register("setDispatchType:");
+
+    public static readonly Selector SampleBufferAttachments = Selector.Register("sampleBufferAttachments");
 
     public static readonly Selector ComputePassDescriptor = Selector.Register("computePassDescriptor");
 }

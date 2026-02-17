@@ -41,22 +41,21 @@ public class MTLTileRenderPipelineColorAttachmentDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLTileRenderPipelineColorAttachmentDescriptor");
 
-    public static MTLTileRenderPipelineColorAttachmentDescriptor New()
+    public MTLTileRenderPipelineColorAttachmentDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
     {
-        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc"));
-        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register("init"));
-
-        return new MTLTileRenderPipelineColorAttachmentDescriptor(ptr);
     }
 
-    public void SetPixelFormat(MTLPixelFormat pixelFormat)
+    public MTLPixelFormat PixelFormat
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorSelector.SetPixelFormat, (nint)(uint)pixelFormat);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorSelector.PixelFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorSelector.SetPixelFormat, (uint)value);
     }
 
 }
 
 file class MTLTileRenderPipelineColorAttachmentDescriptorSelector
 {
+    public static readonly Selector PixelFormat = Selector.Register("pixelFormat");
+
     public static readonly Selector SetPixelFormat = Selector.Register("setPixelFormat:");
 }

@@ -39,28 +39,37 @@ public class MTL4BinaryFunctionDescriptor : IDisposable
         }
     }
 
-    public void SetFunctionDescriptor(MTL4FunctionDescriptor functionDescriptor)
+    public MTL4FunctionDescriptor FunctionDescriptor
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorSelector.SetFunctionDescriptor, functionDescriptor.NativePtr);
+        get => new MTL4FunctionDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4BinaryFunctionDescriptorSelector.FunctionDescriptor));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorSelector.SetFunctionDescriptor, value.NativePtr);
     }
 
-    public void SetName(NSString name)
+    public NSString Name
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorSelector.SetName, name.NativePtr);
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4BinaryFunctionDescriptorSelector.Name));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorSelector.SetName, value.NativePtr);
     }
 
-    public void SetOptions(uint options)
+    public nuint Options
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorSelector.SetOptions, (nint)options);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4BinaryFunctionDescriptorSelector.Options);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorSelector.SetOptions, (nuint)value);
     }
 
 }
 
 file class MTL4BinaryFunctionDescriptorSelector
 {
+    public static readonly Selector FunctionDescriptor = Selector.Register("functionDescriptor");
+
     public static readonly Selector SetFunctionDescriptor = Selector.Register("setFunctionDescriptor:");
 
+    public static readonly Selector Name = Selector.Register("name");
+
     public static readonly Selector SetName = Selector.Register("setName:");
+
+    public static readonly Selector Options = Selector.Register("options");
 
     public static readonly Selector SetOptions = Selector.Register("setOptions:");
 }

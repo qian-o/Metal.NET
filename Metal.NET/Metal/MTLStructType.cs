@@ -39,6 +39,11 @@ public class MTLStructType : IDisposable
         }
     }
 
+    public NSArray Members
+    {
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeSelector.Members));
+    }
+
     public MTLStructMember MemberByName(NSString name)
     {
         MTLStructMember result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeSelector.MemberByName, name.NativePtr));
@@ -50,5 +55,7 @@ public class MTLStructType : IDisposable
 
 file class MTLStructTypeSelector
 {
+    public static readonly Selector Members = Selector.Register("members");
+
     public static readonly Selector MemberByName = Selector.Register("memberByName:");
 }

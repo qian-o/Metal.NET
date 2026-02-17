@@ -41,12 +41,14 @@ public class MTLVisibleFunctionTable : IDisposable
 
     public void SetFunction(MTLFunctionHandle function, uint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLVisibleFunctionTableSelector.SetFunctionIndex, function.NativePtr, (nint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLVisibleFunctionTableSelector.SetFunctionIndex, function.NativePtr, (nuint)index);
     }
 
 }
 
 file class MTLVisibleFunctionTableSelector
 {
+    public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
+
     public static readonly Selector SetFunctionIndex = Selector.Register("setFunction:index:");
 }

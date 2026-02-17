@@ -39,8 +39,14 @@ public class MTLAllocation : IDisposable
         }
     }
 
+    public nuint AllocatedSize
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAllocationSelector.AllocatedSize);
+    }
+
 }
 
 file class MTLAllocationSelector
 {
+    public static readonly Selector AllocatedSize = Selector.Register("allocatedSize");
 }

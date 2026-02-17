@@ -39,21 +39,27 @@ public class MTL4CommandQueueDescriptor : IDisposable
         }
     }
 
-    public void SetFeedbackQueue(int feedbackQueue)
+    public nint FeedbackQueue
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueDescriptorSelector.SetFeedbackQueue, feedbackQueue);
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueDescriptorSelector.FeedbackQueue);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueDescriptorSelector.SetFeedbackQueue, value);
     }
 
-    public void SetLabel(NSString label)
+    public NSString Label
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueDescriptorSelector.SetLabel, label.NativePtr);
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueDescriptorSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueDescriptorSelector.SetLabel, value.NativePtr);
     }
 
 }
 
 file class MTL4CommandQueueDescriptorSelector
 {
+    public static readonly Selector FeedbackQueue = Selector.Register("feedbackQueue");
+
     public static readonly Selector SetFeedbackQueue = Selector.Register("setFeedbackQueue:");
+
+    public static readonly Selector Label = Selector.Register("label");
 
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

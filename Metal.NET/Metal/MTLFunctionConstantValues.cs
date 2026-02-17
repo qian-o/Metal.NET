@@ -46,12 +46,17 @@ public class MTLFunctionConstantValues : IDisposable
 
     public void SetConstantValue(int value, MTLDataType type, uint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValueTypeIndex, value, (nint)(uint)type, (nint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValueTypeIndex, value, (uint)type, (nuint)index);
     }
 
     public void SetConstantValue(int value, MTLDataType type, NSString name)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValueTypeName, value, (nint)(uint)type, name.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValueTypeName, value, (uint)type, name.NativePtr);
+    }
+
+    public void SetConstantValues(int values, MTLDataType type, NSRange range)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValuesTypeRange, values, (uint)type, range);
     }
 
 }
@@ -63,4 +68,6 @@ file class MTLFunctionConstantValuesSelector
     public static readonly Selector SetConstantValueTypeIndex = Selector.Register("setConstantValue:type:index:");
 
     public static readonly Selector SetConstantValueTypeName = Selector.Register("setConstantValue:type:name:");
+
+    public static readonly Selector SetConstantValuesTypeRange = Selector.Register("setConstantValues:type:range:");
 }

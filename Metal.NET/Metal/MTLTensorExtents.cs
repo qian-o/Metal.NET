@@ -39,9 +39,14 @@ public class MTLTensorExtents : IDisposable
         }
     }
 
+    public nuint Rank
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorExtentsSelector.Rank);
+    }
+
     public nint ExtentAtDimensionIndex(uint dimensionIndex)
     {
-        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorExtentsSelector.ExtentAtDimensionIndex, (nint)dimensionIndex);
+        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorExtentsSelector.ExtentAtDimensionIndex, (nuint)dimensionIndex);
 
         return result;
     }
@@ -50,5 +55,7 @@ public class MTLTensorExtents : IDisposable
 
 file class MTLTensorExtentsSelector
 {
+    public static readonly Selector Rank = Selector.Register("rank");
+
     public static readonly Selector ExtentAtDimensionIndex = Selector.Register("extentAtDimensionIndex:");
 }

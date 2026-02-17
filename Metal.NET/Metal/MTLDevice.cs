@@ -41,11 +41,267 @@ public partial class MTLDevice : IDisposable
         }
     }
 
+    public nint Architecture
+    {
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.Architecture);
+    }
+
+    public Bool8 AreBarycentricCoordsSupported
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.AreBarycentricCoordsSupported);
+    }
+
+    public Bool8 AreProgrammableSamplePositionsSupported
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.AreProgrammableSamplePositionsSupported);
+    }
+
+    public Bool8 AreRasterOrderGroupsSupported
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.AreRasterOrderGroupsSupported);
+    }
+
+    public MTLArgumentBuffersTier ArgumentBuffersSupport
+    {
+        get => (MTLArgumentBuffersTier)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDeviceSelector.ArgumentBuffersSupport));
+    }
+
+    public Bool8 BarycentricCoordsSupported
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.BarycentricCoordsSupported);
+    }
+
+    public NSArray CounterSets
+    {
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.CounterSets));
+    }
+
+    public nuint CurrentAllocatedSize
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.CurrentAllocatedSize);
+    }
+
+    public Bool8 Depth24Stencil8PixelFormatSupported
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.Depth24Stencil8PixelFormatSupported);
+    }
+
+    public Bool8 HasUnifiedMemory
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.HasUnifiedMemory);
+    }
+
+    public Bool8 Headless
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.Headless);
+    }
+
+    public Bool8 IsDepth24Stencil8PixelFormatSupported
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.IsDepth24Stencil8PixelFormatSupported);
+    }
+
+    public Bool8 IsHeadless
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.IsHeadless);
+    }
+
+    public Bool8 IsLowPower
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.IsLowPower);
+    }
+
+    public Bool8 IsRemovable
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.IsRemovable);
+    }
+
+    public MTLDeviceLocation Location
+    {
+        get => (MTLDeviceLocation)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDeviceSelector.Location));
+    }
+
+    public nuint LocationNumber
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.LocationNumber);
+    }
+
+    public Bool8 LowPower
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.LowPower);
+    }
+
+    public nuint MaxArgumentBufferSamplerCount
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.MaxArgumentBufferSamplerCount);
+    }
+
+    public nuint MaxBufferLength
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.MaxBufferLength);
+    }
+
+    public nuint MaxThreadgroupMemoryLength
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.MaxThreadgroupMemoryLength);
+    }
+
+    public nuint MaxTransferRate
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.MaxTransferRate);
+    }
+
+    public nuint MaximumConcurrentCompilationTaskCount
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.MaximumConcurrentCompilationTaskCount);
+    }
+
+    public NSString Name
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.Name));
+    }
+
+    public uint PeerCount
+    {
+        get => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDeviceSelector.PeerCount);
+    }
+
+    public nuint PeerGroupID
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.PeerGroupID);
+    }
+
+    public uint PeerIndex
+    {
+        get => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDeviceSelector.PeerIndex);
+    }
+
+    public Bool8 ProgrammableSamplePositionsSupported
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.ProgrammableSamplePositionsSupported);
+    }
+
+    public nuint QueryTimestampFrequency
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.QueryTimestampFrequency);
+    }
+
+    public Bool8 RasterOrderGroupsSupported
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.RasterOrderGroupsSupported);
+    }
+
+    public MTLReadWriteTextureTier ReadWriteTextureSupport
+    {
+        get => (MTLReadWriteTextureTier)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDeviceSelector.ReadWriteTextureSupport));
+    }
+
+    public nuint RecommendedMaxWorkingSetSize
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.RecommendedMaxWorkingSetSize);
+    }
+
+    public nuint RegistryID
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.RegistryID);
+    }
+
+    public Bool8 Removable
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.Removable);
+    }
+
+    public Bool8 ShouldMaximizeConcurrentCompilation
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.ShouldMaximizeConcurrentCompilation);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.SetShouldMaximizeConcurrentCompilation, value);
+    }
+
+    public nuint SparseTileSizeInBytes
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.SparseTileSizeInBytes);
+    }
+
+    public Bool8 Supports32BitFloatFiltering
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.Supports32BitFloatFiltering);
+    }
+
+    public Bool8 Supports32BitMSAA
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.Supports32BitMSAA);
+    }
+
+    public Bool8 SupportsBCTextureCompression
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsBCTextureCompression);
+    }
+
+    public Bool8 SupportsDynamicLibraries
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsDynamicLibraries);
+    }
+
+    public Bool8 SupportsFunctionPointers
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsFunctionPointers);
+    }
+
+    public Bool8 SupportsFunctionPointersFromRender
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsFunctionPointersFromRender);
+    }
+
+    public Bool8 SupportsPrimitiveMotionBlur
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsPrimitiveMotionBlur);
+    }
+
+    public Bool8 SupportsPullModelInterpolation
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsPullModelInterpolation);
+    }
+
+    public Bool8 SupportsQueryTextureLOD
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsQueryTextureLOD);
+    }
+
+    public Bool8 SupportsRaytracing
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsRaytracing);
+    }
+
+    public Bool8 SupportsRaytracingFromRender
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsRaytracingFromRender);
+    }
+
+    public Bool8 SupportsRenderDynamicLibraries
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsRenderDynamicLibraries);
+    }
+
+    public Bool8 SupportsShaderBarycentricCoordinates
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsShaderBarycentricCoordinates);
+    }
+
     public nint AccelerationStructureSizes(MTLAccelerationStructureDescriptor descriptor)
     {
         nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.AccelerationStructureSizes, descriptor.NativePtr);
 
         return result;
+    }
+
+    public void ConvertSparsePixelRegions(MTLRegion pixelRegions, MTLRegion tileRegions, MTLSize tileSize, MTLSparseTextureRegionAlignmentMode mode, uint numRegions)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.ConvertSparsePixelRegionsTileRegionsTileSizeModeNumRegions, pixelRegions, tileRegions, tileSize, (uint)mode, (nuint)numRegions);
+    }
+
+    public void ConvertSparseTileRegions(MTLRegion tileRegions, MTLRegion pixelRegions, MTLSize tileSize, uint numRegions)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.ConvertSparseTileRegionsPixelRegionsTileSizeNumRegions, tileRegions, pixelRegions, tileSize, (nuint)numRegions);
     }
 
     public MTLFunctionHandle FunctionHandle(MTLFunction function)
@@ -62,23 +318,28 @@ public partial class MTLDevice : IDisposable
         return result;
     }
 
+    public void GetDefaultSamplePositions(MTLSamplePosition positions, uint count)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.GetDefaultSamplePositionsCount, positions, (nuint)count);
+    }
+
     public nuint MinimumLinearTextureAlignmentForPixelFormat(MTLPixelFormat format)
     {
-        nuint result = (nuint)(ulong)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.MinimumLinearTextureAlignmentForPixelFormat, (nint)(uint)format);
+        nuint result = ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.MinimumLinearTextureAlignmentForPixelFormat, (uint)format);
 
         return result;
     }
 
     public nuint MinimumTextureBufferAlignmentForPixelFormat(MTLPixelFormat format)
     {
-        nuint result = (nuint)(ulong)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.MinimumTextureBufferAlignmentForPixelFormat, (nint)(uint)format);
+        nuint result = ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.MinimumTextureBufferAlignmentForPixelFormat, (uint)format);
 
         return result;
     }
 
     public MTLAccelerationStructure NewAccelerationStructure(uint size)
     {
-        MTLAccelerationStructure result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewAccelerationStructure, (nint)size));
+        MTLAccelerationStructure result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewAccelerationStructure, (nuint)size));
 
         return result;
     }
@@ -133,21 +394,21 @@ public partial class MTLDevice : IDisposable
 
     public MTLBuffer NewBuffer(uint length, uint options)
     {
-        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferOptions, (nint)length, (nint)options));
+        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferOptions, (nuint)length, (nuint)options));
 
         return result;
     }
 
     public MTLBuffer NewBuffer(int pointer, uint length, uint options)
     {
-        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferLengthOptions, pointer, (nint)length, (nint)options));
+        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferLengthOptions, pointer, (nuint)length, (nuint)options));
 
         return result;
     }
 
     public MTLBuffer NewBuffer(uint length, uint options, MTLSparsePageSize placementSparsePageSize)
     {
-        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferOptionsPlacementSparsePageSize, (nint)length, (nint)options, (nint)(uint)placementSparsePageSize));
+        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferOptionsPlacementSparsePageSize, (nuint)length, (nuint)options, (uint)placementSparsePageSize));
 
         return result;
     }
@@ -184,7 +445,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLCommandQueue NewCommandQueue(uint maxCommandBufferCount)
     {
-        MTLCommandQueue result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewCommandQueue1, (nint)maxCommandBufferCount));
+        MTLCommandQueue result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewCommandQueue1, (nuint)maxCommandBufferCount));
 
         return result;
     }
@@ -216,7 +477,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLComputePipelineState NewComputePipelineState(MTLFunction computeFunction, uint options, int reflection, out NSError? error)
     {
-        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewComputePipelineStateOptionsReflectionError, computeFunction.NativePtr, (nint)options, reflection, out nint errorPtr));
+        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewComputePipelineStateOptionsReflectionError, computeFunction.NativePtr, (nuint)options, reflection, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -225,7 +486,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLComputePipelineState NewComputePipelineState(MTLComputePipelineDescriptor descriptor, uint options, int reflection, out NSError? error)
     {
-        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewComputePipelineStateOptionsReflectionError, descriptor.NativePtr, (nint)options, reflection, out nint errorPtr));
+        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewComputePipelineStateOptionsReflectionError, descriptor.NativePtr, (nuint)options, reflection, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -337,7 +598,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLIOFileHandle NewIOFileHandle(NSURL url, MTLIOCompressionMethod compressionMethod, out NSError? error)
     {
-        MTLIOFileHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewIOFileHandleCompressionMethodError, url.NativePtr, (nint)(uint)compressionMethod, out nint errorPtr));
+        MTLIOFileHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewIOFileHandleCompressionMethodError, url.NativePtr, (uint)compressionMethod, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -355,7 +616,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLIOFileHandle NewIOHandle(NSURL url, MTLIOCompressionMethod compressionMethod, out NSError? error)
     {
-        MTLIOFileHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewIOHandleCompressionMethodError, url.NativePtr, (nint)(uint)compressionMethod, out nint errorPtr));
+        MTLIOFileHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewIOHandleCompressionMethodError, url.NativePtr, (uint)compressionMethod, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -364,7 +625,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLIndirectCommandBuffer NewIndirectCommandBuffer(MTLIndirectCommandBufferDescriptor descriptor, uint maxCount, uint options)
     {
-        MTLIndirectCommandBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewIndirectCommandBufferMaxCountOptions, descriptor.NativePtr, (nint)maxCount, (nint)options));
+        MTLIndirectCommandBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewIndirectCommandBufferMaxCountOptions, descriptor.NativePtr, (nuint)maxCount, (nuint)options));
 
         return result;
     }
@@ -474,7 +735,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLRenderPipelineState NewRenderPipelineState(MTLRenderPipelineDescriptor descriptor, uint options, int reflection, out NSError? error)
     {
-        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateOptionsReflectionError, descriptor.NativePtr, (nint)options, reflection, out nint errorPtr));
+        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateOptionsReflectionError, descriptor.NativePtr, (nuint)options, reflection, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -483,7 +744,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLRenderPipelineState NewRenderPipelineState(MTLTileRenderPipelineDescriptor descriptor, uint options, int reflection, out NSError? error)
     {
-        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateOptionsReflectionError, descriptor.NativePtr, (nint)options, reflection, out nint errorPtr));
+        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateOptionsReflectionError, descriptor.NativePtr, (nuint)options, reflection, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -492,7 +753,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLRenderPipelineState NewRenderPipelineState(MTLMeshRenderPipelineDescriptor descriptor, uint options, int reflection, out NSError? error)
     {
-        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateOptionsReflectionError, descriptor.NativePtr, (nint)options, reflection, out nint errorPtr));
+        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateOptionsReflectionError, descriptor.NativePtr, (nuint)options, reflection, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -566,7 +827,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLTexture NewTexture(MTLTextureDescriptor descriptor, int iosurface, uint plane)
     {
-        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewTextureIosurfacePlane, descriptor.NativePtr, iosurface, (nint)plane));
+        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewTextureIosurfacePlane, descriptor.NativePtr, iosurface, (nuint)plane));
 
         return result;
     }
@@ -585,56 +846,51 @@ public partial class MTLDevice : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.SampleTimestampsGpuTimestamp, cpuTimestamp, gpuTimestamp);
     }
 
-    public void SetShouldMaximizeConcurrentCompilation(Bool8 shouldMaximizeConcurrentCompilation)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.SetShouldMaximizeConcurrentCompilation, (nint)shouldMaximizeConcurrentCompilation.Value);
-    }
-
     public nuint SizeOfCounterHeapEntry(MTL4CounterHeapType type)
     {
-        nuint result = (nuint)(ulong)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.SizeOfCounterHeapEntry, (nint)(uint)type);
+        nuint result = ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.SizeOfCounterHeapEntry, (uint)type);
 
         return result;
     }
 
     public Bool8 SupportsCounterSampling(MTLCounterSamplingPoint samplingPoint)
     {
-        bool result = (byte)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.SupportsCounterSampling, (nint)(uint)samplingPoint) is not 0;
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsCounterSampling, (uint)samplingPoint);
 
         return result;
     }
 
     public Bool8 SupportsFamily(MTLGPUFamily gpuFamily)
     {
-        bool result = (byte)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.SupportsFamily, (nint)(uint)gpuFamily) is not 0;
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsFamily, (uint)gpuFamily);
 
         return result;
     }
 
     public Bool8 SupportsFeatureSet(MTLFeatureSet featureSet)
     {
-        bool result = (byte)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.SupportsFeatureSet, (nint)(uint)featureSet) is not 0;
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsFeatureSet, (uint)featureSet);
 
         return result;
     }
 
     public Bool8 SupportsRasterizationRateMap(uint layerCount)
     {
-        bool result = (byte)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.SupportsRasterizationRateMap, (nint)layerCount) is not 0;
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsRasterizationRateMap, (nuint)layerCount);
 
         return result;
     }
 
     public Bool8 SupportsTextureSampleCount(uint sampleCount)
     {
-        bool result = (byte)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.SupportsTextureSampleCount, (nint)sampleCount) is not 0;
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsTextureSampleCount, (nuint)sampleCount);
 
         return result;
     }
 
     public Bool8 SupportsVertexAmplificationCount(uint count)
     {
-        bool result = (byte)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.SupportsVertexAmplificationCount, (nint)count) is not 0;
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsVertexAmplificationCount, (nuint)count);
 
         return result;
     }
@@ -675,9 +931,117 @@ public partial class MTLDevice : IDisposable
 
 file class MTLDeviceSelector
 {
+    public static readonly Selector Architecture = Selector.Register("architecture");
+
+    public static readonly Selector AreBarycentricCoordsSupported = Selector.Register("areBarycentricCoordsSupported");
+
+    public static readonly Selector AreProgrammableSamplePositionsSupported = Selector.Register("areProgrammableSamplePositionsSupported");
+
+    public static readonly Selector AreRasterOrderGroupsSupported = Selector.Register("areRasterOrderGroupsSupported");
+
+    public static readonly Selector ArgumentBuffersSupport = Selector.Register("argumentBuffersSupport");
+
+    public static readonly Selector BarycentricCoordsSupported = Selector.Register("barycentricCoordsSupported");
+
+    public static readonly Selector CounterSets = Selector.Register("counterSets");
+
+    public static readonly Selector CurrentAllocatedSize = Selector.Register("currentAllocatedSize");
+
+    public static readonly Selector Depth24Stencil8PixelFormatSupported = Selector.Register("depth24Stencil8PixelFormatSupported");
+
+    public static readonly Selector HasUnifiedMemory = Selector.Register("hasUnifiedMemory");
+
+    public static readonly Selector Headless = Selector.Register("headless");
+
+    public static readonly Selector IsDepth24Stencil8PixelFormatSupported = Selector.Register("isDepth24Stencil8PixelFormatSupported");
+
+    public static readonly Selector IsHeadless = Selector.Register("isHeadless");
+
+    public static readonly Selector IsLowPower = Selector.Register("isLowPower");
+
+    public static readonly Selector IsRemovable = Selector.Register("isRemovable");
+
+    public static readonly Selector Location = Selector.Register("location");
+
+    public static readonly Selector LocationNumber = Selector.Register("locationNumber");
+
+    public static readonly Selector LowPower = Selector.Register("lowPower");
+
+    public static readonly Selector MaxArgumentBufferSamplerCount = Selector.Register("maxArgumentBufferSamplerCount");
+
+    public static readonly Selector MaxBufferLength = Selector.Register("maxBufferLength");
+
+    public static readonly Selector MaxThreadgroupMemoryLength = Selector.Register("maxThreadgroupMemoryLength");
+
+    public static readonly Selector MaxThreadsPerThreadgroup = Selector.Register("maxThreadsPerThreadgroup");
+
+    public static readonly Selector MaxTransferRate = Selector.Register("maxTransferRate");
+
+    public static readonly Selector MaximumConcurrentCompilationTaskCount = Selector.Register("maximumConcurrentCompilationTaskCount");
+
+    public static readonly Selector Name = Selector.Register("name");
+
+    public static readonly Selector PeerCount = Selector.Register("peerCount");
+
+    public static readonly Selector PeerGroupID = Selector.Register("peerGroupID");
+
+    public static readonly Selector PeerIndex = Selector.Register("peerIndex");
+
+    public static readonly Selector ProgrammableSamplePositionsSupported = Selector.Register("programmableSamplePositionsSupported");
+
+    public static readonly Selector QueryTimestampFrequency = Selector.Register("queryTimestampFrequency");
+
+    public static readonly Selector RasterOrderGroupsSupported = Selector.Register("rasterOrderGroupsSupported");
+
+    public static readonly Selector ReadWriteTextureSupport = Selector.Register("readWriteTextureSupport");
+
+    public static readonly Selector RecommendedMaxWorkingSetSize = Selector.Register("recommendedMaxWorkingSetSize");
+
+    public static readonly Selector RegistryID = Selector.Register("registryID");
+
+    public static readonly Selector Removable = Selector.Register("removable");
+
+    public static readonly Selector ShouldMaximizeConcurrentCompilation = Selector.Register("shouldMaximizeConcurrentCompilation");
+
+    public static readonly Selector SetShouldMaximizeConcurrentCompilation = Selector.Register("setShouldMaximizeConcurrentCompilation:");
+
+    public static readonly Selector SparseTileSizeInBytes = Selector.Register("sparseTileSizeInBytes");
+
+    public static readonly Selector Supports32BitFloatFiltering = Selector.Register("supports32BitFloatFiltering");
+
+    public static readonly Selector Supports32BitMSAA = Selector.Register("supports32BitMSAA");
+
+    public static readonly Selector SupportsBCTextureCompression = Selector.Register("supportsBCTextureCompression");
+
+    public static readonly Selector SupportsDynamicLibraries = Selector.Register("supportsDynamicLibraries");
+
+    public static readonly Selector SupportsFunctionPointers = Selector.Register("supportsFunctionPointers");
+
+    public static readonly Selector SupportsFunctionPointersFromRender = Selector.Register("supportsFunctionPointersFromRender");
+
+    public static readonly Selector SupportsPrimitiveMotionBlur = Selector.Register("supportsPrimitiveMotionBlur");
+
+    public static readonly Selector SupportsPullModelInterpolation = Selector.Register("supportsPullModelInterpolation");
+
+    public static readonly Selector SupportsQueryTextureLOD = Selector.Register("supportsQueryTextureLOD");
+
+    public static readonly Selector SupportsRaytracing = Selector.Register("supportsRaytracing");
+
+    public static readonly Selector SupportsRaytracingFromRender = Selector.Register("supportsRaytracingFromRender");
+
+    public static readonly Selector SupportsRenderDynamicLibraries = Selector.Register("supportsRenderDynamicLibraries");
+
+    public static readonly Selector SupportsShaderBarycentricCoordinates = Selector.Register("supportsShaderBarycentricCoordinates");
+
     public static readonly Selector AccelerationStructureSizes = Selector.Register("accelerationStructureSizes:");
 
+    public static readonly Selector ConvertSparsePixelRegionsTileRegionsTileSizeModeNumRegions = Selector.Register("convertSparsePixelRegions:tileRegions:tileSize:mode:numRegions:");
+
+    public static readonly Selector ConvertSparseTileRegionsPixelRegionsTileSizeNumRegions = Selector.Register("convertSparseTileRegions:pixelRegions:tileSize:numRegions:");
+
     public static readonly Selector FunctionHandle = Selector.Register("functionHandle:");
+
+    public static readonly Selector GetDefaultSamplePositionsCount = Selector.Register("getDefaultSamplePositions:count:");
 
     public static readonly Selector HeapAccelerationStructureSizeAndAlign = Selector.Register("heapAccelerationStructureSizeAndAlign:");
 
@@ -796,8 +1160,6 @@ file class MTLDeviceSelector
     public static readonly Selector NewTextureViewPoolError = Selector.Register("newTextureViewPool:error:");
 
     public static readonly Selector SampleTimestampsGpuTimestamp = Selector.Register("sampleTimestamps:gpuTimestamp:");
-
-    public static readonly Selector SetShouldMaximizeConcurrentCompilation = Selector.Register("setShouldMaximizeConcurrentCompilation:");
 
     public static readonly Selector SizeOfCounterHeapEntry = Selector.Register("sizeOfCounterHeapEntry:");
 

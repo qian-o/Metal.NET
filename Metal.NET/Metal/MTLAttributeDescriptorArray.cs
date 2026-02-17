@@ -41,14 +41,14 @@ public class MTLAttributeDescriptorArray : IDisposable
 
     public MTLAttributeDescriptor Object(uint index)
     {
-        MTLAttributeDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeDescriptorArraySelector.Object, (nint)index));
+        MTLAttributeDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeDescriptorArraySelector.Object, (nuint)index));
 
         return result;
     }
 
     public void SetObject(MTLAttributeDescriptor attributeDesc, uint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorArraySelector.SetObjectIndex, attributeDesc.NativePtr, (nint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorArraySelector.SetObjectIndex, attributeDesc.NativePtr, (nuint)index);
     }
 
 }

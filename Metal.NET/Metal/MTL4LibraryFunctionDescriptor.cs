@@ -39,21 +39,27 @@ public class MTL4LibraryFunctionDescriptor : IDisposable
         }
     }
 
-    public void SetLibrary(MTLLibrary library)
+    public MTLLibrary Library
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorSelector.SetLibrary, library.NativePtr);
+        get => new MTLLibrary(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryFunctionDescriptorSelector.Library));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorSelector.SetLibrary, value.NativePtr);
     }
 
-    public void SetName(NSString name)
+    public NSString Name
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorSelector.SetName, name.NativePtr);
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryFunctionDescriptorSelector.Name));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorSelector.SetName, value.NativePtr);
     }
 
 }
 
 file class MTL4LibraryFunctionDescriptorSelector
 {
+    public static readonly Selector Library = Selector.Register("library");
+
     public static readonly Selector SetLibrary = Selector.Register("setLibrary:");
+
+    public static readonly Selector Name = Selector.Register("name");
 
     public static readonly Selector SetName = Selector.Register("setName:");
 }

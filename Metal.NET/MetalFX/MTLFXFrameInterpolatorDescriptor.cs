@@ -41,54 +41,68 @@ public class MTLFXFrameInterpolatorDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLFXFrameInterpolatorDescriptor");
 
-    public void SetColorTextureFormat(MTLPixelFormat colorTextureFormat)
+    public MTLPixelFormat ColorTextureFormat
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetColorTextureFormat, (nint)(uint)colorTextureFormat);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.ColorTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetColorTextureFormat, (uint)value);
     }
 
-    public void SetOutputTextureFormat(MTLPixelFormat outputTextureFormat)
+    public MTLPixelFormat OutputTextureFormat
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetOutputTextureFormat, (nint)(uint)outputTextureFormat);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.OutputTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetOutputTextureFormat, (uint)value);
     }
 
-    public void SetDepthTextureFormat(MTLPixelFormat depthTextureFormat)
+    public MTLPixelFormat DepthTextureFormat
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetDepthTextureFormat, (nint)(uint)depthTextureFormat);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.DepthTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetDepthTextureFormat, (uint)value);
     }
 
-    public void SetMotionTextureFormat(MTLPixelFormat motionTextureFormat)
+    public MTLPixelFormat MotionTextureFormat
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetMotionTextureFormat, (nint)(uint)motionTextureFormat);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.MotionTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetMotionTextureFormat, (uint)value);
+    }
+
+    public MTLPixelFormat UiTextureFormat
+    {
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.UiTextureFormat));
+    }
+
+    public MTLFXFrameInterpolatableScaler Scaler
+    {
+        get => new MTLFXFrameInterpolatableScaler(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.Scaler));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetScaler, value.NativePtr);
+    }
+
+    public nuint InputWidth
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.InputWidth);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetInputWidth, (nuint)value);
+    }
+
+    public nuint InputHeight
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.InputHeight);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetInputHeight, (nuint)value);
+    }
+
+    public nuint OutputWidth
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.OutputWidth);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetOutputWidth, (nuint)value);
+    }
+
+    public nuint OutputHeight
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.OutputHeight);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetOutputHeight, (nuint)value);
     }
 
     public void SetUITextureFormat(MTLPixelFormat uiTextureFormat)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetUITextureFormat, (nint)(uint)uiTextureFormat);
-    }
-
-    public void SetScaler(MTLFXFrameInterpolatableScaler scaler)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetScaler, scaler.NativePtr);
-    }
-
-    public void SetInputWidth(uint inputWidth)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetInputWidth, (nint)inputWidth);
-    }
-
-    public void SetInputHeight(uint inputHeight)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetInputHeight, (nint)inputHeight);
-    }
-
-    public void SetOutputWidth(uint outputWidth)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetOutputWidth, (nint)outputWidth);
-    }
-
-    public void SetOutputHeight(uint outputHeight)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetOutputHeight, (nint)outputHeight);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetUITextureFormat, (uint)uiTextureFormat);
     }
 
     public MTLFXFrameInterpolator NewFrameInterpolator(MTLDevice pDevice)
@@ -107,14 +121,14 @@ public class MTLFXFrameInterpolatorDescriptor : IDisposable
 
     public static Bool8 SupportsMetal4FX(MTLDevice device)
     {
-        bool result = (byte)ObjectiveCRuntime.MsgSendPtr(s_class, MTLFXFrameInterpolatorDescriptorSelector.SupportsMetal4FX, device.NativePtr) is not 0;
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(s_class, MTLFXFrameInterpolatorDescriptorSelector.SupportsMetal4FX, device.NativePtr);
 
         return result;
     }
 
     public static Bool8 SupportsDevice(MTLDevice device)
     {
-        bool result = (byte)ObjectiveCRuntime.MsgSendPtr(s_class, MTLFXFrameInterpolatorDescriptorSelector.SupportsDevice, device.NativePtr) is not 0;
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(s_class, MTLFXFrameInterpolatorDescriptorSelector.SupportsDevice, device.NativePtr);
 
         return result;
     }
@@ -123,25 +137,45 @@ public class MTLFXFrameInterpolatorDescriptor : IDisposable
 
 file class MTLFXFrameInterpolatorDescriptorSelector
 {
+    public static readonly Selector ColorTextureFormat = Selector.Register("colorTextureFormat");
+
     public static readonly Selector SetColorTextureFormat = Selector.Register("setColorTextureFormat:");
+
+    public static readonly Selector OutputTextureFormat = Selector.Register("outputTextureFormat");
 
     public static readonly Selector SetOutputTextureFormat = Selector.Register("setOutputTextureFormat:");
 
+    public static readonly Selector DepthTextureFormat = Selector.Register("depthTextureFormat");
+
     public static readonly Selector SetDepthTextureFormat = Selector.Register("setDepthTextureFormat:");
+
+    public static readonly Selector MotionTextureFormat = Selector.Register("motionTextureFormat");
 
     public static readonly Selector SetMotionTextureFormat = Selector.Register("setMotionTextureFormat:");
 
-    public static readonly Selector SetUITextureFormat = Selector.Register("setUITextureFormat:");
+    public static readonly Selector UiTextureFormat = Selector.Register("uiTextureFormat");
+
+    public static readonly Selector Scaler = Selector.Register("scaler");
 
     public static readonly Selector SetScaler = Selector.Register("setScaler:");
 
+    public static readonly Selector InputWidth = Selector.Register("inputWidth");
+
     public static readonly Selector SetInputWidth = Selector.Register("setInputWidth:");
+
+    public static readonly Selector InputHeight = Selector.Register("inputHeight");
 
     public static readonly Selector SetInputHeight = Selector.Register("setInputHeight:");
 
+    public static readonly Selector OutputWidth = Selector.Register("outputWidth");
+
     public static readonly Selector SetOutputWidth = Selector.Register("setOutputWidth:");
 
+    public static readonly Selector OutputHeight = Selector.Register("outputHeight");
+
     public static readonly Selector SetOutputHeight = Selector.Register("setOutputHeight:");
+
+    public static readonly Selector SetUITextureFormat = Selector.Register("setUITextureFormat:");
 
     public static readonly Selector NewFrameInterpolator = Selector.Register("newFrameInterpolator:");
 

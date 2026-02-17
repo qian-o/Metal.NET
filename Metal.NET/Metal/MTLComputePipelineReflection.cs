@@ -39,8 +39,21 @@ public class MTLComputePipelineReflection : IDisposable
         }
     }
 
+    public NSArray Arguments
+    {
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineReflectionSelector.Arguments));
+    }
+
+    public NSArray Bindings
+    {
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineReflectionSelector.Bindings));
+    }
+
 }
 
 file class MTLComputePipelineReflectionSelector
 {
+    public static readonly Selector Arguments = Selector.Register("arguments");
+
+    public static readonly Selector Bindings = Selector.Register("bindings");
 }

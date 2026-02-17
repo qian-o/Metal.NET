@@ -39,84 +39,117 @@ public class MTLRenderPassAttachmentDescriptor : IDisposable
         }
     }
 
-    public void SetDepthPlane(uint depthPlane)
+    public nuint DepthPlane
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetDepthPlane, (nint)depthPlane);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.DepthPlane);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetDepthPlane, (nuint)value);
     }
 
-    public void SetLevel(uint level)
+    public nuint Level
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetLevel, (nint)level);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.Level);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetLevel, (nuint)value);
     }
 
-    public void SetLoadAction(MTLLoadAction loadAction)
+    public MTLLoadAction LoadAction
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetLoadAction, (nint)(uint)loadAction);
+        get => (MTLLoadAction)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.LoadAction));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetLoadAction, (uint)value);
     }
 
-    public void SetResolveDepthPlane(uint resolveDepthPlane)
+    public nuint ResolveDepthPlane
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetResolveDepthPlane, (nint)resolveDepthPlane);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.ResolveDepthPlane);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetResolveDepthPlane, (nuint)value);
     }
 
-    public void SetResolveLevel(uint resolveLevel)
+    public nuint ResolveLevel
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetResolveLevel, (nint)resolveLevel);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.ResolveLevel);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetResolveLevel, (nuint)value);
     }
 
-    public void SetResolveSlice(uint resolveSlice)
+    public nuint ResolveSlice
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetResolveSlice, (nint)resolveSlice);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.ResolveSlice);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetResolveSlice, (nuint)value);
     }
 
-    public void SetResolveTexture(MTLTexture resolveTexture)
+    public MTLTexture ResolveTexture
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetResolveTexture, resolveTexture.NativePtr);
+        get => new MTLTexture(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassAttachmentDescriptorSelector.ResolveTexture));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetResolveTexture, value.NativePtr);
     }
 
-    public void SetSlice(uint slice)
+    public nuint Slice
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetSlice, (nint)slice);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.Slice);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetSlice, (nuint)value);
     }
 
-    public void SetStoreAction(MTLStoreAction storeAction)
+    public MTLStoreAction StoreAction
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetStoreAction, (nint)(uint)storeAction);
+        get => (MTLStoreAction)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.StoreAction));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetStoreAction, (uint)value);
     }
 
-    public void SetStoreActionOptions(uint storeActionOptions)
+    public nuint StoreActionOptions
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetStoreActionOptions, (nint)storeActionOptions);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.StoreActionOptions);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetStoreActionOptions, (nuint)value);
     }
 
-    public void SetTexture(MTLTexture texture)
+    public MTLTexture Texture
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetTexture, texture.NativePtr);
+        get => new MTLTexture(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassAttachmentDescriptorSelector.Texture));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetTexture, value.NativePtr);
     }
 
 }
 
 file class MTLRenderPassAttachmentDescriptorSelector
 {
+    public static readonly Selector DepthPlane = Selector.Register("depthPlane");
+
     public static readonly Selector SetDepthPlane = Selector.Register("setDepthPlane:");
+
+    public static readonly Selector Level = Selector.Register("level");
 
     public static readonly Selector SetLevel = Selector.Register("setLevel:");
 
+    public static readonly Selector LoadAction = Selector.Register("loadAction");
+
     public static readonly Selector SetLoadAction = Selector.Register("setLoadAction:");
+
+    public static readonly Selector ResolveDepthPlane = Selector.Register("resolveDepthPlane");
 
     public static readonly Selector SetResolveDepthPlane = Selector.Register("setResolveDepthPlane:");
 
+    public static readonly Selector ResolveLevel = Selector.Register("resolveLevel");
+
     public static readonly Selector SetResolveLevel = Selector.Register("setResolveLevel:");
+
+    public static readonly Selector ResolveSlice = Selector.Register("resolveSlice");
 
     public static readonly Selector SetResolveSlice = Selector.Register("setResolveSlice:");
 
+    public static readonly Selector ResolveTexture = Selector.Register("resolveTexture");
+
     public static readonly Selector SetResolveTexture = Selector.Register("setResolveTexture:");
+
+    public static readonly Selector Slice = Selector.Register("slice");
 
     public static readonly Selector SetSlice = Selector.Register("setSlice:");
 
+    public static readonly Selector StoreAction = Selector.Register("storeAction");
+
     public static readonly Selector SetStoreAction = Selector.Register("setStoreAction:");
 
+    public static readonly Selector StoreActionOptions = Selector.Register("storeActionOptions");
+
     public static readonly Selector SetStoreActionOptions = Selector.Register("setStoreActionOptions:");
+
+    public static readonly Selector Texture = Selector.Register("texture");
 
     public static readonly Selector SetTexture = Selector.Register("setTexture:");
 }

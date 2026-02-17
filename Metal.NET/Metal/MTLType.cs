@@ -39,8 +39,14 @@ public class MTLType : IDisposable
         }
     }
 
+    public MTLDataType DataType
+    {
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTypeSelector.DataType));
+    }
+
 }
 
 file class MTLTypeSelector
 {
+    public static readonly Selector DataType = Selector.Register("dataType");
 }

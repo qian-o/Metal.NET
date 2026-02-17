@@ -39,14 +39,17 @@ public class MTL4CommandBufferOptions : IDisposable
         }
     }
 
-    public void SetLogState(MTLLogState logState)
+    public MTLLogState LogState
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferOptionsSelector.SetLogState, logState.NativePtr);
+        get => new MTLLogState(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferOptionsSelector.LogState));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferOptionsSelector.SetLogState, value.NativePtr);
     }
 
 }
 
 file class MTL4CommandBufferOptionsSelector
 {
+    public static readonly Selector LogState = Selector.Register("logState");
+
     public static readonly Selector SetLogState = Selector.Register("setLogState:");
 }

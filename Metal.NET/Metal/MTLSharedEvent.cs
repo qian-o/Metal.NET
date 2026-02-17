@@ -39,6 +39,12 @@ public class MTLSharedEvent : IDisposable
         }
     }
 
+    public nuint SignaledValue
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSharedEventSelector.SignaledValue);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSharedEventSelector.SetSignaledValue, (nuint)value);
+    }
+
     public MTLSharedEventHandle NewSharedEventHandle()
     {
         MTLSharedEventHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventSelector.NewSharedEventHandle));
@@ -48,17 +54,12 @@ public class MTLSharedEvent : IDisposable
 
     public void NotifyListener(MTLSharedEventListener listener, uint value, int function)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLSharedEventSelector.NotifyListenerValueFunction, listener.NativePtr, (nint)value, function);
-    }
-
-    public void SetSignaledValue(uint signaledValue)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLSharedEventSelector.SetSignaledValue, (nint)signaledValue);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLSharedEventSelector.NotifyListenerValueFunction, listener.NativePtr, (nuint)value, function);
     }
 
     public Bool8 WaitUntilSignaledValue(uint value, uint milliseconds)
     {
-        bool result = (byte)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventSelector.WaitUntilSignaledValueMilliseconds, (nint)value, (nint)milliseconds) is not 0;
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLSharedEventSelector.WaitUntilSignaledValueMilliseconds, (nuint)value, (nuint)milliseconds);
 
         return result;
     }
@@ -67,11 +68,13 @@ public class MTLSharedEvent : IDisposable
 
 file class MTLSharedEventSelector
 {
+    public static readonly Selector SignaledValue = Selector.Register("signaledValue");
+
+    public static readonly Selector SetSignaledValue = Selector.Register("setSignaledValue:");
+
     public static readonly Selector NewSharedEventHandle = Selector.Register("newSharedEventHandle");
 
     public static readonly Selector NotifyListenerValueFunction = Selector.Register("notifyListener:value:function:");
-
-    public static readonly Selector SetSignaledValue = Selector.Register("setSignaledValue:");
 
     public static readonly Selector WaitUntilSignaledValueMilliseconds = Selector.Register("waitUntilSignaledValue:milliseconds:");
 }

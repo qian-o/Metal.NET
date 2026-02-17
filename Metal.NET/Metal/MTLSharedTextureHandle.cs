@@ -39,8 +39,21 @@ public class MTLSharedTextureHandle : IDisposable
         }
     }
 
+    public MTLDevice Device
+    {
+        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedTextureHandleSelector.Device));
+    }
+
+    public NSString Label
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedTextureHandleSelector.Label));
+    }
+
 }
 
 file class MTLSharedTextureHandleSelector
 {
+    public static readonly Selector Device = Selector.Register("device");
+
+    public static readonly Selector Label = Selector.Register("label");
 }

@@ -39,8 +39,21 @@ public class MTLCounterSet : IDisposable
         }
     }
 
+    public NSArray Counters
+    {
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSetSelector.Counters));
+    }
+
+    public NSString Name
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSetSelector.Name));
+    }
+
 }
 
 file class MTLCounterSetSelector
 {
+    public static readonly Selector Counters = Selector.Register("counters");
+
+    public static readonly Selector Name = Selector.Register("name");
 }

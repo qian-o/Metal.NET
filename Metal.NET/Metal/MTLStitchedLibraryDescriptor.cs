@@ -41,43 +41,51 @@ public class MTLStitchedLibraryDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLStitchedLibraryDescriptor");
 
-    public static MTLStitchedLibraryDescriptor New()
+    public MTLStitchedLibraryDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
     {
-        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc"));
-        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register("init"));
-
-        return new MTLStitchedLibraryDescriptor(ptr);
     }
 
-    public void SetBinaryArchives(NSArray binaryArchives)
+    public NSArray BinaryArchives
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetBinaryArchives, binaryArchives.NativePtr);
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStitchedLibraryDescriptorSelector.BinaryArchives));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetBinaryArchives, value.NativePtr);
     }
 
-    public void SetFunctionGraphs(NSArray functionGraphs)
+    public NSArray FunctionGraphs
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetFunctionGraphs, functionGraphs.NativePtr);
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStitchedLibraryDescriptorSelector.FunctionGraphs));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetFunctionGraphs, value.NativePtr);
     }
 
-    public void SetFunctions(NSArray functions)
+    public NSArray Functions
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetFunctions, functions.NativePtr);
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStitchedLibraryDescriptorSelector.Functions));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetFunctions, value.NativePtr);
     }
 
-    public void SetOptions(uint options)
+    public nuint Options
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetOptions, (nint)options);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStitchedLibraryDescriptorSelector.Options);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetOptions, (nuint)value);
     }
 
 }
 
 file class MTLStitchedLibraryDescriptorSelector
 {
+    public static readonly Selector BinaryArchives = Selector.Register("binaryArchives");
+
     public static readonly Selector SetBinaryArchives = Selector.Register("setBinaryArchives:");
+
+    public static readonly Selector FunctionGraphs = Selector.Register("functionGraphs");
 
     public static readonly Selector SetFunctionGraphs = Selector.Register("setFunctionGraphs:");
 
+    public static readonly Selector Functions = Selector.Register("functions");
+
     public static readonly Selector SetFunctions = Selector.Register("setFunctions:");
+
+    public static readonly Selector Options = Selector.Register("options");
 
     public static readonly Selector SetOptions = Selector.Register("setOptions:");
 }

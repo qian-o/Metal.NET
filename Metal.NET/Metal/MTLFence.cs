@@ -39,14 +39,24 @@ public class MTLFence : IDisposable
         }
     }
 
-    public void SetLabel(NSString label)
+    public MTLDevice Device
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFenceSelector.SetLabel, label.NativePtr);
+        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFenceSelector.Device));
+    }
+
+    public NSString Label
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFenceSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFenceSelector.SetLabel, value.NativePtr);
     }
 
 }
 
 file class MTLFenceSelector
 {
+    public static readonly Selector Device = Selector.Register("device");
+
+    public static readonly Selector Label = Selector.Register("label");
+
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

@@ -41,36 +41,41 @@ public class MTLVertexBufferLayoutDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLVertexBufferLayoutDescriptor");
 
-    public static MTLVertexBufferLayoutDescriptor New()
+    public MTLVertexBufferLayoutDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
     {
-        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc"));
-        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register("init"));
-
-        return new MTLVertexBufferLayoutDescriptor(ptr);
     }
 
-    public void SetStepFunction(MTLVertexStepFunction stepFunction)
+    public MTLVertexStepFunction StepFunction
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorSelector.SetStepFunction, (nint)(uint)stepFunction);
+        get => (MTLVertexStepFunction)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLVertexBufferLayoutDescriptorSelector.StepFunction));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorSelector.SetStepFunction, (uint)value);
     }
 
-    public void SetStepRate(uint stepRate)
+    public nuint StepRate
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorSelector.SetStepRate, (nint)stepRate);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexBufferLayoutDescriptorSelector.StepRate);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorSelector.SetStepRate, (nuint)value);
     }
 
-    public void SetStride(uint stride)
+    public nuint Stride
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorSelector.SetStride, (nint)stride);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexBufferLayoutDescriptorSelector.Stride);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorSelector.SetStride, (nuint)value);
     }
 
 }
 
 file class MTLVertexBufferLayoutDescriptorSelector
 {
+    public static readonly Selector StepFunction = Selector.Register("stepFunction");
+
     public static readonly Selector SetStepFunction = Selector.Register("setStepFunction:");
 
+    public static readonly Selector StepRate = Selector.Register("stepRate");
+
     public static readonly Selector SetStepRate = Selector.Register("setStepRate:");
+
+    public static readonly Selector Stride = Selector.Register("stride");
 
     public static readonly Selector SetStride = Selector.Register("setStride:");
 }

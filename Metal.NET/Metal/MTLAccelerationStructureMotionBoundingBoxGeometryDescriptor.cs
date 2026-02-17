@@ -41,19 +41,22 @@ public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor : IDisp
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor");
 
-    public void SetBoundingBoxBuffers(NSArray boundingBoxBuffers)
+    public NSArray BoundingBoxBuffers
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.SetBoundingBoxBuffers, boundingBoxBuffers.NativePtr);
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.BoundingBoxBuffers));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.SetBoundingBoxBuffers, value.NativePtr);
     }
 
-    public void SetBoundingBoxCount(uint boundingBoxCount)
+    public nuint BoundingBoxCount
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.SetBoundingBoxCount, (nint)boundingBoxCount);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.BoundingBoxCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.SetBoundingBoxCount, (nuint)value);
     }
 
-    public void SetBoundingBoxStride(uint boundingBoxStride)
+    public nuint BoundingBoxStride
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.SetBoundingBoxStride, (nint)boundingBoxStride);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.BoundingBoxStride);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.SetBoundingBoxStride, (nuint)value);
     }
 
     public static MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor Descriptor()
@@ -67,9 +70,15 @@ public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor : IDisp
 
 file class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector
 {
+    public static readonly Selector BoundingBoxBuffers = Selector.Register("boundingBoxBuffers");
+
     public static readonly Selector SetBoundingBoxBuffers = Selector.Register("setBoundingBoxBuffers:");
 
+    public static readonly Selector BoundingBoxCount = Selector.Register("boundingBoxCount");
+
     public static readonly Selector SetBoundingBoxCount = Selector.Register("setBoundingBoxCount:");
+
+    public static readonly Selector BoundingBoxStride = Selector.Register("boundingBoxStride");
 
     public static readonly Selector SetBoundingBoxStride = Selector.Register("setBoundingBoxStride:");
 

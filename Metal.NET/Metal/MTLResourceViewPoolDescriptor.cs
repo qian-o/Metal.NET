@@ -39,21 +39,27 @@ public class MTLResourceViewPoolDescriptor : IDisposable
         }
     }
 
-    public void SetLabel(NSString label)
+    public NSString Label
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceViewPoolDescriptorSelector.SetLabel, label.NativePtr);
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolDescriptorSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceViewPoolDescriptorSelector.SetLabel, value.NativePtr);
     }
 
-    public void SetResourceViewCount(uint resourceViewCount)
+    public nuint ResourceViewCount
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceViewPoolDescriptorSelector.SetResourceViewCount, (nint)resourceViewCount);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceViewPoolDescriptorSelector.ResourceViewCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceViewPoolDescriptorSelector.SetResourceViewCount, (nuint)value);
     }
 
 }
 
 file class MTLResourceViewPoolDescriptorSelector
 {
+    public static readonly Selector Label = Selector.Register("label");
+
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
+
+    public static readonly Selector ResourceViewCount = Selector.Register("resourceViewCount");
 
     public static readonly Selector SetResourceViewCount = Selector.Register("setResourceViewCount:");
 }

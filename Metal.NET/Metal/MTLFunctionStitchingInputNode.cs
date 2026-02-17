@@ -41,22 +41,21 @@ public class MTLFunctionStitchingInputNode : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingInputNode");
 
-    public static MTLFunctionStitchingInputNode New()
+    public MTLFunctionStitchingInputNode() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
     {
-        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc"));
-        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register("init"));
-
-        return new MTLFunctionStitchingInputNode(ptr);
     }
 
-    public void SetArgumentIndex(uint argumentIndex)
+    public nuint ArgumentIndex
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionStitchingInputNodeSelector.SetArgumentIndex, (nint)argumentIndex);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionStitchingInputNodeSelector.ArgumentIndex);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionStitchingInputNodeSelector.SetArgumentIndex, (nuint)value);
     }
 
 }
 
 file class MTLFunctionStitchingInputNodeSelector
 {
+    public static readonly Selector ArgumentIndex = Selector.Register("argumentIndex");
+
     public static readonly Selector SetArgumentIndex = Selector.Register("setArgumentIndex:");
 }

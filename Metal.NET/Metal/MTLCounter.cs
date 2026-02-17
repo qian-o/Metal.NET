@@ -39,8 +39,14 @@ public class MTLCounter : IDisposable
         }
     }
 
+    public NSString Name
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSelector.Name));
+    }
+
 }
 
 file class MTLCounterSelector
 {
+    public static readonly Selector Name = Selector.Register("name");
 }

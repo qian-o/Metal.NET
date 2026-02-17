@@ -39,6 +39,36 @@ public class MTLTensor : IDisposable
         }
     }
 
+    public MTLBuffer Buffer
+    {
+        get => new MTLBuffer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Buffer));
+    }
+
+    public nuint BufferOffset
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorSelector.BufferOffset);
+    }
+
+    public MTLTensorDataType DataType
+    {
+        get => (MTLTensorDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTensorSelector.DataType));
+    }
+
+    public MTLTensorExtents Dimensions
+    {
+        get => new MTLTensorExtents(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Dimensions));
+    }
+
+    public MTLTensorExtents Strides
+    {
+        get => new MTLTensorExtents(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Strides));
+    }
+
+    public nuint Usage
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorSelector.Usage);
+    }
+
     public void GetBytes(int bytes, MTLTensorExtents strides, MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorSelector.GetBytesStridesSliceOriginSliceDimensions, bytes, strides.NativePtr, sliceOrigin.NativePtr, sliceDimensions.NativePtr);
@@ -53,6 +83,20 @@ public class MTLTensor : IDisposable
 
 file class MTLTensorSelector
 {
+    public static readonly Selector Buffer = Selector.Register("buffer");
+
+    public static readonly Selector BufferOffset = Selector.Register("bufferOffset");
+
+    public static readonly Selector DataType = Selector.Register("dataType");
+
+    public static readonly Selector Dimensions = Selector.Register("dimensions");
+
+    public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
+
+    public static readonly Selector Strides = Selector.Register("strides");
+
+    public static readonly Selector Usage = Selector.Register("usage");
+
     public static readonly Selector GetBytesStridesSliceOriginSliceDimensions = Selector.Register("getBytes:strides:sliceOrigin:sliceDimensions:");
 
     public static readonly Selector ReplaceSliceOriginSliceDimensionsBytesStrides = Selector.Register("replaceSliceOrigin:sliceDimensions:bytes:strides:");

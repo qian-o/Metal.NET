@@ -39,21 +39,27 @@ public class MTL4StitchedFunctionDescriptor : IDisposable
         }
     }
 
-    public void SetFunctionDescriptors(NSArray functionDescriptors)
+    public NSArray FunctionDescriptors
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorSelector.SetFunctionDescriptors, functionDescriptors.NativePtr);
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StitchedFunctionDescriptorSelector.FunctionDescriptors));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorSelector.SetFunctionDescriptors, value.NativePtr);
     }
 
-    public void SetFunctionGraph(MTLFunctionStitchingGraph functionGraph)
+    public MTLFunctionStitchingGraph FunctionGraph
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorSelector.SetFunctionGraph, functionGraph.NativePtr);
+        get => new MTLFunctionStitchingGraph(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StitchedFunctionDescriptorSelector.FunctionGraph));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorSelector.SetFunctionGraph, value.NativePtr);
     }
 
 }
 
 file class MTL4StitchedFunctionDescriptorSelector
 {
+    public static readonly Selector FunctionDescriptors = Selector.Register("functionDescriptors");
+
     public static readonly Selector SetFunctionDescriptors = Selector.Register("setFunctionDescriptors:");
+
+    public static readonly Selector FunctionGraph = Selector.Register("functionGraph");
 
     public static readonly Selector SetFunctionGraph = Selector.Register("setFunctionGraph:");
 }

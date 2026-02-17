@@ -39,8 +39,21 @@ public class MTL4BinaryFunction : IDisposable
         }
     }
 
+    public MTLFunctionType FunctionType
+    {
+        get => (MTLFunctionType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4BinaryFunctionSelector.FunctionType));
+    }
+
+    public NSString Name
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4BinaryFunctionSelector.Name));
+    }
+
 }
 
 file class MTL4BinaryFunctionSelector
 {
+    public static readonly Selector FunctionType = Selector.Register("functionType");
+
+    public static readonly Selector Name = Selector.Register("name");
 }

@@ -39,6 +39,87 @@ public class MTLCommandBuffer : IDisposable
         }
     }
 
+    public double GPUEndTime
+    {
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferSelector.GPUEndTime);
+    }
+
+    public double GPUStartTime
+    {
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferSelector.GPUStartTime);
+    }
+
+    public MTLAccelerationStructureCommandEncoder AccelerationStructureCommandEncoder
+    {
+        get => new MTLAccelerationStructureCommandEncoder(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.AccelerationStructureCommandEncoder));
+    }
+
+    public MTLBlitCommandEncoder BlitCommandEncoder
+    {
+        get => new MTLBlitCommandEncoder(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.BlitCommandEncoder));
+    }
+
+    public MTLCommandQueue CommandQueue
+    {
+        get => new MTLCommandQueue(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.CommandQueue));
+    }
+
+    public MTLComputeCommandEncoder ComputeCommandEncoder
+    {
+        get => new MTLComputeCommandEncoder(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.ComputeCommandEncoder));
+    }
+
+    public MTLDevice Device
+    {
+        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.Device));
+    }
+
+    public NSError Error
+    {
+        get => new NSError(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.Error));
+    }
+
+    public nuint ErrorOptions
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandBufferSelector.ErrorOptions);
+    }
+
+    public double KernelEndTime
+    {
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferSelector.KernelEndTime);
+    }
+
+    public double KernelStartTime
+    {
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferSelector.KernelStartTime);
+    }
+
+    public NSString Label
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.SetLabel, value.NativePtr);
+    }
+
+    public MTLLogContainer Logs
+    {
+        get => new MTLLogContainer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.Logs));
+    }
+
+    public MTLResourceStateCommandEncoder ResourceStateCommandEncoder
+    {
+        get => new MTLResourceStateCommandEncoder(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.ResourceStateCommandEncoder));
+    }
+
+    public Bool8 RetainedReferences
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCommandBufferSelector.RetainedReferences);
+    }
+
+    public MTLCommandBufferStatus Status
+    {
+        get => (MTLCommandBufferStatus)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLCommandBufferSelector.Status));
+    }
+
     public void AddCompletedHandler(int function)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.AddCompletedHandler, function);
@@ -56,12 +137,12 @@ public class MTLCommandBuffer : IDisposable
 
     public void EncodeSignalEvent(MTLEvent @event, uint value)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.EncodeSignalEventValue, @event.NativePtr, (nint)value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.EncodeSignalEventValue, @event.NativePtr, (nuint)value);
     }
 
     public void EncodeWait(MTLEvent @event, uint value)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.EncodeWaitValue, @event.NativePtr, (nint)value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.EncodeWaitValue, @event.NativePtr, (nuint)value);
     }
 
     public void Enqueue()
@@ -86,6 +167,16 @@ public class MTLCommandBuffer : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.PresentDrawable, drawable.NativePtr);
     }
 
+    public void PresentDrawableAfterMinimumDuration(MTLDrawable drawable, double duration)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.PresentDrawableAfterMinimumDurationDuration, drawable.NativePtr, duration);
+    }
+
+    public void PresentDrawableAtTime(MTLDrawable drawable, double presentationTime)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.PresentDrawableAtTimePresentationTime, drawable.NativePtr, presentationTime);
+    }
+
     public void PushDebugGroup(NSString @string)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.PushDebugGroup, @string.NativePtr);
@@ -96,11 +187,6 @@ public class MTLCommandBuffer : IDisposable
         MTLRenderCommandEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.RenderCommandEncoder, renderPassDescriptor.NativePtr));
 
         return result;
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.SetLabel, label.NativePtr);
     }
 
     public void UseResidencySet(MTLResidencySet residencySet)
@@ -122,6 +208,40 @@ public class MTLCommandBuffer : IDisposable
 
 file class MTLCommandBufferSelector
 {
+    public static readonly Selector GPUEndTime = Selector.Register("GPUEndTime");
+
+    public static readonly Selector GPUStartTime = Selector.Register("GPUStartTime");
+
+    public static readonly Selector AccelerationStructureCommandEncoder = Selector.Register("accelerationStructureCommandEncoder");
+
+    public static readonly Selector BlitCommandEncoder = Selector.Register("blitCommandEncoder");
+
+    public static readonly Selector CommandQueue = Selector.Register("commandQueue");
+
+    public static readonly Selector ComputeCommandEncoder = Selector.Register("computeCommandEncoder");
+
+    public static readonly Selector Device = Selector.Register("device");
+
+    public static readonly Selector Error = Selector.Register("error");
+
+    public static readonly Selector ErrorOptions = Selector.Register("errorOptions");
+
+    public static readonly Selector KernelEndTime = Selector.Register("kernelEndTime");
+
+    public static readonly Selector KernelStartTime = Selector.Register("kernelStartTime");
+
+    public static readonly Selector Label = Selector.Register("label");
+
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+
+    public static readonly Selector Logs = Selector.Register("logs");
+
+    public static readonly Selector ResourceStateCommandEncoder = Selector.Register("resourceStateCommandEncoder");
+
+    public static readonly Selector RetainedReferences = Selector.Register("retainedReferences");
+
+    public static readonly Selector Status = Selector.Register("status");
+
     public static readonly Selector AddCompletedHandler = Selector.Register("addCompletedHandler:");
 
     public static readonly Selector AddScheduledHandler = Selector.Register("addScheduledHandler:");
@@ -140,11 +260,13 @@ file class MTLCommandBufferSelector
 
     public static readonly Selector PresentDrawable = Selector.Register("presentDrawable:");
 
+    public static readonly Selector PresentDrawableAfterMinimumDurationDuration = Selector.Register("presentDrawableAfterMinimumDuration:duration:");
+
+    public static readonly Selector PresentDrawableAtTimePresentationTime = Selector.Register("presentDrawableAtTime:presentationTime:");
+
     public static readonly Selector PushDebugGroup = Selector.Register("pushDebugGroup:");
 
     public static readonly Selector RenderCommandEncoder = Selector.Register("renderCommandEncoder:");
-
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
 
     public static readonly Selector UseResidencySet = Selector.Register("useResidencySet:");
 

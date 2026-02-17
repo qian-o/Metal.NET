@@ -41,6 +41,17 @@ public class MTLCaptureManager : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLCaptureManager");
 
+    public MTLCaptureScope DefaultCaptureScope
+    {
+        get => new MTLCaptureScope(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerSelector.DefaultCaptureScope));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureManagerSelector.SetDefaultCaptureScope, value.NativePtr);
+    }
+
+    public Bool8 IsCapturing
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerSelector.IsCapturing);
+    }
+
     public MTLCaptureScope NewCaptureScope(MTLDevice device)
     {
         MTLCaptureScope result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerSelector.NewCaptureScope, device.NativePtr));
@@ -62,14 +73,9 @@ public class MTLCaptureManager : IDisposable
         return result;
     }
 
-    public void SetDefaultCaptureScope(MTLCaptureScope defaultCaptureScope)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureManagerSelector.SetDefaultCaptureScope, defaultCaptureScope.NativePtr);
-    }
-
     public Bool8 StartCapture(MTLCaptureDescriptor descriptor, out NSError? error)
     {
-        bool result = (byte)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerSelector.StartCaptureError, descriptor.NativePtr, out nint errorPtr) is not 0;
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerSelector.StartCaptureError, descriptor.NativePtr, out nint errorPtr);
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -98,7 +104,7 @@ public class MTLCaptureManager : IDisposable
 
     public Bool8 SupportsDestination(MTLCaptureDestination destination)
     {
-        bool result = (byte)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerSelector.SupportsDestination, (nint)(uint)destination) is not 0;
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerSelector.SupportsDestination, (uint)destination);
 
         return result;
     }
@@ -114,9 +120,13 @@ public class MTLCaptureManager : IDisposable
 
 file class MTLCaptureManagerSelector
 {
-    public static readonly Selector NewCaptureScope = Selector.Register("newCaptureScope:");
+    public static readonly Selector DefaultCaptureScope = Selector.Register("defaultCaptureScope");
 
     public static readonly Selector SetDefaultCaptureScope = Selector.Register("setDefaultCaptureScope:");
+
+    public static readonly Selector IsCapturing = Selector.Register("isCapturing");
+
+    public static readonly Selector NewCaptureScope = Selector.Register("newCaptureScope:");
 
     public static readonly Selector StartCaptureError = Selector.Register("startCapture:error:");
 

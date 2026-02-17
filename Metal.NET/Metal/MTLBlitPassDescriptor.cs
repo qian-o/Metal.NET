@@ -41,12 +41,13 @@ public class MTLBlitPassDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLBlitPassDescriptor");
 
-    public static MTLBlitPassDescriptor New()
+    public MTLBlitPassDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
     {
-        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc"));
-        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register("init"));
+    }
 
-        return new MTLBlitPassDescriptor(ptr);
+    public MTLBlitPassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
+    {
+        get => new MTLBlitPassSampleBufferAttachmentDescriptorArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBlitPassDescriptorSelector.SampleBufferAttachments));
     }
 
     public static MTLBlitPassDescriptor BlitPassDescriptor()
@@ -60,5 +61,7 @@ public class MTLBlitPassDescriptor : IDisposable
 
 file class MTLBlitPassDescriptorSelector
 {
+    public static readonly Selector SampleBufferAttachments = Selector.Register("sampleBufferAttachments");
+
     public static readonly Selector BlitPassDescriptor = Selector.Register("blitPassDescriptor");
 }

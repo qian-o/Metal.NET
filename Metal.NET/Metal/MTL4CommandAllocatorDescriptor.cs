@@ -39,14 +39,17 @@ public class MTL4CommandAllocatorDescriptor : IDisposable
         }
     }
 
-    public void SetLabel(NSString label)
+    public NSString Label
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandAllocatorDescriptorSelector.SetLabel, label.NativePtr);
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorDescriptorSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandAllocatorDescriptorSelector.SetLabel, value.NativePtr);
     }
 
 }
 
 file class MTL4CommandAllocatorDescriptorSelector
 {
+    public static readonly Selector Label = Selector.Register("label");
+
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

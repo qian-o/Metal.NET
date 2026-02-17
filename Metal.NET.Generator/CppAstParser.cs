@@ -451,7 +451,10 @@ public static class CppAstParser
 
         // Track method signatures for deduplication
         var methodSigs = new HashSet<string>();
-        var propertyNames = new HashSet<string>();
+        // potentialPropertyNames: collision detection to prevent methods from shadowing properties
+        var potentialPropertyNames = new HashSet<string>();
+        // addedPropertyNames: track which properties have actually been added to def.Properties
+        var addedPropertyNames = new HashSet<string>();
 
         // Pre-pass: identify all potential property names (0-arg, non-void, non-static, non-new methods)
         foreach (var fn in cppClass.Functions)
@@ -466,7 +469,7 @@ public static class CppAstParser
             if (retType == null || retType == "void") continue;
 
             string pcName = char.ToUpperInvariant(fn.Name[0]) + fn.Name.Substring(1);
-            propertyNames.Add(pcName);
+            potentialPropertyNames.Add(pcName);
         }
 
         foreach (var fn in cppClass.Functions)
@@ -511,9 +514,9 @@ public static class CppAstParser
 
             if (isProperty && !isStatic)
             {
-                // Don't add if there's already a method with same name (e.g., "sparseTileSizeInBytes")
+                // Don't add if we already have a property with this name
                 string propPcName = char.ToUpperInvariant(methodDef.Name[0]) + methodDef.Name.Substring(1);
-                if (propertyNames.Add(propPcName))
+                if (addedPropertyNames.Add(propPcName))
                 {
                     def.Properties.Add(new PropertyDef
                     {
@@ -531,15 +534,15 @@ public static class CppAstParser
                 if (fn.Name.StartsWith("set") && fn.Name.Length > 3 && char.IsUpper(fn.Name[3])
                     && fn.Parameters.Count == 1)
                 {
-                    // Check if we already have a property for this
-                    string propName = char.ToLowerInvariant(fn.Name[3]) + fn.Name.Substring(4);
-                    if (def.Properties.Any(p => p.Name == propName))
+                    // Check if there's a matching getter (potential property)
+                    string propPcName = fn.Name.Substring(3); // already PascalCase after "set"
+                    if (potentialPropertyNames.Contains(propPcName))
                         continue;
                 }
 
                 // Skip methods whose PascalCase name collides with an existing property
                 string methodPcName = char.ToUpperInvariant(methodDef.Name[0]) + methodDef.Name.Substring(1);
-                if (propertyNames.Contains(methodPcName))
+                if (potentialPropertyNames.Contains(methodPcName))
                     continue;
 
                 if (isStatic)
@@ -598,79 +601,7 @@ public static class CppAstParser
 
         methodDef.HasErrorOut = hasErrorOut;
 
-        // Verify that the parameter combination is supported by ObjectiveCRuntime.
-        // Skip methods that mix value struct params with non-value-struct params
-        // in unsupported patterns (we only have specific overloads for certain combos).
-        if (!IsMethodParamsSupported(methodDef))
-            return null;
-
         return methodDef;
-    }
-
-    /// <summary>
-    /// Check if a method's parameter types are compatible with available
-    /// ObjectiveCRuntime.objc_msgSend overloads.
-    /// Value struct params only have void-return overloads; methods returning
-    /// non-void types with value struct params are unsupported.
-    /// </summary>
-    private static bool IsMethodParamsSupported(MethodDef m)
-    {
-        var types = m.Parameters.Select(p => p.Type).ToList();
-        if (types.Count == 0) return true;
-
-        bool hasValueStruct = types.Any(t => s_valueStructs.Contains(t));
-        bool hasFloat = types.Any(t => t is "float" or "double");
-
-        // No value structs or float/double — all can be cast to nint, always OK
-        if (!hasValueStruct && !hasFloat) return true;
-
-        // Pure float/double with no other params is OK (single float or double overload)
-        if (types.Count == 1 && hasFloat) return true;
-
-        // Float/double mixed with other params — no overload exists
-        if (hasFloat && types.Count > 1) return false;
-
-        // Value struct params — only supported for void-returning methods
-        if (hasValueStruct && m.ReturnType != "void")
-            return false;
-
-        // Single value struct param (void return)
-        if (types.Count == 1 && s_valueStructs.Contains(types[0]))
-        {
-            return types[0] is "MTLClearColor" or "MTLSize";
-        }
-
-        // Two-param: MTLOrigin + MTLSize, or MTLSize + MTLSize
-        if (types.Count == 2 && s_valueStructs.Contains(types[0]) && s_valueStructs.Contains(types[1]))
-        {
-            return (types[0] == "MTLOrigin" && types[1] == "MTLSize")
-                || (types[0] == "MTLSize" && types[1] == "MTLSize");
-        }
-
-        // Any value struct mixed with other params in unsupported combos
-        var valueStructParams = types.Where(t => s_valueStructs.Contains(t)).ToList();
-
-        // Specific supported multi-param patterns from ObjectiveCRuntime:
-        // MTLRegion + 5 nint params (6 total)
-        if (types.Count == 6 && types[0] == "MTLRegion"
-            && types.Skip(1).All(t => !s_valueStructs.Contains(t)))
-            return true;
-
-        // 4 nint + MTLSize + 3 nint + MTLOrigin (9 params)
-        if (types.Count == 9 && types[4] == "MTLSize" && types[8] == "MTLOrigin"
-            && valueStructParams.Count == 2)
-            return true;
-
-        // 3 nint + MTLOrigin + MTLSize + 3 nint + MTLOrigin (9 params)
-        if (types.Count == 9 && types[3] == "MTLOrigin" && types[4] == "MTLSize" && types[8] == "MTLOrigin"
-            && valueStructParams.Count == 3)
-            return true;
-
-        // All other value-struct combinations are unsupported
-        if (valueStructParams.Count > 0)
-            return false;
-
-        return true;
     }
 
     /// <summary>Build an Objective-C selector string from a C++ method.</summary>

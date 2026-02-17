@@ -41,12 +41,17 @@ public class MTLBlitCommandEncoder : IDisposable
 
     public void CopyFromBuffer(MTLBuffer sourceBuffer, uint sourceOffset, uint sourceBytesPerRow, uint sourceBytesPerImage, MTLSize sourceSize, MTLTexture destinationTexture, uint destinationSlice, uint destinationLevel, MTLOrigin destinationOrigin)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.CopyFromBufferSourceOffsetSourceBytesPerRowSourceBytesPerImageSourceSizeDestinationTextureDestinationSliceDestinationLevelDestinationOrigin, sourceBuffer.NativePtr, (nint)sourceOffset, (nint)sourceBytesPerRow, (nint)sourceBytesPerImage, sourceSize, destinationTexture.NativePtr, (nint)destinationSlice, (nint)destinationLevel, destinationOrigin);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.CopyFromBufferSourceOffsetSourceBytesPerRowSourceBytesPerImageSourceSizeDestinationTextureDestinationSliceDestinationLevelDestinationOrigin, sourceBuffer.NativePtr, (nuint)sourceOffset, (nuint)sourceBytesPerRow, (nuint)sourceBytesPerImage, sourceSize, destinationTexture.NativePtr, (nuint)destinationSlice, (nuint)destinationLevel, destinationOrigin);
+    }
+
+    public void CopyFromBuffer(MTLBuffer sourceBuffer, uint sourceOffset, uint sourceBytesPerRow, uint sourceBytesPerImage, MTLSize sourceSize, MTLTexture destinationTexture, uint destinationSlice, uint destinationLevel, MTLOrigin destinationOrigin, uint options)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.CopyFromBufferSourceOffsetSourceBytesPerRowSourceBytesPerImageSourceSizeDestinationTextureDestinationSliceDestinationLevelDestinationOriginOptions, sourceBuffer.NativePtr, (nuint)sourceOffset, (nuint)sourceBytesPerRow, (nuint)sourceBytesPerImage, sourceSize, destinationTexture.NativePtr, (nuint)destinationSlice, (nuint)destinationLevel, destinationOrigin, (nuint)options);
     }
 
     public void CopyFromBuffer(MTLBuffer sourceBuffer, uint sourceOffset, MTLBuffer destinationBuffer, uint destinationOffset, uint size)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.CopyFromBufferSourceOffsetDestinationBufferDestinationOffsetSize, sourceBuffer.NativePtr, (nint)sourceOffset, destinationBuffer.NativePtr, (nint)destinationOffset, (nint)size);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.CopyFromBufferSourceOffsetDestinationBufferDestinationOffsetSize, sourceBuffer.NativePtr, (nuint)sourceOffset, destinationBuffer.NativePtr, (nuint)destinationOffset, (nuint)size);
     }
 
     public void CopyFromTensor(MTLTensor sourceTensor, MTLTensorExtents sourceOrigin, MTLTensorExtents sourceDimensions, MTLTensor destinationTensor, MTLTensorExtents destinationOrigin, MTLTensorExtents destinationDimensions)
@@ -56,12 +61,22 @@ public class MTLBlitCommandEncoder : IDisposable
 
     public void CopyFromTexture(MTLTexture sourceTexture, uint sourceSlice, uint sourceLevel, MTLOrigin sourceOrigin, MTLSize sourceSize, MTLTexture destinationTexture, uint destinationSlice, uint destinationLevel, MTLOrigin destinationOrigin)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.CopyFromTextureSourceSliceSourceLevelSourceOriginSourceSizeDestinationTextureDestinationSliceDestinationLevelDestinationOrigin, sourceTexture.NativePtr, (nint)sourceSlice, (nint)sourceLevel, sourceOrigin, sourceSize, destinationTexture.NativePtr, (nint)destinationSlice, (nint)destinationLevel, destinationOrigin);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.CopyFromTextureSourceSliceSourceLevelSourceOriginSourceSizeDestinationTextureDestinationSliceDestinationLevelDestinationOrigin, sourceTexture.NativePtr, (nuint)sourceSlice, (nuint)sourceLevel, sourceOrigin, sourceSize, destinationTexture.NativePtr, (nuint)destinationSlice, (nuint)destinationLevel, destinationOrigin);
+    }
+
+    public void CopyFromTexture(MTLTexture sourceTexture, uint sourceSlice, uint sourceLevel, MTLOrigin sourceOrigin, MTLSize sourceSize, MTLBuffer destinationBuffer, uint destinationOffset, uint destinationBytesPerRow, uint destinationBytesPerImage)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.CopyFromTextureSourceSliceSourceLevelSourceOriginSourceSizeDestinationBufferDestinationOffsetDestinationBytesPerRowDestinationBytesPerImage, sourceTexture.NativePtr, (nuint)sourceSlice, (nuint)sourceLevel, sourceOrigin, sourceSize, destinationBuffer.NativePtr, (nuint)destinationOffset, (nuint)destinationBytesPerRow, (nuint)destinationBytesPerImage);
+    }
+
+    public void CopyFromTexture(MTLTexture sourceTexture, uint sourceSlice, uint sourceLevel, MTLOrigin sourceOrigin, MTLSize sourceSize, MTLBuffer destinationBuffer, uint destinationOffset, uint destinationBytesPerRow, uint destinationBytesPerImage, uint options)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.CopyFromTextureSourceSliceSourceLevelSourceOriginSourceSizeDestinationBufferDestinationOffsetDestinationBytesPerRowDestinationBytesPerImageOptions, sourceTexture.NativePtr, (nuint)sourceSlice, (nuint)sourceLevel, sourceOrigin, sourceSize, destinationBuffer.NativePtr, (nuint)destinationOffset, (nuint)destinationBytesPerRow, (nuint)destinationBytesPerImage, (nuint)options);
     }
 
     public void CopyFromTexture(MTLTexture sourceTexture, uint sourceSlice, uint sourceLevel, MTLTexture destinationTexture, uint destinationSlice, uint destinationLevel, uint sliceCount, uint levelCount)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.CopyFromTextureSourceSliceSourceLevelDestinationTextureDestinationSliceDestinationLevelSliceCountLevelCount, sourceTexture.NativePtr, (nint)sourceSlice, (nint)sourceLevel, destinationTexture.NativePtr, (nint)destinationSlice, (nint)destinationLevel, (nint)sliceCount, (nint)levelCount);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.CopyFromTextureSourceSliceSourceLevelDestinationTextureDestinationSliceDestinationLevelSliceCountLevelCount, sourceTexture.NativePtr, (nuint)sourceSlice, (nuint)sourceLevel, destinationTexture.NativePtr, (nuint)destinationSlice, (nuint)destinationLevel, (nuint)sliceCount, (nuint)levelCount);
     }
 
     public void CopyFromTexture(MTLTexture sourceTexture, MTLTexture destinationTexture)
@@ -69,9 +84,24 @@ public class MTLBlitCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.CopyFromTextureDestinationTexture, sourceTexture.NativePtr, destinationTexture.NativePtr);
     }
 
+    public void CopyIndirectCommandBuffer(MTLIndirectCommandBuffer source, NSRange sourceRange, MTLIndirectCommandBuffer destination, uint destinationIndex)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.CopyIndirectCommandBufferSourceRangeDestinationDestinationIndex, source.NativePtr, sourceRange, destination.NativePtr, (nuint)destinationIndex);
+    }
+
+    public void FillBuffer(MTLBuffer buffer, NSRange range, byte value)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.FillBufferRangeValue, buffer.NativePtr, range, value);
+    }
+
     public void GenerateMipmaps(MTLTexture texture)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.GenerateMipmaps, texture.NativePtr);
+    }
+
+    public void GetTextureAccessCounters(MTLTexture texture, MTLRegion region, uint mipLevel, uint slice, Bool8 resetCounters, MTLBuffer countersBuffer, uint countersBufferOffset)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.GetTextureAccessCountersRegionMipLevelSliceResetCountersCountersBufferCountersBufferOffset, texture.NativePtr, region, (nuint)mipLevel, (nuint)slice, resetCounters, countersBuffer.NativePtr, (nuint)countersBufferOffset);
     }
 
     public void OptimizeContentsForCPUAccess(MTLTexture texture)
@@ -81,7 +111,7 @@ public class MTLBlitCommandEncoder : IDisposable
 
     public void OptimizeContentsForCPUAccess(MTLTexture texture, uint slice, uint level)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.OptimizeContentsForCPUAccessSliceLevel, texture.NativePtr, (nint)slice, (nint)level);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.OptimizeContentsForCPUAccessSliceLevel, texture.NativePtr, (nuint)slice, (nuint)level);
     }
 
     public void OptimizeContentsForGPUAccess(MTLTexture texture)
@@ -91,12 +121,32 @@ public class MTLBlitCommandEncoder : IDisposable
 
     public void OptimizeContentsForGPUAccess(MTLTexture texture, uint slice, uint level)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.OptimizeContentsForGPUAccessSliceLevel, texture.NativePtr, (nint)slice, (nint)level);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.OptimizeContentsForGPUAccessSliceLevel, texture.NativePtr, (nuint)slice, (nuint)level);
+    }
+
+    public void OptimizeIndirectCommandBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, NSRange range)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.OptimizeIndirectCommandBufferRange, indirectCommandBuffer.NativePtr, range);
+    }
+
+    public void ResetCommandsInBuffer(MTLIndirectCommandBuffer buffer, NSRange range)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.ResetCommandsInBufferRange, buffer.NativePtr, range);
+    }
+
+    public void ResetTextureAccessCounters(MTLTexture texture, MTLRegion region, uint mipLevel, uint slice)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.ResetTextureAccessCountersRegionMipLevelSlice, texture.NativePtr, region, (nuint)mipLevel, (nuint)slice);
+    }
+
+    public void ResolveCounters(MTLCounterSampleBuffer sampleBuffer, NSRange range, MTLBuffer destinationBuffer, uint destinationOffset)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.ResolveCountersRangeDestinationBufferDestinationOffset, sampleBuffer.NativePtr, range, destinationBuffer.NativePtr, (nuint)destinationOffset);
     }
 
     public void SampleCountersInBuffer(MTLCounterSampleBuffer sampleBuffer, uint sampleIndex, Bool8 barrier)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.SampleCountersInBufferSampleIndexBarrier, sampleBuffer.NativePtr, (nint)sampleIndex, (nint)barrier.Value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.SampleCountersInBufferSampleIndexBarrier, sampleBuffer.NativePtr, (nuint)sampleIndex, barrier);
     }
 
     public void SynchronizeResource(MTLResource resource)
@@ -106,7 +156,7 @@ public class MTLBlitCommandEncoder : IDisposable
 
     public void SynchronizeTexture(MTLTexture texture, uint slice, uint level)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.SynchronizeTextureSliceLevel, texture.NativePtr, (nint)slice, (nint)level);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.SynchronizeTextureSliceLevel, texture.NativePtr, (nuint)slice, (nuint)level);
     }
 
     public void UpdateFence(MTLFence fence)
@@ -125,17 +175,29 @@ file class MTLBlitCommandEncoderSelector
 {
     public static readonly Selector CopyFromBufferSourceOffsetSourceBytesPerRowSourceBytesPerImageSourceSizeDestinationTextureDestinationSliceDestinationLevelDestinationOrigin = Selector.Register("copyFromBuffer:sourceOffset:sourceBytesPerRow:sourceBytesPerImage:sourceSize:destinationTexture:destinationSlice:destinationLevel:destinationOrigin:");
 
+    public static readonly Selector CopyFromBufferSourceOffsetSourceBytesPerRowSourceBytesPerImageSourceSizeDestinationTextureDestinationSliceDestinationLevelDestinationOriginOptions = Selector.Register("copyFromBuffer:sourceOffset:sourceBytesPerRow:sourceBytesPerImage:sourceSize:destinationTexture:destinationSlice:destinationLevel:destinationOrigin:options:");
+
     public static readonly Selector CopyFromBufferSourceOffsetDestinationBufferDestinationOffsetSize = Selector.Register("copyFromBuffer:sourceOffset:destinationBuffer:destinationOffset:size:");
 
     public static readonly Selector CopyFromTensorSourceOriginSourceDimensionsDestinationTensorDestinationOriginDestinationDimensions = Selector.Register("copyFromTensor:sourceOrigin:sourceDimensions:destinationTensor:destinationOrigin:destinationDimensions:");
 
     public static readonly Selector CopyFromTextureSourceSliceSourceLevelSourceOriginSourceSizeDestinationTextureDestinationSliceDestinationLevelDestinationOrigin = Selector.Register("copyFromTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:destinationTexture:destinationSlice:destinationLevel:destinationOrigin:");
 
+    public static readonly Selector CopyFromTextureSourceSliceSourceLevelSourceOriginSourceSizeDestinationBufferDestinationOffsetDestinationBytesPerRowDestinationBytesPerImage = Selector.Register("copyFromTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:destinationBuffer:destinationOffset:destinationBytesPerRow:destinationBytesPerImage:");
+
+    public static readonly Selector CopyFromTextureSourceSliceSourceLevelSourceOriginSourceSizeDestinationBufferDestinationOffsetDestinationBytesPerRowDestinationBytesPerImageOptions = Selector.Register("copyFromTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:destinationBuffer:destinationOffset:destinationBytesPerRow:destinationBytesPerImage:options:");
+
     public static readonly Selector CopyFromTextureSourceSliceSourceLevelDestinationTextureDestinationSliceDestinationLevelSliceCountLevelCount = Selector.Register("copyFromTexture:sourceSlice:sourceLevel:destinationTexture:destinationSlice:destinationLevel:sliceCount:levelCount:");
 
     public static readonly Selector CopyFromTextureDestinationTexture = Selector.Register("copyFromTexture:destinationTexture:");
 
+    public static readonly Selector CopyIndirectCommandBufferSourceRangeDestinationDestinationIndex = Selector.Register("copyIndirectCommandBuffer:sourceRange:destination:destinationIndex:");
+
+    public static readonly Selector FillBufferRangeValue = Selector.Register("fillBuffer:range:value:");
+
     public static readonly Selector GenerateMipmaps = Selector.Register("generateMipmaps:");
+
+    public static readonly Selector GetTextureAccessCountersRegionMipLevelSliceResetCountersCountersBufferCountersBufferOffset = Selector.Register("getTextureAccessCounters:region:mipLevel:slice:resetCounters:countersBuffer:countersBufferOffset:");
 
     public static readonly Selector OptimizeContentsForCPUAccess = Selector.Register("optimizeContentsForCPUAccess:");
 
@@ -144,6 +206,14 @@ file class MTLBlitCommandEncoderSelector
     public static readonly Selector OptimizeContentsForGPUAccess = Selector.Register("optimizeContentsForGPUAccess:");
 
     public static readonly Selector OptimizeContentsForGPUAccessSliceLevel = Selector.Register("optimizeContentsForGPUAccess:slice:level:");
+
+    public static readonly Selector OptimizeIndirectCommandBufferRange = Selector.Register("optimizeIndirectCommandBuffer:range:");
+
+    public static readonly Selector ResetCommandsInBufferRange = Selector.Register("resetCommandsInBuffer:range:");
+
+    public static readonly Selector ResetTextureAccessCountersRegionMipLevelSlice = Selector.Register("resetTextureAccessCounters:region:mipLevel:slice:");
+
+    public static readonly Selector ResolveCountersRangeDestinationBufferDestinationOffset = Selector.Register("resolveCounters:range:destinationBuffer:destinationOffset:");
 
     public static readonly Selector SampleCountersInBufferSampleIndexBarrier = Selector.Register("sampleCountersInBuffer:sampleIndex:barrier:");
 

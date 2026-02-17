@@ -41,14 +41,14 @@ public class MTLTileRenderPipelineColorAttachmentDescriptorArray : IDisposable
 
     public MTLTileRenderPipelineColorAttachmentDescriptor Object(uint attachmentIndex)
     {
-        MTLTileRenderPipelineColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorArraySelector.Object, (nint)attachmentIndex));
+        MTLTileRenderPipelineColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorArraySelector.Object, (nuint)attachmentIndex));
 
         return result;
     }
 
     public void SetObject(MTLTileRenderPipelineColorAttachmentDescriptor attachment, uint attachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nint)attachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nuint)attachmentIndex);
     }
 
 }

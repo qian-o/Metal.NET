@@ -39,6 +39,32 @@ public class MTLLibrary : IDisposable
         }
     }
 
+    public MTLDevice Device
+    {
+        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.Device));
+    }
+
+    public NSArray FunctionNames
+    {
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.FunctionNames));
+    }
+
+    public NSString InstallName
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.InstallName));
+    }
+
+    public NSString Label
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLibrarySelector.SetLabel, value.NativePtr);
+    }
+
+    public MTLLibraryType Type
+    {
+        get => (MTLLibraryType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLLibrarySelector.Type));
+    }
+
     public MTLFunction NewFunction(NSString functionName)
     {
         MTLFunction result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.NewFunction, functionName.NativePtr));
@@ -95,15 +121,22 @@ public class MTLLibrary : IDisposable
         return result;
     }
 
-    public void SetLabel(NSString label)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLLibrarySelector.SetLabel, label.NativePtr);
-    }
-
 }
 
 file class MTLLibrarySelector
 {
+    public static readonly Selector Device = Selector.Register("device");
+
+    public static readonly Selector FunctionNames = Selector.Register("functionNames");
+
+    public static readonly Selector InstallName = Selector.Register("installName");
+
+    public static readonly Selector Label = Selector.Register("label");
+
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+
+    public static readonly Selector Type = Selector.Register("type");
+
     public static readonly Selector NewFunction = Selector.Register("newFunction:");
 
     public static readonly Selector NewFunctionConstantValuesError = Selector.Register("newFunction:constantValues:error:");
@@ -119,6 +152,4 @@ file class MTLLibrarySelector
     public static readonly Selector NewIntersectionFunctionCompletionHandler = Selector.Register("newIntersectionFunction:completionHandler:");
 
     public static readonly Selector ReflectionForFunction = Selector.Register("reflectionForFunction:");
-
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

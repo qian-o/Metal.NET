@@ -39,6 +39,18 @@ public class MTL4MachineLearningPipelineDescriptor : IDisposable
         }
     }
 
+    public NSString Label
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetLabel, value.NativePtr);
+    }
+
+    public MTL4FunctionDescriptor MachineLearningFunctionDescriptor
+    {
+        get => new MTL4FunctionDescriptor(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.MachineLearningFunctionDescriptor));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetMachineLearningFunctionDescriptor, value.NativePtr);
+    }
+
     public MTLTensorExtents InputDimensionsAtBufferIndex(int bufferIndex)
     {
         MTLTensorExtents result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.InputDimensionsAtBufferIndex, bufferIndex));
@@ -56,27 +68,28 @@ public class MTL4MachineLearningPipelineDescriptor : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetInputDimensionsBufferIndex, dimensions.NativePtr, bufferIndex);
     }
 
-    public void SetLabel(NSString label)
+    public void SetInputDimensions(NSArray dimensions, NSRange range)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetLabel, label.NativePtr);
-    }
-
-    public void SetMachineLearningFunctionDescriptor(MTL4FunctionDescriptor machineLearningFunctionDescriptor)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetMachineLearningFunctionDescriptor, machineLearningFunctionDescriptor.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetInputDimensionsRange, dimensions.NativePtr, range);
     }
 
 }
 
 file class MTL4MachineLearningPipelineDescriptorSelector
 {
+    public static readonly Selector Label = Selector.Register("label");
+
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+
+    public static readonly Selector MachineLearningFunctionDescriptor = Selector.Register("machineLearningFunctionDescriptor");
+
+    public static readonly Selector SetMachineLearningFunctionDescriptor = Selector.Register("setMachineLearningFunctionDescriptor:");
+
     public static readonly Selector InputDimensionsAtBufferIndex = Selector.Register("inputDimensionsAtBufferIndex:");
 
     public static readonly Selector Reset = Selector.Register("reset");
 
     public static readonly Selector SetInputDimensionsBufferIndex = Selector.Register("setInputDimensions:bufferIndex:");
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
-
-    public static readonly Selector SetMachineLearningFunctionDescriptor = Selector.Register("setMachineLearningFunctionDescriptor:");
+    public static readonly Selector SetInputDimensionsRange = Selector.Register("setInputDimensions:range:");
 }

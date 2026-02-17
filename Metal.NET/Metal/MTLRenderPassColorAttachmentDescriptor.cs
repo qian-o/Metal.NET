@@ -41,22 +41,15 @@ public class MTLRenderPassColorAttachmentDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLRenderPassColorAttachmentDescriptor");
 
-    public static MTLRenderPassColorAttachmentDescriptor New()
+    public MTLRenderPassColorAttachmentDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
     {
-        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc"));
-        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register("init"));
-
-        return new MTLRenderPassColorAttachmentDescriptor(ptr);
-    }
-
-    public void SetClearColor(MTLClearColor clearColor)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorSelector.SetClearColor, clearColor);
     }
 
 }
 
 file class MTLRenderPassColorAttachmentDescriptorSelector
 {
+    public static readonly Selector ClearColor = Selector.Register("clearColor");
+
     public static readonly Selector SetClearColor = Selector.Register("setClearColor:");
 }

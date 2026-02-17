@@ -39,8 +39,35 @@ public class MTLTextureReferenceType : IDisposable
         }
     }
 
+    public MTLBindingAccess Access
+    {
+        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTextureReferenceTypeSelector.Access));
+    }
+
+    public Bool8 IsDepthTexture
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureReferenceTypeSelector.IsDepthTexture);
+    }
+
+    public MTLDataType TextureDataType
+    {
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTextureReferenceTypeSelector.TextureDataType));
+    }
+
+    public MTLTextureType TextureType
+    {
+        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTextureReferenceTypeSelector.TextureType));
+    }
+
 }
 
 file class MTLTextureReferenceTypeSelector
 {
+    public static readonly Selector Access = Selector.Register("access");
+
+    public static readonly Selector IsDepthTexture = Selector.Register("isDepthTexture");
+
+    public static readonly Selector TextureDataType = Selector.Register("textureDataType");
+
+    public static readonly Selector TextureType = Selector.Register("textureType");
 }

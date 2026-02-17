@@ -39,9 +39,19 @@ public class MTLComputeCommandEncoder : IDisposable
         }
     }
 
+    public MTLDispatchType DispatchType
+    {
+        get => (MTLDispatchType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLComputeCommandEncoderSelector.DispatchType));
+    }
+
     public void DispatchThreadgroups(MTLSize threadgroupsPerGrid, MTLSize threadsPerThreadgroup)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.DispatchThreadgroupsThreadsPerThreadgroup, threadgroupsPerGrid, threadsPerThreadgroup);
+    }
+
+    public void DispatchThreadgroups(MTLBuffer indirectBuffer, uint indirectBufferOffset, MTLSize threadsPerThreadgroup)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.DispatchThreadgroupsIndirectBufferOffsetThreadsPerThreadgroup, indirectBuffer.NativePtr, (nuint)indirectBufferOffset, threadsPerThreadgroup);
     }
 
     public void DispatchThreads(MTLSize threadsPerGrid, MTLSize threadsPerThreadgroup)
@@ -49,54 +59,59 @@ public class MTLComputeCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.DispatchThreadsThreadsPerThreadgroup, threadsPerGrid, threadsPerThreadgroup);
     }
 
+    public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, NSRange executionRange)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.ExecuteCommandsInBufferExecutionRange, indirectCommandBuffer.NativePtr, executionRange);
+    }
+
     public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandbuffer, MTLBuffer indirectRangeBuffer, uint indirectBufferOffset)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.ExecuteCommandsInBufferIndirectRangeBufferIndirectBufferOffset, indirectCommandbuffer.NativePtr, indirectRangeBuffer.NativePtr, (nint)indirectBufferOffset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.ExecuteCommandsInBufferIndirectRangeBufferIndirectBufferOffset, indirectCommandbuffer.NativePtr, indirectRangeBuffer.NativePtr, (nuint)indirectBufferOffset);
     }
 
     public void MemoryBarrier(uint scope)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.MemoryBarrier, (nint)scope);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.MemoryBarrier, (nuint)scope);
     }
 
     public void SampleCountersInBuffer(MTLCounterSampleBuffer sampleBuffer, uint sampleIndex, Bool8 barrier)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SampleCountersInBufferSampleIndexBarrier, sampleBuffer.NativePtr, (nint)sampleIndex, (nint)barrier.Value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SampleCountersInBufferSampleIndexBarrier, sampleBuffer.NativePtr, (nuint)sampleIndex, barrier);
     }
 
     public void SetAccelerationStructure(MTLAccelerationStructure accelerationStructure, uint bufferIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetAccelerationStructureBufferIndex, accelerationStructure.NativePtr, (nint)bufferIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetAccelerationStructureBufferIndex, accelerationStructure.NativePtr, (nuint)bufferIndex);
     }
 
     public void SetBuffer(MTLBuffer buffer, uint offset, uint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetBufferOffsetIndex, buffer.NativePtr, (nint)offset, (nint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetBufferOffsetIndex, buffer.NativePtr, (nuint)offset, (nuint)index);
     }
 
     public void SetBuffer(MTLBuffer buffer, uint offset, uint stride, uint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetBufferOffsetStrideIndex, buffer.NativePtr, (nint)offset, (nint)stride, (nint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetBufferOffsetStrideIndex, buffer.NativePtr, (nuint)offset, (nuint)stride, (nuint)index);
     }
 
     public void SetBufferOffset(uint offset, uint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetBufferOffsetIndex2, (nint)offset, (nint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetBufferOffsetIndex2, (nuint)offset, (nuint)index);
     }
 
     public void SetBufferOffset(uint offset, uint stride, uint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetBufferOffsetStrideIndex3, (nint)offset, (nint)stride, (nint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetBufferOffsetStrideIndex3, (nuint)offset, (nuint)stride, (nuint)index);
     }
 
     public void SetBytes(int bytes, uint length, uint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetBytesLengthIndex, bytes, (nint)length, (nint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetBytesLengthIndex, bytes, (nuint)length, (nuint)index);
     }
 
     public void SetBytes(int bytes, uint length, uint stride, uint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetBytesLengthStrideIndex, bytes, (nint)length, (nint)stride, (nint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetBytesLengthStrideIndex, bytes, (nuint)length, (nuint)stride, (nuint)index);
     }
 
     public void SetComputePipelineState(MTLComputePipelineState state)
@@ -106,37 +121,47 @@ public class MTLComputeCommandEncoder : IDisposable
 
     public void SetImageblockWidth(uint width, uint height)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetImageblockWidthHeight, (nint)width, (nint)height);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetImageblockWidthHeight, (nuint)width, (nuint)height);
     }
 
     public void SetIntersectionFunctionTable(MTLIntersectionFunctionTable intersectionFunctionTable, uint bufferIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetIntersectionFunctionTableBufferIndex, intersectionFunctionTable.NativePtr, (nint)bufferIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetIntersectionFunctionTableBufferIndex, intersectionFunctionTable.NativePtr, (nuint)bufferIndex);
     }
 
     public void SetSamplerState(MTLSamplerState sampler, uint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetSamplerStateIndex, sampler.NativePtr, (nint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetSamplerStateIndex, sampler.NativePtr, (nuint)index);
+    }
+
+    public void SetSamplerState(MTLSamplerState sampler, float lodMinClamp, float lodMaxClamp, uint index)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetSamplerStateLodMinClampLodMaxClampIndex, sampler.NativePtr, lodMinClamp, lodMaxClamp, (nuint)index);
+    }
+
+    public void SetStageInRegion(MTLRegion region)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetStageInRegion, region);
     }
 
     public void SetStageInRegion(MTLBuffer indirectBuffer, uint indirectBufferOffset)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetStageInRegionIndirectBufferOffset, indirectBuffer.NativePtr, (nint)indirectBufferOffset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetStageInRegionIndirectBufferOffset, indirectBuffer.NativePtr, (nuint)indirectBufferOffset);
     }
 
     public void SetTexture(MTLTexture texture, uint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetTextureIndex, texture.NativePtr, (nint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetTextureIndex, texture.NativePtr, (nuint)index);
     }
 
     public void SetThreadgroupMemoryLength(uint length, uint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetThreadgroupMemoryLengthIndex, (nint)length, (nint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetThreadgroupMemoryLengthIndex, (nuint)length, (nuint)index);
     }
 
     public void SetVisibleFunctionTable(MTLVisibleFunctionTable visibleFunctionTable, uint bufferIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetVisibleFunctionTableBufferIndex, visibleFunctionTable.NativePtr, (nint)bufferIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetVisibleFunctionTableBufferIndex, visibleFunctionTable.NativePtr, (nuint)bufferIndex);
     }
 
     public void UpdateFence(MTLFence fence)
@@ -151,7 +176,7 @@ public class MTLComputeCommandEncoder : IDisposable
 
     public void UseResource(MTLResource resource, uint usage)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.UseResourceUsage, resource.NativePtr, (nint)usage);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.UseResourceUsage, resource.NativePtr, (nuint)usage);
     }
 
     public void WaitForFence(MTLFence fence)
@@ -163,9 +188,15 @@ public class MTLComputeCommandEncoder : IDisposable
 
 file class MTLComputeCommandEncoderSelector
 {
+    public static readonly Selector DispatchType = Selector.Register("dispatchType");
+
     public static readonly Selector DispatchThreadgroupsThreadsPerThreadgroup = Selector.Register("dispatchThreadgroups:threadsPerThreadgroup:");
 
+    public static readonly Selector DispatchThreadgroupsIndirectBufferOffsetThreadsPerThreadgroup = Selector.Register("dispatchThreadgroups:indirectBufferOffset:threadsPerThreadgroup:");
+
     public static readonly Selector DispatchThreadsThreadsPerThreadgroup = Selector.Register("dispatchThreads:threadsPerThreadgroup:");
+
+    public static readonly Selector ExecuteCommandsInBufferExecutionRange = Selector.Register("executeCommandsInBuffer:executionRange:");
 
     public static readonly Selector ExecuteCommandsInBufferIndirectRangeBufferIndirectBufferOffset = Selector.Register("executeCommandsInBuffer:indirectRangeBuffer:indirectBufferOffset:");
 
@@ -194,6 +225,10 @@ file class MTLComputeCommandEncoderSelector
     public static readonly Selector SetIntersectionFunctionTableBufferIndex = Selector.Register("setIntersectionFunctionTable:bufferIndex:");
 
     public static readonly Selector SetSamplerStateIndex = Selector.Register("setSamplerState:index:");
+
+    public static readonly Selector SetSamplerStateLodMinClampLodMaxClampIndex = Selector.Register("setSamplerState:lodMinClamp:lodMaxClamp:index:");
+
+    public static readonly Selector SetStageInRegion = Selector.Register("setStageInRegion:");
 
     public static readonly Selector SetStageInRegionIndirectBufferOffset = Selector.Register("setStageInRegion:indirectBufferOffset:");
 

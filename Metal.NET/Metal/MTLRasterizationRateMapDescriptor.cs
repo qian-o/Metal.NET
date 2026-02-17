@@ -41,45 +41,82 @@ public class MTLRasterizationRateMapDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLRasterizationRateMapDescriptor");
 
-    public static MTLRasterizationRateMapDescriptor New()
+    public MTLRasterizationRateMapDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
     {
-        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc"));
-        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register("init"));
+    }
 
-        return new MTLRasterizationRateMapDescriptor(ptr);
+    public NSString Label
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetLabel, value.NativePtr);
+    }
+
+    public nuint LayerCount
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRasterizationRateMapDescriptorSelector.LayerCount);
+    }
+
+    public MTLRasterizationRateLayerArray Layers
+    {
+        get => new MTLRasterizationRateLayerArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Layers));
     }
 
     public MTLRasterizationRateLayerDescriptor Layer(uint layerIndex)
     {
-        MTLRasterizationRateLayerDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Layer, (nint)layerIndex));
+        MTLRasterizationRateLayerDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Layer, (nuint)layerIndex));
 
         return result;
     }
 
-    public void SetLabel(NSString label)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetLabel, label.NativePtr);
-    }
-
     public void SetLayer(MTLRasterizationRateLayerDescriptor layer, uint layerIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetLayerLayerIndex, layer.NativePtr, (nint)layerIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetLayerLayerIndex, layer.NativePtr, (nuint)layerIndex);
     }
 
-    public void SetScreenSize(MTLSize screenSize)
+    public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptor(MTLSize screenSize)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetScreenSize, screenSize);
+        MTLRasterizationRateMapDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(s_class, MTLRasterizationRateMapDescriptorSelector.RasterizationRateMapDescriptor, screenSize));
+
+        return result;
+    }
+
+    public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptor(MTLSize screenSize, MTLRasterizationRateLayerDescriptor layer)
+    {
+        MTLRasterizationRateMapDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(s_class, MTLRasterizationRateMapDescriptorSelector.RasterizationRateMapDescriptorLayer, screenSize, layer.NativePtr));
+
+        return result;
+    }
+
+    public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptor(MTLSize screenSize, uint layerCount, int layers)
+    {
+        MTLRasterizationRateMapDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(s_class, MTLRasterizationRateMapDescriptorSelector.RasterizationRateMapDescriptorLayerCountLayers, screenSize, (nuint)layerCount, layers));
+
+        return result;
     }
 
 }
 
 file class MTLRasterizationRateMapDescriptorSelector
 {
-    public static readonly Selector Layer = Selector.Register("layer:");
+    public static readonly Selector Label = Selector.Register("label");
 
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
 
-    public static readonly Selector SetLayerLayerIndex = Selector.Register("setLayer:layerIndex:");
+    public static readonly Selector LayerCount = Selector.Register("layerCount");
+
+    public static readonly Selector Layers = Selector.Register("layers");
+
+    public static readonly Selector ScreenSize = Selector.Register("screenSize");
 
     public static readonly Selector SetScreenSize = Selector.Register("setScreenSize:");
+
+    public static readonly Selector Layer = Selector.Register("layer:");
+
+    public static readonly Selector SetLayerLayerIndex = Selector.Register("setLayer:layerIndex:");
+
+    public static readonly Selector RasterizationRateMapDescriptor = Selector.Register("rasterizationRateMapDescriptor:");
+
+    public static readonly Selector RasterizationRateMapDescriptorLayer = Selector.Register("rasterizationRateMapDescriptor:layer:");
+
+    public static readonly Selector RasterizationRateMapDescriptorLayerCountLayers = Selector.Register("rasterizationRateMapDescriptor:layerCount:layers:");
 }

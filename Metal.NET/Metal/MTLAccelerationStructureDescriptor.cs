@@ -41,22 +41,21 @@ public class MTLAccelerationStructureDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureDescriptor");
 
-    public static MTLAccelerationStructureDescriptor New()
+    public MTLAccelerationStructureDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
     {
-        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc"));
-        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register("init"));
-
-        return new MTLAccelerationStructureDescriptor(ptr);
     }
 
-    public void SetUsage(uint usage)
+    public nuint Usage
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureDescriptorSelector.SetUsage, (nint)usage);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureDescriptorSelector.Usage);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureDescriptorSelector.SetUsage, (nuint)value);
     }
 
 }
 
 file class MTLAccelerationStructureDescriptorSelector
 {
+    public static readonly Selector Usage = Selector.Register("usage");
+
     public static readonly Selector SetUsage = Selector.Register("setUsage:");
 }

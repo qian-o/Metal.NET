@@ -39,6 +39,12 @@ public class MTL4Archive : IDisposable
         }
     }
 
+    public NSString Label
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArchiveSelector.SetLabel, value.NativePtr);
+    }
+
     public MTL4BinaryFunction NewBinaryFunction(MTL4BinaryFunctionDescriptor descriptor, out NSError? error)
     {
         MTL4BinaryFunction result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveSelector.NewBinaryFunctionError, descriptor.NativePtr, out nint errorPtr));
@@ -84,15 +90,14 @@ public class MTL4Archive : IDisposable
         return result;
     }
 
-    public void SetLabel(NSString label)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArchiveSelector.SetLabel, label.NativePtr);
-    }
-
 }
 
 file class MTL4ArchiveSelector
 {
+    public static readonly Selector Label = Selector.Register("label");
+
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+
     public static readonly Selector NewBinaryFunctionError = Selector.Register("newBinaryFunction:error:");
 
     public static readonly Selector NewComputePipelineStateError = Selector.Register("newComputePipelineState:error:");
@@ -102,6 +107,4 @@ file class MTL4ArchiveSelector
     public static readonly Selector NewRenderPipelineStateError = Selector.Register("newRenderPipelineState:error:");
 
     public static readonly Selector NewRenderPipelineStateDynamicLinkingDescriptorError = Selector.Register("newRenderPipelineState:dynamicLinkingDescriptor:error:");
-
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

@@ -39,28 +39,37 @@ public class MTL4LibraryDescriptor : IDisposable
         }
     }
 
-    public void SetName(NSString name)
+    public NSString Name
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorSelector.SetName, name.NativePtr);
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryDescriptorSelector.Name));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorSelector.SetName, value.NativePtr);
     }
 
-    public void SetOptions(MTLCompileOptions options)
+    public MTLCompileOptions Options
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorSelector.SetOptions, options.NativePtr);
+        get => new MTLCompileOptions(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryDescriptorSelector.Options));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorSelector.SetOptions, value.NativePtr);
     }
 
-    public void SetSource(NSString source)
+    public NSString Source
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorSelector.SetSource, source.NativePtr);
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryDescriptorSelector.Source));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorSelector.SetSource, value.NativePtr);
     }
 
 }
 
 file class MTL4LibraryDescriptorSelector
 {
+    public static readonly Selector Name = Selector.Register("name");
+
     public static readonly Selector SetName = Selector.Register("setName:");
 
+    public static readonly Selector Options = Selector.Register("options");
+
     public static readonly Selector SetOptions = Selector.Register("setOptions:");
+
+    public static readonly Selector Source = Selector.Register("source");
 
     public static readonly Selector SetSource = Selector.Register("setSource:");
 }

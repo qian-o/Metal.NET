@@ -41,36 +41,41 @@ public class MTLAttributeDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLAttributeDescriptor");
 
-    public static MTLAttributeDescriptor New()
+    public MTLAttributeDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
     {
-        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc"));
-        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register("init"));
-
-        return new MTLAttributeDescriptor(ptr);
     }
 
-    public void SetBufferIndex(uint bufferIndex)
+    public nuint BufferIndex
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetBufferIndex, (nint)bufferIndex);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorSelector.BufferIndex);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetBufferIndex, (nuint)value);
     }
 
-    public void SetFormat(MTLAttributeFormat format)
+    public MTLAttributeFormat Format
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetFormat, (nint)(uint)format);
+        get => (MTLAttributeFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLAttributeDescriptorSelector.Format));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetFormat, (uint)value);
     }
 
-    public void SetOffset(uint offset)
+    public nuint Offset
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetOffset, (nint)offset);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorSelector.Offset);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetOffset, (nuint)value);
     }
 
 }
 
 file class MTLAttributeDescriptorSelector
 {
+    public static readonly Selector BufferIndex = Selector.Register("bufferIndex");
+
     public static readonly Selector SetBufferIndex = Selector.Register("setBufferIndex:");
 
+    public static readonly Selector Format = Selector.Register("format");
+
     public static readonly Selector SetFormat = Selector.Register("setFormat:");
+
+    public static readonly Selector Offset = Selector.Register("offset");
 
     public static readonly Selector SetOffset = Selector.Register("setOffset:");
 }

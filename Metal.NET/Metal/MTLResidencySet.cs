@@ -39,6 +39,31 @@ public class MTLResidencySet : IDisposable
         }
     }
 
+    public NSArray AllAllocations
+    {
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.AllAllocations));
+    }
+
+    public nuint AllocatedSize
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResidencySetSelector.AllocatedSize);
+    }
+
+    public nuint AllocationCount
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResidencySetSelector.AllocationCount);
+    }
+
+    public MTLDevice Device
+    {
+        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.Device));
+    }
+
+    public NSString Label
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.Label));
+    }
+
     public void AddAllocation(MTLAllocation allocation)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetSelector.AddAllocation, allocation.NativePtr);
@@ -51,7 +76,7 @@ public class MTLResidencySet : IDisposable
 
     public Bool8 ContainsAllocation(MTLAllocation anAllocation)
     {
-        bool result = (byte)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.ContainsAllocation, anAllocation.NativePtr) is not 0;
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLResidencySetSelector.ContainsAllocation, anAllocation.NativePtr);
 
         return result;
     }
@@ -80,6 +105,16 @@ public class MTLResidencySet : IDisposable
 
 file class MTLResidencySetSelector
 {
+    public static readonly Selector AllAllocations = Selector.Register("allAllocations");
+
+    public static readonly Selector AllocatedSize = Selector.Register("allocatedSize");
+
+    public static readonly Selector AllocationCount = Selector.Register("allocationCount");
+
+    public static readonly Selector Device = Selector.Register("device");
+
+    public static readonly Selector Label = Selector.Register("label");
+
     public static readonly Selector AddAllocation = Selector.Register("addAllocation:");
 
     public static readonly Selector Commit = Selector.Register("commit");

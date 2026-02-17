@@ -39,8 +39,28 @@ public class MTLTensorBinding : IDisposable
         }
     }
 
+    public MTLTensorExtents Dimensions
+    {
+        get => new MTLTensorExtents(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindingSelector.Dimensions));
+    }
+
+    public MTLDataType IndexType
+    {
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTensorBindingSelector.IndexType));
+    }
+
+    public MTLTensorDataType TensorDataType
+    {
+        get => (MTLTensorDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTensorBindingSelector.TensorDataType));
+    }
+
 }
 
 file class MTLTensorBindingSelector
 {
+    public static readonly Selector Dimensions = Selector.Register("dimensions");
+
+    public static readonly Selector IndexType = Selector.Register("indexType");
+
+    public static readonly Selector TensorDataType = Selector.Register("tensorDataType");
 }

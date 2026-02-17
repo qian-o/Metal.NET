@@ -39,21 +39,27 @@ public class MTL4PipelineDescriptor : IDisposable
         }
     }
 
-    public void SetLabel(NSString label)
+    public NSString Label
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDescriptorSelector.SetLabel, label.NativePtr);
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDescriptorSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDescriptorSelector.SetLabel, value.NativePtr);
     }
 
-    public void SetOptions(MTL4PipelineOptions options)
+    public MTL4PipelineOptions Options
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDescriptorSelector.SetOptions, options.NativePtr);
+        get => new MTL4PipelineOptions(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDescriptorSelector.Options));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDescriptorSelector.SetOptions, value.NativePtr);
     }
 
 }
 
 file class MTL4PipelineDescriptorSelector
 {
+    public static readonly Selector Label = Selector.Register("label");
+
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
+
+    public static readonly Selector Options = Selector.Register("options");
 
     public static readonly Selector SetOptions = Selector.Register("setOptions:");
 }

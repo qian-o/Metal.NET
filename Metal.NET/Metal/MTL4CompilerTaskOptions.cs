@@ -39,14 +39,17 @@ public class MTL4CompilerTaskOptions : IDisposable
         }
     }
 
-    public void SetLookupArchives(NSArray lookupArchives)
+    public NSArray LookupArchives
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerTaskOptionsSelector.SetLookupArchives, lookupArchives.NativePtr);
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskOptionsSelector.LookupArchives));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerTaskOptionsSelector.SetLookupArchives, value.NativePtr);
     }
 
 }
 
 file class MTL4CompilerTaskOptionsSelector
 {
+    public static readonly Selector LookupArchives = Selector.Register("lookupArchives");
+
     public static readonly Selector SetLookupArchives = Selector.Register("setLookupArchives:");
 }

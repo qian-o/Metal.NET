@@ -39,8 +39,28 @@ public class MTLCommandBufferEncoderInfo : IDisposable
         }
     }
 
+    public NSArray DebugSignposts
+    {
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoSelector.DebugSignposts));
+    }
+
+    public MTLCommandEncoderErrorState ErrorState
+    {
+        get => (MTLCommandEncoderErrorState)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLCommandBufferEncoderInfoSelector.ErrorState));
+    }
+
+    public NSString Label
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoSelector.Label));
+    }
+
 }
 
 file class MTLCommandBufferEncoderInfoSelector
 {
+    public static readonly Selector DebugSignposts = Selector.Register("debugSignposts");
+
+    public static readonly Selector ErrorState = Selector.Register("errorState");
+
+    public static readonly Selector Label = Selector.Register("label");
 }

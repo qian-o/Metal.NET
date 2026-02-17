@@ -41,34 +41,40 @@ public class MTLArgumentDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLArgumentDescriptor");
 
-    public void SetAccess(MTLBindingAccess access)
+    public MTLBindingAccess Access
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetAccess, (nint)(uint)access);
+        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentDescriptorSelector.Access));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetAccess, (uint)value);
     }
 
-    public void SetArrayLength(uint arrayLength)
+    public nuint ArrayLength
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetArrayLength, (nint)arrayLength);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorSelector.ArrayLength);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetArrayLength, (nuint)value);
     }
 
-    public void SetConstantBlockAlignment(uint constantBlockAlignment)
+    public nuint ConstantBlockAlignment
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetConstantBlockAlignment, (nint)constantBlockAlignment);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorSelector.ConstantBlockAlignment);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetConstantBlockAlignment, (nuint)value);
     }
 
-    public void SetDataType(MTLDataType dataType)
+    public MTLDataType DataType
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetDataType, (nint)(uint)dataType);
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentDescriptorSelector.DataType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetDataType, (uint)value);
     }
 
-    public void SetIndex(uint index)
+    public nuint Index
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetIndex, (nint)index);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorSelector.Index);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetIndex, (nuint)value);
     }
 
-    public void SetTextureType(MTLTextureType textureType)
+    public MTLTextureType TextureType
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetTextureType, (nint)(uint)textureType);
+        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentDescriptorSelector.TextureType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetTextureType, (uint)value);
     }
 
     public static MTLArgumentDescriptor ArgumentDescriptor()
@@ -82,15 +88,27 @@ public class MTLArgumentDescriptor : IDisposable
 
 file class MTLArgumentDescriptorSelector
 {
+    public static readonly Selector Access = Selector.Register("access");
+
     public static readonly Selector SetAccess = Selector.Register("setAccess:");
+
+    public static readonly Selector ArrayLength = Selector.Register("arrayLength");
 
     public static readonly Selector SetArrayLength = Selector.Register("setArrayLength:");
 
+    public static readonly Selector ConstantBlockAlignment = Selector.Register("constantBlockAlignment");
+
     public static readonly Selector SetConstantBlockAlignment = Selector.Register("setConstantBlockAlignment:");
+
+    public static readonly Selector DataType = Selector.Register("dataType");
 
     public static readonly Selector SetDataType = Selector.Register("setDataType:");
 
+    public static readonly Selector Index = Selector.Register("index");
+
     public static readonly Selector SetIndex = Selector.Register("setIndex:");
+
+    public static readonly Selector TextureType = Selector.Register("textureType");
 
     public static readonly Selector SetTextureType = Selector.Register("setTextureType:");
 

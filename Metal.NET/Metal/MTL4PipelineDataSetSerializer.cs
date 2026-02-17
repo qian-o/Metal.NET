@@ -41,7 +41,7 @@ public class MTL4PipelineDataSetSerializer : IDisposable
 
     public Bool8 SerializeAsArchiveAndFlushToURL(NSURL url, out NSError? error)
     {
-        bool result = (byte)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDataSetSerializerSelector.SerializeAsArchiveAndFlushToURLError, url.NativePtr, out nint errorPtr) is not 0;
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4PipelineDataSetSerializerSelector.SerializeAsArchiveAndFlushToURLError, url.NativePtr, out nint errorPtr);
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 

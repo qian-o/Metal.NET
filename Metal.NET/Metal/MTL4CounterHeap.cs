@@ -39,14 +39,47 @@ public class MTL4CounterHeap : IDisposable
         }
     }
 
-    public void SetLabel(NSString label)
+    public nuint Count
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapSelector.SetLabel, label.NativePtr);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CounterHeapSelector.Count);
+    }
+
+    public NSString Label
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapSelector.SetLabel, value.NativePtr);
+    }
+
+    public MTL4CounterHeapType Type
+    {
+        get => (MTL4CounterHeapType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4CounterHeapSelector.Type));
+    }
+
+    public void InvalidateCounterRange(NSRange range)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapSelector.InvalidateCounterRange, range);
+    }
+
+    public nint ResolveCounterRange(NSRange range)
+    {
+        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapSelector.ResolveCounterRange, range);
+
+        return result;
     }
 
 }
 
 file class MTL4CounterHeapSelector
 {
+    public static readonly Selector Count = Selector.Register("count");
+
+    public static readonly Selector Label = Selector.Register("label");
+
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
+
+    public static readonly Selector Type = Selector.Register("type");
+
+    public static readonly Selector InvalidateCounterRange = Selector.Register("invalidateCounterRange:");
+
+    public static readonly Selector ResolveCounterRange = Selector.Register("resolveCounterRange:");
 }

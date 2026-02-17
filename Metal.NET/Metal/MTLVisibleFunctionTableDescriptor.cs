@@ -41,9 +41,10 @@ public class MTLVisibleFunctionTableDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLVisibleFunctionTableDescriptor");
 
-    public void SetFunctionCount(uint functionCount)
+    public nuint FunctionCount
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLVisibleFunctionTableDescriptorSelector.SetFunctionCount, (nint)functionCount);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVisibleFunctionTableDescriptorSelector.FunctionCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVisibleFunctionTableDescriptorSelector.SetFunctionCount, (nuint)value);
     }
 
     public static MTLVisibleFunctionTableDescriptor VisibleFunctionTableDescriptor()
@@ -57,6 +58,8 @@ public class MTLVisibleFunctionTableDescriptor : IDisposable
 
 file class MTLVisibleFunctionTableDescriptorSelector
 {
+    public static readonly Selector FunctionCount = Selector.Register("functionCount");
+
     public static readonly Selector SetFunctionCount = Selector.Register("setFunctionCount:");
 
     public static readonly Selector VisibleFunctionTableDescriptor = Selector.Register("visibleFunctionTableDescriptor");

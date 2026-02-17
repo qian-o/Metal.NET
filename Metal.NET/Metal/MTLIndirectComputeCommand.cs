@@ -71,22 +71,27 @@ public class MTLIndirectComputeCommand : IDisposable
 
     public void SetImageblockWidth(uint width, uint height)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetImageblockWidthHeight, (nint)width, (nint)height);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetImageblockWidthHeight, (nuint)width, (nuint)height);
     }
 
     public void SetKernelBuffer(MTLBuffer buffer, uint offset, uint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetKernelBufferOffsetIndex, buffer.NativePtr, (nint)offset, (nint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetKernelBufferOffsetIndex, buffer.NativePtr, (nuint)offset, (nuint)index);
     }
 
     public void SetKernelBuffer(MTLBuffer buffer, uint offset, uint stride, uint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetKernelBufferOffsetStrideIndex, buffer.NativePtr, (nint)offset, (nint)stride, (nint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetKernelBufferOffsetStrideIndex, buffer.NativePtr, (nuint)offset, (nuint)stride, (nuint)index);
+    }
+
+    public void SetStageInRegion(MTLRegion region)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetStageInRegion, region);
     }
 
     public void SetThreadgroupMemoryLength(uint length, uint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetThreadgroupMemoryLengthIndex, (nint)length, (nint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetThreadgroupMemoryLengthIndex, (nuint)length, (nuint)index);
     }
 
 }
@@ -110,6 +115,8 @@ file class MTLIndirectComputeCommandSelector
     public static readonly Selector SetKernelBufferOffsetIndex = Selector.Register("setKernelBuffer:offset:index:");
 
     public static readonly Selector SetKernelBufferOffsetStrideIndex = Selector.Register("setKernelBuffer:offset:stride:index:");
+
+    public static readonly Selector SetStageInRegion = Selector.Register("setStageInRegion:");
 
     public static readonly Selector SetThreadgroupMemoryLengthIndex = Selector.Register("setThreadgroupMemoryLength:index:");
 }

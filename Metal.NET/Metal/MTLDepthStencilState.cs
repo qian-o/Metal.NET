@@ -39,8 +39,23 @@ public class MTLDepthStencilState : IDisposable
         }
     }
 
+    public MTLDevice Device
+    {
+        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilStateSelector.Device));
+    }
+
+    public NSString Label
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilStateSelector.Label));
+    }
+
 }
 
 file class MTLDepthStencilStateSelector
 {
+    public static readonly Selector Device = Selector.Register("device");
+
+    public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
+
+    public static readonly Selector Label = Selector.Register("label");
 }

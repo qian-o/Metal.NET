@@ -39,6 +39,21 @@ public class MTL4Compiler : IDisposable
         }
     }
 
+    public MTLDevice Device
+    {
+        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.Device));
+    }
+
+    public NSString Label
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.Label));
+    }
+
+    public MTL4PipelineDataSetSerializer PipelineDataSetSerializer
+    {
+        get => new MTL4PipelineDataSetSerializer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.PipelineDataSetSerializer));
+    }
+
     public MTL4BinaryFunction NewBinaryFunction(MTL4BinaryFunctionDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError? error)
     {
         MTL4BinaryFunction result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewBinaryFunctionCompilerTaskOptionsError, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr));
@@ -182,6 +197,12 @@ public class MTL4Compiler : IDisposable
 
 file class MTL4CompilerSelector
 {
+    public static readonly Selector Device = Selector.Register("device");
+
+    public static readonly Selector Label = Selector.Register("label");
+
+    public static readonly Selector PipelineDataSetSerializer = Selector.Register("pipelineDataSetSerializer");
+
     public static readonly Selector NewBinaryFunctionCompilerTaskOptionsError = Selector.Register("newBinaryFunction:compilerTaskOptions:error:");
 
     public static readonly Selector NewComputePipelineStateCompilerTaskOptionsError = Selector.Register("newComputePipelineState:compilerTaskOptions:error:");

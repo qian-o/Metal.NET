@@ -41,9 +41,10 @@ public class MTLIntersectionFunctionTableDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLIntersectionFunctionTableDescriptor");
 
-    public void SetFunctionCount(uint functionCount)
+    public nuint FunctionCount
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableDescriptorSelector.SetFunctionCount, (nint)functionCount);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIntersectionFunctionTableDescriptorSelector.FunctionCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableDescriptorSelector.SetFunctionCount, (nuint)value);
     }
 
     public static MTLIntersectionFunctionTableDescriptor IntersectionFunctionTableDescriptor()
@@ -57,6 +58,8 @@ public class MTLIntersectionFunctionTableDescriptor : IDisposable
 
 file class MTLIntersectionFunctionTableDescriptorSelector
 {
+    public static readonly Selector FunctionCount = Selector.Register("functionCount");
+
     public static readonly Selector SetFunctionCount = Selector.Register("setFunctionCount:");
 
     public static readonly Selector IntersectionFunctionTableDescriptor = Selector.Register("intersectionFunctionTableDescriptor");

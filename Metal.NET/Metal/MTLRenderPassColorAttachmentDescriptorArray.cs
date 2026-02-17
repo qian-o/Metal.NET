@@ -41,14 +41,14 @@ public class MTLRenderPassColorAttachmentDescriptorArray : IDisposable
 
     public MTLRenderPassColorAttachmentDescriptor Object(uint attachmentIndex)
     {
-        MTLRenderPassColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.Object, (nint)attachmentIndex));
+        MTLRenderPassColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.Object, (nuint)attachmentIndex));
 
         return result;
     }
 
     public void SetObject(MTLRenderPassColorAttachmentDescriptor attachment, uint attachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nint)attachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nuint)attachmentIndex);
     }
 
 }

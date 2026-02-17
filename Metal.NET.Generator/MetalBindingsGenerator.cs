@@ -7,6 +7,9 @@ public class MetalBindingsGenerator
     private readonly string _outputDir;
     private readonly HashSet<string> _knownEnums = new();
 
+    // Collect all unique MsgSend signatures needed: (returnType, [paramTypes...])
+    private readonly HashSet<string> _msgSendSignatures = new();
+
     public MetalBindingsGenerator(string outputDir)
     {
         _outputDir = outputDir;
@@ -25,6 +28,7 @@ public class MetalBindingsGenerator
     {
         _knownEnums.Clear();
         s_runtimeKnownEnums.Clear();
+        _msgSendSignatures.Clear();
         foreach (var e in parsed.Enums)
         {
             _knownEnums.Add(e.Name);
@@ -47,6 +51,12 @@ public class MetalBindingsGenerator
                 freeFunctionsByClass[f.TargetClass] = list;
             }
             list.Add(f);
+        }
+
+        // First pass: collect all MsgSend signatures needed
+        foreach (var cls in parsed.Classes)
+        {
+            CollectSignatures(cls);
         }
 
         var generatedClasses = new HashSet<string>();
@@ -74,6 +84,9 @@ public class MetalBindingsGenerator
                 generatedClasses.Add(missingType);
             }
         }
+
+        // Generate ObjectiveCRuntime overloads
+        GenerateRuntimeOverloads();
     }
 
     private void GenerateStubClass(string typeName)
@@ -154,12 +167,8 @@ public class MetalBindingsGenerator
         {
             sb.AppendLine($"    private static readonly nint s_class = ObjectiveCRuntime.GetClass(\"{def.ObjCClass}\");");
             sb.AppendLine();
-            sb.AppendLine($"    public static {def.Name} New()");
+            sb.AppendLine($"    public {def.Name}() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register(\"alloc\")), Selector.Register(\"init\")))");
             sb.AppendLine("    {");
-            sb.AppendLine("        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register(\"alloc\"));");
-            sb.AppendLine("        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register(\"init\"));");
-            sb.AppendLine();
-            sb.AppendLine($"        return new {def.Name}(ptr);");
             sb.AppendLine("    }");
             sb.AppendLine();
         }
@@ -316,39 +325,15 @@ public class MetalBindingsGenerator
         }
 
         var argsStr = string.Join(", ", argParts);
-        var hasParams = m.Parameters.Count > 0 || m.HasErrorOut;
+
+        // Record the signature for runtime overload generation
+        var runtimeParamTypes = m.Parameters.Select(p => GetRuntimeParamType(p.Type)).ToList();
+        var runtimeReturnType = MapReturnRuntimeType(retType);
+        RecordMsgSendSignature(runtimeReturnType, runtimeParamTypes, m.HasErrorOut);
 
         if (retType == "void")
         {
             sb.AppendLine($"        ObjectiveCRuntime.MsgSend({argsStr});");
-        }
-        else if (retType is "Bool8" or "bool" && hasParams)
-        {
-            sb.AppendLine($"        bool result = (byte)ObjectiveCRuntime.MsgSendPtr({argsStr}) is not 0;");
-        }
-        else if (retType == "nuint" && hasParams)
-        {
-            sb.AppendLine($"        nuint result = (nuint)(ulong)ObjectiveCRuntime.MsgSendPtr({argsStr});");
-        }
-        else if (retType == "float" && hasParams)
-        {
-            sb.AppendLine($"        float result = BitConverter.Int32BitsToSingle((int)ObjectiveCRuntime.MsgSendPtr({argsStr}));");
-        }
-        else if (retType == "double" && hasParams)
-        {
-            sb.AppendLine($"        double result = BitConverter.Int64BitsToDouble((long)ObjectiveCRuntime.MsgSendPtr({argsStr}));");
-        }
-        else if (retType == "uint" && hasParams)
-        {
-            sb.AppendLine($"        uint result = (uint)(ulong)ObjectiveCRuntime.MsgSendPtr({argsStr});");
-        }
-        else if (IsLikelyEnum(retType) && hasParams)
-        {
-            sb.AppendLine($"        {retType} result = ({retType})(uint)(ulong)ObjectiveCRuntime.MsgSendPtr({argsStr});");
-        }
-        else if (retType == "ulong" && hasParams)
-        {
-            sb.AppendLine($"        ulong result = (ulong)ObjectiveCRuntime.MsgSendPtr({argsStr});");
         }
         else
         {
@@ -471,16 +456,32 @@ public class MetalBindingsGenerator
         if (IsKnownValueStruct(type)) return name;
         if (type is "float" or "double") return name;
         if (type is "nint") return name;
-        if (type is "nuint") return $"(nint){name}";
-        if (IsLikelyEnum(type)) return $"(nint)(uint){name}";
+        if (type is "nuint") return $"(nuint){name}";
+        if (IsLikelyEnum(type)) return $"(uint){name}";
         if (IsObjCWrapper(type)) return $"{name}.NativePtr";
-        if (type is "Bool8") return $"(nint){name}.Value";
-        if (type is "bool") return $"(nint)({name} ? 1 : 0)";
-        if (type is "uint" or "int" or "byte" or "sbyte" or "short" or "ushort")
-            return $"(nint){name}";
-        if (type is "ulong" or "long")
-            return $"(nint){name}";
-        return $"(nint){name}";
+        if (type is "Bool8") return name;
+        if (type is "bool") return $"(byte)({name} ? 1 : 0)";
+        if (type is "uint" or "int" or "byte" or "sbyte" or "short" or "ushort") return name;
+        if (type is "ulong" or "long") return name;
+        return name;
+    }
+
+    /// <summary>
+    /// Map a C# parameter type to the actual runtime type used in MsgSend overload signatures.
+    /// </summary>
+    private static string GetRuntimeParamType(string type)
+    {
+        if (IsKnownValueStruct(type)) return type;
+        if (type is "float" or "double") return type;
+        if (type is "nint") return "nint";
+        if (type is "nuint") return "nuint";
+        if (IsLikelyEnum(type)) return "uint";
+        if (IsObjCWrapper(type)) return "nint";
+        if (type is "Bool8") return "Bool8";
+        if (type is "bool") return "byte";
+        if (type is "uint" or "int" or "byte" or "sbyte" or "short" or "ushort") return type;
+        if (type is "ulong" or "long") return type;
+        return "nint";
     }
 
     private static bool IsObjCWrapper(string type) => CppAstParser.IsObjCWrapper(type);
@@ -533,6 +534,125 @@ public class MetalBindingsGenerator
         if (CppAstParser.IsCSharpKeyword(name))
             name = $"@{name}";
         return name;
+    }
+
+    private static string MapReturnRuntimeType(string retType)
+    {
+        if (retType == "void") return "void";
+        if (retType is "Bool8" or "bool") return "Bool8";
+        if (retType is "uint") return "uint";
+        if (retType is "ulong") return "ulong";
+        if (retType is "float") return "float";
+        if (retType is "double") return "double";
+        if (retType is "nuint") return "nuint";
+        if (retType is "nint") return "nint";
+        if (IsLikelyEnum(retType)) return "uint";
+        // Value structs need stret — not supported, should be filtered before calling this
+        if (IsKnownValueStruct(retType)) return "nint";
+        // ObjC wrapper or nint
+        return "nint";
+    }
+
+    private static string MsgSendMethodName(string runtimeReturnType) => runtimeReturnType switch
+    {
+        "void" => "MsgSend",
+        "nint" => "MsgSendPtr",
+        "Bool8" => "MsgSendBool",
+        "uint" => "MsgSendUInt",
+        "ulong" => "MsgSendULong",
+        "float" => "MsgSendFloat",
+        "double" => "MsgSendDouble",
+        "nuint" => "MsgSendNUInt",
+        _ => "MsgSendPtr", // fallback
+    };
+
+    private void RecordMsgSendSignature(string runtimeReturnType, List<string> runtimeParamTypes, bool hasErrorOut)
+    {
+        var key = $"{runtimeReturnType}|{string.Join(",", runtimeParamTypes)}{(hasErrorOut ? "|err" : "")}";
+        _msgSendSignatures.Add(key);
+    }
+
+    private void CollectSignatures(ObjCClassDef cls)
+    {
+        // Collect from properties
+        foreach (var p in cls.Properties)
+        {
+            var retCall = MapReturnCall(p.Type);
+            if (retCall.Invoke.Contains("TODO")) continue;
+
+            var getRetType = MapReturnRuntimeType(p.Type);
+            RecordMsgSendSignature(getRetType, new List<string>(), false);
+
+            if (!p.Readonly)
+            {
+                var setParamType = GetRuntimeParamType(p.Type);
+                RecordMsgSendSignature("void", new List<string> { setParamType }, false);
+            }
+        }
+
+        // Collect from methods
+        foreach (var m in cls.Methods.Concat(cls.StaticMethods))
+        {
+            var retCall = MapReturnCall(m.ReturnType);
+            if (retCall.Invoke.Contains("TODO")) continue;
+
+            var runtimeParamTypes = m.Parameters.Select(p => GetRuntimeParamType(p.Type)).ToList();
+            var runtimeReturnType = MapReturnRuntimeType(m.ReturnType);
+            RecordMsgSendSignature(runtimeReturnType, runtimeParamTypes, m.HasErrorOut);
+        }
+    }
+
+    private void GenerateRuntimeOverloads()
+    {
+        var sb = new StringBuilder();
+        sb.AppendLine("using System.Runtime.InteropServices;");
+        sb.AppendLine();
+        sb.AppendLine("namespace Metal.NET;");
+        sb.AppendLine();
+        sb.AppendLine("public static unsafe partial class ObjectiveCRuntime");
+        sb.AppendLine("{");
+
+        var emittedSigs = new HashSet<string>();
+
+        foreach (var sig in _msgSendSignatures.OrderBy(s => s))
+        {
+            var parts = sig.Split('|');
+            var retType = parts[0];
+            var paramTypesStr = parts[1];
+            bool hasErrorOut = parts.Length > 2 && parts[2] == "err";
+            var paramTypes = string.IsNullOrEmpty(paramTypesStr) ? Array.Empty<string>() : paramTypesStr.Split(',');
+
+            var methodName = MsgSendMethodName(retType);
+            var csRetType = retType == "void" ? "void" : retType;
+
+            // Build parameter list
+            var paramParts = new List<string> { "nint receiver", "Selector selector" };
+            char letter = 'a';
+            foreach (var pt in paramTypes)
+            {
+                paramParts.Add($"{pt} {letter}");
+                letter++;
+            }
+            if (hasErrorOut)
+            {
+                paramParts.Add("out nint error");
+            }
+
+            var paramStr = string.Join(", ", paramParts);
+
+            // Deduplicate: same method name + same param types = same overload
+            var dedupKey = $"{csRetType} {methodName}({paramStr})";
+            if (!emittedSigs.Add(dedupKey))
+                continue;
+
+            sb.AppendLine($"    [LibraryImport(\"/usr/lib/libobjc.A.dylib\", EntryPoint = \"objc_msgSend\")]");
+            sb.AppendLine($"    public static partial {csRetType} {methodName}({paramStr});");
+            sb.AppendLine();
+        }
+
+        sb.AppendLine("}");
+
+        WriteSource("Common", "ObjectiveCRuntime.Generated.cs", sb.ToString());
     }
 
     private static string Capitalize(string s)

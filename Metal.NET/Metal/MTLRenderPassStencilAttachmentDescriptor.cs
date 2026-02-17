@@ -41,29 +41,31 @@ public class MTLRenderPassStencilAttachmentDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLRenderPassStencilAttachmentDescriptor");
 
-    public static MTLRenderPassStencilAttachmentDescriptor New()
+    public MTLRenderPassStencilAttachmentDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
     {
-        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc"));
-        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register("init"));
-
-        return new MTLRenderPassStencilAttachmentDescriptor(ptr);
     }
 
-    public void SetClearStencil(uint clearStencil)
+    public uint ClearStencil
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.SetClearStencil, (nint)clearStencil);
+        get => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.ClearStencil);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.SetClearStencil, value);
     }
 
-    public void SetStencilResolveFilter(MTLMultisampleStencilResolveFilter stencilResolveFilter)
+    public MTLMultisampleStencilResolveFilter StencilResolveFilter
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.SetStencilResolveFilter, (nint)(uint)stencilResolveFilter);
+        get => (MTLMultisampleStencilResolveFilter)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.StencilResolveFilter));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.SetStencilResolveFilter, (uint)value);
     }
 
 }
 
 file class MTLRenderPassStencilAttachmentDescriptorSelector
 {
+    public static readonly Selector ClearStencil = Selector.Register("clearStencil");
+
     public static readonly Selector SetClearStencil = Selector.Register("setClearStencil:");
+
+    public static readonly Selector StencilResolveFilter = Selector.Register("stencilResolveFilter");
 
     public static readonly Selector SetStencilResolveFilter = Selector.Register("setStencilResolveFilter:");
 }

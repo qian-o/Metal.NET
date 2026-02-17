@@ -41,36 +41,41 @@ public class MTLBufferLayoutDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLBufferLayoutDescriptor");
 
-    public static MTLBufferLayoutDescriptor New()
+    public MTLBufferLayoutDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
     {
-        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc"));
-        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register("init"));
-
-        return new MTLBufferLayoutDescriptor(ptr);
     }
 
-    public void SetStepFunction(MTLStepFunction stepFunction)
+    public MTLStepFunction StepFunction
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStepFunction, (nint)(uint)stepFunction);
+        get => (MTLStepFunction)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLBufferLayoutDescriptorSelector.StepFunction));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStepFunction, (uint)value);
     }
 
-    public void SetStepRate(uint stepRate)
+    public nuint StepRate
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStepRate, (nint)stepRate);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferLayoutDescriptorSelector.StepRate);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStepRate, (nuint)value);
     }
 
-    public void SetStride(uint stride)
+    public nuint Stride
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStride, (nint)stride);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferLayoutDescriptorSelector.Stride);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStride, (nuint)value);
     }
 
 }
 
 file class MTLBufferLayoutDescriptorSelector
 {
+    public static readonly Selector StepFunction = Selector.Register("stepFunction");
+
     public static readonly Selector SetStepFunction = Selector.Register("setStepFunction:");
 
+    public static readonly Selector StepRate = Selector.Register("stepRate");
+
     public static readonly Selector SetStepRate = Selector.Register("setStepRate:");
+
+    public static readonly Selector Stride = Selector.Register("stride");
 
     public static readonly Selector SetStride = Selector.Register("setStride:");
 }

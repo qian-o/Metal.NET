@@ -39,168 +39,451 @@ public class MTLFXTemporalDenoisedScalerBase : IDisposable
         }
     }
 
-    public void SetColorTexture(MTLTexture colorTexture)
+    public nuint ColorTextureUsage
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetColorTexture, colorTexture.NativePtr);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.ColorTextureUsage);
     }
 
-    public void SetDepthTexture(MTLTexture depthTexture)
+    public nuint DepthTextureUsage
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetDepthTexture, depthTexture.NativePtr);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DepthTextureUsage);
     }
 
-    public void SetMotionTexture(MTLTexture motionTexture)
+    public nuint MotionTextureUsage
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetMotionTexture, motionTexture.NativePtr);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.MotionTextureUsage);
     }
 
-    public void SetDiffuseAlbedoTexture(MTLTexture diffuseAlbedoTexture)
+    public nuint ReactiveTextureUsage
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetDiffuseAlbedoTexture, diffuseAlbedoTexture.NativePtr);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.ReactiveTextureUsage);
     }
 
-    public void SetSpecularAlbedoTexture(MTLTexture specularAlbedoTexture)
+    public nuint DiffuseAlbedoTextureUsage
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetSpecularAlbedoTexture, specularAlbedoTexture.NativePtr);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DiffuseAlbedoTextureUsage);
     }
 
-    public void SetNormalTexture(MTLTexture normalTexture)
+    public nuint SpecularAlbedoTextureUsage
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetNormalTexture, normalTexture.NativePtr);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SpecularAlbedoTextureUsage);
     }
 
-    public void SetRoughnessTexture(MTLTexture roughnessTexture)
+    public nuint NormalTextureUsage
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetRoughnessTexture, roughnessTexture.NativePtr);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.NormalTextureUsage);
     }
 
-    public void SetSpecularHitDistanceTexture(MTLTexture specularHitDistanceTexture)
+    public nuint RoughnessTextureUsage
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetSpecularHitDistanceTexture, specularHitDistanceTexture.NativePtr);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.RoughnessTextureUsage);
     }
 
-    public void SetDenoiseStrengthMaskTexture(MTLTexture denoiseStrengthMaskTexture)
+    public nuint SpecularHitDistanceTextureUsage
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetDenoiseStrengthMaskTexture, denoiseStrengthMaskTexture.NativePtr);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SpecularHitDistanceTextureUsage);
     }
 
-    public void SetTransparencyOverlayTexture(MTLTexture transparencyOverlayTexture)
+    public nuint DenoiseStrengthMaskTextureUsage
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetTransparencyOverlayTexture, transparencyOverlayTexture.NativePtr);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DenoiseStrengthMaskTextureUsage);
     }
 
-    public void SetOutputTexture(MTLTexture outputTexture)
+    public nuint TransparencyOverlayTextureUsage
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetOutputTexture, outputTexture.NativePtr);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.TransparencyOverlayTextureUsage);
     }
 
-    public void SetExposureTexture(MTLTexture exposureTexture)
+    public nuint OutputTextureUsage
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetExposureTexture, exposureTexture.NativePtr);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.OutputTextureUsage);
     }
 
-    public void SetPreExposure(float preExposure)
+    public MTLTexture ColorTexture
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetPreExposure, preExposure);
+        get => new MTLTexture(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.ColorTexture));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetColorTexture, value.NativePtr);
     }
 
-    public void SetReactiveMaskTexture(MTLTexture reactiveMaskTexture)
+    public MTLTexture DepthTexture
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetReactiveMaskTexture, reactiveMaskTexture.NativePtr);
+        get => new MTLTexture(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DepthTexture));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetDepthTexture, value.NativePtr);
     }
 
-    public void SetJitterOffsetX(float jitterOffsetX)
+    public MTLTexture MotionTexture
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetJitterOffsetX, jitterOffsetX);
+        get => new MTLTexture(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.MotionTexture));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetMotionTexture, value.NativePtr);
     }
 
-    public void SetJitterOffsetY(float jitterOffsetY)
+    public MTLTexture DiffuseAlbedoTexture
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetJitterOffsetY, jitterOffsetY);
+        get => new MTLTexture(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DiffuseAlbedoTexture));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetDiffuseAlbedoTexture, value.NativePtr);
     }
 
-    public void SetMotionVectorScaleX(float motionVectorScaleX)
+    public MTLTexture SpecularAlbedoTexture
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetMotionVectorScaleX, motionVectorScaleX);
+        get => new MTLTexture(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SpecularAlbedoTexture));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetSpecularAlbedoTexture, value.NativePtr);
     }
 
-    public void SetMotionVectorScaleY(float motionVectorScaleY)
+    public MTLTexture NormalTexture
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetMotionVectorScaleY, motionVectorScaleY);
+        get => new MTLTexture(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.NormalTexture));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetNormalTexture, value.NativePtr);
     }
 
-    public void SetShouldResetHistory(Bool8 shouldResetHistory)
+    public MTLTexture RoughnessTexture
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetShouldResetHistory, (nint)shouldResetHistory.Value);
+        get => new MTLTexture(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.RoughnessTexture));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetRoughnessTexture, value.NativePtr);
+    }
+
+    public MTLTexture SpecularHitDistanceTexture
+    {
+        get => new MTLTexture(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SpecularHitDistanceTexture));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetSpecularHitDistanceTexture, value.NativePtr);
+    }
+
+    public MTLTexture DenoiseStrengthMaskTexture
+    {
+        get => new MTLTexture(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DenoiseStrengthMaskTexture));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetDenoiseStrengthMaskTexture, value.NativePtr);
+    }
+
+    public MTLTexture TransparencyOverlayTexture
+    {
+        get => new MTLTexture(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.TransparencyOverlayTexture));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetTransparencyOverlayTexture, value.NativePtr);
+    }
+
+    public MTLTexture OutputTexture
+    {
+        get => new MTLTexture(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.OutputTexture));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetOutputTexture, value.NativePtr);
+    }
+
+    public MTLTexture ExposureTexture
+    {
+        get => new MTLTexture(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.ExposureTexture));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetExposureTexture, value.NativePtr);
+    }
+
+    public float PreExposure
+    {
+        get => ObjectiveCRuntime.MsgSendFloat(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.PreExposure);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetPreExposure, value);
+    }
+
+    public MTLTexture ReactiveMaskTexture
+    {
+        get => new MTLTexture(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.ReactiveMaskTexture));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetReactiveMaskTexture, value.NativePtr);
+    }
+
+    public float JitterOffsetX
+    {
+        get => ObjectiveCRuntime.MsgSendFloat(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.JitterOffsetX);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetJitterOffsetX, value);
+    }
+
+    public float JitterOffsetY
+    {
+        get => ObjectiveCRuntime.MsgSendFloat(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.JitterOffsetY);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetJitterOffsetY, value);
+    }
+
+    public float MotionVectorScaleX
+    {
+        get => ObjectiveCRuntime.MsgSendFloat(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.MotionVectorScaleX);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetMotionVectorScaleX, value);
+    }
+
+    public float MotionVectorScaleY
+    {
+        get => ObjectiveCRuntime.MsgSendFloat(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.MotionVectorScaleY);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetMotionVectorScaleY, value);
+    }
+
+    public Bool8 ShouldResetHistory
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.ShouldResetHistory);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetShouldResetHistory, value);
+    }
+
+    public Bool8 IsDepthReversed
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.IsDepthReversed);
+    }
+
+    public MTLPixelFormat ColorTextureFormat
+    {
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.ColorTextureFormat));
+    }
+
+    public MTLPixelFormat DepthTextureFormat
+    {
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DepthTextureFormat));
+    }
+
+    public MTLPixelFormat MotionTextureFormat
+    {
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.MotionTextureFormat));
+    }
+
+    public MTLPixelFormat DiffuseAlbedoTextureFormat
+    {
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DiffuseAlbedoTextureFormat));
+    }
+
+    public MTLPixelFormat SpecularAlbedoTextureFormat
+    {
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SpecularAlbedoTextureFormat));
+    }
+
+    public MTLPixelFormat NormalTextureFormat
+    {
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.NormalTextureFormat));
+    }
+
+    public MTLPixelFormat RoughnessTextureFormat
+    {
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.RoughnessTextureFormat));
+    }
+
+    public MTLPixelFormat SpecularHitDistanceTextureFormat
+    {
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SpecularHitDistanceTextureFormat));
+    }
+
+    public MTLPixelFormat DenoiseStrengthMaskTextureFormat
+    {
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DenoiseStrengthMaskTextureFormat));
+    }
+
+    public MTLPixelFormat TransparencyOverlayTextureFormat
+    {
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.TransparencyOverlayTextureFormat));
+    }
+
+    public MTLPixelFormat ReactiveMaskTextureFormat
+    {
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.ReactiveMaskTextureFormat));
+    }
+
+    public MTLPixelFormat OutputTextureFormat
+    {
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.OutputTextureFormat));
+    }
+
+    public nuint InputWidth
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.InputWidth);
+    }
+
+    public nuint InputHeight
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.InputHeight);
+    }
+
+    public nuint OutputWidth
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.OutputWidth);
+    }
+
+    public nuint OutputHeight
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.OutputHeight);
+    }
+
+    public float InputContentMinScale
+    {
+        get => ObjectiveCRuntime.MsgSendFloat(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.InputContentMinScale);
+    }
+
+    public float InputContentMaxScale
+    {
+        get => ObjectiveCRuntime.MsgSendFloat(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.InputContentMaxScale);
+    }
+
+    public nint WorldToViewMatrix
+    {
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.WorldToViewMatrix);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetWorldToViewMatrix, value);
+    }
+
+    public nint ViewToClipMatrix
+    {
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.ViewToClipMatrix);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetViewToClipMatrix, value);
+    }
+
+    public MTLFence Fence
+    {
+        get => new MTLFence(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.Fence));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetFence, value.NativePtr);
     }
 
     public void SetDepthReversed(Bool8 depthReversed)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetDepthReversed, (nint)depthReversed.Value);
-    }
-
-    public void SetWorldToViewMatrix(int worldToViewMatrix)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetWorldToViewMatrix, worldToViewMatrix);
-    }
-
-    public void SetViewToClipMatrix(int viewToClipMatrix)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetViewToClipMatrix, viewToClipMatrix);
-    }
-
-    public void SetFence(MTLFence fence)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetFence, fence.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetDepthReversed, depthReversed);
     }
 
 }
 
 file class MTLFXTemporalDenoisedScalerBaseSelector
 {
+    public static readonly Selector ColorTextureUsage = Selector.Register("colorTextureUsage");
+
+    public static readonly Selector DepthTextureUsage = Selector.Register("depthTextureUsage");
+
+    public static readonly Selector MotionTextureUsage = Selector.Register("motionTextureUsage");
+
+    public static readonly Selector ReactiveTextureUsage = Selector.Register("reactiveTextureUsage");
+
+    public static readonly Selector DiffuseAlbedoTextureUsage = Selector.Register("diffuseAlbedoTextureUsage");
+
+    public static readonly Selector SpecularAlbedoTextureUsage = Selector.Register("specularAlbedoTextureUsage");
+
+    public static readonly Selector NormalTextureUsage = Selector.Register("normalTextureUsage");
+
+    public static readonly Selector RoughnessTextureUsage = Selector.Register("roughnessTextureUsage");
+
+    public static readonly Selector SpecularHitDistanceTextureUsage = Selector.Register("specularHitDistanceTextureUsage");
+
+    public static readonly Selector DenoiseStrengthMaskTextureUsage = Selector.Register("denoiseStrengthMaskTextureUsage");
+
+    public static readonly Selector TransparencyOverlayTextureUsage = Selector.Register("transparencyOverlayTextureUsage");
+
+    public static readonly Selector OutputTextureUsage = Selector.Register("outputTextureUsage");
+
+    public static readonly Selector ColorTexture = Selector.Register("colorTexture");
+
     public static readonly Selector SetColorTexture = Selector.Register("setColorTexture:");
+
+    public static readonly Selector DepthTexture = Selector.Register("depthTexture");
 
     public static readonly Selector SetDepthTexture = Selector.Register("setDepthTexture:");
 
+    public static readonly Selector MotionTexture = Selector.Register("motionTexture");
+
     public static readonly Selector SetMotionTexture = Selector.Register("setMotionTexture:");
+
+    public static readonly Selector DiffuseAlbedoTexture = Selector.Register("diffuseAlbedoTexture");
 
     public static readonly Selector SetDiffuseAlbedoTexture = Selector.Register("setDiffuseAlbedoTexture:");
 
+    public static readonly Selector SpecularAlbedoTexture = Selector.Register("specularAlbedoTexture");
+
     public static readonly Selector SetSpecularAlbedoTexture = Selector.Register("setSpecularAlbedoTexture:");
+
+    public static readonly Selector NormalTexture = Selector.Register("normalTexture");
 
     public static readonly Selector SetNormalTexture = Selector.Register("setNormalTexture:");
 
+    public static readonly Selector RoughnessTexture = Selector.Register("roughnessTexture");
+
     public static readonly Selector SetRoughnessTexture = Selector.Register("setRoughnessTexture:");
+
+    public static readonly Selector SpecularHitDistanceTexture = Selector.Register("specularHitDistanceTexture");
 
     public static readonly Selector SetSpecularHitDistanceTexture = Selector.Register("setSpecularHitDistanceTexture:");
 
+    public static readonly Selector DenoiseStrengthMaskTexture = Selector.Register("denoiseStrengthMaskTexture");
+
     public static readonly Selector SetDenoiseStrengthMaskTexture = Selector.Register("setDenoiseStrengthMaskTexture:");
+
+    public static readonly Selector TransparencyOverlayTexture = Selector.Register("transparencyOverlayTexture");
 
     public static readonly Selector SetTransparencyOverlayTexture = Selector.Register("setTransparencyOverlayTexture:");
 
+    public static readonly Selector OutputTexture = Selector.Register("outputTexture");
+
     public static readonly Selector SetOutputTexture = Selector.Register("setOutputTexture:");
+
+    public static readonly Selector ExposureTexture = Selector.Register("exposureTexture");
 
     public static readonly Selector SetExposureTexture = Selector.Register("setExposureTexture:");
 
+    public static readonly Selector PreExposure = Selector.Register("preExposure");
+
     public static readonly Selector SetPreExposure = Selector.Register("setPreExposure:");
+
+    public static readonly Selector ReactiveMaskTexture = Selector.Register("reactiveMaskTexture");
 
     public static readonly Selector SetReactiveMaskTexture = Selector.Register("setReactiveMaskTexture:");
 
+    public static readonly Selector JitterOffsetX = Selector.Register("jitterOffsetX");
+
     public static readonly Selector SetJitterOffsetX = Selector.Register("setJitterOffsetX:");
+
+    public static readonly Selector JitterOffsetY = Selector.Register("jitterOffsetY");
 
     public static readonly Selector SetJitterOffsetY = Selector.Register("setJitterOffsetY:");
 
+    public static readonly Selector MotionVectorScaleX = Selector.Register("motionVectorScaleX");
+
     public static readonly Selector SetMotionVectorScaleX = Selector.Register("setMotionVectorScaleX:");
+
+    public static readonly Selector MotionVectorScaleY = Selector.Register("motionVectorScaleY");
 
     public static readonly Selector SetMotionVectorScaleY = Selector.Register("setMotionVectorScaleY:");
 
+    public static readonly Selector ShouldResetHistory = Selector.Register("shouldResetHistory");
+
     public static readonly Selector SetShouldResetHistory = Selector.Register("setShouldResetHistory:");
 
-    public static readonly Selector SetDepthReversed = Selector.Register("setDepthReversed:");
+    public static readonly Selector IsDepthReversed = Selector.Register("isDepthReversed");
+
+    public static readonly Selector ColorTextureFormat = Selector.Register("colorTextureFormat");
+
+    public static readonly Selector DepthTextureFormat = Selector.Register("depthTextureFormat");
+
+    public static readonly Selector MotionTextureFormat = Selector.Register("motionTextureFormat");
+
+    public static readonly Selector DiffuseAlbedoTextureFormat = Selector.Register("diffuseAlbedoTextureFormat");
+
+    public static readonly Selector SpecularAlbedoTextureFormat = Selector.Register("specularAlbedoTextureFormat");
+
+    public static readonly Selector NormalTextureFormat = Selector.Register("normalTextureFormat");
+
+    public static readonly Selector RoughnessTextureFormat = Selector.Register("roughnessTextureFormat");
+
+    public static readonly Selector SpecularHitDistanceTextureFormat = Selector.Register("specularHitDistanceTextureFormat");
+
+    public static readonly Selector DenoiseStrengthMaskTextureFormat = Selector.Register("denoiseStrengthMaskTextureFormat");
+
+    public static readonly Selector TransparencyOverlayTextureFormat = Selector.Register("transparencyOverlayTextureFormat");
+
+    public static readonly Selector ReactiveMaskTextureFormat = Selector.Register("reactiveMaskTextureFormat");
+
+    public static readonly Selector OutputTextureFormat = Selector.Register("outputTextureFormat");
+
+    public static readonly Selector InputWidth = Selector.Register("inputWidth");
+
+    public static readonly Selector InputHeight = Selector.Register("inputHeight");
+
+    public static readonly Selector OutputWidth = Selector.Register("outputWidth");
+
+    public static readonly Selector OutputHeight = Selector.Register("outputHeight");
+
+    public static readonly Selector InputContentMinScale = Selector.Register("inputContentMinScale");
+
+    public static readonly Selector InputContentMaxScale = Selector.Register("inputContentMaxScale");
+
+    public static readonly Selector WorldToViewMatrix = Selector.Register("worldToViewMatrix");
 
     public static readonly Selector SetWorldToViewMatrix = Selector.Register("setWorldToViewMatrix:");
 
+    public static readonly Selector ViewToClipMatrix = Selector.Register("viewToClipMatrix");
+
     public static readonly Selector SetViewToClipMatrix = Selector.Register("setViewToClipMatrix:");
 
+    public static readonly Selector Fence = Selector.Register("fence");
+
     public static readonly Selector SetFence = Selector.Register("setFence:");
+
+    public static readonly Selector SetDepthReversed = Selector.Register("setDepthReversed:");
 }

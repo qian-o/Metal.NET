@@ -39,8 +39,16 @@ public class MTLAccelerationStructure : IDisposable
         }
     }
 
+    public nuint Size
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureSelector.Size);
+    }
+
 }
 
 file class MTLAccelerationStructureSelector
 {
+    public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
+
+    public static readonly Selector Size = Selector.Register("size");
 }

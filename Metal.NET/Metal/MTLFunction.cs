@@ -39,32 +39,98 @@ public class MTLFunction : IDisposable
         }
     }
 
+    public MTLDevice Device
+    {
+        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.Device));
+    }
+
+    public nint FunctionConstantsDictionary
+    {
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.FunctionConstantsDictionary);
+    }
+
+    public MTLFunctionType FunctionType
+    {
+        get => (MTLFunctionType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFunctionSelector.FunctionType));
+    }
+
+    public NSString Label
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionSelector.SetLabel, value.NativePtr);
+    }
+
+    public NSString Name
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.Name));
+    }
+
+    public nuint Options
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionSelector.Options);
+    }
+
+    public nint PatchControlPointCount
+    {
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.PatchControlPointCount);
+    }
+
+    public MTLPatchType PatchType
+    {
+        get => (MTLPatchType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFunctionSelector.PatchType));
+    }
+
+    public NSArray StageInputAttributes
+    {
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.StageInputAttributes));
+    }
+
+    public NSArray VertexAttributes
+    {
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.VertexAttributes));
+    }
+
     public MTLArgumentEncoder NewArgumentEncoder(uint bufferIndex)
     {
-        MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.NewArgumentEncoder, (nint)bufferIndex));
+        MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.NewArgumentEncoder, (nuint)bufferIndex));
 
         return result;
     }
 
     public MTLArgumentEncoder NewArgumentEncoder(uint bufferIndex, int reflection)
     {
-        MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.NewArgumentEncoderReflection, (nint)bufferIndex, reflection));
+        MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.NewArgumentEncoderReflection, (nuint)bufferIndex, reflection));
 
         return result;
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionSelector.SetLabel, label.NativePtr);
     }
 
 }
 
 file class MTLFunctionSelector
 {
+    public static readonly Selector Device = Selector.Register("device");
+
+    public static readonly Selector FunctionConstantsDictionary = Selector.Register("functionConstantsDictionary");
+
+    public static readonly Selector FunctionType = Selector.Register("functionType");
+
+    public static readonly Selector Label = Selector.Register("label");
+
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+
+    public static readonly Selector Name = Selector.Register("name");
+
+    public static readonly Selector Options = Selector.Register("options");
+
+    public static readonly Selector PatchControlPointCount = Selector.Register("patchControlPointCount");
+
+    public static readonly Selector PatchType = Selector.Register("patchType");
+
+    public static readonly Selector StageInputAttributes = Selector.Register("stageInputAttributes");
+
+    public static readonly Selector VertexAttributes = Selector.Register("vertexAttributes");
+
     public static readonly Selector NewArgumentEncoder = Selector.Register("newArgumentEncoder:");
 
     public static readonly Selector NewArgumentEncoderReflection = Selector.Register("newArgumentEncoder:reflection:");
-
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

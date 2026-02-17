@@ -39,8 +39,63 @@ public class MTLRenderPipelineReflection : IDisposable
         }
     }
 
+    public NSArray FragmentArguments
+    {
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.FragmentArguments));
+    }
+
+    public NSArray FragmentBindings
+    {
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.FragmentBindings));
+    }
+
+    public NSArray MeshBindings
+    {
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.MeshBindings));
+    }
+
+    public NSArray ObjectBindings
+    {
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.ObjectBindings));
+    }
+
+    public NSArray TileArguments
+    {
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.TileArguments));
+    }
+
+    public NSArray TileBindings
+    {
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.TileBindings));
+    }
+
+    public NSArray VertexArguments
+    {
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.VertexArguments));
+    }
+
+    public NSArray VertexBindings
+    {
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.VertexBindings));
+    }
+
 }
 
 file class MTLRenderPipelineReflectionSelector
 {
+    public static readonly Selector FragmentArguments = Selector.Register("fragmentArguments");
+
+    public static readonly Selector FragmentBindings = Selector.Register("fragmentBindings");
+
+    public static readonly Selector MeshBindings = Selector.Register("meshBindings");
+
+    public static readonly Selector ObjectBindings = Selector.Register("objectBindings");
+
+    public static readonly Selector TileArguments = Selector.Register("tileArguments");
+
+    public static readonly Selector TileBindings = Selector.Register("tileBindings");
+
+    public static readonly Selector VertexArguments = Selector.Register("vertexArguments");
+
+    public static readonly Selector VertexBindings = Selector.Register("vertexBindings");
 }

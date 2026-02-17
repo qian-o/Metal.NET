@@ -41,14 +41,14 @@ public class MTLBufferLayoutDescriptorArray : IDisposable
 
     public MTLBufferLayoutDescriptor Object(uint index)
     {
-        MTLBufferLayoutDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArraySelector.Object, (nint)index));
+        MTLBufferLayoutDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArraySelector.Object, (nuint)index));
 
         return result;
     }
 
     public void SetObject(MTLBufferLayoutDescriptor bufferDesc, uint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorArraySelector.SetObjectIndex, bufferDesc.NativePtr, (nint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorArraySelector.SetObjectIndex, bufferDesc.NativePtr, (nuint)index);
     }
 
 }

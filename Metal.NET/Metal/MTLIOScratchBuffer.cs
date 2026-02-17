@@ -39,8 +39,14 @@ public class MTLIOScratchBuffer : IDisposable
         }
     }
 
+    public MTLBuffer Buffer
+    {
+        get => new MTLBuffer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOScratchBufferSelector.Buffer));
+    }
+
 }
 
 file class MTLIOScratchBufferSelector
 {
+    public static readonly Selector Buffer = Selector.Register("buffer");
 }

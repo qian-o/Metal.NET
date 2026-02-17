@@ -39,35 +39,47 @@ public class MTLCounterSampleBufferDescriptor : IDisposable
         }
     }
 
-    public void SetCounterSet(MTLCounterSet counterSet)
+    public MTLCounterSet CounterSet
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetCounterSet, counterSet.NativePtr);
+        get => new MTLCounterSet(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferDescriptorSelector.CounterSet));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetCounterSet, value.NativePtr);
     }
 
-    public void SetLabel(NSString label)
+    public NSString Label
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetLabel, label.NativePtr);
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferDescriptorSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetLabel, value.NativePtr);
     }
 
-    public void SetSampleCount(uint sampleCount)
+    public nuint SampleCount
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetSampleCount, (nint)sampleCount);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCounterSampleBufferDescriptorSelector.SampleCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetSampleCount, (nuint)value);
     }
 
-    public void SetStorageMode(MTLStorageMode storageMode)
+    public MTLStorageMode StorageMode
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetStorageMode, (nint)(uint)storageMode);
+        get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLCounterSampleBufferDescriptorSelector.StorageMode));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetStorageMode, (uint)value);
     }
 
 }
 
 file class MTLCounterSampleBufferDescriptorSelector
 {
+    public static readonly Selector CounterSet = Selector.Register("counterSet");
+
     public static readonly Selector SetCounterSet = Selector.Register("setCounterSet:");
+
+    public static readonly Selector Label = Selector.Register("label");
 
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
 
+    public static readonly Selector SampleCount = Selector.Register("sampleCount");
+
     public static readonly Selector SetSampleCount = Selector.Register("setSampleCount:");
+
+    public static readonly Selector StorageMode = Selector.Register("storageMode");
 
     public static readonly Selector SetStorageMode = Selector.Register("setStorageMode:");
 }

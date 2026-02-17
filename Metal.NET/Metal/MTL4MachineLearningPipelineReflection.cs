@@ -39,8 +39,14 @@ public class MTL4MachineLearningPipelineReflection : IDisposable
         }
     }
 
+    public NSArray Bindings
+    {
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineReflectionSelector.Bindings));
+    }
+
 }
 
 file class MTL4MachineLearningPipelineReflectionSelector
 {
+    public static readonly Selector Bindings = Selector.Register("bindings");
 }

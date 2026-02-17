@@ -39,26 +39,72 @@ public class MTLResource : IDisposable
         }
     }
 
+    public nuint AllocatedSize
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.AllocatedSize);
+    }
+
+    public MTLCPUCacheMode CpuCacheMode
+    {
+        get => (MTLCPUCacheMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLResourceSelector.CpuCacheMode));
+    }
+
+    public MTLDevice Device
+    {
+        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceSelector.Device));
+    }
+
+    public MTLHazardTrackingMode HazardTrackingMode
+    {
+        get => (MTLHazardTrackingMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLResourceSelector.HazardTrackingMode));
+    }
+
+    public MTLHeap Heap
+    {
+        get => new MTLHeap(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceSelector.Heap));
+    }
+
+    public nuint HeapOffset
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.HeapOffset);
+    }
+
+    public Bool8 IsAliasable
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLResourceSelector.IsAliasable);
+    }
+
+    public NSString Label
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceSelector.SetLabel, value.NativePtr);
+    }
+
+    public nuint ResourceOptions
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.ResourceOptions);
+    }
+
+    public MTLStorageMode StorageMode
+    {
+        get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLResourceSelector.StorageMode));
+    }
+
     public void MakeAliasable()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceSelector.MakeAliasable);
     }
 
-    public void SetLabel(NSString label)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceSelector.SetLabel, label.NativePtr);
-    }
-
     public uint SetOwner(int task_id_token)
     {
-        uint result = (uint)(ulong)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceSelector.SetOwner, task_id_token);
+        uint result = ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLResourceSelector.SetOwner, task_id_token);
 
         return result;
     }
 
     public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
     {
-        MTLPurgeableState result = (MTLPurgeableState)(uint)(ulong)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceSelector.SetPurgeableState, (nint)(uint)state);
+        MTLPurgeableState result = (MTLPurgeableState)ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLResourceSelector.SetPurgeableState, (uint)state);
 
         return result;
     }
@@ -67,9 +113,29 @@ public class MTLResource : IDisposable
 
 file class MTLResourceSelector
 {
-    public static readonly Selector MakeAliasable = Selector.Register("makeAliasable");
+    public static readonly Selector AllocatedSize = Selector.Register("allocatedSize");
+
+    public static readonly Selector CpuCacheMode = Selector.Register("cpuCacheMode");
+
+    public static readonly Selector Device = Selector.Register("device");
+
+    public static readonly Selector HazardTrackingMode = Selector.Register("hazardTrackingMode");
+
+    public static readonly Selector Heap = Selector.Register("heap");
+
+    public static readonly Selector HeapOffset = Selector.Register("heapOffset");
+
+    public static readonly Selector IsAliasable = Selector.Register("isAliasable");
+
+    public static readonly Selector Label = Selector.Register("label");
 
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
+
+    public static readonly Selector ResourceOptions = Selector.Register("resourceOptions");
+
+    public static readonly Selector StorageMode = Selector.Register("storageMode");
+
+    public static readonly Selector MakeAliasable = Selector.Register("makeAliasable");
 
     public static readonly Selector SetOwner = Selector.Register("setOwner:");
 

@@ -39,8 +39,21 @@ public class MTLThreadgroupBinding : IDisposable
         }
     }
 
+    public nuint ThreadgroupMemoryAlignment
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLThreadgroupBindingSelector.ThreadgroupMemoryAlignment);
+    }
+
+    public nuint ThreadgroupMemoryDataSize
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLThreadgroupBindingSelector.ThreadgroupMemoryDataSize);
+    }
+
 }
 
 file class MTLThreadgroupBindingSelector
 {
+    public static readonly Selector ThreadgroupMemoryAlignment = Selector.Register("threadgroupMemoryAlignment");
+
+    public static readonly Selector ThreadgroupMemoryDataSize = Selector.Register("threadgroupMemoryDataSize");
 }

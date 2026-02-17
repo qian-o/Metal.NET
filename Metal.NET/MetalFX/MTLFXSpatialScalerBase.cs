@@ -39,42 +39,120 @@ public class MTLFXSpatialScalerBase : IDisposable
         }
     }
 
-    public void SetInputContentWidth(uint width)
+    public nuint ColorTextureUsage
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerBaseSelector.SetInputContentWidth, (nint)width);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.ColorTextureUsage);
     }
 
-    public void SetInputContentHeight(uint height)
+    public nuint OutputTextureUsage
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerBaseSelector.SetInputContentHeight, (nint)height);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.OutputTextureUsage);
     }
 
-    public void SetColorTexture(MTLTexture pTexture)
+    public nuint InputContentWidth
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerBaseSelector.SetColorTexture, pTexture.NativePtr);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.InputContentWidth);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerBaseSelector.SetInputContentWidth, (nuint)value);
     }
 
-    public void SetOutputTexture(MTLTexture pTexture)
+    public nuint InputContentHeight
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerBaseSelector.SetOutputTexture, pTexture.NativePtr);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.InputContentHeight);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerBaseSelector.SetInputContentHeight, (nuint)value);
     }
 
-    public void SetFence(MTLFence pFence)
+    public MTLTexture ColorTexture
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerBaseSelector.SetFence, pFence.NativePtr);
+        get => new MTLTexture(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerBaseSelector.ColorTexture));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerBaseSelector.SetColorTexture, value.NativePtr);
+    }
+
+    public MTLTexture OutputTexture
+    {
+        get => new MTLTexture(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerBaseSelector.OutputTexture));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerBaseSelector.SetOutputTexture, value.NativePtr);
+    }
+
+    public MTLPixelFormat ColorTextureFormat
+    {
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXSpatialScalerBaseSelector.ColorTextureFormat));
+    }
+
+    public MTLPixelFormat OutputTextureFormat
+    {
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXSpatialScalerBaseSelector.OutputTextureFormat));
+    }
+
+    public nuint InputWidth
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.InputWidth);
+    }
+
+    public nuint InputHeight
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.InputHeight);
+    }
+
+    public nuint OutputWidth
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.OutputWidth);
+    }
+
+    public nuint OutputHeight
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.OutputHeight);
+    }
+
+    public MTLFXSpatialScalerColorProcessingMode ColorProcessingMode
+    {
+        get => (MTLFXSpatialScalerColorProcessingMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXSpatialScalerBaseSelector.ColorProcessingMode));
+    }
+
+    public MTLFence Fence
+    {
+        get => new MTLFence(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerBaseSelector.Fence));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerBaseSelector.SetFence, value.NativePtr);
     }
 
 }
 
 file class MTLFXSpatialScalerBaseSelector
 {
+    public static readonly Selector ColorTextureUsage = Selector.Register("colorTextureUsage");
+
+    public static readonly Selector OutputTextureUsage = Selector.Register("outputTextureUsage");
+
+    public static readonly Selector InputContentWidth = Selector.Register("inputContentWidth");
+
     public static readonly Selector SetInputContentWidth = Selector.Register("setInputContentWidth:");
+
+    public static readonly Selector InputContentHeight = Selector.Register("inputContentHeight");
 
     public static readonly Selector SetInputContentHeight = Selector.Register("setInputContentHeight:");
 
+    public static readonly Selector ColorTexture = Selector.Register("colorTexture");
+
     public static readonly Selector SetColorTexture = Selector.Register("setColorTexture:");
 
+    public static readonly Selector OutputTexture = Selector.Register("outputTexture");
+
     public static readonly Selector SetOutputTexture = Selector.Register("setOutputTexture:");
+
+    public static readonly Selector ColorTextureFormat = Selector.Register("colorTextureFormat");
+
+    public static readonly Selector OutputTextureFormat = Selector.Register("outputTextureFormat");
+
+    public static readonly Selector InputWidth = Selector.Register("inputWidth");
+
+    public static readonly Selector InputHeight = Selector.Register("inputHeight");
+
+    public static readonly Selector OutputWidth = Selector.Register("outputWidth");
+
+    public static readonly Selector OutputHeight = Selector.Register("outputHeight");
+
+    public static readonly Selector ColorProcessingMode = Selector.Register("colorProcessingMode");
+
+    public static readonly Selector Fence = Selector.Register("fence");
 
     public static readonly Selector SetFence = Selector.Register("setFence:");
 }

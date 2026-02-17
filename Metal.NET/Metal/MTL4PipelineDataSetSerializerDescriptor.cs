@@ -39,14 +39,17 @@ public class MTL4PipelineDataSetSerializerDescriptor : IDisposable
         }
     }
 
-    public void SetConfiguration(uint configuration)
+    public nuint Configuration
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.SetConfiguration, (nint)configuration);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.Configuration);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.SetConfiguration, (nuint)value);
     }
 
 }
 
 file class MTL4PipelineDataSetSerializerDescriptorSelector
 {
+    public static readonly Selector Configuration = Selector.Register("configuration");
+
     public static readonly Selector SetConfiguration = Selector.Register("setConfiguration:");
 }

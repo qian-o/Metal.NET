@@ -39,14 +39,17 @@ public class MTLIOFileHandle : IDisposable
         }
     }
 
-    public void SetLabel(NSString label)
+    public NSString Label
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOFileHandleSelector.SetLabel, label.NativePtr);
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOFileHandleSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOFileHandleSelector.SetLabel, value.NativePtr);
     }
 
 }
 
 file class MTLIOFileHandleSelector
 {
+    public static readonly Selector Label = Selector.Register("label");
+
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

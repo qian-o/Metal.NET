@@ -41,32 +41,32 @@ public class MTLLinkedFunctions : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLLinkedFunctions");
 
-    public static MTLLinkedFunctions New()
+    public MTLLinkedFunctions() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
     {
-        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc"));
-        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register("init"));
-
-        return new MTLLinkedFunctions(ptr);
     }
 
-    public void SetBinaryFunctions(NSArray binaryFunctions)
+    public NSArray BinaryFunctions
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsSelector.SetBinaryFunctions, binaryFunctions.NativePtr);
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLinkedFunctionsSelector.BinaryFunctions));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsSelector.SetBinaryFunctions, value.NativePtr);
     }
 
-    public void SetFunctions(NSArray functions)
+    public NSArray Functions
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsSelector.SetFunctions, functions.NativePtr);
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLinkedFunctionsSelector.Functions));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsSelector.SetFunctions, value.NativePtr);
     }
 
-    public void SetGroups(int groups)
+    public nint Groups
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsSelector.SetGroups, groups);
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLinkedFunctionsSelector.Groups);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsSelector.SetGroups, value);
     }
 
-    public void SetPrivateFunctions(NSArray privateFunctions)
+    public NSArray PrivateFunctions
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsSelector.SetPrivateFunctions, privateFunctions.NativePtr);
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLinkedFunctionsSelector.PrivateFunctions));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsSelector.SetPrivateFunctions, value.NativePtr);
     }
 
     public static MTLLinkedFunctions LinkedFunctions()
@@ -80,11 +80,19 @@ public class MTLLinkedFunctions : IDisposable
 
 file class MTLLinkedFunctionsSelector
 {
+    public static readonly Selector BinaryFunctions = Selector.Register("binaryFunctions");
+
     public static readonly Selector SetBinaryFunctions = Selector.Register("setBinaryFunctions:");
+
+    public static readonly Selector Functions = Selector.Register("functions");
 
     public static readonly Selector SetFunctions = Selector.Register("setFunctions:");
 
+    public static readonly Selector Groups = Selector.Register("groups");
+
     public static readonly Selector SetGroups = Selector.Register("setGroups:");
+
+    public static readonly Selector PrivateFunctions = Selector.Register("privateFunctions");
 
     public static readonly Selector SetPrivateFunctions = Selector.Register("setPrivateFunctions:");
 

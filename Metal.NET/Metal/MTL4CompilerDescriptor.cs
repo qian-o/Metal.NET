@@ -39,21 +39,27 @@ public class MTL4CompilerDescriptor : IDisposable
         }
     }
 
-    public void SetLabel(NSString label)
+    public NSString Label
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerDescriptorSelector.SetLabel, label.NativePtr);
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerDescriptorSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerDescriptorSelector.SetLabel, value.NativePtr);
     }
 
-    public void SetPipelineDataSetSerializer(MTL4PipelineDataSetSerializer pipelineDataSetSerializer)
+    public MTL4PipelineDataSetSerializer PipelineDataSetSerializer
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerDescriptorSelector.SetPipelineDataSetSerializer, pipelineDataSetSerializer.NativePtr);
+        get => new MTL4PipelineDataSetSerializer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerDescriptorSelector.PipelineDataSetSerializer));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerDescriptorSelector.SetPipelineDataSetSerializer, value.NativePtr);
     }
 
 }
 
 file class MTL4CompilerDescriptorSelector
 {
+    public static readonly Selector Label = Selector.Register("label");
+
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
+
+    public static readonly Selector PipelineDataSetSerializer = Selector.Register("pipelineDataSetSerializer");
 
     public static readonly Selector SetPipelineDataSetSerializer = Selector.Register("setPipelineDataSetSerializer:");
 }

@@ -41,29 +41,31 @@ public class MTLResidencySetDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLResidencySetDescriptor");
 
-    public static MTLResidencySetDescriptor New()
+    public MTLResidencySetDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
     {
-        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc"));
-        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register("init"));
-
-        return new MTLResidencySetDescriptor(ptr);
     }
 
-    public void SetInitialCapacity(uint initialCapacity)
+    public nuint InitialCapacity
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetDescriptorSelector.SetInitialCapacity, (nint)initialCapacity);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResidencySetDescriptorSelector.InitialCapacity);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetDescriptorSelector.SetInitialCapacity, (nuint)value);
     }
 
-    public void SetLabel(NSString label)
+    public NSString Label
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetDescriptorSelector.SetLabel, label.NativePtr);
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetDescriptorSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetDescriptorSelector.SetLabel, value.NativePtr);
     }
 
 }
 
 file class MTLResidencySetDescriptorSelector
 {
+    public static readonly Selector InitialCapacity = Selector.Register("initialCapacity");
+
     public static readonly Selector SetInitialCapacity = Selector.Register("setInitialCapacity:");
+
+    public static readonly Selector Label = Selector.Register("label");
 
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

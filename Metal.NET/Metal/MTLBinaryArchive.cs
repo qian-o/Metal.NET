@@ -39,9 +39,20 @@ public class MTLBinaryArchive : IDisposable
         }
     }
 
+    public MTLDevice Device
+    {
+        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveSelector.Device));
+    }
+
+    public NSString Label
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBinaryArchiveSelector.SetLabel, value.NativePtr);
+    }
+
     public Bool8 AddComputePipelineFunctions(MTLComputePipelineDescriptor descriptor, out NSError? error)
     {
-        bool result = (byte)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveSelector.AddComputePipelineFunctionsError, descriptor.NativePtr, out nint errorPtr) is not 0;
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.AddComputePipelineFunctionsError, descriptor.NativePtr, out nint errorPtr);
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -50,7 +61,7 @@ public class MTLBinaryArchive : IDisposable
 
     public Bool8 AddFunction(MTLFunctionDescriptor descriptor, MTLLibrary library, out NSError? error)
     {
-        bool result = (byte)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveSelector.AddFunctionLibraryError, descriptor.NativePtr, library.NativePtr, out nint errorPtr) is not 0;
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.AddFunctionLibraryError, descriptor.NativePtr, library.NativePtr, out nint errorPtr);
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -59,7 +70,7 @@ public class MTLBinaryArchive : IDisposable
 
     public Bool8 AddLibrary(MTLStitchedLibraryDescriptor descriptor, out NSError? error)
     {
-        bool result = (byte)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveSelector.AddLibraryError, descriptor.NativePtr, out nint errorPtr) is not 0;
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.AddLibraryError, descriptor.NativePtr, out nint errorPtr);
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -68,7 +79,7 @@ public class MTLBinaryArchive : IDisposable
 
     public Bool8 AddMeshRenderPipelineFunctions(MTLMeshRenderPipelineDescriptor descriptor, out NSError? error)
     {
-        bool result = (byte)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveSelector.AddMeshRenderPipelineFunctionsError, descriptor.NativePtr, out nint errorPtr) is not 0;
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.AddMeshRenderPipelineFunctionsError, descriptor.NativePtr, out nint errorPtr);
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -77,7 +88,7 @@ public class MTLBinaryArchive : IDisposable
 
     public Bool8 AddRenderPipelineFunctions(MTLRenderPipelineDescriptor descriptor, out NSError? error)
     {
-        bool result = (byte)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveSelector.AddRenderPipelineFunctionsError, descriptor.NativePtr, out nint errorPtr) is not 0;
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.AddRenderPipelineFunctionsError, descriptor.NativePtr, out nint errorPtr);
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -86,7 +97,7 @@ public class MTLBinaryArchive : IDisposable
 
     public Bool8 AddTileRenderPipelineFunctions(MTLTileRenderPipelineDescriptor descriptor, out NSError? error)
     {
-        bool result = (byte)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveSelector.AddTileRenderPipelineFunctionsError, descriptor.NativePtr, out nint errorPtr) is not 0;
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.AddTileRenderPipelineFunctionsError, descriptor.NativePtr, out nint errorPtr);
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -95,22 +106,23 @@ public class MTLBinaryArchive : IDisposable
 
     public Bool8 SerializeToURL(NSURL url, out NSError? error)
     {
-        bool result = (byte)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveSelector.SerializeToURLError, url.NativePtr, out nint errorPtr) is not 0;
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.SerializeToURLError, url.NativePtr, out nint errorPtr);
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
     }
 
-    public void SetLabel(NSString label)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBinaryArchiveSelector.SetLabel, label.NativePtr);
-    }
-
 }
 
 file class MTLBinaryArchiveSelector
 {
+    public static readonly Selector Device = Selector.Register("device");
+
+    public static readonly Selector Label = Selector.Register("label");
+
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+
     public static readonly Selector AddComputePipelineFunctionsError = Selector.Register("addComputePipelineFunctions:error:");
 
     public static readonly Selector AddFunctionLibraryError = Selector.Register("addFunction:library:error:");
@@ -124,6 +136,4 @@ file class MTLBinaryArchiveSelector
     public static readonly Selector AddTileRenderPipelineFunctionsError = Selector.Register("addTileRenderPipelineFunctions:error:");
 
     public static readonly Selector SerializeToURLError = Selector.Register("serializeToURL:error:");
-
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

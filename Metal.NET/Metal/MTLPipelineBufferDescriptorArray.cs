@@ -41,14 +41,14 @@ public class MTLPipelineBufferDescriptorArray : IDisposable
 
     public MTLPipelineBufferDescriptor Object(uint bufferIndex)
     {
-        MTLPipelineBufferDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPipelineBufferDescriptorArraySelector.Object, (nint)bufferIndex));
+        MTLPipelineBufferDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPipelineBufferDescriptorArraySelector.Object, (nuint)bufferIndex));
 
         return result;
     }
 
     public void SetObject(MTLPipelineBufferDescriptor buffer, uint bufferIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorArraySelector.SetObjectBufferIndex, buffer.NativePtr, (nint)bufferIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorArraySelector.SetObjectBufferIndex, buffer.NativePtr, (nuint)bufferIndex);
     }
 
 }

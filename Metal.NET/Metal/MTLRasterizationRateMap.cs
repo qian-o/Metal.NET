@@ -39,16 +39,47 @@ public class MTLRasterizationRateMap : IDisposable
         }
     }
 
+    public MTLDevice Device
+    {
+        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapSelector.Device));
+    }
+
+    public NSString Label
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapSelector.Label));
+    }
+
+    public nuint LayerCount
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRasterizationRateMapSelector.LayerCount);
+    }
+
     public void CopyParameterDataToBuffer(MTLBuffer buffer, uint offset)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapSelector.CopyParameterDataToBufferOffset, buffer.NativePtr, (nint)offset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapSelector.CopyParameterDataToBufferOffset, buffer.NativePtr, (nuint)offset);
     }
 
 }
 
 file class MTLRasterizationRateMapSelector
 {
+    public static readonly Selector Device = Selector.Register("device");
+
+    public static readonly Selector Label = Selector.Register("label");
+
+    public static readonly Selector LayerCount = Selector.Register("layerCount");
+
+    public static readonly Selector ParameterBufferSizeAndAlign = Selector.Register("parameterBufferSizeAndAlign");
+
+    public static readonly Selector PhysicalGranularity = Selector.Register("physicalGranularity");
+
+    public static readonly Selector ScreenSize = Selector.Register("screenSize");
+
     public static readonly Selector CopyParameterDataToBufferOffset = Selector.Register("copyParameterDataToBuffer:offset:");
+
+    public static readonly Selector MapPhysicalToScreenCoordinatesLayerIndex = Selector.Register("mapPhysicalToScreenCoordinates:layerIndex:");
+
+    public static readonly Selector MapScreenToPhysicalCoordinatesLayerIndex = Selector.Register("mapScreenToPhysicalCoordinates:layerIndex:");
 
     public static readonly Selector PhysicalSize = Selector.Register("physicalSize:");
 }

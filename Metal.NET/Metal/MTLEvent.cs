@@ -39,14 +39,24 @@ public class MTLEvent : IDisposable
         }
     }
 
-    public void SetLabel(NSString label)
+    public MTLDevice Device
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLEventSelector.SetLabel, label.NativePtr);
+        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLEventSelector.Device));
+    }
+
+    public NSString Label
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLEventSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLEventSelector.SetLabel, value.NativePtr);
     }
 
 }
 
 file class MTLEventSelector
 {
+    public static readonly Selector Device = Selector.Register("device");
+
+    public static readonly Selector Label = Selector.Register("label");
+
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

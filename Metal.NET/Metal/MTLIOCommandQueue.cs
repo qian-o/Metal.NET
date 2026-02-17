@@ -39,21 +39,38 @@ public class MTLIOCommandQueue : IDisposable
         }
     }
 
+    public MTLIOCommandBuffer CommandBuffer
+    {
+        get => new MTLIOCommandBuffer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueSelector.CommandBuffer));
+    }
+
+    public MTLIOCommandBuffer CommandBufferWithUnretainedReferences
+    {
+        get => new MTLIOCommandBuffer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueSelector.CommandBufferWithUnretainedReferences));
+    }
+
+    public NSString Label
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueSelector.SetLabel, value.NativePtr);
+    }
+
     public void EnqueueBarrier()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueSelector.EnqueueBarrier);
-    }
-
-    public void SetLabel(NSString label)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueSelector.SetLabel, label.NativePtr);
     }
 
 }
 
 file class MTLIOCommandQueueSelector
 {
-    public static readonly Selector EnqueueBarrier = Selector.Register("enqueueBarrier");
+    public static readonly Selector CommandBuffer = Selector.Register("commandBuffer");
+
+    public static readonly Selector CommandBufferWithUnretainedReferences = Selector.Register("commandBufferWithUnretainedReferences");
+
+    public static readonly Selector Label = Selector.Register("label");
 
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
+
+    public static readonly Selector EnqueueBarrier = Selector.Register("enqueueBarrier");
 }

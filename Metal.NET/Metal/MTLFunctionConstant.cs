@@ -39,8 +39,35 @@ public class MTLFunctionConstant : IDisposable
         }
     }
 
+    public nuint Index
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionConstantSelector.Index);
+    }
+
+    public NSString Name
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionConstantSelector.Name));
+    }
+
+    public Bool8 Required
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFunctionConstantSelector.Required);
+    }
+
+    public MTLDataType Type
+    {
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFunctionConstantSelector.Type));
+    }
+
 }
 
 file class MTLFunctionConstantSelector
 {
+    public static readonly Selector Index = Selector.Register("index");
+
+    public static readonly Selector Name = Selector.Register("name");
+
+    public static readonly Selector Required = Selector.Register("required");
+
+    public static readonly Selector Type = Selector.Register("type");
 }

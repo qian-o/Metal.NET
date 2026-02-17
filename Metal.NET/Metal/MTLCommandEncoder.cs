@@ -39,9 +39,20 @@ public class MTLCommandEncoder : IDisposable
         }
     }
 
+    public MTLDevice Device
+    {
+        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandEncoderSelector.Device));
+    }
+
+    public NSString Label
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandEncoderSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.SetLabel, value.NativePtr);
+    }
+
     public void BarrierAfterQueueStages(uint afterQueueStages, uint beforeStages)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.BarrierAfterQueueStagesBeforeStages, (nint)afterQueueStages, (nint)beforeStages);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.BarrierAfterQueueStagesBeforeStages, (nuint)afterQueueStages, (nuint)beforeStages);
     }
 
     public void EndEncoding()
@@ -64,15 +75,16 @@ public class MTLCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.PushDebugGroup, @string.NativePtr);
     }
 
-    public void SetLabel(NSString label)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.SetLabel, label.NativePtr);
-    }
-
 }
 
 file class MTLCommandEncoderSelector
 {
+    public static readonly Selector Device = Selector.Register("device");
+
+    public static readonly Selector Label = Selector.Register("label");
+
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+
     public static readonly Selector BarrierAfterQueueStagesBeforeStages = Selector.Register("barrierAfterQueueStages:beforeStages:");
 
     public static readonly Selector EndEncoding = Selector.Register("endEncoding");
@@ -82,6 +94,4 @@ file class MTLCommandEncoderSelector
     public static readonly Selector PopDebugGroup = Selector.Register("popDebugGroup");
 
     public static readonly Selector PushDebugGroup = Selector.Register("pushDebugGroup:");
-
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

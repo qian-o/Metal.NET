@@ -39,21 +39,27 @@ public class MTLCommandQueueDescriptor : IDisposable
         }
     }
 
-    public void SetLogState(MTLLogState logState)
+    public MTLLogState LogState
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueDescriptorSelector.SetLogState, logState.NativePtr);
+        get => new MTLLogState(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueDescriptorSelector.LogState));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueDescriptorSelector.SetLogState, value.NativePtr);
     }
 
-    public void SetMaxCommandBufferCount(uint maxCommandBufferCount)
+    public nuint MaxCommandBufferCount
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueDescriptorSelector.SetMaxCommandBufferCount, (nint)maxCommandBufferCount);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandQueueDescriptorSelector.MaxCommandBufferCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueDescriptorSelector.SetMaxCommandBufferCount, (nuint)value);
     }
 
 }
 
 file class MTLCommandQueueDescriptorSelector
 {
+    public static readonly Selector LogState = Selector.Register("logState");
+
     public static readonly Selector SetLogState = Selector.Register("setLogState:");
+
+    public static readonly Selector MaxCommandBufferCount = Selector.Register("maxCommandBufferCount");
 
     public static readonly Selector SetMaxCommandBufferCount = Selector.Register("setMaxCommandBufferCount:");
 }

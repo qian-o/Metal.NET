@@ -39,21 +39,27 @@ public class MTL4CounterHeapDescriptor : IDisposable
         }
     }
 
-    public void SetCount(uint count)
+    public nuint Count
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapDescriptorSelector.SetCount, (nint)count);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CounterHeapDescriptorSelector.Count);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapDescriptorSelector.SetCount, (nuint)value);
     }
 
-    public void SetType(MTL4CounterHeapType type)
+    public MTL4CounterHeapType Type
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapDescriptorSelector.SetType, (nint)(uint)type);
+        get => (MTL4CounterHeapType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4CounterHeapDescriptorSelector.Type));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapDescriptorSelector.SetType, (uint)value);
     }
 
 }
 
 file class MTL4CounterHeapDescriptorSelector
 {
+    public static readonly Selector Count = Selector.Register("count");
+
     public static readonly Selector SetCount = Selector.Register("setCount:");
+
+    public static readonly Selector Type = Selector.Register("type");
 
     public static readonly Selector SetType = Selector.Register("setType:");
 }

@@ -39,8 +39,30 @@ public class MTLFunctionHandle : IDisposable
         }
     }
 
+    public MTLDevice Device
+    {
+        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionHandleSelector.Device));
+    }
+
+    public MTLFunctionType FunctionType
+    {
+        get => (MTLFunctionType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFunctionHandleSelector.FunctionType));
+    }
+
+    public NSString Name
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionHandleSelector.Name));
+    }
+
 }
 
 file class MTLFunctionHandleSelector
 {
+    public static readonly Selector Device = Selector.Register("device");
+
+    public static readonly Selector FunctionType = Selector.Register("functionType");
+
+    public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
+
+    public static readonly Selector Name = Selector.Register("name");
 }

@@ -41,16 +41,18 @@ public class MTLSharedEventHandle : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLSharedEventHandle");
 
-    public static MTLSharedEventHandle New()
+    public MTLSharedEventHandle() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
     {
-        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc"));
-        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register("init"));
+    }
 
-        return new MTLSharedEventHandle(ptr);
+    public NSString Label
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventHandleSelector.Label));
     }
 
 }
 
 file class MTLSharedEventHandleSelector
 {
+    public static readonly Selector Label = Selector.Register("label");
 }

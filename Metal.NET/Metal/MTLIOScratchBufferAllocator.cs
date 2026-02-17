@@ -41,7 +41,7 @@ public class MTLIOScratchBufferAllocator : IDisposable
 
     public MTLIOScratchBuffer NewScratchBuffer(uint minimumSize)
     {
-        MTLIOScratchBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOScratchBufferAllocatorSelector.NewScratchBuffer, (nint)minimumSize));
+        MTLIOScratchBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOScratchBufferAllocatorSelector.NewScratchBuffer, (nuint)minimumSize));
 
         return result;
     }

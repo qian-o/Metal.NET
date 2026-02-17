@@ -41,14 +41,16 @@ public class MTLMotionKeyframeData : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLMotionKeyframeData");
 
-    public void SetBuffer(MTLBuffer buffer)
+    public MTLBuffer Buffer
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataSelector.SetBuffer, buffer.NativePtr);
+        get => new MTLBuffer(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMotionKeyframeDataSelector.Buffer));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataSelector.SetBuffer, value.NativePtr);
     }
 
-    public void SetOffset(uint offset)
+    public nuint Offset
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataSelector.SetOffset, (nint)offset);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLMotionKeyframeDataSelector.Offset);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataSelector.SetOffset, (nuint)value);
     }
 
     public static MTLMotionKeyframeData Data()
@@ -62,7 +64,11 @@ public class MTLMotionKeyframeData : IDisposable
 
 file class MTLMotionKeyframeDataSelector
 {
+    public static readonly Selector Buffer = Selector.Register("buffer");
+
     public static readonly Selector SetBuffer = Selector.Register("setBuffer:");
+
+    public static readonly Selector Offset = Selector.Register("offset");
 
     public static readonly Selector SetOffset = Selector.Register("setOffset:");
 

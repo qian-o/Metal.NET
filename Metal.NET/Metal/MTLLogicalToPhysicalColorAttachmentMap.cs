@@ -41,7 +41,7 @@ public class MTLLogicalToPhysicalColorAttachmentMap : IDisposable
 
     public nuint GetPhysicalIndex(uint logicalIndex)
     {
-        nuint result = (nuint)(ulong)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLogicalToPhysicalColorAttachmentMapSelector.GetPhysicalIndex, (nint)logicalIndex);
+        nuint result = ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLLogicalToPhysicalColorAttachmentMapSelector.GetPhysicalIndex, (nuint)logicalIndex);
 
         return result;
     }
@@ -53,7 +53,7 @@ public class MTLLogicalToPhysicalColorAttachmentMap : IDisposable
 
     public void SetPhysicalIndex(uint physicalIndex, uint logicalIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapSelector.SetPhysicalIndexLogicalIndex, (nint)physicalIndex, (nint)logicalIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapSelector.SetPhysicalIndexLogicalIndex, (nuint)physicalIndex, (nuint)logicalIndex);
     }
 
 }

@@ -41,29 +41,31 @@ public class MTLRenderPassDepthAttachmentDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLRenderPassDepthAttachmentDescriptor");
 
-    public static MTLRenderPassDepthAttachmentDescriptor New()
+    public MTLRenderPassDepthAttachmentDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
     {
-        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc"));
-        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register("init"));
-
-        return new MTLRenderPassDepthAttachmentDescriptor(ptr);
     }
 
-    public void SetClearDepth(double clearDepth)
+    public double ClearDepth
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorSelector.SetClearDepth, clearDepth);
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLRenderPassDepthAttachmentDescriptorSelector.ClearDepth);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorSelector.SetClearDepth, value);
     }
 
-    public void SetDepthResolveFilter(MTLMultisampleDepthResolveFilter depthResolveFilter)
+    public MTLMultisampleDepthResolveFilter DepthResolveFilter
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorSelector.SetDepthResolveFilter, (nint)(uint)depthResolveFilter);
+        get => (MTLMultisampleDepthResolveFilter)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPassDepthAttachmentDescriptorSelector.DepthResolveFilter));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorSelector.SetDepthResolveFilter, (uint)value);
     }
 
 }
 
 file class MTLRenderPassDepthAttachmentDescriptorSelector
 {
+    public static readonly Selector ClearDepth = Selector.Register("clearDepth");
+
     public static readonly Selector SetClearDepth = Selector.Register("setClearDepth:");
+
+    public static readonly Selector DepthResolveFilter = Selector.Register("depthResolveFilter");
 
     public static readonly Selector SetDepthResolveFilter = Selector.Register("setDepthResolveFilter:");
 }

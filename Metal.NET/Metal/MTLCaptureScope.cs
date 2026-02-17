@@ -39,9 +39,20 @@ public class MTLCaptureScope : IDisposable
         }
     }
 
-    public void SetLabel(NSString pLabel)
+    public MTLDevice Device
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeSelector.SetLabel, pLabel.NativePtr);
+        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeSelector.Device));
+    }
+
+    public NSString Label
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeSelector.Label));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeSelector.SetLabel, value.NativePtr);
+    }
+
+    public MTLCommandQueue CommandQueue
+    {
+        get => new MTLCommandQueue(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeSelector.CommandQueue));
     }
 
     public void BeginScope()
@@ -58,7 +69,13 @@ public class MTLCaptureScope : IDisposable
 
 file class MTLCaptureScopeSelector
 {
+    public static readonly Selector Device = Selector.Register("device");
+
+    public static readonly Selector Label = Selector.Register("label");
+
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
+
+    public static readonly Selector CommandQueue = Selector.Register("commandQueue");
 
     public static readonly Selector BeginScope = Selector.Register("beginScope");
 

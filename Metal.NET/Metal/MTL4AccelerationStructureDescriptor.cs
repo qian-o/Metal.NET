@@ -41,12 +41,8 @@ public class MTL4AccelerationStructureDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTL4AccelerationStructureDescriptor");
 
-    public static MTL4AccelerationStructureDescriptor New()
+    public MTL4AccelerationStructureDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
     {
-        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc"));
-        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register("init"));
-
-        return new MTL4AccelerationStructureDescriptor(ptr);
     }
 
 }

@@ -41,14 +41,14 @@ public class MTLVertexAttributeDescriptorArray : IDisposable
 
     public MTLVertexAttributeDescriptor Object(uint index)
     {
-        MTLVertexAttributeDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeDescriptorArraySelector.Object, (nint)index));
+        MTLVertexAttributeDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeDescriptorArraySelector.Object, (nuint)index));
 
         return result;
     }
 
     public void SetObject(MTLVertexAttributeDescriptor attributeDesc, uint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorArraySelector.SetObjectIndex, attributeDesc.NativePtr, (nint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorArraySelector.SetObjectIndex, attributeDesc.NativePtr, (nuint)index);
     }
 
 }

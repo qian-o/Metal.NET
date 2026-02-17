@@ -41,14 +41,14 @@ public class MTLRasterizationRateSampleArray : IDisposable
 
     public nint Object(uint index)
     {
-        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateSampleArraySelector.Object, (nint)index);
+        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateSampleArraySelector.Object, (nuint)index);
 
         return result;
     }
 
     public void SetObject(int value, uint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateSampleArraySelector.SetObjectIndex, value, (nint)index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateSampleArraySelector.SetObjectIndex, value, (nuint)index);
     }
 
 }

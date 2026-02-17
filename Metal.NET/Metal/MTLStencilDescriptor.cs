@@ -41,57 +41,71 @@ public class MTLStencilDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLStencilDescriptor");
 
-    public static MTLStencilDescriptor New()
+    public MTLStencilDescriptor() : this(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc")), Selector.Register("init")))
     {
-        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register("alloc"));
-        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register("init"));
-
-        return new MTLStencilDescriptor(ptr);
     }
 
-    public void SetDepthFailureOperation(MTLStencilOperation depthFailureOperation)
+    public MTLStencilOperation DepthFailureOperation
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetDepthFailureOperation, (nint)(uint)depthFailureOperation);
+        get => (MTLStencilOperation)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLStencilDescriptorSelector.DepthFailureOperation));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetDepthFailureOperation, (uint)value);
     }
 
-    public void SetDepthStencilPassOperation(MTLStencilOperation depthStencilPassOperation)
+    public MTLStencilOperation DepthStencilPassOperation
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetDepthStencilPassOperation, (nint)(uint)depthStencilPassOperation);
+        get => (MTLStencilOperation)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLStencilDescriptorSelector.DepthStencilPassOperation));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetDepthStencilPassOperation, (uint)value);
     }
 
-    public void SetReadMask(uint readMask)
+    public uint ReadMask
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetReadMask, (nint)readMask);
+        get => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLStencilDescriptorSelector.ReadMask);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetReadMask, value);
     }
 
-    public void SetStencilCompareFunction(MTLCompareFunction stencilCompareFunction)
+    public MTLCompareFunction StencilCompareFunction
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetStencilCompareFunction, (nint)(uint)stencilCompareFunction);
+        get => (MTLCompareFunction)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLStencilDescriptorSelector.StencilCompareFunction));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetStencilCompareFunction, (uint)value);
     }
 
-    public void SetStencilFailureOperation(MTLStencilOperation stencilFailureOperation)
+    public MTLStencilOperation StencilFailureOperation
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetStencilFailureOperation, (nint)(uint)stencilFailureOperation);
+        get => (MTLStencilOperation)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLStencilDescriptorSelector.StencilFailureOperation));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetStencilFailureOperation, (uint)value);
     }
 
-    public void SetWriteMask(uint writeMask)
+    public uint WriteMask
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetWriteMask, (nint)writeMask);
+        get => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLStencilDescriptorSelector.WriteMask);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetWriteMask, value);
     }
 
 }
 
 file class MTLStencilDescriptorSelector
 {
+    public static readonly Selector DepthFailureOperation = Selector.Register("depthFailureOperation");
+
     public static readonly Selector SetDepthFailureOperation = Selector.Register("setDepthFailureOperation:");
+
+    public static readonly Selector DepthStencilPassOperation = Selector.Register("depthStencilPassOperation");
 
     public static readonly Selector SetDepthStencilPassOperation = Selector.Register("setDepthStencilPassOperation:");
 
+    public static readonly Selector ReadMask = Selector.Register("readMask");
+
     public static readonly Selector SetReadMask = Selector.Register("setReadMask:");
+
+    public static readonly Selector StencilCompareFunction = Selector.Register("stencilCompareFunction");
 
     public static readonly Selector SetStencilCompareFunction = Selector.Register("setStencilCompareFunction:");
 
+    public static readonly Selector StencilFailureOperation = Selector.Register("stencilFailureOperation");
+
     public static readonly Selector SetStencilFailureOperation = Selector.Register("setStencilFailureOperation:");
+
+    public static readonly Selector WriteMask = Selector.Register("writeMask");
 
     public static readonly Selector SetWriteMask = Selector.Register("setWriteMask:");
 }

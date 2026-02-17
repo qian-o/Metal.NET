@@ -41,6 +41,11 @@ public class MTLSharedEventListener : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLSharedEventListener");
 
+    public nint DispatchQueue
+    {
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventListenerSelector.DispatchQueue);
+    }
+
     public static MTLSharedEventListener SharedListener()
     {
         MTLSharedEventListener result = new(ObjectiveCRuntime.MsgSendPtr(s_class, MTLSharedEventListenerSelector.SharedListener));
@@ -52,5 +57,7 @@ public class MTLSharedEventListener : IDisposable
 
 file class MTLSharedEventListenerSelector
 {
+    public static readonly Selector DispatchQueue = Selector.Register("dispatchQueue");
+
     public static readonly Selector SharedListener = Selector.Register("sharedListener");
 }

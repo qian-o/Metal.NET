@@ -41,14 +41,14 @@ public class MTLRasterizationRateLayerArray : IDisposable
 
     public MTLRasterizationRateLayerDescriptor Object(uint layerIndex)
     {
-        MTLRasterizationRateLayerDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerArraySelector.Object, (nint)layerIndex));
+        MTLRasterizationRateLayerDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerArraySelector.Object, (nuint)layerIndex));
 
         return result;
     }
 
     public void SetObject(MTLRasterizationRateLayerDescriptor layer, uint layerIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateLayerArraySelector.SetObjectLayerIndex, layer.NativePtr, (nint)layerIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateLayerArraySelector.SetObjectLayerIndex, layer.NativePtr, (nuint)layerIndex);
     }
 
 }

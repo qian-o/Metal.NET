@@ -39,8 +39,14 @@ public class MTLFunctionReflection : IDisposable
         }
     }
 
+    public NSArray Bindings
+    {
+        get => new NSArray(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionReflectionSelector.Bindings));
+    }
+
 }
 
 file class MTLFunctionReflectionSelector
 {
+    public static readonly Selector Bindings = Selector.Register("bindings");
 }

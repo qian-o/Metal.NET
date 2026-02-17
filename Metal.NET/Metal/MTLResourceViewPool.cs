@@ -39,8 +39,32 @@ public class MTLResourceViewPool : IDisposable
         }
     }
 
+    public MTLDevice Device
+    {
+        get => new MTLDevice(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolSelector.Device));
+    }
+
+    public NSString Label
+    {
+        get => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolSelector.Label));
+    }
+
+    public nuint ResourceViewCount
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceViewPoolSelector.ResourceViewCount);
+    }
+
 }
 
 file class MTLResourceViewPoolSelector
 {
+    public static readonly Selector BaseResourceID = Selector.Register("baseResourceID");
+
+    public static readonly Selector Device = Selector.Register("device");
+
+    public static readonly Selector Label = Selector.Register("label");
+
+    public static readonly Selector ResourceViewCount = Selector.Register("resourceViewCount");
+
+    public static readonly Selector CopyResourceViewsFromPoolSourceRangeDestinationIndex = Selector.Register("copyResourceViewsFromPool:sourceRange:destinationIndex:");
 }
