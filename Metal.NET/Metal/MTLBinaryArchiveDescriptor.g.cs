@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLBinaryArchiveDescriptorSelector
-{
-    public static readonly Selector SetUrl_ = Selector.Register("setUrl:");
-}
-
 public class MTLBinaryArchiveDescriptor : IDisposable
 {
     public MTLBinaryArchiveDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLBinaryArchiveDescriptor()
@@ -56,7 +51,12 @@ public class MTLBinaryArchiveDescriptor : IDisposable
 
     public void SetUrl(NSURL url)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBinaryArchiveDescriptorSelector.SetUrl_, url.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBinaryArchiveDescriptorSelector.SetUrl, url.NativePtr);
     }
 
+}
+
+file class MTLBinaryArchiveDescriptorSelector
+{
+    public static readonly Selector SetUrl = Selector.Register("setUrl:");
 }

@@ -1,17 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4PipelineStageDynamicLinkingDescriptorSelector
-{
-    public static readonly Selector SetBinaryLinkedFunctions_ = Selector.Register("setBinaryLinkedFunctions:");
-    public static readonly Selector SetMaxCallStackDepth_ = Selector.Register("setMaxCallStackDepth:");
-    public static readonly Selector SetPreloadedLibraries_ = Selector.Register("setPreloadedLibraries:");
-}
-
 public class MTL4PipelineStageDynamicLinkingDescriptor : IDisposable
 {
     public MTL4PipelineStageDynamicLinkingDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4PipelineStageDynamicLinkingDescriptor()
@@ -48,17 +41,24 @@ public class MTL4PipelineStageDynamicLinkingDescriptor : IDisposable
 
     public void SetBinaryLinkedFunctions(NSArray binaryLinkedFunctions)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.SetBinaryLinkedFunctions_, binaryLinkedFunctions.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.SetBinaryLinkedFunctions, binaryLinkedFunctions.NativePtr);
     }
 
-    public void SetMaxCallStackDepth(nuint maxCallStackDepth)
+    public void SetMaxCallStackDepth(uint maxCallStackDepth)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.SetMaxCallStackDepth_, (nint)maxCallStackDepth);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.SetMaxCallStackDepth, (nint)maxCallStackDepth);
     }
 
     public void SetPreloadedLibraries(NSArray preloadedLibraries)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.SetPreloadedLibraries_, preloadedLibraries.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.SetPreloadedLibraries, preloadedLibraries.NativePtr);
     }
 
+}
+
+file class MTL4PipelineStageDynamicLinkingDescriptorSelector
+{
+    public static readonly Selector SetBinaryLinkedFunctions = Selector.Register("setBinaryLinkedFunctions:");
+    public static readonly Selector SetMaxCallStackDepth = Selector.Register("setMaxCallStackDepth:");
+    public static readonly Selector SetPreloadedLibraries = Selector.Register("setPreloadedLibraries:");
 }

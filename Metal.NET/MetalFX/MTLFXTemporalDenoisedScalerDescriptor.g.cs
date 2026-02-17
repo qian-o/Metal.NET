@@ -1,45 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLFXTemporalDenoisedScalerDescriptorSelector
-{
-    public static readonly Selector SetColorTextureFormat_ = Selector.Register("setColorTextureFormat:");
-    public static readonly Selector SetDepthTextureFormat_ = Selector.Register("setDepthTextureFormat:");
-    public static readonly Selector SetMotionTextureFormat_ = Selector.Register("setMotionTextureFormat:");
-    public static readonly Selector SetDiffuseAlbedoTextureFormat_ = Selector.Register("setDiffuseAlbedoTextureFormat:");
-    public static readonly Selector SetSpecularAlbedoTextureFormat_ = Selector.Register("setSpecularAlbedoTextureFormat:");
-    public static readonly Selector SetNormalTextureFormat_ = Selector.Register("setNormalTextureFormat:");
-    public static readonly Selector SetRoughnessTextureFormat_ = Selector.Register("setRoughnessTextureFormat:");
-    public static readonly Selector SetSpecularHitDistanceTextureFormat_ = Selector.Register("setSpecularHitDistanceTextureFormat:");
-    public static readonly Selector SetDenoiseStrengthMaskTextureFormat_ = Selector.Register("setDenoiseStrengthMaskTextureFormat:");
-    public static readonly Selector SetTransparencyOverlayTextureFormat_ = Selector.Register("setTransparencyOverlayTextureFormat:");
-    public static readonly Selector SetOutputTextureFormat_ = Selector.Register("setOutputTextureFormat:");
-    public static readonly Selector SetInputWidth_ = Selector.Register("setInputWidth:");
-    public static readonly Selector SetInputHeight_ = Selector.Register("setInputHeight:");
-    public static readonly Selector SetOutputWidth_ = Selector.Register("setOutputWidth:");
-    public static readonly Selector SetOutputHeight_ = Selector.Register("setOutputHeight:");
-    public static readonly Selector SetRequiresSynchronousInitialization_ = Selector.Register("setRequiresSynchronousInitialization:");
-    public static readonly Selector SetAutoExposureEnabled_ = Selector.Register("setAutoExposureEnabled:");
-    public static readonly Selector SetInputContentPropertiesEnabled_ = Selector.Register("setInputContentPropertiesEnabled:");
-    public static readonly Selector SetInputContentMinScale_ = Selector.Register("setInputContentMinScale:");
-    public static readonly Selector SetInputContentMaxScale_ = Selector.Register("setInputContentMaxScale:");
-    public static readonly Selector SetReactiveMaskTextureEnabled_ = Selector.Register("setReactiveMaskTextureEnabled:");
-    public static readonly Selector SetReactiveMaskTextureFormat_ = Selector.Register("setReactiveMaskTextureFormat:");
-    public static readonly Selector SetSpecularHitDistanceTextureEnabled_ = Selector.Register("setSpecularHitDistanceTextureEnabled:");
-    public static readonly Selector SetDenoiseStrengthMaskTextureEnabled_ = Selector.Register("setDenoiseStrengthMaskTextureEnabled:");
-    public static readonly Selector SetTransparencyOverlayTextureEnabled_ = Selector.Register("setTransparencyOverlayTextureEnabled:");
-    public static readonly Selector NewTemporalDenoisedScaler_ = Selector.Register("newTemporalDenoisedScaler:");
-    public static readonly Selector NewTemporalDenoisedScaler_compiler_ = Selector.Register("newTemporalDenoisedScaler:compiler:");
-    public static readonly Selector SupportedInputContentMinScale_ = Selector.Register("supportedInputContentMinScale:");
-    public static readonly Selector SupportedInputContentMaxScale_ = Selector.Register("supportedInputContentMaxScale:");
-    public static readonly Selector SupportsMetal4FX_ = Selector.Register("supportsMetal4FX:");
-    public static readonly Selector SupportsDevice_ = Selector.Register("supportsDevice:");
-}
-
 public class MTLFXTemporalDenoisedScalerDescriptor : IDisposable
 {
     public MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLFXTemporalDenoisedScalerDescriptor()
@@ -78,169 +43,204 @@ public class MTLFXTemporalDenoisedScalerDescriptor : IDisposable
 
     public void SetColorTextureFormat(MTLPixelFormat pixelFormat)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetColorTextureFormat_, (nint)(uint)pixelFormat);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetColorTextureFormat, (nint)(uint)pixelFormat);
     }
 
     public void SetDepthTextureFormat(MTLPixelFormat pixelFormat)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetDepthTextureFormat_, (nint)(uint)pixelFormat);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetDepthTextureFormat, (nint)(uint)pixelFormat);
     }
 
     public void SetMotionTextureFormat(MTLPixelFormat pixelFormal)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetMotionTextureFormat_, (nint)(uint)pixelFormal);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetMotionTextureFormat, (nint)(uint)pixelFormal);
     }
 
     public void SetDiffuseAlbedoTextureFormat(MTLPixelFormat pixelFormat)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetDiffuseAlbedoTextureFormat_, (nint)(uint)pixelFormat);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetDiffuseAlbedoTextureFormat, (nint)(uint)pixelFormat);
     }
 
     public void SetSpecularAlbedoTextureFormat(MTLPixelFormat pixelFormat)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetSpecularAlbedoTextureFormat_, (nint)(uint)pixelFormat);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetSpecularAlbedoTextureFormat, (nint)(uint)pixelFormat);
     }
 
     public void SetNormalTextureFormat(MTLPixelFormat pixelFormat)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetNormalTextureFormat_, (nint)(uint)pixelFormat);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetNormalTextureFormat, (nint)(uint)pixelFormat);
     }
 
     public void SetRoughnessTextureFormat(MTLPixelFormat pixelFormat)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetRoughnessTextureFormat_, (nint)(uint)pixelFormat);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetRoughnessTextureFormat, (nint)(uint)pixelFormat);
     }
 
     public void SetSpecularHitDistanceTextureFormat(MTLPixelFormat pixelFormat)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetSpecularHitDistanceTextureFormat_, (nint)(uint)pixelFormat);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetSpecularHitDistanceTextureFormat, (nint)(uint)pixelFormat);
     }
 
     public void SetDenoiseStrengthMaskTextureFormat(MTLPixelFormat pixelFormat)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetDenoiseStrengthMaskTextureFormat_, (nint)(uint)pixelFormat);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetDenoiseStrengthMaskTextureFormat, (nint)(uint)pixelFormat);
     }
 
     public void SetTransparencyOverlayTextureFormat(MTLPixelFormat pixelFormat)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetTransparencyOverlayTextureFormat_, (nint)(uint)pixelFormat);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetTransparencyOverlayTextureFormat, (nint)(uint)pixelFormat);
     }
 
     public void SetOutputTextureFormat(MTLPixelFormat pixelFormat)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetOutputTextureFormat_, (nint)(uint)pixelFormat);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetOutputTextureFormat, (nint)(uint)pixelFormat);
     }
 
-    public void SetInputWidth(nuint inputWidth)
+    public void SetInputWidth(uint inputWidth)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetInputWidth_, (nint)inputWidth);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetInputWidth, (nint)inputWidth);
     }
 
-    public void SetInputHeight(nuint inputHeight)
+    public void SetInputHeight(uint inputHeight)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetInputHeight_, (nint)inputHeight);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetInputHeight, (nint)inputHeight);
     }
 
-    public void SetOutputWidth(nuint outputWidth)
+    public void SetOutputWidth(uint outputWidth)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetOutputWidth_, (nint)outputWidth);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetOutputWidth, (nint)outputWidth);
     }
 
-    public void SetOutputHeight(nuint outputHeight)
+    public void SetOutputHeight(uint outputHeight)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetOutputHeight_, (nint)outputHeight);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetOutputHeight, (nint)outputHeight);
     }
 
     public void SetRequiresSynchronousInitialization(Bool8 requiresSynchronousInitialization)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetRequiresSynchronousInitialization_, (nint)requiresSynchronousInitialization.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetRequiresSynchronousInitialization, (nint)requiresSynchronousInitialization.Value);
     }
 
     public void SetAutoExposureEnabled(Bool8 enabled)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetAutoExposureEnabled_, (nint)enabled.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetAutoExposureEnabled, (nint)enabled.Value);
     }
 
     public void SetInputContentPropertiesEnabled(Bool8 enabled)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetInputContentPropertiesEnabled_, (nint)enabled.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetInputContentPropertiesEnabled, (nint)enabled.Value);
     }
 
     public void SetInputContentMinScale(float inputContentMinScale)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetInputContentMinScale_, inputContentMinScale);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetInputContentMinScale, inputContentMinScale);
     }
 
     public void SetInputContentMaxScale(float inputContentMaxScale)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetInputContentMaxScale_, inputContentMaxScale);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetInputContentMaxScale, inputContentMaxScale);
     }
 
     public void SetReactiveMaskTextureEnabled(Bool8 enabled)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetReactiveMaskTextureEnabled_, (nint)enabled.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetReactiveMaskTextureEnabled, (nint)enabled.Value);
     }
 
     public void SetReactiveMaskTextureFormat(MTLPixelFormat pixelFormat)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetReactiveMaskTextureFormat_, (nint)(uint)pixelFormat);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetReactiveMaskTextureFormat, (nint)(uint)pixelFormat);
     }
 
     public void SetSpecularHitDistanceTextureEnabled(Bool8 enabled)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetSpecularHitDistanceTextureEnabled_, (nint)enabled.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetSpecularHitDistanceTextureEnabled, (nint)enabled.Value);
     }
 
     public void SetDenoiseStrengthMaskTextureEnabled(Bool8 enabled)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetDenoiseStrengthMaskTextureEnabled_, (nint)enabled.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetDenoiseStrengthMaskTextureEnabled, (nint)enabled.Value);
     }
 
     public void SetTransparencyOverlayTextureEnabled(Bool8 enabled)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetTransparencyOverlayTextureEnabled_, (nint)enabled.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetTransparencyOverlayTextureEnabled, (nint)enabled.Value);
     }
 
     public MTLFXTemporalDenoisedScaler NewTemporalDenoisedScaler(MTLDevice device)
     {
-        var result = new MTLFXTemporalDenoisedScaler(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.NewTemporalDenoisedScaler_, device.NativePtr));
+        var result = new MTLFXTemporalDenoisedScaler(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.NewTemporalDenoisedScaler, device.NativePtr));
 
         return result;
     }
 
     public MTLFXTemporalDenoisedScaler NewTemporalDenoisedScaler(MTLDevice device, MTL4Compiler compiler)
     {
-        var result = new MTLFXTemporalDenoisedScaler(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.NewTemporalDenoisedScaler_compiler_, device.NativePtr, compiler.NativePtr));
+        var result = new MTLFXTemporalDenoisedScaler(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.NewTemporalDenoisedScalerCompiler, device.NativePtr, compiler.NativePtr));
 
         return result;
     }
 
     public static float SupportedInputContentMinScale(MTLDevice device)
     {
-        var result = BitConverter.Int32BitsToSingle((int)ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLFXTemporalDenoisedScalerDescriptorSelector.SupportedInputContentMinScale_, device.NativePtr));
+        var result = BitConverter.Int32BitsToSingle((int)ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLFXTemporalDenoisedScalerDescriptorSelector.SupportedInputContentMinScale, device.NativePtr));
 
         return result;
     }
 
     public static float SupportedInputContentMaxScale(MTLDevice device)
     {
-        var result = BitConverter.Int32BitsToSingle((int)ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLFXTemporalDenoisedScalerDescriptorSelector.SupportedInputContentMaxScale_, device.NativePtr));
+        var result = BitConverter.Int32BitsToSingle((int)ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLFXTemporalDenoisedScalerDescriptorSelector.SupportedInputContentMaxScale, device.NativePtr));
 
         return result;
     }
 
     public static Bool8 SupportsMetal4FX(MTLDevice device)
     {
-        var result = (byte)ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLFXTemporalDenoisedScalerDescriptorSelector.SupportsMetal4FX_, device.NativePtr) is not 0;
+        var result = (byte)ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLFXTemporalDenoisedScalerDescriptorSelector.SupportsMetal4FX, device.NativePtr) is not 0;
 
         return result;
     }
 
     public static Bool8 SupportsDevice(MTLDevice device)
     {
-        var result = (byte)ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLFXTemporalDenoisedScalerDescriptorSelector.SupportsDevice_, device.NativePtr) is not 0;
+        var result = (byte)ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLFXTemporalDenoisedScalerDescriptorSelector.SupportsDevice, device.NativePtr) is not 0;
 
         return result;
     }
 
+}
+
+file class MTLFXTemporalDenoisedScalerDescriptorSelector
+{
+    public static readonly Selector SetColorTextureFormat = Selector.Register("setColorTextureFormat:");
+    public static readonly Selector SetDepthTextureFormat = Selector.Register("setDepthTextureFormat:");
+    public static readonly Selector SetMotionTextureFormat = Selector.Register("setMotionTextureFormat:");
+    public static readonly Selector SetDiffuseAlbedoTextureFormat = Selector.Register("setDiffuseAlbedoTextureFormat:");
+    public static readonly Selector SetSpecularAlbedoTextureFormat = Selector.Register("setSpecularAlbedoTextureFormat:");
+    public static readonly Selector SetNormalTextureFormat = Selector.Register("setNormalTextureFormat:");
+    public static readonly Selector SetRoughnessTextureFormat = Selector.Register("setRoughnessTextureFormat:");
+    public static readonly Selector SetSpecularHitDistanceTextureFormat = Selector.Register("setSpecularHitDistanceTextureFormat:");
+    public static readonly Selector SetDenoiseStrengthMaskTextureFormat = Selector.Register("setDenoiseStrengthMaskTextureFormat:");
+    public static readonly Selector SetTransparencyOverlayTextureFormat = Selector.Register("setTransparencyOverlayTextureFormat:");
+    public static readonly Selector SetOutputTextureFormat = Selector.Register("setOutputTextureFormat:");
+    public static readonly Selector SetInputWidth = Selector.Register("setInputWidth:");
+    public static readonly Selector SetInputHeight = Selector.Register("setInputHeight:");
+    public static readonly Selector SetOutputWidth = Selector.Register("setOutputWidth:");
+    public static readonly Selector SetOutputHeight = Selector.Register("setOutputHeight:");
+    public static readonly Selector SetRequiresSynchronousInitialization = Selector.Register("setRequiresSynchronousInitialization:");
+    public static readonly Selector SetAutoExposureEnabled = Selector.Register("setAutoExposureEnabled:");
+    public static readonly Selector SetInputContentPropertiesEnabled = Selector.Register("setInputContentPropertiesEnabled:");
+    public static readonly Selector SetInputContentMinScale = Selector.Register("setInputContentMinScale:");
+    public static readonly Selector SetInputContentMaxScale = Selector.Register("setInputContentMaxScale:");
+    public static readonly Selector SetReactiveMaskTextureEnabled = Selector.Register("setReactiveMaskTextureEnabled:");
+    public static readonly Selector SetReactiveMaskTextureFormat = Selector.Register("setReactiveMaskTextureFormat:");
+    public static readonly Selector SetSpecularHitDistanceTextureEnabled = Selector.Register("setSpecularHitDistanceTextureEnabled:");
+    public static readonly Selector SetDenoiseStrengthMaskTextureEnabled = Selector.Register("setDenoiseStrengthMaskTextureEnabled:");
+    public static readonly Selector SetTransparencyOverlayTextureEnabled = Selector.Register("setTransparencyOverlayTextureEnabled:");
+    public static readonly Selector NewTemporalDenoisedScaler = Selector.Register("newTemporalDenoisedScaler:");
+    public static readonly Selector NewTemporalDenoisedScalerCompiler = Selector.Register("newTemporalDenoisedScaler:compiler:");
+    public static readonly Selector SupportedInputContentMinScale = Selector.Register("supportedInputContentMinScale:");
+    public static readonly Selector SupportedInputContentMaxScale = Selector.Register("supportedInputContentMaxScale:");
+    public static readonly Selector SupportsMetal4FX = Selector.Register("supportsMetal4FX:");
+    public static readonly Selector SupportsDevice = Selector.Register("supportsDevice:");
 }

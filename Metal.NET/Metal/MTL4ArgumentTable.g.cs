@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4ArgumentTableSelector
-{
-    public static readonly Selector SetAddress_bindingIndex_ = Selector.Register("setAddress:bindingIndex:");
-    public static readonly Selector SetAddress_stride_bindingIndex_ = Selector.Register("setAddress:stride:bindingIndex:");
-}
-
 public class MTL4ArgumentTable : IDisposable
 {
     public MTL4ArgumentTable(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4ArgumentTable()
@@ -45,14 +39,20 @@ public class MTL4ArgumentTable : IDisposable
         }
     }
 
-    public void SetAddress(nuint gpuAddress, nuint bindingIndex)
+    public void SetAddress(uint gpuAddress, uint bindingIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableSelector.SetAddress_bindingIndex_, (nint)gpuAddress, (nint)bindingIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableSelector.SetAddressBindingIndex, (nint)gpuAddress, (nint)bindingIndex);
     }
 
-    public void SetAddress(nuint gpuAddress, nuint stride, nuint bindingIndex)
+    public void SetAddress(uint gpuAddress, uint stride, uint bindingIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableSelector.SetAddress_stride_bindingIndex_, (nint)gpuAddress, (nint)stride, (nint)bindingIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableSelector.SetAddressStrideBindingIndex, (nint)gpuAddress, (nint)stride, (nint)bindingIndex);
     }
 
+}
+
+file class MTL4ArgumentTableSelector
+{
+    public static readonly Selector SetAddressBindingIndex = Selector.Register("setAddress:bindingIndex:");
+    public static readonly Selector SetAddressStrideBindingIndex = Selector.Register("setAddress:stride:bindingIndex:");
 }

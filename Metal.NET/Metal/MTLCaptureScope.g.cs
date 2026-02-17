@@ -1,17 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLCaptureScopeSelector
-{
-    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
-    public static readonly Selector BeginScope = Selector.Register("beginScope");
-    public static readonly Selector EndScope = Selector.Register("endScope");
-}
-
 public class MTLCaptureScope : IDisposable
 {
     public MTLCaptureScope(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLCaptureScope()
@@ -48,7 +41,7 @@ public class MTLCaptureScope : IDisposable
 
     public void SetLabel(NSString pLabel)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureScopeSelector.SetLabel_, pLabel.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureScopeSelector.SetLabel, pLabel.NativePtr);
     }
 
     public void BeginScope()
@@ -61,4 +54,11 @@ public class MTLCaptureScope : IDisposable
         ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureScopeSelector.EndScope);
     }
 
+}
+
+file class MTLCaptureScopeSelector
+{
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector BeginScope = Selector.Register("beginScope");
+    public static readonly Selector EndScope = Selector.Register("endScope");
 }

@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4PipelineOptionsSelector
-{
-    public static readonly Selector SetShaderReflection_ = Selector.Register("setShaderReflection:");
-    public static readonly Selector SetShaderValidation_ = Selector.Register("setShaderValidation:");
-}
-
 public class MTL4PipelineOptions : IDisposable
 {
     public MTL4PipelineOptions(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4PipelineOptions()
@@ -45,14 +39,20 @@ public class MTL4PipelineOptions : IDisposable
         }
     }
 
-    public void SetShaderReflection(nuint shaderReflection)
+    public void SetShaderReflection(uint shaderReflection)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineOptionsSelector.SetShaderReflection_, (nint)shaderReflection);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineOptionsSelector.SetShaderReflection, (nint)shaderReflection);
     }
 
     public void SetShaderValidation(MTLShaderValidation shaderValidation)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineOptionsSelector.SetShaderValidation_, (nint)(uint)shaderValidation);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineOptionsSelector.SetShaderValidation, (nint)(uint)shaderValidation);
     }
 
+}
+
+file class MTL4PipelineOptionsSelector
+{
+    public static readonly Selector SetShaderReflection = Selector.Register("setShaderReflection:");
+    public static readonly Selector SetShaderValidation = Selector.Register("setShaderValidation:");
 }

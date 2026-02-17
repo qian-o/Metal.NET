@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLTensorExtentsSelector
-{
-    public static readonly Selector ExtentAtDimensionIndex_ = Selector.Register("extentAtDimensionIndex:");
-}
-
 public class MTLTensorExtents : IDisposable
 {
     public MTLTensorExtents(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLTensorExtents()
@@ -44,11 +39,16 @@ public class MTLTensorExtents : IDisposable
         }
     }
 
-    public nint ExtentAtDimensionIndex(nuint dimensionIndex)
+    public nint ExtentAtDimensionIndex(uint dimensionIndex)
     {
-        var result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTensorExtentsSelector.ExtentAtDimensionIndex_, (nint)dimensionIndex);
+        var result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTensorExtentsSelector.ExtentAtDimensionIndex, (nint)dimensionIndex);
 
         return result;
     }
 
+}
+
+file class MTLTensorExtentsSelector
+{
+    public static readonly Selector ExtentAtDimensionIndex = Selector.Register("extentAtDimensionIndex:");
 }

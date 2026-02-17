@@ -1,18 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLResourceStateCommandEncoderSelector
-{
-    public static readonly Selector MoveTextureMappingsFromTexture_sourceSlice_sourceLevel_sourceOrigin_sourceSize_destinationTexture_destinationSlice_destinationLevel_destinationOrigin_ = Selector.Register("moveTextureMappingsFromTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:destinationTexture:destinationSlice:destinationLevel:destinationOrigin:");
-    public static readonly Selector UpdateFence_ = Selector.Register("updateFence:");
-    public static readonly Selector UpdateTextureMapping_mode_indirectBuffer_indirectBufferOffset_ = Selector.Register("updateTextureMapping:mode:indirectBuffer:indirectBufferOffset:");
-    public static readonly Selector WaitForFence_ = Selector.Register("waitForFence:");
-}
-
 public class MTLResourceStateCommandEncoder : IDisposable
 {
     public MTLResourceStateCommandEncoder(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLResourceStateCommandEncoder()
@@ -47,24 +39,32 @@ public class MTLResourceStateCommandEncoder : IDisposable
         }
     }
 
-    public void MoveTextureMappingsFromTexture(MTLTexture sourceTexture, nuint sourceSlice, nuint sourceLevel, MTLOrigin sourceOrigin, MTLSize sourceSize, MTLTexture destinationTexture, nuint destinationSlice, nuint destinationLevel, MTLOrigin destinationOrigin)
+    public void MoveTextureMappingsFromTexture(MTLTexture sourceTexture, uint sourceSlice, uint sourceLevel, MTLOrigin sourceOrigin, MTLSize sourceSize, MTLTexture destinationTexture, uint destinationSlice, uint destinationLevel, MTLOrigin destinationOrigin)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResourceStateCommandEncoderSelector.MoveTextureMappingsFromTexture_sourceSlice_sourceLevel_sourceOrigin_sourceSize_destinationTexture_destinationSlice_destinationLevel_destinationOrigin_, sourceTexture.NativePtr, (nint)sourceSlice, (nint)sourceLevel, sourceOrigin, sourceSize, destinationTexture.NativePtr, (nint)destinationSlice, (nint)destinationLevel, destinationOrigin);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResourceStateCommandEncoderSelector.MoveTextureMappingsFromTextureSourceSliceSourceLevelSourceOriginSourceSizeDestinationTextureDestinationSliceDestinationLevelDestinationOrigin, sourceTexture.NativePtr, (nint)sourceSlice, (nint)sourceLevel, sourceOrigin, sourceSize, destinationTexture.NativePtr, (nint)destinationSlice, (nint)destinationLevel, destinationOrigin);
     }
 
     public void UpdateFence(MTLFence fence)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResourceStateCommandEncoderSelector.UpdateFence_, fence.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResourceStateCommandEncoderSelector.UpdateFence, fence.NativePtr);
     }
 
-    public void UpdateTextureMapping(MTLTexture texture, MTLSparseTextureMappingMode mode, MTLBuffer indirectBuffer, nuint indirectBufferOffset)
+    public void UpdateTextureMapping(MTLTexture texture, MTLSparseTextureMappingMode mode, MTLBuffer indirectBuffer, uint indirectBufferOffset)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResourceStateCommandEncoderSelector.UpdateTextureMapping_mode_indirectBuffer_indirectBufferOffset_, texture.NativePtr, (nint)(uint)mode, indirectBuffer.NativePtr, (nint)indirectBufferOffset);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResourceStateCommandEncoderSelector.UpdateTextureMappingModeIndirectBufferIndirectBufferOffset, texture.NativePtr, (nint)(uint)mode, indirectBuffer.NativePtr, (nint)indirectBufferOffset);
     }
 
     public void WaitForFence(MTLFence fence)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResourceStateCommandEncoderSelector.WaitForFence_, fence.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResourceStateCommandEncoderSelector.WaitForFence, fence.NativePtr);
     }
 
+}
+
+file class MTLResourceStateCommandEncoderSelector
+{
+    public static readonly Selector MoveTextureMappingsFromTextureSourceSliceSourceLevelSourceOriginSourceSizeDestinationTextureDestinationSliceDestinationLevelDestinationOrigin = Selector.Register("moveTextureMappingsFromTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:destinationTexture:destinationSlice:destinationLevel:destinationOrigin:");
+    public static readonly Selector UpdateFence = Selector.Register("updateFence:");
+    public static readonly Selector UpdateTextureMappingModeIndirectBufferIndirectBufferOffset = Selector.Register("updateTextureMapping:mode:indirectBuffer:indirectBufferOffset:");
+    public static readonly Selector WaitForFence = Selector.Register("waitForFence:");
 }

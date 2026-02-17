@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLVisibleFunctionTableSelector
-{
-    public static readonly Selector SetFunction_index_ = Selector.Register("setFunction:index:");
-}
-
 public class MTLVisibleFunctionTable : IDisposable
 {
     public MTLVisibleFunctionTable(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLVisibleFunctionTable()
@@ -44,9 +39,14 @@ public class MTLVisibleFunctionTable : IDisposable
         }
     }
 
-    public void SetFunction(MTLFunctionHandle function, nuint index)
+    public void SetFunction(MTLFunctionHandle function, uint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVisibleFunctionTableSelector.SetFunction_index_, function.NativePtr, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVisibleFunctionTableSelector.SetFunctionIndex, function.NativePtr, (nint)index);
     }
 
+}
+
+file class MTLVisibleFunctionTableSelector
+{
+    public static readonly Selector SetFunctionIndex = Selector.Register("setFunction:index:");
 }

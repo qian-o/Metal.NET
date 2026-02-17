@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4CommitOptionsSelector
-{
-    public static readonly Selector AddFeedbackHandler_ = Selector.Register("addFeedbackHandler:");
-}
-
 public class MTL4CommitOptions : IDisposable
 {
     public MTL4CommitOptions(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4CommitOptions()
@@ -44,9 +39,14 @@ public class MTL4CommitOptions : IDisposable
         }
     }
 
-    public void AddFeedbackHandler(nint function)
+    public void AddFeedbackHandler(int function)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommitOptionsSelector.AddFeedbackHandler_, function);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommitOptionsSelector.AddFeedbackHandler, function);
     }
 
+}
+
+file class MTL4CommitOptionsSelector
+{
+    public static readonly Selector AddFeedbackHandler = Selector.Register("addFeedbackHandler:");
 }

@@ -2,17 +2,11 @@
 
 namespace Metal.NET;
 
-file class MTLDynamicLibrarySelector
-{
-    public static readonly Selector SerializeToURL_error_ = Selector.Register("serializeToURL:error:");
-    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
-}
-
 public class MTLDynamicLibrary : IDisposable
 {
     public MTLDynamicLibrary(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLDynamicLibrary()
@@ -50,7 +44,7 @@ public class MTLDynamicLibrary : IDisposable
     public Bool8 SerializeToURL(NSURL url, out NSError? error)
     {
         nint errorPtr = 0;
-        var result = (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLDynamicLibrarySelector.SerializeToURL_error_, url.NativePtr, out errorPtr) is not 0;
+        var result = (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLDynamicLibrarySelector.SerializeToURLError, url.NativePtr, out errorPtr) is not 0;
         error = errorPtr is not 0 ? new NSError(errorPtr) : null;
 
         return result;
@@ -58,7 +52,13 @@ public class MTLDynamicLibrary : IDisposable
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDynamicLibrarySelector.SetLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDynamicLibrarySelector.SetLabel, label.NativePtr);
     }
 
+}
+
+file class MTLDynamicLibrarySelector
+{
+    public static readonly Selector SerializeToURLError = Selector.Register("serializeToURL:error:");
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

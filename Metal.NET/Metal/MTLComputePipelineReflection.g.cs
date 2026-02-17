@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLComputePipelineReflectionSelector
-{
-}
-
 public class MTLComputePipelineReflection : IDisposable
 {
     public MTLComputePipelineReflection(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLComputePipelineReflection()
@@ -43,4 +39,8 @@ public class MTLComputePipelineReflection : IDisposable
         }
     }
 
+}
+
+file class MTLComputePipelineReflectionSelector
+{
 }

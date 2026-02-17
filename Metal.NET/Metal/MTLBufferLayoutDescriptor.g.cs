@@ -1,17 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLBufferLayoutDescriptorSelector
-{
-    public static readonly Selector SetStepFunction_ = Selector.Register("setStepFunction:");
-    public static readonly Selector SetStepRate_ = Selector.Register("setStepRate:");
-    public static readonly Selector SetStride_ = Selector.Register("setStride:");
-}
-
 public class MTLBufferLayoutDescriptor : IDisposable
 {
     public MTLBufferLayoutDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLBufferLayoutDescriptor()
@@ -58,17 +51,24 @@ public class MTLBufferLayoutDescriptor : IDisposable
 
     public void SetStepFunction(MTLStepFunction stepFunction)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStepFunction_, (nint)(uint)stepFunction);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStepFunction, (nint)(uint)stepFunction);
     }
 
-    public void SetStepRate(nuint stepRate)
+    public void SetStepRate(uint stepRate)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStepRate_, (nint)stepRate);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStepRate, (nint)stepRate);
     }
 
-    public void SetStride(nuint stride)
+    public void SetStride(uint stride)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStride_, (nint)stride);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStride, (nint)stride);
     }
 
+}
+
+file class MTLBufferLayoutDescriptorSelector
+{
+    public static readonly Selector SetStepFunction = Selector.Register("setStepFunction:");
+    public static readonly Selector SetStepRate = Selector.Register("setStepRate:");
+    public static readonly Selector SetStride = Selector.Register("setStride:");
 }

@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4CompilerTaskSelector
-{
-    public static readonly Selector WaitUntilCompleted = Selector.Register("waitUntilCompleted");
-}
-
 public class MTL4CompilerTask : IDisposable
 {
     public MTL4CompilerTask(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4CompilerTask()
@@ -49,4 +44,9 @@ public class MTL4CompilerTask : IDisposable
         ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CompilerTaskSelector.WaitUntilCompleted);
     }
 
+}
+
+file class MTL4CompilerTaskSelector
+{
+    public static readonly Selector WaitUntilCompleted = Selector.Register("waitUntilCompleted");
 }

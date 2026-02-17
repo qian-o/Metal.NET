@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLDepthStencilStateSelector
-{
-}
-
 public class MTLDepthStencilState : IDisposable
 {
     public MTLDepthStencilState(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLDepthStencilState()
@@ -43,4 +39,8 @@ public class MTLDepthStencilState : IDisposable
         }
     }
 
+}
+
+file class MTLDepthStencilStateSelector
+{
 }

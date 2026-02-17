@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArraySelector
-{
-    public static readonly Selector Object_ = Selector.Register("object:");
-    public static readonly Selector SetObject_attachmentIndex_ = Selector.Register("setObject:attachmentIndex:");
-}
-
 public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray : IDisposable
 {
     public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray()
@@ -45,16 +39,22 @@ public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray :
         }
     }
 
-    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor Object(nuint attachmentIndex)
+    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor Object(uint attachmentIndex)
     {
-        var result = new MTLAccelerationStructurePassSampleBufferAttachmentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArraySelector.Object_, (nint)attachmentIndex));
+        var result = new MTLAccelerationStructurePassSampleBufferAttachmentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArraySelector.Object, (nint)attachmentIndex));
 
         return result;
     }
 
-    public void SetObject(MTLAccelerationStructurePassSampleBufferAttachmentDescriptor attachment, nuint attachmentIndex)
+    public void SetObject(MTLAccelerationStructurePassSampleBufferAttachmentDescriptor attachment, uint attachmentIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArraySelector.SetObject_attachmentIndex_, attachment.NativePtr, (nint)attachmentIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nint)attachmentIndex);
     }
 
+}
+
+file class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArraySelector
+{
+    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector SetObjectAttachmentIndex = Selector.Register("setObject:attachmentIndex:");
 }

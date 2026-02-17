@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLIOScratchBufferAllocatorSelector
-{
-    public static readonly Selector NewScratchBuffer_ = Selector.Register("newScratchBuffer:");
-}
-
 public class MTLIOScratchBufferAllocator : IDisposable
 {
     public MTLIOScratchBufferAllocator(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLIOScratchBufferAllocator()
@@ -44,11 +39,16 @@ public class MTLIOScratchBufferAllocator : IDisposable
         }
     }
 
-    public MTLIOScratchBuffer NewScratchBuffer(nuint minimumSize)
+    public MTLIOScratchBuffer NewScratchBuffer(uint minimumSize)
     {
-        var result = new MTLIOScratchBuffer(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLIOScratchBufferAllocatorSelector.NewScratchBuffer_, (nint)minimumSize));
+        var result = new MTLIOScratchBuffer(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLIOScratchBufferAllocatorSelector.NewScratchBuffer, (nint)minimumSize));
 
         return result;
     }
 
+}
+
+file class MTLIOScratchBufferAllocatorSelector
+{
+    public static readonly Selector NewScratchBuffer = Selector.Register("newScratchBuffer:");
 }

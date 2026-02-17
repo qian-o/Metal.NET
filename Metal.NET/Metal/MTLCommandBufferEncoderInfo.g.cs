@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLCommandBufferEncoderInfoSelector
-{
-}
-
 public class MTLCommandBufferEncoderInfo : IDisposable
 {
     public MTLCommandBufferEncoderInfo(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLCommandBufferEncoderInfo()
@@ -43,4 +39,8 @@ public class MTLCommandBufferEncoderInfo : IDisposable
         }
     }
 
+}
+
+file class MTLCommandBufferEncoderInfoSelector
+{
 }

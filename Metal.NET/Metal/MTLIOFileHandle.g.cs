@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLIOFileHandleSelector
-{
-    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
-}
-
 public class MTLIOFileHandle : IDisposable
 {
     public MTLIOFileHandle(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLIOFileHandle()
@@ -46,7 +41,12 @@ public class MTLIOFileHandle : IDisposable
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOFileHandleSelector.SetLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOFileHandleSelector.SetLabel, label.NativePtr);
     }
 
+}
+
+file class MTLIOFileHandleSelector
+{
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

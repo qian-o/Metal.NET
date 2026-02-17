@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLThreadgroupBindingSelector
-{
-}
-
 public class MTLThreadgroupBinding : IDisposable
 {
     public MTLThreadgroupBinding(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLThreadgroupBinding()
@@ -43,4 +39,8 @@ public class MTLThreadgroupBinding : IDisposable
         }
     }
 
+}
+
+file class MTLThreadgroupBindingSelector
+{
 }

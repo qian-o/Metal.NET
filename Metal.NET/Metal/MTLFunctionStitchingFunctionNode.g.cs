@@ -1,17 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLFunctionStitchingFunctionNodeSelector
-{
-    public static readonly Selector SetArguments_ = Selector.Register("setArguments:");
-    public static readonly Selector SetControlDependencies_ = Selector.Register("setControlDependencies:");
-    public static readonly Selector SetName_ = Selector.Register("setName:");
-}
-
 public class MTLFunctionStitchingFunctionNode : IDisposable
 {
     public MTLFunctionStitchingFunctionNode(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLFunctionStitchingFunctionNode()
@@ -58,17 +51,24 @@ public class MTLFunctionStitchingFunctionNode : IDisposable
 
     public void SetArguments(NSArray arguments)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingFunctionNodeSelector.SetArguments_, arguments.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingFunctionNodeSelector.SetArguments, arguments.NativePtr);
     }
 
     public void SetControlDependencies(NSArray controlDependencies)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingFunctionNodeSelector.SetControlDependencies_, controlDependencies.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingFunctionNodeSelector.SetControlDependencies, controlDependencies.NativePtr);
     }
 
     public void SetName(NSString name)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingFunctionNodeSelector.SetName_, name.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingFunctionNodeSelector.SetName, name.NativePtr);
     }
 
+}
+
+file class MTLFunctionStitchingFunctionNodeSelector
+{
+    public static readonly Selector SetArguments = Selector.Register("setArguments:");
+    public static readonly Selector SetControlDependencies = Selector.Register("setControlDependencies:");
+    public static readonly Selector SetName = Selector.Register("setName:");
 }

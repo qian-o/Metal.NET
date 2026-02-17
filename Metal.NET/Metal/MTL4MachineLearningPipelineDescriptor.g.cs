@@ -1,19 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4MachineLearningPipelineDescriptorSelector
-{
-    public static readonly Selector InputDimensionsAtBufferIndex_ = Selector.Register("inputDimensionsAtBufferIndex:");
-    public static readonly Selector Reset = Selector.Register("reset");
-    public static readonly Selector SetInputDimensions_bufferIndex_ = Selector.Register("setInputDimensions:bufferIndex:");
-    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
-    public static readonly Selector SetMachineLearningFunctionDescriptor_ = Selector.Register("setMachineLearningFunctionDescriptor:");
-}
-
 public class MTL4MachineLearningPipelineDescriptor : IDisposable
 {
     public MTL4MachineLearningPipelineDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4MachineLearningPipelineDescriptor()
@@ -48,9 +39,9 @@ public class MTL4MachineLearningPipelineDescriptor : IDisposable
         }
     }
 
-    public MTLTensorExtents InputDimensionsAtBufferIndex(nint bufferIndex)
+    public MTLTensorExtents InputDimensionsAtBufferIndex(int bufferIndex)
     {
-        var result = new MTLTensorExtents(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.InputDimensionsAtBufferIndex_, bufferIndex));
+        var result = new MTLTensorExtents(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.InputDimensionsAtBufferIndex, bufferIndex));
 
         return result;
     }
@@ -60,19 +51,28 @@ public class MTL4MachineLearningPipelineDescriptor : IDisposable
         ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.Reset);
     }
 
-    public void SetInputDimensions(MTLTensorExtents dimensions, nint bufferIndex)
+    public void SetInputDimensions(MTLTensorExtents dimensions, int bufferIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetInputDimensions_bufferIndex_, dimensions.NativePtr, bufferIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetInputDimensionsBufferIndex, dimensions.NativePtr, bufferIndex);
     }
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetLabel, label.NativePtr);
     }
 
     public void SetMachineLearningFunctionDescriptor(MTL4FunctionDescriptor machineLearningFunctionDescriptor)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetMachineLearningFunctionDescriptor_, machineLearningFunctionDescriptor.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetMachineLearningFunctionDescriptor, machineLearningFunctionDescriptor.NativePtr);
     }
 
+}
+
+file class MTL4MachineLearningPipelineDescriptorSelector
+{
+    public static readonly Selector InputDimensionsAtBufferIndex = Selector.Register("inputDimensionsAtBufferIndex:");
+    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector SetInputDimensionsBufferIndex = Selector.Register("setInputDimensions:bufferIndex:");
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetMachineLearningFunctionDescriptor = Selector.Register("setMachineLearningFunctionDescriptor:");
 }

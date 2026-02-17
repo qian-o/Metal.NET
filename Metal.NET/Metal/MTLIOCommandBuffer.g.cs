@@ -1,28 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLIOCommandBufferSelector
-{
-    public static readonly Selector AddBarrier = Selector.Register("addBarrier");
-    public static readonly Selector AddCompletedHandler_ = Selector.Register("addCompletedHandler:");
-    public static readonly Selector Commit = Selector.Register("commit");
-    public static readonly Selector CopyStatusToBuffer_offset_ = Selector.Register("copyStatusToBuffer:offset:");
-    public static readonly Selector Enqueue = Selector.Register("enqueue");
-    public static readonly Selector LoadBuffer_offset_size_sourceHandle_sourceHandleOffset_ = Selector.Register("loadBuffer:offset:size:sourceHandle:sourceHandleOffset:");
-    public static readonly Selector LoadBytes_size_sourceHandle_sourceHandleOffset_ = Selector.Register("loadBytes:size:sourceHandle:sourceHandleOffset:");
-    public static readonly Selector PopDebugGroup = Selector.Register("popDebugGroup");
-    public static readonly Selector PushDebugGroup_ = Selector.Register("pushDebugGroup:");
-    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
-    public static readonly Selector SignalEvent_value_ = Selector.Register("signalEvent:value:");
-    public static readonly Selector TryCancel = Selector.Register("tryCancel");
-    public static readonly Selector Wait_value_ = Selector.Register("wait:value:");
-    public static readonly Selector WaitUntilCompleted = Selector.Register("waitUntilCompleted");
-}
-
 public class MTLIOCommandBuffer : IDisposable
 {
     public MTLIOCommandBuffer(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLIOCommandBuffer()
@@ -62,9 +44,9 @@ public class MTLIOCommandBuffer : IDisposable
         ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandBufferSelector.AddBarrier);
     }
 
-    public void AddCompletedHandler(nint function)
+    public void AddCompletedHandler(int function)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandBufferSelector.AddCompletedHandler_, function);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandBufferSelector.AddCompletedHandler, function);
     }
 
     public void Commit()
@@ -72,9 +54,9 @@ public class MTLIOCommandBuffer : IDisposable
         ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandBufferSelector.Commit);
     }
 
-    public void CopyStatusToBuffer(MTLBuffer buffer, nuint offset)
+    public void CopyStatusToBuffer(MTLBuffer buffer, uint offset)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandBufferSelector.CopyStatusToBuffer_offset_, buffer.NativePtr, (nint)offset);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandBufferSelector.CopyStatusToBufferOffset, buffer.NativePtr, (nint)offset);
     }
 
     public void Enqueue()
@@ -82,14 +64,14 @@ public class MTLIOCommandBuffer : IDisposable
         ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandBufferSelector.Enqueue);
     }
 
-    public void LoadBuffer(MTLBuffer buffer, nuint offset, nuint size, MTLIOFileHandle sourceHandle, nuint sourceHandleOffset)
+    public void LoadBuffer(MTLBuffer buffer, uint offset, uint size, MTLIOFileHandle sourceHandle, uint sourceHandleOffset)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandBufferSelector.LoadBuffer_offset_size_sourceHandle_sourceHandleOffset_, buffer.NativePtr, (nint)offset, (nint)size, sourceHandle.NativePtr, (nint)sourceHandleOffset);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandBufferSelector.LoadBufferOffsetSizeSourceHandleSourceHandleOffset, buffer.NativePtr, (nint)offset, (nint)size, sourceHandle.NativePtr, (nint)sourceHandleOffset);
     }
 
-    public void LoadBytes(nint pointer, nuint size, MTLIOFileHandle sourceHandle, nuint sourceHandleOffset)
+    public void LoadBytes(int pointer, uint size, MTLIOFileHandle sourceHandle, uint sourceHandleOffset)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandBufferSelector.LoadBytes_size_sourceHandle_sourceHandleOffset_, pointer, (nint)size, sourceHandle.NativePtr, (nint)sourceHandleOffset);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandBufferSelector.LoadBytesSizeSourceHandleSourceHandleOffset, pointer, (nint)size, sourceHandle.NativePtr, (nint)sourceHandleOffset);
     }
 
     public void PopDebugGroup()
@@ -99,17 +81,17 @@ public class MTLIOCommandBuffer : IDisposable
 
     public void PushDebugGroup(NSString @string)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandBufferSelector.PushDebugGroup_, @string.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandBufferSelector.PushDebugGroup, @string.NativePtr);
     }
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandBufferSelector.SetLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandBufferSelector.SetLabel, label.NativePtr);
     }
 
-    public void SignalEvent(MTLSharedEvent @event, nuint value)
+    public void SignalEvent(MTLSharedEvent @event, uint value)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandBufferSelector.SignalEvent_value_, @event.NativePtr, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandBufferSelector.SignalEventValue, @event.NativePtr, (nint)value);
     }
 
     public void TryCancel()
@@ -117,9 +99,9 @@ public class MTLIOCommandBuffer : IDisposable
         ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandBufferSelector.TryCancel);
     }
 
-    public void Wait(MTLSharedEvent @event, nuint value)
+    public void Wait(MTLSharedEvent @event, uint value)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandBufferSelector.Wait_value_, @event.NativePtr, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandBufferSelector.WaitValue, @event.NativePtr, (nint)value);
     }
 
     public void WaitUntilCompleted()
@@ -127,4 +109,22 @@ public class MTLIOCommandBuffer : IDisposable
         ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandBufferSelector.WaitUntilCompleted);
     }
 
+}
+
+file class MTLIOCommandBufferSelector
+{
+    public static readonly Selector AddBarrier = Selector.Register("addBarrier");
+    public static readonly Selector AddCompletedHandler = Selector.Register("addCompletedHandler:");
+    public static readonly Selector Commit = Selector.Register("commit");
+    public static readonly Selector CopyStatusToBufferOffset = Selector.Register("copyStatusToBuffer:offset:");
+    public static readonly Selector Enqueue = Selector.Register("enqueue");
+    public static readonly Selector LoadBufferOffsetSizeSourceHandleSourceHandleOffset = Selector.Register("loadBuffer:offset:size:sourceHandle:sourceHandleOffset:");
+    public static readonly Selector LoadBytesSizeSourceHandleSourceHandleOffset = Selector.Register("loadBytes:size:sourceHandle:sourceHandleOffset:");
+    public static readonly Selector PopDebugGroup = Selector.Register("popDebugGroup");
+    public static readonly Selector PushDebugGroup = Selector.Register("pushDebugGroup:");
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SignalEventValue = Selector.Register("signalEvent:value:");
+    public static readonly Selector TryCancel = Selector.Register("tryCancel");
+    public static readonly Selector WaitValue = Selector.Register("wait:value:");
+    public static readonly Selector WaitUntilCompleted = Selector.Register("waitUntilCompleted");
 }

@@ -1,33 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLIndirectCommandBufferDescriptorSelector
-{
-    public static readonly Selector SetCommandTypes_ = Selector.Register("setCommandTypes:");
-    public static readonly Selector SetInheritBuffers_ = Selector.Register("setInheritBuffers:");
-    public static readonly Selector SetInheritCullMode_ = Selector.Register("setInheritCullMode:");
-    public static readonly Selector SetInheritDepthBias_ = Selector.Register("setInheritDepthBias:");
-    public static readonly Selector SetInheritDepthClipMode_ = Selector.Register("setInheritDepthClipMode:");
-    public static readonly Selector SetInheritDepthStencilState_ = Selector.Register("setInheritDepthStencilState:");
-    public static readonly Selector SetInheritFrontFacingWinding_ = Selector.Register("setInheritFrontFacingWinding:");
-    public static readonly Selector SetInheritPipelineState_ = Selector.Register("setInheritPipelineState:");
-    public static readonly Selector SetInheritTriangleFillMode_ = Selector.Register("setInheritTriangleFillMode:");
-    public static readonly Selector SetMaxFragmentBufferBindCount_ = Selector.Register("setMaxFragmentBufferBindCount:");
-    public static readonly Selector SetMaxKernelBufferBindCount_ = Selector.Register("setMaxKernelBufferBindCount:");
-    public static readonly Selector SetMaxKernelThreadgroupMemoryBindCount_ = Selector.Register("setMaxKernelThreadgroupMemoryBindCount:");
-    public static readonly Selector SetMaxMeshBufferBindCount_ = Selector.Register("setMaxMeshBufferBindCount:");
-    public static readonly Selector SetMaxObjectBufferBindCount_ = Selector.Register("setMaxObjectBufferBindCount:");
-    public static readonly Selector SetMaxObjectThreadgroupMemoryBindCount_ = Selector.Register("setMaxObjectThreadgroupMemoryBindCount:");
-    public static readonly Selector SetMaxVertexBufferBindCount_ = Selector.Register("setMaxVertexBufferBindCount:");
-    public static readonly Selector SetSupportColorAttachmentMapping_ = Selector.Register("setSupportColorAttachmentMapping:");
-    public static readonly Selector SetSupportDynamicAttributeStride_ = Selector.Register("setSupportDynamicAttributeStride:");
-    public static readonly Selector SetSupportRayTracing_ = Selector.Register("setSupportRayTracing:");
-}
-
 public class MTLIndirectCommandBufferDescriptor : IDisposable
 {
     public MTLIndirectCommandBufferDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLIndirectCommandBufferDescriptor()
@@ -72,99 +49,122 @@ public class MTLIndirectCommandBufferDescriptor : IDisposable
         return new MTLIndirectCommandBufferDescriptor(ptr);
     }
 
-    public void SetCommandTypes(nuint commandTypes)
+    public void SetCommandTypes(uint commandTypes)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetCommandTypes_, (nint)commandTypes);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetCommandTypes, (nint)commandTypes);
     }
 
     public void SetInheritBuffers(Bool8 inheritBuffers)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetInheritBuffers_, (nint)inheritBuffers.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetInheritBuffers, (nint)inheritBuffers.Value);
     }
 
     public void SetInheritCullMode(Bool8 inheritCullMode)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetInheritCullMode_, (nint)inheritCullMode.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetInheritCullMode, (nint)inheritCullMode.Value);
     }
 
     public void SetInheritDepthBias(Bool8 inheritDepthBias)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetInheritDepthBias_, (nint)inheritDepthBias.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetInheritDepthBias, (nint)inheritDepthBias.Value);
     }
 
     public void SetInheritDepthClipMode(Bool8 inheritDepthClipMode)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetInheritDepthClipMode_, (nint)inheritDepthClipMode.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetInheritDepthClipMode, (nint)inheritDepthClipMode.Value);
     }
 
     public void SetInheritDepthStencilState(Bool8 inheritDepthStencilState)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetInheritDepthStencilState_, (nint)inheritDepthStencilState.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetInheritDepthStencilState, (nint)inheritDepthStencilState.Value);
     }
 
     public void SetInheritFrontFacingWinding(Bool8 inheritFrontFacingWinding)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetInheritFrontFacingWinding_, (nint)inheritFrontFacingWinding.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetInheritFrontFacingWinding, (nint)inheritFrontFacingWinding.Value);
     }
 
     public void SetInheritPipelineState(Bool8 inheritPipelineState)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetInheritPipelineState_, (nint)inheritPipelineState.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetInheritPipelineState, (nint)inheritPipelineState.Value);
     }
 
     public void SetInheritTriangleFillMode(Bool8 inheritTriangleFillMode)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetInheritTriangleFillMode_, (nint)inheritTriangleFillMode.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetInheritTriangleFillMode, (nint)inheritTriangleFillMode.Value);
     }
 
-    public void SetMaxFragmentBufferBindCount(nuint maxFragmentBufferBindCount)
+    public void SetMaxFragmentBufferBindCount(uint maxFragmentBufferBindCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetMaxFragmentBufferBindCount_, (nint)maxFragmentBufferBindCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetMaxFragmentBufferBindCount, (nint)maxFragmentBufferBindCount);
     }
 
-    public void SetMaxKernelBufferBindCount(nuint maxKernelBufferBindCount)
+    public void SetMaxKernelBufferBindCount(uint maxKernelBufferBindCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetMaxKernelBufferBindCount_, (nint)maxKernelBufferBindCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetMaxKernelBufferBindCount, (nint)maxKernelBufferBindCount);
     }
 
-    public void SetMaxKernelThreadgroupMemoryBindCount(nuint maxKernelThreadgroupMemoryBindCount)
+    public void SetMaxKernelThreadgroupMemoryBindCount(uint maxKernelThreadgroupMemoryBindCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetMaxKernelThreadgroupMemoryBindCount_, (nint)maxKernelThreadgroupMemoryBindCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetMaxKernelThreadgroupMemoryBindCount, (nint)maxKernelThreadgroupMemoryBindCount);
     }
 
-    public void SetMaxMeshBufferBindCount(nuint maxMeshBufferBindCount)
+    public void SetMaxMeshBufferBindCount(uint maxMeshBufferBindCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetMaxMeshBufferBindCount_, (nint)maxMeshBufferBindCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetMaxMeshBufferBindCount, (nint)maxMeshBufferBindCount);
     }
 
-    public void SetMaxObjectBufferBindCount(nuint maxObjectBufferBindCount)
+    public void SetMaxObjectBufferBindCount(uint maxObjectBufferBindCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetMaxObjectBufferBindCount_, (nint)maxObjectBufferBindCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetMaxObjectBufferBindCount, (nint)maxObjectBufferBindCount);
     }
 
-    public void SetMaxObjectThreadgroupMemoryBindCount(nuint maxObjectThreadgroupMemoryBindCount)
+    public void SetMaxObjectThreadgroupMemoryBindCount(uint maxObjectThreadgroupMemoryBindCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetMaxObjectThreadgroupMemoryBindCount_, (nint)maxObjectThreadgroupMemoryBindCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetMaxObjectThreadgroupMemoryBindCount, (nint)maxObjectThreadgroupMemoryBindCount);
     }
 
-    public void SetMaxVertexBufferBindCount(nuint maxVertexBufferBindCount)
+    public void SetMaxVertexBufferBindCount(uint maxVertexBufferBindCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetMaxVertexBufferBindCount_, (nint)maxVertexBufferBindCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetMaxVertexBufferBindCount, (nint)maxVertexBufferBindCount);
     }
 
     public void SetSupportColorAttachmentMapping(Bool8 supportColorAttachmentMapping)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetSupportColorAttachmentMapping_, (nint)supportColorAttachmentMapping.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetSupportColorAttachmentMapping, (nint)supportColorAttachmentMapping.Value);
     }
 
     public void SetSupportDynamicAttributeStride(Bool8 supportDynamicAttributeStride)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetSupportDynamicAttributeStride_, (nint)supportDynamicAttributeStride.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetSupportDynamicAttributeStride, (nint)supportDynamicAttributeStride.Value);
     }
 
     public void SetSupportRayTracing(Bool8 supportRayTracing)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetSupportRayTracing_, (nint)supportRayTracing.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetSupportRayTracing, (nint)supportRayTracing.Value);
     }
 
+}
+
+file class MTLIndirectCommandBufferDescriptorSelector
+{
+    public static readonly Selector SetCommandTypes = Selector.Register("setCommandTypes:");
+    public static readonly Selector SetInheritBuffers = Selector.Register("setInheritBuffers:");
+    public static readonly Selector SetInheritCullMode = Selector.Register("setInheritCullMode:");
+    public static readonly Selector SetInheritDepthBias = Selector.Register("setInheritDepthBias:");
+    public static readonly Selector SetInheritDepthClipMode = Selector.Register("setInheritDepthClipMode:");
+    public static readonly Selector SetInheritDepthStencilState = Selector.Register("setInheritDepthStencilState:");
+    public static readonly Selector SetInheritFrontFacingWinding = Selector.Register("setInheritFrontFacingWinding:");
+    public static readonly Selector SetInheritPipelineState = Selector.Register("setInheritPipelineState:");
+    public static readonly Selector SetInheritTriangleFillMode = Selector.Register("setInheritTriangleFillMode:");
+    public static readonly Selector SetMaxFragmentBufferBindCount = Selector.Register("setMaxFragmentBufferBindCount:");
+    public static readonly Selector SetMaxKernelBufferBindCount = Selector.Register("setMaxKernelBufferBindCount:");
+    public static readonly Selector SetMaxKernelThreadgroupMemoryBindCount = Selector.Register("setMaxKernelThreadgroupMemoryBindCount:");
+    public static readonly Selector SetMaxMeshBufferBindCount = Selector.Register("setMaxMeshBufferBindCount:");
+    public static readonly Selector SetMaxObjectBufferBindCount = Selector.Register("setMaxObjectBufferBindCount:");
+    public static readonly Selector SetMaxObjectThreadgroupMemoryBindCount = Selector.Register("setMaxObjectThreadgroupMemoryBindCount:");
+    public static readonly Selector SetMaxVertexBufferBindCount = Selector.Register("setMaxVertexBufferBindCount:");
+    public static readonly Selector SetSupportColorAttachmentMapping = Selector.Register("setSupportColorAttachmentMapping:");
+    public static readonly Selector SetSupportDynamicAttributeStride = Selector.Register("setSupportDynamicAttributeStride:");
+    public static readonly Selector SetSupportRayTracing = Selector.Register("setSupportRayTracing:");
 }

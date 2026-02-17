@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLTensorReferenceTypeSelector
-{
-}
-
 public class MTLTensorReferenceType : IDisposable
 {
     public MTLTensorReferenceType(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLTensorReferenceType()
@@ -43,4 +39,8 @@ public class MTLTensorReferenceType : IDisposable
         }
     }
 
+}
+
+file class MTLTensorReferenceTypeSelector
+{
 }

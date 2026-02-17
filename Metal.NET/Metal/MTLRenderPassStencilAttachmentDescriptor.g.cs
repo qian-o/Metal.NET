@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLRenderPassStencilAttachmentDescriptorSelector
-{
-    public static readonly Selector SetClearStencil_ = Selector.Register("setClearStencil:");
-    public static readonly Selector SetStencilResolveFilter_ = Selector.Register("setStencilResolveFilter:");
-}
-
 public class MTLRenderPassStencilAttachmentDescriptor : IDisposable
 {
     public MTLRenderPassStencilAttachmentDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLRenderPassStencilAttachmentDescriptor()
@@ -57,12 +51,18 @@ public class MTLRenderPassStencilAttachmentDescriptor : IDisposable
 
     public void SetClearStencil(uint clearStencil)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.SetClearStencil_, (nint)clearStencil);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.SetClearStencil, (nint)clearStencil);
     }
 
     public void SetStencilResolveFilter(MTLMultisampleStencilResolveFilter stencilResolveFilter)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.SetStencilResolveFilter_, (nint)(uint)stencilResolveFilter);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.SetStencilResolveFilter, (nint)(uint)stencilResolveFilter);
     }
 
+}
+
+file class MTLRenderPassStencilAttachmentDescriptorSelector
+{
+    public static readonly Selector SetClearStencil = Selector.Register("setClearStencil:");
+    public static readonly Selector SetStencilResolveFilter = Selector.Register("setStencilResolveFilter:");
 }

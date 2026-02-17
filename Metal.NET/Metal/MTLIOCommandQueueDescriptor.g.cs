@@ -1,19 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLIOCommandQueueDescriptorSelector
-{
-    public static readonly Selector SetMaxCommandBufferCount_ = Selector.Register("setMaxCommandBufferCount:");
-    public static readonly Selector SetMaxCommandsInFlight_ = Selector.Register("setMaxCommandsInFlight:");
-    public static readonly Selector SetPriority_ = Selector.Register("setPriority:");
-    public static readonly Selector SetScratchBufferAllocator_ = Selector.Register("setScratchBufferAllocator:");
-    public static readonly Selector SetType_ = Selector.Register("setType:");
-}
-
 public class MTLIOCommandQueueDescriptor : IDisposable
 {
     public MTLIOCommandQueueDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLIOCommandQueueDescriptor()
@@ -58,29 +49,38 @@ public class MTLIOCommandQueueDescriptor : IDisposable
         return new MTLIOCommandQueueDescriptor(ptr);
     }
 
-    public void SetMaxCommandBufferCount(nuint maxCommandBufferCount)
+    public void SetMaxCommandBufferCount(uint maxCommandBufferCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetMaxCommandBufferCount_, (nint)maxCommandBufferCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetMaxCommandBufferCount, (nint)maxCommandBufferCount);
     }
 
-    public void SetMaxCommandsInFlight(nuint maxCommandsInFlight)
+    public void SetMaxCommandsInFlight(uint maxCommandsInFlight)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetMaxCommandsInFlight_, (nint)maxCommandsInFlight);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetMaxCommandsInFlight, (nint)maxCommandsInFlight);
     }
 
     public void SetPriority(MTLIOPriority priority)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetPriority_, (nint)(uint)priority);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetPriority, (nint)(uint)priority);
     }
 
     public void SetScratchBufferAllocator(MTLIOScratchBufferAllocator scratchBufferAllocator)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetScratchBufferAllocator_, scratchBufferAllocator.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetScratchBufferAllocator, scratchBufferAllocator.NativePtr);
     }
 
     public void SetType(MTLIOCommandQueueType type)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetType_, (nint)(uint)type);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetType, (nint)(uint)type);
     }
 
+}
+
+file class MTLIOCommandQueueDescriptorSelector
+{
+    public static readonly Selector SetMaxCommandBufferCount = Selector.Register("setMaxCommandBufferCount:");
+    public static readonly Selector SetMaxCommandsInFlight = Selector.Register("setMaxCommandsInFlight:");
+    public static readonly Selector SetPriority = Selector.Register("setPriority:");
+    public static readonly Selector SetScratchBufferAllocator = Selector.Register("setScratchBufferAllocator:");
+    public static readonly Selector SetType = Selector.Register("setType:");
 }

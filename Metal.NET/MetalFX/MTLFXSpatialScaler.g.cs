@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLFXSpatialScalerSelector
-{
-    public static readonly Selector EncodeToCommandBuffer_ = Selector.Register("encodeToCommandBuffer:");
-}
-
 public class MTLFXSpatialScaler : IDisposable
 {
     public MTLFXSpatialScaler(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLFXSpatialScaler()
@@ -46,7 +41,12 @@ public class MTLFXSpatialScaler : IDisposable
 
     public void EncodeToCommandBuffer(MTLCommandBuffer pCommandBuffer)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerSelector.EncodeToCommandBuffer_, pCommandBuffer.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXSpatialScalerSelector.EncodeToCommandBuffer, pCommandBuffer.NativePtr);
     }
 
+}
+
+file class MTLFXSpatialScalerSelector
+{
+    public static readonly Selector EncodeToCommandBuffer = Selector.Register("encodeToCommandBuffer:");
 }

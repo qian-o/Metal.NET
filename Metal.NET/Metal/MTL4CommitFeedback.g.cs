@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4CommitFeedbackSelector
-{
-}
-
 public class MTL4CommitFeedback : IDisposable
 {
     public MTL4CommitFeedback(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4CommitFeedback()
@@ -43,4 +39,8 @@ public class MTL4CommitFeedback : IDisposable
         }
     }
 
+}
+
+file class MTL4CommitFeedbackSelector
+{
 }

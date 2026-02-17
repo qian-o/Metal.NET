@@ -1,24 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4CommandEncoderSelector
-{
-    public static readonly Selector BarrierAfterEncoderStages_beforeEncoderStages_visibilityOptions_ = Selector.Register("barrierAfterEncoderStages:beforeEncoderStages:visibilityOptions:");
-    public static readonly Selector BarrierAfterQueueStages_beforeStages_visibilityOptions_ = Selector.Register("barrierAfterQueueStages:beforeStages:visibilityOptions:");
-    public static readonly Selector BarrierAfterStages_beforeQueueStages_visibilityOptions_ = Selector.Register("barrierAfterStages:beforeQueueStages:visibilityOptions:");
-    public static readonly Selector EndEncoding = Selector.Register("endEncoding");
-    public static readonly Selector InsertDebugSignpost_ = Selector.Register("insertDebugSignpost:");
-    public static readonly Selector PopDebugGroup = Selector.Register("popDebugGroup");
-    public static readonly Selector PushDebugGroup_ = Selector.Register("pushDebugGroup:");
-    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
-    public static readonly Selector UpdateFence_afterEncoderStages_ = Selector.Register("updateFence:afterEncoderStages:");
-    public static readonly Selector WaitForFence_beforeEncoderStages_ = Selector.Register("waitForFence:beforeEncoderStages:");
-}
-
 public class MTL4CommandEncoder : IDisposable
 {
     public MTL4CommandEncoder(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4CommandEncoder()
@@ -53,19 +39,19 @@ public class MTL4CommandEncoder : IDisposable
         }
     }
 
-    public void BarrierAfterEncoderStages(nuint afterEncoderStages, nuint beforeEncoderStages, nuint visibilityOptions)
+    public void BarrierAfterEncoderStages(uint afterEncoderStages, uint beforeEncoderStages, uint visibilityOptions)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandEncoderSelector.BarrierAfterEncoderStages_beforeEncoderStages_visibilityOptions_, (nint)afterEncoderStages, (nint)beforeEncoderStages, (nint)visibilityOptions);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandEncoderSelector.BarrierAfterEncoderStagesBeforeEncoderStagesVisibilityOptions, (nint)afterEncoderStages, (nint)beforeEncoderStages, (nint)visibilityOptions);
     }
 
-    public void BarrierAfterQueueStages(nuint afterQueueStages, nuint beforeStages, nuint visibilityOptions)
+    public void BarrierAfterQueueStages(uint afterQueueStages, uint beforeStages, uint visibilityOptions)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandEncoderSelector.BarrierAfterQueueStages_beforeStages_visibilityOptions_, (nint)afterQueueStages, (nint)beforeStages, (nint)visibilityOptions);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandEncoderSelector.BarrierAfterQueueStagesBeforeStagesVisibilityOptions, (nint)afterQueueStages, (nint)beforeStages, (nint)visibilityOptions);
     }
 
-    public void BarrierAfterStages(nuint afterStages, nuint beforeQueueStages, nuint visibilityOptions)
+    public void BarrierAfterStages(uint afterStages, uint beforeQueueStages, uint visibilityOptions)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandEncoderSelector.BarrierAfterStages_beforeQueueStages_visibilityOptions_, (nint)afterStages, (nint)beforeQueueStages, (nint)visibilityOptions);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandEncoderSelector.BarrierAfterStagesBeforeQueueStagesVisibilityOptions, (nint)afterStages, (nint)beforeQueueStages, (nint)visibilityOptions);
     }
 
     public void EndEncoding()
@@ -75,7 +61,7 @@ public class MTL4CommandEncoder : IDisposable
 
     public void InsertDebugSignpost(NSString @string)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandEncoderSelector.InsertDebugSignpost_, @string.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandEncoderSelector.InsertDebugSignpost, @string.NativePtr);
     }
 
     public void PopDebugGroup()
@@ -85,22 +71,36 @@ public class MTL4CommandEncoder : IDisposable
 
     public void PushDebugGroup(NSString @string)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandEncoderSelector.PushDebugGroup_, @string.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandEncoderSelector.PushDebugGroup, @string.NativePtr);
     }
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandEncoderSelector.SetLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandEncoderSelector.SetLabel, label.NativePtr);
     }
 
-    public void UpdateFence(MTLFence fence, nuint afterEncoderStages)
+    public void UpdateFence(MTLFence fence, uint afterEncoderStages)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandEncoderSelector.UpdateFence_afterEncoderStages_, fence.NativePtr, (nint)afterEncoderStages);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandEncoderSelector.UpdateFenceAfterEncoderStages, fence.NativePtr, (nint)afterEncoderStages);
     }
 
-    public void WaitForFence(MTLFence fence, nuint beforeEncoderStages)
+    public void WaitForFence(MTLFence fence, uint beforeEncoderStages)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandEncoderSelector.WaitForFence_beforeEncoderStages_, fence.NativePtr, (nint)beforeEncoderStages);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandEncoderSelector.WaitForFenceBeforeEncoderStages, fence.NativePtr, (nint)beforeEncoderStages);
     }
 
+}
+
+file class MTL4CommandEncoderSelector
+{
+    public static readonly Selector BarrierAfterEncoderStagesBeforeEncoderStagesVisibilityOptions = Selector.Register("barrierAfterEncoderStages:beforeEncoderStages:visibilityOptions:");
+    public static readonly Selector BarrierAfterQueueStagesBeforeStagesVisibilityOptions = Selector.Register("barrierAfterQueueStages:beforeStages:visibilityOptions:");
+    public static readonly Selector BarrierAfterStagesBeforeQueueStagesVisibilityOptions = Selector.Register("barrierAfterStages:beforeQueueStages:visibilityOptions:");
+    public static readonly Selector EndEncoding = Selector.Register("endEncoding");
+    public static readonly Selector InsertDebugSignpost = Selector.Register("insertDebugSignpost:");
+    public static readonly Selector PopDebugGroup = Selector.Register("popDebugGroup");
+    public static readonly Selector PushDebugGroup = Selector.Register("pushDebugGroup:");
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector UpdateFenceAfterEncoderStages = Selector.Register("updateFence:afterEncoderStages:");
+    public static readonly Selector WaitForFenceBeforeEncoderStages = Selector.Register("waitForFence:beforeEncoderStages:");
 }

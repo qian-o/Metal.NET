@@ -1,18 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLTextureSelector
-{
-    public static readonly Selector NewRemoteTextureViewForDevice_ = Selector.Register("newRemoteTextureViewForDevice:");
-    public static readonly Selector NewSharedTextureHandle = Selector.Register("newSharedTextureHandle");
-    public static readonly Selector NewTextureView_ = Selector.Register("newTextureView:");
-    public static readonly Selector ReplaceRegion_level_slice_pixelBytes_bytesPerRow_bytesPerImage_ = Selector.Register("replaceRegion:level:slice:pixelBytes:bytesPerRow:bytesPerImage:");
-}
-
 public class MTLTexture : IDisposable
 {
     public MTLTexture(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLTexture()
@@ -49,7 +41,7 @@ public class MTLTexture : IDisposable
 
     public MTLTexture NewRemoteTextureViewForDevice(MTLDevice device)
     {
-        var result = new MTLTexture(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTextureSelector.NewRemoteTextureViewForDevice_, device.NativePtr));
+        var result = new MTLTexture(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTextureSelector.NewRemoteTextureViewForDevice, device.NativePtr));
 
         return result;
     }
@@ -63,21 +55,29 @@ public class MTLTexture : IDisposable
 
     public MTLTexture NewTextureView(MTLPixelFormat pixelFormat)
     {
-        var result = new MTLTexture(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTextureSelector.NewTextureView_, (nint)(uint)pixelFormat));
+        var result = new MTLTexture(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTextureSelector.NewTextureView, (nint)(uint)pixelFormat));
 
         return result;
     }
 
     public MTLTexture NewTextureView(MTLTextureViewDescriptor descriptor)
     {
-        var result = new MTLTexture(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTextureSelector.NewTextureView_, descriptor.NativePtr));
+        var result = new MTLTexture(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTextureSelector.NewTextureView, descriptor.NativePtr));
 
         return result;
     }
 
-    public void ReplaceRegion(MTLRegion region, nuint level, nuint slice, nint pixelBytes, nuint bytesPerRow, nuint bytesPerImage)
+    public void ReplaceRegion(MTLRegion region, uint level, uint slice, int pixelBytes, uint bytesPerRow, uint bytesPerImage)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureSelector.ReplaceRegion_level_slice_pixelBytes_bytesPerRow_bytesPerImage_, region, (nint)level, (nint)slice, pixelBytes, (nint)bytesPerRow, (nint)bytesPerImage);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureSelector.ReplaceRegionLevelSlicePixelBytesBytesPerRowBytesPerImage, region, (nint)level, (nint)slice, pixelBytes, (nint)bytesPerRow, (nint)bytesPerImage);
     }
 
+}
+
+file class MTLTextureSelector
+{
+    public static readonly Selector NewRemoteTextureViewForDevice = Selector.Register("newRemoteTextureViewForDevice:");
+    public static readonly Selector NewSharedTextureHandle = Selector.Register("newSharedTextureHandle");
+    public static readonly Selector NewTextureView = Selector.Register("newTextureView:");
+    public static readonly Selector ReplaceRegionLevelSlicePixelBytesBytesPerRowBytesPerImage = Selector.Register("replaceRegion:level:slice:pixelBytes:bytesPerRow:bytesPerImage:");
 }

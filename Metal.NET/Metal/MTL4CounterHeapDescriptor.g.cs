@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4CounterHeapDescriptorSelector
-{
-    public static readonly Selector SetCount_ = Selector.Register("setCount:");
-    public static readonly Selector SetType_ = Selector.Register("setType:");
-}
-
 public class MTL4CounterHeapDescriptor : IDisposable
 {
     public MTL4CounterHeapDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4CounterHeapDescriptor()
@@ -45,14 +39,20 @@ public class MTL4CounterHeapDescriptor : IDisposable
         }
     }
 
-    public void SetCount(nuint count)
+    public void SetCount(uint count)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CounterHeapDescriptorSelector.SetCount_, (nint)count);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CounterHeapDescriptorSelector.SetCount, (nint)count);
     }
 
     public void SetType(MTL4CounterHeapType type)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CounterHeapDescriptorSelector.SetType_, (nint)(uint)type);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CounterHeapDescriptorSelector.SetType, (nint)(uint)type);
     }
 
+}
+
+file class MTL4CounterHeapDescriptorSelector
+{
+    public static readonly Selector SetCount = Selector.Register("setCount:");
+    public static readonly Selector SetType = Selector.Register("setType:");
 }

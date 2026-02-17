@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLFunctionStitchingAttributeSelector
-{
-}
-
 public class MTLFunctionStitchingAttribute : IDisposable
 {
     public MTLFunctionStitchingAttribute(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLFunctionStitchingAttribute()
@@ -43,4 +39,8 @@ public class MTLFunctionStitchingAttribute : IDisposable
         }
     }
 
+}
+
+file class MTLFunctionStitchingAttributeSelector
+{
 }

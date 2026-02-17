@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLFunctionStitchingInputNodeSelector
-{
-    public static readonly Selector SetArgumentIndex_ = Selector.Register("setArgumentIndex:");
-}
-
 public class MTLFunctionStitchingInputNode : IDisposable
 {
     public MTLFunctionStitchingInputNode(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLFunctionStitchingInputNode()
@@ -54,9 +49,14 @@ public class MTLFunctionStitchingInputNode : IDisposable
         return new MTLFunctionStitchingInputNode(ptr);
     }
 
-    public void SetArgumentIndex(nuint argumentIndex)
+    public void SetArgumentIndex(uint argumentIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingInputNodeSelector.SetArgumentIndex_, (nint)argumentIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingInputNodeSelector.SetArgumentIndex, (nint)argumentIndex);
     }
 
+}
+
+file class MTLFunctionStitchingInputNodeSelector
+{
+    public static readonly Selector SetArgumentIndex = Selector.Register("setArgumentIndex:");
 }

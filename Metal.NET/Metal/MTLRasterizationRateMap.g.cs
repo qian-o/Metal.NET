@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLRasterizationRateMapSelector
-{
-    public static readonly Selector CopyParameterDataToBuffer_offset_ = Selector.Register("copyParameterDataToBuffer:offset:");
-    public static readonly Selector PhysicalSize_ = Selector.Register("physicalSize:");
-}
-
 public class MTLRasterizationRateMap : IDisposable
 {
     public MTLRasterizationRateMap(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLRasterizationRateMap()
@@ -45,9 +39,15 @@ public class MTLRasterizationRateMap : IDisposable
         }
     }
 
-    public void CopyParameterDataToBuffer(MTLBuffer buffer, nuint offset)
+    public void CopyParameterDataToBuffer(MTLBuffer buffer, uint offset)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateMapSelector.CopyParameterDataToBuffer_offset_, buffer.NativePtr, (nint)offset);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateMapSelector.CopyParameterDataToBufferOffset, buffer.NativePtr, (nint)offset);
     }
 
+}
+
+file class MTLRasterizationRateMapSelector
+{
+    public static readonly Selector CopyParameterDataToBufferOffset = Selector.Register("copyParameterDataToBuffer:offset:");
+    public static readonly Selector PhysicalSize = Selector.Register("physicalSize:");
 }

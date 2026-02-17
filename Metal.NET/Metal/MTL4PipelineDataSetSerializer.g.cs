@@ -2,17 +2,11 @@
 
 namespace Metal.NET;
 
-file class MTL4PipelineDataSetSerializerSelector
-{
-    public static readonly Selector SerializeAsArchiveAndFlushToURL_error_ = Selector.Register("serializeAsArchiveAndFlushToURL:error:");
-    public static readonly Selector SerializeAsPipelinesScript_ = Selector.Register("serializeAsPipelinesScript:");
-}
-
 public class MTL4PipelineDataSetSerializer : IDisposable
 {
     public MTL4PipelineDataSetSerializer(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4PipelineDataSetSerializer()
@@ -50,7 +44,7 @@ public class MTL4PipelineDataSetSerializer : IDisposable
     public Bool8 SerializeAsArchiveAndFlushToURL(NSURL url, out NSError? error)
     {
         nint errorPtr = 0;
-        var result = (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4PipelineDataSetSerializerSelector.SerializeAsArchiveAndFlushToURL_error_, url.NativePtr, out errorPtr) is not 0;
+        var result = (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4PipelineDataSetSerializerSelector.SerializeAsArchiveAndFlushToURLError, url.NativePtr, out errorPtr) is not 0;
         error = errorPtr is not 0 ? new NSError(errorPtr) : null;
 
         return result;
@@ -59,10 +53,16 @@ public class MTL4PipelineDataSetSerializer : IDisposable
     public nint SerializeAsPipelinesScript(out NSError? error)
     {
         nint errorPtr = 0;
-        var result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4PipelineDataSetSerializerSelector.SerializeAsPipelinesScript_, out errorPtr);
+        var result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4PipelineDataSetSerializerSelector.SerializeAsPipelinesScript, out errorPtr);
         error = errorPtr is not 0 ? new NSError(errorPtr) : null;
 
         return result;
     }
 
+}
+
+file class MTL4PipelineDataSetSerializerSelector
+{
+    public static readonly Selector SerializeAsArchiveAndFlushToURLError = Selector.Register("serializeAsArchiveAndFlushToURL:error:");
+    public static readonly Selector SerializeAsPipelinesScript = Selector.Register("serializeAsPipelinesScript:");
 }

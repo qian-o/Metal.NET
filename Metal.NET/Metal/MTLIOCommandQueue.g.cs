@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLIOCommandQueueSelector
-{
-    public static readonly Selector EnqueueBarrier = Selector.Register("enqueueBarrier");
-    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
-}
-
 public class MTLIOCommandQueue : IDisposable
 {
     public MTLIOCommandQueue(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLIOCommandQueue()
@@ -52,7 +46,13 @@ public class MTLIOCommandQueue : IDisposable
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandQueueSelector.SetLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIOCommandQueueSelector.SetLabel, label.NativePtr);
     }
 
+}
+
+file class MTLIOCommandQueueSelector
+{
+    public static readonly Selector EnqueueBarrier = Selector.Register("enqueueBarrier");
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

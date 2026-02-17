@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4PipelineDescriptorSelector
-{
-    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
-    public static readonly Selector SetOptions_ = Selector.Register("setOptions:");
-}
-
 public class MTL4PipelineDescriptor : IDisposable
 {
     public MTL4PipelineDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4PipelineDescriptor()
@@ -47,12 +41,18 @@ public class MTL4PipelineDescriptor : IDisposable
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineDescriptorSelector.SetLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineDescriptorSelector.SetLabel, label.NativePtr);
     }
 
     public void SetOptions(MTL4PipelineOptions options)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineDescriptorSelector.SetOptions_, options.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineDescriptorSelector.SetOptions, options.NativePtr);
     }
 
+}
+
+file class MTL4PipelineDescriptorSelector
+{
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetOptions = Selector.Register("setOptions:");
 }

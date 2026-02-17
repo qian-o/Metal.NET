@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLFXFrameInterpolatorSelector
-{
-    public static readonly Selector EncodeToCommandBuffer_ = Selector.Register("encodeToCommandBuffer:");
-}
-
 public class MTLFXFrameInterpolator : IDisposable
 {
     public MTLFXFrameInterpolator(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLFXFrameInterpolator()
@@ -46,7 +41,12 @@ public class MTLFXFrameInterpolator : IDisposable
 
     public void EncodeToCommandBuffer(MTLCommandBuffer commandBuffer)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXFrameInterpolatorSelector.EncodeToCommandBuffer_, commandBuffer.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXFrameInterpolatorSelector.EncodeToCommandBuffer, commandBuffer.NativePtr);
     }
 
+}
+
+file class MTLFXFrameInterpolatorSelector
+{
+    public static readonly Selector EncodeToCommandBuffer = Selector.Register("encodeToCommandBuffer:");
 }

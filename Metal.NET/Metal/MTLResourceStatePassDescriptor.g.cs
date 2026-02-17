@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLResourceStatePassDescriptorSelector
-{
-    public static readonly Selector ResourceStatePassDescriptor = Selector.Register("resourceStatePassDescriptor");
-}
-
 public class MTLResourceStatePassDescriptor : IDisposable
 {
     public MTLResourceStatePassDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLResourceStatePassDescriptor()
@@ -53,4 +48,9 @@ public class MTLResourceStatePassDescriptor : IDisposable
         return result;
     }
 
+}
+
+file class MTLResourceStatePassDescriptorSelector
+{
+    public static readonly Selector ResourceStatePassDescriptor = Selector.Register("resourceStatePassDescriptor");
 }

@@ -1,30 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4RenderPipelineDescriptorSelector
-{
-    public static readonly Selector Reset = Selector.Register("reset");
-    public static readonly Selector SetAlphaToCoverageState_ = Selector.Register("setAlphaToCoverageState:");
-    public static readonly Selector SetAlphaToOneState_ = Selector.Register("setAlphaToOneState:");
-    public static readonly Selector SetColorAttachmentMappingState_ = Selector.Register("setColorAttachmentMappingState:");
-    public static readonly Selector SetFragmentFunctionDescriptor_ = Selector.Register("setFragmentFunctionDescriptor:");
-    public static readonly Selector SetFragmentStaticLinkingDescriptor_ = Selector.Register("setFragmentStaticLinkingDescriptor:");
-    public static readonly Selector SetInputPrimitiveTopology_ = Selector.Register("setInputPrimitiveTopology:");
-    public static readonly Selector SetMaxVertexAmplificationCount_ = Selector.Register("setMaxVertexAmplificationCount:");
-    public static readonly Selector SetRasterSampleCount_ = Selector.Register("setRasterSampleCount:");
-    public static readonly Selector SetRasterizationEnabled_ = Selector.Register("setRasterizationEnabled:");
-    public static readonly Selector SetSupportFragmentBinaryLinking_ = Selector.Register("setSupportFragmentBinaryLinking:");
-    public static readonly Selector SetSupportIndirectCommandBuffers_ = Selector.Register("setSupportIndirectCommandBuffers:");
-    public static readonly Selector SetSupportVertexBinaryLinking_ = Selector.Register("setSupportVertexBinaryLinking:");
-    public static readonly Selector SetVertexDescriptor_ = Selector.Register("setVertexDescriptor:");
-    public static readonly Selector SetVertexFunctionDescriptor_ = Selector.Register("setVertexFunctionDescriptor:");
-    public static readonly Selector SetVertexStaticLinkingDescriptor_ = Selector.Register("setVertexStaticLinkingDescriptor:");
-}
-
 public class MTL4RenderPipelineDescriptor : IDisposable
 {
     public MTL4RenderPipelineDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4RenderPipelineDescriptor()
@@ -76,77 +56,97 @@ public class MTL4RenderPipelineDescriptor : IDisposable
 
     public void SetAlphaToCoverageState(MTL4AlphaToCoverageState alphaToCoverageState)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetAlphaToCoverageState_, (nint)(uint)alphaToCoverageState);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetAlphaToCoverageState, (nint)(uint)alphaToCoverageState);
     }
 
     public void SetAlphaToOneState(MTL4AlphaToOneState alphaToOneState)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetAlphaToOneState_, (nint)(uint)alphaToOneState);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetAlphaToOneState, (nint)(uint)alphaToOneState);
     }
 
     public void SetColorAttachmentMappingState(MTL4LogicalToPhysicalColorAttachmentMappingState colorAttachmentMappingState)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetColorAttachmentMappingState_, (nint)(uint)colorAttachmentMappingState);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetColorAttachmentMappingState, (nint)(uint)colorAttachmentMappingState);
     }
 
     public void SetFragmentFunctionDescriptor(MTL4FunctionDescriptor fragmentFunctionDescriptor)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetFragmentFunctionDescriptor_, fragmentFunctionDescriptor.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetFragmentFunctionDescriptor, fragmentFunctionDescriptor.NativePtr);
     }
 
     public void SetFragmentStaticLinkingDescriptor(MTL4StaticLinkingDescriptor fragmentStaticLinkingDescriptor)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetFragmentStaticLinkingDescriptor_, fragmentStaticLinkingDescriptor.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetFragmentStaticLinkingDescriptor, fragmentStaticLinkingDescriptor.NativePtr);
     }
 
     public void SetInputPrimitiveTopology(MTLPrimitiveTopologyClass inputPrimitiveTopology)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetInputPrimitiveTopology_, (nint)(uint)inputPrimitiveTopology);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetInputPrimitiveTopology, (nint)(uint)inputPrimitiveTopology);
     }
 
-    public void SetMaxVertexAmplificationCount(nuint maxVertexAmplificationCount)
+    public void SetMaxVertexAmplificationCount(uint maxVertexAmplificationCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetMaxVertexAmplificationCount_, (nint)maxVertexAmplificationCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetMaxVertexAmplificationCount, (nint)maxVertexAmplificationCount);
     }
 
-    public void SetRasterSampleCount(nuint rasterSampleCount)
+    public void SetRasterSampleCount(uint rasterSampleCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetRasterSampleCount_, (nint)rasterSampleCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetRasterSampleCount, (nint)rasterSampleCount);
     }
 
     public void SetRasterizationEnabled(Bool8 rasterizationEnabled)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetRasterizationEnabled_, (nint)rasterizationEnabled.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetRasterizationEnabled, (nint)rasterizationEnabled.Value);
     }
 
     public void SetSupportFragmentBinaryLinking(Bool8 supportFragmentBinaryLinking)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetSupportFragmentBinaryLinking_, (nint)supportFragmentBinaryLinking.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetSupportFragmentBinaryLinking, (nint)supportFragmentBinaryLinking.Value);
     }
 
     public void SetSupportIndirectCommandBuffers(MTL4IndirectCommandBufferSupportState supportIndirectCommandBuffers)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetSupportIndirectCommandBuffers_, (nint)(uint)supportIndirectCommandBuffers);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetSupportIndirectCommandBuffers, (nint)(uint)supportIndirectCommandBuffers);
     }
 
     public void SetSupportVertexBinaryLinking(Bool8 supportVertexBinaryLinking)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetSupportVertexBinaryLinking_, (nint)supportVertexBinaryLinking.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetSupportVertexBinaryLinking, (nint)supportVertexBinaryLinking.Value);
     }
 
     public void SetVertexDescriptor(MTLVertexDescriptor vertexDescriptor)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetVertexDescriptor_, vertexDescriptor.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetVertexDescriptor, vertexDescriptor.NativePtr);
     }
 
     public void SetVertexFunctionDescriptor(MTL4FunctionDescriptor vertexFunctionDescriptor)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetVertexFunctionDescriptor_, vertexFunctionDescriptor.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetVertexFunctionDescriptor, vertexFunctionDescriptor.NativePtr);
     }
 
     public void SetVertexStaticLinkingDescriptor(MTL4StaticLinkingDescriptor vertexStaticLinkingDescriptor)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetVertexStaticLinkingDescriptor_, vertexStaticLinkingDescriptor.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetVertexStaticLinkingDescriptor, vertexStaticLinkingDescriptor.NativePtr);
     }
 
+}
+
+file class MTL4RenderPipelineDescriptorSelector
+{
+    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector SetAlphaToCoverageState = Selector.Register("setAlphaToCoverageState:");
+    public static readonly Selector SetAlphaToOneState = Selector.Register("setAlphaToOneState:");
+    public static readonly Selector SetColorAttachmentMappingState = Selector.Register("setColorAttachmentMappingState:");
+    public static readonly Selector SetFragmentFunctionDescriptor = Selector.Register("setFragmentFunctionDescriptor:");
+    public static readonly Selector SetFragmentStaticLinkingDescriptor = Selector.Register("setFragmentStaticLinkingDescriptor:");
+    public static readonly Selector SetInputPrimitiveTopology = Selector.Register("setInputPrimitiveTopology:");
+    public static readonly Selector SetMaxVertexAmplificationCount = Selector.Register("setMaxVertexAmplificationCount:");
+    public static readonly Selector SetRasterSampleCount = Selector.Register("setRasterSampleCount:");
+    public static readonly Selector SetRasterizationEnabled = Selector.Register("setRasterizationEnabled:");
+    public static readonly Selector SetSupportFragmentBinaryLinking = Selector.Register("setSupportFragmentBinaryLinking:");
+    public static readonly Selector SetSupportIndirectCommandBuffers = Selector.Register("setSupportIndirectCommandBuffers:");
+    public static readonly Selector SetSupportVertexBinaryLinking = Selector.Register("setSupportVertexBinaryLinking:");
+    public static readonly Selector SetVertexDescriptor = Selector.Register("setVertexDescriptor:");
+    public static readonly Selector SetVertexFunctionDescriptor = Selector.Register("setVertexFunctionDescriptor:");
+    public static readonly Selector SetVertexStaticLinkingDescriptor = Selector.Register("setVertexStaticLinkingDescriptor:");
 }

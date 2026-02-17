@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLRenderPassDepthAttachmentDescriptorSelector
-{
-    public static readonly Selector SetClearDepth_ = Selector.Register("setClearDepth:");
-    public static readonly Selector SetDepthResolveFilter_ = Selector.Register("setDepthResolveFilter:");
-}
-
 public class MTLRenderPassDepthAttachmentDescriptor : IDisposable
 {
     public MTLRenderPassDepthAttachmentDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLRenderPassDepthAttachmentDescriptor()
@@ -57,12 +51,18 @@ public class MTLRenderPassDepthAttachmentDescriptor : IDisposable
 
     public void SetClearDepth(double clearDepth)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorSelector.SetClearDepth_, clearDepth);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorSelector.SetClearDepth, clearDepth);
     }
 
     public void SetDepthResolveFilter(MTLMultisampleDepthResolveFilter depthResolveFilter)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorSelector.SetDepthResolveFilter_, (nint)(uint)depthResolveFilter);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorSelector.SetDepthResolveFilter, (nint)(uint)depthResolveFilter);
     }
 
+}
+
+file class MTLRenderPassDepthAttachmentDescriptorSelector
+{
+    public static readonly Selector SetClearDepth = Selector.Register("setClearDepth:");
+    public static readonly Selector SetDepthResolveFilter = Selector.Register("setDepthResolveFilter:");
 }

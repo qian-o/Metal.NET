@@ -1,21 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLPrimitiveAccelerationStructureDescriptorSelector
-{
-    public static readonly Selector SetGeometryDescriptors_ = Selector.Register("setGeometryDescriptors:");
-    public static readonly Selector SetMotionEndBorderMode_ = Selector.Register("setMotionEndBorderMode:");
-    public static readonly Selector SetMotionEndTime_ = Selector.Register("setMotionEndTime:");
-    public static readonly Selector SetMotionKeyframeCount_ = Selector.Register("setMotionKeyframeCount:");
-    public static readonly Selector SetMotionStartBorderMode_ = Selector.Register("setMotionStartBorderMode:");
-    public static readonly Selector SetMotionStartTime_ = Selector.Register("setMotionStartTime:");
-    public static readonly Selector Descriptor = Selector.Register("descriptor");
-}
-
 public class MTLPrimitiveAccelerationStructureDescriptor : IDisposable
 {
     public MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLPrimitiveAccelerationStructureDescriptor()
@@ -62,32 +51,32 @@ public class MTLPrimitiveAccelerationStructureDescriptor : IDisposable
 
     public void SetGeometryDescriptors(NSArray geometryDescriptors)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetGeometryDescriptors_, geometryDescriptors.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetGeometryDescriptors, geometryDescriptors.NativePtr);
     }
 
     public void SetMotionEndBorderMode(MTLMotionBorderMode motionEndBorderMode)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetMotionEndBorderMode_, (nint)(uint)motionEndBorderMode);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetMotionEndBorderMode, (nint)(uint)motionEndBorderMode);
     }
 
     public void SetMotionEndTime(float motionEndTime)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetMotionEndTime_, motionEndTime);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetMotionEndTime, motionEndTime);
     }
 
-    public void SetMotionKeyframeCount(nuint motionKeyframeCount)
+    public void SetMotionKeyframeCount(uint motionKeyframeCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetMotionKeyframeCount_, (nint)motionKeyframeCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetMotionKeyframeCount, (nint)motionKeyframeCount);
     }
 
     public void SetMotionStartBorderMode(MTLMotionBorderMode motionStartBorderMode)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetMotionStartBorderMode_, (nint)(uint)motionStartBorderMode);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetMotionStartBorderMode, (nint)(uint)motionStartBorderMode);
     }
 
     public void SetMotionStartTime(float motionStartTime)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetMotionStartTime_, motionStartTime);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetMotionStartTime, motionStartTime);
     }
 
     public static MTLPrimitiveAccelerationStructureDescriptor Descriptor()
@@ -97,4 +86,15 @@ public class MTLPrimitiveAccelerationStructureDescriptor : IDisposable
         return result;
     }
 
+}
+
+file class MTLPrimitiveAccelerationStructureDescriptorSelector
+{
+    public static readonly Selector SetGeometryDescriptors = Selector.Register("setGeometryDescriptors:");
+    public static readonly Selector SetMotionEndBorderMode = Selector.Register("setMotionEndBorderMode:");
+    public static readonly Selector SetMotionEndTime = Selector.Register("setMotionEndTime:");
+    public static readonly Selector SetMotionKeyframeCount = Selector.Register("setMotionKeyframeCount:");
+    public static readonly Selector SetMotionStartBorderMode = Selector.Register("setMotionStartBorderMode:");
+    public static readonly Selector SetMotionStartTime = Selector.Register("setMotionStartTime:");
+    public static readonly Selector Descriptor = Selector.Register("descriptor");
 }

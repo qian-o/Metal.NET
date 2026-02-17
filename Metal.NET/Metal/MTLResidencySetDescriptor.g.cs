@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLResidencySetDescriptorSelector
-{
-    public static readonly Selector SetInitialCapacity_ = Selector.Register("setInitialCapacity:");
-    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
-}
-
 public class MTLResidencySetDescriptor : IDisposable
 {
     public MTLResidencySetDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLResidencySetDescriptor()
@@ -55,14 +49,20 @@ public class MTLResidencySetDescriptor : IDisposable
         return new MTLResidencySetDescriptor(ptr);
     }
 
-    public void SetInitialCapacity(nuint initialCapacity)
+    public void SetInitialCapacity(uint initialCapacity)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResidencySetDescriptorSelector.SetInitialCapacity_, (nint)initialCapacity);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResidencySetDescriptorSelector.SetInitialCapacity, (nint)initialCapacity);
     }
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResidencySetDescriptorSelector.SetLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResidencySetDescriptorSelector.SetLabel, label.NativePtr);
     }
 
+}
+
+file class MTLResidencySetDescriptorSelector
+{
+    public static readonly Selector SetInitialCapacity = Selector.Register("setInitialCapacity:");
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

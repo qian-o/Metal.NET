@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLIntersectionFunctionDescriptorSelector
-{
-}
-
 public class MTLIntersectionFunctionDescriptor : IDisposable
 {
     public MTLIntersectionFunctionDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLIntersectionFunctionDescriptor()
@@ -43,4 +39,8 @@ public class MTLIntersectionFunctionDescriptor : IDisposable
         }
     }
 
+}
+
+file class MTLIntersectionFunctionDescriptorSelector
+{
 }

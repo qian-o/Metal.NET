@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLStructMemberSelector
-{
-}
-
 public class MTLStructMember : IDisposable
 {
     public MTLStructMember(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLStructMember()
@@ -43,4 +39,8 @@ public class MTLStructMember : IDisposable
         }
     }
 
+}
+
+file class MTLStructMemberSelector
+{
 }

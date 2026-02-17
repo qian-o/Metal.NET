@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLBindingSelector
-{
-}
-
 public class MTLBinding : IDisposable
 {
     public MTLBinding(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLBinding()
@@ -43,4 +39,8 @@ public class MTLBinding : IDisposable
         }
     }
 
+}
+
+file class MTLBindingSelector
+{
 }

@@ -1,29 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLCommandBufferSelector
-{
-    public static readonly Selector AddCompletedHandler_ = Selector.Register("addCompletedHandler:");
-    public static readonly Selector AddScheduledHandler_ = Selector.Register("addScheduledHandler:");
-    public static readonly Selector Commit = Selector.Register("commit");
-    public static readonly Selector EncodeSignalEvent_value_ = Selector.Register("encodeSignalEvent:value:");
-    public static readonly Selector EncodeWait_value_ = Selector.Register("encodeWait:value:");
-    public static readonly Selector Enqueue = Selector.Register("enqueue");
-    public static readonly Selector ParallelRenderCommandEncoder_ = Selector.Register("parallelRenderCommandEncoder:");
-    public static readonly Selector PopDebugGroup = Selector.Register("popDebugGroup");
-    public static readonly Selector PresentDrawable_ = Selector.Register("presentDrawable:");
-    public static readonly Selector PushDebugGroup_ = Selector.Register("pushDebugGroup:");
-    public static readonly Selector RenderCommandEncoder_ = Selector.Register("renderCommandEncoder:");
-    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
-    public static readonly Selector UseResidencySet_ = Selector.Register("useResidencySet:");
-    public static readonly Selector WaitUntilCompleted = Selector.Register("waitUntilCompleted");
-    public static readonly Selector WaitUntilScheduled = Selector.Register("waitUntilScheduled");
-}
-
 public class MTLCommandBuffer : IDisposable
 {
     public MTLCommandBuffer(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLCommandBuffer()
@@ -58,14 +39,14 @@ public class MTLCommandBuffer : IDisposable
         }
     }
 
-    public void AddCompletedHandler(nint function)
+    public void AddCompletedHandler(int function)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferSelector.AddCompletedHandler_, function);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferSelector.AddCompletedHandler, function);
     }
 
-    public void AddScheduledHandler(nint function)
+    public void AddScheduledHandler(int function)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferSelector.AddScheduledHandler_, function);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferSelector.AddScheduledHandler, function);
     }
 
     public void Commit()
@@ -73,14 +54,14 @@ public class MTLCommandBuffer : IDisposable
         ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferSelector.Commit);
     }
 
-    public void EncodeSignalEvent(MTLEvent @event, nuint value)
+    public void EncodeSignalEvent(MTLEvent @event, uint value)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferSelector.EncodeSignalEvent_value_, @event.NativePtr, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferSelector.EncodeSignalEventValue, @event.NativePtr, (nint)value);
     }
 
-    public void EncodeWait(MTLEvent @event, nuint value)
+    public void EncodeWait(MTLEvent @event, uint value)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferSelector.EncodeWait_value_, @event.NativePtr, (nint)value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferSelector.EncodeWaitValue, @event.NativePtr, (nint)value);
     }
 
     public void Enqueue()
@@ -90,7 +71,7 @@ public class MTLCommandBuffer : IDisposable
 
     public MTLParallelRenderCommandEncoder ParallelRenderCommandEncoder(MTLRenderPassDescriptor renderPassDescriptor)
     {
-        var result = new MTLParallelRenderCommandEncoder(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBufferSelector.ParallelRenderCommandEncoder_, renderPassDescriptor.NativePtr));
+        var result = new MTLParallelRenderCommandEncoder(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBufferSelector.ParallelRenderCommandEncoder, renderPassDescriptor.NativePtr));
 
         return result;
     }
@@ -102,29 +83,29 @@ public class MTLCommandBuffer : IDisposable
 
     public void PresentDrawable(MTLDrawable drawable)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferSelector.PresentDrawable_, drawable.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferSelector.PresentDrawable, drawable.NativePtr);
     }
 
     public void PushDebugGroup(NSString @string)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferSelector.PushDebugGroup_, @string.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferSelector.PushDebugGroup, @string.NativePtr);
     }
 
     public MTLRenderCommandEncoder RenderCommandEncoder(MTLRenderPassDescriptor renderPassDescriptor)
     {
-        var result = new MTLRenderCommandEncoder(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBufferSelector.RenderCommandEncoder_, renderPassDescriptor.NativePtr));
+        var result = new MTLRenderCommandEncoder(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLCommandBufferSelector.RenderCommandEncoder, renderPassDescriptor.NativePtr));
 
         return result;
     }
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferSelector.SetLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferSelector.SetLabel, label.NativePtr);
     }
 
     public void UseResidencySet(MTLResidencySet residencySet)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferSelector.UseResidencySet_, residencySet.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferSelector.UseResidencySet, residencySet.NativePtr);
     }
 
     public void WaitUntilCompleted()
@@ -137,4 +118,23 @@ public class MTLCommandBuffer : IDisposable
         ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandBufferSelector.WaitUntilScheduled);
     }
 
+}
+
+file class MTLCommandBufferSelector
+{
+    public static readonly Selector AddCompletedHandler = Selector.Register("addCompletedHandler:");
+    public static readonly Selector AddScheduledHandler = Selector.Register("addScheduledHandler:");
+    public static readonly Selector Commit = Selector.Register("commit");
+    public static readonly Selector EncodeSignalEventValue = Selector.Register("encodeSignalEvent:value:");
+    public static readonly Selector EncodeWaitValue = Selector.Register("encodeWait:value:");
+    public static readonly Selector Enqueue = Selector.Register("enqueue");
+    public static readonly Selector ParallelRenderCommandEncoder = Selector.Register("parallelRenderCommandEncoder:");
+    public static readonly Selector PopDebugGroup = Selector.Register("popDebugGroup");
+    public static readonly Selector PresentDrawable = Selector.Register("presentDrawable:");
+    public static readonly Selector PushDebugGroup = Selector.Register("pushDebugGroup:");
+    public static readonly Selector RenderCommandEncoder = Selector.Register("renderCommandEncoder:");
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector UseResidencySet = Selector.Register("useResidencySet:");
+    public static readonly Selector WaitUntilCompleted = Selector.Register("waitUntilCompleted");
+    public static readonly Selector WaitUntilScheduled = Selector.Register("waitUntilScheduled");
 }

@@ -1,17 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLAttributeDescriptorSelector
-{
-    public static readonly Selector SetBufferIndex_ = Selector.Register("setBufferIndex:");
-    public static readonly Selector SetFormat_ = Selector.Register("setFormat:");
-    public static readonly Selector SetOffset_ = Selector.Register("setOffset:");
-}
-
 public class MTLAttributeDescriptor : IDisposable
 {
     public MTLAttributeDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLAttributeDescriptor()
@@ -56,19 +49,26 @@ public class MTLAttributeDescriptor : IDisposable
         return new MTLAttributeDescriptor(ptr);
     }
 
-    public void SetBufferIndex(nuint bufferIndex)
+    public void SetBufferIndex(uint bufferIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAttributeDescriptorSelector.SetBufferIndex_, (nint)bufferIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAttributeDescriptorSelector.SetBufferIndex, (nint)bufferIndex);
     }
 
     public void SetFormat(MTLAttributeFormat format)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAttributeDescriptorSelector.SetFormat_, (nint)(uint)format);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAttributeDescriptorSelector.SetFormat, (nint)(uint)format);
     }
 
-    public void SetOffset(nuint offset)
+    public void SetOffset(uint offset)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAttributeDescriptorSelector.SetOffset_, (nint)offset);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAttributeDescriptorSelector.SetOffset, (nint)offset);
     }
 
+}
+
+file class MTLAttributeDescriptorSelector
+{
+    public static readonly Selector SetBufferIndex = Selector.Register("setBufferIndex:");
+    public static readonly Selector SetFormat = Selector.Register("setFormat:");
+    public static readonly Selector SetOffset = Selector.Register("setOffset:");
 }

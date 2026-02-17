@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLIntersectionFunctionTableDescriptorSelector
-{
-    public static readonly Selector SetFunctionCount_ = Selector.Register("setFunctionCount:");
-    public static readonly Selector IntersectionFunctionTableDescriptor = Selector.Register("intersectionFunctionTableDescriptor");
-}
-
 public class MTLIntersectionFunctionTableDescriptor : IDisposable
 {
     public MTLIntersectionFunctionTableDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLIntersectionFunctionTableDescriptor()
@@ -47,9 +41,9 @@ public class MTLIntersectionFunctionTableDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLIntersectionFunctionTableDescriptor");
 
-    public void SetFunctionCount(nuint functionCount)
+    public void SetFunctionCount(uint functionCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIntersectionFunctionTableDescriptorSelector.SetFunctionCount_, (nint)functionCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIntersectionFunctionTableDescriptorSelector.SetFunctionCount, (nint)functionCount);
     }
 
     public static MTLIntersectionFunctionTableDescriptor IntersectionFunctionTableDescriptor()
@@ -59,4 +53,10 @@ public class MTLIntersectionFunctionTableDescriptor : IDisposable
         return result;
     }
 
+}
+
+file class MTLIntersectionFunctionTableDescriptorSelector
+{
+    public static readonly Selector SetFunctionCount = Selector.Register("setFunctionCount:");
+    public static readonly Selector IntersectionFunctionTableDescriptor = Selector.Register("intersectionFunctionTableDescriptor");
 }

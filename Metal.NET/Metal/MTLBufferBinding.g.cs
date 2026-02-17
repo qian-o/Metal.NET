@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLBufferBindingSelector
-{
-}
-
 public class MTLBufferBinding : IDisposable
 {
     public MTLBufferBinding(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLBufferBinding()
@@ -43,4 +39,8 @@ public class MTLBufferBinding : IDisposable
         }
     }
 
+}
+
+file class MTLBufferBindingSelector
+{
 }

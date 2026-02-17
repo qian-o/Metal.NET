@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLResourceViewPoolDescriptorSelector
-{
-    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
-    public static readonly Selector SetResourceViewCount_ = Selector.Register("setResourceViewCount:");
-}
-
 public class MTLResourceViewPoolDescriptor : IDisposable
 {
     public MTLResourceViewPoolDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLResourceViewPoolDescriptor()
@@ -47,12 +41,18 @@ public class MTLResourceViewPoolDescriptor : IDisposable
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResourceViewPoolDescriptorSelector.SetLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResourceViewPoolDescriptorSelector.SetLabel, label.NativePtr);
     }
 
-    public void SetResourceViewCount(nuint resourceViewCount)
+    public void SetResourceViewCount(uint resourceViewCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResourceViewPoolDescriptorSelector.SetResourceViewCount_, (nint)resourceViewCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResourceViewPoolDescriptorSelector.SetResourceViewCount, (nint)resourceViewCount);
     }
 
+}
+
+file class MTLResourceViewPoolDescriptorSelector
+{
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetResourceViewCount = Selector.Register("setResourceViewCount:");
 }

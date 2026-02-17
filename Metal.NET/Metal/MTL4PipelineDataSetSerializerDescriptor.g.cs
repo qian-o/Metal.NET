@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4PipelineDataSetSerializerDescriptorSelector
-{
-    public static readonly Selector SetConfiguration_ = Selector.Register("setConfiguration:");
-}
-
 public class MTL4PipelineDataSetSerializerDescriptor : IDisposable
 {
     public MTL4PipelineDataSetSerializerDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4PipelineDataSetSerializerDescriptor()
@@ -44,9 +39,14 @@ public class MTL4PipelineDataSetSerializerDescriptor : IDisposable
         }
     }
 
-    public void SetConfiguration(nuint configuration)
+    public void SetConfiguration(uint configuration)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.SetConfiguration_, (nint)configuration);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.SetConfiguration, (nint)configuration);
     }
 
+}
+
+file class MTL4PipelineDataSetSerializerDescriptorSelector
+{
+    public static readonly Selector SetConfiguration = Selector.Register("setConfiguration:");
 }

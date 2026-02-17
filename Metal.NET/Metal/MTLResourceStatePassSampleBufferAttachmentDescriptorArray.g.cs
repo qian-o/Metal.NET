@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLResourceStatePassSampleBufferAttachmentDescriptorArraySelector
-{
-    public static readonly Selector Object_ = Selector.Register("object:");
-    public static readonly Selector SetObject_attachmentIndex_ = Selector.Register("setObject:attachmentIndex:");
-}
-
 public class MTLResourceStatePassSampleBufferAttachmentDescriptorArray : IDisposable
 {
     public MTLResourceStatePassSampleBufferAttachmentDescriptorArray(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLResourceStatePassSampleBufferAttachmentDescriptorArray()
@@ -45,16 +39,22 @@ public class MTLResourceStatePassSampleBufferAttachmentDescriptorArray : IDispos
         }
     }
 
-    public MTLResourceStatePassSampleBufferAttachmentDescriptor Object(nuint attachmentIndex)
+    public MTLResourceStatePassSampleBufferAttachmentDescriptor Object(uint attachmentIndex)
     {
-        var result = new MTLResourceStatePassSampleBufferAttachmentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorArraySelector.Object_, (nint)attachmentIndex));
+        var result = new MTLResourceStatePassSampleBufferAttachmentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorArraySelector.Object, (nint)attachmentIndex));
 
         return result;
     }
 
-    public void SetObject(MTLResourceStatePassSampleBufferAttachmentDescriptor attachment, nuint attachmentIndex)
+    public void SetObject(MTLResourceStatePassSampleBufferAttachmentDescriptor attachment, uint attachmentIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorArraySelector.SetObject_attachmentIndex_, attachment.NativePtr, (nint)attachmentIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nint)attachmentIndex);
     }
 
+}
+
+file class MTLResourceStatePassSampleBufferAttachmentDescriptorArraySelector
+{
+    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector SetObjectAttachmentIndex = Selector.Register("setObject:attachmentIndex:");
 }

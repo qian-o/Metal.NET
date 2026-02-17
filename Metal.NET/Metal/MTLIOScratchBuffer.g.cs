@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLIOScratchBufferSelector
-{
-}
-
 public class MTLIOScratchBuffer : IDisposable
 {
     public MTLIOScratchBuffer(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLIOScratchBuffer()
@@ -43,4 +39,8 @@ public class MTLIOScratchBuffer : IDisposable
         }
     }
 
+}
+
+file class MTLIOScratchBufferSelector
+{
 }

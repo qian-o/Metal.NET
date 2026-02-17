@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLPackedFloatQuaternionSelector
-{
-}
-
 public class MTLPackedFloatQuaternion : IDisposable
 {
     public MTLPackedFloatQuaternion(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLPackedFloatQuaternion()
@@ -43,4 +39,8 @@ public class MTLPackedFloatQuaternion : IDisposable
         }
     }
 
+}
+
+file class MTLPackedFloatQuaternionSelector
+{
 }

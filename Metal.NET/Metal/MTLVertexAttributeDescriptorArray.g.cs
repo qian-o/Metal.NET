@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLVertexAttributeDescriptorArraySelector
-{
-    public static readonly Selector Object_ = Selector.Register("object:");
-    public static readonly Selector SetObject_index_ = Selector.Register("setObject:index:");
-}
-
 public class MTLVertexAttributeDescriptorArray : IDisposable
 {
     public MTLVertexAttributeDescriptorArray(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLVertexAttributeDescriptorArray()
@@ -45,16 +39,22 @@ public class MTLVertexAttributeDescriptorArray : IDisposable
         }
     }
 
-    public MTLVertexAttributeDescriptor Object(nuint index)
+    public MTLVertexAttributeDescriptor Object(uint index)
     {
-        var result = new MTLVertexAttributeDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLVertexAttributeDescriptorArraySelector.Object_, (nint)index));
+        var result = new MTLVertexAttributeDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLVertexAttributeDescriptorArraySelector.Object, (nint)index));
 
         return result;
     }
 
-    public void SetObject(MTLVertexAttributeDescriptor attributeDesc, nuint index)
+    public void SetObject(MTLVertexAttributeDescriptor attributeDesc, uint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVertexAttributeDescriptorArraySelector.SetObject_index_, attributeDesc.NativePtr, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVertexAttributeDescriptorArraySelector.SetObjectIndex, attributeDesc.NativePtr, (nint)index);
     }
 
+}
+
+file class MTLVertexAttributeDescriptorArraySelector
+{
+    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector SetObjectIndex = Selector.Register("setObject:index:");
 }

@@ -1,17 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLVertexBufferLayoutDescriptorSelector
-{
-    public static readonly Selector SetStepFunction_ = Selector.Register("setStepFunction:");
-    public static readonly Selector SetStepRate_ = Selector.Register("setStepRate:");
-    public static readonly Selector SetStride_ = Selector.Register("setStride:");
-}
-
 public class MTLVertexBufferLayoutDescriptor : IDisposable
 {
     public MTLVertexBufferLayoutDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLVertexBufferLayoutDescriptor()
@@ -58,17 +51,24 @@ public class MTLVertexBufferLayoutDescriptor : IDisposable
 
     public void SetStepFunction(MTLVertexStepFunction stepFunction)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVertexBufferLayoutDescriptorSelector.SetStepFunction_, (nint)(uint)stepFunction);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVertexBufferLayoutDescriptorSelector.SetStepFunction, (nint)(uint)stepFunction);
     }
 
-    public void SetStepRate(nuint stepRate)
+    public void SetStepRate(uint stepRate)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVertexBufferLayoutDescriptorSelector.SetStepRate_, (nint)stepRate);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVertexBufferLayoutDescriptorSelector.SetStepRate, (nint)stepRate);
     }
 
-    public void SetStride(nuint stride)
+    public void SetStride(uint stride)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVertexBufferLayoutDescriptorSelector.SetStride_, (nint)stride);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVertexBufferLayoutDescriptorSelector.SetStride, (nint)stride);
     }
 
+}
+
+file class MTLVertexBufferLayoutDescriptorSelector
+{
+    public static readonly Selector SetStepFunction = Selector.Register("setStepFunction:");
+    public static readonly Selector SetStepRate = Selector.Register("setStepRate:");
+    public static readonly Selector SetStride = Selector.Register("setStride:");
 }

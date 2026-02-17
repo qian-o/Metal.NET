@@ -1,17 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLFunctionConstantValuesSelector
-{
-    public static readonly Selector Reset = Selector.Register("reset");
-    public static readonly Selector SetConstantValue_type_index_ = Selector.Register("setConstantValue:type:index:");
-    public static readonly Selector SetConstantValue_type_name_ = Selector.Register("setConstantValue:type:name:");
-}
-
 public class MTLFunctionConstantValues : IDisposable
 {
     public MTLFunctionConstantValues(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLFunctionConstantValues()
@@ -51,14 +44,21 @@ public class MTLFunctionConstantValues : IDisposable
         ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionConstantValuesSelector.Reset);
     }
 
-    public void SetConstantValue(nint value, MTLDataType type, nuint index)
+    public void SetConstantValue(int value, MTLDataType type, uint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValue_type_index_, value, (nint)(uint)type, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValueTypeIndex, value, (nint)(uint)type, (nint)index);
     }
 
-    public void SetConstantValue(nint value, MTLDataType type, NSString name)
+    public void SetConstantValue(int value, MTLDataType type, NSString name)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValue_type_name_, value, (nint)(uint)type, name.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValueTypeName, value, (nint)(uint)type, name.NativePtr);
     }
 
+}
+
+file class MTLFunctionConstantValuesSelector
+{
+    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector SetConstantValueTypeIndex = Selector.Register("setConstantValue:type:index:");
+    public static readonly Selector SetConstantValueTypeName = Selector.Register("setConstantValue:type:name:");
 }

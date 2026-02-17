@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLObjectPayloadBindingSelector
-{
-}
-
 public class MTLObjectPayloadBinding : IDisposable
 {
     public MTLObjectPayloadBinding(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLObjectPayloadBinding()
@@ -43,4 +39,8 @@ public class MTLObjectPayloadBinding : IDisposable
         }
     }
 
+}
+
+file class MTLObjectPayloadBindingSelector
+{
 }

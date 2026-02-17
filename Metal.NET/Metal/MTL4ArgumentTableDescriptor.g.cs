@@ -1,20 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4ArgumentTableDescriptorSelector
-{
-    public static readonly Selector SetInitializeBindings_ = Selector.Register("setInitializeBindings:");
-    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
-    public static readonly Selector SetMaxBufferBindCount_ = Selector.Register("setMaxBufferBindCount:");
-    public static readonly Selector SetMaxSamplerStateBindCount_ = Selector.Register("setMaxSamplerStateBindCount:");
-    public static readonly Selector SetMaxTextureBindCount_ = Selector.Register("setMaxTextureBindCount:");
-    public static readonly Selector SetSupportAttributeStrides_ = Selector.Register("setSupportAttributeStrides:");
-}
-
 public class MTL4ArgumentTableDescriptor : IDisposable
 {
     public MTL4ArgumentTableDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4ArgumentTableDescriptor()
@@ -51,32 +41,42 @@ public class MTL4ArgumentTableDescriptor : IDisposable
 
     public void SetInitializeBindings(Bool8 initializeBindings)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptorSelector.SetInitializeBindings_, (nint)initializeBindings.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptorSelector.SetInitializeBindings, (nint)initializeBindings.Value);
     }
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptorSelector.SetLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptorSelector.SetLabel, label.NativePtr);
     }
 
-    public void SetMaxBufferBindCount(nuint maxBufferBindCount)
+    public void SetMaxBufferBindCount(uint maxBufferBindCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptorSelector.SetMaxBufferBindCount_, (nint)maxBufferBindCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptorSelector.SetMaxBufferBindCount, (nint)maxBufferBindCount);
     }
 
-    public void SetMaxSamplerStateBindCount(nuint maxSamplerStateBindCount)
+    public void SetMaxSamplerStateBindCount(uint maxSamplerStateBindCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptorSelector.SetMaxSamplerStateBindCount_, (nint)maxSamplerStateBindCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptorSelector.SetMaxSamplerStateBindCount, (nint)maxSamplerStateBindCount);
     }
 
-    public void SetMaxTextureBindCount(nuint maxTextureBindCount)
+    public void SetMaxTextureBindCount(uint maxTextureBindCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptorSelector.SetMaxTextureBindCount_, (nint)maxTextureBindCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptorSelector.SetMaxTextureBindCount, (nint)maxTextureBindCount);
     }
 
     public void SetSupportAttributeStrides(Bool8 supportAttributeStrides)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptorSelector.SetSupportAttributeStrides_, (nint)supportAttributeStrides.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4ArgumentTableDescriptorSelector.SetSupportAttributeStrides, (nint)supportAttributeStrides.Value);
     }
 
+}
+
+file class MTL4ArgumentTableDescriptorSelector
+{
+    public static readonly Selector SetInitializeBindings = Selector.Register("setInitializeBindings:");
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetMaxBufferBindCount = Selector.Register("setMaxBufferBindCount:");
+    public static readonly Selector SetMaxSamplerStateBindCount = Selector.Register("setMaxSamplerStateBindCount:");
+    public static readonly Selector SetMaxTextureBindCount = Selector.Register("setMaxTextureBindCount:");
+    public static readonly Selector SetSupportAttributeStrides = Selector.Register("setSupportAttributeStrides:");
 }

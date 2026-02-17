@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLTextureBindingSelector
-{
-}
-
 public class MTLTextureBinding : IDisposable
 {
     public MTLTextureBinding(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLTextureBinding()
@@ -43,4 +39,8 @@ public class MTLTextureBinding : IDisposable
         }
     }
 
+}
+
+file class MTLTextureBindingSelector
+{
 }

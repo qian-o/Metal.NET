@@ -1,17 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4RenderPipelineColorAttachmentDescriptorArraySelector
-{
-    public static readonly Selector Object_ = Selector.Register("object:");
-    public static readonly Selector Reset = Selector.Register("reset");
-    public static readonly Selector SetObject_attachmentIndex_ = Selector.Register("setObject:attachmentIndex:");
-}
-
 public class MTL4RenderPipelineColorAttachmentDescriptorArray : IDisposable
 {
     public MTL4RenderPipelineColorAttachmentDescriptorArray(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4RenderPipelineColorAttachmentDescriptorArray()
@@ -46,9 +39,9 @@ public class MTL4RenderPipelineColorAttachmentDescriptorArray : IDisposable
         }
     }
 
-    public MTL4RenderPipelineColorAttachmentDescriptor Object(nuint attachmentIndex)
+    public MTL4RenderPipelineColorAttachmentDescriptor Object(uint attachmentIndex)
     {
-        var result = new MTL4RenderPipelineColorAttachmentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.Object_, (nint)attachmentIndex));
+        var result = new MTL4RenderPipelineColorAttachmentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.Object, (nint)attachmentIndex));
 
         return result;
     }
@@ -58,9 +51,16 @@ public class MTL4RenderPipelineColorAttachmentDescriptorArray : IDisposable
         ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.Reset);
     }
 
-    public void SetObject(MTL4RenderPipelineColorAttachmentDescriptor attachment, nuint attachmentIndex)
+    public void SetObject(MTL4RenderPipelineColorAttachmentDescriptor attachment, uint attachmentIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.SetObject_attachmentIndex_, attachment.NativePtr, (nint)attachmentIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nint)attachmentIndex);
     }
 
+}
+
+file class MTL4RenderPipelineColorAttachmentDescriptorArraySelector
+{
+    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector SetObjectAttachmentIndex = Selector.Register("setObject:attachmentIndex:");
 }

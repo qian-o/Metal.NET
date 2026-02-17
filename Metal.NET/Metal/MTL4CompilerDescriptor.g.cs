@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4CompilerDescriptorSelector
-{
-    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
-    public static readonly Selector SetPipelineDataSetSerializer_ = Selector.Register("setPipelineDataSetSerializer:");
-}
-
 public class MTL4CompilerDescriptor : IDisposable
 {
     public MTL4CompilerDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4CompilerDescriptor()
@@ -47,12 +41,18 @@ public class MTL4CompilerDescriptor : IDisposable
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CompilerDescriptorSelector.SetLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CompilerDescriptorSelector.SetLabel, label.NativePtr);
     }
 
     public void SetPipelineDataSetSerializer(MTL4PipelineDataSetSerializer pipelineDataSetSerializer)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CompilerDescriptorSelector.SetPipelineDataSetSerializer_, pipelineDataSetSerializer.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CompilerDescriptorSelector.SetPipelineDataSetSerializer, pipelineDataSetSerializer.NativePtr);
     }
 
+}
+
+file class MTL4CompilerDescriptorSelector
+{
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetPipelineDataSetSerializer = Selector.Register("setPipelineDataSetSerializer:");
 }

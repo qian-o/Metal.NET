@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLFunctionStitchingAttributeAlwaysInlineSelector
-{
-}
-
 public class MTLFunctionStitchingAttributeAlwaysInline : IDisposable
 {
     public MTLFunctionStitchingAttributeAlwaysInline(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLFunctionStitchingAttributeAlwaysInline()
@@ -43,4 +39,8 @@ public class MTLFunctionStitchingAttributeAlwaysInline : IDisposable
         }
     }
 
+}
+
+file class MTLFunctionStitchingAttributeAlwaysInlineSelector
+{
 }

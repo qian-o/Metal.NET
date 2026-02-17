@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4FunctionDescriptorSelector
-{
-}
-
 public class MTL4FunctionDescriptor : IDisposable
 {
     public MTL4FunctionDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4FunctionDescriptor()
@@ -43,4 +39,8 @@ public class MTL4FunctionDescriptor : IDisposable
         }
     }
 
+}
+
+file class MTL4FunctionDescriptorSelector
+{
 }

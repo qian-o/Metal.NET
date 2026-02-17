@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLRenderPassSampleBufferAttachmentDescriptorArraySelector
-{
-    public static readonly Selector Object_ = Selector.Register("object:");
-    public static readonly Selector SetObject_attachmentIndex_ = Selector.Register("setObject:attachmentIndex:");
-}
-
 public class MTLRenderPassSampleBufferAttachmentDescriptorArray : IDisposable
 {
     public MTLRenderPassSampleBufferAttachmentDescriptorArray(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLRenderPassSampleBufferAttachmentDescriptorArray()
@@ -45,16 +39,22 @@ public class MTLRenderPassSampleBufferAttachmentDescriptorArray : IDisposable
         }
     }
 
-    public MTLRenderPassSampleBufferAttachmentDescriptor Object(nuint attachmentIndex)
+    public MTLRenderPassSampleBufferAttachmentDescriptor Object(uint attachmentIndex)
     {
-        var result = new MTLRenderPassSampleBufferAttachmentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorArraySelector.Object_, (nint)attachmentIndex));
+        var result = new MTLRenderPassSampleBufferAttachmentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorArraySelector.Object, (nint)attachmentIndex));
 
         return result;
     }
 
-    public void SetObject(MTLRenderPassSampleBufferAttachmentDescriptor attachment, nuint attachmentIndex)
+    public void SetObject(MTLRenderPassSampleBufferAttachmentDescriptor attachment, uint attachmentIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorArraySelector.SetObject_attachmentIndex_, attachment.NativePtr, (nint)attachmentIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nint)attachmentIndex);
     }
 
+}
+
+file class MTLRenderPassSampleBufferAttachmentDescriptorArraySelector
+{
+    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector SetObjectAttachmentIndex = Selector.Register("setObject:attachmentIndex:");
 }

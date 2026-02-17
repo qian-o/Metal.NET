@@ -1,23 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLRenderPipelineColorAttachmentDescriptorSelector
-{
-    public static readonly Selector SetAlphaBlendOperation_ = Selector.Register("setAlphaBlendOperation:");
-    public static readonly Selector SetBlendingEnabled_ = Selector.Register("setBlendingEnabled:");
-    public static readonly Selector SetDestinationAlphaBlendFactor_ = Selector.Register("setDestinationAlphaBlendFactor:");
-    public static readonly Selector SetDestinationRGBBlendFactor_ = Selector.Register("setDestinationRGBBlendFactor:");
-    public static readonly Selector SetPixelFormat_ = Selector.Register("setPixelFormat:");
-    public static readonly Selector SetRgbBlendOperation_ = Selector.Register("setRgbBlendOperation:");
-    public static readonly Selector SetSourceAlphaBlendFactor_ = Selector.Register("setSourceAlphaBlendFactor:");
-    public static readonly Selector SetSourceRGBBlendFactor_ = Selector.Register("setSourceRGBBlendFactor:");
-    public static readonly Selector SetWriteMask_ = Selector.Register("setWriteMask:");
-}
-
 public class MTLRenderPipelineColorAttachmentDescriptor : IDisposable
 {
     public MTLRenderPipelineColorAttachmentDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLRenderPipelineColorAttachmentDescriptor()
@@ -64,47 +51,60 @@ public class MTLRenderPipelineColorAttachmentDescriptor : IDisposable
 
     public void SetAlphaBlendOperation(MTLBlendOperation alphaBlendOperation)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetAlphaBlendOperation_, (nint)(uint)alphaBlendOperation);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetAlphaBlendOperation, (nint)(uint)alphaBlendOperation);
     }
 
     public void SetBlendingEnabled(Bool8 blendingEnabled)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetBlendingEnabled_, (nint)blendingEnabled.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetBlendingEnabled, (nint)blendingEnabled.Value);
     }
 
     public void SetDestinationAlphaBlendFactor(MTLBlendFactor destinationAlphaBlendFactor)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetDestinationAlphaBlendFactor_, (nint)(uint)destinationAlphaBlendFactor);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetDestinationAlphaBlendFactor, (nint)(uint)destinationAlphaBlendFactor);
     }
 
     public void SetDestinationRGBBlendFactor(MTLBlendFactor destinationRGBBlendFactor)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetDestinationRGBBlendFactor_, (nint)(uint)destinationRGBBlendFactor);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetDestinationRGBBlendFactor, (nint)(uint)destinationRGBBlendFactor);
     }
 
     public void SetPixelFormat(MTLPixelFormat pixelFormat)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetPixelFormat_, (nint)(uint)pixelFormat);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetPixelFormat, (nint)(uint)pixelFormat);
     }
 
     public void SetRgbBlendOperation(MTLBlendOperation rgbBlendOperation)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetRgbBlendOperation_, (nint)(uint)rgbBlendOperation);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetRgbBlendOperation, (nint)(uint)rgbBlendOperation);
     }
 
     public void SetSourceAlphaBlendFactor(MTLBlendFactor sourceAlphaBlendFactor)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetSourceAlphaBlendFactor_, (nint)(uint)sourceAlphaBlendFactor);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetSourceAlphaBlendFactor, (nint)(uint)sourceAlphaBlendFactor);
     }
 
     public void SetSourceRGBBlendFactor(MTLBlendFactor sourceRGBBlendFactor)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetSourceRGBBlendFactor_, (nint)(uint)sourceRGBBlendFactor);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetSourceRGBBlendFactor, (nint)(uint)sourceRGBBlendFactor);
     }
 
-    public void SetWriteMask(nuint writeMask)
+    public void SetWriteMask(uint writeMask)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetWriteMask_, (nint)writeMask);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetWriteMask, (nint)writeMask);
     }
 
+}
+
+file class MTLRenderPipelineColorAttachmentDescriptorSelector
+{
+    public static readonly Selector SetAlphaBlendOperation = Selector.Register("setAlphaBlendOperation:");
+    public static readonly Selector SetBlendingEnabled = Selector.Register("setBlendingEnabled:");
+    public static readonly Selector SetDestinationAlphaBlendFactor = Selector.Register("setDestinationAlphaBlendFactor:");
+    public static readonly Selector SetDestinationRGBBlendFactor = Selector.Register("setDestinationRGBBlendFactor:");
+    public static readonly Selector SetPixelFormat = Selector.Register("setPixelFormat:");
+    public static readonly Selector SetRgbBlendOperation = Selector.Register("setRgbBlendOperation:");
+    public static readonly Selector SetSourceAlphaBlendFactor = Selector.Register("setSourceAlphaBlendFactor:");
+    public static readonly Selector SetSourceRGBBlendFactor = Selector.Register("setSourceRGBBlendFactor:");
+    public static readonly Selector SetWriteMask = Selector.Register("setWriteMask:");
 }

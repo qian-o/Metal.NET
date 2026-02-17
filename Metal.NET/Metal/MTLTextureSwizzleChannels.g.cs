@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLTextureSwizzleChannelsSelector
-{
-    public static readonly Selector Default = Selector.Register("Default");
-    public static readonly Selector Make_g_b_a_ = Selector.Register("Make:g:b:a:");
-}
-
 public class MTLTextureSwizzleChannels : IDisposable
 {
     public MTLTextureSwizzleChannels(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLTextureSwizzleChannels()
@@ -56,9 +50,15 @@ public class MTLTextureSwizzleChannels : IDisposable
 
     public static MTLTextureSwizzleChannels Make(MTLTextureSwizzle r, MTLTextureSwizzle g, MTLTextureSwizzle b, MTLTextureSwizzle a)
     {
-        var result = new MTLTextureSwizzleChannels(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLTextureSwizzleChannelsSelector.Make_g_b_a_, (nint)(uint)r, (nint)(uint)g, (nint)(uint)b, (nint)(uint)a));
+        var result = new MTLTextureSwizzleChannels(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLTextureSwizzleChannelsSelector.MakeGBA, (nint)(uint)r, (nint)(uint)g, (nint)(uint)b, (nint)(uint)a));
 
         return result;
     }
 
+}
+
+file class MTLTextureSwizzleChannelsSelector
+{
+    public static readonly Selector Default = Selector.Register("Default");
+    public static readonly Selector MakeGBA = Selector.Register("Make:g:b:a:");
 }

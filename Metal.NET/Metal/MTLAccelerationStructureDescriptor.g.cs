@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLAccelerationStructureDescriptorSelector
-{
-    public static readonly Selector SetUsage_ = Selector.Register("setUsage:");
-}
-
 public class MTLAccelerationStructureDescriptor : IDisposable
 {
     public MTLAccelerationStructureDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLAccelerationStructureDescriptor()
@@ -54,9 +49,14 @@ public class MTLAccelerationStructureDescriptor : IDisposable
         return new MTLAccelerationStructureDescriptor(ptr);
     }
 
-    public void SetUsage(nuint usage)
+    public void SetUsage(uint usage)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureDescriptorSelector.SetUsage_, (nint)usage);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureDescriptorSelector.SetUsage, (nint)usage);
     }
 
+}
+
+file class MTLAccelerationStructureDescriptorSelector
+{
+    public static readonly Selector SetUsage = Selector.Register("setUsage:");
 }

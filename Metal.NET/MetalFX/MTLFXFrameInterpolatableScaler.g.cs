@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLFXFrameInterpolatableScalerSelector
-{
-}
-
 public class MTLFXFrameInterpolatableScaler : IDisposable
 {
     public MTLFXFrameInterpolatableScaler(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLFXFrameInterpolatableScaler()
@@ -43,4 +39,8 @@ public class MTLFXFrameInterpolatableScaler : IDisposable
         }
     }
 
+}
+
+file class MTLFXFrameInterpolatableScalerSelector
+{
 }

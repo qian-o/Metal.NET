@@ -1,19 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLRenderPassSampleBufferAttachmentDescriptorSelector
-{
-    public static readonly Selector SetEndOfFragmentSampleIndex_ = Selector.Register("setEndOfFragmentSampleIndex:");
-    public static readonly Selector SetEndOfVertexSampleIndex_ = Selector.Register("setEndOfVertexSampleIndex:");
-    public static readonly Selector SetSampleBuffer_ = Selector.Register("setSampleBuffer:");
-    public static readonly Selector SetStartOfFragmentSampleIndex_ = Selector.Register("setStartOfFragmentSampleIndex:");
-    public static readonly Selector SetStartOfVertexSampleIndex_ = Selector.Register("setStartOfVertexSampleIndex:");
-}
-
 public class MTLRenderPassSampleBufferAttachmentDescriptor : IDisposable
 {
     public MTLRenderPassSampleBufferAttachmentDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLRenderPassSampleBufferAttachmentDescriptor()
@@ -48,29 +39,38 @@ public class MTLRenderPassSampleBufferAttachmentDescriptor : IDisposable
         }
     }
 
-    public void SetEndOfFragmentSampleIndex(nuint endOfFragmentSampleIndex)
+    public void SetEndOfFragmentSampleIndex(uint endOfFragmentSampleIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SetEndOfFragmentSampleIndex_, (nint)endOfFragmentSampleIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SetEndOfFragmentSampleIndex, (nint)endOfFragmentSampleIndex);
     }
 
-    public void SetEndOfVertexSampleIndex(nuint endOfVertexSampleIndex)
+    public void SetEndOfVertexSampleIndex(uint endOfVertexSampleIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SetEndOfVertexSampleIndex_, (nint)endOfVertexSampleIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SetEndOfVertexSampleIndex, (nint)endOfVertexSampleIndex);
     }
 
     public void SetSampleBuffer(MTLCounterSampleBuffer sampleBuffer)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SetSampleBuffer_, sampleBuffer.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SetSampleBuffer, sampleBuffer.NativePtr);
     }
 
-    public void SetStartOfFragmentSampleIndex(nuint startOfFragmentSampleIndex)
+    public void SetStartOfFragmentSampleIndex(uint startOfFragmentSampleIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SetStartOfFragmentSampleIndex_, (nint)startOfFragmentSampleIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SetStartOfFragmentSampleIndex, (nint)startOfFragmentSampleIndex);
     }
 
-    public void SetStartOfVertexSampleIndex(nuint startOfVertexSampleIndex)
+    public void SetStartOfVertexSampleIndex(uint startOfVertexSampleIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SetStartOfVertexSampleIndex_, (nint)startOfVertexSampleIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SetStartOfVertexSampleIndex, (nint)startOfVertexSampleIndex);
     }
 
+}
+
+file class MTLRenderPassSampleBufferAttachmentDescriptorSelector
+{
+    public static readonly Selector SetEndOfFragmentSampleIndex = Selector.Register("setEndOfFragmentSampleIndex:");
+    public static readonly Selector SetEndOfVertexSampleIndex = Selector.Register("setEndOfVertexSampleIndex:");
+    public static readonly Selector SetSampleBuffer = Selector.Register("setSampleBuffer:");
+    public static readonly Selector SetStartOfFragmentSampleIndex = Selector.Register("setStartOfFragmentSampleIndex:");
+    public static readonly Selector SetStartOfVertexSampleIndex = Selector.Register("setStartOfVertexSampleIndex:");
 }

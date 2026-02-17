@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4AccelerationStructureDescriptorSelector
-{
-}
-
 public class MTL4AccelerationStructureDescriptor : IDisposable
 {
     public MTL4AccelerationStructureDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4AccelerationStructureDescriptor()
@@ -53,4 +49,8 @@ public class MTL4AccelerationStructureDescriptor : IDisposable
         return new MTL4AccelerationStructureDescriptor(ptr);
     }
 
+}
+
+file class MTL4AccelerationStructureDescriptorSelector
+{
 }

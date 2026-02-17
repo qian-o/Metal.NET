@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLComputePassSampleBufferAttachmentDescriptorArraySelector
-{
-    public static readonly Selector Object_ = Selector.Register("object:");
-    public static readonly Selector SetObject_attachmentIndex_ = Selector.Register("setObject:attachmentIndex:");
-}
-
 public class MTLComputePassSampleBufferAttachmentDescriptorArray : IDisposable
 {
     public MTLComputePassSampleBufferAttachmentDescriptorArray(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLComputePassSampleBufferAttachmentDescriptorArray()
@@ -45,16 +39,22 @@ public class MTLComputePassSampleBufferAttachmentDescriptorArray : IDisposable
         }
     }
 
-    public MTLComputePassSampleBufferAttachmentDescriptor Object(nuint attachmentIndex)
+    public MTLComputePassSampleBufferAttachmentDescriptor Object(uint attachmentIndex)
     {
-        var result = new MTLComputePassSampleBufferAttachmentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorArraySelector.Object_, (nint)attachmentIndex));
+        var result = new MTLComputePassSampleBufferAttachmentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorArraySelector.Object, (nint)attachmentIndex));
 
         return result;
     }
 
-    public void SetObject(MTLComputePassSampleBufferAttachmentDescriptor attachment, nuint attachmentIndex)
+    public void SetObject(MTLComputePassSampleBufferAttachmentDescriptor attachment, uint attachmentIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorArraySelector.SetObject_attachmentIndex_, attachment.NativePtr, (nint)attachmentIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nint)attachmentIndex);
     }
 
+}
+
+file class MTLComputePassSampleBufferAttachmentDescriptorArraySelector
+{
+    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector SetObjectAttachmentIndex = Selector.Register("setObject:attachmentIndex:");
 }

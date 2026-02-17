@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLAllocationSelector
-{
-}
-
 public class MTLAllocation : IDisposable
 {
     public MTLAllocation(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLAllocation()
@@ -43,4 +39,8 @@ public class MTLAllocation : IDisposable
         }
     }
 
+}
+
+file class MTLAllocationSelector
+{
 }

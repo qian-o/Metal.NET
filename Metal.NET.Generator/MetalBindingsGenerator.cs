@@ -153,16 +153,6 @@ public class MetalBindingsGenerator
         sb.AppendLine("namespace Metal.NET;");
         sb.AppendLine();
 
-        // Selector cache as file-scoped class
-        sb.AppendLine($"file class {def.Name}Selector");
-        sb.AppendLine("{");
-        foreach (var kv in selectors)
-        {
-            sb.AppendLine($"    public static readonly Selector {ToPascalCase(kv.Value)} = Selector.Register(\"{kv.Key}\");");
-        }
-        sb.AppendLine("}");
-        sb.AppendLine();
-
         EmitClassBoilerplate(sb, def.Name, hasLibraryImports);
 
         // Alloc (for concrete classes)
@@ -189,7 +179,8 @@ public class MetalBindingsGenerator
         // Properties
         foreach (var p in def.Properties)
         {
-            var getSel = ToPascalCase(SelectorFieldName(p.GetSelector ?? p.Name));
+            var getSelKey = p.GetSelector ?? p.Name;
+            var getSel = selectors[getSelKey];
             var retCSharp = MapReturnCall(p.Type);
             var propName = ToPascalCase(p.Name);
 
@@ -204,7 +195,8 @@ public class MetalBindingsGenerator
 
             if (!p.Readonly)
             {
-                var setSel = ToPascalCase(SelectorFieldName(p.SetSelector ?? $"set{Capitalize(p.Name)}:"));
+                var setSelKey = p.SetSelector ?? $"set{Capitalize(p.Name)}:";
+                var setSel = selectors[setSelKey];
                 sb.AppendLine($"        set => ObjectiveCRuntime.objc_msgSend(NativePtr, {def.Name}Selector.{setSel}, {UnwrapParam(p.Type, "value")});");
             }
             sb.AppendLine("    }");
@@ -214,13 +206,13 @@ public class MetalBindingsGenerator
         // Instance methods
         foreach (var m in def.Methods)
         {
-            EmitMethod(sb, def.Name, m, isStatic: false);
+            EmitMethod(sb, def.Name, m, selectors, isStatic: false);
         }
 
         // Static methods
         foreach (var m in def.StaticMethods)
         {
-            EmitMethod(sb, def.Name, m, isStatic: true);
+            EmitMethod(sb, def.Name, m, selectors, isStatic: true);
         }
 
         // Free C functions (LibraryImport)
@@ -233,6 +225,16 @@ public class MetalBindingsGenerator
         }
 
         sb.AppendLine("}");
+        sb.AppendLine();
+
+        // Selector cache as file-scoped class (at the bottom of the file)
+        sb.AppendLine($"file class {def.Name}Selector");
+        sb.AppendLine("{");
+        foreach (var kv in selectors)
+        {
+            sb.AppendLine($"    public static readonly Selector {kv.Value} = Selector.Register(\"{kv.Key}\");");
+        }
+        sb.AppendLine("}");
 
         WriteSource(def.Folder, $"{def.Name}.g.cs", sb.ToString());
     }
@@ -243,7 +245,7 @@ public class MetalBindingsGenerator
         sb.AppendLine("{");
         sb.AppendLine($"    public {name}(nint nativePtr)");
         sb.AppendLine("    {");
-        sb.AppendLine("        NativePtr = nativePtr;");
+        sb.AppendLine("        ObjectiveCRuntime.Retain(NativePtr = nativePtr);");
         sb.AppendLine("    }");
         sb.AppendLine();
         sb.AppendLine($"    ~{name}()");
@@ -280,16 +282,16 @@ public class MetalBindingsGenerator
         sb.AppendLine();
     }
 
-    private void EmitMethod(StringBuilder sb, string typeName, MethodDef m, bool isStatic)
+    private void EmitMethod(StringBuilder sb, string typeName, MethodDef m, Dictionary<string, string> selectors, bool isStatic)
     {
-        var selField = $"{typeName}Selector.{ToPascalCase(SelectorFieldName(m.Selector))}";
+        var selField = $"{typeName}Selector.{selectors[m.Selector]}";
         var retType = m.ReturnType;
         var methodName = ToPascalCase(m.Name);
 
         var paramList = new List<string>();
         foreach (var p in m.Parameters)
         {
-            paramList.Add($"{p.Type} {p.Name}");
+            paramList.Add($"{MapParamType(p.Type)} {p.Name}");
         }
         if (m.HasErrorOut) paramList.Add("out NSError? error");
 
@@ -485,17 +487,47 @@ public class MetalBindingsGenerator
 
     private static readonly HashSet<string> s_runtimeKnownEnums = new();
 
-    private static void AddSelector(Dictionary<string, string> dict, string selector)
+    private static string MapParamType(string type)
     {
-        if (!dict.ContainsKey(selector))
+        return type switch
         {
-            dict[selector] = SelectorFieldName(selector);
-        }
+            "nuint" => "uint",
+            "nint" => "int",
+            _ => type,
+        };
     }
 
-    private static string SelectorFieldName(string selector)
+    private static void AddSelector(Dictionary<string, string> dict, string selector)
     {
-        var name = selector.Replace(":", "_");
+        if (dict.ContainsKey(selector))
+            return;
+
+        var fieldName = SelectorToFieldName(selector);
+
+        // Check for collision: if the same field name already exists for a different selector,
+        // disambiguate by counting colons (number of arguments)
+        if (dict.Values.Any(v => v == fieldName))
+        {
+            var colonCount = selector.Count(c => c == ':');
+            fieldName += colonCount.ToString();
+        }
+
+        dict[selector] = fieldName;
+    }
+
+    private static string SelectorToFieldName(string selector)
+    {
+        var parts = selector.Split(':');
+        var sb = new StringBuilder();
+        foreach (var part in parts)
+        {
+            if (part.Length > 0)
+            {
+                sb.Append(char.ToUpperInvariant(part[0]));
+                sb.Append(part.Substring(1));
+            }
+        }
+        var name = sb.ToString();
         if (CppAstParser.IsCSharpKeyword(name))
             name = $"@{name}";
         return name;

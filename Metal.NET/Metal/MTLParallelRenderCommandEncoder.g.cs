@@ -1,20 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLParallelRenderCommandEncoderSelector
-{
-    public static readonly Selector SetColorStoreAction_colorAttachmentIndex_ = Selector.Register("setColorStoreAction:colorAttachmentIndex:");
-    public static readonly Selector SetColorStoreActionOptions_colorAttachmentIndex_ = Selector.Register("setColorStoreActionOptions:colorAttachmentIndex:");
-    public static readonly Selector SetDepthStoreAction_ = Selector.Register("setDepthStoreAction:");
-    public static readonly Selector SetDepthStoreActionOptions_ = Selector.Register("setDepthStoreActionOptions:");
-    public static readonly Selector SetStencilStoreAction_ = Selector.Register("setStencilStoreAction:");
-    public static readonly Selector SetStencilStoreActionOptions_ = Selector.Register("setStencilStoreActionOptions:");
-}
-
 public class MTLParallelRenderCommandEncoder : IDisposable
 {
     public MTLParallelRenderCommandEncoder(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLParallelRenderCommandEncoder()
@@ -49,34 +39,44 @@ public class MTLParallelRenderCommandEncoder : IDisposable
         }
     }
 
-    public void SetColorStoreAction(MTLStoreAction storeAction, nuint colorAttachmentIndex)
+    public void SetColorStoreAction(MTLStoreAction storeAction, uint colorAttachmentIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetColorStoreAction_colorAttachmentIndex_, (nint)(uint)storeAction, (nint)colorAttachmentIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetColorStoreActionColorAttachmentIndex, (nint)(uint)storeAction, (nint)colorAttachmentIndex);
     }
 
-    public void SetColorStoreActionOptions(nuint storeActionOptions, nuint colorAttachmentIndex)
+    public void SetColorStoreActionOptions(uint storeActionOptions, uint colorAttachmentIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetColorStoreActionOptions_colorAttachmentIndex_, (nint)storeActionOptions, (nint)colorAttachmentIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetColorStoreActionOptionsColorAttachmentIndex, (nint)storeActionOptions, (nint)colorAttachmentIndex);
     }
 
     public void SetDepthStoreAction(MTLStoreAction storeAction)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetDepthStoreAction_, (nint)(uint)storeAction);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetDepthStoreAction, (nint)(uint)storeAction);
     }
 
-    public void SetDepthStoreActionOptions(nuint storeActionOptions)
+    public void SetDepthStoreActionOptions(uint storeActionOptions)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetDepthStoreActionOptions_, (nint)storeActionOptions);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetDepthStoreActionOptions, (nint)storeActionOptions);
     }
 
     public void SetStencilStoreAction(MTLStoreAction storeAction)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetStencilStoreAction_, (nint)(uint)storeAction);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetStencilStoreAction, (nint)(uint)storeAction);
     }
 
-    public void SetStencilStoreActionOptions(nuint storeActionOptions)
+    public void SetStencilStoreActionOptions(uint storeActionOptions)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetStencilStoreActionOptions_, (nint)storeActionOptions);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetStencilStoreActionOptions, (nint)storeActionOptions);
     }
 
+}
+
+file class MTLParallelRenderCommandEncoderSelector
+{
+    public static readonly Selector SetColorStoreActionColorAttachmentIndex = Selector.Register("setColorStoreAction:colorAttachmentIndex:");
+    public static readonly Selector SetColorStoreActionOptionsColorAttachmentIndex = Selector.Register("setColorStoreActionOptions:colorAttachmentIndex:");
+    public static readonly Selector SetDepthStoreAction = Selector.Register("setDepthStoreAction:");
+    public static readonly Selector SetDepthStoreActionOptions = Selector.Register("setDepthStoreActionOptions:");
+    public static readonly Selector SetStencilStoreAction = Selector.Register("setStencilStoreAction:");
+    public static readonly Selector SetStencilStoreActionOptions = Selector.Register("setStencilStoreActionOptions:");
 }

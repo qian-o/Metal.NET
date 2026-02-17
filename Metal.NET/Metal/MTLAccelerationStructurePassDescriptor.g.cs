@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLAccelerationStructurePassDescriptorSelector
-{
-    public static readonly Selector AccelerationStructurePassDescriptor = Selector.Register("accelerationStructurePassDescriptor");
-}
-
 public class MTLAccelerationStructurePassDescriptor : IDisposable
 {
     public MTLAccelerationStructurePassDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLAccelerationStructurePassDescriptor()
@@ -53,4 +48,9 @@ public class MTLAccelerationStructurePassDescriptor : IDisposable
         return result;
     }
 
+}
+
+file class MTLAccelerationStructurePassDescriptorSelector
+{
+    public static readonly Selector AccelerationStructurePassDescriptor = Selector.Register("accelerationStructurePassDescriptor");
 }

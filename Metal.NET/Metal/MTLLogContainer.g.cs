@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLLogContainerSelector
-{
-}
-
 public class MTLLogContainer : IDisposable
 {
     public MTLLogContainer(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLLogContainer()
@@ -43,4 +39,8 @@ public class MTLLogContainer : IDisposable
         }
     }
 
+}
+
+file class MTLLogContainerSelector
+{
 }

@@ -1,18 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLDrawableSelector
-{
-    public static readonly Selector AddPresentedHandler_ = Selector.Register("addPresentedHandler:");
-    public static readonly Selector Present = Selector.Register("present");
-    public static readonly Selector PresentAfterMinimumDuration_ = Selector.Register("presentAfterMinimumDuration:");
-    public static readonly Selector PresentAtTime_ = Selector.Register("presentAtTime:");
-}
-
 public class MTLDrawable : IDisposable
 {
     public MTLDrawable(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLDrawable()
@@ -47,9 +39,9 @@ public class MTLDrawable : IDisposable
         }
     }
 
-    public void AddPresentedHandler(nint function)
+    public void AddPresentedHandler(int function)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDrawableSelector.AddPresentedHandler_, function);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDrawableSelector.AddPresentedHandler, function);
     }
 
     public void Present()
@@ -59,12 +51,20 @@ public class MTLDrawable : IDisposable
 
     public void PresentAfterMinimumDuration(double duration)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDrawableSelector.PresentAfterMinimumDuration_, duration);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDrawableSelector.PresentAfterMinimumDuration, duration);
     }
 
     public void PresentAtTime(double presentationTime)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDrawableSelector.PresentAtTime_, presentationTime);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDrawableSelector.PresentAtTime, presentationTime);
     }
 
+}
+
+file class MTLDrawableSelector
+{
+    public static readonly Selector AddPresentedHandler = Selector.Register("addPresentedHandler:");
+    public static readonly Selector Present = Selector.Register("present");
+    public static readonly Selector PresentAfterMinimumDuration = Selector.Register("presentAfterMinimumDuration:");
+    public static readonly Selector PresentAtTime = Selector.Register("presentAtTime:");
 }

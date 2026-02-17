@@ -1,19 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLIntersectionFunctionTableSelector
-{
-    public static readonly Selector SetBuffer_offset_index_ = Selector.Register("setBuffer:offset:index:");
-    public static readonly Selector SetFunction_index_ = Selector.Register("setFunction:index:");
-    public static readonly Selector SetOpaqueCurveIntersectionFunction_index_ = Selector.Register("setOpaqueCurveIntersectionFunction:index:");
-    public static readonly Selector SetOpaqueTriangleIntersectionFunction_index_ = Selector.Register("setOpaqueTriangleIntersectionFunction:index:");
-    public static readonly Selector SetVisibleFunctionTable_bufferIndex_ = Selector.Register("setVisibleFunctionTable:bufferIndex:");
-}
-
 public class MTLIntersectionFunctionTable : IDisposable
 {
     public MTLIntersectionFunctionTable(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLIntersectionFunctionTable()
@@ -48,29 +39,38 @@ public class MTLIntersectionFunctionTable : IDisposable
         }
     }
 
-    public void SetBuffer(MTLBuffer buffer, nuint offset, nuint index)
+    public void SetBuffer(MTLBuffer buffer, uint offset, uint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetBuffer_offset_index_, buffer.NativePtr, (nint)offset, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetBufferOffsetIndex, buffer.NativePtr, (nint)offset, (nint)index);
     }
 
-    public void SetFunction(MTLFunctionHandle function, nuint index)
+    public void SetFunction(MTLFunctionHandle function, uint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetFunction_index_, function.NativePtr, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetFunctionIndex, function.NativePtr, (nint)index);
     }
 
-    public void SetOpaqueCurveIntersectionFunction(nuint signature, nuint index)
+    public void SetOpaqueCurveIntersectionFunction(uint signature, uint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueCurveIntersectionFunction_index_, (nint)signature, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueCurveIntersectionFunctionIndex, (nint)signature, (nint)index);
     }
 
-    public void SetOpaqueTriangleIntersectionFunction(nuint signature, nuint index)
+    public void SetOpaqueTriangleIntersectionFunction(uint signature, uint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueTriangleIntersectionFunction_index_, (nint)signature, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueTriangleIntersectionFunctionIndex, (nint)signature, (nint)index);
     }
 
-    public void SetVisibleFunctionTable(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
+    public void SetVisibleFunctionTable(MTLVisibleFunctionTable functionTable, uint bufferIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetVisibleFunctionTable_bufferIndex_, functionTable.NativePtr, (nint)bufferIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetVisibleFunctionTableBufferIndex, functionTable.NativePtr, (nint)bufferIndex);
     }
 
+}
+
+file class MTLIntersectionFunctionTableSelector
+{
+    public static readonly Selector SetBufferOffsetIndex = Selector.Register("setBuffer:offset:index:");
+    public static readonly Selector SetFunctionIndex = Selector.Register("setFunction:index:");
+    public static readonly Selector SetOpaqueCurveIntersectionFunctionIndex = Selector.Register("setOpaqueCurveIntersectionFunction:index:");
+    public static readonly Selector SetOpaqueTriangleIntersectionFunctionIndex = Selector.Register("setOpaqueTriangleIntersectionFunction:index:");
+    public static readonly Selector SetVisibleFunctionTableBufferIndex = Selector.Register("setVisibleFunctionTable:bufferIndex:");
 }

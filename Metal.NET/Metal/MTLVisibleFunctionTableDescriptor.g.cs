@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLVisibleFunctionTableDescriptorSelector
-{
-    public static readonly Selector SetFunctionCount_ = Selector.Register("setFunctionCount:");
-    public static readonly Selector VisibleFunctionTableDescriptor = Selector.Register("visibleFunctionTableDescriptor");
-}
-
 public class MTLVisibleFunctionTableDescriptor : IDisposable
 {
     public MTLVisibleFunctionTableDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLVisibleFunctionTableDescriptor()
@@ -47,9 +41,9 @@ public class MTLVisibleFunctionTableDescriptor : IDisposable
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLVisibleFunctionTableDescriptor");
 
-    public void SetFunctionCount(nuint functionCount)
+    public void SetFunctionCount(uint functionCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVisibleFunctionTableDescriptorSelector.SetFunctionCount_, (nint)functionCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVisibleFunctionTableDescriptorSelector.SetFunctionCount, (nint)functionCount);
     }
 
     public static MTLVisibleFunctionTableDescriptor VisibleFunctionTableDescriptor()
@@ -59,4 +53,10 @@ public class MTLVisibleFunctionTableDescriptor : IDisposable
         return result;
     }
 
+}
+
+file class MTLVisibleFunctionTableDescriptorSelector
+{
+    public static readonly Selector SetFunctionCount = Selector.Register("setFunctionCount:");
+    public static readonly Selector VisibleFunctionTableDescriptor = Selector.Register("visibleFunctionTableDescriptor");
 }

@@ -1,18 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLResourceSelector
-{
-    public static readonly Selector MakeAliasable = Selector.Register("makeAliasable");
-    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
-    public static readonly Selector SetOwner_ = Selector.Register("setOwner:");
-    public static readonly Selector SetPurgeableState_ = Selector.Register("setPurgeableState:");
-}
-
 public class MTLResource : IDisposable
 {
     public MTLResource(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLResource()
@@ -54,21 +46,29 @@ public class MTLResource : IDisposable
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResourceSelector.SetLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResourceSelector.SetLabel, label.NativePtr);
     }
 
-    public uint SetOwner(nint task_id_token)
+    public uint SetOwner(int task_id_token)
     {
-        var result = (uint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLResourceSelector.SetOwner_, task_id_token);
+        var result = (uint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLResourceSelector.SetOwner, task_id_token);
 
         return result;
     }
 
     public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
     {
-        var result = (MTLPurgeableState)(uint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLResourceSelector.SetPurgeableState_, (nint)(uint)state);
+        var result = (MTLPurgeableState)(uint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLResourceSelector.SetPurgeableState, (nint)(uint)state);
 
         return result;
     }
 
+}
+
+file class MTLResourceSelector
+{
+    public static readonly Selector MakeAliasable = Selector.Register("makeAliasable");
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetOwner = Selector.Register("setOwner:");
+    public static readonly Selector SetPurgeableState = Selector.Register("setPurgeableState:");
 }

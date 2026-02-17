@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLCounterSampleBufferSelector
-{
-}
-
 public class MTLCounterSampleBuffer : IDisposable
 {
     public MTLCounterSampleBuffer(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLCounterSampleBuffer()
@@ -43,4 +39,8 @@ public class MTLCounterSampleBuffer : IDisposable
         }
     }
 
+}
+
+file class MTLCounterSampleBufferSelector
+{
 }

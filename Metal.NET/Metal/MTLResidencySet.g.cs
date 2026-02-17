@@ -1,21 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLResidencySetSelector
-{
-    public static readonly Selector AddAllocation_ = Selector.Register("addAllocation:");
-    public static readonly Selector Commit = Selector.Register("commit");
-    public static readonly Selector ContainsAllocation_ = Selector.Register("containsAllocation:");
-    public static readonly Selector EndResidency = Selector.Register("endResidency");
-    public static readonly Selector RemoveAllAllocations = Selector.Register("removeAllAllocations");
-    public static readonly Selector RemoveAllocation_ = Selector.Register("removeAllocation:");
-    public static readonly Selector RequestResidency = Selector.Register("requestResidency");
-}
-
 public class MTLResidencySet : IDisposable
 {
     public MTLResidencySet(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLResidencySet()
@@ -52,7 +41,7 @@ public class MTLResidencySet : IDisposable
 
     public void AddAllocation(MTLAllocation allocation)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResidencySetSelector.AddAllocation_, allocation.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResidencySetSelector.AddAllocation, allocation.NativePtr);
     }
 
     public void Commit()
@@ -62,7 +51,7 @@ public class MTLResidencySet : IDisposable
 
     public Bool8 ContainsAllocation(MTLAllocation anAllocation)
     {
-        var result = (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLResidencySetSelector.ContainsAllocation_, anAllocation.NativePtr) is not 0;
+        var result = (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLResidencySetSelector.ContainsAllocation, anAllocation.NativePtr) is not 0;
 
         return result;
     }
@@ -79,7 +68,7 @@ public class MTLResidencySet : IDisposable
 
     public void RemoveAllocation(MTLAllocation allocation)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResidencySetSelector.RemoveAllocation_, allocation.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResidencySetSelector.RemoveAllocation, allocation.NativePtr);
     }
 
     public void RequestResidency()
@@ -87,4 +76,15 @@ public class MTLResidencySet : IDisposable
         ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResidencySetSelector.RequestResidency);
     }
 
+}
+
+file class MTLResidencySetSelector
+{
+    public static readonly Selector AddAllocation = Selector.Register("addAllocation:");
+    public static readonly Selector Commit = Selector.Register("commit");
+    public static readonly Selector ContainsAllocation = Selector.Register("containsAllocation:");
+    public static readonly Selector EndResidency = Selector.Register("endResidency");
+    public static readonly Selector RemoveAllAllocations = Selector.Register("removeAllAllocations");
+    public static readonly Selector RemoveAllocation = Selector.Register("removeAllocation:");
+    public static readonly Selector RequestResidency = Selector.Register("requestResidency");
 }

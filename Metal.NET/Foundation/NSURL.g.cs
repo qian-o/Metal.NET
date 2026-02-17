@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class NSURLSelector
-{
-    public static readonly Selector InitFileURLWithPath_ = Selector.Register("initFileURLWithPath:");
-    public static readonly Selector FileURLWithPath_ = Selector.Register("fileURLWithPath:");
-}
-
 public class NSURL : IDisposable
 {
     public NSURL(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~NSURL()
@@ -49,16 +43,22 @@ public class NSURL : IDisposable
 
     public NSURL InitFileURLWithPath(NSString pPath)
     {
-        var result = new NSURL(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, NSURLSelector.InitFileURLWithPath_, pPath.NativePtr));
+        var result = new NSURL(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, NSURLSelector.InitFileURLWithPath, pPath.NativePtr));
 
         return result;
     }
 
     public static NSURL FileURLWithPath(NSString pPath)
     {
-        var result = new NSURL(ObjectiveCRuntime.intptr_objc_msgSend(s_class, NSURLSelector.FileURLWithPath_, pPath.NativePtr));
+        var result = new NSURL(ObjectiveCRuntime.intptr_objc_msgSend(s_class, NSURLSelector.FileURLWithPath, pPath.NativePtr));
 
         return result;
     }
 
+}
+
+file class NSURLSelector
+{
+    public static readonly Selector InitFileURLWithPath = Selector.Register("initFileURLWithPath:");
+    public static readonly Selector FileURLWithPath = Selector.Register("fileURLWithPath:");
 }

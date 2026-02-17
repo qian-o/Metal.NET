@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLTensorSelector
-{
-    public static readonly Selector GetBytes_strides_sliceOrigin_sliceDimensions_ = Selector.Register("getBytes:strides:sliceOrigin:sliceDimensions:");
-    public static readonly Selector ReplaceSliceOrigin_sliceDimensions_bytes_strides_ = Selector.Register("replaceSliceOrigin:sliceDimensions:bytes:strides:");
-}
-
 public class MTLTensor : IDisposable
 {
     public MTLTensor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLTensor()
@@ -45,14 +39,20 @@ public class MTLTensor : IDisposable
         }
     }
 
-    public void GetBytes(nint bytes, MTLTensorExtents strides, MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions)
+    public void GetBytes(int bytes, MTLTensorExtents strides, MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTensorSelector.GetBytes_strides_sliceOrigin_sliceDimensions_, bytes, strides.NativePtr, sliceOrigin.NativePtr, sliceDimensions.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTensorSelector.GetBytesStridesSliceOriginSliceDimensions, bytes, strides.NativePtr, sliceOrigin.NativePtr, sliceDimensions.NativePtr);
     }
 
-    public void ReplaceSliceOrigin(MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions, nint bytes, MTLTensorExtents strides)
+    public void ReplaceSliceOrigin(MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions, int bytes, MTLTensorExtents strides)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTensorSelector.ReplaceSliceOrigin_sliceDimensions_bytes_strides_, sliceOrigin.NativePtr, sliceDimensions.NativePtr, bytes, strides.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTensorSelector.ReplaceSliceOriginSliceDimensionsBytesStrides, sliceOrigin.NativePtr, sliceDimensions.NativePtr, bytes, strides.NativePtr);
     }
 
+}
+
+file class MTLTensorSelector
+{
+    public static readonly Selector GetBytesStridesSliceOriginSliceDimensions = Selector.Register("getBytes:strides:sliceOrigin:sliceDimensions:");
+    public static readonly Selector ReplaceSliceOriginSliceDimensionsBytesStrides = Selector.Register("replaceSliceOrigin:sliceDimensions:bytes:strides:");
 }

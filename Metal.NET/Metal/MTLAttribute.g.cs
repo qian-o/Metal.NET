@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLAttributeSelector
-{
-}
-
 public class MTLAttribute : IDisposable
 {
     public MTLAttribute(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLAttribute()
@@ -43,4 +39,8 @@ public class MTLAttribute : IDisposable
         }
     }
 
+}
+
+file class MTLAttributeSelector
+{
 }

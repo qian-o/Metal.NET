@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLArrayTypeSelector
-{
-}
-
 public class MTLArrayType : IDisposable
 {
     public MTLArrayType(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLArrayType()
@@ -43,4 +39,8 @@ public class MTLArrayType : IDisposable
         }
     }
 
+}
+
+file class MTLArrayTypeSelector
+{
 }

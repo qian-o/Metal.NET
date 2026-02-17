@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4CounterHeapSelector
-{
-    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
-}
-
 public class MTL4CounterHeap : IDisposable
 {
     public MTL4CounterHeap(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4CounterHeap()
@@ -46,7 +41,12 @@ public class MTL4CounterHeap : IDisposable
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CounterHeapSelector.SetLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CounterHeapSelector.SetLabel, label.NativePtr);
     }
 
+}
+
+file class MTL4CounterHeapSelector
+{
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4LibraryFunctionDescriptorSelector
-{
-    public static readonly Selector SetLibrary_ = Selector.Register("setLibrary:");
-    public static readonly Selector SetName_ = Selector.Register("setName:");
-}
-
 public class MTL4LibraryFunctionDescriptor : IDisposable
 {
     public MTL4LibraryFunctionDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4LibraryFunctionDescriptor()
@@ -47,12 +41,18 @@ public class MTL4LibraryFunctionDescriptor : IDisposable
 
     public void SetLibrary(MTLLibrary library)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4LibraryFunctionDescriptorSelector.SetLibrary_, library.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4LibraryFunctionDescriptorSelector.SetLibrary, library.NativePtr);
     }
 
     public void SetName(NSString name)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4LibraryFunctionDescriptorSelector.SetName_, name.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4LibraryFunctionDescriptorSelector.SetName, name.NativePtr);
     }
 
+}
+
+file class MTL4LibraryFunctionDescriptorSelector
+{
+    public static readonly Selector SetLibrary = Selector.Register("setLibrary:");
+    public static readonly Selector SetName = Selector.Register("setName:");
 }

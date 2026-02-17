@@ -1,17 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4SpecializedFunctionDescriptorSelector
-{
-    public static readonly Selector SetConstantValues_ = Selector.Register("setConstantValues:");
-    public static readonly Selector SetFunctionDescriptor_ = Selector.Register("setFunctionDescriptor:");
-    public static readonly Selector SetSpecializedName_ = Selector.Register("setSpecializedName:");
-}
-
 public class MTL4SpecializedFunctionDescriptor : IDisposable
 {
     public MTL4SpecializedFunctionDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4SpecializedFunctionDescriptor()
@@ -48,17 +41,24 @@ public class MTL4SpecializedFunctionDescriptor : IDisposable
 
     public void SetConstantValues(MTLFunctionConstantValues constantValues)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4SpecializedFunctionDescriptorSelector.SetConstantValues_, constantValues.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4SpecializedFunctionDescriptorSelector.SetConstantValues, constantValues.NativePtr);
     }
 
     public void SetFunctionDescriptor(MTL4FunctionDescriptor functionDescriptor)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4SpecializedFunctionDescriptorSelector.SetFunctionDescriptor_, functionDescriptor.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4SpecializedFunctionDescriptorSelector.SetFunctionDescriptor, functionDescriptor.NativePtr);
     }
 
     public void SetSpecializedName(NSString specializedName)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4SpecializedFunctionDescriptorSelector.SetSpecializedName_, specializedName.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4SpecializedFunctionDescriptorSelector.SetSpecializedName, specializedName.NativePtr);
     }
 
+}
+
+file class MTL4SpecializedFunctionDescriptorSelector
+{
+    public static readonly Selector SetConstantValues = Selector.Register("setConstantValues:");
+    public static readonly Selector SetFunctionDescriptor = Selector.Register("setFunctionDescriptor:");
+    public static readonly Selector SetSpecializedName = Selector.Register("setSpecializedName:");
 }

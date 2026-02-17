@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4CommandAllocatorSelector
-{
-    public static readonly Selector Reset = Selector.Register("reset");
-}
-
 public class MTL4CommandAllocator : IDisposable
 {
     public MTL4CommandAllocator(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4CommandAllocator()
@@ -49,4 +44,9 @@ public class MTL4CommandAllocator : IDisposable
         ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandAllocatorSelector.Reset);
     }
 
+}
+
+file class MTL4CommandAllocatorSelector
+{
+    public static readonly Selector Reset = Selector.Register("reset");
 }

@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLSamplerStateSelector
-{
-}
-
 public class MTLSamplerState : IDisposable
 {
     public MTLSamplerState(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLSamplerState()
@@ -43,4 +39,8 @@ public class MTLSamplerState : IDisposable
         }
     }
 
+}
+
+file class MTLSamplerStateSelector
+{
 }

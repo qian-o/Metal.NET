@@ -1,34 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLTextureDescriptorSelector
-{
-    public static readonly Selector SetAllowGPUOptimizedContents_ = Selector.Register("setAllowGPUOptimizedContents:");
-    public static readonly Selector SetArrayLength_ = Selector.Register("setArrayLength:");
-    public static readonly Selector SetCompressionType_ = Selector.Register("setCompressionType:");
-    public static readonly Selector SetCpuCacheMode_ = Selector.Register("setCpuCacheMode:");
-    public static readonly Selector SetDepth_ = Selector.Register("setDepth:");
-    public static readonly Selector SetHazardTrackingMode_ = Selector.Register("setHazardTrackingMode:");
-    public static readonly Selector SetHeight_ = Selector.Register("setHeight:");
-    public static readonly Selector SetMipmapLevelCount_ = Selector.Register("setMipmapLevelCount:");
-    public static readonly Selector SetPixelFormat_ = Selector.Register("setPixelFormat:");
-    public static readonly Selector SetPlacementSparsePageSize_ = Selector.Register("setPlacementSparsePageSize:");
-    public static readonly Selector SetResourceOptions_ = Selector.Register("setResourceOptions:");
-    public static readonly Selector SetSampleCount_ = Selector.Register("setSampleCount:");
-    public static readonly Selector SetStorageMode_ = Selector.Register("setStorageMode:");
-    public static readonly Selector SetSwizzle_ = Selector.Register("setSwizzle:");
-    public static readonly Selector SetTextureType_ = Selector.Register("setTextureType:");
-    public static readonly Selector SetUsage_ = Selector.Register("setUsage:");
-    public static readonly Selector SetWidth_ = Selector.Register("setWidth:");
-    public static readonly Selector Texture2DDescriptor_width_height_mipmapped_ = Selector.Register("texture2DDescriptor:width:height:mipmapped:");
-    public static readonly Selector TextureBufferDescriptor_width_resourceOptions_usage_ = Selector.Register("textureBufferDescriptor:width:resourceOptions:usage:");
-    public static readonly Selector TextureCubeDescriptor_size_mipmapped_ = Selector.Register("textureCubeDescriptor:size:mipmapped:");
-}
-
 public class MTLTextureDescriptor : IDisposable
 {
     public MTLTextureDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLTextureDescriptor()
@@ -75,108 +51,132 @@ public class MTLTextureDescriptor : IDisposable
 
     public void SetAllowGPUOptimizedContents(Bool8 allowGPUOptimizedContents)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetAllowGPUOptimizedContents_, (nint)allowGPUOptimizedContents.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetAllowGPUOptimizedContents, (nint)allowGPUOptimizedContents.Value);
     }
 
-    public void SetArrayLength(nuint arrayLength)
+    public void SetArrayLength(uint arrayLength)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetArrayLength_, (nint)arrayLength);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetArrayLength, (nint)arrayLength);
     }
 
     public void SetCompressionType(MTLTextureCompressionType compressionType)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetCompressionType_, (nint)(uint)compressionType);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetCompressionType, (nint)(uint)compressionType);
     }
 
     public void SetCpuCacheMode(MTLCPUCacheMode cpuCacheMode)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetCpuCacheMode_, (nint)(uint)cpuCacheMode);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetCpuCacheMode, (nint)(uint)cpuCacheMode);
     }
 
-    public void SetDepth(nuint depth)
+    public void SetDepth(uint depth)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetDepth_, (nint)depth);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetDepth, (nint)depth);
     }
 
     public void SetHazardTrackingMode(MTLHazardTrackingMode hazardTrackingMode)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetHazardTrackingMode_, (nint)(uint)hazardTrackingMode);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetHazardTrackingMode, (nint)(uint)hazardTrackingMode);
     }
 
-    public void SetHeight(nuint height)
+    public void SetHeight(uint height)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetHeight_, (nint)height);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetHeight, (nint)height);
     }
 
-    public void SetMipmapLevelCount(nuint mipmapLevelCount)
+    public void SetMipmapLevelCount(uint mipmapLevelCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetMipmapLevelCount_, (nint)mipmapLevelCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetMipmapLevelCount, (nint)mipmapLevelCount);
     }
 
     public void SetPixelFormat(MTLPixelFormat pixelFormat)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetPixelFormat_, (nint)(uint)pixelFormat);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetPixelFormat, (nint)(uint)pixelFormat);
     }
 
     public void SetPlacementSparsePageSize(MTLSparsePageSize placementSparsePageSize)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetPlacementSparsePageSize_, (nint)(uint)placementSparsePageSize);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetPlacementSparsePageSize, (nint)(uint)placementSparsePageSize);
     }
 
-    public void SetResourceOptions(nuint resourceOptions)
+    public void SetResourceOptions(uint resourceOptions)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetResourceOptions_, (nint)resourceOptions);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetResourceOptions, (nint)resourceOptions);
     }
 
-    public void SetSampleCount(nuint sampleCount)
+    public void SetSampleCount(uint sampleCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetSampleCount_, (nint)sampleCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetSampleCount, (nint)sampleCount);
     }
 
     public void SetStorageMode(MTLStorageMode storageMode)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetStorageMode_, (nint)(uint)storageMode);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetStorageMode, (nint)(uint)storageMode);
     }
 
     public void SetSwizzle(MTLTextureSwizzleChannels swizzle)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetSwizzle_, swizzle.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetSwizzle, swizzle.NativePtr);
     }
 
     public void SetTextureType(MTLTextureType textureType)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetTextureType_, (nint)(uint)textureType);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetTextureType, (nint)(uint)textureType);
     }
 
-    public void SetUsage(nuint usage)
+    public void SetUsage(uint usage)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetUsage_, (nint)usage);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetUsage, (nint)usage);
     }
 
-    public void SetWidth(nuint width)
+    public void SetWidth(uint width)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetWidth_, (nint)width);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureDescriptorSelector.SetWidth, (nint)width);
     }
 
-    public static MTLTextureDescriptor Texture2DDescriptor(MTLPixelFormat pixelFormat, nuint width, nuint height, Bool8 mipmapped)
+    public static MTLTextureDescriptor Texture2DDescriptor(MTLPixelFormat pixelFormat, uint width, uint height, Bool8 mipmapped)
     {
-        var result = new MTLTextureDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLTextureDescriptorSelector.Texture2DDescriptor_width_height_mipmapped_, (nint)(uint)pixelFormat, (nint)width, (nint)height, (nint)mipmapped.Value));
+        var result = new MTLTextureDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLTextureDescriptorSelector.Texture2DDescriptorWidthHeightMipmapped, (nint)(uint)pixelFormat, (nint)width, (nint)height, (nint)mipmapped.Value));
 
         return result;
     }
 
-    public static MTLTextureDescriptor TextureBufferDescriptor(MTLPixelFormat pixelFormat, nuint width, nuint resourceOptions, nuint usage)
+    public static MTLTextureDescriptor TextureBufferDescriptor(MTLPixelFormat pixelFormat, uint width, uint resourceOptions, uint usage)
     {
-        var result = new MTLTextureDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLTextureDescriptorSelector.TextureBufferDescriptor_width_resourceOptions_usage_, (nint)(uint)pixelFormat, (nint)width, (nint)resourceOptions, (nint)usage));
+        var result = new MTLTextureDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLTextureDescriptorSelector.TextureBufferDescriptorWidthResourceOptionsUsage, (nint)(uint)pixelFormat, (nint)width, (nint)resourceOptions, (nint)usage));
 
         return result;
     }
 
-    public static MTLTextureDescriptor TextureCubeDescriptor(MTLPixelFormat pixelFormat, nuint size, Bool8 mipmapped)
+    public static MTLTextureDescriptor TextureCubeDescriptor(MTLPixelFormat pixelFormat, uint size, Bool8 mipmapped)
     {
-        var result = new MTLTextureDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLTextureDescriptorSelector.TextureCubeDescriptor_size_mipmapped_, (nint)(uint)pixelFormat, (nint)size, (nint)mipmapped.Value));
+        var result = new MTLTextureDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLTextureDescriptorSelector.TextureCubeDescriptorSizeMipmapped, (nint)(uint)pixelFormat, (nint)size, (nint)mipmapped.Value));
 
         return result;
     }
 
+}
+
+file class MTLTextureDescriptorSelector
+{
+    public static readonly Selector SetAllowGPUOptimizedContents = Selector.Register("setAllowGPUOptimizedContents:");
+    public static readonly Selector SetArrayLength = Selector.Register("setArrayLength:");
+    public static readonly Selector SetCompressionType = Selector.Register("setCompressionType:");
+    public static readonly Selector SetCpuCacheMode = Selector.Register("setCpuCacheMode:");
+    public static readonly Selector SetDepth = Selector.Register("setDepth:");
+    public static readonly Selector SetHazardTrackingMode = Selector.Register("setHazardTrackingMode:");
+    public static readonly Selector SetHeight = Selector.Register("setHeight:");
+    public static readonly Selector SetMipmapLevelCount = Selector.Register("setMipmapLevelCount:");
+    public static readonly Selector SetPixelFormat = Selector.Register("setPixelFormat:");
+    public static readonly Selector SetPlacementSparsePageSize = Selector.Register("setPlacementSparsePageSize:");
+    public static readonly Selector SetResourceOptions = Selector.Register("setResourceOptions:");
+    public static readonly Selector SetSampleCount = Selector.Register("setSampleCount:");
+    public static readonly Selector SetStorageMode = Selector.Register("setStorageMode:");
+    public static readonly Selector SetSwizzle = Selector.Register("setSwizzle:");
+    public static readonly Selector SetTextureType = Selector.Register("setTextureType:");
+    public static readonly Selector SetUsage = Selector.Register("setUsage:");
+    public static readonly Selector SetWidth = Selector.Register("setWidth:");
+    public static readonly Selector Texture2DDescriptorWidthHeightMipmapped = Selector.Register("texture2DDescriptor:width:height:mipmapped:");
+    public static readonly Selector TextureBufferDescriptorWidthResourceOptionsUsage = Selector.Register("textureBufferDescriptor:width:resourceOptions:usage:");
+    public static readonly Selector TextureCubeDescriptorSizeMipmapped = Selector.Register("textureCubeDescriptor:size:mipmapped:");
 }

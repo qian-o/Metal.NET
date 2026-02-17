@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLTensorBindingSelector
-{
-}
-
 public class MTLTensorBinding : IDisposable
 {
     public MTLTensorBinding(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLTensorBinding()
@@ -43,4 +39,8 @@ public class MTLTensorBinding : IDisposable
         }
     }
 
+}
+
+file class MTLTensorBindingSelector
+{
 }

@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLFunctionConstantSelector
-{
-}
-
 public class MTLFunctionConstant : IDisposable
 {
     public MTLFunctionConstant(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLFunctionConstant()
@@ -43,4 +39,8 @@ public class MTLFunctionConstant : IDisposable
         }
     }
 
+}
+
+file class MTLFunctionConstantSelector
+{
 }

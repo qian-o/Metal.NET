@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLComputePassDescriptorSelector
-{
-    public static readonly Selector SetDispatchType_ = Selector.Register("setDispatchType:");
-    public static readonly Selector ComputePassDescriptor = Selector.Register("computePassDescriptor");
-}
-
 public class MTLComputePassDescriptor : IDisposable
 {
     public MTLComputePassDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLComputePassDescriptor()
@@ -57,7 +51,7 @@ public class MTLComputePassDescriptor : IDisposable
 
     public void SetDispatchType(MTLDispatchType dispatchType)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLComputePassDescriptorSelector.SetDispatchType_, (nint)(uint)dispatchType);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLComputePassDescriptorSelector.SetDispatchType, (nint)(uint)dispatchType);
     }
 
     public static MTLComputePassDescriptor ComputePassDescriptor()
@@ -67,4 +61,10 @@ public class MTLComputePassDescriptor : IDisposable
         return result;
     }
 
+}
+
+file class MTLComputePassDescriptorSelector
+{
+    public static readonly Selector SetDispatchType = Selector.Register("setDispatchType:");
+    public static readonly Selector ComputePassDescriptor = Selector.Register("computePassDescriptor");
 }

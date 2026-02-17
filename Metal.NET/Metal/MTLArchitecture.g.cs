@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLArchitectureSelector
-{
-}
-
 public class MTLArchitecture : IDisposable
 {
     public MTLArchitecture(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLArchitecture()
@@ -43,4 +39,8 @@ public class MTLArchitecture : IDisposable
         }
     }
 
+}
+
+file class MTLArchitectureSelector
+{
 }

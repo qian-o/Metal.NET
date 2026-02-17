@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLRenderPassColorAttachmentDescriptorSelector
-{
-    public static readonly Selector SetClearColor_ = Selector.Register("setClearColor:");
-}
-
 public class MTLRenderPassColorAttachmentDescriptor : IDisposable
 {
     public MTLRenderPassColorAttachmentDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLRenderPassColorAttachmentDescriptor()
@@ -56,7 +51,12 @@ public class MTLRenderPassColorAttachmentDescriptor : IDisposable
 
     public void SetClearColor(MTLClearColor clearColor)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorSelector.SetClearColor_, clearColor);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorSelector.SetClearColor, clearColor);
     }
 
+}
+
+file class MTLRenderPassColorAttachmentDescriptorSelector
+{
+    public static readonly Selector SetClearColor = Selector.Register("setClearColor:");
 }

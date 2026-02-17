@@ -1,18 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLCommandQueueSelector
-{
-    public static readonly Selector AddResidencySet_ = Selector.Register("addResidencySet:");
-    public static readonly Selector InsertDebugCaptureBoundary = Selector.Register("insertDebugCaptureBoundary");
-    public static readonly Selector RemoveResidencySet_ = Selector.Register("removeResidencySet:");
-    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
-}
-
 public class MTLCommandQueue : IDisposable
 {
     public MTLCommandQueue(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLCommandQueue()
@@ -49,7 +41,7 @@ public class MTLCommandQueue : IDisposable
 
     public void AddResidencySet(MTLResidencySet residencySet)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandQueueSelector.AddResidencySet_, residencySet.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandQueueSelector.AddResidencySet, residencySet.NativePtr);
     }
 
     public void InsertDebugCaptureBoundary()
@@ -59,12 +51,20 @@ public class MTLCommandQueue : IDisposable
 
     public void RemoveResidencySet(MTLResidencySet residencySet)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandQueueSelector.RemoveResidencySet_, residencySet.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandQueueSelector.RemoveResidencySet, residencySet.NativePtr);
     }
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandQueueSelector.SetLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandQueueSelector.SetLabel, label.NativePtr);
     }
 
+}
+
+file class MTLCommandQueueSelector
+{
+    public static readonly Selector AddResidencySet = Selector.Register("addResidencySet:");
+    public static readonly Selector InsertDebugCaptureBoundary = Selector.Register("insertDebugCaptureBoundary");
+    public static readonly Selector RemoveResidencySet = Selector.Register("removeResidencySet:");
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLFenceSelector
-{
-    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
-}
-
 public class MTLFence : IDisposable
 {
     public MTLFence(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLFence()
@@ -46,7 +41,12 @@ public class MTLFence : IDisposable
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFenceSelector.SetLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFenceSelector.SetLabel, label.NativePtr);
     }
 
+}
+
+file class MTLFenceSelector
+{
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

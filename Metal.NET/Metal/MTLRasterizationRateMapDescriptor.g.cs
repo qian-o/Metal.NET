@@ -1,18 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLRasterizationRateMapDescriptorSelector
-{
-    public static readonly Selector Layer_ = Selector.Register("layer:");
-    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
-    public static readonly Selector SetLayer_layerIndex_ = Selector.Register("setLayer:layerIndex:");
-    public static readonly Selector SetScreenSize_ = Selector.Register("setScreenSize:");
-}
-
 public class MTLRasterizationRateMapDescriptor : IDisposable
 {
     public MTLRasterizationRateMapDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLRasterizationRateMapDescriptor()
@@ -57,26 +49,34 @@ public class MTLRasterizationRateMapDescriptor : IDisposable
         return new MTLRasterizationRateMapDescriptor(ptr);
     }
 
-    public MTLRasterizationRateLayerDescriptor Layer(nuint layerIndex)
+    public MTLRasterizationRateLayerDescriptor Layer(uint layerIndex)
     {
-        var result = new MTLRasterizationRateLayerDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.Layer_, (nint)layerIndex));
+        var result = new MTLRasterizationRateLayerDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.Layer, (nint)layerIndex));
 
         return result;
     }
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetLabel, label.NativePtr);
     }
 
-    public void SetLayer(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)
+    public void SetLayer(MTLRasterizationRateLayerDescriptor layer, uint layerIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetLayer_layerIndex_, layer.NativePtr, (nint)layerIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetLayerLayerIndex, layer.NativePtr, (nint)layerIndex);
     }
 
     public void SetScreenSize(MTLSize screenSize)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetScreenSize_, screenSize);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetScreenSize, screenSize);
     }
 
+}
+
+file class MTLRasterizationRateMapDescriptorSelector
+{
+    public static readonly Selector Layer = Selector.Register("layer:");
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLayerLayerIndex = Selector.Register("setLayer:layerIndex:");
+    public static readonly Selector SetScreenSize = Selector.Register("setScreenSize:");
 }

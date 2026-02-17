@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLTileRenderPipelineColorAttachmentDescriptorSelector
-{
-    public static readonly Selector SetPixelFormat_ = Selector.Register("setPixelFormat:");
-}
-
 public class MTLTileRenderPipelineColorAttachmentDescriptor : IDisposable
 {
     public MTLTileRenderPipelineColorAttachmentDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLTileRenderPipelineColorAttachmentDescriptor()
@@ -56,7 +51,12 @@ public class MTLTileRenderPipelineColorAttachmentDescriptor : IDisposable
 
     public void SetPixelFormat(MTLPixelFormat pixelFormat)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorSelector.SetPixelFormat_, (nint)(uint)pixelFormat);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorSelector.SetPixelFormat, (nint)(uint)pixelFormat);
     }
 
+}
+
+file class MTLTileRenderPipelineColorAttachmentDescriptorSelector
+{
+    public static readonly Selector SetPixelFormat = Selector.Register("setPixelFormat:");
 }

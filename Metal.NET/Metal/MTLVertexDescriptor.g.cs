@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLVertexDescriptorSelector
-{
-    public static readonly Selector Reset = Selector.Register("reset");
-    public static readonly Selector VertexDescriptor = Selector.Register("vertexDescriptor");
-}
-
 public class MTLVertexDescriptor : IDisposable
 {
     public MTLVertexDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLVertexDescriptor()
@@ -67,4 +61,10 @@ public class MTLVertexDescriptor : IDisposable
         return result;
     }
 
+}
+
+file class MTLVertexDescriptorSelector
+{
+    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector VertexDescriptor = Selector.Register("vertexDescriptor");
 }

@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLRasterizationRateLayerDescriptorSelector
-{
-    public static readonly Selector SetSampleCount_ = Selector.Register("setSampleCount:");
-}
-
 public class MTLRasterizationRateLayerDescriptor : IDisposable
 {
     public MTLRasterizationRateLayerDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLRasterizationRateLayerDescriptor()
@@ -56,7 +51,12 @@ public class MTLRasterizationRateLayerDescriptor : IDisposable
 
     public void SetSampleCount(MTLSize sampleCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateLayerDescriptorSelector.SetSampleCount_, sampleCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateLayerDescriptorSelector.SetSampleCount, sampleCount);
     }
 
+}
+
+file class MTLRasterizationRateLayerDescriptorSelector
+{
+    public static readonly Selector SetSampleCount = Selector.Register("setSampleCount:");
 }

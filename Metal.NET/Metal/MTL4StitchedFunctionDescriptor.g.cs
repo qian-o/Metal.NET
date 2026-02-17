@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4StitchedFunctionDescriptorSelector
-{
-    public static readonly Selector SetFunctionDescriptors_ = Selector.Register("setFunctionDescriptors:");
-    public static readonly Selector SetFunctionGraph_ = Selector.Register("setFunctionGraph:");
-}
-
 public class MTL4StitchedFunctionDescriptor : IDisposable
 {
     public MTL4StitchedFunctionDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4StitchedFunctionDescriptor()
@@ -47,12 +41,18 @@ public class MTL4StitchedFunctionDescriptor : IDisposable
 
     public void SetFunctionDescriptors(NSArray functionDescriptors)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4StitchedFunctionDescriptorSelector.SetFunctionDescriptors_, functionDescriptors.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4StitchedFunctionDescriptorSelector.SetFunctionDescriptors, functionDescriptors.NativePtr);
     }
 
     public void SetFunctionGraph(MTLFunctionStitchingGraph functionGraph)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4StitchedFunctionDescriptorSelector.SetFunctionGraph_, functionGraph.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4StitchedFunctionDescriptorSelector.SetFunctionGraph, functionGraph.NativePtr);
     }
 
+}
+
+file class MTL4StitchedFunctionDescriptorSelector
+{
+    public static readonly Selector SetFunctionDescriptors = Selector.Register("setFunctionDescriptors:");
+    public static readonly Selector SetFunctionGraph = Selector.Register("setFunctionGraph:");
 }

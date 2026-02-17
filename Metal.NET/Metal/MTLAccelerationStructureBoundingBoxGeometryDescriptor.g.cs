@@ -1,19 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLAccelerationStructureBoundingBoxGeometryDescriptorSelector
-{
-    public static readonly Selector SetBoundingBoxBuffer_ = Selector.Register("setBoundingBoxBuffer:");
-    public static readonly Selector SetBoundingBoxBufferOffset_ = Selector.Register("setBoundingBoxBufferOffset:");
-    public static readonly Selector SetBoundingBoxCount_ = Selector.Register("setBoundingBoxCount:");
-    public static readonly Selector SetBoundingBoxStride_ = Selector.Register("setBoundingBoxStride:");
-    public static readonly Selector Descriptor = Selector.Register("descriptor");
-}
-
 public class MTLAccelerationStructureBoundingBoxGeometryDescriptor : IDisposable
 {
     public MTLAccelerationStructureBoundingBoxGeometryDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLAccelerationStructureBoundingBoxGeometryDescriptor()
@@ -52,22 +43,22 @@ public class MTLAccelerationStructureBoundingBoxGeometryDescriptor : IDisposable
 
     public void SetBoundingBoxBuffer(MTLBuffer boundingBoxBuffer)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorSelector.SetBoundingBoxBuffer_, boundingBoxBuffer.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorSelector.SetBoundingBoxBuffer, boundingBoxBuffer.NativePtr);
     }
 
-    public void SetBoundingBoxBufferOffset(nuint boundingBoxBufferOffset)
+    public void SetBoundingBoxBufferOffset(uint boundingBoxBufferOffset)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorSelector.SetBoundingBoxBufferOffset_, (nint)boundingBoxBufferOffset);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorSelector.SetBoundingBoxBufferOffset, (nint)boundingBoxBufferOffset);
     }
 
-    public void SetBoundingBoxCount(nuint boundingBoxCount)
+    public void SetBoundingBoxCount(uint boundingBoxCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorSelector.SetBoundingBoxCount_, (nint)boundingBoxCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorSelector.SetBoundingBoxCount, (nint)boundingBoxCount);
     }
 
-    public void SetBoundingBoxStride(nuint boundingBoxStride)
+    public void SetBoundingBoxStride(uint boundingBoxStride)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorSelector.SetBoundingBoxStride_, (nint)boundingBoxStride);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorSelector.SetBoundingBoxStride, (nint)boundingBoxStride);
     }
 
     public static MTLAccelerationStructureBoundingBoxGeometryDescriptor Descriptor()
@@ -77,4 +68,13 @@ public class MTLAccelerationStructureBoundingBoxGeometryDescriptor : IDisposable
         return result;
     }
 
+}
+
+file class MTLAccelerationStructureBoundingBoxGeometryDescriptorSelector
+{
+    public static readonly Selector SetBoundingBoxBuffer = Selector.Register("setBoundingBoxBuffer:");
+    public static readonly Selector SetBoundingBoxBufferOffset = Selector.Register("setBoundingBoxBufferOffset:");
+    public static readonly Selector SetBoundingBoxCount = Selector.Register("setBoundingBoxCount:");
+    public static readonly Selector SetBoundingBoxStride = Selector.Register("setBoundingBoxStride:");
+    public static readonly Selector Descriptor = Selector.Register("descriptor");
 }

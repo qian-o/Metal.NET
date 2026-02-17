@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4RenderPipelineDynamicLinkingDescriptorSelector
-{
-}
-
 public class MTL4RenderPipelineDynamicLinkingDescriptor : IDisposable
 {
     public MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4RenderPipelineDynamicLinkingDescriptor()
@@ -43,4 +39,8 @@ public class MTL4RenderPipelineDynamicLinkingDescriptor : IDisposable
         }
     }
 
+}
+
+file class MTL4RenderPipelineDynamicLinkingDescriptorSelector
+{
 }

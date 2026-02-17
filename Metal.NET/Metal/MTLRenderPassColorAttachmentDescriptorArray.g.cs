@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLRenderPassColorAttachmentDescriptorArraySelector
-{
-    public static readonly Selector Object_ = Selector.Register("object:");
-    public static readonly Selector SetObject_attachmentIndex_ = Selector.Register("setObject:attachmentIndex:");
-}
-
 public class MTLRenderPassColorAttachmentDescriptorArray : IDisposable
 {
     public MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLRenderPassColorAttachmentDescriptorArray()
@@ -45,16 +39,22 @@ public class MTLRenderPassColorAttachmentDescriptorArray : IDisposable
         }
     }
 
-    public MTLRenderPassColorAttachmentDescriptor Object(nuint attachmentIndex)
+    public MTLRenderPassColorAttachmentDescriptor Object(uint attachmentIndex)
     {
-        var result = new MTLRenderPassColorAttachmentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.Object_, (nint)attachmentIndex));
+        var result = new MTLRenderPassColorAttachmentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.Object, (nint)attachmentIndex));
 
         return result;
     }
 
-    public void SetObject(MTLRenderPassColorAttachmentDescriptor attachment, nuint attachmentIndex)
+    public void SetObject(MTLRenderPassColorAttachmentDescriptor attachment, uint attachmentIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.SetObject_attachmentIndex_, attachment.NativePtr, (nint)attachmentIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nint)attachmentIndex);
     }
 
+}
+
+file class MTLRenderPassColorAttachmentDescriptorArraySelector
+{
+    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector SetObjectAttachmentIndex = Selector.Register("setObject:attachmentIndex:");
 }

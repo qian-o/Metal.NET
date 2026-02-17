@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLRasterizationRateSampleArraySelector
-{
-    public static readonly Selector Object_ = Selector.Register("object:");
-    public static readonly Selector SetObject_index_ = Selector.Register("setObject:index:");
-}
-
 public class MTLRasterizationRateSampleArray : IDisposable
 {
     public MTLRasterizationRateSampleArray(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLRasterizationRateSampleArray()
@@ -45,16 +39,22 @@ public class MTLRasterizationRateSampleArray : IDisposable
         }
     }
 
-    public nint Object(nuint index)
+    public nint Object(uint index)
     {
-        var result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRasterizationRateSampleArraySelector.Object_, (nint)index);
+        var result = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRasterizationRateSampleArraySelector.Object, (nint)index);
 
         return result;
     }
 
-    public void SetObject(nint value, nuint index)
+    public void SetObject(int value, uint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateSampleArraySelector.SetObject_index_, value, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateSampleArraySelector.SetObjectIndex, value, (nint)index);
     }
 
+}
+
+file class MTLRasterizationRateSampleArraySelector
+{
+    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector SetObjectIndex = Selector.Register("setObject:index:");
 }

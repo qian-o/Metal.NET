@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class CAMetalDrawableSelector
-{
-}
-
 public class CAMetalDrawable : IDisposable
 {
     public CAMetalDrawable(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~CAMetalDrawable()
@@ -43,4 +39,8 @@ public class CAMetalDrawable : IDisposable
         }
     }
 
+}
+
+file class CAMetalDrawableSelector
+{
 }

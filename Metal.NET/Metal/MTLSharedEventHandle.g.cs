@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLSharedEventHandleSelector
-{
-}
-
 public class MTLSharedEventHandle : IDisposable
 {
     public MTLSharedEventHandle(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLSharedEventHandle()
@@ -53,4 +49,8 @@ public class MTLSharedEventHandle : IDisposable
         return new MTLSharedEventHandle(ptr);
     }
 
+}
+
+file class MTLSharedEventHandleSelector
+{
 }

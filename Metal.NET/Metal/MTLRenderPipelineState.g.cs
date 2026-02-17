@@ -2,20 +2,11 @@
 
 namespace Metal.NET;
 
-file class MTLRenderPipelineStateSelector
-{
-    public static readonly Selector FunctionHandle_stage_ = Selector.Register("functionHandle:stage:");
-    public static readonly Selector NewIntersectionFunctionTable_stage_ = Selector.Register("newIntersectionFunctionTable:stage:");
-    public static readonly Selector NewRenderPipelineDescriptor = Selector.Register("newRenderPipelineDescriptor");
-    public static readonly Selector NewRenderPipelineState_error_ = Selector.Register("newRenderPipelineState:error:");
-    public static readonly Selector NewVisibleFunctionTable_stage_ = Selector.Register("newVisibleFunctionTable:stage:");
-}
-
 public class MTLRenderPipelineState : IDisposable
 {
     public MTLRenderPipelineState(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLRenderPipelineState()
@@ -50,30 +41,30 @@ public class MTLRenderPipelineState : IDisposable
         }
     }
 
-    public MTLFunctionHandle FunctionHandle(NSString name, nuint stage)
+    public MTLFunctionHandle FunctionHandle(NSString name, uint stage)
     {
-        var result = new MTLFunctionHandle(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPipelineStateSelector.FunctionHandle_stage_, name.NativePtr, (nint)stage));
+        var result = new MTLFunctionHandle(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleStage, name.NativePtr, (nint)stage));
 
         return result;
     }
 
-    public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function, nuint stage)
+    public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function, uint stage)
     {
-        var result = new MTLFunctionHandle(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPipelineStateSelector.FunctionHandle_stage_, function.NativePtr, (nint)stage));
+        var result = new MTLFunctionHandle(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleStage, function.NativePtr, (nint)stage));
 
         return result;
     }
 
-    public MTLFunctionHandle FunctionHandle(MTLFunction function, nuint stage)
+    public MTLFunctionHandle FunctionHandle(MTLFunction function, uint stage)
     {
-        var result = new MTLFunctionHandle(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPipelineStateSelector.FunctionHandle_stage_, function.NativePtr, (nint)stage));
+        var result = new MTLFunctionHandle(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleStage, function.NativePtr, (nint)stage));
 
         return result;
     }
 
-    public MTLIntersectionFunctionTable NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor, nuint stage)
+    public MTLIntersectionFunctionTable NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor, uint stage)
     {
-        var result = new MTLIntersectionFunctionTable(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPipelineStateSelector.NewIntersectionFunctionTable_stage_, descriptor.NativePtr, (nint)stage));
+        var result = new MTLIntersectionFunctionTable(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPipelineStateSelector.NewIntersectionFunctionTableStage, descriptor.NativePtr, (nint)stage));
 
         return result;
     }
@@ -88,7 +79,7 @@ public class MTLRenderPipelineState : IDisposable
     public MTLRenderPipelineState NewRenderPipelineState(MTL4RenderPipelineBinaryFunctionsDescriptor binaryFunctionsDescriptor, out NSError? error)
     {
         nint errorPtr = 0;
-        var result = new MTLRenderPipelineState(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineState_error_, binaryFunctionsDescriptor.NativePtr, out errorPtr));
+        var result = new MTLRenderPipelineState(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineStateError, binaryFunctionsDescriptor.NativePtr, out errorPtr));
         error = errorPtr is not 0 ? new NSError(errorPtr) : null;
 
         return result;
@@ -97,17 +88,26 @@ public class MTLRenderPipelineState : IDisposable
     public MTLRenderPipelineState NewRenderPipelineState(MTLRenderPipelineFunctionsDescriptor additionalBinaryFunctions, out NSError? error)
     {
         nint errorPtr = 0;
-        var result = new MTLRenderPipelineState(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineState_error_, additionalBinaryFunctions.NativePtr, out errorPtr));
+        var result = new MTLRenderPipelineState(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineStateError, additionalBinaryFunctions.NativePtr, out errorPtr));
         error = errorPtr is not 0 ? new NSError(errorPtr) : null;
 
         return result;
     }
 
-    public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor, nuint stage)
+    public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor, uint stage)
     {
-        var result = new MTLVisibleFunctionTable(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPipelineStateSelector.NewVisibleFunctionTable_stage_, descriptor.NativePtr, (nint)stage));
+        var result = new MTLVisibleFunctionTable(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRenderPipelineStateSelector.NewVisibleFunctionTableStage, descriptor.NativePtr, (nint)stage));
 
         return result;
     }
 
+}
+
+file class MTLRenderPipelineStateSelector
+{
+    public static readonly Selector FunctionHandleStage = Selector.Register("functionHandle:stage:");
+    public static readonly Selector NewIntersectionFunctionTableStage = Selector.Register("newIntersectionFunctionTable:stage:");
+    public static readonly Selector NewRenderPipelineDescriptor = Selector.Register("newRenderPipelineDescriptor");
+    public static readonly Selector NewRenderPipelineStateError = Selector.Register("newRenderPipelineState:error:");
+    public static readonly Selector NewVisibleFunctionTableStage = Selector.Register("newVisibleFunctionTable:stage:");
 }

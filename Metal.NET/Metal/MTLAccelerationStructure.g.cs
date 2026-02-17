@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLAccelerationStructureSelector
-{
-}
-
 public class MTLAccelerationStructure : IDisposable
 {
     public MTLAccelerationStructure(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLAccelerationStructure()
@@ -43,4 +39,8 @@ public class MTLAccelerationStructure : IDisposable
         }
     }
 
+}
+
+file class MTLAccelerationStructureSelector
+{
 }

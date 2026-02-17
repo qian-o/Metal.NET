@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLIndirectCommandBufferSelector
-{
-    public static readonly Selector IndirectComputeCommand_ = Selector.Register("indirectComputeCommand:");
-    public static readonly Selector IndirectRenderCommand_ = Selector.Register("indirectRenderCommand:");
-}
-
 public class MTLIndirectCommandBuffer : IDisposable
 {
     public MTLIndirectCommandBuffer(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLIndirectCommandBuffer()
@@ -45,18 +39,24 @@ public class MTLIndirectCommandBuffer : IDisposable
         }
     }
 
-    public MTLIndirectComputeCommand IndirectComputeCommand(nuint commandIndex)
+    public MTLIndirectComputeCommand IndirectComputeCommand(uint commandIndex)
     {
-        var result = new MTLIndirectComputeCommand(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLIndirectCommandBufferSelector.IndirectComputeCommand_, (nint)commandIndex));
+        var result = new MTLIndirectComputeCommand(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLIndirectCommandBufferSelector.IndirectComputeCommand, (nint)commandIndex));
 
         return result;
     }
 
-    public MTLIndirectRenderCommand IndirectRenderCommand(nuint commandIndex)
+    public MTLIndirectRenderCommand IndirectRenderCommand(uint commandIndex)
     {
-        var result = new MTLIndirectRenderCommand(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLIndirectCommandBufferSelector.IndirectRenderCommand_, (nint)commandIndex));
+        var result = new MTLIndirectRenderCommand(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLIndirectCommandBufferSelector.IndirectRenderCommand, (nint)commandIndex));
 
         return result;
     }
 
+}
+
+file class MTLIndirectCommandBufferSelector
+{
+    public static readonly Selector IndirectComputeCommand = Selector.Register("indirectComputeCommand:");
+    public static readonly Selector IndirectRenderCommand = Selector.Register("indirectRenderCommand:");
 }

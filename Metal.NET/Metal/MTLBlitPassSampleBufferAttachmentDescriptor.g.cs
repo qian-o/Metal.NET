@@ -1,17 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLBlitPassSampleBufferAttachmentDescriptorSelector
-{
-    public static readonly Selector SetEndOfEncoderSampleIndex_ = Selector.Register("setEndOfEncoderSampleIndex:");
-    public static readonly Selector SetSampleBuffer_ = Selector.Register("setSampleBuffer:");
-    public static readonly Selector SetStartOfEncoderSampleIndex_ = Selector.Register("setStartOfEncoderSampleIndex:");
-}
-
 public class MTLBlitPassSampleBufferAttachmentDescriptor : IDisposable
 {
     public MTLBlitPassSampleBufferAttachmentDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLBlitPassSampleBufferAttachmentDescriptor()
@@ -46,19 +39,26 @@ public class MTLBlitPassSampleBufferAttachmentDescriptor : IDisposable
         }
     }
 
-    public void SetEndOfEncoderSampleIndex(nuint endOfEncoderSampleIndex)
+    public void SetEndOfEncoderSampleIndex(uint endOfEncoderSampleIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.SetEndOfEncoderSampleIndex_, (nint)endOfEncoderSampleIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.SetEndOfEncoderSampleIndex, (nint)endOfEncoderSampleIndex);
     }
 
     public void SetSampleBuffer(MTLCounterSampleBuffer sampleBuffer)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.SetSampleBuffer_, sampleBuffer.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.SetSampleBuffer, sampleBuffer.NativePtr);
     }
 
-    public void SetStartOfEncoderSampleIndex(nuint startOfEncoderSampleIndex)
+    public void SetStartOfEncoderSampleIndex(uint startOfEncoderSampleIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.SetStartOfEncoderSampleIndex_, (nint)startOfEncoderSampleIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorSelector.SetStartOfEncoderSampleIndex, (nint)startOfEncoderSampleIndex);
     }
 
+}
+
+file class MTLBlitPassSampleBufferAttachmentDescriptorSelector
+{
+    public static readonly Selector SetEndOfEncoderSampleIndex = Selector.Register("setEndOfEncoderSampleIndex:");
+    public static readonly Selector SetSampleBuffer = Selector.Register("setSampleBuffer:");
+    public static readonly Selector SetStartOfEncoderSampleIndex = Selector.Register("setStartOfEncoderSampleIndex:");
 }

@@ -1,17 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLVertexAttributeDescriptorSelector
-{
-    public static readonly Selector SetBufferIndex_ = Selector.Register("setBufferIndex:");
-    public static readonly Selector SetFormat_ = Selector.Register("setFormat:");
-    public static readonly Selector SetOffset_ = Selector.Register("setOffset:");
-}
-
 public class MTLVertexAttributeDescriptor : IDisposable
 {
     public MTLVertexAttributeDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLVertexAttributeDescriptor()
@@ -56,19 +49,26 @@ public class MTLVertexAttributeDescriptor : IDisposable
         return new MTLVertexAttributeDescriptor(ptr);
     }
 
-    public void SetBufferIndex(nuint bufferIndex)
+    public void SetBufferIndex(uint bufferIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVertexAttributeDescriptorSelector.SetBufferIndex_, (nint)bufferIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVertexAttributeDescriptorSelector.SetBufferIndex, (nint)bufferIndex);
     }
 
     public void SetFormat(MTLVertexFormat format)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVertexAttributeDescriptorSelector.SetFormat_, (nint)(uint)format);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVertexAttributeDescriptorSelector.SetFormat, (nint)(uint)format);
     }
 
-    public void SetOffset(nuint offset)
+    public void SetOffset(uint offset)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVertexAttributeDescriptorSelector.SetOffset_, (nint)offset);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVertexAttributeDescriptorSelector.SetOffset, (nint)offset);
     }
 
+}
+
+file class MTLVertexAttributeDescriptorSelector
+{
+    public static readonly Selector SetBufferIndex = Selector.Register("setBufferIndex:");
+    public static readonly Selector SetFormat = Selector.Register("setFormat:");
+    public static readonly Selector SetOffset = Selector.Register("setOffset:");
 }

@@ -1,19 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLLinkedFunctionsSelector
-{
-    public static readonly Selector SetBinaryFunctions_ = Selector.Register("setBinaryFunctions:");
-    public static readonly Selector SetFunctions_ = Selector.Register("setFunctions:");
-    public static readonly Selector SetGroups_ = Selector.Register("setGroups:");
-    public static readonly Selector SetPrivateFunctions_ = Selector.Register("setPrivateFunctions:");
-    public static readonly Selector LinkedFunctions = Selector.Register("linkedFunctions");
-}
-
 public class MTLLinkedFunctions : IDisposable
 {
     public MTLLinkedFunctions(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLLinkedFunctions()
@@ -60,22 +51,22 @@ public class MTLLinkedFunctions : IDisposable
 
     public void SetBinaryFunctions(NSArray binaryFunctions)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLinkedFunctionsSelector.SetBinaryFunctions_, binaryFunctions.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLinkedFunctionsSelector.SetBinaryFunctions, binaryFunctions.NativePtr);
     }
 
     public void SetFunctions(NSArray functions)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLinkedFunctionsSelector.SetFunctions_, functions.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLinkedFunctionsSelector.SetFunctions, functions.NativePtr);
     }
 
-    public void SetGroups(nint groups)
+    public void SetGroups(int groups)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLinkedFunctionsSelector.SetGroups_, groups);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLinkedFunctionsSelector.SetGroups, groups);
     }
 
     public void SetPrivateFunctions(NSArray privateFunctions)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLinkedFunctionsSelector.SetPrivateFunctions_, privateFunctions.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLinkedFunctionsSelector.SetPrivateFunctions, privateFunctions.NativePtr);
     }
 
     public static MTLLinkedFunctions LinkedFunctions()
@@ -85,4 +76,13 @@ public class MTLLinkedFunctions : IDisposable
         return result;
     }
 
+}
+
+file class MTLLinkedFunctionsSelector
+{
+    public static readonly Selector SetBinaryFunctions = Selector.Register("setBinaryFunctions:");
+    public static readonly Selector SetFunctions = Selector.Register("setFunctions:");
+    public static readonly Selector SetGroups = Selector.Register("setGroups:");
+    public static readonly Selector SetPrivateFunctions = Selector.Register("setPrivateFunctions:");
+    public static readonly Selector LinkedFunctions = Selector.Register("linkedFunctions");
 }

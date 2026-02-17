@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLStructTypeSelector
-{
-    public static readonly Selector MemberByName_ = Selector.Register("memberByName:");
-}
-
 public class MTLStructType : IDisposable
 {
     public MTLStructType(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLStructType()
@@ -46,9 +41,14 @@ public class MTLStructType : IDisposable
 
     public MTLStructMember MemberByName(NSString name)
     {
-        var result = new MTLStructMember(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLStructTypeSelector.MemberByName_, name.NativePtr));
+        var result = new MTLStructMember(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLStructTypeSelector.MemberByName, name.NativePtr));
 
         return result;
     }
 
+}
+
+file class MTLStructTypeSelector
+{
+    public static readonly Selector MemberByName = Selector.Register("memberByName:");
 }

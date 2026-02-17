@@ -1,17 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLFunctionSelector
-{
-    public static readonly Selector NewArgumentEncoder_ = Selector.Register("newArgumentEncoder:");
-    public static readonly Selector NewArgumentEncoder_reflection_ = Selector.Register("newArgumentEncoder:reflection:");
-    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
-}
-
 public class MTLFunction : IDisposable
 {
     public MTLFunction(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLFunction()
@@ -46,23 +39,30 @@ public class MTLFunction : IDisposable
         }
     }
 
-    public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex)
+    public MTLArgumentEncoder NewArgumentEncoder(uint bufferIndex)
     {
-        var result = new MTLArgumentEncoder(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionSelector.NewArgumentEncoder_, (nint)bufferIndex));
+        var result = new MTLArgumentEncoder(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionSelector.NewArgumentEncoder, (nint)bufferIndex));
 
         return result;
     }
 
-    public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex, nint reflection)
+    public MTLArgumentEncoder NewArgumentEncoder(uint bufferIndex, int reflection)
     {
-        var result = new MTLArgumentEncoder(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionSelector.NewArgumentEncoder_reflection_, (nint)bufferIndex, reflection));
+        var result = new MTLArgumentEncoder(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionSelector.NewArgumentEncoderReflection, (nint)bufferIndex, reflection));
 
         return result;
     }
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionSelector.SetLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionSelector.SetLabel, label.NativePtr);
     }
 
+}
+
+file class MTLFunctionSelector
+{
+    public static readonly Selector NewArgumentEncoder = Selector.Register("newArgumentEncoder:");
+    public static readonly Selector NewArgumentEncoderReflection = Selector.Register("newArgumentEncoder:reflection:");
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

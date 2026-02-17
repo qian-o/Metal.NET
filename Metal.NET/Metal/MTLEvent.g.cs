@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLEventSelector
-{
-    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
-}
-
 public class MTLEvent : IDisposable
 {
     public MTLEvent(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLEvent()
@@ -46,7 +41,12 @@ public class MTLEvent : IDisposable
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLEventSelector.SetLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLEventSelector.SetLabel, label.NativePtr);
     }
 
+}
+
+file class MTLEventSelector
+{
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

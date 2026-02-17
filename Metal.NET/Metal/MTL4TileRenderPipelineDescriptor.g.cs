@@ -1,22 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4TileRenderPipelineDescriptorSelector
-{
-    public static readonly Selector Reset = Selector.Register("reset");
-    public static readonly Selector SetMaxTotalThreadsPerThreadgroup_ = Selector.Register("setMaxTotalThreadsPerThreadgroup:");
-    public static readonly Selector SetRasterSampleCount_ = Selector.Register("setRasterSampleCount:");
-    public static readonly Selector SetRequiredThreadsPerThreadgroup_ = Selector.Register("setRequiredThreadsPerThreadgroup:");
-    public static readonly Selector SetStaticLinkingDescriptor_ = Selector.Register("setStaticLinkingDescriptor:");
-    public static readonly Selector SetSupportBinaryLinking_ = Selector.Register("setSupportBinaryLinking:");
-    public static readonly Selector SetThreadgroupSizeMatchesTileSize_ = Selector.Register("setThreadgroupSizeMatchesTileSize:");
-    public static readonly Selector SetTileFunctionDescriptor_ = Selector.Register("setTileFunctionDescriptor:");
-}
-
 public class MTL4TileRenderPipelineDescriptor : IDisposable
 {
     public MTL4TileRenderPipelineDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4TileRenderPipelineDescriptor()
@@ -66,39 +54,51 @@ public class MTL4TileRenderPipelineDescriptor : IDisposable
         ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.Reset);
     }
 
-    public void SetMaxTotalThreadsPerThreadgroup(nuint maxTotalThreadsPerThreadgroup)
+    public void SetMaxTotalThreadsPerThreadgroup(uint maxTotalThreadsPerThreadgroup)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetMaxTotalThreadsPerThreadgroup_, (nint)maxTotalThreadsPerThreadgroup);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetMaxTotalThreadsPerThreadgroup, (nint)maxTotalThreadsPerThreadgroup);
     }
 
-    public void SetRasterSampleCount(nuint rasterSampleCount)
+    public void SetRasterSampleCount(uint rasterSampleCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetRasterSampleCount_, (nint)rasterSampleCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetRasterSampleCount, (nint)rasterSampleCount);
     }
 
     public void SetRequiredThreadsPerThreadgroup(MTLSize requiredThreadsPerThreadgroup)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetRequiredThreadsPerThreadgroup_, requiredThreadsPerThreadgroup);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetRequiredThreadsPerThreadgroup, requiredThreadsPerThreadgroup);
     }
 
     public void SetStaticLinkingDescriptor(MTL4StaticLinkingDescriptor staticLinkingDescriptor)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetStaticLinkingDescriptor_, staticLinkingDescriptor.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetStaticLinkingDescriptor, staticLinkingDescriptor.NativePtr);
     }
 
     public void SetSupportBinaryLinking(Bool8 supportBinaryLinking)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetSupportBinaryLinking_, (nint)supportBinaryLinking.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetSupportBinaryLinking, (nint)supportBinaryLinking.Value);
     }
 
     public void SetThreadgroupSizeMatchesTileSize(Bool8 threadgroupSizeMatchesTileSize)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetThreadgroupSizeMatchesTileSize_, (nint)threadgroupSizeMatchesTileSize.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetThreadgroupSizeMatchesTileSize, (nint)threadgroupSizeMatchesTileSize.Value);
     }
 
     public void SetTileFunctionDescriptor(MTL4FunctionDescriptor tileFunctionDescriptor)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetTileFunctionDescriptor_, tileFunctionDescriptor.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetTileFunctionDescriptor, tileFunctionDescriptor.NativePtr);
     }
 
+}
+
+file class MTL4TileRenderPipelineDescriptorSelector
+{
+    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector SetMaxTotalThreadsPerThreadgroup = Selector.Register("setMaxTotalThreadsPerThreadgroup:");
+    public static readonly Selector SetRasterSampleCount = Selector.Register("setRasterSampleCount:");
+    public static readonly Selector SetRequiredThreadsPerThreadgroup = Selector.Register("setRequiredThreadsPerThreadgroup:");
+    public static readonly Selector SetStaticLinkingDescriptor = Selector.Register("setStaticLinkingDescriptor:");
+    public static readonly Selector SetSupportBinaryLinking = Selector.Register("setSupportBinaryLinking:");
+    public static readonly Selector SetThreadgroupSizeMatchesTileSize = Selector.Register("setThreadgroupSizeMatchesTileSize:");
+    public static readonly Selector SetTileFunctionDescriptor = Selector.Register("setTileFunctionDescriptor:");
 }

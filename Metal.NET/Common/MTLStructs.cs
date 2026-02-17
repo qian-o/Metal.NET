@@ -13,31 +13,21 @@ public struct MTLOrigin(uint x, uint y, uint z)
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTLSize
+public struct MTLSize(uint width, uint height, uint depth)
 {
-    public nuint Width;
-    public nuint Height;
-    public nuint Depth;
+    public nuint Width = width;
 
-    public MTLSize(uint width, uint height, uint depth)
-    {
-        Width = width;
-        Height = height;
-        Depth = depth;
-    }
+    public nuint Height = height;
+
+    public nuint Depth = depth;
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTLRegion
+public struct MTLRegion(MTLOrigin origin, MTLSize size)
 {
-    public MTLOrigin Origin;
-    public MTLSize Size;
+    public MTLOrigin Origin = origin;
 
-    public MTLRegion(MTLOrigin origin, MTLSize size)
-    {
-        Origin = origin;
-        Size = size;
-    }
+    public MTLSize Size = size;
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -61,46 +51,31 @@ public struct MTLScissorRect
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTLClearColor
+public struct MTLClearColor(double red, double green, double blue, double alpha)
 {
-    public double Red;
-    public double Green;
-    public double Blue;
-    public double Alpha;
+    public double Red = red;
 
-    public MTLClearColor(double red, double green, double blue, double alpha)
-    {
-        Red = red;
-        Green = green;
-        Blue = blue;
-        Alpha = alpha;
-    }
+    public double Green = green;
+
+    public double Blue = blue;
+
+    public double Alpha = alpha;
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct CGSize
+public struct CGSize(double width, double height)
 {
-    public double Width;
-    public double Height;
+    public double Width = width;
 
-    public CGSize(double width, double height)
-    {
-        Width = width;
-        Height = height;
-    }
+    public double Height = height;
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTLSamplePosition
+public struct MTLSamplePosition(float x, float y)
 {
-    public float X;
-    public float Y;
+    public float X = x;
 
-    public MTLSamplePosition(float x, float y)
-    {
-        X = x;
-        Y = y;
-    }
+    public float Y = y;
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -111,16 +86,11 @@ public struct MTLSizeAndAlign
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTLRange
+public struct MTLRange(nuint location, nuint length)
 {
-    public nuint Location;
-    public nuint Length;
+    public nuint Location = location;
 
-    public MTLRange(nuint location, nuint length)
-    {
-        Location = location;
-        Length = length;
-    }
+    public nuint Length = length;
 }
 
 [StructLayout(LayoutKind.Sequential)]

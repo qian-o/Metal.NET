@@ -1,18 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLFunctionStitchingGraphSelector
-{
-    public static readonly Selector SetAttributes_ = Selector.Register("setAttributes:");
-    public static readonly Selector SetFunctionName_ = Selector.Register("setFunctionName:");
-    public static readonly Selector SetNodes_ = Selector.Register("setNodes:");
-    public static readonly Selector SetOutputNode_ = Selector.Register("setOutputNode:");
-}
-
 public class MTLFunctionStitchingGraph : IDisposable
 {
     public MTLFunctionStitchingGraph(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLFunctionStitchingGraph()
@@ -59,22 +51,30 @@ public class MTLFunctionStitchingGraph : IDisposable
 
     public void SetAttributes(NSArray attributes)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraphSelector.SetAttributes_, attributes.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraphSelector.SetAttributes, attributes.NativePtr);
     }
 
     public void SetFunctionName(NSString functionName)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraphSelector.SetFunctionName_, functionName.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraphSelector.SetFunctionName, functionName.NativePtr);
     }
 
     public void SetNodes(NSArray nodes)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraphSelector.SetNodes_, nodes.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraphSelector.SetNodes, nodes.NativePtr);
     }
 
     public void SetOutputNode(MTLFunctionStitchingFunctionNode outputNode)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraphSelector.SetOutputNode_, outputNode.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraphSelector.SetOutputNode, outputNode.NativePtr);
     }
 
+}
+
+file class MTLFunctionStitchingGraphSelector
+{
+    public static readonly Selector SetAttributes = Selector.Register("setAttributes:");
+    public static readonly Selector SetFunctionName = Selector.Register("setFunctionName:");
+    public static readonly Selector SetNodes = Selector.Register("setNodes:");
+    public static readonly Selector SetOutputNode = Selector.Register("setOutputNode:");
 }

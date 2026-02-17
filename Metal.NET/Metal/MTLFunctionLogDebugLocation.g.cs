@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLFunctionLogDebugLocationSelector
-{
-}
-
 public class MTLFunctionLogDebugLocation : IDisposable
 {
     public MTLFunctionLogDebugLocation(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLFunctionLogDebugLocation()
@@ -43,4 +39,8 @@ public class MTLFunctionLogDebugLocation : IDisposable
         }
     }
 
+}
+
+file class MTLFunctionLogDebugLocationSelector
+{
 }

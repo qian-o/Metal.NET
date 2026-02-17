@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLBlitPassDescriptorSelector
-{
-    public static readonly Selector BlitPassDescriptor = Selector.Register("blitPassDescriptor");
-}
-
 public class MTLBlitPassDescriptor : IDisposable
 {
     public MTLBlitPassDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLBlitPassDescriptor()
@@ -61,4 +56,9 @@ public class MTLBlitPassDescriptor : IDisposable
         return result;
     }
 
+}
+
+file class MTLBlitPassDescriptorSelector
+{
+    public static readonly Selector BlitPassDescriptor = Selector.Register("blitPassDescriptor");
 }

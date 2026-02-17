@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLResourceViewPoolSelector
-{
-}
-
 public class MTLResourceViewPool : IDisposable
 {
     public MTLResourceViewPool(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLResourceViewPool()
@@ -43,4 +39,8 @@ public class MTLResourceViewPool : IDisposable
         }
     }
 
+}
+
+file class MTLResourceViewPoolSelector
+{
 }

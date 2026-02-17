@@ -1,17 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLTextureViewPoolSelector
-{
-    public static readonly Selector SetTextureView_index_ = Selector.Register("setTextureView:index:");
-    public static readonly Selector SetTextureView_descriptor_index_ = Selector.Register("setTextureView:descriptor:index:");
-    public static readonly Selector SetTextureViewFromBuffer_descriptor_offset_bytesPerRow_index_ = Selector.Register("setTextureViewFromBuffer:descriptor:offset:bytesPerRow:index:");
-}
-
 public class MTLTextureViewPool : IDisposable
 {
     public MTLTextureViewPool(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLTextureViewPool()
@@ -56,4 +49,11 @@ public class MTLTextureViewPool : IDisposable
         return new MTLTextureViewPool(ptr);
     }
 
+}
+
+file class MTLTextureViewPoolSelector
+{
+    public static readonly Selector SetTextureViewIndex = Selector.Register("setTextureView:index:");
+    public static readonly Selector SetTextureViewDescriptorIndex = Selector.Register("setTextureView:descriptor:index:");
+    public static readonly Selector SetTextureViewFromBufferDescriptorOffsetBytesPerRowIndex = Selector.Register("setTextureViewFromBuffer:descriptor:offset:bytesPerRow:index:");
 }

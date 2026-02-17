@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4CommandQueueDescriptorSelector
-{
-    public static readonly Selector SetFeedbackQueue_ = Selector.Register("setFeedbackQueue:");
-    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
-}
-
 public class MTL4CommandQueueDescriptor : IDisposable
 {
     public MTL4CommandQueueDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4CommandQueueDescriptor()
@@ -45,14 +39,20 @@ public class MTL4CommandQueueDescriptor : IDisposable
         }
     }
 
-    public void SetFeedbackQueue(nint feedbackQueue)
+    public void SetFeedbackQueue(int feedbackQueue)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandQueueDescriptorSelector.SetFeedbackQueue_, feedbackQueue);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandQueueDescriptorSelector.SetFeedbackQueue, feedbackQueue);
     }
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandQueueDescriptorSelector.SetLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandQueueDescriptorSelector.SetLabel, label.NativePtr);
     }
 
+}
+
+file class MTL4CommandQueueDescriptorSelector
+{
+    public static readonly Selector SetFeedbackQueue = Selector.Register("setFeedbackQueue:");
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4MachineLearningPipelineStateSelector
-{
-}
-
 public class MTL4MachineLearningPipelineState : IDisposable
 {
     public MTL4MachineLearningPipelineState(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4MachineLearningPipelineState()
@@ -43,4 +39,8 @@ public class MTL4MachineLearningPipelineState : IDisposable
         }
     }
 
+}
+
+file class MTL4MachineLearningPipelineStateSelector
+{
 }

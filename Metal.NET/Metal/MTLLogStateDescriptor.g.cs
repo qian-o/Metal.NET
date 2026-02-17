@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLLogStateDescriptorSelector
-{
-    public static readonly Selector SetBufferSize_ = Selector.Register("setBufferSize:");
-    public static readonly Selector SetLevel_ = Selector.Register("setLevel:");
-}
-
 public class MTLLogStateDescriptor : IDisposable
 {
     public MTLLogStateDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLLogStateDescriptor()
@@ -45,14 +39,20 @@ public class MTLLogStateDescriptor : IDisposable
         }
     }
 
-    public void SetBufferSize(nint bufferSize)
+    public void SetBufferSize(int bufferSize)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLogStateDescriptorSelector.SetBufferSize_, bufferSize);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLogStateDescriptorSelector.SetBufferSize, bufferSize);
     }
 
     public void SetLevel(MTLLogLevel level)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLogStateDescriptorSelector.SetLevel_, (nint)(uint)level);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLogStateDescriptorSelector.SetLevel, (nint)(uint)level);
     }
 
+}
+
+file class MTLLogStateDescriptorSelector
+{
+    public static readonly Selector SetBufferSize = Selector.Register("setBufferSize:");
+    public static readonly Selector SetLevel = Selector.Register("setLevel:");
 }

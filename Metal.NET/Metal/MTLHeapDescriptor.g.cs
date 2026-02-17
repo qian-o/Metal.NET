@@ -1,22 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLHeapDescriptorSelector
-{
-    public static readonly Selector SetCpuCacheMode_ = Selector.Register("setCpuCacheMode:");
-    public static readonly Selector SetHazardTrackingMode_ = Selector.Register("setHazardTrackingMode:");
-    public static readonly Selector SetMaxCompatiblePlacementSparsePageSize_ = Selector.Register("setMaxCompatiblePlacementSparsePageSize:");
-    public static readonly Selector SetResourceOptions_ = Selector.Register("setResourceOptions:");
-    public static readonly Selector SetSize_ = Selector.Register("setSize:");
-    public static readonly Selector SetSparsePageSize_ = Selector.Register("setSparsePageSize:");
-    public static readonly Selector SetStorageMode_ = Selector.Register("setStorageMode:");
-    public static readonly Selector SetType_ = Selector.Register("setType:");
-}
-
 public class MTLHeapDescriptor : IDisposable
 {
     public MTLHeapDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLHeapDescriptor()
@@ -63,42 +51,54 @@ public class MTLHeapDescriptor : IDisposable
 
     public void SetCpuCacheMode(MTLCPUCacheMode cpuCacheMode)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptorSelector.SetCpuCacheMode_, (nint)(uint)cpuCacheMode);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptorSelector.SetCpuCacheMode, (nint)(uint)cpuCacheMode);
     }
 
     public void SetHazardTrackingMode(MTLHazardTrackingMode hazardTrackingMode)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptorSelector.SetHazardTrackingMode_, (nint)(uint)hazardTrackingMode);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptorSelector.SetHazardTrackingMode, (nint)(uint)hazardTrackingMode);
     }
 
     public void SetMaxCompatiblePlacementSparsePageSize(MTLSparsePageSize maxCompatiblePlacementSparsePageSize)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptorSelector.SetMaxCompatiblePlacementSparsePageSize_, (nint)(uint)maxCompatiblePlacementSparsePageSize);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptorSelector.SetMaxCompatiblePlacementSparsePageSize, (nint)(uint)maxCompatiblePlacementSparsePageSize);
     }
 
-    public void SetResourceOptions(nuint resourceOptions)
+    public void SetResourceOptions(uint resourceOptions)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptorSelector.SetResourceOptions_, (nint)resourceOptions);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptorSelector.SetResourceOptions, (nint)resourceOptions);
     }
 
-    public void SetSize(nuint size)
+    public void SetSize(uint size)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptorSelector.SetSize_, (nint)size);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptorSelector.SetSize, (nint)size);
     }
 
     public void SetSparsePageSize(MTLSparsePageSize sparsePageSize)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptorSelector.SetSparsePageSize_, (nint)(uint)sparsePageSize);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptorSelector.SetSparsePageSize, (nint)(uint)sparsePageSize);
     }
 
     public void SetStorageMode(MTLStorageMode storageMode)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptorSelector.SetStorageMode_, (nint)(uint)storageMode);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptorSelector.SetStorageMode, (nint)(uint)storageMode);
     }
 
     public void SetType(MTLHeapType type)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptorSelector.SetType_, (nint)(uint)type);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLHeapDescriptorSelector.SetType, (nint)(uint)type);
     }
 
+}
+
+file class MTLHeapDescriptorSelector
+{
+    public static readonly Selector SetCpuCacheMode = Selector.Register("setCpuCacheMode:");
+    public static readonly Selector SetHazardTrackingMode = Selector.Register("setHazardTrackingMode:");
+    public static readonly Selector SetMaxCompatiblePlacementSparsePageSize = Selector.Register("setMaxCompatiblePlacementSparsePageSize:");
+    public static readonly Selector SetResourceOptions = Selector.Register("setResourceOptions:");
+    public static readonly Selector SetSize = Selector.Register("setSize:");
+    public static readonly Selector SetSparsePageSize = Selector.Register("setSparsePageSize:");
+    public static readonly Selector SetStorageMode = Selector.Register("setStorageMode:");
+    public static readonly Selector SetType = Selector.Register("setType:");
 }

@@ -1,18 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLStitchedLibraryDescriptorSelector
-{
-    public static readonly Selector SetBinaryArchives_ = Selector.Register("setBinaryArchives:");
-    public static readonly Selector SetFunctionGraphs_ = Selector.Register("setFunctionGraphs:");
-    public static readonly Selector SetFunctions_ = Selector.Register("setFunctions:");
-    public static readonly Selector SetOptions_ = Selector.Register("setOptions:");
-}
-
 public class MTLStitchedLibraryDescriptor : IDisposable
 {
     public MTLStitchedLibraryDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLStitchedLibraryDescriptor()
@@ -59,22 +51,30 @@ public class MTLStitchedLibraryDescriptor : IDisposable
 
     public void SetBinaryArchives(NSArray binaryArchives)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetBinaryArchives_, binaryArchives.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetBinaryArchives, binaryArchives.NativePtr);
     }
 
     public void SetFunctionGraphs(NSArray functionGraphs)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetFunctionGraphs_, functionGraphs.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetFunctionGraphs, functionGraphs.NativePtr);
     }
 
     public void SetFunctions(NSArray functions)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetFunctions_, functions.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetFunctions, functions.NativePtr);
     }
 
-    public void SetOptions(nuint options)
+    public void SetOptions(uint options)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetOptions_, (nint)options);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetOptions, (nint)options);
     }
 
+}
+
+file class MTLStitchedLibraryDescriptorSelector
+{
+    public static readonly Selector SetBinaryArchives = Selector.Register("setBinaryArchives:");
+    public static readonly Selector SetFunctionGraphs = Selector.Register("setFunctionGraphs:");
+    public static readonly Selector SetFunctions = Selector.Register("setFunctions:");
+    public static readonly Selector SetOptions = Selector.Register("setOptions:");
 }

@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLSharedEventListenerSelector
-{
-    public static readonly Selector SharedListener = Selector.Register("sharedListener");
-}
-
 public class MTLSharedEventListener : IDisposable
 {
     public MTLSharedEventListener(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLSharedEventListener()
@@ -53,4 +48,9 @@ public class MTLSharedEventListener : IDisposable
         return result;
     }
 
+}
+
+file class MTLSharedEventListenerSelector
+{
+    public static readonly Selector SharedListener = Selector.Register("sharedListener");
 }

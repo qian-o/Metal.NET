@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLLogStateSelector
-{
-    public static readonly Selector AddLogHandler_ = Selector.Register("addLogHandler:");
-}
-
 public class MTLLogState : IDisposable
 {
     public MTLLogState(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLLogState()
@@ -44,9 +39,14 @@ public class MTLLogState : IDisposable
         }
     }
 
-    public void AddLogHandler(nint handler)
+    public void AddLogHandler(int handler)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLogStateSelector.AddLogHandler_, handler);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLogStateSelector.AddLogHandler, handler);
     }
 
+}
+
+file class MTLLogStateSelector
+{
+    public static readonly Selector AddLogHandler = Selector.Register("addLogHandler:");
 }

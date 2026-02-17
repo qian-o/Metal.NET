@@ -1,17 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLLogicalToPhysicalColorAttachmentMapSelector
-{
-    public static readonly Selector GetPhysicalIndex_ = Selector.Register("getPhysicalIndex:");
-    public static readonly Selector Reset = Selector.Register("reset");
-    public static readonly Selector SetPhysicalIndex_logicalIndex_ = Selector.Register("setPhysicalIndex:logicalIndex:");
-}
-
 public class MTLLogicalToPhysicalColorAttachmentMap : IDisposable
 {
     public MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLLogicalToPhysicalColorAttachmentMap()
@@ -46,9 +39,9 @@ public class MTLLogicalToPhysicalColorAttachmentMap : IDisposable
         }
     }
 
-    public nuint GetPhysicalIndex(nuint logicalIndex)
+    public nuint GetPhysicalIndex(uint logicalIndex)
     {
-        var result = (nuint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapSelector.GetPhysicalIndex_, (nint)logicalIndex);
+        var result = (nuint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapSelector.GetPhysicalIndex, (nint)logicalIndex);
 
         return result;
     }
@@ -58,9 +51,16 @@ public class MTLLogicalToPhysicalColorAttachmentMap : IDisposable
         ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapSelector.Reset);
     }
 
-    public void SetPhysicalIndex(nuint physicalIndex, nuint logicalIndex)
+    public void SetPhysicalIndex(uint physicalIndex, uint logicalIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapSelector.SetPhysicalIndex_logicalIndex_, (nint)physicalIndex, (nint)logicalIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapSelector.SetPhysicalIndexLogicalIndex, (nint)physicalIndex, (nint)logicalIndex);
     }
 
+}
+
+file class MTLLogicalToPhysicalColorAttachmentMapSelector
+{
+    public static readonly Selector GetPhysicalIndex = Selector.Register("getPhysicalIndex:");
+    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector SetPhysicalIndexLogicalIndex = Selector.Register("setPhysicalIndex:logicalIndex:");
 }

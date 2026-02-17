@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLFunctionReflectionSelector
-{
-}
-
 public class MTLFunctionReflection : IDisposable
 {
     public MTLFunctionReflection(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLFunctionReflection()
@@ -43,4 +39,8 @@ public class MTLFunctionReflection : IDisposable
         }
     }
 
+}
+
+file class MTLFunctionReflectionSelector
+{
 }

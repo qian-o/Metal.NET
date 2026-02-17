@@ -1,17 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLMotionKeyframeDataSelector
-{
-    public static readonly Selector SetBuffer_ = Selector.Register("setBuffer:");
-    public static readonly Selector SetOffset_ = Selector.Register("setOffset:");
-    public static readonly Selector Data = Selector.Register("data");
-}
-
 public class MTLMotionKeyframeData : IDisposable
 {
     public MTLMotionKeyframeData(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLMotionKeyframeData()
@@ -50,12 +43,12 @@ public class MTLMotionKeyframeData : IDisposable
 
     public void SetBuffer(MTLBuffer buffer)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMotionKeyframeDataSelector.SetBuffer_, buffer.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMotionKeyframeDataSelector.SetBuffer, buffer.NativePtr);
     }
 
-    public void SetOffset(nuint offset)
+    public void SetOffset(uint offset)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMotionKeyframeDataSelector.SetOffset_, (nint)offset);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLMotionKeyframeDataSelector.SetOffset, (nint)offset);
     }
 
     public static MTLMotionKeyframeData Data()
@@ -65,4 +58,11 @@ public class MTLMotionKeyframeData : IDisposable
         return result;
     }
 
+}
+
+file class MTLMotionKeyframeDataSelector
+{
+    public static readonly Selector SetBuffer = Selector.Register("setBuffer:");
+    public static readonly Selector SetOffset = Selector.Register("setOffset:");
+    public static readonly Selector Data = Selector.Register("data");
 }

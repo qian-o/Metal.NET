@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLTileRenderPipelineColorAttachmentDescriptorArraySelector
-{
-    public static readonly Selector Object_ = Selector.Register("object:");
-    public static readonly Selector SetObject_attachmentIndex_ = Selector.Register("setObject:attachmentIndex:");
-}
-
 public class MTLTileRenderPipelineColorAttachmentDescriptorArray : IDisposable
 {
     public MTLTileRenderPipelineColorAttachmentDescriptorArray(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLTileRenderPipelineColorAttachmentDescriptorArray()
@@ -45,16 +39,22 @@ public class MTLTileRenderPipelineColorAttachmentDescriptorArray : IDisposable
         }
     }
 
-    public MTLTileRenderPipelineColorAttachmentDescriptor Object(nuint attachmentIndex)
+    public MTLTileRenderPipelineColorAttachmentDescriptor Object(uint attachmentIndex)
     {
-        var result = new MTLTileRenderPipelineColorAttachmentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorArraySelector.Object_, (nint)attachmentIndex));
+        var result = new MTLTileRenderPipelineColorAttachmentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorArraySelector.Object, (nint)attachmentIndex));
 
         return result;
     }
 
-    public void SetObject(MTLTileRenderPipelineColorAttachmentDescriptor attachment, nuint attachmentIndex)
+    public void SetObject(MTLTileRenderPipelineColorAttachmentDescriptor attachment, uint attachmentIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorArraySelector.SetObject_attachmentIndex_, attachment.NativePtr, (nint)attachmentIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, (nint)attachmentIndex);
     }
 
+}
+
+file class MTLTileRenderPipelineColorAttachmentDescriptorArraySelector
+{
+    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector SetObjectAttachmentIndex = Selector.Register("setObject:attachmentIndex:");
 }

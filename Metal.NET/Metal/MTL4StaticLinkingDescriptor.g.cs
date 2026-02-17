@@ -1,17 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4StaticLinkingDescriptorSelector
-{
-    public static readonly Selector SetFunctionDescriptors_ = Selector.Register("setFunctionDescriptors:");
-    public static readonly Selector SetGroups_ = Selector.Register("setGroups:");
-    public static readonly Selector SetPrivateFunctionDescriptors_ = Selector.Register("setPrivateFunctionDescriptors:");
-}
-
 public class MTL4StaticLinkingDescriptor : IDisposable
 {
     public MTL4StaticLinkingDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4StaticLinkingDescriptor()
@@ -48,17 +41,24 @@ public class MTL4StaticLinkingDescriptor : IDisposable
 
     public void SetFunctionDescriptors(NSArray functionDescriptors)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4StaticLinkingDescriptorSelector.SetFunctionDescriptors_, functionDescriptors.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4StaticLinkingDescriptorSelector.SetFunctionDescriptors, functionDescriptors.NativePtr);
     }
 
-    public void SetGroups(nint groups)
+    public void SetGroups(int groups)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4StaticLinkingDescriptorSelector.SetGroups_, groups);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4StaticLinkingDescriptorSelector.SetGroups, groups);
     }
 
     public void SetPrivateFunctionDescriptors(NSArray privateFunctionDescriptors)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4StaticLinkingDescriptorSelector.SetPrivateFunctionDescriptors_, privateFunctionDescriptors.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4StaticLinkingDescriptorSelector.SetPrivateFunctionDescriptors, privateFunctionDescriptors.NativePtr);
     }
 
+}
+
+file class MTL4StaticLinkingDescriptorSelector
+{
+    public static readonly Selector SetFunctionDescriptors = Selector.Register("setFunctionDescriptors:");
+    public static readonly Selector SetGroups = Selector.Register("setGroups:");
+    public static readonly Selector SetPrivateFunctionDescriptors = Selector.Register("setPrivateFunctionDescriptors:");
 }

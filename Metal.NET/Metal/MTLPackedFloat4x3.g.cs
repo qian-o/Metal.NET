@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLPackedFloat4x3Selector
-{
-}
-
 public class MTLPackedFloat4x3 : IDisposable
 {
     public MTLPackedFloat4x3(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLPackedFloat4x3()
@@ -43,4 +39,8 @@ public class MTLPackedFloat4x3 : IDisposable
         }
     }
 
+}
+
+file class MTLPackedFloat4x3Selector
+{
 }

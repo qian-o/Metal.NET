@@ -1,16 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLCommandQueueDescriptorSelector
-{
-    public static readonly Selector SetLogState_ = Selector.Register("setLogState:");
-    public static readonly Selector SetMaxCommandBufferCount_ = Selector.Register("setMaxCommandBufferCount:");
-}
-
 public class MTLCommandQueueDescriptor : IDisposable
 {
     public MTLCommandQueueDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLCommandQueueDescriptor()
@@ -47,12 +41,18 @@ public class MTLCommandQueueDescriptor : IDisposable
 
     public void SetLogState(MTLLogState logState)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandQueueDescriptorSelector.SetLogState_, logState.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandQueueDescriptorSelector.SetLogState, logState.NativePtr);
     }
 
-    public void SetMaxCommandBufferCount(nuint maxCommandBufferCount)
+    public void SetMaxCommandBufferCount(uint maxCommandBufferCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandQueueDescriptorSelector.SetMaxCommandBufferCount_, (nint)maxCommandBufferCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandQueueDescriptorSelector.SetMaxCommandBufferCount, (nint)maxCommandBufferCount);
     }
 
+}
+
+file class MTLCommandQueueDescriptorSelector
+{
+    public static readonly Selector SetLogState = Selector.Register("setLogState:");
+    public static readonly Selector SetMaxCommandBufferCount = Selector.Register("setMaxCommandBufferCount:");
 }

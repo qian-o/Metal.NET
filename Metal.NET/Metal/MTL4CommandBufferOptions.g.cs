@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTL4CommandBufferOptionsSelector
-{
-    public static readonly Selector SetLogState_ = Selector.Register("setLogState:");
-}
-
 public class MTL4CommandBufferOptions : IDisposable
 {
     public MTL4CommandBufferOptions(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTL4CommandBufferOptions()
@@ -46,7 +41,12 @@ public class MTL4CommandBufferOptions : IDisposable
 
     public void SetLogState(MTLLogState logState)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandBufferOptionsSelector.SetLogState_, logState.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandBufferOptionsSelector.SetLogState, logState.NativePtr);
     }
 
+}
+
+file class MTL4CommandBufferOptionsSelector
+{
+    public static readonly Selector SetLogState = Selector.Register("setLogState:");
 }

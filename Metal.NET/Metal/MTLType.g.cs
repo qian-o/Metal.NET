@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLTypeSelector
-{
-}
-
 public class MTLType : IDisposable
 {
     public MTLType(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLType()
@@ -43,4 +39,8 @@ public class MTLType : IDisposable
         }
     }
 
+}
+
+file class MTLTypeSelector
+{
 }

@@ -1,15 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLPipelineBufferDescriptorSelector
-{
-    public static readonly Selector SetMutability_ = Selector.Register("setMutability:");
-}
-
 public class MTLPipelineBufferDescriptor : IDisposable
 {
     public MTLPipelineBufferDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLPipelineBufferDescriptor()
@@ -46,7 +41,12 @@ public class MTLPipelineBufferDescriptor : IDisposable
 
     public void SetMutability(MTLMutability mutability)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPipelineBufferDescriptorSelector.SetMutability_, (nint)(uint)mutability);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPipelineBufferDescriptorSelector.SetMutability, (nint)(uint)mutability);
     }
 
+}
+
+file class MTLPipelineBufferDescriptorSelector
+{
+    public static readonly Selector SetMutability = Selector.Register("setMutability:");
 }

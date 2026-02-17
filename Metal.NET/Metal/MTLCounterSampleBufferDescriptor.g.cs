@@ -1,18 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLCounterSampleBufferDescriptorSelector
-{
-    public static readonly Selector SetCounterSet_ = Selector.Register("setCounterSet:");
-    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
-    public static readonly Selector SetSampleCount_ = Selector.Register("setSampleCount:");
-    public static readonly Selector SetStorageMode_ = Selector.Register("setStorageMode:");
-}
-
 public class MTLCounterSampleBufferDescriptor : IDisposable
 {
     public MTLCounterSampleBufferDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLCounterSampleBufferDescriptor()
@@ -49,22 +41,30 @@ public class MTLCounterSampleBufferDescriptor : IDisposable
 
     public void SetCounterSet(MTLCounterSet counterSet)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetCounterSet_, counterSet.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetCounterSet, counterSet.NativePtr);
     }
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetLabel, label.NativePtr);
     }
 
-    public void SetSampleCount(nuint sampleCount)
+    public void SetSampleCount(uint sampleCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetSampleCount_, (nint)sampleCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetSampleCount, (nint)sampleCount);
     }
 
     public void SetStorageMode(MTLStorageMode storageMode)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetStorageMode_, (nint)(uint)storageMode);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetStorageMode, (nint)(uint)storageMode);
     }
 
+}
+
+file class MTLCounterSampleBufferDescriptorSelector
+{
+    public static readonly Selector SetCounterSet = Selector.Register("setCounterSet:");
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetSampleCount = Selector.Register("setSampleCount:");
+    public static readonly Selector SetStorageMode = Selector.Register("setStorageMode:");
 }

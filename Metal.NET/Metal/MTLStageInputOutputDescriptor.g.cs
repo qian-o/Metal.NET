@@ -1,18 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLStageInputOutputDescriptorSelector
-{
-    public static readonly Selector Reset = Selector.Register("reset");
-    public static readonly Selector SetIndexBufferIndex_ = Selector.Register("setIndexBufferIndex:");
-    public static readonly Selector SetIndexType_ = Selector.Register("setIndexType:");
-    public static readonly Selector StageInputOutputDescriptor = Selector.Register("stageInputOutputDescriptor");
-}
-
 public class MTLStageInputOutputDescriptor : IDisposable
 {
     public MTLStageInputOutputDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLStageInputOutputDescriptor()
@@ -62,14 +54,14 @@ public class MTLStageInputOutputDescriptor : IDisposable
         ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStageInputOutputDescriptorSelector.Reset);
     }
 
-    public void SetIndexBufferIndex(nuint indexBufferIndex)
+    public void SetIndexBufferIndex(uint indexBufferIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStageInputOutputDescriptorSelector.SetIndexBufferIndex_, (nint)indexBufferIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStageInputOutputDescriptorSelector.SetIndexBufferIndex, (nint)indexBufferIndex);
     }
 
     public void SetIndexType(MTLIndexType indexType)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStageInputOutputDescriptorSelector.SetIndexType_, (nint)(uint)indexType);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLStageInputOutputDescriptorSelector.SetIndexType, (nint)(uint)indexType);
     }
 
     public static MTLStageInputOutputDescriptor StageInputOutputDescriptor()
@@ -79,4 +71,12 @@ public class MTLStageInputOutputDescriptor : IDisposable
         return result;
     }
 
+}
+
+file class MTLStageInputOutputDescriptorSelector
+{
+    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector SetIndexBufferIndex = Selector.Register("setIndexBufferIndex:");
+    public static readonly Selector SetIndexType = Selector.Register("setIndexType:");
+    public static readonly Selector StageInputOutputDescriptor = Selector.Register("stageInputOutputDescriptor");
 }

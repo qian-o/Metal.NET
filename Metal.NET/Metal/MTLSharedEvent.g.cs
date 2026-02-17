@@ -1,18 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLSharedEventSelector
-{
-    public static readonly Selector NewSharedEventHandle = Selector.Register("newSharedEventHandle");
-    public static readonly Selector NotifyListener_value_function_ = Selector.Register("notifyListener:value:function:");
-    public static readonly Selector SetSignaledValue_ = Selector.Register("setSignaledValue:");
-    public static readonly Selector WaitUntilSignaledValue_milliseconds_ = Selector.Register("waitUntilSignaledValue:milliseconds:");
-}
-
 public class MTLSharedEvent : IDisposable
 {
     public MTLSharedEvent(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLSharedEvent()
@@ -54,21 +46,29 @@ public class MTLSharedEvent : IDisposable
         return result;
     }
 
-    public void NotifyListener(MTLSharedEventListener listener, nuint value, nint function)
+    public void NotifyListener(MTLSharedEventListener listener, uint value, int function)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSharedEventSelector.NotifyListener_value_function_, listener.NativePtr, (nint)value, function);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSharedEventSelector.NotifyListenerValueFunction, listener.NativePtr, (nint)value, function);
     }
 
-    public void SetSignaledValue(nuint signaledValue)
+    public void SetSignaledValue(uint signaledValue)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSharedEventSelector.SetSignaledValue_, (nint)signaledValue);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSharedEventSelector.SetSignaledValue, (nint)signaledValue);
     }
 
-    public Bool8 WaitUntilSignaledValue(nuint value, nuint milliseconds)
+    public Bool8 WaitUntilSignaledValue(uint value, uint milliseconds)
     {
-        var result = (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLSharedEventSelector.WaitUntilSignaledValue_milliseconds_, (nint)value, (nint)milliseconds) is not 0;
+        var result = (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLSharedEventSelector.WaitUntilSignaledValueMilliseconds, (nint)value, (nint)milliseconds) is not 0;
 
         return result;
     }
 
+}
+
+file class MTLSharedEventSelector
+{
+    public static readonly Selector NewSharedEventHandle = Selector.Register("newSharedEventHandle");
+    public static readonly Selector NotifyListenerValueFunction = Selector.Register("notifyListener:value:function:");
+    public static readonly Selector SetSignaledValue = Selector.Register("setSignaledValue:");
+    public static readonly Selector WaitUntilSignaledValueMilliseconds = Selector.Register("waitUntilSignaledValue:milliseconds:");
 }

@@ -1,17 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLTextureViewDescriptorSelector
-{
-    public static readonly Selector SetPixelFormat_ = Selector.Register("setPixelFormat:");
-    public static readonly Selector SetSwizzle_ = Selector.Register("setSwizzle:");
-    public static readonly Selector SetTextureType_ = Selector.Register("setTextureType:");
-}
-
 public class MTLTextureViewDescriptor : IDisposable
 {
     public MTLTextureViewDescriptor(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLTextureViewDescriptor()
@@ -58,17 +51,24 @@ public class MTLTextureViewDescriptor : IDisposable
 
     public void SetPixelFormat(MTLPixelFormat pixelFormat)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureViewDescriptorSelector.SetPixelFormat_, (nint)(uint)pixelFormat);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureViewDescriptorSelector.SetPixelFormat, (nint)(uint)pixelFormat);
     }
 
     public void SetSwizzle(MTLTextureSwizzleChannels swizzle)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureViewDescriptorSelector.SetSwizzle_, swizzle.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureViewDescriptorSelector.SetSwizzle, swizzle.NativePtr);
     }
 
     public void SetTextureType(MTLTextureType textureType)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureViewDescriptorSelector.SetTextureType_, (nint)(uint)textureType);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureViewDescriptorSelector.SetTextureType, (nint)(uint)textureType);
     }
 
+}
+
+file class MTLTextureViewDescriptorSelector
+{
+    public static readonly Selector SetPixelFormat = Selector.Register("setPixelFormat:");
+    public static readonly Selector SetSwizzle = Selector.Register("setSwizzle:");
+    public static readonly Selector SetTextureType = Selector.Register("setTextureType:");
 }

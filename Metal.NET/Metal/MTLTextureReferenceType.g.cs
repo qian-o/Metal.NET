@@ -1,14 +1,10 @@
 ﻿namespace Metal.NET;
 
-file class MTLTextureReferenceTypeSelector
-{
-}
-
 public class MTLTextureReferenceType : IDisposable
 {
     public MTLTextureReferenceType(nint nativePtr)
     {
-        NativePtr = nativePtr;
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
     ~MTLTextureReferenceType()
@@ -43,4 +39,8 @@ public class MTLTextureReferenceType : IDisposable
         }
     }
 
+}
+
+file class MTLTextureReferenceTypeSelector
+{
 }
