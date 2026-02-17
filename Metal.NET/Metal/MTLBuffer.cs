@@ -1,6 +1,4 @@
-﻿#nullable enable
-
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTLBuffer : IDisposable
 {
@@ -50,16 +48,16 @@ public class MTLBuffer : IDisposable
 
     public MTLTensor NewTensor(MTLTensorDescriptor descriptor, uint offset, out NSError? error)
     {
-        nint errorPtr = 0;
-        var result = new MTLTensor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBufferSelector.NewTensorOffsetError, descriptor.NativePtr, (nint)offset, out errorPtr));
-        error = errorPtr is not 0 ? new NSError(errorPtr) : null;
+        MTLTensor result = new(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBufferSelector.NewTensorOffsetError, descriptor.NativePtr, (nint)offset, out nint errorPtr));
+        
+        error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
     }
 
     public MTLTexture NewTexture(MTLTextureDescriptor descriptor, uint offset, uint bytesPerRow)
     {
-        var result = new MTLTexture(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBufferSelector.NewTextureOffsetBytesPerRow, descriptor.NativePtr, (nint)offset, (nint)bytesPerRow));
+        MTLTexture result = new(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBufferSelector.NewTextureOffsetBytesPerRow, descriptor.NativePtr, (nint)offset, (nint)bytesPerRow));
 
         return result;
     }
