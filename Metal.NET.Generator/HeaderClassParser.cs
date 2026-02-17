@@ -33,33 +33,36 @@ internal static class HeaderClassParser
     // ── Regex patterns ──
 
     // Class declaration: "class Device : public NS::Referencing<Device>"
-    // Also matches NS::Copying and NS::SecureCoding
+    // Also matches NS::Copying, NS::SecureCoding, and unqualified Copying/Referencing
     private static readonly Regex s_classDeclRegex = new Regex(
-        @"class\s+(\w+)\s*:\s*public\s+(NS::Referencing|NS::CopiedBy|NS::Copying|NS::SecureCoding)\s*<",
+        @"class\s+(\w+)\s*:\s*public\s+(?:NS::)?(Referencing|CopiedBy|Copying|SecureCoding)\s*<",
         RegexOptions.Compiled);
 
     // Method declaration in the public section:
     // "ReturnType*  methodName(ParamType p1, ParamType2 p2) const;"
     // or "ReturnType   methodName();" (value return)
+    // Also handles forward-declared return types: "class MetalDrawable*  nextDrawable();"
+    // Also handles multi-word return types: "unsigned int  intValue() const;"
     private static readonly Regex s_methodDeclRegex = new Regex(
-        @"^\s+([\w:]+\s*\*?)\s+(\w+)\s*\(([^)]*)\)\s*(const)?\s*;",
+        @"^\s+(?:class\s+)?((?:unsigned\s+|signed\s+|long\s+)?[\w:]+\s*\*?)\s+(\w+)\s*\(([^)]*)\)\s*(const)?\s*;",
         RegexOptions.Compiled);
 
-    // Static method: "static Device* alloc();"
+    // Static method: "static Device* alloc();" or "static class MetalLayer* layer();"
+    // Also handles multi-word return types.
     private static readonly Regex s_staticMethodDeclRegex = new Regex(
-        @"^\s+static\s+([\w:]+\s*\*?)\s+(\w+)\s*\(([^)]*)\)\s*;",
+        @"^\s+static\s+(?:class\s+)?((?:unsigned\s+|signed\s+|long\s+)?[\w:]+\s*\*?)\s+(\w+)\s*\(([^)]*)\)\s*;",
         RegexOptions.Compiled);
 
     // Selector definition: _MTL_PRIVATE_DEF_SEL(methodCppName_, "selector:name:")
-    // Also handles _MTLFX_PRIVATE_DEF_SEL
+    // Also handles _MTLFX_PRIVATE_DEF_SEL, _CA_PRIVATE_DEF_SEL
     private static readonly Regex s_selectorDefRegex = new Regex(
-        @"_(?:MTL|NS|MTLFX)_PRIVATE_DEF_SEL\s*\(\s*(\w+)\s*,\s*""([^""]+)""\s*\)",
+        @"_(?:MTL|NS|MTLFX|CA)_PRIVATE_DEF_SEL\s*\(\s*(\w+)\s*,\s*""([^""]+)""\s*\)",
         RegexOptions.Compiled);
 
     // Inline implementation with selector:
-    // Object::sendMessage<...>(this, _MTL_PRIVATE_SEL(selectorField))
+    // Object::sendMessage<...>(this, _MTL_PRIVATE_SEL(selectorField)) or _CA_PRIVATE_SEL
     private static readonly Regex s_inlineSelectorRegex = new Regex(
-        @"(\w+)::(\w+)\s*\([^)]*\)[^{]*\{[^}]*_MTL_PRIVATE_SEL\s*\(\s*(\w+)\s*\)",
+        @"(\w+)::(\w+)\s*\([^)]*\)[^{]*\{[^}]*_(?:MTL|CA|NS|MTLFX)_PRIVATE_SEL\s*\(\s*(\w+)\s*\)",
         RegexOptions.Compiled);
 
     /// <summary>
@@ -144,6 +147,7 @@ internal static class HeaderClassParser
                 case "MTLFX": prefix = "MTLFX"; break;
                 case "MTL4FX": prefix = "MTL4FX"; break;
                 case "CA": prefix = "CA"; break;
+                case "NS": prefix = "NS"; break;
                 default: prefix = "MTL"; break;
             }
             result.Add((m.Index, prefix));
@@ -177,6 +181,8 @@ internal static class HeaderClassParser
         if (def.Name.StartsWith("MTL4FX")) nsPrefix = "MTL4FX";
         else if (def.Name.StartsWith("MTLFX")) nsPrefix = "MTLFX";
         else if (def.Name.StartsWith("MTL4")) nsPrefix = "MTL4";
+        else if (def.Name.StartsWith("CA")) nsPrefix = "CA";
+        else if (def.Name.StartsWith("NS")) nsPrefix = "NS";
 
         // Track method signatures to avoid duplicates
         var methodSignatures = new HashSet<string>();
@@ -220,10 +226,57 @@ internal static class HeaderClassParser
             if (trimmed.StartsWith("//") || trimmed.StartsWith("/*") || string.IsNullOrEmpty(trimmed))
                 continue;
 
-            // Skip static alloc/init — we generate those automatically for classes
+            // Check for static method first
             var staticMatch = s_staticMethodDeclRegex.Match(line);
             if (staticMatch.Success)
             {
+                var sRetType = staticMatch.Groups[1].Value.Trim();
+                var sMethodName = staticMatch.Groups[2].Value.Trim();
+                var sParamStr = staticMatch.Groups[3].Value.Trim();
+
+                // Skip alloc/init — we generate those automatically for classes
+                if (sMethodName == "alloc" || sMethodName == "init")
+                    continue;
+
+                var sRetCs = MapTypeInContext(sRetType, nsPrefix);
+                if (sRetCs == null) continue;
+
+                if (HeaderTypeMapper.IsCSharpKeyword(sMethodName))
+                    sMethodName = $"@{sMethodName}";
+
+                var sSel = ResolveSelector(className, sMethodName.TrimStart('@'), sParamStr, selectorMap);
+
+                var sMethod = new MethodDef
+                {
+                    Name = sMethodName,
+                    Selector = sSel ?? sMethodName.TrimStart('@'),
+                    ReturnType = sRetCs,
+                };
+
+                if (!string.IsNullOrEmpty(sParamStr))
+                {
+                    var sParsed = ParseParams(sParamStr);
+                    bool sUnsupported = false;
+                    var sConverted = new List<ParamDef>();
+                    foreach (var p in sParsed)
+                    {
+                        var pType = MapTypeInContext(p.type, nsPrefix);
+                        if (pType == null) { sUnsupported = true; break; }
+                        var pName = p.name;
+                        if (HeaderTypeMapper.IsCSharpKeyword(pName)) pName = $"@{pName}";
+                        sConverted.Add(new ParamDef { Name = pName, Type = pType });
+                    }
+                    if (sUnsupported) continue;
+                    sMethod.Parameters = sConverted;
+                }
+
+                if (!HasUnsupportedParamCombination(sMethod))
+                {
+                    var sSigTypes = string.Join(",", sMethod.Parameters.Select(p => p.Type));
+                    var sSigKey = $"static:{sMethod.Name}({sSigTypes})";
+                    if (methodSignatures.Add(sSigKey))
+                        def.StaticMethods.Add(sMethod);
+                }
                 continue;
             }
 
@@ -396,16 +449,28 @@ internal static class HeaderClassParser
         var mapped = HeaderTypeMapper.ToCSharpType(cppType);
         if (mapped == null) return null;
 
-        // If the containing class is in MTL4/MTLFX namespace, and the type doesn't have
-        // an explicit namespace, and was mapped with default MTL prefix, re-prefix it
-        // to match the containing namespace. This handles unqualified forward declarations
-        // like "BinaryFunction*" inside an MTL4 class.
+        // If the containing class is in a non-MTL namespace, and the type was mapped with
+        // default MTL prefix, re-prefix it to match the containing namespace.
+        // This handles unqualified forward declarations like "MetalDrawable*" inside a CA class
+        // or "BinaryFunction*" inside an MTL4 class.
         if (nsPrefix != "MTL" && !HeaderTypeMapper.IsPrimitive(mapped)
-            && mapped.StartsWith("MTL") && !mapped.StartsWith(nsPrefix)
-            && !mapped.StartsWith("MTL4") && !mapped.StartsWith("MTLFX")
+            && mapped.StartsWith("MTL") && !mapped.StartsWith("MTL4") && !mapped.StartsWith("MTLFX")
             && !HeaderTypeMapper.IsValueStruct(mapped))
         {
-            mapped = nsPrefix + mapped.Substring(3);
+            // For CA/NS namespace: only re-prefix types that don't exist as MTL types
+            // (e.g. MetalDrawable → CAMetalDrawable, but Device → MTLDevice stays)
+            if (nsPrefix == "CA" || nsPrefix == "NS")
+            {
+                var baseName = mapped.Substring(3);
+                // If the base name starts with Metal (CA-specific types), re-prefix to CA
+                if (nsPrefix == "CA" && baseName.StartsWith("Metal"))
+                    mapped = $"CA{baseName}";
+                // NS types use standard mapping (String→NSString etc.), no re-prefix needed
+            }
+            else
+            {
+                mapped = nsPrefix + mapped.Substring(3);
+            }
         }
 
         return mapped;
@@ -470,6 +535,10 @@ internal static class HeaderClassParser
             var name = tokens[tokens.Count - 1].TrimStart('*').TrimEnd('*');
             var typeParts = tokens.Take(tokens.Count - 1).ToArray();
             var type = string.Join(" ", typeParts);
+
+            // Strip C++ forward declaration "class" keyword from type
+            if (type.StartsWith("class "))
+                type = type.Substring(6);
 
             // Handle cases like "ResourceOptions options" (no pointer)
             if (string.IsNullOrEmpty(type) && tokens.Count == 1)
@@ -549,6 +618,7 @@ internal static class HeaderClassParser
             || rawName == "StencilDescriptor"
             || rawName == "RenderPassDescriptor"
             || rawName == "ComputePassDescriptor"
-            || rawName == "BlitPassDescriptor";
+            || rawName == "BlitPassDescriptor"
+            || rawName == "MetalLayer";
     }
 }

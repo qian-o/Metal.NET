@@ -19,6 +19,10 @@ internal static class HeaderTypeMapper
         var t = cppType.Trim();
         t = t.Replace("const ", "").Trim();
 
+        // Strip C++ forward-declaration "class" keyword
+        if (t.StartsWith("class "))
+            t = t.Substring(6).Trim();
+
         // Detect pointer-to-array (e.g. "MTL::Buffer* buffers[]") — unsupported
         if (t.Contains("[]"))
             return null;
@@ -29,6 +33,10 @@ internal static class HeaderTypeMapper
 
         // void* (pointer to raw data) maps to IntPtr, not void
         if (t == "void" && isPointer)
+            return "IntPtr";
+
+        // const char* → IntPtr (C string pointer)
+        if (t == "char" && isPointer)
             return "IntPtr";
 
         // Remove namespace prefixes
@@ -49,6 +57,19 @@ internal static class HeaderTypeMapper
             case "int16_t": return "short";
             case "int32_t": return "int";
             case "int64_t": return "long";
+            // Plain C types
+            case "int": return "int";
+            case "unsigned int": return "uint";
+            case "long": return "long";
+            case "unsigned long": return "ulong";
+            case "long long": return "long";
+            case "unsigned long long": return "ulong";
+            case "short": return "short";
+            case "unsigned short": return "ushort";
+            case "char": return "byte";
+            case "unsigned char": return "byte";
+            case "signed char": return "sbyte";
+            case "unichar": return "ushort";
             case "UInteger": return "UIntPtr";
             case "Integer": return "IntPtr";
 

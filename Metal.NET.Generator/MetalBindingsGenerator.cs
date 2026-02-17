@@ -105,6 +105,33 @@ public class MetalBindingsGenerator : IIncrementalGenerator
             }
         }
 
+        // Step 5: Parse Foundation NS*.hpp files
+        foreach (var (fileName, content) in files)
+        {
+            var baseName = Path.GetFileNameWithoutExtension(fileName);
+            if (!baseName.StartsWith("NS")) continue;
+
+            // Only generate a whitelist of Foundation classes that are commonly
+            // used in Metal code and have straightforward bindings
+            if (!s_generatableNsFiles.Contains(baseName))
+                continue;
+
+            var classes = HeaderClassParser.Parse(content, baseName, selectorMap);
+            foreach (var cls in classes)
+            {
+                if (!cls.Name.StartsWith("NS"))
+                    cls.Name = $"NS{cls.Name}";
+
+                // Skip NS types that have hand-written Runtime implementations
+                // with special C# convenience methods
+                if (s_handWrittenNsTypes.Contains(cls.Name))
+                    continue;
+
+                if (generatedClasses.Add(cls.Name))
+                    GenerateObjCClassDef(ctx, cls);
+            }
+        }
+
         // Step 5: Generate stub structs for referenced but undefined types
         var referencedTypes = CollectReferencedTypes(generatedClasses);
         var missingTypes = new HashSet<string>();
@@ -237,6 +264,7 @@ public class MetalBindingsGenerator : IIncrementalGenerator
         sb.AppendLine();
 
         // ── Alloc (for classes) ──
+        bool hasStaticMethods = def.StaticMethods.Count > 0;
         if (def.IsClass && def.ObjCClass != null)
         {
             sb.AppendLine($"    private static readonly IntPtr s_class = ObjectiveCRuntime.GetClass(\"{def.ObjCClass}\");");
@@ -257,6 +285,12 @@ public class MetalBindingsGenerator : IIncrementalGenerator
             sb.AppendLine("    {");
             sb.AppendLine("        return Alloc().Init();");
             sb.AppendLine("    }");
+            sb.AppendLine();
+        }
+        else if (hasStaticMethods)
+        {
+            // Types with static factory methods need s_class even if not a "descriptor" class
+            sb.AppendLine($"    private static readonly IntPtr s_class = ObjectiveCRuntime.GetClass(\"{def.Name}\");");
             sb.AppendLine();
         }
 
@@ -366,6 +400,16 @@ public class MetalBindingsGenerator : IIncrementalGenerator
         else if ((retType == "UIntPtr" || retType == "nuint") && hasParams)
         {
             sb.AppendLine($"        return (UIntPtr)(ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
+        }
+        // Special case: float return with params — float_objc_msgSend has no param overloads
+        else if (retType == "float" && hasParams)
+        {
+            sb.AppendLine($"        return BitConverter.Int32BitsToSingle((int)ObjectiveCRuntime.intptr_objc_msgSend({argsStr}));");
+        }
+        // Special case: double return with params — double_objc_msgSend has no param overloads
+        else if (retType == "double" && hasParams)
+        {
+            sb.AppendLine($"        return BitConverter.Int64BitsToDouble((long)ObjectiveCRuntime.intptr_objc_msgSend({argsStr}));");
         }
         // Special case: uint/enum return with params — uint_objc_msgSend has no param overloads
         else if (retType == "uint" && hasParams)
@@ -538,6 +582,18 @@ public class MetalBindingsGenerator : IIncrementalGenerator
         "MTL4BinaryFunction", "MTL4MachineLearningPipelineState",
         "MTL4MachineLearningPipelineReflection", "MTL4PipelineOptions",
         "MTLFunctionLogDebugLocation",
+    };
+
+    // NS types that have hand-written Runtime implementations with special C# methods
+    private static readonly System.Collections.Generic.HashSet<string> s_handWrittenNsTypes = new()
+    {
+        "NSString", "NSError", "NSArray",
+    };
+
+    // Foundation files that are safe to generate (simple bindings, no complex C++ templates)
+    private static readonly System.Collections.Generic.HashSet<string> s_generatableNsFiles = new()
+    {
+        "NSURL",
     };
 
     private static bool IsLikelyEnum(string type)
