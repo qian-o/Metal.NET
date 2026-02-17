@@ -8,14 +8,4 @@
         <RootNamespace>Metal.NET</RootNamespace>
     </PropertyGroup>
 
-    <!-- Source Generator reference -->
-    <ItemGroup>
-        <ProjectReference Include="..\Metal.NET.Generator\Metal.NET.Generator.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-    </ItemGroup>
-
-    <!-- Feed metal-cpp headers directly to the generator -->
-    <ItemGroup>
-        <AdditionalFiles Include="metal-cpp\**\*.hpp" />
-    </ItemGroup>
-
 </Project>
