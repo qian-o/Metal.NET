@@ -41,15 +41,15 @@ public class MTLBuffer : IDisposable
 
     public MTLBuffer NewRemoteBufferViewForDevice(MTLDevice device)
     {
-        var result = new MTLBuffer(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBufferSelector.NewRemoteBufferViewForDevice, device.NativePtr));
+        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.NewRemoteBufferViewForDevice, device.NativePtr));
 
         return result;
     }
 
     public MTLTensor NewTensor(MTLTensorDescriptor descriptor, uint offset, out NSError? error)
     {
-        MTLTensor result = new(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBufferSelector.NewTensorOffsetError, descriptor.NativePtr, (nint)offset, out nint errorPtr));
-        
+        MTLTensor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.NewTensorOffsetError, descriptor.NativePtr, (nint)offset, out nint errorPtr));
+
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
@@ -57,14 +57,14 @@ public class MTLBuffer : IDisposable
 
     public MTLTexture NewTexture(MTLTextureDescriptor descriptor, uint offset, uint bytesPerRow)
     {
-        MTLTexture result = new(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBufferSelector.NewTextureOffsetBytesPerRow, descriptor.NativePtr, (nint)offset, (nint)bytesPerRow));
+        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.NewTextureOffsetBytesPerRow, descriptor.NativePtr, (nint)offset, (nint)bytesPerRow));
 
         return result;
     }
 
     public void RemoveAllDebugMarkers()
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBufferSelector.RemoveAllDebugMarkers);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferSelector.RemoveAllDebugMarkers);
     }
 
 }
@@ -72,7 +72,10 @@ public class MTLBuffer : IDisposable
 file class MTLBufferSelector
 {
     public static readonly Selector NewRemoteBufferViewForDevice = Selector.Register("newRemoteBufferViewForDevice:");
+
     public static readonly Selector NewTensorOffsetError = Selector.Register("newTensor:offset:error:");
+
     public static readonly Selector NewTextureOffsetBytesPerRow = Selector.Register("newTexture:offset:bytesPerRow:");
+
     public static readonly Selector RemoveAllDebugMarkers = Selector.Register("removeAllDebugMarkers");
 }

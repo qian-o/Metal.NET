@@ -22,18 +22,18 @@ public class NSError : IDisposable
     {
         get
         {
-            var nsStr = new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, s_localizedDescription));
+            var nsStr = new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, s_localizedDescription));
             return nsStr.GetValue();
         }
     }
 
-    public long Code => (long)ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, s_code);
+    public long Code => (long)ObjectiveCRuntime.MsgSendNUInt(NativePtr, s_code);
 
     public string Domain
     {
         get
         {
-            var nsStr = new NSString(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, s_domain));
+            var nsStr = new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, s_domain));
             return nsStr.GetValue();
         }
     }

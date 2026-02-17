@@ -16,7 +16,7 @@ public readonly struct Selector
     {
         fixed (byte* utf8 = System.Text.Encoding.UTF8.GetBytes(name + '\0'))
         {
-            return ObjectiveCRuntime.sel_registerName(utf8);
+            return ObjectiveCRuntime.RegisterName(utf8);
         }
     }
 }

@@ -85,7 +85,7 @@ public class MetalBindingsGenerator
         sb.AppendLine("}");
 
         var folder = GetFolderForType(typeName);
-        WriteSource(folder, $"{typeName}.g.cs", sb.ToString());
+        WriteSource(folder, $"{typeName}.cs", sb.ToString());
     }
 
     private static string GetFolderForType(string typeName)
@@ -113,7 +113,7 @@ public class MetalBindingsGenerator
         }
         sb.AppendLine("}");
 
-        WriteSource(e.Folder, $"{e.Name}.g.cs", sb.ToString());
+        WriteSource(e.Folder, $"{e.Name}.cs", sb.ToString());
     }
 
     private void GenerateObjCClassDef(ObjCClassDef def,
@@ -136,17 +136,10 @@ public class MetalBindingsGenerator
 
         var sb = new StringBuilder();
         bool hasLibraryImports = freeFunctions != null && freeFunctions.Count > 0;
-        bool hasErrorOut = def.Methods.Any(m => m.HasErrorOut) || def.StaticMethods.Any(m => m.HasErrorOut);
 
         if (hasLibraryImports)
         {
             sb.AppendLine("using System.Runtime.InteropServices;");
-            sb.AppendLine();
-        }
-
-        if (hasErrorOut)
-        {
-            sb.AppendLine("#nullable enable");
             sb.AppendLine();
         }
 
@@ -163,8 +156,8 @@ public class MetalBindingsGenerator
             sb.AppendLine();
             sb.AppendLine($"    public static {def.Name} New()");
             sb.AppendLine("    {");
-            sb.AppendLine("        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register(\"alloc\"));");
-            sb.AppendLine("        ptr = ObjectiveCRuntime.intptr_objc_msgSend(ptr, Selector.Register(\"init\"));");
+            sb.AppendLine("        var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, Selector.Register(\"alloc\"));");
+            sb.AppendLine("        ptr = ObjectiveCRuntime.MsgSendPtr(ptr, Selector.Register(\"init\"));");
             sb.AppendLine();
             sb.AppendLine($"        return new {def.Name}(ptr);");
             sb.AppendLine("    }");
@@ -197,7 +190,7 @@ public class MetalBindingsGenerator
             {
                 var setSelKey = p.SetSelector ?? $"set{Capitalize(p.Name)}:";
                 var setSel = selectors[setSelKey];
-                sb.AppendLine($"        set => ObjectiveCRuntime.objc_msgSend(NativePtr, {def.Name}Selector.{setSel}, {UnwrapParam(p.Type, "value")});");
+                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {def.Name}Selector.{setSel}, {UnwrapParam(p.Type, "value")});");
             }
             sb.AppendLine("    }");
             sb.AppendLine();
@@ -230,13 +223,16 @@ public class MetalBindingsGenerator
         // Selector cache as file-scoped class (at the bottom of the file)
         sb.AppendLine($"file class {def.Name}Selector");
         sb.AppendLine("{");
+        var first = true;
         foreach (var kv in selectors)
         {
+            if (!first) sb.AppendLine();
             sb.AppendLine($"    public static readonly Selector {kv.Value} = Selector.Register(\"{kv.Key}\");");
+            first = false;
         }
         sb.AppendLine("}");
 
-        WriteSource(def.Folder, $"{def.Name}.g.cs", sb.ToString());
+        WriteSource(def.Folder, $"{def.Name}.cs", sb.ToString());
     }
 
     private static void EmitClassBoilerplate(StringBuilder sb, string name, bool hasLibraryImports)
@@ -316,8 +312,7 @@ public class MetalBindingsGenerator
         }
         if (m.HasErrorOut)
         {
-            sb.AppendLine("        nint errorPtr = 0;");
-            argParts.Add("out errorPtr");
+            argParts.Add("out nint errorPtr");
         }
 
         var argsStr = string.Join(", ", argParts);
@@ -325,45 +320,52 @@ public class MetalBindingsGenerator
 
         if (retType == "void")
         {
-            sb.AppendLine($"        ObjectiveCRuntime.objc_msgSend({argsStr});");
+            sb.AppendLine($"        ObjectiveCRuntime.MsgSend({argsStr});");
         }
         else if (retType is "Bool8" or "bool" && hasParams)
         {
-            sb.AppendLine($"        var result = (byte)ObjectiveCRuntime.intptr_objc_msgSend({argsStr}) is not 0;");
+            sb.AppendLine($"        bool result = (byte)ObjectiveCRuntime.MsgSendPtr({argsStr}) is not 0;");
         }
         else if (retType == "nuint" && hasParams)
         {
-            sb.AppendLine($"        var result = (nuint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
+            sb.AppendLine($"        nuint result = (nuint)(ulong)ObjectiveCRuntime.MsgSendPtr({argsStr});");
         }
         else if (retType == "float" && hasParams)
         {
-            sb.AppendLine($"        var result = BitConverter.Int32BitsToSingle((int)ObjectiveCRuntime.intptr_objc_msgSend({argsStr}));");
+            sb.AppendLine($"        float result = BitConverter.Int32BitsToSingle((int)ObjectiveCRuntime.MsgSendPtr({argsStr}));");
         }
         else if (retType == "double" && hasParams)
         {
-            sb.AppendLine($"        var result = BitConverter.Int64BitsToDouble((long)ObjectiveCRuntime.intptr_objc_msgSend({argsStr}));");
+            sb.AppendLine($"        double result = BitConverter.Int64BitsToDouble((long)ObjectiveCRuntime.MsgSendPtr({argsStr}));");
         }
         else if (retType == "uint" && hasParams)
         {
-            sb.AppendLine($"        var result = (uint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
+            sb.AppendLine($"        uint result = (uint)(ulong)ObjectiveCRuntime.MsgSendPtr({argsStr});");
         }
         else if (IsLikelyEnum(retType) && hasParams)
         {
-            sb.AppendLine($"        var result = ({retType})(uint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
+            sb.AppendLine($"        {retType} result = ({retType})(uint)(ulong)ObjectiveCRuntime.MsgSendPtr({argsStr});");
         }
         else if (retType == "ulong" && hasParams)
         {
-            sb.AppendLine($"        var result = (ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
+            sb.AppendLine($"        ulong result = (ulong)ObjectiveCRuntime.MsgSendPtr({argsStr});");
         }
         else
         {
             var resultExpr = $"{retCall.Invoke}({argsStr})";
-            sb.AppendLine($"        var result = {WrapReturnVar(retType, resultExpr)};");
+            var wrapped = WrapReturnVar(retType, resultExpr);
+            if (IsObjCWrapper(retType) || retCall.NeedsWrap)
+                sb.AppendLine($"        {retType} result = new({retCall.Invoke}({argsStr}));");
+            else if (IsLikelyEnum(retType))
+                sb.AppendLine($"        {retType} result = {wrapped};");
+            else
+                sb.AppendLine($"        {retType} result = {wrapped};");
         }
 
         if (m.HasErrorOut)
         {
-            sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : null;");
+            sb.AppendLine();
+            sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr) : null;");
         }
 
         if (retType != "void")
@@ -432,17 +434,17 @@ public class MetalBindingsGenerator
     {
         return type switch
         {
-            "void" => ("ObjectiveCRuntime.objc_msgSend", false),
-            "Bool8" or "bool" => ("ObjectiveCRuntime.bool8_objc_msgSend", false),
-            "uint" => ("ObjectiveCRuntime.uint_objc_msgSend", false),
-            "ulong" => ("ObjectiveCRuntime.ulong_objc_msgSend", false),
-            "float" => ("ObjectiveCRuntime.float_objc_msgSend", false),
-            "double" => ("ObjectiveCRuntime.double_objc_msgSend", false),
-            "nuint" => ("ObjectiveCRuntime.nuint_objc_msgSend", false),
-            "nint" => ("ObjectiveCRuntime.intptr_objc_msgSend", false),
+            "void" => ("ObjectiveCRuntime.MsgSend", false),
+            "Bool8" or "bool" => ("ObjectiveCRuntime.MsgSendBool", false),
+            "uint" => ("ObjectiveCRuntime.MsgSendUInt", false),
+            "ulong" => ("ObjectiveCRuntime.MsgSendULong", false),
+            "float" => ("ObjectiveCRuntime.MsgSendFloat", false),
+            "double" => ("ObjectiveCRuntime.MsgSendDouble", false),
+            "nuint" => ("ObjectiveCRuntime.MsgSendNUInt", false),
+            "nint" => ("ObjectiveCRuntime.MsgSendPtr", false),
             _ when IsKnownValueStruct(type) => ("/* TODO: stret */", false),
-            _ when IsLikelyEnum(type) => ("ObjectiveCRuntime.uint_objc_msgSend", false),
-            _ => ("ObjectiveCRuntime.intptr_objc_msgSend", true),
+            _ when IsLikelyEnum(type) => ("ObjectiveCRuntime.MsgSendUInt", false),
+            _ => ("ObjectiveCRuntime.MsgSendPtr", true),
         };
     }
 
@@ -461,7 +463,7 @@ public class MetalBindingsGenerator
             return $"({type}){varName}";
         var call = MapReturnCall(type);
         if (!call.NeedsWrap) return varName;
-        return $"new {type}({varName})";
+        return $"new({varName})";
     }
 
     private static string UnwrapParam(string type, string name)

@@ -1,0 +1,73 @@
+﻿namespace Metal.NET;
+
+public class MTLDrawable : IDisposable
+{
+    public MTLDrawable(nint nativePtr)
+    {
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    ~MTLDrawable()
+    {
+        Release();
+    }
+
+    public nint NativePtr { get; }
+
+    public static implicit operator nint(MTLDrawable value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLDrawable(nint value)
+    {
+        return new(value);
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
+    }
+
+    public void AddPresentedHandler(int function)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableSelector.AddPresentedHandler, function);
+    }
+
+    public void Present()
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableSelector.Present);
+    }
+
+    public void PresentAfterMinimumDuration(double duration)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableSelector.PresentAfterMinimumDuration, duration);
+    }
+
+    public void PresentAtTime(double presentationTime)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableSelector.PresentAtTime, presentationTime);
+    }
+
+}
+
+file class MTLDrawableSelector
+{
+    public static readonly Selector AddPresentedHandler = Selector.Register("addPresentedHandler:");
+
+    public static readonly Selector Present = Selector.Register("present");
+
+    public static readonly Selector PresentAfterMinimumDuration = Selector.Register("presentAfterMinimumDuration:");
+
+    public static readonly Selector PresentAtTime = Selector.Register("presentAtTime:");
+}

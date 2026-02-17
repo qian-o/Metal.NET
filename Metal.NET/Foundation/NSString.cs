@@ -22,7 +22,7 @@ public class NSString : IDisposable
 
     public string GetValue()
     {
-        var utf8Ptr = ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, s_UTF8String);
+        var utf8Ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, s_UTF8String);
         return Marshal.PtrToStringUTF8(utf8Ptr) ?? string.Empty;
     }
 
@@ -30,7 +30,7 @@ public class NSString : IDisposable
     {
         fixed (byte* utf8 = System.Text.Encoding.UTF8.GetBytes(value + '\0'))
         {
-            var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, s_stringWithUTF8String, (nint)utf8);
+            var ptr = ObjectiveCRuntime.MsgSendPtr(s_class, s_stringWithUTF8String, (nint)utf8);
             return new NSString(ptr);
         }
     }

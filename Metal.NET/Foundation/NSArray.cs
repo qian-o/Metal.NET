@@ -17,7 +17,7 @@ public class NSArray : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint Count => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, NSArraySelector.Count);
+    public nuint Count => ObjectiveCRuntime.MsgSendNUInt(NativePtr, NSArraySelector.Count);
 
     public static implicit operator nint(NSArray value)
     {
@@ -31,7 +31,7 @@ public class NSArray : IDisposable
 
     public nint ObjectAtIndex(int index)
     {
-        return ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, NSArraySelector.ObjectAtIndex, index);
+        return ObjectiveCRuntime.MsgSendPtr(NativePtr, NSArraySelector.ObjectAtIndex, index);
     }
 
     public void Dispose()
