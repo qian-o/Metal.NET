@@ -14,11 +14,20 @@ public class MTLCommandQueue : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLCommandBuffer CommandBuffer => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.CommandBuffer));
+    public MTLCommandBuffer CommandBuffer
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.CommandBuffer));
+    }
 
-    public MTLCommandBuffer CommandBufferWithUnretainedReferences => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.CommandBufferWithUnretainedReferences));
+    public MTLCommandBuffer CommandBufferWithUnretainedReferences
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.CommandBufferWithUnretainedReferences));
+    }
 
-    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.Device));
+    public MTLDevice Device
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.Device));
+    }
 
     public NSString Label
     {

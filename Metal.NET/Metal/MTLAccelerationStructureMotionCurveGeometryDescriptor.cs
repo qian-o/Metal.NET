@@ -116,6 +116,13 @@ public class MTLAccelerationStructureMotionCurveGeometryDescriptor : IDisposable
         return new(value);
     }
 
+    public static MTLAccelerationStructureMotionCurveGeometryDescriptor Descriptor()
+    {
+        MTLAccelerationStructureMotionCurveGeometryDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructureMotionCurveGeometryDescriptorSelector.Descriptor));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -129,13 +136,6 @@ public class MTLAccelerationStructureMotionCurveGeometryDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public static MTLAccelerationStructureMotionCurveGeometryDescriptor Descriptor()
-    {
-        MTLAccelerationStructureMotionCurveGeometryDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructureMotionCurveGeometryDescriptorSelector.Descriptor));
-
-        return result;
     }
 }
 

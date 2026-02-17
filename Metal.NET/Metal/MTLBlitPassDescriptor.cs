@@ -20,7 +20,10 @@ public class MTLBlitPassDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLBlitPassSampleBufferAttachmentDescriptorArray SampleBufferAttachments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBlitPassDescriptorSelector.SampleBufferAttachments));
+    public MTLBlitPassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBlitPassDescriptorSelector.SampleBufferAttachments));
+    }
 
     public static implicit operator nint(MTLBlitPassDescriptor value)
     {
@@ -30,6 +33,13 @@ public class MTLBlitPassDescriptor : IDisposable
     public static implicit operator MTLBlitPassDescriptor(nint value)
     {
         return new(value);
+    }
+
+    public static MTLBlitPassDescriptor BlitPassDescriptor()
+    {
+        MTLBlitPassDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLBlitPassDescriptorSelector.BlitPassDescriptor));
+
+        return result;
     }
 
     public void Dispose()
@@ -45,13 +55,6 @@ public class MTLBlitPassDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public static MTLBlitPassDescriptor BlitPassDescriptor()
-    {
-        MTLBlitPassDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLBlitPassDescriptorSelector.BlitPassDescriptor));
-
-        return result;
     }
 }
 

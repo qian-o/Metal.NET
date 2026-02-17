@@ -14,9 +14,15 @@ public class CAMetalDrawable : IDisposable
 
     public nint NativePtr { get; }
 
-    public CAMetalLayer Layer => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalDrawableSelector.Layer));
+    public CAMetalLayer Layer
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalDrawableSelector.Layer));
+    }
 
-    public MTLTexture Texture => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalDrawableSelector.Texture));
+    public MTLTexture Texture
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalDrawableSelector.Texture));
+    }
 
     public static implicit operator nint(CAMetalDrawable value)
     {

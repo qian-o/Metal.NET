@@ -92,6 +92,13 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor : IDisposable
         return new(value);
     }
 
+    public static MTLAccelerationStructureTriangleGeometryDescriptor Descriptor()
+    {
+        MTLAccelerationStructureTriangleGeometryDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructureTriangleGeometryDescriptorSelector.Descriptor));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -105,13 +112,6 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public static MTLAccelerationStructureTriangleGeometryDescriptor Descriptor()
-    {
-        MTLAccelerationStructureTriangleGeometryDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructureTriangleGeometryDescriptorSelector.Descriptor));
-
-        return result;
     }
 }
 

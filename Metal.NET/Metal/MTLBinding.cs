@@ -14,21 +14,45 @@ public class MTLBinding : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLBindingAccess Access => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLBindingSelector.Access));
+    public MTLBindingAccess Access
+    {
+        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLBindingSelector.Access));
+    }
 
-    public Bool8 Argument => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingSelector.Argument);
+    public Bool8 Argument
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingSelector.Argument);
+    }
 
-    public nuint Index => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBindingSelector.Index);
+    public nuint Index
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBindingSelector.Index);
+    }
 
-    public Bool8 IsArgument => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingSelector.IsArgument);
+    public Bool8 IsArgument
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingSelector.IsArgument);
+    }
 
-    public Bool8 IsUsed => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingSelector.IsUsed);
+    public Bool8 IsUsed
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingSelector.IsUsed);
+    }
 
-    public NSString Name => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBindingSelector.Name));
+    public NSString Name
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBindingSelector.Name));
+    }
 
-    public MTLBindingType Type => (MTLBindingType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLBindingSelector.Type));
+    public MTLBindingType Type
+    {
+        get => (MTLBindingType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLBindingSelector.Type));
+    }
 
-    public Bool8 Used => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingSelector.Used);
+    public Bool8 Used
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingSelector.Used);
+    }
 
     public static implicit operator nint(MTLBinding value)
     {

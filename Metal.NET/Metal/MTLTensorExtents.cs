@@ -14,7 +14,10 @@ public class MTLTensorExtents : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint Rank => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorExtentsSelector.Rank);
+    public nuint Rank
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorExtentsSelector.Rank);
+    }
 
     public nint ExtentAtDimensionIndex(nuint dimensionIndex)
     {

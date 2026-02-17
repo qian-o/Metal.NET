@@ -14,7 +14,10 @@ public class MTL4MachineLearningPipelineReflection : IDisposable
 
     public nint NativePtr { get; }
 
-    public NSArray Bindings => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineReflectionSelector.Bindings));
+    public NSArray Bindings
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineReflectionSelector.Bindings));
+    }
 
     public static implicit operator nint(MTL4MachineLearningPipelineReflection value)
     {

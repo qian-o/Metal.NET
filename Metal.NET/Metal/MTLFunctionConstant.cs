@@ -14,13 +14,25 @@ public class MTLFunctionConstant : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint Index => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionConstantSelector.Index);
+    public nuint Index
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionConstantSelector.Index);
+    }
 
-    public NSString Name => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionConstantSelector.Name));
+    public NSString Name
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionConstantSelector.Name));
+    }
 
-    public Bool8 Required => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFunctionConstantSelector.Required);
+    public Bool8 Required
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFunctionConstantSelector.Required);
+    }
 
-    public MTLDataType Type => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFunctionConstantSelector.Type));
+    public MTLDataType Type
+    {
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFunctionConstantSelector.Type));
+    }
 
     public static implicit operator nint(MTLFunctionConstant value)
     {

@@ -82,6 +82,20 @@ public class MTLFXSpatialScalerDescriptor : IDisposable
         return new(value);
     }
 
+    public static Bool8 SupportsDevice(MTLDevice pDevice)
+    {
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(Class, MTLFXSpatialScalerDescriptorSelector.SupportsDevice, pDevice.NativePtr);
+
+        return result;
+    }
+
+    public static Bool8 SupportsMetal4FX(MTLDevice pDevice)
+    {
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(Class, MTLFXSpatialScalerDescriptorSelector.SupportsMetal4FX, pDevice.NativePtr);
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -95,20 +109,6 @@ public class MTLFXSpatialScalerDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public static Bool8 SupportsDevice(MTLDevice pDevice)
-    {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(Class, MTLFXSpatialScalerDescriptorSelector.SupportsDevice, pDevice.NativePtr);
-
-        return result;
-    }
-
-    public static Bool8 SupportsMetal4FX(MTLDevice pDevice)
-    {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(Class, MTLFXSpatialScalerDescriptorSelector.SupportsMetal4FX, pDevice.NativePtr);
-
-        return result;
     }
 }
 

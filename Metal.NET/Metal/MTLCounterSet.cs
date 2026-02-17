@@ -14,9 +14,15 @@ public class MTLCounterSet : IDisposable
 
     public nint NativePtr { get; }
 
-    public NSArray Counters => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSetSelector.Counters));
+    public NSArray Counters
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSetSelector.Counters));
+    }
 
-    public NSString Name => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSetSelector.Name));
+    public NSString Name
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSetSelector.Name));
+    }
 
     public static implicit operator nint(MTLCounterSet value)
     {

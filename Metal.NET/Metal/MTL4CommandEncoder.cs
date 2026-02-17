@@ -14,7 +14,10 @@ public class MTL4CommandEncoder : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTL4CommandBuffer CommandBuffer => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandEncoderSelector.CommandBuffer));
+    public MTL4CommandBuffer CommandBuffer
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandEncoderSelector.CommandBuffer));
+    }
 
     public NSString Label
     {

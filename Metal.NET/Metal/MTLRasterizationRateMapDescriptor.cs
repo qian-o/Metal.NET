@@ -26,9 +26,15 @@ public class MTLRasterizationRateMapDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetLabel, value.NativePtr);
     }
 
-    public nuint LayerCount => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRasterizationRateMapDescriptorSelector.LayerCount);
+    public nuint LayerCount
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRasterizationRateMapDescriptorSelector.LayerCount);
+    }
 
-    public MTLRasterizationRateLayerArray Layers => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Layers));
+    public MTLRasterizationRateLayerArray Layers
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Layers));
+    }
 
     public MTLRasterizationRateLayerDescriptor Layer(nuint layerIndex)
     {
@@ -52,21 +58,6 @@ public class MTLRasterizationRateMapDescriptor : IDisposable
         return new(value);
     }
 
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
     public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptor(MTLSize screenSize)
     {
         MTLRasterizationRateMapDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLRasterizationRateMapDescriptorSelector.RasterizationRateMapDescriptor, screenSize));
@@ -86,6 +77,21 @@ public class MTLRasterizationRateMapDescriptor : IDisposable
         MTLRasterizationRateMapDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLRasterizationRateMapDescriptorSelector.RasterizationRateMapDescriptorLayerCountLayers, screenSize, layerCount, layers));
 
         return result;
+    }
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 }
 

@@ -44,7 +44,10 @@ public class MTLRenderPipelineColorAttachmentDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetDestinationRGBBlendFactor, (uint)value);
     }
 
-    public Bool8 IsBlendingEnabled => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.IsBlendingEnabled);
+    public Bool8 IsBlendingEnabled
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.IsBlendingEnabled);
+    }
 
     public MTLPixelFormat PixelFormat
     {

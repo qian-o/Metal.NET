@@ -14,9 +14,15 @@ public class MTL4CommandBuffer : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTL4ComputeCommandEncoder ComputeCommandEncoder => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.ComputeCommandEncoder));
+    public MTL4ComputeCommandEncoder ComputeCommandEncoder
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.ComputeCommandEncoder));
+    }
 
-    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.Device));
+    public MTLDevice Device
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.Device));
+    }
 
     public NSString Label
     {
@@ -24,7 +30,10 @@ public class MTL4CommandBuffer : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.SetLabel, value.NativePtr);
     }
 
-    public MTL4MachineLearningCommandEncoder MachineLearningCommandEncoder => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.MachineLearningCommandEncoder));
+    public MTL4MachineLearningCommandEncoder MachineLearningCommandEncoder
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.MachineLearningCommandEncoder));
+    }
 
     public void BeginCommandBuffer(MTL4CommandAllocator allocator)
     {

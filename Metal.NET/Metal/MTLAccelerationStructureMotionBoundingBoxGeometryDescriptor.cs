@@ -44,6 +44,13 @@ public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor : IDisp
         return new(value);
     }
 
+    public static MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor Descriptor()
+    {
+        MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.Descriptor));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -57,13 +64,6 @@ public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor : IDisp
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public static MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor Descriptor()
-    {
-        MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.Descriptor));
-
-        return result;
     }
 }
 

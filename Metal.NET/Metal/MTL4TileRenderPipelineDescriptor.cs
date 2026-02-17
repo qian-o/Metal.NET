@@ -20,7 +20,10 @@ public class MTL4TileRenderPipelineDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLTileRenderPipelineColorAttachmentDescriptorArray ColorAttachments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4TileRenderPipelineDescriptorSelector.ColorAttachments));
+    public MTLTileRenderPipelineColorAttachmentDescriptorArray ColorAttachments
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4TileRenderPipelineDescriptorSelector.ColorAttachments));
+    }
 
     public nuint MaxTotalThreadsPerThreadgroup
     {

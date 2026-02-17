@@ -40,7 +40,10 @@ public class MTLFXFrameInterpolatorDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetMotionTextureFormat, (uint)value);
     }
 
-    public MTLPixelFormat UiTextureFormat => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.UiTextureFormat));
+    public MTLPixelFormat UiTextureFormat
+    {
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.UiTextureFormat));
+    }
 
     public MTLFXFrameInterpolatableScaler Scaler
     {
@@ -101,6 +104,20 @@ public class MTLFXFrameInterpolatorDescriptor : IDisposable
         return new(value);
     }
 
+    public static Bool8 SupportsMetal4FX(MTLDevice device)
+    {
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(Class, MTLFXFrameInterpolatorDescriptorSelector.SupportsMetal4FX, device.NativePtr);
+
+        return result;
+    }
+
+    public static Bool8 SupportsDevice(MTLDevice device)
+    {
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(Class, MTLFXFrameInterpolatorDescriptorSelector.SupportsDevice, device.NativePtr);
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -114,20 +131,6 @@ public class MTLFXFrameInterpolatorDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public static Bool8 SupportsMetal4FX(MTLDevice device)
-    {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(Class, MTLFXFrameInterpolatorDescriptorSelector.SupportsMetal4FX, device.NativePtr);
-
-        return result;
-    }
-
-    public static Bool8 SupportsDevice(MTLDevice device)
-    {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(Class, MTLFXFrameInterpolatorDescriptorSelector.SupportsDevice, device.NativePtr);
-
-        return result;
     }
 }
 

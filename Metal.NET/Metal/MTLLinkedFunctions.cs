@@ -54,6 +54,13 @@ public class MTLLinkedFunctions : IDisposable
         return new(value);
     }
 
+    public static MTLLinkedFunctions LinkedFunctions()
+    {
+        MTLLinkedFunctions result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLLinkedFunctionsSelector.LinkedFunctions));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -67,13 +74,6 @@ public class MTLLinkedFunctions : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public static MTLLinkedFunctions LinkedFunctions()
-    {
-        MTLLinkedFunctions result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLLinkedFunctionsSelector.LinkedFunctions));
-
-        return result;
     }
 }
 

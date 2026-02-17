@@ -14,7 +14,10 @@ public class MTLStructType : IDisposable
 
     public nint NativePtr { get; }
 
-    public NSArray Members => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeSelector.Members));
+    public NSArray Members
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeSelector.Members));
+    }
 
     public MTLStructMember MemberByName(NSString name)
     {

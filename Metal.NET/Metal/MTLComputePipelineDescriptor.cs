@@ -20,7 +20,10 @@ public class MTLComputePipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetBinaryArchives, value.NativePtr);
     }
 
-    public MTLPipelineBufferDescriptorArray Buffers => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.Buffers));
+    public MTLPipelineBufferDescriptorArray Buffers
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.Buffers));
+    }
 
     public MTLFunction ComputeFunction
     {

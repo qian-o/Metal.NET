@@ -38,6 +38,13 @@ public class MTLMotionKeyframeData : IDisposable
         return new(value);
     }
 
+    public static MTLMotionKeyframeData Data()
+    {
+        MTLMotionKeyframeData result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLMotionKeyframeDataSelector.Data));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -51,13 +58,6 @@ public class MTLMotionKeyframeData : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public static MTLMotionKeyframeData Data()
-    {
-        MTLMotionKeyframeData result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLMotionKeyframeDataSelector.Data));
-
-        return result;
     }
 }
 

@@ -186,7 +186,10 @@ public class MetalBindingsGenerator
 
             if (p.Readonly)
             {
-                sb.AppendLine($"    public {propType} {propName} => {getExpr};");
+                sb.AppendLine($"    public {propType} {propName}");
+                sb.AppendLine("    {");
+                sb.AppendLine($"        get => {getExpr};");
+                sb.AppendLine("    }");
             }
             else
             {
@@ -222,6 +225,15 @@ public class MetalBindingsGenerator
         sb.AppendLine("    }");
         sb.AppendLine();
 
+        // Static methods after operators
+        foreach (var m in def.StaticMethods)
+        {
+            if (EmitMethod(sb, def.Name, m, selectors, isStatic: true))
+            {
+                sb.AppendLine();
+            }
+        }
+
         // Dispose + Release
         sb.AppendLine("    public void Dispose()");
         sb.AppendLine("    {");
@@ -237,16 +249,6 @@ public class MetalBindingsGenerator
         sb.AppendLine("            ObjectiveCRuntime.Release(NativePtr);");
         sb.AppendLine("        }");
         sb.AppendLine("    }");
-
-        // Static methods at bottom
-        foreach (var m in def.StaticMethods)
-        {
-            sb.AppendLine();
-            if (!EmitMethod(sb, def.Name, m, selectors, isStatic: true))
-            {
-                TrimTrailingBlankLine(sb);
-            }
-        }
 
         // Free C functions (LibraryImport)
         if (freeFunctions != null && freeFunctions.Count > 0)

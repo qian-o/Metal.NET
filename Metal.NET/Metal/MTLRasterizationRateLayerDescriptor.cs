@@ -20,13 +20,25 @@ public class MTLRasterizationRateLayerDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLRasterizationRateSampleArray Horizontal => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.Horizontal));
+    public MTLRasterizationRateSampleArray Horizontal
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.Horizontal));
+    }
 
-    public nint HorizontalSampleStorage => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.HorizontalSampleStorage);
+    public nint HorizontalSampleStorage
+    {
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.HorizontalSampleStorage);
+    }
 
-    public MTLRasterizationRateSampleArray Vertical => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.Vertical));
+    public MTLRasterizationRateSampleArray Vertical
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.Vertical));
+    }
 
-    public nint VerticalSampleStorage => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.VerticalSampleStorage);
+    public nint VerticalSampleStorage
+    {
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.VerticalSampleStorage);
+    }
 
     public static implicit operator nint(MTLRasterizationRateLayerDescriptor value)
     {

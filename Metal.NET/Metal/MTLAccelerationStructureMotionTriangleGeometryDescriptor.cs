@@ -86,6 +86,13 @@ public class MTLAccelerationStructureMotionTriangleGeometryDescriptor : IDisposa
         return new(value);
     }
 
+    public static MTLAccelerationStructureMotionTriangleGeometryDescriptor Descriptor()
+    {
+        MTLAccelerationStructureMotionTriangleGeometryDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructureMotionTriangleGeometryDescriptorSelector.Descriptor));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -99,13 +106,6 @@ public class MTLAccelerationStructureMotionTriangleGeometryDescriptor : IDisposa
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public static MTLAccelerationStructureMotionTriangleGeometryDescriptor Descriptor()
-    {
-        MTLAccelerationStructureMotionTriangleGeometryDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructureMotionTriangleGeometryDescriptorSelector.Descriptor));
-
-        return result;
     }
 }
 

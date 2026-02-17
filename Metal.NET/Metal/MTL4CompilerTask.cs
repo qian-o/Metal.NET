@@ -14,9 +14,15 @@ public class MTL4CompilerTask : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTL4Compiler Compiler => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskSelector.Compiler));
+    public MTL4Compiler Compiler
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskSelector.Compiler));
+    }
 
-    public MTL4CompilerTaskStatus Status => (MTL4CompilerTaskStatus)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4CompilerTaskSelector.Status));
+    public MTL4CompilerTaskStatus Status
+    {
+        get => (MTL4CompilerTaskStatus)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4CompilerTaskSelector.Status));
+    }
 
     public void WaitUntilCompleted()
     {

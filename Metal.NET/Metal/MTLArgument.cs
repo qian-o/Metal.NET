@@ -14,39 +14,90 @@ public class MTLArgument : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLBindingAccess Access => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentSelector.Access));
+    public MTLBindingAccess Access
+    {
+        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentSelector.Access));
+    }
 
-    public Bool8 Active => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLArgumentSelector.Active);
+    public Bool8 Active
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLArgumentSelector.Active);
+    }
 
-    public nuint ArrayLength => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentSelector.ArrayLength);
+    public nuint ArrayLength
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentSelector.ArrayLength);
+    }
 
-    public nuint BufferAlignment => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentSelector.BufferAlignment);
+    public nuint BufferAlignment
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentSelector.BufferAlignment);
+    }
 
-    public nuint BufferDataSize => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentSelector.BufferDataSize);
+    public nuint BufferDataSize
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentSelector.BufferDataSize);
+    }
 
-    public MTLDataType BufferDataType => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentSelector.BufferDataType));
+    public MTLDataType BufferDataType
+    {
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentSelector.BufferDataType));
+    }
 
-    public MTLPointerType BufferPointerType => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentSelector.BufferPointerType));
+    public MTLPointerType BufferPointerType
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentSelector.BufferPointerType));
+    }
 
-    public MTLStructType BufferStructType => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentSelector.BufferStructType));
+    public MTLStructType BufferStructType
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentSelector.BufferStructType));
+    }
 
-    public nuint Index => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentSelector.Index);
+    public nuint Index
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentSelector.Index);
+    }
 
-    public Bool8 IsActive => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLArgumentSelector.IsActive);
+    public Bool8 IsActive
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLArgumentSelector.IsActive);
+    }
 
-    public Bool8 IsDepthTexture => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLArgumentSelector.IsDepthTexture);
+    public Bool8 IsDepthTexture
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLArgumentSelector.IsDepthTexture);
+    }
 
-    public NSString Name => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentSelector.Name));
+    public NSString Name
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentSelector.Name));
+    }
 
-    public MTLDataType TextureDataType => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentSelector.TextureDataType));
+    public MTLDataType TextureDataType
+    {
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentSelector.TextureDataType));
+    }
 
-    public MTLTextureType TextureType => (MTLTextureType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentSelector.TextureType));
+    public MTLTextureType TextureType
+    {
+        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentSelector.TextureType));
+    }
 
-    public nuint ThreadgroupMemoryAlignment => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentSelector.ThreadgroupMemoryAlignment);
+    public nuint ThreadgroupMemoryAlignment
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentSelector.ThreadgroupMemoryAlignment);
+    }
 
-    public nuint ThreadgroupMemoryDataSize => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentSelector.ThreadgroupMemoryDataSize);
+    public nuint ThreadgroupMemoryDataSize
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentSelector.ThreadgroupMemoryDataSize);
+    }
 
-    public MTLArgumentType Type => (MTLArgumentType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentSelector.Type));
+    public MTLArgumentType Type
+    {
+        get => (MTLArgumentType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentSelector.Type));
+    }
 
     public static implicit operator nint(MTLArgument value)
     {

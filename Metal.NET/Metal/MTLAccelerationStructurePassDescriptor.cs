@@ -16,7 +16,10 @@ public class MTLAccelerationStructurePassDescriptor : IDisposable
 
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructurePassDescriptor");
 
-    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructurePassDescriptorSelector.SampleBufferAttachments));
+    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructurePassDescriptorSelector.SampleBufferAttachments));
+    }
 
     public static implicit operator nint(MTLAccelerationStructurePassDescriptor value)
     {
@@ -26,6 +29,13 @@ public class MTLAccelerationStructurePassDescriptor : IDisposable
     public static implicit operator MTLAccelerationStructurePassDescriptor(nint value)
     {
         return new(value);
+    }
+
+    public static MTLAccelerationStructurePassDescriptor AccelerationStructurePassDescriptor()
+    {
+        MTLAccelerationStructurePassDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructurePassDescriptorSelector.AccelerationStructurePassDescriptor));
+
+        return result;
     }
 
     public void Dispose()
@@ -41,13 +51,6 @@ public class MTLAccelerationStructurePassDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public static MTLAccelerationStructurePassDescriptor AccelerationStructurePassDescriptor()
-    {
-        MTLAccelerationStructurePassDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructurePassDescriptorSelector.AccelerationStructurePassDescriptor));
-
-        return result;
     }
 }
 

@@ -14,13 +14,25 @@ public class MTLFunctionLog : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLFunctionLogDebugLocation DebugLocation => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.DebugLocation));
+    public MTLFunctionLogDebugLocation DebugLocation
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.DebugLocation));
+    }
 
-    public NSString EncoderLabel => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.EncoderLabel));
+    public NSString EncoderLabel
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.EncoderLabel));
+    }
 
-    public MTLFunction Function => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.Function));
+    public MTLFunction Function
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.Function));
+    }
 
-    public MTLFunctionLogType Type => (MTLFunctionLogType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFunctionLogSelector.Type));
+    public MTLFunctionLogType Type
+    {
+        get => (MTLFunctionLogType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFunctionLogSelector.Type));
+    }
 
     public static implicit operator nint(MTLFunctionLog value)
     {

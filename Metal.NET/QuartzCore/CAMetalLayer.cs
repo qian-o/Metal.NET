@@ -67,7 +67,10 @@ public class CAMetalLayer : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetAllowsNextDrawableTimeout, value);
     }
 
-    public MTLResidencySet ResidencySet => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.ResidencySet));
+    public MTLResidencySet ResidencySet
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.ResidencySet));
+    }
 
     public static implicit operator nint(CAMetalLayer value)
     {

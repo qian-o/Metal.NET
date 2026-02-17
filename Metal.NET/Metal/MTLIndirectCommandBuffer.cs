@@ -14,7 +14,10 @@ public class MTLIndirectCommandBuffer : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint Size => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferSelector.Size);
+    public nuint Size
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferSelector.Size);
+    }
 
     public MTLIndirectComputeCommand IndirectComputeCommand(nuint commandIndex)
     {

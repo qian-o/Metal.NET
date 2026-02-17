@@ -20,7 +20,10 @@ public class MTLSharedEventHandle : IDisposable
 
     public nint NativePtr { get; }
 
-    public NSString Label => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventHandleSelector.Label));
+    public NSString Label
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventHandleSelector.Label));
+    }
 
     public static implicit operator nint(MTLSharedEventHandle value)
     {

@@ -14,9 +14,15 @@ public class MTL4RenderCommandEncoder : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint TileHeight => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderCommandEncoderSelector.TileHeight);
+    public nuint TileHeight
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderCommandEncoderSelector.TileHeight);
+    }
 
-    public nuint TileWidth => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderCommandEncoderSelector.TileWidth);
+    public nuint TileWidth
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderCommandEncoderSelector.TileWidth);
+    }
 
     public void DispatchThreadsPerTile(MTLSize threadsPerTile)
     {

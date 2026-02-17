@@ -14,9 +14,15 @@ public class MTLIOCommandQueue : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLIOCommandBuffer CommandBuffer => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueSelector.CommandBuffer));
+    public MTLIOCommandBuffer CommandBuffer
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueSelector.CommandBuffer));
+    }
 
-    public MTLIOCommandBuffer CommandBufferWithUnretainedReferences => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueSelector.CommandBufferWithUnretainedReferences));
+    public MTLIOCommandBuffer CommandBufferWithUnretainedReferences
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueSelector.CommandBufferWithUnretainedReferences));
+    }
 
     public NSString Label
     {

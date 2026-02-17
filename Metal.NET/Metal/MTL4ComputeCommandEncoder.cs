@@ -14,7 +14,10 @@ public class MTL4ComputeCommandEncoder : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint Stages => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4ComputeCommandEncoderSelector.Stages);
+    public nuint Stages
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4ComputeCommandEncoderSelector.Stages);
+    }
 
     public void BuildAccelerationStructure(MTLAccelerationStructure accelerationStructure, MTL4AccelerationStructureDescriptor descriptor, MTL4BufferRange scratchBuffer)
     {

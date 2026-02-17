@@ -14,11 +14,20 @@ public class MTLCommandBufferEncoderInfo : IDisposable
 
     public nint NativePtr { get; }
 
-    public NSArray DebugSignposts => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoSelector.DebugSignposts));
+    public NSArray DebugSignposts
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoSelector.DebugSignposts));
+    }
 
-    public MTLCommandEncoderErrorState ErrorState => (MTLCommandEncoderErrorState)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLCommandBufferEncoderInfoSelector.ErrorState));
+    public MTLCommandEncoderErrorState ErrorState
+    {
+        get => (MTLCommandEncoderErrorState)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLCommandBufferEncoderInfoSelector.ErrorState));
+    }
 
-    public NSString Label => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoSelector.Label));
+    public NSString Label
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoSelector.Label));
+    }
 
     public static implicit operator nint(MTLCommandBufferEncoderInfo value)
     {

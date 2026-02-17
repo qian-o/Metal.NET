@@ -44,7 +44,10 @@ public class MTLDepthStencilDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetFrontFaceStencil, value.NativePtr);
     }
 
-    public Bool8 IsDepthWriteEnabled => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDepthStencilDescriptorSelector.IsDepthWriteEnabled);
+    public Bool8 IsDepthWriteEnabled
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDepthStencilDescriptorSelector.IsDepthWriteEnabled);
+    }
 
     public NSString Label
     {

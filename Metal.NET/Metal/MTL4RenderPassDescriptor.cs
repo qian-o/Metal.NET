@@ -20,7 +20,10 @@ public class MTL4RenderPassDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLRenderPassColorAttachmentDescriptorArray ColorAttachments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.ColorAttachments));
+    public MTLRenderPassColorAttachmentDescriptorArray ColorAttachments
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.ColorAttachments));
+    }
 
     public nuint DefaultRasterSampleCount
     {

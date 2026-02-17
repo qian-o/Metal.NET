@@ -14,7 +14,10 @@ public class MTLAccelerationStructure : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint Size => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureSelector.Size);
+    public nuint Size
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureSelector.Size);
+    }
 
     public static implicit operator nint(MTLAccelerationStructure value)
     {

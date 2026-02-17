@@ -62,6 +62,13 @@ public class MTLArgumentDescriptor : IDisposable
         return new(value);
     }
 
+    public static MTLArgumentDescriptor ArgumentDescriptor()
+    {
+        MTLArgumentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLArgumentDescriptorSelector.ArgumentDescriptor));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -75,13 +82,6 @@ public class MTLArgumentDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public static MTLArgumentDescriptor ArgumentDescriptor()
-    {
-        MTLArgumentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLArgumentDescriptorSelector.ArgumentDescriptor));
-
-        return result;
     }
 }
 

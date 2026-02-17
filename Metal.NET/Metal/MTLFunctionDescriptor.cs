@@ -56,6 +56,13 @@ public class MTLFunctionDescriptor : IDisposable
         return new(value);
     }
 
+    public static MTLFunctionDescriptor FunctionDescriptor()
+    {
+        MTLFunctionDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLFunctionDescriptorSelector.FunctionDescriptor));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -69,13 +76,6 @@ public class MTLFunctionDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public static MTLFunctionDescriptor FunctionDescriptor()
-    {
-        MTLFunctionDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLFunctionDescriptorSelector.FunctionDescriptor));
-
-        return result;
     }
 }
 

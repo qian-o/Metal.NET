@@ -14,65 +14,155 @@ public class MTLTexture : IDisposable
 
     public nint NativePtr { get; }
 
-    public Bool8 AllowGPUOptimizedContents => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureSelector.AllowGPUOptimizedContents);
+    public Bool8 AllowGPUOptimizedContents
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureSelector.AllowGPUOptimizedContents);
+    }
 
-    public nuint ArrayLength => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.ArrayLength);
+    public nuint ArrayLength
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.ArrayLength);
+    }
 
-    public MTLBuffer Buffer => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.Buffer));
+    public MTLBuffer Buffer
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.Buffer));
+    }
 
-    public nuint BufferBytesPerRow => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.BufferBytesPerRow);
+    public nuint BufferBytesPerRow
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.BufferBytesPerRow);
+    }
 
-    public nuint BufferOffset => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.BufferOffset);
+    public nuint BufferOffset
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.BufferOffset);
+    }
 
-    public MTLTextureCompressionType CompressionType => (MTLTextureCompressionType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTextureSelector.CompressionType));
+    public MTLTextureCompressionType CompressionType
+    {
+        get => (MTLTextureCompressionType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTextureSelector.CompressionType));
+    }
 
-    public nuint Depth => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.Depth);
+    public nuint Depth
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.Depth);
+    }
 
-    public nuint FirstMipmapInTail => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.FirstMipmapInTail);
+    public nuint FirstMipmapInTail
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.FirstMipmapInTail);
+    }
 
-    public Bool8 FramebufferOnly => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureSelector.FramebufferOnly);
+    public Bool8 FramebufferOnly
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureSelector.FramebufferOnly);
+    }
 
-    public nuint Height => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.Height);
+    public nuint Height
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.Height);
+    }
 
-    public nint Iosurface => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.Iosurface);
+    public nint Iosurface
+    {
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.Iosurface);
+    }
 
-    public nuint IosurfacePlane => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.IosurfacePlane);
+    public nuint IosurfacePlane
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.IosurfacePlane);
+    }
 
-    public Bool8 IsFramebufferOnly => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureSelector.IsFramebufferOnly);
+    public Bool8 IsFramebufferOnly
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureSelector.IsFramebufferOnly);
+    }
 
-    public Bool8 IsShareable => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureSelector.IsShareable);
+    public Bool8 IsShareable
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureSelector.IsShareable);
+    }
 
-    public Bool8 IsSparse => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureSelector.IsSparse);
+    public Bool8 IsSparse
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureSelector.IsSparse);
+    }
 
-    public nuint MipmapLevelCount => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.MipmapLevelCount);
+    public nuint MipmapLevelCount
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.MipmapLevelCount);
+    }
 
-    public nuint ParentRelativeLevel => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.ParentRelativeLevel);
+    public nuint ParentRelativeLevel
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.ParentRelativeLevel);
+    }
 
-    public nuint ParentRelativeSlice => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.ParentRelativeSlice);
+    public nuint ParentRelativeSlice
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.ParentRelativeSlice);
+    }
 
-    public MTLTexture ParentTexture => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.ParentTexture));
+    public MTLTexture ParentTexture
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.ParentTexture));
+    }
 
-    public MTLPixelFormat PixelFormat => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTextureSelector.PixelFormat));
+    public MTLPixelFormat PixelFormat
+    {
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTextureSelector.PixelFormat));
+    }
 
-    public MTLTexture RemoteStorageTexture => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.RemoteStorageTexture));
+    public MTLTexture RemoteStorageTexture
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.RemoteStorageTexture));
+    }
 
-    public MTLResource RootResource => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.RootResource));
+    public MTLResource RootResource
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.RootResource));
+    }
 
-    public nuint SampleCount => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.SampleCount);
+    public nuint SampleCount
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.SampleCount);
+    }
 
-    public Bool8 Shareable => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureSelector.Shareable);
+    public Bool8 Shareable
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureSelector.Shareable);
+    }
 
-    public MTLTextureSparseTier SparseTextureTier => (MTLTextureSparseTier)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTextureSelector.SparseTextureTier));
+    public MTLTextureSparseTier SparseTextureTier
+    {
+        get => (MTLTextureSparseTier)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTextureSelector.SparseTextureTier));
+    }
 
-    public MTLTextureSwizzleChannels Swizzle => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.Swizzle));
+    public MTLTextureSwizzleChannels Swizzle
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.Swizzle));
+    }
 
-    public nuint TailSizeInBytes => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.TailSizeInBytes);
+    public nuint TailSizeInBytes
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.TailSizeInBytes);
+    }
 
-    public MTLTextureType TextureType => (MTLTextureType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTextureSelector.TextureType));
+    public MTLTextureType TextureType
+    {
+        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTextureSelector.TextureType));
+    }
 
-    public nuint Usage => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.Usage);
+    public nuint Usage
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.Usage);
+    }
 
-    public nuint Width => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.Width);
+    public nuint Width
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.Width);
+    }
 
     public void GetBytes(nint pixelBytes, nuint bytesPerRow, nuint bytesPerImage, MTLRegion region, nuint level, nuint slice)
     {

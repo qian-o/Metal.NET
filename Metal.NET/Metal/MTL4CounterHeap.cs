@@ -14,7 +14,10 @@ public class MTL4CounterHeap : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint Count => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CounterHeapSelector.Count);
+    public nuint Count
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CounterHeapSelector.Count);
+    }
 
     public NSString Label
     {
@@ -22,7 +25,10 @@ public class MTL4CounterHeap : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapSelector.SetLabel, value.NativePtr);
     }
 
-    public MTL4CounterHeapType Type => (MTL4CounterHeapType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4CounterHeapSelector.Type));
+    public MTL4CounterHeapType Type
+    {
+        get => (MTL4CounterHeapType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4CounterHeapSelector.Type));
+    }
 
     public void InvalidateCounterRange(NSRange range)
     {

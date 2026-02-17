@@ -14,7 +14,10 @@ public class MTLComputeCommandEncoder : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLDispatchType DispatchType => (MTLDispatchType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLComputeCommandEncoderSelector.DispatchType));
+    public MTLDispatchType DispatchType
+    {
+        get => (MTLDispatchType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLComputeCommandEncoderSelector.DispatchType));
+    }
 
     public void DispatchThreadgroups(MTLSize threadgroupsPerGrid, MTLSize threadsPerThreadgroup)
     {

@@ -102,6 +102,13 @@ public class MTLInstanceAccelerationStructureDescriptor : IDisposable
         return new(value);
     }
 
+    public static MTLInstanceAccelerationStructureDescriptor Descriptor()
+    {
+        MTLInstanceAccelerationStructureDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLInstanceAccelerationStructureDescriptorSelector.Descriptor));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -115,13 +122,6 @@ public class MTLInstanceAccelerationStructureDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public static MTLInstanceAccelerationStructureDescriptor Descriptor()
-    {
-        MTLInstanceAccelerationStructureDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLInstanceAccelerationStructureDescriptorSelector.Descriptor));
-
-        return result;
     }
 }
 

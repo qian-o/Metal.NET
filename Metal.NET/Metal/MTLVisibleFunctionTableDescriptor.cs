@@ -32,6 +32,13 @@ public class MTLVisibleFunctionTableDescriptor : IDisposable
         return new(value);
     }
 
+    public static MTLVisibleFunctionTableDescriptor VisibleFunctionTableDescriptor()
+    {
+        MTLVisibleFunctionTableDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLVisibleFunctionTableDescriptorSelector.VisibleFunctionTableDescriptor));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -45,13 +52,6 @@ public class MTLVisibleFunctionTableDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public static MTLVisibleFunctionTableDescriptor VisibleFunctionTableDescriptor()
-    {
-        MTLVisibleFunctionTableDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLVisibleFunctionTableDescriptorSelector.VisibleFunctionTableDescriptor));
-
-        return result;
     }
 }
 

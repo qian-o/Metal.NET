@@ -14,9 +14,15 @@ public class MTL4BinaryFunction : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLFunctionType FunctionType => (MTLFunctionType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4BinaryFunctionSelector.FunctionType));
+    public MTLFunctionType FunctionType
+    {
+        get => (MTLFunctionType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4BinaryFunctionSelector.FunctionType));
+    }
 
-    public NSString Name => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4BinaryFunctionSelector.Name));
+    public NSString Name
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4BinaryFunctionSelector.Name));
+    }
 
     public static implicit operator nint(MTL4BinaryFunction value)
     {

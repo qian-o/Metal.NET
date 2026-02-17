@@ -14,13 +14,25 @@ public class MTLHeap : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLCPUCacheMode CpuCacheMode => (MTLCPUCacheMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapSelector.CpuCacheMode));
+    public MTLCPUCacheMode CpuCacheMode
+    {
+        get => (MTLCPUCacheMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapSelector.CpuCacheMode));
+    }
 
-    public nuint CurrentAllocatedSize => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.CurrentAllocatedSize);
+    public nuint CurrentAllocatedSize
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.CurrentAllocatedSize);
+    }
 
-    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.Device));
+    public MTLDevice Device
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.Device));
+    }
 
-    public MTLHazardTrackingMode HazardTrackingMode => (MTLHazardTrackingMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapSelector.HazardTrackingMode));
+    public MTLHazardTrackingMode HazardTrackingMode
+    {
+        get => (MTLHazardTrackingMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapSelector.HazardTrackingMode));
+    }
 
     public NSString Label
     {
@@ -28,15 +40,30 @@ public class MTLHeap : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapSelector.SetLabel, value.NativePtr);
     }
 
-    public nuint ResourceOptions => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.ResourceOptions);
+    public nuint ResourceOptions
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.ResourceOptions);
+    }
 
-    public nuint Size => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.Size);
+    public nuint Size
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.Size);
+    }
 
-    public MTLStorageMode StorageMode => (MTLStorageMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapSelector.StorageMode));
+    public MTLStorageMode StorageMode
+    {
+        get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapSelector.StorageMode));
+    }
 
-    public MTLHeapType Type => (MTLHeapType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapSelector.Type));
+    public MTLHeapType Type
+    {
+        get => (MTLHeapType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapSelector.Type));
+    }
 
-    public nuint UsedSize => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.UsedSize);
+    public nuint UsedSize
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.UsedSize);
+    }
 
     public nuint MaxAvailableSize(nuint alignment)
     {

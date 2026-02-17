@@ -14,7 +14,10 @@ public class MTLParallelRenderCommandEncoder : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLRenderCommandEncoder RenderCommandEncoder => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLParallelRenderCommandEncoderSelector.RenderCommandEncoder));
+    public MTLRenderCommandEncoder RenderCommandEncoder
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLParallelRenderCommandEncoderSelector.RenderCommandEncoder));
+    }
 
     public void SetColorStoreAction(MTLStoreAction storeAction, nuint colorAttachmentIndex)
     {

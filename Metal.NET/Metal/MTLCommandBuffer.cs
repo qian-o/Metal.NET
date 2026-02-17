@@ -14,27 +14,60 @@ public class MTLCommandBuffer : IDisposable
 
     public nint NativePtr { get; }
 
-    public double GPUEndTime => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferSelector.GPUEndTime);
+    public double GPUEndTime
+    {
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferSelector.GPUEndTime);
+    }
 
-    public double GPUStartTime => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferSelector.GPUStartTime);
+    public double GPUStartTime
+    {
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferSelector.GPUStartTime);
+    }
 
-    public MTLAccelerationStructureCommandEncoder AccelerationStructureCommandEncoder => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.AccelerationStructureCommandEncoder));
+    public MTLAccelerationStructureCommandEncoder AccelerationStructureCommandEncoder
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.AccelerationStructureCommandEncoder));
+    }
 
-    public MTLBlitCommandEncoder BlitCommandEncoder => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.BlitCommandEncoder));
+    public MTLBlitCommandEncoder BlitCommandEncoder
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.BlitCommandEncoder));
+    }
 
-    public MTLCommandQueue CommandQueue => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.CommandQueue));
+    public MTLCommandQueue CommandQueue
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.CommandQueue));
+    }
 
-    public MTLComputeCommandEncoder ComputeCommandEncoder => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.ComputeCommandEncoder));
+    public MTLComputeCommandEncoder ComputeCommandEncoder
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.ComputeCommandEncoder));
+    }
 
-    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.Device));
+    public MTLDevice Device
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.Device));
+    }
 
-    public NSError Error => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.Error));
+    public NSError Error
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.Error));
+    }
 
-    public nuint ErrorOptions => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandBufferSelector.ErrorOptions);
+    public nuint ErrorOptions
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandBufferSelector.ErrorOptions);
+    }
 
-    public double KernelEndTime => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferSelector.KernelEndTime);
+    public double KernelEndTime
+    {
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferSelector.KernelEndTime);
+    }
 
-    public double KernelStartTime => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferSelector.KernelStartTime);
+    public double KernelStartTime
+    {
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferSelector.KernelStartTime);
+    }
 
     public NSString Label
     {
@@ -42,13 +75,25 @@ public class MTLCommandBuffer : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.SetLabel, value.NativePtr);
     }
 
-    public MTLLogContainer Logs => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.Logs));
+    public MTLLogContainer Logs
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.Logs));
+    }
 
-    public MTLResourceStateCommandEncoder ResourceStateCommandEncoder => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.ResourceStateCommandEncoder));
+    public MTLResourceStateCommandEncoder ResourceStateCommandEncoder
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.ResourceStateCommandEncoder));
+    }
 
-    public Bool8 RetainedReferences => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCommandBufferSelector.RetainedReferences);
+    public Bool8 RetainedReferences
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCommandBufferSelector.RetainedReferences);
+    }
 
-    public MTLCommandBufferStatus Status => (MTLCommandBufferStatus)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLCommandBufferSelector.Status));
+    public MTLCommandBufferStatus Status
+    {
+        get => (MTLCommandBufferStatus)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLCommandBufferSelector.Status));
+    }
 
     public void AddCompletedHandler(nint function)
     {

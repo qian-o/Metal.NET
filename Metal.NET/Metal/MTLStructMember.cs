@@ -14,23 +14,50 @@ public class MTLStructMember : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint ArgumentIndex => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStructMemberSelector.ArgumentIndex);
+    public nuint ArgumentIndex
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStructMemberSelector.ArgumentIndex);
+    }
 
-    public MTLArrayType ArrayType => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.ArrayType));
+    public MTLArrayType ArrayType
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.ArrayType));
+    }
 
-    public MTLDataType DataType => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLStructMemberSelector.DataType));
+    public MTLDataType DataType
+    {
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLStructMemberSelector.DataType));
+    }
 
-    public NSString Name => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.Name));
+    public NSString Name
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.Name));
+    }
 
-    public nuint Offset => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStructMemberSelector.Offset);
+    public nuint Offset
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStructMemberSelector.Offset);
+    }
 
-    public MTLPointerType PointerType => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.PointerType));
+    public MTLPointerType PointerType
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.PointerType));
+    }
 
-    public MTLStructType StructType => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.StructType));
+    public MTLStructType StructType
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.StructType));
+    }
 
-    public MTLTensorReferenceType TensorReferenceType => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.TensorReferenceType));
+    public MTLTensorReferenceType TensorReferenceType
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.TensorReferenceType));
+    }
 
-    public MTLTextureReferenceType TextureReferenceType => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.TextureReferenceType));
+    public MTLTextureReferenceType TextureReferenceType
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.TextureReferenceType));
+    }
 
     public static implicit operator nint(MTLStructMember value)
     {

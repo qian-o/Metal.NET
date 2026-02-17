@@ -32,6 +32,13 @@ public class MTLIntersectionFunctionTableDescriptor : IDisposable
         return new(value);
     }
 
+    public static MTLIntersectionFunctionTableDescriptor IntersectionFunctionTableDescriptor()
+    {
+        MTLIntersectionFunctionTableDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLIntersectionFunctionTableDescriptorSelector.IntersectionFunctionTableDescriptor));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -45,13 +52,6 @@ public class MTLIntersectionFunctionTableDescriptor : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-    }
-
-    public static MTLIntersectionFunctionTableDescriptor IntersectionFunctionTableDescriptor()
-    {
-        MTLIntersectionFunctionTableDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLIntersectionFunctionTableDescriptorSelector.IntersectionFunctionTableDescriptor));
-
-        return result;
     }
 }
 
