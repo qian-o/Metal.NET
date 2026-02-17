@@ -107,7 +107,6 @@ public class MTLAccelerationStructureMotionTriangleGeometryDescriptor : IDisposa
 
         return result;
     }
-
 }
 
 file class MTLAccelerationStructureMotionTriangleGeometryDescriptorSelector

@@ -86,7 +86,6 @@ public class MTLAccelerationStructureGeometryDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLAccelerationStructureGeometryDescriptorSelector

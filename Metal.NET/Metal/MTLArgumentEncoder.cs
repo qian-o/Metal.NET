@@ -124,7 +124,6 @@ public class MTLArgumentEncoder : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLArgumentEncoderSelector

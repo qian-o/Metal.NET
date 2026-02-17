@@ -57,7 +57,6 @@ public class MTLDynamicLibrary : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLDynamicLibrarySelector

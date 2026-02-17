@@ -238,7 +238,6 @@ public class MTLFXTemporalDenoisedScalerDescriptor : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLFXTemporalDenoisedScalerDescriptorSelector

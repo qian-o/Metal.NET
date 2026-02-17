@@ -158,7 +158,6 @@ public class MTLCommandBuffer : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLCommandBufferSelector

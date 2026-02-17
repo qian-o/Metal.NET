@@ -42,7 +42,6 @@ public class MTLCounterSet : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLCounterSetSelector

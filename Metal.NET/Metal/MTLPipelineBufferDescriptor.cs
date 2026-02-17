@@ -44,7 +44,6 @@ public class MTLPipelineBufferDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLPipelineBufferDescriptorSelector

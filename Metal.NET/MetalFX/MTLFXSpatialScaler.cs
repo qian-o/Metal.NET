@@ -43,7 +43,6 @@ public class MTLFXSpatialScaler : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFXSpatialScalerSelector

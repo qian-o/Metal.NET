@@ -168,7 +168,6 @@ public class MTLBlitCommandEncoder : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLBlitCommandEncoderSelector

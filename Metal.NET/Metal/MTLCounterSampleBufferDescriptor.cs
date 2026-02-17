@@ -62,7 +62,6 @@ public class MTLCounterSampleBufferDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLCounterSampleBufferDescriptorSelector

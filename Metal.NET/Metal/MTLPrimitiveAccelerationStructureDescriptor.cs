@@ -87,7 +87,6 @@ public class MTLPrimitiveAccelerationStructureDescriptor : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLPrimitiveAccelerationStructureDescriptorSelector

@@ -137,7 +137,6 @@ public class MTLIndirectInstanceAccelerationStructureDescriptor : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLIndirectInstanceAccelerationStructureDescriptorSelector

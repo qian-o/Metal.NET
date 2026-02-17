@@ -73,7 +73,6 @@ public class MTL4RenderPipelineBinaryFunctionsDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4RenderPipelineBinaryFunctionsDescriptorSelector

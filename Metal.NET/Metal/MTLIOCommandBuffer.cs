@@ -118,7 +118,6 @@ public class MTLIOCommandBuffer : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLIOCommandBufferSelector

@@ -158,7 +158,6 @@ public class MTLIndirectCommandBufferDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLIndirectCommandBufferDescriptorSelector

@@ -42,7 +42,6 @@ public class MTLThreadgroupBinding : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLThreadgroupBindingSelector

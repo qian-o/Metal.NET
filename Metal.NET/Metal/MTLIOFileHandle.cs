@@ -44,7 +44,6 @@ public class MTLIOFileHandle : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLIOFileHandleSelector

@@ -68,7 +68,6 @@ public class MTLResourceStateCommandEncoder : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLResourceStateCommandEncoderSelector

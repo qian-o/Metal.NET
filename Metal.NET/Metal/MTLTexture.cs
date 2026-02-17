@@ -160,7 +160,6 @@ public class MTLTexture : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLTextureSelector

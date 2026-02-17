@@ -149,7 +149,6 @@ public class MTLAccelerationStructureCurveGeometryDescriptor : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLAccelerationStructureCurveGeometryDescriptorSelector

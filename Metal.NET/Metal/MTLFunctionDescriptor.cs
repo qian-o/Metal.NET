@@ -77,7 +77,6 @@ public class MTLFunctionDescriptor : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLFunctionDescriptorSelector

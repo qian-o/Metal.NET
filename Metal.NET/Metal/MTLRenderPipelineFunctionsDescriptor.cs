@@ -56,7 +56,6 @@ public class MTLRenderPipelineFunctionsDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLRenderPipelineFunctionsDescriptorSelector

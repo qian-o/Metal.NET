@@ -204,7 +204,10 @@ public class MetalBindingsGenerator
         // Instance methods
         foreach (var m in def.Methods)
         {
-            EmitMethod(sb, def.Name, m, selectors, isStatic: false);
+            if (EmitMethod(sb, def.Name, m, selectors, isStatic: false))
+            {
+                sb.AppendLine();
+            }
         }
 
         // Implicit operators
@@ -234,12 +237,15 @@ public class MetalBindingsGenerator
         sb.AppendLine("            ObjectiveCRuntime.Release(NativePtr);");
         sb.AppendLine("        }");
         sb.AppendLine("    }");
-        sb.AppendLine();
 
         // Static methods at bottom
         foreach (var m in def.StaticMethods)
         {
-            EmitMethod(sb, def.Name, m, selectors, isStatic: true);
+            sb.AppendLine();
+            if (!EmitMethod(sb, def.Name, m, selectors, isStatic: true))
+            {
+                TrimTrailingBlankLine(sb);
+            }
         }
 
         // Free C functions (LibraryImport)
@@ -247,10 +253,12 @@ public class MetalBindingsGenerator
         {
             foreach (var f in freeFunctions)
             {
+                sb.AppendLine();
                 EmitFreeFunction(sb, f);
             }
         }
 
+        TrimTrailingBlankLine(sb);
         sb.AppendLine("}");
         sb.AppendLine();
 
@@ -329,10 +337,9 @@ public class MetalBindingsGenerator
         sb.AppendLine("            ObjectiveCRuntime.Release(NativePtr);");
         sb.AppendLine("        }");
         sb.AppendLine("    }");
-        sb.AppendLine();
     }
 
-    private void EmitMethod(StringBuilder sb, string typeName, MethodDef m, Dictionary<string, string> selectors, bool isStatic)
+    private bool EmitMethod(StringBuilder sb, string typeName, MethodDef m, Dictionary<string, string> selectors, bool isStatic)
     {
         var selField = $"{typeName}Selector.{selectors[m.Selector]}";
         var retType = NormalizeType(m.ReturnType);
@@ -352,7 +359,7 @@ public class MetalBindingsGenerator
         var retCall = MapReturnCall(retType);
 
         if (retCall.Invoke.Contains("TODO"))
-            return;
+            return false;
 
         sb.AppendLine($"    public {staticMod}{retType} {methodName}({paramsStr})");
         sb.AppendLine("    {");
@@ -401,7 +408,7 @@ public class MetalBindingsGenerator
         }
 
         sb.AppendLine("    }");
-        sb.AppendLine();
+        return true;
     }
 
     private void EmitFreeFunction(StringBuilder sb, FreeFunctionDef f)
@@ -453,7 +460,6 @@ public class MetalBindingsGenerator
             sb.AppendLine($"        return {f.NativeName}({forwardArgsStr});");
         }
         sb.AppendLine("    }");
-        sb.AppendLine();
     }
 
     private static string WrapReturnInline(string type, string expr)
@@ -471,6 +477,7 @@ public class MetalBindingsGenerator
         {
             "void" => ("ObjectiveCRuntime.MsgSend", false),
             "Bool8" or "bool" => ("ObjectiveCRuntime.MsgSendBool", false),
+            "int" => ("ObjectiveCRuntime.MsgSendInt", false),
             "uint" => ("ObjectiveCRuntime.MsgSendUInt", false),
             "ulong" => ("ObjectiveCRuntime.MsgSendULong", false),
             "float" => ("ObjectiveCRuntime.MsgSendFloat", false),
@@ -521,12 +528,7 @@ public class MetalBindingsGenerator
 
     private static string NormalizeType(string type)
     {
-        return type switch
-        {
-            "int" => "nint",
-            "uint" => "nuint",
-            _ => type,
-        };
+        return type;
     }
 
     private static string MapParamType(string type)
@@ -572,6 +574,7 @@ public class MetalBindingsGenerator
     {
         if (retType == "void") return "void";
         if (retType is "Bool8" or "bool") return "Bool8";
+        if (retType is "int") return "int";
         if (retType is "uint") return "uint";
         if (retType is "ulong") return "ulong";
         if (retType is "float") return "float";
@@ -588,6 +591,7 @@ public class MetalBindingsGenerator
         "void" => "MsgSend",
         "nint" => "MsgSendPtr",
         "Bool8" => "MsgSendBool",
+        "int" => "MsgSendInt",
         "uint" => "MsgSendUInt",
         "ulong" => "MsgSendULong",
         "float" => "MsgSendFloat",
@@ -731,6 +735,7 @@ public class MetalBindingsGenerator
             sb.AppendLine();
         }
 
+        TrimTrailingBlankLine(sb);
         sb.AppendLine("}");
 
         WriteSource("Common", "ObjectiveCRuntime.cs", sb.ToString());
@@ -753,5 +758,19 @@ public class MetalBindingsGenerator
             return name;
 
         return char.ToUpperInvariant(name[0]) + name.Substring(1);
+    }
+
+    private static void TrimTrailingBlankLine(StringBuilder sb)
+    {
+        var newLine = Environment.NewLine;
+        var doubleNewLine = newLine + newLine;
+        if (sb.Length >= doubleNewLine.Length)
+        {
+            var tail = sb.ToString(sb.Length - doubleNewLine.Length, doubleNewLine.Length);
+            if (tail == doubleNewLine)
+            {
+                sb.Remove(sb.Length - newLine.Length, newLine.Length);
+            }
+        }
     }
 }

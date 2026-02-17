@@ -46,7 +46,6 @@ public class MTLTensorReferenceType : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLTensorReferenceTypeSelector

@@ -46,7 +46,6 @@ public class MTLFunctionConstant : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFunctionConstantSelector

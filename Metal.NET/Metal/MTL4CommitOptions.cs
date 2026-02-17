@@ -43,7 +43,6 @@ public class MTL4CommitOptions : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4CommitOptionsSelector

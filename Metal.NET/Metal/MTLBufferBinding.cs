@@ -48,7 +48,6 @@ public class MTLBufferBinding : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLBufferBindingSelector

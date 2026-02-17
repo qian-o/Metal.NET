@@ -49,7 +49,6 @@ public class MTLRasterizationRateMap : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLRasterizationRateMapSelector

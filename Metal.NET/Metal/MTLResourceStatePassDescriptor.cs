@@ -49,7 +49,6 @@ public class MTLResourceStatePassDescriptor : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLResourceStatePassDescriptorSelector

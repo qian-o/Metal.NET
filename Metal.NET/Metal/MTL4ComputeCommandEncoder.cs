@@ -215,7 +215,6 @@ public class MTL4ComputeCommandEncoder : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4ComputeCommandEncoderSelector

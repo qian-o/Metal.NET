@@ -43,7 +43,6 @@ public class MTLFXTemporalDenoisedScaler : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFXTemporalDenoisedScalerSelector

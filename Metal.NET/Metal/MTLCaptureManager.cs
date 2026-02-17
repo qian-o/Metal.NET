@@ -112,7 +112,6 @@ public class MTLCaptureManager : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLCaptureManagerSelector

@@ -50,7 +50,6 @@ public class MTL4PipelineOptions : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4PipelineOptionsSelector

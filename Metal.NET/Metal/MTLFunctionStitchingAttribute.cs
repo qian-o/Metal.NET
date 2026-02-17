@@ -38,7 +38,6 @@ public class MTLFunctionStitchingAttribute : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFunctionStitchingAttributeSelector

@@ -62,7 +62,6 @@ public class MTLDrawable : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLDrawableSelector

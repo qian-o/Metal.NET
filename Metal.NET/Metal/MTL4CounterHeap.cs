@@ -60,7 +60,6 @@ public class MTL4CounterHeap : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4CounterHeapSelector

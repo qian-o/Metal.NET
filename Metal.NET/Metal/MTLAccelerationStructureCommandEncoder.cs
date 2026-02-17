@@ -98,7 +98,6 @@ public class MTLAccelerationStructureCommandEncoder : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLAccelerationStructureCommandEncoderSelector

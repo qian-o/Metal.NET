@@ -42,7 +42,6 @@ public class MTL4BinaryFunction : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4BinaryFunctionSelector

@@ -129,7 +129,6 @@ public class MTLFXFrameInterpolatorDescriptor : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLFXFrameInterpolatorDescriptorSelector

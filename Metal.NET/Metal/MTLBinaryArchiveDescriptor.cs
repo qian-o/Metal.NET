@@ -50,7 +50,6 @@ public class MTLBinaryArchiveDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLBinaryArchiveDescriptorSelector

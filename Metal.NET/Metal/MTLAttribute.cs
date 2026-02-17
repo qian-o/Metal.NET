@@ -56,7 +56,6 @@ public class MTLAttribute : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLAttributeSelector

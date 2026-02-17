@@ -49,7 +49,6 @@ public class MTLAccelerationStructurePassDescriptor : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLAccelerationStructurePassDescriptorSelector

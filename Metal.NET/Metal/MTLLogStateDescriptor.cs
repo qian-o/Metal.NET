@@ -50,7 +50,6 @@ public class MTLLogStateDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLLogStateDescriptorSelector

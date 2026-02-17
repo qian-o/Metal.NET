@@ -50,7 +50,6 @@ public class MTL4StitchedFunctionDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4StitchedFunctionDescriptorSelector

@@ -131,7 +131,6 @@ public class MTLRenderPipelineState : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLRenderPipelineStateSelector

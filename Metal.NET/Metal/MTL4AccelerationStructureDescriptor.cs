@@ -44,7 +44,6 @@ public class MTL4AccelerationStructureDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4AccelerationStructureDescriptorSelector

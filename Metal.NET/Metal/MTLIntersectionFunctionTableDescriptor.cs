@@ -53,7 +53,6 @@ public class MTLIntersectionFunctionTableDescriptor : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLIntersectionFunctionTableDescriptorSelector

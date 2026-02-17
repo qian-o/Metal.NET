@@ -42,7 +42,6 @@ public class MTLComputePipelineReflection : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLComputePipelineReflectionSelector

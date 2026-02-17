@@ -44,7 +44,6 @@ public class MTLRenderPassColorAttachmentDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLRenderPassColorAttachmentDescriptorSelector

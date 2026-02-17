@@ -146,7 +146,6 @@ public class MTLSamplerDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLSamplerDescriptorSelector

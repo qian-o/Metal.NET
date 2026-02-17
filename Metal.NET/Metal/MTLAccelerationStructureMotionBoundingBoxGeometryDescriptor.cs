@@ -65,7 +65,6 @@ public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor : IDisp
 
         return result;
     }
-
 }
 
 file class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector

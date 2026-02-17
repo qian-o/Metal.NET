@@ -83,7 +83,6 @@ public class MTLArgumentDescriptor : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLArgumentDescriptorSelector

@@ -143,7 +143,6 @@ public class MTL4RenderPipelineDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4RenderPipelineDescriptorSelector

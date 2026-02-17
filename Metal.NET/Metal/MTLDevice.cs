@@ -64,11 +64,11 @@ public partial class MTLDevice : IDisposable
 
     public NSString Name => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.Name));
 
-    public nuint PeerCount => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.PeerCount);
+    public uint PeerCount => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDeviceSelector.PeerCount);
 
     public nuint PeerGroupID => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.PeerGroupID);
 
-    public nuint PeerIndex => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.PeerIndex);
+    public uint PeerIndex => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDeviceSelector.PeerIndex);
 
     public Bool8 ProgrammableSamplePositionsSupported => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.ProgrammableSamplePositionsSupported);
 
@@ -782,7 +782,6 @@ public partial class MTLDevice : IDisposable
     {
         MTLRemoveDeviceObserver(pObserver);
     }
-
 }
 
 file class MTLDeviceSelector

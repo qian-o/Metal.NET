@@ -76,7 +76,6 @@ public class MTLDepthStencilDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLDepthStencilDescriptorSelector

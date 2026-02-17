@@ -54,7 +54,6 @@ public class MTLTextureSwizzleChannels : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLTextureSwizzleChannelsSelector

@@ -40,7 +40,6 @@ public class MTLAccelerationStructure : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLAccelerationStructureSelector

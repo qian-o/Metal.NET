@@ -104,7 +104,6 @@ public class MTLRenderPassAttachmentDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLRenderPassAttachmentDescriptorSelector

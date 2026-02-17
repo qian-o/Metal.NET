@@ -44,7 +44,6 @@ public class MTL4CommandBufferOptions : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4CommandBufferOptionsSelector

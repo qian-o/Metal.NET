@@ -46,7 +46,6 @@ public class MTLFunctionLog : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFunctionLogSelector

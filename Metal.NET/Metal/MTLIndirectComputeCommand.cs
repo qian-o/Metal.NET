@@ -93,7 +93,6 @@ public class MTLIndirectComputeCommand : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLIndirectComputeCommandSelector

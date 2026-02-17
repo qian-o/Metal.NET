@@ -70,7 +70,6 @@ public class MTLParallelRenderCommandEncoder : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLParallelRenderCommandEncoderSelector

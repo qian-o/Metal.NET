@@ -40,7 +40,6 @@ public class MTLType : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLTypeSelector

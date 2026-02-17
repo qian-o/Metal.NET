@@ -132,7 +132,6 @@ public class MTLHeap : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLHeapSelector

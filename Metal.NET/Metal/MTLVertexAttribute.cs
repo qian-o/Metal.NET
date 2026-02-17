@@ -56,7 +56,6 @@ public class MTLVertexAttribute : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLVertexAttributeSelector

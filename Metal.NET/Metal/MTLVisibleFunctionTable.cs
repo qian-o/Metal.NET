@@ -43,7 +43,6 @@ public class MTLVisibleFunctionTable : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLVisibleFunctionTableSelector

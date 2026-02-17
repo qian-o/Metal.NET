@@ -46,7 +46,6 @@ public class MTLFence : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFenceSelector

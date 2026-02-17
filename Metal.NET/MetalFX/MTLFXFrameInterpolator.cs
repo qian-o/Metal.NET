@@ -43,7 +43,6 @@ public class MTLFXFrameInterpolator : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFXFrameInterpolatorSelector

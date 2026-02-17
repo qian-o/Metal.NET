@@ -50,7 +50,6 @@ public class MTLPipelineBufferDescriptorArray : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLPipelineBufferDescriptorArraySelector

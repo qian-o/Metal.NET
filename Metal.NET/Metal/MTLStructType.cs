@@ -47,7 +47,6 @@ public class MTLStructType : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLStructTypeSelector

@@ -47,7 +47,6 @@ public class MTLTensorExtents : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLTensorExtentsSelector

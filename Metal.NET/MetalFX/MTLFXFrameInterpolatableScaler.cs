@@ -38,7 +38,6 @@ public class MTLFXFrameInterpolatableScaler : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFXFrameInterpolatableScalerSelector

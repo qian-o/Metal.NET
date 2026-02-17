@@ -72,7 +72,6 @@ public class MTLArgument : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLArgumentSelector

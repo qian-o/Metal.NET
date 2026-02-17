@@ -68,7 +68,6 @@ public class MTLFunctionStitchingGraph : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFunctionStitchingGraphSelector

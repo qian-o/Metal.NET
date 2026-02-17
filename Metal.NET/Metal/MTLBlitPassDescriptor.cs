@@ -53,7 +53,6 @@ public class MTLBlitPassDescriptor : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLBlitPassDescriptorSelector

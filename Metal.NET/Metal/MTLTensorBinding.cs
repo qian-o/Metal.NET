@@ -44,7 +44,6 @@ public class MTLTensorBinding : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLTensorBindingSelector

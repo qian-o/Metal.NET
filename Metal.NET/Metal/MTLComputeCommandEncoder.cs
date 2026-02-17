@@ -180,7 +180,6 @@ public class MTLComputeCommandEncoder : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLComputeCommandEncoderSelector

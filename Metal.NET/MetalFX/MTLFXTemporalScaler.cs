@@ -43,7 +43,6 @@ public class MTLFXTemporalScaler : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFXTemporalScalerSelector

@@ -151,7 +151,6 @@ public class MTLRenderPassDescriptor : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLRenderPassDescriptorSelector

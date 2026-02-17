@@ -71,7 +71,6 @@ public class MTLAccelerationStructureBoundingBoxGeometryDescriptor : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLAccelerationStructureBoundingBoxGeometryDescriptorSelector

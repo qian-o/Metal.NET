@@ -87,7 +87,6 @@ public class MTLRasterizationRateMapDescriptor : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLRasterizationRateMapDescriptorSelector

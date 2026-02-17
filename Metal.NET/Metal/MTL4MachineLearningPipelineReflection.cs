@@ -40,7 +40,6 @@ public class MTL4MachineLearningPipelineReflection : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4MachineLearningPipelineReflectionSelector

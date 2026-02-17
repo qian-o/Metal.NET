@@ -50,7 +50,6 @@ public class MTL4CompilerDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4CompilerDescriptorSelector

@@ -110,7 +110,6 @@ public class MTLFXSpatialScalerDescriptor : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLFXSpatialScalerDescriptorSelector

@@ -58,7 +58,6 @@ public class MTLCaptureScope : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLCaptureScopeSelector

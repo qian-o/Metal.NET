@@ -52,7 +52,6 @@ public class MTLPointerType : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLPointerTypeSelector

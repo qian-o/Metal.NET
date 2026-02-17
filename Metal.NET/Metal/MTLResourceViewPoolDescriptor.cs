@@ -50,7 +50,6 @@ public class MTLResourceViewPoolDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLResourceViewPoolDescriptorSelector

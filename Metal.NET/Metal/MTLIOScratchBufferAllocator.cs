@@ -45,7 +45,6 @@ public class MTLIOScratchBufferAllocator : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLIOScratchBufferAllocatorSelector

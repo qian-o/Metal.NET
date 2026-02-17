@@ -55,7 +55,6 @@ public class MTL4RenderPipelineColorAttachmentDescriptorArray : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4RenderPipelineColorAttachmentDescriptorArraySelector

@@ -56,7 +56,6 @@ public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptor : IDis
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorSelector

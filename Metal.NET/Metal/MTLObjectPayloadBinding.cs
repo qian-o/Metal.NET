@@ -42,7 +42,6 @@ public class MTLObjectPayloadBinding : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLObjectPayloadBindingSelector

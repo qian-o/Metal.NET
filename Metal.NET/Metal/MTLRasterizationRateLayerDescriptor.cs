@@ -52,7 +52,6 @@ public class MTLRasterizationRateLayerDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLRasterizationRateLayerDescriptorSelector

@@ -62,7 +62,6 @@ public class MTLFunctionStitchingFunctionNode : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFunctionStitchingFunctionNodeSelector

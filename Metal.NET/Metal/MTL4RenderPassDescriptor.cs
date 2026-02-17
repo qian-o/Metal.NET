@@ -142,7 +142,6 @@ public class MTL4RenderPassDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4RenderPassDescriptorSelector

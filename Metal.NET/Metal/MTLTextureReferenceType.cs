@@ -46,7 +46,6 @@ public class MTLTextureReferenceType : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLTextureReferenceTypeSelector

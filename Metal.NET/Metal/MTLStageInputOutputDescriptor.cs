@@ -72,7 +72,6 @@ public class MTLStageInputOutputDescriptor : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLStageInputOutputDescriptorSelector

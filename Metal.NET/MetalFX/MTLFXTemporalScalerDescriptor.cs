@@ -175,7 +175,6 @@ public class MTLFXTemporalScalerDescriptor : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLFXTemporalScalerDescriptorSelector

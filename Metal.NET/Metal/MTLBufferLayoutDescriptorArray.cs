@@ -50,7 +50,6 @@ public class MTLBufferLayoutDescriptorArray : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLBufferLayoutDescriptorArraySelector

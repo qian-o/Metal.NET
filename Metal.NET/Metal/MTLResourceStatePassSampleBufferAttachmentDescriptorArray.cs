@@ -50,7 +50,6 @@ public class MTLResourceStatePassSampleBufferAttachmentDescriptorArray : IDispos
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLResourceStatePassSampleBufferAttachmentDescriptorArraySelector

@@ -59,7 +59,6 @@ public class MTLMotionKeyframeData : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLMotionKeyframeDataSelector

@@ -113,7 +113,6 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLAccelerationStructureTriangleGeometryDescriptorSelector

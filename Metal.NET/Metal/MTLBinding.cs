@@ -54,7 +54,6 @@ public class MTLBinding : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLBindingSelector

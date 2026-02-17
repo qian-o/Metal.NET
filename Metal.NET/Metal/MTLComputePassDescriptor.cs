@@ -59,7 +59,6 @@ public class MTLComputePassDescriptor : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLComputePassDescriptorSelector

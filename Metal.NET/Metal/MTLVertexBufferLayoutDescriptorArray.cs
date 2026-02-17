@@ -50,7 +50,6 @@ public class MTLVertexBufferLayoutDescriptorArray : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLVertexBufferLayoutDescriptorArraySelector

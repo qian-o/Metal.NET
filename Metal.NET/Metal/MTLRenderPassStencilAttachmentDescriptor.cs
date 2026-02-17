@@ -20,9 +20,9 @@ public class MTLRenderPassStencilAttachmentDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint ClearStencil
+    public uint ClearStencil
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.ClearStencil);
+        get => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.ClearStencil);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.SetClearStencil, value);
     }
 
@@ -56,7 +56,6 @@ public class MTLRenderPassStencilAttachmentDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLRenderPassStencilAttachmentDescriptorSelector

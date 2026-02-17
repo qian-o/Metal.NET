@@ -48,7 +48,6 @@ public class MTLTextureBinding : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLTextureBindingSelector

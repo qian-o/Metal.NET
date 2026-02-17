@@ -53,7 +53,6 @@ public class MTL4MachineLearningCommandEncoder : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4MachineLearningCommandEncoderSelector

@@ -46,7 +46,6 @@ public class MTLSharedEventHandle : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLSharedEventHandleSelector

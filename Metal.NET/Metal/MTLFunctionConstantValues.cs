@@ -58,7 +58,6 @@ public class MTLFunctionConstantValues : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFunctionConstantValuesSelector

@@ -182,7 +182,6 @@ public class MTLFXFrameInterpolatorBase : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFXFrameInterpolatorBaseSelector

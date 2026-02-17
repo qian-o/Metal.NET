@@ -44,7 +44,6 @@ public class MTL4CommitFeedback : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4CommitFeedbackSelector

@@ -44,7 +44,6 @@ public class MTL4CompilerTaskOptions : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4CompilerTaskOptionsSelector

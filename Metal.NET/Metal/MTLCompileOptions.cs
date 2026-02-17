@@ -128,7 +128,6 @@ public class MTLCompileOptions : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLCompileOptionsSelector

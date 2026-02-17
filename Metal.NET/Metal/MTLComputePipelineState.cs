@@ -114,7 +114,6 @@ public class MTLComputePipelineState : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLComputePipelineStateSelector

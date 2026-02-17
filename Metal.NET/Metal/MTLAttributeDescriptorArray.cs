@@ -50,7 +50,6 @@ public class MTLAttributeDescriptorArray : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLAttributeDescriptorArraySelector

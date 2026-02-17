@@ -148,7 +148,6 @@ public class MTLIndirectRenderCommand : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLIndirectRenderCommandSelector

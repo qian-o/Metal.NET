@@ -195,7 +195,6 @@ public class MTLMeshRenderPipelineDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLMeshRenderPipelineDescriptorSelector

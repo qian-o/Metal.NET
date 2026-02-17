@@ -56,7 +56,6 @@ public class MTLComputePassSampleBufferAttachmentDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLComputePassSampleBufferAttachmentDescriptorSelector

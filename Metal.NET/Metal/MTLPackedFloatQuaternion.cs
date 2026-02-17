@@ -38,7 +38,6 @@ public class MTLPackedFloatQuaternion : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLPackedFloatQuaternionSelector

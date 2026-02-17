@@ -42,7 +42,6 @@ public class MTLSharedTextureHandle : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLSharedTextureHandleSelector

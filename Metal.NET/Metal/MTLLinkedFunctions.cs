@@ -75,7 +75,6 @@ public class MTLLinkedFunctions : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLLinkedFunctionsSelector

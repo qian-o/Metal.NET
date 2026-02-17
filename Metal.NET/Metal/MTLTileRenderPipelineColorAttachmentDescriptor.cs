@@ -50,7 +50,6 @@ public class MTLTileRenderPipelineColorAttachmentDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLTileRenderPipelineColorAttachmentDescriptorSelector

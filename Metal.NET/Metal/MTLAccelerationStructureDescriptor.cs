@@ -50,7 +50,6 @@ public class MTLAccelerationStructureDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLAccelerationStructureDescriptorSelector

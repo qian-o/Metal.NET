@@ -74,7 +74,6 @@ public class MTLIOCommandQueueDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLIOCommandQueueDescriptorSelector

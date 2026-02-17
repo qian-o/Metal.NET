@@ -55,7 +55,6 @@ public class MTLLogicalToPhysicalColorAttachmentMap : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLLogicalToPhysicalColorAttachmentMapSelector

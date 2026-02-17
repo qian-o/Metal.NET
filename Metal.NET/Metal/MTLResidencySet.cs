@@ -85,7 +85,6 @@ public class MTLResidencySet : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLResidencySetSelector

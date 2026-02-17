@@ -62,7 +62,6 @@ public class MTLTextureViewDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLTextureViewDescriptorSelector

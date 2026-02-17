@@ -65,7 +65,6 @@ public class MTLCommandQueue : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLCommandQueueSelector

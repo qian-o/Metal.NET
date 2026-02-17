@@ -62,7 +62,6 @@ public class MTLCaptureDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLCaptureDescriptorSelector

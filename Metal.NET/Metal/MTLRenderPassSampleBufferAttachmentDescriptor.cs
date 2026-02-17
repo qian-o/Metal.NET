@@ -68,7 +68,6 @@ public class MTLRenderPassSampleBufferAttachmentDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLRenderPassSampleBufferAttachmentDescriptorSelector

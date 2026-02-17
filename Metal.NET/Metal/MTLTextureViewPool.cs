@@ -44,7 +44,6 @@ public class MTLTextureViewPool : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLTextureViewPoolSelector

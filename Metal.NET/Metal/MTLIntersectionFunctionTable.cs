@@ -73,7 +73,6 @@ public class MTLIntersectionFunctionTable : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLIntersectionFunctionTableSelector

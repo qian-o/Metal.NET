@@ -44,7 +44,6 @@ public class MTL4CommandAllocatorDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4CommandAllocatorDescriptorSelector

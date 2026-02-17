@@ -50,7 +50,6 @@ public class MTLBlitPassSampleBufferAttachmentDescriptorArray : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLBlitPassSampleBufferAttachmentDescriptorArraySelector

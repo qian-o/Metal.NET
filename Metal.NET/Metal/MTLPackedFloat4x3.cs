@@ -38,7 +38,6 @@ public class MTLPackedFloat4x3 : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLPackedFloat4x3Selector

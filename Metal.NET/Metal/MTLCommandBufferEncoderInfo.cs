@@ -44,7 +44,6 @@ public class MTLCommandBufferEncoderInfo : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLCommandBufferEncoderInfoSelector

@@ -14,45 +14,15 @@ public class MTLBuffer : IDisposable
 
     public nint NativePtr { get; }
 
-    public nint Contents
-    {
-        get
-        {
-            return ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.Contents);
-        }
-    }
+    public nint Contents => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.Contents);
 
-    public nuint GpuAddress
-    {
-        get
-        {
-            return ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferSelector.GpuAddress);
-        }
-    }
+    public nuint GpuAddress => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferSelector.GpuAddress);
 
-    public nuint Length
-    {
-        get
-        {
-            return ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferSelector.Length);
-        }
-    }
+    public nuint Length => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferSelector.Length);
 
-    public MTLBuffer RemoteStorageBuffer
-    {
-        get
-        {
-            return new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.RemoteStorageBuffer));
-        }
-    }
+    public MTLBuffer RemoteStorageBuffer => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.RemoteStorageBuffer));
 
-    public MTLBufferSparseTier SparseBufferTier
-    {
-        get
-        {
-            return (MTLBufferSparseTier)ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLBufferSelector.SparseBufferTier);
-        }
-    }
+    public MTLBufferSparseTier SparseBufferTier => (MTLBufferSparseTier)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLBufferSelector.SparseBufferTier));
 
     public void AddDebugMarker(NSString marker, NSRange range)
     {

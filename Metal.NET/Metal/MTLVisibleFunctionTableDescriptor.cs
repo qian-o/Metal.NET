@@ -53,7 +53,6 @@ public class MTLVisibleFunctionTableDescriptor : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLVisibleFunctionTableDescriptorSelector

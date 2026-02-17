@@ -56,7 +56,6 @@ public class MTL4StaticLinkingDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4StaticLinkingDescriptorSelector

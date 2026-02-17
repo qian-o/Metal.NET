@@ -38,7 +38,6 @@ public class MTLIntersectionFunctionDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLIntersectionFunctionDescriptorSelector

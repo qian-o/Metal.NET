@@ -167,7 +167,6 @@ public class MTLTextureDescriptor : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLTextureDescriptorSelector

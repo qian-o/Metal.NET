@@ -38,13 +38,7 @@ public class CAMetalLayer : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetFramebufferOnly, value);
     }
 
-    public CAMetalDrawable NextDrawable
-    {
-        get
-        {
-            return new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.NextDrawable));
-        }
-    }
+    public CAMetalDrawable NextDrawable => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.NextDrawable));
 
     public nuint MaximumDrawableCount
     {
@@ -70,13 +64,7 @@ public class CAMetalLayer : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetAllowsNextDrawableTimeout, value);
     }
 
-    public MTLResidencySet ResidencySet
-    {
-        get
-        {
-            return new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.ResidencySet));
-        }
-    }
+    public MTLResidencySet ResidencySet => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.ResidencySet));
 
     public static implicit operator nint(CAMetalLayer value)
     {
@@ -86,13 +74,6 @@ public class CAMetalLayer : IDisposable
     public static implicit operator CAMetalLayer(nint value)
     {
         return new(value);
-    }
-
-    public static CAMetalLayer Layer()
-    {
-        CAMetalLayer result = new(ObjectiveCRuntime.MsgSendPtr(Class, CAMetalLayerSelector.Layer));
-
-        return result;
     }
 
     public void Dispose()
@@ -108,6 +89,13 @@ public class CAMetalLayer : IDisposable
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
+    }
+
+    public static CAMetalLayer Layer()
+    {
+        CAMetalLayer result = new(ObjectiveCRuntime.MsgSendPtr(Class, CAMetalLayerSelector.Layer));
+
+        return result;
     }
 }
 

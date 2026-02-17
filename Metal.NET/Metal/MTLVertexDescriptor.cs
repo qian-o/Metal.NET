@@ -60,7 +60,6 @@ public class MTLVertexDescriptor : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLVertexDescriptorSelector

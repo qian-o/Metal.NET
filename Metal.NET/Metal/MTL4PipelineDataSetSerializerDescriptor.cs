@@ -44,7 +44,6 @@ public class MTL4PipelineDataSetSerializerDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4PipelineDataSetSerializerDescriptorSelector

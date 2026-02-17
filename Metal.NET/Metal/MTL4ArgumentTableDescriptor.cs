@@ -74,7 +74,6 @@ public class MTL4ArgumentTableDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4ArgumentTableDescriptorSelector

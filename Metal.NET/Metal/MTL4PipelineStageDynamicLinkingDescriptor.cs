@@ -56,7 +56,6 @@ public class MTL4PipelineStageDynamicLinkingDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4PipelineStageDynamicLinkingDescriptorSelector

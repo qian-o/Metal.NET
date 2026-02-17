@@ -103,7 +103,6 @@ public class MTL4RenderPipelineColorAttachmentDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4RenderPipelineColorAttachmentDescriptorSelector

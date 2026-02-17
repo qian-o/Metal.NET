@@ -40,7 +40,6 @@ public class MTLArchitecture : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLArchitectureSelector

@@ -42,7 +42,6 @@ public class MTLDepthStencilState : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLDepthStencilStateSelector

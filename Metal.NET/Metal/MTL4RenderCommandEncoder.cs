@@ -163,12 +163,12 @@ public class MTL4RenderCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderSelector.SetScissorRectsCount, scissorRects, count);
     }
 
-    public void SetStencilReferenceValue(nuint referenceValue)
+    public void SetStencilReferenceValue(uint referenceValue)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderSelector.SetStencilReferenceValue, referenceValue);
     }
 
-    public void SetStencilReferenceValues(nuint frontReferenceValue, nuint backReferenceValue)
+    public void SetStencilReferenceValues(uint frontReferenceValue, uint backReferenceValue)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderSelector.SetStencilReferenceValuesBackReferenceValue, frontReferenceValue, backReferenceValue);
     }
@@ -237,7 +237,6 @@ public class MTL4RenderCommandEncoder : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4RenderCommandEncoderSelector

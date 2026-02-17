@@ -123,7 +123,6 @@ public class MTLComputePipelineDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLComputePipelineDescriptorSelector

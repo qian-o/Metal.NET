@@ -56,7 +56,6 @@ public class MTLArrayType : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLArrayTypeSelector

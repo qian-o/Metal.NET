@@ -108,7 +108,6 @@ public class MTLLibrary : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLLibrarySelector

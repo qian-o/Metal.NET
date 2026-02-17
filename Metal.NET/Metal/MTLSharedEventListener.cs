@@ -49,7 +49,6 @@ public class MTLSharedEventListener : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLSharedEventListenerSelector

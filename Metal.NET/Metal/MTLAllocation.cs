@@ -40,7 +40,6 @@ public class MTLAllocation : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLAllocationSelector

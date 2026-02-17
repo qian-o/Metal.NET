@@ -50,7 +50,6 @@ public class MTLRasterizationRateLayerArray : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLRasterizationRateLayerArraySelector

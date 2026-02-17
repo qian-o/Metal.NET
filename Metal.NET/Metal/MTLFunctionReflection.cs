@@ -40,7 +40,6 @@ public class MTLFunctionReflection : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFunctionReflectionSelector

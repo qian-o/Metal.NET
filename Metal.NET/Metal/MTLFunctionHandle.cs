@@ -44,7 +44,6 @@ public class MTLFunctionHandle : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFunctionHandleSelector

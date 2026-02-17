@@ -38,7 +38,6 @@ public class MTLFunctionStitchingAttributeAlwaysInline : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFunctionStitchingAttributeAlwaysInlineSelector

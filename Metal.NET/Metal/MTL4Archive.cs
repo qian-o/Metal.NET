@@ -89,7 +89,6 @@ public class MTL4Archive : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4ArchiveSelector

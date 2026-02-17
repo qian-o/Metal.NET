@@ -54,7 +54,6 @@ public class MTLRenderPipelineReflection : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLRenderPipelineReflectionSelector

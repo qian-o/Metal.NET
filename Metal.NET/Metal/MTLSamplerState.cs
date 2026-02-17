@@ -42,7 +42,6 @@ public class MTLSamplerState : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLSamplerStateSelector

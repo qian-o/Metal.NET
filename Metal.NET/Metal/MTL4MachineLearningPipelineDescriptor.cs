@@ -72,7 +72,6 @@ public class MTL4MachineLearningPipelineDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4MachineLearningPipelineDescriptorSelector

@@ -123,7 +123,6 @@ public class MTLInstanceAccelerationStructureDescriptor : IDisposable
 
         return result;
     }
-
 }
 
 file class MTLInstanceAccelerationStructureDescriptorSelector
