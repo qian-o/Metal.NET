@@ -1,48 +1,60 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray_Selectors
+file class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArraySelector
 {
-    internal static readonly Selector object_ = Selector.Register("object:");
-    internal static readonly Selector setObject_attachmentIndex_ = Selector.Register("setObject:attachmentIndex:");
+    public static readonly Selector Object_ = Selector.Register("object:");
+    public static readonly Selector SetObject_attachmentIndex_ = Selector.Register("setObject:attachmentIndex:");
 }
 
 public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray : IDisposable
 {
+    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray o) => o.NativePtr;
-    public static implicit operator MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray(nint ptr) => new MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray(ptr);
-
-    ~MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray() => Release();
+    public static implicit operator MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor Object(nuint attachmentIndex)
     {
-        var __r = new MTLAccelerationStructurePassSampleBufferAttachmentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray_Selectors.object_, (nint)attachmentIndex));
-        return __r;
+        var result = new MTLAccelerationStructurePassSampleBufferAttachmentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArraySelector.Object_, (nint)attachmentIndex));
+
+        return result;
     }
 
     public void SetObject(MTLAccelerationStructurePassSampleBufferAttachmentDescriptor attachment, nuint attachmentIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray_Selectors.setObject_attachmentIndex_, attachment.NativePtr, (nint)attachmentIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArraySelector.SetObject_attachmentIndex_, attachment.NativePtr, (nint)attachmentIndex);
     }
 
 }

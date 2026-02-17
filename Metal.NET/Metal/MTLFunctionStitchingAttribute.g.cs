@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLFunctionStitchingAttribute_Selectors
+file class MTLFunctionStitchingAttributeSelector
 {
 }
 
 public class MTLFunctionStitchingAttribute : IDisposable
 {
+    public MTLFunctionStitchingAttribute(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLFunctionStitchingAttribute()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLFunctionStitchingAttribute(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLFunctionStitchingAttribute value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLFunctionStitchingAttribute o) => o.NativePtr;
-    public static implicit operator MTLFunctionStitchingAttribute(nint ptr) => new MTLFunctionStitchingAttribute(ptr);
-
-    ~MTLFunctionStitchingAttribute() => Release();
+    public static implicit operator MTLFunctionStitchingAttribute(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

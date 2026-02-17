@@ -1,61 +1,74 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLSharedEvent_Selectors
+file class MTLSharedEventSelector
 {
-    internal static readonly Selector newSharedEventHandle = Selector.Register("newSharedEventHandle");
-    internal static readonly Selector notifyListener_value_function_ = Selector.Register("notifyListener:value:function:");
-    internal static readonly Selector setSignaledValue_ = Selector.Register("setSignaledValue:");
-    internal static readonly Selector waitUntilSignaledValue_milliseconds_ = Selector.Register("waitUntilSignaledValue:milliseconds:");
+    public static readonly Selector NewSharedEventHandle = Selector.Register("newSharedEventHandle");
+    public static readonly Selector NotifyListener_value_function_ = Selector.Register("notifyListener:value:function:");
+    public static readonly Selector SetSignaledValue_ = Selector.Register("setSignaledValue:");
+    public static readonly Selector WaitUntilSignaledValue_milliseconds_ = Selector.Register("waitUntilSignaledValue:milliseconds:");
 }
 
 public class MTLSharedEvent : IDisposable
 {
+    public MTLSharedEvent(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLSharedEvent()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLSharedEvent(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLSharedEvent value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLSharedEvent o) => o.NativePtr;
-    public static implicit operator MTLSharedEvent(nint ptr) => new MTLSharedEvent(ptr);
-
-    ~MTLSharedEvent() => Release();
+    public static implicit operator MTLSharedEvent(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public MTLSharedEventHandle NewSharedEventHandle()
     {
-        var __r = new MTLSharedEventHandle(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLSharedEvent_Selectors.newSharedEventHandle));
-        return __r;
+        var result = new MTLSharedEventHandle(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLSharedEventSelector.NewSharedEventHandle));
+
+        return result;
     }
 
     public void NotifyListener(MTLSharedEventListener listener, nuint value, nint function)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSharedEvent_Selectors.notifyListener_value_function_, listener.NativePtr, (nint)value, function);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSharedEventSelector.NotifyListener_value_function_, listener.NativePtr, (nint)value, function);
     }
 
     public void SetSignaledValue(nuint signaledValue)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSharedEvent_Selectors.setSignaledValue_, (nint)signaledValue);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLSharedEventSelector.SetSignaledValue_, (nint)signaledValue);
     }
 
     public Bool8 WaitUntilSignaledValue(nuint value, nuint milliseconds)
     {
-        var __r = (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLSharedEvent_Selectors.waitUntilSignaledValue_milliseconds_, (nint)value, (nint)milliseconds) != 0;
-        return __r;
+        var result = (byte)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLSharedEventSelector.WaitUntilSignaledValue_milliseconds_, (nint)value, (nint)milliseconds) is not 0;
+
+        return result;
     }
 
 }

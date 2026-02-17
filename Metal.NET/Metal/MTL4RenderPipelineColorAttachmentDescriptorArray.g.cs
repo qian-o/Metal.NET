@@ -1,54 +1,66 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTL4RenderPipelineColorAttachmentDescriptorArray_Selectors
+file class MTL4RenderPipelineColorAttachmentDescriptorArraySelector
 {
-    internal static readonly Selector object_ = Selector.Register("object:");
-    internal static readonly Selector reset = Selector.Register("reset");
-    internal static readonly Selector setObject_attachmentIndex_ = Selector.Register("setObject:attachmentIndex:");
+    public static readonly Selector Object_ = Selector.Register("object:");
+    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector SetObject_attachmentIndex_ = Selector.Register("setObject:attachmentIndex:");
 }
 
 public class MTL4RenderPipelineColorAttachmentDescriptorArray : IDisposable
 {
+    public MTL4RenderPipelineColorAttachmentDescriptorArray(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTL4RenderPipelineColorAttachmentDescriptorArray()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTL4RenderPipelineColorAttachmentDescriptorArray(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTL4RenderPipelineColorAttachmentDescriptorArray value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTL4RenderPipelineColorAttachmentDescriptorArray o) => o.NativePtr;
-    public static implicit operator MTL4RenderPipelineColorAttachmentDescriptorArray(nint ptr) => new MTL4RenderPipelineColorAttachmentDescriptorArray(ptr);
-
-    ~MTL4RenderPipelineColorAttachmentDescriptorArray() => Release();
+    public static implicit operator MTL4RenderPipelineColorAttachmentDescriptorArray(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public MTL4RenderPipelineColorAttachmentDescriptor Object(nuint attachmentIndex)
     {
-        var __r = new MTL4RenderPipelineColorAttachmentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArray_Selectors.object_, (nint)attachmentIndex));
-        return __r;
+        var result = new MTL4RenderPipelineColorAttachmentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.Object_, (nint)attachmentIndex));
+
+        return result;
     }
 
     public void Reset()
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArray_Selectors.reset);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.Reset);
     }
 
     public void SetObject(MTL4RenderPipelineColorAttachmentDescriptor attachment, nuint attachmentIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArray_Selectors.setObject_attachmentIndex_, attachment.NativePtr, (nint)attachmentIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.SetObject_attachmentIndex_, attachment.NativePtr, (nint)attachmentIndex);
     }
 
 }

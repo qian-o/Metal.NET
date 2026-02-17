@@ -1,50 +1,62 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLIntersectionFunctionTableDescriptor_Selectors
+file class MTLIntersectionFunctionTableDescriptorSelector
 {
-    internal static readonly Selector setFunctionCount_ = Selector.Register("setFunctionCount:");
-    internal static readonly Selector intersectionFunctionTableDescriptor = Selector.Register("intersectionFunctionTableDescriptor");
+    public static readonly Selector SetFunctionCount_ = Selector.Register("setFunctionCount:");
+    public static readonly Selector IntersectionFunctionTableDescriptor = Selector.Register("intersectionFunctionTableDescriptor");
 }
 
 public class MTLIntersectionFunctionTableDescriptor : IDisposable
 {
+    public MTLIntersectionFunctionTableDescriptor(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLIntersectionFunctionTableDescriptor()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLIntersectionFunctionTableDescriptor(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLIntersectionFunctionTableDescriptor value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLIntersectionFunctionTableDescriptor o) => o.NativePtr;
-    public static implicit operator MTLIntersectionFunctionTableDescriptor(nint ptr) => new MTLIntersectionFunctionTableDescriptor(ptr);
-
-    ~MTLIntersectionFunctionTableDescriptor() => Release();
+    public static implicit operator MTLIntersectionFunctionTableDescriptor(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLIntersectionFunctionTableDescriptor");
 
     public void SetFunctionCount(nuint functionCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIntersectionFunctionTableDescriptor_Selectors.setFunctionCount_, (nint)functionCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIntersectionFunctionTableDescriptorSelector.SetFunctionCount_, (nint)functionCount);
     }
 
     public static MTLIntersectionFunctionTableDescriptor IntersectionFunctionTableDescriptor()
     {
-        var __r = new MTLIntersectionFunctionTableDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLIntersectionFunctionTableDescriptor_Selectors.intersectionFunctionTableDescriptor));
-        return __r;
+        var result = new MTLIntersectionFunctionTableDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLIntersectionFunctionTableDescriptorSelector.IntersectionFunctionTableDescriptor));
+
+        return result;
     }
 
 }

@@ -1,59 +1,70 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLCommandQueue_Selectors
+file class MTLCommandQueueSelector
 {
-    internal static readonly Selector addResidencySet_ = Selector.Register("addResidencySet:");
-    internal static readonly Selector insertDebugCaptureBoundary = Selector.Register("insertDebugCaptureBoundary");
-    internal static readonly Selector removeResidencySet_ = Selector.Register("removeResidencySet:");
-    internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
+    public static readonly Selector AddResidencySet_ = Selector.Register("addResidencySet:");
+    public static readonly Selector InsertDebugCaptureBoundary = Selector.Register("insertDebugCaptureBoundary");
+    public static readonly Selector RemoveResidencySet_ = Selector.Register("removeResidencySet:");
+    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
 }
 
 public class MTLCommandQueue : IDisposable
 {
+    public MTLCommandQueue(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLCommandQueue()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLCommandQueue(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLCommandQueue value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLCommandQueue o) => o.NativePtr;
-    public static implicit operator MTLCommandQueue(nint ptr) => new MTLCommandQueue(ptr);
-
-    ~MTLCommandQueue() => Release();
+    public static implicit operator MTLCommandQueue(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public void AddResidencySet(MTLResidencySet residencySet)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandQueue_Selectors.addResidencySet_, residencySet.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandQueueSelector.AddResidencySet_, residencySet.NativePtr);
     }
 
     public void InsertDebugCaptureBoundary()
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandQueue_Selectors.insertDebugCaptureBoundary);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandQueueSelector.InsertDebugCaptureBoundary);
     }
 
     public void RemoveResidencySet(MTLResidencySet residencySet)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandQueue_Selectors.removeResidencySet_, residencySet.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandQueueSelector.RemoveResidencySet_, residencySet.NativePtr);
     }
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandQueue_Selectors.setLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandQueueSelector.SetLabel_, label.NativePtr);
     }
 
 }

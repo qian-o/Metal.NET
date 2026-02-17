@@ -1,61 +1,74 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLResource_Selectors
+file class MTLResourceSelector
 {
-    internal static readonly Selector makeAliasable = Selector.Register("makeAliasable");
-    internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
-    internal static readonly Selector setOwner_ = Selector.Register("setOwner:");
-    internal static readonly Selector setPurgeableState_ = Selector.Register("setPurgeableState:");
+    public static readonly Selector MakeAliasable = Selector.Register("makeAliasable");
+    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
+    public static readonly Selector SetOwner_ = Selector.Register("setOwner:");
+    public static readonly Selector SetPurgeableState_ = Selector.Register("setPurgeableState:");
 }
 
 public class MTLResource : IDisposable
 {
+    public MTLResource(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLResource()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLResource(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLResource value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLResource o) => o.NativePtr;
-    public static implicit operator MTLResource(nint ptr) => new MTLResource(ptr);
-
-    ~MTLResource() => Release();
+    public static implicit operator MTLResource(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public void MakeAliasable()
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResource_Selectors.makeAliasable);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResourceSelector.MakeAliasable);
     }
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResource_Selectors.setLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLResourceSelector.SetLabel_, label.NativePtr);
     }
 
     public uint SetOwner(nint task_id_token)
     {
-        var __r = (uint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLResource_Selectors.setOwner_, task_id_token);
-        return __r;
+        var result = (uint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLResourceSelector.SetOwner_, task_id_token);
+
+        return result;
     }
 
     public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
     {
-        var __r = (MTLPurgeableState)(uint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLResource_Selectors.setPurgeableState_, (nint)(uint)state);
-        return __r;
+        var result = (MTLPurgeableState)(uint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLResourceSelector.SetPurgeableState_, (nint)(uint)state);
+
+        return result;
     }
 
 }

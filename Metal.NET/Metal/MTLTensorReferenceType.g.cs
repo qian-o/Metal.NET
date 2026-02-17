@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLTensorReferenceType_Selectors
+file class MTLTensorReferenceTypeSelector
 {
 }
 
 public class MTLTensorReferenceType : IDisposable
 {
+    public MTLTensorReferenceType(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLTensorReferenceType()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLTensorReferenceType(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLTensorReferenceType value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLTensorReferenceType o) => o.NativePtr;
-    public static implicit operator MTLTensorReferenceType(nint ptr) => new MTLTensorReferenceType(ptr);
-
-    ~MTLTensorReferenceType() => Release();
+    public static implicit operator MTLTensorReferenceType(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

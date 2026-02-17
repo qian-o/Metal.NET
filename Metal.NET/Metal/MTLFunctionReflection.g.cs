@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLFunctionReflection_Selectors
+file class MTLFunctionReflectionSelector
 {
 }
 
 public class MTLFunctionReflection : IDisposable
 {
+    public MTLFunctionReflection(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLFunctionReflection()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLFunctionReflection(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLFunctionReflection value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLFunctionReflection o) => o.NativePtr;
-    public static implicit operator MTLFunctionReflection(nint ptr) => new MTLFunctionReflection(ptr);
-
-    ~MTLFunctionReflection() => Release();
+    public static implicit operator MTLFunctionReflection(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

@@ -1,40 +1,51 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLDepthStencilDescriptor_Selectors
+file class MTLDepthStencilDescriptorSelector
 {
-    internal static readonly Selector setBackFaceStencil_ = Selector.Register("setBackFaceStencil:");
-    internal static readonly Selector setDepthCompareFunction_ = Selector.Register("setDepthCompareFunction:");
-    internal static readonly Selector setDepthWriteEnabled_ = Selector.Register("setDepthWriteEnabled:");
-    internal static readonly Selector setFrontFaceStencil_ = Selector.Register("setFrontFaceStencil:");
-    internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
+    public static readonly Selector SetBackFaceStencil_ = Selector.Register("setBackFaceStencil:");
+    public static readonly Selector SetDepthCompareFunction_ = Selector.Register("setDepthCompareFunction:");
+    public static readonly Selector SetDepthWriteEnabled_ = Selector.Register("setDepthWriteEnabled:");
+    public static readonly Selector SetFrontFaceStencil_ = Selector.Register("setFrontFaceStencil:");
+    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
 }
 
 public class MTLDepthStencilDescriptor : IDisposable
 {
+    public MTLDepthStencilDescriptor(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLDepthStencilDescriptor()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLDepthStencilDescriptor(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLDepthStencilDescriptor value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLDepthStencilDescriptor o) => o.NativePtr;
-    public static implicit operator MTLDepthStencilDescriptor(nint ptr) => new MTLDepthStencilDescriptor(ptr);
-
-    ~MTLDepthStencilDescriptor() => Release();
+    public static implicit operator MTLDepthStencilDescriptor(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLDepthStencilDescriptor");
@@ -43,32 +54,33 @@ public class MTLDepthStencilDescriptor : IDisposable
     {
         var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
         ptr = ObjectiveCRuntime.intptr_objc_msgSend(ptr, Selector.Register("init"));
+
         return new MTLDepthStencilDescriptor(ptr);
     }
 
     public void SetBackFaceStencil(MTLStencilDescriptor backFaceStencil)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDepthStencilDescriptor_Selectors.setBackFaceStencil_, backFaceStencil.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetBackFaceStencil_, backFaceStencil.NativePtr);
     }
 
     public void SetDepthCompareFunction(MTLCompareFunction depthCompareFunction)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDepthStencilDescriptor_Selectors.setDepthCompareFunction_, (nint)(uint)depthCompareFunction);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetDepthCompareFunction_, (nint)(uint)depthCompareFunction);
     }
 
     public void SetDepthWriteEnabled(Bool8 depthWriteEnabled)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDepthStencilDescriptor_Selectors.setDepthWriteEnabled_, (nint)depthWriteEnabled.Value);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetDepthWriteEnabled_, (nint)depthWriteEnabled.Value);
     }
 
     public void SetFrontFaceStencil(MTLStencilDescriptor frontFaceStencil)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDepthStencilDescriptor_Selectors.setFrontFaceStencil_, frontFaceStencil.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetFrontFaceStencil_, frontFaceStencil.NativePtr);
     }
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDepthStencilDescriptor_Selectors.setLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetLabel_, label.NativePtr);
     }
 
 }

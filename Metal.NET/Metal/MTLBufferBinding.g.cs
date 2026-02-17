@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLBufferBinding_Selectors
+file class MTLBufferBindingSelector
 {
 }
 
 public class MTLBufferBinding : IDisposable
 {
+    public MTLBufferBinding(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLBufferBinding()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLBufferBinding(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLBufferBinding value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLBufferBinding o) => o.NativePtr;
-    public static implicit operator MTLBufferBinding(nint ptr) => new MTLBufferBinding(ptr);
-
-    ~MTLBufferBinding() => Release();
+    public static implicit operator MTLBufferBinding(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

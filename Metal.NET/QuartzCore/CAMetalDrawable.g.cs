@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class CAMetalDrawable_Selectors
+file class CAMetalDrawableSelector
 {
 }
 
 public class CAMetalDrawable : IDisposable
 {
+    public CAMetalDrawable(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~CAMetalDrawable()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public CAMetalDrawable(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(CAMetalDrawable value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(CAMetalDrawable o) => o.NativePtr;
-    public static implicit operator CAMetalDrawable(nint ptr) => new CAMetalDrawable(ptr);
-
-    ~CAMetalDrawable() => Release();
+    public static implicit operator CAMetalDrawable(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

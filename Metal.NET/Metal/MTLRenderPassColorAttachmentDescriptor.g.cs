@@ -1,36 +1,47 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLRenderPassColorAttachmentDescriptor_Selectors
+file class MTLRenderPassColorAttachmentDescriptorSelector
 {
-    internal static readonly Selector setClearColor_ = Selector.Register("setClearColor:");
+    public static readonly Selector SetClearColor_ = Selector.Register("setClearColor:");
 }
 
 public class MTLRenderPassColorAttachmentDescriptor : IDisposable
 {
+    public MTLRenderPassColorAttachmentDescriptor(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLRenderPassColorAttachmentDescriptor()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLRenderPassColorAttachmentDescriptor(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLRenderPassColorAttachmentDescriptor value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLRenderPassColorAttachmentDescriptor o) => o.NativePtr;
-    public static implicit operator MTLRenderPassColorAttachmentDescriptor(nint ptr) => new MTLRenderPassColorAttachmentDescriptor(ptr);
-
-    ~MTLRenderPassColorAttachmentDescriptor() => Release();
+    public static implicit operator MTLRenderPassColorAttachmentDescriptor(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLRenderPassColorAttachmentDescriptor");
@@ -39,12 +50,13 @@ public class MTLRenderPassColorAttachmentDescriptor : IDisposable
     {
         var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
         ptr = ObjectiveCRuntime.intptr_objc_msgSend(ptr, Selector.Register("init"));
+
         return new MTLRenderPassColorAttachmentDescriptor(ptr);
     }
 
     public void SetClearColor(MTLClearColor clearColor)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassColorAttachmentDescriptor_Selectors.setClearColor_, clearColor);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorSelector.SetClearColor_, clearColor);
     }
 
 }

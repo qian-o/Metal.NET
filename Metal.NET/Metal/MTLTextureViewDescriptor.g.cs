@@ -1,38 +1,49 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLTextureViewDescriptor_Selectors
+file class MTLTextureViewDescriptorSelector
 {
-    internal static readonly Selector setPixelFormat_ = Selector.Register("setPixelFormat:");
-    internal static readonly Selector setSwizzle_ = Selector.Register("setSwizzle:");
-    internal static readonly Selector setTextureType_ = Selector.Register("setTextureType:");
+    public static readonly Selector SetPixelFormat_ = Selector.Register("setPixelFormat:");
+    public static readonly Selector SetSwizzle_ = Selector.Register("setSwizzle:");
+    public static readonly Selector SetTextureType_ = Selector.Register("setTextureType:");
 }
 
 public class MTLTextureViewDescriptor : IDisposable
 {
+    public MTLTextureViewDescriptor(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLTextureViewDescriptor()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLTextureViewDescriptor(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLTextureViewDescriptor value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLTextureViewDescriptor o) => o.NativePtr;
-    public static implicit operator MTLTextureViewDescriptor(nint ptr) => new MTLTextureViewDescriptor(ptr);
-
-    ~MTLTextureViewDescriptor() => Release();
+    public static implicit operator MTLTextureViewDescriptor(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLTextureViewDescriptor");
@@ -41,22 +52,23 @@ public class MTLTextureViewDescriptor : IDisposable
     {
         var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
         ptr = ObjectiveCRuntime.intptr_objc_msgSend(ptr, Selector.Register("init"));
+
         return new MTLTextureViewDescriptor(ptr);
     }
 
     public void SetPixelFormat(MTLPixelFormat pixelFormat)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureViewDescriptor_Selectors.setPixelFormat_, (nint)(uint)pixelFormat);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureViewDescriptorSelector.SetPixelFormat_, (nint)(uint)pixelFormat);
     }
 
     public void SetSwizzle(MTLTextureSwizzleChannels swizzle)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureViewDescriptor_Selectors.setSwizzle_, swizzle.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureViewDescriptorSelector.SetSwizzle_, swizzle.NativePtr);
     }
 
     public void SetTextureType(MTLTextureType textureType)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureViewDescriptor_Selectors.setTextureType_, (nint)(uint)textureType);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLTextureViewDescriptorSelector.SetTextureType_, (nint)(uint)textureType);
     }
 
 }

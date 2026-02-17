@@ -1,41 +1,52 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLFXTemporalScaler_Selectors
+file class MTLFXTemporalScalerSelector
 {
-    internal static readonly Selector encodeToCommandBuffer_ = Selector.Register("encodeToCommandBuffer:");
+    public static readonly Selector EncodeToCommandBuffer_ = Selector.Register("encodeToCommandBuffer:");
 }
 
 public class MTLFXTemporalScaler : IDisposable
 {
+    public MTLFXTemporalScaler(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLFXTemporalScaler()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLFXTemporalScaler(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLFXTemporalScaler value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLFXTemporalScaler o) => o.NativePtr;
-    public static implicit operator MTLFXTemporalScaler(nint ptr) => new MTLFXTemporalScaler(ptr);
-
-    ~MTLFXTemporalScaler() => Release();
+    public static implicit operator MTLFXTemporalScaler(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public void EncodeToCommandBuffer(MTLCommandBuffer pCommandBuffer)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScaler_Selectors.encodeToCommandBuffer_, pCommandBuffer.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFXTemporalScalerSelector.EncodeToCommandBuffer_, pCommandBuffer.NativePtr);
     }
 
 }

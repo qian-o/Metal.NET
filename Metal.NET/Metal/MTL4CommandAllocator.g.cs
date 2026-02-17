@@ -1,41 +1,52 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTL4CommandAllocator_Selectors
+file class MTL4CommandAllocatorSelector
 {
-    internal static readonly Selector reset = Selector.Register("reset");
+    public static readonly Selector Reset = Selector.Register("reset");
 }
 
 public class MTL4CommandAllocator : IDisposable
 {
+    public MTL4CommandAllocator(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTL4CommandAllocator()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTL4CommandAllocator(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTL4CommandAllocator value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTL4CommandAllocator o) => o.NativePtr;
-    public static implicit operator MTL4CommandAllocator(nint ptr) => new MTL4CommandAllocator(ptr);
-
-    ~MTL4CommandAllocator() => Release();
+    public static implicit operator MTL4CommandAllocator(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public void Reset()
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandAllocator_Selectors.reset);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandAllocatorSelector.Reset);
     }
 
 }

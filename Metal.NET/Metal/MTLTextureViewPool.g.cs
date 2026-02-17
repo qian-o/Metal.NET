@@ -1,38 +1,49 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLTextureViewPool_Selectors
+file class MTLTextureViewPoolSelector
 {
-    internal static readonly Selector setTextureView_index_ = Selector.Register("setTextureView:index:");
-    internal static readonly Selector setTextureView_descriptor_index_ = Selector.Register("setTextureView:descriptor:index:");
-    internal static readonly Selector setTextureViewFromBuffer_descriptor_offset_bytesPerRow_index_ = Selector.Register("setTextureViewFromBuffer:descriptor:offset:bytesPerRow:index:");
+    public static readonly Selector SetTextureView_index_ = Selector.Register("setTextureView:index:");
+    public static readonly Selector SetTextureView_descriptor_index_ = Selector.Register("setTextureView:descriptor:index:");
+    public static readonly Selector SetTextureViewFromBuffer_descriptor_offset_bytesPerRow_index_ = Selector.Register("setTextureViewFromBuffer:descriptor:offset:bytesPerRow:index:");
 }
 
 public class MTLTextureViewPool : IDisposable
 {
+    public MTLTextureViewPool(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLTextureViewPool()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLTextureViewPool(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLTextureViewPool value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLTextureViewPool o) => o.NativePtr;
-    public static implicit operator MTLTextureViewPool(nint ptr) => new MTLTextureViewPool(ptr);
-
-    ~MTLTextureViewPool() => Release();
+    public static implicit operator MTLTextureViewPool(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLTextureViewPool");
@@ -41,6 +52,7 @@ public class MTLTextureViewPool : IDisposable
     {
         var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
         ptr = ObjectiveCRuntime.intptr_objc_msgSend(ptr, Selector.Register("init"));
+
         return new MTLTextureViewPool(ptr);
     }
 

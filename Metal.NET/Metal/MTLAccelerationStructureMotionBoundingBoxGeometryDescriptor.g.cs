@@ -1,62 +1,74 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor_Selectors
+file class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector
 {
-    internal static readonly Selector setBoundingBoxBuffers_ = Selector.Register("setBoundingBoxBuffers:");
-    internal static readonly Selector setBoundingBoxCount_ = Selector.Register("setBoundingBoxCount:");
-    internal static readonly Selector setBoundingBoxStride_ = Selector.Register("setBoundingBoxStride:");
-    internal static readonly Selector descriptor = Selector.Register("descriptor");
+    public static readonly Selector SetBoundingBoxBuffers_ = Selector.Register("setBoundingBoxBuffers:");
+    public static readonly Selector SetBoundingBoxCount_ = Selector.Register("setBoundingBoxCount:");
+    public static readonly Selector SetBoundingBoxStride_ = Selector.Register("setBoundingBoxStride:");
+    public static readonly Selector Descriptor = Selector.Register("descriptor");
 }
 
 public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor : IDisposable
 {
+    public MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor o) => o.NativePtr;
-    public static implicit operator MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor(nint ptr) => new MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor(ptr);
-
-    ~MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor() => Release();
+    public static implicit operator MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor");
 
     public void SetBoundingBoxBuffers(NSArray boundingBoxBuffers)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor_Selectors.setBoundingBoxBuffers_, boundingBoxBuffers.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.SetBoundingBoxBuffers_, boundingBoxBuffers.NativePtr);
     }
 
     public void SetBoundingBoxCount(nuint boundingBoxCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor_Selectors.setBoundingBoxCount_, (nint)boundingBoxCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.SetBoundingBoxCount_, (nint)boundingBoxCount);
     }
 
     public void SetBoundingBoxStride(nuint boundingBoxStride)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor_Selectors.setBoundingBoxStride_, (nint)boundingBoxStride);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.SetBoundingBoxStride_, (nint)boundingBoxStride);
     }
 
     public static MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor Descriptor()
     {
-        var __r = new MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor_Selectors.descriptor));
-        return __r;
+        var result = new MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.Descriptor));
+
+        return result;
     }
 
 }

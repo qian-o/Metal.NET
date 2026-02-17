@@ -1,55 +1,68 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLFunction_Selectors
+file class MTLFunctionSelector
 {
-    internal static readonly Selector newArgumentEncoder_ = Selector.Register("newArgumentEncoder:");
-    internal static readonly Selector newArgumentEncoder_reflection_ = Selector.Register("newArgumentEncoder:reflection:");
-    internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
+    public static readonly Selector NewArgumentEncoder_ = Selector.Register("newArgumentEncoder:");
+    public static readonly Selector NewArgumentEncoder_reflection_ = Selector.Register("newArgumentEncoder:reflection:");
+    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
 }
 
 public class MTLFunction : IDisposable
 {
+    public MTLFunction(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLFunction()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLFunction(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLFunction value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLFunction o) => o.NativePtr;
-    public static implicit operator MTLFunction(nint ptr) => new MTLFunction(ptr);
-
-    ~MTLFunction() => Release();
+    public static implicit operator MTLFunction(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex)
     {
-        var __r = new MTLArgumentEncoder(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunction_Selectors.newArgumentEncoder_, (nint)bufferIndex));
-        return __r;
+        var result = new MTLArgumentEncoder(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionSelector.NewArgumentEncoder_, (nint)bufferIndex));
+
+        return result;
     }
 
     public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex, nint reflection)
     {
-        var __r = new MTLArgumentEncoder(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunction_Selectors.newArgumentEncoder_reflection_, (nint)bufferIndex, reflection));
-        return __r;
+        var result = new MTLArgumentEncoder(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLFunctionSelector.NewArgumentEncoder_reflection_, (nint)bufferIndex, reflection));
+
+        return result;
     }
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunction_Selectors.setLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionSelector.SetLabel_, label.NativePtr);
     }
 
 }

@@ -1,47 +1,58 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTL4LibraryFunctionDescriptor_Selectors
+file class MTL4LibraryFunctionDescriptorSelector
 {
-    internal static readonly Selector setLibrary_ = Selector.Register("setLibrary:");
-    internal static readonly Selector setName_ = Selector.Register("setName:");
+    public static readonly Selector SetLibrary_ = Selector.Register("setLibrary:");
+    public static readonly Selector SetName_ = Selector.Register("setName:");
 }
 
 public class MTL4LibraryFunctionDescriptor : IDisposable
 {
+    public MTL4LibraryFunctionDescriptor(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTL4LibraryFunctionDescriptor()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTL4LibraryFunctionDescriptor(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTL4LibraryFunctionDescriptor value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTL4LibraryFunctionDescriptor o) => o.NativePtr;
-    public static implicit operator MTL4LibraryFunctionDescriptor(nint ptr) => new MTL4LibraryFunctionDescriptor(ptr);
-
-    ~MTL4LibraryFunctionDescriptor() => Release();
+    public static implicit operator MTL4LibraryFunctionDescriptor(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public void SetLibrary(MTLLibrary library)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4LibraryFunctionDescriptor_Selectors.setLibrary_, library.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4LibraryFunctionDescriptorSelector.SetLibrary_, library.NativePtr);
     }
 
     public void SetName(NSString name)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4LibraryFunctionDescriptor_Selectors.setName_, name.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4LibraryFunctionDescriptorSelector.SetName_, name.NativePtr);
     }
 
 }

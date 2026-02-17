@@ -21,12 +21,8 @@ public class MetalBindingsGenerator
         File.WriteAllText(path, content, Encoding.UTF8);
     }
 
-    /// <summary>
-    /// Generate bindings from a pre-parsed CppAst result.
-    /// </summary>
     public void Execute(ParseResult parsed)
     {
-        // Build the set of known enum names for accurate type classification
         _knownEnums.Clear();
         s_runtimeKnownEnums.Clear();
         foreach (var e in parsed.Enums)
@@ -35,7 +31,6 @@ public class MetalBindingsGenerator
             s_runtimeKnownEnums.Add(e.Name);
         }
 
-        // Generate enums
         var seenEnums = new HashSet<string>();
         foreach (var e in parsed.Enums.OrderBy(e => e.Name))
         {
@@ -43,7 +38,6 @@ public class MetalBindingsGenerator
                 GenerateEnumDef(e);
         }
 
-        // Group free functions by target class
         var freeFunctionsByClass = new Dictionary<string, List<FreeFunctionDef>>();
         foreach (var f in parsed.FreeFunctions)
         {
@@ -55,7 +49,6 @@ public class MetalBindingsGenerator
             list.Add(f);
         }
 
-        // Generate classes/protocols
         var generatedClasses = new HashSet<string>();
         foreach (var cls in parsed.Classes.OrderBy(c => c.Name))
         {
@@ -66,7 +59,6 @@ public class MetalBindingsGenerator
             }
         }
 
-        // Generate stub structs for referenced but undefined types
         var stubTypes = new HashSet<string>
         {
             "MTLLogState", "MTLLogContainer",
@@ -78,44 +70,18 @@ public class MetalBindingsGenerator
         {
             if (!generatedClasses.Contains(missingType) && !seenEnums.Contains(missingType))
             {
-                GenerateStubStruct(missingType);
+                GenerateStubClass(missingType);
                 generatedClasses.Add(missingType);
             }
         }
     }
 
-    private void GenerateStubStruct(string typeName)
+    private void GenerateStubClass(string typeName)
     {
         var sb = new StringBuilder();
-        sb.AppendLine("using System;");
-        sb.AppendLine("using System.Runtime.InteropServices;");
-        sb.AppendLine();
         sb.AppendLine("namespace Metal.NET;");
         sb.AppendLine();
-        sb.AppendLine($"public class {typeName} : IDisposable");
-        sb.AppendLine("{");
-        sb.AppendLine("    public nint NativePtr { get; }");
-        sb.AppendLine();
-        sb.AppendLine($"    public {typeName}(nint ptr) => NativePtr = ptr;");
-        sb.AppendLine();
-        sb.AppendLine("    public bool IsNull => NativePtr == 0;");
-        sb.AppendLine();
-        sb.AppendLine($"    public static implicit operator nint({typeName} o) => o.NativePtr;");
-        sb.AppendLine($"    public static implicit operator {typeName}(nint ptr) => new {typeName}(ptr);");
-        sb.AppendLine();
-        sb.AppendLine($"    ~{typeName}() => Release();");
-        sb.AppendLine();
-        sb.AppendLine("    public void Dispose()");
-        sb.AppendLine("    {");
-        sb.AppendLine("        Release();");
-        sb.AppendLine("        GC.SuppressFinalize(this);");
-        sb.AppendLine("    }");
-        sb.AppendLine();
-        sb.AppendLine("    private void Release()");
-        sb.AppendLine("    {");
-        sb.AppendLine("        if (NativePtr != 0)");
-        sb.AppendLine("            ObjectiveCRuntime.Release(NativePtr);");
-        sb.AppendLine("    }");
+        EmitClassBoilerplate(sb, typeName, hasLibraryImports: false);
         sb.AppendLine("}");
 
         var folder = GetFolderForType(typeName);
@@ -129,8 +95,6 @@ public class MetalBindingsGenerator
         if (typeName.StartsWith("NS")) return "Foundation";
         return "Metal";
     }
-
-    // ──────────────────── Enum generation ────────────────────
 
     private void GenerateEnumDef(EnumDef e)
     {
@@ -152,13 +116,10 @@ public class MetalBindingsGenerator
         WriteSource(e.Folder, $"{e.Name}.g.cs", sb.ToString());
     }
 
-    // ──────────────────── ObjC class / protocol generation ────────────────────
-
     private void GenerateObjCClassDef(ObjCClassDef def,
         List<FreeFunctionDef>? freeFunctions = null)
     {
-        // Collect all unique selectors we need
-        var selectors = new Dictionary<string, string>(); // selectorString -> fieldName
+        var selectors = new Dictionary<string, string>();
 
         foreach (var p in def.Properties)
         {
@@ -174,51 +135,37 @@ public class MetalBindingsGenerator
         foreach (var m in def.StaticMethods) AddSelector(selectors, m.Selector);
 
         var sb = new StringBuilder();
-        sb.AppendLine("using System;");
-        sb.AppendLine("using System.Runtime.InteropServices;");
-        sb.AppendLine();
+        bool hasLibraryImports = freeFunctions != null && freeFunctions.Count > 0;
+        bool hasErrorOut = def.Methods.Any(m => m.HasErrorOut) || def.StaticMethods.Any(m => m.HasErrorOut);
+
+        if (hasLibraryImports)
+        {
+            sb.AppendLine("using System.Runtime.InteropServices;");
+            sb.AppendLine();
+        }
+
+        if (hasErrorOut)
+        {
+            sb.AppendLine("#nullable enable");
+            sb.AppendLine();
+        }
+
         sb.AppendLine("namespace Metal.NET;");
         sb.AppendLine();
 
-        // ── Selector cache ──
-        sb.AppendLine($"internal static class {def.Name}_Selectors");
+        // Selector cache as file-scoped class
+        sb.AppendLine($"file class {def.Name}Selector");
         sb.AppendLine("{");
         foreach (var kv in selectors)
         {
-            sb.AppendLine($"    internal static readonly Selector {kv.Value} = Selector.Register(\"{kv.Key}\");");
+            sb.AppendLine($"    public static readonly Selector {ToPascalCase(kv.Value)} = Selector.Register(\"{kv.Key}\");");
         }
         sb.AppendLine("}");
         sb.AppendLine();
 
-        // ── Class wrapper ──
-        bool hasLibraryImports = freeFunctions != null && freeFunctions.Count > 0;
-        sb.AppendLine($"public{(hasLibraryImports ? " partial" : "")} class {def.Name} : IDisposable");
-        sb.AppendLine("{");
-        sb.AppendLine("    public nint NativePtr { get; }");
-        sb.AppendLine();
-        sb.AppendLine($"    public {def.Name}(nint ptr) => NativePtr = ptr;");
-        sb.AppendLine();
-        sb.AppendLine("    public bool IsNull => NativePtr == 0;");
-        sb.AppendLine();
-        sb.AppendLine($"    public static implicit operator nint({def.Name} o) => o.NativePtr;");
-        sb.AppendLine($"    public static implicit operator {def.Name}(nint ptr) => new {def.Name}(ptr);");
-        sb.AppendLine();
-        sb.AppendLine($"    ~{def.Name}() => Release();");
-        sb.AppendLine();
-        sb.AppendLine("    public void Dispose()");
-        sb.AppendLine("    {");
-        sb.AppendLine("        Release();");
-        sb.AppendLine("        GC.SuppressFinalize(this);");
-        sb.AppendLine("    }");
-        sb.AppendLine();
-        sb.AppendLine("    private void Release()");
-        sb.AppendLine("    {");
-        sb.AppendLine("        if (NativePtr != 0)");
-        sb.AppendLine("            ObjectiveCRuntime.Release(NativePtr);");
-        sb.AppendLine("    }");
-        sb.AppendLine();
+        EmitClassBoilerplate(sb, def.Name, hasLibraryImports);
 
-        // ── Alloc (for classes) ──
+        // Alloc (for concrete classes)
         bool hasStaticMethods = def.StaticMethods.Count > 0;
         if (def.IsClass && def.ObjCClass != null)
         {
@@ -228,25 +175,24 @@ public class MetalBindingsGenerator
             sb.AppendLine("    {");
             sb.AppendLine("        var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register(\"alloc\"));");
             sb.AppendLine("        ptr = ObjectiveCRuntime.intptr_objc_msgSend(ptr, Selector.Register(\"init\"));");
+            sb.AppendLine();
             sb.AppendLine($"        return new {def.Name}(ptr);");
             sb.AppendLine("    }");
             sb.AppendLine();
         }
         else if (hasStaticMethods)
         {
-            // Types with static factory methods need s_class even if not a "descriptor" class
             sb.AppendLine($"    private static readonly nint s_class = ObjectiveCRuntime.GetClass(\"{def.Name}\");");
             sb.AppendLine();
         }
 
-        // ── Properties ──
+        // Properties
         foreach (var p in def.Properties)
         {
-            var getSel = SelectorFieldName(p.GetSelector ?? p.Name);
+            var getSel = ToPascalCase(SelectorFieldName(p.GetSelector ?? p.Name));
             var retCSharp = MapReturnCall(p.Type);
             var propName = ToPascalCase(p.Name);
 
-            // Skip properties whose getter returns a value struct (needs objc_msgSend_stret)
             if (retCSharp.Invoke.Contains("TODO"))
             {
                 continue;
@@ -254,31 +200,30 @@ public class MetalBindingsGenerator
 
             sb.AppendLine($"    public {p.Type} {propName}");
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => {WrapReturn(p.Type, $"{retCSharp.Invoke}(NativePtr, {def.Name}_Selectors.{getSel})")};");
+            sb.AppendLine($"        get => {WrapReturn(p.Type, $"{retCSharp.Invoke}(NativePtr, {def.Name}Selector.{getSel})")};");
 
             if (!p.Readonly)
             {
-                var setSel = SelectorFieldName(p.SetSelector ?? $"set{Capitalize(p.Name)}:");
-                var setCall = MapSetCall(p.Type);
-                sb.AppendLine($"        set => ObjectiveCRuntime.{setCall}(NativePtr, {def.Name}_Selectors.{setSel}, {UnwrapParam(p.Type, "value")});");
+                var setSel = ToPascalCase(SelectorFieldName(p.SetSelector ?? $"set{Capitalize(p.Name)}:"));
+                sb.AppendLine($"        set => ObjectiveCRuntime.objc_msgSend(NativePtr, {def.Name}Selector.{setSel}, {UnwrapParam(p.Type, "value")});");
             }
             sb.AppendLine("    }");
             sb.AppendLine();
         }
 
-        // ── Instance methods ──
+        // Instance methods
         foreach (var m in def.Methods)
         {
             EmitMethod(sb, def.Name, m, isStatic: false);
         }
 
-        // ── Static methods ──
+        // Static methods
         foreach (var m in def.StaticMethods)
         {
             EmitMethod(sb, def.Name, m, isStatic: true);
         }
 
-        // ── Free C functions (LibraryImport) ──
+        // Free C functions (LibraryImport)
         if (freeFunctions != null && freeFunctions.Count > 0)
         {
             foreach (var f in freeFunctions)
@@ -292,30 +237,68 @@ public class MetalBindingsGenerator
         WriteSource(def.Folder, $"{def.Name}.g.cs", sb.ToString());
     }
 
-    // ── Helpers ──
+    private static void EmitClassBoilerplate(StringBuilder sb, string name, bool hasLibraryImports)
+    {
+        sb.AppendLine($"public{(hasLibraryImports ? " partial" : "")} class {name} : IDisposable");
+        sb.AppendLine("{");
+        sb.AppendLine($"    public {name}(nint nativePtr)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        NativePtr = nativePtr;");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine($"    ~{name}()");
+        sb.AppendLine("    {");
+        sb.AppendLine("        Release();");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    public nint NativePtr { get; }");
+        sb.AppendLine();
+        sb.AppendLine($"    public static implicit operator nint({name} value)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        return value.NativePtr;");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine($"    public static implicit operator {name}(nint value)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        return new(value);");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    public void Dispose()");
+        sb.AppendLine("    {");
+        sb.AppendLine("        Release();");
+        sb.AppendLine();
+        sb.AppendLine("        GC.SuppressFinalize(this);");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    private void Release()");
+        sb.AppendLine("    {");
+        sb.AppendLine("        if (NativePtr is not 0)");
+        sb.AppendLine("        {");
+        sb.AppendLine("            ObjectiveCRuntime.Release(NativePtr);");
+        sb.AppendLine("        }");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+    }
 
     private void EmitMethod(StringBuilder sb, string typeName, MethodDef m, bool isStatic)
     {
-        var selField = $"{typeName}_Selectors.{SelectorFieldName(m.Selector)}";
+        var selField = $"{typeName}Selector.{ToPascalCase(SelectorFieldName(m.Selector))}";
         var retType = m.ReturnType;
         var methodName = ToPascalCase(m.Name);
 
-        // Build parameter list
         var paramList = new List<string>();
         foreach (var p in m.Parameters)
         {
             paramList.Add($"{p.Type} {p.Name}");
         }
-        if (m.HasErrorOut) paramList.Add("out NSError error");
+        if (m.HasErrorOut) paramList.Add("out NSError? error");
 
         var paramsStr = string.Join(", ", paramList);
         var staticMod = isStatic ? "static " : "";
         var receiver = isStatic ? "s_class" : "NativePtr";
 
-        // Determine which objc_msgSend variant to use
         var retCall = MapReturnCall(retType);
 
-        // Skip methods whose return type requires stret (value struct return)
         if (retCall.Invoke.Contains("TODO"))
         {
             return;
@@ -324,7 +307,6 @@ public class MetalBindingsGenerator
         sb.AppendLine($"    public {staticMod}{retType} {methodName}({paramsStr})");
         sb.AppendLine("    {");
 
-        // Build args for objc_msgSend
         var argParts = new List<string> { receiver, selField };
         foreach (var p in m.Parameters)
         {
@@ -332,8 +314,8 @@ public class MetalBindingsGenerator
         }
         if (m.HasErrorOut)
         {
-            sb.AppendLine("        nint __errorPtr = 0;");
-            argParts.Add("out __errorPtr");
+            sb.AppendLine("        nint errorPtr = 0;");
+            argParts.Add("out errorPtr");
         }
 
         var argsStr = string.Join(", ", argParts);
@@ -343,68 +325,59 @@ public class MetalBindingsGenerator
         {
             sb.AppendLine($"        ObjectiveCRuntime.objc_msgSend({argsStr});");
         }
-        else if (retType == "Bool8" && hasParams)
+        else if (retType is "Bool8" or "bool" && hasParams)
         {
-            sb.AppendLine($"        var __r = (byte)ObjectiveCRuntime.intptr_objc_msgSend({argsStr}) != 0;");
-        }
-        else if (retType == "bool" && hasParams)
-        {
-            sb.AppendLine($"        var __r = (byte)ObjectiveCRuntime.intptr_objc_msgSend({argsStr}) != 0;");
+            sb.AppendLine($"        var result = (byte)ObjectiveCRuntime.intptr_objc_msgSend({argsStr}) is not 0;");
         }
         else if (retType == "nuint" && hasParams)
         {
-            sb.AppendLine($"        var __r = (nuint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
+            sb.AppendLine($"        var result = (nuint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
         }
         else if (retType == "float" && hasParams)
         {
-            sb.AppendLine($"        var __r = BitConverter.Int32BitsToSingle((int)ObjectiveCRuntime.intptr_objc_msgSend({argsStr}));");
+            sb.AppendLine($"        var result = BitConverter.Int32BitsToSingle((int)ObjectiveCRuntime.intptr_objc_msgSend({argsStr}));");
         }
         else if (retType == "double" && hasParams)
         {
-            sb.AppendLine($"        var __r = BitConverter.Int64BitsToDouble((long)ObjectiveCRuntime.intptr_objc_msgSend({argsStr}));");
+            sb.AppendLine($"        var result = BitConverter.Int64BitsToDouble((long)ObjectiveCRuntime.intptr_objc_msgSend({argsStr}));");
         }
         else if (retType == "uint" && hasParams)
         {
-            sb.AppendLine($"        var __r = (uint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
+            sb.AppendLine($"        var result = (uint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
         }
         else if (IsLikelyEnum(retType) && hasParams)
         {
-            sb.AppendLine($"        var __r = ({retType})(uint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
+            sb.AppendLine($"        var result = ({retType})(uint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
         }
         else if (retType == "ulong" && hasParams)
         {
-            sb.AppendLine($"        var __r = (ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
+            sb.AppendLine($"        var result = (ulong)ObjectiveCRuntime.intptr_objc_msgSend({argsStr});");
         }
         else
         {
             var resultExpr = $"{retCall.Invoke}({argsStr})";
-            sb.AppendLine($"        var __r = {WrapReturnVar(retType, resultExpr)};");
+            sb.AppendLine($"        var result = {WrapReturnVar(retType, resultExpr)};");
         }
 
         if (m.HasErrorOut)
         {
-            sb.AppendLine("        error = new NSError(__errorPtr);");
+            sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : null;");
         }
 
         if (retType != "void")
         {
-            sb.AppendLine("        return __r;");
+            sb.AppendLine();
+            sb.AppendLine("        return result;");
         }
 
         sb.AppendLine("    }");
         sb.AppendLine();
     }
 
-    /// <summary>
-    /// Emits a static P/Invoke wrapper for a free C function (e.g., MTLCreateSystemDefaultDevice).
-    /// </summary>
     private void EmitFreeFunction(StringBuilder sb, FreeFunctionDef f)
     {
-        // Build public parameter list
         var publicParams = new List<string>();
-        // Build private extern parameter list (all ObjC wrappers become nint)
         var externParams = new List<string>();
-        // Build argument forwarding list (unwrap wrappers)
         var forwardArgs = new List<string>();
 
         foreach (var p in f.Parameters)
@@ -427,17 +400,14 @@ public class MetalBindingsGenerator
         var publicParamsStr = string.Join(", ", publicParams);
         var forwardArgsStr = string.Join(", ", forwardArgs);
 
-        // Determine the extern return type (ObjC wrappers → nint)
         bool wrapReturn = f.ReturnType != "void" && f.ReturnType != "nint"
             && IsObjCWrapper(f.ReturnType);
         var externReturnType = wrapReturn ? "nint" : f.ReturnType;
 
-        // Emit the LibraryImport declaration as a private static partial
         sb.AppendLine($"    [LibraryImport(\"{f.FrameworkLibrary}\", EntryPoint = \"{f.NativeName}\")]");
         sb.AppendLine($"    private static partial {externReturnType} {f.NativeName}({externParamsStr});");
         sb.AppendLine();
 
-        // Emit the public static wrapper method
         sb.AppendLine($"    public static {f.ReturnType} {ToPascalCase(f.Name)}({publicParamsStr})");
         sb.AppendLine("    {");
         if (f.ReturnType == "void")
@@ -455,6 +425,7 @@ public class MetalBindingsGenerator
         sb.AppendLine("    }");
         sb.AppendLine();
     }
+
     private static (string Invoke, bool NeedsWrap) MapReturnCall(string type)
     {
         return type switch
@@ -467,22 +438,10 @@ public class MetalBindingsGenerator
             "double" => ("ObjectiveCRuntime.double_objc_msgSend", false),
             "nuint" => ("ObjectiveCRuntime.nuint_objc_msgSend", false),
             "nint" => ("ObjectiveCRuntime.intptr_objc_msgSend", false),
-            // Value structs cannot be returned via intptr_objc_msgSend; skip generation.
             _ when IsKnownValueStruct(type) => ("/* TODO: stret */", false),
-            // Enum types: return as uint and cast to enum
             _ when IsLikelyEnum(type) => ("ObjectiveCRuntime.uint_objc_msgSend", false),
-            // Anything else (struct wrappers like MTLCommandQueue, NSString, etc.)
-            // is returned as nint and wrapped in the struct constructor.
             _ => ("ObjectiveCRuntime.intptr_objc_msgSend", true),
         };
-    }
-
-    /// <summary>Wraps a return expression for enum types that need casting.</summary>
-    private static string WrapReturnEnum(string type, string expr)
-    {
-        if (IsLikelyEnum(type))
-            return $"({type}){expr}";
-        return expr;
     }
 
     private static string WrapReturn(string type, string expr)
@@ -503,48 +462,20 @@ public class MetalBindingsGenerator
         return $"new {type}({varName})";
     }
 
-    private static string MapSetCall(string type)
-    {
-        // All setters go through objc_msgSend; the difference is in how we unwrap the value.
-        return "objc_msgSend";
-    }
-
-    /// <summary>
-    /// Convert a parameter to the form needed for objc_msgSend.
-    /// All register-sized values are cast to IntPtr to match uniform overloads.
-    /// Value structs and float/double are passed as-is.
-    /// </summary>
     private static string UnwrapParam(string type, string name)
     {
-        // Value structs are passed by value directly
         if (IsKnownValueStruct(type)) return name;
-
-        // Float/double have dedicated overloads
         if (type is "float" or "double") return name;
-
-        // nint is already the target type
         if (type is "nint") return name;
-
-        // nuint → nint (same register size)
         if (type is "nuint") return $"(nint){name}";
-
-        // Enum types → cast to uint then to nint
         if (IsLikelyEnum(type)) return $"(nint)(uint){name}";
-
-        // ObjC wrappers → .NativePtr (which is nint)
         if (IsObjCWrapper(type)) return $"{name}.NativePtr";
-
-        // Bool8 → nint
         if (type is "Bool8") return $"(nint){name}.Value";
         if (type is "bool") return $"(nint)({name} ? 1 : 0)";
-
-        // Numeric primitives → nint
         if (type is "uint" or "int" or "byte" or "sbyte" or "short" or "ushort")
             return $"(nint){name}";
         if (type is "ulong" or "long")
             return $"(nint){name}";
-
-        // Fallback — assume ObjC wrapper
         return $"(nint){name}";
     }
 
@@ -552,10 +483,6 @@ public class MetalBindingsGenerator
     private static bool IsKnownValueStruct(string type) => CppAstParser.IsKnownValueStruct(type);
     private static bool IsLikelyEnum(string type) => CppAstParser.IsLikelyEnum(type) || s_runtimeKnownEnums.Contains(type);
 
-    /// <summary>
-    /// Enum names discovered from CppAst at generation time.
-    /// Populated before class generation begins.
-    /// </summary>
     private static readonly HashSet<string> s_runtimeKnownEnums = new();
 
     private static void AddSelector(Dictionary<string, string> dict, string selector)
@@ -568,9 +495,7 @@ public class MetalBindingsGenerator
 
     private static string SelectorFieldName(string selector)
     {
-        // "newBufferWithLength:options:" -> "newBufferWithLength_options_"
         var name = selector.Replace(":", "_");
-        // Escape C# keywords
         if (CppAstParser.IsCSharpKeyword(name))
             name = $"@{name}";
         return name;
@@ -582,24 +507,16 @@ public class MetalBindingsGenerator
         return char.ToUpperInvariant(s[0]) + s.Substring(1);
     }
 
-    /// <summary>
-    /// Converts a camelCase method/property name to PascalCase.
-    /// Preserves well-known prefixes like MTL, CA, NS, GPU, CPU, MTLFX, etc.
-    /// Handles @-prefixed keywords by stripping @ and capitalizing.
-    /// </summary>
     private static string ToPascalCase(string name)
     {
         if (string.IsNullOrEmpty(name)) return name;
 
-        // Strip @ prefix (C# keyword escape)
         if (name.StartsWith("@"))
             name = name.Substring(1);
 
-        // Already PascalCase (starts with uppercase or well-known prefix)
         if (char.IsUpper(name[0]))
             return name;
 
-        // Simple capitalize first letter
         return char.ToUpperInvariant(name[0]) + name.Substring(1);
     }
 }

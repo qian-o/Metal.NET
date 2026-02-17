@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLAllocation_Selectors
+file class MTLAllocationSelector
 {
 }
 
 public class MTLAllocation : IDisposable
 {
+    public MTLAllocation(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLAllocation()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLAllocation(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLAllocation value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLAllocation o) => o.NativePtr;
-    public static implicit operator MTLAllocation(nint ptr) => new MTLAllocation(ptr);
-
-    ~MTLAllocation() => Release();
+    public static implicit operator MTLAllocation(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

@@ -1,48 +1,60 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLVertexAttributeDescriptorArray_Selectors
+file class MTLVertexAttributeDescriptorArraySelector
 {
-    internal static readonly Selector object_ = Selector.Register("object:");
-    internal static readonly Selector setObject_index_ = Selector.Register("setObject:index:");
+    public static readonly Selector Object_ = Selector.Register("object:");
+    public static readonly Selector SetObject_index_ = Selector.Register("setObject:index:");
 }
 
 public class MTLVertexAttributeDescriptorArray : IDisposable
 {
+    public MTLVertexAttributeDescriptorArray(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLVertexAttributeDescriptorArray()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLVertexAttributeDescriptorArray(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLVertexAttributeDescriptorArray value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLVertexAttributeDescriptorArray o) => o.NativePtr;
-    public static implicit operator MTLVertexAttributeDescriptorArray(nint ptr) => new MTLVertexAttributeDescriptorArray(ptr);
-
-    ~MTLVertexAttributeDescriptorArray() => Release();
+    public static implicit operator MTLVertexAttributeDescriptorArray(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public MTLVertexAttributeDescriptor Object(nuint index)
     {
-        var __r = new MTLVertexAttributeDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLVertexAttributeDescriptorArray_Selectors.object_, (nint)index));
-        return __r;
+        var result = new MTLVertexAttributeDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLVertexAttributeDescriptorArraySelector.Object_, (nint)index));
+
+        return result;
     }
 
     public void SetObject(MTLVertexAttributeDescriptor attributeDesc, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVertexAttributeDescriptorArray_Selectors.setObject_index_, attributeDesc.NativePtr, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVertexAttributeDescriptorArraySelector.SetObject_index_, attributeDesc.NativePtr, (nint)index);
     }
 
 }

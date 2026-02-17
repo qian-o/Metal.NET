@@ -1,37 +1,48 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLComputePassDescriptor_Selectors
+file class MTLComputePassDescriptorSelector
 {
-    internal static readonly Selector setDispatchType_ = Selector.Register("setDispatchType:");
-    internal static readonly Selector computePassDescriptor = Selector.Register("computePassDescriptor");
+    public static readonly Selector SetDispatchType_ = Selector.Register("setDispatchType:");
+    public static readonly Selector ComputePassDescriptor = Selector.Register("computePassDescriptor");
 }
 
 public class MTLComputePassDescriptor : IDisposable
 {
+    public MTLComputePassDescriptor(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLComputePassDescriptor()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLComputePassDescriptor(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLComputePassDescriptor value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLComputePassDescriptor o) => o.NativePtr;
-    public static implicit operator MTLComputePassDescriptor(nint ptr) => new MTLComputePassDescriptor(ptr);
-
-    ~MTLComputePassDescriptor() => Release();
+    public static implicit operator MTLComputePassDescriptor(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLComputePassDescriptor");
@@ -40,18 +51,20 @@ public class MTLComputePassDescriptor : IDisposable
     {
         var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
         ptr = ObjectiveCRuntime.intptr_objc_msgSend(ptr, Selector.Register("init"));
+
         return new MTLComputePassDescriptor(ptr);
     }
 
     public void SetDispatchType(MTLDispatchType dispatchType)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLComputePassDescriptor_Selectors.setDispatchType_, (nint)(uint)dispatchType);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLComputePassDescriptorSelector.SetDispatchType_, (nint)(uint)dispatchType);
     }
 
     public static MTLComputePassDescriptor ComputePassDescriptor()
     {
-        var __r = new MTLComputePassDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLComputePassDescriptor_Selectors.computePassDescriptor));
-        return __r;
+        var result = new MTLComputePassDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLComputePassDescriptorSelector.ComputePassDescriptor));
+
+        return result;
     }
 
 }

@@ -1,39 +1,50 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLFunctionStitchingGraph_Selectors
+file class MTLFunctionStitchingGraphSelector
 {
-    internal static readonly Selector setAttributes_ = Selector.Register("setAttributes:");
-    internal static readonly Selector setFunctionName_ = Selector.Register("setFunctionName:");
-    internal static readonly Selector setNodes_ = Selector.Register("setNodes:");
-    internal static readonly Selector setOutputNode_ = Selector.Register("setOutputNode:");
+    public static readonly Selector SetAttributes_ = Selector.Register("setAttributes:");
+    public static readonly Selector SetFunctionName_ = Selector.Register("setFunctionName:");
+    public static readonly Selector SetNodes_ = Selector.Register("setNodes:");
+    public static readonly Selector SetOutputNode_ = Selector.Register("setOutputNode:");
 }
 
 public class MTLFunctionStitchingGraph : IDisposable
 {
+    public MTLFunctionStitchingGraph(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLFunctionStitchingGraph()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLFunctionStitchingGraph(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLFunctionStitchingGraph value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLFunctionStitchingGraph o) => o.NativePtr;
-    public static implicit operator MTLFunctionStitchingGraph(nint ptr) => new MTLFunctionStitchingGraph(ptr);
-
-    ~MTLFunctionStitchingGraph() => Release();
+    public static implicit operator MTLFunctionStitchingGraph(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingGraph");
@@ -42,27 +53,28 @@ public class MTLFunctionStitchingGraph : IDisposable
     {
         var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
         ptr = ObjectiveCRuntime.intptr_objc_msgSend(ptr, Selector.Register("init"));
+
         return new MTLFunctionStitchingGraph(ptr);
     }
 
     public void SetAttributes(NSArray attributes)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraph_Selectors.setAttributes_, attributes.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraphSelector.SetAttributes_, attributes.NativePtr);
     }
 
     public void SetFunctionName(NSString functionName)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraph_Selectors.setFunctionName_, functionName.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraphSelector.SetFunctionName_, functionName.NativePtr);
     }
 
     public void SetNodes(NSArray nodes)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraph_Selectors.setNodes_, nodes.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraphSelector.SetNodes_, nodes.NativePtr);
     }
 
     public void SetOutputNode(MTLFunctionStitchingFunctionNode outputNode)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraph_Selectors.setOutputNode_, outputNode.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionStitchingGraphSelector.SetOutputNode_, outputNode.NativePtr);
     }
 
 }

@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLCommandBufferEncoderInfo_Selectors
+file class MTLCommandBufferEncoderInfoSelector
 {
 }
 
 public class MTLCommandBufferEncoderInfo : IDisposable
 {
+    public MTLCommandBufferEncoderInfo(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLCommandBufferEncoderInfo()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLCommandBufferEncoderInfo(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLCommandBufferEncoderInfo value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLCommandBufferEncoderInfo o) => o.NativePtr;
-    public static implicit operator MTLCommandBufferEncoderInfo(nint ptr) => new MTLCommandBufferEncoderInfo(ptr);
-
-    ~MTLCommandBufferEncoderInfo() => Release();
+    public static implicit operator MTLCommandBufferEncoderInfo(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

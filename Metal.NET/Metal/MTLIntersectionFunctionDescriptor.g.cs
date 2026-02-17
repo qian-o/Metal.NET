@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLIntersectionFunctionDescriptor_Selectors
+file class MTLIntersectionFunctionDescriptorSelector
 {
 }
 
 public class MTLIntersectionFunctionDescriptor : IDisposable
 {
+    public MTLIntersectionFunctionDescriptor(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLIntersectionFunctionDescriptor()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLIntersectionFunctionDescriptor(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLIntersectionFunctionDescriptor value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLIntersectionFunctionDescriptor o) => o.NativePtr;
-    public static implicit operator MTLIntersectionFunctionDescriptor(nint ptr) => new MTLIntersectionFunctionDescriptor(ptr);
-
-    ~MTLIntersectionFunctionDescriptor() => Release();
+    public static implicit operator MTLIntersectionFunctionDescriptor(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

@@ -1,41 +1,52 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTL4CommandBufferOptions_Selectors
+file class MTL4CommandBufferOptionsSelector
 {
-    internal static readonly Selector setLogState_ = Selector.Register("setLogState:");
+    public static readonly Selector SetLogState_ = Selector.Register("setLogState:");
 }
 
 public class MTL4CommandBufferOptions : IDisposable
 {
+    public MTL4CommandBufferOptions(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTL4CommandBufferOptions()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTL4CommandBufferOptions(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTL4CommandBufferOptions value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTL4CommandBufferOptions o) => o.NativePtr;
-    public static implicit operator MTL4CommandBufferOptions(nint ptr) => new MTL4CommandBufferOptions(ptr);
-
-    ~MTL4CommandBufferOptions() => Release();
+    public static implicit operator MTL4CommandBufferOptions(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public void SetLogState(MTLLogState logState)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandBufferOptions_Selectors.setLogState_, logState.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CommandBufferOptionsSelector.SetLogState_, logState.NativePtr);
     }
 
 }

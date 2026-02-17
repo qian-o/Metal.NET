@@ -1,51 +1,64 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLTextureSwizzleChannels_Selectors
+file class MTLTextureSwizzleChannelsSelector
 {
-    internal static readonly Selector Default = Selector.Register("Default");
-    internal static readonly Selector Make_g_b_a_ = Selector.Register("Make:g:b:a:");
+    public static readonly Selector Default = Selector.Register("Default");
+    public static readonly Selector Make_g_b_a_ = Selector.Register("Make:g:b:a:");
 }
 
 public class MTLTextureSwizzleChannels : IDisposable
 {
+    public MTLTextureSwizzleChannels(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLTextureSwizzleChannels()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLTextureSwizzleChannels(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLTextureSwizzleChannels value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLTextureSwizzleChannels o) => o.NativePtr;
-    public static implicit operator MTLTextureSwizzleChannels(nint ptr) => new MTLTextureSwizzleChannels(ptr);
-
-    ~MTLTextureSwizzleChannels() => Release();
+    public static implicit operator MTLTextureSwizzleChannels(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLTextureSwizzleChannels");
 
     public static MTLTextureSwizzleChannels Default()
     {
-        var __r = new MTLTextureSwizzleChannels(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLTextureSwizzleChannels_Selectors.Default));
-        return __r;
+        var result = new MTLTextureSwizzleChannels(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLTextureSwizzleChannelsSelector.Default));
+
+        return result;
     }
 
     public static MTLTextureSwizzleChannels Make(MTLTextureSwizzle r, MTLTextureSwizzle g, MTLTextureSwizzle b, MTLTextureSwizzle a)
     {
-        var __r = new MTLTextureSwizzleChannels(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLTextureSwizzleChannels_Selectors.Make_g_b_a_, (nint)(uint)r, (nint)(uint)g, (nint)(uint)b, (nint)(uint)a));
-        return __r;
+        var result = new MTLTextureSwizzleChannels(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLTextureSwizzleChannelsSelector.Make_g_b_a_, (nint)(uint)r, (nint)(uint)g, (nint)(uint)b, (nint)(uint)a));
+
+        return result;
     }
 
 }

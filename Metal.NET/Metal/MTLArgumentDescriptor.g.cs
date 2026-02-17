@@ -1,80 +1,92 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLArgumentDescriptor_Selectors
+file class MTLArgumentDescriptorSelector
 {
-    internal static readonly Selector setAccess_ = Selector.Register("setAccess:");
-    internal static readonly Selector setArrayLength_ = Selector.Register("setArrayLength:");
-    internal static readonly Selector setConstantBlockAlignment_ = Selector.Register("setConstantBlockAlignment:");
-    internal static readonly Selector setDataType_ = Selector.Register("setDataType:");
-    internal static readonly Selector setIndex_ = Selector.Register("setIndex:");
-    internal static readonly Selector setTextureType_ = Selector.Register("setTextureType:");
-    internal static readonly Selector argumentDescriptor = Selector.Register("argumentDescriptor");
+    public static readonly Selector SetAccess_ = Selector.Register("setAccess:");
+    public static readonly Selector SetArrayLength_ = Selector.Register("setArrayLength:");
+    public static readonly Selector SetConstantBlockAlignment_ = Selector.Register("setConstantBlockAlignment:");
+    public static readonly Selector SetDataType_ = Selector.Register("setDataType:");
+    public static readonly Selector SetIndex_ = Selector.Register("setIndex:");
+    public static readonly Selector SetTextureType_ = Selector.Register("setTextureType:");
+    public static readonly Selector ArgumentDescriptor = Selector.Register("argumentDescriptor");
 }
 
 public class MTLArgumentDescriptor : IDisposable
 {
+    public MTLArgumentDescriptor(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLArgumentDescriptor()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLArgumentDescriptor(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLArgumentDescriptor value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLArgumentDescriptor o) => o.NativePtr;
-    public static implicit operator MTLArgumentDescriptor(nint ptr) => new MTLArgumentDescriptor(ptr);
-
-    ~MTLArgumentDescriptor() => Release();
+    public static implicit operator MTLArgumentDescriptor(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLArgumentDescriptor");
 
     public void SetAccess(MTLBindingAccess access)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.setAccess_, (nint)(uint)access);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptorSelector.SetAccess_, (nint)(uint)access);
     }
 
     public void SetArrayLength(nuint arrayLength)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.setArrayLength_, (nint)arrayLength);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptorSelector.SetArrayLength_, (nint)arrayLength);
     }
 
     public void SetConstantBlockAlignment(nuint constantBlockAlignment)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.setConstantBlockAlignment_, (nint)constantBlockAlignment);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptorSelector.SetConstantBlockAlignment_, (nint)constantBlockAlignment);
     }
 
     public void SetDataType(MTLDataType dataType)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.setDataType_, (nint)(uint)dataType);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptorSelector.SetDataType_, (nint)(uint)dataType);
     }
 
     public void SetIndex(nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.setIndex_, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptorSelector.SetIndex_, (nint)index);
     }
 
     public void SetTextureType(MTLTextureType textureType)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptor_Selectors.setTextureType_, (nint)(uint)textureType);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLArgumentDescriptorSelector.SetTextureType_, (nint)(uint)textureType);
     }
 
     public static MTLArgumentDescriptor ArgumentDescriptor()
     {
-        var __r = new MTLArgumentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLArgumentDescriptor_Selectors.argumentDescriptor));
-        return __r;
+        var result = new MTLArgumentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLArgumentDescriptorSelector.ArgumentDescriptor));
+
+        return result;
     }
 
 }

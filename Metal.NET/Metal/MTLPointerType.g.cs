@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLPointerType_Selectors
+file class MTLPointerTypeSelector
 {
 }
 
 public class MTLPointerType : IDisposable
 {
+    public MTLPointerType(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLPointerType()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLPointerType(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLPointerType value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLPointerType o) => o.NativePtr;
-    public static implicit operator MTLPointerType(nint ptr) => new MTLPointerType(ptr);
-
-    ~MTLPointerType() => Release();
+    public static implicit operator MTLPointerType(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

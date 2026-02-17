@@ -1,48 +1,60 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLBlitPassSampleBufferAttachmentDescriptorArray_Selectors
+file class MTLBlitPassSampleBufferAttachmentDescriptorArraySelector
 {
-    internal static readonly Selector object_ = Selector.Register("object:");
-    internal static readonly Selector setObject_attachmentIndex_ = Selector.Register("setObject:attachmentIndex:");
+    public static readonly Selector Object_ = Selector.Register("object:");
+    public static readonly Selector SetObject_attachmentIndex_ = Selector.Register("setObject:attachmentIndex:");
 }
 
 public class MTLBlitPassSampleBufferAttachmentDescriptorArray : IDisposable
 {
+    public MTLBlitPassSampleBufferAttachmentDescriptorArray(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLBlitPassSampleBufferAttachmentDescriptorArray()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLBlitPassSampleBufferAttachmentDescriptorArray(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLBlitPassSampleBufferAttachmentDescriptorArray value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLBlitPassSampleBufferAttachmentDescriptorArray o) => o.NativePtr;
-    public static implicit operator MTLBlitPassSampleBufferAttachmentDescriptorArray(nint ptr) => new MTLBlitPassSampleBufferAttachmentDescriptorArray(ptr);
-
-    ~MTLBlitPassSampleBufferAttachmentDescriptorArray() => Release();
+    public static implicit operator MTLBlitPassSampleBufferAttachmentDescriptorArray(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public MTLBlitPassSampleBufferAttachmentDescriptor Object(nuint attachmentIndex)
     {
-        var __r = new MTLBlitPassSampleBufferAttachmentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorArray_Selectors.object_, (nint)attachmentIndex));
-        return __r;
+        var result = new MTLBlitPassSampleBufferAttachmentDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorArraySelector.Object_, (nint)attachmentIndex));
+
+        return result;
     }
 
     public void SetObject(MTLBlitPassSampleBufferAttachmentDescriptor attachment, nuint attachmentIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorArray_Selectors.setObject_attachmentIndex_, attachment.NativePtr, (nint)attachmentIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorArraySelector.SetObject_attachmentIndex_, attachment.NativePtr, (nint)attachmentIndex);
     }
 
 }

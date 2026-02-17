@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLStructMember_Selectors
+file class MTLStructMemberSelector
 {
 }
 
 public class MTLStructMember : IDisposable
 {
+    public MTLStructMember(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLStructMember()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLStructMember(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLStructMember value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLStructMember o) => o.NativePtr;
-    public static implicit operator MTLStructMember(nint ptr) => new MTLStructMember(ptr);
-
-    ~MTLStructMember() => Release();
+    public static implicit operator MTLStructMember(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

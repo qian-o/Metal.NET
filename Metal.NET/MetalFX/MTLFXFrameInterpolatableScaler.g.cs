@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLFXFrameInterpolatableScaler_Selectors
+file class MTLFXFrameInterpolatableScalerSelector
 {
 }
 
 public class MTLFXFrameInterpolatableScaler : IDisposable
 {
+    public MTLFXFrameInterpolatableScaler(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLFXFrameInterpolatableScaler()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLFXFrameInterpolatableScaler(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLFXFrameInterpolatableScaler value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLFXFrameInterpolatableScaler o) => o.NativePtr;
-    public static implicit operator MTLFXFrameInterpolatableScaler(nint ptr) => new MTLFXFrameInterpolatableScaler(ptr);
-
-    ~MTLFXFrameInterpolatableScaler() => Release();
+    public static implicit operator MTLFXFrameInterpolatableScaler(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

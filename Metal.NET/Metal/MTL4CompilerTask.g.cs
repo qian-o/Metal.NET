@@ -1,41 +1,52 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTL4CompilerTask_Selectors
+file class MTL4CompilerTaskSelector
 {
-    internal static readonly Selector waitUntilCompleted = Selector.Register("waitUntilCompleted");
+    public static readonly Selector WaitUntilCompleted = Selector.Register("waitUntilCompleted");
 }
 
 public class MTL4CompilerTask : IDisposable
 {
+    public MTL4CompilerTask(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTL4CompilerTask()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTL4CompilerTask(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTL4CompilerTask value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTL4CompilerTask o) => o.NativePtr;
-    public static implicit operator MTL4CompilerTask(nint ptr) => new MTL4CompilerTask(ptr);
-
-    ~MTL4CompilerTask() => Release();
+    public static implicit operator MTL4CompilerTask(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public void WaitUntilCompleted()
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CompilerTask_Selectors.waitUntilCompleted);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4CompilerTaskSelector.WaitUntilCompleted);
     }
 
 }

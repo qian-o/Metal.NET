@@ -1,74 +1,86 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLFunctionDescriptor_Selectors
+file class MTLFunctionDescriptorSelector
 {
-    internal static readonly Selector setBinaryArchives_ = Selector.Register("setBinaryArchives:");
-    internal static readonly Selector setConstantValues_ = Selector.Register("setConstantValues:");
-    internal static readonly Selector setName_ = Selector.Register("setName:");
-    internal static readonly Selector setOptions_ = Selector.Register("setOptions:");
-    internal static readonly Selector setSpecializedName_ = Selector.Register("setSpecializedName:");
-    internal static readonly Selector functionDescriptor = Selector.Register("functionDescriptor");
+    public static readonly Selector SetBinaryArchives_ = Selector.Register("setBinaryArchives:");
+    public static readonly Selector SetConstantValues_ = Selector.Register("setConstantValues:");
+    public static readonly Selector SetName_ = Selector.Register("setName:");
+    public static readonly Selector SetOptions_ = Selector.Register("setOptions:");
+    public static readonly Selector SetSpecializedName_ = Selector.Register("setSpecializedName:");
+    public static readonly Selector FunctionDescriptor = Selector.Register("functionDescriptor");
 }
 
 public class MTLFunctionDescriptor : IDisposable
 {
+    public MTLFunctionDescriptor(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLFunctionDescriptor()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLFunctionDescriptor(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLFunctionDescriptor value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLFunctionDescriptor o) => o.NativePtr;
-    public static implicit operator MTLFunctionDescriptor(nint ptr) => new MTLFunctionDescriptor(ptr);
-
-    ~MTLFunctionDescriptor() => Release();
+    public static implicit operator MTLFunctionDescriptor(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLFunctionDescriptor");
 
     public void SetBinaryArchives(NSArray binaryArchives)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionDescriptor_Selectors.setBinaryArchives_, binaryArchives.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionDescriptorSelector.SetBinaryArchives_, binaryArchives.NativePtr);
     }
 
     public void SetConstantValues(MTLFunctionConstantValues constantValues)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionDescriptor_Selectors.setConstantValues_, constantValues.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionDescriptorSelector.SetConstantValues_, constantValues.NativePtr);
     }
 
     public void SetName(NSString name)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionDescriptor_Selectors.setName_, name.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionDescriptorSelector.SetName_, name.NativePtr);
     }
 
     public void SetOptions(nuint options)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionDescriptor_Selectors.setOptions_, (nint)options);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionDescriptorSelector.SetOptions_, (nint)options);
     }
 
     public void SetSpecializedName(NSString specializedName)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionDescriptor_Selectors.setSpecializedName_, specializedName.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLFunctionDescriptorSelector.SetSpecializedName_, specializedName.NativePtr);
     }
 
     public static MTLFunctionDescriptor FunctionDescriptor()
     {
-        var __r = new MTLFunctionDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLFunctionDescriptor_Selectors.functionDescriptor));
-        return __r;
+        var result = new MTLFunctionDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLFunctionDescriptorSelector.FunctionDescriptor));
+
+        return result;
     }
 
 }

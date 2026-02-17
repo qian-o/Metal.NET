@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLObjectPayloadBinding_Selectors
+file class MTLObjectPayloadBindingSelector
 {
 }
 
 public class MTLObjectPayloadBinding : IDisposable
 {
+    public MTLObjectPayloadBinding(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLObjectPayloadBinding()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLObjectPayloadBinding(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLObjectPayloadBinding value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLObjectPayloadBinding o) => o.NativePtr;
-    public static implicit operator MTLObjectPayloadBinding(nint ptr) => new MTLObjectPayloadBinding(ptr);
-
-    ~MTLObjectPayloadBinding() => Release();
+    public static implicit operator MTLObjectPayloadBinding(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

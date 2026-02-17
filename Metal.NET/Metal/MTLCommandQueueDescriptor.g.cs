@@ -1,47 +1,58 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLCommandQueueDescriptor_Selectors
+file class MTLCommandQueueDescriptorSelector
 {
-    internal static readonly Selector setLogState_ = Selector.Register("setLogState:");
-    internal static readonly Selector setMaxCommandBufferCount_ = Selector.Register("setMaxCommandBufferCount:");
+    public static readonly Selector SetLogState_ = Selector.Register("setLogState:");
+    public static readonly Selector SetMaxCommandBufferCount_ = Selector.Register("setMaxCommandBufferCount:");
 }
 
 public class MTLCommandQueueDescriptor : IDisposable
 {
+    public MTLCommandQueueDescriptor(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLCommandQueueDescriptor()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLCommandQueueDescriptor(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLCommandQueueDescriptor value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLCommandQueueDescriptor o) => o.NativePtr;
-    public static implicit operator MTLCommandQueueDescriptor(nint ptr) => new MTLCommandQueueDescriptor(ptr);
-
-    ~MTLCommandQueueDescriptor() => Release();
+    public static implicit operator MTLCommandQueueDescriptor(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public void SetLogState(MTLLogState logState)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandQueueDescriptor_Selectors.setLogState_, logState.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandQueueDescriptorSelector.SetLogState_, logState.NativePtr);
     }
 
     public void SetMaxCommandBufferCount(nuint maxCommandBufferCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandQueueDescriptor_Selectors.setMaxCommandBufferCount_, (nint)maxCommandBufferCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCommandQueueDescriptorSelector.SetMaxCommandBufferCount_, (nint)maxCommandBufferCount);
     }
 
 }

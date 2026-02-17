@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLCounter_Selectors
+file class MTLCounterSelector
 {
 }
 
 public class MTLCounter : IDisposable
 {
+    public MTLCounter(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLCounter()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLCounter(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLCounter value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLCounter o) => o.NativePtr;
-    public static implicit operator MTLCounter(nint ptr) => new MTLCounter(ptr);
-
-    ~MTLCounter() => Release();
+    public static implicit operator MTLCounter(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLDepthStencilState_Selectors
+file class MTLDepthStencilStateSelector
 {
 }
 
 public class MTLDepthStencilState : IDisposable
 {
+    public MTLDepthStencilState(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLDepthStencilState()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLDepthStencilState(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLDepthStencilState value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLDepthStencilState o) => o.NativePtr;
-    public static implicit operator MTLDepthStencilState(nint ptr) => new MTLDepthStencilState(ptr);
-
-    ~MTLDepthStencilState() => Release();
+    public static implicit operator MTLDepthStencilState(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

@@ -1,42 +1,54 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLStructType_Selectors
+file class MTLStructTypeSelector
 {
-    internal static readonly Selector memberByName_ = Selector.Register("memberByName:");
+    public static readonly Selector MemberByName_ = Selector.Register("memberByName:");
 }
 
 public class MTLStructType : IDisposable
 {
+    public MTLStructType(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLStructType()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLStructType(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLStructType value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLStructType o) => o.NativePtr;
-    public static implicit operator MTLStructType(nint ptr) => new MTLStructType(ptr);
-
-    ~MTLStructType() => Release();
+    public static implicit operator MTLStructType(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public MTLStructMember MemberByName(NSString name)
     {
-        var __r = new MTLStructMember(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLStructType_Selectors.memberByName_, name.NativePtr));
-        return __r;
+        var result = new MTLStructMember(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLStructTypeSelector.MemberByName_, name.NativePtr));
+
+        return result;
     }
 
 }

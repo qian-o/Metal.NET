@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLFunctionConstant_Selectors
+file class MTLFunctionConstantSelector
 {
 }
 
 public class MTLFunctionConstant : IDisposable
 {
+    public MTLFunctionConstant(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLFunctionConstant()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLFunctionConstant(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLFunctionConstant value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLFunctionConstant o) => o.NativePtr;
-    public static implicit operator MTLFunctionConstant(nint ptr) => new MTLFunctionConstant(ptr);
-
-    ~MTLFunctionConstant() => Release();
+    public static implicit operator MTLFunctionConstant(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

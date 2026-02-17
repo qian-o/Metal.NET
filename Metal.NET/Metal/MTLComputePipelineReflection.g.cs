@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLComputePipelineReflection_Selectors
+file class MTLComputePipelineReflectionSelector
 {
 }
 
 public class MTLComputePipelineReflection : IDisposable
 {
+    public MTLComputePipelineReflection(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLComputePipelineReflection()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLComputePipelineReflection(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLComputePipelineReflection value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLComputePipelineReflection o) => o.NativePtr;
-    public static implicit operator MTLComputePipelineReflection(nint ptr) => new MTLComputePipelineReflection(ptr);
-
-    ~MTLComputePipelineReflection() => Release();
+    public static implicit operator MTLComputePipelineReflection(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

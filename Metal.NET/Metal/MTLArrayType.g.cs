@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLArrayType_Selectors
+file class MTLArrayTypeSelector
 {
 }
 
 public class MTLArrayType : IDisposable
 {
+    public MTLArrayType(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLArrayType()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLArrayType(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLArrayType value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLArrayType o) => o.NativePtr;
-    public static implicit operator MTLArrayType(nint ptr) => new MTLArrayType(ptr);
-
-    ~MTLArrayType() => Release();
+    public static implicit operator MTLArrayType(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

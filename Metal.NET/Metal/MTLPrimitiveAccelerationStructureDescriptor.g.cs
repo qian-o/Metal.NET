@@ -1,42 +1,53 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLPrimitiveAccelerationStructureDescriptor_Selectors
+file class MTLPrimitiveAccelerationStructureDescriptorSelector
 {
-    internal static readonly Selector setGeometryDescriptors_ = Selector.Register("setGeometryDescriptors:");
-    internal static readonly Selector setMotionEndBorderMode_ = Selector.Register("setMotionEndBorderMode:");
-    internal static readonly Selector setMotionEndTime_ = Selector.Register("setMotionEndTime:");
-    internal static readonly Selector setMotionKeyframeCount_ = Selector.Register("setMotionKeyframeCount:");
-    internal static readonly Selector setMotionStartBorderMode_ = Selector.Register("setMotionStartBorderMode:");
-    internal static readonly Selector setMotionStartTime_ = Selector.Register("setMotionStartTime:");
-    internal static readonly Selector descriptor = Selector.Register("descriptor");
+    public static readonly Selector SetGeometryDescriptors_ = Selector.Register("setGeometryDescriptors:");
+    public static readonly Selector SetMotionEndBorderMode_ = Selector.Register("setMotionEndBorderMode:");
+    public static readonly Selector SetMotionEndTime_ = Selector.Register("setMotionEndTime:");
+    public static readonly Selector SetMotionKeyframeCount_ = Selector.Register("setMotionKeyframeCount:");
+    public static readonly Selector SetMotionStartBorderMode_ = Selector.Register("setMotionStartBorderMode:");
+    public static readonly Selector SetMotionStartTime_ = Selector.Register("setMotionStartTime:");
+    public static readonly Selector Descriptor = Selector.Register("descriptor");
 }
 
 public class MTLPrimitiveAccelerationStructureDescriptor : IDisposable
 {
+    public MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLPrimitiveAccelerationStructureDescriptor()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLPrimitiveAccelerationStructureDescriptor(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLPrimitiveAccelerationStructureDescriptor value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLPrimitiveAccelerationStructureDescriptor o) => o.NativePtr;
-    public static implicit operator MTLPrimitiveAccelerationStructureDescriptor(nint ptr) => new MTLPrimitiveAccelerationStructureDescriptor(ptr);
-
-    ~MTLPrimitiveAccelerationStructureDescriptor() => Release();
+    public static implicit operator MTLPrimitiveAccelerationStructureDescriptor(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLPrimitiveAccelerationStructureDescriptor");
@@ -45,43 +56,45 @@ public class MTLPrimitiveAccelerationStructureDescriptor : IDisposable
     {
         var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
         ptr = ObjectiveCRuntime.intptr_objc_msgSend(ptr, Selector.Register("init"));
+
         return new MTLPrimitiveAccelerationStructureDescriptor(ptr);
     }
 
     public void SetGeometryDescriptors(NSArray geometryDescriptors)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.setGeometryDescriptors_, geometryDescriptors.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetGeometryDescriptors_, geometryDescriptors.NativePtr);
     }
 
     public void SetMotionEndBorderMode(MTLMotionBorderMode motionEndBorderMode)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.setMotionEndBorderMode_, (nint)(uint)motionEndBorderMode);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetMotionEndBorderMode_, (nint)(uint)motionEndBorderMode);
     }
 
     public void SetMotionEndTime(float motionEndTime)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.setMotionEndTime_, motionEndTime);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetMotionEndTime_, motionEndTime);
     }
 
     public void SetMotionKeyframeCount(nuint motionKeyframeCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.setMotionKeyframeCount_, (nint)motionKeyframeCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetMotionKeyframeCount_, (nint)motionKeyframeCount);
     }
 
     public void SetMotionStartBorderMode(MTLMotionBorderMode motionStartBorderMode)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.setMotionStartBorderMode_, (nint)(uint)motionStartBorderMode);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetMotionStartBorderMode_, (nint)(uint)motionStartBorderMode);
     }
 
     public void SetMotionStartTime(float motionStartTime)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptor_Selectors.setMotionStartTime_, motionStartTime);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetMotionStartTime_, motionStartTime);
     }
 
     public static MTLPrimitiveAccelerationStructureDescriptor Descriptor()
     {
-        var __r = new MTLPrimitiveAccelerationStructureDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLPrimitiveAccelerationStructureDescriptor_Selectors.descriptor));
-        return __r;
+        var result = new MTLPrimitiveAccelerationStructureDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLPrimitiveAccelerationStructureDescriptorSelector.Descriptor));
+
+        return result;
     }
 
 }

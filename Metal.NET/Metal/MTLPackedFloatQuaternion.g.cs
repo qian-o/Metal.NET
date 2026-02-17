@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLPackedFloatQuaternion_Selectors
+file class MTLPackedFloatQuaternionSelector
 {
 }
 
 public class MTLPackedFloatQuaternion : IDisposable
 {
+    public MTLPackedFloatQuaternion(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLPackedFloatQuaternion()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLPackedFloatQuaternion(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLPackedFloatQuaternion value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLPackedFloatQuaternion o) => o.NativePtr;
-    public static implicit operator MTLPackedFloatQuaternion(nint ptr) => new MTLPackedFloatQuaternion(ptr);
-
-    ~MTLPackedFloatQuaternion() => Release();
+    public static implicit operator MTLPackedFloatQuaternion(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

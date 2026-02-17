@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLArchitecture_Selectors
+file class MTLArchitectureSelector
 {
 }
 
 public class MTLArchitecture : IDisposable
 {
+    public MTLArchitecture(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLArchitecture()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLArchitecture(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLArchitecture value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLArchitecture o) => o.NativePtr;
-    public static implicit operator MTLArchitecture(nint ptr) => new MTLArchitecture(ptr);
-
-    ~MTLArchitecture() => Release();
+    public static implicit operator MTLArchitecture(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

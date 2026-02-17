@@ -1,47 +1,58 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTL4PipelineOptions_Selectors
+file class MTL4PipelineOptionsSelector
 {
-    internal static readonly Selector setShaderReflection_ = Selector.Register("setShaderReflection:");
-    internal static readonly Selector setShaderValidation_ = Selector.Register("setShaderValidation:");
+    public static readonly Selector SetShaderReflection_ = Selector.Register("setShaderReflection:");
+    public static readonly Selector SetShaderValidation_ = Selector.Register("setShaderValidation:");
 }
 
 public class MTL4PipelineOptions : IDisposable
 {
+    public MTL4PipelineOptions(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTL4PipelineOptions()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTL4PipelineOptions(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTL4PipelineOptions value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTL4PipelineOptions o) => o.NativePtr;
-    public static implicit operator MTL4PipelineOptions(nint ptr) => new MTL4PipelineOptions(ptr);
-
-    ~MTL4PipelineOptions() => Release();
+    public static implicit operator MTL4PipelineOptions(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public void SetShaderReflection(nuint shaderReflection)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineOptions_Selectors.setShaderReflection_, (nint)shaderReflection);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineOptionsSelector.SetShaderReflection_, (nint)shaderReflection);
     }
 
     public void SetShaderValidation(MTLShaderValidation shaderValidation)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineOptions_Selectors.setShaderValidation_, (nint)(uint)shaderValidation);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4PipelineOptionsSelector.SetShaderValidation_, (nint)(uint)shaderValidation);
     }
 
 }

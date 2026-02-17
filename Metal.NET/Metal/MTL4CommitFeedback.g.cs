@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTL4CommitFeedback_Selectors
+file class MTL4CommitFeedbackSelector
 {
 }
 
 public class MTL4CommitFeedback : IDisposable
 {
+    public MTL4CommitFeedback(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTL4CommitFeedback()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTL4CommitFeedback(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTL4CommitFeedback value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTL4CommitFeedback o) => o.NativePtr;
-    public static implicit operator MTL4CommitFeedback(nint ptr) => new MTL4CommitFeedback(ptr);
-
-    ~MTL4CommitFeedback() => Release();
+    public static implicit operator MTL4CommitFeedback(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

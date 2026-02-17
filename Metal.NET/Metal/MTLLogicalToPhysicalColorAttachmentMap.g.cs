@@ -1,54 +1,66 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLLogicalToPhysicalColorAttachmentMap_Selectors
+file class MTLLogicalToPhysicalColorAttachmentMapSelector
 {
-    internal static readonly Selector getPhysicalIndex_ = Selector.Register("getPhysicalIndex:");
-    internal static readonly Selector reset = Selector.Register("reset");
-    internal static readonly Selector setPhysicalIndex_logicalIndex_ = Selector.Register("setPhysicalIndex:logicalIndex:");
+    public static readonly Selector GetPhysicalIndex_ = Selector.Register("getPhysicalIndex:");
+    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector SetPhysicalIndex_logicalIndex_ = Selector.Register("setPhysicalIndex:logicalIndex:");
 }
 
 public class MTLLogicalToPhysicalColorAttachmentMap : IDisposable
 {
+    public MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLLogicalToPhysicalColorAttachmentMap()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLLogicalToPhysicalColorAttachmentMap(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLLogicalToPhysicalColorAttachmentMap value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLLogicalToPhysicalColorAttachmentMap o) => o.NativePtr;
-    public static implicit operator MTLLogicalToPhysicalColorAttachmentMap(nint ptr) => new MTLLogicalToPhysicalColorAttachmentMap(ptr);
-
-    ~MTLLogicalToPhysicalColorAttachmentMap() => Release();
+    public static implicit operator MTLLogicalToPhysicalColorAttachmentMap(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public nuint GetPhysicalIndex(nuint logicalIndex)
     {
-        var __r = (nuint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMap_Selectors.getPhysicalIndex_, (nint)logicalIndex);
-        return __r;
+        var result = (nuint)(ulong)ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapSelector.GetPhysicalIndex_, (nint)logicalIndex);
+
+        return result;
     }
 
     public void Reset()
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMap_Selectors.reset);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapSelector.Reset);
     }
 
     public void SetPhysicalIndex(nuint physicalIndex, nuint logicalIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMap_Selectors.setPhysicalIndex_logicalIndex_, (nint)physicalIndex, (nint)logicalIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapSelector.SetPhysicalIndex_logicalIndex_, (nint)physicalIndex, (nint)logicalIndex);
     }
 
 }

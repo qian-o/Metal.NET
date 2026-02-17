@@ -1,51 +1,64 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class NSURL_Selectors
+file class NSURLSelector
 {
-    internal static readonly Selector initFileURLWithPath_ = Selector.Register("initFileURLWithPath:");
-    internal static readonly Selector fileURLWithPath_ = Selector.Register("fileURLWithPath:");
+    public static readonly Selector InitFileURLWithPath_ = Selector.Register("initFileURLWithPath:");
+    public static readonly Selector FileURLWithPath_ = Selector.Register("fileURLWithPath:");
 }
 
 public class NSURL : IDisposable
 {
+    public NSURL(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~NSURL()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public NSURL(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(NSURL value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(NSURL o) => o.NativePtr;
-    public static implicit operator NSURL(nint ptr) => new NSURL(ptr);
-
-    ~NSURL() => Release();
+    public static implicit operator NSURL(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("NSURL");
 
     public NSURL InitFileURLWithPath(NSString pPath)
     {
-        var __r = new NSURL(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, NSURL_Selectors.initFileURLWithPath_, pPath.NativePtr));
-        return __r;
+        var result = new NSURL(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, NSURLSelector.InitFileURLWithPath_, pPath.NativePtr));
+
+        return result;
     }
 
     public static NSURL FileURLWithPath(NSString pPath)
     {
-        var __r = new NSURL(ObjectiveCRuntime.intptr_objc_msgSend(s_class, NSURL_Selectors.fileURLWithPath_, pPath.NativePtr));
-        return __r;
+        var result = new NSURL(ObjectiveCRuntime.intptr_objc_msgSend(s_class, NSURLSelector.FileURLWithPath_, pPath.NativePtr));
+
+        return result;
     }
 
 }

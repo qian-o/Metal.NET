@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLTensorBinding_Selectors
+file class MTLTensorBindingSelector
 {
 }
 
 public class MTLTensorBinding : IDisposable
 {
+    public MTLTensorBinding(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLTensorBinding()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLTensorBinding(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLTensorBinding value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLTensorBinding o) => o.NativePtr;
-    public static implicit operator MTLTensorBinding(nint ptr) => new MTLTensorBinding(ptr);
-
-    ~MTLTensorBinding() => Release();
+    public static implicit operator MTLTensorBinding(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

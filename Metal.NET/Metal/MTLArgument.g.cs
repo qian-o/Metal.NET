@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLArgument_Selectors
+file class MTLArgumentSelector
 {
 }
 
 public class MTLArgument : IDisposable
 {
+    public MTLArgument(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLArgument()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLArgument(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLArgument value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLArgument o) => o.NativePtr;
-    public static implicit operator MTLArgument(nint ptr) => new MTLArgument(ptr);
-
-    ~MTLArgument() => Release();
+    public static implicit operator MTLArgument(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

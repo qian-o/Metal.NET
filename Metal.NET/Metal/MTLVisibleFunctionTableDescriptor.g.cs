@@ -1,50 +1,62 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLVisibleFunctionTableDescriptor_Selectors
+file class MTLVisibleFunctionTableDescriptorSelector
 {
-    internal static readonly Selector setFunctionCount_ = Selector.Register("setFunctionCount:");
-    internal static readonly Selector visibleFunctionTableDescriptor = Selector.Register("visibleFunctionTableDescriptor");
+    public static readonly Selector SetFunctionCount_ = Selector.Register("setFunctionCount:");
+    public static readonly Selector VisibleFunctionTableDescriptor = Selector.Register("visibleFunctionTableDescriptor");
 }
 
 public class MTLVisibleFunctionTableDescriptor : IDisposable
 {
+    public MTLVisibleFunctionTableDescriptor(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLVisibleFunctionTableDescriptor()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLVisibleFunctionTableDescriptor(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLVisibleFunctionTableDescriptor value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLVisibleFunctionTableDescriptor o) => o.NativePtr;
-    public static implicit operator MTLVisibleFunctionTableDescriptor(nint ptr) => new MTLVisibleFunctionTableDescriptor(ptr);
-
-    ~MTLVisibleFunctionTableDescriptor() => Release();
+    public static implicit operator MTLVisibleFunctionTableDescriptor(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLVisibleFunctionTableDescriptor");
 
     public void SetFunctionCount(nuint functionCount)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVisibleFunctionTableDescriptor_Selectors.setFunctionCount_, (nint)functionCount);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVisibleFunctionTableDescriptorSelector.SetFunctionCount_, (nint)functionCount);
     }
 
     public static MTLVisibleFunctionTableDescriptor VisibleFunctionTableDescriptor()
     {
-        var __r = new MTLVisibleFunctionTableDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLVisibleFunctionTableDescriptor_Selectors.visibleFunctionTableDescriptor));
-        return __r;
+        var result = new MTLVisibleFunctionTableDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLVisibleFunctionTableDescriptorSelector.VisibleFunctionTableDescriptor));
+
+        return result;
     }
 
 }

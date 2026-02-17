@@ -1,39 +1,50 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLRasterizationRateMapDescriptor_Selectors
+file class MTLRasterizationRateMapDescriptorSelector
 {
-    internal static readonly Selector layer_ = Selector.Register("layer:");
-    internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
-    internal static readonly Selector setLayer_layerIndex_ = Selector.Register("setLayer:layerIndex:");
-    internal static readonly Selector setScreenSize_ = Selector.Register("setScreenSize:");
+    public static readonly Selector Layer_ = Selector.Register("layer:");
+    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
+    public static readonly Selector SetLayer_layerIndex_ = Selector.Register("setLayer:layerIndex:");
+    public static readonly Selector SetScreenSize_ = Selector.Register("setScreenSize:");
 }
 
 public class MTLRasterizationRateMapDescriptor : IDisposable
 {
+    public MTLRasterizationRateMapDescriptor(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLRasterizationRateMapDescriptor()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLRasterizationRateMapDescriptor(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLRasterizationRateMapDescriptor value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLRasterizationRateMapDescriptor o) => o.NativePtr;
-    public static implicit operator MTLRasterizationRateMapDescriptor(nint ptr) => new MTLRasterizationRateMapDescriptor(ptr);
-
-    ~MTLRasterizationRateMapDescriptor() => Release();
+    public static implicit operator MTLRasterizationRateMapDescriptor(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLRasterizationRateMapDescriptor");
@@ -42,28 +53,30 @@ public class MTLRasterizationRateMapDescriptor : IDisposable
     {
         var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
         ptr = ObjectiveCRuntime.intptr_objc_msgSend(ptr, Selector.Register("init"));
+
         return new MTLRasterizationRateMapDescriptor(ptr);
     }
 
     public MTLRasterizationRateLayerDescriptor Layer(nuint layerIndex)
     {
-        var __r = new MTLRasterizationRateLayerDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRasterizationRateMapDescriptor_Selectors.layer_, (nint)layerIndex));
-        return __r;
+        var result = new MTLRasterizationRateLayerDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.Layer_, (nint)layerIndex));
+
+        return result;
     }
 
     public void SetLabel(NSString label)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateMapDescriptor_Selectors.setLabel_, label.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetLabel_, label.NativePtr);
     }
 
     public void SetLayer(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateMapDescriptor_Selectors.setLayer_layerIndex_, layer.NativePtr, (nint)layerIndex);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetLayer_layerIndex_, layer.NativePtr, (nint)layerIndex);
     }
 
     public void SetScreenSize(MTLSize screenSize)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateMapDescriptor_Selectors.setScreenSize_, screenSize);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetScreenSize_, screenSize);
     }
 
 }

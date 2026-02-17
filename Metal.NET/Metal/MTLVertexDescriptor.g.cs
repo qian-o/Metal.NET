@@ -1,37 +1,48 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLVertexDescriptor_Selectors
+file class MTLVertexDescriptorSelector
 {
-    internal static readonly Selector reset = Selector.Register("reset");
-    internal static readonly Selector vertexDescriptor = Selector.Register("vertexDescriptor");
+    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector VertexDescriptor = Selector.Register("vertexDescriptor");
 }
 
 public class MTLVertexDescriptor : IDisposable
 {
+    public MTLVertexDescriptor(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLVertexDescriptor()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLVertexDescriptor(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLVertexDescriptor value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLVertexDescriptor o) => o.NativePtr;
-    public static implicit operator MTLVertexDescriptor(nint ptr) => new MTLVertexDescriptor(ptr);
-
-    ~MTLVertexDescriptor() => Release();
+    public static implicit operator MTLVertexDescriptor(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLVertexDescriptor");
@@ -40,18 +51,20 @@ public class MTLVertexDescriptor : IDisposable
     {
         var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
         ptr = ObjectiveCRuntime.intptr_objc_msgSend(ptr, Selector.Register("init"));
+
         return new MTLVertexDescriptor(ptr);
     }
 
     public void Reset()
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVertexDescriptor_Selectors.reset);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLVertexDescriptorSelector.Reset);
     }
 
     public static MTLVertexDescriptor VertexDescriptor()
     {
-        var __r = new MTLVertexDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLVertexDescriptor_Selectors.vertexDescriptor));
-        return __r;
+        var result = new MTLVertexDescriptor(ObjectiveCRuntime.intptr_objc_msgSend(s_class, MTLVertexDescriptorSelector.VertexDescriptor));
+
+        return result;
     }
 
 }

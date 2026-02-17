@@ -1,172 +1,202 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿#nullable enable
 
 namespace Metal.NET;
 
-internal static class MTL4Compiler_Selectors
+file class MTL4CompilerSelector
 {
-    internal static readonly Selector newBinaryFunction_compilerTaskOptions_error_ = Selector.Register("newBinaryFunction:compilerTaskOptions:error:");
-    internal static readonly Selector newComputePipelineState_compilerTaskOptions_error_ = Selector.Register("newComputePipelineState:compilerTaskOptions:error:");
-    internal static readonly Selector newComputePipelineState_dynamicLinkingDescriptor_compilerTaskOptions_error_ = Selector.Register("newComputePipelineState:dynamicLinkingDescriptor:compilerTaskOptions:error:");
-    internal static readonly Selector newComputePipelineState_options_function_ = Selector.Register("newComputePipelineState:options:function:");
-    internal static readonly Selector newDynamicLibrary_error_ = Selector.Register("newDynamicLibrary:error:");
-    internal static readonly Selector newDynamicLibrary_function_ = Selector.Register("newDynamicLibrary:function:");
-    internal static readonly Selector newLibrary_error_ = Selector.Register("newLibrary:error:");
-    internal static readonly Selector newLibrary_function_ = Selector.Register("newLibrary:function:");
-    internal static readonly Selector newMachineLearningPipelineState_error_ = Selector.Register("newMachineLearningPipelineState:error:");
-    internal static readonly Selector newMachineLearningPipelineState_function_ = Selector.Register("newMachineLearningPipelineState:function:");
-    internal static readonly Selector newRenderPipelineState_compilerTaskOptions_error_ = Selector.Register("newRenderPipelineState:compilerTaskOptions:error:");
-    internal static readonly Selector newRenderPipelineState_dynamicLinkingDescriptor_compilerTaskOptions_error_ = Selector.Register("newRenderPipelineState:dynamicLinkingDescriptor:compilerTaskOptions:error:");
-    internal static readonly Selector newRenderPipelineState_options_function_ = Selector.Register("newRenderPipelineState:options:function:");
-    internal static readonly Selector newRenderPipelineStateBySpecialization_pipeline_error_ = Selector.Register("newRenderPipelineStateBySpecialization:pipeline:error:");
-    internal static readonly Selector newRenderPipelineStateBySpecialization_pPipeline_function_ = Selector.Register("newRenderPipelineStateBySpecialization:pPipeline:function:");
+    public static readonly Selector NewBinaryFunction_compilerTaskOptions_error_ = Selector.Register("newBinaryFunction:compilerTaskOptions:error:");
+    public static readonly Selector NewComputePipelineState_compilerTaskOptions_error_ = Selector.Register("newComputePipelineState:compilerTaskOptions:error:");
+    public static readonly Selector NewComputePipelineState_dynamicLinkingDescriptor_compilerTaskOptions_error_ = Selector.Register("newComputePipelineState:dynamicLinkingDescriptor:compilerTaskOptions:error:");
+    public static readonly Selector NewComputePipelineState_options_function_ = Selector.Register("newComputePipelineState:options:function:");
+    public static readonly Selector NewDynamicLibrary_error_ = Selector.Register("newDynamicLibrary:error:");
+    public static readonly Selector NewDynamicLibrary_function_ = Selector.Register("newDynamicLibrary:function:");
+    public static readonly Selector NewLibrary_error_ = Selector.Register("newLibrary:error:");
+    public static readonly Selector NewLibrary_function_ = Selector.Register("newLibrary:function:");
+    public static readonly Selector NewMachineLearningPipelineState_error_ = Selector.Register("newMachineLearningPipelineState:error:");
+    public static readonly Selector NewMachineLearningPipelineState_function_ = Selector.Register("newMachineLearningPipelineState:function:");
+    public static readonly Selector NewRenderPipelineState_compilerTaskOptions_error_ = Selector.Register("newRenderPipelineState:compilerTaskOptions:error:");
+    public static readonly Selector NewRenderPipelineState_dynamicLinkingDescriptor_compilerTaskOptions_error_ = Selector.Register("newRenderPipelineState:dynamicLinkingDescriptor:compilerTaskOptions:error:");
+    public static readonly Selector NewRenderPipelineState_options_function_ = Selector.Register("newRenderPipelineState:options:function:");
+    public static readonly Selector NewRenderPipelineStateBySpecialization_pipeline_error_ = Selector.Register("newRenderPipelineStateBySpecialization:pipeline:error:");
+    public static readonly Selector NewRenderPipelineStateBySpecialization_pPipeline_function_ = Selector.Register("newRenderPipelineStateBySpecialization:pPipeline:function:");
 }
 
 public class MTL4Compiler : IDisposable
 {
+    public MTL4Compiler(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTL4Compiler()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTL4Compiler(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTL4Compiler value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTL4Compiler o) => o.NativePtr;
-    public static implicit operator MTL4Compiler(nint ptr) => new MTL4Compiler(ptr);
-
-    ~MTL4Compiler() => Release();
+    public static implicit operator MTL4Compiler(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
-    public MTL4BinaryFunction NewBinaryFunction(MTL4BinaryFunctionDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError error)
+    public MTL4BinaryFunction NewBinaryFunction(MTL4BinaryFunctionDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError? error)
     {
-        nint __errorPtr = 0;
-        var __r = new MTL4BinaryFunction(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Compiler_Selectors.newBinaryFunction_compilerTaskOptions_error_, descriptor.NativePtr, compilerTaskOptions.NativePtr, out __errorPtr));
-        error = new NSError(__errorPtr);
-        return __r;
+        nint errorPtr = 0;
+        var result = new MTL4BinaryFunction(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CompilerSelector.NewBinaryFunction_compilerTaskOptions_error_, descriptor.NativePtr, compilerTaskOptions.NativePtr, out errorPtr));
+        error = errorPtr is not 0 ? new NSError(errorPtr) : null;
+
+        return result;
     }
 
-    public MTLComputePipelineState NewComputePipelineState(MTL4ComputePipelineDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError error)
+    public MTLComputePipelineState NewComputePipelineState(MTL4ComputePipelineDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError? error)
     {
-        nint __errorPtr = 0;
-        var __r = new MTLComputePipelineState(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Compiler_Selectors.newComputePipelineState_compilerTaskOptions_error_, descriptor.NativePtr, compilerTaskOptions.NativePtr, out __errorPtr));
-        error = new NSError(__errorPtr);
-        return __r;
+        nint errorPtr = 0;
+        var result = new MTLComputePipelineState(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CompilerSelector.NewComputePipelineState_compilerTaskOptions_error_, descriptor.NativePtr, compilerTaskOptions.NativePtr, out errorPtr));
+        error = errorPtr is not 0 ? new NSError(errorPtr) : null;
+
+        return result;
     }
 
-    public MTLComputePipelineState NewComputePipelineState(MTL4ComputePipelineDescriptor descriptor, MTL4PipelineStageDynamicLinkingDescriptor dynamicLinkingDescriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError error)
+    public MTLComputePipelineState NewComputePipelineState(MTL4ComputePipelineDescriptor descriptor, MTL4PipelineStageDynamicLinkingDescriptor dynamicLinkingDescriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError? error)
     {
-        nint __errorPtr = 0;
-        var __r = new MTLComputePipelineState(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Compiler_Selectors.newComputePipelineState_dynamicLinkingDescriptor_compilerTaskOptions_error_, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, compilerTaskOptions.NativePtr, out __errorPtr));
-        error = new NSError(__errorPtr);
-        return __r;
+        nint errorPtr = 0;
+        var result = new MTLComputePipelineState(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CompilerSelector.NewComputePipelineState_dynamicLinkingDescriptor_compilerTaskOptions_error_, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, compilerTaskOptions.NativePtr, out errorPtr));
+        error = errorPtr is not 0 ? new NSError(errorPtr) : null;
+
+        return result;
     }
 
     public MTL4CompilerTask NewComputePipelineState(MTL4ComputePipelineDescriptor pDescriptor, MTL4CompilerTaskOptions options, nint function)
     {
-        var __r = new MTL4CompilerTask(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Compiler_Selectors.newComputePipelineState_options_function_, pDescriptor.NativePtr, options.NativePtr, function));
-        return __r;
+        var result = new MTL4CompilerTask(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CompilerSelector.NewComputePipelineState_options_function_, pDescriptor.NativePtr, options.NativePtr, function));
+
+        return result;
     }
 
-    public MTLDynamicLibrary NewDynamicLibrary(MTLLibrary library, out NSError error)
+    public MTLDynamicLibrary NewDynamicLibrary(MTLLibrary library, out NSError? error)
     {
-        nint __errorPtr = 0;
-        var __r = new MTLDynamicLibrary(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Compiler_Selectors.newDynamicLibrary_error_, library.NativePtr, out __errorPtr));
-        error = new NSError(__errorPtr);
-        return __r;
+        nint errorPtr = 0;
+        var result = new MTLDynamicLibrary(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CompilerSelector.NewDynamicLibrary_error_, library.NativePtr, out errorPtr));
+        error = errorPtr is not 0 ? new NSError(errorPtr) : null;
+
+        return result;
     }
 
-    public MTLDynamicLibrary NewDynamicLibrary(NSURL url, out NSError error)
+    public MTLDynamicLibrary NewDynamicLibrary(NSURL url, out NSError? error)
     {
-        nint __errorPtr = 0;
-        var __r = new MTLDynamicLibrary(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Compiler_Selectors.newDynamicLibrary_error_, url.NativePtr, out __errorPtr));
-        error = new NSError(__errorPtr);
-        return __r;
+        nint errorPtr = 0;
+        var result = new MTLDynamicLibrary(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CompilerSelector.NewDynamicLibrary_error_, url.NativePtr, out errorPtr));
+        error = errorPtr is not 0 ? new NSError(errorPtr) : null;
+
+        return result;
     }
 
     public MTL4CompilerTask NewDynamicLibrary(MTLLibrary pLibrary, nint function)
     {
-        var __r = new MTL4CompilerTask(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Compiler_Selectors.newDynamicLibrary_function_, pLibrary.NativePtr, function));
-        return __r;
+        var result = new MTL4CompilerTask(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CompilerSelector.NewDynamicLibrary_function_, pLibrary.NativePtr, function));
+
+        return result;
     }
 
     public MTL4CompilerTask NewDynamicLibrary(NSURL pURL, nint function)
     {
-        var __r = new MTL4CompilerTask(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Compiler_Selectors.newDynamicLibrary_function_, pURL.NativePtr, function));
-        return __r;
+        var result = new MTL4CompilerTask(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CompilerSelector.NewDynamicLibrary_function_, pURL.NativePtr, function));
+
+        return result;
     }
 
-    public MTLLibrary NewLibrary(MTL4LibraryDescriptor descriptor, out NSError error)
+    public MTLLibrary NewLibrary(MTL4LibraryDescriptor descriptor, out NSError? error)
     {
-        nint __errorPtr = 0;
-        var __r = new MTLLibrary(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Compiler_Selectors.newLibrary_error_, descriptor.NativePtr, out __errorPtr));
-        error = new NSError(__errorPtr);
-        return __r;
+        nint errorPtr = 0;
+        var result = new MTLLibrary(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CompilerSelector.NewLibrary_error_, descriptor.NativePtr, out errorPtr));
+        error = errorPtr is not 0 ? new NSError(errorPtr) : null;
+
+        return result;
     }
 
     public MTL4CompilerTask NewLibrary(MTL4LibraryDescriptor pDescriptor, nint function)
     {
-        var __r = new MTL4CompilerTask(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Compiler_Selectors.newLibrary_function_, pDescriptor.NativePtr, function));
-        return __r;
+        var result = new MTL4CompilerTask(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CompilerSelector.NewLibrary_function_, pDescriptor.NativePtr, function));
+
+        return result;
     }
 
-    public MTL4MachineLearningPipelineState NewMachineLearningPipelineState(MTL4MachineLearningPipelineDescriptor descriptor, out NSError error)
+    public MTL4MachineLearningPipelineState NewMachineLearningPipelineState(MTL4MachineLearningPipelineDescriptor descriptor, out NSError? error)
     {
-        nint __errorPtr = 0;
-        var __r = new MTL4MachineLearningPipelineState(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Compiler_Selectors.newMachineLearningPipelineState_error_, descriptor.NativePtr, out __errorPtr));
-        error = new NSError(__errorPtr);
-        return __r;
+        nint errorPtr = 0;
+        var result = new MTL4MachineLearningPipelineState(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CompilerSelector.NewMachineLearningPipelineState_error_, descriptor.NativePtr, out errorPtr));
+        error = errorPtr is not 0 ? new NSError(errorPtr) : null;
+
+        return result;
     }
 
     public MTL4CompilerTask NewMachineLearningPipelineState(MTL4MachineLearningPipelineDescriptor pDescriptor, nint function)
     {
-        var __r = new MTL4CompilerTask(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Compiler_Selectors.newMachineLearningPipelineState_function_, pDescriptor.NativePtr, function));
-        return __r;
+        var result = new MTL4CompilerTask(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CompilerSelector.NewMachineLearningPipelineState_function_, pDescriptor.NativePtr, function));
+
+        return result;
     }
 
-    public MTLRenderPipelineState NewRenderPipelineState(MTL4PipelineDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError error)
+    public MTLRenderPipelineState NewRenderPipelineState(MTL4PipelineDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError? error)
     {
-        nint __errorPtr = 0;
-        var __r = new MTLRenderPipelineState(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Compiler_Selectors.newRenderPipelineState_compilerTaskOptions_error_, descriptor.NativePtr, compilerTaskOptions.NativePtr, out __errorPtr));
-        error = new NSError(__errorPtr);
-        return __r;
+        nint errorPtr = 0;
+        var result = new MTLRenderPipelineState(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CompilerSelector.NewRenderPipelineState_compilerTaskOptions_error_, descriptor.NativePtr, compilerTaskOptions.NativePtr, out errorPtr));
+        error = errorPtr is not 0 ? new NSError(errorPtr) : null;
+
+        return result;
     }
 
-    public MTLRenderPipelineState NewRenderPipelineState(MTL4PipelineDescriptor descriptor, MTL4RenderPipelineDynamicLinkingDescriptor dynamicLinkingDescriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError error)
+    public MTLRenderPipelineState NewRenderPipelineState(MTL4PipelineDescriptor descriptor, MTL4RenderPipelineDynamicLinkingDescriptor dynamicLinkingDescriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError? error)
     {
-        nint __errorPtr = 0;
-        var __r = new MTLRenderPipelineState(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Compiler_Selectors.newRenderPipelineState_dynamicLinkingDescriptor_compilerTaskOptions_error_, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, compilerTaskOptions.NativePtr, out __errorPtr));
-        error = new NSError(__errorPtr);
-        return __r;
+        nint errorPtr = 0;
+        var result = new MTLRenderPipelineState(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CompilerSelector.NewRenderPipelineState_dynamicLinkingDescriptor_compilerTaskOptions_error_, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, compilerTaskOptions.NativePtr, out errorPtr));
+        error = errorPtr is not 0 ? new NSError(errorPtr) : null;
+
+        return result;
     }
 
     public MTL4CompilerTask NewRenderPipelineState(MTL4PipelineDescriptor pDescriptor, MTL4CompilerTaskOptions options, nint function)
     {
-        var __r = new MTL4CompilerTask(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Compiler_Selectors.newRenderPipelineState_options_function_, pDescriptor.NativePtr, options.NativePtr, function));
-        return __r;
+        var result = new MTL4CompilerTask(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CompilerSelector.NewRenderPipelineState_options_function_, pDescriptor.NativePtr, options.NativePtr, function));
+
+        return result;
     }
 
-    public MTLRenderPipelineState NewRenderPipelineStateBySpecialization(MTL4PipelineDescriptor descriptor, MTLRenderPipelineState pipeline, out NSError error)
+    public MTLRenderPipelineState NewRenderPipelineStateBySpecialization(MTL4PipelineDescriptor descriptor, MTLRenderPipelineState pipeline, out NSError? error)
     {
-        nint __errorPtr = 0;
-        var __r = new MTLRenderPipelineState(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Compiler_Selectors.newRenderPipelineStateBySpecialization_pipeline_error_, descriptor.NativePtr, pipeline.NativePtr, out __errorPtr));
-        error = new NSError(__errorPtr);
-        return __r;
+        nint errorPtr = 0;
+        var result = new MTLRenderPipelineState(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CompilerSelector.NewRenderPipelineStateBySpecialization_pipeline_error_, descriptor.NativePtr, pipeline.NativePtr, out errorPtr));
+        error = errorPtr is not 0 ? new NSError(errorPtr) : null;
+
+        return result;
     }
 
     public MTL4CompilerTask NewRenderPipelineStateBySpecialization(MTL4PipelineDescriptor pDescriptor, MTLRenderPipelineState pPipeline, nint function)
     {
-        var __r = new MTL4CompilerTask(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4Compiler_Selectors.newRenderPipelineStateBySpecialization_pPipeline_function_, pDescriptor.NativePtr, pPipeline.NativePtr, function));
-        return __r;
+        var result = new MTL4CompilerTask(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTL4CompilerSelector.NewRenderPipelineStateBySpecialization_pPipeline_function_, pDescriptor.NativePtr, pPipeline.NativePtr, function));
+
+        return result;
     }
 
 }

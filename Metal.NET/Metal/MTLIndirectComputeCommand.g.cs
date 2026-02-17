@@ -1,95 +1,106 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLIndirectComputeCommand_Selectors
+file class MTLIndirectComputeCommandSelector
 {
-    internal static readonly Selector clearBarrier = Selector.Register("clearBarrier");
-    internal static readonly Selector concurrentDispatchThreadgroups_threadsPerThreadgroup_ = Selector.Register("concurrentDispatchThreadgroups:threadsPerThreadgroup:");
-    internal static readonly Selector concurrentDispatchThreads_threadsPerThreadgroup_ = Selector.Register("concurrentDispatchThreads:threadsPerThreadgroup:");
-    internal static readonly Selector reset = Selector.Register("reset");
-    internal static readonly Selector setBarrier = Selector.Register("setBarrier");
-    internal static readonly Selector setComputePipelineState_ = Selector.Register("setComputePipelineState:");
-    internal static readonly Selector setImageblockWidth_height_ = Selector.Register("setImageblockWidth:height:");
-    internal static readonly Selector setKernelBuffer_offset_index_ = Selector.Register("setKernelBuffer:offset:index:");
-    internal static readonly Selector setKernelBuffer_offset_stride_index_ = Selector.Register("setKernelBuffer:offset:stride:index:");
-    internal static readonly Selector setThreadgroupMemoryLength_index_ = Selector.Register("setThreadgroupMemoryLength:index:");
+    public static readonly Selector ClearBarrier = Selector.Register("clearBarrier");
+    public static readonly Selector ConcurrentDispatchThreadgroups_threadsPerThreadgroup_ = Selector.Register("concurrentDispatchThreadgroups:threadsPerThreadgroup:");
+    public static readonly Selector ConcurrentDispatchThreads_threadsPerThreadgroup_ = Selector.Register("concurrentDispatchThreads:threadsPerThreadgroup:");
+    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector SetBarrier = Selector.Register("setBarrier");
+    public static readonly Selector SetComputePipelineState_ = Selector.Register("setComputePipelineState:");
+    public static readonly Selector SetImageblockWidth_height_ = Selector.Register("setImageblockWidth:height:");
+    public static readonly Selector SetKernelBuffer_offset_index_ = Selector.Register("setKernelBuffer:offset:index:");
+    public static readonly Selector SetKernelBuffer_offset_stride_index_ = Selector.Register("setKernelBuffer:offset:stride:index:");
+    public static readonly Selector SetThreadgroupMemoryLength_index_ = Selector.Register("setThreadgroupMemoryLength:index:");
 }
 
 public class MTLIndirectComputeCommand : IDisposable
 {
+    public MTLIndirectComputeCommand(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLIndirectComputeCommand()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLIndirectComputeCommand(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLIndirectComputeCommand value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLIndirectComputeCommand o) => o.NativePtr;
-    public static implicit operator MTLIndirectComputeCommand(nint ptr) => new MTLIndirectComputeCommand(ptr);
-
-    ~MTLIndirectComputeCommand() => Release();
+    public static implicit operator MTLIndirectComputeCommand(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public void ClearBarrier()
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectComputeCommand_Selectors.clearBarrier);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectComputeCommandSelector.ClearBarrier);
     }
 
     public void ConcurrentDispatchThreadgroups(MTLSize threadgroupsPerGrid, MTLSize threadsPerThreadgroup)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectComputeCommand_Selectors.concurrentDispatchThreadgroups_threadsPerThreadgroup_, threadgroupsPerGrid, threadsPerThreadgroup);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectComputeCommandSelector.ConcurrentDispatchThreadgroups_threadsPerThreadgroup_, threadgroupsPerGrid, threadsPerThreadgroup);
     }
 
     public void ConcurrentDispatchThreads(MTLSize threadsPerGrid, MTLSize threadsPerThreadgroup)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectComputeCommand_Selectors.concurrentDispatchThreads_threadsPerThreadgroup_, threadsPerGrid, threadsPerThreadgroup);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectComputeCommandSelector.ConcurrentDispatchThreads_threadsPerThreadgroup_, threadsPerGrid, threadsPerThreadgroup);
     }
 
     public void Reset()
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectComputeCommand_Selectors.reset);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectComputeCommandSelector.Reset);
     }
 
     public void SetBarrier()
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectComputeCommand_Selectors.setBarrier);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectComputeCommandSelector.SetBarrier);
     }
 
     public void SetComputePipelineState(MTLComputePipelineState pipelineState)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectComputeCommand_Selectors.setComputePipelineState_, pipelineState.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectComputeCommandSelector.SetComputePipelineState_, pipelineState.NativePtr);
     }
 
     public void SetImageblockWidth(nuint width, nuint height)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectComputeCommand_Selectors.setImageblockWidth_height_, (nint)width, (nint)height);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectComputeCommandSelector.SetImageblockWidth_height_, (nint)width, (nint)height);
     }
 
     public void SetKernelBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectComputeCommand_Selectors.setKernelBuffer_offset_index_, buffer.NativePtr, (nint)offset, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectComputeCommandSelector.SetKernelBuffer_offset_index_, buffer.NativePtr, (nint)offset, (nint)index);
     }
 
     public void SetKernelBuffer(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectComputeCommand_Selectors.setKernelBuffer_offset_stride_index_, buffer.NativePtr, (nint)offset, (nint)stride, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectComputeCommandSelector.SetKernelBuffer_offset_stride_index_, buffer.NativePtr, (nint)offset, (nint)stride, (nint)index);
     }
 
     public void SetThreadgroupMemoryLength(nuint length, nuint index)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectComputeCommand_Selectors.setThreadgroupMemoryLength_index_, (nint)length, (nint)index);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLIndirectComputeCommandSelector.SetThreadgroupMemoryLength_index_, (nint)length, (nint)index);
     }
 
 }

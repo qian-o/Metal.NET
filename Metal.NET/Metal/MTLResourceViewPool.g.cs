@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLResourceViewPool_Selectors
+file class MTLResourceViewPoolSelector
 {
 }
 
 public class MTLResourceViewPool : IDisposable
 {
+    public MTLResourceViewPool(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLResourceViewPool()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLResourceViewPool(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLResourceViewPool value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLResourceViewPool o) => o.NativePtr;
-    public static implicit operator MTLResourceViewPool(nint ptr) => new MTLResourceViewPool(ptr);
-
-    ~MTLResourceViewPool() => Release();
+    public static implicit operator MTLResourceViewPool(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

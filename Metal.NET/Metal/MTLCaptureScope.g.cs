@@ -1,53 +1,64 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLCaptureScope_Selectors
+file class MTLCaptureScopeSelector
 {
-    internal static readonly Selector setLabel_ = Selector.Register("setLabel:");
-    internal static readonly Selector beginScope = Selector.Register("beginScope");
-    internal static readonly Selector endScope = Selector.Register("endScope");
+    public static readonly Selector SetLabel_ = Selector.Register("setLabel:");
+    public static readonly Selector BeginScope = Selector.Register("beginScope");
+    public static readonly Selector EndScope = Selector.Register("endScope");
 }
 
 public class MTLCaptureScope : IDisposable
 {
+    public MTLCaptureScope(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLCaptureScope()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLCaptureScope(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLCaptureScope value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLCaptureScope o) => o.NativePtr;
-    public static implicit operator MTLCaptureScope(nint ptr) => new MTLCaptureScope(ptr);
-
-    ~MTLCaptureScope() => Release();
+    public static implicit operator MTLCaptureScope(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public void SetLabel(NSString pLabel)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureScope_Selectors.setLabel_, pLabel.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureScopeSelector.SetLabel_, pLabel.NativePtr);
     }
 
     public void BeginScope()
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureScope_Selectors.beginScope);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureScopeSelector.BeginScope);
     }
 
     public void EndScope()
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureScope_Selectors.endScope);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLCaptureScopeSelector.EndScope);
     }
 
 }

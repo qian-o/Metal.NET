@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLAccelerationStructure_Selectors
+file class MTLAccelerationStructureSelector
 {
 }
 
 public class MTLAccelerationStructure : IDisposable
 {
+    public MTLAccelerationStructure(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLAccelerationStructure()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLAccelerationStructure(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLAccelerationStructure value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLAccelerationStructure o) => o.NativePtr;
-    public static implicit operator MTLAccelerationStructure(nint ptr) => new MTLAccelerationStructure(ptr);
-
-    ~MTLAccelerationStructure() => Release();
+    public static implicit operator MTLAccelerationStructure(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

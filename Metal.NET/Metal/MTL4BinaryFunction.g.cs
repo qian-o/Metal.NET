@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTL4BinaryFunction_Selectors
+file class MTL4BinaryFunctionSelector
 {
 }
 
 public class MTL4BinaryFunction : IDisposable
 {
+    public MTL4BinaryFunction(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTL4BinaryFunction()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTL4BinaryFunction(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTL4BinaryFunction value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTL4BinaryFunction o) => o.NativePtr;
-    public static implicit operator MTL4BinaryFunction(nint ptr) => new MTL4BinaryFunction(ptr);
-
-    ~MTL4BinaryFunction() => Release();
+    public static implicit operator MTL4BinaryFunction(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

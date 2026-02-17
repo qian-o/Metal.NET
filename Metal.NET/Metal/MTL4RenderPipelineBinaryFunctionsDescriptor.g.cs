@@ -1,71 +1,82 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTL4RenderPipelineBinaryFunctionsDescriptor_Selectors
+file class MTL4RenderPipelineBinaryFunctionsDescriptorSelector
 {
-    internal static readonly Selector reset = Selector.Register("reset");
-    internal static readonly Selector setFragmentAdditionalBinaryFunctions_ = Selector.Register("setFragmentAdditionalBinaryFunctions:");
-    internal static readonly Selector setMeshAdditionalBinaryFunctions_ = Selector.Register("setMeshAdditionalBinaryFunctions:");
-    internal static readonly Selector setObjectAdditionalBinaryFunctions_ = Selector.Register("setObjectAdditionalBinaryFunctions:");
-    internal static readonly Selector setTileAdditionalBinaryFunctions_ = Selector.Register("setTileAdditionalBinaryFunctions:");
-    internal static readonly Selector setVertexAdditionalBinaryFunctions_ = Selector.Register("setVertexAdditionalBinaryFunctions:");
+    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector SetFragmentAdditionalBinaryFunctions_ = Selector.Register("setFragmentAdditionalBinaryFunctions:");
+    public static readonly Selector SetMeshAdditionalBinaryFunctions_ = Selector.Register("setMeshAdditionalBinaryFunctions:");
+    public static readonly Selector SetObjectAdditionalBinaryFunctions_ = Selector.Register("setObjectAdditionalBinaryFunctions:");
+    public static readonly Selector SetTileAdditionalBinaryFunctions_ = Selector.Register("setTileAdditionalBinaryFunctions:");
+    public static readonly Selector SetVertexAdditionalBinaryFunctions_ = Selector.Register("setVertexAdditionalBinaryFunctions:");
 }
 
 public class MTL4RenderPipelineBinaryFunctionsDescriptor : IDisposable
 {
+    public MTL4RenderPipelineBinaryFunctionsDescriptor(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTL4RenderPipelineBinaryFunctionsDescriptor()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTL4RenderPipelineBinaryFunctionsDescriptor(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTL4RenderPipelineBinaryFunctionsDescriptor value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTL4RenderPipelineBinaryFunctionsDescriptor o) => o.NativePtr;
-    public static implicit operator MTL4RenderPipelineBinaryFunctionsDescriptor(nint ptr) => new MTL4RenderPipelineBinaryFunctionsDescriptor(ptr);
-
-    ~MTL4RenderPipelineBinaryFunctionsDescriptor() => Release();
+    public static implicit operator MTL4RenderPipelineBinaryFunctionsDescriptor(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public void Reset()
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineBinaryFunctionsDescriptor_Selectors.reset);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineBinaryFunctionsDescriptorSelector.Reset);
     }
 
     public void SetFragmentAdditionalBinaryFunctions(NSArray fragmentAdditionalBinaryFunctions)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineBinaryFunctionsDescriptor_Selectors.setFragmentAdditionalBinaryFunctions_, fragmentAdditionalBinaryFunctions.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineBinaryFunctionsDescriptorSelector.SetFragmentAdditionalBinaryFunctions_, fragmentAdditionalBinaryFunctions.NativePtr);
     }
 
     public void SetMeshAdditionalBinaryFunctions(NSArray meshAdditionalBinaryFunctions)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineBinaryFunctionsDescriptor_Selectors.setMeshAdditionalBinaryFunctions_, meshAdditionalBinaryFunctions.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineBinaryFunctionsDescriptorSelector.SetMeshAdditionalBinaryFunctions_, meshAdditionalBinaryFunctions.NativePtr);
     }
 
     public void SetObjectAdditionalBinaryFunctions(NSArray objectAdditionalBinaryFunctions)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineBinaryFunctionsDescriptor_Selectors.setObjectAdditionalBinaryFunctions_, objectAdditionalBinaryFunctions.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineBinaryFunctionsDescriptorSelector.SetObjectAdditionalBinaryFunctions_, objectAdditionalBinaryFunctions.NativePtr);
     }
 
     public void SetTileAdditionalBinaryFunctions(NSArray tileAdditionalBinaryFunctions)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineBinaryFunctionsDescriptor_Selectors.setTileAdditionalBinaryFunctions_, tileAdditionalBinaryFunctions.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineBinaryFunctionsDescriptorSelector.SetTileAdditionalBinaryFunctions_, tileAdditionalBinaryFunctions.NativePtr);
     }
 
     public void SetVertexAdditionalBinaryFunctions(NSArray vertexAdditionalBinaryFunctions)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineBinaryFunctionsDescriptor_Selectors.setVertexAdditionalBinaryFunctions_, vertexAdditionalBinaryFunctions.NativePtr);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTL4RenderPipelineBinaryFunctionsDescriptorSelector.SetVertexAdditionalBinaryFunctions_, vertexAdditionalBinaryFunctions.NativePtr);
     }
 
 }

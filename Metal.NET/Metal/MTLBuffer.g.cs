@@ -1,64 +1,80 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿#nullable enable
 
 namespace Metal.NET;
 
-internal static class MTLBuffer_Selectors
+file class MTLBufferSelector
 {
-    internal static readonly Selector newRemoteBufferViewForDevice_ = Selector.Register("newRemoteBufferViewForDevice:");
-    internal static readonly Selector newTensor_offset_error_ = Selector.Register("newTensor:offset:error:");
-    internal static readonly Selector newTexture_offset_bytesPerRow_ = Selector.Register("newTexture:offset:bytesPerRow:");
-    internal static readonly Selector removeAllDebugMarkers = Selector.Register("removeAllDebugMarkers");
+    public static readonly Selector NewRemoteBufferViewForDevice_ = Selector.Register("newRemoteBufferViewForDevice:");
+    public static readonly Selector NewTensor_offset_error_ = Selector.Register("newTensor:offset:error:");
+    public static readonly Selector NewTexture_offset_bytesPerRow_ = Selector.Register("newTexture:offset:bytesPerRow:");
+    public static readonly Selector RemoveAllDebugMarkers = Selector.Register("removeAllDebugMarkers");
 }
 
 public class MTLBuffer : IDisposable
 {
+    public MTLBuffer(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLBuffer()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLBuffer(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLBuffer value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLBuffer o) => o.NativePtr;
-    public static implicit operator MTLBuffer(nint ptr) => new MTLBuffer(ptr);
-
-    ~MTLBuffer() => Release();
+    public static implicit operator MTLBuffer(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     public MTLBuffer NewRemoteBufferViewForDevice(MTLDevice device)
     {
-        var __r = new MTLBuffer(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBuffer_Selectors.newRemoteBufferViewForDevice_, device.NativePtr));
-        return __r;
+        var result = new MTLBuffer(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBufferSelector.NewRemoteBufferViewForDevice_, device.NativePtr));
+
+        return result;
     }
 
-    public MTLTensor NewTensor(MTLTensorDescriptor descriptor, nuint offset, out NSError error)
+    public MTLTensor NewTensor(MTLTensorDescriptor descriptor, nuint offset, out NSError? error)
     {
-        nint __errorPtr = 0;
-        var __r = new MTLTensor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBuffer_Selectors.newTensor_offset_error_, descriptor.NativePtr, (nint)offset, out __errorPtr));
-        error = new NSError(__errorPtr);
-        return __r;
+        nint errorPtr = 0;
+        var result = new MTLTensor(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBufferSelector.NewTensor_offset_error_, descriptor.NativePtr, (nint)offset, out errorPtr));
+        error = errorPtr is not 0 ? new NSError(errorPtr) : null;
+
+        return result;
     }
 
     public MTLTexture NewTexture(MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow)
     {
-        var __r = new MTLTexture(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBuffer_Selectors.newTexture_offset_bytesPerRow_, descriptor.NativePtr, (nint)offset, (nint)bytesPerRow));
-        return __r;
+        var result = new MTLTexture(ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, MTLBufferSelector.NewTexture_offset_bytesPerRow_, descriptor.NativePtr, (nint)offset, (nint)bytesPerRow));
+
+        return result;
     }
 
     public void RemoveAllDebugMarkers()
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBuffer_Selectors.removeAllDebugMarkers);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLBufferSelector.RemoveAllDebugMarkers);
     }
 
 }

@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLFunctionLog_Selectors
+file class MTLFunctionLogSelector
 {
 }
 
 public class MTLFunctionLog : IDisposable
 {
+    public MTLFunctionLog(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLFunctionLog()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLFunctionLog(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLFunctionLog value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLFunctionLog o) => o.NativePtr;
-    public static implicit operator MTLFunctionLog(nint ptr) => new MTLFunctionLog(ptr);
-
-    ~MTLFunctionLog() => Release();
+    public static implicit operator MTLFunctionLog(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

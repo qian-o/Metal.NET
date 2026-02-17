@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLThreadgroupBinding_Selectors
+file class MTLThreadgroupBindingSelector
 {
 }
 
 public class MTLThreadgroupBinding : IDisposable
 {
+    public MTLThreadgroupBinding(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLThreadgroupBinding()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLThreadgroupBinding(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLThreadgroupBinding value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLThreadgroupBinding o) => o.NativePtr;
-    public static implicit operator MTLThreadgroupBinding(nint ptr) => new MTLThreadgroupBinding(ptr);
-
-    ~MTLThreadgroupBinding() => Release();
+    public static implicit operator MTLThreadgroupBinding(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }

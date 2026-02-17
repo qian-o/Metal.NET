@@ -1,37 +1,48 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLRenderPassStencilAttachmentDescriptor_Selectors
+file class MTLRenderPassStencilAttachmentDescriptorSelector
 {
-    internal static readonly Selector setClearStencil_ = Selector.Register("setClearStencil:");
-    internal static readonly Selector setStencilResolveFilter_ = Selector.Register("setStencilResolveFilter:");
+    public static readonly Selector SetClearStencil_ = Selector.Register("setClearStencil:");
+    public static readonly Selector SetStencilResolveFilter_ = Selector.Register("setStencilResolveFilter:");
 }
 
 public class MTLRenderPassStencilAttachmentDescriptor : IDisposable
 {
+    public MTLRenderPassStencilAttachmentDescriptor(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLRenderPassStencilAttachmentDescriptor()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLRenderPassStencilAttachmentDescriptor(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLRenderPassStencilAttachmentDescriptor value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLRenderPassStencilAttachmentDescriptor o) => o.NativePtr;
-    public static implicit operator MTLRenderPassStencilAttachmentDescriptor(nint ptr) => new MTLRenderPassStencilAttachmentDescriptor(ptr);
-
-    ~MTLRenderPassStencilAttachmentDescriptor() => Release();
+    public static implicit operator MTLRenderPassStencilAttachmentDescriptor(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
     private static readonly nint s_class = ObjectiveCRuntime.GetClass("MTLRenderPassStencilAttachmentDescriptor");
@@ -40,17 +51,18 @@ public class MTLRenderPassStencilAttachmentDescriptor : IDisposable
     {
         var ptr = ObjectiveCRuntime.intptr_objc_msgSend(s_class, Selector.Register("alloc"));
         ptr = ObjectiveCRuntime.intptr_objc_msgSend(ptr, Selector.Register("init"));
+
         return new MTLRenderPassStencilAttachmentDescriptor(ptr);
     }
 
     public void SetClearStencil(uint clearStencil)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptor_Selectors.setClearStencil_, (nint)clearStencil);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.SetClearStencil_, (nint)clearStencil);
     }
 
     public void SetStencilResolveFilter(MTLMultisampleStencilResolveFilter stencilResolveFilter)
     {
-        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptor_Selectors.setStencilResolveFilter_, (nint)(uint)stencilResolveFilter);
+        ObjectiveCRuntime.objc_msgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.SetStencilResolveFilter_, (nint)(uint)stencilResolveFilter);
     }
 
 }

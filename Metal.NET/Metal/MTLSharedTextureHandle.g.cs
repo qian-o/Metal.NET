@@ -1,35 +1,46 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿namespace Metal.NET;
 
-namespace Metal.NET;
-
-internal static class MTLSharedTextureHandle_Selectors
+file class MTLSharedTextureHandleSelector
 {
 }
 
 public class MTLSharedTextureHandle : IDisposable
 {
+    public MTLSharedTextureHandle(nint nativePtr)
+    {
+        NativePtr = nativePtr;
+    }
+
+    ~MTLSharedTextureHandle()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public MTLSharedTextureHandle(nint ptr) => NativePtr = ptr;
+    public static implicit operator nint(MTLSharedTextureHandle value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
-
-    public static implicit operator nint(MTLSharedTextureHandle o) => o.NativePtr;
-    public static implicit operator MTLSharedTextureHandle(nint ptr) => new MTLSharedTextureHandle(ptr);
-
-    ~MTLSharedTextureHandle() => Release();
+    public static implicit operator MTLSharedTextureHandle(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 
 }
