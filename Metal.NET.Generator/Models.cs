@@ -97,6 +97,6 @@ public class FreeFunctionDef
     /// <summary>The target class to inject this into, e.g. "MTLDevice".</summary>
     public string TargetClass { get; set; } = "";
 
-    /// <summary>The native framework library path for [DllImport].</summary>
+    /// <summary>The native framework library path for [LibraryImport].</summary>
     public string FrameworkLibrary { get; set; } = "/System/Library/Frameworks/Metal.framework/Metal";
 }
