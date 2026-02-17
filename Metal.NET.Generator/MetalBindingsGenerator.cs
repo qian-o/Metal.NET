@@ -132,7 +132,7 @@ public class MetalBindingsGenerator : IIncrementalGenerator
             }
         }
 
-        // Step 5: Generate stub structs for referenced but undefined types
+        // Step 6: Generate stub structs for referenced but undefined types
         var referencedTypes = CollectReferencedTypes(generatedClasses);
         var missingTypes = new HashSet<string>();
         foreach (var t in referencedTypes)

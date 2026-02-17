@@ -42,15 +42,15 @@ internal static class HeaderClassParser
     // "ReturnType*  methodName(ParamType p1, ParamType2 p2) const;"
     // or "ReturnType   methodName();" (value return)
     // Also handles forward-declared return types: "class MetalDrawable*  nextDrawable();"
-    // Also handles multi-word return types: "unsigned int  intValue() const;"
+    // Also handles multi-word return types: "unsigned long long  longLongValue() const;"
     private static readonly Regex s_methodDeclRegex = new Regex(
-        @"^\s+(?:class\s+)?((?:unsigned\s+|signed\s+|long\s+)?[\w:]+\s*\*?)\s+(\w+)\s*\(([^)]*)\)\s*(const)?\s*;",
+        @"^\s+(?:class\s+)?((?:(?:unsigned|signed)\s+)?(?:long\s+)?[\w:]+\s*\*?)\s+(\w+)\s*\(([^)]*)\)\s*(const)?\s*;",
         RegexOptions.Compiled);
 
     // Static method: "static Device* alloc();" or "static class MetalLayer* layer();"
     // Also handles multi-word return types.
     private static readonly Regex s_staticMethodDeclRegex = new Regex(
-        @"^\s+static\s+(?:class\s+)?((?:unsigned\s+|signed\s+|long\s+)?[\w:]+\s*\*?)\s+(\w+)\s*\(([^)]*)\)\s*;",
+        @"^\s+static\s+(?:class\s+)?((?:(?:unsigned|signed)\s+)?(?:long\s+)?[\w:]+\s*\*?)\s+(\w+)\s*\(([^)]*)\)\s*;",
         RegexOptions.Compiled);
 
     // Selector definition: _MTL_PRIVATE_DEF_SEL(methodCppName_, "selector:name:")
