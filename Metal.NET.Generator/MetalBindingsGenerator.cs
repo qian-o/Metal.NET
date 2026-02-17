@@ -68,7 +68,23 @@ public class MetalBindingsGenerator : IIncrementalGenerator
             GenerateEnumDef(ctx, e);
         }
 
-        // Step 3: Parse classes/protocols from MTL*.hpp files (including MTL4*.hpp)
+        // Step 3: Parse extern "C" free functions from header files
+        var freeFunctionsByClass = new Dictionary<string, List<FreeFunctionDef>>();
+        foreach (var (fileName, content) in files)
+        {
+            var freeFuncs = HeaderClassParser.ParseFreeFunctions(content);
+            foreach (var f in freeFuncs)
+            {
+                if (!freeFunctionsByClass.TryGetValue(f.TargetClass, out var list))
+                {
+                    list = new List<FreeFunctionDef>();
+                    freeFunctionsByClass[f.TargetClass] = list;
+                }
+                list.Add(f);
+            }
+        }
+
+        // Step 4: Parse classes/protocols from MTL*.hpp files (including MTL4*.hpp)
         var generatedClasses = new HashSet<string>();
         foreach (var (fileName, content) in files)
         {
@@ -84,11 +100,14 @@ public class MetalBindingsGenerator : IIncrementalGenerator
             foreach (var cls in classes)
             {
                 if (generatedClasses.Add(cls.Name))
-                    GenerateObjCClassDef(ctx, cls);
+                {
+                    freeFunctionsByClass.TryGetValue(cls.Name, out var freeFuncs);
+                    GenerateObjCClassDef(ctx, cls, freeFuncs);
+                }
             }
         }
 
-        // Step 4: Parse QuartzCore CA*.hpp files
+        // Step 5: Parse QuartzCore CA*.hpp files
         foreach (var (fileName, content) in files)
         {
             var baseName = Path.GetFileNameWithoutExtension(fileName);
@@ -101,11 +120,14 @@ public class MetalBindingsGenerator : IIncrementalGenerator
                     cls.Name = $"CA{cls.Name.TrimStart('M', 'T', 'L')}";
 
                 if (generatedClasses.Add(cls.Name))
-                    GenerateObjCClassDef(ctx, cls);
+                {
+                    freeFunctionsByClass.TryGetValue(cls.Name, out var freeFuncs);
+                    GenerateObjCClassDef(ctx, cls, freeFuncs);
+                }
             }
         }
 
-        // Step 5: Parse Foundation NS*.hpp files
+        // Step 6: Parse Foundation NS*.hpp files
         foreach (var (fileName, content) in files)
         {
             var baseName = Path.GetFileNameWithoutExtension(fileName);
@@ -128,11 +150,14 @@ public class MetalBindingsGenerator : IIncrementalGenerator
                     continue;
 
                 if (generatedClasses.Add(cls.Name))
-                    GenerateObjCClassDef(ctx, cls);
+                {
+                    freeFunctionsByClass.TryGetValue(cls.Name, out var freeFuncs);
+                    GenerateObjCClassDef(ctx, cls, freeFuncs);
+                }
             }
         }
 
-        // Step 6: Generate stub structs for referenced but undefined types
+        // Step 7: Generate stub structs for referenced but undefined types
         var referencedTypes = CollectReferencedTypes(generatedClasses);
         var missingTypes = new HashSet<string>();
         foreach (var t in referencedTypes)
@@ -215,7 +240,8 @@ public class MetalBindingsGenerator : IIncrementalGenerator
 
     // ──────────────────── ObjC class / protocol generation ────────────────────
 
-    private void GenerateObjCClassDef(SourceProductionContext ctx, ObjCClassDef def)
+    private void GenerateObjCClassDef(SourceProductionContext ctx, ObjCClassDef def,
+        List<FreeFunctionDef>? freeFunctions = null)
     {
         // Collect all unique selectors we need
         var selectors = new Dictionary<string, string>(); // selectorString -> fieldName
@@ -337,6 +363,15 @@ public class MetalBindingsGenerator : IIncrementalGenerator
             EmitMethod(sb, def.Name, m, isStatic: true);
         }
 
+        // ── Free C functions (DllImport) ──
+        if (freeFunctions != null && freeFunctions.Count > 0)
+        {
+            foreach (var f in freeFunctions)
+            {
+                EmitFreeFunction(sb, f);
+            }
+        }
+
         // Retain / Release helpers
         sb.AppendLine("    public void Retain() => ObjectiveCRuntime.Retain(NativePtr);");
         sb.AppendLine("    public void Release() => ObjectiveCRuntime.Release(NativePtr);");
@@ -444,7 +479,66 @@ public class MetalBindingsGenerator : IIncrementalGenerator
         sb.AppendLine();
     }
 
-    /// <summary>Maps a C# type to the correct objc_msgSend variant and wrapping.</summary>
+    /// <summary>
+    /// Emits a static P/Invoke wrapper for a free C function (e.g., MTLCreateSystemDefaultDevice).
+    /// </summary>
+    private void EmitFreeFunction(StringBuilder sb, FreeFunctionDef f)
+    {
+        // Build public parameter list
+        var publicParams = new List<string>();
+        // Build private extern parameter list (all ObjC wrappers become nint)
+        var externParams = new List<string>();
+        // Build argument forwarding list (unwrap wrappers)
+        var forwardArgs = new List<string>();
+
+        foreach (var p in f.Parameters)
+        {
+            publicParams.Add($"{p.Type} {p.Name}");
+
+            if (IsObjCWrapper(p.Type))
+            {
+                externParams.Add($"nint {p.Name}");
+                forwardArgs.Add($"{p.Name}.NativePtr");
+            }
+            else
+            {
+                externParams.Add($"{p.Type} {p.Name}");
+                forwardArgs.Add(p.Name);
+            }
+        }
+
+        var externParamsStr = string.Join(", ", externParams);
+        var publicParamsStr = string.Join(", ", publicParams);
+        var forwardArgsStr = string.Join(", ", forwardArgs);
+
+        // Determine the extern return type (ObjC wrappers → nint)
+        bool wrapReturn = f.ReturnType != "void" && f.ReturnType != "nint"
+            && IsObjCWrapper(f.ReturnType);
+        var externReturnType = wrapReturn ? "nint" : f.ReturnType;
+
+        // Emit the DllImport declaration as a private static extern
+        sb.AppendLine($"    [DllImport(\"{f.FrameworkLibrary}\")]");
+        sb.AppendLine($"    private static extern {externReturnType} {f.NativeName}({externParamsStr});");
+        sb.AppendLine();
+
+        // Emit the public static wrapper method
+        sb.AppendLine($"    public static {f.ReturnType} {ToPascalCase(f.Name)}({publicParamsStr})");
+        sb.AppendLine("    {");
+        if (f.ReturnType == "void")
+        {
+            sb.AppendLine($"        {f.NativeName}({forwardArgsStr});");
+        }
+        else if (wrapReturn)
+        {
+            sb.AppendLine($"        return new {f.ReturnType}({f.NativeName}({forwardArgsStr}));");
+        }
+        else
+        {
+            sb.AppendLine($"        return {f.NativeName}({forwardArgsStr});");
+        }
+        sb.AppendLine("    }");
+        sb.AppendLine();
+    }
     private static (string Invoke, bool NeedsWrap) MapReturnCall(string type)
     {
         return type switch

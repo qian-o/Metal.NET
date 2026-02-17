@@ -77,3 +77,26 @@ public class ParamDef
     public string Name { get; set; } = "";
     public string Type { get; set; } = "";
 }
+
+// ── Free C function declarations (extern "C") ──
+
+public class FreeFunctionDef
+{
+    /// <summary>The C function name, e.g. "MTLCreateSystemDefaultDevice".</summary>
+    public string NativeName { get; set; } = "";
+
+    /// <summary>The C# method name, e.g. "CreateSystemDefaultDevice".</summary>
+    public string Name { get; set; } = "";
+
+    /// <summary>Return type (C# type name).</summary>
+    public string ReturnType { get; set; } = "void";
+
+    /// <summary>Parameters.</summary>
+    public List<ParamDef> Parameters { get; set; } = new();
+
+    /// <summary>The target class to inject this into, e.g. "MTLDevice".</summary>
+    public string TargetClass { get; set; } = "";
+
+    /// <summary>The native framework library path for [DllImport].</summary>
+    public string FrameworkLibrary { get; set; } = "/System/Library/Frameworks/Metal.framework/Metal";
+}

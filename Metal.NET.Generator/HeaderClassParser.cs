@@ -65,6 +65,14 @@ internal static class HeaderClassParser
         @"(\w+)::(\w+)\s*\([^)]*\)[^{]*\{[^}]*_(?:MTL|CA|NS|MTLFX)_PRIVATE_SEL\s*\(\s*(\w+)\s*\)",
         RegexOptions.Compiled);
 
+    // extern "C" function declarations:
+    // extern "C" MTL::Device* MTLCreateSystemDefaultDevice();
+    // extern "C" NS::Array*   MTLCopyAllDevices();
+    // extern "C" void         MTLRemoveDeviceObserver(const NS::Object*);
+    private static readonly Regex s_externCRegex = new Regex(
+        @"extern\s+""C""\s+([\w:]+\s*\*?)\s+(MTL\w+)\s*\(([^)]*)\)\s*;",
+        RegexOptions.Compiled);
+
     /// <summary>
     /// Parse all class definitions from a set of .hpp files.
     /// <paramref name="selectorMap"/> should be pre-populated from Private.hpp files.
@@ -624,5 +632,122 @@ internal static class HeaderClassParser
             || rawName == "ComputePassDescriptor"
             || rawName == "BlitPassDescriptor"
             || rawName == "MetalLayer";
+    }
+
+    /// <summary>
+    /// Parse extern "C" free function declarations from a header file.
+    /// Maps them to target classes based on naming conventions.
+    /// For example, MTLCreateSystemDefaultDevice → MTLDevice.CreateSystemDefaultDevice
+    /// </summary>
+    public static List<FreeFunctionDef> ParseFreeFunctions(string content)
+    {
+        var results = new List<FreeFunctionDef>();
+        foreach (Match m in s_externCRegex.Matches(content))
+        {
+            var returnTypeCpp = m.Groups[1].Value.Trim();
+            var funcName = m.Groups[2].Value.Trim();
+            var paramStr = m.Groups[3].Value.Trim();
+
+            // Map return type
+            var returnTypeCs = HeaderTypeMapper.ToCSharpType(returnTypeCpp);
+            if (returnTypeCs == null) continue;
+
+            // Determine the target class from the function name
+            var (targetClass, methodName) = MapFreeFunctionToClass(funcName);
+            if (targetClass == null) continue;
+
+            var def = new FreeFunctionDef
+            {
+                NativeName = funcName,
+                Name = methodName,
+                ReturnType = returnTypeCs,
+                TargetClass = targetClass,
+            };
+
+            // Parse parameters (extern "C" declarations may omit parameter names)
+            if (!string.IsNullOrEmpty(paramStr))
+            {
+                var parsed = ParseFreeFunctionParams(paramStr);
+                bool unsupported = false;
+                foreach (var p in parsed)
+                {
+                    var pType = HeaderTypeMapper.ToCSharpType(p.type);
+                    if (pType == null) { unsupported = true; break; }
+                    var pName = p.name;
+                    if (string.IsNullOrEmpty(pName)) pName = "param";
+                    if (HeaderTypeMapper.IsCSharpKeyword(pName)) pName = $"@{pName}";
+                    def.Parameters.Add(new ParamDef { Name = pName, Type = pType });
+                }
+                if (unsupported) continue;
+            }
+
+            results.Add(def);
+        }
+        return results;
+    }
+
+    /// <summary>
+    /// Maps a C free function name to its target class and method name.
+    /// E.g., "MTLCreateSystemDefaultDevice" → ("MTLDevice", "CreateSystemDefaultDevice")
+    /// </summary>
+    private static (string? targetClass, string methodName) MapFreeFunctionToClass(string funcName)
+    {
+        // Known mappings for Metal free functions
+        if (funcName == "MTLCreateSystemDefaultDevice")
+            return ("MTLDevice", "CreateSystemDefaultDevice");
+        if (funcName == "MTLCopyAllDevices")
+            return ("MTLDevice", "CopyAllDevices");
+        if (funcName == "MTLRemoveDeviceObserver")
+            return ("MTLDevice", "RemoveDeviceObserver");
+
+        // Generic: MTL<Action><ClassName> patterns could be added here
+        return (null, funcName);
+    }
+
+    /// <summary>
+    /// Parse parameters from extern "C" function declarations.
+    /// Unlike class method declarations, these may omit parameter names.
+    /// E.g., "const NS::Object*" (no name), "NS::Object**" (no name).
+    /// </summary>
+    private static List<(string type, string name)> ParseFreeFunctionParams(string paramStr)
+    {
+        var result = new List<(string type, string name)>();
+        var parts = paramStr.Split(',');
+        int autoNameIndex = 0;
+        foreach (var rawPart in parts)
+        {
+            var part = rawPart.Trim();
+            if (string.IsNullOrEmpty(part)) continue;
+
+            // Strip C++ forward declaration "class" keyword
+            if (part.StartsWith("class "))
+                part = part.Substring(6);
+
+            var tokens = part.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+            if (tokens.Count == 0) continue;
+
+            // Check if the last token looks like a parameter name (identifier, no colons/stars/namespace)
+            var lastToken = tokens[tokens.Count - 1];
+            bool lastIsName = !lastToken.Contains("::") && !lastToken.Contains("*")
+                && !lastToken.Contains("<") && lastToken != "const"
+                && !char.IsUpper(lastToken[0]); // Heuristic: type names start with uppercase or namespace
+
+            string type;
+            string name;
+            if (tokens.Count >= 2 && lastIsName)
+            {
+                name = lastToken.TrimStart('*').TrimEnd('*');
+                type = string.Join(" ", tokens.Take(tokens.Count - 1));
+            }
+            else
+            {
+                // Entire token is a type (no name provided in declaration)
+                type = part;
+                name = $"param{autoNameIndex++}";
+            }
+
+            result.Add((type, name));
+        }
+        return result;
     }
 }
