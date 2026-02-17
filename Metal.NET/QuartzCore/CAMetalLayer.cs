@@ -4,17 +4,12 @@ public class CAMetalLayer : IDisposable
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("CAMetalLayer");
 
-    public CAMetalLayer(nint nativePtr, bool retained)
+    public CAMetalLayer(nint nativePtr)
     {
-        NativePtr = nativePtr;
-
-        if (!retained)
-        {
-            ObjectiveCRuntime.Retain(NativePtr);
-        }
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(Class), false)
+    public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
@@ -78,7 +73,7 @@ public class CAMetalLayer : IDisposable
 
     public static implicit operator CAMetalLayer(nint value)
     {
-        return new(value, false);
+        return new(value);
     }
 
     public void Dispose()
@@ -98,7 +93,7 @@ public class CAMetalLayer : IDisposable
 
     public static CAMetalLayer Layer()
     {
-        return new(ObjectiveCRuntime.MsgSendPtr(Class, CAMetalLayerSelector.Layer), true);
+        return new(ObjectiveCRuntime.MsgSendPtr(Class, CAMetalLayerSelector.Layer));
     }
 }
 
