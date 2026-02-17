@@ -3,5 +3,6 @@
 public enum MTLIndexType : uint
 {
     UInt16 = 0,
+
     UInt32 = 1
 }

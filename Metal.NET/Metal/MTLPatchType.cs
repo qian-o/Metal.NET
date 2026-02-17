@@ -3,6 +3,8 @@
 public enum MTLPatchType : uint
 {
     None = 0,
+
     Triangle = 1,
+
     Quad = 2
 }

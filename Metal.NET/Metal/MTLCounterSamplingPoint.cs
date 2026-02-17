@@ -3,8 +3,12 @@
 public enum MTLCounterSamplingPoint : uint
 {
     AtStageBoundary = 0,
+
     AtDrawBoundary = 1,
+
     AtDispatchBoundary = 2,
+
     AtTileDispatchBoundary = 3,
+
     AtBlitBoundary = 4
 }

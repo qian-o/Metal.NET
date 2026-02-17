@@ -314,8 +314,6 @@ public static class CppAstParser
 
     private static EnumDef? ConvertEnum(CppEnum cppEnum, string ns)
     {
-        if (string.IsNullOrEmpty(cppEnum.Name)) return null;
-
         string prefix = ns switch
         {
             "MTL" => "MTL",
@@ -326,12 +324,27 @@ public static class CppAstParser
             _ => ns
         };
 
-        string fullName = $"{prefix}{cppEnum.Name}";
-        string underlyingType = MapEnumUnderlyingType(cppEnum.IntegerType);
-        bool isFlags = cppEnum.Name.EndsWith("Options")
-            || cppEnum.Name.EndsWith("Stages")
-            || cppEnum.Name.EndsWith("Usage")
-            || cppEnum.Name.EndsWith("Mask");
+        string enumName;
+        string underlyingType;
+
+        if (!string.IsNullOrEmpty(cppEnum.Name))
+        {
+            // Named enum (from _MTL_ENUM)
+            enumName = cppEnum.Name;
+            underlyingType = MapEnumUnderlyingType(cppEnum.IntegerType);
+        }
+        else
+        {
+            // Anonymous enum (from _MTL_OPTIONS) — the typedef name is in IntegerType
+            var intTypeName = cppEnum.IntegerType?.GetDisplayName();
+            if (string.IsNullOrEmpty(intTypeName)) return null;
+
+            enumName = intTypeName;
+            underlyingType = "uint"; // _MTL_OPTIONS always uses NS::UInteger -> uint
+        }
+
+        string fullName = $"{prefix}{enumName}";
+        bool isFlags = string.IsNullOrEmpty(cppEnum.Name); // Anonymous enums from _MTL_OPTIONS are always flags
 
         var enumDef = new EnumDef
         {
@@ -341,7 +354,7 @@ public static class CppAstParser
         };
 
         // Determine the prefix to strip from member names
-        string memberPrefix = cppEnum.Name;
+        string memberPrefix = enumName;
 
         var seen = new HashSet<string>();
         foreach (var item in cppEnum.Items)

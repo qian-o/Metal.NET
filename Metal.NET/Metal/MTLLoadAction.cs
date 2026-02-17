@@ -3,6 +3,8 @@
 public enum MTLLoadAction : uint
 {
     DontCare = 0,
+
     Load = 1,
+
     Clear = 2
 }

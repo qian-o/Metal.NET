@@ -3,6 +3,8 @@
 public enum MTLTensorError : int
 {
     None = 0,
+
     InternalError = 1,
+
     InvalidDescriptor = 2
 }

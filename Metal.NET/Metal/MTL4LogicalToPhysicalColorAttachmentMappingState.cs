@@ -3,5 +3,6 @@
 public enum MTL4LogicalToPhysicalColorAttachmentMappingState : int
 {
     Identity = 0,
+
     Inherited = 1
 }

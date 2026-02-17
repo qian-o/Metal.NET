@@ -113,7 +113,7 @@ public class MetalBindingsGenerator
         sb.AppendLine("namespace Metal.NET;");
         sb.AppendLine();
 
-        if (e.IsFlags) sb.AppendLine("[System.Flags]");
+        if (e.IsFlags) sb.AppendLine("[Flags]");
         sb.AppendLine($"public enum {e.Name} : {e.UnderlyingType}");
         sb.AppendLine("{");
         for (int i = 0; i < e.Members.Count; i++)
@@ -121,6 +121,9 @@ public class MetalBindingsGenerator
             var m = e.Members[i];
             var comma = i < e.Members.Count - 1 ? "," : "";
             sb.AppendLine($"    {m.Name} = {m.Value}{comma}");
+
+            if (i < e.Members.Count - 1)
+                sb.AppendLine();
         }
         sb.AppendLine("}");
 

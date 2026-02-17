@@ -3,6 +3,8 @@
 public enum MTLShaderValidation : int
 {
     Default = 0,
+
     Enabled = 1,
+
     Disabled = 2
 }

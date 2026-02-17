@@ -3,6 +3,8 @@
 public enum MTLSamplerMipFilter : uint
 {
     NotMipmapped = 0,
+
     Nearest = 1,
+
     Linear = 2
 }

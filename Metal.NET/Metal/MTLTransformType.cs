@@ -3,5 +3,6 @@
 public enum MTLTransformType : int
 {
     PackedFloat4x3 = 0,
+
     Component = 1
 }

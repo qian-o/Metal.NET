@@ -3,6 +3,8 @@
 public enum MTLVisibilityResultMode : uint
 {
     Disabled = 0,
+
     Boolean = 1,
+
     Counting = 2
 }

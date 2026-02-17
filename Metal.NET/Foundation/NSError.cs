@@ -1,54 +1,72 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-/// <summary>
-/// Wraps an Objective-C NSError pointer.
-/// </summary>
 public class NSError : IDisposable
 {
+    public NSError(nint nativePtr)
+    {
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    ~NSError()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
-
-    public NSError(nint ptr) => NativePtr = ptr;
-
-    public static implicit operator nint(NSError e) => e.NativePtr;
-    public static implicit operator NSError(nint ptr) => new(ptr);
-
-    public bool IsNull => NativePtr == 0;
-
-    private static readonly Selector s_localizedDescription = Selector.Register("localizedDescription");
-    private static readonly Selector s_code = Selector.Register("code");
-    private static readonly Selector s_domain = Selector.Register("domain");
 
     public string LocalizedDescription
     {
         get
         {
-            var nsStr = new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, s_localizedDescription));
-            return nsStr.GetValue();
+            NSString nsStr = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorSelector.LocalizedDescription));
+
+            return nsStr.Value;
         }
     }
 
-    public long Code => (long)ObjectiveCRuntime.MsgSendNUInt(NativePtr, s_code);
+    public long Code => (long)ObjectiveCRuntime.MsgSendNUInt(NativePtr, NSErrorSelector.Code);
 
     public string Domain
     {
         get
         {
-            var nsStr = new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, s_domain));
-            return nsStr.GetValue();
+            NSString nsStr = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorSelector.Domain));
+
+            return nsStr.Value;
         }
     }
 
-    ~NSError() => Release();
+    public static implicit operator nint(NSError value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator NSError(nint value)
+    {
+        return new(value);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
+}
+
+file class NSErrorSelector
+{
+    public static readonly Selector LocalizedDescription = Selector.Register("localizedDescription");
+
+    public static readonly Selector Code = Selector.Register("code");
+
+    public static readonly Selector Domain = Selector.Register("domain");
 }

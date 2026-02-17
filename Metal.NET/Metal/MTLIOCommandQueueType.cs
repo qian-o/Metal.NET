@@ -3,5 +3,6 @@
 public enum MTLIOCommandQueueType : int
 {
     Concurrent = 0,
+
     Serial = 1
 }

@@ -3,13 +3,22 @@
 public enum MTLTextureType : uint
 {
     _1D = 0,
+
     _1DArray = 1,
+
     _2D = 2,
+
     _2DArray = 3,
+
     _2DMultisample = 4,
+
     Cube = 5,
+
     CubeArray = 6,
+
     _3D = 7,
+
     _2DMultisampleArray = 8,
+
     TextureBuffer = 9
 }
