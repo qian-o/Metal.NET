@@ -5,34 +5,50 @@
 /// </summary>
 public class NSArray : IDisposable
 {
+    private static readonly Selector selCount = Selector.Register("count");
+    private static readonly Selector selObjectAtIndex = Selector.Register("objectAtIndex:");
+
+    public NSArray(nint nativePtr)
+    {
+        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+    }
+
+    ~NSArray()
+    {
+        Release();
+    }
+
     public nint NativePtr { get; }
 
-    public NSArray(nint ptr) => NativePtr = ptr;
+    public nuint Count => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, selCount);
 
-    public static implicit operator nint(NSArray a) => a.NativePtr;
-    public static implicit operator NSArray(nint ptr) => new(ptr);
+    public static implicit operator nint(NSArray value)
+    {
+        return value.NativePtr;
+    }
 
-    public bool IsNull => NativePtr == 0;
+    public static implicit operator NSArray(nint value)
+    {
+        return new(value);
+    }
 
-    private static readonly Selector s_count = Selector.Register("count");
-    private static readonly Selector s_objectAtIndex = Selector.Register("objectAtIndex:");
-
-    public nuint Count => ObjectiveCRuntime.nuint_objc_msgSend(NativePtr, s_count);
-
-    public nint ObjectAtIndex(nuint index)
-        => ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, s_objectAtIndex, (nint)index);
-
-    ~NSArray() => Release();
+    public nint ObjectAtIndex(int index)
+    {
+        return ObjectiveCRuntime.intptr_objc_msgSend(NativePtr, selObjectAtIndex, index);
+    }
 
     public void Dispose()
     {
         Release();
+
         GC.SuppressFinalize(this);
     }
 
     private void Release()
     {
-        if (NativePtr != 0)
+        if (NativePtr is not 0)
+        {
             ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 }

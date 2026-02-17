@@ -3,18 +3,13 @@
 namespace Metal.NET;
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTLOrigin
+public struct MTLOrigin(uint x, uint y, uint z)
 {
-    public nuint X;
-    public nuint Y;
-    public nuint Z;
+    public nuint X = x;
 
-    public MTLOrigin(uint x, uint y, uint z)
-    {
-        X = x;
-        Y = y;
-        Z = z;
-    }
+    public nuint Y = y;
+
+    public nuint Z = z;
 }
 
 [StructLayout(LayoutKind.Sequential)]

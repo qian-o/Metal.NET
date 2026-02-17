@@ -6,12 +6,17 @@ namespace Metal.NET;
 /// Objective-C BOOL mapped to a single byte.
 /// </summary>
 [StructLayout(LayoutKind.Sequential)]
-public readonly struct Bool8
+public readonly struct Bool8(bool value)
 {
-    public readonly byte Value;
+    public readonly byte Value = value ? (byte)1 : (byte)0;
 
-    public Bool8(bool value) => Value = value ? (byte)1 : (byte)0;
+    public static implicit operator bool(Bool8 value)
+    {
+        return value.Value is not 0;
+    }
 
-    public static implicit operator bool(Bool8 b) => b.Value != 0;
-    public static implicit operator Bool8(bool b) => new(b);
+    public static implicit operator Bool8(bool value)
+    {
+        return new(value);
+    }
 }
