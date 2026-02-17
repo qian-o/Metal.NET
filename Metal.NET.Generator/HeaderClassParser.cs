@@ -728,7 +728,8 @@ internal static class HeaderClassParser
 
             // Check if the last token looks like a parameter name (identifier, no colons/stars/namespace)
             var lastToken = tokens[tokens.Count - 1];
-            bool lastIsName = !lastToken.Contains("::") && !lastToken.Contains("*")
+            bool lastIsName = lastToken.Length > 0
+                && !lastToken.Contains("::") && !lastToken.Contains("*")
                 && !lastToken.Contains("<") && lastToken != "const"
                 && !char.IsUpper(lastToken[0]); // Heuristic: type names start with uppercase or namespace
 
@@ -736,7 +737,7 @@ internal static class HeaderClassParser
             string name;
             if (tokens.Count >= 2 && lastIsName)
             {
-                name = lastToken.TrimStart('*').TrimEnd('*');
+                name = lastToken.Trim('*');
                 type = string.Join(" ", tokens.Take(tokens.Count - 1));
             }
             else
