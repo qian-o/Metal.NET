@@ -76,6 +76,13 @@ public class CAMetalLayer : IDisposable
         return new(value);
     }
 
+    public static CAMetalLayer Layer()
+    {
+        CAMetalLayer result = new(ObjectiveCRuntime.MsgSendPtr(Class, CAMetalLayerSelector.Layer));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -90,14 +97,6 @@ public class CAMetalLayer : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
-    public static CAMetalLayer Layer()
-    {
-        CAMetalLayer result = new(ObjectiveCRuntime.MsgSendPtr(Class, CAMetalLayerSelector.Layer));
-
-        return result;
-    }
-
 }
 
 file class CAMetalLayerSelector

@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class NSError : IDisposable
 {
@@ -14,27 +14,11 @@ public class NSError : IDisposable
 
     public nint NativePtr { get; }
 
-    public string LocalizedDescription
-    {
-        get
-        {
-            NSString nsStr = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorSelector.LocalizedDescription));
-
-            return nsStr.Value;
-        }
-    }
+    public string LocalizedDescription => (NSString)ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorSelector.LocalizedDescription);
 
     public nint Code => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorSelector.Code);
 
-    public string Domain
-    {
-        get
-        {
-            NSString nsStr = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorSelector.Domain));
-
-            return nsStr.Value;
-        }
-    }
+    public string Domain => (NSString)ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorSelector.Domain);
 
     public static implicit operator nint(NSError value)
     {

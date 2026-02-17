@@ -42,7 +42,6 @@ public class CAMetalDrawable : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class CAMetalDrawableSelector
