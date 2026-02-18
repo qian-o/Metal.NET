@@ -787,6 +787,25 @@ public class MetalBindingsGenerator
         sb.AppendLine("internal static unsafe partial class ObjectiveCRuntime");
         sb.AppendLine("{");
 
+        sb.AppendLine("    static ObjectiveCRuntime()");
+        sb.AppendLine("    {");
+        sb.AppendLine("        string[] frameworks =");
+        sb.AppendLine("        [");
+        sb.AppendLine("            \"CoreGraphics\",");
+        sb.AppendLine("            \"QuartzCore\",");
+        sb.AppendLine("            \"AppKit\",");
+        sb.AppendLine("            \"Metal\",");
+        sb.AppendLine("            \"MetalFX\",");
+        sb.AppendLine("            \"MetalKit\"");
+        sb.AppendLine("        ];");
+        sb.AppendLine();
+        sb.AppendLine("        foreach (string framework in frameworks)");
+        sb.AppendLine("        {");
+        sb.AppendLine("            NativeLibrary.TryLoad(framework, out _);");
+        sb.AppendLine("        }");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+
         sb.AppendLine("    [LibraryImport(\"/usr/lib/libobjc.A.dylib\", EntryPoint = \"objc_getClass\")]");
         sb.AppendLine("    public static partial nint GetClass(byte* name);");
         sb.AppendLine();

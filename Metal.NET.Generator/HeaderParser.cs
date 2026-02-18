@@ -124,7 +124,7 @@ public static partial class HeaderParser
         Dictionary<string, string> inlineMap = BuildInlineMap(metalCppDir);
 
         // Phase 4: Build options enum name set from regex (for unnamed enum handling)
-        Dictionary<string, (string Prefix, bool IsFlags)> optionsEnumNames = BuildOptionsEnumNames(metalCppDir);
+        Dictionary<string, (string Prefix, bool IsFlags, string UnderlyingType)> optionsEnumNames = BuildOptionsEnumNames(metalCppDir);
 
         // Phase 5: Use ClangSharp AST to extract enums and classes
         string? stubsDir = null;
@@ -328,11 +328,11 @@ public static partial class HeaderParser
 
     /// <summary>
     /// Builds a map of enum names defined via _*_OPTIONS / _*_ENUM macros.
-    /// Key is the enum name (e.g. "TextureUsage"), value is (prefix, isFlags).
+    /// Key is the enum name (e.g. "TextureUsage"), value is (prefix, isFlags, underlyingType).
     /// </summary>
-    private static Dictionary<string, (string Prefix, bool IsFlags)> BuildOptionsEnumNames(string metalCppDir)
+    private static Dictionary<string, (string Prefix, bool IsFlags, string UnderlyingType)> BuildOptionsEnumNames(string metalCppDir)
     {
-        Dictionary<string, (string, bool)> map = [];
+        Dictionary<string, (string, bool, string)> map = [];
 
         foreach (string dir in new[] { "Metal", "MetalFX", "QuartzCore", "Foundation" })
         {
@@ -370,6 +370,7 @@ public static partial class HeaderParser
                     }
 
                     string macroPrefix = enumMatch.Groups[1].Value;
+                    string underlyingTypeStr = enumMatch.Groups[2].Value.Trim();
                     string enumName = enumMatch.Groups[3].Value;
 
                     string prefix = macroPrefix switch
@@ -381,7 +382,8 @@ public static partial class HeaderParser
                         _ => macroPrefix,
                     };
 
-                    map[enumName] = (prefix, isFlags);
+                    string underlyingType = MapEnumUnderlyingType(underlyingTypeStr);
+                    map[enumName] = (prefix, isFlags, underlyingType);
                 }
             }
         }
@@ -391,7 +393,7 @@ public static partial class HeaderParser
 
     private static void ExtractEnumsFromAst(
         TranslationUnit tu,
-        Dictionary<string, (string Prefix, bool IsFlags)> optionsEnumNames,
+        Dictionary<string, (string Prefix, bool IsFlags, string UnderlyingType)> optionsEnumNames,
         string metalCppDir,
         ParseResult result)
     {
@@ -429,7 +431,7 @@ public static partial class HeaderParser
         EnumDecl enumDecl,
         string prefix,
         string nsName,
-        Dictionary<string, (string Prefix, bool IsFlags)> optionsEnumNames,
+        Dictionary<string, (string Prefix, bool IsFlags, string UnderlyingType)> optionsEnumNames,
         string metalCppDir,
         ParseResult result)
     {
@@ -440,9 +442,11 @@ public static partial class HeaderParser
 
         string enumName = enumDecl.Name;
         bool isFlags = false;
+        string? overrideUnderlyingType = null;
 
-        // Handle unnamed enums: the underlying type name IS the enum name
-        if (string.IsNullOrEmpty(enumName))
+        // Handle unnamed enums: ClangSharp gives them names like "(unnamed enum at ...)"
+        // The underlying type name IS the real enum name for _*_OPTIONS macros
+        if (string.IsNullOrEmpty(enumName) || enumName.StartsWith("(unnamed"))
         {
             string underlyingTypeStr = enumDecl.IntegerType.AsString;
 
@@ -459,6 +463,7 @@ public static partial class HeaderParser
             {
                 prefix = info.Prefix;
                 isFlags = info.IsFlags;
+                overrideUnderlyingType = info.UnderlyingType;
                 enumName = simpleName;
             }
             else
@@ -473,11 +478,12 @@ public static partial class HeaderParser
             {
                 prefix = info.Prefix;
                 isFlags = info.IsFlags;
+                overrideUnderlyingType = info.UnderlyingType;
             }
         }
 
         string fullName = $"{prefix}{enumName}";
-        string underlyingType = MapEnumUnderlyingType(enumDecl.IntegerType.AsString);
+        string underlyingType = overrideUnderlyingType ?? MapEnumUnderlyingType(enumDecl.IntegerType.AsString);
 
         EnumDef enumDef = new()
         {
@@ -711,7 +717,7 @@ public static partial class HeaderParser
             }
         }
 
-        if (parentClass is "NSFastEnumeration")
+        if (parentClass is "NSFastEnumeration" or "NSObject" or "objc_object")
         {
             parentClass = null;
         }
@@ -1462,9 +1468,10 @@ public static partial class HeaderParser
         }
 
         // Check for function pointers, blocks, std::function, handler types
-        if (t.Contains("function") || t.Contains("block") || t.Contains("Block")
+        if (t.Contains("function<") || t.Contains("block") || t.Contains("Block")
             || t.Contains("(*)") || t.Contains("(^")
-            || t.EndsWith("Function") || t.EndsWith("Function&"))
+            || t.Contains("Handler")
+            || t.EndsWith("Function") || t.EndsWith("Function&") || t.EndsWith("Function &"))
         {
             return null;
         }

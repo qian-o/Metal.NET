@@ -12,4 +12,19 @@
       <PackageReference Include="ClangSharp" Version="21.1.8.2" />
     </ItemGroup>
 
+    <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Linux')) And '$(RuntimeIdentifier)' != 'osx-x64' And '$(RuntimeIdentifier)' != 'osx-arm64'">
+      <PackageReference Include="libclang.runtime.linux-x64" Version="21.1.8" />
+      <PackageReference Include="libClangSharp.runtime.linux-x64" Version="21.1.8.2" />
+    </ItemGroup>
+
+    <ItemGroup Condition="$([MSBuild]::IsOSPlatform('OSX'))">
+      <PackageReference Include="libclang.runtime.osx-arm64" Version="21.1.8" />
+      <PackageReference Include="libClangSharp.runtime.osx-arm64" Version="21.1.8.2" />
+    </ItemGroup>
+
+    <ItemGroup Condition="$([MSBuild]::IsOSPlatform('Windows'))">
+      <PackageReference Include="libclang.runtime.win-x64" Version="21.1.8" />
+      <PackageReference Include="libClangSharp.runtime.win-x64" Version="21.1.8.2" />
+    </ItemGroup>
+
 </Project>
