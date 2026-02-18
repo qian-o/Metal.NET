@@ -349,7 +349,7 @@ public static class HeaderParser
             {
                 foreach (Decl inner in ns.Decls)
                 {
-                    if (inner is VarDecl vd && vd.Name.StartsWith("s_k"))
+                    if (inner is VarDecl vd && vd.Name.Length > 3 && vd.Name.StartsWith("s_k"))
                     {
                         string accessor = vd.Name[3..];
                         string? selectorStr = vd.Init is not null ? FindStringLiteral(vd.Init) : null;
@@ -406,7 +406,7 @@ public static class HeaderParser
             {
                 foreach (Decl inner in ns.Decls)
                 {
-                    if (inner is VarDecl vd && vd.Name.StartsWith("s_k"))
+                    if (inner is VarDecl vd && vd.Name.Length > 3 && vd.Name.StartsWith("s_k"))
                     {
                         set.Add(vd.Name[3..]);
                     }
@@ -626,6 +626,7 @@ public static class HeaderParser
     private static string? FindSelectorAccessorInBody(Stmt stmt)
     {
         if (stmt is DeclRefExpr dre
+            && dre.Decl.Name.Length > 3
             && dre.Decl.Name.StartsWith("s_k")
             && dre.Decl.DeclContext is NamespaceDecl ns
             && ns.Name == "Selector")
