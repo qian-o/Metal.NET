@@ -5,7 +5,7 @@ namespace Metal.NET.Generator;
 public class MetalBindingsGenerator
 {
     private readonly string outputDir;
-    private readonly HashSet<string> knownEnums = [];
+    private readonly Dictionary<string, string> knownEnums = [];
     private readonly HashSet<string> msgSendSignatures = [];
 
     public MetalBindingsGenerator(string outputDir)
@@ -17,7 +17,7 @@ public class MetalBindingsGenerator
     {
         // Collect known enums for type resolution
         foreach (EnumDef e in parsed.Enums)
-            knownEnums.Add(e.Name);
+            knownEnums[e.Name] = e.UnderlyingType;
 
         // Build set of all defined class names
         HashSet<string> definedClasses = [];
@@ -180,7 +180,7 @@ public class MetalBindingsGenerator
 
             sb.AppendLine("    }");
         }
-        else if (knownEnums.Contains(p.Type))
+        else if (knownEnums.ContainsKey(p.Type))
         {
             string msgSendMethod = GetEnumMsgSendMethod(p.Type);
             sb.AppendLine($"    public {p.Type} {p.Name}");
@@ -248,7 +248,7 @@ public class MetalBindingsGenerator
                 paramList.Add($"{paramType} {p.Name}");
                 argList.Add($"{p.Name}.NativePtr");
             }
-            else if (knownEnums.Contains(p.Type))
+            else if (knownEnums.ContainsKey(p.Type))
             {
                 paramList.Add($"{p.Type} {p.Name}");
                 string castType = GetEnumCastType(p.Type);
@@ -334,7 +334,7 @@ public class MetalBindingsGenerator
 
             sb.AppendLine("    }");
         }
-        else if (knownEnums.Contains(m.ReturnType))
+        else if (knownEnums.ContainsKey(m.ReturnType))
         {
             string msgSendMethod = GetEnumMsgSendMethod(m.ReturnType);
             sb.AppendLine($"    public {staticKw}{m.ReturnType} {ToPascalCase(m.Name)}({paramStr})");
@@ -664,7 +664,16 @@ public class MetalBindingsGenerator
         if (type == "bool") return "Bool8";
         if (IsObjCWrapper(type)) return "nint";
         if (type == "nint") return "nint";
-        if (knownEnums.Contains(type)) return "ulong";
+        if (knownEnums.TryGetValue(type, out string? retUt))
+        {
+            return retUt switch
+            {
+                "uint" => "uint",
+                "nuint" => "nuint",
+                "nint" => "nint",
+                _ => "ulong"
+            };
+        }
         if (HeaderParser.IsKnownValueStruct(type)) return type;
 
         return type switch
@@ -682,7 +691,16 @@ public class MetalBindingsGenerator
     {
         if (IsObjCWrapper(type)) return "nint";
         if (type == "bool") return "Bool8";
-        if (knownEnums.Contains(type)) return "ulong";
+        if (knownEnums.TryGetValue(type, out string? paramUt))
+        {
+            return paramUt switch
+            {
+                "uint" => "uint",
+                "nuint" => "nuint",
+                "nint" => "nint",
+                _ => "ulong"
+            };
+        }
         if (HeaderParser.IsKnownValueStruct(type)) return type;
 
         return type switch
@@ -747,13 +765,19 @@ public class MetalBindingsGenerator
 
     private string GetEnumMsgSendMethod(string enumType)
     {
-        // Most enums use ulong underlying type in Metal
-        return "MsgSendULong";
+        string underlying = knownEnums.TryGetValue(enumType, out string? ut) ? ut : "ulong";
+        return underlying switch
+        {
+            "uint" => "MsgSendUInt",
+            "nuint" => "MsgSendNUInt",
+            "nint" => "MsgSendPtr",
+            _ => "MsgSendULong"
+        };
     }
 
-    private static string GetEnumCastType(string enumType)
+    private string GetEnumCastType(string enumType)
     {
-        return "ulong";
+        return knownEnums.TryGetValue(enumType, out string? ut) ? ut : "ulong";
     }
 
     private static string MapReturnType(string type)
