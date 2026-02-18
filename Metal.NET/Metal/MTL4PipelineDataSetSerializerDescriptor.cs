@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTL4PipelineDataSetSerializerDescriptor : NativeObject
+public class MTL4PipelineDataSetSerializerDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PipelineDataSetSerializerDescriptor");
-
-    public MTL4PipelineDataSetSerializerDescriptor(nint nativePtr) : base(nativePtr)
+    public MTL4PipelineDataSetSerializerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineDataSetSerializerDescriptorSelector.Class))
     {
     }
 
@@ -17,6 +15,8 @@ public partial class MTL4PipelineDataSetSerializerDescriptor : NativeObject
 
 file static class MTL4PipelineDataSetSerializerDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PipelineDataSetSerializerDescriptor");
+
     public static readonly Selector Configuration = Selector.Register("configuration");
 
     public static readonly Selector SetConfiguration = Selector.Register("setConfiguration:");

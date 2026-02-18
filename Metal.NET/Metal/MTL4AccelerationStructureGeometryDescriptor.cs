@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTL4AccelerationStructureGeometryDescriptor : NativeObject
+public class MTL4AccelerationStructureGeometryDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4AccelerationStructureGeometryDescriptor");
-
-    public MTL4AccelerationStructureGeometryDescriptor(nint nativePtr) : base(nativePtr)
+    public MTL4AccelerationStructureGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureGeometryDescriptorSelector.Class))
     {
     }
 
@@ -22,11 +20,7 @@ public partial class MTL4AccelerationStructureGeometryDescriptor : NativeObject
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4AccelerationStructureGeometryDescriptorSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4AccelerationStructureGeometryDescriptorSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
     }
 
@@ -57,6 +51,8 @@ public partial class MTL4AccelerationStructureGeometryDescriptor : NativeObject
 
 file static class MTL4AccelerationStructureGeometryDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4AccelerationStructureGeometryDescriptor");
+
     public static readonly Selector AllowDuplicateIntersectionFunctionInvocation = Selector.Register("allowDuplicateIntersectionFunctionInvocation");
 
     public static readonly Selector IntersectionFunctionTableOffset = Selector.Register("intersectionFunctionTableOffset");

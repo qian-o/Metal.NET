@@ -1,10 +1,7 @@
 namespace Metal.NET;
 
-public partial class MTLFXSpatialScalerBase : NativeObject
+public class MTLFXSpatialScalerBase(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLFXSpatialScalerBase(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public MTLFXSpatialScalerColorProcessingMode ColorProcessingMode
     {
@@ -13,11 +10,7 @@ public partial class MTLFXSpatialScalerBase : NativeObject
 
     public MTLTexture? ColorTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerBaseSelector.ColorTexture);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLTexture>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerBaseSelector.ColorTexture));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerBaseSelector.SetColorTexture, value?.NativePtr ?? 0);
     }
 
@@ -33,11 +26,7 @@ public partial class MTLFXSpatialScalerBase : NativeObject
 
     public MTLFence? Fence
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerBaseSelector.Fence);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLFence>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerBaseSelector.Fence));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerBaseSelector.SetFence, value?.NativePtr ?? 0);
     }
 
@@ -70,11 +59,7 @@ public partial class MTLFXSpatialScalerBase : NativeObject
 
     public MTLTexture? OutputTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerBaseSelector.OutputTexture);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLTexture>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerBaseSelector.OutputTexture));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerBaseSelector.SetOutputTexture, value?.NativePtr ?? 0);
     }
 

@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLPipelineBufferDescriptor : NativeObject
+public class MTLPipelineBufferDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPipelineBufferDescriptor");
-
-    public MTLPipelineBufferDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLPipelineBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLPipelineBufferDescriptorSelector.Class))
     {
     }
 
@@ -17,6 +15,8 @@ public partial class MTLPipelineBufferDescriptor : NativeObject
 
 file static class MTLPipelineBufferDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPipelineBufferDescriptor");
+
     public static readonly Selector Mutability = Selector.Register("mutability");
 
     public static readonly Selector SetMutability = Selector.Register("setMutability:");

@@ -1,88 +1,56 @@
 namespace Metal.NET;
 
-public partial class MTLRenderPipelineReflection : NativeObject
+public class MTLRenderPipelineReflection(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPipelineReflection");
-
-    public MTLRenderPipelineReflection(nint nativePtr) : base(nativePtr)
+    public MTLRenderPipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineReflectionSelector.Class))
     {
     }
 
     public NSArray? FragmentArguments
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.FragmentArguments);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.FragmentArguments));
     }
 
     public NSArray? FragmentBindings
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.FragmentBindings);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.FragmentBindings));
     }
 
     public NSArray? MeshBindings
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.MeshBindings);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.MeshBindings));
     }
 
     public NSArray? ObjectBindings
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.ObjectBindings);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.ObjectBindings));
     }
 
     public NSArray? TileArguments
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.TileArguments);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.TileArguments));
     }
 
     public NSArray? TileBindings
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.TileBindings);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.TileBindings));
     }
 
     public NSArray? VertexArguments
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.VertexArguments);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.VertexArguments));
     }
 
     public NSArray? VertexBindings
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.VertexBindings);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.VertexBindings));
     }
 }
 
 file static class MTLRenderPipelineReflectionSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPipelineReflection");
+
     public static readonly Selector FragmentArguments = Selector.Register("fragmentArguments");
 
     public static readonly Selector FragmentBindings = Selector.Register("fragmentBindings");

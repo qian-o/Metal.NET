@@ -1,10 +1,7 @@
 namespace Metal.NET;
 
-public partial class MTLDrawable : NativeObject
+public class MTLDrawable(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLDrawable(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public nuint DrawableID
     {

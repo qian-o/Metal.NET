@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLRenderPassSampleBufferAttachmentDescriptor : NativeObject
+public class MTLRenderPassSampleBufferAttachmentDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassSampleBufferAttachmentDescriptor");
-
-    public MTLRenderPassSampleBufferAttachmentDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLRenderPassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassSampleBufferAttachmentDescriptorSelector.Class))
     {
     }
 
@@ -22,11 +20,7 @@ public partial class MTLRenderPassSampleBufferAttachmentDescriptor : NativeObjec
 
     public MTLCounterSampleBuffer? SampleBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SampleBuffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLCounterSampleBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SampleBuffer));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorSelector.SetSampleBuffer, value?.NativePtr ?? 0);
     }
 
@@ -45,6 +39,8 @@ public partial class MTLRenderPassSampleBufferAttachmentDescriptor : NativeObjec
 
 file static class MTLRenderPassSampleBufferAttachmentDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassSampleBufferAttachmentDescriptor");
+
     public static readonly Selector EndOfFragmentSampleIndex = Selector.Register("endOfFragmentSampleIndex");
 
     public static readonly Selector EndOfVertexSampleIndex = Selector.Register("endOfVertexSampleIndex");

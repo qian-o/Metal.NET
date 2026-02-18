@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLStructMember : NativeObject
+public class MTLStructMember(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStructMember");
-
-    public MTLStructMember(nint nativePtr) : base(nativePtr)
+    public MTLStructMember() : this(ObjectiveCRuntime.AllocInit(MTLStructMemberSelector.Class))
     {
     }
 
@@ -15,11 +13,7 @@ public partial class MTLStructMember : NativeObject
 
     public MTLArrayType? ArrayType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.ArrayType);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLArrayType>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.ArrayType));
     }
 
     public MTLDataType DataType
@@ -29,11 +23,7 @@ public partial class MTLStructMember : NativeObject
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.Name);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.Name));
     }
 
     public nuint Offset
@@ -43,43 +33,29 @@ public partial class MTLStructMember : NativeObject
 
     public MTLPointerType? PointerType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.PointerType);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLPointerType>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.PointerType));
     }
 
     public MTLStructType? StructType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.StructType);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLStructType>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.StructType));
     }
 
     public MTLTensorReferenceType? TensorReferenceType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.TensorReferenceType);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLTensorReferenceType>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.TensorReferenceType));
     }
 
     public MTLTextureReferenceType? TextureReferenceType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.TextureReferenceType);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLTextureReferenceType>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.TextureReferenceType));
     }
 }
 
 file static class MTLStructMemberSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStructMember");
+
     public static readonly Selector ArgumentIndex = Selector.Register("argumentIndex");
 
     public static readonly Selector ArrayType = Selector.Register("arrayType");

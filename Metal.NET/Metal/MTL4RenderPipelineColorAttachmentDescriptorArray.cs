@@ -1,17 +1,14 @@
 namespace Metal.NET;
 
-public partial class MTL4RenderPipelineColorAttachmentDescriptorArray : NativeObject
+public class MTL4RenderPipelineColorAttachmentDescriptorArray(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineColorAttachmentDescriptorArray");
-
-    public MTL4RenderPipelineColorAttachmentDescriptorArray(nint nativePtr) : base(nativePtr)
+    public MTL4RenderPipelineColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineColorAttachmentDescriptorArraySelector.Class))
     {
     }
 
     public MTL4RenderPipelineColorAttachmentDescriptor? Object(nuint attachmentIndex)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.Object, attachmentIndex);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTL4RenderPipelineColorAttachmentDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.Object, attachmentIndex));
     }
 
     public void Reset()
@@ -27,6 +24,8 @@ public partial class MTL4RenderPipelineColorAttachmentDescriptorArray : NativeOb
 
 file static class MTL4RenderPipelineColorAttachmentDescriptorArraySelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineColorAttachmentDescriptorArray");
+
     public static readonly Selector Object = Selector.Register("objectAtIndexedSubscript:");
 
     public static readonly Selector Reset = Selector.Register("reset");

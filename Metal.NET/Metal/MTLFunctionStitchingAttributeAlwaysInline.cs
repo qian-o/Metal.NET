@@ -1,14 +1,13 @@
 namespace Metal.NET;
 
-public partial class MTLFunctionStitchingAttributeAlwaysInline : NativeObject
+public class MTLFunctionStitchingAttributeAlwaysInline(nint nativePtr) : MTLFunctionStitchingAttribute(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingAttributeAlwaysInline");
-
-    public MTLFunctionStitchingAttributeAlwaysInline(nint nativePtr) : base(nativePtr)
+    public MTLFunctionStitchingAttributeAlwaysInline() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingAttributeAlwaysInlineSelector.Class))
     {
     }
 }
 
 file static class MTLFunctionStitchingAttributeAlwaysInlineSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingAttributeAlwaysInline");
 }

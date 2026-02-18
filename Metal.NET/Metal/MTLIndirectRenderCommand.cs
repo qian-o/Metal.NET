@@ -1,10 +1,7 @@
 namespace Metal.NET;
 
-public partial class MTLIndirectRenderCommand : NativeObject
+public class MTLIndirectRenderCommand(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLIndirectRenderCommand(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public void ClearBarrier()
     {

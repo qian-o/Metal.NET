@@ -1,18 +1,11 @@
 namespace Metal.NET;
 
-public partial class MTLRenderPipelineState : NativeObject
+public class MTLRenderPipelineState(nint nativePtr) : MTLAllocation(nativePtr)
 {
-    public MTLRenderPipelineState(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Device));
     }
 
     public MTLResourceID GpuResourceID
@@ -27,11 +20,7 @@ public partial class MTLRenderPipelineState : NativeObject
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Label));
     }
 
     public nuint MaxTotalThreadgroupsPerMeshGrid
@@ -61,11 +50,7 @@ public partial class MTLRenderPipelineState : NativeObject
 
     public MTL4PipelineDescriptor? NewRenderPipelineDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineDescriptor);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTL4PipelineDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineDescriptor));
     }
 
     public nuint ObjectThreadExecutionWidth
@@ -75,11 +60,7 @@ public partial class MTLRenderPipelineState : NativeObject
 
     public MTLRenderPipelineReflection? Reflection
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Reflection);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLRenderPipelineReflection>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Reflection));
     }
 
     public MTLSize RequiredThreadsPerMeshThreadgroup
@@ -114,20 +95,17 @@ public partial class MTLRenderPipelineState : NativeObject
 
     public MTLFunctionHandle? FunctionHandle(NSString name, MTLRenderStages stage)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandle, name.NativePtr, (nuint)stage);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLFunctionHandle>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandle, name.NativePtr, (nuint)stage));
     }
 
     public MTLFunctionHandle? FunctionHandle(MTL4BinaryFunction function, MTLRenderStages stage)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandle, function.NativePtr, (nuint)stage);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLFunctionHandle>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandle, function.NativePtr, (nuint)stage));
     }
 
     public MTLFunctionHandle? FunctionHandle(MTLFunction function, MTLRenderStages stage)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandle, function.NativePtr, (nuint)stage);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLFunctionHandle>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandle, function.NativePtr, (nuint)stage));
     }
 
     public nuint ImageblockMemoryLength(MTLSize imageblockDimensions)
@@ -137,28 +115,26 @@ public partial class MTLRenderPipelineState : NativeObject
 
     public MTLIntersectionFunctionTable? NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor, MTLRenderStages stage)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewIntersectionFunctionTable, descriptor.NativePtr, (nuint)stage);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLIntersectionFunctionTable>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewIntersectionFunctionTable, descriptor.NativePtr, (nuint)stage));
     }
 
     public MTLRenderPipelineState? NewRenderPipelineState(MTL4RenderPipelineBinaryFunctionsDescriptor binaryFunctionsDescriptor, out NSError? error)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineState, binaryFunctionsDescriptor.NativePtr, out nint errorPtr);
-        error = errorPtr is not 0 ? new(errorPtr) : null;
-        return ptr is not 0 ? new(ptr) : null;
+        error = GetNullableObject<NSError>(errorPtr);
+        return GetNullableObject<MTLRenderPipelineState>(ptr);
     }
 
     public MTLRenderPipelineState? NewRenderPipelineState(MTLRenderPipelineFunctionsDescriptor additionalBinaryFunctions, out NSError? error)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineState, additionalBinaryFunctions.NativePtr, out nint errorPtr);
-        error = errorPtr is not 0 ? new(errorPtr) : null;
-        return ptr is not 0 ? new(ptr) : null;
+        error = GetNullableObject<NSError>(errorPtr);
+        return GetNullableObject<MTLRenderPipelineState>(ptr);
     }
 
     public MTLVisibleFunctionTable? NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor, MTLRenderStages stage)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewVisibleFunctionTable, descriptor.NativePtr, (nuint)stage);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLVisibleFunctionTable>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewVisibleFunctionTable, descriptor.NativePtr, (nuint)stage));
     }
 }
 

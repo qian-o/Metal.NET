@@ -1,10 +1,7 @@
 namespace Metal.NET;
 
-public partial class MTLResourceStateCommandEncoder : NativeObject
+public class MTLResourceStateCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr)
 {
-    public MTLResourceStateCommandEncoder(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public void MoveTextureMappingsFromTexture(MTLTexture sourceTexture, nuint sourceSlice, nuint sourceLevel, MTLOrigin sourceOrigin, MTLSize sourceSize, MTLTexture destinationTexture, nuint destinationSlice, nuint destinationLevel, MTLOrigin destinationOrigin)
     {

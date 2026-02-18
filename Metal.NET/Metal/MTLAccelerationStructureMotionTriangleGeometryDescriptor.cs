@@ -1,20 +1,14 @@
 namespace Metal.NET;
 
-public partial class MTLAccelerationStructureMotionTriangleGeometryDescriptor : NativeObject
+public class MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativePtr) : MTLAccelerationStructureGeometryDescriptor(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureMotionTriangleGeometryDescriptor");
-
-    public MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLAccelerationStructureMotionTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureMotionTriangleGeometryDescriptorSelector.Class))
     {
     }
 
     public MTLBuffer? IndexBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorSelector.IndexBuffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorSelector.IndexBuffer));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorSelector.SetIndexBuffer, value?.NativePtr ?? 0);
     }
 
@@ -32,11 +26,7 @@ public partial class MTLAccelerationStructureMotionTriangleGeometryDescriptor : 
 
     public MTLBuffer? TransformationMatrixBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorSelector.TransformationMatrixBuffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorSelector.TransformationMatrixBuffer));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorSelector.SetTransformationMatrixBuffer, value?.NativePtr ?? 0);
     }
 
@@ -60,11 +50,7 @@ public partial class MTLAccelerationStructureMotionTriangleGeometryDescriptor : 
 
     public NSArray? VertexBuffers
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorSelector.VertexBuffers);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorSelector.VertexBuffers));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorSelector.SetVertexBuffers, value?.NativePtr ?? 0);
     }
 
@@ -82,13 +68,14 @@ public partial class MTLAccelerationStructureMotionTriangleGeometryDescriptor : 
 
     public static MTLAccelerationStructureMotionTriangleGeometryDescriptor? Descriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructureMotionTriangleGeometryDescriptorSelector.Descriptor);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLAccelerationStructureMotionTriangleGeometryDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructureMotionTriangleGeometryDescriptorSelector.Class, MTLAccelerationStructureMotionTriangleGeometryDescriptorSelector.Descriptor));
     }
 }
 
 file static class MTLAccelerationStructureMotionTriangleGeometryDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureMotionTriangleGeometryDescriptor");
+
     public static readonly Selector Descriptor = Selector.Register("descriptor");
 
     public static readonly Selector IndexBuffer = Selector.Register("indexBuffer");

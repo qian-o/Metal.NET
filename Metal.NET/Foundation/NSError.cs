@@ -1,11 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class NSError : NativeObject
+public class NSError(nint nativePtr) : NativeObject(nativePtr)
 {
-    public NSError(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public string LocalizedDescription => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorSelector.LocalizedDescription));
 
     public nint Code => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorSelector.Code);
@@ -13,7 +9,7 @@ public class NSError : NativeObject
     public string Domain => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorSelector.Domain));
 }
 
-file class NSErrorSelector
+file static class NSErrorSelector
 {
     public static readonly Selector LocalizedDescription = Selector.Register("localizedDescription");
 

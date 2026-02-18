@@ -1,40 +1,26 @@
 namespace Metal.NET;
 
-public partial class MTLStitchedLibraryDescriptor : NativeObject
+public class MTLStitchedLibraryDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStitchedLibraryDescriptor");
-
-    public MTLStitchedLibraryDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLStitchedLibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStitchedLibraryDescriptorSelector.Class))
     {
     }
 
     public NSArray? BinaryArchives
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStitchedLibraryDescriptorSelector.BinaryArchives);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStitchedLibraryDescriptorSelector.BinaryArchives));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetBinaryArchives, value?.NativePtr ?? 0);
     }
 
     public NSArray? FunctionGraphs
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStitchedLibraryDescriptorSelector.FunctionGraphs);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStitchedLibraryDescriptorSelector.FunctionGraphs));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetFunctionGraphs, value?.NativePtr ?? 0);
     }
 
     public NSArray? Functions
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStitchedLibraryDescriptorSelector.Functions);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStitchedLibraryDescriptorSelector.Functions));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetFunctions, value?.NativePtr ?? 0);
     }
 
@@ -47,6 +33,8 @@ public partial class MTLStitchedLibraryDescriptor : NativeObject
 
 file static class MTLStitchedLibraryDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStitchedLibraryDescriptor");
+
     public static readonly Selector BinaryArchives = Selector.Register("binaryArchives");
 
     public static readonly Selector FunctionGraphs = Selector.Register("functionGraphs");

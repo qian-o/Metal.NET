@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLIndirectCommandBufferDescriptor : NativeObject
+public class MTLIndirectCommandBufferDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIndirectCommandBufferDescriptor");
-
-    public MTLIndirectCommandBufferDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLIndirectCommandBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIndirectCommandBufferDescriptorSelector.Class))
     {
     }
 
@@ -125,6 +123,8 @@ public partial class MTLIndirectCommandBufferDescriptor : NativeObject
 
 file static class MTLIndirectCommandBufferDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIndirectCommandBufferDescriptor");
+
     public static readonly Selector CommandTypes = Selector.Register("commandTypes");
 
     public static readonly Selector InheritBuffers = Selector.Register("inheritBuffers");

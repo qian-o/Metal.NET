@@ -1,18 +1,11 @@
 namespace Metal.NET;
 
-public partial class MTLResidencySet : NativeObject
+public class MTLResidencySet(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLResidencySet(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public NSArray? AllAllocations
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.AllAllocations);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.AllAllocations));
     }
 
     public nuint AllocatedSize
@@ -27,20 +20,12 @@ public partial class MTLResidencySet : NativeObject
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.Device));
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.Label));
     }
 
     public void AddAllocation(MTLAllocation allocation)

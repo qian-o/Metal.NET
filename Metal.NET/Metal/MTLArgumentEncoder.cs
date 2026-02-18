@@ -1,10 +1,7 @@
 namespace Metal.NET;
 
-public partial class MTLArgumentEncoder : NativeObject
+public class MTLArgumentEncoder(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLArgumentEncoder(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public nuint Alignment
     {
@@ -13,11 +10,7 @@ public partial class MTLArgumentEncoder : NativeObject
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderSelector.Device));
     }
 
     public nuint EncodedLength
@@ -27,11 +20,7 @@ public partial class MTLArgumentEncoder : NativeObject
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetLabel, value?.NativePtr ?? 0);
     }
 
@@ -42,8 +31,7 @@ public partial class MTLArgumentEncoder : NativeObject
 
     public MTLArgumentEncoder? NewArgumentEncoder(nuint index)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderSelector.NewArgumentEncoder, index);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLArgumentEncoder>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderSelector.NewArgumentEncoder, index));
     }
 
     public void SetAccelerationStructure(MTLAccelerationStructure accelerationStructure, nuint index)

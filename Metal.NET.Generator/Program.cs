@@ -67,6 +67,8 @@ class Generator
     readonly List<EnumDef> _enums = [];
     // All parsed classes
     readonly List<ClassDef> _classes = [];
+    // Map class name → set of property names (for shadow detection)
+    readonly Dictionary<string, HashSet<string>> _classPropertyNames = new();
 
     // Hand-written classes to skip
     static readonly HashSet<string> SkipClasses = ["NSString", "NSError", "NSArray", "NSURL",
@@ -424,7 +426,7 @@ class Generator
     void ParseClasses(string content, string filePath)
     {
         var classRegex = new Regex(
-            @"class\s+(\w+)\s*:\s*public\s+NS::(Referencing|Copying)\s*<\s*(\w+)(?:\s*,\s*(?:[\w:]+::)?(\w+))?\s*>",
+            @"class\s+(\w+)\s*:\s*public\s+NS::(Referencing|Copying)\s*<\s*(\w+)(?:\s*,\s*((?:[\w:]+::)?)(\w+))?\s*>",
             RegexOptions.Multiline);
 
         var namespaceRegex = new Regex(@"namespace\s+(MTL4FX|MTL4|MTLFX|MTL|NS|CA)\s*\{", RegexOptions.Multiline);
@@ -437,6 +439,9 @@ class Generator
         {
             string className = cm.Groups[1].Value;
             bool isCopying = cm.Groups[2].Value == "Copying";
+            // Groups 4 = namespace prefix (e.g., "MTL::"), 5 = base class name
+            string? baseNsPrefix = cm.Groups[4].Success && cm.Groups[4].Value.Length > 0 ? cm.Groups[4].Value : null;
+            string? baseClassName = cm.Groups[5].Success && cm.Groups[5].Value.Length > 0 ? cm.Groups[5].Value : null;
 
             // Determine namespace
             string ns = "MTL";
@@ -489,11 +494,29 @@ class Generator
                 });
             }
 
+            // Resolve base class name with correct namespace prefix
+            string? csBaseClassName = null;
+            if (baseClassName != null)
+            {
+                if (!string.IsNullOrEmpty(baseNsPrefix))
+                {
+                    // Extract namespace from prefix like "MTL::" → "MTL"
+                    string baseNs = baseNsPrefix.TrimEnd(':', ' ');
+                    csBaseClassName = GetPrefix(baseNs) + baseClassName;
+                }
+                else
+                {
+                    // Same namespace as the class
+                    csBaseClassName = GetPrefix(ns) + baseClassName;
+                }
+            }
+
             _classes.Add(new ClassDef
             {
                 CppNamespace = ns,
                 Name = className,
                 IsCopying = isCopying,
+                BaseClassName = csBaseClassName,
                 Methods = methods
             });
         }
@@ -654,6 +677,25 @@ class Generator
 
     void GenerateAll()
     {
+        // Build a map of class name → property/method names for shadow detection
+        _classPropertyNames.Clear();
+        foreach (var classDef in _classes)
+        {
+            string csClassName = GetPrefix(classDef.CppNamespace) + classDef.Name;
+            var validMethods = classDef.Methods
+                .Where(m => !m.Parameters.Any(p => p.CppType == "ARRAY_PARAM"))
+                .Where(m => !HasFunctionPointerParam(m))
+                .Where(m => !HasUnmappableParam(m))
+                .ToList();
+            var names = new HashSet<string>();
+            foreach (var m in validMethods)
+            {
+                if (m.Parameters.Count == 0 && m.ReturnType != "void" && !m.UsesClassTarget)
+                    names.Add(ToPascalCase(m.CppName));
+            }
+            _classPropertyNames[csClassName] = names;
+        }
+
         foreach (var enumDef in _enums)
             GenerateEnum(enumDef);
         foreach (var classDef in _classes)
@@ -682,6 +724,8 @@ class Generator
         {
             var member = enumDef.Members[i];
             string comma = i < enumDef.Members.Count - 1 ? "," : "";
+            // Issue 7: Add blank lines between enum members
+            if (i > 0) sb.AppendLine();
             sb.AppendLine($"    {member.Name} = {member.Value}{comma}");
         }
 
@@ -724,24 +768,45 @@ class Generator
         var sb = new StringBuilder();
         sb.AppendLine("namespace Metal.NET;");
         sb.AppendLine();
-        sb.AppendLine($"public partial class {csClassName} : NativeObject");
-        sb.AppendLine("{");
 
-        if (hasClassField)
+        // Issue 8: Use proper base class from C++ inheritance
+        // Only use the base class if it's a known generated or hand-written class
+        var knownClasses = _classes.Select(c => GetPrefix(c.CppNamespace) + c.Name).ToHashSet();
+        knownClasses.UnionWith(SkipClasses); // Hand-written classes are also valid bases
+        string baseClass = classDef.BaseClassName != null && knownClasses.Contains(classDef.BaseClassName)
+            ? classDef.BaseClassName
+            : "NativeObject";
+
+        // Collect parent property names for shadow detection
+        var parentPropertyNames = new HashSet<string>();
+        string? currentBase = baseClass;
+        while (currentBase != null && currentBase != "NativeObject")
         {
-            sb.AppendLine($"    private static readonly nint Class = ObjectiveCRuntime.GetClass(\"{csClassName}\");");
-            sb.AppendLine();
+            if (_classPropertyNames.TryGetValue(currentBase, out var parentNames))
+                parentPropertyNames.UnionWith(parentNames);
+            // Walk up the chain
+            var parentDef = _classes.FirstOrDefault(c => GetPrefix(c.CppNamespace) + c.Name == currentBase);
+            currentBase = parentDef?.BaseClassName;
         }
 
-        sb.AppendLine($"    public {csClassName}(nint nativePtr) : base(nativePtr)");
-        sb.AppendLine("    {");
-        sb.AppendLine("    }");
+        // Issue 1: Use primary constructor syntax
+        // Issue 5: Remove partial keyword
+        sb.AppendLine($"public class {csClassName}(nint nativePtr) : {baseClass}(nativePtr)");
+        sb.AppendLine("{");
+
+        // Issue 3: For creatable objects, add parameterless constructor
+        if (hasClassField)
+        {
+            sb.AppendLine($"    public {csClassName}() : this(ObjectiveCRuntime.AllocInit({csClassName}Selector.Class))");
+            sb.AppendLine("    {");
+            sb.AppendLine("    }");
+        }
 
         // Properties first (sorted alphabetically)
         foreach (var prop in properties)
         {
             sb.AppendLine();
-            EmitProperty(sb, prop, csClassName, classDef.CppNamespace, selectors);
+            EmitProperty(sb, prop, csClassName, classDef.CppNamespace, selectors, parentPropertyNames);
         }
 
         // Then methods
@@ -757,7 +822,15 @@ class Generator
         // Selector class
         sb.AppendLine($"file static class {csClassName}Selector");
         sb.AppendLine("{");
+
+        // Issue 2: Move Class field to Selector class
         bool first = true;
+        if (hasClassField)
+        {
+            sb.AppendLine($"    public static readonly nint Class = ObjectiveCRuntime.GetClass(\"{csClassName}\");");
+            first = false;
+        }
+
         foreach (var (name, objc) in selectors)
         {
             if (!first) sb.AppendLine();
@@ -884,7 +957,7 @@ class Generator
     // =========================================================================
 
     void EmitProperty(StringBuilder sb, PropertyDef prop, string csClassName,
-        string ns, SortedDictionary<string, string> selectors)
+        string ns, SortedDictionary<string, string> selectors, HashSet<string> parentPropertyNames)
     {
         var getter = prop.Getter;
         string csPropName = ToPascalCase(getter.CppName);
@@ -893,6 +966,9 @@ class Generator
         bool isEnum = IsEnumType(csType);
         bool isStruct = StructTypes.Contains(csType);
         bool isBool = csType == "bool";
+
+        // Detect shadowing of parent class properties
+        string newKw = parentPropertyNames.Contains(csPropName) ? "new " : "";
 
         // Register getter selector - use accessor from inline impl to look up ObjC string
         string selectorName = csPropName;
@@ -923,13 +999,9 @@ class Generator
 
         if (nullable)
         {
-            sb.AppendLine($"    public {typeStr} {csPropName}");
+            sb.AppendLine($"    public {newKw}{typeStr} {csPropName}");
             sb.AppendLine("    {");
-            sb.AppendLine("        get");
-            sb.AppendLine("        {");
-            sb.AppendLine($"            nint ptr = ObjectiveCRuntime.MsgSendPtr({target}, {selectorRef});");
-            sb.AppendLine("            return ptr is not 0 ? new(ptr) : null;");
-            sb.AppendLine("        }");
+            sb.AppendLine($"        get => GetNullableObject<{csType}>(ObjectiveCRuntime.MsgSendPtr({target}, {selectorRef}));");
 
             if (prop.Setter != null)
                 sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Selector.{setSelName}, value?.NativePtr ?? 0);");
@@ -939,7 +1011,7 @@ class Generator
         {
             string msgSend = GetMsgSendForEnumGet(csType);
 
-            sb.AppendLine($"    public {typeStr} {csPropName}");
+            sb.AppendLine($"    public {newKw}{typeStr} {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => ({csType}){msgSend}({target}, {selectorRef});");
 
@@ -952,7 +1024,7 @@ class Generator
         }
         else if (isBool)
         {
-            sb.AppendLine($"    public bool {csPropName}");
+            sb.AppendLine($"    public {newKw}bool {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => ObjectiveCRuntime.MsgSendBool({target}, {selectorRef});");
 
@@ -964,7 +1036,7 @@ class Generator
         {
             string msgSend = GetMsgSendForStruct(csType);
 
-            sb.AppendLine($"    public {typeStr} {csPropName}");
+            sb.AppendLine($"    public {newKw}{typeStr} {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => ObjectiveCRuntime.{msgSend}({target}, {selectorRef});");
 
@@ -976,7 +1048,7 @@ class Generator
         {
             string msgSend = GetMsgSendMethod(csType);
 
-            sb.AppendLine($"    public {typeStr} {csPropName}");
+            sb.AppendLine($"    public {newKw}{typeStr} {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => ObjectiveCRuntime.{msgSend}({target}, {selectorRef});");
 
@@ -1029,7 +1101,7 @@ class Generator
         }
 
         bool isStaticClassMethod = method.IsStatic && method.UsesClassTarget;
-        string target = isStaticClassMethod ? "Class" : "NativePtr";
+        string target = isStaticClassMethod ? $"{csClassName}Selector.Class" : "NativePtr";
 
         string selectorKey = ToPascalCase(method.CppName);
         selectors.TryAdd(selectorKey, selectorObjC);
@@ -1087,14 +1159,20 @@ class Generator
         {
             sb.AppendLine($"        ObjectiveCRuntime.MsgSend({argsStr});");
             if (hasOutError)
-                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr) : null;");
+                sb.AppendLine("        error = GetNullableObject<NSError>(errorPtr);");
         }
         else if (nullable)
         {
-            sb.AppendLine($"        nint ptr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
             if (hasOutError)
-                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr) : null;");
-            sb.AppendLine("        return ptr is not 0 ? new(ptr) : null;");
+            {
+                sb.AppendLine($"        nint ptr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
+                sb.AppendLine("        error = GetNullableObject<NSError>(errorPtr);");
+                sb.AppendLine($"        return GetNullableObject<{returnType}>(ptr);");
+            }
+            else
+            {
+                sb.AppendLine($"        return GetNullableObject<{returnType}>(ObjectiveCRuntime.MsgSendPtr({argsStr}));");
+            }
         }
         else if (isEnum)
         {
@@ -1102,7 +1180,7 @@ class Generator
             if (hasOutError)
             {
                 sb.AppendLine($"        var result = ({returnType}){msgSend}({argsStr});");
-                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr) : null;");
+                sb.AppendLine("        error = GetNullableObject<NSError>(errorPtr);");
                 sb.AppendLine("        return result;");
             }
             else
@@ -1115,7 +1193,7 @@ class Generator
             if (hasOutError)
             {
                 sb.AppendLine($"        var result = ObjectiveCRuntime.MsgSendBool({argsStr});");
-                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr) : null;");
+                sb.AppendLine("        error = GetNullableObject<NSError>(errorPtr);");
                 sb.AppendLine("        return result;");
             }
             else
@@ -1129,7 +1207,7 @@ class Generator
             if (hasOutError)
             {
                 sb.AppendLine($"        var result = ObjectiveCRuntime.{msgSend}({argsStr});");
-                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr) : null;");
+                sb.AppendLine("        error = GetNullableObject<NSError>(errorPtr);");
                 sb.AppendLine("        return result;");
             }
             else
@@ -1143,7 +1221,7 @@ class Generator
             if (hasOutError)
             {
                 sb.AppendLine($"        var result = ObjectiveCRuntime.{msgSend}({argsStr});");
-                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr) : null;");
+                sb.AppendLine("        error = GetNullableObject<NSError>(errorPtr);");
                 sb.AppendLine("        return result;");
             }
             else

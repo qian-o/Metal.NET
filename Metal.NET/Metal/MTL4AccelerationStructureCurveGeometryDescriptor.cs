@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTL4AccelerationStructureCurveGeometryDescriptor : NativeObject
+public class MTL4AccelerationStructureCurveGeometryDescriptor(nint nativePtr) : MTL4AccelerationStructureGeometryDescriptor(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4AccelerationStructureCurveGeometryDescriptor");
-
-    public MTL4AccelerationStructureCurveGeometryDescriptor(nint nativePtr) : base(nativePtr)
+    public MTL4AccelerationStructureCurveGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureCurveGeometryDescriptorSelector.Class))
     {
     }
 
@@ -95,6 +93,8 @@ public partial class MTL4AccelerationStructureCurveGeometryDescriptor : NativeOb
 
 file static class MTL4AccelerationStructureCurveGeometryDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4AccelerationStructureCurveGeometryDescriptor");
+
     public static readonly Selector ControlPointBuffer = Selector.Register("controlPointBuffer");
 
     public static readonly Selector ControlPointCount = Selector.Register("controlPointCount");

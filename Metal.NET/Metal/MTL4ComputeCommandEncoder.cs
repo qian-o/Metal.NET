@@ -1,10 +1,7 @@
 namespace Metal.NET;
 
-public partial class MTL4ComputeCommandEncoder : NativeObject
+public class MTL4ComputeCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativePtr)
 {
-    public MTL4ComputeCommandEncoder(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public MTLStages Stages
     {

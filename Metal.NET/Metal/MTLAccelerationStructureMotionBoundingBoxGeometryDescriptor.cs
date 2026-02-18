@@ -1,20 +1,14 @@
 namespace Metal.NET;
 
-public partial class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor : NativeObject
+public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor(nint nativePtr) : MTLAccelerationStructureGeometryDescriptor(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor");
-
-    public MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.Class))
     {
     }
 
     public NSArray? BoundingBoxBuffers
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.BoundingBoxBuffers);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.BoundingBoxBuffers));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.SetBoundingBoxBuffers, value?.NativePtr ?? 0);
     }
 
@@ -32,13 +26,14 @@ public partial class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor
 
     public static MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor? Descriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.Descriptor);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.Class, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.Descriptor));
     }
 }
 
 file static class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor");
+
     public static readonly Selector BoundingBoxBuffers = Selector.Register("boundingBoxBuffers");
 
     public static readonly Selector BoundingBoxCount = Selector.Register("boundingBoxCount");

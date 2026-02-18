@@ -1,10 +1,7 @@
 namespace Metal.NET;
 
-public partial class MTLFunctionStitchingAttribute : NativeObject
+public class MTLFunctionStitchingAttribute(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLFunctionStitchingAttribute(nint nativePtr) : base(nativePtr)
-    {
-    }
 }
 
 file static class MTLFunctionStitchingAttributeSelector

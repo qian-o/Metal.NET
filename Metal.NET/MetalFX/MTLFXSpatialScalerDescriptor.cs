@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLFXSpatialScalerDescriptor : NativeObject
+public class MTLFXSpatialScalerDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFXSpatialScalerDescriptor");
-
-    public MTLFXSpatialScalerDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLFXSpatialScalerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXSpatialScalerDescriptorSelector.Class))
     {
     }
 
@@ -52,29 +50,29 @@ public partial class MTLFXSpatialScalerDescriptor : NativeObject
 
     public MTLFXSpatialScaler? NewSpatialScaler(MTLDevice pDevice)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorSelector.NewSpatialScaler, pDevice.NativePtr);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLFXSpatialScaler>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorSelector.NewSpatialScaler, pDevice.NativePtr));
     }
 
     public MTL4FXSpatialScaler? NewSpatialScaler(MTLDevice pDevice, MTL4Compiler pCompiler)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorSelector.NewSpatialScaler, pDevice.NativePtr, pCompiler.NativePtr);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTL4FXSpatialScaler>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorSelector.NewSpatialScaler, pDevice.NativePtr, pCompiler.NativePtr));
     }
 
     public static bool SupportsDevice(MTLDevice pDevice)
     {
-        return ObjectiveCRuntime.MsgSendBool(Class, MTLFXSpatialScalerDescriptorSelector.SupportsDevice, pDevice.NativePtr);
+        return ObjectiveCRuntime.MsgSendBool(MTLFXSpatialScalerDescriptorSelector.Class, MTLFXSpatialScalerDescriptorSelector.SupportsDevice, pDevice.NativePtr);
     }
 
     public static bool SupportsMetal4FX(MTLDevice pDevice)
     {
-        return ObjectiveCRuntime.MsgSendBool(Class, MTLFXSpatialScalerDescriptorSelector.SupportsMetal4FX, pDevice.NativePtr);
+        return ObjectiveCRuntime.MsgSendBool(MTLFXSpatialScalerDescriptorSelector.Class, MTLFXSpatialScalerDescriptorSelector.SupportsMetal4FX, pDevice.NativePtr);
     }
 }
 
 file static class MTLFXSpatialScalerDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFXSpatialScalerDescriptor");
+
     public static readonly Selector ColorProcessingMode = Selector.Register("colorProcessingMode");
 
     public static readonly Selector ColorTextureFormat = Selector.Register("colorTextureFormat");

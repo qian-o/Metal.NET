@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTL4RenderPipelineDescriptor : NativeObject
+public class MTL4RenderPipelineDescriptor(nint nativePtr) : MTL4PipelineDescriptor(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineDescriptor");
-
-    public MTL4RenderPipelineDescriptor(nint nativePtr) : base(nativePtr)
+    public MTL4RenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineDescriptorSelector.Class))
     {
     }
 
@@ -28,30 +26,18 @@ public partial class MTL4RenderPipelineDescriptor : NativeObject
 
     public MTL4RenderPipelineColorAttachmentDescriptorArray? ColorAttachments
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.ColorAttachments);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTL4RenderPipelineColorAttachmentDescriptorArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.ColorAttachments));
     }
 
     public MTL4FunctionDescriptor? FragmentFunctionDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.FragmentFunctionDescriptor);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTL4FunctionDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.FragmentFunctionDescriptor));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetFragmentFunctionDescriptor, value?.NativePtr ?? 0);
     }
 
     public MTL4StaticLinkingDescriptor? FragmentStaticLinkingDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.FragmentStaticLinkingDescriptor);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTL4StaticLinkingDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.FragmentStaticLinkingDescriptor));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetFragmentStaticLinkingDescriptor, value?.NativePtr ?? 0);
     }
 
@@ -104,31 +90,19 @@ public partial class MTL4RenderPipelineDescriptor : NativeObject
 
     public MTLVertexDescriptor? VertexDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.VertexDescriptor);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLVertexDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.VertexDescriptor));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetVertexDescriptor, value?.NativePtr ?? 0);
     }
 
     public MTL4FunctionDescriptor? VertexFunctionDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.VertexFunctionDescriptor);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTL4FunctionDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.VertexFunctionDescriptor));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetVertexFunctionDescriptor, value?.NativePtr ?? 0);
     }
 
     public MTL4StaticLinkingDescriptor? VertexStaticLinkingDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.VertexStaticLinkingDescriptor);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTL4StaticLinkingDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.VertexStaticLinkingDescriptor));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetVertexStaticLinkingDescriptor, value?.NativePtr ?? 0);
     }
 
@@ -140,6 +114,8 @@ public partial class MTL4RenderPipelineDescriptor : NativeObject
 
 file static class MTL4RenderPipelineDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineDescriptor");
+
     public static readonly Selector AlphaToCoverageState = Selector.Register("alphaToCoverageState");
 
     public static readonly Selector AlphaToOneState = Selector.Register("alphaToOneState");

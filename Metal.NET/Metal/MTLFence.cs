@@ -1,27 +1,16 @@
 namespace Metal.NET;
 
-public partial class MTLFence : NativeObject
+public class MTLFence(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLFence(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFenceSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFenceSelector.Device));
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFenceSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFenceSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFenceSelector.SetLabel, value?.NativePtr ?? 0);
     }
 }

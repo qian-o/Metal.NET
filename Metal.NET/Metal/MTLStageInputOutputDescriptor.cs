@@ -1,20 +1,14 @@
 namespace Metal.NET;
 
-public partial class MTLStageInputOutputDescriptor : NativeObject
+public class MTLStageInputOutputDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStageInputOutputDescriptor");
-
-    public MTLStageInputOutputDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLStageInputOutputDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStageInputOutputDescriptorSelector.Class))
     {
     }
 
     public MTLAttributeDescriptorArray? Attributes
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStageInputOutputDescriptorSelector.Attributes);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLAttributeDescriptorArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStageInputOutputDescriptorSelector.Attributes));
     }
 
     public nuint IndexBufferIndex
@@ -31,11 +25,7 @@ public partial class MTLStageInputOutputDescriptor : NativeObject
 
     public MTLBufferLayoutDescriptorArray? Layouts
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStageInputOutputDescriptorSelector.Layouts);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLBufferLayoutDescriptorArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStageInputOutputDescriptorSelector.Layouts));
     }
 
     public void Reset()
@@ -45,13 +35,14 @@ public partial class MTLStageInputOutputDescriptor : NativeObject
 
     public static MTLStageInputOutputDescriptor? StageInputOutputDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLStageInputOutputDescriptorSelector.StageInputOutputDescriptor);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLStageInputOutputDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLStageInputOutputDescriptorSelector.Class, MTLStageInputOutputDescriptorSelector.StageInputOutputDescriptor));
     }
 }
 
 file static class MTLStageInputOutputDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStageInputOutputDescriptor");
+
     public static readonly Selector Attributes = Selector.Register("attributes");
 
     public static readonly Selector IndexBufferIndex = Selector.Register("indexBufferIndex");

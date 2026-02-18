@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLTensorExtents : NativeObject
+public class MTLTensorExtents(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorExtents");
-
-    public MTLTensorExtents(nint nativePtr) : base(nativePtr)
+    public MTLTensorExtents() : this(ObjectiveCRuntime.AllocInit(MTLTensorExtentsSelector.Class))
     {
     }
 
@@ -21,6 +19,8 @@ public partial class MTLTensorExtents : NativeObject
 
 file static class MTLTensorExtentsSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorExtents");
+
     public static readonly Selector ExtentAtDimensionIndex = Selector.Register("extentAtDimensionIndex:");
 
     public static readonly Selector Rank = Selector.Register("rank");

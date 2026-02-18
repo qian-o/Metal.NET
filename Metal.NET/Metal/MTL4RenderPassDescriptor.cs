@@ -1,20 +1,14 @@
 namespace Metal.NET;
 
-public partial class MTL4RenderPassDescriptor : NativeObject
+public class MTL4RenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPassDescriptor");
-
-    public MTL4RenderPassDescriptor(nint nativePtr) : base(nativePtr)
+    public MTL4RenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPassDescriptorSelector.Class))
     {
     }
 
     public MTLRenderPassColorAttachmentDescriptorArray? ColorAttachments
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.ColorAttachments);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLRenderPassColorAttachmentDescriptorArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.ColorAttachments));
     }
 
     public nuint DefaultRasterSampleCount
@@ -25,11 +19,7 @@ public partial class MTL4RenderPassDescriptor : NativeObject
 
     public MTLRenderPassDepthAttachmentDescriptor? DepthAttachment
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.DepthAttachment);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLRenderPassDepthAttachmentDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.DepthAttachment));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetDepthAttachment, value?.NativePtr ?? 0);
     }
 
@@ -41,11 +31,7 @@ public partial class MTL4RenderPassDescriptor : NativeObject
 
     public MTLRasterizationRateMap? RasterizationRateMap
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.RasterizationRateMap);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLRasterizationRateMap>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.RasterizationRateMap));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetRasterizationRateMap, value?.NativePtr ?? 0);
     }
 
@@ -69,11 +55,7 @@ public partial class MTL4RenderPassDescriptor : NativeObject
 
     public MTLRenderPassStencilAttachmentDescriptor? StencilAttachment
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.StencilAttachment);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLRenderPassStencilAttachmentDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.StencilAttachment));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetStencilAttachment, value?.NativePtr ?? 0);
     }
 
@@ -103,11 +85,7 @@ public partial class MTL4RenderPassDescriptor : NativeObject
 
     public MTLBuffer? VisibilityResultBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.VisibilityResultBuffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.VisibilityResultBuffer));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetVisibilityResultBuffer, value?.NativePtr ?? 0);
     }
 
@@ -130,6 +108,8 @@ public partial class MTL4RenderPassDescriptor : NativeObject
 
 file static class MTL4RenderPassDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPassDescriptor");
+
     public static readonly Selector ColorAttachments = Selector.Register("colorAttachments");
 
     public static readonly Selector DefaultRasterSampleCount = Selector.Register("defaultRasterSampleCount");

@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLAccelerationStructureGeometryDescriptor : NativeObject
+public class MTLAccelerationStructureGeometryDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureGeometryDescriptor");
-
-    public MTLAccelerationStructureGeometryDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLAccelerationStructureGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureGeometryDescriptorSelector.Class))
     {
     }
 
@@ -22,11 +20,7 @@ public partial class MTLAccelerationStructureGeometryDescriptor : NativeObject
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
     }
 
@@ -38,11 +32,7 @@ public partial class MTLAccelerationStructureGeometryDescriptor : NativeObject
 
     public MTLBuffer? PrimitiveDataBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.PrimitiveDataBuffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.PrimitiveDataBuffer));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorSelector.SetPrimitiveDataBuffer, value?.NativePtr ?? 0);
     }
 
@@ -67,6 +57,8 @@ public partial class MTLAccelerationStructureGeometryDescriptor : NativeObject
 
 file static class MTLAccelerationStructureGeometryDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureGeometryDescriptor");
+
     public static readonly Selector AllowDuplicateIntersectionFunctionInvocation = Selector.Register("allowDuplicateIntersectionFunctionInvocation");
 
     public static readonly Selector IntersectionFunctionTableOffset = Selector.Register("intersectionFunctionTableOffset");

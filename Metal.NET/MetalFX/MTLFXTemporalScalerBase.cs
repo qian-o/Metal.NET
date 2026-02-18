@@ -1,18 +1,11 @@
 namespace Metal.NET;
 
-public partial class MTLFXTemporalScalerBase : NativeObject
+public class MTLFXTemporalScalerBase(nint nativePtr) : MTLFXFrameInterpolatableScaler(nativePtr)
 {
-    public MTLFXTemporalScalerBase(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public MTLTexture? ColorTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerBaseSelector.ColorTexture);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLTexture>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerBaseSelector.ColorTexture));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerBaseSelector.SetColorTexture, value?.NativePtr ?? 0);
     }
 
@@ -28,11 +21,7 @@ public partial class MTLFXTemporalScalerBase : NativeObject
 
     public MTLTexture? DepthTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerBaseSelector.DepthTexture);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLTexture>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerBaseSelector.DepthTexture));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerBaseSelector.SetDepthTexture, value?.NativePtr ?? 0);
     }
 
@@ -48,21 +37,13 @@ public partial class MTLFXTemporalScalerBase : NativeObject
 
     public MTLTexture? ExposureTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerBaseSelector.ExposureTexture);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLTexture>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerBaseSelector.ExposureTexture));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerBaseSelector.SetExposureTexture, value?.NativePtr ?? 0);
     }
 
     public MTLFence? Fence
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerBaseSelector.Fence);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLFence>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerBaseSelector.Fence));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerBaseSelector.SetFence, value?.NativePtr ?? 0);
     }
 
@@ -117,11 +98,7 @@ public partial class MTLFXTemporalScalerBase : NativeObject
 
     public MTLTexture? MotionTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerBaseSelector.MotionTexture);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLTexture>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerBaseSelector.MotionTexture));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerBaseSelector.SetMotionTexture, value?.NativePtr ?? 0);
     }
 
@@ -154,11 +131,7 @@ public partial class MTLFXTemporalScalerBase : NativeObject
 
     public MTLTexture? OutputTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerBaseSelector.OutputTexture);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLTexture>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerBaseSelector.OutputTexture));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerBaseSelector.SetOutputTexture, value?.NativePtr ?? 0);
     }
 
@@ -185,11 +158,7 @@ public partial class MTLFXTemporalScalerBase : NativeObject
 
     public MTLTexture? ReactiveMaskTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerBaseSelector.ReactiveMaskTexture);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLTexture>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerBaseSelector.ReactiveMaskTexture));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerBaseSelector.SetReactiveMaskTexture, value?.NativePtr ?? 0);
     }
 

@@ -1,20 +1,14 @@
 namespace Metal.NET;
 
-public partial class MTLPrimitiveAccelerationStructureDescriptor : NativeObject
+public class MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr) : MTLAccelerationStructureDescriptor(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPrimitiveAccelerationStructureDescriptor");
-
-    public MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLPrimitiveAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLPrimitiveAccelerationStructureDescriptorSelector.Class))
     {
     }
 
     public NSArray? GeometryDescriptors
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.GeometryDescriptors);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.GeometryDescriptors));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetGeometryDescriptors, value?.NativePtr ?? 0);
     }
 
@@ -50,13 +44,14 @@ public partial class MTLPrimitiveAccelerationStructureDescriptor : NativeObject
 
     public static MTLPrimitiveAccelerationStructureDescriptor? Descriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLPrimitiveAccelerationStructureDescriptorSelector.Descriptor);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLPrimitiveAccelerationStructureDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLPrimitiveAccelerationStructureDescriptorSelector.Class, MTLPrimitiveAccelerationStructureDescriptorSelector.Descriptor));
     }
 }
 
 file static class MTLPrimitiveAccelerationStructureDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPrimitiveAccelerationStructureDescriptor");
+
     public static readonly Selector Descriptor = Selector.Register("descriptor");
 
     public static readonly Selector GeometryDescriptors = Selector.Register("geometryDescriptors");

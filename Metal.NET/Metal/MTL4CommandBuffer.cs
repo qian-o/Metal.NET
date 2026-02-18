@@ -1,46 +1,27 @@
 namespace Metal.NET;
 
-public partial class MTL4CommandBuffer : NativeObject
+public class MTL4CommandBuffer(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTL4CommandBuffer(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public MTL4ComputeCommandEncoder? ComputeCommandEncoder
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.ComputeCommandEncoder);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTL4ComputeCommandEncoder>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.ComputeCommandEncoder));
     }
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.Device));
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.SetLabel, value?.NativePtr ?? 0);
     }
 
     public MTL4MachineLearningCommandEncoder? MachineLearningCommandEncoder
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.MachineLearningCommandEncoder);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTL4MachineLearningCommandEncoder>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.MachineLearningCommandEncoder));
     }
 
     public void BeginCommandBuffer(MTL4CommandAllocator allocator)
@@ -70,14 +51,12 @@ public partial class MTL4CommandBuffer : NativeObject
 
     public MTL4RenderCommandEncoder? RenderCommandEncoder(MTL4RenderPassDescriptor descriptor)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.RenderCommandEncoder, descriptor.NativePtr);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTL4RenderCommandEncoder>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.RenderCommandEncoder, descriptor.NativePtr));
     }
 
     public MTL4RenderCommandEncoder? RenderCommandEncoder(MTL4RenderPassDescriptor descriptor, MTL4RenderEncoderOptions options)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.RenderCommandEncoder, descriptor.NativePtr, (nuint)options);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTL4RenderCommandEncoder>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.RenderCommandEncoder, descriptor.NativePtr, (nuint)options));
     }
 
     public void ResolveCounterHeap(MTL4CounterHeap counterHeap, NSRange range, MTL4BufferRange bufferRange, MTLFence fenceToWait, MTLFence fenceToUpdate)

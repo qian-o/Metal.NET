@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLFXTemporalDenoisedScalerDescriptor : NativeObject
+public class MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFXTemporalDenoisedScalerDescriptor");
-
-    public MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLFXTemporalDenoisedScalerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXTemporalDenoisedScalerDescriptorSelector.Class))
     {
     }
 
@@ -154,39 +152,39 @@ public partial class MTLFXTemporalDenoisedScalerDescriptor : NativeObject
 
     public MTLFXTemporalDenoisedScaler? NewTemporalDenoisedScaler(MTLDevice device)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.NewTemporalDenoisedScaler, device.NativePtr);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLFXTemporalDenoisedScaler>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.NewTemporalDenoisedScaler, device.NativePtr));
     }
 
     public MTL4FXTemporalDenoisedScaler? NewTemporalDenoisedScaler(MTLDevice device, MTL4Compiler compiler)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.NewTemporalDenoisedScaler, device.NativePtr, compiler.NativePtr);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTL4FXTemporalDenoisedScaler>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.NewTemporalDenoisedScaler, device.NativePtr, compiler.NativePtr));
     }
 
     public static float SupportedInputContentMinScale(MTLDevice device)
     {
-        return ObjectiveCRuntime.MsgSendFloat(Class, MTLFXTemporalDenoisedScalerDescriptorSelector.SupportedInputContentMinScale, device.NativePtr);
+        return ObjectiveCRuntime.MsgSendFloat(MTLFXTemporalDenoisedScalerDescriptorSelector.Class, MTLFXTemporalDenoisedScalerDescriptorSelector.SupportedInputContentMinScale, device.NativePtr);
     }
 
     public static float SupportedInputContentMaxScale(MTLDevice device)
     {
-        return ObjectiveCRuntime.MsgSendFloat(Class, MTLFXTemporalDenoisedScalerDescriptorSelector.SupportedInputContentMaxScale, device.NativePtr);
+        return ObjectiveCRuntime.MsgSendFloat(MTLFXTemporalDenoisedScalerDescriptorSelector.Class, MTLFXTemporalDenoisedScalerDescriptorSelector.SupportedInputContentMaxScale, device.NativePtr);
     }
 
     public static bool SupportsMetal4FX(MTLDevice device)
     {
-        return ObjectiveCRuntime.MsgSendBool(Class, MTLFXTemporalDenoisedScalerDescriptorSelector.SupportsMetal4FX, device.NativePtr);
+        return ObjectiveCRuntime.MsgSendBool(MTLFXTemporalDenoisedScalerDescriptorSelector.Class, MTLFXTemporalDenoisedScalerDescriptorSelector.SupportsMetal4FX, device.NativePtr);
     }
 
     public static bool SupportsDevice(MTLDevice device)
     {
-        return ObjectiveCRuntime.MsgSendBool(Class, MTLFXTemporalDenoisedScalerDescriptorSelector.SupportsDevice, device.NativePtr);
+        return ObjectiveCRuntime.MsgSendBool(MTLFXTemporalDenoisedScalerDescriptorSelector.Class, MTLFXTemporalDenoisedScalerDescriptorSelector.SupportsDevice, device.NativePtr);
     }
 }
 
 file static class MTLFXTemporalDenoisedScalerDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFXTemporalDenoisedScalerDescriptor");
+
     public static readonly Selector ColorTextureFormat = Selector.Register("colorTextureFormat");
 
     public static readonly Selector DenoiseStrengthMaskTextureFormat = Selector.Register("denoiseStrengthMaskTextureFormat");

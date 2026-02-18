@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLArgumentDescriptor : NativeObject
+public class MTLArgumentDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArgumentDescriptor");
-
-    public MTLArgumentDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLArgumentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLArgumentDescriptorSelector.Class))
     {
     }
 
@@ -46,13 +44,14 @@ public partial class MTLArgumentDescriptor : NativeObject
 
     public static MTLArgumentDescriptor? ArgumentDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLArgumentDescriptorSelector.ArgumentDescriptor);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLArgumentDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLArgumentDescriptorSelector.Class, MTLArgumentDescriptorSelector.ArgumentDescriptor));
     }
 }
 
 file static class MTLArgumentDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArgumentDescriptor");
+
     public static readonly Selector Access = Selector.Register("access");
 
     public static readonly Selector ArgumentDescriptor = Selector.Register("argumentDescriptor");

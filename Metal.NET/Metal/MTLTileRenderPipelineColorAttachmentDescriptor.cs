@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLTileRenderPipelineColorAttachmentDescriptor : NativeObject
+public class MTLTileRenderPipelineColorAttachmentDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTileRenderPipelineColorAttachmentDescriptor");
-
-    public MTLTileRenderPipelineColorAttachmentDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLTileRenderPipelineColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTileRenderPipelineColorAttachmentDescriptorSelector.Class))
     {
     }
 
@@ -17,6 +15,8 @@ public partial class MTLTileRenderPipelineColorAttachmentDescriptor : NativeObje
 
 file static class MTLTileRenderPipelineColorAttachmentDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTileRenderPipelineColorAttachmentDescriptor");
+
     public static readonly Selector PixelFormat = Selector.Register("pixelFormat");
 
     public static readonly Selector SetPixelFormat = Selector.Register("setPixelFormat:");

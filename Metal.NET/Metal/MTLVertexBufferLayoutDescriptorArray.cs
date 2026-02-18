@@ -1,17 +1,14 @@
 namespace Metal.NET;
 
-public partial class MTLVertexBufferLayoutDescriptorArray : NativeObject
+public class MTLVertexBufferLayoutDescriptorArray(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexBufferLayoutDescriptorArray");
-
-    public MTLVertexBufferLayoutDescriptorArray(nint nativePtr) : base(nativePtr)
+    public MTLVertexBufferLayoutDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLVertexBufferLayoutDescriptorArraySelector.Class))
     {
     }
 
     public MTLVertexBufferLayoutDescriptor? Object(nuint index)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexBufferLayoutDescriptorArraySelector.Object, index);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLVertexBufferLayoutDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexBufferLayoutDescriptorArraySelector.Object, index));
     }
 
     public void SetObject(MTLVertexBufferLayoutDescriptor bufferDesc, nuint index)
@@ -22,6 +19,8 @@ public partial class MTLVertexBufferLayoutDescriptorArray : NativeObject
 
 file static class MTLVertexBufferLayoutDescriptorArraySelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexBufferLayoutDescriptorArray");
+
     public static readonly Selector Object = Selector.Register("objectAtIndexedSubscript:");
 
     public static readonly Selector SetObject = Selector.Register("setObject:atIndexedSubscript:");

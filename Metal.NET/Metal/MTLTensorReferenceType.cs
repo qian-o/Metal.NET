@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLTensorReferenceType : NativeObject
+public class MTLTensorReferenceType(nint nativePtr) : MTLType(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorReferenceType");
-
-    public MTLTensorReferenceType(nint nativePtr) : base(nativePtr)
+    public MTLTensorReferenceType() : this(ObjectiveCRuntime.AllocInit(MTLTensorReferenceTypeSelector.Class))
     {
     }
 
@@ -15,11 +13,7 @@ public partial class MTLTensorReferenceType : NativeObject
 
     public MTLTensorExtents? Dimensions
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorReferenceTypeSelector.Dimensions);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLTensorExtents>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorReferenceTypeSelector.Dimensions));
     }
 
     public MTLDataType IndexType
@@ -35,6 +29,8 @@ public partial class MTLTensorReferenceType : NativeObject
 
 file static class MTLTensorReferenceTypeSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorReferenceType");
+
     public static readonly Selector Access = Selector.Register("access");
 
     public static readonly Selector Dimensions = Selector.Register("dimensions");

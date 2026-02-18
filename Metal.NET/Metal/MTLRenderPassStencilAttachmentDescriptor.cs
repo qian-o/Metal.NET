@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLRenderPassStencilAttachmentDescriptor : NativeObject
+public class MTLRenderPassStencilAttachmentDescriptor(nint nativePtr) : MTLRenderPassAttachmentDescriptor(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassStencilAttachmentDescriptor");
-
-    public MTLRenderPassStencilAttachmentDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLRenderPassStencilAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassStencilAttachmentDescriptorSelector.Class))
     {
     }
 
@@ -23,6 +21,8 @@ public partial class MTLRenderPassStencilAttachmentDescriptor : NativeObject
 
 file static class MTLRenderPassStencilAttachmentDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassStencilAttachmentDescriptor");
+
     public static readonly Selector ClearStencil = Selector.Register("clearStencil");
 
     public static readonly Selector SetClearStencil = Selector.Register("setClearStencil:");

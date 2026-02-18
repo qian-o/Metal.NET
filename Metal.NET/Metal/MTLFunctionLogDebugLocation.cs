@@ -1,10 +1,7 @@
 namespace Metal.NET;
 
-public partial class MTLFunctionLogDebugLocation : NativeObject
+public class MTLFunctionLogDebugLocation(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLFunctionLogDebugLocation(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public nuint Column
     {
@@ -13,11 +10,7 @@ public partial class MTLFunctionLogDebugLocation : NativeObject
 
     public NSString? FunctionName
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogDebugLocationSelector.FunctionName);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogDebugLocationSelector.FunctionName));
     }
 
     public nuint Line
@@ -27,11 +20,7 @@ public partial class MTLFunctionLogDebugLocation : NativeObject
 
     public NSURL? URL
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogDebugLocationSelector.URL);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSURL>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogDebugLocationSelector.URL));
     }
 }
 

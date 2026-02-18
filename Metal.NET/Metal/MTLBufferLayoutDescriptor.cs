@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLBufferLayoutDescriptor : NativeObject
+public class MTLBufferLayoutDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLBufferLayoutDescriptor");
-
-    public MTLBufferLayoutDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLBufferLayoutDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBufferLayoutDescriptorSelector.Class))
     {
     }
 
@@ -29,6 +27,8 @@ public partial class MTLBufferLayoutDescriptor : NativeObject
 
 file static class MTLBufferLayoutDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLBufferLayoutDescriptor");
+
     public static readonly Selector SetStepFunction = Selector.Register("setStepFunction:");
 
     public static readonly Selector SetStepRate = Selector.Register("setStepRate:");

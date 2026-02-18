@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLLogicalToPhysicalColorAttachmentMap : NativeObject
+public class MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLLogicalToPhysicalColorAttachmentMap");
-
-    public MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr) : base(nativePtr)
+    public MTLLogicalToPhysicalColorAttachmentMap() : this(ObjectiveCRuntime.AllocInit(MTLLogicalToPhysicalColorAttachmentMapSelector.Class))
     {
     }
 
@@ -26,6 +24,8 @@ public partial class MTLLogicalToPhysicalColorAttachmentMap : NativeObject
 
 file static class MTLLogicalToPhysicalColorAttachmentMapSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLLogicalToPhysicalColorAttachmentMap");
+
     public static readonly Selector GetPhysicalIndex = Selector.Register("getPhysicalIndexForLogicalIndex:");
 
     public static readonly Selector Reset = Selector.Register("reset");

@@ -1,20 +1,14 @@
 namespace Metal.NET;
 
-public partial class MTLMotionKeyframeData : NativeObject
+public class MTLMotionKeyframeData(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLMotionKeyframeData");
-
-    public MTLMotionKeyframeData(nint nativePtr) : base(nativePtr)
+    public MTLMotionKeyframeData() : this(ObjectiveCRuntime.AllocInit(MTLMotionKeyframeDataSelector.Class))
     {
     }
 
     public MTLBuffer? Buffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMotionKeyframeDataSelector.Buffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMotionKeyframeDataSelector.Buffer));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataSelector.SetBuffer, value?.NativePtr ?? 0);
     }
 
@@ -26,13 +20,14 @@ public partial class MTLMotionKeyframeData : NativeObject
 
     public static MTLMotionKeyframeData? Data()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLMotionKeyframeDataSelector.Data);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLMotionKeyframeData>(ObjectiveCRuntime.MsgSendPtr(MTLMotionKeyframeDataSelector.Class, MTLMotionKeyframeDataSelector.Data));
     }
 }
 
 file static class MTLMotionKeyframeDataSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLMotionKeyframeData");
+
     public static readonly Selector Buffer = Selector.Register("buffer");
 
     public static readonly Selector Data = Selector.Register("data");

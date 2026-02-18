@@ -1,27 +1,16 @@
 namespace Metal.NET;
 
-public partial class MTL4CommandQueue : NativeObject
+public class MTL4CommandQueue(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTL4CommandQueue(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueSelector.Device));
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueSelector.Label));
     }
 
     public void AddResidencySet(MTLResidencySet residencySet)

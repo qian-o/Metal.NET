@@ -1,12 +1,9 @@
 namespace Metal.NET;
 
-public partial class MTLResource : NativeObject
+public class MTLResource(nint nativePtr) : MTLAllocation(nativePtr)
 {
-    public MTLResource(nint nativePtr) : base(nativePtr)
-    {
-    }
 
-    public nuint AllocatedSize
+    public new nuint AllocatedSize
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.AllocatedSize);
     }
@@ -18,11 +15,7 @@ public partial class MTLResource : NativeObject
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceSelector.Device));
     }
 
     public MTLHazardTrackingMode HazardTrackingMode
@@ -32,11 +25,7 @@ public partial class MTLResource : NativeObject
 
     public MTLHeap? Heap
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceSelector.Heap);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLHeap>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceSelector.Heap));
     }
 
     public nuint HeapOffset
@@ -51,11 +40,7 @@ public partial class MTLResource : NativeObject
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceSelector.SetLabel, value?.NativePtr ?? 0);
     }
 

@@ -1,10 +1,7 @@
 namespace Metal.NET;
 
-public partial class MTLComputeCommandEncoder : NativeObject
+public class MTLComputeCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr)
 {
-    public MTLComputeCommandEncoder(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public MTLDispatchType DispatchType
     {

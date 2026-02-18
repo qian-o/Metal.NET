@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLVertexAttribute : NativeObject
+public class MTLVertexAttribute(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexAttribute");
-
-    public MTLVertexAttribute(nint nativePtr) : base(nativePtr)
+    public MTLVertexAttribute() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeSelector.Class))
     {
     }
 
@@ -40,11 +38,7 @@ public partial class MTLVertexAttribute : NativeObject
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeSelector.Name);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeSelector.Name));
     }
 
     public bool PatchControlPointData
@@ -60,6 +54,8 @@ public partial class MTLVertexAttribute : NativeObject
 
 file static class MTLVertexAttributeSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexAttribute");
+
     public static readonly Selector Active = Selector.Register("isActive");
 
     public static readonly Selector AttributeIndex = Selector.Register("attributeIndex");

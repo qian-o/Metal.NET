@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLResidencySetDescriptor : NativeObject
+public class MTLResidencySetDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResidencySetDescriptor");
-
-    public MTLResidencySetDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLResidencySetDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResidencySetDescriptorSelector.Class))
     {
     }
 
@@ -16,17 +14,15 @@ public partial class MTLResidencySetDescriptor : NativeObject
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetDescriptorSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetDescriptorSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
     }
 }
 
 file static class MTLResidencySetDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResidencySetDescriptor");
+
     public static readonly Selector InitialCapacity = Selector.Register("initialCapacity");
 
     public static readonly Selector Label = Selector.Register("label");

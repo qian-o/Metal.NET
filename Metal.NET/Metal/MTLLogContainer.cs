@@ -1,10 +1,7 @@
 namespace Metal.NET;
 
-public partial class MTLLogContainer : NativeObject
+public class MTLLogContainer(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLLogContainer(nint nativePtr) : base(nativePtr)
-    {
-    }
 }
 
 file static class MTLLogContainerSelector

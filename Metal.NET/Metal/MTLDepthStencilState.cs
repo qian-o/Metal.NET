@@ -1,18 +1,11 @@
 namespace Metal.NET;
 
-public partial class MTLDepthStencilState : NativeObject
+public class MTLDepthStencilState(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLDepthStencilState(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilStateSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilStateSelector.Device));
     }
 
     public MTLResourceID GpuResourceID
@@ -22,11 +15,7 @@ public partial class MTLDepthStencilState : NativeObject
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilStateSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilStateSelector.Label));
     }
 }
 

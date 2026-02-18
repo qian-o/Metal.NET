@@ -1,18 +1,11 @@
 namespace Metal.NET;
 
-public partial class MTLSamplerState : NativeObject
+public class MTLSamplerState(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLSamplerState(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSamplerStateSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSamplerStateSelector.Device));
     }
 
     public MTLResourceID GpuResourceID
@@ -22,11 +15,7 @@ public partial class MTLSamplerState : NativeObject
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSamplerStateSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSamplerStateSelector.Label));
     }
 }
 

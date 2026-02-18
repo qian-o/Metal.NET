@@ -1,10 +1,7 @@
 namespace Metal.NET;
 
-public partial class MTL4BinaryFunction : NativeObject
+public class MTL4BinaryFunction(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTL4BinaryFunction(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public MTLFunctionType FunctionType
     {
@@ -13,11 +10,7 @@ public partial class MTL4BinaryFunction : NativeObject
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4BinaryFunctionSelector.Name);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4BinaryFunctionSelector.Name));
     }
 }
 

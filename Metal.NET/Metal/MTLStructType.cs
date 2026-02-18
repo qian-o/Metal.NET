@@ -1,31 +1,26 @@
 namespace Metal.NET;
 
-public partial class MTLStructType : NativeObject
+public class MTLStructType(nint nativePtr) : MTLType(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStructType");
-
-    public MTLStructType(nint nativePtr) : base(nativePtr)
+    public MTLStructType() : this(ObjectiveCRuntime.AllocInit(MTLStructTypeSelector.Class))
     {
     }
 
     public NSArray? Members
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeSelector.Members);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeSelector.Members));
     }
 
     public MTLStructMember? MemberByName(NSString name)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeSelector.MemberByName, name.NativePtr);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLStructMember>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeSelector.MemberByName, name.NativePtr));
     }
 }
 
 file static class MTLStructTypeSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStructType");
+
     public static readonly Selector MemberByName = Selector.Register("memberByName:");
 
     public static readonly Selector Members = Selector.Register("members");

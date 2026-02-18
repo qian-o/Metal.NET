@@ -3,12 +3,8 @@
 /// <summary>
 /// Wraps an Objective-C NSArray pointer.
 /// </summary>
-public class NSArray : NativeObject
+public class NSArray(nint nativePtr) : NativeObject(nativePtr)
 {
-    public NSArray(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public nuint Count => ObjectiveCRuntime.MsgSendNUInt(NativePtr, NSArraySelector.Count);
 
     public nint ObjectAtIndex(nint index)
@@ -17,7 +13,7 @@ public class NSArray : NativeObject
     }
 }
 
-file class NSArraySelector
+file static class NSArraySelector
 {
     public static readonly Selector Count = Selector.Register("count");
 

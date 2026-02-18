@@ -1,10 +1,7 @@
 namespace Metal.NET;
 
-public partial class MTLIntersectionFunctionTable : NativeObject
+public class MTLIntersectionFunctionTable(nint nativePtr) : MTLResource(nativePtr)
 {
-    public MTLIntersectionFunctionTable(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public MTLResourceID GpuResourceID
     {

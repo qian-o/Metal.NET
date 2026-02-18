@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTL4PipelineOptions : NativeObject
+public class MTL4PipelineOptions(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PipelineOptions");
-
-    public MTL4PipelineOptions(nint nativePtr) : base(nativePtr)
+    public MTL4PipelineOptions() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineOptionsSelector.Class))
     {
     }
 
@@ -23,6 +21,8 @@ public partial class MTL4PipelineOptions : NativeObject
 
 file static class MTL4PipelineOptionsSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PipelineOptions");
+
     public static readonly Selector SetShaderReflection = Selector.Register("setShaderReflection:");
 
     public static readonly Selector SetShaderValidation = Selector.Register("setShaderValidation:");

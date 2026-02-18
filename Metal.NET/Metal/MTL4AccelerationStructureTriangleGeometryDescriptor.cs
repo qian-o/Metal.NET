@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTL4AccelerationStructureTriangleGeometryDescriptor : NativeObject
+public class MTL4AccelerationStructureTriangleGeometryDescriptor(nint nativePtr) : MTL4AccelerationStructureGeometryDescriptor(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4AccelerationStructureTriangleGeometryDescriptor");
-
-    public MTL4AccelerationStructureTriangleGeometryDescriptor(nint nativePtr) : base(nativePtr)
+    public MTL4AccelerationStructureTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureTriangleGeometryDescriptorSelector.Class))
     {
     }
 
@@ -59,6 +57,8 @@ public partial class MTL4AccelerationStructureTriangleGeometryDescriptor : Nativ
 
 file static class MTL4AccelerationStructureTriangleGeometryDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4AccelerationStructureTriangleGeometryDescriptor");
+
     public static readonly Selector IndexBuffer = Selector.Register("indexBuffer");
 
     public static readonly Selector IndexType = Selector.Register("indexType");

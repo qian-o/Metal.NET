@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLTextureReferenceType : NativeObject
+public class MTLTextureReferenceType(nint nativePtr) : MTLType(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTextureReferenceType");
-
-    public MTLTextureReferenceType(nint nativePtr) : base(nativePtr)
+    public MTLTextureReferenceType() : this(ObjectiveCRuntime.AllocInit(MTLTextureReferenceTypeSelector.Class))
     {
     }
 
@@ -31,6 +29,8 @@ public partial class MTLTextureReferenceType : NativeObject
 
 file static class MTLTextureReferenceTypeSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTextureReferenceType");
+
     public static readonly Selector Access = Selector.Register("access");
 
     public static readonly Selector IsDepthTexture = Selector.Register("isDepthTexture");

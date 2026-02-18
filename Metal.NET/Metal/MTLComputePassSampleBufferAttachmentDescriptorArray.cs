@@ -1,17 +1,14 @@
 namespace Metal.NET;
 
-public partial class MTLComputePassSampleBufferAttachmentDescriptorArray : NativeObject
+public class MTLComputePassSampleBufferAttachmentDescriptorArray(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePassSampleBufferAttachmentDescriptorArray");
-
-    public MTLComputePassSampleBufferAttachmentDescriptorArray(nint nativePtr) : base(nativePtr)
+    public MTLComputePassSampleBufferAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLComputePassSampleBufferAttachmentDescriptorArraySelector.Class))
     {
     }
 
     public MTLComputePassSampleBufferAttachmentDescriptor? Object(nuint attachmentIndex)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorArraySelector.Object, attachmentIndex);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLComputePassSampleBufferAttachmentDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorArraySelector.Object, attachmentIndex));
     }
 
     public void SetObject(MTLComputePassSampleBufferAttachmentDescriptor attachment, nuint attachmentIndex)
@@ -22,6 +19,8 @@ public partial class MTLComputePassSampleBufferAttachmentDescriptorArray : Nativ
 
 file static class MTLComputePassSampleBufferAttachmentDescriptorArraySelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePassSampleBufferAttachmentDescriptorArray");
+
     public static readonly Selector Object = Selector.Register("objectAtIndexedSubscript:");
 
     public static readonly Selector SetObject = Selector.Register("setObject:atIndexedSubscript:");

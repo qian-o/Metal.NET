@@ -1,20 +1,14 @@
 namespace Metal.NET;
 
-public partial class MTLRasterizationRateLayerDescriptor : NativeObject
+public class MTLRasterizationRateLayerDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRasterizationRateLayerDescriptor");
-
-    public MTLRasterizationRateLayerDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLRasterizationRateLayerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateLayerDescriptorSelector.Class))
     {
     }
 
     public MTLRasterizationRateSampleArray? Horizontal
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.Horizontal);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLRasterizationRateSampleArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.Horizontal));
     }
 
     public float HorizontalSampleStorage
@@ -35,11 +29,7 @@ public partial class MTLRasterizationRateLayerDescriptor : NativeObject
 
     public MTLRasterizationRateSampleArray? Vertical
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.Vertical);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLRasterizationRateSampleArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.Vertical));
     }
 
     public float VerticalSampleStorage
@@ -50,6 +40,8 @@ public partial class MTLRasterizationRateLayerDescriptor : NativeObject
 
 file static class MTLRasterizationRateLayerDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRasterizationRateLayerDescriptor");
+
     public static readonly Selector Horizontal = Selector.Register("horizontal");
 
     public static readonly Selector HorizontalSampleStorage = Selector.Register("horizontalSampleStorage");

@@ -1,20 +1,14 @@
 namespace Metal.NET;
 
-public partial class MTLDepthStencilDescriptor : NativeObject
+public class MTLDepthStencilDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLDepthStencilDescriptor");
-
-    public MTLDepthStencilDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLDepthStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLDepthStencilDescriptorSelector.Class))
     {
     }
 
     public MTLStencilDescriptor? BackFaceStencil
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorSelector.BackFaceStencil);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLStencilDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorSelector.BackFaceStencil));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetBackFaceStencil, value?.NativePtr ?? 0);
     }
 
@@ -32,11 +26,7 @@ public partial class MTLDepthStencilDescriptor : NativeObject
 
     public MTLStencilDescriptor? FrontFaceStencil
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorSelector.FrontFaceStencil);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLStencilDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorSelector.FrontFaceStencil));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetFrontFaceStencil, value?.NativePtr ?? 0);
     }
 
@@ -47,17 +37,15 @@ public partial class MTLDepthStencilDescriptor : NativeObject
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
     }
 }
 
 file static class MTLDepthStencilDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLDepthStencilDescriptor");
+
     public static readonly Selector BackFaceStencil = Selector.Register("backFaceStencil");
 
     public static readonly Selector DepthCompareFunction = Selector.Register("depthCompareFunction");

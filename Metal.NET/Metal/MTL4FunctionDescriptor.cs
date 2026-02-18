@@ -1,14 +1,13 @@
 namespace Metal.NET;
 
-public partial class MTL4FunctionDescriptor : NativeObject
+public class MTL4FunctionDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4FunctionDescriptor");
-
-    public MTL4FunctionDescriptor(nint nativePtr) : base(nativePtr)
+    public MTL4FunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4FunctionDescriptorSelector.Class))
     {
     }
 }
 
 file static class MTL4FunctionDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4FunctionDescriptor");
 }

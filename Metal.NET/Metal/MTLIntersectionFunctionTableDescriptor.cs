@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLIntersectionFunctionTableDescriptor : NativeObject
+public class MTLIntersectionFunctionTableDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIntersectionFunctionTableDescriptor");
-
-    public MTLIntersectionFunctionTableDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLIntersectionFunctionTableDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIntersectionFunctionTableDescriptorSelector.Class))
     {
     }
 
@@ -16,13 +14,14 @@ public partial class MTLIntersectionFunctionTableDescriptor : NativeObject
 
     public static MTLIntersectionFunctionTableDescriptor? IntersectionFunctionTableDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLIntersectionFunctionTableDescriptorSelector.IntersectionFunctionTableDescriptor);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLIntersectionFunctionTableDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLIntersectionFunctionTableDescriptorSelector.Class, MTLIntersectionFunctionTableDescriptorSelector.IntersectionFunctionTableDescriptor));
     }
 }
 
 file static class MTLIntersectionFunctionTableDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIntersectionFunctionTableDescriptor");
+
     public static readonly Selector FunctionCount = Selector.Register("functionCount");
 
     public static readonly Selector IntersectionFunctionTableDescriptor = Selector.Register("intersectionFunctionTableDescriptor");

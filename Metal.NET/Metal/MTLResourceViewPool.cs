@@ -1,10 +1,7 @@
 namespace Metal.NET;
 
-public partial class MTLResourceViewPool : NativeObject
+public class MTLResourceViewPool(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLResourceViewPool(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public MTLResourceID BaseResourceID
     {
@@ -13,20 +10,12 @@ public partial class MTLResourceViewPool : NativeObject
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolSelector.Device));
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolSelector.Label));
     }
 
     public nuint ResourceViewCount

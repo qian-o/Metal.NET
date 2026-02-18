@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLRenderPassAttachmentDescriptor : NativeObject
+public class MTLRenderPassAttachmentDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassAttachmentDescriptor");
-
-    public MTLRenderPassAttachmentDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLRenderPassAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassAttachmentDescriptorSelector.Class))
     {
     }
 
@@ -46,11 +44,7 @@ public partial class MTLRenderPassAttachmentDescriptor : NativeObject
 
     public MTLTexture? ResolveTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassAttachmentDescriptorSelector.ResolveTexture);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLTexture>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassAttachmentDescriptorSelector.ResolveTexture));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetResolveTexture, value?.NativePtr ?? 0);
     }
 
@@ -74,17 +68,15 @@ public partial class MTLRenderPassAttachmentDescriptor : NativeObject
 
     public MTLTexture? Texture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassAttachmentDescriptorSelector.Texture);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLTexture>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassAttachmentDescriptorSelector.Texture));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetTexture, value?.NativePtr ?? 0);
     }
 }
 
 file static class MTLRenderPassAttachmentDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassAttachmentDescriptor");
+
     public static readonly Selector DepthPlane = Selector.Register("depthPlane");
 
     public static readonly Selector Level = Selector.Register("level");

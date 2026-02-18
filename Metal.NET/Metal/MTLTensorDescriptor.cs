@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLTensorDescriptor : NativeObject
+public class MTLTensorDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorDescriptor");
-
-    public MTLTensorDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLTensorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTensorDescriptorSelector.Class))
     {
     }
 
@@ -22,11 +20,7 @@ public partial class MTLTensorDescriptor : NativeObject
 
     public MTLTensorExtents? Dimensions
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorDescriptorSelector.Dimensions);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLTensorExtents>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorDescriptorSelector.Dimensions));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetDimensions, value?.NativePtr ?? 0);
     }
 
@@ -50,11 +44,7 @@ public partial class MTLTensorDescriptor : NativeObject
 
     public MTLTensorExtents? Strides
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorDescriptorSelector.Strides);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLTensorExtents>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorDescriptorSelector.Strides));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetStrides, value?.NativePtr ?? 0);
     }
 
@@ -67,6 +57,8 @@ public partial class MTLTensorDescriptor : NativeObject
 
 file static class MTLTensorDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorDescriptor");
+
     public static readonly Selector CpuCacheMode = Selector.Register("cpuCacheMode");
 
     public static readonly Selector DataType = Selector.Register("dataType");

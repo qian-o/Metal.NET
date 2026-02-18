@@ -1,27 +1,16 @@
 namespace Metal.NET;
 
-public partial class MTLIOCommandBuffer : NativeObject
+public class MTLIOCommandBuffer(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLIOCommandBuffer(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public NSError? Error
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferSelector.Error);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSError>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferSelector.Error));
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.SetLabel, value?.NativePtr ?? 0);
     }
 

@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLCompileOptions : NativeObject
+public class MTLCompileOptions(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCompileOptions");
-
-    public MTLCompileOptions(nint nativePtr) : base(nativePtr)
+    public MTLCompileOptions() : this(ObjectiveCRuntime.AllocInit(MTLCompileOptionsSelector.Class))
     {
     }
 
@@ -34,11 +32,7 @@ public partial class MTLCompileOptions : NativeObject
 
     public NSString? InstallName
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.InstallName);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.InstallName));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetInstallName, value?.NativePtr ?? 0);
     }
 
@@ -50,11 +44,7 @@ public partial class MTLCompileOptions : NativeObject
 
     public NSArray? Libraries
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.Libraries);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.Libraries));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetLibraries, value?.NativePtr ?? 0);
     }
 
@@ -103,6 +93,8 @@ public partial class MTLCompileOptions : NativeObject
 
 file static class MTLCompileOptionsSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCompileOptions");
+
     public static readonly Selector AllowReferencingUndefinedSymbols = Selector.Register("allowReferencingUndefinedSymbols");
 
     public static readonly Selector CompileSymbolVisibility = Selector.Register("compileSymbolVisibility");

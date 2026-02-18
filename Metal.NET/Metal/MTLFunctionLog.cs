@@ -1,36 +1,21 @@
 namespace Metal.NET;
 
-public partial class MTLFunctionLog : NativeObject
+public class MTLFunctionLog(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLFunctionLog(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public MTLFunctionLogDebugLocation? DebugLocation
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.DebugLocation);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLFunctionLogDebugLocation>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.DebugLocation));
     }
 
     public NSString? EncoderLabel
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.EncoderLabel);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.EncoderLabel));
     }
 
     public MTLFunction? Function
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.Function);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLFunction>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.Function));
     }
 
     public MTLFunctionLogType Type

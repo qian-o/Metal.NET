@@ -1,18 +1,11 @@
 namespace Metal.NET;
 
-public partial class MTLTensor : NativeObject
+public class MTLTensor(nint nativePtr) : MTLResource(nativePtr)
 {
-    public MTLTensor(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public MTLBuffer? Buffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Buffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Buffer));
     }
 
     public nuint BufferOffset
@@ -27,11 +20,7 @@ public partial class MTLTensor : NativeObject
 
     public MTLTensorExtents? Dimensions
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Dimensions);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLTensorExtents>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Dimensions));
     }
 
     public MTLResourceID GpuResourceID
@@ -41,11 +30,7 @@ public partial class MTLTensor : NativeObject
 
     public MTLTensorExtents? Strides
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Strides);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLTensorExtents>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Strides));
     }
 
     public MTLTensorUsage Usage

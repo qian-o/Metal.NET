@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLSamplerDescriptor : NativeObject
+public class MTLSamplerDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLSamplerDescriptor");
-
-    public MTLSamplerDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLSamplerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLSamplerDescriptorSelector.Class))
     {
     }
 
@@ -22,11 +20,7 @@ public partial class MTLSamplerDescriptor : NativeObject
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSamplerDescriptorSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSamplerDescriptorSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
     }
 
@@ -117,6 +111,8 @@ public partial class MTLSamplerDescriptor : NativeObject
 
 file static class MTLSamplerDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLSamplerDescriptor");
+
     public static readonly Selector BorderColor = Selector.Register("borderColor");
 
     public static readonly Selector CompareFunction = Selector.Register("compareFunction");

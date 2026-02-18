@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLAttributeDescriptor : NativeObject
+public class MTLAttributeDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAttributeDescriptor");
-
-    public MTLAttributeDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAttributeDescriptorSelector.Class))
     {
     }
 
@@ -29,6 +27,8 @@ public partial class MTLAttributeDescriptor : NativeObject
 
 file static class MTLAttributeDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAttributeDescriptor");
+
     public static readonly Selector BufferIndex = Selector.Register("bufferIndex");
 
     public static readonly Selector Format = Selector.Register("format");

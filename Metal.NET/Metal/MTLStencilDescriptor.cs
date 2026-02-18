@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLStencilDescriptor : NativeObject
+public class MTLStencilDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStencilDescriptor");
-
-    public MTLStencilDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStencilDescriptorSelector.Class))
     {
     }
 
@@ -47,6 +45,8 @@ public partial class MTLStencilDescriptor : NativeObject
 
 file static class MTLStencilDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStencilDescriptor");
+
     public static readonly Selector DepthFailureOperation = Selector.Register("depthFailureOperation");
 
     public static readonly Selector DepthStencilPassOperation = Selector.Register("depthStencilPassOperation");

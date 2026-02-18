@@ -1,30 +1,20 @@
 namespace Metal.NET;
 
-public partial class MTLCounterSampleBufferDescriptor : NativeObject
+public class MTLCounterSampleBufferDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCounterSampleBufferDescriptor");
-
-    public MTLCounterSampleBufferDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLCounterSampleBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCounterSampleBufferDescriptorSelector.Class))
     {
     }
 
     public MTLCounterSet? CounterSet
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferDescriptorSelector.CounterSet);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLCounterSet>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferDescriptorSelector.CounterSet));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetCounterSet, value?.NativePtr ?? 0);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferDescriptorSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferDescriptorSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
     }
 
@@ -43,6 +33,8 @@ public partial class MTLCounterSampleBufferDescriptor : NativeObject
 
 file static class MTLCounterSampleBufferDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCounterSampleBufferDescriptor");
+
     public static readonly Selector CounterSet = Selector.Register("counterSet");
 
     public static readonly Selector Label = Selector.Register("label");

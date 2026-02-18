@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLFXFrameInterpolatorDescriptor : NativeObject
+public class MTLFXFrameInterpolatorDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFXFrameInterpolatorDescriptor");
-
-    public MTLFXFrameInterpolatorDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLFXFrameInterpolatorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXFrameInterpolatorDescriptorSelector.Class))
     {
     }
 
@@ -58,11 +56,7 @@ public partial class MTLFXFrameInterpolatorDescriptor : NativeObject
 
     public MTLFXFrameInterpolatableScaler? Scaler
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.Scaler);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLFXFrameInterpolatableScaler>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.Scaler));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetScaler, value?.NativePtr ?? 0);
     }
 
@@ -73,29 +67,29 @@ public partial class MTLFXFrameInterpolatorDescriptor : NativeObject
 
     public MTLFXFrameInterpolator? NewFrameInterpolator(MTLDevice pDevice)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.NewFrameInterpolator, pDevice.NativePtr);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLFXFrameInterpolator>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.NewFrameInterpolator, pDevice.NativePtr));
     }
 
     public MTL4FXFrameInterpolator? NewFrameInterpolator(MTLDevice pDevice, MTL4Compiler pCompiler)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.NewFrameInterpolator, pDevice.NativePtr, pCompiler.NativePtr);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTL4FXFrameInterpolator>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.NewFrameInterpolator, pDevice.NativePtr, pCompiler.NativePtr));
     }
 
     public static bool SupportsMetal4FX(MTLDevice device)
     {
-        return ObjectiveCRuntime.MsgSendBool(Class, MTLFXFrameInterpolatorDescriptorSelector.SupportsMetal4FX, device.NativePtr);
+        return ObjectiveCRuntime.MsgSendBool(MTLFXFrameInterpolatorDescriptorSelector.Class, MTLFXFrameInterpolatorDescriptorSelector.SupportsMetal4FX, device.NativePtr);
     }
 
     public static bool SupportsDevice(MTLDevice device)
     {
-        return ObjectiveCRuntime.MsgSendBool(Class, MTLFXFrameInterpolatorDescriptorSelector.SupportsDevice, device.NativePtr);
+        return ObjectiveCRuntime.MsgSendBool(MTLFXFrameInterpolatorDescriptorSelector.Class, MTLFXFrameInterpolatorDescriptorSelector.SupportsDevice, device.NativePtr);
     }
 }
 
 file static class MTLFXFrameInterpolatorDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFXFrameInterpolatorDescriptor");
+
     public static readonly Selector ColorTextureFormat = Selector.Register("colorTextureFormat");
 
     public static readonly Selector DepthTextureFormat = Selector.Register("depthTextureFormat");

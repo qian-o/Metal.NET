@@ -1,18 +1,11 @@
 namespace Metal.NET;
 
-public partial class MTL4CommitFeedback : NativeObject
+public class MTL4CommitFeedback(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTL4CommitFeedback(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public NSError? Error
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommitFeedbackSelector.Error);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSError>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommitFeedbackSelector.Error));
     }
 
     public double GPUEndTime

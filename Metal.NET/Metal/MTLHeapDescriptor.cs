@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLHeapDescriptor : NativeObject
+public class MTLHeapDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLHeapDescriptor");
-
-    public MTLHeapDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLHeapDescriptorSelector.Class))
     {
     }
 
@@ -59,6 +57,8 @@ public partial class MTLHeapDescriptor : NativeObject
 
 file static class MTLHeapDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLHeapDescriptor");
+
     public static readonly Selector CpuCacheMode = Selector.Register("cpuCacheMode");
 
     public static readonly Selector HazardTrackingMode = Selector.Register("hazardTrackingMode");

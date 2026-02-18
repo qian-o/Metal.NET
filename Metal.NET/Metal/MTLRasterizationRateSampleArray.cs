@@ -1,14 +1,13 @@
 namespace Metal.NET;
 
-public partial class MTLRasterizationRateSampleArray : NativeObject
+public class MTLRasterizationRateSampleArray(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRasterizationRateSampleArray");
-
-    public MTLRasterizationRateSampleArray(nint nativePtr) : base(nativePtr)
+    public MTLRasterizationRateSampleArray() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateSampleArraySelector.Class))
     {
     }
 }
 
 file static class MTLRasterizationRateSampleArraySelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRasterizationRateSampleArray");
 }

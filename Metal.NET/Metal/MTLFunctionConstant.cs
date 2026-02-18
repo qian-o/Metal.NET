@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLFunctionConstant : NativeObject
+public class MTLFunctionConstant(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionConstant");
-
-    public MTLFunctionConstant(nint nativePtr) : base(nativePtr)
+    public MTLFunctionConstant() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantSelector.Class))
     {
     }
 
@@ -15,11 +13,7 @@ public partial class MTLFunctionConstant : NativeObject
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionConstantSelector.Name);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionConstantSelector.Name));
     }
 
     public bool Required
@@ -35,6 +29,8 @@ public partial class MTLFunctionConstant : NativeObject
 
 file static class MTLFunctionConstantSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionConstant");
+
     public static readonly Selector Index = Selector.Register("index");
 
     public static readonly Selector Name = Selector.Register("name");

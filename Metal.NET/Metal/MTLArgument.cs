@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLArgument : NativeObject
+public class MTLArgument(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArgument");
-
-    public MTLArgument(nint nativePtr) : base(nativePtr)
+    public MTLArgument() : this(ObjectiveCRuntime.AllocInit(MTLArgumentSelector.Class))
     {
     }
 
@@ -40,20 +38,12 @@ public partial class MTLArgument : NativeObject
 
     public MTLPointerType? BufferPointerType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentSelector.BufferPointerType);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLPointerType>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentSelector.BufferPointerType));
     }
 
     public MTLStructType? BufferStructType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentSelector.BufferStructType);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLStructType>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentSelector.BufferStructType));
     }
 
     public nuint Index
@@ -73,11 +63,7 @@ public partial class MTLArgument : NativeObject
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentSelector.Name);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentSelector.Name));
     }
 
     public MTLDataType TextureDataType
@@ -108,6 +94,8 @@ public partial class MTLArgument : NativeObject
 
 file static class MTLArgumentSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArgument");
+
     public static readonly Selector Access = Selector.Register("access");
 
     public static readonly Selector Active = Selector.Register("isActive");

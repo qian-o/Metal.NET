@@ -1,17 +1,14 @@
 namespace Metal.NET;
 
-public partial class MTLAttributeDescriptorArray : NativeObject
+public class MTLAttributeDescriptorArray(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAttributeDescriptorArray");
-
-    public MTLAttributeDescriptorArray(nint nativePtr) : base(nativePtr)
+    public MTLAttributeDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLAttributeDescriptorArraySelector.Class))
     {
     }
 
     public MTLAttributeDescriptor? Object(nuint index)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeDescriptorArraySelector.Object, index);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLAttributeDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeDescriptorArraySelector.Object, index));
     }
 
     public void SetObject(MTLAttributeDescriptor attributeDesc, nuint index)
@@ -22,6 +19,8 @@ public partial class MTLAttributeDescriptorArray : NativeObject
 
 file static class MTLAttributeDescriptorArraySelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAttributeDescriptorArray");
+
     public static readonly Selector Object = Selector.Register("objectAtIndexedSubscript:");
 
     public static readonly Selector SetObject = Selector.Register("setObject:atIndexedSubscript:");

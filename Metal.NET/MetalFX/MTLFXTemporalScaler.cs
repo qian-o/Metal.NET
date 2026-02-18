@@ -1,10 +1,7 @@
 namespace Metal.NET;
 
-public partial class MTLFXTemporalScaler : NativeObject
+public class MTLFXTemporalScaler(nint nativePtr) : MTLFXTemporalScalerBase(nativePtr)
 {
-    public MTLFXTemporalScaler(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public void EncodeToCommandBuffer(MTLCommandBuffer pCommandBuffer)
     {

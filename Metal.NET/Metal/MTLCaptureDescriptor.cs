@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLCaptureDescriptor : NativeObject
+public class MTLCaptureDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCaptureDescriptor");
-
-    public MTLCaptureDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLCaptureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCaptureDescriptorSelector.Class))
     {
     }
 
@@ -16,17 +14,15 @@ public partial class MTLCaptureDescriptor : NativeObject
 
     public NSURL? OutputURL
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureDescriptorSelector.OutputURL);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSURL>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureDescriptorSelector.OutputURL));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorSelector.SetOutputURL, value?.NativePtr ?? 0);
     }
 }
 
 file static class MTLCaptureDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCaptureDescriptor");
+
     public static readonly Selector Destination = Selector.Register("destination");
 
     public static readonly Selector OutputURL = Selector.Register("outputURL");

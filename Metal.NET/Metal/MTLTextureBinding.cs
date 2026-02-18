@@ -1,10 +1,7 @@
 namespace Metal.NET;
 
-public partial class MTLTextureBinding : NativeObject
+public class MTLTextureBinding(nint nativePtr) : MTLBinding(nativePtr)
 {
-    public MTLTextureBinding(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public nuint ArrayLength
     {

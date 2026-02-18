@@ -1,10 +1,7 @@
 namespace Metal.NET;
 
-public partial class MTLBlitCommandEncoder : NativeObject
+public class MTLBlitCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr)
 {
-    public MTLBlitCommandEncoder(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public void CopyFromBuffer(MTLBuffer sourceBuffer, nuint sourceOffset, nuint sourceBytesPerRow, nuint sourceBytesPerImage, MTLSize sourceSize, MTLTexture destinationTexture, nuint destinationSlice, nuint destinationLevel, MTLOrigin destinationOrigin)
     {

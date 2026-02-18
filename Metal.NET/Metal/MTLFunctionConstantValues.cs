@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLFunctionConstantValues : NativeObject
+public class MTLFunctionConstantValues(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionConstantValues");
-
-    public MTLFunctionConstantValues(nint nativePtr) : base(nativePtr)
+    public MTLFunctionConstantValues() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantValuesSelector.Class))
     {
     }
 
@@ -31,6 +29,8 @@ public partial class MTLFunctionConstantValues : NativeObject
 
 file static class MTLFunctionConstantValuesSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionConstantValues");
+
     public static readonly Selector Reset = Selector.Register("reset");
 
     public static readonly Selector SetConstantValue = Selector.Register("setConstantValue:type:atIndex:");

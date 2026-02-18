@@ -1,20 +1,14 @@
 namespace Metal.NET;
 
-public partial class MTL4ComputePipelineDescriptor : NativeObject
+public class MTL4ComputePipelineDescriptor(nint nativePtr) : MTL4PipelineDescriptor(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4ComputePipelineDescriptor");
-
-    public MTL4ComputePipelineDescriptor(nint nativePtr) : base(nativePtr)
+    public MTL4ComputePipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4ComputePipelineDescriptorSelector.Class))
     {
     }
 
     public MTL4FunctionDescriptor? ComputeFunctionDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ComputePipelineDescriptorSelector.ComputeFunctionDescriptor);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTL4FunctionDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ComputePipelineDescriptorSelector.ComputeFunctionDescriptor));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetComputeFunctionDescriptor, value?.NativePtr ?? 0);
     }
 
@@ -32,11 +26,7 @@ public partial class MTL4ComputePipelineDescriptor : NativeObject
 
     public MTL4StaticLinkingDescriptor? StaticLinkingDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ComputePipelineDescriptorSelector.StaticLinkingDescriptor);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTL4StaticLinkingDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ComputePipelineDescriptorSelector.StaticLinkingDescriptor));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetStaticLinkingDescriptor, value?.NativePtr ?? 0);
     }
 
@@ -66,6 +56,8 @@ public partial class MTL4ComputePipelineDescriptor : NativeObject
 
 file static class MTL4ComputePipelineDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4ComputePipelineDescriptor");
+
     public static readonly Selector ComputeFunctionDescriptor = Selector.Register("computeFunctionDescriptor");
 
     public static readonly Selector MaxTotalThreadsPerThreadgroup = Selector.Register("maxTotalThreadsPerThreadgroup");

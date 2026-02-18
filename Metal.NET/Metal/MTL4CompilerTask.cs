@@ -1,18 +1,11 @@
 namespace Metal.NET;
 
-public partial class MTL4CompilerTask : NativeObject
+public class MTL4CompilerTask(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTL4CompilerTask(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public MTL4Compiler? Compiler
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskSelector.Compiler);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTL4Compiler>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskSelector.Compiler));
     }
 
     public MTL4CompilerTaskStatus Status

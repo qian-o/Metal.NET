@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTL4ArgumentTableDescriptor : NativeObject
+public class MTL4ArgumentTableDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4ArgumentTableDescriptor");
-
-    public MTL4ArgumentTableDescriptor(nint nativePtr) : base(nativePtr)
+    public MTL4ArgumentTableDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4ArgumentTableDescriptorSelector.Class))
     {
     }
 
@@ -16,11 +14,7 @@ public partial class MTL4ArgumentTableDescriptor : NativeObject
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArgumentTableDescriptorSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArgumentTableDescriptorSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
     }
 
@@ -51,6 +45,8 @@ public partial class MTL4ArgumentTableDescriptor : NativeObject
 
 file static class MTL4ArgumentTableDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4ArgumentTableDescriptor");
+
     public static readonly Selector InitializeBindings = Selector.Register("initializeBindings");
 
     public static readonly Selector Label = Selector.Register("label");

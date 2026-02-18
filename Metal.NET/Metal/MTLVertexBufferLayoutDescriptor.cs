@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLVertexBufferLayoutDescriptor : NativeObject
+public class MTLVertexBufferLayoutDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexBufferLayoutDescriptor");
-
-    public MTLVertexBufferLayoutDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLVertexBufferLayoutDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexBufferLayoutDescriptorSelector.Class))
     {
     }
 
@@ -29,6 +27,8 @@ public partial class MTLVertexBufferLayoutDescriptor : NativeObject
 
 file static class MTLVertexBufferLayoutDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexBufferLayoutDescriptor");
+
     public static readonly Selector SetStepFunction = Selector.Register("setStepFunction:");
 
     public static readonly Selector SetStepRate = Selector.Register("setStepRate:");

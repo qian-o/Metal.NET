@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLTextureViewDescriptor : NativeObject
+public class MTLTextureViewDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTextureViewDescriptor");
-
-    public MTLTextureViewDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLTextureViewDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTextureViewDescriptorSelector.Class))
     {
     }
 
@@ -41,6 +39,8 @@ public partial class MTLTextureViewDescriptor : NativeObject
 
 file static class MTLTextureViewDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTextureViewDescriptor");
+
     public static readonly Selector LevelRange = Selector.Register("levelRange");
 
     public static readonly Selector PixelFormat = Selector.Register("pixelFormat");

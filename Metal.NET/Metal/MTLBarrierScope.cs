@@ -4,6 +4,8 @@ namespace Metal.NET;
 public enum MTLBarrierScope : ulong
 {
     MTLBarrierScopeBuffers = 1,
+
     MTLBarrierScopeTextures = 2,
+
     MTLBarrierScopeRenderTargets = 4
 }

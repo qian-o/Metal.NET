@@ -1,10 +1,7 @@
 namespace Metal.NET;
 
-public partial class MTLBinding : NativeObject
+public class MTLBinding(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLBinding(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public MTLBindingAccess Access
     {
@@ -33,11 +30,7 @@ public partial class MTLBinding : NativeObject
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBindingSelector.Name);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBindingSelector.Name));
     }
 
     public MTLBindingType Type

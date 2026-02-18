@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTL4AccelerationStructureBoundingBoxGeometryDescriptor : NativeObject
+public class MTL4AccelerationStructureBoundingBoxGeometryDescriptor(nint nativePtr) : MTL4AccelerationStructureGeometryDescriptor(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4AccelerationStructureBoundingBoxGeometryDescriptor");
-
-    public MTL4AccelerationStructureBoundingBoxGeometryDescriptor(nint nativePtr) : base(nativePtr)
+    public MTL4AccelerationStructureBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureBoundingBoxGeometryDescriptorSelector.Class))
     {
     }
 
@@ -29,6 +27,8 @@ public partial class MTL4AccelerationStructureBoundingBoxGeometryDescriptor : Na
 
 file static class MTL4AccelerationStructureBoundingBoxGeometryDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4AccelerationStructureBoundingBoxGeometryDescriptor");
+
     public static readonly Selector BoundingBoxBuffer = Selector.Register("boundingBoxBuffer");
 
     public static readonly Selector BoundingBoxCount = Selector.Register("boundingBoxCount");

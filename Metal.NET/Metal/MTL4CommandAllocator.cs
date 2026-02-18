@@ -1,10 +1,7 @@
 namespace Metal.NET;
 
-public partial class MTL4CommandAllocator : NativeObject
+public class MTL4CommandAllocator(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTL4CommandAllocator(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public nuint AllocatedSize
     {
@@ -13,20 +10,12 @@ public partial class MTL4CommandAllocator : NativeObject
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorSelector.Device));
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorSelector.Label));
     }
 
     public void Reset()

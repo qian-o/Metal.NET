@@ -1,14 +1,13 @@
 namespace Metal.NET;
 
-public partial class MTLIntersectionFunctionDescriptor : NativeObject
+public class MTLIntersectionFunctionDescriptor(nint nativePtr) : MTLFunctionDescriptor(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIntersectionFunctionDescriptor");
-
-    public MTLIntersectionFunctionDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLIntersectionFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIntersectionFunctionDescriptorSelector.Class))
     {
     }
 }
 
 file static class MTLIntersectionFunctionDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIntersectionFunctionDescriptor");
 }

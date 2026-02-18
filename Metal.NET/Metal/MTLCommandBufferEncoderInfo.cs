@@ -1,18 +1,11 @@
 namespace Metal.NET;
 
-public partial class MTLCommandBufferEncoderInfo : NativeObject
+public class MTLCommandBufferEncoderInfo(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLCommandBufferEncoderInfo(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public NSArray? DebugSignposts
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoSelector.DebugSignposts);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoSelector.DebugSignposts));
     }
 
     public MTLCommandEncoderErrorState ErrorState
@@ -22,11 +15,7 @@ public partial class MTLCommandBufferEncoderInfo : NativeObject
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoSelector.Label));
     }
 }
 

@@ -1,18 +1,11 @@
 namespace Metal.NET;
 
-public partial class MTLTensorBinding : NativeObject
+public class MTLTensorBinding(nint nativePtr) : MTLBinding(nativePtr)
 {
-    public MTLTensorBinding(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public MTLTensorExtents? Dimensions
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindingSelector.Dimensions);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLTensorExtents>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindingSelector.Dimensions));
     }
 
     public MTLDataType IndexType

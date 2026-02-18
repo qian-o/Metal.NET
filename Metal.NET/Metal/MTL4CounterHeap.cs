@@ -1,10 +1,7 @@
 namespace Metal.NET;
 
-public partial class MTL4CounterHeap : NativeObject
+public class MTL4CounterHeap(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTL4CounterHeap(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public nuint Count
     {
@@ -13,11 +10,7 @@ public partial class MTL4CounterHeap : NativeObject
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapSelector.SetLabel, value?.NativePtr ?? 0);
     }
 

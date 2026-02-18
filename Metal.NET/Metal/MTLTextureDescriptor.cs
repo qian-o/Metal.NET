@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLTextureDescriptor : NativeObject
+public class MTLTextureDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTextureDescriptor");
-
-    public MTLTextureDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLTextureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTextureDescriptorSelector.Class))
     {
     }
 
@@ -112,25 +110,24 @@ public partial class MTLTextureDescriptor : NativeObject
 
     public static MTLTextureDescriptor? Texture2DDescriptor(MTLPixelFormat pixelFormat, nuint width, nuint height, bool mipmapped)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLTextureDescriptorSelector.Texture2DDescriptor, (nuint)pixelFormat, width, height, (Bool8)mipmapped);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLTextureDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLTextureDescriptorSelector.Class, MTLTextureDescriptorSelector.Texture2DDescriptor, (nuint)pixelFormat, width, height, (Bool8)mipmapped));
     }
 
     public static MTLTextureDescriptor? TextureBufferDescriptor(MTLPixelFormat pixelFormat, nuint width, MTLResourceOptions resourceOptions, MTLTextureUsage usage)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLTextureDescriptorSelector.TextureBufferDescriptor, (nuint)pixelFormat, width, (nuint)resourceOptions, (nuint)usage);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLTextureDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLTextureDescriptorSelector.Class, MTLTextureDescriptorSelector.TextureBufferDescriptor, (nuint)pixelFormat, width, (nuint)resourceOptions, (nuint)usage));
     }
 
     public static MTLTextureDescriptor? TextureCubeDescriptor(MTLPixelFormat pixelFormat, nuint size, bool mipmapped)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLTextureDescriptorSelector.TextureCubeDescriptor, (nuint)pixelFormat, size, (Bool8)mipmapped);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLTextureDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLTextureDescriptorSelector.Class, MTLTextureDescriptorSelector.TextureCubeDescriptor, (nuint)pixelFormat, size, (Bool8)mipmapped));
     }
 }
 
 file static class MTLTextureDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTextureDescriptor");
+
     public static readonly Selector AllowGPUOptimizedContents = Selector.Register("allowGPUOptimizedContents");
 
     public static readonly Selector ArrayLength = Selector.Register("arrayLength");

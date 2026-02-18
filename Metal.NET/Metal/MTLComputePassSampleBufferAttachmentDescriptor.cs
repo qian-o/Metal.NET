@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLComputePassSampleBufferAttachmentDescriptor : NativeObject
+public class MTLComputePassSampleBufferAttachmentDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePassSampleBufferAttachmentDescriptor");
-
-    public MTLComputePassSampleBufferAttachmentDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLComputePassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLComputePassSampleBufferAttachmentDescriptorSelector.Class))
     {
     }
 
@@ -16,11 +14,7 @@ public partial class MTLComputePassSampleBufferAttachmentDescriptor : NativeObje
 
     public MTLCounterSampleBuffer? SampleBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorSelector.SampleBuffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLCounterSampleBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorSelector.SampleBuffer));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorSelector.SetSampleBuffer, value?.NativePtr ?? 0);
     }
 
@@ -33,6 +27,8 @@ public partial class MTLComputePassSampleBufferAttachmentDescriptor : NativeObje
 
 file static class MTLComputePassSampleBufferAttachmentDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePassSampleBufferAttachmentDescriptor");
+
     public static readonly Selector EndOfEncoderSampleIndex = Selector.Register("endOfEncoderSampleIndex");
 
     public static readonly Selector SampleBuffer = Selector.Register("sampleBuffer");

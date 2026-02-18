@@ -1,8 +1,10 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("CAMetalLayer");
+    public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(CAMetalLayerSelector.Class))
+    {
+    }
 
     public bool AllowsNextDrawableTimeout
     {
@@ -18,12 +20,7 @@ public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.Device);
-
-            return nativePtr is not 0 ? new(nativePtr) : null;
-        }
+        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.Device));
         set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetDevice, value?.NativePtr ?? 0);
     }
 
@@ -53,12 +50,7 @@ public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr)
 
     public CAMetalDrawable? NextDrawable
     {
-        get
-        {
-            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.NextDrawable);
-
-            return nativePtr is not 0 ? new(nativePtr) : null;
-        }
+        get => GetNullableObject<CAMetalDrawable>(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.NextDrawable));
     }
 
     public MTLPixelFormat PixelFormat
@@ -69,24 +61,19 @@ public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLResidencySet? ResidencySet
     {
-        get
-        {
-            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.ResidencySet);
-
-            return nativePtr is not 0 ? new(nativePtr) : null;
-        }
+        get => GetNullableObject<MTLResidencySet>(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.ResidencySet));
     }
 
     public static CAMetalLayer? Layer()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(Class, CAMetalLayerSelector.Layer);
-
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return GetNullableObject<CAMetalLayer>(ObjectiveCRuntime.MsgSendPtr(CAMetalLayerSelector.Class, CAMetalLayerSelector.Layer));
     }
 }
 
 file static class CAMetalLayerSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("CAMetalLayer");
+
     public static readonly Selector AllowsNextDrawableTimeout = Selector.Register("allowsNextDrawableTimeout");
 
     public static readonly Selector Colorspace = Selector.Register("colorspace");

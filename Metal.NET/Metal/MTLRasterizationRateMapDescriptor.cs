@@ -1,20 +1,14 @@
 namespace Metal.NET;
 
-public partial class MTLRasterizationRateMapDescriptor : NativeObject
+public class MTLRasterizationRateMapDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRasterizationRateMapDescriptor");
-
-    public MTLRasterizationRateMapDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLRasterizationRateMapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateMapDescriptorSelector.Class))
     {
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
     }
 
@@ -25,11 +19,7 @@ public partial class MTLRasterizationRateMapDescriptor : NativeObject
 
     public MTLRasterizationRateLayerArray? Layers
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Layers);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLRasterizationRateLayerArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Layers));
     }
 
     public MTLSize ScreenSize
@@ -40,20 +30,17 @@ public partial class MTLRasterizationRateMapDescriptor : NativeObject
 
     public MTLRasterizationRateLayerDescriptor? Layer(nuint layerIndex)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Layer, layerIndex);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLRasterizationRateLayerDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Layer, layerIndex));
     }
 
     public static MTLRasterizationRateMapDescriptor? RasterizationRateMapDescriptor(MTLSize screenSize)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLRasterizationRateMapDescriptorSelector.RasterizationRateMapDescriptor, screenSize);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLRasterizationRateMapDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLRasterizationRateMapDescriptorSelector.Class, MTLRasterizationRateMapDescriptorSelector.RasterizationRateMapDescriptor, screenSize));
     }
 
     public static MTLRasterizationRateMapDescriptor? RasterizationRateMapDescriptor(MTLSize screenSize, MTLRasterizationRateLayerDescriptor layer)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLRasterizationRateMapDescriptorSelector.RasterizationRateMapDescriptor, screenSize, layer.NativePtr);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLRasterizationRateMapDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLRasterizationRateMapDescriptorSelector.Class, MTLRasterizationRateMapDescriptorSelector.RasterizationRateMapDescriptor, screenSize, layer.NativePtr));
     }
 
     public void SetLayer(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)
@@ -64,6 +51,8 @@ public partial class MTLRasterizationRateMapDescriptor : NativeObject
 
 file static class MTLRasterizationRateMapDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRasterizationRateMapDescriptor");
+
     public static readonly Selector Label = Selector.Register("label");
 
     public static readonly Selector Layer = Selector.Register("layerAtIndex:");

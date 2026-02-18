@@ -1,18 +1,11 @@
 namespace Metal.NET;
 
-public partial class MTLSharedEvent : NativeObject
+public class MTLSharedEvent(nint nativePtr) : MTLEvent(nativePtr)
 {
-    public MTLSharedEvent(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public MTLSharedEventHandle? NewSharedEventHandle
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventSelector.NewSharedEventHandle);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLSharedEventHandle>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventSelector.NewSharedEventHandle));
     }
 
     public nuint SignaledValue

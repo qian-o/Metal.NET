@@ -1,40 +1,26 @@
 namespace Metal.NET;
 
-public partial class MTLFunctionDescriptor : NativeObject
+public class MTLFunctionDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionDescriptor");
-
-    public MTLFunctionDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFunctionDescriptorSelector.Class))
     {
     }
 
     public NSArray? BinaryArchives
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.BinaryArchives);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.BinaryArchives));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetBinaryArchives, value?.NativePtr ?? 0);
     }
 
     public MTLFunctionConstantValues? ConstantValues
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.ConstantValues);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLFunctionConstantValues>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.ConstantValues));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetConstantValues, value?.NativePtr ?? 0);
     }
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.Name);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.Name));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetName, value?.NativePtr ?? 0);
     }
 
@@ -46,23 +32,20 @@ public partial class MTLFunctionDescriptor : NativeObject
 
     public NSString? SpecializedName
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.SpecializedName);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.SpecializedName));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetSpecializedName, value?.NativePtr ?? 0);
     }
 
     public static MTLFunctionDescriptor? FunctionDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLFunctionDescriptorSelector.FunctionDescriptor);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLFunctionDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLFunctionDescriptorSelector.Class, MTLFunctionDescriptorSelector.FunctionDescriptor));
     }
 }
 
 file static class MTLFunctionDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionDescriptor");
+
     public static readonly Selector BinaryArchives = Selector.Register("binaryArchives");
 
     public static readonly Selector ConstantValues = Selector.Register("constantValues");

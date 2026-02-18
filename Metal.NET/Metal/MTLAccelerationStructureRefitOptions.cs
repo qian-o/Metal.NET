@@ -4,5 +4,6 @@ namespace Metal.NET;
 public enum MTLAccelerationStructureRefitOptions : ulong
 {
     MTLAccelerationStructureRefitOptionVertexData = 1,
+
     MTLAccelerationStructureRefitOptionPerPrimitiveData = 2
 }

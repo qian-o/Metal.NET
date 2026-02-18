@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTL4RenderPipelineColorAttachmentDescriptor : NativeObject
+public class MTL4RenderPipelineColorAttachmentDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineColorAttachmentDescriptor");
-
-    public MTL4RenderPipelineColorAttachmentDescriptor(nint nativePtr) : base(nativePtr)
+    public MTL4RenderPipelineColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineColorAttachmentDescriptorSelector.Class))
     {
     }
 
@@ -70,6 +68,8 @@ public partial class MTL4RenderPipelineColorAttachmentDescriptor : NativeObject
 
 file static class MTL4RenderPipelineColorAttachmentDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineColorAttachmentDescriptor");
+
     public static readonly Selector AlphaBlendOperation = Selector.Register("alphaBlendOperation");
 
     public static readonly Selector BlendingState = Selector.Register("blendingState");

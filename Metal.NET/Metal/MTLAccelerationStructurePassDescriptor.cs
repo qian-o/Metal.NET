@@ -1,31 +1,26 @@
 namespace Metal.NET;
 
-public partial class MTLAccelerationStructurePassDescriptor : NativeObject
+public class MTLAccelerationStructurePassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructurePassDescriptor");
-
-    public MTLAccelerationStructurePassDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLAccelerationStructurePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassDescriptorSelector.Class))
     {
     }
 
     public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray? SampleBufferAttachments
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructurePassDescriptorSelector.SampleBufferAttachments);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructurePassDescriptorSelector.SampleBufferAttachments));
     }
 
     public static MTLAccelerationStructurePassDescriptor? AccelerationStructurePassDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructurePassDescriptorSelector.AccelerationStructurePassDescriptor);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLAccelerationStructurePassDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructurePassDescriptorSelector.Class, MTLAccelerationStructurePassDescriptorSelector.AccelerationStructurePassDescriptor));
     }
 }
 
 file static class MTLAccelerationStructurePassDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructurePassDescriptor");
+
     public static readonly Selector AccelerationStructurePassDescriptor = Selector.Register("accelerationStructurePassDescriptor");
 
     public static readonly Selector SampleBufferAttachments = Selector.Register("sampleBufferAttachments");

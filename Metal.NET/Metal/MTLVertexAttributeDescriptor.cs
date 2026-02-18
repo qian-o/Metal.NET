@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLVertexAttributeDescriptor : NativeObject
+public class MTLVertexAttributeDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexAttributeDescriptor");
-
-    public MTLVertexAttributeDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLVertexAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeDescriptorSelector.Class))
     {
     }
 
@@ -29,6 +27,8 @@ public partial class MTLVertexAttributeDescriptor : NativeObject
 
 file static class MTLVertexAttributeDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexAttributeDescriptor");
+
     public static readonly Selector BufferIndex = Selector.Register("bufferIndex");
 
     public static readonly Selector Format = Selector.Register("format");

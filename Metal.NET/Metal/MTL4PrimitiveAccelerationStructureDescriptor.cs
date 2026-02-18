@@ -1,20 +1,14 @@
 namespace Metal.NET;
 
-public partial class MTL4PrimitiveAccelerationStructureDescriptor : NativeObject
+public class MTL4PrimitiveAccelerationStructureDescriptor(nint nativePtr) : MTL4AccelerationStructureDescriptor(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PrimitiveAccelerationStructureDescriptor");
-
-    public MTL4PrimitiveAccelerationStructureDescriptor(nint nativePtr) : base(nativePtr)
+    public MTL4PrimitiveAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4PrimitiveAccelerationStructureDescriptorSelector.Class))
     {
     }
 
     public NSArray? GeometryDescriptors
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PrimitiveAccelerationStructureDescriptorSelector.GeometryDescriptors);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PrimitiveAccelerationStructureDescriptorSelector.GeometryDescriptors));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PrimitiveAccelerationStructureDescriptorSelector.SetGeometryDescriptors, value?.NativePtr ?? 0);
     }
 
@@ -51,6 +45,8 @@ public partial class MTL4PrimitiveAccelerationStructureDescriptor : NativeObject
 
 file static class MTL4PrimitiveAccelerationStructureDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PrimitiveAccelerationStructureDescriptor");
+
     public static readonly Selector GeometryDescriptors = Selector.Register("geometryDescriptors");
 
     public static readonly Selector MotionEndBorderMode = Selector.Register("motionEndBorderMode");

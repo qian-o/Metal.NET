@@ -32,6 +32,20 @@ public abstract class NativeObject : IDisposable
     /// </summary>
     public nint NativePtr { get; }
 
+    /// <summary>
+    /// Creates a nullable wrapper object from a native pointer.
+    /// Returns null if the pointer is zero (nil in Objective-C).
+    /// </summary>
+    public static T? GetNullableObject<T>(nint nativePtr) where T : NativeObject
+    {
+        if (nativePtr is 0)
+        {
+            return null;
+        }
+
+        return (T)Activator.CreateInstance(typeof(T), nativePtr)!;
+    }
+
     public void Dispose()
     {
         Dispose(true);

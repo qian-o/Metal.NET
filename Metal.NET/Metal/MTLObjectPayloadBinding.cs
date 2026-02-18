@@ -1,10 +1,7 @@
 namespace Metal.NET;
 
-public partial class MTLObjectPayloadBinding : NativeObject
+public class MTLObjectPayloadBinding(nint nativePtr) : MTLBinding(nativePtr)
 {
-    public MTLObjectPayloadBinding(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public nuint ObjectPayloadAlignment
     {

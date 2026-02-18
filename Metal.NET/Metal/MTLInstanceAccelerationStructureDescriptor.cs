@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLInstanceAccelerationStructureDescriptor : NativeObject
+public class MTLInstanceAccelerationStructureDescriptor(nint nativePtr) : MTLAccelerationStructureDescriptor(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLInstanceAccelerationStructureDescriptor");
-
-    public MTLInstanceAccelerationStructureDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLInstanceAccelerationStructureDescriptorSelector.Class))
     {
     }
 
@@ -16,11 +14,7 @@ public partial class MTLInstanceAccelerationStructureDescriptor : NativeObject
 
     public MTLBuffer? InstanceDescriptorBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.InstanceDescriptorBuffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.InstanceDescriptorBuffer));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.SetInstanceDescriptorBuffer, value?.NativePtr ?? 0);
     }
 
@@ -50,21 +44,13 @@ public partial class MTLInstanceAccelerationStructureDescriptor : NativeObject
 
     public NSArray? InstancedAccelerationStructures
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.InstancedAccelerationStructures);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.InstancedAccelerationStructures));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.SetInstancedAccelerationStructures, value?.NativePtr ?? 0);
     }
 
     public MTLBuffer? MotionTransformBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.MotionTransformBuffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.MotionTransformBuffer));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.SetMotionTransformBuffer, value?.NativePtr ?? 0);
     }
 
@@ -94,13 +80,14 @@ public partial class MTLInstanceAccelerationStructureDescriptor : NativeObject
 
     public static MTLInstanceAccelerationStructureDescriptor? Descriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLInstanceAccelerationStructureDescriptorSelector.Descriptor);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLInstanceAccelerationStructureDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLInstanceAccelerationStructureDescriptorSelector.Class, MTLInstanceAccelerationStructureDescriptorSelector.Descriptor));
     }
 }
 
 file static class MTLInstanceAccelerationStructureDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLInstanceAccelerationStructureDescriptor");
+
     public static readonly Selector Descriptor = Selector.Register("descriptor");
 
     public static readonly Selector InstanceCount = Selector.Register("instanceCount");

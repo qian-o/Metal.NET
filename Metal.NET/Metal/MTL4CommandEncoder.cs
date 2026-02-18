@@ -1,27 +1,16 @@
 namespace Metal.NET;
 
-public partial class MTL4CommandEncoder : NativeObject
+public class MTL4CommandEncoder(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTL4CommandEncoder(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public MTL4CommandBuffer? CommandBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandEncoderSelector.CommandBuffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTL4CommandBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandEncoderSelector.CommandBuffer));
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandEncoderSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandEncoderSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandEncoderSelector.SetLabel, value?.NativePtr ?? 0);
     }
 

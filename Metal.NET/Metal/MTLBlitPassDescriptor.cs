@@ -1,31 +1,26 @@
 namespace Metal.NET;
 
-public partial class MTLBlitPassDescriptor : NativeObject
+public class MTLBlitPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLBlitPassDescriptor");
-
-    public MTLBlitPassDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLBlitPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBlitPassDescriptorSelector.Class))
     {
     }
 
     public MTLBlitPassSampleBufferAttachmentDescriptorArray? SampleBufferAttachments
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBlitPassDescriptorSelector.SampleBufferAttachments);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLBlitPassSampleBufferAttachmentDescriptorArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBlitPassDescriptorSelector.SampleBufferAttachments));
     }
 
     public static MTLBlitPassDescriptor? BlitPassDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLBlitPassDescriptorSelector.BlitPassDescriptor);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLBlitPassDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLBlitPassDescriptorSelector.Class, MTLBlitPassDescriptorSelector.BlitPassDescriptor));
     }
 }
 
 file static class MTLBlitPassDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLBlitPassDescriptor");
+
     public static readonly Selector BlitPassDescriptor = Selector.Register("blitPassDescriptor");
 
     public static readonly Selector SampleBufferAttachments = Selector.Register("sampleBufferAttachments");

@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLRenderPassDepthAttachmentDescriptor : NativeObject
+public class MTLRenderPassDepthAttachmentDescriptor(nint nativePtr) : MTLRenderPassAttachmentDescriptor(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassDepthAttachmentDescriptor");
-
-    public MTLRenderPassDepthAttachmentDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLRenderPassDepthAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassDepthAttachmentDescriptorSelector.Class))
     {
     }
 
@@ -23,6 +21,8 @@ public partial class MTLRenderPassDepthAttachmentDescriptor : NativeObject
 
 file static class MTLRenderPassDepthAttachmentDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassDepthAttachmentDescriptor");
+
     public static readonly Selector ClearDepth = Selector.Register("clearDepth");
 
     public static readonly Selector DepthResolveFilter = Selector.Register("depthResolveFilter");

@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLPointerType : NativeObject
+public class MTLPointerType(nint nativePtr) : MTLType(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPointerType");
-
-    public MTLPointerType(nint nativePtr) : base(nativePtr)
+    public MTLPointerType() : this(ObjectiveCRuntime.AllocInit(MTLPointerTypeSelector.Class))
     {
     }
 
@@ -25,11 +23,7 @@ public partial class MTLPointerType : NativeObject
 
     public MTLArrayType? ElementArrayType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeSelector.ElementArrayType);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLArrayType>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeSelector.ElementArrayType));
     }
 
     public bool ElementIsArgumentBuffer
@@ -39,11 +33,7 @@ public partial class MTLPointerType : NativeObject
 
     public MTLStructType? ElementStructType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeSelector.ElementStructType);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLStructType>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeSelector.ElementStructType));
     }
 
     public MTLDataType ElementType
@@ -54,6 +44,8 @@ public partial class MTLPointerType : NativeObject
 
 file static class MTLPointerTypeSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPointerType");
+
     public static readonly Selector Access = Selector.Register("access");
 
     public static readonly Selector Alignment = Selector.Register("alignment");

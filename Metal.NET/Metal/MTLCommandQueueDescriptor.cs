@@ -1,20 +1,14 @@
 namespace Metal.NET;
 
-public partial class MTLCommandQueueDescriptor : NativeObject
+public class MTLCommandQueueDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCommandQueueDescriptor");
-
-    public MTLCommandQueueDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCommandQueueDescriptorSelector.Class))
     {
     }
 
     public MTLLogState? LogState
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueDescriptorSelector.LogState);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLLogState>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueDescriptorSelector.LogState));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueDescriptorSelector.SetLogState, value?.NativePtr ?? 0);
     }
 
@@ -27,6 +21,8 @@ public partial class MTLCommandQueueDescriptor : NativeObject
 
 file static class MTLCommandQueueDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCommandQueueDescriptor");
+
     public static readonly Selector LogState = Selector.Register("logState");
 
     public static readonly Selector MaxCommandBufferCount = Selector.Register("maxCommandBufferCount");

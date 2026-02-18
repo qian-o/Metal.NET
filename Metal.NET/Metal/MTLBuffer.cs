@@ -1,10 +1,7 @@
 namespace Metal.NET;
 
-public partial class MTLBuffer : NativeObject
+public class MTLBuffer(nint nativePtr) : MTLResource(nativePtr)
 {
-    public MTLBuffer(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public nint Contents
     {
@@ -23,11 +20,7 @@ public partial class MTLBuffer : NativeObject
 
     public MTLBuffer? RemoteStorageBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.RemoteStorageBuffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.RemoteStorageBuffer));
     }
 
     public MTLBufferSparseTier SparseBufferTier
@@ -47,21 +40,19 @@ public partial class MTLBuffer : NativeObject
 
     public MTLBuffer? NewRemoteBufferViewForDevice(MTLDevice device)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.NewRemoteBufferViewForDevice, device.NativePtr);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.NewRemoteBufferViewForDevice, device.NativePtr));
     }
 
     public MTLTensor? NewTensor(MTLTensorDescriptor descriptor, nuint offset, out NSError? error)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.NewTensor, descriptor.NativePtr, offset, out nint errorPtr);
-        error = errorPtr is not 0 ? new(errorPtr) : null;
-        return ptr is not 0 ? new(ptr) : null;
+        error = GetNullableObject<NSError>(errorPtr);
+        return GetNullableObject<MTLTensor>(ptr);
     }
 
     public MTLTexture? NewTexture(MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.NewTexture, descriptor.NativePtr, offset, bytesPerRow);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLTexture>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.NewTexture, descriptor.NativePtr, offset, bytesPerRow));
     }
 
     public void RemoveAllDebugMarkers()

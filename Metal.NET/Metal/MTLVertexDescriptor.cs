@@ -1,29 +1,19 @@
 namespace Metal.NET;
 
-public partial class MTLVertexDescriptor : NativeObject
+public class MTLVertexDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexDescriptor");
-
-    public MTLVertexDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLVertexDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexDescriptorSelector.Class))
     {
     }
 
     public MTLVertexAttributeDescriptorArray? Attributes
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorSelector.Attributes);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLVertexAttributeDescriptorArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorSelector.Attributes));
     }
 
     public MTLVertexBufferLayoutDescriptorArray? Layouts
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorSelector.Layouts);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLVertexBufferLayoutDescriptorArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorSelector.Layouts));
     }
 
     public void Reset()
@@ -33,13 +23,14 @@ public partial class MTLVertexDescriptor : NativeObject
 
     public static MTLVertexDescriptor? VertexDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLVertexDescriptorSelector.VertexDescriptor);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLVertexDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLVertexDescriptorSelector.Class, MTLVertexDescriptorSelector.VertexDescriptor));
     }
 }
 
 file static class MTLVertexDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexDescriptor");
+
     public static readonly Selector Attributes = Selector.Register("attributes");
 
     public static readonly Selector Layouts = Selector.Register("layouts");

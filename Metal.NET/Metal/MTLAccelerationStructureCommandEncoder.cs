@@ -1,10 +1,7 @@
 namespace Metal.NET;
 
-public partial class MTLAccelerationStructureCommandEncoder : NativeObject
+public class MTLAccelerationStructureCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr)
 {
-    public MTLAccelerationStructureCommandEncoder(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public void BuildAccelerationStructure(MTLAccelerationStructure accelerationStructure, MTLAccelerationStructureDescriptor descriptor, MTLBuffer scratchBuffer, nuint scratchBufferOffset)
     {

@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLComputePassDescriptor : NativeObject
+public class MTLComputePassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePassDescriptor");
-
-    public MTLComputePassDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLComputePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLComputePassDescriptorSelector.Class))
     {
     }
 
@@ -16,22 +14,19 @@ public partial class MTLComputePassDescriptor : NativeObject
 
     public MTLComputePassSampleBufferAttachmentDescriptorArray? SampleBufferAttachments
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePassDescriptorSelector.SampleBufferAttachments);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLComputePassSampleBufferAttachmentDescriptorArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePassDescriptorSelector.SampleBufferAttachments));
     }
 
     public static MTLComputePassDescriptor? ComputePassDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLComputePassDescriptorSelector.ComputePassDescriptor);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLComputePassDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLComputePassDescriptorSelector.Class, MTLComputePassDescriptorSelector.ComputePassDescriptor));
     }
 }
 
 file static class MTLComputePassDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePassDescriptor");
+
     public static readonly Selector ComputePassDescriptor = Selector.Register("computePassDescriptor");
 
     public static readonly Selector DispatchType = Selector.Register("dispatchType");

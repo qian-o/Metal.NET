@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLIOCommandQueueDescriptor : NativeObject
+public class MTLIOCommandQueueDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIOCommandQueueDescriptor");
-
-    public MTLIOCommandQueueDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLIOCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIOCommandQueueDescriptorSelector.Class))
     {
     }
 
@@ -28,11 +26,7 @@ public partial class MTLIOCommandQueueDescriptor : NativeObject
 
     public MTLIOScratchBufferAllocator? ScratchBufferAllocator
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueDescriptorSelector.ScratchBufferAllocator);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLIOScratchBufferAllocator>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueDescriptorSelector.ScratchBufferAllocator));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetScratchBufferAllocator, value?.NativePtr ?? 0);
     }
 
@@ -45,6 +39,8 @@ public partial class MTLIOCommandQueueDescriptor : NativeObject
 
 file static class MTLIOCommandQueueDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIOCommandQueueDescriptor");
+
     public static readonly Selector MaxCommandBufferCount = Selector.Register("maxCommandBufferCount");
 
     public static readonly Selector MaxCommandsInFlight = Selector.Register("maxCommandsInFlight");

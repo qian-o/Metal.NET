@@ -1,26 +1,22 @@
 namespace Metal.NET;
 
-public partial class MTL4CommandBufferOptions : NativeObject
+public class MTL4CommandBufferOptions(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CommandBufferOptions");
-
-    public MTL4CommandBufferOptions(nint nativePtr) : base(nativePtr)
+    public MTL4CommandBufferOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CommandBufferOptionsSelector.Class))
     {
     }
 
     public MTLLogState? LogState
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferOptionsSelector.LogState);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLLogState>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferOptionsSelector.LogState));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferOptionsSelector.SetLogState, value?.NativePtr ?? 0);
     }
 }
 
 file static class MTL4CommandBufferOptionsSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CommandBufferOptions");
+
     public static readonly Selector LogState = Selector.Register("logState");
 
     public static readonly Selector SetLogState = Selector.Register("setLogState:");

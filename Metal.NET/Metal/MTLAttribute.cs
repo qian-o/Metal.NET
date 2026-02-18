@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTLAttribute : NativeObject
+public class MTLAttribute(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAttribute");
-
-    public MTLAttribute(nint nativePtr) : base(nativePtr)
+    public MTLAttribute() : this(ObjectiveCRuntime.AllocInit(MTLAttributeSelector.Class))
     {
     }
 
@@ -40,11 +38,7 @@ public partial class MTLAttribute : NativeObject
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeSelector.Name);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeSelector.Name));
     }
 
     public bool PatchControlPointData
@@ -60,6 +54,8 @@ public partial class MTLAttribute : NativeObject
 
 file static class MTLAttributeSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAttribute");
+
     public static readonly Selector Active = Selector.Register("isActive");
 
     public static readonly Selector AttributeIndex = Selector.Register("attributeIndex");

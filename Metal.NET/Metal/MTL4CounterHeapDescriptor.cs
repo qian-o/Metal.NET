@@ -1,10 +1,8 @@
 namespace Metal.NET;
 
-public partial class MTL4CounterHeapDescriptor : NativeObject
+public class MTL4CounterHeapDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CounterHeapDescriptor");
-
-    public MTL4CounterHeapDescriptor(nint nativePtr) : base(nativePtr)
+    public MTL4CounterHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CounterHeapDescriptorSelector.Class))
     {
     }
 
@@ -23,6 +21,8 @@ public partial class MTL4CounterHeapDescriptor : NativeObject
 
 file static class MTL4CounterHeapDescriptorSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CounterHeapDescriptor");
+
     public static readonly Selector Count = Selector.Register("count");
 
     public static readonly Selector SetCount = Selector.Register("setCount:");

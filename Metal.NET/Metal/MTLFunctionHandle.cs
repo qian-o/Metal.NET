@@ -1,18 +1,11 @@
 namespace Metal.NET;
 
-public partial class MTLFunctionHandle : NativeObject
+public class MTLFunctionHandle(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLFunctionHandle(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionHandleSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionHandleSelector.Device));
     }
 
     public MTLFunctionType FunctionType
@@ -27,11 +20,7 @@ public partial class MTLFunctionHandle : NativeObject
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionHandleSelector.Name);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionHandleSelector.Name));
     }
 }
 

@@ -1,13 +1,7 @@
 namespace Metal.NET;
 
-public partial class NSURL : NativeObject
+public class NSURL(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("NSURL");
-
-    public NSURL(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public nint FileSystemRepresentation
     {
         get => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSURLSelector.FileSystemRepresentation);
@@ -15,19 +9,19 @@ public partial class NSURL : NativeObject
 
     public NSURL? InitFileURLWithPath(NSString pPath)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSURLSelector.InitFileURLWithPath, pPath.NativePtr);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<NSURL>(ObjectiveCRuntime.MsgSendPtr(NativePtr, NSURLSelector.InitFileURLWithPath, pPath.NativePtr));
     }
 
     public static NSURL? FileURLWithPath(NSString pPath)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, NSURLSelector.NSURL, pPath.NativePtr);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<NSURL>(ObjectiveCRuntime.MsgSendPtr(NSURLSelector.Class, NSURLSelector.NSURL, pPath.NativePtr));
     }
 }
 
 file static class NSURLSelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("NSURL");
+
     public static readonly Selector FileSystemRepresentation = Selector.Register("fileSystemRepresentation");
 
     public static readonly Selector InitFileURLWithPath = Selector.Register("initFileURLWithPath:");

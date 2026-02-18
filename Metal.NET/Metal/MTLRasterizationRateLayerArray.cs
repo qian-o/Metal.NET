@@ -1,17 +1,14 @@
 namespace Metal.NET;
 
-public partial class MTLRasterizationRateLayerArray : NativeObject
+public class MTLRasterizationRateLayerArray(nint nativePtr) : NativeObject(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRasterizationRateLayerArray");
-
-    public MTLRasterizationRateLayerArray(nint nativePtr) : base(nativePtr)
+    public MTLRasterizationRateLayerArray() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateLayerArraySelector.Class))
     {
     }
 
     public MTLRasterizationRateLayerDescriptor? Object(nuint layerIndex)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerArraySelector.Object, layerIndex);
-        return ptr is not 0 ? new(ptr) : null;
+        return GetNullableObject<MTLRasterizationRateLayerDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerArraySelector.Object, layerIndex));
     }
 
     public void SetObject(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)
@@ -22,6 +19,8 @@ public partial class MTLRasterizationRateLayerArray : NativeObject
 
 file static class MTLRasterizationRateLayerArraySelector
 {
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRasterizationRateLayerArray");
+
     public static readonly Selector Object = Selector.Register("objectAtIndexedSubscript:");
 
     public static readonly Selector SetObject = Selector.Register("setObject:atIndexedSubscript:");

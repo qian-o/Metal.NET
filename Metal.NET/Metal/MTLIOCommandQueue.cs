@@ -1,36 +1,21 @@
 namespace Metal.NET;
 
-public partial class MTLIOCommandQueue : NativeObject
+public class MTLIOCommandQueue(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLIOCommandQueue(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public MTLIOCommandBuffer? CommandBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueSelector.CommandBuffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLIOCommandBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueSelector.CommandBuffer));
     }
 
     public MTLIOCommandBuffer? CommandBufferWithUnretainedReferences
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueSelector.CommandBufferWithUnretainedReferences);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<MTLIOCommandBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueSelector.CommandBufferWithUnretainedReferences));
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueSelector.SetLabel, value?.NativePtr ?? 0);
     }
 
