@@ -132,7 +132,10 @@ public static class HeaderParser
 
         WriteStub(stubsDir, "objc/runtime.h", """
             #pragma once
+            #ifndef _SIZE_T
+            #define _SIZE_T
             typedef __SIZE_TYPE__ size_t;
+            #endif
             typedef struct objc_object { void *isa; } *id;
             typedef struct objc_selector *SEL;
             typedef id (*IMP)(id, SEL, ...);
