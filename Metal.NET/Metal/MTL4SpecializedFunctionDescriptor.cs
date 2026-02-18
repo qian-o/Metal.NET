@@ -2,12 +2,18 @@
 
 public class MTL4SpecializedFunctionDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4SpecializedFunctionDescriptor");
+
     public MTL4SpecializedFunctionDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTL4SpecializedFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTL4SpecializedFunctionDescriptor()

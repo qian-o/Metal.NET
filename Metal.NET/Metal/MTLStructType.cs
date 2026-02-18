@@ -2,12 +2,18 @@
 
 public class MTLStructType : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStructType");
+
     public MTLStructType(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLStructType() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLStructType()

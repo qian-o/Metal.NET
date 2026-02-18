@@ -2,12 +2,18 @@
 
 public class MTL4ComputePipelineDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4ComputePipelineDescriptor");
+
     public MTL4ComputePipelineDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTL4ComputePipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTL4ComputePipelineDescriptor()
@@ -43,8 +49,8 @@ public class MTL4ComputePipelineDescriptor : IDisposable
 
     public MTL4IndirectCommandBufferSupportState SupportIndirectCommandBuffers
     {
-        get => (MTL4IndirectCommandBufferSupportState)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4ComputePipelineDescriptorSelector.SupportIndirectCommandBuffers));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetSupportIndirectCommandBuffers, (nuint)value);
+        get => (MTL4IndirectCommandBufferSupportState)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4ComputePipelineDescriptorSelector.SupportIndirectCommandBuffers));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetSupportIndirectCommandBuffers, (ulong)value);
     }
 
     public Bool8 ThreadGroupSizeIsMultipleOfThreadExecutionWidth

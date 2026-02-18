@@ -31,8 +31,8 @@ public class MTLVertexAttributeDescriptor : IDisposable
 
     public MTLVertexFormat Format
     {
-        get => (MTLVertexFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeDescriptorSelector.Format));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorSelector.SetFormat, (nuint)value);
+        get => (MTLVertexFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLVertexAttributeDescriptorSelector.Format));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorSelector.SetFormat, (ulong)value);
     }
 
     public nuint Offset

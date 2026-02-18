@@ -2,12 +2,18 @@
 
 public class MTLTensorExtents : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorExtents");
+
     public MTLTensorExtents(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLTensorExtents() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLTensorExtents()

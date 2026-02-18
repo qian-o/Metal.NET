@@ -2,12 +2,18 @@
 
 public class MTL4PipelineStageDynamicLinkingDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PipelineStageDynamicLinkingDescriptor");
+
     public MTL4PipelineStageDynamicLinkingDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTL4PipelineStageDynamicLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTL4PipelineStageDynamicLinkingDescriptor()

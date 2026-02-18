@@ -30,7 +30,7 @@ public class MTLCommandEncoder : IDisposable
 
     public void BarrierAfterQueueStages(MTLStages afterQueueStages, MTLStages beforeStages)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.BarrierAfterQueueStagesBeforeStages, (nuint)afterQueueStages, (nuint)beforeStages);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.BarrierAfterQueueStagesBeforeStages, (ulong)afterQueueStages, (ulong)beforeStages);
     }
 
     public void EndEncoding()

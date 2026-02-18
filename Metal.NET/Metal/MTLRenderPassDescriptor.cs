@@ -113,8 +113,8 @@ public class MTLRenderPassDescriptor : IDisposable
 
     public MTLVisibilityResultType VisibilityResultType
     {
-        get => (MTLVisibilityResultType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorSelector.VisibilityResultType));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorSelector.SetVisibilityResultType, (nuint)value);
+        get => (MTLVisibilityResultType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPassDescriptorSelector.VisibilityResultType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorSelector.SetVisibilityResultType, (ulong)value);
     }
 
     public nuint GetSamplePositions(MTLSamplePosition positions, nuint count)

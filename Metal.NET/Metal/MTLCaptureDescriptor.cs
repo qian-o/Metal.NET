@@ -31,8 +31,8 @@ public class MTLCaptureDescriptor : IDisposable
 
     public MTLCaptureDestination Destination
     {
-        get => (MTLCaptureDestination)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCaptureDescriptorSelector.Destination));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorSelector.SetDestination, (nuint)value);
+        get => (MTLCaptureDestination)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCaptureDescriptorSelector.Destination));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorSelector.SetDestination, (ulong)value);
     }
 
     public NSURL OutputURL

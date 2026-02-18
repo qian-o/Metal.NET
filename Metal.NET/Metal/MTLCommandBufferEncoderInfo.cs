@@ -24,7 +24,7 @@ public class MTLCommandBufferEncoderInfo : IDisposable
 
     public MTLCommandEncoderErrorState ErrorState
     {
-        get => (MTLCommandEncoderErrorState)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandBufferEncoderInfoSelector.ErrorState));
+        get => (MTLCommandEncoderErrorState)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCommandBufferEncoderInfoSelector.ErrorState));
     }
 
     public NSString Label

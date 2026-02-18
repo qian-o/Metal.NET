@@ -31,8 +31,8 @@ public class MTLAttributeDescriptor : IDisposable
 
     public MTLAttributeFormat Format
     {
-        get => (MTLAttributeFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorSelector.Format));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetFormat, (nuint)value);
+        get => (MTLAttributeFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAttributeDescriptorSelector.Format));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetFormat, (ulong)value);
     }
 
     public nuint Offset

@@ -2,6 +2,8 @@
 
 public class MTLVisibleFunctionTableDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVisibleFunctionTableDescriptor");
+
     public MTLVisibleFunctionTableDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
@@ -10,14 +12,16 @@ public class MTLVisibleFunctionTableDescriptor : IDisposable
         }
     }
 
+    public MTLVisibleFunctionTableDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     ~MTLVisibleFunctionTableDescriptor()
     {
         Release();
     }
 
     public nint NativePtr { get; }
-
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVisibleFunctionTableDescriptor");
 
     public nuint FunctionCount
     {

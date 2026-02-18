@@ -25,8 +25,8 @@ public class MTLTextureViewDescriptor : IDisposable
 
     public MTLPixelFormat PixelFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureViewDescriptorSelector.PixelFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureViewDescriptorSelector.SetPixelFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureViewDescriptorSelector.PixelFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureViewDescriptorSelector.SetPixelFormat, (ulong)value);
     }
 
     public MTLTextureSwizzleChannels Swizzle
@@ -37,8 +37,8 @@ public class MTLTextureViewDescriptor : IDisposable
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureViewDescriptorSelector.TextureType));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureViewDescriptorSelector.SetTextureType, (nuint)value);
+        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureViewDescriptorSelector.TextureType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureViewDescriptorSelector.SetTextureType, (ulong)value);
     }
 
     public static implicit operator nint(MTLTextureViewDescriptor value)

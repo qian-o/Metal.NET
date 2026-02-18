@@ -2,12 +2,18 @@
 
 public class MTLComputePassSampleBufferAttachmentDescriptorArray : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePassSampleBufferAttachmentDescriptorArray");
+
     public MTLComputePassSampleBufferAttachmentDescriptorArray(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLComputePassSampleBufferAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLComputePassSampleBufferAttachmentDescriptorArray()

@@ -2,12 +2,18 @@
 
 public class MTLFunctionConstant : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionConstant");
+
     public MTLFunctionConstant(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLFunctionConstant() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLFunctionConstant()
@@ -34,7 +40,7 @@ public class MTLFunctionConstant : IDisposable
 
     public MTLDataType Type
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionConstantSelector.Type));
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionConstantSelector.Type));
     }
 
     public static implicit operator nint(MTLFunctionConstant value)

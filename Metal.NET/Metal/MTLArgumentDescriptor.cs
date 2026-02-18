@@ -2,12 +2,18 @@
 
 public class MTLArgumentDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArgumentDescriptor");
+
     public MTLArgumentDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLArgumentDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLArgumentDescriptor()
@@ -17,12 +23,10 @@ public class MTLArgumentDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArgumentDescriptor");
-
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorSelector.Access));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetAccess, (nuint)value);
+        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentDescriptorSelector.Access));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetAccess, (ulong)value);
     }
 
     public nuint ArrayLength
@@ -39,8 +43,8 @@ public class MTLArgumentDescriptor : IDisposable
 
     public MTLDataType DataType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorSelector.DataType));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetDataType, (nuint)value);
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentDescriptorSelector.DataType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetDataType, (ulong)value);
     }
 
     public nuint Index
@@ -51,8 +55,8 @@ public class MTLArgumentDescriptor : IDisposable
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorSelector.TextureType));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetTextureType, (nuint)value);
+        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentDescriptorSelector.TextureType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetTextureType, (ulong)value);
     }
 
     public static implicit operator nint(MTLArgumentDescriptor value)

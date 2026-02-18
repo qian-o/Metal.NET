@@ -2,12 +2,18 @@
 
 public class MTLTensorReferenceType : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorReferenceType");
+
     public MTLTensorReferenceType(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLTensorReferenceType() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLTensorReferenceType()
@@ -19,7 +25,7 @@ public class MTLTensorReferenceType : IDisposable
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorReferenceTypeSelector.Access));
+        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorReferenceTypeSelector.Access));
     }
 
     public MTLTensorExtents Dimensions
@@ -29,12 +35,12 @@ public class MTLTensorReferenceType : IDisposable
 
     public MTLDataType IndexType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorReferenceTypeSelector.IndexType));
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorReferenceTypeSelector.IndexType));
     }
 
     public MTLTensorDataType TensorDataType
     {
-        get => (MTLTensorDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorReferenceTypeSelector.TensorDataType));
+        get => (MTLTensorDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorReferenceTypeSelector.TensorDataType));
     }
 
     public static implicit operator nint(MTLTensorReferenceType value)

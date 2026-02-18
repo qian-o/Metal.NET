@@ -2,6 +2,8 @@
 
 public class MTLIndirectInstanceAccelerationStructureDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIndirectInstanceAccelerationStructureDescriptor");
+
     public MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
@@ -10,14 +12,16 @@ public class MTLIndirectInstanceAccelerationStructureDescriptor : IDisposable
         }
     }
 
+    public MTLIndirectInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     ~MTLIndirectInstanceAccelerationStructureDescriptor()
     {
         Release();
     }
 
     public nint NativePtr { get; }
-
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIndirectInstanceAccelerationStructureDescriptor");
 
     public MTLBuffer InstanceCountBuffer
     {
@@ -51,14 +55,14 @@ public class MTLIndirectInstanceAccelerationStructureDescriptor : IDisposable
 
     public MTLAccelerationStructureInstanceDescriptorType InstanceDescriptorType
     {
-        get => (MTLAccelerationStructureInstanceDescriptorType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.InstanceDescriptorType));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.SetInstanceDescriptorType, (nuint)value);
+        get => (MTLAccelerationStructureInstanceDescriptorType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.InstanceDescriptorType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.SetInstanceDescriptorType, (ulong)value);
     }
 
     public MTLMatrixLayout InstanceTransformationMatrixLayout
     {
-        get => (MTLMatrixLayout)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.InstanceTransformationMatrixLayout));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.SetInstanceTransformationMatrixLayout, (nuint)value);
+        get => (MTLMatrixLayout)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.InstanceTransformationMatrixLayout));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.SetInstanceTransformationMatrixLayout, (ulong)value);
     }
 
     public nuint MaxInstanceCount
@@ -105,8 +109,8 @@ public class MTLIndirectInstanceAccelerationStructureDescriptor : IDisposable
 
     public MTLTransformType MotionTransformType
     {
-        get => (MTLTransformType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.MotionTransformType));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.SetMotionTransformType, (nuint)value);
+        get => (MTLTransformType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.MotionTransformType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.SetMotionTransformType, (ulong)value);
     }
 
     public static implicit operator nint(MTLIndirectInstanceAccelerationStructureDescriptor value)

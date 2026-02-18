@@ -2,12 +2,18 @@
 
 public class MTL4CommandAllocatorDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CommandAllocatorDescriptor");
+
     public MTL4CommandAllocatorDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTL4CommandAllocatorDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTL4CommandAllocatorDescriptor()

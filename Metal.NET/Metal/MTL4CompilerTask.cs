@@ -24,7 +24,7 @@ public class MTL4CompilerTask : IDisposable
 
     public MTL4CompilerTaskStatus Status
     {
-        get => (MTL4CompilerTaskStatus)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CompilerTaskSelector.Status));
+        get => (MTL4CompilerTaskStatus)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4CompilerTaskSelector.Status));
     }
 
     public void WaitUntilCompleted()

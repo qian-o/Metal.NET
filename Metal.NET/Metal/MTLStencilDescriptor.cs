@@ -25,14 +25,14 @@ public class MTLStencilDescriptor : IDisposable
 
     public MTLStencilOperation DepthFailureOperation
     {
-        get => (MTLStencilOperation)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStencilDescriptorSelector.DepthFailureOperation));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetDepthFailureOperation, (nuint)value);
+        get => (MTLStencilOperation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorSelector.DepthFailureOperation));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetDepthFailureOperation, (ulong)value);
     }
 
     public MTLStencilOperation DepthStencilPassOperation
     {
-        get => (MTLStencilOperation)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStencilDescriptorSelector.DepthStencilPassOperation));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetDepthStencilPassOperation, (nuint)value);
+        get => (MTLStencilOperation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorSelector.DepthStencilPassOperation));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetDepthStencilPassOperation, (ulong)value);
     }
 
     public uint ReadMask
@@ -43,14 +43,14 @@ public class MTLStencilDescriptor : IDisposable
 
     public MTLCompareFunction StencilCompareFunction
     {
-        get => (MTLCompareFunction)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStencilDescriptorSelector.StencilCompareFunction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetStencilCompareFunction, (nuint)value);
+        get => (MTLCompareFunction)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorSelector.StencilCompareFunction));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetStencilCompareFunction, (ulong)value);
     }
 
     public MTLStencilOperation StencilFailureOperation
     {
-        get => (MTLStencilOperation)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStencilDescriptorSelector.StencilFailureOperation));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetStencilFailureOperation, (nuint)value);
+        get => (MTLStencilOperation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorSelector.StencilFailureOperation));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetStencilFailureOperation, (ulong)value);
     }
 
     public uint WriteMask

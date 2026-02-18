@@ -31,8 +31,8 @@ public class MTLRenderPassStencilAttachmentDescriptor : IDisposable
 
     public MTLMultisampleStencilResolveFilter StencilResolveFilter
     {
-        get => (MTLMultisampleStencilResolveFilter)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.StencilResolveFilter));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.SetStencilResolveFilter, (nuint)value);
+        get => (MTLMultisampleStencilResolveFilter)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.StencilResolveFilter));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.SetStencilResolveFilter, (ulong)value);
     }
 
     public static implicit operator nint(MTLRenderPassStencilAttachmentDescriptor value)

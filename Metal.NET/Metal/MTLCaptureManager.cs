@@ -2,6 +2,8 @@
 
 public class MTLCaptureManager : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCaptureManager");
+
     public MTLCaptureManager(nint nativePtr)
     {
         if (nativePtr is not 0)
@@ -10,14 +12,16 @@ public class MTLCaptureManager : IDisposable
         }
     }
 
+    public MTLCaptureManager() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     ~MTLCaptureManager()
     {
         Release();
     }
 
     public nint NativePtr { get; }
-
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCaptureManager");
 
     public MTLCaptureScope DefaultCaptureScope
     {
@@ -82,7 +86,7 @@ public class MTLCaptureManager : IDisposable
 
     public Bool8 SupportsDestination(MTLCaptureDestination destination)
     {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerSelector.SupportsDestination, (nuint)destination);
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerSelector.SupportsDestination, (ulong)destination);
 
         return result;
     }

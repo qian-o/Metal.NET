@@ -25,8 +25,8 @@ public class MTLBufferLayoutDescriptor : IDisposable
 
     public MTLStepFunction StepFunction
     {
-        get => (MTLStepFunction)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferLayoutDescriptorSelector.StepFunction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStepFunction, (nuint)value);
+        get => (MTLStepFunction)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLBufferLayoutDescriptorSelector.StepFunction));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStepFunction, (ulong)value);
     }
 
     public nuint StepRate

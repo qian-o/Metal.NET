@@ -2,12 +2,18 @@
 
 public class MTLBufferLayoutDescriptorArray : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLBufferLayoutDescriptorArray");
+
     public MTLBufferLayoutDescriptorArray(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLBufferLayoutDescriptorArray() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLBufferLayoutDescriptorArray()

@@ -2,12 +2,18 @@
 
 public class MTLFXSpatialScalerDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFXSpatialScalerDescriptor");
+
     public MTLFXSpatialScalerDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLFXSpatialScalerDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLFXSpatialScalerDescriptor()
@@ -17,18 +23,16 @@ public class MTLFXSpatialScalerDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFXSpatialScalerDescriptor");
-
     public MTLPixelFormat ColorTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerDescriptorSelector.ColorTextureFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetColorTextureFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerDescriptorSelector.ColorTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetColorTextureFormat, (ulong)value);
     }
 
     public MTLPixelFormat OutputTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerDescriptorSelector.OutputTextureFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetOutputTextureFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerDescriptorSelector.OutputTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetOutputTextureFormat, (ulong)value);
     }
 
     public nuint InputWidth
@@ -57,8 +61,8 @@ public class MTLFXSpatialScalerDescriptor : IDisposable
 
     public MTLFXSpatialScalerColorProcessingMode ColorProcessingMode
     {
-        get => (MTLFXSpatialScalerColorProcessingMode)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerDescriptorSelector.ColorProcessingMode));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetColorProcessingMode, (nuint)value);
+        get => (MTLFXSpatialScalerColorProcessingMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerDescriptorSelector.ColorProcessingMode));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetColorProcessingMode, (ulong)value);
     }
 
     public MTLFXSpatialScaler NewSpatialScaler(MTLDevice pDevice)

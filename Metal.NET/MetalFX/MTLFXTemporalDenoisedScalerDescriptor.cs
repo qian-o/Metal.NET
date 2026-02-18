@@ -2,12 +2,18 @@
 
 public class MTLFXTemporalDenoisedScalerDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFXTemporalDenoisedScalerDescriptor");
+
     public MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLFXTemporalDenoisedScalerDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLFXTemporalDenoisedScalerDescriptor()
@@ -17,72 +23,70 @@ public class MTLFXTemporalDenoisedScalerDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFXTemporalDenoisedScalerDescriptor");
-
     public MTLPixelFormat ColorTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.ColorTextureFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetColorTextureFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.ColorTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetColorTextureFormat, (ulong)value);
     }
 
     public MTLPixelFormat DepthTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.DepthTextureFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetDepthTextureFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.DepthTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetDepthTextureFormat, (ulong)value);
     }
 
     public MTLPixelFormat MotionTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.MotionTextureFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetMotionTextureFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.MotionTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetMotionTextureFormat, (ulong)value);
     }
 
     public MTLPixelFormat DiffuseAlbedoTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.DiffuseAlbedoTextureFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetDiffuseAlbedoTextureFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.DiffuseAlbedoTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetDiffuseAlbedoTextureFormat, (ulong)value);
     }
 
     public MTLPixelFormat SpecularAlbedoTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SpecularAlbedoTextureFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetSpecularAlbedoTextureFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SpecularAlbedoTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetSpecularAlbedoTextureFormat, (ulong)value);
     }
 
     public MTLPixelFormat NormalTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.NormalTextureFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetNormalTextureFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.NormalTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetNormalTextureFormat, (ulong)value);
     }
 
     public MTLPixelFormat RoughnessTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.RoughnessTextureFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetRoughnessTextureFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.RoughnessTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetRoughnessTextureFormat, (ulong)value);
     }
 
     public MTLPixelFormat SpecularHitDistanceTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SpecularHitDistanceTextureFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetSpecularHitDistanceTextureFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SpecularHitDistanceTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetSpecularHitDistanceTextureFormat, (ulong)value);
     }
 
     public MTLPixelFormat DenoiseStrengthMaskTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.DenoiseStrengthMaskTextureFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetDenoiseStrengthMaskTextureFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.DenoiseStrengthMaskTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetDenoiseStrengthMaskTextureFormat, (ulong)value);
     }
 
     public MTLPixelFormat TransparencyOverlayTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.TransparencyOverlayTextureFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetTransparencyOverlayTextureFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.TransparencyOverlayTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetTransparencyOverlayTextureFormat, (ulong)value);
     }
 
     public MTLPixelFormat OutputTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.OutputTextureFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetOutputTextureFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.OutputTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetOutputTextureFormat, (ulong)value);
     }
 
     public nuint InputWidth
@@ -144,8 +148,8 @@ public class MTLFXTemporalDenoisedScalerDescriptor : IDisposable
 
     public MTLPixelFormat ReactiveMaskTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.ReactiveMaskTextureFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetReactiveMaskTextureFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.ReactiveMaskTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetReactiveMaskTextureFormat, (ulong)value);
     }
 
     public Bool8 IsSpecularHitDistanceTextureEnabled

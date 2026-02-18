@@ -2,12 +2,18 @@
 
 public class MTLRenderPipelineColorAttachmentDescriptorArray : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPipelineColorAttachmentDescriptorArray");
+
     public MTLRenderPipelineColorAttachmentDescriptorArray(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLRenderPipelineColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLRenderPipelineColorAttachmentDescriptorArray()

@@ -19,12 +19,12 @@ public class MTLFXSpatialScalerBase : IDisposable
 
     public MTLTextureUsage ColorTextureUsage
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.ColorTextureUsage));
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerBaseSelector.ColorTextureUsage));
     }
 
     public MTLTextureUsage OutputTextureUsage
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.OutputTextureUsage));
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerBaseSelector.OutputTextureUsage));
     }
 
     public nuint InputContentWidth
@@ -53,12 +53,12 @@ public class MTLFXSpatialScalerBase : IDisposable
 
     public MTLPixelFormat ColorTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.ColorTextureFormat));
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerBaseSelector.ColorTextureFormat));
     }
 
     public MTLPixelFormat OutputTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.OutputTextureFormat));
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerBaseSelector.OutputTextureFormat));
     }
 
     public nuint InputWidth
@@ -83,7 +83,7 @@ public class MTLFXSpatialScalerBase : IDisposable
 
     public MTLFXSpatialScalerColorProcessingMode ColorProcessingMode
     {
-        get => (MTLFXSpatialScalerColorProcessingMode)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.ColorProcessingMode));
+        get => (MTLFXSpatialScalerColorProcessingMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerBaseSelector.ColorProcessingMode));
     }
 
     public MTLFence Fence

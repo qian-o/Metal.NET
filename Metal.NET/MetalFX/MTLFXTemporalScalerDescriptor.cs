@@ -2,12 +2,18 @@
 
 public class MTLFXTemporalScalerDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFXTemporalScalerDescriptor");
+
     public MTLFXTemporalScalerDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLFXTemporalScalerDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLFXTemporalScalerDescriptor()
@@ -17,30 +23,28 @@ public class MTLFXTemporalScalerDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFXTemporalScalerDescriptor");
-
     public MTLPixelFormat ColorTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalScalerDescriptorSelector.ColorTextureFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorSelector.SetColorTextureFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalScalerDescriptorSelector.ColorTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorSelector.SetColorTextureFormat, (ulong)value);
     }
 
     public MTLPixelFormat DepthTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalScalerDescriptorSelector.DepthTextureFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorSelector.SetDepthTextureFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalScalerDescriptorSelector.DepthTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorSelector.SetDepthTextureFormat, (ulong)value);
     }
 
     public MTLPixelFormat MotionTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalScalerDescriptorSelector.MotionTextureFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorSelector.SetMotionTextureFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalScalerDescriptorSelector.MotionTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorSelector.SetMotionTextureFormat, (ulong)value);
     }
 
     public MTLPixelFormat OutputTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalScalerDescriptorSelector.OutputTextureFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorSelector.SetOutputTextureFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalScalerDescriptorSelector.OutputTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorSelector.SetOutputTextureFormat, (ulong)value);
     }
 
     public nuint InputWidth
@@ -90,8 +94,8 @@ public class MTLFXTemporalScalerDescriptor : IDisposable
 
     public MTLPixelFormat ReactiveMaskTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalScalerDescriptorSelector.ReactiveMaskTextureFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorSelector.SetReactiveMaskTextureFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalScalerDescriptorSelector.ReactiveMaskTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorSelector.SetReactiveMaskTextureFormat, (ulong)value);
     }
 
     public float InputContentMinScale

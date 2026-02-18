@@ -2,12 +2,18 @@
 
 public class MTLSharedTextureHandle : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLSharedTextureHandle");
+
     public MTLSharedTextureHandle(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLSharedTextureHandle() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLSharedTextureHandle()

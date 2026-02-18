@@ -2,12 +2,18 @@
 
 public class MTLAccelerationStructureGeometryDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureGeometryDescriptor");
+
     public MTLAccelerationStructureGeometryDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLAccelerationStructureGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLAccelerationStructureGeometryDescriptor()

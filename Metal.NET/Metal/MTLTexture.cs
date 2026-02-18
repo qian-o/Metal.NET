@@ -44,7 +44,7 @@ public class MTLTexture : IDisposable
 
     public MTLTextureCompressionType CompressionType
     {
-        get => (MTLTextureCompressionType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.CompressionType));
+        get => (MTLTextureCompressionType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureSelector.CompressionType));
     }
 
     public nuint Depth
@@ -114,7 +114,7 @@ public class MTLTexture : IDisposable
 
     public MTLPixelFormat PixelFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.PixelFormat));
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureSelector.PixelFormat));
     }
 
     public MTLTexture RemoteStorageTexture
@@ -139,7 +139,7 @@ public class MTLTexture : IDisposable
 
     public MTLTextureSparseTier SparseTextureTier
     {
-        get => (MTLTextureSparseTier)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.SparseTextureTier));
+        get => (MTLTextureSparseTier)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureSelector.SparseTextureTier));
     }
 
     public MTLTextureSwizzleChannels Swizzle
@@ -154,12 +154,12 @@ public class MTLTexture : IDisposable
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.TextureType));
+        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureSelector.TextureType));
     }
 
     public MTLTextureUsage Usage
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.Usage));
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureSelector.Usage));
     }
 
     public nuint Width
@@ -193,14 +193,14 @@ public class MTLTexture : IDisposable
 
     public MTLTexture NewTextureView(MTLPixelFormat pixelFormat)
     {
-        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewTextureView, (nuint)pixelFormat));
+        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewTextureView, (ulong)pixelFormat));
 
         return result;
     }
 
     public MTLTexture NewTextureView(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange)
     {
-        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewTextureViewTextureTypeLevelRangeSliceRange, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange));
+        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewTextureViewTextureTypeLevelRangeSliceRange, (ulong)pixelFormat, (ulong)textureType, levelRange, sliceRange));
 
         return result;
     }
@@ -214,7 +214,7 @@ public class MTLTexture : IDisposable
 
     public MTLTexture NewTextureView(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange, MTLTextureSwizzleChannels swizzle)
     {
-        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewTextureViewTextureTypeLevelRangeSliceRangeSwizzle, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange, swizzle.NativePtr));
+        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewTextureViewTextureTypeLevelRangeSliceRangeSwizzle, (ulong)pixelFormat, (ulong)textureType, levelRange, sliceRange, swizzle.NativePtr));
 
         return result;
     }

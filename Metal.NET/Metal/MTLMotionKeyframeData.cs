@@ -2,6 +2,8 @@
 
 public class MTLMotionKeyframeData : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLMotionKeyframeData");
+
     public MTLMotionKeyframeData(nint nativePtr)
     {
         if (nativePtr is not 0)
@@ -10,14 +12,16 @@ public class MTLMotionKeyframeData : IDisposable
         }
     }
 
+    public MTLMotionKeyframeData() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     ~MTLMotionKeyframeData()
     {
         Release();
     }
 
     public nint NativePtr { get; }
-
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLMotionKeyframeData");
 
     public MTLBuffer Buffer
     {

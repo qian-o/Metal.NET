@@ -2,12 +2,18 @@
 
 public class MTLVertexAttribute : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexAttribute");
+
     public MTLVertexAttribute(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLVertexAttribute() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLVertexAttribute()
@@ -29,7 +35,7 @@ public class MTLVertexAttribute : IDisposable
 
     public MTLDataType AttributeType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeSelector.AttributeType));
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLVertexAttributeSelector.AttributeType));
     }
 
     public Bool8 IsActive

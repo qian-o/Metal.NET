@@ -2,12 +2,18 @@
 
 public class MTLRasterizationRateLayerArray : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRasterizationRateLayerArray");
+
     public MTLRasterizationRateLayerArray(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLRasterizationRateLayerArray() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLRasterizationRateLayerArray()

@@ -72,8 +72,8 @@ public class MTLTileRenderPipelineDescriptor : IDisposable
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTileRenderPipelineDescriptorSelector.ShaderValidation));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetShaderValidation, (nuint)value);
+        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTileRenderPipelineDescriptorSelector.ShaderValidation));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetShaderValidation, (ulong)value);
     }
 
     public Bool8 SupportAddingBinaryFunctions

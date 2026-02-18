@@ -2,6 +2,8 @@
 
 public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor");
+
     public MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
@@ -10,14 +12,16 @@ public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor : IDisp
         }
     }
 
+    public MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     ~MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor()
     {
         Release();
     }
 
     public nint NativePtr { get; }
-
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor");
 
     public NSArray BoundingBoxBuffers
     {

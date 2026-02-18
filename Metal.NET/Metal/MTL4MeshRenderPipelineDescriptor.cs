@@ -2,12 +2,18 @@
 
 public class MTL4MeshRenderPipelineDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4MeshRenderPipelineDescriptor");
+
     public MTL4MeshRenderPipelineDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTL4MeshRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTL4MeshRenderPipelineDescriptor()
@@ -19,20 +25,20 @@ public class MTL4MeshRenderPipelineDescriptor : IDisposable
 
     public MTL4AlphaToCoverageState AlphaToCoverageState
     {
-        get => (MTL4AlphaToCoverageState)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.AlphaToCoverageState));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetAlphaToCoverageState, (nuint)value);
+        get => (MTL4AlphaToCoverageState)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.AlphaToCoverageState));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetAlphaToCoverageState, (ulong)value);
     }
 
     public MTL4AlphaToOneState AlphaToOneState
     {
-        get => (MTL4AlphaToOneState)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.AlphaToOneState));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetAlphaToOneState, (nuint)value);
+        get => (MTL4AlphaToOneState)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.AlphaToOneState));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetAlphaToOneState, (ulong)value);
     }
 
     public MTL4LogicalToPhysicalColorAttachmentMappingState ColorAttachmentMappingState
     {
-        get => (MTL4LogicalToPhysicalColorAttachmentMappingState)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.ColorAttachmentMappingState));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetColorAttachmentMappingState, (nuint)value);
+        get => (MTL4LogicalToPhysicalColorAttachmentMappingState)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.ColorAttachmentMappingState));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetColorAttachmentMappingState, (ulong)value);
     }
 
     public MTL4RenderPipelineColorAttachmentDescriptorArray ColorAttachments
@@ -143,8 +149,8 @@ public class MTL4MeshRenderPipelineDescriptor : IDisposable
 
     public MTL4IndirectCommandBufferSupportState SupportIndirectCommandBuffers
     {
-        get => (MTL4IndirectCommandBufferSupportState)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SupportIndirectCommandBuffers));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetSupportIndirectCommandBuffers, (nuint)value);
+        get => (MTL4IndirectCommandBufferSupportState)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SupportIndirectCommandBuffers));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetSupportIndirectCommandBuffers, (ulong)value);
     }
 
     public Bool8 SupportMeshBinaryLinking

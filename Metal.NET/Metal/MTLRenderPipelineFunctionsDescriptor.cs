@@ -2,12 +2,18 @@
 
 public class MTLRenderPipelineFunctionsDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPipelineFunctionsDescriptor");
+
     public MTLRenderPipelineFunctionsDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLRenderPipelineFunctionsDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLRenderPipelineFunctionsDescriptor()

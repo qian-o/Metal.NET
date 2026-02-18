@@ -2,12 +2,18 @@
 
 public class MTLRenderPipelineReflection : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPipelineReflection");
+
     public MTLRenderPipelineReflection(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLRenderPipelineReflection() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLRenderPipelineReflection()

@@ -2,12 +2,18 @@
 
 public class MTLArgument : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArgument");
+
     public MTLArgument(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLArgument() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLArgument()
@@ -19,7 +25,7 @@ public class MTLArgument : IDisposable
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentSelector.Access));
+        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentSelector.Access));
     }
 
     public Bool8 Active
@@ -44,7 +50,7 @@ public class MTLArgument : IDisposable
 
     public MTLDataType BufferDataType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentSelector.BufferDataType));
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentSelector.BufferDataType));
     }
 
     public MTLPointerType BufferPointerType
@@ -79,12 +85,12 @@ public class MTLArgument : IDisposable
 
     public MTLDataType TextureDataType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentSelector.TextureDataType));
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentSelector.TextureDataType));
     }
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentSelector.TextureType));
+        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentSelector.TextureType));
     }
 
     public nuint ThreadgroupMemoryAlignment
@@ -99,7 +105,7 @@ public class MTLArgument : IDisposable
 
     public MTLArgumentType Type
     {
-        get => (MTLArgumentType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentSelector.Type));
+        get => (MTLArgumentType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentSelector.Type));
     }
 
     public static implicit operator nint(MTLArgument value)

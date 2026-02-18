@@ -29,17 +29,17 @@ public class MTLResourceStateCommandEncoder : IDisposable
 
     public void UpdateTextureMapping(MTLTexture texture, MTLSparseTextureMappingMode mode, MTLRegion region, nuint mipLevel, nuint slice)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStateCommandEncoderSelector.UpdateTextureMappingModeRegionMipLevelSlice, texture.NativePtr, (nuint)mode, region, mipLevel, slice);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStateCommandEncoderSelector.UpdateTextureMappingModeRegionMipLevelSlice, texture.NativePtr, (ulong)mode, region, mipLevel, slice);
     }
 
     public void UpdateTextureMapping(MTLTexture texture, MTLSparseTextureMappingMode mode, MTLBuffer indirectBuffer, nuint indirectBufferOffset)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStateCommandEncoderSelector.UpdateTextureMappingModeIndirectBufferIndirectBufferOffset, texture.NativePtr, (nuint)mode, indirectBuffer.NativePtr, indirectBufferOffset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStateCommandEncoderSelector.UpdateTextureMappingModeIndirectBufferIndirectBufferOffset, texture.NativePtr, (ulong)mode, indirectBuffer.NativePtr, indirectBufferOffset);
     }
 
     public void UpdateTextureMappings(MTLTexture texture, MTLSparseTextureMappingMode mode, MTLRegion regions, nint mipLevels, nint slices, nuint numRegions)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStateCommandEncoderSelector.UpdateTextureMappingsModeRegionsMipLevelsSlicesNumRegions, texture.NativePtr, (nuint)mode, regions, mipLevels, slices, numRegions);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStateCommandEncoderSelector.UpdateTextureMappingsModeRegionsMipLevelsSlicesNumRegions, texture.NativePtr, (ulong)mode, regions, mipLevels, slices, numRegions);
     }
 
     public void WaitForFence(MTLFence fence)

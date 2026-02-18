@@ -80,29 +80,6 @@ public static class CppAstParser
     /// Concrete ObjC classes that can be alloc/init'd (not protocols).
     /// Names without prefix — matched against CppAst class names.
     /// </summary>
-    private static readonly HashSet<string> s_concreteClasses =
-    [
-        "TextureDescriptor", "SamplerDescriptor", "RenderPassDescriptor",
-        "RenderPipelineDescriptor", "DepthStencilDescriptor", "StencilDescriptor",
-        "VertexDescriptor", "CompileOptions", "RenderPassColorAttachmentDescriptor",
-        "RenderPassDepthAttachmentDescriptor", "RenderPassStencilAttachmentDescriptor",
-        "RenderPipelineColorAttachmentDescriptor", "VertexBufferLayoutDescriptor",
-        "VertexAttributeDescriptor", "TileRenderPipelineDescriptor",
-        "TileRenderPipelineColorAttachmentDescriptor",
-        "RasterizationRateMapDescriptor", "RasterizationRateLayerDescriptor",
-        "StageInputOutputDescriptor", "AttributeDescriptor", "BufferLayoutDescriptor",
-        "IndirectCommandBufferDescriptor", "LinkedFunctions",
-        "ComputePassDescriptor", "BlitPassDescriptor", "AccelerationStructureDescriptor",
-        "PrimitiveAccelerationStructureDescriptor", "InstanceAccelerationStructureDescriptor",
-        "HeapDescriptor", "SharedEventHandle", "CaptureDescriptor",
-        "BinaryArchiveDescriptor", "StitchedLibraryDescriptor",
-        "FunctionStitchingGraph", "FunctionStitchingInputNode",
-        "FunctionStitchingFunctionNode",
-        "ResidencySetDescriptor", "IOCommandQueueDescriptor",
-        "TextureViewDescriptor", "TextureViewPool",
-        "MetalLayer", // CA::MetalLayer
-    ];
-
     // ── C# keywords that must be escaped ──
     private static readonly HashSet<string> s_csharpKeywords =
     [
@@ -493,7 +470,11 @@ public static class CppAstParser
             return null;
 
         // Determine if this is a concrete ObjC class (can be alloc/init'd)
-        bool isClass = s_concreteClasses.Contains(cppClass.Name);
+        // Detect by checking if the class has a static alloc() method
+        bool isClass = cppClass.Functions.Any(fn =>
+            fn.StorageQualifier == CppStorageQualifier.Static &&
+            fn.Name == "alloc" &&
+            fn.Parameters.Count == 0);
         string? objCClass = isClass ? fullName : null;
 
         var def = new ObjCClassDef

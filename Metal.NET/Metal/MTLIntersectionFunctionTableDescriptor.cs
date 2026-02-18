@@ -2,6 +2,8 @@
 
 public class MTLIntersectionFunctionTableDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIntersectionFunctionTableDescriptor");
+
     public MTLIntersectionFunctionTableDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
@@ -10,14 +12,16 @@ public class MTLIntersectionFunctionTableDescriptor : IDisposable
         }
     }
 
+    public MTLIntersectionFunctionTableDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     ~MTLIntersectionFunctionTableDescriptor()
     {
         Release();
     }
 
     public nint NativePtr { get; }
-
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIntersectionFunctionTableDescriptor");
 
     public nuint FunctionCount
     {

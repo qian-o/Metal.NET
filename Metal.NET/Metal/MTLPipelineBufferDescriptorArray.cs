@@ -2,12 +2,18 @@
 
 public class MTLPipelineBufferDescriptorArray : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPipelineBufferDescriptorArray");
+
     public MTLPipelineBufferDescriptorArray(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLPipelineBufferDescriptorArray() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLPipelineBufferDescriptorArray()

@@ -2,6 +2,8 @@
 
 public class MTLAccelerationStructurePassDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructurePassDescriptor");
+
     public MTLAccelerationStructurePassDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
@@ -10,14 +12,16 @@ public class MTLAccelerationStructurePassDescriptor : IDisposable
         }
     }
 
+    public MTLAccelerationStructurePassDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     ~MTLAccelerationStructurePassDescriptor()
     {
         Release();
     }
 
     public nint NativePtr { get; }
-
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructurePassDescriptor");
 
     public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
     {

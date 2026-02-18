@@ -2,18 +2,12 @@
 
 public class MTL4AccelerationStructureDescriptor : IDisposable
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4AccelerationStructureDescriptor");
-
     public MTL4AccelerationStructureDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
-    }
-
-    public MTL4AccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
     }
 
     ~MTL4AccelerationStructureDescriptor()

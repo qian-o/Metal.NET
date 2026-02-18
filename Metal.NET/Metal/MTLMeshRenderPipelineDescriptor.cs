@@ -2,12 +2,18 @@
 
 public class MTLMeshRenderPipelineDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLMeshRenderPipelineDescriptor");
+
     public MTLMeshRenderPipelineDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLMeshRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLMeshRenderPipelineDescriptor()
@@ -42,8 +48,8 @@ public class MTLMeshRenderPipelineDescriptor : IDisposable
 
     public MTLPixelFormat DepthAttachmentPixelFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLMeshRenderPipelineDescriptorSelector.DepthAttachmentPixelFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetDepthAttachmentPixelFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLMeshRenderPipelineDescriptorSelector.DepthAttachmentPixelFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetDepthAttachmentPixelFormat, (ulong)value);
     }
 
     public MTLPipelineBufferDescriptorArray FragmentBuffers
@@ -174,14 +180,14 @@ public class MTLMeshRenderPipelineDescriptor : IDisposable
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLMeshRenderPipelineDescriptorSelector.ShaderValidation));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetShaderValidation, (nuint)value);
+        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLMeshRenderPipelineDescriptorSelector.ShaderValidation));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetShaderValidation, (ulong)value);
     }
 
     public MTLPixelFormat StencilAttachmentPixelFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLMeshRenderPipelineDescriptorSelector.StencilAttachmentPixelFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetStencilAttachmentPixelFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLMeshRenderPipelineDescriptorSelector.StencilAttachmentPixelFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetStencilAttachmentPixelFormat, (ulong)value);
     }
 
     public Bool8 SupportIndirectCommandBuffers

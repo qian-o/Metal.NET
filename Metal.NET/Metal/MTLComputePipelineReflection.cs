@@ -2,12 +2,18 @@
 
 public class MTLComputePipelineReflection : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePipelineReflection");
+
     public MTLComputePipelineReflection(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLComputePipelineReflection() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLComputePipelineReflection()

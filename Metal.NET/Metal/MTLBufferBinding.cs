@@ -29,7 +29,7 @@ public class MTLBufferBinding : IDisposable
 
     public MTLDataType BufferDataType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingSelector.BufferDataType));
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLBufferBindingSelector.BufferDataType));
     }
 
     public MTLPointerType BufferPointerType

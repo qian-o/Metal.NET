@@ -2,12 +2,18 @@
 
 public class MTLType : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLType");
+
     public MTLType(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLType() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLType()
@@ -19,7 +25,7 @@ public class MTLType : IDisposable
 
     public MTLDataType DataType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTypeSelector.DataType));
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTypeSelector.DataType));
     }
 
     public static implicit operator nint(MTLType value)

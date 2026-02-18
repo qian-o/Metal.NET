@@ -43,8 +43,8 @@ public class MTLStitchedLibraryDescriptor : IDisposable
 
     public MTLStitchedLibraryOptions Options
     {
-        get => (MTLStitchedLibraryOptions)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStitchedLibraryDescriptorSelector.Options));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetOptions, (nuint)value);
+        get => (MTLStitchedLibraryOptions)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStitchedLibraryDescriptorSelector.Options));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetOptions, (ulong)value);
     }
 
     public static implicit operator nint(MTLStitchedLibraryDescriptor value)

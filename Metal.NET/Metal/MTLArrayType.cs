@@ -2,12 +2,18 @@
 
 public class MTLArrayType : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArrayType");
+
     public MTLArrayType(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLArrayType() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLArrayType()
@@ -54,7 +60,7 @@ public class MTLArrayType : IDisposable
 
     public MTLDataType ElementType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeSelector.ElementType));
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArrayTypeSelector.ElementType));
     }
 
     public nuint Stride

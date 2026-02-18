@@ -2,12 +2,18 @@
 
 public class MTLComputePipelineDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePipelineDescriptor");
+
     public MTLComputePipelineDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLComputePipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLComputePipelineDescriptor()
@@ -72,8 +78,8 @@ public class MTLComputePipelineDescriptor : IDisposable
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineDescriptorSelector.ShaderValidation));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetShaderValidation, (nuint)value);
+        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLComputePipelineDescriptorSelector.ShaderValidation));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetShaderValidation, (ulong)value);
     }
 
     public MTLStageInputOutputDescriptor StageInputDescriptor

@@ -2,12 +2,18 @@
 
 public class MTLTensorDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorDescriptor");
+
     public MTLTensorDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLTensorDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLTensorDescriptor()
@@ -19,14 +25,14 @@ public class MTLTensorDescriptor : IDisposable
 
     public MTLCPUCacheMode CpuCacheMode
     {
-        get => (MTLCPUCacheMode)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorSelector.CpuCacheMode));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetCpuCacheMode, (nuint)value);
+        get => (MTLCPUCacheMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorDescriptorSelector.CpuCacheMode));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetCpuCacheMode, (ulong)value);
     }
 
     public MTLTensorDataType DataType
     {
-        get => (MTLTensorDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorSelector.DataType));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetDataType, (nuint)value);
+        get => (MTLTensorDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorDescriptorSelector.DataType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetDataType, (ulong)value);
     }
 
     public MTLTensorExtents Dimensions
@@ -37,20 +43,20 @@ public class MTLTensorDescriptor : IDisposable
 
     public MTLHazardTrackingMode HazardTrackingMode
     {
-        get => (MTLHazardTrackingMode)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorSelector.HazardTrackingMode));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetHazardTrackingMode, (nuint)value);
+        get => (MTLHazardTrackingMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorDescriptorSelector.HazardTrackingMode));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetHazardTrackingMode, (ulong)value);
     }
 
     public MTLResourceOptions ResourceOptions
     {
-        get => (MTLResourceOptions)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorSelector.ResourceOptions));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetResourceOptions, (nuint)value);
+        get => (MTLResourceOptions)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorDescriptorSelector.ResourceOptions));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetResourceOptions, (ulong)value);
     }
 
     public MTLStorageMode StorageMode
     {
-        get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorSelector.StorageMode));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetStorageMode, (nuint)value);
+        get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorDescriptorSelector.StorageMode));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetStorageMode, (ulong)value);
     }
 
     public MTLTensorExtents Strides
@@ -61,8 +67,8 @@ public class MTLTensorDescriptor : IDisposable
 
     public MTLTensorUsage Usage
     {
-        get => (MTLTensorUsage)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorSelector.Usage));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetUsage, (nuint)value);
+        get => (MTLTensorUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorDescriptorSelector.Usage));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetUsage, (ulong)value);
     }
 
     public static implicit operator nint(MTLTensorDescriptor value)

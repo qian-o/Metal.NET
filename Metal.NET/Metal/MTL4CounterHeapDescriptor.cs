@@ -2,12 +2,18 @@
 
 public class MTL4CounterHeapDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CounterHeapDescriptor");
+
     public MTL4CounterHeapDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTL4CounterHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTL4CounterHeapDescriptor()
@@ -25,8 +31,8 @@ public class MTL4CounterHeapDescriptor : IDisposable
 
     public MTL4CounterHeapType Type
     {
-        get => (MTL4CounterHeapType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CounterHeapDescriptorSelector.Type));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapDescriptorSelector.SetType, (nuint)value);
+        get => (MTL4CounterHeapType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4CounterHeapDescriptorSelector.Type));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapDescriptorSelector.SetType, (ulong)value);
     }
 
     public static implicit operator nint(MTL4CounterHeapDescriptor value)

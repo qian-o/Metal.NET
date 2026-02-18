@@ -2,6 +2,8 @@
 
 public class MTLAccelerationStructureTriangleGeometryDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureTriangleGeometryDescriptor");
+
     public MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
@@ -10,14 +12,16 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor : IDisposable
         }
     }
 
+    public MTLAccelerationStructureTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     ~MTLAccelerationStructureTriangleGeometryDescriptor()
     {
         Release();
     }
 
     public nint NativePtr { get; }
-
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureTriangleGeometryDescriptor");
 
     public MTLBuffer IndexBuffer
     {
@@ -33,8 +37,8 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor : IDisposable
 
     public MTLIndexType IndexType
     {
-        get => (MTLIndexType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.IndexType));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetIndexType, (nuint)value);
+        get => (MTLIndexType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.IndexType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetIndexType, (ulong)value);
     }
 
     public MTLBuffer TransformationMatrixBuffer
@@ -51,8 +55,8 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor : IDisposable
 
     public MTLMatrixLayout TransformationMatrixLayout
     {
-        get => (MTLMatrixLayout)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.TransformationMatrixLayout));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetTransformationMatrixLayout, (nuint)value);
+        get => (MTLMatrixLayout)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.TransformationMatrixLayout));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetTransformationMatrixLayout, (ulong)value);
     }
 
     public nuint TriangleCount
@@ -75,8 +79,8 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor : IDisposable
 
     public MTLAttributeFormat VertexFormat
     {
-        get => (MTLAttributeFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.VertexFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetVertexFormat, (nuint)value);
+        get => (MTLAttributeFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.VertexFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetVertexFormat, (ulong)value);
     }
 
     public nuint VertexStride

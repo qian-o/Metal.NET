@@ -2,12 +2,18 @@
 
 public class MTLCommandQueueDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCommandQueueDescriptor");
+
     public MTLCommandQueueDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLCommandQueueDescriptor()

@@ -2,12 +2,18 @@
 
 public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructurePassSampleBufferAttachmentDescriptor");
+
     public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLAccelerationStructurePassSampleBufferAttachmentDescriptor()

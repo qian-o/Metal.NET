@@ -489,7 +489,7 @@ public class MetalBindingsGenerator
             "nuint" => ("ObjectiveCRuntime.MsgSendNUInt", false),
             "nint" => ("ObjectiveCRuntime.MsgSendPtr", false),
             _ when IsKnownValueStruct(type) => ("/* TODO: stret */", false),
-            _ when IsLikelyEnum(type) => ("ObjectiveCRuntime.MsgSendNUInt", false),
+            _ when IsLikelyEnum(type) => ("ObjectiveCRuntime.MsgSendULong", false),
             _ => ("ObjectiveCRuntime.MsgSendPtr", true),
         };
     }
@@ -500,7 +500,7 @@ public class MetalBindingsGenerator
         if (type is "float" or "double") return name;
         if (type is "nint") return name;
         if (type is "nuint") return name;
-        if (IsLikelyEnum(type)) return $"(nuint){name}";
+        if (IsLikelyEnum(type)) return $"(ulong){name}";
         if (IsObjCWrapper(type)) return $"{name}.NativePtr";
         if (type is "Bool8") return name;
         if (type is "bool") return $"(byte)({name} ? 1 : 0)";
@@ -514,7 +514,7 @@ public class MetalBindingsGenerator
         if (type is "float" or "double") return type;
         if (type is "nint") return "nint";
         if (type is "nuint") return "nuint";
-        if (IsLikelyEnum(type)) return "nuint";
+        if (IsLikelyEnum(type)) return "ulong";
         if (IsObjCWrapper(type)) return "nint";
         if (type is "Bool8") return "Bool8";
         if (type is "bool") return "byte";
@@ -582,7 +582,7 @@ public class MetalBindingsGenerator
         if (retType is "double") return "double";
         if (retType is "nuint") return "nuint";
         if (retType is "nint") return "nint";
-        if (IsLikelyEnum(retType)) return "nuint";
+        if (IsLikelyEnum(retType)) return "ulong";
         if (IsKnownValueStruct(retType)) return "nint";
         return "nint";
     }
@@ -594,6 +594,7 @@ public class MetalBindingsGenerator
         "Bool8" => "MsgSendBool",
         "int" => "MsgSendInt",
         "uint" => "MsgSendUInt",
+        "ulong" => "MsgSendULong",
         "float" => "MsgSendFloat",
         "double" => "MsgSendDouble",
         "nuint" => "MsgSendNUInt",

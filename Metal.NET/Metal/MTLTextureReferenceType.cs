@@ -2,12 +2,18 @@
 
 public class MTLTextureReferenceType : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTextureReferenceType");
+
     public MTLTextureReferenceType(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLTextureReferenceType() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLTextureReferenceType()
@@ -19,7 +25,7 @@ public class MTLTextureReferenceType : IDisposable
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureReferenceTypeSelector.Access));
+        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeSelector.Access));
     }
 
     public Bool8 IsDepthTexture
@@ -29,12 +35,12 @@ public class MTLTextureReferenceType : IDisposable
 
     public MTLDataType TextureDataType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureReferenceTypeSelector.TextureDataType));
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeSelector.TextureDataType));
     }
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureReferenceTypeSelector.TextureType));
+        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeSelector.TextureType));
     }
 
     public static implicit operator nint(MTLTextureReferenceType value)

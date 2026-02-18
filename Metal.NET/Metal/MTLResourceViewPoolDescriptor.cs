@@ -2,12 +2,18 @@
 
 public class MTLResourceViewPoolDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResourceViewPoolDescriptor");
+
     public MTLResourceViewPoolDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLResourceViewPoolDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLResourceViewPoolDescriptor()

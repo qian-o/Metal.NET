@@ -34,12 +34,12 @@ public class MTLTextureBinding : IDisposable
 
     public MTLDataType TextureDataType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindingSelector.TextureDataType));
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureBindingSelector.TextureDataType));
     }
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindingSelector.TextureType));
+        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureBindingSelector.TextureType));
     }
 
     public static implicit operator nint(MTLTextureBinding value)

@@ -25,8 +25,8 @@ public class MTLIndirectCommandBufferDescriptor : IDisposable
 
     public MTLIndirectCommandType CommandTypes
     {
-        get => (MTLIndirectCommandType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferDescriptorSelector.CommandTypes));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetCommandTypes, (nuint)value);
+        get => (MTLIndirectCommandType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLIndirectCommandBufferDescriptorSelector.CommandTypes));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetCommandTypes, (ulong)value);
     }
 
     public Bool8 InheritBuffers

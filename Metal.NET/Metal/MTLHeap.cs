@@ -19,7 +19,7 @@ public class MTLHeap : IDisposable
 
     public MTLCPUCacheMode CpuCacheMode
     {
-        get => (MTLCPUCacheMode)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.CpuCacheMode));
+        get => (MTLCPUCacheMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.CpuCacheMode));
     }
 
     public nuint CurrentAllocatedSize
@@ -34,7 +34,7 @@ public class MTLHeap : IDisposable
 
     public MTLHazardTrackingMode HazardTrackingMode
     {
-        get => (MTLHazardTrackingMode)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.HazardTrackingMode));
+        get => (MTLHazardTrackingMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.HazardTrackingMode));
     }
 
     public NSString Label
@@ -45,7 +45,7 @@ public class MTLHeap : IDisposable
 
     public MTLResourceOptions ResourceOptions
     {
-        get => (MTLResourceOptions)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.ResourceOptions));
+        get => (MTLResourceOptions)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.ResourceOptions));
     }
 
     public nuint Size
@@ -55,12 +55,12 @@ public class MTLHeap : IDisposable
 
     public MTLStorageMode StorageMode
     {
-        get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.StorageMode));
+        get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.StorageMode));
     }
 
     public MTLHeapType Type
     {
-        get => (MTLHeapType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.Type));
+        get => (MTLHeapType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.Type));
     }
 
     public nuint UsedSize
@@ -105,14 +105,14 @@ public class MTLHeap : IDisposable
 
     public MTLBuffer NewBuffer(nuint length, MTLResourceOptions options)
     {
-        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewBufferOptions, length, (nuint)options));
+        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewBufferOptions, length, (ulong)options));
 
         return result;
     }
 
     public MTLBuffer NewBuffer(nuint length, MTLResourceOptions options, nuint offset)
     {
-        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewBufferOptionsOffset, length, (nuint)options, offset));
+        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewBufferOptionsOffset, length, (ulong)options, offset));
 
         return result;
     }
@@ -133,7 +133,7 @@ public class MTLHeap : IDisposable
 
     public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
     {
-        MTLPurgeableState result = (MTLPurgeableState)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.SetPurgeableState, (nuint)state);
+        MTLPurgeableState result = (MTLPurgeableState)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.SetPurgeableState, (ulong)state);
 
         return result;
     }

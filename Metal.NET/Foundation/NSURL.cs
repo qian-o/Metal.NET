@@ -2,6 +2,8 @@
 
 public class NSURL : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("NSURL");
+
     public NSURL(nint nativePtr)
     {
         if (nativePtr is not 0)
@@ -10,14 +12,16 @@ public class NSURL : IDisposable
         }
     }
 
+    public NSURL() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     ~NSURL()
     {
         Release();
     }
 
     public nint NativePtr { get; }
-
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("NSURL");
 
     public nint FileSystemRepresentation
     {

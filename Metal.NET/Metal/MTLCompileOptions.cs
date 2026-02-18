@@ -31,8 +31,8 @@ public class MTLCompileOptions : IDisposable
 
     public MTLCompileSymbolVisibility CompileSymbolVisibility
     {
-        get => (MTLCompileSymbolVisibility)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCompileOptionsSelector.CompileSymbolVisibility));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetCompileSymbolVisibility, (nuint)value);
+        get => (MTLCompileSymbolVisibility)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCompileOptionsSelector.CompileSymbolVisibility));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetCompileSymbolVisibility, (ulong)value);
     }
 
     public Bool8 EnableLogging
@@ -55,8 +55,8 @@ public class MTLCompileOptions : IDisposable
 
     public MTLLanguageVersion LanguageVersion
     {
-        get => (MTLLanguageVersion)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCompileOptionsSelector.LanguageVersion));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetLanguageVersion, (nuint)value);
+        get => (MTLLanguageVersion)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCompileOptionsSelector.LanguageVersion));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetLanguageVersion, (ulong)value);
     }
 
     public NSArray Libraries
@@ -67,20 +67,20 @@ public class MTLCompileOptions : IDisposable
 
     public MTLLibraryType LibraryType
     {
-        get => (MTLLibraryType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCompileOptionsSelector.LibraryType));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetLibraryType, (nuint)value);
+        get => (MTLLibraryType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCompileOptionsSelector.LibraryType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetLibraryType, (ulong)value);
     }
 
     public MTLMathFloatingPointFunctions MathFloatingPointFunctions
     {
-        get => (MTLMathFloatingPointFunctions)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCompileOptionsSelector.MathFloatingPointFunctions));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetMathFloatingPointFunctions, (nuint)value);
+        get => (MTLMathFloatingPointFunctions)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCompileOptionsSelector.MathFloatingPointFunctions));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetMathFloatingPointFunctions, (ulong)value);
     }
 
     public MTLMathMode MathMode
     {
-        get => (MTLMathMode)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCompileOptionsSelector.MathMode));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetMathMode, (nuint)value);
+        get => (MTLMathMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCompileOptionsSelector.MathMode));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetMathMode, (ulong)value);
     }
 
     public nuint MaxTotalThreadsPerThreadgroup
@@ -91,8 +91,8 @@ public class MTLCompileOptions : IDisposable
 
     public MTLLibraryOptimizationLevel OptimizationLevel
     {
-        get => (MTLLibraryOptimizationLevel)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCompileOptionsSelector.OptimizationLevel));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetOptimizationLevel, (nuint)value);
+        get => (MTLLibraryOptimizationLevel)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCompileOptionsSelector.OptimizationLevel));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetOptimizationLevel, (ulong)value);
     }
 
     public nint PreprocessorMacros

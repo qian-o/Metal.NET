@@ -2,12 +2,18 @@
 
 public class MTLAttribute : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAttribute");
+
     public MTLAttribute(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLAttribute() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLAttribute()
@@ -29,7 +35,7 @@ public class MTLAttribute : IDisposable
 
     public MTLDataType AttributeType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeSelector.AttributeType));
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAttributeSelector.AttributeType));
     }
 
     public Bool8 IsActive

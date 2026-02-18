@@ -25,8 +25,8 @@ public class MTLTileRenderPipelineColorAttachmentDescriptor : IDisposable
 
     public MTLPixelFormat PixelFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorSelector.PixelFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorSelector.SetPixelFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorSelector.PixelFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorSelector.SetPixelFormat, (ulong)value);
     }
 
     public static implicit operator nint(MTLTileRenderPipelineColorAttachmentDescriptor value)

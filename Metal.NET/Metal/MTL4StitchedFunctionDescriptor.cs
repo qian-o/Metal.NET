@@ -2,12 +2,18 @@
 
 public class MTL4StitchedFunctionDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4StitchedFunctionDescriptor");
+
     public MTL4StitchedFunctionDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTL4StitchedFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTL4StitchedFunctionDescriptor()

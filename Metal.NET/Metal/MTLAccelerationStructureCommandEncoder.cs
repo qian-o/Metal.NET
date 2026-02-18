@@ -39,7 +39,7 @@ public class MTLAccelerationStructureCommandEncoder : IDisposable
 
     public void RefitAccelerationStructure(MTLAccelerationStructure sourceAccelerationStructure, MTLAccelerationStructureDescriptor descriptor, MTLAccelerationStructure destinationAccelerationStructure, MTLBuffer scratchBuffer, nuint scratchBufferOffset, MTLAccelerationStructureRefitOptions options)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderSelector.RefitAccelerationStructureDescriptorDestinationAccelerationStructureScratchBufferScratchBufferOffsetOptions, sourceAccelerationStructure.NativePtr, descriptor.NativePtr, destinationAccelerationStructure.NativePtr, scratchBuffer.NativePtr, scratchBufferOffset, (nuint)options);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderSelector.RefitAccelerationStructureDescriptorDestinationAccelerationStructureScratchBufferScratchBufferOffsetOptions, sourceAccelerationStructure.NativePtr, descriptor.NativePtr, destinationAccelerationStructure.NativePtr, scratchBuffer.NativePtr, scratchBufferOffset, (ulong)options);
     }
 
     public void SampleCountersInBuffer(MTLCounterSampleBuffer sampleBuffer, nuint sampleIndex, Bool8 barrier)
@@ -59,7 +59,7 @@ public class MTLAccelerationStructureCommandEncoder : IDisposable
 
     public void UseResource(MTLResource resource, MTLResourceUsage usage)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderSelector.UseResourceUsage, resource.NativePtr, (nuint)usage);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderSelector.UseResourceUsage, resource.NativePtr, (ulong)usage);
     }
 
     public void WaitForFence(MTLFence fence)
@@ -74,7 +74,7 @@ public class MTLAccelerationStructureCommandEncoder : IDisposable
 
     public void WriteCompactedAccelerationStructureSize(MTLAccelerationStructure accelerationStructure, MTLBuffer buffer, nuint offset, MTLDataType sizeDataType)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderSelector.WriteCompactedAccelerationStructureSizeBufferOffsetSizeDataType, accelerationStructure.NativePtr, buffer.NativePtr, offset, (nuint)sizeDataType);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderSelector.WriteCompactedAccelerationStructureSizeBufferOffsetSizeDataType, accelerationStructure.NativePtr, buffer.NativePtr, offset, (ulong)sizeDataType);
     }
 
     public static implicit operator nint(MTLAccelerationStructureCommandEncoder value)

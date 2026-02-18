@@ -2,12 +2,18 @@
 
 public class MTLFunctionStitchingAttributeAlwaysInline : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingAttributeAlwaysInline");
+
     public MTLFunctionStitchingAttributeAlwaysInline(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLFunctionStitchingAttributeAlwaysInline() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLFunctionStitchingAttributeAlwaysInline()

@@ -2,18 +2,12 @@
 
 public class CAMetalLayer : IDisposable
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("CAMetalLayer");
-
     public CAMetalLayer(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
-    }
-
-    public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
     }
 
     ~CAMetalLayer()
@@ -23,6 +17,8 @@ public class CAMetalLayer : IDisposable
 
     public nint NativePtr { get; }
 
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("CAMetalLayer");
+
     public MTLDevice Device
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.Device));
@@ -31,8 +27,8 @@ public class CAMetalLayer : IDisposable
 
     public MTLPixelFormat PixelFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, CAMetalLayerSelector.PixelFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetPixelFormat, (nuint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, CAMetalLayerSelector.PixelFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetPixelFormat, (ulong)value);
     }
 
     public Bool8 FramebufferOnly

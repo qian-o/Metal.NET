@@ -2,12 +2,18 @@
 
 public class MTLArchitecture : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArchitecture");
+
     public MTLArchitecture(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLArchitecture() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLArchitecture()

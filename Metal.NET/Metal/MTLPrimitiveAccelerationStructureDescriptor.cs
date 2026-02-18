@@ -31,8 +31,8 @@ public class MTLPrimitiveAccelerationStructureDescriptor : IDisposable
 
     public MTLMotionBorderMode MotionEndBorderMode
     {
-        get => (MTLMotionBorderMode)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.MotionEndBorderMode));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetMotionEndBorderMode, (nuint)value);
+        get => (MTLMotionBorderMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.MotionEndBorderMode));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetMotionEndBorderMode, (ulong)value);
     }
 
     public float MotionEndTime
@@ -49,8 +49,8 @@ public class MTLPrimitiveAccelerationStructureDescriptor : IDisposable
 
     public MTLMotionBorderMode MotionStartBorderMode
     {
-        get => (MTLMotionBorderMode)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.MotionStartBorderMode));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetMotionStartBorderMode, (nuint)value);
+        get => (MTLMotionBorderMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.MotionStartBorderMode));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorSelector.SetMotionStartBorderMode, (ulong)value);
     }
 
     public float MotionStartTime

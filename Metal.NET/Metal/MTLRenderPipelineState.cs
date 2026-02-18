@@ -69,7 +69,7 @@ public class MTLRenderPipelineState : IDisposable
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.ShaderValidation));
+        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineStateSelector.ShaderValidation));
     }
 
     public Bool8 SupportIndirectCommandBuffers
@@ -84,21 +84,21 @@ public class MTLRenderPipelineState : IDisposable
 
     public MTLFunctionHandle FunctionHandle(NSString name, MTLRenderStages stage)
     {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleStage, name.NativePtr, (nuint)stage));
+        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleStage, name.NativePtr, (ulong)stage));
 
         return result;
     }
 
     public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function, MTLRenderStages stage)
     {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleStage, function.NativePtr, (nuint)stage));
+        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleStage, function.NativePtr, (ulong)stage));
 
         return result;
     }
 
     public MTLFunctionHandle FunctionHandle(MTLFunction function, MTLRenderStages stage)
     {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleStage, function.NativePtr, (nuint)stage));
+        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleStage, function.NativePtr, (ulong)stage));
 
         return result;
     }
@@ -112,7 +112,7 @@ public class MTLRenderPipelineState : IDisposable
 
     public MTLIntersectionFunctionTable NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor, MTLRenderStages stage)
     {
-        MTLIntersectionFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewIntersectionFunctionTableStage, descriptor.NativePtr, (nuint)stage));
+        MTLIntersectionFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewIntersectionFunctionTableStage, descriptor.NativePtr, (ulong)stage));
 
         return result;
     }
@@ -144,7 +144,7 @@ public class MTLRenderPipelineState : IDisposable
 
     public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor, MTLRenderStages stage)
     {
-        MTLVisibleFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewVisibleFunctionTableStage, descriptor.NativePtr, (nuint)stage));
+        MTLVisibleFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewVisibleFunctionTableStage, descriptor.NativePtr, (ulong)stage));
 
         return result;
     }

@@ -2,6 +2,8 @@
 
 public class MTLFunctionDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionDescriptor");
+
     public MTLFunctionDescriptor(nint nativePtr)
     {
         if (nativePtr is not 0)
@@ -10,14 +12,16 @@ public class MTLFunctionDescriptor : IDisposable
         }
     }
 
+    public MTLFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     ~MTLFunctionDescriptor()
     {
         Release();
     }
 
     public nint NativePtr { get; }
-
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionDescriptor");
 
     public NSArray BinaryArchives
     {
@@ -39,8 +43,8 @@ public class MTLFunctionDescriptor : IDisposable
 
     public MTLFunctionOptions Options
     {
-        get => (MTLFunctionOptions)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionDescriptorSelector.Options));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetOptions, (nuint)value);
+        get => (MTLFunctionOptions)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionDescriptorSelector.Options));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetOptions, (ulong)value);
     }
 
     public NSString SpecializedName

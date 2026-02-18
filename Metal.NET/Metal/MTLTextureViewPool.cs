@@ -2,18 +2,12 @@
 
 public class MTLTextureViewPool : IDisposable
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTextureViewPool");
-
     public MTLTextureViewPool(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
-    }
-
-    public MTLTextureViewPool() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
     }
 
     ~MTLTextureViewPool()

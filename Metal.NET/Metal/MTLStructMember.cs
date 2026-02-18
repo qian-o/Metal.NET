@@ -2,12 +2,18 @@
 
 public class MTLStructMember : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStructMember");
+
     public MTLStructMember(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTLStructMember() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLStructMember()
@@ -29,7 +35,7 @@ public class MTLStructMember : IDisposable
 
     public MTLDataType DataType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStructMemberSelector.DataType));
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStructMemberSelector.DataType));
     }
 
     public NSString Name

@@ -2,12 +2,18 @@
 
 public class MTL4MachineLearningPipelineReflection : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4MachineLearningPipelineReflection");
+
     public MTL4MachineLearningPipelineReflection(nint nativePtr)
     {
         if (nativePtr is not 0)
         {
             ObjectiveCRuntime.Retain(NativePtr = nativePtr);
         }
+    }
+
+    public MTL4MachineLearningPipelineReflection() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTL4MachineLearningPipelineReflection()

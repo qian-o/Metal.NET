@@ -24,7 +24,7 @@ public class MTLFunctionHandle : IDisposable
 
     public MTLFunctionType FunctionType
     {
-        get => (MTLFunctionType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionHandleSelector.FunctionType));
+        get => (MTLFunctionType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionHandleSelector.FunctionType));
     }
 
     public NSString Name

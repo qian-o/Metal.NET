@@ -36,8 +36,8 @@ public class MTLStageInputOutputDescriptor : IDisposable
 
     public MTLIndexType IndexType
     {
-        get => (MTLIndexType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStageInputOutputDescriptorSelector.IndexType));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStageInputOutputDescriptorSelector.SetIndexType, (nuint)value);
+        get => (MTLIndexType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStageInputOutputDescriptorSelector.IndexType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStageInputOutputDescriptorSelector.SetIndexType, (ulong)value);
     }
 
     public MTLBufferLayoutDescriptorArray Layouts

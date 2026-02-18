@@ -2,6 +2,8 @@
 
 public class MTLSharedEventListener : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLSharedEventListener");
+
     public MTLSharedEventListener(nint nativePtr)
     {
         if (nativePtr is not 0)
@@ -10,14 +12,16 @@ public class MTLSharedEventListener : IDisposable
         }
     }
 
+    public MTLSharedEventListener() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     ~MTLSharedEventListener()
     {
         Release();
     }
 
     public nint NativePtr { get; }
-
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLSharedEventListener");
 
     public nint DispatchQueue
     {
