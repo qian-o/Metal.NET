@@ -619,12 +619,16 @@ public static class HeaderParser
     }
 
     /// <summary>
-    /// Finds the first DeclRefExpr in a method body whose referenced variable starts with "s_k".
+    /// Finds the first DeclRefExpr in a method body whose referenced variable starts with "s_k"
+    /// and lives in the <c>Private::Selector</c> namespace (not <c>Private::Class</c>).
     /// Returns the accessor name (with "s_k" prefix stripped).
     /// </summary>
     private static string? FindSelectorAccessorInBody(Stmt stmt)
     {
-        if (stmt is DeclRefExpr dre && dre.Decl.Name.StartsWith("s_k"))
+        if (stmt is DeclRefExpr dre
+            && dre.Decl.Name.StartsWith("s_k")
+            && dre.Decl.DeclContext is NamespaceDecl ns
+            && ns.Name == "Selector")
         {
             return dre.Decl.Name[3..];
         }
