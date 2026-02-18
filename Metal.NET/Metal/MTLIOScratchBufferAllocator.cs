@@ -15,5 +15,5 @@ public partial class MTLIOScratchBufferAllocator : NativeObject
 
 file static class MTLIOScratchBufferAllocatorSelector
 {
-    public static readonly Selector NewScratchBuffer = Selector.Register("newScratchBuffer:");
+    public static readonly Selector NewScratchBuffer = Selector.Register("newScratchBufferWithMinimumSize:");
 }

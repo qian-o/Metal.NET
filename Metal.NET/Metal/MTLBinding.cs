@@ -55,7 +55,7 @@ file static class MTLBindingSelector
 {
     public static readonly Selector Access = Selector.Register("access");
 
-    public static readonly Selector Argument = Selector.Register("argument");
+    public static readonly Selector Argument = Selector.Register("isArgument");
 
     public static readonly Selector Index = Selector.Register("index");
 
@@ -67,5 +67,5 @@ file static class MTLBindingSelector
 
     public static readonly Selector Type = Selector.Register("type");
 
-    public static readonly Selector Used = Selector.Register("used");
+    public static readonly Selector Used = Selector.Register("isUsed");
 }

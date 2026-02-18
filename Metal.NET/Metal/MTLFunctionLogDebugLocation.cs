@@ -6,15 +6,6 @@ public partial class MTLFunctionLogDebugLocation : NativeObject
     {
     }
 
-    public NSURL? URL
-    {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogDebugLocationSelector.URL);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-    }
-
     public nuint Column
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationSelector.Column);
@@ -32,6 +23,15 @@ public partial class MTLFunctionLogDebugLocation : NativeObject
     public nuint Line
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationSelector.Line);
+    }
+
+    public NSURL? URL
+    {
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogDebugLocationSelector.URL);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 }
 

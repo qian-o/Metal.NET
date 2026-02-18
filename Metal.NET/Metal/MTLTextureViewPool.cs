@@ -24,7 +24,7 @@ public partial class MTLTextureViewPool : NativeObject
 
 file static class MTLTextureViewPoolSelector
 {
-    public static readonly Selector SetTextureView = Selector.Register("setTextureView::");
+    public static readonly Selector SetTextureView = Selector.Register("setTextureView:atIndex:");
 
-    public static readonly Selector SetTextureViewFromBuffer = Selector.Register("setTextureViewFromBuffer:::::");
+    public static readonly Selector SetTextureViewFromBuffer = Selector.Register("setTextureViewFromBuffer:descriptor:offset:bytesPerRow:atIndex:");
 }

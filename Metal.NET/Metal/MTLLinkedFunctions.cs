@@ -28,12 +28,6 @@ public partial class MTLLinkedFunctions : NativeObject
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsSelector.SetFunctions, value?.NativePtr ?? 0);
     }
 
-    public nint Groups
-    {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLinkedFunctionsSelector.Groups);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsSelector.SetGroups, value);
-    }
-
     public NSArray? PrivateFunctions
     {
         get
@@ -57,8 +51,6 @@ file static class MTLLinkedFunctionsSelector
 
     public static readonly Selector Functions = Selector.Register("functions");
 
-    public static readonly Selector Groups = Selector.Register("groups");
-
     public static readonly Selector LinkedFunctions = Selector.Register("linkedFunctions");
 
     public static readonly Selector PrivateFunctions = Selector.Register("privateFunctions");
@@ -66,8 +58,6 @@ file static class MTLLinkedFunctionsSelector
     public static readonly Selector SetBinaryFunctions = Selector.Register("setBinaryFunctions:");
 
     public static readonly Selector SetFunctions = Selector.Register("setFunctions:");
-
-    public static readonly Selector SetGroups = Selector.Register("setGroups:");
 
     public static readonly Selector SetPrivateFunctions = Selector.Register("setPrivateFunctions:");
 }

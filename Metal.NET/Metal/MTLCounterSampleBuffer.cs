@@ -28,11 +28,6 @@ public partial class MTLCounterSampleBuffer : NativeObject
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCounterSampleBufferSelector.SampleCount);
     }
-
-    public nint ResolveCounterRange(NSRange range)
-    {
-        return ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferSelector.ResolveCounterRange, range);
-    }
 }
 
 file static class MTLCounterSampleBufferSelector
@@ -40,8 +35,6 @@ file static class MTLCounterSampleBufferSelector
     public static readonly Selector Device = Selector.Register("device");
 
     public static readonly Selector Label = Selector.Register("label");
-
-    public static readonly Selector ResolveCounterRange = Selector.Register("resolveCounterRange:");
 
     public static readonly Selector SampleCount = Selector.Register("sampleCount");
 }

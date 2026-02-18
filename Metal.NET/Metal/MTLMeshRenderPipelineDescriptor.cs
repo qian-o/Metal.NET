@@ -249,9 +249,9 @@ public partial class MTLMeshRenderPipelineDescriptor : NativeObject
 
 file static class MTLMeshRenderPipelineDescriptorSelector
 {
-    public static readonly Selector AlphaToCoverageEnabled = Selector.Register("alphaToCoverageEnabled");
+    public static readonly Selector AlphaToCoverageEnabled = Selector.Register("isAlphaToCoverageEnabled");
 
-    public static readonly Selector AlphaToOneEnabled = Selector.Register("alphaToOneEnabled");
+    public static readonly Selector AlphaToOneEnabled = Selector.Register("isAlphaToOneEnabled");
 
     public static readonly Selector BinaryArchives = Selector.Register("binaryArchives");
 
@@ -299,7 +299,7 @@ file static class MTLMeshRenderPipelineDescriptorSelector
 
     public static readonly Selector PayloadMemoryLength = Selector.Register("payloadMemoryLength");
 
-    public static readonly Selector RasterizationEnabled = Selector.Register("rasterizationEnabled");
+    public static readonly Selector RasterizationEnabled = Selector.Register("isRasterizationEnabled");
 
     public static readonly Selector RasterSampleCount = Selector.Register("rasterSampleCount");
 

@@ -8,7 +8,7 @@ public partial class MTLVertexAttributeDescriptorArray : NativeObject
     {
     }
 
-    public MTLVertexAttributeDescriptor? @object(nuint index)
+    public MTLVertexAttributeDescriptor? Object(nuint index)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeDescriptorArraySelector.Object, index);
         return ptr is not 0 ? new(ptr) : null;
@@ -22,7 +22,7 @@ public partial class MTLVertexAttributeDescriptorArray : NativeObject
 
 file static class MTLVertexAttributeDescriptorArraySelector
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector Object = Selector.Register("objectAtIndexedSubscript:");
 
-    public static readonly Selector SetObject = Selector.Register("setObject::");
+    public static readonly Selector SetObject = Selector.Register("setObject:atIndexedSubscript:");
 }

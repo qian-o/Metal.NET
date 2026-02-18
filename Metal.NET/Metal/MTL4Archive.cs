@@ -56,11 +56,11 @@ file static class MTL4ArchiveSelector
 {
     public static readonly Selector Label = Selector.Register("label");
 
-    public static readonly Selector NewBinaryFunction = Selector.Register("newBinaryFunction:::");
+    public static readonly Selector NewBinaryFunction = Selector.Register("newBinaryFunctionWithDescriptor:error:");
 
-    public static readonly Selector NewComputePipelineState = Selector.Register("newComputePipelineState:::");
+    public static readonly Selector NewComputePipelineState = Selector.Register("newComputePipelineStateWithDescriptor:error:");
 
-    public static readonly Selector NewRenderPipelineState = Selector.Register("newRenderPipelineState:::");
+    public static readonly Selector NewRenderPipelineState = Selector.Register("newRenderPipelineStateWithDescriptor:error:");
 
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

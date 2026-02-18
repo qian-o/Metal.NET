@@ -136,7 +136,7 @@ file static class MTL4RenderPassDescriptorSelector
 
     public static readonly Selector DepthAttachment = Selector.Register("depthAttachment");
 
-    public static readonly Selector GetSamplePositions = Selector.Register("getSamplePositions::");
+    public static readonly Selector GetSamplePositions = Selector.Register("getSamplePositions:count:");
 
     public static readonly Selector ImageblockSampleLength = Selector.Register("imageblockSampleLength");
 
@@ -162,7 +162,7 @@ file static class MTL4RenderPassDescriptorSelector
 
     public static readonly Selector SetRenderTargetWidth = Selector.Register("setRenderTargetWidth:");
 
-    public static readonly Selector SetSamplePositions = Selector.Register("setSamplePositions::");
+    public static readonly Selector SetSamplePositions = Selector.Register("setSamplePositions:count:");
 
     public static readonly Selector SetStencilAttachment = Selector.Register("setStencilAttachment:");
 

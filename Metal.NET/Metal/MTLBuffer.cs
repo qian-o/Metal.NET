@@ -72,7 +72,7 @@ public partial class MTLBuffer : NativeObject
 
 file static class MTLBufferSelector
 {
-    public static readonly Selector AddDebugMarker = Selector.Register("addDebugMarker::");
+    public static readonly Selector AddDebugMarker = Selector.Register("addDebugMarker:range:");
 
     public static readonly Selector Contents = Selector.Register("contents");
 
@@ -84,9 +84,9 @@ file static class MTLBufferSelector
 
     public static readonly Selector NewRemoteBufferViewForDevice = Selector.Register("newRemoteBufferViewForDevice:");
 
-    public static readonly Selector NewTensor = Selector.Register("newTensor::::");
+    public static readonly Selector NewTensor = Selector.Register("newTensorWithDescriptor:offset:error:");
 
-    public static readonly Selector NewTexture = Selector.Register("newTexture:::");
+    public static readonly Selector NewTexture = Selector.Register("newTextureWithDescriptor:offset:bytesPerRow:");
 
     public static readonly Selector RemoteStorageBuffer = Selector.Register("remoteStorageBuffer");
 

@@ -73,11 +73,11 @@ public partial class MTL4CommandEncoder : NativeObject
 
 file static class MTL4CommandEncoderSelector
 {
-    public static readonly Selector BarrierAfterEncoderStages = Selector.Register("barrierAfterEncoderStages:::");
+    public static readonly Selector BarrierAfterEncoderStages = Selector.Register("barrierAfterEncoderStages:beforeEncoderStages:visibilityOptions:");
 
-    public static readonly Selector BarrierAfterQueueStages = Selector.Register("barrierAfterQueueStages:::");
+    public static readonly Selector BarrierAfterQueueStages = Selector.Register("barrierAfterQueueStages:beforeStages:visibilityOptions:");
 
-    public static readonly Selector BarrierAfterStages = Selector.Register("barrierAfterStages:::");
+    public static readonly Selector BarrierAfterStages = Selector.Register("barrierAfterStages:beforeQueueStages:visibilityOptions:");
 
     public static readonly Selector CommandBuffer = Selector.Register("commandBuffer");
 
@@ -93,7 +93,7 @@ file static class MTL4CommandEncoderSelector
 
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
 
-    public static readonly Selector UpdateFence = Selector.Register("updateFence::");
+    public static readonly Selector UpdateFence = Selector.Register("updateFence:afterEncoderStages:");
 
-    public static readonly Selector WaitForFence = Selector.Register("waitForFence::");
+    public static readonly Selector WaitForFence = Selector.Register("waitForFence:beforeEncoderStages:");
 }

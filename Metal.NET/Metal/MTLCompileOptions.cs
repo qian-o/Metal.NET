@@ -88,12 +88,6 @@ public partial class MTLCompileOptions : NativeObject
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetOptimizationLevel, (nint)value);
     }
 
-    public nint PreprocessorMacros
-    {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.PreprocessorMacros);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetPreprocessorMacros, value);
-    }
-
     public bool PreserveInvariance
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCompileOptionsSelector.PreserveInvariance);
@@ -133,8 +127,6 @@ file static class MTLCompileOptionsSelector
 
     public static readonly Selector OptimizationLevel = Selector.Register("optimizationLevel");
 
-    public static readonly Selector PreprocessorMacros = Selector.Register("preprocessorMacros");
-
     public static readonly Selector PreserveInvariance = Selector.Register("preserveInvariance");
 
     public static readonly Selector RequiredThreadsPerThreadgroup = Selector.Register("requiredThreadsPerThreadgroup");
@@ -162,8 +154,6 @@ file static class MTLCompileOptionsSelector
     public static readonly Selector SetMaxTotalThreadsPerThreadgroup = Selector.Register("setMaxTotalThreadsPerThreadgroup:");
 
     public static readonly Selector SetOptimizationLevel = Selector.Register("setOptimizationLevel:");
-
-    public static readonly Selector SetPreprocessorMacros = Selector.Register("setPreprocessorMacros:");
 
     public static readonly Selector SetPreserveInvariance = Selector.Register("setPreserveInvariance:");
 

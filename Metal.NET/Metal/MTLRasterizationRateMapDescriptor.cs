@@ -44,11 +44,6 @@ public partial class MTLRasterizationRateMapDescriptor : NativeObject
         return ptr is not 0 ? new(ptr) : null;
     }
 
-    public void SetLayer(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetLayer, layer.NativePtr, layerIndex);
-    }
-
     public static MTLRasterizationRateMapDescriptor? RasterizationRateMapDescriptor(MTLSize screenSize)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLRasterizationRateMapDescriptorSelector.RasterizationRateMapDescriptor, screenSize);
@@ -61,10 +56,9 @@ public partial class MTLRasterizationRateMapDescriptor : NativeObject
         return ptr is not 0 ? new(ptr) : null;
     }
 
-    public static MTLRasterizationRateMapDescriptor? RasterizationRateMapDescriptor(MTLSize screenSize, nuint layerCount, nint layers)
+    public void SetLayer(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLRasterizationRateMapDescriptorSelector.RasterizationRateMapDescriptor, screenSize, layerCount, layers);
-        return ptr is not 0 ? new(ptr) : null;
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetLayer, layer.NativePtr, layerIndex);
     }
 }
 
@@ -72,19 +66,19 @@ file static class MTLRasterizationRateMapDescriptorSelector
 {
     public static readonly Selector Label = Selector.Register("label");
 
-    public static readonly Selector Layer = Selector.Register("layer:");
+    public static readonly Selector Layer = Selector.Register("layerAtIndex:");
 
     public static readonly Selector LayerCount = Selector.Register("layerCount");
 
     public static readonly Selector Layers = Selector.Register("layers");
 
-    public static readonly Selector RasterizationRateMapDescriptor = Selector.Register("rasterizationRateMapDescriptor:");
+    public static readonly Selector RasterizationRateMapDescriptor = Selector.Register("rasterizationRateMapDescriptorWithScreenSize:");
 
     public static readonly Selector ScreenSize = Selector.Register("screenSize");
 
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
 
-    public static readonly Selector SetLayer = Selector.Register("setLayer::");
+    public static readonly Selector SetLayer = Selector.Register("setLayer:atIndex:");
 
     public static readonly Selector SetScreenSize = Selector.Register("setScreenSize:");
 }

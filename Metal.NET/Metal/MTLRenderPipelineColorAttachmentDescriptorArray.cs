@@ -8,7 +8,7 @@ public partial class MTLRenderPipelineColorAttachmentDescriptorArray : NativeObj
     {
     }
 
-    public MTLRenderPipelineColorAttachmentDescriptor? @object(nuint attachmentIndex)
+    public MTLRenderPipelineColorAttachmentDescriptor? Object(nuint attachmentIndex)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineColorAttachmentDescriptorArraySelector.Object, attachmentIndex);
         return ptr is not 0 ? new(ptr) : null;
@@ -22,7 +22,7 @@ public partial class MTLRenderPipelineColorAttachmentDescriptorArray : NativeObj
 
 file static class MTLRenderPipelineColorAttachmentDescriptorArraySelector
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector Object = Selector.Register("objectAtIndexedSubscript:");
 
-    public static readonly Selector SetObject = Selector.Register("setObject::");
+    public static readonly Selector SetObject = Selector.Register("setObject:atIndexedSubscript:");
 }

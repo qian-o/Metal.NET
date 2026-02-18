@@ -6,6 +6,15 @@ public partial class MTL4CommitFeedback : NativeObject
     {
     }
 
+    public NSError? Error
+    {
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommitFeedbackSelector.Error);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+    }
+
     public double GPUEndTime
     {
         get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTL4CommitFeedbackSelector.GPUEndTime);
@@ -14,15 +23,6 @@ public partial class MTL4CommitFeedback : NativeObject
     public double GPUStartTime
     {
         get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTL4CommitFeedbackSelector.GPUStartTime);
-    }
-
-    public NSError? Error
-    {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommitFeedbackSelector.Error);
-            return ptr is not 0 ? new(ptr) : null;
-        }
     }
 }
 

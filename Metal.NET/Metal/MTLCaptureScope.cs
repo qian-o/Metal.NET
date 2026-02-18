@@ -6,6 +6,15 @@ public partial class MTLCaptureScope : NativeObject
     {
     }
 
+    public MTLCommandQueue? CommandQueue
+    {
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeSelector.CommandQueue);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+    }
+
     public MTLDevice? Device
     {
         get
@@ -23,15 +32,6 @@ public partial class MTLCaptureScope : NativeObject
             return ptr is not 0 ? new(ptr) : null;
         }
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeSelector.SetLabel, value?.NativePtr ?? 0);
-    }
-
-    public MTLCommandQueue? CommandQueue
-    {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeSelector.CommandQueue);
-            return ptr is not 0 ? new(ptr) : null;
-        }
     }
 
     public void BeginScope()

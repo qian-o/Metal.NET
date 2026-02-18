@@ -8,7 +8,7 @@ public partial class MTLRenderPassColorAttachmentDescriptorArray : NativeObject
     {
     }
 
-    public MTLRenderPassColorAttachmentDescriptor? @object(nuint attachmentIndex)
+    public MTLRenderPassColorAttachmentDescriptor? Object(nuint attachmentIndex)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.Object, attachmentIndex);
         return ptr is not 0 ? new(ptr) : null;
@@ -22,7 +22,7 @@ public partial class MTLRenderPassColorAttachmentDescriptorArray : NativeObject
 
 file static class MTLRenderPassColorAttachmentDescriptorArraySelector
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector Object = Selector.Register("objectAtIndexedSubscript:");
 
-    public static readonly Selector SetObject = Selector.Register("setObject::");
+    public static readonly Selector SetObject = Selector.Register("setObject:atIndexedSubscript:");
 }

@@ -6,16 +6,6 @@ public partial class MTLCommandBuffer : NativeObject
     {
     }
 
-    public double GPUEndTime
-    {
-        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferSelector.GPUEndTime);
-    }
-
-    public double GPUStartTime
-    {
-        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferSelector.GPUStartTime);
-    }
-
     public MTLAccelerationStructureCommandEncoder? AccelerationStructureCommandEncoder
     {
         get
@@ -70,9 +60,19 @@ public partial class MTLCommandBuffer : NativeObject
         }
     }
 
-    public nuint ErrorOptions
+    public MTLCommandBufferErrorOption ErrorOptions
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandBufferSelector.ErrorOptions);
+        get => (MTLCommandBufferErrorOption)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandBufferSelector.ErrorOptions);
+    }
+
+    public double GPUEndTime
+    {
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferSelector.GPUEndTime);
+    }
+
+    public double GPUStartTime
+    {
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferSelector.GPUStartTime);
     }
 
     public double KernelEndTime
@@ -129,7 +129,7 @@ public partial class MTLCommandBuffer : NativeObject
         return ptr is not 0 ? new(ptr) : null;
     }
 
-    public MTLBlitCommandEncoder? BlitCommandEncoderWithBlitPassDescriptor(MTLBlitPassDescriptor blitPassDescriptor)
+    public MTLBlitCommandEncoder? BlitCommandEncoderWithDescriptor(MTLBlitPassDescriptor blitPassDescriptor)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.BlitCommandEncoder, blitPassDescriptor.NativePtr);
         return ptr is not 0 ? new(ptr) : null;
@@ -140,7 +140,7 @@ public partial class MTLCommandBuffer : NativeObject
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.Commit);
     }
 
-    public MTLComputeCommandEncoder? ComputeCommandEncoderWithComputePassDescriptor(MTLComputePassDescriptor computePassDescriptor)
+    public MTLComputeCommandEncoder? ComputeCommandEncoderWithDescriptor(MTLComputePassDescriptor computePassDescriptor)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.ComputeCommandEncoder, computePassDescriptor.NativePtr);
         return ptr is not 0 ? new(ptr) : null;
@@ -204,7 +204,7 @@ public partial class MTLCommandBuffer : NativeObject
         return ptr is not 0 ? new(ptr) : null;
     }
 
-    public MTLResourceStateCommandEncoder? ResourceStateCommandEncoderWithResourceStatePassDescriptor(MTLResourceStatePassDescriptor resourceStatePassDescriptor)
+    public MTLResourceStateCommandEncoder? ResourceStateCommandEncoderWithDescriptor(MTLResourceStatePassDescriptor resourceStatePassDescriptor)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.ResourceStateCommandEncoder, resourceStatePassDescriptor.NativePtr);
         return ptr is not 0 ? new(ptr) : null;
@@ -240,9 +240,9 @@ file static class MTLCommandBufferSelector
 
     public static readonly Selector Device = Selector.Register("device");
 
-    public static readonly Selector EncodeSignalEvent = Selector.Register("encodeSignalEvent::");
+    public static readonly Selector EncodeSignalEvent = Selector.Register("encodeSignalEvent:value:");
 
-    public static readonly Selector EncodeWait = Selector.Register("encodeWait::");
+    public static readonly Selector EncodeWait = Selector.Register("encodeWaitForEvent:value:");
 
     public static readonly Selector Enqueue = Selector.Register("enqueue");
 
@@ -262,19 +262,19 @@ file static class MTLCommandBufferSelector
 
     public static readonly Selector Logs = Selector.Register("logs");
 
-    public static readonly Selector ParallelRenderCommandEncoder = Selector.Register("parallelRenderCommandEncoder:");
+    public static readonly Selector ParallelRenderCommandEncoder = Selector.Register("parallelRenderCommandEncoderWithDescriptor:");
 
     public static readonly Selector PopDebugGroup = Selector.Register("popDebugGroup");
 
     public static readonly Selector PresentDrawable = Selector.Register("presentDrawable:");
 
-    public static readonly Selector PresentDrawableAfterMinimumDuration = Selector.Register("presentDrawableAfterMinimumDuration::");
+    public static readonly Selector PresentDrawableAfterMinimumDuration = Selector.Register("presentDrawable:afterMinimumDuration:");
 
-    public static readonly Selector PresentDrawableAtTime = Selector.Register("presentDrawableAtTime::");
+    public static readonly Selector PresentDrawableAtTime = Selector.Register("presentDrawable:atTime:");
 
     public static readonly Selector PushDebugGroup = Selector.Register("pushDebugGroup:");
 
-    public static readonly Selector RenderCommandEncoder = Selector.Register("renderCommandEncoder:");
+    public static readonly Selector RenderCommandEncoder = Selector.Register("renderCommandEncoderWithDescriptor:");
 
     public static readonly Selector ResourceStateCommandEncoder = Selector.Register("resourceStateCommandEncoder");
 

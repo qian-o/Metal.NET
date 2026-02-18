@@ -285,9 +285,9 @@ public partial class MTLRenderPipelineDescriptor : NativeObject
 
 file static class MTLRenderPipelineDescriptorSelector
 {
-    public static readonly Selector AlphaToCoverageEnabled = Selector.Register("alphaToCoverageEnabled");
+    public static readonly Selector AlphaToCoverageEnabled = Selector.Register("isAlphaToCoverageEnabled");
 
-    public static readonly Selector AlphaToOneEnabled = Selector.Register("alphaToOneEnabled");
+    public static readonly Selector AlphaToOneEnabled = Selector.Register("isAlphaToOneEnabled");
 
     public static readonly Selector BinaryArchives = Selector.Register("binaryArchives");
 
@@ -323,7 +323,7 @@ file static class MTLRenderPipelineDescriptorSelector
 
     public static readonly Selector MaxVertexCallStackDepth = Selector.Register("maxVertexCallStackDepth");
 
-    public static readonly Selector RasterizationEnabled = Selector.Register("rasterizationEnabled");
+    public static readonly Selector RasterizationEnabled = Selector.Register("isRasterizationEnabled");
 
     public static readonly Selector RasterSampleCount = Selector.Register("rasterSampleCount");
 
@@ -407,7 +407,7 @@ file static class MTLRenderPipelineDescriptorSelector
 
     public static readonly Selector TessellationFactorFormat = Selector.Register("tessellationFactorFormat");
 
-    public static readonly Selector TessellationFactorScaleEnabled = Selector.Register("tessellationFactorScaleEnabled");
+    public static readonly Selector TessellationFactorScaleEnabled = Selector.Register("isTessellationFactorScaleEnabled");
 
     public static readonly Selector TessellationFactorStepFunction = Selector.Register("tessellationFactorStepFunction");
 

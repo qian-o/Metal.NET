@@ -8,10 +8,10 @@ public partial class MTLIndirectCommandBufferDescriptor : NativeObject
     {
     }
 
-    public nuint CommandTypes
+    public MTLIndirectCommandType CommandTypes
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferDescriptorSelector.CommandTypes);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetCommandTypes, value);
+        get => (MTLIndirectCommandType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferDescriptorSelector.CommandTypes);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetCommandTypes, (nuint)value);
     }
 
     public bool InheritBuffers

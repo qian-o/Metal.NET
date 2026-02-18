@@ -111,7 +111,7 @@ file static class MTLArgumentEncoderSelector
 {
     public static readonly Selector Alignment = Selector.Register("alignment");
 
-    public static readonly Selector ConstantData = Selector.Register("constantData:");
+    public static readonly Selector ConstantData = Selector.Register("constantDataAtIndex:");
 
     public static readonly Selector Device = Selector.Register("device");
 
@@ -119,29 +119,29 @@ file static class MTLArgumentEncoderSelector
 
     public static readonly Selector Label = Selector.Register("label");
 
-    public static readonly Selector NewArgumentEncoder = Selector.Register("newArgumentEncoder:");
+    public static readonly Selector NewArgumentEncoder = Selector.Register("newArgumentEncoderForBufferAtIndex:");
 
-    public static readonly Selector SetAccelerationStructure = Selector.Register("setAccelerationStructure::");
+    public static readonly Selector SetAccelerationStructure = Selector.Register("setAccelerationStructure:atIndex:");
 
-    public static readonly Selector SetArgumentBuffer = Selector.Register("setArgumentBuffer::");
+    public static readonly Selector SetArgumentBuffer = Selector.Register("setArgumentBuffer:offset:");
 
-    public static readonly Selector SetBuffer = Selector.Register("setBuffer:::");
+    public static readonly Selector SetBuffer = Selector.Register("setBuffer:offset:atIndex:");
 
-    public static readonly Selector SetComputePipelineState = Selector.Register("setComputePipelineState::");
+    public static readonly Selector SetComputePipelineState = Selector.Register("setComputePipelineState:atIndex:");
 
-    public static readonly Selector SetDepthStencilState = Selector.Register("setDepthStencilState::");
+    public static readonly Selector SetDepthStencilState = Selector.Register("setDepthStencilState:atIndex:");
 
-    public static readonly Selector SetIndirectCommandBuffer = Selector.Register("setIndirectCommandBuffer::");
+    public static readonly Selector SetIndirectCommandBuffer = Selector.Register("setIndirectCommandBuffer:atIndex:");
 
-    public static readonly Selector SetIntersectionFunctionTable = Selector.Register("setIntersectionFunctionTable::");
+    public static readonly Selector SetIntersectionFunctionTable = Selector.Register("setIntersectionFunctionTable:atIndex:");
 
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
 
-    public static readonly Selector SetRenderPipelineState = Selector.Register("setRenderPipelineState::");
+    public static readonly Selector SetRenderPipelineState = Selector.Register("setRenderPipelineState:atIndex:");
 
-    public static readonly Selector SetSamplerState = Selector.Register("setSamplerState::");
+    public static readonly Selector SetSamplerState = Selector.Register("setSamplerState:atIndex:");
 
-    public static readonly Selector SetTexture = Selector.Register("setTexture::");
+    public static readonly Selector SetTexture = Selector.Register("setTexture:atIndex:");
 
-    public static readonly Selector SetVisibleFunctionTable = Selector.Register("setVisibleFunctionTable::");
+    public static readonly Selector SetVisibleFunctionTable = Selector.Register("setVisibleFunctionTable:atIndex:");
 }

@@ -51,34 +51,14 @@ public partial class MTLIndirectRenderCommand : NativeObject
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetBarrier);
     }
 
-    public void SetCullMode(MTLCullMode cullMode)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetCullMode, (nuint)cullMode);
-    }
-
     public void SetDepthBias(float depthBias, float slopeScale, float clamp)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetDepthBias, depthBias, slopeScale, clamp);
     }
 
-    public void SetDepthClipMode(MTLDepthClipMode depthClipMode)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetDepthClipMode, (nuint)depthClipMode);
-    }
-
-    public void SetDepthStencilState(MTLDepthStencilState depthStencilState)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetDepthStencilState, depthStencilState.NativePtr);
-    }
-
     public void SetFragmentBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetFragmentBuffer, buffer.NativePtr, offset, index);
-    }
-
-    public void SetFrontFacingWinding(MTLWinding frontFacingWindning)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetFrontFacingWinding, (nuint)frontFacingWindning);
     }
 
     public void SetMeshBuffer(MTLBuffer buffer, nuint offset, nuint index)
@@ -96,16 +76,6 @@ public partial class MTLIndirectRenderCommand : NativeObject
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetObjectThreadgroupMemoryLength, length, index);
     }
 
-    public void SetRenderPipelineState(MTLRenderPipelineState pipelineState)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetRenderPipelineState, pipelineState.NativePtr);
-    }
-
-    public void SetTriangleFillMode(MTLTriangleFillMode fillMode)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetTriangleFillMode, (nuint)fillMode);
-    }
-
     public void SetVertexBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetVertexBuffer, buffer.NativePtr, offset, index);
@@ -121,43 +91,31 @@ file static class MTLIndirectRenderCommandSelector
 {
     public static readonly Selector ClearBarrier = Selector.Register("clearBarrier");
 
-    public static readonly Selector DrawIndexedPatches = Selector.Register("drawIndexedPatches::::::::::::");
+    public static readonly Selector DrawIndexedPatches = Selector.Register("drawIndexedPatches:patchStart:patchCount:patchIndexBuffer:patchIndexBufferOffset:controlPointIndexBuffer:controlPointIndexBufferOffset:instanceCount:baseInstance:tessellationFactorBuffer:tessellationFactorBufferOffset:tessellationFactorBufferInstanceStride:");
 
-    public static readonly Selector DrawIndexedPrimitives = Selector.Register("drawIndexedPrimitives::::::::");
+    public static readonly Selector DrawIndexedPrimitives = Selector.Register("drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferOffset:instanceCount:baseVertex:baseInstance:");
 
-    public static readonly Selector DrawMeshThreadgroups = Selector.Register("drawMeshThreadgroups:::");
+    public static readonly Selector DrawMeshThreadgroups = Selector.Register("drawMeshThreadgroups:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:");
 
-    public static readonly Selector DrawMeshThreads = Selector.Register("drawMeshThreads:::");
+    public static readonly Selector DrawMeshThreads = Selector.Register("drawMeshThreads:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:");
 
-    public static readonly Selector DrawPatches = Selector.Register("drawPatches::::::::::");
+    public static readonly Selector DrawPatches = Selector.Register("drawPatches:patchStart:patchCount:patchIndexBuffer:patchIndexBufferOffset:instanceCount:baseInstance:tessellationFactorBuffer:tessellationFactorBufferOffset:tessellationFactorBufferInstanceStride:");
 
-    public static readonly Selector DrawPrimitives = Selector.Register("drawPrimitives:::::");
+    public static readonly Selector DrawPrimitives = Selector.Register("drawPrimitives:vertexStart:vertexCount:instanceCount:baseInstance:");
 
     public static readonly Selector Reset = Selector.Register("reset");
 
     public static readonly Selector SetBarrier = Selector.Register("setBarrier");
 
-    public static readonly Selector SetCullMode = Selector.Register("setCullMode:");
+    public static readonly Selector SetDepthBias = Selector.Register("setDepthBias:slopeScale:clamp:");
 
-    public static readonly Selector SetDepthBias = Selector.Register("setDepthBias:::");
+    public static readonly Selector SetFragmentBuffer = Selector.Register("setFragmentBuffer:offset:atIndex:");
 
-    public static readonly Selector SetDepthClipMode = Selector.Register("setDepthClipMode:");
+    public static readonly Selector SetMeshBuffer = Selector.Register("setMeshBuffer:offset:atIndex:");
 
-    public static readonly Selector SetDepthStencilState = Selector.Register("setDepthStencilState:");
+    public static readonly Selector SetObjectBuffer = Selector.Register("setObjectBuffer:offset:atIndex:");
 
-    public static readonly Selector SetFragmentBuffer = Selector.Register("setFragmentBuffer:::");
+    public static readonly Selector SetObjectThreadgroupMemoryLength = Selector.Register("setObjectThreadgroupMemoryLength:atIndex:");
 
-    public static readonly Selector SetFrontFacingWinding = Selector.Register("setFrontFacingWinding:");
-
-    public static readonly Selector SetMeshBuffer = Selector.Register("setMeshBuffer:::");
-
-    public static readonly Selector SetObjectBuffer = Selector.Register("setObjectBuffer:::");
-
-    public static readonly Selector SetObjectThreadgroupMemoryLength = Selector.Register("setObjectThreadgroupMemoryLength::");
-
-    public static readonly Selector SetRenderPipelineState = Selector.Register("setRenderPipelineState:");
-
-    public static readonly Selector SetTriangleFillMode = Selector.Register("setTriangleFillMode:");
-
-    public static readonly Selector SetVertexBuffer = Selector.Register("setVertexBuffer:::");
+    public static readonly Selector SetVertexBuffer = Selector.Register("setVertexBuffer:offset:atIndex:");
 }

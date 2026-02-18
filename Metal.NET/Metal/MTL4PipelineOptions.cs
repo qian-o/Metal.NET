@@ -8,10 +8,10 @@ public partial class MTL4PipelineOptions : NativeObject
     {
     }
 
-    public nuint ShaderReflection
+    public MTL4ShaderReflection ShaderReflection
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4PipelineOptionsSelector.ShaderReflection);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineOptionsSelector.SetShaderReflection, value);
+        get => (MTL4ShaderReflection)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4PipelineOptionsSelector.ShaderReflection);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineOptionsSelector.SetShaderReflection, (nuint)value);
     }
 
     public MTLShaderValidation ShaderValidation

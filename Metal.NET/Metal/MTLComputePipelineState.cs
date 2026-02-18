@@ -74,6 +74,18 @@ public partial class MTLComputePipelineState : NativeObject
         return ptr is not 0 ? new(ptr) : null;
     }
 
+    public MTLFunctionHandle? FunctionHandle(MTL4BinaryFunction function)
+    {
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.FunctionHandle, function.NativePtr);
+        return ptr is not 0 ? new(ptr) : null;
+    }
+
+    public MTLFunctionHandle? FunctionHandle(MTLFunction function)
+    {
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.FunctionHandle, function.NativePtr);
+        return ptr is not 0 ? new(ptr) : null;
+    }
+
     public nuint ImageblockMemoryLength(MTLSize imageblockDimensions)
     {
         return ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineStateSelector.ImageblockMemoryLength, imageblockDimensions);
@@ -110,23 +122,23 @@ file static class MTLComputePipelineStateSelector
 {
     public static readonly Selector Device = Selector.Register("device");
 
-    public static readonly Selector FunctionHandle = Selector.Register("functionHandle:");
+    public static readonly Selector FunctionHandle = Selector.Register("functionHandleWithName:");
 
     public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
 
-    public static readonly Selector ImageblockMemoryLength = Selector.Register("imageblockMemoryLength:");
+    public static readonly Selector ImageblockMemoryLength = Selector.Register("imageblockMemoryLengthForDimensions:");
 
     public static readonly Selector Label = Selector.Register("label");
 
     public static readonly Selector MaxTotalThreadsPerThreadgroup = Selector.Register("maxTotalThreadsPerThreadgroup");
 
-    public static readonly Selector NewComputePipelineState = Selector.Register("newComputePipelineState:::");
+    public static readonly Selector NewComputePipelineState = Selector.Register("newComputePipelineStateWithAdditionalBinaryFunctions:error:");
 
-    public static readonly Selector NewComputePipelineStateWithBinaryFunctions = Selector.Register("newComputePipelineStateWithBinaryFunctions:::");
+    public static readonly Selector NewComputePipelineStateWithBinaryFunctions = Selector.Register("newComputePipelineStateWithBinaryFunctions:error:");
 
-    public static readonly Selector NewIntersectionFunctionTable = Selector.Register("newIntersectionFunctionTable:");
+    public static readonly Selector NewIntersectionFunctionTable = Selector.Register("newIntersectionFunctionTableWithDescriptor:");
 
-    public static readonly Selector NewVisibleFunctionTable = Selector.Register("newVisibleFunctionTable:");
+    public static readonly Selector NewVisibleFunctionTable = Selector.Register("newVisibleFunctionTableWithDescriptor:");
 
     public static readonly Selector Reflection = Selector.Register("reflection");
 

@@ -40,9 +40,9 @@ public partial class MTLHeap : NativeObject
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapSelector.SetLabel, value?.NativePtr ?? 0);
     }
 
-    public nuint ResourceOptions
+    public MTLResourceOptions ResourceOptions
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.ResourceOptions);
+        get => (MTLResourceOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.ResourceOptions);
     }
 
     public nuint Size
@@ -76,9 +76,21 @@ public partial class MTLHeap : NativeObject
         return ptr is not 0 ? new(ptr) : null;
     }
 
+    public MTLAccelerationStructure? NewAccelerationStructure(MTLAccelerationStructureDescriptor descriptor)
+    {
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewAccelerationStructure, descriptor.NativePtr);
+        return ptr is not 0 ? new(ptr) : null;
+    }
+
     public MTLAccelerationStructure? NewAccelerationStructure(nuint size, nuint offset)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewAccelerationStructure, size, offset);
+        return ptr is not 0 ? new(ptr) : null;
+    }
+
+    public MTLAccelerationStructure? NewAccelerationStructure(MTLAccelerationStructureDescriptor descriptor, nuint offset)
+    {
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewAccelerationStructure, descriptor.NativePtr, offset);
         return ptr is not 0 ? new(ptr) : null;
     }
 
@@ -124,13 +136,13 @@ file static class MTLHeapSelector
 
     public static readonly Selector Label = Selector.Register("label");
 
-    public static readonly Selector MaxAvailableSize = Selector.Register("maxAvailableSize:");
+    public static readonly Selector MaxAvailableSize = Selector.Register("maxAvailableSizeWithAlignment:");
 
-    public static readonly Selector NewAccelerationStructure = Selector.Register("newAccelerationStructure:");
+    public static readonly Selector NewAccelerationStructure = Selector.Register("newAccelerationStructureWithSize:");
 
-    public static readonly Selector NewBuffer = Selector.Register("newBuffer::");
+    public static readonly Selector NewBuffer = Selector.Register("newBufferWithLength:options:");
 
-    public static readonly Selector NewTexture = Selector.Register("newTexture:");
+    public static readonly Selector NewTexture = Selector.Register("newTextureWithDescriptor:");
 
     public static readonly Selector ResourceOptions = Selector.Register("resourceOptions");
 

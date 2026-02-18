@@ -62,7 +62,7 @@ file static class MTLDepthStencilDescriptorSelector
 
     public static readonly Selector DepthCompareFunction = Selector.Register("depthCompareFunction");
 
-    public static readonly Selector DepthWriteEnabled = Selector.Register("depthWriteEnabled");
+    public static readonly Selector DepthWriteEnabled = Selector.Register("isDepthWriteEnabled");
 
     public static readonly Selector FrontFaceStencil = Selector.Register("frontFaceStencil");
 

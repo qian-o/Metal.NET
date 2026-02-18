@@ -17,9 +17,9 @@ public partial class MTLRasterizationRateLayerDescriptor : NativeObject
         }
     }
 
-    public nint HorizontalSampleStorage
+    public float HorizontalSampleStorage
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.HorizontalSampleStorage);
+        get => ObjectiveCRuntime.MsgSendFloat(NativePtr, MTLRasterizationRateLayerDescriptorSelector.HorizontalSampleStorage);
     }
 
     public MTLSize MaxSampleCount
@@ -42,9 +42,9 @@ public partial class MTLRasterizationRateLayerDescriptor : NativeObject
         }
     }
 
-    public nint VerticalSampleStorage
+    public float VerticalSampleStorage
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.VerticalSampleStorage);
+        get => ObjectiveCRuntime.MsgSendFloat(NativePtr, MTLRasterizationRateLayerDescriptorSelector.VerticalSampleStorage);
     }
 }
 

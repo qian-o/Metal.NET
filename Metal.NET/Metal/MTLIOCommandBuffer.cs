@@ -102,7 +102,7 @@ file static class MTLIOCommandBufferSelector
 
     public static readonly Selector Commit = Selector.Register("commit");
 
-    public static readonly Selector CopyStatusToBuffer = Selector.Register("copyStatusToBuffer::");
+    public static readonly Selector CopyStatusToBuffer = Selector.Register("copyStatusToBuffer:offset:");
 
     public static readonly Selector Enqueue = Selector.Register("enqueue");
 
@@ -110,11 +110,11 @@ file static class MTLIOCommandBufferSelector
 
     public static readonly Selector Label = Selector.Register("label");
 
-    public static readonly Selector LoadBuffer = Selector.Register("loadBuffer:::::");
+    public static readonly Selector LoadBuffer = Selector.Register("loadBuffer:offset:size:sourceHandle:sourceHandleOffset:");
 
-    public static readonly Selector LoadBytes = Selector.Register("loadBytes::::");
+    public static readonly Selector LoadBytes = Selector.Register("loadBytes:size:sourceHandle:sourceHandleOffset:");
 
-    public static readonly Selector LoadTexture = Selector.Register("loadTexture:::::::::");
+    public static readonly Selector LoadTexture = Selector.Register("loadTexture:slice:level:size:sourceBytesPerRow:sourceBytesPerImage:destinationOrigin:sourceHandle:sourceHandleOffset:");
 
     public static readonly Selector PopDebugGroup = Selector.Register("popDebugGroup");
 
@@ -122,13 +122,13 @@ file static class MTLIOCommandBufferSelector
 
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
 
-    public static readonly Selector SignalEvent = Selector.Register("signalEvent::");
+    public static readonly Selector SignalEvent = Selector.Register("signalEvent:value:");
 
     public static readonly Selector Status = Selector.Register("status");
 
     public static readonly Selector TryCancel = Selector.Register("tryCancel");
 
-    public static readonly Selector Wait = Selector.Register("wait::");
+    public static readonly Selector Wait = Selector.Register("waitForEvent:value:");
 
     public static readonly Selector WaitUntilCompleted = Selector.Register("waitUntilCompleted");
 }

@@ -15,11 +15,6 @@ public partial class MTLFunction : NativeObject
         }
     }
 
-    public nint FunctionConstantsDictionary
-    {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.FunctionConstantsDictionary);
-    }
-
     public MTLFunctionType FunctionType
     {
         get => (MTLFunctionType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionSelector.FunctionType);
@@ -44,9 +39,9 @@ public partial class MTLFunction : NativeObject
         }
     }
 
-    public nuint Options
+    public MTLFunctionOptions Options
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionSelector.Options);
+        get => (MTLFunctionOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionSelector.Options);
     }
 
     public nint PatchControlPointCount
@@ -88,15 +83,13 @@ file static class MTLFunctionSelector
 {
     public static readonly Selector Device = Selector.Register("device");
 
-    public static readonly Selector FunctionConstantsDictionary = Selector.Register("functionConstantsDictionary");
-
     public static readonly Selector FunctionType = Selector.Register("functionType");
 
     public static readonly Selector Label = Selector.Register("label");
 
     public static readonly Selector Name = Selector.Register("name");
 
-    public static readonly Selector NewArgumentEncoder = Selector.Register("newArgumentEncoder:");
+    public static readonly Selector NewArgumentEncoder = Selector.Register("newArgumentEncoderWithBufferIndex:");
 
     public static readonly Selector Options = Selector.Register("options");
 

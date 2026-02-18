@@ -39,13 +39,13 @@ public partial class MTLResourceStateCommandEncoder : NativeObject
 
 file static class MTLResourceStateCommandEncoderSelector
 {
-    public static readonly Selector MoveTextureMappingsFromTexture = Selector.Register("moveTextureMappingsFromTexture:::::::::");
+    public static readonly Selector MoveTextureMappingsFromTexture = Selector.Register("moveTextureMappingsFromTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:");
 
     public static readonly Selector UpdateFence = Selector.Register("updateFence:");
 
-    public static readonly Selector UpdateTextureMapping = Selector.Register("updateTextureMapping:::::");
+    public static readonly Selector UpdateTextureMapping = Selector.Register("updateTextureMapping:mode:region:mipLevel:slice:");
 
-    public static readonly Selector UpdateTextureMappings = Selector.Register("updateTextureMappings::::::");
+    public static readonly Selector UpdateTextureMappings = Selector.Register("updateTextureMappings:mode:regions:mipLevels:slices:numRegions:");
 
     public static readonly Selector WaitForFence = Selector.Register("waitForFence:");
 }

@@ -8,7 +8,7 @@ public partial class MTLVertexBufferLayoutDescriptorArray : NativeObject
     {
     }
 
-    public MTLVertexBufferLayoutDescriptor? @object(nuint index)
+    public MTLVertexBufferLayoutDescriptor? Object(nuint index)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexBufferLayoutDescriptorArraySelector.Object, index);
         return ptr is not 0 ? new(ptr) : null;
@@ -22,7 +22,7 @@ public partial class MTLVertexBufferLayoutDescriptorArray : NativeObject
 
 file static class MTLVertexBufferLayoutDescriptorArraySelector
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector Object = Selector.Register("objectAtIndexedSubscript:");
 
-    public static readonly Selector SetObject = Selector.Register("setObject::");
+    public static readonly Selector SetObject = Selector.Register("setObject:atIndexedSubscript:");
 }

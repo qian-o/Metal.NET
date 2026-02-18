@@ -49,16 +49,6 @@ public partial class MTLRasterizationRateMap : NativeObject
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapSelector.CopyParameterDataToBuffer, buffer.NativePtr, offset);
     }
 
-    public MTLSamplePosition MapPhysicalToScreenCoordinates(MTLSamplePosition physicalCoordinates, nuint layerIndex)
-    {
-        return ObjectiveCRuntime.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapSelector.MapPhysicalToScreenCoordinates, physicalCoordinates, layerIndex);
-    }
-
-    public MTLSamplePosition MapScreenToPhysicalCoordinates(MTLSamplePosition screenCoordinates, nuint layerIndex)
-    {
-        return ObjectiveCRuntime.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapSelector.MapScreenToPhysicalCoordinates, screenCoordinates, layerIndex);
-    }
-
     public MTLSize PhysicalSize(nuint layerIndex)
     {
         return ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapSelector.PhysicalSize, layerIndex);
@@ -67,7 +57,7 @@ public partial class MTLRasterizationRateMap : NativeObject
 
 file static class MTLRasterizationRateMapSelector
 {
-    public static readonly Selector CopyParameterDataToBuffer = Selector.Register("copyParameterDataToBuffer::");
+    public static readonly Selector CopyParameterDataToBuffer = Selector.Register("copyParameterDataToBuffer:offset:");
 
     public static readonly Selector Device = Selector.Register("device");
 
@@ -75,15 +65,11 @@ file static class MTLRasterizationRateMapSelector
 
     public static readonly Selector LayerCount = Selector.Register("layerCount");
 
-    public static readonly Selector MapPhysicalToScreenCoordinates = Selector.Register("mapPhysicalToScreenCoordinates::");
-
-    public static readonly Selector MapScreenToPhysicalCoordinates = Selector.Register("mapScreenToPhysicalCoordinates::");
-
     public static readonly Selector ParameterBufferSizeAndAlign = Selector.Register("parameterBufferSizeAndAlign");
 
     public static readonly Selector PhysicalGranularity = Selector.Register("physicalGranularity");
 
-    public static readonly Selector PhysicalSize = Selector.Register("physicalSize:");
+    public static readonly Selector PhysicalSize = Selector.Register("physicalSizeForLayer:");
 
     public static readonly Selector ScreenSize = Selector.Register("screenSize");
 }

@@ -8,7 +8,7 @@ public partial class MTLResourceStatePassSampleBufferAttachmentDescriptorArray :
     {
     }
 
-    public MTLResourceStatePassSampleBufferAttachmentDescriptor? @object(nuint attachmentIndex)
+    public MTLResourceStatePassSampleBufferAttachmentDescriptor? Object(nuint attachmentIndex)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorArraySelector.Object, attachmentIndex);
         return ptr is not 0 ? new(ptr) : null;
@@ -22,7 +22,7 @@ public partial class MTLResourceStatePassSampleBufferAttachmentDescriptorArray :
 
 file static class MTLResourceStatePassSampleBufferAttachmentDescriptorArraySelector
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector Object = Selector.Register("objectAtIndexedSubscript:");
 
-    public static readonly Selector SetObject = Selector.Register("setObject::");
+    public static readonly Selector SetObject = Selector.Register("setObject:atIndexedSubscript:");
 }

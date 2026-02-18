@@ -18,12 +18,6 @@ public partial class MTL4StaticLinkingDescriptor : NativeObject
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StaticLinkingDescriptorSelector.SetFunctionDescriptors, value?.NativePtr ?? 0);
     }
 
-    public nint Groups
-    {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StaticLinkingDescriptorSelector.Groups);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StaticLinkingDescriptorSelector.SetGroups, value);
-    }
-
     public NSArray? PrivateFunctionDescriptors
     {
         get
@@ -39,13 +33,9 @@ file static class MTL4StaticLinkingDescriptorSelector
 {
     public static readonly Selector FunctionDescriptors = Selector.Register("functionDescriptors");
 
-    public static readonly Selector Groups = Selector.Register("groups");
-
     public static readonly Selector PrivateFunctionDescriptors = Selector.Register("privateFunctionDescriptors");
 
     public static readonly Selector SetFunctionDescriptors = Selector.Register("setFunctionDescriptors:");
-
-    public static readonly Selector SetGroups = Selector.Register("setGroups:");
 
     public static readonly Selector SetPrivateFunctionDescriptors = Selector.Register("setPrivateFunctionDescriptors:");
 }

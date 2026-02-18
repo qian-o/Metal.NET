@@ -60,7 +60,7 @@ public partial class MTLVertexAttribute : NativeObject
 
 file static class MTLVertexAttributeSelector
 {
-    public static readonly Selector Active = Selector.Register("active");
+    public static readonly Selector Active = Selector.Register("isActive");
 
     public static readonly Selector AttributeIndex = Selector.Register("attributeIndex");
 
@@ -74,7 +74,7 @@ file static class MTLVertexAttributeSelector
 
     public static readonly Selector Name = Selector.Register("name");
 
-    public static readonly Selector PatchControlPointData = Selector.Register("patchControlPointData");
+    public static readonly Selector PatchControlPointData = Selector.Register("isPatchControlPointData");
 
-    public static readonly Selector PatchData = Selector.Register("patchData");
+    public static readonly Selector PatchData = Selector.Register("isPatchData");
 }

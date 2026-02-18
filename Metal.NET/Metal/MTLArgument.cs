@@ -110,7 +110,7 @@ file static class MTLArgumentSelector
 {
     public static readonly Selector Access = Selector.Register("access");
 
-    public static readonly Selector Active = Selector.Register("active");
+    public static readonly Selector Active = Selector.Register("isActive");
 
     public static readonly Selector ArrayLength = Selector.Register("arrayLength");
 

@@ -8,7 +8,7 @@ public partial class MTLPipelineBufferDescriptorArray : NativeObject
     {
     }
 
-    public MTLPipelineBufferDescriptor? @object(nuint bufferIndex)
+    public MTLPipelineBufferDescriptor? Object(nuint bufferIndex)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPipelineBufferDescriptorArraySelector.Object, bufferIndex);
         return ptr is not 0 ? new(ptr) : null;
@@ -22,7 +22,7 @@ public partial class MTLPipelineBufferDescriptorArray : NativeObject
 
 file static class MTLPipelineBufferDescriptorArraySelector
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector Object = Selector.Register("objectAtIndexedSubscript:");
 
-    public static readonly Selector SetObject = Selector.Register("setObject::");
+    public static readonly Selector SetObject = Selector.Register("setObject:atIndexedSubscript:");
 }

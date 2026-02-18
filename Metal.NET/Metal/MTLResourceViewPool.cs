@@ -44,7 +44,7 @@ file static class MTLResourceViewPoolSelector
 {
     public static readonly Selector BaseResourceID = Selector.Register("baseResourceID");
 
-    public static readonly Selector CopyResourceViewsFromPool = Selector.Register("copyResourceViewsFromPool:::");
+    public static readonly Selector CopyResourceViewsFromPool = Selector.Register("copyResourceViewsFromPool:sourceRange:destinationIndex:");
 
     public static readonly Selector Device = Selector.Register("device");
 

@@ -8,10 +8,10 @@ public partial class MTLCommandBufferDescriptor : NativeObject
     {
     }
 
-    public nuint ErrorOptions
+    public MTLCommandBufferErrorOption ErrorOptions
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandBufferDescriptorSelector.ErrorOptions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetErrorOptions, value);
+        get => (MTLCommandBufferErrorOption)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandBufferDescriptorSelector.ErrorOptions);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetErrorOptions, (nuint)value);
     }
 
     public MTLLogState? LogState

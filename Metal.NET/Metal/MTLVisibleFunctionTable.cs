@@ -21,5 +21,5 @@ file static class MTLVisibleFunctionTableSelector
 {
     public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
 
-    public static readonly Selector SetFunction = Selector.Register("setFunction::");
+    public static readonly Selector SetFunction = Selector.Register("setFunction:atIndex:");
 }

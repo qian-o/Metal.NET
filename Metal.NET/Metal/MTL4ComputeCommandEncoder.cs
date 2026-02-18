@@ -61,6 +61,11 @@ public partial class MTL4ComputeCommandEncoder : NativeObject
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.CopyFromTexture, sourceTexture.NativePtr, sourceSlice, sourceLevel, sourceOrigin, sourceSize, destinationTexture.NativePtr, destinationSlice, destinationLevel, destinationOrigin);
     }
 
+    public void CopyFromTexture(MTLTexture sourceTexture, nuint sourceSlice, nuint sourceLevel, MTLOrigin sourceOrigin, MTLSize sourceSize, MTLBuffer destinationBuffer, nuint destinationOffset, nuint destinationBytesPerRow, nuint destinationBytesPerImage)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.CopyFromTexture, sourceTexture.NativePtr, sourceSlice, sourceLevel, sourceOrigin, sourceSize, destinationBuffer.NativePtr, destinationOffset, destinationBytesPerRow, destinationBytesPerImage);
+    }
+
     public void CopyFromTexture(MTLTexture sourceTexture, nuint sourceSlice, nuint sourceLevel, MTLOrigin sourceOrigin, MTLSize sourceSize, MTLBuffer destinationBuffer, nuint destinationOffset, nuint destinationBytesPerRow, nuint destinationBytesPerImage, MTLBlitOption options)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.CopyFromTexture, sourceTexture.NativePtr, sourceSlice, sourceLevel, sourceOrigin, sourceSize, destinationBuffer.NativePtr, destinationOffset, destinationBytesPerRow, destinationBytesPerImage, (nuint)options);
@@ -76,6 +81,11 @@ public partial class MTL4ComputeCommandEncoder : NativeObject
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.DispatchThreadgroups, threadgroupsPerGrid, threadsPerThreadgroup);
     }
 
+    public void DispatchThreadgroups(nuint indirectBuffer, MTLSize threadsPerThreadgroup)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.DispatchThreadgroups, indirectBuffer, threadsPerThreadgroup);
+    }
+
     public void DispatchThreads(MTLSize threadsPerGrid, MTLSize threadsPerThreadgroup)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.DispatchThreads, threadsPerGrid, threadsPerThreadgroup);
@@ -89,6 +99,11 @@ public partial class MTL4ComputeCommandEncoder : NativeObject
     public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, NSRange executionRange)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.ExecuteCommandsInBuffer, indirectCommandBuffer.NativePtr, executionRange);
+    }
+
+    public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandbuffer, nuint indirectRangeBuffer)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.ExecuteCommandsInBuffer, indirectCommandbuffer.NativePtr, indirectRangeBuffer);
     }
 
     public void FillBuffer(MTLBuffer buffer, NSRange range, byte value)
@@ -141,16 +156,6 @@ public partial class MTL4ComputeCommandEncoder : NativeObject
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.ResetCommandsInBuffer, buffer.NativePtr, range);
     }
 
-    public void SetArgumentTable(MTL4ArgumentTable argumentTable)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.SetArgumentTable, argumentTable.NativePtr);
-    }
-
-    public void SetComputePipelineState(MTLComputePipelineState state)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.SetComputePipelineState, state.NativePtr);
-    }
-
     public void SetImageblockWidth(nuint width, nuint height)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.SetImageblockWidth, width, height);
@@ -165,60 +170,49 @@ public partial class MTL4ComputeCommandEncoder : NativeObject
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.WriteCompactedAccelerationStructureSize, accelerationStructure.NativePtr, buffer);
     }
-
-    public void WriteTimestamp(MTL4TimestampGranularity granularity, MTL4CounterHeap counterHeap, nuint index)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.WriteTimestamp, (nint)granularity, counterHeap.NativePtr, index);
-    }
 }
 
 file static class MTL4ComputeCommandEncoderSelector
 {
-    public static readonly Selector BuildAccelerationStructure = Selector.Register("buildAccelerationStructure:::");
+    public static readonly Selector BuildAccelerationStructure = Selector.Register("buildAccelerationStructure:descriptor:scratchBuffer:");
 
-    public static readonly Selector CopyAccelerationStructure = Selector.Register("copyAccelerationStructure::");
+    public static readonly Selector CopyAccelerationStructure = Selector.Register("copyAccelerationStructure:toAccelerationStructure:");
 
-    public static readonly Selector CopyAndCompactAccelerationStructure = Selector.Register("copyAndCompactAccelerationStructure::");
+    public static readonly Selector CopyAndCompactAccelerationStructure = Selector.Register("copyAndCompactAccelerationStructure:toAccelerationStructure:");
 
-    public static readonly Selector CopyFromBuffer = Selector.Register("copyFromBuffer:::::");
+    public static readonly Selector CopyFromBuffer = Selector.Register("copyFromBuffer:sourceOffset:toBuffer:destinationOffset:size:");
 
-    public static readonly Selector CopyFromTensor = Selector.Register("copyFromTensor::::::");
+    public static readonly Selector CopyFromTensor = Selector.Register("copyFromTensor:sourceOrigin:sourceDimensions:toTensor:destinationOrigin:destinationDimensions:");
 
-    public static readonly Selector CopyFromTexture = Selector.Register("copyFromTexture::");
+    public static readonly Selector CopyFromTexture = Selector.Register("copyFromTexture:toTexture:");
 
-    public static readonly Selector CopyIndirectCommandBuffer = Selector.Register("copyIndirectCommandBuffer::::");
+    public static readonly Selector CopyIndirectCommandBuffer = Selector.Register("copyIndirectCommandBuffer:sourceRange:destination:destinationIndex:");
 
-    public static readonly Selector DispatchThreadgroups = Selector.Register("dispatchThreadgroups::");
+    public static readonly Selector DispatchThreadgroups = Selector.Register("dispatchThreadgroups:threadsPerThreadgroup:");
 
-    public static readonly Selector DispatchThreads = Selector.Register("dispatchThreads::");
+    public static readonly Selector DispatchThreads = Selector.Register("dispatchThreads:threadsPerThreadgroup:");
 
-    public static readonly Selector ExecuteCommandsInBuffer = Selector.Register("executeCommandsInBuffer::");
+    public static readonly Selector ExecuteCommandsInBuffer = Selector.Register("executeCommandsInBuffer:withRange:");
 
-    public static readonly Selector FillBuffer = Selector.Register("fillBuffer:::");
+    public static readonly Selector FillBuffer = Selector.Register("fillBuffer:range:value:");
 
-    public static readonly Selector GenerateMipmaps = Selector.Register("generateMipmaps:");
+    public static readonly Selector GenerateMipmaps = Selector.Register("generateMipmapsForTexture:");
 
     public static readonly Selector OptimizeContentsForCPUAccess = Selector.Register("optimizeContentsForCPUAccess:");
 
     public static readonly Selector OptimizeContentsForGPUAccess = Selector.Register("optimizeContentsForGPUAccess:");
 
-    public static readonly Selector OptimizeIndirectCommandBuffer = Selector.Register("optimizeIndirectCommandBuffer::");
+    public static readonly Selector OptimizeIndirectCommandBuffer = Selector.Register("optimizeIndirectCommandBuffer:withRange:");
 
-    public static readonly Selector RefitAccelerationStructure = Selector.Register("refitAccelerationStructure::::");
+    public static readonly Selector RefitAccelerationStructure = Selector.Register("refitAccelerationStructure:descriptor:destination:scratchBuffer:");
 
-    public static readonly Selector ResetCommandsInBuffer = Selector.Register("resetCommandsInBuffer::");
+    public static readonly Selector ResetCommandsInBuffer = Selector.Register("resetCommandsInBuffer:withRange:");
 
-    public static readonly Selector SetArgumentTable = Selector.Register("setArgumentTable:");
+    public static readonly Selector SetImageblockWidth = Selector.Register("setImageblockWidth:height:");
 
-    public static readonly Selector SetComputePipelineState = Selector.Register("setComputePipelineState:");
-
-    public static readonly Selector SetImageblockWidth = Selector.Register("setImageblockWidth::");
-
-    public static readonly Selector SetThreadgroupMemoryLength = Selector.Register("setThreadgroupMemoryLength::");
+    public static readonly Selector SetThreadgroupMemoryLength = Selector.Register("setThreadgroupMemoryLength:atIndex:");
 
     public static readonly Selector Stages = Selector.Register("stages");
 
-    public static readonly Selector WriteCompactedAccelerationStructureSize = Selector.Register("writeCompactedAccelerationStructureSize::");
-
-    public static readonly Selector WriteTimestamp = Selector.Register("writeTimestamp:::");
+    public static readonly Selector WriteCompactedAccelerationStructureSize = Selector.Register("writeCompactedAccelerationStructureSize:toBuffer:");
 }

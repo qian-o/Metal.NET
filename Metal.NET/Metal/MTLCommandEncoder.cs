@@ -53,7 +53,7 @@ public partial class MTLCommandEncoder : NativeObject
 
 file static class MTLCommandEncoderSelector
 {
-    public static readonly Selector BarrierAfterQueueStages = Selector.Register("barrierAfterQueueStages::");
+    public static readonly Selector BarrierAfterQueueStages = Selector.Register("barrierAfterQueueStages:beforeStages:");
 
     public static readonly Selector Device = Selector.Register("device");
 

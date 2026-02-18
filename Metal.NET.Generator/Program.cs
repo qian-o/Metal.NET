@@ -69,7 +69,10 @@ class Generator
     readonly List<ClassDef> _classes = [];
 
     // Hand-written classes to skip
-    static readonly HashSet<string> SkipClasses = ["NSString", "NSError", "NSArray", "NSURL"];
+    static readonly HashSet<string> SkipClasses = ["NSString", "NSError", "NSArray", "NSURL",
+        "NSDictionary", "NSNotification", "NSNotificationCenter", "NSSet", "NSEnumerator",
+        "NSObject", "NSProcessInfo", "NSBundle", "NSAutoreleasePool", "NSNumber", "NSValue",
+        "NSDate"];
 
     // Methods to skip
     static readonly HashSet<string> SkipMethods = ["alloc", "init", "retain", "release", "autorelease", "copy", "retainCount"];
@@ -95,7 +98,9 @@ class Generator
         "MTLScissorRect", "MTLClearColor", "CGSize", "MTLResourceID", "MTLSizeAndAlign",
         "MTLAccelerationStructureSizes", "MTLTextureSwizzleChannels",
         "MTLVertexAmplificationViewMapping", "MTL4BufferRange", "MTL4Origin", "MTL4Size",
-        "MTL4Range", "MTLRange"
+        "MTL4Range", "MTLRange",
+        "MTL4CopySparseBufferMappingOperation", "MTL4CopySparseTextureMappingOperation",
+        "MTL4UpdateSparseBufferMappingOperation", "MTL4UpdateSparseTextureMappingOperation"
     ];
 
     // Enum types we've seen (filled during parsing)
@@ -264,8 +269,8 @@ class Generator
 
     static string MapEnumBackingType(string cppType) => cppType.Trim() switch
     {
-        "NS::UInteger" => "ulong",
-        "NS::Integer" => "long",
+        "NS::UInteger" or "UInteger" => "ulong",
+        "NS::Integer" or "Integer" => "long",
         "uint32_t" => "uint",
         "int32_t" => "int",
         "uint8_t" => "byte",
@@ -458,11 +463,17 @@ class Generator
 
             // Build method list
             var methods = new List<MethodInfo>();
+            var overloadCounter = new Dictionary<(string, int), int>();
             foreach (var (retType, name, isStatic, isConst, parameters) in rawMethods)
             {
                 if (SkipMethods.Contains(name)) continue;
 
-                var key = (name, parameters.Count);
+                var countKey = (name, parameters.Count);
+                if (!overloadCounter.TryGetValue(countKey, out int idx))
+                    idx = 0;
+                overloadCounter[countKey] = idx + 1;
+
+                var key = (name, parameters.Count, idx);
                 bool usesClassTarget = implInfo.TryGetValue(key, out var info) && info.UsesClassTarget;
                 string? selAccessor = info?.Accessor;
 
@@ -539,10 +550,11 @@ class Generator
 
     record ImplInfo(string? Accessor, bool UsesClassTarget);
 
-    Dictionary<(string MethodName, int ParamCount), ImplInfo> ParseInlineImplementations(
+    Dictionary<(string MethodName, int ParamCount, int OverloadIndex), ImplInfo> ParseInlineImplementations(
         string content, string ns, string className)
     {
-        var result = new Dictionary<(string, int), ImplInfo>();
+        var result = new Dictionary<(string, int, int), ImplInfo>();
+        var countTracker = new Dictionary<(string, int), int>();
         string nsPattern = Regex.Escape(ns);
 
         var implRegex = new Regex(
@@ -562,7 +574,12 @@ class Generator
             var selMatch = Regex.Match(body, @"_\w+_PRIVATE_SEL\(\s*(\w+)\s*\)");
             string? accessor = selMatch.Success ? selMatch.Groups[1].Value : null;
 
-            result[(methodName, paramCount)] = new ImplInfo(accessor, usesClassTarget);
+            var key = (methodName, paramCount);
+            if (!countTracker.TryGetValue(key, out int idx))
+                idx = 0;
+            countTracker[key] = idx + 1;
+
+            result[(methodName, paramCount, idx)] = new ImplInfo(accessor, usesClassTarget);
         }
 
         return result;
@@ -686,10 +703,11 @@ class Generator
 
         bool hasClassField = _registeredClasses.Contains(csClassName);
 
-        // Filter out methods with array params or function pointer params
+        // Filter out methods with array params, function pointer params, or unmappable types
         var validMethods = classDef.Methods
             .Where(m => !m.Parameters.Any(p => p.CppType == "ARRAY_PARAM"))
             .Where(m => !HasFunctionPointerParam(m))
+            .Where(m => !HasUnmappableParam(m))
             .ToList();
 
         // Categorize into properties and methods
@@ -757,7 +775,46 @@ class Generator
         return method.Parameters.Any(p =>
             p.CppType.Contains("Handler") || p.CppType.Contains("Block") ||
             p.CppType.Contains("function") || p.CppType.Contains("std::function") ||
-            p.CppType.Contains("void("));
+            p.CppType.Contains("void(") || p.CppType.Contains("Function&") ||
+            p.CppType.Contains("Function &"));
+    }
+
+    static bool HasUnmappableParam(MethodInfo method)
+    {
+        foreach (var p in method.Parameters)
+        {
+            if (IsUnmappableCppType(p.CppType)) return true;
+        }
+        // Also check return type
+        if (IsUnmappableCppType(method.ReturnType)) return true;
+        return false;
+    }
+
+    static bool IsUnmappableCppType(string cppType)
+    {
+        string t = cppType;
+        // Template types
+        if (t.Contains('<') || t.Contains('>')) return true;
+        // C++ references (not pointers)
+        if (t.Contains('&')) return true;
+        // Raw pointer array patterns
+        if (t.Contains("* const") && !t.Contains("**")) return true;
+        // Timestamp types that are special
+        if (t.Contains("Timestamp")) return true;
+        // Autoreleased types (special out-pointer pattern)
+        if (t.Contains("Autoreleased")) return true;
+        // Unsupported Foundation types
+        if (t.Contains("NS::Bundle") || t.Contains("NS::Process") ||
+            t.Contains("NS::Notification") || t.Contains("NS::Observer") ||
+            t.Contains("NS::Dictionary") || t.Contains("NS::Object") ||
+            t.Contains("NS::Data") || t.Contains("NS::Number") ||
+            t.Contains("NS::Set") || t.Contains("NS::Enumerator") ||
+            t.Contains("NS::Value") || t.Contains("NS::Date")) return true;
+        // MTLCoordinate2D (typedef, not in structs set)
+        if (t.Contains("Coordinate2D")) return true;
+        // Kernel/system types
+        if (t.Contains("kern_return_t") || t.Contains("task_id_token_t")) return true;
+        return false;
     }
 
     // =========================================================================
@@ -837,15 +894,32 @@ class Generator
         bool isStruct = StructTypes.Contains(csType);
         bool isBool = csType == "bool";
 
-        // Register getter selector
+        // Register getter selector - use accessor from inline impl to look up ObjC string
         string selectorName = csPropName;
-        string selectorObjC = getter.CppName;
+        string selectorObjC;
+        if (getter.SelectorAccessor != null && _selectorMap.TryGetValue(getter.SelectorAccessor, out string? objcSel))
+            selectorObjC = objcSel;
+        else
+            selectorObjC = getter.CppName;
         selectors.TryAdd(selectorName, selectorObjC);
 
         string selectorRef = $"{csClassName}Selector.{selectorName}";
         string target = "NativePtr";
 
         string typeStr = nullable ? $"{csType}?" : csType;
+
+        // Resolve setter selector
+        string? setSelName = null;
+        string? setSelObjC = null;
+        if (prop.Setter != null)
+        {
+            setSelName = "Set" + csPropName;
+            if (prop.Setter.SelectorAccessor != null && _selectorMap.TryGetValue(prop.Setter.SelectorAccessor, out string? setObjC))
+                setSelObjC = setObjC;
+            else
+                setSelObjC = "set" + csPropName + ":";
+            selectors.TryAdd(setSelName, setSelObjC);
+        }
 
         if (nullable)
         {
@@ -858,12 +932,7 @@ class Generator
             sb.AppendLine("        }");
 
             if (prop.Setter != null)
-            {
-                string setName = "Set" + csPropName;
-                string setObjC = "set" + csPropName + ":";
-                selectors.TryAdd(setName, setObjC);
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Selector.{setName}, value?.NativePtr ?? 0);");
-            }
+                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Selector.{setSelName}, value?.NativePtr ?? 0);");
             sb.AppendLine("    }");
         }
         else if (isEnum)
@@ -876,11 +945,8 @@ class Generator
 
             if (prop.Setter != null)
             {
-                string setName = "Set" + csPropName;
-                string setObjC = "set" + csPropName + ":";
-                selectors.TryAdd(setName, setObjC);
                 string setCast = GetEnumSetCast(csType);
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Selector.{setName}, {setCast}value);");
+                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Selector.{setSelName}, {setCast}value);");
             }
             sb.AppendLine("    }");
         }
@@ -891,12 +957,7 @@ class Generator
             sb.AppendLine($"        get => ObjectiveCRuntime.MsgSendBool({target}, {selectorRef});");
 
             if (prop.Setter != null)
-            {
-                string setName = "Set" + csPropName;
-                string setObjC = "set" + csPropName + ":";
-                selectors.TryAdd(setName, setObjC);
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Selector.{setName}, (Bool8)value);");
-            }
+                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Selector.{setSelName}, (Bool8)value);");
             sb.AppendLine("    }");
         }
         else if (isStruct)
@@ -908,12 +969,7 @@ class Generator
             sb.AppendLine($"        get => ObjectiveCRuntime.{msgSend}({target}, {selectorRef});");
 
             if (prop.Setter != null)
-            {
-                string setName = "Set" + csPropName;
-                string setObjC = "set" + csPropName + ":";
-                selectors.TryAdd(setName, setObjC);
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Selector.{setName}, value);");
-            }
+                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Selector.{setSelName}, value);");
             sb.AppendLine("    }");
         }
         else
@@ -925,12 +981,7 @@ class Generator
             sb.AppendLine($"        get => ObjectiveCRuntime.{msgSend}({target}, {selectorRef});");
 
             if (prop.Setter != null)
-            {
-                string setName = "Set" + csPropName;
-                string setObjC = "set" + csPropName + ":";
-                selectors.TryAdd(setName, setObjC);
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Selector.{setName}, value);");
-            }
+                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Selector.{setSelName}, value);");
             sb.AppendLine("    }");
         }
     }
@@ -943,34 +994,43 @@ class Generator
         string ns, SortedDictionary<string, string> selectors, bool hasClassField,
         HashSet<string> methodsWithZeroParamProperty)
     {
-        // If this C++ method name has a zero-param sibling that became a property,
-        // use the selector accessor name to differentiate from the property.
-        // Otherwise use the C++ method name.
+        // Derive the C# method name and ObjC selector from the accessor
         string csMethodName;
+        string selectorObjC;
         string cppName = method.CppName;
 
-        if (methodsWithZeroParamProperty.Contains(cppName) && method.Parameters.Count > 0 && method.SelectorAccessor != null)
+        if (method.SelectorAccessor != null)
         {
-            string baseName = method.SelectorAccessor.TrimEnd('_');
-            csMethodName = ToPascalCase(baseName);
+            // Look up the ObjC selector string from the bridge files
+            if (_selectorMap.TryGetValue(method.SelectorAccessor, out string? objcSel))
+                selectorObjC = objcSel;
+            else
+                selectorObjC = method.SelectorAccessor.Replace('_', ':');
+
+            // Derive method name from the ObjC selector
+            // Take everything before the first ':' and PascalCase it
+            string selectorBaseName = selectorObjC.Contains(':')
+                ? selectorObjC[..selectorObjC.IndexOf(':')]
+                : selectorObjC;
+
+            // If this C++ method name has a zero-param sibling that became a property,
+            // use the selector-based name to differentiate
+            if (methodsWithZeroParamProperty.Contains(cppName) && method.Parameters.Count > 0)
+                csMethodName = ToPascalCase(selectorBaseName);
+            else
+                csMethodName = ToPascalCase(cppName);
         }
         else
         {
             csMethodName = ToPascalCase(cppName);
+            // Fallback: construct selector from method name + colons
+            int colonCount = method.Parameters.Count;
+            selectorObjC = method.CppName + (colonCount > 0 ? new string(':', colonCount) : "");
         }
+
         bool isStaticClassMethod = method.IsStatic && method.UsesClassTarget;
         string target = isStaticClassMethod ? "Class" : "NativePtr";
 
-        // Selector: method name + one colon per param (Error** counts as 2)
-        int colonCount = method.Parameters.Count;
-        foreach (var p in method.Parameters)
-        {
-            if (p.CppType.Contains("Error**"))
-                colonCount++; // Error** gets an extra colon
-        }
-        string selectorObjC = method.CppName + new string(':', colonCount);
-        // Use the C++ method name PascalCased as the selector key
-        // so overloads share the same selector entry
         string selectorKey = ToPascalCase(method.CppName);
         selectors.TryAdd(selectorKey, selectorObjC);
 
@@ -1039,21 +1099,57 @@ class Generator
         else if (isEnum)
         {
             string msgSend = GetMsgSendForEnumGet(returnType);
-            sb.AppendLine($"        return ({returnType}){msgSend}({argsStr});");
+            if (hasOutError)
+            {
+                sb.AppendLine($"        var result = ({returnType}){msgSend}({argsStr});");
+                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr) : null;");
+                sb.AppendLine("        return result;");
+            }
+            else
+            {
+                sb.AppendLine($"        return ({returnType}){msgSend}({argsStr});");
+            }
         }
         else if (isBool)
         {
-            sb.AppendLine($"        return ObjectiveCRuntime.MsgSendBool({argsStr});");
+            if (hasOutError)
+            {
+                sb.AppendLine($"        var result = ObjectiveCRuntime.MsgSendBool({argsStr});");
+                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr) : null;");
+                sb.AppendLine("        return result;");
+            }
+            else
+            {
+                sb.AppendLine($"        return ObjectiveCRuntime.MsgSendBool({argsStr});");
+            }
         }
         else if (isStruct)
         {
             string msgSend = GetMsgSendForStruct(returnType);
-            sb.AppendLine($"        return ObjectiveCRuntime.{msgSend}({argsStr});");
+            if (hasOutError)
+            {
+                sb.AppendLine($"        var result = ObjectiveCRuntime.{msgSend}({argsStr});");
+                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr) : null;");
+                sb.AppendLine("        return result;");
+            }
+            else
+            {
+                sb.AppendLine($"        return ObjectiveCRuntime.{msgSend}({argsStr});");
+            }
         }
         else
         {
             string msgSend = GetMsgSendMethod(returnType);
-            sb.AppendLine($"        return ObjectiveCRuntime.{msgSend}({argsStr});");
+            if (hasOutError)
+            {
+                sb.AppendLine($"        var result = ObjectiveCRuntime.{msgSend}({argsStr});");
+                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr) : null;");
+                sb.AppendLine("        return result;");
+            }
+            else
+            {
+                sb.AppendLine($"        return ObjectiveCRuntime.{msgSend}({argsStr});");
+            }
         }
 
         sb.AppendLine("    }");
@@ -1081,10 +1177,16 @@ class Generator
 
         string? simple = t switch
         {
+            "NS::UInteger" when isPointer => "nint",
+            "NS::Integer" when isPointer => "nint",
             "NS::UInteger" => "nuint",
             "NS::Integer" => "nint",
             "uint32_t" => "uint",
             "int32_t" => "int",
+            "uint8_t" => "byte",
+            "int8_t" => "sbyte",
+            "uint16_t" => "ushort",
+            "int16_t" => "short",
             "uint64_t" or "std::uint64_t" => "nuint",
             "int64_t" or "std::int64_t" => "nint",
             "float" => "float",
@@ -1137,7 +1239,8 @@ class Generator
 
     bool IsNullableType(string csType)
     {
-        if (csType is "void" or "bool" or "nint" or "nuint" or "uint" or "ulong" or "long" or "int" or "float" or "double")
+        if (csType is "void" or "bool" or "nint" or "nuint" or "uint" or "ulong" or "long" or "int" or "float" or "double"
+            or "byte" or "sbyte" or "short" or "ushort")
             return false;
         if (StructTypes.Contains(csType)) return false;
         if (_enumBackingTypes.ContainsKey(csType)) return false;

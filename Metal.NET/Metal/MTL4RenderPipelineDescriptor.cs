@@ -158,7 +158,7 @@ file static class MTL4RenderPipelineDescriptorSelector
 
     public static readonly Selector MaxVertexAmplificationCount = Selector.Register("maxVertexAmplificationCount");
 
-    public static readonly Selector RasterizationEnabled = Selector.Register("rasterizationEnabled");
+    public static readonly Selector RasterizationEnabled = Selector.Register("isRasterizationEnabled");
 
     public static readonly Selector RasterSampleCount = Selector.Register("rasterSampleCount");
 

@@ -98,7 +98,7 @@ public partial class MTL4CommandBuffer : NativeObject
 
 file static class MTL4CommandBufferSelector
 {
-    public static readonly Selector BeginCommandBuffer = Selector.Register("beginCommandBuffer:");
+    public static readonly Selector BeginCommandBuffer = Selector.Register("beginCommandBufferWithAllocator:");
 
     public static readonly Selector ComputeCommandEncoder = Selector.Register("computeCommandEncoder");
 
@@ -114,13 +114,13 @@ file static class MTL4CommandBufferSelector
 
     public static readonly Selector PushDebugGroup = Selector.Register("pushDebugGroup:");
 
-    public static readonly Selector RenderCommandEncoder = Selector.Register("renderCommandEncoder:");
+    public static readonly Selector RenderCommandEncoder = Selector.Register("renderCommandEncoderWithDescriptor:");
 
-    public static readonly Selector ResolveCounterHeap = Selector.Register("resolveCounterHeap:::::");
+    public static readonly Selector ResolveCounterHeap = Selector.Register("resolveCounterHeap:withRange:intoBuffer:waitFence:updateFence:");
 
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
 
     public static readonly Selector UseResidencySet = Selector.Register("useResidencySet:");
 
-    public static readonly Selector WriteTimestampIntoHeap = Selector.Register("writeTimestampIntoHeap::");
+    public static readonly Selector WriteTimestampIntoHeap = Selector.Register("writeTimestampIntoHeap:atIndex:");
 }

@@ -35,5 +35,5 @@ file static class MTLSharedEventSelector
 
     public static readonly Selector SignaledValue = Selector.Register("signaledValue");
 
-    public static readonly Selector WaitUntilSignaledValue = Selector.Register("waitUntilSignaledValue::");
+    public static readonly Selector WaitUntilSignaledValue = Selector.Register("waitUntilSignaledValue:timeoutMS:");
 }

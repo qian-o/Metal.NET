@@ -43,6 +43,11 @@ public partial class MTL4MachineLearningPipelineDescriptor : NativeObject
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetInputDimensions, dimensions.NativePtr, bufferIndex);
     }
+
+    public void SetInputDimensions(NSArray dimensions, NSRange range)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetInputDimensions, dimensions.NativePtr, range);
+    }
 }
 
 file static class MTL4MachineLearningPipelineDescriptorSelector
@@ -55,7 +60,7 @@ file static class MTL4MachineLearningPipelineDescriptorSelector
 
     public static readonly Selector Reset = Selector.Register("reset");
 
-    public static readonly Selector SetInputDimensions = Selector.Register("setInputDimensions::");
+    public static readonly Selector SetInputDimensions = Selector.Register("setInputDimensions:atBufferIndex:");
 
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
 

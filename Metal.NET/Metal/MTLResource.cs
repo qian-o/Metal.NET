@@ -59,9 +59,9 @@ public partial class MTLResource : NativeObject
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceSelector.SetLabel, value?.NativePtr ?? 0);
     }
 
-    public nuint ResourceOptions
+    public MTLResourceOptions ResourceOptions
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.ResourceOptions);
+        get => (MTLResourceOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.ResourceOptions);
     }
 
     public MTLStorageMode StorageMode
@@ -72,11 +72,6 @@ public partial class MTLResource : NativeObject
     public void MakeAliasable()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceSelector.MakeAliasable);
-    }
-
-    public uint SetOwner(nint task_id_token)
-    {
-        return ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLResourceSelector.SetOwner, task_id_token);
     }
 
     public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
@@ -108,8 +103,6 @@ file static class MTLResourceSelector
     public static readonly Selector ResourceOptions = Selector.Register("resourceOptions");
 
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
-
-    public static readonly Selector SetOwner = Selector.Register("setOwner:");
 
     public static readonly Selector SetPurgeableState = Selector.Register("setPurgeableState:");
 

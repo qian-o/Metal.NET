@@ -8,12 +8,6 @@ public partial class MTLCaptureDescriptor : NativeObject
     {
     }
 
-    public nint CaptureObject
-    {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureDescriptorSelector.CaptureObject);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorSelector.SetCaptureObject, value);
-    }
-
     public MTLCaptureDestination Destination
     {
         get => (MTLCaptureDestination)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureDescriptorSelector.Destination);
@@ -33,13 +27,9 @@ public partial class MTLCaptureDescriptor : NativeObject
 
 file static class MTLCaptureDescriptorSelector
 {
-    public static readonly Selector CaptureObject = Selector.Register("captureObject");
-
     public static readonly Selector Destination = Selector.Register("destination");
 
     public static readonly Selector OutputURL = Selector.Register("outputURL");
-
-    public static readonly Selector SetCaptureObject = Selector.Register("setCaptureObject:");
 
     public static readonly Selector SetDestination = Selector.Register("setDestination:");
 

@@ -8,7 +8,7 @@ public partial class MTLRasterizationRateLayerArray : NativeObject
     {
     }
 
-    public MTLRasterizationRateLayerDescriptor? @object(nuint layerIndex)
+    public MTLRasterizationRateLayerDescriptor? Object(nuint layerIndex)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerArraySelector.Object, layerIndex);
         return ptr is not 0 ? new(ptr) : null;
@@ -22,7 +22,7 @@ public partial class MTLRasterizationRateLayerArray : NativeObject
 
 file static class MTLRasterizationRateLayerArraySelector
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector Object = Selector.Register("objectAtIndexedSubscript:");
 
-    public static readonly Selector SetObject = Selector.Register("setObject::");
+    public static readonly Selector SetObject = Selector.Register("setObject:atIndexedSubscript:");
 }

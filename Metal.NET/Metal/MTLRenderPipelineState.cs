@@ -118,6 +118,18 @@ public partial class MTLRenderPipelineState : NativeObject
         return ptr is not 0 ? new(ptr) : null;
     }
 
+    public MTLFunctionHandle? FunctionHandle(MTL4BinaryFunction function, MTLRenderStages stage)
+    {
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandle, function.NativePtr, (nuint)stage);
+        return ptr is not 0 ? new(ptr) : null;
+    }
+
+    public MTLFunctionHandle? FunctionHandle(MTLFunction function, MTLRenderStages stage)
+    {
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandle, function.NativePtr, (nuint)stage);
+        return ptr is not 0 ? new(ptr) : null;
+    }
+
     public nuint ImageblockMemoryLength(MTLSize imageblockDimensions)
     {
         return ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.ImageblockMemoryLength, imageblockDimensions);
@@ -136,6 +148,13 @@ public partial class MTLRenderPipelineState : NativeObject
         return ptr is not 0 ? new(ptr) : null;
     }
 
+    public MTLRenderPipelineState? NewRenderPipelineState(MTLRenderPipelineFunctionsDescriptor additionalBinaryFunctions, out NSError? error)
+    {
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineState, additionalBinaryFunctions.NativePtr, out nint errorPtr);
+        error = errorPtr is not 0 ? new(errorPtr) : null;
+        return ptr is not 0 ? new(ptr) : null;
+    }
+
     public MTLVisibleFunctionTable? NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor, MTLRenderStages stage)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewVisibleFunctionTable, descriptor.NativePtr, (nuint)stage);
@@ -147,11 +166,11 @@ file static class MTLRenderPipelineStateSelector
 {
     public static readonly Selector Device = Selector.Register("device");
 
-    public static readonly Selector FunctionHandle = Selector.Register("functionHandle::");
+    public static readonly Selector FunctionHandle = Selector.Register("functionHandleWithName:stage:");
 
     public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
 
-    public static readonly Selector ImageblockMemoryLength = Selector.Register("imageblockMemoryLength:");
+    public static readonly Selector ImageblockMemoryLength = Selector.Register("imageblockMemoryLengthForDimensions:");
 
     public static readonly Selector ImageblockSampleLength = Selector.Register("imageblockSampleLength");
 
@@ -167,13 +186,13 @@ file static class MTLRenderPipelineStateSelector
 
     public static readonly Selector MeshThreadExecutionWidth = Selector.Register("meshThreadExecutionWidth");
 
-    public static readonly Selector NewIntersectionFunctionTable = Selector.Register("newIntersectionFunctionTable::");
+    public static readonly Selector NewIntersectionFunctionTable = Selector.Register("newIntersectionFunctionTableWithDescriptor:stage:");
 
-    public static readonly Selector NewRenderPipelineDescriptor = Selector.Register("newRenderPipelineDescriptor");
+    public static readonly Selector NewRenderPipelineDescriptor = Selector.Register("newRenderPipelineDescriptorForSpecialization");
 
-    public static readonly Selector NewRenderPipelineState = Selector.Register("newRenderPipelineState:::");
+    public static readonly Selector NewRenderPipelineState = Selector.Register("newRenderPipelineStateWithBinaryFunctions:error:");
 
-    public static readonly Selector NewVisibleFunctionTable = Selector.Register("newVisibleFunctionTable::");
+    public static readonly Selector NewVisibleFunctionTable = Selector.Register("newVisibleFunctionTableWithDescriptor:stage:");
 
     public static readonly Selector ObjectThreadExecutionWidth = Selector.Register("objectThreadExecutionWidth");
 

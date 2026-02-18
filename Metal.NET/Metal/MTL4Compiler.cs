@@ -61,6 +61,13 @@ public partial class MTL4Compiler : NativeObject
         return ptr is not 0 ? new(ptr) : null;
     }
 
+    public MTLDynamicLibrary? NewDynamicLibrary(NSURL url, out NSError? error)
+    {
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewDynamicLibrary, url.NativePtr, out nint errorPtr);
+        error = errorPtr is not 0 ? new(errorPtr) : null;
+        return ptr is not 0 ? new(ptr) : null;
+    }
+
     public MTLLibrary? NewLibrary(MTL4LibraryDescriptor descriptor, out NSError? error)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewLibrary, descriptor.NativePtr, out nint errorPtr);
@@ -103,19 +110,19 @@ file static class MTL4CompilerSelector
 
     public static readonly Selector Label = Selector.Register("label");
 
-    public static readonly Selector NewBinaryFunction = Selector.Register("newBinaryFunction::::");
+    public static readonly Selector NewBinaryFunction = Selector.Register("newBinaryFunctionWithDescriptor:compilerTaskOptions:error:");
 
-    public static readonly Selector NewComputePipelineState = Selector.Register("newComputePipelineState::::");
+    public static readonly Selector NewComputePipelineState = Selector.Register("newComputePipelineStateWithDescriptor:compilerTaskOptions:error:");
 
-    public static readonly Selector NewDynamicLibrary = Selector.Register("newDynamicLibrary:::");
+    public static readonly Selector NewDynamicLibrary = Selector.Register("newDynamicLibrary:error:");
 
-    public static readonly Selector NewLibrary = Selector.Register("newLibrary:::");
+    public static readonly Selector NewLibrary = Selector.Register("newLibraryWithDescriptor:error:");
 
-    public static readonly Selector NewMachineLearningPipelineState = Selector.Register("newMachineLearningPipelineState:::");
+    public static readonly Selector NewMachineLearningPipelineState = Selector.Register("newMachineLearningPipelineStateWithDescriptor:error:");
 
-    public static readonly Selector NewRenderPipelineState = Selector.Register("newRenderPipelineState::::");
+    public static readonly Selector NewRenderPipelineState = Selector.Register("newRenderPipelineStateWithDescriptor:compilerTaskOptions:error:");
 
-    public static readonly Selector NewRenderPipelineStateBySpecialization = Selector.Register("newRenderPipelineStateBySpecialization::::");
+    public static readonly Selector NewRenderPipelineStateBySpecialization = Selector.Register("newRenderPipelineStateBySpecializationWithDescriptor:pipeline:error:");
 
     public static readonly Selector PipelineDataSetSerializer = Selector.Register("pipelineDataSetSerializer");
 }

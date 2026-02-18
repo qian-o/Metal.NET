@@ -26,9 +26,19 @@ public partial class MTLIntersectionFunctionTable : NativeObject
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueCurveIntersectionFunction, (nuint)signature, index);
     }
 
+    public void SetOpaqueCurveIntersectionFunction(MTLIntersectionFunctionSignature signature, NSRange range)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueCurveIntersectionFunction, (nuint)signature, range);
+    }
+
     public void SetOpaqueTriangleIntersectionFunction(MTLIntersectionFunctionSignature signature, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueTriangleIntersectionFunction, (nuint)signature, index);
+    }
+
+    public void SetOpaqueTriangleIntersectionFunction(MTLIntersectionFunctionSignature signature, NSRange range)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueTriangleIntersectionFunction, (nuint)signature, range);
     }
 
     public void SetVisibleFunctionTable(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
@@ -41,13 +51,13 @@ file static class MTLIntersectionFunctionTableSelector
 {
     public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
 
-    public static readonly Selector SetBuffer = Selector.Register("setBuffer:::");
+    public static readonly Selector SetBuffer = Selector.Register("setBuffer:offset:atIndex:");
 
-    public static readonly Selector SetFunction = Selector.Register("setFunction::");
+    public static readonly Selector SetFunction = Selector.Register("setFunction:atIndex:");
 
-    public static readonly Selector SetOpaqueCurveIntersectionFunction = Selector.Register("setOpaqueCurveIntersectionFunction::");
+    public static readonly Selector SetOpaqueCurveIntersectionFunction = Selector.Register("setOpaqueCurveIntersectionFunctionWithSignature:atIndex:");
 
-    public static readonly Selector SetOpaqueTriangleIntersectionFunction = Selector.Register("setOpaqueTriangleIntersectionFunction::");
+    public static readonly Selector SetOpaqueTriangleIntersectionFunction = Selector.Register("setOpaqueTriangleIntersectionFunctionWithSignature:atIndex:");
 
-    public static readonly Selector SetVisibleFunctionTable = Selector.Register("setVisibleFunctionTable::");
+    public static readonly Selector SetVisibleFunctionTable = Selector.Register("setVisibleFunctionTable:atBufferIndex:");
 }

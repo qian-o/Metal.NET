@@ -69,23 +69,23 @@ public partial class MTLAccelerationStructureCommandEncoder : NativeObject
 
 file static class MTLAccelerationStructureCommandEncoderSelector
 {
-    public static readonly Selector BuildAccelerationStructure = Selector.Register("buildAccelerationStructure::::");
+    public static readonly Selector BuildAccelerationStructure = Selector.Register("buildAccelerationStructure:descriptor:scratchBuffer:scratchBufferOffset:");
 
-    public static readonly Selector CopyAccelerationStructure = Selector.Register("copyAccelerationStructure::");
+    public static readonly Selector CopyAccelerationStructure = Selector.Register("copyAccelerationStructure:toAccelerationStructure:");
 
-    public static readonly Selector CopyAndCompactAccelerationStructure = Selector.Register("copyAndCompactAccelerationStructure::");
+    public static readonly Selector CopyAndCompactAccelerationStructure = Selector.Register("copyAndCompactAccelerationStructure:toAccelerationStructure:");
 
-    public static readonly Selector RefitAccelerationStructure = Selector.Register("refitAccelerationStructure:::::");
+    public static readonly Selector RefitAccelerationStructure = Selector.Register("refitAccelerationStructure:descriptor:destination:scratchBuffer:scratchBufferOffset:");
 
-    public static readonly Selector SampleCountersInBuffer = Selector.Register("sampleCountersInBuffer:::");
+    public static readonly Selector SampleCountersInBuffer = Selector.Register("sampleCountersInBuffer:atSampleIndex:withBarrier:");
 
     public static readonly Selector UpdateFence = Selector.Register("updateFence:");
 
     public static readonly Selector UseHeap = Selector.Register("useHeap:");
 
-    public static readonly Selector UseResource = Selector.Register("useResource::");
+    public static readonly Selector UseResource = Selector.Register("useResource:usage:");
 
     public static readonly Selector WaitForFence = Selector.Register("waitForFence:");
 
-    public static readonly Selector WriteCompactedAccelerationStructureSize = Selector.Register("writeCompactedAccelerationStructureSize:::");
+    public static readonly Selector WriteCompactedAccelerationStructureSize = Selector.Register("writeCompactedAccelerationStructureSize:toBuffer:offset:");
 }

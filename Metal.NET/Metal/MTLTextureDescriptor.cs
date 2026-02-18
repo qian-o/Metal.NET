@@ -68,10 +68,10 @@ public partial class MTLTextureDescriptor : NativeObject
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorSelector.SetPlacementSparsePageSize, (nint)value);
     }
 
-    public nuint ResourceOptions
+    public MTLResourceOptions ResourceOptions
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureDescriptorSelector.ResourceOptions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorSelector.SetResourceOptions, value);
+        get => (MTLResourceOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureDescriptorSelector.ResourceOptions);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorSelector.SetResourceOptions, (nuint)value);
     }
 
     public nuint SampleCount
@@ -98,10 +98,10 @@ public partial class MTLTextureDescriptor : NativeObject
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorSelector.SetTextureType, (nuint)value);
     }
 
-    public nuint Usage
+    public MTLTextureUsage Usage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureDescriptorSelector.Usage);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorSelector.SetUsage, value);
+        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureDescriptorSelector.Usage);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorSelector.SetUsage, (nuint)value);
     }
 
     public nuint Width
@@ -193,11 +193,11 @@ file static class MTLTextureDescriptorSelector
 
     public static readonly Selector Swizzle = Selector.Register("swizzle");
 
-    public static readonly Selector Texture2DDescriptor = Selector.Register("texture2DDescriptor::::");
+    public static readonly Selector Texture2DDescriptor = Selector.Register("texture2DDescriptorWithPixelFormat:width:height:mipmapped:");
 
-    public static readonly Selector TextureBufferDescriptor = Selector.Register("textureBufferDescriptor::::");
+    public static readonly Selector TextureBufferDescriptor = Selector.Register("textureBufferDescriptorWithPixelFormat:width:resourceOptions:usage:");
 
-    public static readonly Selector TextureCubeDescriptor = Selector.Register("textureCubeDescriptor:::");
+    public static readonly Selector TextureCubeDescriptor = Selector.Register("textureCubeDescriptorWithPixelFormat:size:mipmapped:");
 
     public static readonly Selector TextureType = Selector.Register("textureType");
 

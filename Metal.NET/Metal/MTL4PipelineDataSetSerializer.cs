@@ -6,14 +6,9 @@ public partial class MTL4PipelineDataSetSerializer : NativeObject
     {
     }
 
-    public nint SerializeAsPipelinesScript
-    {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDataSetSerializerSelector.SerializeAsPipelinesScript);
-    }
-
     public bool SerializeAsArchiveAndFlushToURL(NSURL url, out NSError? error)
     {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4PipelineDataSetSerializerSelector.SerializeAsArchiveAndFlushToURL, url.NativePtr, out nint errorPtr);
+        var result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4PipelineDataSetSerializerSelector.SerializeAsArchiveAndFlushToURL, url.NativePtr, out nint errorPtr);
         error = errorPtr is not 0 ? new(errorPtr) : null;
         return result;
     }
@@ -21,7 +16,5 @@ public partial class MTL4PipelineDataSetSerializer : NativeObject
 
 file static class MTL4PipelineDataSetSerializerSelector
 {
-    public static readonly Selector SerializeAsArchiveAndFlushToURL = Selector.Register("serializeAsArchiveAndFlushToURL:::");
-
-    public static readonly Selector SerializeAsPipelinesScript = Selector.Register("serializeAsPipelinesScript::");
+    public static readonly Selector SerializeAsArchiveAndFlushToURL = Selector.Register("serializeAsArchiveAndFlushToURL:error:");
 }

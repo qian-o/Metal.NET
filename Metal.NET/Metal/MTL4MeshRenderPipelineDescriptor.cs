@@ -234,7 +234,7 @@ file static class MTL4MeshRenderPipelineDescriptorSelector
 
     public static readonly Selector PayloadMemoryLength = Selector.Register("payloadMemoryLength");
 
-    public static readonly Selector RasterizationEnabled = Selector.Register("rasterizationEnabled");
+    public static readonly Selector RasterizationEnabled = Selector.Register("isRasterizationEnabled");
 
     public static readonly Selector RasterSampleCount = Selector.Register("rasterSampleCount");
 

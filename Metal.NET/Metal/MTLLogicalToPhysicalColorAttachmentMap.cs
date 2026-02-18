@@ -26,9 +26,9 @@ public partial class MTLLogicalToPhysicalColorAttachmentMap : NativeObject
 
 file static class MTLLogicalToPhysicalColorAttachmentMapSelector
 {
-    public static readonly Selector GetPhysicalIndex = Selector.Register("getPhysicalIndex:");
+    public static readonly Selector GetPhysicalIndex = Selector.Register("getPhysicalIndexForLogicalIndex:");
 
     public static readonly Selector Reset = Selector.Register("reset");
 
-    public static readonly Selector SetPhysicalIndex = Selector.Register("setPhysicalIndex::");
+    public static readonly Selector SetPhysicalIndex = Selector.Register("setPhysicalIndex:forLogicalIndex:");
 }

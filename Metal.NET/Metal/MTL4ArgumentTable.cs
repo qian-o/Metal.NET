@@ -56,11 +56,11 @@ file static class MTL4ArgumentTableSelector
 
     public static readonly Selector Label = Selector.Register("label");
 
-    public static readonly Selector SetAddress = Selector.Register("setAddress::");
+    public static readonly Selector SetAddress = Selector.Register("setAddress:atIndex:");
 
-    public static readonly Selector SetResource = Selector.Register("setResource::");
+    public static readonly Selector SetResource = Selector.Register("setResource:atBufferIndex:");
 
-    public static readonly Selector SetSamplerState = Selector.Register("setSamplerState::");
+    public static readonly Selector SetSamplerState = Selector.Register("setSamplerState:atIndex:");
 
-    public static readonly Selector SetTexture = Selector.Register("setTexture::");
+    public static readonly Selector SetTexture = Selector.Register("setTexture:atIndex:");
 }

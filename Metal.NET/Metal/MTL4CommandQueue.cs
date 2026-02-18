@@ -79,9 +79,9 @@ file static class MTL4CommandQueueSelector
 {
     public static readonly Selector AddResidencySet = Selector.Register("addResidencySet:");
 
-    public static readonly Selector CopyBufferMappingsFromBuffer = Selector.Register("copyBufferMappingsFromBuffer::::");
+    public static readonly Selector CopyBufferMappingsFromBuffer = Selector.Register("copyBufferMappingsFromBuffer:toBuffer:operations:count:");
 
-    public static readonly Selector CopyTextureMappingsFromTexture = Selector.Register("copyTextureMappingsFromTexture::::");
+    public static readonly Selector CopyTextureMappingsFromTexture = Selector.Register("copyTextureMappingsFromTexture:toTexture:operations:count:");
 
     public static readonly Selector Device = Selector.Register("device");
 
@@ -91,11 +91,11 @@ file static class MTL4CommandQueueSelector
 
     public static readonly Selector SignalDrawable = Selector.Register("signalDrawable:");
 
-    public static readonly Selector SignalEvent = Selector.Register("signalEvent::");
+    public static readonly Selector SignalEvent = Selector.Register("signalEvent:value:");
 
-    public static readonly Selector UpdateBufferMappings = Selector.Register("updateBufferMappings::::");
+    public static readonly Selector UpdateBufferMappings = Selector.Register("updateBufferMappings:heap:operations:count:");
 
-    public static readonly Selector UpdateTextureMappings = Selector.Register("updateTextureMappings::::");
+    public static readonly Selector UpdateTextureMappings = Selector.Register("updateTextureMappings:heap:operations:count:");
 
-    public static readonly Selector Wait = Selector.Register("wait::");
+    public static readonly Selector Wait = Selector.Register("waitForEvent:value:");
 }

@@ -30,11 +30,6 @@ public partial class MTL4CounterHeap : NativeObject
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapSelector.InvalidateCounterRange, range);
     }
-
-    public nint ResolveCounterRange(NSRange range)
-    {
-        return ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapSelector.ResolveCounterRange, range);
-    }
 }
 
 file static class MTL4CounterHeapSelector
@@ -44,8 +39,6 @@ file static class MTL4CounterHeapSelector
     public static readonly Selector InvalidateCounterRange = Selector.Register("invalidateCounterRange:");
 
     public static readonly Selector Label = Selector.Register("label");
-
-    public static readonly Selector ResolveCounterRange = Selector.Register("resolveCounterRange:");
 
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
 

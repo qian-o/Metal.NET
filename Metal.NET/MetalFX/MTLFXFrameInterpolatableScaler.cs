@@ -1,3 +1,12 @@
 namespace Metal.NET;
 
-public class MTLFXFrameInterpolatableScaler(nint nativePtr) : NativeObject(nativePtr);
+public partial class MTLFXFrameInterpolatableScaler : NativeObject
+{
+    public MTLFXFrameInterpolatableScaler(nint nativePtr) : base(nativePtr)
+    {
+    }
+}
+
+file static class MTLFXFrameInterpolatableScalerSelector
+{
+}

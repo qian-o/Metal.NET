@@ -61,6 +61,13 @@ public partial class MTLLibrary : NativeObject
         return ptr is not 0 ? new(ptr) : null;
     }
 
+    public MTLFunction? NewFunction(MTLFunctionDescriptor descriptor, out NSError? error)
+    {
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.NewFunction, descriptor.NativePtr, out nint errorPtr);
+        error = errorPtr is not 0 ? new(errorPtr) : null;
+        return ptr is not 0 ? new(ptr) : null;
+    }
+
     public MTLFunction? NewIntersectionFunction(MTLIntersectionFunctionDescriptor descriptor, out NSError? error)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.NewIntersectionFunction, descriptor.NativePtr, out nint errorPtr);
@@ -85,11 +92,11 @@ file static class MTLLibrarySelector
 
     public static readonly Selector Label = Selector.Register("label");
 
-    public static readonly Selector NewFunction = Selector.Register("newFunction:");
+    public static readonly Selector NewFunction = Selector.Register("newFunctionWithName:");
 
-    public static readonly Selector NewIntersectionFunction = Selector.Register("newIntersectionFunction:::");
+    public static readonly Selector NewIntersectionFunction = Selector.Register("newIntersectionFunctionWithDescriptor:error:");
 
-    public static readonly Selector ReflectionForFunction = Selector.Register("reflectionForFunction:");
+    public static readonly Selector ReflectionForFunction = Selector.Register("reflectionForFunctionWithName:");
 
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
 

@@ -176,9 +176,9 @@ public partial class MTLTexture : NativeObject
         get => (MTLTextureType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.TextureType);
     }
 
-    public nuint Usage
+    public MTLTextureUsage Usage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.Usage);
+        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.Usage);
     }
 
     public nuint Width
@@ -211,6 +211,12 @@ public partial class MTLTexture : NativeObject
     public MTLTexture? NewTextureView(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewTextureView, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange);
+        return ptr is not 0 ? new(ptr) : null;
+    }
+
+    public MTLTexture? NewTextureView(MTLTextureViewDescriptor descriptor)
+    {
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewTextureView, descriptor.NativePtr);
         return ptr is not 0 ? new(ptr) : null;
     }
 
@@ -249,9 +255,9 @@ file static class MTLTextureSelector
 
     public static readonly Selector FirstMipmapInTail = Selector.Register("firstMipmapInTail");
 
-    public static readonly Selector FramebufferOnly = Selector.Register("framebufferOnly");
+    public static readonly Selector FramebufferOnly = Selector.Register("isFramebufferOnly");
 
-    public static readonly Selector GetBytes = Selector.Register("getBytes::::::");
+    public static readonly Selector GetBytes = Selector.Register("getBytes:bytesPerRow:bytesPerImage:fromRegion:mipmapLevel:slice:");
 
     public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
 
@@ -273,7 +279,7 @@ file static class MTLTextureSelector
 
     public static readonly Selector NewSharedTextureHandle = Selector.Register("newSharedTextureHandle");
 
-    public static readonly Selector NewTextureView = Selector.Register("newTextureView:");
+    public static readonly Selector NewTextureView = Selector.Register("newTextureViewWithPixelFormat:");
 
     public static readonly Selector ParentRelativeLevel = Selector.Register("parentRelativeLevel");
 
@@ -285,13 +291,13 @@ file static class MTLTextureSelector
 
     public static readonly Selector RemoteStorageTexture = Selector.Register("remoteStorageTexture");
 
-    public static readonly Selector ReplaceRegion = Selector.Register("replaceRegion::::::");
+    public static readonly Selector ReplaceRegion = Selector.Register("replaceRegion:mipmapLevel:slice:withBytes:bytesPerRow:bytesPerImage:");
 
     public static readonly Selector RootResource = Selector.Register("rootResource");
 
     public static readonly Selector SampleCount = Selector.Register("sampleCount");
 
-    public static readonly Selector Shareable = Selector.Register("shareable");
+    public static readonly Selector Shareable = Selector.Register("isShareable");
 
     public static readonly Selector SparseTextureTier = Selector.Register("sparseTextureTier");
 

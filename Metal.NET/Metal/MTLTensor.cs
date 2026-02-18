@@ -48,9 +48,9 @@ public partial class MTLTensor : NativeObject
         }
     }
 
-    public nuint Usage
+    public MTLTensorUsage Usage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorSelector.Usage);
+        get => (MTLTensorUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorSelector.Usage);
     }
 
     public void GetBytes(nint bytes, MTLTensorExtents strides, MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions)
@@ -74,11 +74,11 @@ file static class MTLTensorSelector
 
     public static readonly Selector Dimensions = Selector.Register("dimensions");
 
-    public static readonly Selector GetBytes = Selector.Register("getBytes::::");
+    public static readonly Selector GetBytes = Selector.Register("getBytes:strides:fromSliceOrigin:sliceDimensions:");
 
     public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
 
-    public static readonly Selector ReplaceSliceOrigin = Selector.Register("replaceSliceOrigin::::");
+    public static readonly Selector ReplaceSliceOrigin = Selector.Register("replaceSliceOrigin:sliceDimensions:withBytes:strides:");
 
     public static readonly Selector Strides = Selector.Register("strides");
 

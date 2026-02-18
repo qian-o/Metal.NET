@@ -36,7 +36,7 @@ file static class MTLTextureBindingSelector
 {
     public static readonly Selector ArrayLength = Selector.Register("arrayLength");
 
-    public static readonly Selector DepthTexture = Selector.Register("depthTexture");
+    public static readonly Selector DepthTexture = Selector.Register("isDepthTexture");
 
     public static readonly Selector IsDepthTexture = Selector.Register("isDepthTexture");
 

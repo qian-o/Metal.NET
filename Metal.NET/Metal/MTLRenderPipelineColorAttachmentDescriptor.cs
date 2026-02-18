@@ -61,10 +61,10 @@ public partial class MTLRenderPipelineColorAttachmentDescriptor : NativeObject
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetSourceRGBBlendFactor, (nuint)value);
     }
 
-    public nuint WriteMask
+    public MTLColorWriteMask WriteMask
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.WriteMask);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetWriteMask, value);
+        get => (MTLColorWriteMask)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.WriteMask);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetWriteMask, (nuint)value);
     }
 }
 
@@ -72,7 +72,7 @@ file static class MTLRenderPipelineColorAttachmentDescriptorSelector
 {
     public static readonly Selector AlphaBlendOperation = Selector.Register("alphaBlendOperation");
 
-    public static readonly Selector BlendingEnabled = Selector.Register("blendingEnabled");
+    public static readonly Selector BlendingEnabled = Selector.Register("isBlendingEnabled");
 
     public static readonly Selector DestinationAlphaBlendFactor = Selector.Register("destinationAlphaBlendFactor");
 
