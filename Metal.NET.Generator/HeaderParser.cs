@@ -543,7 +543,6 @@ public static partial class HeaderParser
 
         // Strip C++ integer literal suffixes from all numeric literals in the expression
         string stripped = IntegerSuffixPattern().Replace(trimmed, "$1");
-        stripped = StripIntegerSuffix(stripped);
 
         // Handle simple shift expressions like "1 << 40"
         Match shiftMatch = ShiftExprPattern().Match(stripped);
@@ -626,28 +625,6 @@ public static partial class HeaderParser
         // For complex expressions (e.g., bitwise operations referencing other enum members),
         // return the numeric string if possible, otherwise return as-is
         return stripped;
-    }
-
-    private static string StripIntegerSuffix(string value)
-    {
-        // Strip C++ integer literal suffixes: ULL, ull, UL, ul, LL, ll, U, u, L, l
-        string result = value;
-
-        while (result.Length > 0)
-        {
-            char last = result[^1];
-
-            if (last is 'U' or 'u' or 'L' or 'l')
-            {
-                result = result[..^1];
-            }
-            else
-            {
-                break;
-            }
-        }
-
-        return result;
     }
 
     private static void ParseClasses(
