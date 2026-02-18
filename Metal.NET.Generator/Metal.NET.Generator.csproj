@@ -8,4 +8,8 @@
         <RootNamespace>Metal.NET.Generator</RootNamespace>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="ClangSharp" Version="21.1.8.2" />
+    </ItemGroup>
+
 </Project>
