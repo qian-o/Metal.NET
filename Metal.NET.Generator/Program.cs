@@ -1,5 +1,7 @@
 ﻿using Metal.NET.Generator;
 
+string[] source = ["Metal", "Foundation", "QuartzCore", "MetalFX", "Common"];
+
 string generatorDir = AppContext.BaseDirectory;
 
 string projectDir = Path.GetFullPath(Path.Combine(generatorDir, "..", "..", ".."));
@@ -35,11 +37,10 @@ Console.WriteLine($"Parsed: {parsed.Enums.Count} enums, {parsed.Classes.Count} c
 MetalBindingsGenerator generator = new(outputDir);
 generator.Execute(parsed);
 
-int generatedCount = new[] { "Metal", "Foundation", "QuartzCore", "MetalFX", "Common" }
-    .Select(sub => Path.Combine(outputDir, sub))
-    .Where(Directory.Exists)
-    .SelectMany(dir => Directory.GetFiles(dir, "*.cs"))
-    .Count();
+int generatedCount = source.Select(sub => Path.Combine(outputDir, sub))
+                           .Where(Directory.Exists)
+                           .SelectMany(dir => Directory.GetFiles(dir, "*.cs"))
+                           .Count();
 
 Console.WriteLine($"Generated {generatedCount} files in {outputDir}");
 

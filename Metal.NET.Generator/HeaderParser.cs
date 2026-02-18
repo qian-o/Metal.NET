@@ -1,4 +1,4 @@
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace Metal.NET.Generator;
 
@@ -419,7 +419,7 @@ public static partial class HeaderParser
             {
                 string memberLine = lines[j].Trim();
 
-                if (memberLine.StartsWith("}"))
+                if (memberLine.StartsWith('}'))
                 {
                     break;
                 }
