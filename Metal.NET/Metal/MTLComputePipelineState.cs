@@ -1,22 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTLComputePipelineState : IDisposable
+public class MTLComputePipelineState(nint nativePtr) : MTLAllocation(nativePtr)
 {
-    public MTLComputePipelineState(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLComputePipelineState()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public MTLDevice Device
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.Device));
@@ -135,21 +120,6 @@ public class MTLComputePipelineState : IDisposable
         MTLVisibleFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.NewVisibleFunctionTableWithDescriptor, descriptor.NativePtr));
 
         return result;
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

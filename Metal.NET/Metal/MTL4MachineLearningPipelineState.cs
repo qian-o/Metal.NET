@@ -1,22 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTL4MachineLearningPipelineState : IDisposable
+public class MTL4MachineLearningPipelineState(nint nativePtr) : MTLAllocation(nativePtr)
 {
-    public MTL4MachineLearningPipelineState(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTL4MachineLearningPipelineState()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public MTLDevice Device
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Device));
@@ -45,21 +30,6 @@ public class MTL4MachineLearningPipelineState : IDisposable
     public static implicit operator MTL4MachineLearningPipelineState(nint value)
     {
         return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

@@ -1,22 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTLResource : IDisposable
+public class MTLResource(nint nativePtr) : MTLAllocation(nativePtr)
 {
-    public MTLResource(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLResource()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public nuint AllocatedSize
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.AllocatedSize);
@@ -95,21 +80,6 @@ public class MTLResource : IDisposable
         MTLPurgeableState result = (MTLPurgeableState)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.SetPurgeableState, (ulong)state);
 
         return result;
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

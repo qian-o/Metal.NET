@@ -817,7 +817,7 @@ public static partial class HeaderParser
             }
 
             // Skip parent classes that are not bindable wrapper types
-            if (parentClass is "MTLAllocation" or "NSFastEnumeration")
+            if (parentClass is "NSFastEnumeration")
             {
                 parentClass = null;
             }

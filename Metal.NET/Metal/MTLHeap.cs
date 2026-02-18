@@ -1,22 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTLHeap : IDisposable
+public class MTLHeap(nint nativePtr) : MTLAllocation(nativePtr)
 {
-    public MTLHeap(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLHeap()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public MTLCPUCacheMode CpuCacheMode
     {
         get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.CpuCacheMode);
@@ -146,21 +131,6 @@ public class MTLHeap : IDisposable
         MTLPurgeableState result = (MTLPurgeableState)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.SetPurgeableState, (ulong)state);
 
         return result;
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 
