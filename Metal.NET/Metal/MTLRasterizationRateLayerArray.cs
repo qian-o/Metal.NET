@@ -1,69 +1,28 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLRasterizationRateLayerArray : IDisposable
+public partial class MTLRasterizationRateLayerArray : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRasterizationRateLayerArray");
 
-    public MTLRasterizationRateLayerArray(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLRasterizationRateLayerArray() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLRasterizationRateLayerArray(nint nativePtr) : base(nativePtr)
     {
     }
 
-    ~MTLRasterizationRateLayerArray()
+    public MTLRasterizationRateLayerDescriptor? @object(nuint layerIndex)
     {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public static implicit operator nint(MTLRasterizationRateLayerArray value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLRasterizationRateLayerArray(nint value)
-    {
-        return new(value);
-    }
-
-    public MTLRasterizationRateLayerDescriptor Object(nuint layerIndex)
-    {
-        MTLRasterizationRateLayerDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerArraySelector.ObjectAtIndexedSubscript, layerIndex));
-
-        return result;
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerArraySelector.Object, layerIndex);
+        return ptr is not 0 ? new(ptr) : null;
     }
 
     public void SetObject(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateLayerArraySelector.SetObjectAtIndexedSubscript, layer.NativePtr, layerIndex);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateLayerArraySelector.SetObject, layer.NativePtr, layerIndex);
     }
 }
 
-file class MTLRasterizationRateLayerArraySelector
+file static class MTLRasterizationRateLayerArraySelector
 {
-    public static readonly Selector ObjectAtIndexedSubscript = Selector.Register("objectAtIndexedSubscript:");
+    public static readonly Selector Object = Selector.Register("object:");
 
-    public static readonly Selector SetObjectAtIndexedSubscript = Selector.Register("setObject:atIndexedSubscript:");
+    public static readonly Selector SetObject = Selector.Register("setObject::");
 }

@@ -1,34 +1,37 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTL4MachineLearningPipelineDescriptor(nint nativePtr) : MTL4PipelineDescriptor(nativePtr)
+public partial class MTL4MachineLearningPipelineDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4MachineLearningPipelineDescriptor");
 
-    public MTL4MachineLearningPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTL4MachineLearningPipelineDescriptor(nint nativePtr) : base(nativePtr)
     {
     }
 
-    public MTL4FunctionDescriptor MachineLearningFunctionDescriptor
+    public NSString? Label
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.MachineLearningFunctionDescriptor));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetMachineLearningFunctionDescriptor, value.NativePtr);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
     }
 
-    public static implicit operator nint(MTL4MachineLearningPipelineDescriptor value)
+    public MTL4FunctionDescriptor? MachineLearningFunctionDescriptor
     {
-        return value.NativePtr;
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.MachineLearningFunctionDescriptor);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetMachineLearningFunctionDescriptor, value?.NativePtr ?? 0);
     }
 
-    public static implicit operator MTL4MachineLearningPipelineDescriptor(nint value)
+    public MTLTensorExtents? InputDimensionsAtBufferIndex(nint bufferIndex)
     {
-        return new(value);
-    }
-
-    public MTLTensorExtents InputDimensionsAtBufferIndex(nint bufferIndex)
-    {
-        MTLTensorExtents result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.InputDimensionsAtBufferIndex, bufferIndex));
-
-        return result;
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.InputDimensionsAtBufferIndex, bufferIndex);
+        return ptr is not 0 ? new(ptr) : null;
     }
 
     public void Reset()
@@ -38,26 +41,23 @@ public class MTL4MachineLearningPipelineDescriptor(nint nativePtr) : MTL4Pipelin
 
     public void SetInputDimensions(MTLTensorExtents dimensions, nint bufferIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetInputDimensionsAtBufferIndex, dimensions.NativePtr, bufferIndex);
-    }
-
-    public void SetInputDimensions(NSArray dimensions, NSRange range)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetInputDimensionsWithRange, dimensions.NativePtr, range);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetInputDimensions, dimensions.NativePtr, bufferIndex);
     }
 }
 
-file class MTL4MachineLearningPipelineDescriptorSelector
+file static class MTL4MachineLearningPipelineDescriptorSelector
 {
-    public static readonly Selector MachineLearningFunctionDescriptor = Selector.Register("machineLearningFunctionDescriptor");
-
-    public static readonly Selector SetMachineLearningFunctionDescriptor = Selector.Register("setMachineLearningFunctionDescriptor:");
-
     public static readonly Selector InputDimensionsAtBufferIndex = Selector.Register("inputDimensionsAtBufferIndex:");
+
+    public static readonly Selector Label = Selector.Register("label");
+
+    public static readonly Selector MachineLearningFunctionDescriptor = Selector.Register("machineLearningFunctionDescriptor");
 
     public static readonly Selector Reset = Selector.Register("reset");
 
-    public static readonly Selector SetInputDimensionsAtBufferIndex = Selector.Register("setInputDimensions:atBufferIndex:");
+    public static readonly Selector SetInputDimensions = Selector.Register("setInputDimensions::");
 
-    public static readonly Selector SetInputDimensionsWithRange = Selector.Register("setInputDimensions:withRange:");
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+
+    public static readonly Selector SetMachineLearningFunctionDescriptor = Selector.Register("setMachineLearningFunctionDescriptor:");
 }

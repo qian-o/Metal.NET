@@ -1,10 +1,10 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLFunctionStitchingInputNode(nint nativePtr) : MTLFunctionStitchingNode(nativePtr)
+public partial class MTLFunctionStitchingInputNode : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingInputNode");
 
-    public MTLFunctionStitchingInputNode() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLFunctionStitchingInputNode(nint nativePtr) : base(nativePtr)
     {
     }
 
@@ -13,19 +13,9 @@ public class MTLFunctionStitchingInputNode(nint nativePtr) : MTLFunctionStitchin
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionStitchingInputNodeSelector.ArgumentIndex);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionStitchingInputNodeSelector.SetArgumentIndex, value);
     }
-
-    public static implicit operator nint(MTLFunctionStitchingInputNode value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLFunctionStitchingInputNode(nint value)
-    {
-        return new(value);
-    }
 }
 
-file class MTLFunctionStitchingInputNodeSelector
+file static class MTLFunctionStitchingInputNodeSelector
 {
     public static readonly Selector ArgumentIndex = Selector.Register("argumentIndex");
 

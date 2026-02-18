@@ -20,7 +20,7 @@ public static class HeaderParser
         "MTL4Origin", "MTL4Size", "MTL4Range", "MTL4BufferRange",
         "MTL4CopySparseBufferMappingOperation", "MTL4CopySparseTextureMappingOperation",
         "MTL4UpdateSparseBufferMappingOperation", "MTL4UpdateSparseTextureMappingOperation",
-        "NSRange"
+        "NSRange", "MTLAccelerationStructureSizes", "MTLTextureSwizzleChannels"
     ];
 
     private static readonly HashSet<string> CSharpKeywords =
@@ -568,7 +568,7 @@ public static class HeaderParser
             return;
 
         string enumName = enumDecl.Name;
-        bool isAnonymous = string.IsNullOrEmpty(enumName);
+        bool isAnonymous = string.IsNullOrEmpty(enumName) || enumName.StartsWith("(unnamed");
 
         // Get underlying type string
         string underlyingTypeStr = enumDecl.IntegerType?.AsString ?? "unsigned int";
@@ -644,8 +644,8 @@ public static class HeaderParser
 
         return cleaned switch
         {
-            "UInteger" or "unsigned long" or "unsigned long long" or "size_t" => "nuint",
-            "Integer" or "long" or "long long" => "nint",
+            "UInteger" or "unsigned long" or "unsigned long long" or "size_t" => "ulong",
+            "Integer" or "long" or "long long" => "long",
             "unsigned int" or "uint32_t" => "uint",
             "int" or "int32_t" => "int",
             "unsigned short" or "uint16_t" => "ushort",
@@ -909,8 +909,8 @@ public static class HeaderParser
                 if (args.Length >= 2)
                 {
                     string parent = args[1].Trim();
-                    string mapped = MapQualifiedTypeName(parent);
-                    if (mapped != "NSObject")
+                    string? mapped = MapQualifiedTypeName(parent);
+                    if (mapped != null && mapped != "NSObject")
                         return mapped;
                 }
             }
@@ -946,7 +946,20 @@ public static class HeaderParser
         return result.ToArray();
     }
 
-    private static string MapQualifiedTypeName(string qualifiedName)
+    private static readonly HashSet<string> SkipTypes =
+    [
+        "MTLAutoreleasedComputePipelineReflection",
+        "MTLAutoreleasedRenderPipelineReflection",
+        "MTLAutoreleasedArgument",
+        "MTLNewComputePipelineStateCompletionHandler",
+        "MTLNewRenderPipelineStateCompletionHandler",
+        "MTLNewComputePipelineStateWithReflectionCompletionHandler",
+        "MTLNewRenderPipelineStateWithReflectionCompletionHandler",
+        "MTLNewLibraryCompletionHandler",
+        "MTLDeviceNotificationHandlerBlock",
+    ];
+
+    private static string? MapQualifiedTypeName(string qualifiedName)
     {
         string name = qualifiedName.Trim();
         // Remove pointer
@@ -965,17 +978,24 @@ public static class HeaderParser
             // But also check the top-level namespace
             string topNs = ns.Contains("::") ? ns[..ns.IndexOf("::")] : ns;
 
+            string? result = null;
             if (NamespaceMap.TryGetValue(innerNs, out var map))
-                return map.Prefix + typeName;
-            if (NamespaceMap.TryGetValue(topNs, out map))
-                return map.Prefix + typeName;
+                result = map.Prefix + typeName;
+            else if (NamespaceMap.TryGetValue(topNs, out map))
+                result = map.Prefix + typeName;
+            else if (NamespaceMap.TryGetValue(ns.Replace("::", ""), out map))
+                result = map.Prefix + typeName;
+            else
+                result = typeName;
 
-            // Check for multi-level namespace like MTL4
-            if (NamespaceMap.TryGetValue(ns.Replace("::", ""), out map))
-                return map.Prefix + typeName;
+            if (result != null && SkipTypes.Contains(result))
+                return null;
 
-            return typeName;
+            return result;
         }
+
+        if (SkipTypes.Contains(name))
+            return null;
 
         return name;
     }
@@ -1204,6 +1224,14 @@ public static class HeaderParser
             cleaned.Contains("HandlerFunction"))
             return null;
 
+        // C-style array types → skip
+        if (cleaned.Contains("[]") || cleaned.Contains("["))
+            return null;
+
+        // C++ reference types → skip
+        if (cleaned.EndsWith("&"))
+            return null;
+
         // Direct primitive type mappings
         switch (cleaned)
         {
@@ -1241,6 +1269,8 @@ public static class HeaderParser
         // NS:: types
         if (cleaned == "NS::UInteger") return "nuint";
         if (cleaned == "NS::Integer") return "nint";
+        if (cleaned == "NS::UInteger *" || cleaned == "NS::UInteger*") return "nint";
+        if (cleaned == "NS::Integer *" || cleaned == "NS::Integer*") return "nint";
 
         if (cleaned == "NS::String *" || cleaned == "NS::String*") return "NSString";
         if (cleaned == "NS::Error *" || cleaned == "NS::Error*") return "NSError";
@@ -1268,6 +1298,21 @@ public static class HeaderParser
         if (cleaned.EndsWith("GPUAddress") || cleaned == "GPUAddress") return "nuint";
         if (cleaned.EndsWith("Timestamp") || cleaned == "Timestamp") return "nuint";
 
+        // Typedef aliases that are just other types
+        if (cleaned == "UInteger" || cleaned == "NSUInteger") return "nuint";
+        if (cleaned == "Integer" || cleaned == "NSInteger") return "nint";
+        if (cleaned == "MTL::Coordinate2D" || cleaned == "Coordinate2D") return "MTLSamplePosition";
+        if (cleaned == "MTL::AutoreleasedComputePipelineReflection" || cleaned == "AutoreleasedComputePipelineReflection") return null;
+        if (cleaned == "MTL::AutoreleasedRenderPipelineReflection" || cleaned == "AutoreleasedRenderPipelineReflection") return null;
+        if (cleaned == "MTL::AutoreleasedArgument" || cleaned == "AutoreleasedArgument") return null;
+        if (cleaned == "MTL::SamplePosition") return "MTLSamplePosition";
+        if (cleaned == "task_id_token_t") return "nint";
+        if (cleaned == "kern_return_t") return "uint";
+        if (cleaned == "uint64_t *" || cleaned == "uint64_t*") return "nint";
+        if (cleaned == "MTL::Timestamp *" || cleaned == "MTL::Timestamp*" || cleaned == "Timestamp *") return "nint";
+        if (cleaned == "MTL::Coordinate2D *" || cleaned == "Coordinate2D *") return "nint";
+        if (cleaned == "NSUInteger") return "nuint";
+
         // simd types → nint
         if (cleaned.StartsWith("simd::")) return "nint";
 
@@ -1275,7 +1320,10 @@ public static class HeaderParser
         if (cleaned.EndsWith("*") && cleaned.Contains("::"))
         {
             string withoutPtr = cleaned.TrimEnd('*').Trim();
-            string mapped = MapQualifiedTypeName(withoutPtr);
+            string? mapped = MapQualifiedTypeName(withoutPtr);
+
+            if (mapped == null)
+                return null;
 
             // Primitive pointer → nint
             if (mapped is "void" or "char" or "byte" or "int" or "uint" or "float" or "double"

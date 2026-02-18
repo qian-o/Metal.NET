@@ -1,27 +1,12 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLLogStateDescriptor : IDisposable
+public partial class MTLLogStateDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLLogStateDescriptor");
 
-    public MTLLogStateDescriptor(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLLogStateDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLLogStateDescriptor(nint nativePtr) : base(nativePtr)
     {
     }
-
-    ~MTLLogStateDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public nint BufferSize
     {
@@ -31,43 +16,18 @@ public class MTLLogStateDescriptor : IDisposable
 
     public MTLLogLevel Level
     {
-        get => (MTLLogLevel)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLLogStateDescriptorSelector.Level);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLogStateDescriptorSelector.SetLevel, (ulong)value);
-    }
-
-    public static implicit operator nint(MTLLogStateDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLLogStateDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        get => (MTLLogLevel)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLogStateDescriptorSelector.Level);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLogStateDescriptorSelector.SetLevel, (nint)value);
     }
 }
 
-file class MTLLogStateDescriptorSelector
+file static class MTLLogStateDescriptorSelector
 {
     public static readonly Selector BufferSize = Selector.Register("bufferSize");
 
-    public static readonly Selector SetBufferSize = Selector.Register("setBufferSize:");
-
     public static readonly Selector Level = Selector.Register("level");
+
+    public static readonly Selector SetBufferSize = Selector.Register("setBufferSize:");
 
     public static readonly Selector SetLevel = Selector.Register("setLevel:");
 }

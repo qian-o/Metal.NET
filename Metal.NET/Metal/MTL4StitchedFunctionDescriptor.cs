@@ -1,43 +1,41 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTL4StitchedFunctionDescriptor(nint nativePtr) : MTL4FunctionDescriptor(nativePtr)
+public partial class MTL4StitchedFunctionDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4StitchedFunctionDescriptor");
 
-    public MTL4StitchedFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTL4StitchedFunctionDescriptor(nint nativePtr) : base(nativePtr)
     {
     }
 
-    public NSArray FunctionDescriptors
+    public NSArray? FunctionDescriptors
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StitchedFunctionDescriptorSelector.FunctionDescriptors));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorSelector.SetFunctionDescriptors, value.NativePtr);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StitchedFunctionDescriptorSelector.FunctionDescriptors);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorSelector.SetFunctionDescriptors, value?.NativePtr ?? 0);
     }
 
-    public MTLFunctionStitchingGraph FunctionGraph
+    public MTLFunctionStitchingGraph? FunctionGraph
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StitchedFunctionDescriptorSelector.FunctionGraph));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorSelector.SetFunctionGraph, value.NativePtr);
-    }
-
-    public static implicit operator nint(MTL4StitchedFunctionDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4StitchedFunctionDescriptor(nint value)
-    {
-        return new(value);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StitchedFunctionDescriptorSelector.FunctionGraph);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorSelector.SetFunctionGraph, value?.NativePtr ?? 0);
     }
 }
 
-file class MTL4StitchedFunctionDescriptorSelector
+file static class MTL4StitchedFunctionDescriptorSelector
 {
     public static readonly Selector FunctionDescriptors = Selector.Register("functionDescriptors");
 
-    public static readonly Selector SetFunctionDescriptors = Selector.Register("setFunctionDescriptors:");
-
     public static readonly Selector FunctionGraph = Selector.Register("functionGraph");
+
+    public static readonly Selector SetFunctionDescriptors = Selector.Register("setFunctionDescriptors:");
 
     public static readonly Selector SetFunctionGraph = Selector.Register("setFunctionGraph:");
 }

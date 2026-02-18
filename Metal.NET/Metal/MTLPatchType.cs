@@ -1,10 +1,8 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLPatchType : ulong
 {
-    PatchTypeNone = 0,
-
-    PatchTypeTriangle = 1,
-
-    PatchTypeQuad = 2
+    MTLPatchTypeNone = 0,
+    MTLPatchTypeTriangle = 1,
+    MTLPatchTypeQuad = 2
 }

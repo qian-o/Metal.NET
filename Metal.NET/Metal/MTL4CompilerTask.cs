@@ -1,64 +1,32 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTL4CompilerTask : IDisposable
+public partial class MTL4CompilerTask : NativeObject
 {
-    public MTL4CompilerTask(nint nativePtr)
+    public MTL4CompilerTask(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public MTL4Compiler? Compiler
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskSelector.Compiler);
+            return ptr is not 0 ? new(ptr) : null;
         }
-    }
-
-    ~MTL4CompilerTask()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public MTL4Compiler Compiler
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskSelector.Compiler));
     }
 
     public MTL4CompilerTaskStatus Status
     {
-        get => (MTL4CompilerTaskStatus)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4CompilerTaskSelector.Status);
-    }
-
-    public static implicit operator nint(MTL4CompilerTask value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4CompilerTask(nint value)
-    {
-        return new(value);
+        get => (MTL4CompilerTaskStatus)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskSelector.Status);
     }
 
     public void WaitUntilCompleted()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerTaskSelector.WaitUntilCompleted);
     }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
 }
 
-file class MTL4CompilerTaskSelector
+file static class MTL4CompilerTaskSelector
 {
     public static readonly Selector Compiler = Selector.Register("compiler");
 

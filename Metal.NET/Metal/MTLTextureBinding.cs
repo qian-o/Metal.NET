@@ -1,46 +1,42 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLTextureBinding(nint nativePtr) : MTLBinding(nativePtr)
+public partial class MTLTextureBinding : NativeObject
 {
+    public MTLTextureBinding(nint nativePtr) : base(nativePtr)
+    {
+    }
+
     public nuint ArrayLength
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindingSelector.ArrayLength);
     }
 
-    public Bool8 DepthTexture
+    public bool DepthTexture
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureBindingSelector.IsDepthTexture);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureBindingSelector.DepthTexture);
     }
 
-    public Bool8 IsDepthTexture
+    public bool IsDepthTexture
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureBindingSelector.IsDepthTexture);
     }
 
     public MTLDataType TextureDataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureBindingSelector.TextureDataType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindingSelector.TextureDataType);
     }
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureBindingSelector.TextureType);
-    }
-
-    public static implicit operator nint(MTLTextureBinding value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLTextureBinding(nint value)
-    {
-        return new(value);
+        get => (MTLTextureType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindingSelector.TextureType);
     }
 }
 
-file class MTLTextureBindingSelector
+file static class MTLTextureBindingSelector
 {
     public static readonly Selector ArrayLength = Selector.Register("arrayLength");
+
+    public static readonly Selector DepthTexture = Selector.Register("depthTexture");
 
     public static readonly Selector IsDepthTexture = Selector.Register("isDepthTexture");
 

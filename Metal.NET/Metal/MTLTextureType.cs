@@ -1,24 +1,15 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLTextureType : ulong
 {
-    TextureType1D = 0,
-
-    TextureType1DArray = 1,
-
-    TextureType2D = 2,
-
-    TextureType2DArray = 3,
-
-    TextureType2DMultisample = 4,
-
-    TextureTypeCube = 5,
-
-    TextureTypeCubeArray = 6,
-
-    TextureType3D = 7,
-
-    TextureType2DMultisampleArray = 8,
-
-    TextureTypeTextureBuffer = 9
+    MTLTextureType1D = 0,
+    MTLTextureType1DArray = 1,
+    MTLTextureType2D = 2,
+    MTLTextureType2DArray = 3,
+    MTLTextureType2DMultisample = 4,
+    MTLTextureTypeCube = 5,
+    MTLTextureTypeCubeArray = 6,
+    MTLTextureType3D = 7,
+    MTLTextureType2DMultisampleArray = 8,
+    MTLTextureTypeTextureBuffer = 9
 }

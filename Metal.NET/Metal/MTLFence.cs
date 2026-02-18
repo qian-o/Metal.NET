@@ -1,60 +1,32 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLFence : IDisposable
+public partial class MTLFence : NativeObject
 {
-    public MTLFence(nint nativePtr)
+    public MTLFence(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public MTLDevice? Device
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFenceSelector.Device);
+            return ptr is not 0 ? new(ptr) : null;
         }
     }
 
-    ~MTLFence()
+    public NSString? Label
     {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public MTLDevice Device
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFenceSelector.Device));
-    }
-
-    public NSString Label
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFenceSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFenceSelector.SetLabel, value.NativePtr);
-    }
-
-    public static implicit operator nint(MTLFence value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLFence(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
+        get
         {
-            ObjectiveCRuntime.Release(NativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFenceSelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
         }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFenceSelector.SetLabel, value?.NativePtr ?? 0);
     }
 }
 
-file class MTLFenceSelector
+file static class MTLFenceSelector
 {
     public static readonly Selector Device = Selector.Register("device");
 

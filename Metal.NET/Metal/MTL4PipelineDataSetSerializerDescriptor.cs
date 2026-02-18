@@ -1,61 +1,21 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTL4PipelineDataSetSerializerDescriptor : IDisposable
+public partial class MTL4PipelineDataSetSerializerDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PipelineDataSetSerializerDescriptor");
 
-    public MTL4PipelineDataSetSerializerDescriptor(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTL4PipelineDataSetSerializerDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTL4PipelineDataSetSerializerDescriptor(nint nativePtr) : base(nativePtr)
     {
     }
 
-    ~MTL4PipelineDataSetSerializerDescriptor()
+    public nuint Configuration
     {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public MTL4PipelineDataSetSerializerConfiguration Configuration
-    {
-        get => (MTL4PipelineDataSetSerializerConfiguration)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.Configuration);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.SetConfiguration, (ulong)value);
-    }
-
-    public static implicit operator nint(MTL4PipelineDataSetSerializerDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4PipelineDataSetSerializerDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.Configuration);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.SetConfiguration, value);
     }
 }
 
-file class MTL4PipelineDataSetSerializerDescriptorSelector
+file static class MTL4PipelineDataSetSerializerDescriptorSelector
 {
     public static readonly Selector Configuration = Selector.Register("configuration");
 

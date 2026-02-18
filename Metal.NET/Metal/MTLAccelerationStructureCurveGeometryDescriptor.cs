@@ -1,17 +1,21 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr) : MTLAccelerationStructureGeometryDescriptor(nativePtr)
+public partial class MTLAccelerationStructureCurveGeometryDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureCurveGeometryDescriptor");
 
-    public MTLAccelerationStructureCurveGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr) : base(nativePtr)
     {
     }
 
-    public MTLBuffer ControlPointBuffer
+    public MTLBuffer? ControlPointBuffer
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.ControlPointBuffer));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetControlPointBuffer, value.NativePtr);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.ControlPointBuffer);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetControlPointBuffer, value?.NativePtr ?? 0);
     }
 
     public nuint ControlPointBufferOffset
@@ -28,8 +32,8 @@ public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr) : M
 
     public MTLAttributeFormat ControlPointFormat
     {
-        get => (MTLAttributeFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.ControlPointFormat);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetControlPointFormat, (ulong)value);
+        get => (MTLAttributeFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.ControlPointFormat);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetControlPointFormat, (nuint)value);
     }
 
     public nuint ControlPointStride
@@ -40,26 +44,30 @@ public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr) : M
 
     public MTLCurveBasis CurveBasis
     {
-        get => (MTLCurveBasis)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.CurveBasis);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetCurveBasis, (ulong)value);
+        get => (MTLCurveBasis)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.CurveBasis);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetCurveBasis, (nint)value);
     }
 
     public MTLCurveEndCaps CurveEndCaps
     {
-        get => (MTLCurveEndCaps)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.CurveEndCaps);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetCurveEndCaps, (ulong)value);
+        get => (MTLCurveEndCaps)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.CurveEndCaps);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetCurveEndCaps, (nint)value);
     }
 
     public MTLCurveType CurveType
     {
-        get => (MTLCurveType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.CurveType);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetCurveType, (ulong)value);
+        get => (MTLCurveType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.CurveType);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetCurveType, (nint)value);
     }
 
-    public MTLBuffer IndexBuffer
+    public MTLBuffer? IndexBuffer
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.IndexBuffer));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetIndexBuffer, value.NativePtr);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.IndexBuffer);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetIndexBuffer, value?.NativePtr ?? 0);
     }
 
     public nuint IndexBufferOffset
@@ -70,14 +78,18 @@ public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr) : M
 
     public MTLIndexType IndexType
     {
-        get => (MTLIndexType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.IndexType);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetIndexType, (ulong)value);
+        get => (MTLIndexType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.IndexType);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetIndexType, (nuint)value);
     }
 
-    public MTLBuffer RadiusBuffer
+    public MTLBuffer? RadiusBuffer
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.RadiusBuffer));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetRadiusBuffer, value.NativePtr);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.RadiusBuffer);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetRadiusBuffer, value?.NativePtr ?? 0);
     }
 
     public nuint RadiusBufferOffset
@@ -88,8 +100,8 @@ public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr) : M
 
     public MTLAttributeFormat RadiusFormat
     {
-        get => (MTLAttributeFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.RadiusFormat);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetRadiusFormat, (ulong)value);
+        get => (MTLAttributeFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.RadiusFormat);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetRadiusFormat, (nuint)value);
     }
 
     public nuint RadiusStride
@@ -110,93 +122,82 @@ public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr) : M
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetSegmentCount, value);
     }
 
-    public static implicit operator nint(MTLAccelerationStructureCurveGeometryDescriptor value)
+    public static MTLAccelerationStructureCurveGeometryDescriptor? Descriptor()
     {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLAccelerationStructureCurveGeometryDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public static MTLAccelerationStructureCurveGeometryDescriptor Descriptor()
-    {
-        MTLAccelerationStructureCurveGeometryDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructureCurveGeometryDescriptorSelector.Descriptor));
-
-        return result;
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructureCurveGeometryDescriptorSelector.Descriptor);
+        return ptr is not 0 ? new(ptr) : null;
     }
 }
 
-file class MTLAccelerationStructureCurveGeometryDescriptorSelector
+file static class MTLAccelerationStructureCurveGeometryDescriptorSelector
 {
     public static readonly Selector ControlPointBuffer = Selector.Register("controlPointBuffer");
 
-    public static readonly Selector SetControlPointBuffer = Selector.Register("setControlPointBuffer:");
-
     public static readonly Selector ControlPointBufferOffset = Selector.Register("controlPointBufferOffset");
-
-    public static readonly Selector SetControlPointBufferOffset = Selector.Register("setControlPointBufferOffset:");
 
     public static readonly Selector ControlPointCount = Selector.Register("controlPointCount");
 
-    public static readonly Selector SetControlPointCount = Selector.Register("setControlPointCount:");
-
     public static readonly Selector ControlPointFormat = Selector.Register("controlPointFormat");
-
-    public static readonly Selector SetControlPointFormat = Selector.Register("setControlPointFormat:");
 
     public static readonly Selector ControlPointStride = Selector.Register("controlPointStride");
 
-    public static readonly Selector SetControlPointStride = Selector.Register("setControlPointStride:");
-
     public static readonly Selector CurveBasis = Selector.Register("curveBasis");
-
-    public static readonly Selector SetCurveBasis = Selector.Register("setCurveBasis:");
 
     public static readonly Selector CurveEndCaps = Selector.Register("curveEndCaps");
 
-    public static readonly Selector SetCurveEndCaps = Selector.Register("setCurveEndCaps:");
-
     public static readonly Selector CurveType = Selector.Register("curveType");
 
-    public static readonly Selector SetCurveType = Selector.Register("setCurveType:");
+    public static readonly Selector Descriptor = Selector.Register("descriptor");
 
     public static readonly Selector IndexBuffer = Selector.Register("indexBuffer");
 
-    public static readonly Selector SetIndexBuffer = Selector.Register("setIndexBuffer:");
-
     public static readonly Selector IndexBufferOffset = Selector.Register("indexBufferOffset");
-
-    public static readonly Selector SetIndexBufferOffset = Selector.Register("setIndexBufferOffset:");
 
     public static readonly Selector IndexType = Selector.Register("indexType");
 
-    public static readonly Selector SetIndexType = Selector.Register("setIndexType:");
-
     public static readonly Selector RadiusBuffer = Selector.Register("radiusBuffer");
-
-    public static readonly Selector SetRadiusBuffer = Selector.Register("setRadiusBuffer:");
 
     public static readonly Selector RadiusBufferOffset = Selector.Register("radiusBufferOffset");
 
-    public static readonly Selector SetRadiusBufferOffset = Selector.Register("setRadiusBufferOffset:");
-
     public static readonly Selector RadiusFormat = Selector.Register("radiusFormat");
-
-    public static readonly Selector SetRadiusFormat = Selector.Register("setRadiusFormat:");
 
     public static readonly Selector RadiusStride = Selector.Register("radiusStride");
 
-    public static readonly Selector SetRadiusStride = Selector.Register("setRadiusStride:");
-
     public static readonly Selector SegmentControlPointCount = Selector.Register("segmentControlPointCount");
-
-    public static readonly Selector SetSegmentControlPointCount = Selector.Register("setSegmentControlPointCount:");
 
     public static readonly Selector SegmentCount = Selector.Register("segmentCount");
 
-    public static readonly Selector SetSegmentCount = Selector.Register("setSegmentCount:");
+    public static readonly Selector SetControlPointBuffer = Selector.Register("setControlPointBuffer:");
 
-    public static readonly Selector Descriptor = Selector.Register("descriptor");
+    public static readonly Selector SetControlPointBufferOffset = Selector.Register("setControlPointBufferOffset:");
+
+    public static readonly Selector SetControlPointCount = Selector.Register("setControlPointCount:");
+
+    public static readonly Selector SetControlPointFormat = Selector.Register("setControlPointFormat:");
+
+    public static readonly Selector SetControlPointStride = Selector.Register("setControlPointStride:");
+
+    public static readonly Selector SetCurveBasis = Selector.Register("setCurveBasis:");
+
+    public static readonly Selector SetCurveEndCaps = Selector.Register("setCurveEndCaps:");
+
+    public static readonly Selector SetCurveType = Selector.Register("setCurveType:");
+
+    public static readonly Selector SetIndexBuffer = Selector.Register("setIndexBuffer:");
+
+    public static readonly Selector SetIndexBufferOffset = Selector.Register("setIndexBufferOffset:");
+
+    public static readonly Selector SetIndexType = Selector.Register("setIndexType:");
+
+    public static readonly Selector SetRadiusBuffer = Selector.Register("setRadiusBuffer:");
+
+    public static readonly Selector SetRadiusBufferOffset = Selector.Register("setRadiusBufferOffset:");
+
+    public static readonly Selector SetRadiusFormat = Selector.Register("setRadiusFormat:");
+
+    public static readonly Selector SetRadiusStride = Selector.Register("setRadiusStride:");
+
+    public static readonly Selector SetSegmentControlPointCount = Selector.Register("setSegmentControlPointCount:");
+
+    public static readonly Selector SetSegmentCount = Selector.Register("setSegmentCount:");
 }

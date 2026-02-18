@@ -1,44 +1,30 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLTextureViewPool(nint nativePtr) : MTLResourceViewPool(nativePtr)
+public partial class MTLTextureViewPool : NativeObject
 {
-    public static implicit operator nint(MTLTextureViewPool value)
+    public MTLTextureViewPool(nint nativePtr) : base(nativePtr)
     {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLTextureViewPool(nint value)
-    {
-        return new(value);
     }
 
     public MTLResourceID SetTextureView(MTLTexture texture, nuint index)
     {
-        MTLResourceID result = ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolSelector.SetTextureViewAtIndex, texture.NativePtr, index);
-
-        return result;
+        return ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolSelector.SetTextureView, texture.NativePtr, index);
     }
 
     public MTLResourceID SetTextureView(MTLTexture texture, MTLTextureViewDescriptor descriptor, nuint index)
     {
-        MTLResourceID result = ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolSelector.SetTextureViewDescriptorAtIndex, texture.NativePtr, descriptor.NativePtr, index);
-
-        return result;
+        return ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolSelector.SetTextureView, texture.NativePtr, descriptor.NativePtr, index);
     }
 
     public MTLResourceID SetTextureViewFromBuffer(MTLBuffer buffer, MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow, nuint index)
     {
-        MTLResourceID result = ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolSelector.SetTextureViewFromBufferDescriptorOffsetBytesPerRowAtIndex, buffer.NativePtr, descriptor.NativePtr, offset, bytesPerRow, index);
-
-        return result;
+        return ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolSelector.SetTextureViewFromBuffer, buffer.NativePtr, descriptor.NativePtr, offset, bytesPerRow, index);
     }
 }
 
-file class MTLTextureViewPoolSelector
+file static class MTLTextureViewPoolSelector
 {
-    public static readonly Selector SetTextureViewAtIndex = Selector.Register("setTextureView:atIndex:");
+    public static readonly Selector SetTextureView = Selector.Register("setTextureView::");
 
-    public static readonly Selector SetTextureViewDescriptorAtIndex = Selector.Register("setTextureView:descriptor:atIndex:");
-
-    public static readonly Selector SetTextureViewFromBufferDescriptorOffsetBytesPerRowAtIndex = Selector.Register("setTextureViewFromBuffer:descriptor:offset:bytesPerRow:atIndex:");
+    public static readonly Selector SetTextureViewFromBuffer = Selector.Register("setTextureViewFromBuffer:::::");
 }

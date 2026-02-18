@@ -1,110 +1,123 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLRenderPipelineDescriptor : IDisposable
+public partial class MTLRenderPipelineDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPipelineDescriptor");
 
-    public MTLRenderPipelineDescriptor(nint nativePtr)
+    public MTLRenderPipelineDescriptor(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public bool AlphaToCoverageEnabled
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.AlphaToCoverageEnabled);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetAlphaToCoverageEnabled, (Bool8)value);
+    }
+
+    public bool AlphaToOneEnabled
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.AlphaToOneEnabled);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetAlphaToOneEnabled, (Bool8)value);
+    }
+
+    public NSArray? BinaryArchives
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.BinaryArchives);
+            return ptr is not 0 ? new(ptr) : null;
         }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetBinaryArchives, value?.NativePtr ?? 0);
     }
 
-    public MTLRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLRenderPipelineColorAttachmentDescriptorArray? ColorAttachments
     {
-    }
-
-    ~MTLRenderPipelineDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public Bool8 AlphaToCoverageEnabled
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.IsAlphaToCoverageEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetAlphaToCoverageEnabled, value);
-    }
-
-    public Bool8 AlphaToOneEnabled
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.IsAlphaToOneEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetAlphaToOneEnabled, value);
-    }
-
-    public NSArray BinaryArchives
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.BinaryArchives));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetBinaryArchives, value.NativePtr);
-    }
-
-    public MTLRenderPipelineColorAttachmentDescriptorArray ColorAttachments
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.ColorAttachments));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.ColorAttachments);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public MTLPixelFormat DepthAttachmentPixelFormat
     {
-        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorSelector.DepthAttachmentPixelFormat);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetDepthAttachmentPixelFormat, (ulong)value);
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorSelector.DepthAttachmentPixelFormat);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetDepthAttachmentPixelFormat, (nuint)value);
     }
 
-    public MTLPipelineBufferDescriptorArray FragmentBuffers
+    public MTLPipelineBufferDescriptorArray? FragmentBuffers
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.FragmentBuffers));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.FragmentBuffers);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
-    public MTLFunction FragmentFunction
+    public MTLFunction? FragmentFunction
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.FragmentFunction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetFragmentFunction, value.NativePtr);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.FragmentFunction);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetFragmentFunction, value?.NativePtr ?? 0);
     }
 
-    public MTLLinkedFunctions FragmentLinkedFunctions
+    public MTLLinkedFunctions? FragmentLinkedFunctions
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.FragmentLinkedFunctions));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetFragmentLinkedFunctions, value.NativePtr);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.FragmentLinkedFunctions);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetFragmentLinkedFunctions, value?.NativePtr ?? 0);
     }
 
-    public NSArray FragmentPreloadedLibraries
+    public NSArray? FragmentPreloadedLibraries
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.FragmentPreloadedLibraries));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetFragmentPreloadedLibraries, value.NativePtr);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.FragmentPreloadedLibraries);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetFragmentPreloadedLibraries, value?.NativePtr ?? 0);
     }
 
     public MTLPrimitiveTopologyClass InputPrimitiveTopology
     {
-        get => (MTLPrimitiveTopologyClass)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorSelector.InputPrimitiveTopology);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetInputPrimitiveTopology, (ulong)value);
+        get => (MTLPrimitiveTopologyClass)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorSelector.InputPrimitiveTopology);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetInputPrimitiveTopology, (nuint)value);
     }
 
-    public Bool8 IsAlphaToCoverageEnabled
+    public bool IsAlphaToCoverageEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.IsAlphaToCoverageEnabled);
     }
 
-    public Bool8 IsAlphaToOneEnabled
+    public bool IsAlphaToOneEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.IsAlphaToOneEnabled);
     }
 
-    public Bool8 IsRasterizationEnabled
+    public bool IsRasterizationEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.IsRasterizationEnabled);
     }
 
-    public Bool8 IsTessellationFactorScaleEnabled
+    public bool IsTessellationFactorScaleEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.IsTessellationFactorScaleEnabled);
     }
 
-    public NSString Label
+    public NSString? Label
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetLabel, value.NativePtr);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
     }
 
     public nuint MaxFragmentCallStackDepth
@@ -137,10 +150,10 @@ public class MTLRenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetRasterSampleCount, value);
     }
 
-    public Bool8 RasterizationEnabled
+    public bool RasterizationEnabled
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.IsRasterizationEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetRasterizationEnabled, value);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.RasterizationEnabled);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetRasterizationEnabled, (Bool8)value);
     }
 
     public nuint SampleCount
@@ -151,161 +164,150 @@ public class MTLRenderPipelineDescriptor : IDisposable
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorSelector.ShaderValidation);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetShaderValidation, (ulong)value);
+        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.ShaderValidation);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetShaderValidation, (nint)value);
     }
 
     public MTLPixelFormat StencilAttachmentPixelFormat
     {
-        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorSelector.StencilAttachmentPixelFormat);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetStencilAttachmentPixelFormat, (ulong)value);
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorSelector.StencilAttachmentPixelFormat);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetStencilAttachmentPixelFormat, (nuint)value);
     }
 
-    public Bool8 SupportAddingFragmentBinaryFunctions
+    public bool SupportAddingFragmentBinaryFunctions
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.SupportAddingFragmentBinaryFunctions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetSupportAddingFragmentBinaryFunctions, value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetSupportAddingFragmentBinaryFunctions, (Bool8)value);
     }
 
-    public Bool8 SupportAddingVertexBinaryFunctions
+    public bool SupportAddingVertexBinaryFunctions
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.SupportAddingVertexBinaryFunctions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetSupportAddingVertexBinaryFunctions, value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetSupportAddingVertexBinaryFunctions, (Bool8)value);
     }
 
-    public Bool8 SupportIndirectCommandBuffers
+    public bool SupportIndirectCommandBuffers
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.SupportIndirectCommandBuffers);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetSupportIndirectCommandBuffers, value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetSupportIndirectCommandBuffers, (Bool8)value);
     }
 
     public MTLTessellationControlPointIndexType TessellationControlPointIndexType
     {
-        get => (MTLTessellationControlPointIndexType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorSelector.TessellationControlPointIndexType);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationControlPointIndexType, (ulong)value);
+        get => (MTLTessellationControlPointIndexType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorSelector.TessellationControlPointIndexType);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationControlPointIndexType, (nuint)value);
     }
 
     public MTLTessellationFactorFormat TessellationFactorFormat
     {
-        get => (MTLTessellationFactorFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorSelector.TessellationFactorFormat);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationFactorFormat, (ulong)value);
+        get => (MTLTessellationFactorFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorSelector.TessellationFactorFormat);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationFactorFormat, (nuint)value);
     }
 
-    public Bool8 TessellationFactorScaleEnabled
+    public bool TessellationFactorScaleEnabled
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.IsTessellationFactorScaleEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationFactorScaleEnabled, value);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.TessellationFactorScaleEnabled);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationFactorScaleEnabled, (Bool8)value);
+    }
+
+    public MTLTessellationFactorStepFunction TessellationFactorStepFunction
+    {
+        get => (MTLTessellationFactorStepFunction)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorSelector.TessellationFactorStepFunction);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationFactorStepFunction, (nuint)value);
     }
 
     public MTLWinding TessellationOutputWindingOrder
     {
-        get => (MTLWinding)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorSelector.TessellationOutputWindingOrder);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationOutputWindingOrder, (ulong)value);
+        get => (MTLWinding)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorSelector.TessellationOutputWindingOrder);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationOutputWindingOrder, (nuint)value);
     }
 
     public MTLTessellationPartitionMode TessellationPartitionMode
     {
-        get => (MTLTessellationPartitionMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorSelector.TessellationPartitionMode);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationPartitionMode, (ulong)value);
+        get => (MTLTessellationPartitionMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorSelector.TessellationPartitionMode);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationPartitionMode, (nuint)value);
     }
 
-    public MTLPipelineBufferDescriptorArray VertexBuffers
+    public MTLPipelineBufferDescriptorArray? VertexBuffers
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.VertexBuffers));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.VertexBuffers);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
-    public MTLVertexDescriptor VertexDescriptor
+    public MTLVertexDescriptor? VertexDescriptor
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.VertexDescriptor));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetVertexDescriptor, value.NativePtr);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.VertexDescriptor);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetVertexDescriptor, value?.NativePtr ?? 0);
     }
 
-    public MTLFunction VertexFunction
+    public MTLFunction? VertexFunction
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.VertexFunction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetVertexFunction, value.NativePtr);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.VertexFunction);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetVertexFunction, value?.NativePtr ?? 0);
     }
 
-    public MTLLinkedFunctions VertexLinkedFunctions
+    public MTLLinkedFunctions? VertexLinkedFunctions
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.VertexLinkedFunctions));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetVertexLinkedFunctions, value.NativePtr);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.VertexLinkedFunctions);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetVertexLinkedFunctions, value?.NativePtr ?? 0);
     }
 
-    public NSArray VertexPreloadedLibraries
+    public NSArray? VertexPreloadedLibraries
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.VertexPreloadedLibraries));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetVertexPreloadedLibraries, value.NativePtr);
-    }
-
-    public static implicit operator nint(MTLRenderPipelineDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLRenderPipelineDescriptor(nint value)
-    {
-        return new(value);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.VertexPreloadedLibraries);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetVertexPreloadedLibraries, value?.NativePtr ?? 0);
     }
 
     public void Reset()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.Reset);
     }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
 }
 
-file class MTLRenderPipelineDescriptorSelector
+file static class MTLRenderPipelineDescriptorSelector
 {
-    public static readonly Selector IsAlphaToCoverageEnabled = Selector.Register("isAlphaToCoverageEnabled");
+    public static readonly Selector AlphaToCoverageEnabled = Selector.Register("alphaToCoverageEnabled");
 
-    public static readonly Selector SetAlphaToCoverageEnabled = Selector.Register("setAlphaToCoverageEnabled:");
-
-    public static readonly Selector IsAlphaToOneEnabled = Selector.Register("isAlphaToOneEnabled");
-
-    public static readonly Selector SetAlphaToOneEnabled = Selector.Register("setAlphaToOneEnabled:");
+    public static readonly Selector AlphaToOneEnabled = Selector.Register("alphaToOneEnabled");
 
     public static readonly Selector BinaryArchives = Selector.Register("binaryArchives");
-
-    public static readonly Selector SetBinaryArchives = Selector.Register("setBinaryArchives:");
 
     public static readonly Selector ColorAttachments = Selector.Register("colorAttachments");
 
     public static readonly Selector DepthAttachmentPixelFormat = Selector.Register("depthAttachmentPixelFormat");
 
-    public static readonly Selector SetDepthAttachmentPixelFormat = Selector.Register("setDepthAttachmentPixelFormat:");
-
     public static readonly Selector FragmentBuffers = Selector.Register("fragmentBuffers");
 
     public static readonly Selector FragmentFunction = Selector.Register("fragmentFunction");
 
-    public static readonly Selector SetFragmentFunction = Selector.Register("setFragmentFunction:");
-
     public static readonly Selector FragmentLinkedFunctions = Selector.Register("fragmentLinkedFunctions");
-
-    public static readonly Selector SetFragmentLinkedFunctions = Selector.Register("setFragmentLinkedFunctions:");
 
     public static readonly Selector FragmentPreloadedLibraries = Selector.Register("fragmentPreloadedLibraries");
 
-    public static readonly Selector SetFragmentPreloadedLibraries = Selector.Register("setFragmentPreloadedLibraries:");
-
     public static readonly Selector InputPrimitiveTopology = Selector.Register("inputPrimitiveTopology");
 
-    public static readonly Selector SetInputPrimitiveTopology = Selector.Register("setInputPrimitiveTopology:");
+    public static readonly Selector IsAlphaToCoverageEnabled = Selector.Register("isAlphaToCoverageEnabled");
+
+    public static readonly Selector IsAlphaToOneEnabled = Selector.Register("isAlphaToOneEnabled");
 
     public static readonly Selector IsRasterizationEnabled = Selector.Register("isRasterizationEnabled");
 
@@ -313,89 +315,113 @@ file class MTLRenderPipelineDescriptorSelector
 
     public static readonly Selector Label = Selector.Register("label");
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
-
     public static readonly Selector MaxFragmentCallStackDepth = Selector.Register("maxFragmentCallStackDepth");
-
-    public static readonly Selector SetMaxFragmentCallStackDepth = Selector.Register("setMaxFragmentCallStackDepth:");
 
     public static readonly Selector MaxTessellationFactor = Selector.Register("maxTessellationFactor");
 
-    public static readonly Selector SetMaxTessellationFactor = Selector.Register("setMaxTessellationFactor:");
-
     public static readonly Selector MaxVertexAmplificationCount = Selector.Register("maxVertexAmplificationCount");
-
-    public static readonly Selector SetMaxVertexAmplificationCount = Selector.Register("setMaxVertexAmplificationCount:");
 
     public static readonly Selector MaxVertexCallStackDepth = Selector.Register("maxVertexCallStackDepth");
 
-    public static readonly Selector SetMaxVertexCallStackDepth = Selector.Register("setMaxVertexCallStackDepth:");
+    public static readonly Selector RasterizationEnabled = Selector.Register("rasterizationEnabled");
 
     public static readonly Selector RasterSampleCount = Selector.Register("rasterSampleCount");
 
-    public static readonly Selector SetRasterSampleCount = Selector.Register("setRasterSampleCount:");
-
-    public static readonly Selector SetRasterizationEnabled = Selector.Register("setRasterizationEnabled:");
+    public static readonly Selector Reset = Selector.Register("reset");
 
     public static readonly Selector SampleCount = Selector.Register("sampleCount");
 
-    public static readonly Selector SetSampleCount = Selector.Register("setSampleCount:");
+    public static readonly Selector SetAlphaToCoverageEnabled = Selector.Register("setAlphaToCoverageEnabled:");
 
-    public static readonly Selector ShaderValidation = Selector.Register("shaderValidation");
+    public static readonly Selector SetAlphaToOneEnabled = Selector.Register("setAlphaToOneEnabled:");
+
+    public static readonly Selector SetBinaryArchives = Selector.Register("setBinaryArchives:");
+
+    public static readonly Selector SetDepthAttachmentPixelFormat = Selector.Register("setDepthAttachmentPixelFormat:");
+
+    public static readonly Selector SetFragmentFunction = Selector.Register("setFragmentFunction:");
+
+    public static readonly Selector SetFragmentLinkedFunctions = Selector.Register("setFragmentLinkedFunctions:");
+
+    public static readonly Selector SetFragmentPreloadedLibraries = Selector.Register("setFragmentPreloadedLibraries:");
+
+    public static readonly Selector SetInputPrimitiveTopology = Selector.Register("setInputPrimitiveTopology:");
+
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+
+    public static readonly Selector SetMaxFragmentCallStackDepth = Selector.Register("setMaxFragmentCallStackDepth:");
+
+    public static readonly Selector SetMaxTessellationFactor = Selector.Register("setMaxTessellationFactor:");
+
+    public static readonly Selector SetMaxVertexAmplificationCount = Selector.Register("setMaxVertexAmplificationCount:");
+
+    public static readonly Selector SetMaxVertexCallStackDepth = Selector.Register("setMaxVertexCallStackDepth:");
+
+    public static readonly Selector SetRasterizationEnabled = Selector.Register("setRasterizationEnabled:");
+
+    public static readonly Selector SetRasterSampleCount = Selector.Register("setRasterSampleCount:");
+
+    public static readonly Selector SetSampleCount = Selector.Register("setSampleCount:");
 
     public static readonly Selector SetShaderValidation = Selector.Register("setShaderValidation:");
 
-    public static readonly Selector StencilAttachmentPixelFormat = Selector.Register("stencilAttachmentPixelFormat");
-
     public static readonly Selector SetStencilAttachmentPixelFormat = Selector.Register("setStencilAttachmentPixelFormat:");
-
-    public static readonly Selector SupportAddingFragmentBinaryFunctions = Selector.Register("supportAddingFragmentBinaryFunctions");
 
     public static readonly Selector SetSupportAddingFragmentBinaryFunctions = Selector.Register("setSupportAddingFragmentBinaryFunctions:");
 
-    public static readonly Selector SupportAddingVertexBinaryFunctions = Selector.Register("supportAddingVertexBinaryFunctions");
-
     public static readonly Selector SetSupportAddingVertexBinaryFunctions = Selector.Register("setSupportAddingVertexBinaryFunctions:");
-
-    public static readonly Selector SupportIndirectCommandBuffers = Selector.Register("supportIndirectCommandBuffers");
 
     public static readonly Selector SetSupportIndirectCommandBuffers = Selector.Register("setSupportIndirectCommandBuffers:");
 
-    public static readonly Selector TessellationControlPointIndexType = Selector.Register("tessellationControlPointIndexType");
-
     public static readonly Selector SetTessellationControlPointIndexType = Selector.Register("setTessellationControlPointIndexType:");
-
-    public static readonly Selector TessellationFactorFormat = Selector.Register("tessellationFactorFormat");
 
     public static readonly Selector SetTessellationFactorFormat = Selector.Register("setTessellationFactorFormat:");
 
     public static readonly Selector SetTessellationFactorScaleEnabled = Selector.Register("setTessellationFactorScaleEnabled:");
 
-    public static readonly Selector TessellationOutputWindingOrder = Selector.Register("tessellationOutputWindingOrder");
+    public static readonly Selector SetTessellationFactorStepFunction = Selector.Register("setTessellationFactorStepFunction:");
 
     public static readonly Selector SetTessellationOutputWindingOrder = Selector.Register("setTessellationOutputWindingOrder:");
 
-    public static readonly Selector TessellationPartitionMode = Selector.Register("tessellationPartitionMode");
-
     public static readonly Selector SetTessellationPartitionMode = Selector.Register("setTessellationPartitionMode:");
+
+    public static readonly Selector SetVertexDescriptor = Selector.Register("setVertexDescriptor:");
+
+    public static readonly Selector SetVertexFunction = Selector.Register("setVertexFunction:");
+
+    public static readonly Selector SetVertexLinkedFunctions = Selector.Register("setVertexLinkedFunctions:");
+
+    public static readonly Selector SetVertexPreloadedLibraries = Selector.Register("setVertexPreloadedLibraries:");
+
+    public static readonly Selector ShaderValidation = Selector.Register("shaderValidation");
+
+    public static readonly Selector StencilAttachmentPixelFormat = Selector.Register("stencilAttachmentPixelFormat");
+
+    public static readonly Selector SupportAddingFragmentBinaryFunctions = Selector.Register("supportAddingFragmentBinaryFunctions");
+
+    public static readonly Selector SupportAddingVertexBinaryFunctions = Selector.Register("supportAddingVertexBinaryFunctions");
+
+    public static readonly Selector SupportIndirectCommandBuffers = Selector.Register("supportIndirectCommandBuffers");
+
+    public static readonly Selector TessellationControlPointIndexType = Selector.Register("tessellationControlPointIndexType");
+
+    public static readonly Selector TessellationFactorFormat = Selector.Register("tessellationFactorFormat");
+
+    public static readonly Selector TessellationFactorScaleEnabled = Selector.Register("tessellationFactorScaleEnabled");
+
+    public static readonly Selector TessellationFactorStepFunction = Selector.Register("tessellationFactorStepFunction");
+
+    public static readonly Selector TessellationOutputWindingOrder = Selector.Register("tessellationOutputWindingOrder");
+
+    public static readonly Selector TessellationPartitionMode = Selector.Register("tessellationPartitionMode");
 
     public static readonly Selector VertexBuffers = Selector.Register("vertexBuffers");
 
     public static readonly Selector VertexDescriptor = Selector.Register("vertexDescriptor");
 
-    public static readonly Selector SetVertexDescriptor = Selector.Register("setVertexDescriptor:");
-
     public static readonly Selector VertexFunction = Selector.Register("vertexFunction");
-
-    public static readonly Selector SetVertexFunction = Selector.Register("setVertexFunction:");
 
     public static readonly Selector VertexLinkedFunctions = Selector.Register("vertexLinkedFunctions");
 
-    public static readonly Selector SetVertexLinkedFunctions = Selector.Register("setVertexLinkedFunctions:");
-
     public static readonly Selector VertexPreloadedLibraries = Selector.Register("vertexPreloadedLibraries");
-
-    public static readonly Selector SetVertexPreloadedLibraries = Selector.Register("setVertexPreloadedLibraries:");
-
-    public static readonly Selector Reset = Selector.Register("reset");
 }

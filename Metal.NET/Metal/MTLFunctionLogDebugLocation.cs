@@ -1,25 +1,18 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLFunctionLogDebugLocation : IDisposable
+public partial class MTLFunctionLogDebugLocation : NativeObject
 {
-    public MTLFunctionLogDebugLocation(nint nativePtr)
+    public MTLFunctionLogDebugLocation(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public NSURL? URL
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogDebugLocationSelector.URL);
+            return ptr is not 0 ? new(ptr) : null;
         }
-    }
-
-    ~MTLFunctionLogDebugLocation()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public NSURL URL
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogDebugLocationSelector.URL));
     }
 
     public nuint Column
@@ -27,49 +20,28 @@ public class MTLFunctionLogDebugLocation : IDisposable
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationSelector.Column);
     }
 
-    public NSString FunctionName
+    public NSString? FunctionName
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogDebugLocationSelector.FunctionName));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogDebugLocationSelector.FunctionName);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public nuint Line
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationSelector.Line);
     }
-
-    public static implicit operator nint(MTLFunctionLogDebugLocation value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLFunctionLogDebugLocation(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
 }
 
-file class MTLFunctionLogDebugLocationSelector
+file static class MTLFunctionLogDebugLocationSelector
 {
-    public static readonly Selector URL = Selector.Register("URL");
-
     public static readonly Selector Column = Selector.Register("column");
 
     public static readonly Selector FunctionName = Selector.Register("functionName");
 
     public static readonly Selector Line = Selector.Register("line");
+
+    public static readonly Selector URL = Selector.Register("URL");
 }

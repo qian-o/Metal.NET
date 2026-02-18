@@ -1,75 +1,39 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLFunctionConstant : IDisposable
+public partial class MTLFunctionConstant : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionConstant");
 
-    public MTLFunctionConstant(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLFunctionConstant() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLFunctionConstant(nint nativePtr) : base(nativePtr)
     {
     }
-
-    ~MTLFunctionConstant()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public nuint Index
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionConstantSelector.Index);
     }
 
-    public NSString Name
+    public NSString? Name
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionConstantSelector.Name));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionConstantSelector.Name);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
-    public Bool8 Required
+    public bool Required
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFunctionConstantSelector.Required);
     }
 
     public MTLDataType Type
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionConstantSelector.Type);
-    }
-
-    public static implicit operator nint(MTLFunctionConstant value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLFunctionConstant(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionConstantSelector.Type);
     }
 }
 
-file class MTLFunctionConstantSelector
+file static class MTLFunctionConstantSelector
 {
     public static readonly Selector Index = Selector.Register("index");
 

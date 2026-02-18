@@ -1,64 +1,36 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLCommandBufferEncoderInfo : IDisposable
+public partial class MTLCommandBufferEncoderInfo : NativeObject
 {
-    public MTLCommandBufferEncoderInfo(nint nativePtr)
+    public MTLCommandBufferEncoderInfo(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public NSArray? DebugSignposts
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoSelector.DebugSignposts);
+            return ptr is not 0 ? new(ptr) : null;
         }
-    }
-
-    ~MTLCommandBufferEncoderInfo()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public NSArray DebugSignposts
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoSelector.DebugSignposts));
     }
 
     public MTLCommandEncoderErrorState ErrorState
     {
-        get => (MTLCommandEncoderErrorState)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCommandBufferEncoderInfoSelector.ErrorState);
+        get => (MTLCommandEncoderErrorState)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoSelector.ErrorState);
     }
 
-    public NSString Label
+    public NSString? Label
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoSelector.Label));
-    }
-
-    public static implicit operator nint(MTLCommandBufferEncoderInfo value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLCommandBufferEncoderInfo(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
+        get
         {
-            ObjectiveCRuntime.Release(NativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoSelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
         }
     }
 }
 
-file class MTLCommandBufferEncoderInfoSelector
+file static class MTLCommandBufferEncoderInfoSelector
 {
     public static readonly Selector DebugSignposts = Selector.Register("debugSignposts");
 

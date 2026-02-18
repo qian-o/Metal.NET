@@ -1,12 +1,9 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum NSProcessInfoThermalState : long
 {
-    ProcessInfoThermalStateNominal = 0,
-
-    ProcessInfoThermalStateFair = 1,
-
-    ProcessInfoThermalStateSerious = 2,
-
-    ProcessInfoThermalStateCritical = 3
+    NSProcessInfoThermalStateNominal = 0,
+    NSProcessInfoThermalStateFair = 1,
+    NSProcessInfoThermalStateSerious = 2,
+    NSProcessInfoThermalStateCritical = 3
 }

@@ -1,69 +1,28 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLPipelineBufferDescriptorArray : IDisposable
+public partial class MTLPipelineBufferDescriptorArray : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPipelineBufferDescriptorArray");
 
-    public MTLPipelineBufferDescriptorArray(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLPipelineBufferDescriptorArray() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLPipelineBufferDescriptorArray(nint nativePtr) : base(nativePtr)
     {
     }
 
-    ~MTLPipelineBufferDescriptorArray()
+    public MTLPipelineBufferDescriptor? @object(nuint bufferIndex)
     {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public static implicit operator nint(MTLPipelineBufferDescriptorArray value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLPipelineBufferDescriptorArray(nint value)
-    {
-        return new(value);
-    }
-
-    public MTLPipelineBufferDescriptor Object(nuint bufferIndex)
-    {
-        MTLPipelineBufferDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPipelineBufferDescriptorArraySelector.ObjectAtIndexedSubscript, bufferIndex));
-
-        return result;
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPipelineBufferDescriptorArraySelector.Object, bufferIndex);
+        return ptr is not 0 ? new(ptr) : null;
     }
 
     public void SetObject(MTLPipelineBufferDescriptor buffer, nuint bufferIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorArraySelector.SetObjectAtIndexedSubscript, buffer.NativePtr, bufferIndex);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorArraySelector.SetObject, buffer.NativePtr, bufferIndex);
     }
 }
 
-file class MTLPipelineBufferDescriptorArraySelector
+file static class MTLPipelineBufferDescriptorArraySelector
 {
-    public static readonly Selector ObjectAtIndexedSubscript = Selector.Register("objectAtIndexedSubscript:");
+    public static readonly Selector Object = Selector.Register("object:");
 
-    public static readonly Selector SetObjectAtIndexedSubscript = Selector.Register("setObject:atIndexedSubscript:");
+    public static readonly Selector SetObject = Selector.Register("setObject::");
 }

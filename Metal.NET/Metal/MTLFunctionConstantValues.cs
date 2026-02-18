@@ -1,36 +1,11 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLFunctionConstantValues : IDisposable
+public partial class MTLFunctionConstantValues : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionConstantValues");
 
-    public MTLFunctionConstantValues(nint nativePtr)
+    public MTLFunctionConstantValues(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLFunctionConstantValues() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTLFunctionConstantValues()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public static implicit operator nint(MTLFunctionConstantValues value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLFunctionConstantValues(nint value)
-    {
-        return new(value);
     }
 
     public void Reset()
@@ -40,42 +15,20 @@ public class MTLFunctionConstantValues : IDisposable
 
     public void SetConstantValue(nint value, MTLDataType type, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValueTypeAtIndex, value, (ulong)type, index);
-    }
-
-    public void SetConstantValue(nint value, MTLDataType type, NSString name)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValueTypeWithName, value, (ulong)type, name.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValue, value, (nuint)type, index);
     }
 
     public void SetConstantValues(nint values, MTLDataType type, NSRange range)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValuesTypeWithRange, values, (ulong)type, range);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValues, values, (nuint)type, range);
     }
 }
 
-file class MTLFunctionConstantValuesSelector
+file static class MTLFunctionConstantValuesSelector
 {
     public static readonly Selector Reset = Selector.Register("reset");
 
-    public static readonly Selector SetConstantValueTypeAtIndex = Selector.Register("setConstantValue:type:atIndex:");
+    public static readonly Selector SetConstantValue = Selector.Register("setConstantValue:::");
 
-    public static readonly Selector SetConstantValueTypeWithName = Selector.Register("setConstantValue:type:withName:");
-
-    public static readonly Selector SetConstantValuesTypeWithRange = Selector.Register("setConstantValues:type:withRange:");
+    public static readonly Selector SetConstantValues = Selector.Register("setConstantValues:::");
 }

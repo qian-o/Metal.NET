@@ -1,9 +1,8 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 [Flags]
 public enum MTLAccelerationStructureRefitOptions : ulong
 {
-    AccelerationStructureRefitOptionVertexData = 1,
-
-    AccelerationStructureRefitOptionPerPrimitiveData = 2
+    MTLAccelerationStructureRefitOptionVertexData = 1,
+    MTLAccelerationStructureRefitOptionPerPrimitiveData = 2
 }

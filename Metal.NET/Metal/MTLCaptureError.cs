@@ -1,10 +1,8 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLCaptureError : long
 {
-    CaptureErrorNotSupported = 1,
-
-    CaptureErrorAlreadyCapturing = 2,
-
-    CaptureErrorInvalidDescriptor = 3
+    MTLCaptureErrorNotSupported = 1,
+    MTLCaptureErrorAlreadyCapturing = 2,
+    MTLCaptureErrorInvalidDescriptor = 3
 }

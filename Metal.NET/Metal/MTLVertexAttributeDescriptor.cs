@@ -1,27 +1,12 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLVertexAttributeDescriptor : IDisposable
+public partial class MTLVertexAttributeDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexAttributeDescriptor");
 
-    public MTLVertexAttributeDescriptor(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLVertexAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLVertexAttributeDescriptor(nint nativePtr) : base(nativePtr)
     {
     }
-
-    ~MTLVertexAttributeDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public nuint BufferIndex
     {
@@ -31,8 +16,8 @@ public class MTLVertexAttributeDescriptor : IDisposable
 
     public MTLVertexFormat Format
     {
-        get => (MTLVertexFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLVertexAttributeDescriptorSelector.Format);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorSelector.SetFormat, (ulong)value);
+        get => (MTLVertexFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeDescriptorSelector.Format);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorSelector.SetFormat, (nuint)value);
     }
 
     public nuint Offset
@@ -40,44 +25,19 @@ public class MTLVertexAttributeDescriptor : IDisposable
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeDescriptorSelector.Offset);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorSelector.SetOffset, value);
     }
-
-    public static implicit operator nint(MTLVertexAttributeDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLVertexAttributeDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
 }
 
-file class MTLVertexAttributeDescriptorSelector
+file static class MTLVertexAttributeDescriptorSelector
 {
     public static readonly Selector BufferIndex = Selector.Register("bufferIndex");
 
-    public static readonly Selector SetBufferIndex = Selector.Register("setBufferIndex:");
-
     public static readonly Selector Format = Selector.Register("format");
 
-    public static readonly Selector SetFormat = Selector.Register("setFormat:");
-
     public static readonly Selector Offset = Selector.Register("offset");
+
+    public static readonly Selector SetBufferIndex = Selector.Register("setBufferIndex:");
+
+    public static readonly Selector SetFormat = Selector.Register("setFormat:");
 
     public static readonly Selector SetOffset = Selector.Register("setOffset:");
 }

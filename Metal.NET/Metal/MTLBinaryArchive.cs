@@ -1,141 +1,99 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLBinaryArchive : IDisposable
+public partial class MTLBinaryArchive : NativeObject
 {
-    public MTLBinaryArchive(nint nativePtr)
+    public MTLBinaryArchive(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public MTLDevice? Device
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveSelector.Device);
+            return ptr is not 0 ? new(ptr) : null;
         }
     }
 
-    ~MTLBinaryArchive()
+    public NSString? Label
     {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public MTLDevice Device
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveSelector.Device));
-    }
-
-    public NSString Label
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBinaryArchiveSelector.SetLabel, value.NativePtr);
-    }
-
-    public static implicit operator nint(MTLBinaryArchive value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLBinaryArchive(nint value)
-    {
-        return new(value);
-    }
-
-    public Bool8 AddComputePipelineFunctions(MTLComputePipelineDescriptor descriptor, out NSError? error)
-    {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.AddComputePipelineFunctionsWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
-
-        error = errorPtr is not 0 ? new(errorPtr) : null;
-
-        return result;
-    }
-
-    public Bool8 AddFunction(MTLFunctionDescriptor descriptor, MTLLibrary library, out NSError? error)
-    {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.AddFunctionWithDescriptorLibraryError, descriptor.NativePtr, library.NativePtr, out nint errorPtr);
-
-        error = errorPtr is not 0 ? new(errorPtr) : null;
-
-        return result;
-    }
-
-    public Bool8 AddLibrary(MTLStitchedLibraryDescriptor descriptor, out NSError? error)
-    {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.AddLibraryWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
-
-        error = errorPtr is not 0 ? new(errorPtr) : null;
-
-        return result;
-    }
-
-    public Bool8 AddMeshRenderPipelineFunctions(MTLMeshRenderPipelineDescriptor descriptor, out NSError? error)
-    {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.AddMeshRenderPipelineFunctionsWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
-
-        error = errorPtr is not 0 ? new(errorPtr) : null;
-
-        return result;
-    }
-
-    public Bool8 AddRenderPipelineFunctions(MTLRenderPipelineDescriptor descriptor, out NSError? error)
-    {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.AddRenderPipelineFunctionsWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
-
-        error = errorPtr is not 0 ? new(errorPtr) : null;
-
-        return result;
-    }
-
-    public Bool8 AddTileRenderPipelineFunctions(MTLTileRenderPipelineDescriptor descriptor, out NSError? error)
-    {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.AddTileRenderPipelineFunctionsWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
-
-        error = errorPtr is not 0 ? new(errorPtr) : null;
-
-        return result;
-    }
-
-    public Bool8 SerializeToURL(NSURL url, out NSError? error)
-    {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.SerializeToURLError, url.NativePtr, out nint errorPtr);
-
-        error = errorPtr is not 0 ? new(errorPtr) : null;
-
-        return result;
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
+        get
         {
-            ObjectiveCRuntime.Release(NativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveSelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
         }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBinaryArchiveSelector.SetLabel, value?.NativePtr ?? 0);
+    }
+
+    public bool AddComputePipelineFunctions(MTLComputePipelineDescriptor descriptor, out NSError? error)
+    {
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.AddComputePipelineFunctions, descriptor.NativePtr, out nint errorPtr);
+        error = errorPtr is not 0 ? new(errorPtr) : null;
+        return result;
+    }
+
+    public bool AddFunction(MTLFunctionDescriptor descriptor, MTLLibrary library, out NSError? error)
+    {
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.AddFunction, descriptor.NativePtr, library.NativePtr, out nint errorPtr);
+        error = errorPtr is not 0 ? new(errorPtr) : null;
+        return result;
+    }
+
+    public bool AddLibrary(MTLStitchedLibraryDescriptor descriptor, out NSError? error)
+    {
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.AddLibrary, descriptor.NativePtr, out nint errorPtr);
+        error = errorPtr is not 0 ? new(errorPtr) : null;
+        return result;
+    }
+
+    public bool AddMeshRenderPipelineFunctions(MTLMeshRenderPipelineDescriptor descriptor, out NSError? error)
+    {
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.AddMeshRenderPipelineFunctions, descriptor.NativePtr, out nint errorPtr);
+        error = errorPtr is not 0 ? new(errorPtr) : null;
+        return result;
+    }
+
+    public bool AddRenderPipelineFunctions(MTLRenderPipelineDescriptor descriptor, out NSError? error)
+    {
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.AddRenderPipelineFunctions, descriptor.NativePtr, out nint errorPtr);
+        error = errorPtr is not 0 ? new(errorPtr) : null;
+        return result;
+    }
+
+    public bool AddTileRenderPipelineFunctions(MTLTileRenderPipelineDescriptor descriptor, out NSError? error)
+    {
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.AddTileRenderPipelineFunctions, descriptor.NativePtr, out nint errorPtr);
+        error = errorPtr is not 0 ? new(errorPtr) : null;
+        return result;
+    }
+
+    public bool SerializeToURL(NSURL url, out NSError? error)
+    {
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.SerializeToURL, url.NativePtr, out nint errorPtr);
+        error = errorPtr is not 0 ? new(errorPtr) : null;
+        return result;
     }
 }
 
-file class MTLBinaryArchiveSelector
+file static class MTLBinaryArchiveSelector
 {
+    public static readonly Selector AddComputePipelineFunctions = Selector.Register("addComputePipelineFunctions:::");
+
+    public static readonly Selector AddFunction = Selector.Register("addFunction::::");
+
+    public static readonly Selector AddLibrary = Selector.Register("addLibrary:::");
+
+    public static readonly Selector AddMeshRenderPipelineFunctions = Selector.Register("addMeshRenderPipelineFunctions:::");
+
+    public static readonly Selector AddRenderPipelineFunctions = Selector.Register("addRenderPipelineFunctions:::");
+
+    public static readonly Selector AddTileRenderPipelineFunctions = Selector.Register("addTileRenderPipelineFunctions:::");
+
     public static readonly Selector Device = Selector.Register("device");
 
     public static readonly Selector Label = Selector.Register("label");
 
+    public static readonly Selector SerializeToURL = Selector.Register("serializeToURL:::");
+
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
-
-    public static readonly Selector AddComputePipelineFunctionsWithDescriptorError = Selector.Register("addComputePipelineFunctionsWithDescriptor:error:");
-
-    public static readonly Selector AddFunctionWithDescriptorLibraryError = Selector.Register("addFunctionWithDescriptor:library:error:");
-
-    public static readonly Selector AddLibraryWithDescriptorError = Selector.Register("addLibraryWithDescriptor:error:");
-
-    public static readonly Selector AddMeshRenderPipelineFunctionsWithDescriptorError = Selector.Register("addMeshRenderPipelineFunctionsWithDescriptor:error:");
-
-    public static readonly Selector AddRenderPipelineFunctionsWithDescriptorError = Selector.Register("addRenderPipelineFunctionsWithDescriptor:error:");
-
-    public static readonly Selector AddTileRenderPipelineFunctionsWithDescriptorError = Selector.Register("addTileRenderPipelineFunctionsWithDescriptor:error:");
-
-    public static readonly Selector SerializeToURLError = Selector.Register("serializeToURL:error:");
 }

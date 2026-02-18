@@ -1,10 +1,10 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTL4AccelerationStructureTriangleGeometryDescriptor(nint nativePtr) : MTL4AccelerationStructureGeometryDescriptor(nativePtr)
+public partial class MTL4AccelerationStructureTriangleGeometryDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4AccelerationStructureTriangleGeometryDescriptor");
 
-    public MTL4AccelerationStructureTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTL4AccelerationStructureTriangleGeometryDescriptor(nint nativePtr) : base(nativePtr)
     {
     }
 
@@ -16,8 +16,8 @@ public class MTL4AccelerationStructureTriangleGeometryDescriptor(nint nativePtr)
 
     public MTLIndexType IndexType
     {
-        get => (MTLIndexType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.IndexType);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.SetIndexType, (ulong)value);
+        get => (MTLIndexType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.IndexType);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.SetIndexType, (nuint)value);
     }
 
     public MTL4BufferRange TransformationMatrixBuffer
@@ -28,8 +28,8 @@ public class MTL4AccelerationStructureTriangleGeometryDescriptor(nint nativePtr)
 
     public MTLMatrixLayout TransformationMatrixLayout
     {
-        get => (MTLMatrixLayout)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.TransformationMatrixLayout);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.SetTransformationMatrixLayout, (ulong)value);
+        get => (MTLMatrixLayout)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.TransformationMatrixLayout);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.SetTransformationMatrixLayout, (nint)value);
     }
 
     public nuint TriangleCount
@@ -46,8 +46,8 @@ public class MTL4AccelerationStructureTriangleGeometryDescriptor(nint nativePtr)
 
     public MTLAttributeFormat VertexFormat
     {
-        get => (MTLAttributeFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.VertexFormat);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.SetVertexFormat, (ulong)value);
+        get => (MTLAttributeFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.VertexFormat);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.SetVertexFormat, (nuint)value);
     }
 
     public nuint VertexStride
@@ -55,49 +55,39 @@ public class MTL4AccelerationStructureTriangleGeometryDescriptor(nint nativePtr)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.VertexStride);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.SetVertexStride, value);
     }
-
-    public static implicit operator nint(MTL4AccelerationStructureTriangleGeometryDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4AccelerationStructureTriangleGeometryDescriptor(nint value)
-    {
-        return new(value);
-    }
 }
 
-file class MTL4AccelerationStructureTriangleGeometryDescriptorSelector
+file static class MTL4AccelerationStructureTriangleGeometryDescriptorSelector
 {
     public static readonly Selector IndexBuffer = Selector.Register("indexBuffer");
 
-    public static readonly Selector SetIndexBuffer = Selector.Register("setIndexBuffer:");
-
     public static readonly Selector IndexType = Selector.Register("indexType");
+
+    public static readonly Selector SetIndexBuffer = Selector.Register("setIndexBuffer:");
 
     public static readonly Selector SetIndexType = Selector.Register("setIndexType:");
 
-    public static readonly Selector TransformationMatrixBuffer = Selector.Register("transformationMatrixBuffer");
-
     public static readonly Selector SetTransformationMatrixBuffer = Selector.Register("setTransformationMatrixBuffer:");
-
-    public static readonly Selector TransformationMatrixLayout = Selector.Register("transformationMatrixLayout");
 
     public static readonly Selector SetTransformationMatrixLayout = Selector.Register("setTransformationMatrixLayout:");
 
-    public static readonly Selector TriangleCount = Selector.Register("triangleCount");
-
     public static readonly Selector SetTriangleCount = Selector.Register("setTriangleCount:");
-
-    public static readonly Selector VertexBuffer = Selector.Register("vertexBuffer");
 
     public static readonly Selector SetVertexBuffer = Selector.Register("setVertexBuffer:");
 
-    public static readonly Selector VertexFormat = Selector.Register("vertexFormat");
-
     public static readonly Selector SetVertexFormat = Selector.Register("setVertexFormat:");
 
-    public static readonly Selector VertexStride = Selector.Register("vertexStride");
-
     public static readonly Selector SetVertexStride = Selector.Register("setVertexStride:");
+
+    public static readonly Selector TransformationMatrixBuffer = Selector.Register("transformationMatrixBuffer");
+
+    public static readonly Selector TransformationMatrixLayout = Selector.Register("transformationMatrixLayout");
+
+    public static readonly Selector TriangleCount = Selector.Register("triangleCount");
+
+    public static readonly Selector VertexBuffer = Selector.Register("vertexBuffer");
+
+    public static readonly Selector VertexFormat = Selector.Register("vertexFormat");
+
+    public static readonly Selector VertexStride = Selector.Register("vertexStride");
 }

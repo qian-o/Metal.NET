@@ -1,15 +1,9 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTL4FXTemporalDenoisedScaler(nint nativePtr) : MTLFXTemporalDenoisedScalerBase(nativePtr)
+public partial class MTL4FXTemporalDenoisedScaler : NativeObject
 {
-    public static implicit operator nint(MTL4FXTemporalDenoisedScaler value)
+    public MTL4FXTemporalDenoisedScaler(nint nativePtr) : base(nativePtr)
     {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4FXTemporalDenoisedScaler(nint value)
-    {
-        return new(value);
     }
 
     public void EncodeToCommandBuffer(MTL4CommandBuffer commandBuffer)
@@ -18,7 +12,7 @@ public class MTL4FXTemporalDenoisedScaler(nint nativePtr) : MTLFXTemporalDenoise
     }
 }
 
-file class MTL4FXTemporalDenoisedScalerSelector
+file static class MTL4FXTemporalDenoisedScalerSelector
 {
     public static readonly Selector EncodeToCommandBuffer = Selector.Register("encodeToCommandBuffer:");
 }

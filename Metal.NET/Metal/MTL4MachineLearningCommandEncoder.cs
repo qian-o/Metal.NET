@@ -1,20 +1,14 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTL4MachineLearningCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativePtr)
+public partial class MTL4MachineLearningCommandEncoder : NativeObject
 {
-    public static implicit operator nint(MTL4MachineLearningCommandEncoder value)
+    public MTL4MachineLearningCommandEncoder(nint nativePtr) : base(nativePtr)
     {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4MachineLearningCommandEncoder(nint value)
-    {
-        return new(value);
     }
 
     public void DispatchNetwork(MTLHeap heap)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderSelector.DispatchNetworkWithIntermediatesHeap, heap.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderSelector.DispatchNetwork, heap.NativePtr);
     }
 
     public void SetArgumentTable(MTL4ArgumentTable argumentTable)
@@ -28,9 +22,9 @@ public class MTL4MachineLearningCommandEncoder(nint nativePtr) : MTL4CommandEnco
     }
 }
 
-file class MTL4MachineLearningCommandEncoderSelector
+file static class MTL4MachineLearningCommandEncoderSelector
 {
-    public static readonly Selector DispatchNetworkWithIntermediatesHeap = Selector.Register("dispatchNetworkWithIntermediatesHeap:");
+    public static readonly Selector DispatchNetwork = Selector.Register("dispatchNetwork:");
 
     public static readonly Selector SetArgumentTable = Selector.Register("setArgumentTable:");
 

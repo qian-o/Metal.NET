@@ -1,17 +1,21 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLAccelerationStructureBoundingBoxGeometryDescriptor(nint nativePtr) : MTLAccelerationStructureGeometryDescriptor(nativePtr)
+public partial class MTLAccelerationStructureBoundingBoxGeometryDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureBoundingBoxGeometryDescriptor");
 
-    public MTLAccelerationStructureBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLAccelerationStructureBoundingBoxGeometryDescriptor(nint nativePtr) : base(nativePtr)
     {
     }
 
-    public MTLBuffer BoundingBoxBuffer
+    public MTLBuffer? BoundingBoxBuffer
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorSelector.BoundingBoxBuffer));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorSelector.SetBoundingBoxBuffer, value.NativePtr);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorSelector.BoundingBoxBuffer);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorSelector.SetBoundingBoxBuffer, value?.NativePtr ?? 0);
     }
 
     public nuint BoundingBoxBufferOffset
@@ -32,41 +36,30 @@ public class MTLAccelerationStructureBoundingBoxGeometryDescriptor(nint nativePt
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorSelector.SetBoundingBoxStride, value);
     }
 
-    public static implicit operator nint(MTLAccelerationStructureBoundingBoxGeometryDescriptor value)
+    public static MTLAccelerationStructureBoundingBoxGeometryDescriptor? Descriptor()
     {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLAccelerationStructureBoundingBoxGeometryDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public static MTLAccelerationStructureBoundingBoxGeometryDescriptor Descriptor()
-    {
-        MTLAccelerationStructureBoundingBoxGeometryDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructureBoundingBoxGeometryDescriptorSelector.Descriptor));
-
-        return result;
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructureBoundingBoxGeometryDescriptorSelector.Descriptor);
+        return ptr is not 0 ? new(ptr) : null;
     }
 }
 
-file class MTLAccelerationStructureBoundingBoxGeometryDescriptorSelector
+file static class MTLAccelerationStructureBoundingBoxGeometryDescriptorSelector
 {
     public static readonly Selector BoundingBoxBuffer = Selector.Register("boundingBoxBuffer");
 
-    public static readonly Selector SetBoundingBoxBuffer = Selector.Register("setBoundingBoxBuffer:");
-
     public static readonly Selector BoundingBoxBufferOffset = Selector.Register("boundingBoxBufferOffset");
-
-    public static readonly Selector SetBoundingBoxBufferOffset = Selector.Register("setBoundingBoxBufferOffset:");
 
     public static readonly Selector BoundingBoxCount = Selector.Register("boundingBoxCount");
 
-    public static readonly Selector SetBoundingBoxCount = Selector.Register("setBoundingBoxCount:");
-
     public static readonly Selector BoundingBoxStride = Selector.Register("boundingBoxStride");
 
-    public static readonly Selector SetBoundingBoxStride = Selector.Register("setBoundingBoxStride:");
-
     public static readonly Selector Descriptor = Selector.Register("descriptor");
+
+    public static readonly Selector SetBoundingBoxBuffer = Selector.Register("setBoundingBoxBuffer:");
+
+    public static readonly Selector SetBoundingBoxBufferOffset = Selector.Register("setBoundingBoxBufferOffset:");
+
+    public static readonly Selector SetBoundingBoxCount = Selector.Register("setBoundingBoxCount:");
+
+    public static readonly Selector SetBoundingBoxStride = Selector.Register("setBoundingBoxStride:");
 }

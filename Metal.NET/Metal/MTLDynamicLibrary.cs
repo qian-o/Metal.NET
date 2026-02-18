@@ -1,74 +1,48 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLDynamicLibrary : IDisposable
+public partial class MTLDynamicLibrary : NativeObject
 {
-    public MTLDynamicLibrary(nint nativePtr)
+    public MTLDynamicLibrary(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public MTLDevice? Device
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibrarySelector.Device);
+            return ptr is not 0 ? new(ptr) : null;
         }
     }
 
-    ~MTLDynamicLibrary()
+    public NSString? InstallName
     {
-        Release();
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibrarySelector.InstallName);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
-    public nint NativePtr { get; }
-
-    public MTLDevice Device
+    public NSString? Label
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibrarySelector.Device));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibrarySelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDynamicLibrarySelector.SetLabel, value?.NativePtr ?? 0);
     }
 
-    public NSString InstallName
+    public bool SerializeToURL(NSURL url, out NSError? error)
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibrarySelector.InstallName));
-    }
-
-    public NSString Label
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibrarySelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDynamicLibrarySelector.SetLabel, value.NativePtr);
-    }
-
-    public static implicit operator nint(MTLDynamicLibrary value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLDynamicLibrary(nint value)
-    {
-        return new(value);
-    }
-
-    public Bool8 SerializeToURL(NSURL url, out NSError? error)
-    {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDynamicLibrarySelector.SerializeToURLError, url.NativePtr, out nint errorPtr);
-
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDynamicLibrarySelector.SerializeToURL, url.NativePtr, out nint errorPtr);
         error = errorPtr is not 0 ? new(errorPtr) : null;
-
         return result;
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 
-file class MTLDynamicLibrarySelector
+file static class MTLDynamicLibrarySelector
 {
     public static readonly Selector Device = Selector.Register("device");
 
@@ -76,7 +50,7 @@ file class MTLDynamicLibrarySelector
 
     public static readonly Selector Label = Selector.Register("label");
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SerializeToURL = Selector.Register("serializeToURL:::");
 
-    public static readonly Selector SerializeToURLError = Selector.Register("serializeToURL:error:");
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

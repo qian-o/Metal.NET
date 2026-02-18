@@ -1,83 +1,55 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTL4LibraryDescriptor : IDisposable
+public partial class MTL4LibraryDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4LibraryDescriptor");
 
-    public MTL4LibraryDescriptor(nint nativePtr)
+    public MTL4LibraryDescriptor(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public NSString? Name
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryDescriptorSelector.Name);
+            return ptr is not 0 ? new(ptr) : null;
         }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorSelector.SetName, value?.NativePtr ?? 0);
     }
 
-    public MTL4LibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLCompileOptions? Options
     {
-    }
-
-    ~MTL4LibraryDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public NSString Name
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryDescriptorSelector.Name));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorSelector.SetName, value.NativePtr);
-    }
-
-    public MTLCompileOptions Options
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryDescriptorSelector.Options));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorSelector.SetOptions, value.NativePtr);
-    }
-
-    public NSString Source
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryDescriptorSelector.Source));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorSelector.SetSource, value.NativePtr);
-    }
-
-    public static implicit operator nint(MTL4LibraryDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4LibraryDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
+        get
         {
-            ObjectiveCRuntime.Release(NativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryDescriptorSelector.Options);
+            return ptr is not 0 ? new(ptr) : null;
         }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorSelector.SetOptions, value?.NativePtr ?? 0);
+    }
+
+    public NSString? Source
+    {
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryDescriptorSelector.Source);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorSelector.SetSource, value?.NativePtr ?? 0);
     }
 }
 
-file class MTL4LibraryDescriptorSelector
+file static class MTL4LibraryDescriptorSelector
 {
     public static readonly Selector Name = Selector.Register("name");
 
-    public static readonly Selector SetName = Selector.Register("setName:");
-
     public static readonly Selector Options = Selector.Register("options");
+
+    public static readonly Selector SetName = Selector.Register("setName:");
 
     public static readonly Selector SetOptions = Selector.Register("setOptions:");
 
-    public static readonly Selector Source = Selector.Register("source");
-
     public static readonly Selector SetSource = Selector.Register("setSource:");
+
+    public static readonly Selector Source = Selector.Register("source");
 }

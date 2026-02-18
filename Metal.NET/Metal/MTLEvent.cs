@@ -1,60 +1,32 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLEvent : IDisposable
+public partial class MTLEvent : NativeObject
 {
-    public MTLEvent(nint nativePtr)
+    public MTLEvent(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public MTLDevice? Device
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLEventSelector.Device);
+            return ptr is not 0 ? new(ptr) : null;
         }
     }
 
-    ~MTLEvent()
+    public NSString? Label
     {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public MTLDevice Device
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLEventSelector.Device));
-    }
-
-    public NSString Label
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLEventSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLEventSelector.SetLabel, value.NativePtr);
-    }
-
-    public static implicit operator nint(MTLEvent value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLEvent(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
+        get
         {
-            ObjectiveCRuntime.Release(NativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLEventSelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
         }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLEventSelector.SetLabel, value?.NativePtr ?? 0);
     }
 }
 
-file class MTLEventSelector
+file static class MTLEventSelector
 {
     public static readonly Selector Device = Selector.Register("device");
 

@@ -1,32 +1,21 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLMotionKeyframeData : IDisposable
+public partial class MTLMotionKeyframeData : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLMotionKeyframeData");
 
-    public MTLMotionKeyframeData(nint nativePtr)
+    public MTLMotionKeyframeData(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public MTLBuffer? Buffer
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMotionKeyframeDataSelector.Buffer);
+            return ptr is not 0 ? new(ptr) : null;
         }
-    }
-
-    public MTLMotionKeyframeData() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTLMotionKeyframeData()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public MTLBuffer Buffer
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMotionKeyframeDataSelector.Buffer));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataSelector.SetBuffer, value.NativePtr);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataSelector.SetBuffer, value?.NativePtr ?? 0);
     }
 
     public nuint Offset
@@ -35,48 +24,22 @@ public class MTLMotionKeyframeData : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataSelector.SetOffset, value);
     }
 
-    public static implicit operator nint(MTLMotionKeyframeData value)
+    public static MTLMotionKeyframeData? Data()
     {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLMotionKeyframeData(nint value)
-    {
-        return new(value);
-    }
-
-    public static MTLMotionKeyframeData Data()
-    {
-        MTLMotionKeyframeData result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLMotionKeyframeDataSelector.Data));
-
-        return result;
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLMotionKeyframeDataSelector.Data);
+        return ptr is not 0 ? new(ptr) : null;
     }
 }
 
-file class MTLMotionKeyframeDataSelector
+file static class MTLMotionKeyframeDataSelector
 {
     public static readonly Selector Buffer = Selector.Register("buffer");
 
-    public static readonly Selector SetBuffer = Selector.Register("setBuffer:");
+    public static readonly Selector Data = Selector.Register("data");
 
     public static readonly Selector Offset = Selector.Register("offset");
 
-    public static readonly Selector SetOffset = Selector.Register("setOffset:");
+    public static readonly Selector SetBuffer = Selector.Register("setBuffer:");
 
-    public static readonly Selector Data = Selector.Register("data");
+    public static readonly Selector SetOffset = Selector.Register("setOffset:");
 }

@@ -1,46 +1,29 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLVertexDescriptor : IDisposable
+public partial class MTLVertexDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexDescriptor");
 
-    public MTLVertexDescriptor(nint nativePtr)
+    public MTLVertexDescriptor(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public MTLVertexAttributeDescriptorArray? Attributes
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorSelector.Attributes);
+            return ptr is not 0 ? new(ptr) : null;
         }
     }
 
-    public MTLVertexDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLVertexBufferLayoutDescriptorArray? Layouts
     {
-    }
-
-    ~MTLVertexDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public MTLVertexAttributeDescriptorArray Attributes
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorSelector.Attributes));
-    }
-
-    public MTLVertexBufferLayoutDescriptorArray Layouts
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorSelector.Layouts));
-    }
-
-    public static implicit operator nint(MTLVertexDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLVertexDescriptor(nint value)
-    {
-        return new(value);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorSelector.Layouts);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public void Reset()
@@ -48,30 +31,14 @@ public class MTLVertexDescriptor : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexDescriptorSelector.Reset);
     }
 
-    public static MTLVertexDescriptor VertexDescriptor()
+    public static MTLVertexDescriptor? VertexDescriptor()
     {
-        MTLVertexDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLVertexDescriptorSelector.VertexDescriptor));
-
-        return result;
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLVertexDescriptorSelector.VertexDescriptor);
+        return ptr is not 0 ? new(ptr) : null;
     }
 }
 
-file class MTLVertexDescriptorSelector
+file static class MTLVertexDescriptorSelector
 {
     public static readonly Selector Attributes = Selector.Register("attributes");
 

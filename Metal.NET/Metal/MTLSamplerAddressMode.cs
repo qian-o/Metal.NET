@@ -1,16 +1,11 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLSamplerAddressMode : ulong
 {
-    SamplerAddressModeClampToEdge = 0,
-
-    SamplerAddressModeMirrorClampToEdge = 1,
-
-    SamplerAddressModeRepeat = 2,
-
-    SamplerAddressModeMirrorRepeat = 3,
-
-    SamplerAddressModeClampToZero = 4,
-
-    SamplerAddressModeClampToBorderColor = 5
+    MTLSamplerAddressModeClampToEdge = 0,
+    MTLSamplerAddressModeMirrorClampToEdge = 1,
+    MTLSamplerAddressModeRepeat = 2,
+    MTLSamplerAddressModeMirrorRepeat = 3,
+    MTLSamplerAddressModeClampToZero = 4,
+    MTLSamplerAddressModeClampToBorderColor = 5
 }

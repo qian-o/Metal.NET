@@ -1,32 +1,21 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTL4PipelineStageDynamicLinkingDescriptor : IDisposable
+public partial class MTL4PipelineStageDynamicLinkingDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PipelineStageDynamicLinkingDescriptor");
 
-    public MTL4PipelineStageDynamicLinkingDescriptor(nint nativePtr)
+    public MTL4PipelineStageDynamicLinkingDescriptor(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public NSArray? BinaryLinkedFunctions
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.BinaryLinkedFunctions);
+            return ptr is not 0 ? new(ptr) : null;
         }
-    }
-
-    public MTL4PipelineStageDynamicLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTL4PipelineStageDynamicLinkingDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public NSArray BinaryLinkedFunctions
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.BinaryLinkedFunctions));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.SetBinaryLinkedFunctions, value.NativePtr);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.SetBinaryLinkedFunctions, value?.NativePtr ?? 0);
     }
 
     public nuint MaxCallStackDepth
@@ -35,49 +24,28 @@ public class MTL4PipelineStageDynamicLinkingDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.SetMaxCallStackDepth, value);
     }
 
-    public NSArray PreloadedLibraries
+    public NSArray? PreloadedLibraries
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.PreloadedLibraries));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.SetPreloadedLibraries, value.NativePtr);
-    }
-
-    public static implicit operator nint(MTL4PipelineStageDynamicLinkingDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4PipelineStageDynamicLinkingDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
+        get
         {
-            ObjectiveCRuntime.Release(NativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.PreloadedLibraries);
+            return ptr is not 0 ? new(ptr) : null;
         }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorSelector.SetPreloadedLibraries, value?.NativePtr ?? 0);
     }
 }
 
-file class MTL4PipelineStageDynamicLinkingDescriptorSelector
+file static class MTL4PipelineStageDynamicLinkingDescriptorSelector
 {
     public static readonly Selector BinaryLinkedFunctions = Selector.Register("binaryLinkedFunctions");
 
-    public static readonly Selector SetBinaryLinkedFunctions = Selector.Register("setBinaryLinkedFunctions:");
-
     public static readonly Selector MaxCallStackDepth = Selector.Register("maxCallStackDepth");
 
-    public static readonly Selector SetMaxCallStackDepth = Selector.Register("setMaxCallStackDepth:");
-
     public static readonly Selector PreloadedLibraries = Selector.Register("preloadedLibraries");
+
+    public static readonly Selector SetBinaryLinkedFunctions = Selector.Register("setBinaryLinkedFunctions:");
+
+    public static readonly Selector SetMaxCallStackDepth = Selector.Register("setMaxCallStackDepth:");
 
     public static readonly Selector SetPreloadedLibraries = Selector.Register("setPreloadedLibraries:");
 }

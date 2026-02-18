@@ -1,17 +1,21 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTL4ComputePipelineDescriptor(nint nativePtr) : MTL4PipelineDescriptor(nativePtr)
+public partial class MTL4ComputePipelineDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4ComputePipelineDescriptor");
 
-    public MTL4ComputePipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTL4ComputePipelineDescriptor(nint nativePtr) : base(nativePtr)
     {
     }
 
-    public MTL4FunctionDescriptor ComputeFunctionDescriptor
+    public MTL4FunctionDescriptor? ComputeFunctionDescriptor
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ComputePipelineDescriptorSelector.ComputeFunctionDescriptor));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetComputeFunctionDescriptor, value.NativePtr);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ComputePipelineDescriptorSelector.ComputeFunctionDescriptor);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetComputeFunctionDescriptor, value?.NativePtr ?? 0);
     }
 
     public nuint MaxTotalThreadsPerThreadgroup
@@ -26,38 +30,32 @@ public class MTL4ComputePipelineDescriptor(nint nativePtr) : MTL4PipelineDescrip
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetRequiredThreadsPerThreadgroup, value);
     }
 
-    public MTL4StaticLinkingDescriptor StaticLinkingDescriptor
+    public MTL4StaticLinkingDescriptor? StaticLinkingDescriptor
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ComputePipelineDescriptorSelector.StaticLinkingDescriptor));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetStaticLinkingDescriptor, value.NativePtr);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ComputePipelineDescriptorSelector.StaticLinkingDescriptor);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetStaticLinkingDescriptor, value?.NativePtr ?? 0);
     }
 
-    public Bool8 SupportBinaryLinking
+    public bool SupportBinaryLinking
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4ComputePipelineDescriptorSelector.SupportBinaryLinking);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetSupportBinaryLinking, value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetSupportBinaryLinking, (Bool8)value);
     }
 
     public MTL4IndirectCommandBufferSupportState SupportIndirectCommandBuffers
     {
-        get => (MTL4IndirectCommandBufferSupportState)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4ComputePipelineDescriptorSelector.SupportIndirectCommandBuffers);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetSupportIndirectCommandBuffers, (ulong)value);
+        get => (MTL4IndirectCommandBufferSupportState)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ComputePipelineDescriptorSelector.SupportIndirectCommandBuffers);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetSupportIndirectCommandBuffers, (nint)value);
     }
 
-    public Bool8 ThreadGroupSizeIsMultipleOfThreadExecutionWidth
+    public bool ThreadGroupSizeIsMultipleOfThreadExecutionWidth
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4ComputePipelineDescriptorSelector.ThreadGroupSizeIsMultipleOfThreadExecutionWidth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetThreadGroupSizeIsMultipleOfThreadExecutionWidth, value);
-    }
-
-    public static implicit operator nint(MTL4ComputePipelineDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4ComputePipelineDescriptor(nint value)
-    {
-        return new(value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetThreadGroupSizeIsMultipleOfThreadExecutionWidth, (Bool8)value);
     }
 
     public void Reset()
@@ -66,35 +64,35 @@ public class MTL4ComputePipelineDescriptor(nint nativePtr) : MTL4PipelineDescrip
     }
 }
 
-file class MTL4ComputePipelineDescriptorSelector
+file static class MTL4ComputePipelineDescriptorSelector
 {
     public static readonly Selector ComputeFunctionDescriptor = Selector.Register("computeFunctionDescriptor");
 
-    public static readonly Selector SetComputeFunctionDescriptor = Selector.Register("setComputeFunctionDescriptor:");
-
     public static readonly Selector MaxTotalThreadsPerThreadgroup = Selector.Register("maxTotalThreadsPerThreadgroup");
-
-    public static readonly Selector SetMaxTotalThreadsPerThreadgroup = Selector.Register("setMaxTotalThreadsPerThreadgroup:");
 
     public static readonly Selector RequiredThreadsPerThreadgroup = Selector.Register("requiredThreadsPerThreadgroup");
 
-    public static readonly Selector SetRequiredThreadsPerThreadgroup = Selector.Register("setRequiredThreadsPerThreadgroup:");
+    public static readonly Selector Reset = Selector.Register("reset");
 
-    public static readonly Selector StaticLinkingDescriptor = Selector.Register("staticLinkingDescriptor");
+    public static readonly Selector SetComputeFunctionDescriptor = Selector.Register("setComputeFunctionDescriptor:");
+
+    public static readonly Selector SetMaxTotalThreadsPerThreadgroup = Selector.Register("setMaxTotalThreadsPerThreadgroup:");
+
+    public static readonly Selector SetRequiredThreadsPerThreadgroup = Selector.Register("setRequiredThreadsPerThreadgroup:");
 
     public static readonly Selector SetStaticLinkingDescriptor = Selector.Register("setStaticLinkingDescriptor:");
 
-    public static readonly Selector SupportBinaryLinking = Selector.Register("supportBinaryLinking");
-
     public static readonly Selector SetSupportBinaryLinking = Selector.Register("setSupportBinaryLinking:");
-
-    public static readonly Selector SupportIndirectCommandBuffers = Selector.Register("supportIndirectCommandBuffers");
 
     public static readonly Selector SetSupportIndirectCommandBuffers = Selector.Register("setSupportIndirectCommandBuffers:");
 
-    public static readonly Selector ThreadGroupSizeIsMultipleOfThreadExecutionWidth = Selector.Register("threadGroupSizeIsMultipleOfThreadExecutionWidth");
-
     public static readonly Selector SetThreadGroupSizeIsMultipleOfThreadExecutionWidth = Selector.Register("setThreadGroupSizeIsMultipleOfThreadExecutionWidth:");
 
-    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector StaticLinkingDescriptor = Selector.Register("staticLinkingDescriptor");
+
+    public static readonly Selector SupportBinaryLinking = Selector.Register("supportBinaryLinking");
+
+    public static readonly Selector SupportIndirectCommandBuffers = Selector.Register("supportIndirectCommandBuffers");
+
+    public static readonly Selector ThreadGroupSizeIsMultipleOfThreadExecutionWidth = Selector.Register("threadGroupSizeIsMultipleOfThreadExecutionWidth");
 }

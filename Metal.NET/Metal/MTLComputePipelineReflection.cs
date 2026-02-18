@@ -1,65 +1,33 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLComputePipelineReflection : IDisposable
+public partial class MTLComputePipelineReflection : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePipelineReflection");
 
-    public MTLComputePipelineReflection(nint nativePtr)
+    public MTLComputePipelineReflection(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public NSArray? Arguments
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineReflectionSelector.Arguments);
+            return ptr is not 0 ? new(ptr) : null;
         }
     }
 
-    public MTLComputePipelineReflection() : this(ObjectiveCRuntime.AllocInit(Class))
+    public NSArray? Bindings
     {
-    }
-
-    ~MTLComputePipelineReflection()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public NSArray Arguments
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineReflectionSelector.Arguments));
-    }
-
-    public NSArray Bindings
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineReflectionSelector.Bindings));
-    }
-
-    public static implicit operator nint(MTLComputePipelineReflection value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLComputePipelineReflection(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
+        get
         {
-            ObjectiveCRuntime.Release(NativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineReflectionSelector.Bindings);
+            return ptr is not 0 ? new(ptr) : null;
         }
     }
 }
 
-file class MTLComputePipelineReflectionSelector
+file static class MTLComputePipelineReflectionSelector
 {
     public static readonly Selector Arguments = Selector.Register("arguments");
 

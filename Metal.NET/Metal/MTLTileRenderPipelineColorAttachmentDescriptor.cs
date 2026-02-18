@@ -1,61 +1,21 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLTileRenderPipelineColorAttachmentDescriptor : IDisposable
+public partial class MTLTileRenderPipelineColorAttachmentDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTileRenderPipelineColorAttachmentDescriptor");
 
-    public MTLTileRenderPipelineColorAttachmentDescriptor(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLTileRenderPipelineColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLTileRenderPipelineColorAttachmentDescriptor(nint nativePtr) : base(nativePtr)
     {
     }
-
-    ~MTLTileRenderPipelineColorAttachmentDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public MTLPixelFormat PixelFormat
     {
-        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorSelector.PixelFormat);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorSelector.SetPixelFormat, (ulong)value);
-    }
-
-    public static implicit operator nint(MTLTileRenderPipelineColorAttachmentDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLTileRenderPipelineColorAttachmentDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorSelector.PixelFormat);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorSelector.SetPixelFormat, (nuint)value);
     }
 }
 
-file class MTLTileRenderPipelineColorAttachmentDescriptorSelector
+file static class MTLTileRenderPipelineColorAttachmentDescriptorSelector
 {
     public static readonly Selector PixelFormat = Selector.Register("pixelFormat");
 

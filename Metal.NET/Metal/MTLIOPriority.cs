@@ -1,10 +1,8 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLIOPriority : long
 {
-    IOPriorityHigh = 0,
-
-    IOPriorityNormal = 1,
-
-    IOPriorityLow = 2
+    MTLIOPriorityHigh = 0,
+    MTLIOPriorityNormal = 1,
+    MTLIOPriorityLow = 2
 }

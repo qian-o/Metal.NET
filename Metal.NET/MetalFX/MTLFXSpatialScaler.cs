@@ -1,24 +1,18 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLFXSpatialScaler(nint nativePtr) : MTLFXSpatialScalerBase(nativePtr)
+public partial class MTLFXSpatialScaler : NativeObject
 {
-    public static implicit operator nint(MTLFXSpatialScaler value)
+    public MTLFXSpatialScaler(nint nativePtr) : base(nativePtr)
     {
-        return value.NativePtr;
     }
 
-    public static implicit operator MTLFXSpatialScaler(nint value)
+    public void EncodeToCommandBuffer(MTLCommandBuffer pCommandBuffer)
     {
-        return new(value);
-    }
-
-    public void EncodeToCommandBuffer(MTLCommandBuffer commandBuffer)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerSelector.EncodeToCommandBuffer, commandBuffer.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerSelector.EncodeToCommandBuffer, pCommandBuffer.NativePtr);
     }
 }
 
-file class MTLFXSpatialScalerSelector
+file static class MTLFXSpatialScalerSelector
 {
     public static readonly Selector EncodeToCommandBuffer = Selector.Register("encodeToCommandBuffer:");
 }

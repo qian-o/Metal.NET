@@ -1,30 +1,27 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLRasterizationRateMap : IDisposable
+public partial class MTLRasterizationRateMap : NativeObject
 {
-    public MTLRasterizationRateMap(nint nativePtr)
+    public MTLRasterizationRateMap(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public MTLDevice? Device
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapSelector.Device);
+            return ptr is not 0 ? new(ptr) : null;
         }
     }
 
-    ~MTLRasterizationRateMap()
+    public NSString? Label
     {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public MTLDevice Device
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapSelector.Device));
-    }
-
-    public NSString Label
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapSelector.Label));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapSelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public nuint LayerCount
@@ -47,77 +44,46 @@ public class MTLRasterizationRateMap : IDisposable
         get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapSelector.ScreenSize);
     }
 
-    public static implicit operator nint(MTLRasterizationRateMap value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLRasterizationRateMap(nint value)
-    {
-        return new(value);
-    }
-
     public void CopyParameterDataToBuffer(MTLBuffer buffer, nuint offset)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapSelector.CopyParameterDataToBufferOffset, buffer.NativePtr, offset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapSelector.CopyParameterDataToBuffer, buffer.NativePtr, offset);
     }
 
     public MTLSamplePosition MapPhysicalToScreenCoordinates(MTLSamplePosition physicalCoordinates, nuint layerIndex)
     {
-        MTLSamplePosition result = ObjectiveCRuntime.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapSelector.MapPhysicalToScreenCoordinatesForLayer, physicalCoordinates, layerIndex);
-
-        return result;
+        return ObjectiveCRuntime.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapSelector.MapPhysicalToScreenCoordinates, physicalCoordinates, layerIndex);
     }
 
     public MTLSamplePosition MapScreenToPhysicalCoordinates(MTLSamplePosition screenCoordinates, nuint layerIndex)
     {
-        MTLSamplePosition result = ObjectiveCRuntime.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapSelector.MapScreenToPhysicalCoordinatesForLayer, screenCoordinates, layerIndex);
-
-        return result;
+        return ObjectiveCRuntime.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapSelector.MapScreenToPhysicalCoordinates, screenCoordinates, layerIndex);
     }
 
     public MTLSize PhysicalSize(nuint layerIndex)
     {
-        MTLSize result = ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapSelector.PhysicalSizeForLayer, layerIndex);
-
-        return result;
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        return ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapSelector.PhysicalSize, layerIndex);
     }
 }
 
-file class MTLRasterizationRateMapSelector
+file static class MTLRasterizationRateMapSelector
 {
+    public static readonly Selector CopyParameterDataToBuffer = Selector.Register("copyParameterDataToBuffer::");
+
     public static readonly Selector Device = Selector.Register("device");
 
     public static readonly Selector Label = Selector.Register("label");
 
     public static readonly Selector LayerCount = Selector.Register("layerCount");
 
+    public static readonly Selector MapPhysicalToScreenCoordinates = Selector.Register("mapPhysicalToScreenCoordinates::");
+
+    public static readonly Selector MapScreenToPhysicalCoordinates = Selector.Register("mapScreenToPhysicalCoordinates::");
+
     public static readonly Selector ParameterBufferSizeAndAlign = Selector.Register("parameterBufferSizeAndAlign");
 
     public static readonly Selector PhysicalGranularity = Selector.Register("physicalGranularity");
 
+    public static readonly Selector PhysicalSize = Selector.Register("physicalSize:");
+
     public static readonly Selector ScreenSize = Selector.Register("screenSize");
-
-    public static readonly Selector CopyParameterDataToBufferOffset = Selector.Register("copyParameterDataToBuffer:offset:");
-
-    public static readonly Selector MapPhysicalToScreenCoordinatesForLayer = Selector.Register("mapPhysicalToScreenCoordinates:forLayer:");
-
-    public static readonly Selector MapScreenToPhysicalCoordinatesForLayer = Selector.Register("mapScreenToPhysicalCoordinates:forLayer:");
-
-    public static readonly Selector PhysicalSizeForLayer = Selector.Register("physicalSizeForLayer:");
 }

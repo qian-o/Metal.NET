@@ -1,61 +1,25 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTL4CommandAllocatorDescriptor : IDisposable
+public partial class MTL4CommandAllocatorDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CommandAllocatorDescriptor");
 
-    public MTL4CommandAllocatorDescriptor(nint nativePtr)
+    public MTL4CommandAllocatorDescriptor(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public NSString? Label
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorDescriptorSelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
         }
-    }
-
-    public MTL4CommandAllocatorDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTL4CommandAllocatorDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public NSString Label
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorDescriptorSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandAllocatorDescriptorSelector.SetLabel, value.NativePtr);
-    }
-
-    public static implicit operator nint(MTL4CommandAllocatorDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4CommandAllocatorDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandAllocatorDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
     }
 }
 
-file class MTL4CommandAllocatorDescriptorSelector
+file static class MTL4CommandAllocatorDescriptorSelector
 {
     public static readonly Selector Label = Selector.Register("label");
 

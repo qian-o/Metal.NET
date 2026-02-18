@@ -1,7 +1,11 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLThreadgroupBinding(nint nativePtr) : MTLBinding(nativePtr)
+public partial class MTLThreadgroupBinding : NativeObject
 {
+    public MTLThreadgroupBinding(nint nativePtr) : base(nativePtr)
+    {
+    }
+
     public nuint ThreadgroupMemoryAlignment
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLThreadgroupBindingSelector.ThreadgroupMemoryAlignment);
@@ -11,19 +15,9 @@ public class MTLThreadgroupBinding(nint nativePtr) : MTLBinding(nativePtr)
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLThreadgroupBindingSelector.ThreadgroupMemoryDataSize);
     }
-
-    public static implicit operator nint(MTLThreadgroupBinding value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLThreadgroupBinding(nint value)
-    {
-        return new(value);
-    }
 }
 
-file class MTLThreadgroupBindingSelector
+file static class MTLThreadgroupBindingSelector
 {
     public static readonly Selector ThreadgroupMemoryAlignment = Selector.Register("threadgroupMemoryAlignment");
 

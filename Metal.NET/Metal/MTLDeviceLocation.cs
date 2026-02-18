@@ -1,12 +1,9 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLDeviceLocation : ulong
 {
-    DeviceLocationBuiltIn = 0,
-
-    DeviceLocationSlot = 1,
-
-    DeviceLocationExternal = 2,
-
-    DeviceLocationUnspecified = 18446744073709551615
+    MTLDeviceLocationBuiltIn = 0,
+    MTLDeviceLocationSlot = 1,
+    MTLDeviceLocationExternal = 2,
+    MTLDeviceLocationUnspecified = 18446744073709551615
 }

@@ -1,61 +1,21 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLPipelineBufferDescriptor : IDisposable
+public partial class MTLPipelineBufferDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPipelineBufferDescriptor");
 
-    public MTLPipelineBufferDescriptor(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLPipelineBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLPipelineBufferDescriptor(nint nativePtr) : base(nativePtr)
     {
     }
-
-    ~MTLPipelineBufferDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public MTLMutability Mutability
     {
-        get => (MTLMutability)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLPipelineBufferDescriptorSelector.Mutability);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorSelector.SetMutability, (ulong)value);
-    }
-
-    public static implicit operator nint(MTLPipelineBufferDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLPipelineBufferDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        get => (MTLMutability)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPipelineBufferDescriptorSelector.Mutability);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorSelector.SetMutability, (nuint)value);
     }
 }
 
-file class MTLPipelineBufferDescriptorSelector
+file static class MTLPipelineBufferDescriptorSelector
 {
     public static readonly Selector Mutability = Selector.Register("mutability");
 

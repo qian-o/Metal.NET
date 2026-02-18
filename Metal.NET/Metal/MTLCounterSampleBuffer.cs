@@ -1,30 +1,27 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLCounterSampleBuffer : IDisposable
+public partial class MTLCounterSampleBuffer : NativeObject
 {
-    public MTLCounterSampleBuffer(nint nativePtr)
+    public MTLCounterSampleBuffer(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public MTLDevice? Device
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferSelector.Device);
+            return ptr is not 0 ? new(ptr) : null;
         }
     }
 
-    ~MTLCounterSampleBuffer()
+    public NSString? Label
     {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public MTLDevice Device
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferSelector.Device));
-    }
-
-    public NSString Label
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferSelector.Label));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferSelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public nuint SampleCount
@@ -32,46 +29,19 @@ public class MTLCounterSampleBuffer : IDisposable
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCounterSampleBufferSelector.SampleCount);
     }
 
-    public static implicit operator nint(MTLCounterSampleBuffer value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLCounterSampleBuffer(nint value)
-    {
-        return new(value);
-    }
-
     public nint ResolveCounterRange(NSRange range)
     {
-        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferSelector.ResolveCounterRange, range);
-
-        return result;
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        return ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferSelector.ResolveCounterRange, range);
     }
 }
 
-file class MTLCounterSampleBufferSelector
+file static class MTLCounterSampleBufferSelector
 {
     public static readonly Selector Device = Selector.Register("device");
 
     public static readonly Selector Label = Selector.Register("label");
 
-    public static readonly Selector SampleCount = Selector.Register("sampleCount");
-
     public static readonly Selector ResolveCounterRange = Selector.Register("resolveCounterRange:");
+
+    public static readonly Selector SampleCount = Selector.Register("sampleCount");
 }

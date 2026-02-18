@@ -1,55 +1,23 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLIOFileHandle : IDisposable
+public partial class MTLIOFileHandle : NativeObject
 {
-    public MTLIOFileHandle(nint nativePtr)
+    public MTLIOFileHandle(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public NSString? Label
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOFileHandleSelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
         }
-    }
-
-    ~MTLIOFileHandle()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public NSString Label
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOFileHandleSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOFileHandleSelector.SetLabel, value.NativePtr);
-    }
-
-    public static implicit operator nint(MTLIOFileHandle value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLIOFileHandle(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOFileHandleSelector.SetLabel, value?.NativePtr ?? 0);
     }
 }
 
-file class MTLIOFileHandleSelector
+file static class MTLIOFileHandleSelector
 {
     public static readonly Selector Label = Selector.Register("label");
 

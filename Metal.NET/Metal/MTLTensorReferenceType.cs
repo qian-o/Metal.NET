@@ -1,45 +1,39 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLTensorReferenceType(nint nativePtr) : MTLType(nativePtr)
+public partial class MTLTensorReferenceType : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorReferenceType");
 
-    public MTLTensorReferenceType() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLTensorReferenceType(nint nativePtr) : base(nativePtr)
     {
     }
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorReferenceTypeSelector.Access);
+        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorReferenceTypeSelector.Access);
     }
 
-    public MTLTensorExtents Dimensions
+    public MTLTensorExtents? Dimensions
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorReferenceTypeSelector.Dimensions));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorReferenceTypeSelector.Dimensions);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public MTLDataType IndexType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorReferenceTypeSelector.IndexType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorReferenceTypeSelector.IndexType);
     }
 
     public MTLTensorDataType TensorDataType
     {
-        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorReferenceTypeSelector.TensorDataType);
-    }
-
-    public static implicit operator nint(MTLTensorReferenceType value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLTensorReferenceType(nint value)
-    {
-        return new(value);
+        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorReferenceTypeSelector.TensorDataType);
     }
 }
 
-file class MTLTensorReferenceTypeSelector
+file static class MTLTensorReferenceTypeSelector
 {
     public static readonly Selector Access = Selector.Register("access");
 

@@ -7,6 +7,7 @@ public class MetalBindingsGenerator
     private readonly string outputDir;
     private readonly Dictionary<string, string> knownEnums = [];
     private readonly HashSet<string> msgSendSignatures = [];
+    private readonly HashSet<string> allClassNames = [];
 
     public MetalBindingsGenerator(string outputDir)
     {
@@ -22,7 +23,41 @@ public class MetalBindingsGenerator
         // Build set of all defined class names
         HashSet<string> definedClasses = [];
         foreach (ObjCClassDef c in parsed.Classes)
+        {
             definedClasses.Add(c.Name);
+            allClassNames.Add(c.Name);
+        }
+
+        // Pre-scan all referenced types to populate allClassNames with types that will become stubs
+        HashSet<string> handWritten = ["NSString", "NSError", "NSArray", "NativeObject", "NSURL"];
+        HashSet<string> primitives = ["void", "bool", "byte", "sbyte", "short", "ushort", "int", "uint", "long", "ulong", "nint", "nuint", "float", "double"];
+        foreach (ObjCClassDef c in parsed.Classes)
+        {
+            foreach (MethodDef m in c.Methods.Concat(c.StaticMethods))
+            {
+                foreach (ParamDef p in m.Parameters)
+                {
+                    if (IsLikelyObjCType(p.Type) && !definedClasses.Contains(p.Type) &&
+                        !handWritten.Contains(p.Type) && !primitives.Contains(p.Type) &&
+                        !knownEnums.ContainsKey(p.Type) && !HeaderParser.IsKnownValueStruct(p.Type))
+                        allClassNames.Add(p.Type);
+                }
+                if (IsLikelyObjCType(m.ReturnType) && !definedClasses.Contains(m.ReturnType) &&
+                    !handWritten.Contains(m.ReturnType) && !primitives.Contains(m.ReturnType) &&
+                    !knownEnums.ContainsKey(m.ReturnType) && !HeaderParser.IsKnownValueStruct(m.ReturnType))
+                    allClassNames.Add(m.ReturnType);
+            }
+            foreach (PropertyDef p in c.Properties)
+            {
+                if (IsLikelyObjCType(p.Type) && !definedClasses.Contains(p.Type) &&
+                    !handWritten.Contains(p.Type) && !primitives.Contains(p.Type) &&
+                    !knownEnums.ContainsKey(p.Type) && !HeaderParser.IsKnownValueStruct(p.Type))
+                    allClassNames.Add(p.Type);
+            }
+        }
+        // Also add hand-written types
+        foreach (string hw in handWritten)
+            allClassNames.Add(hw);
 
         // Generate enums
         foreach (EnumDef e in parsed.Enums)
@@ -109,26 +144,67 @@ public class MetalBindingsGenerator
         }
 
         // Properties
+        HashSet<string> propertyNames = [];
         foreach (PropertyDef p in c.Properties)
         {
+            propertyNames.Add(p.Name);
             sb.AppendLine();
             GenerateProperty(sb, p, selectorClassName);
         }
 
         // Instance methods (skip those used as property getters/setters)
         HashSet<string> propertySelectors = GetPropertySelectors(c);
+        HashSet<string> emittedMethods = [];
         foreach (MethodDef m in c.Methods)
         {
             if (propertySelectors.Contains(m.Selector))
                 continue;
 
+            // If method name conflicts with a property name, disambiguate
+            string methodName = m.Name;
+            string pascalMethodName = ToPascalCase(methodName);
+            if (propertyNames.Contains(pascalMethodName))
+            {
+                if (m.Parameters.Count > 0)
+                {
+                    methodName = pascalMethodName + "With" + Capitalize(m.Parameters[0].Name);
+                }
+                else
+                {
+                    continue; // Skip - already a property
+                }
+            }
+            else
+            {
+                methodName = pascalMethodName;
+            }
+
+            // Deduplicate overloaded methods: use name + param count as key
+            string deduplicationKey = $"{methodName}_{m.Parameters.Count}";
+            if (!emittedMethods.Add(deduplicationKey))
+                continue;
+
+            // Create a copy with the potentially renamed method name
+            var methodToEmit = new MethodDef
+            {
+                Name = methodName,
+                Selector = m.Selector,
+                ReturnType = m.ReturnType,
+                Parameters = m.Parameters,
+                HasErrorOut = m.HasErrorOut,
+            };
+
             sb.AppendLine();
-            GenerateMethod(sb, m, selectorClassName, isStatic: false);
+            GenerateMethod(sb, methodToEmit, selectorClassName, isStatic: false);
         }
 
         // Static methods
         foreach (MethodDef m in c.StaticMethods)
         {
+            string deduplicationKey = $"static_{m.Name}_{m.Parameters.Count}";
+            if (!emittedMethods.Add(deduplicationKey))
+                continue;
+
             sb.AppendLine();
             GenerateMethod(sb, m, selectorClassName, isStatic: true);
         }
@@ -426,29 +502,32 @@ public class MetalBindingsGenerator
 
             foreach (PropertyDef p in c.Properties)
             {
-                if (IsObjCWrapper(p.Type))
+                if (IsLikelyObjCType(p.Type))
                     referencedTypes.Add(p.Type);
             }
 
             foreach (MethodDef m in c.Methods.Concat(c.StaticMethods))
             {
-                if (IsObjCWrapper(m.ReturnType))
+                if (IsLikelyObjCType(m.ReturnType))
                     referencedTypes.Add(m.ReturnType);
 
                 foreach (ParamDef p in m.Parameters)
                 {
-                    if (IsObjCWrapper(p.Type))
+                    if (IsLikelyObjCType(p.Type))
                         referencedTypes.Add(p.Type);
                 }
             }
         }
 
-        // Exclude already defined and hand-written types
+        // Exclude already defined and hand-written types, primitives, known structs, enums
         HashSet<string> handWritten = ["NSString", "NSError", "NSArray", "NativeObject"];
+        HashSet<string> primitives = ["void", "bool", "byte", "sbyte", "short", "ushort", "int", "uint", "long", "ulong", "nint", "nuint", "float", "double"];
 
         foreach (string type in referencedTypes)
         {
-            if (definedClasses.Contains(type) || handWritten.Contains(type))
+            if (definedClasses.Contains(type) || handWritten.Contains(type) || primitives.Contains(type))
+                continue;
+            if (knownEnums.ContainsKey(type) || HeaderParser.IsKnownValueStruct(type))
                 continue;
 
             string folder = GetFolderForType(type);
@@ -467,6 +546,14 @@ public class MetalBindingsGenerator
 
             File.WriteAllText(filePath, sb.ToString());
         }
+    }
+
+    private static bool IsLikelyObjCType(string type)
+    {
+        if (string.IsNullOrEmpty(type))
+            return false;
+        return type.StartsWith("MTL") || type.StartsWith("CA") || type.StartsWith("NS") ||
+               type.StartsWith("MTLFX") || type.StartsWith("MTL4");
     }
 
     private void GenerateObjectiveCRuntime(ParseResult parsed)
@@ -669,9 +756,9 @@ public class MetalBindingsGenerator
             return retUt switch
             {
                 "uint" => "uint",
-                "nuint" => "nuint",
-                "nint" => "nint",
-                _ => "ulong"
+                "long" or "nint" => "nint",
+                "ulong" or "nuint" => "nuint",
+                _ => "nuint"
             };
         }
         if (HeaderParser.IsKnownValueStruct(type)) return type;
@@ -696,9 +783,9 @@ public class MetalBindingsGenerator
             return paramUt switch
             {
                 "uint" => "uint",
-                "nuint" => "nuint",
-                "nint" => "nint",
-                _ => "ulong"
+                "long" or "nint" => "nint",
+                "ulong" or "nuint" => "nuint",
+                _ => "nuint"
             };
         }
         if (HeaderParser.IsKnownValueStruct(type)) return type;
@@ -769,15 +856,21 @@ public class MetalBindingsGenerator
         return underlying switch
         {
             "uint" => "MsgSendUInt",
-            "nuint" => "MsgSendNUInt",
-            "nint" => "MsgSendPtr",
-            _ => "MsgSendULong"
+            "long" or "nint" => "MsgSendPtr",
+            "ulong" or "nuint" => "MsgSendNUInt",
+            _ => "MsgSendNUInt"
         };
     }
 
     private string GetEnumCastType(string enumType)
     {
-        return knownEnums.TryGetValue(enumType, out string? ut) ? ut : "ulong";
+        string underlying = knownEnums.TryGetValue(enumType, out string? ut) ? ut : "ulong";
+        return underlying switch
+        {
+            "long" => "nint",
+            "ulong" => "nuint",
+            _ => underlying
+        };
     }
 
     private static string MapReturnType(string type)
@@ -789,6 +882,7 @@ public class MetalBindingsGenerator
     private bool IsObjCWrapper(string type)
     {
         return HeaderParser.IsObjCWrapper(type) ||
+               allClassNames.Contains(type) ||
                type is "NSString" or "NSArray" or "NSError" or "NSURL";
     }
 
@@ -861,5 +955,12 @@ public class MetalBindingsGenerator
         if (typeName.StartsWith("NS"))
             return "Foundation";
         return "Metal";
+    }
+
+    private static string Capitalize(string s)
+    {
+        if (string.IsNullOrEmpty(s))
+            return s;
+        return char.ToUpperInvariant(s[0]) + s[1..];
     }
 }

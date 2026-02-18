@@ -1,10 +1,18 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLRenderPipelineState(nint nativePtr) : MTLAllocation(nativePtr)
+public partial class MTLRenderPipelineState : NativeObject
 {
-    public MTLDevice Device
+    public MTLRenderPipelineState(nint nativePtr) : base(nativePtr)
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Device));
+    }
+
+    public MTLDevice? Device
+    {
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Device);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public MTLResourceID GpuResourceID
@@ -17,9 +25,13 @@ public class MTLRenderPipelineState(nint nativePtr) : MTLAllocation(nativePtr)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.ImageblockSampleLength);
     }
 
-    public NSString Label
+    public NSString? Label
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Label));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public nuint MaxTotalThreadgroupsPerMeshGrid
@@ -47,14 +59,27 @@ public class MTLRenderPipelineState(nint nativePtr) : MTLAllocation(nativePtr)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.MeshThreadExecutionWidth);
     }
 
+    public MTL4PipelineDescriptor? NewRenderPipelineDescriptor
+    {
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineDescriptor);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+    }
+
     public nuint ObjectThreadExecutionWidth
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.ObjectThreadExecutionWidth);
     }
 
-    public MTLRenderPipelineReflection Reflection
+    public MTLRenderPipelineReflection? Reflection
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Reflection));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Reflection);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public MTLSize RequiredThreadsPerMeshThreadgroup
@@ -74,102 +99,59 @@ public class MTLRenderPipelineState(nint nativePtr) : MTLAllocation(nativePtr)
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineStateSelector.ShaderValidation);
+        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.ShaderValidation);
     }
 
-    public Bool8 SupportIndirectCommandBuffers
+    public bool SupportIndirectCommandBuffers
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineStateSelector.SupportIndirectCommandBuffers);
     }
 
-    public Bool8 ThreadgroupSizeMatchesTileSize
+    public bool ThreadgroupSizeMatchesTileSize
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineStateSelector.ThreadgroupSizeMatchesTileSize);
     }
 
-    public static implicit operator nint(MTLRenderPipelineState value)
+    public MTLFunctionHandle? FunctionHandle(NSString name, MTLRenderStages stage)
     {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLRenderPipelineState(nint value)
-    {
-        return new(value);
-    }
-
-    public MTLFunctionHandle FunctionHandle(NSString name, MTLRenderStages stage)
-    {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleWithNameStage, name.NativePtr, (ulong)stage));
-
-        return result;
-    }
-
-    public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function, MTLRenderStages stage)
-    {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleWithBinaryFunctionStage, function.NativePtr, (ulong)stage));
-
-        return result;
-    }
-
-    public MTLFunctionHandle FunctionHandle(MTLFunction function, MTLRenderStages stage)
-    {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleWithFunctionStage, function.NativePtr, (ulong)stage));
-
-        return result;
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandle, name.NativePtr, (nuint)stage);
+        return ptr is not 0 ? new(ptr) : null;
     }
 
     public nuint ImageblockMemoryLength(MTLSize imageblockDimensions)
     {
-        nuint result = ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.ImageblockMemoryLengthForDimensions, imageblockDimensions);
-
-        return result;
+        return ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.ImageblockMemoryLength, imageblockDimensions);
     }
 
-    public MTLIntersectionFunctionTable NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor, MTLRenderStages stage)
+    public MTLIntersectionFunctionTable? NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor, MTLRenderStages stage)
     {
-        MTLIntersectionFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewIntersectionFunctionTableWithDescriptorStage, descriptor.NativePtr, (ulong)stage));
-
-        return result;
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewIntersectionFunctionTable, descriptor.NativePtr, (nuint)stage);
+        return ptr is not 0 ? new(ptr) : null;
     }
 
-    public MTL4PipelineDescriptor NewRenderPipelineDescriptor()
+    public MTLRenderPipelineState? NewRenderPipelineState(MTL4RenderPipelineBinaryFunctionsDescriptor binaryFunctionsDescriptor, out NSError? error)
     {
-        MTL4PipelineDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineDescriptorForSpecialization));
-
-        return result;
-    }
-
-    public MTLRenderPipelineState NewRenderPipelineState(MTL4RenderPipelineBinaryFunctionsDescriptor binaryFunctionsDescriptor, out NSError? error)
-    {
-        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineStateWithBinaryFunctionsError, binaryFunctionsDescriptor.NativePtr, out nint errorPtr));
-
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineState, binaryFunctionsDescriptor.NativePtr, out nint errorPtr);
         error = errorPtr is not 0 ? new(errorPtr) : null;
-
-        return result;
+        return ptr is not 0 ? new(ptr) : null;
     }
 
-    public MTLRenderPipelineState NewRenderPipelineState(MTLRenderPipelineFunctionsDescriptor additionalBinaryFunctions, out NSError? error)
+    public MTLVisibleFunctionTable? NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor, MTLRenderStages stage)
     {
-        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineStateWithAdditionalBinaryFunctionsError, additionalBinaryFunctions.NativePtr, out nint errorPtr));
-
-        error = errorPtr is not 0 ? new(errorPtr) : null;
-
-        return result;
-    }
-
-    public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor, MTLRenderStages stage)
-    {
-        MTLVisibleFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewVisibleFunctionTableWithDescriptorStage, descriptor.NativePtr, (ulong)stage));
-
-        return result;
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewVisibleFunctionTable, descriptor.NativePtr, (nuint)stage);
+        return ptr is not 0 ? new(ptr) : null;
     }
 }
 
-file class MTLRenderPipelineStateSelector
+file static class MTLRenderPipelineStateSelector
 {
     public static readonly Selector Device = Selector.Register("device");
 
+    public static readonly Selector FunctionHandle = Selector.Register("functionHandle::");
+
     public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
+
+    public static readonly Selector ImageblockMemoryLength = Selector.Register("imageblockMemoryLength:");
 
     public static readonly Selector ImageblockSampleLength = Selector.Register("imageblockSampleLength");
 
@@ -184,6 +166,14 @@ file class MTLRenderPipelineStateSelector
     public static readonly Selector MaxTotalThreadsPerThreadgroup = Selector.Register("maxTotalThreadsPerThreadgroup");
 
     public static readonly Selector MeshThreadExecutionWidth = Selector.Register("meshThreadExecutionWidth");
+
+    public static readonly Selector NewIntersectionFunctionTable = Selector.Register("newIntersectionFunctionTable::");
+
+    public static readonly Selector NewRenderPipelineDescriptor = Selector.Register("newRenderPipelineDescriptor");
+
+    public static readonly Selector NewRenderPipelineState = Selector.Register("newRenderPipelineState:::");
+
+    public static readonly Selector NewVisibleFunctionTable = Selector.Register("newVisibleFunctionTable::");
 
     public static readonly Selector ObjectThreadExecutionWidth = Selector.Register("objectThreadExecutionWidth");
 
@@ -200,22 +190,4 @@ file class MTLRenderPipelineStateSelector
     public static readonly Selector SupportIndirectCommandBuffers = Selector.Register("supportIndirectCommandBuffers");
 
     public static readonly Selector ThreadgroupSizeMatchesTileSize = Selector.Register("threadgroupSizeMatchesTileSize");
-
-    public static readonly Selector FunctionHandleWithNameStage = Selector.Register("functionHandleWithName:stage:");
-
-    public static readonly Selector FunctionHandleWithBinaryFunctionStage = Selector.Register("functionHandleWithBinaryFunction:stage:");
-
-    public static readonly Selector FunctionHandleWithFunctionStage = Selector.Register("functionHandleWithFunction:stage:");
-
-    public static readonly Selector ImageblockMemoryLengthForDimensions = Selector.Register("imageblockMemoryLengthForDimensions:");
-
-    public static readonly Selector NewIntersectionFunctionTableWithDescriptorStage = Selector.Register("newIntersectionFunctionTableWithDescriptor:stage:");
-
-    public static readonly Selector NewRenderPipelineDescriptorForSpecialization = Selector.Register("newRenderPipelineDescriptorForSpecialization");
-
-    public static readonly Selector NewRenderPipelineStateWithBinaryFunctionsError = Selector.Register("newRenderPipelineStateWithBinaryFunctions:error:");
-
-    public static readonly Selector NewRenderPipelineStateWithAdditionalBinaryFunctionsError = Selector.Register("newRenderPipelineStateWithAdditionalBinaryFunctions:error:");
-
-    public static readonly Selector NewVisibleFunctionTableWithDescriptorStage = Selector.Register("newVisibleFunctionTableWithDescriptor:stage:");
 }

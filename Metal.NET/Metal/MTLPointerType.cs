@@ -1,16 +1,16 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLPointerType(nint nativePtr) : MTLType(nativePtr)
+public partial class MTLPointerType : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPointerType");
 
-    public MTLPointerType() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLPointerType(nint nativePtr) : base(nativePtr)
     {
     }
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLPointerTypeSelector.Access);
+        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeSelector.Access);
     }
 
     public nuint Alignment
@@ -23,38 +23,36 @@ public class MTLPointerType(nint nativePtr) : MTLType(nativePtr)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeSelector.DataSize);
     }
 
-    public MTLArrayType ElementArrayType
+    public MTLArrayType? ElementArrayType
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeSelector.ElementArrayType));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeSelector.ElementArrayType);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
-    public Bool8 ElementIsArgumentBuffer
+    public bool ElementIsArgumentBuffer
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLPointerTypeSelector.ElementIsArgumentBuffer);
     }
 
-    public MTLStructType ElementStructType
+    public MTLStructType? ElementStructType
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeSelector.ElementStructType));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeSelector.ElementStructType);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public MTLDataType ElementType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLPointerTypeSelector.ElementType);
-    }
-
-    public static implicit operator nint(MTLPointerType value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLPointerType(nint value)
-    {
-        return new(value);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeSelector.ElementType);
     }
 }
 
-file class MTLPointerTypeSelector
+file static class MTLPointerTypeSelector
 {
     public static readonly Selector Access = Selector.Register("access");
 

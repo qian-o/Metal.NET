@@ -1,49 +1,16 @@
 ﻿namespace Metal.NET;
 
-public class NSError : IDisposable
+public class NSError : NativeObject
 {
-    public NSError(nint nativePtr)
+    public NSError(nint nativePtr) : base(nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
 
-    ~NSError()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public string LocalizedDescription => (NSString)ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorSelector.LocalizedDescription);
+    public string LocalizedDescription => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorSelector.LocalizedDescription));
 
     public nint Code => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorSelector.Code);
 
-    public string Domain => (NSString)ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorSelector.Domain);
-
-    public static implicit operator nint(NSError value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator NSError(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
+    public string Domain => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorSelector.Domain));
 }
 
 file class NSErrorSelector

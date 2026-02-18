@@ -1,15 +1,11 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 [Flags]
 public enum MTLPipelineOption : ulong
 {
-    PipelineOptionNone = 0,
-
-    PipelineOptionArgumentInfo = 1,
-
-    PipelineOptionBindingInfo = 1,
-
-    PipelineOptionBufferTypeInfo = 2,
-
-    PipelineOptionFailOnBinaryArchiveMiss = 4
+    MTLPipelineOptionNone = 0,
+    MTLPipelineOptionArgumentInfo = 1,
+    MTLPipelineOptionBindingInfo = 1,
+    MTLPipelineOptionBufferTypeInfo = 2,
+    MTLPipelineOptionFailOnBinaryArchiveMiss = 4
 }

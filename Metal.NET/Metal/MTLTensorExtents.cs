@@ -1,69 +1,27 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLTensorExtents : IDisposable
+public partial class MTLTensorExtents : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorExtents");
 
-    public MTLTensorExtents(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLTensorExtents() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLTensorExtents(nint nativePtr) : base(nativePtr)
     {
     }
-
-    ~MTLTensorExtents()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public nuint Rank
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorExtentsSelector.Rank);
     }
 
-    public static implicit operator nint(MTLTensorExtents value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLTensorExtents(nint value)
-    {
-        return new(value);
-    }
-
     public nint ExtentAtDimensionIndex(nuint dimensionIndex)
     {
-        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorExtentsSelector.ExtentAtDimensionIndex, dimensionIndex);
-
-        return result;
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        return ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorExtentsSelector.ExtentAtDimensionIndex, dimensionIndex);
     }
 }
 
-file class MTLTensorExtentsSelector
+file static class MTLTensorExtentsSelector
 {
-    public static readonly Selector Rank = Selector.Register("rank");
-
     public static readonly Selector ExtentAtDimensionIndex = Selector.Register("extentAtDimensionIndex:");
+
+    public static readonly Selector Rank = Selector.Register("rank");
 }

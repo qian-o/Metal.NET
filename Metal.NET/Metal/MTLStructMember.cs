@@ -1,46 +1,39 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLStructMember : IDisposable
+public partial class MTLStructMember : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStructMember");
 
-    public MTLStructMember(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLStructMember() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLStructMember(nint nativePtr) : base(nativePtr)
     {
     }
-
-    ~MTLStructMember()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public nuint ArgumentIndex
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStructMemberSelector.ArgumentIndex);
     }
 
-    public MTLArrayType ArrayType
+    public MTLArrayType? ArrayType
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.ArrayType));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.ArrayType);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public MTLDataType DataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStructMemberSelector.DataType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStructMemberSelector.DataType);
     }
 
-    public NSString Name
+    public NSString? Name
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.Name));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.Name);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public nuint Offset
@@ -48,53 +41,44 @@ public class MTLStructMember : IDisposable
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStructMemberSelector.Offset);
     }
 
-    public MTLPointerType PointerType
+    public MTLPointerType? PointerType
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.PointerType));
-    }
-
-    public MTLStructType StructType
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.StructType));
-    }
-
-    public MTLTensorReferenceType TensorReferenceType
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.TensorReferenceType));
-    }
-
-    public MTLTextureReferenceType TextureReferenceType
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.TextureReferenceType));
-    }
-
-    public static implicit operator nint(MTLStructMember value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLStructMember(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
+        get
         {
-            ObjectiveCRuntime.Release(NativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.PointerType);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+    }
+
+    public MTLStructType? StructType
+    {
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.StructType);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+    }
+
+    public MTLTensorReferenceType? TensorReferenceType
+    {
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.TensorReferenceType);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+    }
+
+    public MTLTextureReferenceType? TextureReferenceType
+    {
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberSelector.TextureReferenceType);
+            return ptr is not 0 ? new(ptr) : null;
         }
     }
 }
 
-file class MTLStructMemberSelector
+file static class MTLStructMemberSelector
 {
     public static readonly Selector ArgumentIndex = Selector.Register("argumentIndex");
 

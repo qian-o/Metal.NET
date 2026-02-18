@@ -1,35 +1,32 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLResourceViewPool : IDisposable
+public partial class MTLResourceViewPool : NativeObject
 {
-    public MTLResourceViewPool(nint nativePtr)
+    public MTLResourceViewPool(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
     }
-
-    ~MTLResourceViewPool()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public MTLResourceID BaseResourceID
     {
         get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLResourceViewPoolSelector.BaseResourceID);
     }
 
-    public MTLDevice Device
+    public MTLDevice? Device
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolSelector.Device));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolSelector.Device);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
-    public NSString Label
+    public NSString? Label
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolSelector.Label));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolSelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public nuint ResourceViewCount
@@ -37,48 +34,21 @@ public class MTLResourceViewPool : IDisposable
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceViewPoolSelector.ResourceViewCount);
     }
 
-    public static implicit operator nint(MTLResourceViewPool value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLResourceViewPool(nint value)
-    {
-        return new(value);
-    }
-
     public MTLResourceID CopyResourceViewsFromPool(MTLResourceViewPool sourcePool, NSRange sourceRange, nuint destinationIndex)
     {
-        MTLResourceID result = ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLResourceViewPoolSelector.CopyResourceViewsFromPoolSourceRangeDestinationIndex, sourcePool.NativePtr, sourceRange, destinationIndex);
-
-        return result;
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        return ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLResourceViewPoolSelector.CopyResourceViewsFromPool, sourcePool.NativePtr, sourceRange, destinationIndex);
     }
 }
 
-file class MTLResourceViewPoolSelector
+file static class MTLResourceViewPoolSelector
 {
     public static readonly Selector BaseResourceID = Selector.Register("baseResourceID");
+
+    public static readonly Selector CopyResourceViewsFromPool = Selector.Register("copyResourceViewsFromPool:::");
 
     public static readonly Selector Device = Selector.Register("device");
 
     public static readonly Selector Label = Selector.Register("label");
 
     public static readonly Selector ResourceViewCount = Selector.Register("resourceViewCount");
-
-    public static readonly Selector CopyResourceViewsFromPoolSourceRangeDestinationIndex = Selector.Register("copyResourceViewsFromPool:sourceRange:destinationIndex:");
 }

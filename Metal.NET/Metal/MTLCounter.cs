@@ -1,54 +1,22 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLCounter : IDisposable
+public partial class MTLCounter : NativeObject
 {
-    public MTLCounter(nint nativePtr)
+    public MTLCounter(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public NSString? Name
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLCounter()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public NSString Name
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSelector.Name));
-    }
-
-    public static implicit operator nint(MTLCounter value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLCounter(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSelector.Name);
+            return ptr is not 0 ? new(ptr) : null;
         }
     }
 }
 
-file class MTLCounterSelector
+file static class MTLCounterSelector
 {
     public static readonly Selector Name = Selector.Register("name");
 }

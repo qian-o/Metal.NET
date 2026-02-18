@@ -1,24 +1,15 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLArgumentType : ulong
 {
-    ArgumentTypeBuffer = 0,
-
-    ArgumentTypeThreadgroupMemory = 1,
-
-    ArgumentTypeTexture = 2,
-
-    ArgumentTypeSampler = 3,
-
-    ArgumentTypeImageblockData = 16,
-
-    ArgumentTypeImageblock = 17,
-
-    ArgumentTypeVisibleFunctionTable = 24,
-
-    ArgumentTypePrimitiveAccelerationStructure = 25,
-
-    ArgumentTypeInstanceAccelerationStructure = 26,
-
-    ArgumentTypeIntersectionFunctionTable = 27
+    MTLArgumentTypeBuffer = 0,
+    MTLArgumentTypeThreadgroupMemory = 1,
+    MTLArgumentTypeTexture = 2,
+    MTLArgumentTypeSampler = 3,
+    MTLArgumentTypeImageblockData = 16,
+    MTLArgumentTypeImageblock = 17,
+    MTLArgumentTypeVisibleFunctionTable = 24,
+    MTLArgumentTypePrimitiveAccelerationStructure = 25,
+    MTLArgumentTypeInstanceAccelerationStructure = 26,
+    MTLArgumentTypeIntersectionFunctionTable = 27
 }

@@ -1,78 +1,54 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLIOCommandQueue : IDisposable
+public partial class MTLIOCommandQueue : NativeObject
 {
-    public MTLIOCommandQueue(nint nativePtr)
+    public MTLIOCommandQueue(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public MTLIOCommandBuffer? CommandBuffer
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueSelector.CommandBuffer);
+            return ptr is not 0 ? new(ptr) : null;
         }
     }
 
-    ~MTLIOCommandQueue()
+    public MTLIOCommandBuffer? CommandBufferWithUnretainedReferences
     {
-        Release();
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueSelector.CommandBufferWithUnretainedReferences);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
-    public nint NativePtr { get; }
-
-    public MTLIOCommandBuffer CommandBuffer
+    public NSString? Label
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueSelector.CommandBuffer));
-    }
-
-    public MTLIOCommandBuffer CommandBufferWithUnretainedReferences
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueSelector.CommandBufferWithUnretainedReferences));
-    }
-
-    public NSString Label
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueSelector.SetLabel, value.NativePtr);
-    }
-
-    public static implicit operator nint(MTLIOCommandQueue value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLIOCommandQueue(nint value)
-    {
-        return new(value);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueSelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueSelector.SetLabel, value?.NativePtr ?? 0);
     }
 
     public void EnqueueBarrier()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueSelector.EnqueueBarrier);
     }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
 }
 
-file class MTLIOCommandQueueSelector
+file static class MTLIOCommandQueueSelector
 {
     public static readonly Selector CommandBuffer = Selector.Register("commandBuffer");
 
     public static readonly Selector CommandBufferWithUnretainedReferences = Selector.Register("commandBufferWithUnretainedReferences");
 
+    public static readonly Selector EnqueueBarrier = Selector.Register("enqueueBarrier");
+
     public static readonly Selector Label = Selector.Register("label");
 
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
-
-    public static readonly Selector EnqueueBarrier = Selector.Register("enqueueBarrier");
 }

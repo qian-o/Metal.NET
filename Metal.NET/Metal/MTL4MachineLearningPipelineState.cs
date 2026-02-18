@@ -1,10 +1,18 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTL4MachineLearningPipelineState(nint nativePtr) : MTLAllocation(nativePtr)
+public partial class MTL4MachineLearningPipelineState : NativeObject
 {
-    public MTLDevice Device
+    public MTL4MachineLearningPipelineState(nint nativePtr) : base(nativePtr)
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Device));
+    }
+
+    public MTLDevice? Device
+    {
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Device);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public nuint IntermediatesHeapSize
@@ -12,28 +20,26 @@ public class MTL4MachineLearningPipelineState(nint nativePtr) : MTLAllocation(na
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4MachineLearningPipelineStateSelector.IntermediatesHeapSize);
     }
 
-    public NSString Label
+    public NSString? Label
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Label));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
-    public MTL4MachineLearningPipelineReflection Reflection
+    public MTL4MachineLearningPipelineReflection? Reflection
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Reflection));
-    }
-
-    public static implicit operator nint(MTL4MachineLearningPipelineState value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4MachineLearningPipelineState(nint value)
-    {
-        return new(value);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Reflection);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 }
 
-file class MTL4MachineLearningPipelineStateSelector
+file static class MTL4MachineLearningPipelineStateSelector
 {
     public static readonly Selector Device = Selector.Register("device");
 

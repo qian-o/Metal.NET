@@ -1,12 +1,9 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLPrimitiveTopologyClass : ulong
 {
-    PrimitiveTopologyClassUnspecified = 0,
-
-    PrimitiveTopologyClassPoint = 1,
-
-    PrimitiveTopologyClassLine = 2,
-
-    PrimitiveTopologyClassTriangle = 3
+    MTLPrimitiveTopologyClassUnspecified = 0,
+    MTLPrimitiveTopologyClassPoint = 1,
+    MTLPrimitiveTopologyClassLine = 2,
+    MTLPrimitiveTopologyClassTriangle = 3
 }

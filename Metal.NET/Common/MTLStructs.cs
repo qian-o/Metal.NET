@@ -95,6 +95,28 @@ public struct MTLSizeAndAlign(uint size, uint align)
 }
 
 [StructLayout(LayoutKind.Sequential)]
+public struct MTLAccelerationStructureSizes(uint accelerationStructureSize, uint buildScratchBufferSize, uint refitScratchBufferSize)
+{
+    public nuint AccelerationStructureSize = accelerationStructureSize;
+
+    public nuint BuildScratchBufferSize = buildScratchBufferSize;
+
+    public nuint RefitScratchBufferSize = refitScratchBufferSize;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLTextureSwizzleChannels(MTLTextureSwizzle red, MTLTextureSwizzle green, MTLTextureSwizzle blue, MTLTextureSwizzle alpha)
+{
+    public MTLTextureSwizzle Red = red;
+
+    public MTLTextureSwizzle Green = green;
+
+    public MTLTextureSwizzle Blue = blue;
+
+    public MTLTextureSwizzle Alpha = alpha;
+}
+
+[StructLayout(LayoutKind.Sequential)]
 public struct MTLRange(nuint location, nuint length)
 {
     public nuint Location = location;

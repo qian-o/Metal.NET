@@ -1,8 +1,7 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLMotionBorderMode : uint
 {
-    MotionBorderModeClamp = 0,
-
-    MotionBorderModeVanish = 1
+    MTLMotionBorderModeClamp = 0,
+    MTLMotionBorderModeVanish = 1
 }

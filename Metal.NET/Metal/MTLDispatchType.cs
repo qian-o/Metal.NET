@@ -1,8 +1,7 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLDispatchType : ulong
 {
-    DispatchTypeSerial = 0,
-
-    DispatchTypeConcurrent = 1
+    MTLDispatchTypeSerial = 0,
+    MTLDispatchTypeConcurrent = 1
 }

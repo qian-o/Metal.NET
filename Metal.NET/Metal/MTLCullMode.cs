@@ -1,10 +1,8 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLCullMode : ulong
 {
-    CullModeNone = 0,
-
-    CullModeFront = 1,
-
-    CullModeBack = 2
+    MTLCullModeNone = 0,
+    MTLCullModeFront = 1,
+    MTLCullModeBack = 2
 }

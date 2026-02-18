@@ -1,38 +1,23 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLFXSpatialScalerDescriptor : IDisposable
+public partial class MTLFXSpatialScalerDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFXSpatialScalerDescriptor");
 
-    public MTLFXSpatialScalerDescriptor(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLFXSpatialScalerDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLFXSpatialScalerDescriptor(nint nativePtr) : base(nativePtr)
     {
     }
-
-    ~MTLFXSpatialScalerDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public MTLPixelFormat ColorTextureFormat
     {
-        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerDescriptorSelector.ColorTextureFormat);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetColorTextureFormat, (ulong)value);
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerDescriptorSelector.ColorTextureFormat);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetColorTextureFormat, (nuint)value);
     }
 
     public MTLPixelFormat OutputTextureFormat
     {
-        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerDescriptorSelector.OutputTextureFormat);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetOutputTextureFormat, (ulong)value);
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerDescriptorSelector.OutputTextureFormat);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetOutputTextureFormat, (nuint)value);
     }
 
     public nuint InputWidth
@@ -61,97 +46,64 @@ public class MTLFXSpatialScalerDescriptor : IDisposable
 
     public MTLFXSpatialScalerColorProcessingMode ColorProcessingMode
     {
-        get => (MTLFXSpatialScalerColorProcessingMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerDescriptorSelector.ColorProcessingMode);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetColorProcessingMode, (ulong)value);
+        get => (MTLFXSpatialScalerColorProcessingMode)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorSelector.ColorProcessingMode);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetColorProcessingMode, (nint)value);
     }
 
-    public static implicit operator nint(MTLFXSpatialScalerDescriptor value)
+    public MTLFXSpatialScaler? NewSpatialScaler(MTLDevice pDevice)
     {
-        return value.NativePtr;
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorSelector.NewSpatialScaler, pDevice.NativePtr);
+        return ptr is not 0 ? new(ptr) : null;
     }
 
-    public static implicit operator MTLFXSpatialScalerDescriptor(nint value)
+    public MTL4FXSpatialScaler? NewSpatialScaler(MTLDevice pDevice, MTL4Compiler pCompiler)
     {
-        return new(value);
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorSelector.NewSpatialScaler, pDevice.NativePtr, pCompiler.NativePtr);
+        return ptr is not 0 ? new(ptr) : null;
     }
 
-    public MTLFXSpatialScaler NewSpatialScaler(MTLDevice device)
+    public static bool SupportsDevice(MTLDevice pDevice)
     {
-        MTLFXSpatialScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorSelector.NewSpatialScalerWithDevice, device.NativePtr));
-
-        return result;
+        return ObjectiveCRuntime.MsgSendBool(Class, MTLFXSpatialScalerDescriptorSelector.SupportsDevice, pDevice.NativePtr);
     }
 
-    public MTL4FXSpatialScaler NewSpatialScaler(MTLDevice device, MTL4Compiler compiler)
+    public static bool SupportsMetal4FX(MTLDevice pDevice)
     {
-        MTL4FXSpatialScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorSelector.NewSpatialScalerWithDeviceCompiler, device.NativePtr, compiler.NativePtr));
-
-        return result;
-    }
-
-    public static Bool8 SupportsDevice(MTLDevice device)
-    {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(Class, MTLFXSpatialScalerDescriptorSelector.SupportsDevice, device.NativePtr);
-
-        return result;
-    }
-
-    public static Bool8 SupportsMetal4FX(MTLDevice device)
-    {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(Class, MTLFXSpatialScalerDescriptorSelector.SupportsMetal4FX, device.NativePtr);
-
-        return result;
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        return ObjectiveCRuntime.MsgSendBool(Class, MTLFXSpatialScalerDescriptorSelector.SupportsMetal4FX, pDevice.NativePtr);
     }
 }
 
-file class MTLFXSpatialScalerDescriptorSelector
+file static class MTLFXSpatialScalerDescriptorSelector
 {
+    public static readonly Selector ColorProcessingMode = Selector.Register("colorProcessingMode");
+
     public static readonly Selector ColorTextureFormat = Selector.Register("colorTextureFormat");
-
-    public static readonly Selector SetColorTextureFormat = Selector.Register("setColorTextureFormat:");
-
-    public static readonly Selector OutputTextureFormat = Selector.Register("outputTextureFormat");
-
-    public static readonly Selector SetOutputTextureFormat = Selector.Register("setOutputTextureFormat:");
-
-    public static readonly Selector InputWidth = Selector.Register("inputWidth");
-
-    public static readonly Selector SetInputWidth = Selector.Register("setInputWidth:");
 
     public static readonly Selector InputHeight = Selector.Register("inputHeight");
 
-    public static readonly Selector SetInputHeight = Selector.Register("setInputHeight:");
+    public static readonly Selector InputWidth = Selector.Register("inputWidth");
 
-    public static readonly Selector OutputWidth = Selector.Register("outputWidth");
-
-    public static readonly Selector SetOutputWidth = Selector.Register("setOutputWidth:");
+    public static readonly Selector NewSpatialScaler = Selector.Register("newSpatialScaler:");
 
     public static readonly Selector OutputHeight = Selector.Register("outputHeight");
 
-    public static readonly Selector SetOutputHeight = Selector.Register("setOutputHeight:");
+    public static readonly Selector OutputTextureFormat = Selector.Register("outputTextureFormat");
 
-    public static readonly Selector ColorProcessingMode = Selector.Register("colorProcessingMode");
+    public static readonly Selector OutputWidth = Selector.Register("outputWidth");
 
     public static readonly Selector SetColorProcessingMode = Selector.Register("setColorProcessingMode:");
 
-    public static readonly Selector NewSpatialScalerWithDevice = Selector.Register("newSpatialScalerWithDevice:");
+    public static readonly Selector SetColorTextureFormat = Selector.Register("setColorTextureFormat:");
 
-    public static readonly Selector NewSpatialScalerWithDeviceCompiler = Selector.Register("newSpatialScalerWithDevice:compiler:");
+    public static readonly Selector SetInputHeight = Selector.Register("setInputHeight:");
+
+    public static readonly Selector SetInputWidth = Selector.Register("setInputWidth:");
+
+    public static readonly Selector SetOutputHeight = Selector.Register("setOutputHeight:");
+
+    public static readonly Selector SetOutputTextureFormat = Selector.Register("setOutputTextureFormat:");
+
+    public static readonly Selector SetOutputWidth = Selector.Register("setOutputWidth:");
 
     public static readonly Selector SupportsDevice = Selector.Register("supportsDevice:");
 

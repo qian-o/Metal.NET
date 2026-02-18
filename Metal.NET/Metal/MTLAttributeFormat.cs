@@ -1,112 +1,59 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLAttributeFormat : ulong
 {
-    AttributeFormatInvalid = 0,
-
-    AttributeFormatUChar2 = 1,
-
-    AttributeFormatUChar3 = 2,
-
-    AttributeFormatUChar4 = 3,
-
-    AttributeFormatChar2 = 4,
-
-    AttributeFormatChar3 = 5,
-
-    AttributeFormatChar4 = 6,
-
-    AttributeFormatUChar2Normalized = 7,
-
-    AttributeFormatUChar3Normalized = 8,
-
-    AttributeFormatUChar4Normalized = 9,
-
-    AttributeFormatChar2Normalized = 10,
-
-    AttributeFormatChar3Normalized = 11,
-
-    AttributeFormatChar4Normalized = 12,
-
-    AttributeFormatUShort2 = 13,
-
-    AttributeFormatUShort3 = 14,
-
-    AttributeFormatUShort4 = 15,
-
-    AttributeFormatShort2 = 16,
-
-    AttributeFormatShort3 = 17,
-
-    AttributeFormatShort4 = 18,
-
-    AttributeFormatUShort2Normalized = 19,
-
-    AttributeFormatUShort3Normalized = 20,
-
-    AttributeFormatUShort4Normalized = 21,
-
-    AttributeFormatShort2Normalized = 22,
-
-    AttributeFormatShort3Normalized = 23,
-
-    AttributeFormatShort4Normalized = 24,
-
-    AttributeFormatHalf2 = 25,
-
-    AttributeFormatHalf3 = 26,
-
-    AttributeFormatHalf4 = 27,
-
-    AttributeFormatFloat = 28,
-
-    AttributeFormatFloat2 = 29,
-
-    AttributeFormatFloat3 = 30,
-
-    AttributeFormatFloat4 = 31,
-
-    AttributeFormatInt = 32,
-
-    AttributeFormatInt2 = 33,
-
-    AttributeFormatInt3 = 34,
-
-    AttributeFormatInt4 = 35,
-
-    AttributeFormatUInt = 36,
-
-    AttributeFormatUInt2 = 37,
-
-    AttributeFormatUInt3 = 38,
-
-    AttributeFormatUInt4 = 39,
-
-    AttributeFormatInt1010102Normalized = 40,
-
-    AttributeFormatUInt1010102Normalized = 41,
-
-    AttributeFormatUChar4Normalized_BGRA = 42,
-
-    AttributeFormatUChar = 45,
-
-    AttributeFormatChar = 46,
-
-    AttributeFormatUCharNormalized = 47,
-
-    AttributeFormatCharNormalized = 48,
-
-    AttributeFormatUShort = 49,
-
-    AttributeFormatShort = 50,
-
-    AttributeFormatUShortNormalized = 51,
-
-    AttributeFormatShortNormalized = 52,
-
-    AttributeFormatHalf = 53,
-
-    AttributeFormatFloatRG11B10 = 54,
-
-    AttributeFormatFloatRGB9E5 = 55
+    MTLAttributeFormatInvalid = 0,
+    MTLAttributeFormatUChar2 = 1,
+    MTLAttributeFormatUChar3 = 2,
+    MTLAttributeFormatUChar4 = 3,
+    MTLAttributeFormatChar2 = 4,
+    MTLAttributeFormatChar3 = 5,
+    MTLAttributeFormatChar4 = 6,
+    MTLAttributeFormatUChar2Normalized = 7,
+    MTLAttributeFormatUChar3Normalized = 8,
+    MTLAttributeFormatUChar4Normalized = 9,
+    MTLAttributeFormatChar2Normalized = 10,
+    MTLAttributeFormatChar3Normalized = 11,
+    MTLAttributeFormatChar4Normalized = 12,
+    MTLAttributeFormatUShort2 = 13,
+    MTLAttributeFormatUShort3 = 14,
+    MTLAttributeFormatUShort4 = 15,
+    MTLAttributeFormatShort2 = 16,
+    MTLAttributeFormatShort3 = 17,
+    MTLAttributeFormatShort4 = 18,
+    MTLAttributeFormatUShort2Normalized = 19,
+    MTLAttributeFormatUShort3Normalized = 20,
+    MTLAttributeFormatUShort4Normalized = 21,
+    MTLAttributeFormatShort2Normalized = 22,
+    MTLAttributeFormatShort3Normalized = 23,
+    MTLAttributeFormatShort4Normalized = 24,
+    MTLAttributeFormatHalf2 = 25,
+    MTLAttributeFormatHalf3 = 26,
+    MTLAttributeFormatHalf4 = 27,
+    MTLAttributeFormatFloat = 28,
+    MTLAttributeFormatFloat2 = 29,
+    MTLAttributeFormatFloat3 = 30,
+    MTLAttributeFormatFloat4 = 31,
+    MTLAttributeFormatInt = 32,
+    MTLAttributeFormatInt2 = 33,
+    MTLAttributeFormatInt3 = 34,
+    MTLAttributeFormatInt4 = 35,
+    MTLAttributeFormatUInt = 36,
+    MTLAttributeFormatUInt2 = 37,
+    MTLAttributeFormatUInt3 = 38,
+    MTLAttributeFormatUInt4 = 39,
+    MTLAttributeFormatInt1010102Normalized = 40,
+    MTLAttributeFormatUInt1010102Normalized = 41,
+    MTLAttributeFormatUChar4Normalized_BGRA = 42,
+    MTLAttributeFormatUChar = 45,
+    MTLAttributeFormatChar = 46,
+    MTLAttributeFormatUCharNormalized = 47,
+    MTLAttributeFormatCharNormalized = 48,
+    MTLAttributeFormatUShort = 49,
+    MTLAttributeFormatShort = 50,
+    MTLAttributeFormatUShortNormalized = 51,
+    MTLAttributeFormatShortNormalized = 52,
+    MTLAttributeFormatHalf = 53,
+    MTLAttributeFormatFloatRG11B10 = 54,
+    MTLAttributeFormatFloatRGB9E5 = 55
 }

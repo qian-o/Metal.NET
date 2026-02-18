@@ -1,27 +1,12 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLCaptureDescriptor : IDisposable
+public partial class MTLCaptureDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCaptureDescriptor");
 
-    public MTLCaptureDescriptor(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLCaptureDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLCaptureDescriptor(nint nativePtr) : base(nativePtr)
     {
     }
-
-    ~MTLCaptureDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public nint CaptureObject
     {
@@ -31,53 +16,32 @@ public class MTLCaptureDescriptor : IDisposable
 
     public MTLCaptureDestination Destination
     {
-        get => (MTLCaptureDestination)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCaptureDescriptorSelector.Destination);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorSelector.SetDestination, (ulong)value);
+        get => (MTLCaptureDestination)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureDescriptorSelector.Destination);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorSelector.SetDestination, (nint)value);
     }
 
-    public NSURL OutputURL
+    public NSURL? OutputURL
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureDescriptorSelector.OutputURL));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorSelector.SetOutputURL, value.NativePtr);
-    }
-
-    public static implicit operator nint(MTLCaptureDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLCaptureDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
+        get
         {
-            ObjectiveCRuntime.Release(NativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureDescriptorSelector.OutputURL);
+            return ptr is not 0 ? new(ptr) : null;
         }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorSelector.SetOutputURL, value?.NativePtr ?? 0);
     }
 }
 
-file class MTLCaptureDescriptorSelector
+file static class MTLCaptureDescriptorSelector
 {
     public static readonly Selector CaptureObject = Selector.Register("captureObject");
 
-    public static readonly Selector SetCaptureObject = Selector.Register("setCaptureObject:");
-
     public static readonly Selector Destination = Selector.Register("destination");
 
-    public static readonly Selector SetDestination = Selector.Register("setDestination:");
-
     public static readonly Selector OutputURL = Selector.Register("outputURL");
+
+    public static readonly Selector SetCaptureObject = Selector.Register("setCaptureObject:");
+
+    public static readonly Selector SetDestination = Selector.Register("setDestination:");
 
     public static readonly Selector SetOutputURL = Selector.Register("setOutputURL:");
 }

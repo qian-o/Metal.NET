@@ -1,83 +1,47 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLCommandBufferDescriptor : IDisposable
+public partial class MTLCommandBufferDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCommandBufferDescriptor");
 
-    public MTLCommandBufferDescriptor(nint nativePtr)
+    public MTLCommandBufferDescriptor(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public nuint ErrorOptions
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandBufferDescriptorSelector.ErrorOptions);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetErrorOptions, value);
+    }
+
+    public MTLLogState? LogState
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferDescriptorSelector.LogState);
+            return ptr is not 0 ? new(ptr) : null;
         }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetLogState, value?.NativePtr ?? 0);
     }
 
-    public MTLCommandBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTLCommandBufferDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public MTLCommandBufferErrorOption ErrorOptions
-    {
-        get => (MTLCommandBufferErrorOption)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCommandBufferDescriptorSelector.ErrorOptions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetErrorOptions, (ulong)value);
-    }
-
-    public MTLLogState LogState
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferDescriptorSelector.LogState));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetLogState, value.NativePtr);
-    }
-
-    public Bool8 RetainedReferences
+    public bool RetainedReferences
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCommandBufferDescriptorSelector.RetainedReferences);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetRetainedReferences, value);
-    }
-
-    public static implicit operator nint(MTLCommandBufferDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLCommandBufferDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetRetainedReferences, (Bool8)value);
     }
 }
 
-file class MTLCommandBufferDescriptorSelector
+file static class MTLCommandBufferDescriptorSelector
 {
     public static readonly Selector ErrorOptions = Selector.Register("errorOptions");
 
-    public static readonly Selector SetErrorOptions = Selector.Register("setErrorOptions:");
-
     public static readonly Selector LogState = Selector.Register("logState");
 
-    public static readonly Selector SetLogState = Selector.Register("setLogState:");
-
     public static readonly Selector RetainedReferences = Selector.Register("retainedReferences");
+
+    public static readonly Selector SetErrorOptions = Selector.Register("setErrorOptions:");
+
+    public static readonly Selector SetLogState = Selector.Register("setLogState:");
 
     public static readonly Selector SetRetainedReferences = Selector.Register("setRetainedReferences:");
 }

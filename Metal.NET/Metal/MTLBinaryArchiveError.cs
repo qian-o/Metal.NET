@@ -1,14 +1,10 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLBinaryArchiveError : ulong
 {
-    BinaryArchiveErrorNone = 0,
-
-    BinaryArchiveErrorInvalidFile = 1,
-
-    BinaryArchiveErrorUnexpectedElement = 2,
-
-    BinaryArchiveErrorCompilationFailure = 3,
-
-    BinaryArchiveErrorInternalError = 4
+    MTLBinaryArchiveErrorNone = 0,
+    MTLBinaryArchiveErrorInvalidFile = 1,
+    MTLBinaryArchiveErrorUnexpectedElement = 2,
+    MTLBinaryArchiveErrorCompilationFailure = 3,
+    MTLBinaryArchiveErrorInternalError = 4
 }

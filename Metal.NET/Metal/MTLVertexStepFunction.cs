@@ -1,14 +1,10 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLVertexStepFunction : ulong
 {
-    VertexStepFunctionConstant = 0,
-
-    VertexStepFunctionPerVertex = 1,
-
-    VertexStepFunctionPerInstance = 2,
-
-    VertexStepFunctionPerPatch = 3,
-
-    VertexStepFunctionPerPatchControlPoint = 4
+    MTLVertexStepFunctionConstant = 0,
+    MTLVertexStepFunctionPerVertex = 1,
+    MTLVertexStepFunctionPerInstance = 2,
+    MTLVertexStepFunctionPerPatch = 3,
+    MTLVertexStepFunctionPerPatchControlPoint = 4
 }

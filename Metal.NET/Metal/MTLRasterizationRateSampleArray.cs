@@ -1,69 +1,27 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLRasterizationRateSampleArray : IDisposable
+public partial class MTLRasterizationRateSampleArray : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRasterizationRateSampleArray");
 
-    public MTLRasterizationRateSampleArray(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLRasterizationRateSampleArray() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLRasterizationRateSampleArray(nint nativePtr) : base(nativePtr)
     {
     }
 
-    ~MTLRasterizationRateSampleArray()
+    public nint @object(nuint index)
     {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public static implicit operator nint(MTLRasterizationRateSampleArray value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLRasterizationRateSampleArray(nint value)
-    {
-        return new(value);
-    }
-
-    public nint Object(nuint index)
-    {
-        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateSampleArraySelector.ObjectAtIndexedSubscript, index);
-
-        return result;
+        return ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateSampleArraySelector.Object, index);
     }
 
     public void SetObject(nint value, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateSampleArraySelector.SetObjectAtIndexedSubscript, value, index);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateSampleArraySelector.SetObject, value, index);
     }
 }
 
-file class MTLRasterizationRateSampleArraySelector
+file static class MTLRasterizationRateSampleArraySelector
 {
-    public static readonly Selector ObjectAtIndexedSubscript = Selector.Register("objectAtIndexedSubscript:");
+    public static readonly Selector Object = Selector.Register("object:");
 
-    public static readonly Selector SetObjectAtIndexedSubscript = Selector.Register("setObject:atIndexedSubscript:");
+    public static readonly Selector SetObject = Selector.Register("setObject::");
 }

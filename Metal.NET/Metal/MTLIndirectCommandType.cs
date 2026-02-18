@@ -1,21 +1,14 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 [Flags]
 public enum MTLIndirectCommandType : ulong
 {
-    IndirectCommandTypeDraw = 1,
-
-    IndirectCommandTypeDrawIndexed = 2,
-
-    IndirectCommandTypeDrawPatches = 4,
-
-    IndirectCommandTypeDrawIndexedPatches = 8,
-
-    IndirectCommandTypeConcurrentDispatch = 32,
-
-    IndirectCommandTypeConcurrentDispatchThreads = 64,
-
-    IndirectCommandTypeDrawMeshThreadgroups = 128,
-
-    IndirectCommandTypeDrawMeshThreads = 256
+    MTLIndirectCommandTypeDraw = 1,
+    MTLIndirectCommandTypeDrawIndexed = 2,
+    MTLIndirectCommandTypeDrawPatches = 4,
+    MTLIndirectCommandTypeDrawIndexedPatches = 8,
+    MTLIndirectCommandTypeConcurrentDispatch = 32,
+    MTLIndirectCommandTypeConcurrentDispatchThreads = 64,
+    MTLIndirectCommandTypeDrawMeshThreadgroups = 128,
+    MTLIndirectCommandTypeDrawMeshThreads = 256
 }

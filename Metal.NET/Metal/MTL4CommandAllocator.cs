@@ -1,69 +1,41 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTL4CommandAllocator : IDisposable
+public partial class MTL4CommandAllocator : NativeObject
 {
-    public MTL4CommandAllocator(nint nativePtr)
+    public MTL4CommandAllocator(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
     }
-
-    ~MTL4CommandAllocator()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public nuint AllocatedSize
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CommandAllocatorSelector.AllocatedSize);
     }
 
-    public MTLDevice Device
+    public MTLDevice? Device
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorSelector.Device));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorSelector.Device);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
-    public NSString Label
+    public NSString? Label
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorSelector.Label));
-    }
-
-    public static implicit operator nint(MTL4CommandAllocator value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4CommandAllocator(nint value)
-    {
-        return new(value);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorSelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public void Reset()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandAllocatorSelector.Reset);
     }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
 }
 
-file class MTL4CommandAllocatorSelector
+file static class MTL4CommandAllocatorSelector
 {
     public static readonly Selector AllocatedSize = Selector.Register("allocatedSize");
 

@@ -1,32 +1,21 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTL4StaticLinkingDescriptor : IDisposable
+public partial class MTL4StaticLinkingDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4StaticLinkingDescriptor");
 
-    public MTL4StaticLinkingDescriptor(nint nativePtr)
+    public MTL4StaticLinkingDescriptor(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public NSArray? FunctionDescriptors
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StaticLinkingDescriptorSelector.FunctionDescriptors);
+            return ptr is not 0 ? new(ptr) : null;
         }
-    }
-
-    public MTL4StaticLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTL4StaticLinkingDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public NSArray FunctionDescriptors
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StaticLinkingDescriptorSelector.FunctionDescriptors));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StaticLinkingDescriptorSelector.SetFunctionDescriptors, value.NativePtr);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StaticLinkingDescriptorSelector.SetFunctionDescriptors, value?.NativePtr ?? 0);
     }
 
     public nint Groups
@@ -35,49 +24,28 @@ public class MTL4StaticLinkingDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StaticLinkingDescriptorSelector.SetGroups, value);
     }
 
-    public NSArray PrivateFunctionDescriptors
+    public NSArray? PrivateFunctionDescriptors
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StaticLinkingDescriptorSelector.PrivateFunctionDescriptors));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StaticLinkingDescriptorSelector.SetPrivateFunctionDescriptors, value.NativePtr);
-    }
-
-    public static implicit operator nint(MTL4StaticLinkingDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4StaticLinkingDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
+        get
         {
-            ObjectiveCRuntime.Release(NativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StaticLinkingDescriptorSelector.PrivateFunctionDescriptors);
+            return ptr is not 0 ? new(ptr) : null;
         }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StaticLinkingDescriptorSelector.SetPrivateFunctionDescriptors, value?.NativePtr ?? 0);
     }
 }
 
-file class MTL4StaticLinkingDescriptorSelector
+file static class MTL4StaticLinkingDescriptorSelector
 {
     public static readonly Selector FunctionDescriptors = Selector.Register("functionDescriptors");
 
-    public static readonly Selector SetFunctionDescriptors = Selector.Register("setFunctionDescriptors:");
-
     public static readonly Selector Groups = Selector.Register("groups");
 
-    public static readonly Selector SetGroups = Selector.Register("setGroups:");
-
     public static readonly Selector PrivateFunctionDescriptors = Selector.Register("privateFunctionDescriptors");
+
+    public static readonly Selector SetFunctionDescriptors = Selector.Register("setFunctionDescriptors:");
+
+    public static readonly Selector SetGroups = Selector.Register("setGroups:");
 
     public static readonly Selector SetPrivateFunctionDescriptors = Selector.Register("setPrivateFunctionDescriptors:");
 }

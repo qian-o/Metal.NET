@@ -1,15 +1,9 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLFXFrameInterpolator(nint nativePtr) : MTLFXFrameInterpolatorBase(nativePtr)
+public partial class MTLFXFrameInterpolator : NativeObject
 {
-    public static implicit operator nint(MTLFXFrameInterpolator value)
+    public MTLFXFrameInterpolator(nint nativePtr) : base(nativePtr)
     {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLFXFrameInterpolator(nint value)
-    {
-        return new(value);
     }
 
     public void EncodeToCommandBuffer(MTLCommandBuffer commandBuffer)
@@ -18,7 +12,7 @@ public class MTLFXFrameInterpolator(nint nativePtr) : MTLFXFrameInterpolatorBase
     }
 }
 
-file class MTLFXFrameInterpolatorSelector
+file static class MTLFXFrameInterpolatorSelector
 {
     public static readonly Selector EncodeToCommandBuffer = Selector.Register("encodeToCommandBuffer:");
 }

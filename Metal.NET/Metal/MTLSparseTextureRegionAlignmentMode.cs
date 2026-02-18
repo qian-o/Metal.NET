@@ -1,8 +1,7 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLSparseTextureRegionAlignmentMode : ulong
 {
-    SparseTextureRegionAlignmentModeOutward = 0,
-
-    SparseTextureRegionAlignmentModeInward = 1
+    MTLSparseTextureRegionAlignmentModeOutward = 0,
+    MTLSparseTextureRegionAlignmentModeInward = 1
 }
