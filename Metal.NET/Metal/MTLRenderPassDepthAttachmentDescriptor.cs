@@ -1,27 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPassDepthAttachmentDescriptor : IDisposable
+public class MTLRenderPassDepthAttachmentDescriptor(nint nativePtr) : MTLRenderPassAttachmentDescriptor(nativePtr)
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassDepthAttachmentDescriptor");
-
-    public MTLRenderPassDepthAttachmentDescriptor(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLRenderPassDepthAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTLRenderPassDepthAttachmentDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public double ClearDepth
     {
@@ -43,21 +24,6 @@ public class MTLRenderPassDepthAttachmentDescriptor : IDisposable
     public static implicit operator MTLRenderPassDepthAttachmentDescriptor(nint value)
     {
         return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

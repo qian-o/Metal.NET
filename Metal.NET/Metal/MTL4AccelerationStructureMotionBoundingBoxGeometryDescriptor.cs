@@ -1,27 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor : IDisposable
+public class MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor(nint nativePtr) : MTL4AccelerationStructureGeometryDescriptor(nativePtr)
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor");
-
-    public MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public MTL4BufferRange BoundingBoxBuffers
     {
@@ -49,21 +30,6 @@ public class MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor : IDis
     public static implicit operator MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor(nint value)
     {
         return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

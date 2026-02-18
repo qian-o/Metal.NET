@@ -780,11 +780,11 @@ public static partial class HeaderParser
 
             string? objCClass = isClass ? fullName : null;
 
-            // Extract parent class from NS::Referencing<Self, Parent> template
+            // Extract parent class from NS::Referencing<Self, Parent> or NS::Copying<Self, Parent> template
             string? parentClass = null;
             string inheritanceStr = classMatch.Groups[2].Value;
 
-            if (inheritanceStr.Contains("Referencing"))
+            if (inheritanceStr.Contains("Referencing") || inheritanceStr.Contains("Copying"))
             {
                 int angleStart = inheritanceStr.IndexOf('<');
                 int angleEnd = inheritanceStr.LastIndexOf('>');

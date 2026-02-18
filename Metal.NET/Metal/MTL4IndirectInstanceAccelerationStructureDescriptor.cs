@@ -1,27 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTL4IndirectInstanceAccelerationStructureDescriptor : IDisposable
+public class MTL4IndirectInstanceAccelerationStructureDescriptor(nint nativePtr) : MTL4AccelerationStructureDescriptor(nativePtr)
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4IndirectInstanceAccelerationStructureDescriptor");
-
-    public MTL4IndirectInstanceAccelerationStructureDescriptor(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTL4IndirectInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTL4IndirectInstanceAccelerationStructureDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public MTL4BufferRange InstanceCountBuffer
     {
@@ -97,21 +78,6 @@ public class MTL4IndirectInstanceAccelerationStructureDescriptor : IDisposable
     public static implicit operator MTL4IndirectInstanceAccelerationStructureDescriptor(nint value)
     {
         return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

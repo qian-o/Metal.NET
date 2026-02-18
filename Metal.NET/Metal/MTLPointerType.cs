@@ -2,6 +2,8 @@
 
 public class MTLPointerType(nint nativePtr) : MTLType(nativePtr)
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPointerType");
+
     public MTLBindingAccess Access
     {
         get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLPointerTypeSelector.Access));

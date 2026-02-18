@@ -1,27 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTL4PrimitiveAccelerationStructureDescriptor : IDisposable
+public class MTL4PrimitiveAccelerationStructureDescriptor(nint nativePtr) : MTL4AccelerationStructureDescriptor(nativePtr)
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PrimitiveAccelerationStructureDescriptor");
-
-    public MTL4PrimitiveAccelerationStructureDescriptor(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTL4PrimitiveAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTL4PrimitiveAccelerationStructureDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public NSArray GeometryDescriptors
     {
@@ -67,21 +48,6 @@ public class MTL4PrimitiveAccelerationStructureDescriptor : IDisposable
     public static implicit operator MTL4PrimitiveAccelerationStructureDescriptor(nint value)
     {
         return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

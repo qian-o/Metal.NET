@@ -1,27 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTL4AccelerationStructureTriangleGeometryDescriptor : IDisposable
+public class MTL4AccelerationStructureTriangleGeometryDescriptor(nint nativePtr) : MTL4AccelerationStructureGeometryDescriptor(nativePtr)
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4AccelerationStructureTriangleGeometryDescriptor");
-
-    public MTL4AccelerationStructureTriangleGeometryDescriptor(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTL4AccelerationStructureTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTL4AccelerationStructureTriangleGeometryDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public MTL4BufferRange IndexBuffer
     {
@@ -79,21 +60,6 @@ public class MTL4AccelerationStructureTriangleGeometryDescriptor : IDisposable
     public static implicit operator MTL4AccelerationStructureTriangleGeometryDescriptor(nint value)
     {
         return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

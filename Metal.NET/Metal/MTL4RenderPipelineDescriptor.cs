@@ -1,27 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTL4RenderPipelineDescriptor : IDisposable
+public class MTL4RenderPipelineDescriptor(nint nativePtr) : MTL4PipelineDescriptor(nativePtr)
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineDescriptor");
-
-    public MTL4RenderPipelineDescriptor(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTL4RenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTL4RenderPipelineDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public MTL4AlphaToCoverageState AlphaToCoverageState
     {
@@ -136,21 +117,6 @@ public class MTL4RenderPipelineDescriptor : IDisposable
     public void Reset()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.Reset);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

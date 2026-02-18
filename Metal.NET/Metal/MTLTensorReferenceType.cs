@@ -2,6 +2,8 @@
 
 public class MTLTensorReferenceType(nint nativePtr) : MTLType(nativePtr)
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorReferenceType");
+
     public MTLBindingAccess Access
     {
         get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorReferenceTypeSelector.Access));

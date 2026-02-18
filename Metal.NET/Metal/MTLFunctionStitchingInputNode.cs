@@ -2,6 +2,8 @@
 
 public class MTLFunctionStitchingInputNode(nint nativePtr) : MTLFunctionStitchingNode(nativePtr)
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingInputNode");
+
     public nuint ArgumentIndex
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionStitchingInputNodeSelector.ArgumentIndex);

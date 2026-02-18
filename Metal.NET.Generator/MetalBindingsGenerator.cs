@@ -198,7 +198,7 @@ public class MetalBindingsGenerator
 
         if (hasParent)
         {
-            EmitDerivedClassHeader(sb, def.Name, hasLibraryImports, def.ParentClass!);
+            EmitDerivedClassHeader(sb, def.Name, hasLibraryImports, def.ParentClass!, isConcreteClass, isConcreteClass ? def.ObjCClass : null, !isConcreteClass && hasStaticMethods);
         }
         else
         {
@@ -363,10 +363,21 @@ public class MetalBindingsGenerator
         sb.AppendLine();
     }
 
-    private static void EmitDerivedClassHeader(StringBuilder sb, string name, bool hasLibraryImports, string parentClass)
+    private static void EmitDerivedClassHeader(StringBuilder sb, string name, bool hasLibraryImports, string parentClass, bool isConcreteClass = false, string? objcClassName = null, bool emitClassForStaticMethods = false)
     {
         sb.AppendLine($"public{(hasLibraryImports ? " partial" : "")} class {name}(nint nativePtr) : {parentClass}(nativePtr)");
         sb.AppendLine("{");
+
+        if (isConcreteClass && objcClassName != null)
+        {
+            sb.AppendLine($"    private static readonly nint Class = ObjectiveCRuntime.GetClass(\"{objcClassName}\");");
+            sb.AppendLine();
+        }
+        else if (emitClassForStaticMethods)
+        {
+            sb.AppendLine($"    private static readonly nint Class = ObjectiveCRuntime.GetClass(\"{name}\");");
+            sb.AppendLine();
+        }
     }
 
     private static void EmitClassFooter(StringBuilder sb, string name)

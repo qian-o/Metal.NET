@@ -1,27 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTL4MachineLearningPipelineDescriptor : IDisposable
+public class MTL4MachineLearningPipelineDescriptor(nint nativePtr) : MTL4PipelineDescriptor(nativePtr)
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4MachineLearningPipelineDescriptor");
-
-    public MTL4MachineLearningPipelineDescriptor(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTL4MachineLearningPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTL4MachineLearningPipelineDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public NSString Label
     {
@@ -65,21 +46,6 @@ public class MTL4MachineLearningPipelineDescriptor : IDisposable
     public void SetInputDimensions(NSArray dimensions, NSRange range)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetInputDimensionsWithRange, dimensions.NativePtr, range);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

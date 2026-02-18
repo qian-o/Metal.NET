@@ -2,6 +2,8 @@
 
 public class MTLArrayType(nint nativePtr) : MTLType(nativePtr)
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArrayType");
+
     public nuint ArgumentIndexStride
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeSelector.ArgumentIndexStride);

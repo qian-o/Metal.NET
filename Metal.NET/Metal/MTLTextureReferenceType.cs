@@ -2,6 +2,8 @@
 
 public class MTLTextureReferenceType(nint nativePtr) : MTLType(nativePtr)
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTextureReferenceType");
+
     public MTLBindingAccess Access
     {
         get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeSelector.Access));
