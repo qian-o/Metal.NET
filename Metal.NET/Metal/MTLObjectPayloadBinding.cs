@@ -1,22 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTLObjectPayloadBinding : IDisposable
+public class MTLObjectPayloadBinding(nint nativePtr) : MTLBinding(nativePtr)
 {
-    public MTLObjectPayloadBinding(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLObjectPayloadBinding()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public nuint ObjectPayloadAlignment
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLObjectPayloadBindingSelector.ObjectPayloadAlignment);
@@ -35,21 +20,6 @@ public class MTLObjectPayloadBinding : IDisposable
     public static implicit operator MTLObjectPayloadBinding(nint value)
     {
         return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

@@ -117,6 +117,16 @@ public class MTLRenderPassDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorSelector.SetVisibilityResultType, (ulong)value);
     }
 
+    public static implicit operator nint(MTLRenderPassDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLRenderPassDescriptor(nint value)
+    {
+        return new(value);
+    }
+
     public nuint GetSamplePositions(MTLSamplePosition positions, nuint count)
     {
         nuint result = ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorSelector.GetSamplePositionsCount, positions, count);
@@ -127,16 +137,6 @@ public class MTLRenderPassDescriptor : IDisposable
     public void SetSamplePositions(MTLSamplePosition positions, nuint count)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorSelector.SetSamplePositionsCount, positions, count);
-    }
-
-    public static implicit operator nint(MTLRenderPassDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLRenderPassDescriptor(nint value)
-    {
-        return new(value);
     }
 
     public static MTLRenderPassDescriptor RenderPassDescriptor()

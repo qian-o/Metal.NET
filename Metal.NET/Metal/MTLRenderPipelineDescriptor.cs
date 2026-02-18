@@ -238,11 +238,6 @@ public class MTLRenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetVertexPreloadedLibraries, value.NativePtr);
     }
 
-    public void Reset()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.Reset);
-    }
-
     public static implicit operator nint(MTLRenderPipelineDescriptor value)
     {
         return value.NativePtr;
@@ -251,6 +246,11 @@ public class MTLRenderPipelineDescriptor : IDisposable
     public static implicit operator MTLRenderPipelineDescriptor(nint value)
     {
         return new(value);
+    }
+
+    public void Reset()
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.Reset);
     }
 
     public void Dispose()

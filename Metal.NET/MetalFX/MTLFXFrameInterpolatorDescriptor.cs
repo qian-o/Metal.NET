@@ -82,6 +82,16 @@ public class MTLFXFrameInterpolatorDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetOutputHeight, value);
     }
 
+    public static implicit operator nint(MTLFXFrameInterpolatorDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLFXFrameInterpolatorDescriptor(nint value)
+    {
+        return new(value);
+    }
+
     public void SetUITextureFormat(MTLPixelFormat uiTextureFormat)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetUITextureFormat, (ulong)uiTextureFormat);
@@ -99,16 +109,6 @@ public class MTLFXFrameInterpolatorDescriptor : IDisposable
         MTL4FXFrameInterpolator result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.NewFrameInterpolatorWithDeviceCompiler, device.NativePtr, compiler.NativePtr));
 
         return result;
-    }
-
-    public static implicit operator nint(MTLFXFrameInterpolatorDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLFXFrameInterpolatorDescriptor(nint value)
-    {
-        return new(value);
     }
 
     public static Bool8 SupportsMetal4FX(MTLDevice device)

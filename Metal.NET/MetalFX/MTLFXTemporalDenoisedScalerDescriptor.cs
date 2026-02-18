@@ -167,6 +167,16 @@ public class MTLFXTemporalDenoisedScalerDescriptor : IDisposable
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.IsTransparencyOverlayTextureEnabled);
     }
 
+    public static implicit operator nint(MTLFXTemporalDenoisedScalerDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLFXTemporalDenoisedScalerDescriptor(nint value)
+    {
+        return new(value);
+    }
+
     public void SetAutoExposureEnabled(Bool8 enabled)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.SetAutoExposureEnabled, enabled);
@@ -209,16 +219,6 @@ public class MTLFXTemporalDenoisedScalerDescriptor : IDisposable
         MTL4FXTemporalDenoisedScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.NewTemporalDenoisedScalerWithDeviceCompiler, device.NativePtr, compiler.NativePtr));
 
         return result;
-    }
-
-    public static implicit operator nint(MTLFXTemporalDenoisedScalerDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLFXTemporalDenoisedScalerDescriptor(nint value)
-    {
-        return new(value);
     }
 
     public static float SupportedInputContentMinScale(MTLDevice device)

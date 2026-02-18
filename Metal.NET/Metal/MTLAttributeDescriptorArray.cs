@@ -23,6 +23,16 @@ public class MTLAttributeDescriptorArray : IDisposable
 
     public nint NativePtr { get; }
 
+    public static implicit operator nint(MTLAttributeDescriptorArray value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLAttributeDescriptorArray(nint value)
+    {
+        return new(value);
+    }
+
     public MTLAttributeDescriptor Object(nuint index)
     {
         MTLAttributeDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeDescriptorArraySelector.ObjectAtIndexedSubscript, index));
@@ -33,16 +43,6 @@ public class MTLAttributeDescriptorArray : IDisposable
     public void SetObject(MTLAttributeDescriptor attributeDesc, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorArraySelector.SetObjectAtIndexedSubscript, attributeDesc.NativePtr, index);
-    }
-
-    public static implicit operator nint(MTLAttributeDescriptorArray value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLAttributeDescriptorArray(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

@@ -23,6 +23,16 @@ public class MTLFunctionConstantValues : IDisposable
 
     public nint NativePtr { get; }
 
+    public static implicit operator nint(MTLFunctionConstantValues value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLFunctionConstantValues(nint value)
+    {
+        return new(value);
+    }
+
     public void Reset()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.Reset);
@@ -41,16 +51,6 @@ public class MTLFunctionConstantValues : IDisposable
     public void SetConstantValues(nint values, MTLDataType type, NSRange range)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValuesTypeWithRange, values, (ulong)type, range);
-    }
-
-    public static implicit operator nint(MTLFunctionConstantValues value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLFunctionConstantValues(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

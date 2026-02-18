@@ -28,6 +28,16 @@ public class MTL4CommandEncoder : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandEncoderSelector.SetLabel, value.NativePtr);
     }
 
+    public static implicit operator nint(MTL4CommandEncoder value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTL4CommandEncoder(nint value)
+    {
+        return new(value);
+    }
+
     public void BarrierAfterEncoderStages(MTLStages afterEncoderStages, MTLStages beforeEncoderStages, MTL4VisibilityOptions visibilityOptions)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandEncoderSelector.BarrierAfterEncoderStagesBeforeEncoderStagesVisibilityOptions, (ulong)afterEncoderStages, (ulong)beforeEncoderStages, (ulong)visibilityOptions);
@@ -71,16 +81,6 @@ public class MTL4CommandEncoder : IDisposable
     public void WaitForFence(MTLFence fence, MTLStages beforeEncoderStages)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandEncoderSelector.WaitForFenceBeforeEncoderStages, fence.NativePtr, (ulong)beforeEncoderStages);
-    }
-
-    public static implicit operator nint(MTL4CommandEncoder value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4CommandEncoder(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

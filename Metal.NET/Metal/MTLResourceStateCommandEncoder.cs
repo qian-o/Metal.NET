@@ -1,21 +1,16 @@
 ﻿namespace Metal.NET;
 
-public class MTLResourceStateCommandEncoder : IDisposable
+public class MTLResourceStateCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr)
 {
-    public MTLResourceStateCommandEncoder(nint nativePtr)
+    public static implicit operator nint(MTLResourceStateCommandEncoder value)
     {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
+        return value.NativePtr;
     }
 
-    ~MTLResourceStateCommandEncoder()
+    public static implicit operator MTLResourceStateCommandEncoder(nint value)
     {
-        Release();
+        return new(value);
     }
-
-    public nint NativePtr { get; }
 
     public void MoveTextureMappingsFromTexture(MTLTexture sourceTexture, nuint sourceSlice, nuint sourceLevel, MTLOrigin sourceOrigin, MTLSize sourceSize, MTLTexture destinationTexture, nuint destinationSlice, nuint destinationLevel, MTLOrigin destinationOrigin)
     {
@@ -45,31 +40,6 @@ public class MTLResourceStateCommandEncoder : IDisposable
     public void WaitForFence(MTLFence fence)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStateCommandEncoderSelector.WaitForFence, fence.NativePtr);
-    }
-
-    public static implicit operator nint(MTLResourceStateCommandEncoder value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLResourceStateCommandEncoder(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

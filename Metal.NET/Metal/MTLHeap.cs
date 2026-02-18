@@ -68,6 +68,16 @@ public class MTLHeap : IDisposable
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.UsedSize);
     }
 
+    public static implicit operator nint(MTLHeap value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLHeap(nint value)
+    {
+        return new(value);
+    }
+
     public nuint MaxAvailableSize(nuint alignment)
     {
         nuint result = ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.MaxAvailableSizeWithAlignment, alignment);
@@ -136,16 +146,6 @@ public class MTLHeap : IDisposable
         MTLPurgeableState result = (MTLPurgeableState)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.SetPurgeableState, (ulong)state);
 
         return result;
-    }
-
-    public static implicit operator nint(MTLHeap value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLHeap(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

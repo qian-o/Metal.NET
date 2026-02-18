@@ -1,28 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTLArrayType : IDisposable
+public class MTLArrayType(nint nativePtr) : MTLType(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArrayType");
-
-    public MTLArrayType(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLArrayType() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTLArrayType()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public nuint ArgumentIndexStride
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeSelector.ArgumentIndexStride);
@@ -76,21 +55,6 @@ public class MTLArrayType : IDisposable
     public static implicit operator MTLArrayType(nint value)
     {
         return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

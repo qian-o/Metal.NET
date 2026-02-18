@@ -1,27 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTL4FXFrameInterpolator : IDisposable
+public class MTL4FXFrameInterpolator(nint nativePtr) : MTLFXFrameInterpolatorBase(nativePtr)
 {
-    public MTL4FXFrameInterpolator(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTL4FXFrameInterpolator()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public void EncodeToCommandBuffer(MTL4CommandBuffer commandBuffer)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4FXFrameInterpolatorSelector.EncodeToCommandBuffer, commandBuffer.NativePtr);
-    }
-
     public static implicit operator nint(MTL4FXFrameInterpolator value)
     {
         return value.NativePtr;
@@ -32,19 +12,9 @@ public class MTL4FXFrameInterpolator : IDisposable
         return new(value);
     }
 
-    public void Dispose()
+    public void EncodeToCommandBuffer(MTL4CommandBuffer commandBuffer)
     {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4FXFrameInterpolatorSelector.EncodeToCommandBuffer, commandBuffer.NativePtr);
     }
 }
 

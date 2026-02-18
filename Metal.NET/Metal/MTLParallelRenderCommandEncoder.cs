@@ -1,25 +1,20 @@
 ﻿namespace Metal.NET;
 
-public class MTLParallelRenderCommandEncoder : IDisposable
+public class MTLParallelRenderCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr)
 {
-    public MTLParallelRenderCommandEncoder(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLParallelRenderCommandEncoder()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public MTLRenderCommandEncoder RenderCommandEncoder
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLParallelRenderCommandEncoderSelector.RenderCommandEncoder));
+    }
+
+    public static implicit operator nint(MTLParallelRenderCommandEncoder value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLParallelRenderCommandEncoder(nint value)
+    {
+        return new(value);
     }
 
     public void SetColorStoreAction(MTLStoreAction storeAction, nuint colorAttachmentIndex)
@@ -50,31 +45,6 @@ public class MTLParallelRenderCommandEncoder : IDisposable
     public void SetStencilStoreActionOptions(MTLStoreActionOptions storeActionOptions)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetStencilStoreActionOptions, (ulong)storeActionOptions);
-    }
-
-    public static implicit operator nint(MTLParallelRenderCommandEncoder value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLParallelRenderCommandEncoder(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

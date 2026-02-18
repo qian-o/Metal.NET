@@ -780,11 +780,54 @@ public static partial class HeaderParser
 
             string? objCClass = isClass ? fullName : null;
 
+            // Extract parent class from NS::Referencing<Self, Parent> template
+            string? parentClass = null;
+            string inheritanceStr = classMatch.Groups[2].Value;
+
+            if (inheritanceStr.Contains("Referencing"))
+            {
+                int angleStart = inheritanceStr.IndexOf('<');
+                int angleEnd = inheritanceStr.LastIndexOf('>');
+
+                if (angleStart >= 0 && angleEnd > angleStart)
+                {
+                    string templateArgs = inheritanceStr[(angleStart + 1)..angleEnd].Trim();
+                    string[] templateParts = templateArgs.Split(',');
+
+                    if (templateParts.Length >= 2)
+                    {
+                        string parentName = templateParts[1].Trim();
+
+                        if (parentName.Contains("::"))
+                        {
+                            // Cross-namespace reference (e.g., MTLFX::TemporalDenoisedScalerBase, MTL::Allocation)
+                            string[] nsParts = parentName.Split("::");
+                            string parentNs = nsParts[0].Trim();
+                            string parentSimpleName = nsParts[1].Trim();
+                            string parentPrefix = NamespaceToPrefix(parentNs);
+                            parentClass = $"{parentPrefix}{parentSimpleName}";
+                        }
+                        else
+                        {
+                            // Same namespace reference (e.g., CommandEncoder)
+                            parentClass = $"{prefix}{parentName}";
+                        }
+                    }
+                }
+            }
+
+            // Skip parent classes that are not bindable wrapper types
+            if (parentClass is "MTLAllocation" or "NSFastEnumeration")
+            {
+                parentClass = null;
+            }
+
             ObjCClassDef def = new()
             {
                 Name = fullName,
                 IsClass = isClass,
                 ObjCClass = objCClass,
+                ParentClass = parentClass,
                 Folder = NamespaceToFolder(currentNs),
             };
 

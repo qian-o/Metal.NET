@@ -1,27 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTL4FXSpatialScaler : IDisposable
+public class MTL4FXSpatialScaler(nint nativePtr) : MTLFXSpatialScalerBase(nativePtr)
 {
-    public MTL4FXSpatialScaler(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTL4FXSpatialScaler()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public void EncodeToCommandBuffer(MTL4CommandBuffer commandBuffer)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4FXSpatialScalerSelector.EncodeToCommandBuffer, commandBuffer.NativePtr);
-    }
-
     public static implicit operator nint(MTL4FXSpatialScaler value)
     {
         return value.NativePtr;
@@ -32,19 +12,9 @@ public class MTL4FXSpatialScaler : IDisposable
         return new(value);
     }
 
-    public void Dispose()
+    public void EncodeToCommandBuffer(MTL4CommandBuffer commandBuffer)
     {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4FXSpatialScalerSelector.EncodeToCommandBuffer, commandBuffer.NativePtr);
     }
 }
 

@@ -1,28 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionStitchingFunctionNode : IDisposable
+public class MTLFunctionStitchingFunctionNode(nint nativePtr) : MTLFunctionStitchingNode(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingFunctionNode");
-
-    public MTLFunctionStitchingFunctionNode(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLFunctionStitchingFunctionNode() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTLFunctionStitchingFunctionNode()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public NSArray Arguments
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionStitchingFunctionNodeSelector.Arguments));
@@ -49,21 +28,6 @@ public class MTLFunctionStitchingFunctionNode : IDisposable
     public static implicit operator MTLFunctionStitchingFunctionNode(nint value)
     {
         return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

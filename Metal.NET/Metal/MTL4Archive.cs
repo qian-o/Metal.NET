@@ -23,6 +23,16 @@ public class MTL4Archive : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArchiveSelector.SetLabel, value.NativePtr);
     }
 
+    public static implicit operator nint(MTL4Archive value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTL4Archive(nint value)
+    {
+        return new(value);
+    }
+
     public MTL4BinaryFunction NewBinaryFunction(MTL4BinaryFunctionDescriptor descriptor, out NSError? error)
     {
         MTL4BinaryFunction result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveSelector.NewBinaryFunctionWithDescriptorError, descriptor.NativePtr, out nint errorPtr));
@@ -66,16 +76,6 @@ public class MTL4Archive : IDisposable
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
-    }
-
-    public static implicit operator nint(MTL4Archive value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4Archive(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

@@ -1,21 +1,16 @@
 ﻿namespace Metal.NET;
 
-public class MTL4MachineLearningCommandEncoder : IDisposable
+public class MTL4MachineLearningCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativePtr)
 {
-    public MTL4MachineLearningCommandEncoder(nint nativePtr)
+    public static implicit operator nint(MTL4MachineLearningCommandEncoder value)
     {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
+        return value.NativePtr;
     }
 
-    ~MTL4MachineLearningCommandEncoder()
+    public static implicit operator MTL4MachineLearningCommandEncoder(nint value)
     {
-        Release();
+        return new(value);
     }
-
-    public nint NativePtr { get; }
 
     public void DispatchNetwork(MTLHeap heap)
     {
@@ -30,31 +25,6 @@ public class MTL4MachineLearningCommandEncoder : IDisposable
     public void SetPipelineState(MTL4MachineLearningPipelineState pipelineState)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderSelector.SetPipelineState, pipelineState.NativePtr);
-    }
-
-    public static implicit operator nint(MTL4MachineLearningCommandEncoder value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4MachineLearningCommandEncoder(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

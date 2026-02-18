@@ -68,6 +68,16 @@ public class MTLFunction : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.VertexAttributes));
     }
 
+    public static implicit operator nint(MTLFunction value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLFunction(nint value)
+    {
+        return new(value);
+    }
+
     public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex)
     {
         MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.NewArgumentEncoderWithBufferIndexReflection, bufferIndex));
@@ -80,16 +90,6 @@ public class MTLFunction : IDisposable
         MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.NewArgumentEncoderWithBufferIndexReflection, bufferIndex, reflection.NativePtr));
 
         return result;
-    }
-
-    public static implicit operator nint(MTLFunction value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLFunction(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

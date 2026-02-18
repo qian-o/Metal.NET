@@ -1,22 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class CAMetalDrawable : IDisposable
+public class CAMetalDrawable(nint nativePtr) : MTLDrawable(nativePtr)
 {
-    public CAMetalDrawable(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~CAMetalDrawable()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public CAMetalLayer Layer
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalDrawableSelector.Layer));
@@ -35,21 +20,6 @@ public class CAMetalDrawable : IDisposable
     public static implicit operator CAMetalDrawable(nint value)
     {
         return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

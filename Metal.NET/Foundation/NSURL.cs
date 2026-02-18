@@ -28,13 +28,6 @@ public class NSURL : IDisposable
         get => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSURLSelector.FileSystemRepresentation);
     }
 
-    public NSURL InitFileURLWithPath(NSString path)
-    {
-        NSURL result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, NSURLSelector.InitFileURLWithPath, path.NativePtr));
-
-        return result;
-    }
-
     public static implicit operator nint(NSURL value)
     {
         return value.NativePtr;
@@ -43,6 +36,13 @@ public class NSURL : IDisposable
     public static implicit operator NSURL(nint value)
     {
         return new(value);
+    }
+
+    public NSURL InitFileURLWithPath(NSString path)
+    {
+        NSURL result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, NSURLSelector.InitFileURLWithPath, path.NativePtr));
+
+        return result;
     }
 
     public static NSURL FileURLWithPath(NSString path)

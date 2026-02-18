@@ -98,6 +98,16 @@ public class MTLCommandBuffer : IDisposable
         get => (MTLCommandBufferStatus)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCommandBufferSelector.Status));
     }
 
+    public static implicit operator nint(MTLCommandBuffer value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLCommandBuffer(nint value)
+    {
+        return new(value);
+    }
+
     public void Commit()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.Commit);
@@ -170,16 +180,6 @@ public class MTLCommandBuffer : IDisposable
     public void WaitUntilScheduled()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.WaitUntilScheduled);
-    }
-
-    public static implicit operator nint(MTLCommandBuffer value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLCommandBuffer(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

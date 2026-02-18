@@ -43,6 +43,16 @@ public class MTLLibrary : IDisposable
         get => (MTLLibraryType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLLibrarySelector.Type));
     }
 
+    public static implicit operator nint(MTLLibrary value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLLibrary(nint value)
+    {
+        return new(value);
+    }
+
     public MTLFunction NewFunction(NSString functionName)
     {
         MTLFunction result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.NewFunctionWithDescriptorError, functionName.NativePtr));
@@ -82,16 +92,6 @@ public class MTLLibrary : IDisposable
         MTLFunctionReflection result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.ReflectionForFunctionWithName, functionName.NativePtr));
 
         return result;
-    }
-
-    public static implicit operator nint(MTLLibrary value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLLibrary(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

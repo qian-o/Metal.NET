@@ -102,6 +102,16 @@ public class MTLRenderPipelineState : IDisposable
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineStateSelector.ThreadgroupSizeMatchesTileSize);
     }
 
+    public static implicit operator nint(MTLRenderPipelineState value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLRenderPipelineState(nint value)
+    {
+        return new(value);
+    }
+
     public MTLFunctionHandle FunctionHandle(NSString name, MTLRenderStages stage)
     {
         MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleWithFunctionStage, name.NativePtr, (ulong)stage));
@@ -167,16 +177,6 @@ public class MTLRenderPipelineState : IDisposable
         MTLVisibleFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewVisibleFunctionTableWithDescriptorStage, descriptor.NativePtr, (ulong)stage));
 
         return result;
-    }
-
-    public static implicit operator nint(MTLRenderPipelineState value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLRenderPipelineState(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

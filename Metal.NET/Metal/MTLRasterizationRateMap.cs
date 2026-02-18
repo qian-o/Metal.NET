@@ -47,6 +47,16 @@ public class MTLRasterizationRateMap : IDisposable
         get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapSelector.ScreenSize);
     }
 
+    public static implicit operator nint(MTLRasterizationRateMap value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLRasterizationRateMap(nint value)
+    {
+        return new(value);
+    }
+
     public void CopyParameterDataToBuffer(MTLBuffer buffer, nuint offset)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapSelector.CopyParameterDataToBufferOffset, buffer.NativePtr, offset);
@@ -71,16 +81,6 @@ public class MTLRasterizationRateMap : IDisposable
         MTLSize result = ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapSelector.PhysicalSizeForLayer, layerIndex);
 
         return result;
-    }
-
-    public static implicit operator nint(MTLRasterizationRateMap value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLRasterizationRateMap(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

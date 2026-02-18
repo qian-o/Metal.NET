@@ -1,22 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderCommandEncoder : IDisposable
+public class MTLRenderCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr)
 {
-    public MTLRenderCommandEncoder(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLRenderCommandEncoder()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public nuint TileHeight
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderCommandEncoderSelector.TileHeight);
@@ -25,6 +10,16 @@ public class MTLRenderCommandEncoder : IDisposable
     public nuint TileWidth
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderCommandEncoderSelector.TileWidth);
+    }
+
+    public static implicit operator nint(MTLRenderCommandEncoder value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLRenderCommandEncoder(nint value)
+    {
+        return new(value);
     }
 
     public void DispatchThreadsPerTile(MTLSize threadsPerTile)
@@ -510,31 +505,6 @@ public class MTLRenderCommandEncoder : IDisposable
     public void WaitForFence(MTLFence fence, MTLRenderStages stages)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.WaitForFenceBeforeStages, fence.NativePtr, (ulong)stages);
-    }
-
-    public static implicit operator nint(MTLRenderCommandEncoder value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLRenderCommandEncoder(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

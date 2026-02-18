@@ -68,6 +68,16 @@ public class MTLResource : IDisposable
         get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.StorageMode));
     }
 
+    public static implicit operator nint(MTLResource value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLResource(nint value)
+    {
+        return new(value);
+    }
+
     public void MakeAliasable()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceSelector.MakeAliasable);
@@ -85,16 +95,6 @@ public class MTLResource : IDisposable
         MTLPurgeableState result = (MTLPurgeableState)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.SetPurgeableState, (ulong)state);
 
         return result;
-    }
-
-    public static implicit operator nint(MTLResource value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLResource(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

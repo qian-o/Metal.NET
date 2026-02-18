@@ -42,6 +42,16 @@ public class MTLResidencySet : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.Label));
     }
 
+    public static implicit operator nint(MTLResidencySet value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLResidencySet(nint value)
+    {
+        return new(value);
+    }
+
     public void AddAllocation(MTLAllocation allocation)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetSelector.AddAllocation, allocation.NativePtr);
@@ -77,16 +87,6 @@ public class MTLResidencySet : IDisposable
     public void RequestResidency()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetSelector.RequestResidency);
-    }
-
-    public static implicit operator nint(MTLResidencySet value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLResidencySet(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

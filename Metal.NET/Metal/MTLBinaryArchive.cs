@@ -28,6 +28,16 @@ public class MTLBinaryArchive : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBinaryArchiveSelector.SetLabel, value.NativePtr);
     }
 
+    public static implicit operator nint(MTLBinaryArchive value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLBinaryArchive(nint value)
+    {
+        return new(value);
+    }
+
     public Bool8 AddComputePipelineFunctions(MTLComputePipelineDescriptor descriptor, out NSError? error)
     {
         Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.AddComputePipelineFunctionsWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
@@ -89,16 +99,6 @@ public class MTLBinaryArchive : IDisposable
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
-    }
-
-    public static implicit operator nint(MTLBinaryArchive value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLBinaryArchive(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

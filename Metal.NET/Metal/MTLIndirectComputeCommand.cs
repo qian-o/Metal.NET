@@ -17,6 +17,16 @@ public class MTLIndirectComputeCommand : IDisposable
 
     public nint NativePtr { get; }
 
+    public static implicit operator nint(MTLIndirectComputeCommand value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLIndirectComputeCommand(nint value)
+    {
+        return new(value);
+    }
+
     public void ClearBarrier()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.ClearBarrier);
@@ -70,16 +80,6 @@ public class MTLIndirectComputeCommand : IDisposable
     public void SetThreadgroupMemoryLength(nuint length, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetThreadgroupMemoryLengthAtIndex, length, index);
-    }
-
-    public static implicit operator nint(MTLIndirectComputeCommand value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLIndirectComputeCommand(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

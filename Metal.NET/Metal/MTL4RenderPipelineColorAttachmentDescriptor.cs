@@ -77,11 +77,6 @@ public class MTL4RenderPipelineColorAttachmentDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorSelector.SetWriteMask, (ulong)value);
     }
 
-    public void Reset()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorSelector.Reset);
-    }
-
     public static implicit operator nint(MTL4RenderPipelineColorAttachmentDescriptor value)
     {
         return value.NativePtr;
@@ -90,6 +85,11 @@ public class MTL4RenderPipelineColorAttachmentDescriptor : IDisposable
     public static implicit operator MTL4RenderPipelineColorAttachmentDescriptor(nint value)
     {
         return new(value);
+    }
+
+    public void Reset()
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorSelector.Reset);
     }
 
     public void Dispose()

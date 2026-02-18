@@ -1,28 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTLTextureReferenceType : IDisposable
+public class MTLTextureReferenceType(nint nativePtr) : MTLType(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTextureReferenceType");
-
-    public MTLTextureReferenceType(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLTextureReferenceType() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTLTextureReferenceType()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public MTLBindingAccess Access
     {
         get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeSelector.Access));
@@ -51,21 +30,6 @@ public class MTLTextureReferenceType : IDisposable
     public static implicit operator MTLTextureReferenceType(nint value)
     {
         return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

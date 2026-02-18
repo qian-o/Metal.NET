@@ -33,16 +33,6 @@ public class MTLCaptureScope : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeSelector.CommandQueue));
     }
 
-    public void BeginScope()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeSelector.BeginScope);
-    }
-
-    public void EndScope()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeSelector.EndScope);
-    }
-
     public static implicit operator nint(MTLCaptureScope value)
     {
         return value.NativePtr;
@@ -51,6 +41,16 @@ public class MTLCaptureScope : IDisposable
     public static implicit operator MTLCaptureScope(nint value)
     {
         return new(value);
+    }
+
+    public void BeginScope()
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeSelector.BeginScope);
+    }
+
+    public void EndScope()
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeSelector.EndScope);
     }
 
     public void Dispose()

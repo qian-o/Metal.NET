@@ -32,6 +32,16 @@ public class MTL4Compiler : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.PipelineDataSetSerializer));
     }
 
+    public static implicit operator nint(MTL4Compiler value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTL4Compiler(nint value)
+    {
+        return new(value);
+    }
+
     public MTL4BinaryFunction NewBinaryFunction(MTL4BinaryFunctionDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError? error)
     {
         MTL4BinaryFunction result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewBinaryFunctionWithDescriptorCompilerTaskOptionsCompletionHandler, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr));
@@ -120,16 +130,6 @@ public class MTL4Compiler : IDisposable
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
-    }
-
-    public static implicit operator nint(MTL4Compiler value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4Compiler(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

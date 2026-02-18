@@ -23,6 +23,16 @@ public class MTLPipelineBufferDescriptorArray : IDisposable
 
     public nint NativePtr { get; }
 
+    public static implicit operator nint(MTLPipelineBufferDescriptorArray value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLPipelineBufferDescriptorArray(nint value)
+    {
+        return new(value);
+    }
+
     public MTLPipelineBufferDescriptor Object(nuint bufferIndex)
     {
         MTLPipelineBufferDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPipelineBufferDescriptorArraySelector.ObjectAtIndexedSubscript, bufferIndex));
@@ -33,16 +43,6 @@ public class MTLPipelineBufferDescriptorArray : IDisposable
     public void SetObject(MTLPipelineBufferDescriptor buffer, nuint bufferIndex)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorArraySelector.SetObjectAtIndexedSubscript, buffer.NativePtr, bufferIndex);
-    }
-
-    public static implicit operator nint(MTLPipelineBufferDescriptorArray value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLPipelineBufferDescriptorArray(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

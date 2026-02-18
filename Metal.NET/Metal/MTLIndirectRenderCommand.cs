@@ -17,6 +17,16 @@ public class MTLIndirectRenderCommand : IDisposable
 
     public nint NativePtr { get; }
 
+    public static implicit operator nint(MTLIndirectRenderCommand value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLIndirectRenderCommand(nint value)
+    {
+        return new(value);
+    }
+
     public void ClearBarrier()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.ClearBarrier);
@@ -125,16 +135,6 @@ public class MTLIndirectRenderCommand : IDisposable
     public void SetVertexBuffer(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetVertexBufferOffsetAttributeStrideAtIndex, buffer.NativePtr, offset, stride, index);
-    }
-
-    public static implicit operator nint(MTLIndirectRenderCommand value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLIndirectRenderCommand(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

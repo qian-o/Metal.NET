@@ -199,16 +199,6 @@ public class MTLFXFrameInterpolatorBase : IDisposable
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXFrameInterpolatorBaseSelector.IsDepthReversed);
     }
 
-    public void SetUITexture(MTLTexture uiTexture)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseSelector.SetUITexture, uiTexture.NativePtr);
-    }
-
-    public void SetDepthReversed(Bool8 depthReversed)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseSelector.SetDepthReversed, depthReversed);
-    }
-
     public static implicit operator nint(MTLFXFrameInterpolatorBase value)
     {
         return value.NativePtr;
@@ -217,6 +207,16 @@ public class MTLFXFrameInterpolatorBase : IDisposable
     public static implicit operator MTLFXFrameInterpolatorBase(nint value)
     {
         return new(value);
+    }
+
+    public void SetUITexture(MTLTexture uiTexture)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseSelector.SetUITexture, uiTexture.NativePtr);
+    }
+
+    public void SetDepthReversed(Bool8 depthReversed)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseSelector.SetDepthReversed, depthReversed);
     }
 
     public void Dispose()

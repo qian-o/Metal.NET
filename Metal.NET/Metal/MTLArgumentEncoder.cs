@@ -38,6 +38,16 @@ public class MTLArgumentEncoder : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetLabel, value.NativePtr);
     }
 
+    public static implicit operator nint(MTLArgumentEncoder value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLArgumentEncoder(nint value)
+    {
+        return new(value);
+    }
+
     public nint ConstantData(nuint index)
     {
         nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderSelector.ConstantDataAtIndex, index);
@@ -110,16 +120,6 @@ public class MTLArgumentEncoder : IDisposable
     public void SetVisibleFunctionTable(MTLVisibleFunctionTable visibleFunctionTable, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetVisibleFunctionTableAtIndex, visibleFunctionTable.NativePtr, index);
-    }
-
-    public static implicit operator nint(MTLArgumentEncoder value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLArgumentEncoder(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

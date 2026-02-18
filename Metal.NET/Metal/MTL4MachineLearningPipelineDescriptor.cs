@@ -35,6 +35,16 @@ public class MTL4MachineLearningPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetMachineLearningFunctionDescriptor, value.NativePtr);
     }
 
+    public static implicit operator nint(MTL4MachineLearningPipelineDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTL4MachineLearningPipelineDescriptor(nint value)
+    {
+        return new(value);
+    }
+
     public MTLTensorExtents InputDimensionsAtBufferIndex(nint bufferIndex)
     {
         MTLTensorExtents result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.InputDimensionsAtBufferIndex, bufferIndex));
@@ -55,16 +65,6 @@ public class MTL4MachineLearningPipelineDescriptor : IDisposable
     public void SetInputDimensions(NSArray dimensions, NSRange range)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetInputDimensionsWithRange, dimensions.NativePtr, range);
-    }
-
-    public static implicit operator nint(MTL4MachineLearningPipelineDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4MachineLearningPipelineDescriptor(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

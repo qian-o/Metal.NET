@@ -70,11 +70,6 @@ public class MTL4TileRenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetTileFunctionDescriptor, value.NativePtr);
     }
 
-    public void Reset()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.Reset);
-    }
-
     public static implicit operator nint(MTL4TileRenderPipelineDescriptor value)
     {
         return value.NativePtr;
@@ -83,6 +78,11 @@ public class MTL4TileRenderPipelineDescriptor : IDisposable
     public static implicit operator MTL4TileRenderPipelineDescriptor(nint value)
     {
         return new(value);
+    }
+
+    public void Reset()
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.Reset);
     }
 
     public void Dispose()

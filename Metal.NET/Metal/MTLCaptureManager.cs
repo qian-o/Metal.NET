@@ -34,6 +34,16 @@ public class MTLCaptureManager : IDisposable
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerSelector.IsCapturing);
     }
 
+    public static implicit operator nint(MTLCaptureManager value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLCaptureManager(nint value)
+    {
+        return new(value);
+    }
+
     public MTLCaptureScope NewCaptureScope(MTLDevice device)
     {
         MTLCaptureScope result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerSelector.NewCaptureScopeWithMTL4CommandQueue, device.NativePtr));
@@ -89,16 +99,6 @@ public class MTLCaptureManager : IDisposable
         Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerSelector.SupportsDestination, (ulong)destination);
 
         return result;
-    }
-
-    public static implicit operator nint(MTLCaptureManager value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLCaptureManager(nint value)
-    {
-        return new(value);
     }
 
     public static MTLCaptureManager SharedCaptureManager()

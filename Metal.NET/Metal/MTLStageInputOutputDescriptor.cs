@@ -45,11 +45,6 @@ public class MTLStageInputOutputDescriptor : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStageInputOutputDescriptorSelector.Layouts));
     }
 
-    public void Reset()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLStageInputOutputDescriptorSelector.Reset);
-    }
-
     public static implicit operator nint(MTLStageInputOutputDescriptor value)
     {
         return value.NativePtr;
@@ -58,6 +53,11 @@ public class MTLStageInputOutputDescriptor : IDisposable
     public static implicit operator MTLStageInputOutputDescriptor(nint value)
     {
         return new(value);
+    }
+
+    public void Reset()
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLStageInputOutputDescriptorSelector.Reset);
     }
 
     public static MTLStageInputOutputDescriptor StageInputOutputDescriptor()

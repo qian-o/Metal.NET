@@ -1,22 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTLIndirectCommandBuffer : IDisposable
+public class MTLIndirectCommandBuffer(nint nativePtr) : MTLResource(nativePtr)
 {
-    public MTLIndirectCommandBuffer(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLIndirectCommandBuffer()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public MTLResourceID GpuResourceID
     {
         get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLIndirectCommandBufferSelector.GpuResourceID);
@@ -25,6 +10,16 @@ public class MTLIndirectCommandBuffer : IDisposable
     public nuint Size
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferSelector.Size);
+    }
+
+    public static implicit operator nint(MTLIndirectCommandBuffer value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLIndirectCommandBuffer(nint value)
+    {
+        return new(value);
     }
 
     public MTLIndirectComputeCommand IndirectComputeCommand(nuint commandIndex)
@@ -44,31 +39,6 @@ public class MTLIndirectCommandBuffer : IDisposable
     public void Reset(NSRange range)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferSelector.ResetWithRange, range);
-    }
-
-    public static implicit operator nint(MTLIndirectCommandBuffer value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLIndirectCommandBuffer(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

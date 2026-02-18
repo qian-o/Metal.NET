@@ -1,26 +1,21 @@
 ﻿namespace Metal.NET;
 
-public class MTLSharedEvent : IDisposable
+public class MTLSharedEvent(nint nativePtr) : MTLEvent(nativePtr)
 {
-    public MTLSharedEvent(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLSharedEvent()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public nuint SignaledValue
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSharedEventSelector.SignaledValue);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSharedEventSelector.SetSignaledValue, value);
+    }
+
+    public static implicit operator nint(MTLSharedEvent value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLSharedEvent(nint value)
+    {
+        return new(value);
     }
 
     public MTLSharedEventHandle NewSharedEventHandle()
@@ -35,31 +30,6 @@ public class MTLSharedEvent : IDisposable
         Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLSharedEventSelector.WaitUntilSignaledValueTimeoutMS, value, milliseconds);
 
         return result;
-    }
-
-    public static implicit operator nint(MTLSharedEvent value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLSharedEvent(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

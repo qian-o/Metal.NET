@@ -67,6 +67,16 @@ public class MTLComputePipelineState : IDisposable
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineStateSelector.ThreadExecutionWidth);
     }
 
+    public static implicit operator nint(MTLComputePipelineState value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLComputePipelineState(nint value)
+    {
+        return new(value);
+    }
+
     public MTLFunctionHandle FunctionHandle(NSString name)
     {
         MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.FunctionHandleWithFunction, name.NativePtr));
@@ -125,16 +135,6 @@ public class MTLComputePipelineState : IDisposable
         MTLVisibleFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.NewVisibleFunctionTableWithDescriptor, descriptor.NativePtr));
 
         return result;
-    }
-
-    public static implicit operator nint(MTLComputePipelineState value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLComputePipelineState(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

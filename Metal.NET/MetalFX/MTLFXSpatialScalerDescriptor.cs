@@ -65,6 +65,16 @@ public class MTLFXSpatialScalerDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetColorProcessingMode, (ulong)value);
     }
 
+    public static implicit operator nint(MTLFXSpatialScalerDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLFXSpatialScalerDescriptor(nint value)
+    {
+        return new(value);
+    }
+
     public MTLFXSpatialScaler NewSpatialScaler(MTLDevice device)
     {
         MTLFXSpatialScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorSelector.NewSpatialScalerWithDeviceCompiler, device.NativePtr));
@@ -77,16 +87,6 @@ public class MTLFXSpatialScalerDescriptor : IDisposable
         MTL4FXSpatialScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorSelector.NewSpatialScalerWithDeviceCompiler, device.NativePtr, compiler.NativePtr));
 
         return result;
-    }
-
-    public static implicit operator nint(MTLFXSpatialScalerDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLFXSpatialScalerDescriptor(nint value)
-    {
-        return new(value);
     }
 
     public static Bool8 SupportsDevice(MTLDevice device)

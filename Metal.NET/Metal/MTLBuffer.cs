@@ -1,22 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTLBuffer : IDisposable
+public class MTLBuffer(nint nativePtr) : MTLResource(nativePtr)
 {
-    public MTLBuffer(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLBuffer()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public nint Contents
     {
         get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.Contents);
@@ -40,6 +25,16 @@ public class MTLBuffer : IDisposable
     public MTLBufferSparseTier SparseBufferTier
     {
         get => (MTLBufferSparseTier)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLBufferSelector.SparseBufferTier));
+    }
+
+    public static implicit operator nint(MTLBuffer value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLBuffer(nint value)
+    {
+        return new(value);
     }
 
     public void AddDebugMarker(NSString marker, NSRange range)
@@ -78,31 +73,6 @@ public class MTLBuffer : IDisposable
     public void RemoveAllDebugMarkers()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferSelector.RemoveAllDebugMarkers);
-    }
-
-    public static implicit operator nint(MTLBuffer value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLBuffer(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

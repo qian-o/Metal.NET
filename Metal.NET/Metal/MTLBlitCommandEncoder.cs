@@ -1,21 +1,16 @@
 ﻿namespace Metal.NET;
 
-public class MTLBlitCommandEncoder : IDisposable
+public class MTLBlitCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr)
 {
-    public MTLBlitCommandEncoder(nint nativePtr)
+    public static implicit operator nint(MTLBlitCommandEncoder value)
     {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
+        return value.NativePtr;
     }
 
-    ~MTLBlitCommandEncoder()
+    public static implicit operator MTLBlitCommandEncoder(nint value)
     {
-        Release();
+        return new(value);
     }
-
-    public nint NativePtr { get; }
 
     public void CopyFromBuffer(MTLBuffer sourceBuffer, nuint sourceOffset, nuint sourceBytesPerRow, nuint sourceBytesPerImage, MTLSize sourceSize, MTLTexture destinationTexture, nuint destinationSlice, nuint destinationLevel, MTLOrigin destinationOrigin)
     {
@@ -145,31 +140,6 @@ public class MTLBlitCommandEncoder : IDisposable
     public void WaitForFence(MTLFence fence)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderSelector.WaitForFence, fence.NativePtr);
-    }
-
-    public static implicit operator nint(MTLBlitCommandEncoder value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLBlitCommandEncoder(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

@@ -28,6 +28,8 @@ public class ObjCClassDef
 
     public string? ObjCClass { get; set; }
 
+    public string? ParentClass { get; set; }
+
     public List<PropertyDef> Properties { get; set; } = [];
 
     public List<MethodDef> Methods { get; set; } = [];

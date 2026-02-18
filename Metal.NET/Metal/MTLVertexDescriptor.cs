@@ -33,11 +33,6 @@ public class MTLVertexDescriptor : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorSelector.Layouts));
     }
 
-    public void Reset()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexDescriptorSelector.Reset);
-    }
-
     public static implicit operator nint(MTLVertexDescriptor value)
     {
         return value.NativePtr;
@@ -46,6 +41,11 @@ public class MTLVertexDescriptor : IDisposable
     public static implicit operator MTLVertexDescriptor(nint value)
     {
         return new(value);
+    }
+
+    public void Reset()
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexDescriptorSelector.Reset);
     }
 
     public static MTLVertexDescriptor VertexDescriptor()

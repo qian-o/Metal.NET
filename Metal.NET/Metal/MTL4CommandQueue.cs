@@ -27,6 +27,16 @@ public class MTL4CommandQueue : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueSelector.Label));
     }
 
+    public static implicit operator nint(MTL4CommandQueue value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTL4CommandQueue(nint value)
+    {
+        return new(value);
+    }
+
     public void AddResidencySet(MTLResidencySet residencySet)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.AddResidencySet, residencySet.NativePtr);
@@ -75,16 +85,6 @@ public class MTL4CommandQueue : IDisposable
     public void Wait(MTLDrawable drawable)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.WaitForDrawable, drawable.NativePtr);
-    }
-
-    public static implicit operator nint(MTL4CommandQueue value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4CommandQueue(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

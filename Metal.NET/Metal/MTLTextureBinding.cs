@@ -1,22 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTLTextureBinding : IDisposable
+public class MTLTextureBinding(nint nativePtr) : MTLBinding(nativePtr)
 {
-    public MTLTextureBinding(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLTextureBinding()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public nuint ArrayLength
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindingSelector.ArrayLength);
@@ -50,21 +35,6 @@ public class MTLTextureBinding : IDisposable
     public static implicit operator MTLTextureBinding(nint value)
     {
         return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

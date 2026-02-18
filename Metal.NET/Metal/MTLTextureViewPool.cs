@@ -1,21 +1,16 @@
 ﻿namespace Metal.NET;
 
-public class MTLTextureViewPool : IDisposable
+public class MTLTextureViewPool(nint nativePtr) : MTLResourceViewPool(nativePtr)
 {
-    public MTLTextureViewPool(nint nativePtr)
+    public static implicit operator nint(MTLTextureViewPool value)
     {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
+        return value.NativePtr;
     }
 
-    ~MTLTextureViewPool()
+    public static implicit operator MTLTextureViewPool(nint value)
     {
-        Release();
+        return new(value);
     }
-
-    public nint NativePtr { get; }
 
     public MTLResourceID SetTextureView(MTLTexture texture, nuint index)
     {
@@ -36,31 +31,6 @@ public class MTLTextureViewPool : IDisposable
         MTLResourceID result = ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolSelector.SetTextureViewFromBufferDescriptorOffsetBytesPerRowAtIndex, buffer.NativePtr, descriptor.NativePtr, offset, bytesPerRow, index);
 
         return result;
-    }
-
-    public static implicit operator nint(MTLTextureViewPool value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLTextureViewPool(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

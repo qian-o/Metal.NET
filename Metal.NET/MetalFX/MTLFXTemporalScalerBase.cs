@@ -1,22 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXTemporalScalerBase : IDisposable
+public class MTLFXTemporalScalerBase(nint nativePtr) : MTLFXFrameInterpolatableScaler(nativePtr)
 {
-    public MTLFXTemporalScalerBase(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLFXTemporalScalerBase()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public MTLTextureUsage ColorTextureUsage
     {
         get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalScalerBaseSelector.ColorTextureUsage));
@@ -192,11 +177,6 @@ public class MTLFXTemporalScalerBase : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerBaseSelector.SetFence, value.NativePtr);
     }
 
-    public void SetDepthReversed(Bool8 depthReversed)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerBaseSelector.SetDepthReversed, depthReversed);
-    }
-
     public static implicit operator nint(MTLFXTemporalScalerBase value)
     {
         return value.NativePtr;
@@ -207,19 +187,9 @@ public class MTLFXTemporalScalerBase : IDisposable
         return new(value);
     }
 
-    public void Dispose()
+    public void SetDepthReversed(Bool8 depthReversed)
     {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerBaseSelector.SetDepthReversed, depthReversed);
     }
 }
 

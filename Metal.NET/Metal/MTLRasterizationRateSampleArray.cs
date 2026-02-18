@@ -23,6 +23,16 @@ public class MTLRasterizationRateSampleArray : IDisposable
 
     public nint NativePtr { get; }
 
+    public static implicit operator nint(MTLRasterizationRateSampleArray value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLRasterizationRateSampleArray(nint value)
+    {
+        return new(value);
+    }
+
     public nint Object(nuint index)
     {
         nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateSampleArraySelector.ObjectAtIndexedSubscript, index);
@@ -33,16 +43,6 @@ public class MTLRasterizationRateSampleArray : IDisposable
     public void SetObject(nint value, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateSampleArraySelector.SetObjectAtIndexedSubscript, value, index);
-    }
-
-    public static implicit operator nint(MTLRasterizationRateSampleArray value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLRasterizationRateSampleArray(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

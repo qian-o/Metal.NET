@@ -1,22 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensor : IDisposable
+public class MTLTensor(nint nativePtr) : MTLResource(nativePtr)
 {
-    public MTLTensor(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLTensor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public MTLBuffer Buffer
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Buffer));
@@ -52,16 +37,6 @@ public class MTLTensor : IDisposable
         get => (MTLTensorUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorSelector.Usage));
     }
 
-    public void GetBytes(nint bytes, MTLTensorExtents strides, MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorSelector.GetBytesStridesFromSliceOriginSliceDimensions, bytes, strides.NativePtr, sliceOrigin.NativePtr, sliceDimensions.NativePtr);
-    }
-
-    public void ReplaceSliceOrigin(MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions, nint bytes, MTLTensorExtents strides)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorSelector.ReplaceSliceOriginSliceDimensionsWithBytesStrides, sliceOrigin.NativePtr, sliceDimensions.NativePtr, bytes, strides.NativePtr);
-    }
-
     public static implicit operator nint(MTLTensor value)
     {
         return value.NativePtr;
@@ -72,19 +47,14 @@ public class MTLTensor : IDisposable
         return new(value);
     }
 
-    public void Dispose()
+    public void GetBytes(nint bytes, MTLTensorExtents strides, MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions)
     {
-        Release();
-
-        GC.SuppressFinalize(this);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorSelector.GetBytesStridesFromSliceOriginSliceDimensions, bytes, strides.NativePtr, sliceOrigin.NativePtr, sliceDimensions.NativePtr);
     }
 
-    private void Release()
+    public void ReplaceSliceOrigin(MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions, nint bytes, MTLTensorExtents strides)
     {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorSelector.ReplaceSliceOriginSliceDimensionsWithBytesStrides, sliceOrigin.NativePtr, sliceDimensions.NativePtr, bytes, strides.NativePtr);
     }
 }
 

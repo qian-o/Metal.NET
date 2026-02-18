@@ -23,6 +23,16 @@ public class MTLRenderPassColorAttachmentDescriptorArray : IDisposable
 
     public nint NativePtr { get; }
 
+    public static implicit operator nint(MTLRenderPassColorAttachmentDescriptorArray value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLRenderPassColorAttachmentDescriptorArray(nint value)
+    {
+        return new(value);
+    }
+
     public MTLRenderPassColorAttachmentDescriptor Object(nuint attachmentIndex)
     {
         MTLRenderPassColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.ObjectAtIndexedSubscript, attachmentIndex));
@@ -33,16 +43,6 @@ public class MTLRenderPassColorAttachmentDescriptorArray : IDisposable
     public void SetObject(MTLRenderPassColorAttachmentDescriptor attachment, nuint attachmentIndex)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.SetObjectAtIndexedSubscript, attachment.NativePtr, attachmentIndex);
-    }
-
-    public static implicit operator nint(MTLRenderPassColorAttachmentDescriptorArray value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLRenderPassColorAttachmentDescriptorArray(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

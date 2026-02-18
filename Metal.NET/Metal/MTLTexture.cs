@@ -1,22 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTLTexture : IDisposable
+public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
 {
-    public MTLTexture(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLTexture()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public Bool8 AllowGPUOptimizedContents
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureSelector.AllowGPUOptimizedContents);
@@ -172,6 +157,16 @@ public class MTLTexture : IDisposable
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.Width);
     }
 
+    public static implicit operator nint(MTLTexture value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLTexture(nint value)
+    {
+        return new(value);
+    }
+
     public void GetBytes(nint pixelBytes, nuint bytesPerRow, nuint bytesPerImage, MTLRegion region, nuint level, nuint slice)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureSelector.GetBytesBytesPerRowFromRegionMipmapLevel, pixelBytes, bytesPerRow, bytesPerImage, region, level, slice);
@@ -232,31 +227,6 @@ public class MTLTexture : IDisposable
     public void ReplaceRegion(MTLRegion region, nuint level, nint pixelBytes, nuint bytesPerRow)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureSelector.ReplaceRegionMipmapLevelWithBytesBytesPerRow, region, level, pixelBytes, bytesPerRow);
-    }
-
-    public static implicit operator nint(MTLTexture value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLTexture(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

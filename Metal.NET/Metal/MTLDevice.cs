@@ -270,6 +270,16 @@ public partial class MTLDevice : IDisposable
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsShaderBarycentricCoordinates);
     }
 
+    public static implicit operator nint(MTLDevice value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLDevice(nint value)
+    {
+        return new(value);
+    }
+
     public nint AccelerationStructureSizes(MTLAccelerationStructureDescriptor descriptor)
     {
         nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.AccelerationStructureSizesWithDescriptor, descriptor.NativePtr);
@@ -905,16 +915,6 @@ public partial class MTLDevice : IDisposable
         MTLSizeAndAlign result = ObjectiveCRuntime.MsgSendMTLSizeAndAlign(NativePtr, MTLDeviceSelector.TensorSizeAndAlignWithDescriptor, descriptor.NativePtr);
 
         return result;
-    }
-
-    public static implicit operator nint(MTLDevice value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLDevice(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

@@ -1,28 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensorReferenceType : IDisposable
+public class MTLTensorReferenceType(nint nativePtr) : MTLType(nativePtr)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorReferenceType");
-
-    public MTLTensorReferenceType(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLTensorReferenceType() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTLTensorReferenceType()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public MTLBindingAccess Access
     {
         get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorReferenceTypeSelector.Access));
@@ -51,21 +30,6 @@ public class MTLTensorReferenceType : IDisposable
     public static implicit operator MTLTensorReferenceType(nint value)
     {
         return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

@@ -1,22 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTLThreadgroupBinding : IDisposable
+public class MTLThreadgroupBinding(nint nativePtr) : MTLBinding(nativePtr)
 {
-    public MTLThreadgroupBinding(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLThreadgroupBinding()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public nuint ThreadgroupMemoryAlignment
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLThreadgroupBindingSelector.ThreadgroupMemoryAlignment);
@@ -35,21 +20,6 @@ public class MTLThreadgroupBinding : IDisposable
     public static implicit operator MTLThreadgroupBinding(nint value)
     {
         return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

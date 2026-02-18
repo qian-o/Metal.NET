@@ -112,6 +112,16 @@ public class MTL4RenderPassDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetVisibilityResultType, (ulong)value);
     }
 
+    public static implicit operator nint(MTL4RenderPassDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTL4RenderPassDescriptor(nint value)
+    {
+        return new(value);
+    }
+
     public nuint GetSamplePositions(MTLSamplePosition positions, nuint count)
     {
         nuint result = ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorSelector.GetSamplePositionsCount, positions, count);
@@ -122,16 +132,6 @@ public class MTL4RenderPassDescriptor : IDisposable
     public void SetSamplePositions(MTLSamplePosition positions, nuint count)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetSamplePositionsCount, positions, count);
-    }
-
-    public static implicit operator nint(MTL4RenderPassDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4RenderPassDescriptor(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

@@ -1,25 +1,20 @@
 ﻿namespace Metal.NET;
 
-public class MTLIntersectionFunctionTable : IDisposable
+public class MTLIntersectionFunctionTable(nint nativePtr) : MTLResource(nativePtr)
 {
-    public MTLIntersectionFunctionTable(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLIntersectionFunctionTable()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public MTLResourceID GpuResourceID
     {
         get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLIntersectionFunctionTableSelector.GpuResourceID);
+    }
+
+    public static implicit operator nint(MTLIntersectionFunctionTable value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLIntersectionFunctionTable(nint value)
+    {
+        return new(value);
     }
 
     public void SetBuffer(MTLBuffer buffer, nuint offset, nuint index)
@@ -55,31 +50,6 @@ public class MTLIntersectionFunctionTable : IDisposable
     public void SetVisibleFunctionTable(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetVisibleFunctionTableAtBufferIndex, functionTable.NativePtr, bufferIndex);
-    }
-
-    public static implicit operator nint(MTLIntersectionFunctionTable value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLIntersectionFunctionTable(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

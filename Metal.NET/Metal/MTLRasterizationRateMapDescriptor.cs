@@ -45,6 +45,16 @@ public class MTLRasterizationRateMapDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetScreenSize, value);
     }
 
+    public static implicit operator nint(MTLRasterizationRateMapDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLRasterizationRateMapDescriptor(nint value)
+    {
+        return new(value);
+    }
+
     public MTLRasterizationRateLayerDescriptor Layer(nuint layerIndex)
     {
         MTLRasterizationRateLayerDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.LayerAtIndex, layerIndex));
@@ -55,16 +65,6 @@ public class MTLRasterizationRateMapDescriptor : IDisposable
     public void SetLayer(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetLayerAtIndex, layer.NativePtr, layerIndex);
-    }
-
-    public static implicit operator nint(MTLRasterizationRateMapDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLRasterizationRateMapDescriptor(nint value)
-    {
-        return new(value);
     }
 
     public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptor(MTLSize screenSize)

@@ -208,11 +208,6 @@ public class MTLMeshRenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetSupportIndirectCommandBuffers, value);
     }
 
-    public void Reset()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.Reset);
-    }
-
     public static implicit operator nint(MTLMeshRenderPipelineDescriptor value)
     {
         return value.NativePtr;
@@ -221,6 +216,11 @@ public class MTLMeshRenderPipelineDescriptor : IDisposable
     public static implicit operator MTLMeshRenderPipelineDescriptor(nint value)
     {
         return new(value);
+    }
+
+    public void Reset()
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.Reset);
     }
 
     public void Dispose()

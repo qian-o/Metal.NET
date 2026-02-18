@@ -23,6 +23,16 @@ public class MTLVertexAttributeDescriptorArray : IDisposable
 
     public nint NativePtr { get; }
 
+    public static implicit operator nint(MTLVertexAttributeDescriptorArray value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLVertexAttributeDescriptorArray(nint value)
+    {
+        return new(value);
+    }
+
     public MTLVertexAttributeDescriptor Object(nuint index)
     {
         MTLVertexAttributeDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeDescriptorArraySelector.ObjectAtIndexedSubscript, index));
@@ -33,16 +43,6 @@ public class MTLVertexAttributeDescriptorArray : IDisposable
     public void SetObject(MTLVertexAttributeDescriptor attributeDesc, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorArraySelector.SetObjectAtIndexedSubscript, attributeDesc.NativePtr, index);
-    }
-
-    public static implicit operator nint(MTLVertexAttributeDescriptorArray value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLVertexAttributeDescriptorArray(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

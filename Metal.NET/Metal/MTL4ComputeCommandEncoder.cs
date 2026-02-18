@@ -1,25 +1,20 @@
 ﻿namespace Metal.NET;
 
-public class MTL4ComputeCommandEncoder : IDisposable
+public class MTL4ComputeCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativePtr)
 {
-    public MTL4ComputeCommandEncoder(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTL4ComputeCommandEncoder()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public MTLStages Stages
     {
         get => (MTLStages)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4ComputeCommandEncoderSelector.Stages));
+    }
+
+    public static implicit operator nint(MTL4ComputeCommandEncoder value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTL4ComputeCommandEncoder(nint value)
+    {
+        return new(value);
     }
 
     public void BuildAccelerationStructure(MTLAccelerationStructure accelerationStructure, MTL4AccelerationStructureDescriptor descriptor, MTL4BufferRange scratchBuffer)
@@ -195,31 +190,6 @@ public class MTL4ComputeCommandEncoder : IDisposable
     public void WriteTimestamp(MTL4TimestampGranularity granularity, MTL4CounterHeap counterHeap, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.WriteTimestampWithGranularityIntoHeapAtIndex, (ulong)granularity, counterHeap.NativePtr, index);
-    }
-
-    public static implicit operator nint(MTL4ComputeCommandEncoder value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4ComputeCommandEncoder(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

@@ -17,6 +17,16 @@ public class MTL4PipelineDataSetSerializer : IDisposable
 
     public nint NativePtr { get; }
 
+    public static implicit operator nint(MTL4PipelineDataSetSerializer value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTL4PipelineDataSetSerializer(nint value)
+    {
+        return new(value);
+    }
+
     public Bool8 SerializeAsArchiveAndFlushToURL(NSURL url, out NSError? error)
     {
         Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4PipelineDataSetSerializerSelector.SerializeAsArchiveAndFlushToURLError, url.NativePtr, out nint errorPtr);
@@ -33,16 +43,6 @@ public class MTL4PipelineDataSetSerializer : IDisposable
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
-    }
-
-    public static implicit operator nint(MTL4PipelineDataSetSerializer value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4PipelineDataSetSerializer(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

@@ -1,21 +1,16 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructureCommandEncoder : IDisposable
+public class MTLAccelerationStructureCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr)
 {
-    public MTLAccelerationStructureCommandEncoder(nint nativePtr)
+    public static implicit operator nint(MTLAccelerationStructureCommandEncoder value)
     {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
+        return value.NativePtr;
     }
 
-    ~MTLAccelerationStructureCommandEncoder()
+    public static implicit operator MTLAccelerationStructureCommandEncoder(nint value)
     {
-        Release();
+        return new(value);
     }
-
-    public nint NativePtr { get; }
 
     public void BuildAccelerationStructure(MTLAccelerationStructure accelerationStructure, MTLAccelerationStructureDescriptor descriptor, MTLBuffer scratchBuffer, nuint scratchBufferOffset)
     {
@@ -75,31 +70,6 @@ public class MTLAccelerationStructureCommandEncoder : IDisposable
     public void WriteCompactedAccelerationStructureSize(MTLAccelerationStructure accelerationStructure, MTLBuffer buffer, nuint offset, MTLDataType sizeDataType)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderSelector.WriteCompactedAccelerationStructureSizeToBufferOffsetSizeDataType, accelerationStructure.NativePtr, buffer.NativePtr, offset, (ulong)sizeDataType);
-    }
-
-    public static implicit operator nint(MTLAccelerationStructureCommandEncoder value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLAccelerationStructureCommandEncoder(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

@@ -177,11 +177,6 @@ public class MTL4MeshRenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetSupportObjectBinaryLinking, value);
     }
 
-    public void Reset()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.Reset);
-    }
-
     public static implicit operator nint(MTL4MeshRenderPipelineDescriptor value)
     {
         return value.NativePtr;
@@ -190,6 +185,11 @@ public class MTL4MeshRenderPipelineDescriptor : IDisposable
     public static implicit operator MTL4MeshRenderPipelineDescriptor(nint value)
     {
         return new(value);
+    }
+
+    public void Reset()
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.Reset);
     }
 
     public void Dispose()

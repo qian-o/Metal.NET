@@ -33,6 +33,16 @@ public class MTLIOCommandBuffer : IDisposable
         get => (MTLIOStatus)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLIOCommandBufferSelector.Status));
     }
 
+    public static implicit operator nint(MTLIOCommandBuffer value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLIOCommandBuffer(nint value)
+    {
+        return new(value);
+    }
+
     public void AddBarrier()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.AddBarrier);
@@ -96,16 +106,6 @@ public class MTLIOCommandBuffer : IDisposable
     public void WaitUntilCompleted()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.WaitUntilCompleted);
-    }
-
-    public static implicit operator nint(MTLIOCommandBuffer value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLIOCommandBuffer(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

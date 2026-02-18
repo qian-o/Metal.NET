@@ -27,6 +27,16 @@ public class MTL4ArgumentTable : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArgumentTableSelector.Label));
     }
 
+    public static implicit operator nint(MTL4ArgumentTable value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTL4ArgumentTable(nint value)
+    {
+        return new(value);
+    }
+
     public void SetAddress(nuint gpuAddress, nuint bindingIndex)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetAddressAttributeStrideAtIndex, gpuAddress, bindingIndex);
@@ -50,16 +60,6 @@ public class MTL4ArgumentTable : IDisposable
     public void SetTexture(MTLResourceID resourceID, nuint bindingIndex)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetTextureAtIndex, resourceID, bindingIndex);
-    }
-
-    public static implicit operator nint(MTL4ArgumentTable value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4ArgumentTable(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

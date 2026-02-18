@@ -194,7 +194,16 @@ public class MetalBindingsGenerator
 
         bool isConcreteClass = def.IsClass && def.ObjCClass != null;
         bool hasStaticMethods = def.StaticMethods.Count > 0;
-        EmitClassHeader(sb, def.Name, hasLibraryImports, isConcreteClass, isConcreteClass ? def.ObjCClass : null, !isConcreteClass && hasStaticMethods);
+        bool hasParent = def.ParentClass != null;
+
+        if (hasParent)
+        {
+            EmitDerivedClassHeader(sb, def.Name, hasLibraryImports, def.ParentClass!);
+        }
+        else
+        {
+            EmitClassHeader(sb, def.Name, hasLibraryImports, isConcreteClass, isConcreteClass ? def.ObjCClass : null, !isConcreteClass && hasStaticMethods);
+        }
 
         foreach (PropertyDef p in def.Properties)
         {
@@ -233,14 +242,6 @@ public class MetalBindingsGenerator
             sb.AppendLine();
         }
 
-        foreach (MethodDef m in def.Methods)
-        {
-            if (EmitMethod(sb, def.Name, m, selectors, isStatic: false))
-            {
-                sb.AppendLine();
-            }
-        }
-
         sb.AppendLine($"    public static implicit operator nint({def.Name} value)");
         sb.AppendLine("    {");
         sb.AppendLine("        return value.NativePtr;");
@@ -252,6 +253,14 @@ public class MetalBindingsGenerator
         sb.AppendLine("    }");
         sb.AppendLine();
 
+        foreach (MethodDef m in def.Methods)
+        {
+            if (EmitMethod(sb, def.Name, m, selectors, isStatic: false))
+            {
+                sb.AppendLine();
+            }
+        }
+
         foreach (MethodDef m in def.StaticMethods)
         {
             if (EmitMethod(sb, def.Name, m, selectors, isStatic: true))
@@ -260,20 +269,23 @@ public class MetalBindingsGenerator
             }
         }
 
-        sb.AppendLine("    public void Dispose()");
-        sb.AppendLine("    {");
-        sb.AppendLine("        Release();");
-        sb.AppendLine();
-        sb.AppendLine("        GC.SuppressFinalize(this);");
-        sb.AppendLine("    }");
-        sb.AppendLine();
-        sb.AppendLine("    private void Release()");
-        sb.AppendLine("    {");
-        sb.AppendLine("        if (NativePtr is not 0)");
-        sb.AppendLine("        {");
-        sb.AppendLine("            ObjectiveCRuntime.Release(NativePtr);");
-        sb.AppendLine("        }");
-        sb.AppendLine("    }");
+        if (!hasParent)
+        {
+            sb.AppendLine("    public void Dispose()");
+            sb.AppendLine("    {");
+            sb.AppendLine("        Release();");
+            sb.AppendLine();
+            sb.AppendLine("        GC.SuppressFinalize(this);");
+            sb.AppendLine("    }");
+            sb.AppendLine();
+            sb.AppendLine("    private void Release()");
+            sb.AppendLine("    {");
+            sb.AppendLine("        if (NativePtr is not 0)");
+            sb.AppendLine("        {");
+            sb.AppendLine("            ObjectiveCRuntime.Release(NativePtr);");
+            sb.AppendLine("        }");
+            sb.AppendLine("    }");
+        }
 
         if (freeFunctions != null && freeFunctions.Count > 0)
         {
@@ -349,6 +361,12 @@ public class MetalBindingsGenerator
         sb.AppendLine();
         sb.AppendLine("    public nint NativePtr { get; }");
         sb.AppendLine();
+    }
+
+    private static void EmitDerivedClassHeader(StringBuilder sb, string name, bool hasLibraryImports, string parentClass)
+    {
+        sb.AppendLine($"public{(hasLibraryImports ? " partial" : "")} class {name}(nint nativePtr) : {parentClass}(nativePtr)");
+        sb.AppendLine("{");
     }
 
     private static void EmitClassFooter(StringBuilder sb, string name)

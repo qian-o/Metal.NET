@@ -1,27 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXTemporalScaler : IDisposable
+public class MTLFXTemporalScaler(nint nativePtr) : MTLFXTemporalScalerBase(nativePtr)
 {
-    public MTLFXTemporalScaler(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLFXTemporalScaler()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public void EncodeToCommandBuffer(MTLCommandBuffer commandBuffer)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerSelector.EncodeToCommandBuffer, commandBuffer.NativePtr);
-    }
-
     public static implicit operator nint(MTLFXTemporalScaler value)
     {
         return value.NativePtr;
@@ -32,19 +12,9 @@ public class MTLFXTemporalScaler : IDisposable
         return new(value);
     }
 
-    public void Dispose()
+    public void EncodeToCommandBuffer(MTLCommandBuffer commandBuffer)
     {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerSelector.EncodeToCommandBuffer, commandBuffer.NativePtr);
     }
 }
 

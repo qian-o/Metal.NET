@@ -32,11 +32,6 @@ public class MTL4CommandAllocator : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorSelector.Label));
     }
 
-    public void Reset()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandAllocatorSelector.Reset);
-    }
-
     public static implicit operator nint(MTL4CommandAllocator value)
     {
         return value.NativePtr;
@@ -45,6 +40,11 @@ public class MTL4CommandAllocator : IDisposable
     public static implicit operator MTL4CommandAllocator(nint value)
     {
         return new(value);
+    }
+
+    public void Reset()
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandAllocatorSelector.Reset);
     }
 
     public void Dispose()

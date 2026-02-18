@@ -65,11 +65,6 @@ public class MTL4ComputePipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetThreadGroupSizeIsMultipleOfThreadExecutionWidth, value);
     }
 
-    public void Reset()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.Reset);
-    }
-
     public static implicit operator nint(MTL4ComputePipelineDescriptor value)
     {
         return value.NativePtr;
@@ -78,6 +73,11 @@ public class MTL4ComputePipelineDescriptor : IDisposable
     public static implicit operator MTL4ComputePipelineDescriptor(nint value)
     {
         return new(value);
+    }
+
+    public void Reset()
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.Reset);
     }
 
     public void Dispose()

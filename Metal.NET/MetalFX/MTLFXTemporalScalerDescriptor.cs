@@ -110,6 +110,16 @@ public class MTLFXTemporalScalerDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorSelector.SetInputContentMaxScale, value);
     }
 
+    public static implicit operator nint(MTLFXTemporalScalerDescriptor value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLFXTemporalScalerDescriptor(nint value)
+    {
+        return new(value);
+    }
+
     public void SetAutoExposureEnabled(Bool8 enabled)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorSelector.SetAutoExposureEnabled, enabled);
@@ -137,16 +147,6 @@ public class MTLFXTemporalScalerDescriptor : IDisposable
         MTL4FXTemporalScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerDescriptorSelector.NewTemporalScalerWithDeviceCompiler, device.NativePtr, compiler.NativePtr));
 
         return result;
-    }
-
-    public static implicit operator nint(MTLFXTemporalScalerDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLFXTemporalScalerDescriptor(nint value)
-    {
-        return new(value);
     }
 
     public static float SupportedInputContentMinScale(MTLDevice device)

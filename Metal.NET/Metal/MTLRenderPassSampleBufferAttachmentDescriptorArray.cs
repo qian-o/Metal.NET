@@ -23,6 +23,16 @@ public class MTLRenderPassSampleBufferAttachmentDescriptorArray : IDisposable
 
     public nint NativePtr { get; }
 
+    public static implicit operator nint(MTLRenderPassSampleBufferAttachmentDescriptorArray value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLRenderPassSampleBufferAttachmentDescriptorArray(nint value)
+    {
+        return new(value);
+    }
+
     public MTLRenderPassSampleBufferAttachmentDescriptor Object(nuint attachmentIndex)
     {
         MTLRenderPassSampleBufferAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorArraySelector.ObjectAtIndexedSubscript, attachmentIndex));
@@ -33,16 +43,6 @@ public class MTLRenderPassSampleBufferAttachmentDescriptorArray : IDisposable
     public void SetObject(MTLRenderPassSampleBufferAttachmentDescriptor attachment, nuint attachmentIndex)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorArraySelector.SetObjectAtIndexedSubscript, attachment.NativePtr, attachmentIndex);
-    }
-
-    public static implicit operator nint(MTLRenderPassSampleBufferAttachmentDescriptorArray value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLRenderPassSampleBufferAttachmentDescriptorArray(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()
