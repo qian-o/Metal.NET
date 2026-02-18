@@ -1,46 +1,15 @@
-﻿using System.Text.RegularExpressions;
-
-using ClangSharp;
+﻿using ClangSharp;
 using ClangSharp.Interop;
 
 namespace Metal.NET.Generator;
 
 /// <summary>
-/// Parses metal-cpp C++ headers using ClangSharp AST for enums/classes
-/// and regex for selectors, free functions, and CLS registrations.
+/// Parses metal-cpp C++ headers using ClangSharp AST traversal only (no regex).
+/// Uses -DMTL_PRIVATE_IMPLEMENTATION to make private selector/class registration
+/// definitions visible in the AST.
 /// </summary>
-public static partial class HeaderParser
+public static class HeaderParser
 {
-    [GeneratedRegex(@"_(MTL|NS|CA|MTLFX)_PRIVATE_DEF_SEL\s*\(\s*(\w+)\s*,")]
-    private static partial Regex DefSelAccessorPattern();
-
-    [GeneratedRegex(@"_(MTL|NS|CA|MTLFX)_PRIVATE_DEF_CLS\s*\(\s*(\w+)\s*\)")]
-    private static partial Regex DefClsPattern();
-
-    [GeneratedRegex(@"_(MTL|NS|CA|MTLFX)_INLINE\s+(.+?)\s+(\w+)::(\w+)::(\w+)\s*\(")]
-    private static partial Regex InlineImplPattern();
-
-    [GeneratedRegex(@"_(MTL|NS|CA|MTLFX)_PRIVATE_SEL\s*\(\s*(\w+)\s*\)")]
-    private static partial Regex PrivateSelUsagePattern();
-
-    [GeneratedRegex(@"extern\s+""C""\s+(.+?)\s+(\w+)\s*\((.*?)\)\s*;")]
-    private static partial Regex ExternCPattern();
-
-    [GeneratedRegex(@"^namespace\s+(\w+)")]
-    private static partial Regex NsPattern();
-
-    [GeneratedRegex(@"^(\d+)\s*<<\s*(\d+)$")]
-    private static partial Regex ShiftExprPattern();
-
-    [GeneratedRegex(@"(0[xX][0-9a-fA-F]+|[0-9]+)(ULL|ull|UL|ul|LL|ll|U|u|L|l)\b")]
-    private static partial Regex IntegerSuffixPattern();
-
-    [GeneratedRegex(@"_(MTL|NS|CA|MTLFX)_ENUM\s*\(\s*(.+?)\s*,\s*(\w+)\s*\)")]
-    private static partial Regex EnumMacroPattern();
-
-    [GeneratedRegex(@"_(MTL|NS|CA|MTLFX)_OPTIONS\s*\(\s*(.+?)\s*,\s*(\w+)\s*\)")]
-    private static partial Regex OptionsMacroPattern();
-
     private static readonly HashSet<string> BindableNamespaces = ["MTL", "MTL4", "MTLFX", "MTL4FX", "CA"];
 
     private static readonly HashSet<string> NsNamespace = ["NS"];
@@ -114,19 +83,6 @@ public static partial class HeaderParser
     {
         ParseResult result = new();
 
-        // Phase 1: Build accessor → selector map from HeaderBridge/Private files (regex)
-        Dictionary<string, string> selectorMap = BuildSelectorMap(metalCppDir);
-
-        // Phase 2: Build set of ObjC-registered class names from CLS macros (regex)
-        HashSet<string> clsRegistrations = BuildClsRegistrations(metalCppDir);
-
-        // Phase 3: Build inline implementation map: (ns, class, method) → accessor (regex)
-        Dictionary<string, string> inlineMap = BuildInlineMap(metalCppDir);
-
-        // Phase 4: Build options enum name set from regex (for unnamed enum handling)
-        Dictionary<string, (string Prefix, bool IsFlags, string UnderlyingType)> optionsEnumNames = BuildOptionsEnumNames(metalCppDir);
-
-        // Phase 5: Use ClangSharp AST to extract enums and classes
         string? stubsDir = null;
 
         try
@@ -134,39 +90,30 @@ public static partial class HeaderParser
             stubsDir = CreateStubHeaders();
             using TranslationUnit tu = ParseWithClangSharp(metalCppDir, stubsDir);
 
-            ExtractEnumsFromAst(tu, optionsEnumNames, metalCppDir, result);
-            ExtractClassesFromAst(tu, clsRegistrations, selectorMap, inlineMap, metalCppDir, result);
+            // Phase 1: Build accessor → selector map from Private::Selector namespaces in AST
+            Dictionary<string, string> selectorMap = BuildSelectorMapFromAst(tu);
+
+            // Phase 2: Build set of ObjC-registered class names from Private::Class namespaces in AST
+            HashSet<string> clsRegistrations = BuildClsRegistrationsFromAst(tu);
+
+            // Phase 3: Build type alias map for enum metadata (flags vs regular, underlying type)
+            Dictionary<string, (string Prefix, bool IsFlags, string UnderlyingType)> enumMetadata =
+                BuildEnumMetadataFromAst(tu, metalCppDir);
+
+            // Phase 4: Extract enums from AST
+            ExtractEnumsFromAst(tu, enumMetadata, metalCppDir, result);
+
+            // Phase 5: Extract classes from AST (with inline body analysis for selectors)
+            ExtractClassesFromAst(tu, clsRegistrations, selectorMap, metalCppDir, result);
+
+            // Phase 6: Extract free functions from AST (LinkageSpecDecl nodes)
+            ExtractFreeFunctionsFromAst(tu, metalCppDir, result);
         }
         finally
         {
             if (stubsDir is not null && Directory.Exists(stubsDir))
             {
                 try { Directory.Delete(stubsDir, true); } catch { /* best effort */ }
-            }
-        }
-
-        // Phase 6: Parse free functions via regex (behind #if guards, not visible to ClangSharp)
-        foreach (string dir in new[] { "Metal", "MetalFX", "QuartzCore", "Foundation" })
-        {
-            string fullDir = Path.Combine(metalCppDir, dir);
-
-            if (!Directory.Exists(fullDir))
-            {
-                continue;
-            }
-
-            foreach (string file in Directory.GetFiles(fullDir, "*.hpp"))
-            {
-                string fileName = Path.GetFileName(file);
-
-                if (fileName.EndsWith("Private.hpp") || fileName.EndsWith("Defines.hpp")
-                    || fileName.EndsWith("HeaderBridge.hpp"))
-                {
-                    continue;
-                }
-
-                string[] lines = File.ReadAllLines(file);
-                ParseFreeFunctions(lines, result);
             }
         }
 
@@ -185,11 +132,15 @@ public static partial class HeaderParser
 
         WriteStub(stubsDir, "objc/runtime.h", """
             #pragma once
+            typedef __SIZE_TYPE__ size_t;
             typedef struct objc_object { void *isa; } *id;
             typedef struct objc_selector *SEL;
             typedef id (*IMP)(id, SEL, ...);
             typedef struct objc_class *Class;
             typedef int BOOL;
+            extern SEL sel_registerName(const char *str);
+            extern Class objc_lookUpClass(const char *name);
+            extern void *objc_getProtocol(const char *name);
             """);
 
         WriteStub(stubsDir, "objc/message.h", """
@@ -306,6 +257,7 @@ public static partial class HeaderParser
             "-std=c++17",
             "-fblocks",
             "-DINFINITY=__builtin_inf()",
+            "-DMTL_PRIVATE_IMPLEMENTATION",
             $"-I{metalCppDir}",
             $"-I{stubsDir}",
         ];
@@ -365,67 +317,215 @@ public static partial class HeaderParser
     }
 
     // ──────────────────────────────────────────────────────────────────────
-    //  AST-based enum extraction
+    //  AST-based selector map (replaces regex BuildSelectorMap)
     // ──────────────────────────────────────────────────────────────────────
 
     /// <summary>
-    /// Builds a map of enum names defined via _*_OPTIONS / _*_ENUM macros.
-    /// Key is the enum name (e.g. "TextureUsage"), value is (prefix, isFlags, underlyingType).
+    /// Walks the AST for Private::Selector namespaces and extracts accessor → selector mappings.
+    /// Each VarDecl named s_k{accessor} contains a sel_registerName("selectorString") call.
     /// </summary>
-    private static Dictionary<string, (string Prefix, bool IsFlags, string UnderlyingType)> BuildOptionsEnumNames(string metalCppDir)
+    private static Dictionary<string, string> BuildSelectorMapFromAst(TranslationUnit tu)
     {
-        Dictionary<string, (string, bool, string)> map = [];
+        Dictionary<string, string> map = [];
+        WalkForSelectorNamespaces(tu.TranslationUnitDecl.Decls, map, false);
 
-        foreach (string dir in new[] { "Metal", "MetalFX", "QuartzCore", "Foundation" })
+        return map;
+    }
+
+    private static void WalkForSelectorNamespaces(IReadOnlyList<Decl> decls, Dictionary<string, string> map, bool inPrivate)
+    {
+        foreach (Decl decl in decls)
         {
-            string fullDir = Path.Combine(metalCppDir, dir);
-
-            if (!Directory.Exists(fullDir))
+            if (decl is not NamespaceDecl ns)
             {
                 continue;
             }
 
-            foreach (string file in Directory.GetFiles(fullDir, "*.hpp"))
+            if (ns.Name == "Private")
             {
-                string[] lines = File.ReadAllLines(file);
-
-                for (int i = 0; i < lines.Length; i++)
+                WalkForSelectorNamespaces(ns.Decls, map, true);
+            }
+            else if (inPrivate && ns.Name == "Selector")
+            {
+                foreach (Decl inner in ns.Decls)
                 {
-                    string line = lines[i];
-
-                    Match enumMatch = EnumMacroPattern().Match(line);
-                    bool isFlags = false;
-
-                    if (!enumMatch.Success)
+                    if (inner is VarDecl vd && vd.Name.StartsWith("s_k"))
                     {
-                        enumMatch = OptionsMacroPattern().Match(line);
+                        string accessor = vd.Name[3..];
+                        string? selectorStr = vd.Init is not null ? FindStringLiteral(vd.Init) : null;
 
-                        if (enumMatch.Success)
+                        if (selectorStr is not null)
                         {
-                            isFlags = true;
+                            map[accessor] = selectorStr;
+                        }
+                        else
+                        {
+                            // Fallback: derive from accessor name
+                            map[accessor] = AccessorToSelector(accessor);
                         }
                     }
+                }
+            }
+            else
+            {
+                WalkForSelectorNamespaces(ns.Decls, map, false);
+            }
+        }
+    }
 
-                    if (!enumMatch.Success)
+    // ──────────────────────────────────────────────────────────────────────
+    //  AST-based CLS registration (replaces regex BuildClsRegistrations)
+    // ──────────────────────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Walks the AST for Private::Class namespaces and extracts registered class names.
+    /// Each VarDecl named s_k{ClassName} is a class registration.
+    /// </summary>
+    private static HashSet<string> BuildClsRegistrationsFromAst(TranslationUnit tu)
+    {
+        HashSet<string> set = [];
+        WalkForClassNamespaces(tu.TranslationUnitDecl.Decls, set, false);
+
+        return set;
+    }
+
+    private static void WalkForClassNamespaces(IReadOnlyList<Decl> decls, HashSet<string> set, bool inPrivate)
+    {
+        foreach (Decl decl in decls)
+        {
+            if (decl is not NamespaceDecl ns)
+            {
+                continue;
+            }
+
+            if (ns.Name == "Private")
+            {
+                WalkForClassNamespaces(ns.Decls, set, true);
+            }
+            else if (inPrivate && ns.Name == "Class")
+            {
+                foreach (Decl inner in ns.Decls)
+                {
+                    if (inner is VarDecl vd && vd.Name.StartsWith("s_k"))
+                    {
+                        set.Add(vd.Name[3..]);
+                    }
+                }
+            }
+            else
+            {
+                WalkForClassNamespaces(ns.Decls, set, false);
+            }
+        }
+    }
+
+    // ──────────────────────────────────────────────────────────────────────
+    //  AST-based enum metadata (replaces regex BuildOptionsEnumNames)
+    // ──────────────────────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Builds enum metadata from TypeAliasDecl nodes in the AST.
+    /// Named enums (from _*_ENUM) are NOT flags. Unnamed enums (from _*_OPTIONS) ARE flags.
+    /// TypeAliasDecl nodes created by _*_OPTIONS alias integer types (the enum name comes
+    /// from the typedef, and the enum itself is unnamed).
+    /// </summary>
+    private static Dictionary<string, (string Prefix, bool IsFlags, string UnderlyingType)> BuildEnumMetadataFromAst(
+        TranslationUnit tu,
+        string metalCppDir)
+    {
+        Dictionary<string, (string, bool, string)> map = [];
+        HashSet<string> typeAliasNames = [];
+
+        // First pass: collect all TypeAliasDecl names in bindable namespaces
+        // These come from both _*_ENUM and _*_OPTIONS macros
+        foreach (Decl decl in tu.TranslationUnitDecl.Decls)
+        {
+            if (decl is NamespaceDecl nsDecl)
+            {
+                string nsName = nsDecl.Name;
+
+                if (!BindableNamespaces.Contains(nsName) && !NsNamespace.Contains(nsName))
+                {
+                    continue;
+                }
+
+                if (!IsDeclFromMetalCpp(decl, metalCppDir))
+                {
+                    continue;
+                }
+
+                string prefix = NamespaceToPrefix(nsName);
+                CollectTypeAliases(nsDecl.Decls, prefix, metalCppDir, typeAliasNames, map);
+            }
+        }
+
+        // Second pass: for unnamed enums, determine if they are flags
+        // Unnamed enums are from _*_OPTIONS → flags = true
+        // Named enums are from _*_ENUM → flags = false (already in map from type alias)
+        foreach (Decl decl in tu.TranslationUnitDecl.Decls)
+        {
+            if (decl is NamespaceDecl nsDecl)
+            {
+                string nsName = nsDecl.Name;
+
+                if (!BindableNamespaces.Contains(nsName) && !NsNamespace.Contains(nsName))
+                {
+                    continue;
+                }
+
+                if (!IsDeclFromMetalCpp(decl, metalCppDir))
+                {
+                    continue;
+                }
+
+                string prefix = NamespaceToPrefix(nsName);
+
+                foreach (Decl innerDecl in nsDecl.Decls)
+                {
+                    if (innerDecl is not EnumDecl enumDecl || !IsDeclFromMetalCpp(enumDecl, metalCppDir))
                     {
                         continue;
                     }
 
-                    string macroPrefix = enumMatch.Groups[1].Value;
-                    string underlyingTypeStr = enumMatch.Groups[2].Value.Trim();
-                    string enumName = enumMatch.Groups[3].Value;
+                    string enumName = enumDecl.Name;
 
-                    string prefix = macroPrefix switch
+                    if (string.IsNullOrEmpty(enumName) || enumName.StartsWith("(unnamed"))
                     {
-                        "MTL" => DetermineEnumPrefix(lines, i),
-                        "NS" => "NS",
-                        "CA" => "CA",
-                        "MTLFX" => DetermineEnumPrefix(lines, i),
-                        _ => macroPrefix,
-                    };
+                        // Unnamed enum → from _*_OPTIONS → flags
+                        string underlyingTypeStr = enumDecl.IntegerType.AsString;
+                        string simpleName = underlyingTypeStr;
 
-                    string underlyingType = MapEnumUnderlyingType(underlyingTypeStr);
-                    map[enumName] = (prefix, isFlags, underlyingType);
+                        if (simpleName.Contains("::"))
+                        {
+                            simpleName = simpleName[(simpleName.LastIndexOf("::") + 2)..];
+                        }
+
+                        if (typeAliasNames.Contains(simpleName) && !map.ContainsKey(simpleName))
+                        {
+                            string underlyingType = ResolveTypeAliasUnderlyingType(nsDecl, simpleName, metalCppDir);
+                            map[simpleName] = (prefix, true, underlyingType);
+                        }
+                        else if (!map.ContainsKey(simpleName))
+                        {
+                            string underlyingType = MapEnumUnderlyingType(underlyingTypeStr);
+                            map[simpleName] = (prefix, true, underlyingType);
+                        }
+                        else
+                        {
+                            // Already in map but ensure isFlags = true for unnamed
+                            var existing = map[simpleName];
+                            map[simpleName] = (existing.Item1, true, existing.Item3);
+                        }
+                    }
+                    else
+                    {
+                        // Named enum → from _*_ENUM → not flags (unless already set)
+                        if (!map.ContainsKey(enumName))
+                        {
+                            string underlyingType = MapEnumUnderlyingType(enumDecl.IntegerType.AsString);
+                            map[enumName] = (prefix, false, underlyingType);
+                        }
+                    }
                 }
             }
         }
@@ -433,9 +533,125 @@ public static partial class HeaderParser
         return map;
     }
 
+    private static void CollectTypeAliases(
+        IReadOnlyList<Decl> decls,
+        string prefix,
+        string metalCppDir,
+        HashSet<string> typeAliasNames,
+        Dictionary<string, (string, bool, string)> map)
+    {
+        foreach (Decl decl in decls)
+        {
+            if (decl is TypeAliasDecl tad && IsDeclFromMetalCpp(tad, metalCppDir))
+            {
+                string aliasName = tad.Name;
+                string underlyingStr = tad.UnderlyingType.AsString;
+
+                // Check if this aliases an integer type (from _*_ENUM or _*_OPTIONS)
+                string mappedType = MapEnumUnderlyingType(underlyingStr);
+
+                if (mappedType != "uint" || underlyingStr is "unsigned int" or "uint32_t")
+                {
+                    typeAliasNames.Add(aliasName);
+                    // Default to not-flags; will be updated for unnamed enums
+                    map.TryAdd(aliasName, (prefix, false, mappedType));
+                }
+            }
+            else if (decl is TypedefDecl td && IsDeclFromMetalCpp(td, metalCppDir))
+            {
+                string aliasName = td.Name;
+                string underlyingStr = td.UnderlyingType.AsString;
+
+                string mappedType = MapEnumUnderlyingType(underlyingStr);
+
+                if (mappedType != "uint" || underlyingStr is "unsigned int" or "uint32_t")
+                {
+                    typeAliasNames.Add(aliasName);
+                    map.TryAdd(aliasName, (prefix, false, mappedType));
+                }
+            }
+        }
+    }
+
+    private static string ResolveTypeAliasUnderlyingType(NamespaceDecl nsDecl, string aliasName, string metalCppDir)
+    {
+        foreach (Decl decl in nsDecl.Decls)
+        {
+            if (decl is TypeAliasDecl tad && tad.Name == aliasName && IsDeclFromMetalCpp(tad, metalCppDir))
+            {
+                return MapEnumUnderlyingType(tad.UnderlyingType.AsString);
+            }
+
+            if (decl is TypedefDecl td && td.Name == aliasName && IsDeclFromMetalCpp(td, metalCppDir))
+            {
+                return MapEnumUnderlyingType(td.UnderlyingType.AsString);
+            }
+        }
+
+        return "uint";
+    }
+
+    // ──────────────────────────────────────────────────────────────────────
+    //  AST helpers: find string literals and DeclRefExpr in statement trees
+    // ──────────────────────────────────────────────────────────────────────
+
+    private static string? FindStringLiteral(Stmt stmt)
+    {
+        if (stmt is StringLiteral sl)
+        {
+            return sl.String;
+        }
+
+        foreach (Cursor child in stmt.CursorChildren)
+        {
+            if (child is Stmt cs)
+            {
+                string? found = FindStringLiteral(cs);
+
+                if (found is not null)
+                {
+                    return found;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Finds the first DeclRefExpr in a method body whose referenced variable starts with "s_k".
+    /// Returns the accessor name (with "s_k" prefix stripped).
+    /// </summary>
+    private static string? FindSelectorAccessorInBody(Stmt stmt)
+    {
+        if (stmt is DeclRefExpr dre && dre.Decl.Name.StartsWith("s_k"))
+        {
+            return dre.Decl.Name[3..];
+        }
+
+        foreach (Cursor child in stmt.CursorChildren)
+        {
+            if (child is Stmt cs)
+            {
+                string? found = FindSelectorAccessorInBody(cs);
+
+                if (found is not null)
+                {
+                    return found;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    // ──────────────────────────────────────────────────────────────────────
+    //  AST-based enum extraction
+    // ──────────────────────────────────────────────────────────────────────
+
     private static void ExtractEnumsFromAst(
         TranslationUnit tu,
-        Dictionary<string, (string Prefix, bool IsFlags, string UnderlyingType)> optionsEnumNames,
+        Dictionary<string, (string Prefix, bool IsFlags, string UnderlyingType)> enumMetadata,
         string metalCppDir,
         ParseResult result)
     {
@@ -462,7 +678,7 @@ public static partial class HeaderParser
                 {
                     if (innerDecl is EnumDecl enumDecl)
                     {
-                        ProcessEnumDecl(enumDecl, prefix, nsName, optionsEnumNames, metalCppDir, result);
+                        ProcessEnumDecl(enumDecl, prefix, nsName, enumMetadata, metalCppDir, result);
                     }
                 }
             }
@@ -473,7 +689,7 @@ public static partial class HeaderParser
         EnumDecl enumDecl,
         string prefix,
         string nsName,
-        Dictionary<string, (string Prefix, bool IsFlags, string UnderlyingType)> optionsEnumNames,
+        Dictionary<string, (string Prefix, bool IsFlags, string UnderlyingType)> enumMetadata,
         string metalCppDir,
         ParseResult result)
     {
@@ -500,8 +716,8 @@ public static partial class HeaderParser
                 simpleName = simpleName[(simpleName.LastIndexOf("::") + 2)..];
             }
 
-            // Look up in our options map
-            if (optionsEnumNames.TryGetValue(simpleName, out var info))
+            // Look up in our enum metadata
+            if (enumMetadata.TryGetValue(simpleName, out var info))
             {
                 prefix = info.Prefix;
                 isFlags = info.IsFlags;
@@ -515,8 +731,8 @@ public static partial class HeaderParser
         }
         else
         {
-            // Named enum: check if it's a flags enum via our options map
-            if (optionsEnumNames.TryGetValue(enumName, out var info))
+            // Named enum: check if it's a flags enum via our enum metadata
+            if (enumMetadata.TryGetValue(enumName, out var info))
             {
                 prefix = info.Prefix;
                 isFlags = info.IsFlags;
@@ -600,7 +816,6 @@ public static partial class HeaderParser
         TranslationUnit tu,
         HashSet<string> clsRegistrations,
         Dictionary<string, string> selectorMap,
-        Dictionary<string, string> inlineMap,
         string metalCppDir,
         ParseResult result)
     {
@@ -626,7 +841,7 @@ public static partial class HeaderParser
                 {
                     if (innerDecl is CXXRecordDecl rec && rec.IsThisDeclarationADefinition)
                     {
-                        ProcessClassDecl(rec, nsName, prefix, clsRegistrations, selectorMap, inlineMap, metalCppDir, result);
+                        ProcessClassDecl(rec, nsName, prefix, clsRegistrations, selectorMap, metalCppDir, result);
                     }
                 }
             }
@@ -639,7 +854,6 @@ public static partial class HeaderParser
         string prefix,
         HashSet<string> clsRegistrations,
         Dictionary<string, string> selectorMap,
-        Dictionary<string, string> inlineMap,
         string metalCppDir,
         ParseResult result)
     {
@@ -710,7 +924,10 @@ public static partial class HeaderParser
                 paramList.Add(new RawParamInfo(paramTypeStr, paramName));
             }
 
-            rawMethods.Add(new RawMethodDecl(methodName, returnTypeStr, method.IsStatic, paramList));
+            // Include method body reference for selector resolution
+            Stmt? body = method.HasBody ? method.Body : null;
+
+            rawMethods.Add(new RawMethodDecl(methodName, returnTypeStr, method.IsStatic, paramList, body));
         }
 
         // Determine if this is a class (has alloc or registered via CLS macro)
@@ -826,8 +1043,8 @@ public static partial class HeaderParser
                 continue;
             }
 
-            // Resolve selector
-            string selector = ResolveSelector(nsName, className, m.Name, m.Params, selectorMap, inlineMap);
+            // Resolve selector using AST body analysis + selector map
+            string selector = ResolveSelector(nsName, className, m.Name, m.Params, selectorMap, m.Body);
 
             MethodDef methodDef = new()
             {
@@ -916,7 +1133,12 @@ public static partial class HeaderParser
 
                     if (hasSetter)
                     {
-                        setSelector = ResolveSelector(nsName, className, setterName, [new RawParamInfo("", "")], selectorMap, inlineMap);
+                        // Find the setter method's body for selector resolution
+                        Stmt? setterBody = rawMethods
+                            .FirstOrDefault(f => f.Name == setterName && f.Params.Count == 1 && !f.IsStatic)
+                            ?.Body;
+
+                        setSelector = ResolveSelector(nsName, className, setterName, [new RawParamInfo("", "")], selectorMap, setterBody);
                     }
 
                     def.Properties.Add(new PropertyDef
@@ -964,6 +1186,125 @@ public static partial class HeaderParser
     }
 
     // ──────────────────────────────────────────────────────────────────────
+    //  AST-based free function extraction (replaces regex ParseFreeFunctions)
+    // ──────────────────────────────────────────────────────────────────────
+
+    private static void ExtractFreeFunctionsFromAst(
+        TranslationUnit tu,
+        string metalCppDir,
+        ParseResult result)
+    {
+        VisitForExternC(tu.TranslationUnitDecl.Decls, metalCppDir, result);
+    }
+
+    private static void VisitForExternC(IReadOnlyList<Decl> decls, string metalCppDir, ParseResult result)
+    {
+        foreach (Decl decl in decls)
+        {
+            if (decl is LinkageSpecDecl linkSpec)
+            {
+                foreach (Decl ld in linkSpec.Decls)
+                {
+                    if (ld is FunctionDecl fd && IsDeclFromMetalCpp(fd, metalCppDir))
+                    {
+                        ProcessFreeFunctionDecl(fd, result);
+                    }
+                }
+            }
+            else if (decl is NamespaceDecl ns)
+            {
+                VisitForExternC(ns.Decls, metalCppDir, result);
+            }
+        }
+    }
+
+    private static void ProcessFreeFunctionDecl(FunctionDecl fd, ParseResult result)
+    {
+        string funcName = fd.Name;
+
+        string prefix;
+
+        if (funcName.StartsWith("MTL"))
+        {
+            prefix = "MTL";
+        }
+        else if (funcName.StartsWith("CA"))
+        {
+            prefix = "CA";
+        }
+        else
+        {
+            return;
+        }
+
+        string ns = prefix;
+        string returnTypeStr = fd.ReturnType.AsString;
+        string? retType = MapType(returnTypeStr, ns, prefix);
+
+        if (retType is null)
+        {
+            return;
+        }
+
+        string? targetClass = MapFreeFunctionTarget(funcName, prefix);
+
+        if (targetClass is null)
+        {
+            return;
+        }
+
+        FreeFunctionDef def = new()
+        {
+            NativeName = funcName,
+            Name = funcName,
+            ReturnType = retType,
+            TargetClass = targetClass,
+            FrameworkLibrary = "/System/Library/Frameworks/Metal.framework/Metal",
+        };
+
+        bool paramFailed = false;
+
+        foreach (ParmVarDecl param in fd.Parameters)
+        {
+            string paramTypeStr = param.Type.AsString;
+            string? paramType = MapType(paramTypeStr, ns, prefix);
+
+            if (paramType is null)
+            {
+                paramFailed = true;
+
+                break;
+            }
+
+            string paramName = string.IsNullOrEmpty(param.Name) ? $"param{def.Parameters.Count}" : param.Name;
+
+            // Strip Hungarian notation 'p' prefix for pointer params (e.g., pDevice -> device)
+            if (paramName.Length > 1 && paramName[0] == 'p' && char.IsUpper(paramName[1]))
+            {
+                paramName = char.ToLowerInvariant(paramName[1]) + paramName[2..];
+            }
+
+            if (CSharpKeywords.Contains(paramName))
+            {
+                paramName = $"@{paramName}";
+            }
+
+            def.Parameters.Add(new ParamDef
+            {
+                Name = paramName,
+                Type = paramType,
+            });
+        }
+
+        if (paramFailed)
+        {
+            return;
+        }
+
+        result.FreeFunctions.Add(def);
+    }
+
+    // ──────────────────────────────────────────────────────────────────────
     //  Helpers: check if a Decl comes from the metal-cpp directory
     // ──────────────────────────────────────────────────────────────────────
 
@@ -982,265 +1323,7 @@ public static partial class HeaderParser
     }
 
     // ──────────────────────────────────────────────────────────────────────
-    //  Regex-based selector/CLS/inline map building (kept from original)
-    // ──────────────────────────────────────────────────────────────────────
-
-    private static Dictionary<string, string> BuildSelectorMap(string metalCppDir)
-    {
-        Dictionary<string, string> map = [];
-
-        foreach (string dir in new[] { "Metal", "MetalFX", "QuartzCore", "Foundation" })
-        {
-            string fullDir = Path.Combine(metalCppDir, dir);
-
-            if (!Directory.Exists(fullDir))
-            {
-                continue;
-            }
-
-            foreach (string file in Directory.GetFiles(fullDir, "*.hpp"))
-            {
-                string[] lines = File.ReadAllLines(file);
-
-                for (int i = 0; i < lines.Length; i++)
-                {
-                    Match selMatch = DefSelAccessorPattern().Match(lines[i]);
-
-                    if (!selMatch.Success)
-                    {
-                        continue;
-                    }
-
-                    string accessor = selMatch.Groups[2].Value;
-
-                    // The selector string is on the next line, in quotes
-                    if (i + 1 < lines.Length)
-                    {
-                        string nextLine = lines[i + 1].Trim();
-                        int q1 = nextLine.IndexOf('"');
-                        int q2 = nextLine.LastIndexOf('"');
-
-                        if (q1 >= 0 && q2 > q1)
-                        {
-                            string selector = nextLine.Substring(q1 + 1, q2 - q1 - 1);
-                            map[accessor] = selector;
-                        }
-                    }
-                }
-            }
-        }
-
-        return map;
-    }
-
-    private static HashSet<string> BuildClsRegistrations(string metalCppDir)
-    {
-        HashSet<string> set = [];
-
-        foreach (string dir in new[] { "Metal", "MetalFX", "QuartzCore", "Foundation" })
-        {
-            string fullDir = Path.Combine(metalCppDir, dir);
-
-            if (!Directory.Exists(fullDir))
-            {
-                continue;
-            }
-
-            foreach (string file in Directory.GetFiles(fullDir, "*.hpp"))
-            {
-                foreach (string line in File.ReadLines(file))
-                {
-                    Match clsMatch = DefClsPattern().Match(line);
-
-                    if (clsMatch.Success)
-                    {
-                        set.Add(clsMatch.Groups[2].Value);
-                    }
-                }
-            }
-        }
-
-        return set;
-    }
-
-    private static Dictionary<string, string> BuildInlineMap(string metalCppDir)
-    {
-        Dictionary<string, string> map = [];
-
-        foreach (string dir in new[] { "Metal", "MetalFX", "QuartzCore", "Foundation" })
-        {
-            string fullDir = Path.Combine(metalCppDir, dir);
-
-            if (!Directory.Exists(fullDir))
-            {
-                continue;
-            }
-
-            foreach (string file in Directory.GetFiles(fullDir, "*.hpp"))
-            {
-                string[] lines = File.ReadAllLines(file);
-
-                for (int i = 0; i < lines.Length; i++)
-                {
-                    Match implMatch = InlineImplPattern().Match(lines[i]);
-
-                    if (!implMatch.Success)
-                    {
-                        continue;
-                    }
-
-                    string nsName = implMatch.Groups[3].Value;
-                    string className = implMatch.Groups[4].Value;
-                    string methodName = implMatch.Groups[5].Value;
-                    string key = $"{nsName}::{className}::{methodName}";
-
-                    // Search the body for _*_PRIVATE_SEL(accessor)
-                    for (int j = i + 1; j < lines.Length && j < i + 10; j++)
-                    {
-                        Match selUsage = PrivateSelUsagePattern().Match(lines[j]);
-
-                        if (selUsage.Success)
-                        {
-                            map[key] = selUsage.Groups[2].Value;
-
-                            break;
-                        }
-
-                        if (lines[j].Trim() == "}")
-                        {
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-
-        return map;
-    }
-
-    // ──────────────────────────────────────────────────────────────────────
-    //  Regex-based free function parsing (kept from original)
-    // ──────────────────────────────────────────────────────────────────────
-
-    private static void ParseFreeFunctions(string[] lines, ParseResult result)
-    {
-        for (int i = 0; i < lines.Length; i++)
-        {
-            Match externMatch = ExternCPattern().Match(lines[i]);
-
-            if (!externMatch.Success)
-            {
-                continue;
-            }
-
-            string returnTypeStr = externMatch.Groups[1].Value.Trim();
-            string funcName = externMatch.Groups[2].Value;
-            string paramsStr = externMatch.Groups[3].Value.Trim();
-
-            // Determine the namespace/prefix from the function name
-            string prefix;
-
-            if (funcName.StartsWith("MTL"))
-            {
-                prefix = "MTL";
-            }
-            else if (funcName.StartsWith("CA"))
-            {
-                prefix = "CA";
-            }
-            else
-            {
-                continue;
-            }
-
-            string ns = prefix;
-            string? retType = MapType(returnTypeStr, ns, prefix);
-
-            if (retType is null)
-            {
-                continue;
-            }
-
-            string? targetClass = MapFreeFunctionTarget(funcName, prefix);
-
-            if (targetClass is null)
-            {
-                continue;
-            }
-
-            FreeFunctionDef def = new()
-            {
-                NativeName = funcName,
-                Name = funcName,
-                ReturnType = retType,
-                TargetClass = targetClass,
-                FrameworkLibrary = "/System/Library/Frameworks/Metal.framework/Metal",
-            };
-
-            // Parse parameters
-            if (!string.IsNullOrEmpty(paramsStr))
-            {
-                List<RawParamInfo> rawParams = ParseParameterList(paramsStr);
-                bool paramFailed = false;
-
-                foreach (RawParamInfo p in rawParams)
-                {
-                    string? paramType = MapType(p.Type, ns, prefix);
-
-                    if (paramType is null)
-                    {
-                        paramFailed = true;
-
-                        break;
-                    }
-
-                    string paramName = string.IsNullOrEmpty(p.Name) ? $"param{def.Parameters.Count}" : p.Name;
-
-                    // Strip Hungarian notation 'p' prefix for pointer params (e.g., pDevice -> device)
-                    if (paramName.Length > 1 && paramName[0] == 'p' && char.IsUpper(paramName[1]))
-                    {
-                        paramName = char.ToLowerInvariant(paramName[1]) + paramName[2..];
-                    }
-
-                    if (CSharpKeywords.Contains(paramName))
-                    {
-                        paramName = $"@{paramName}";
-                    }
-
-                    def.Parameters.Add(new ParamDef
-                    {
-                        Name = paramName,
-                        Type = paramType,
-                    });
-                }
-
-                if (paramFailed)
-                {
-                    continue;
-                }
-            }
-
-            result.FreeFunctions.Add(def);
-        }
-    }
-
-    private static string? MapFreeFunctionTarget(string funcName, string prefix)
-    {
-        if (funcName.Contains("Device"))
-        {
-            return $"{prefix}Device";
-        }
-
-        if (funcName.Contains("Counter"))
-        {
-            return $"{prefix}Device";
-        }
-
-        return null;
-    }
-
-    // ──────────────────────────────────────────────────────────────────────
-    //  Selector resolution (kept from original)
+    //  Selector resolution (uses AST body analysis + selector map)
     // ──────────────────────────────────────────────────────────────────────
 
     private static string ResolveSelector(
@@ -1249,20 +1332,22 @@ public static partial class HeaderParser
         string methodName,
         List<RawParamInfo> methodParams,
         Dictionary<string, string> selectorMap,
-        Dictionary<string, string> inlineMap)
+        Stmt? body)
     {
-        // Try to find via inline implementation map
-        string inlineKey = $"{ns}::{className}::{methodName}";
-
-        if (inlineMap.TryGetValue(inlineKey, out string? accessor))
+        // Try to find selector accessor in method body via AST traversal
+        if (body is not null)
         {
-            if (selectorMap.TryGetValue(accessor, out string? selector))
-            {
-                return selector;
-            }
+            string? accessor = FindSelectorAccessorInBody(body);
 
-            // If we have the accessor but no selector string, construct from accessor
-            return AccessorToSelector(accessor);
+            if (accessor is not null)
+            {
+                if (selectorMap.TryGetValue(accessor, out string? selector))
+                {
+                    return selector;
+                }
+
+                return AccessorToSelector(accessor);
+            }
         }
 
         // Fallback: construct selector from method name and params
@@ -1326,109 +1411,19 @@ public static partial class HeaderParser
         return cleaned.Contains("Error**");
     }
 
-    // ──────────────────────────────────────────────────────────────────────
-    //  Free function parameter parsing (kept from original)
-    // ──────────────────────────────────────────────────────────────────────
-
-    private static List<RawParamInfo> ParseParameterList(string paramsStr)
+    private static string? MapFreeFunctionTarget(string funcName, string prefix)
     {
-        List<RawParamInfo> paramList = [];
-
-        // Split by commas, but respect angle brackets and parentheses
-        List<string> parts = SplitParams(paramsStr);
-
-        foreach (string part in parts)
+        if (funcName.Contains("Device"))
         {
-            string p = part.Trim();
-
-            if (string.IsNullOrEmpty(p) || p == "void")
-            {
-                continue;
-            }
-
-            // Find the parameter name: last word token
-            // Handle patterns like: "const NS::String* marker", "NS::Range range", "NS::Error** error"
-            int lastSp = p.LastIndexOf(' ');
-
-            if (lastSp < 0)
-            {
-                // Type only, no name
-                paramList.Add(new RawParamInfo(p, ""));
-
-                continue;
-            }
-
-            // Detect C-style array parameters (e.g., "const MTL::Buffer* const buffers[]")
-            if (p.Contains("[]"))
-            {
-                paramList.Add(new RawParamInfo(p, ""));
-
-                continue;
-            }
-
-            string possibleName = p[(lastSp + 1)..].Trim();
-
-            // If possibleName starts with *, it's part of the type
-            if (possibleName.StartsWith('*'))
-            {
-                string paramType = p[..lastSp].Trim() + possibleName[..(possibleName.LastIndexOf('*') + 1)];
-                string paramName = possibleName.TrimStart('*');
-
-                if (string.IsNullOrEmpty(paramName))
-                {
-                    paramList.Add(new RawParamInfo(p, ""));
-                }
-                else
-                {
-                    paramList.Add(new RawParamInfo(paramType.Trim(), paramName));
-                }
-            }
-            else if ((char.IsLetter(possibleName[0]) || possibleName[0] == '_')
-                && !possibleName.Contains("::") && !possibleName.Contains('*'))
-            {
-                string paramType = p[..lastSp].Trim();
-                paramList.Add(new RawParamInfo(paramType, possibleName));
-            }
-            else
-            {
-                paramList.Add(new RawParamInfo(p, ""));
-            }
+            return $"{prefix}Device";
         }
 
-        return paramList;
-    }
-
-    private static List<string> SplitParams(string s)
-    {
-        List<string> result = [];
-        int depth = 0;
-        int start = 0;
-
-        for (int i = 0; i < s.Length; i++)
+        if (funcName.Contains("Counter"))
         {
-            char c = s[i];
-
-            if (c == '<' || c == '(')
-            {
-                depth++;
-            }
-            else if (c == '>' || c == ')')
-            {
-                depth--;
-            }
-            else if (c == ',' && depth == 0)
-            {
-                result.Add(s[start..i]);
-                start = i + 1;
-            }
+            return $"{prefix}Device";
         }
 
-        if (start < s.Length)
-        {
-            result.Add(s[start..]);
-        }
-
-        return result;
+        return null;
     }
 
     // ──────────────────────────────────────────────────────────────────────
@@ -1454,22 +1449,6 @@ public static partial class HeaderParser
         "MTLFX" or "MTL4FX" => "MetalFX",
         _ => "Metal",
     };
-
-    private static string DetermineEnumPrefix(string[] lines, int enumLineIndex)
-    {
-        // Walk backwards to find the enclosing namespace
-        for (int k = enumLineIndex - 1; k >= 0; k--)
-        {
-            Match nsMatch = NsPattern().Match(lines[k]);
-
-            if (nsMatch.Success)
-            {
-                return NamespaceToPrefix(nsMatch.Groups[1].Value);
-            }
-        }
-
-        return "MTL";
-    }
 
     private static string MapEnumUnderlyingType(string typeStr)
     {
@@ -1855,7 +1834,7 @@ public static partial class HeaderParser
     /// <summary>Returns true if the given name is a C# keyword.</summary>
     public static bool IsCSharpKeyword(string name) => CSharpKeywords.Contains(name);
 
-    private sealed class RawMethodDecl(string name, string returnType, bool isStatic, List<RawParamInfo> @params)
+    private sealed class RawMethodDecl(string name, string returnType, bool isStatic, List<RawParamInfo> @params, Stmt? body = null)
     {
         public string Name { get; } = name;
 
@@ -1864,6 +1843,8 @@ public static partial class HeaderParser
         public bool IsStatic { get; } = isStatic;
 
         public List<RawParamInfo> Params { get; } = @params;
+
+        public Stmt? Body { get; } = body;
     }
 
     private sealed class RawParamInfo(string type, string name)
