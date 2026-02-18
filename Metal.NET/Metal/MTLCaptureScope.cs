@@ -4,7 +4,10 @@ public class MTLCaptureScope : IDisposable
 {
     public MTLCaptureScope(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLCaptureScope()
@@ -14,7 +17,10 @@ public class MTLCaptureScope : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeSelector.Device));
+    public MTLDevice Device
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeSelector.Device));
+    }
 
     public NSString Label
     {
@@ -22,7 +28,10 @@ public class MTLCaptureScope : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeSelector.SetLabel, value.NativePtr);
     }
 
-    public MTLCommandQueue CommandQueue => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeSelector.CommandQueue));
+    public MTLCommandQueue CommandQueue
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeSelector.CommandQueue));
+    }
 
     public void BeginScope()
     {
@@ -58,7 +67,6 @@ public class MTLCaptureScope : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLCaptureScopeSelector

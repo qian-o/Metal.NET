@@ -4,7 +4,10 @@ public class MTLBufferBinding : IDisposable
 {
     public MTLBufferBinding(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLBufferBinding()
@@ -14,15 +17,30 @@ public class MTLBufferBinding : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint BufferAlignment => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingSelector.BufferAlignment);
+    public nuint BufferAlignment
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingSelector.BufferAlignment);
+    }
 
-    public nuint BufferDataSize => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingSelector.BufferDataSize);
+    public nuint BufferDataSize
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingSelector.BufferDataSize);
+    }
 
-    public MTLDataType BufferDataType => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLBufferBindingSelector.BufferDataType));
+    public MTLDataType BufferDataType
+    {
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLBufferBindingSelector.BufferDataType));
+    }
 
-    public MTLPointerType BufferPointerType => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindingSelector.BufferPointerType));
+    public MTLPointerType BufferPointerType
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindingSelector.BufferPointerType));
+    }
 
-    public MTLStructType BufferStructType => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindingSelector.BufferStructType));
+    public MTLStructType BufferStructType
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindingSelector.BufferStructType));
+    }
 
     public static implicit operator nint(MTLBufferBinding value)
     {
@@ -48,7 +66,6 @@ public class MTLBufferBinding : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLBufferBindingSelector

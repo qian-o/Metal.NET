@@ -4,7 +4,10 @@ public class MTLVisibleFunctionTable : IDisposable
 {
     public MTLVisibleFunctionTable(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLVisibleFunctionTable()
@@ -13,6 +16,11 @@ public class MTLVisibleFunctionTable : IDisposable
     }
 
     public nint NativePtr { get; }
+
+    public MTLResourceID GpuResourceID
+    {
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLVisibleFunctionTableSelector.GpuResourceID);
+    }
 
     public void SetFunction(MTLFunctionHandle function, nuint index)
     {
@@ -43,7 +51,6 @@ public class MTLVisibleFunctionTable : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLVisibleFunctionTableSelector

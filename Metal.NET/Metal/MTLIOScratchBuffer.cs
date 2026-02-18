@@ -4,7 +4,10 @@ public class MTLIOScratchBuffer : IDisposable
 {
     public MTLIOScratchBuffer(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLIOScratchBuffer()
@@ -14,7 +17,10 @@ public class MTLIOScratchBuffer : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLBuffer Buffer => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOScratchBufferSelector.Buffer));
+    public MTLBuffer Buffer
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOScratchBufferSelector.Buffer));
+    }
 
     public static implicit operator nint(MTLIOScratchBuffer value)
     {
@@ -40,7 +46,6 @@ public class MTLIOScratchBuffer : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLIOScratchBufferSelector

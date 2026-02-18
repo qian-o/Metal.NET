@@ -6,7 +6,10 @@ public class MTL4RenderPassDescriptor : IDisposable
 
     public MTL4RenderPassDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTL4RenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
@@ -20,7 +23,10 @@ public class MTL4RenderPassDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLRenderPassColorAttachmentDescriptorArray ColorAttachments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.ColorAttachments));
+    public MTLRenderPassColorAttachmentDescriptorArray ColorAttachments
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorSelector.ColorAttachments));
+    }
 
     public nuint DefaultRasterSampleCount
     {
@@ -102,8 +108,8 @@ public class MTL4RenderPassDescriptor : IDisposable
 
     public MTLVisibilityResultType VisibilityResultType
     {
-        get => (MTLVisibilityResultType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4RenderPassDescriptorSelector.VisibilityResultType));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetVisibilityResultType, (uint)value);
+        get => (MTLVisibilityResultType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4RenderPassDescriptorSelector.VisibilityResultType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetVisibilityResultType, (ulong)value);
     }
 
     public nuint GetSamplePositions(MTLSamplePosition positions, nuint count)
@@ -142,7 +148,6 @@ public class MTL4RenderPassDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4RenderPassDescriptorSelector

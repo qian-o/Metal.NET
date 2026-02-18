@@ -1,13 +1,13 @@
-using System.Text;
+﻿using System.Text;
 
 namespace Metal.NET.Generator;
 
 public class MetalBindingsGenerator
 {
     private readonly string _outputDir;
-    private readonly HashSet<string> _knownEnums = new();
+    private readonly HashSet<string> _knownEnums = [];
 
-    private readonly HashSet<string> _msgSendSignatures = new();
+    private readonly HashSet<string> _msgSendSignatures = [];
 
     public MetalBindingsGenerator(string outputDir)
     {
@@ -46,7 +46,7 @@ public class MetalBindingsGenerator
         {
             if (!freeFunctionsByClass.TryGetValue(f.TargetClass, out var list))
             {
-                list = new List<FreeFunctionDef>();
+                list = [];
                 freeFunctionsByClass[f.TargetClass] = list;
             }
             list.Add(f);
@@ -67,13 +67,13 @@ public class MetalBindingsGenerator
             }
         }
 
-        var stubTypes = new HashSet<string>
-        {
+        HashSet<string> stubTypes =
+        [
             "MTLLogState", "MTLLogContainer",
             "MTLFXFrameInterpolatableScaler",
             "MTL4FunctionDescriptor",
             "MTLIntersectionFunctionDescriptor",
-        };
+        ];
         foreach (var missingType in stubTypes.OrderBy(t => t))
         {
             if (!generatedClasses.Contains(missingType) && !seenEnums.Contains(missingType))
@@ -175,7 +175,7 @@ public class MetalBindingsGenerator
         {
             var getSelKey = p.GetSelector ?? p.Name;
             var getSel = selectors[getSelKey];
-            var propType = NormalizeType(p.Type);
+            var propType = p.Type;
             var retCSharp = MapReturnCall(propType);
             var propName = ToPascalCase(p.Name);
 
@@ -186,7 +186,10 @@ public class MetalBindingsGenerator
 
             if (p.Readonly)
             {
-                sb.AppendLine($"    public {propType} {propName} => {getExpr};");
+                sb.AppendLine($"    public {propType} {propName}");
+                sb.AppendLine("    {");
+                sb.AppendLine($"        get => {getExpr};");
+                sb.AppendLine("    }");
             }
             else
             {
@@ -204,7 +207,10 @@ public class MetalBindingsGenerator
         // Instance methods
         foreach (var m in def.Methods)
         {
-            EmitMethod(sb, def.Name, m, selectors, isStatic: false);
+            if (EmitMethod(sb, def.Name, m, selectors, isStatic: false))
+            {
+                sb.AppendLine();
+            }
         }
 
         // Implicit operators
@@ -218,6 +224,15 @@ public class MetalBindingsGenerator
         sb.AppendLine("        return new(value);");
         sb.AppendLine("    }");
         sb.AppendLine();
+
+        // Static methods after operators
+        foreach (var m in def.StaticMethods)
+        {
+            if (EmitMethod(sb, def.Name, m, selectors, isStatic: true))
+            {
+                sb.AppendLine();
+            }
+        }
 
         // Dispose + Release
         sb.AppendLine("    public void Dispose()");
@@ -234,23 +249,18 @@ public class MetalBindingsGenerator
         sb.AppendLine("            ObjectiveCRuntime.Release(NativePtr);");
         sb.AppendLine("        }");
         sb.AppendLine("    }");
-        sb.AppendLine();
-
-        // Static methods at bottom
-        foreach (var m in def.StaticMethods)
-        {
-            EmitMethod(sb, def.Name, m, selectors, isStatic: true);
-        }
 
         // Free C functions (LibraryImport)
         if (freeFunctions != null && freeFunctions.Count > 0)
         {
             foreach (var f in freeFunctions)
             {
+                sb.AppendLine();
                 EmitFreeFunction(sb, f);
             }
         }
 
+        TrimTrailingBlankLine(sb);
         sb.AppendLine("}");
         sb.AppendLine();
 
@@ -282,7 +292,10 @@ public class MetalBindingsGenerator
 
         sb.AppendLine($"    public {name}(nint nativePtr)");
         sb.AppendLine("    {");
-        sb.AppendLine("        ObjectiveCRuntime.Retain(NativePtr = nativePtr);");
+        sb.AppendLine("        if (nativePtr is not 0)");
+        sb.AppendLine("        {");
+        sb.AppendLine("            ObjectiveCRuntime.Retain(NativePtr = nativePtr);");
+        sb.AppendLine("        }");
         sb.AppendLine("    }");
         sb.AppendLine();
 
@@ -329,19 +342,18 @@ public class MetalBindingsGenerator
         sb.AppendLine("            ObjectiveCRuntime.Release(NativePtr);");
         sb.AppendLine("        }");
         sb.AppendLine("    }");
-        sb.AppendLine();
     }
 
-    private void EmitMethod(StringBuilder sb, string typeName, MethodDef m, Dictionary<string, string> selectors, bool isStatic)
+    private bool EmitMethod(StringBuilder sb, string typeName, MethodDef m, Dictionary<string, string> selectors, bool isStatic)
     {
         var selField = $"{typeName}Selector.{selectors[m.Selector]}";
-        var retType = NormalizeType(m.ReturnType);
+        var retType = m.ReturnType;
         var methodName = ToPascalCase(m.Name);
 
         var paramList = new List<string>();
         foreach (var p in m.Parameters)
         {
-            paramList.Add($"{NormalizeType(p.Type)} {p.Name}");
+            paramList.Add($"{p.Type} {p.Name}");
         }
         if (m.HasErrorOut) paramList.Add("out NSError? error");
 
@@ -352,7 +364,7 @@ public class MetalBindingsGenerator
         var retCall = MapReturnCall(retType);
 
         if (retCall.Invoke.Contains("TODO"))
-            return;
+            return false;
 
         sb.AppendLine($"    public {staticMod}{retType} {methodName}({paramsStr})");
         sb.AppendLine("    {");
@@ -360,7 +372,7 @@ public class MetalBindingsGenerator
         var argParts = new List<string> { receiver, selField };
         foreach (var p in m.Parameters)
         {
-            argParts.Add(UnwrapParam(NormalizeType(p.Type), p.Name));
+            argParts.Add(UnwrapParam(p.Type, p.Name));
         }
         if (m.HasErrorOut)
         {
@@ -369,7 +381,7 @@ public class MetalBindingsGenerator
 
         var argsStr = string.Join(", ", argParts);
 
-        var runtimeParamTypes = m.Parameters.Select(p => GetRuntimeParamType(NormalizeType(p.Type))).ToList();
+        var runtimeParamTypes = m.Parameters.Select(p => GetRuntimeParamType(p.Type)).ToList();
         var runtimeReturnType = MapReturnRuntimeType(retType);
         RecordMsgSendSignature(runtimeReturnType, runtimeParamTypes, m.HasErrorOut);
 
@@ -379,13 +391,13 @@ public class MetalBindingsGenerator
         }
         else
         {
-            var resultExpr = $"{retCall.Invoke}({argsStr})";
+            var callExpr = $"{retCall.Invoke}({argsStr})";
             if (IsObjCWrapper(retType) || retCall.NeedsWrap)
-                sb.AppendLine($"        {retType} result = new({retCall.Invoke}({argsStr}));");
+                sb.AppendLine($"        {retType} result = new({callExpr});");
             else if (IsLikelyEnum(retType))
-                sb.AppendLine($"        {retType} result = ({retType}){resultExpr};");
+                sb.AppendLine($"        {retType} result = ({retType}){callExpr};");
             else
-                sb.AppendLine($"        {retType} result = {resultExpr};");
+                sb.AppendLine($"        {retType} result = {callExpr};");
         }
 
         if (m.HasErrorOut)
@@ -401,7 +413,7 @@ public class MetalBindingsGenerator
         }
 
         sb.AppendLine("    }");
-        sb.AppendLine();
+        return true;
     }
 
     private void EmitFreeFunction(StringBuilder sb, FreeFunctionDef f)
@@ -453,7 +465,6 @@ public class MetalBindingsGenerator
             sb.AppendLine($"        return {f.NativeName}({forwardArgsStr});");
         }
         sb.AppendLine("    }");
-        sb.AppendLine();
     }
 
     private static string WrapReturnInline(string type, string expr)
@@ -471,68 +482,50 @@ public class MetalBindingsGenerator
         {
             "void" => ("ObjectiveCRuntime.MsgSend", false),
             "Bool8" or "bool" => ("ObjectiveCRuntime.MsgSendBool", false),
+            "int" => ("ObjectiveCRuntime.MsgSendInt", false),
             "uint" => ("ObjectiveCRuntime.MsgSendUInt", false),
-            "ulong" => ("ObjectiveCRuntime.MsgSendULong", false),
             "float" => ("ObjectiveCRuntime.MsgSendFloat", false),
             "double" => ("ObjectiveCRuntime.MsgSendDouble", false),
             "nuint" => ("ObjectiveCRuntime.MsgSendNUInt", false),
             "nint" => ("ObjectiveCRuntime.MsgSendPtr", false),
-            _ when IsKnownValueStruct(type) => ("/* TODO: stret */", false),
-            _ when IsLikelyEnum(type) => ("ObjectiveCRuntime.MsgSendUInt", false),
+            _ when IsKnownValueStruct(type) => ($"ObjectiveCRuntime.MsgSend{type}", false),
+            _ when IsLikelyEnum(type) => ("ObjectiveCRuntime.MsgSendULong", false),
             _ => ("ObjectiveCRuntime.MsgSendPtr", true),
         };
     }
 
-    private static string UnwrapParam(string type, string name)
+    private static string UnwrapParam(string type, string name) => type switch
     {
-        if (IsKnownValueStruct(type)) return name;
-        if (type is "float" or "double") return name;
-        if (type is "nint") return name;
-        if (type is "nuint") return name;
-        if (IsLikelyEnum(type)) return $"(uint){name}";
-        if (IsObjCWrapper(type)) return $"{name}.NativePtr";
-        if (type is "Bool8") return name;
-        if (type is "bool") return $"(byte)({name} ? 1 : 0)";
-        if (type is "uint" or "int" or "byte" or "sbyte" or "short" or "ushort") return name;
-        if (type is "ulong" or "long") return name;
-        return name;
-    }
+        _ when IsKnownValueStruct(type) => name,
+        "float" or "double" => name,
+        "nint" or "nuint" => name,
+        _ when IsLikelyEnum(type) => $"(ulong){name}",
+        _ when IsObjCWrapper(type) => $"{name}.NativePtr",
+        "Bool8" => name,
+        "bool" => $"(byte)({name} ? 1 : 0)",
+        "uint" or "int" or "byte" or "sbyte" or "short" or "ushort" => name,
+        _ => name,
+    };
 
-    private static string GetRuntimeParamType(string type)
+    private static string GetRuntimeParamType(string type) => type switch
     {
-        if (IsKnownValueStruct(type)) return type;
-        if (type is "float" or "double") return type;
-        if (type is "nint") return "nint";
-        if (type is "nuint") return "nuint";
-        if (IsLikelyEnum(type)) return "uint";
-        if (IsObjCWrapper(type)) return "nint";
-        if (type is "Bool8") return "Bool8";
-        if (type is "bool") return "byte";
-        if (type is "uint" or "int" or "byte" or "sbyte" or "short" or "ushort") return type;
-        if (type is "ulong" or "long") return type;
-        return "nint";
-    }
+        _ when IsKnownValueStruct(type) => type,
+        "float" or "double" => type,
+        "nint" => "nint",
+        "nuint" => "nuint",
+        _ when IsLikelyEnum(type) => "ulong",
+        _ when IsObjCWrapper(type) => "nint",
+        "Bool8" => "Bool8",
+        "bool" => "byte",
+        "uint" or "int" or "byte" or "sbyte" or "short" or "ushort" => type,
+        _ => "nint",
+    };
 
     private static bool IsObjCWrapper(string type) => CppAstParser.IsObjCWrapper(type);
     private static bool IsKnownValueStruct(string type) => CppAstParser.IsKnownValueStruct(type);
     private static bool IsLikelyEnum(string type) => CppAstParser.IsLikelyEnum(type) || s_runtimeKnownEnums.Contains(type);
 
-    private static readonly HashSet<string> s_runtimeKnownEnums = new();
-
-    private static string NormalizeType(string type)
-    {
-        return type switch
-        {
-            "int" => "nint",
-            "uint" => "nuint",
-            _ => type,
-        };
-    }
-
-    private static string MapParamType(string type)
-    {
-        return type;
-    }
+    private static readonly HashSet<string> s_runtimeKnownEnums = [];
 
     private static void AddSelector(Dictionary<string, string> dict, string selector)
     {
@@ -559,7 +552,7 @@ public class MetalBindingsGenerator
             if (part.Length > 0)
             {
                 sb.Append(char.ToUpperInvariant(part[0]));
-                sb.Append(part.Substring(1));
+                sb.Append(part[1..]);
             }
         }
         var name = sb.ToString();
@@ -568,31 +561,33 @@ public class MetalBindingsGenerator
         return name;
     }
 
-    private static string MapReturnRuntimeType(string retType)
+    private static string MapReturnRuntimeType(string retType) => retType switch
     {
-        if (retType == "void") return "void";
-        if (retType is "Bool8" or "bool") return "Bool8";
-        if (retType is "uint") return "uint";
-        if (retType is "ulong") return "ulong";
-        if (retType is "float") return "float";
-        if (retType is "double") return "double";
-        if (retType is "nuint") return "nuint";
-        if (retType is "nint") return "nint";
-        if (IsLikelyEnum(retType)) return "uint";
-        if (IsKnownValueStruct(retType)) return "nint";
-        return "nint";
-    }
+        "void" => "void",
+        "Bool8" or "bool" => "Bool8",
+        "int" => "int",
+        "uint" => "uint",
+        "float" => "float",
+        "double" => "double",
+        "nuint" => "nuint",
+        "nint" => "nint",
+        _ when IsLikelyEnum(retType) => "ulong",
+        _ when IsKnownValueStruct(retType) => retType,
+        _ => "nint",
+    };
 
     private static string MsgSendMethodName(string runtimeReturnType) => runtimeReturnType switch
     {
         "void" => "MsgSend",
         "nint" => "MsgSendPtr",
         "Bool8" => "MsgSendBool",
+        "int" => "MsgSendInt",
         "uint" => "MsgSendUInt",
         "ulong" => "MsgSendULong",
         "float" => "MsgSendFloat",
         "double" => "MsgSendDouble",
         "nuint" => "MsgSendNUInt",
+        _ when IsKnownValueStruct(runtimeReturnType) => $"MsgSend{runtimeReturnType}",
         _ => "MsgSendPtr",
     };
 
@@ -606,28 +601,26 @@ public class MetalBindingsGenerator
     {
         foreach (var p in cls.Properties)
         {
-            var propType = NormalizeType(p.Type);
-            var retCall = MapReturnCall(propType);
+            var retCall = MapReturnCall(p.Type);
             if (retCall.Invoke.Contains("TODO")) continue;
 
-            var getRetType = MapReturnRuntimeType(propType);
-            RecordMsgSendSignature(getRetType, new List<string>(), false);
+            var getRetType = MapReturnRuntimeType(p.Type);
+            RecordMsgSendSignature(getRetType, [], false);
 
             if (!p.Readonly)
             {
-                var setParamType = GetRuntimeParamType(propType);
-                RecordMsgSendSignature("void", new List<string> { setParamType }, false);
+                var setParamType = GetRuntimeParamType(p.Type);
+                RecordMsgSendSignature("void", [setParamType], false);
             }
         }
 
         foreach (var m in cls.Methods.Concat(cls.StaticMethods))
         {
-            var normalizedRetType = NormalizeType(m.ReturnType);
-            var retCall = MapReturnCall(normalizedRetType);
+            var retCall = MapReturnCall(m.ReturnType);
             if (retCall.Invoke.Contains("TODO")) continue;
 
-            var runtimeParamTypes = m.Parameters.Select(p => GetRuntimeParamType(NormalizeType(p.Type))).ToList();
-            var runtimeReturnType = MapReturnRuntimeType(normalizedRetType);
+            var runtimeParamTypes = m.Parameters.Select(p => GetRuntimeParamType(p.Type)).ToList();
+            var runtimeReturnType = MapReturnRuntimeType(m.ReturnType);
             RecordMsgSendSignature(runtimeReturnType, runtimeParamTypes, m.HasErrorOut);
         }
     }
@@ -685,9 +678,8 @@ public class MetalBindingsGenerator
             var paramTypes = string.IsNullOrEmpty(paramTypesStr) ? Array.Empty<string>() : paramTypesStr.Split(',');
 
             var methodName = MsgSendMethodName(retType);
-            var csRetType = retType == "void" ? "void" : retType;
 
-            var paramParts = new List<string> { "nint receiver", "Selector selector" };
+            List<string> paramParts = ["nint receiver", "Selector selector"];
             char letter = 'a';
             foreach (var pt in paramTypes)
             {
@@ -701,20 +693,19 @@ public class MetalBindingsGenerator
 
             var paramStr = string.Join(", ", paramParts);
 
-            var dedupKey = $"{csRetType} {methodName}({paramStr})";
+            var dedupKey = $"{retType} {methodName}({paramStr})";
             if (!emittedSigs.Add(dedupKey))
                 continue;
 
-            var groupName = methodName;
-            if (!overloadsByGroup.TryGetValue(groupName, out var list))
+            if (!overloadsByGroup.TryGetValue(methodName, out var list))
             {
-                list = new List<string>();
-                overloadsByGroup[groupName] = list;
+                list = [];
+                overloadsByGroup[methodName] = list;
             }
 
             var overloadSb = new StringBuilder();
             overloadSb.AppendLine($"    [LibraryImport(\"/usr/lib/libobjc.A.dylib\", EntryPoint = \"objc_msgSend\")]");
-            overloadSb.Append($"    public static partial {csRetType} {methodName}({paramStr});");
+            overloadSb.Append($"    public static partial {retType} {methodName}({paramStr});");
             list.Add(overloadSb.ToString());
         }
 
@@ -731,6 +722,7 @@ public class MetalBindingsGenerator
             sb.AppendLine();
         }
 
+        TrimTrailingBlankLine(sb);
         sb.AppendLine("}");
 
         WriteSource("Common", "ObjectiveCRuntime.cs", sb.ToString());
@@ -739,19 +731,33 @@ public class MetalBindingsGenerator
     private static string Capitalize(string s)
     {
         if (string.IsNullOrEmpty(s)) return s;
-        return char.ToUpperInvariant(s[0]) + s.Substring(1);
+        return char.ToUpperInvariant(s[0]) + s[1..];
     }
 
     private static string ToPascalCase(string name)
     {
         if (string.IsNullOrEmpty(name)) return name;
 
-        if (name.StartsWith("@"))
-            name = name.Substring(1);
+        if (name.StartsWith('@'))
+            name = name[1..];
 
         if (char.IsUpper(name[0]))
             return name;
 
-        return char.ToUpperInvariant(name[0]) + name.Substring(1);
+        return char.ToUpperInvariant(name[0]) + name[1..];
+    }
+
+    private static void TrimTrailingBlankLine(StringBuilder sb)
+    {
+        var newLine = Environment.NewLine;
+        var doubleNewLine = newLine + newLine;
+        if (sb.Length >= doubleNewLine.Length)
+        {
+            var tail = sb.ToString(sb.Length - doubleNewLine.Length, doubleNewLine.Length);
+            if (tail == doubleNewLine)
+            {
+                sb.Remove(sb.Length - newLine.Length, newLine.Length);
+            }
+        }
     }
 }

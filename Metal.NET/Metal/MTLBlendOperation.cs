@@ -1,16 +1,16 @@
 ﻿namespace Metal.NET;
 
-public enum MTLBlendOperation : uint
+public enum MTLBlendOperation : ulong
 {
-    Add = 0,
+    BlendOperationAdd = 0,
 
-    Subtract = 1,
+    BlendOperationSubtract = 1,
 
-    ReverseSubtract = 2,
+    BlendOperationReverseSubtract = 2,
 
-    Min = 3,
+    BlendOperationMin = 3,
 
-    Max = 4,
+    BlendOperationMax = 4,
 
-    Unspecialized = 5
+    BlendOperationUnspecialized = 5
 }

@@ -4,7 +4,10 @@ public class MTLIOCommandBuffer : IDisposable
 {
     public MTLIOCommandBuffer(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLIOCommandBuffer()
@@ -14,7 +17,10 @@ public class MTLIOCommandBuffer : IDisposable
 
     public nint NativePtr { get; }
 
-    public NSError Error => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferSelector.Error));
+    public NSError Error
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferSelector.Error));
+    }
 
     public NSString Label
     {
@@ -22,7 +28,10 @@ public class MTLIOCommandBuffer : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.SetLabel, value.NativePtr);
     }
 
-    public MTLIOStatus Status => (MTLIOStatus)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLIOCommandBufferSelector.Status));
+    public MTLIOStatus Status
+    {
+        get => (MTLIOStatus)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLIOCommandBufferSelector.Status));
+    }
 
     public void AddBarrier()
     {
@@ -118,7 +127,6 @@ public class MTLIOCommandBuffer : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLIOCommandBufferSelector

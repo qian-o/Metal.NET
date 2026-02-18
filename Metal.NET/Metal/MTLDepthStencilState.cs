@@ -4,7 +4,10 @@ public class MTLDepthStencilState : IDisposable
 {
     public MTLDepthStencilState(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLDepthStencilState()
@@ -14,9 +17,20 @@ public class MTLDepthStencilState : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilStateSelector.Device));
+    public MTLDevice Device
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilStateSelector.Device));
+    }
 
-    public NSString Label => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilStateSelector.Label));
+    public MTLResourceID GpuResourceID
+    {
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLDepthStencilStateSelector.GpuResourceID);
+    }
+
+    public NSString Label
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilStateSelector.Label));
+    }
 
     public static implicit operator nint(MTLDepthStencilState value)
     {
@@ -42,7 +56,6 @@ public class MTLDepthStencilState : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLDepthStencilStateSelector

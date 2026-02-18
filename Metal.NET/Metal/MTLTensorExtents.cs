@@ -2,9 +2,18 @@
 
 public class MTLTensorExtents : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorExtents");
+
     public MTLTensorExtents(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLTensorExtents() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLTensorExtents()
@@ -14,7 +23,10 @@ public class MTLTensorExtents : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint Rank => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorExtentsSelector.Rank);
+    public nuint Rank
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorExtentsSelector.Rank);
+    }
 
     public nint ExtentAtDimensionIndex(nuint dimensionIndex)
     {
@@ -47,7 +59,6 @@ public class MTLTensorExtents : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLTensorExtentsSelector

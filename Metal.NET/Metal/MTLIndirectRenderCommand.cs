@@ -4,7 +4,10 @@ public class MTLIndirectRenderCommand : IDisposable
 {
     public MTLIndirectRenderCommand(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLIndirectRenderCommand()
@@ -26,7 +29,7 @@ public class MTLIndirectRenderCommand : IDisposable
 
     public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, MTLBuffer indexBuffer, nuint indexBufferOffset, nuint instanceCount, nint baseVertex, nuint baseInstance)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferOffsetInstanceCountBaseVertexBaseInstance, (uint)primitiveType, indexCount, (uint)indexType, indexBuffer.NativePtr, indexBufferOffset, instanceCount, baseVertex, baseInstance);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferOffsetInstanceCountBaseVertexBaseInstance, (ulong)primitiveType, indexCount, (ulong)indexType, indexBuffer.NativePtr, indexBufferOffset, instanceCount, baseVertex, baseInstance);
     }
 
     public void DrawMeshThreadgroups(MTLSize threadgroupsPerGrid, MTLSize threadsPerObjectThreadgroup, MTLSize threadsPerMeshThreadgroup)
@@ -46,7 +49,7 @@ public class MTLIndirectRenderCommand : IDisposable
 
     public void DrawPrimitives(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount, nuint instanceCount, nuint baseInstance)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.DrawPrimitivesVertexStartVertexCountInstanceCountBaseInstance, (uint)primitiveType, vertexStart, vertexCount, instanceCount, baseInstance);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.DrawPrimitivesVertexStartVertexCountInstanceCountBaseInstance, (ulong)primitiveType, vertexStart, vertexCount, instanceCount, baseInstance);
     }
 
     public void Reset()
@@ -61,7 +64,7 @@ public class MTLIndirectRenderCommand : IDisposable
 
     public void SetCullMode(MTLCullMode cullMode)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetCullMode, (uint)cullMode);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetCullMode, (ulong)cullMode);
     }
 
     public void SetDepthBias(float depthBias, float slopeScale, float clamp)
@@ -71,7 +74,7 @@ public class MTLIndirectRenderCommand : IDisposable
 
     public void SetDepthClipMode(MTLDepthClipMode depthClipMode)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetDepthClipMode, (uint)depthClipMode);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetDepthClipMode, (ulong)depthClipMode);
     }
 
     public void SetDepthStencilState(MTLDepthStencilState depthStencilState)
@@ -86,7 +89,7 @@ public class MTLIndirectRenderCommand : IDisposable
 
     public void SetFrontFacingWinding(MTLWinding frontFacingWindning)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetFrontFacingWinding, (uint)frontFacingWindning);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetFrontFacingWinding, (ulong)frontFacingWindning);
     }
 
     public void SetMeshBuffer(MTLBuffer buffer, nuint offset, nuint index)
@@ -111,7 +114,7 @@ public class MTLIndirectRenderCommand : IDisposable
 
     public void SetTriangleFillMode(MTLTriangleFillMode fillMode)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetTriangleFillMode, (uint)fillMode);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetTriangleFillMode, (ulong)fillMode);
     }
 
     public void SetVertexBuffer(MTLBuffer buffer, nuint offset, nuint index)
@@ -148,7 +151,6 @@ public class MTLIndirectRenderCommand : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLIndirectRenderCommandSelector

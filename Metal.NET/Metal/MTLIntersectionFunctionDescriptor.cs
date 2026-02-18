@@ -2,9 +2,18 @@
 
 public class MTLIntersectionFunctionDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIntersectionFunctionDescriptor");
+
     public MTLIntersectionFunctionDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLIntersectionFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLIntersectionFunctionDescriptor()
@@ -38,7 +47,6 @@ public class MTLIntersectionFunctionDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLIntersectionFunctionDescriptorSelector

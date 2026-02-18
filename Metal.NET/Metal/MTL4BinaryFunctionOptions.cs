@@ -1,7 +1,7 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTL4BinaryFunctionOptions : uint
+public enum MTL4BinaryFunctionOptions : ulong
 {
     BinaryFunctionOptionNone = 0,
 

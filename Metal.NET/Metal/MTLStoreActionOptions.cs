@@ -1,7 +1,7 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTLStoreActionOptions : uint
+public enum MTLStoreActionOptions : ulong
 {
     StoreActionOptionNone = 0,
 

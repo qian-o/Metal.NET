@@ -4,7 +4,10 @@ public class MTL4CommitFeedback : IDisposable
 {
     public MTL4CommitFeedback(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTL4CommitFeedback()
@@ -14,11 +17,20 @@ public class MTL4CommitFeedback : IDisposable
 
     public nint NativePtr { get; }
 
-    public double GPUEndTime => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTL4CommitFeedbackSelector.GPUEndTime);
+    public double GPUEndTime
+    {
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTL4CommitFeedbackSelector.GPUEndTime);
+    }
 
-    public double GPUStartTime => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTL4CommitFeedbackSelector.GPUStartTime);
+    public double GPUStartTime
+    {
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTL4CommitFeedbackSelector.GPUStartTime);
+    }
 
-    public NSError Error => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommitFeedbackSelector.Error));
+    public NSError Error
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommitFeedbackSelector.Error));
+    }
 
     public static implicit operator nint(MTL4CommitFeedback value)
     {
@@ -44,7 +56,6 @@ public class MTL4CommitFeedback : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4CommitFeedbackSelector

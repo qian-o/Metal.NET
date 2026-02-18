@@ -6,7 +6,10 @@ public class MTLLinkedFunctions : IDisposable
 
     public MTLLinkedFunctions(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(Class))
@@ -54,6 +57,13 @@ public class MTLLinkedFunctions : IDisposable
         return new(value);
     }
 
+    public static MTLLinkedFunctions LinkedFunctions()
+    {
+        MTLLinkedFunctions result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLLinkedFunctionsSelector.LinkedFunctions));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -68,14 +78,6 @@ public class MTLLinkedFunctions : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
-    public static MTLLinkedFunctions LinkedFunctions()
-    {
-        MTLLinkedFunctions result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLLinkedFunctionsSelector.LinkedFunctions));
-
-        return result;
-    }
-
 }
 
 file class MTLLinkedFunctionsSelector

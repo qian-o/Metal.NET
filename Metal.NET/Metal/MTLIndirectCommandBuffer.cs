@@ -4,7 +4,10 @@ public class MTLIndirectCommandBuffer : IDisposable
 {
     public MTLIndirectCommandBuffer(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLIndirectCommandBuffer()
@@ -14,7 +17,15 @@ public class MTLIndirectCommandBuffer : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint Size => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferSelector.Size);
+    public MTLResourceID GpuResourceID
+    {
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLIndirectCommandBufferSelector.GpuResourceID);
+    }
+
+    public nuint Size
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferSelector.Size);
+    }
 
     public MTLIndirectComputeCommand IndirectComputeCommand(nuint commandIndex)
     {
@@ -59,7 +70,6 @@ public class MTLIndirectCommandBuffer : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLIndirectCommandBufferSelector

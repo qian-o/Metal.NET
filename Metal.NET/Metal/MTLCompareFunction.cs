@@ -1,20 +1,20 @@
 ﻿namespace Metal.NET;
 
-public enum MTLCompareFunction : uint
+public enum MTLCompareFunction : ulong
 {
-    Never = 0,
+    CompareFunctionNever = 0,
 
-    Less = 1,
+    CompareFunctionLess = 1,
 
-    Equal = 2,
+    CompareFunctionEqual = 2,
 
-    LessEqual = 3,
+    CompareFunctionLessEqual = 3,
 
-    Greater = 4,
+    CompareFunctionGreater = 4,
 
-    NotEqual = 5,
+    CompareFunctionNotEqual = 5,
 
-    GreaterEqual = 6,
+    CompareFunctionGreaterEqual = 6,
 
-    Always = 7
+    CompareFunctionAlways = 7
 }

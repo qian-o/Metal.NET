@@ -2,9 +2,18 @@
 
 public class MTL4CommandBufferOptions : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CommandBufferOptions");
+
     public MTL4CommandBufferOptions(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTL4CommandBufferOptions() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTL4CommandBufferOptions()
@@ -44,7 +53,6 @@ public class MTL4CommandBufferOptions : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4CommandBufferOptionsSelector

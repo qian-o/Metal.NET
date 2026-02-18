@@ -1,11 +1,11 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTLTensorUsage : uint
+public enum MTLTensorUsage : ulong
 {
-    Compute = 1,
+    TensorUsageCompute = 1,
 
-    Render = 2,
+    TensorUsageRender = 2,
 
-    MachineLearning = 4
+    TensorUsageMachineLearning = 4
 }

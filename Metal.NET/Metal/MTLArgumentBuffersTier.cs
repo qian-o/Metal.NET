@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public enum MTLArgumentBuffersTier : uint
+public enum MTLArgumentBuffersTier : ulong
 {
-    _1 = 0,
+    ArgumentBuffersTier1 = 0,
 
-    _2 = 1
+    ArgumentBuffersTier2 = 1
 }

@@ -6,7 +6,10 @@ public class MTLIndirectCommandBufferDescriptor : IDisposable
 
     public MTLIndirectCommandBufferDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLIndirectCommandBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
@@ -20,10 +23,10 @@ public class MTLIndirectCommandBufferDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint CommandTypes
+    public MTLIndirectCommandType CommandTypes
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferDescriptorSelector.CommandTypes);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetCommandTypes, value);
+        get => (MTLIndirectCommandType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLIndirectCommandBufferDescriptorSelector.CommandTypes));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetCommandTypes, (ulong)value);
     }
 
     public Bool8 InheritBuffers
@@ -158,7 +161,6 @@ public class MTLIndirectCommandBufferDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLIndirectCommandBufferDescriptorSelector

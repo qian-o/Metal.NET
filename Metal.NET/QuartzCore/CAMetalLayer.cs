@@ -2,15 +2,12 @@
 
 public class CAMetalLayer : IDisposable
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("CAMetalLayer");
-
     public CAMetalLayer(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-    }
-
-    public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~CAMetalLayer()
@@ -20,6 +17,8 @@ public class CAMetalLayer : IDisposable
 
     public nint NativePtr { get; }
 
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("CAMetalLayer");
+
     public MTLDevice Device
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.Device));
@@ -28,8 +27,8 @@ public class CAMetalLayer : IDisposable
 
     public MTLPixelFormat PixelFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, CAMetalLayerSelector.PixelFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetPixelFormat, (uint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, CAMetalLayerSelector.PixelFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetPixelFormat, (ulong)value);
     }
 
     public Bool8 FramebufferOnly
@@ -38,12 +37,15 @@ public class CAMetalLayer : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetFramebufferOnly, value);
     }
 
+    public CGSize DrawableSize
+    {
+        get => ObjectiveCRuntime.MsgSendCGSize(NativePtr, CAMetalLayerSelector.DrawableSize);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetDrawableSize, value);
+    }
+
     public CAMetalDrawable NextDrawable
     {
-        get
-        {
-            return new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.NextDrawable));
-        }
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.NextDrawable));
     }
 
     public nuint MaximumDrawableCount
@@ -72,10 +74,7 @@ public class CAMetalLayer : IDisposable
 
     public MTLResidencySet ResidencySet
     {
-        get
-        {
-            return new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.ResidencySet));
-        }
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.ResidencySet));
     }
 
     public static implicit operator nint(CAMetalLayer value)

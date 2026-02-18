@@ -6,7 +6,10 @@ public class MTLStencilDescriptor : IDisposable
 
     public MTLStencilDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
@@ -22,37 +25,37 @@ public class MTLStencilDescriptor : IDisposable
 
     public MTLStencilOperation DepthFailureOperation
     {
-        get => (MTLStencilOperation)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLStencilDescriptorSelector.DepthFailureOperation));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetDepthFailureOperation, (uint)value);
+        get => (MTLStencilOperation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorSelector.DepthFailureOperation));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetDepthFailureOperation, (ulong)value);
     }
 
     public MTLStencilOperation DepthStencilPassOperation
     {
-        get => (MTLStencilOperation)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLStencilDescriptorSelector.DepthStencilPassOperation));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetDepthStencilPassOperation, (uint)value);
+        get => (MTLStencilOperation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorSelector.DepthStencilPassOperation));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetDepthStencilPassOperation, (ulong)value);
     }
 
-    public nuint ReadMask
+    public uint ReadMask
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStencilDescriptorSelector.ReadMask);
+        get => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLStencilDescriptorSelector.ReadMask);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetReadMask, value);
     }
 
     public MTLCompareFunction StencilCompareFunction
     {
-        get => (MTLCompareFunction)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLStencilDescriptorSelector.StencilCompareFunction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetStencilCompareFunction, (uint)value);
+        get => (MTLCompareFunction)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorSelector.StencilCompareFunction));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetStencilCompareFunction, (ulong)value);
     }
 
     public MTLStencilOperation StencilFailureOperation
     {
-        get => (MTLStencilOperation)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLStencilDescriptorSelector.StencilFailureOperation));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetStencilFailureOperation, (uint)value);
+        get => (MTLStencilOperation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorSelector.StencilFailureOperation));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetStencilFailureOperation, (ulong)value);
     }
 
-    public nuint WriteMask
+    public uint WriteMask
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStencilDescriptorSelector.WriteMask);
+        get => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLStencilDescriptorSelector.WriteMask);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetWriteMask, value);
     }
 
@@ -80,7 +83,6 @@ public class MTLStencilDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLStencilDescriptorSelector

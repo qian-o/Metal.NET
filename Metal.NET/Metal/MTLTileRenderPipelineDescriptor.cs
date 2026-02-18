@@ -6,7 +6,10 @@ public class MTLTileRenderPipelineDescriptor : IDisposable
 
     public MTLTileRenderPipelineDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLTileRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
@@ -26,7 +29,10 @@ public class MTLTileRenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetBinaryArchives, value.NativePtr);
     }
 
-    public MTLTileRenderPipelineColorAttachmentDescriptorArray ColorAttachments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.ColorAttachments));
+    public MTLTileRenderPipelineColorAttachmentDescriptorArray ColorAttachments
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.ColorAttachments));
+    }
 
     public NSString Label
     {
@@ -64,10 +70,16 @@ public class MTLTileRenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetRasterSampleCount, value);
     }
 
+    public MTLSize RequiredThreadsPerThreadgroup
+    {
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLTileRenderPipelineDescriptorSelector.RequiredThreadsPerThreadgroup);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetRequiredThreadsPerThreadgroup, value);
+    }
+
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTileRenderPipelineDescriptorSelector.ShaderValidation));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetShaderValidation, (uint)value);
+        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTileRenderPipelineDescriptorSelector.ShaderValidation));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetShaderValidation, (ulong)value);
     }
 
     public Bool8 SupportAddingBinaryFunctions
@@ -82,7 +94,10 @@ public class MTLTileRenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetThreadgroupSizeMatchesTileSize, value);
     }
 
-    public MTLPipelineBufferDescriptorArray TileBuffers => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.TileBuffers));
+    public MTLPipelineBufferDescriptorArray TileBuffers
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.TileBuffers));
+    }
 
     public MTLFunction TileFunction
     {
@@ -119,7 +134,6 @@ public class MTLTileRenderPipelineDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLTileRenderPipelineDescriptorSelector

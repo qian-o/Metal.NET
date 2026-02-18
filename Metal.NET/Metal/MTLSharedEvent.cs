@@ -4,7 +4,10 @@ public class MTLSharedEvent : IDisposable
 {
     public MTLSharedEvent(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLSharedEvent()
@@ -63,7 +66,6 @@ public class MTLSharedEvent : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLSharedEventSelector

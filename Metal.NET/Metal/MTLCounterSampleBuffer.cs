@@ -4,7 +4,10 @@ public class MTLCounterSampleBuffer : IDisposable
 {
     public MTLCounterSampleBuffer(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLCounterSampleBuffer()
@@ -14,11 +17,20 @@ public class MTLCounterSampleBuffer : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferSelector.Device));
+    public MTLDevice Device
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferSelector.Device));
+    }
 
-    public NSString Label => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferSelector.Label));
+    public NSString Label
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferSelector.Label));
+    }
 
-    public nuint SampleCount => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCounterSampleBufferSelector.SampleCount);
+    public nuint SampleCount
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCounterSampleBufferSelector.SampleCount);
+    }
 
     public nint ResolveCounterRange(NSRange range)
     {
@@ -51,7 +63,6 @@ public class MTLCounterSampleBuffer : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLCounterSampleBufferSelector

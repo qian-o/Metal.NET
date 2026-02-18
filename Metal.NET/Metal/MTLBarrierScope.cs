@@ -1,11 +1,11 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTLBarrierScope : uint
+public enum MTLBarrierScope : ulong
 {
-    Buffers = 1,
+    BarrierScopeBuffers = 1,
 
-    Textures = 2,
+    BarrierScopeTextures = 2,
 
-    RenderTargets = 4
+    BarrierScopeRenderTargets = 4
 }

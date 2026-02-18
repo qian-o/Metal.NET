@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using CppAst;
 
 namespace Metal.NET.Generator;
@@ -21,6 +22,14 @@ public static class CppAstParser
     // ── Namespaces we care about ──
     private static readonly HashSet<string> s_bindableNamespaces = ["MTL", "MTL4", "MTLFX", "CA"];
     private static readonly HashSet<string> s_nsNamespace = ["NS"];
+
+    // ── _MTL_OPTIONS typedef names mapped to their full C# enum names ──
+    // e.g., "MTL.RenderStages" -> "MTLRenderStages"
+    private static readonly Dictionary<string, string> s_optionsTypedefs = new();
+
+    // ── Classes with alloc() methods, detected by scanning C++ header text ──
+    // Key: "Namespace::ClassName", e.g., "MTL::TextureDescriptor"
+    private static readonly HashSet<string> s_allocClasses = new();
 
     // ── Foundation types with hand-written implementations ──
     private static readonly HashSet<string> s_handWrittenTypes = ["NSString", "NSError", "NSArray"];
@@ -72,33 +81,6 @@ public static class CppAstParser
         "MTLFunctionLogDebugLocation",
     ];
 
-    /// <summary>
-    /// Concrete ObjC classes that can be alloc/init'd (not protocols).
-    /// Names without prefix — matched against CppAst class names.
-    /// </summary>
-    private static readonly HashSet<string> s_concreteClasses =
-    [
-        "TextureDescriptor", "SamplerDescriptor", "RenderPassDescriptor",
-        "RenderPipelineDescriptor", "DepthStencilDescriptor", "StencilDescriptor",
-        "VertexDescriptor", "CompileOptions", "RenderPassColorAttachmentDescriptor",
-        "RenderPassDepthAttachmentDescriptor", "RenderPassStencilAttachmentDescriptor",
-        "RenderPipelineColorAttachmentDescriptor", "VertexBufferLayoutDescriptor",
-        "VertexAttributeDescriptor", "TileRenderPipelineDescriptor",
-        "TileRenderPipelineColorAttachmentDescriptor",
-        "RasterizationRateMapDescriptor", "RasterizationRateLayerDescriptor",
-        "StageInputOutputDescriptor", "AttributeDescriptor", "BufferLayoutDescriptor",
-        "IndirectCommandBufferDescriptor", "LinkedFunctions",
-        "ComputePassDescriptor", "BlitPassDescriptor", "AccelerationStructureDescriptor",
-        "PrimitiveAccelerationStructureDescriptor", "InstanceAccelerationStructureDescriptor",
-        "HeapDescriptor", "SharedEventHandle", "CaptureDescriptor",
-        "BinaryArchiveDescriptor", "StitchedLibraryDescriptor",
-        "FunctionStitchingGraph", "FunctionStitchingInputNode",
-        "FunctionStitchingFunctionNode",
-        "ResidencySetDescriptor", "IOCommandQueueDescriptor",
-        "TextureViewDescriptor", "TextureViewPool",
-        "MetalLayer", // CA::MetalLayer
-    ];
-
     // ── C# keywords that must be escaped ──
     private static readonly HashSet<string> s_csharpKeywords =
     [
@@ -122,9 +104,15 @@ public static class CppAstParser
     public static ParseResult Parse(string metalCppDir, string stubsDir)
     {
         var result = new ParseResult();
+        s_optionsTypedefs.Clear();
+
+        // Pre-scan C++ headers to detect classes with alloc() methods.
+        // CppAst may not see alloc() in classes that inherit from template base classes,
+        // so we scan the raw header text with a regex as a reliable fallback.
+        ScanAllocClasses(metalCppDir);
 
         // Find system C++ include dirs
-        var systemIncludes = new List<string>();
+        List<string> systemIncludes = [];
         foreach (var dir in s_systemIncludes)
         {
             if (Directory.Exists(dir))
@@ -155,7 +143,7 @@ public static class CppAstParser
 
         // Parse via umbrella headers which set up the full include chain.
         // This ensures all types are properly resolved across namespaces.
-        var umbrellaHeaders = new List<string>();
+        List<string> umbrellaHeaders = [];
 
         var metalHpp = Path.Combine(metalCppDir, "Metal", "Metal.hpp");
         if (File.Exists(metalHpp)) umbrellaHeaders.Add(metalHpp);
@@ -206,10 +194,16 @@ public static class CppAstParser
                 continue;
             }
 
-            // Walk all namespaces in this compilation
+            // Walk all namespaces in two passes:
+            // 1. First pass: collect enums (populates s_optionsTypedefs for _MTL_OPTIONS types)
+            // 2. Second pass: collect classes and free functions (can now resolve typedef-based enum params)
             foreach (var ns in compilation.Namespaces)
             {
-                WalkNamespace(ns, result, hppPath);
+                WalkNamespaceEnums(ns, result);
+            }
+            foreach (var ns in compilation.Namespaces)
+            {
+                WalkNamespaceClasses(ns, result, hppPath);
             }
         }
 
@@ -217,6 +211,76 @@ public static class CppAstParser
         result.Deduplicate();
 
         return result;
+    }
+
+    /// <summary>
+    /// Pre-scan C++ headers to build a set of classes that have static alloc() methods.
+    /// This is needed because CppAst may not parse alloc() methods in classes that
+    /// inherit from template base classes (e.g., NS::Copying&lt;&gt;).
+    /// </summary>
+    private static void ScanAllocClasses(string metalCppDir)
+    {
+        s_allocClasses.Clear();
+
+        var allocPattern = new Regex(
+            @"static\s+(\w+)\s*\*\s*alloc\s*\(\s*\)\s*;",
+            RegexOptions.Compiled);
+
+        var nsPattern = new Regex(
+            @"^namespace\s+(\w+)",
+            RegexOptions.Compiled);
+
+        foreach (var dir in new[] { "Metal", "MetalFX", "QuartzCore", "Foundation" })
+        {
+            var fullDir = Path.Combine(metalCppDir, dir);
+            if (!Directory.Exists(fullDir)) continue;
+
+            foreach (var file in Directory.GetFiles(fullDir, "*.hpp"))
+            {
+                string currentNs = "";
+                foreach (var line in File.ReadLines(file))
+                {
+                    var nsMatch = nsPattern.Match(line);
+                    if (nsMatch.Success)
+                    {
+                        currentNs = nsMatch.Groups[1].Value;
+                        continue;
+                    }
+
+                    var allocMatch = allocPattern.Match(line);
+                    if (allocMatch.Success && !string.IsNullOrEmpty(currentNs))
+                    {
+                        s_allocClasses.Add($"{currentNs}::{allocMatch.Groups[1].Value}");
+                    }
+                }
+            }
+        }
+    }
+
+    private static string NamespaceToPrefix(string ns) => ns switch
+    {
+        "MTL" => "MTL",
+        "MTL4" => "MTL4",
+        "MTLFX" => "MTLFX",
+        "CA" => "CA",
+        "NS" => "NS",
+        _ => ns,
+    };
+
+    /// <summary>
+    /// Resolve the prefix from the parent namespace of a C++ type,
+    /// falling back to the caller's prefix if the namespace is not recognized.
+    /// </summary>
+    private static string ResolvePrefix(string? parentNs, string fallbackPrefix)
+    {
+        if (string.IsNullOrEmpty(parentNs))
+            return fallbackPrefix;
+
+        return parentNs switch
+        {
+            "MTL" or "MTL4" or "MTLFX" or "CA" or "NS" => NamespaceToPrefix(parentNs),
+            _ => fallbackPrefix,
+        };
     }
 
     private static string NamespaceToFolder(string ns) => ns switch
@@ -228,13 +292,12 @@ public static class CppAstParser
         _ => "Metal",
     };
 
-    private static void WalkNamespace(CppNamespace ns, ParseResult result, string sourceFile)
+    private static void WalkNamespaceEnums(CppNamespace ns, ParseResult result)
     {
         string nsName = ns.Name;
 
         if (s_bindableNamespaces.Contains(nsName))
         {
-            // Parse enums
             foreach (var cppEnum in ns.Enums)
             {
                 var enumDef = ConvertEnum(cppEnum, nsName);
@@ -244,7 +307,22 @@ public static class CppAstParser
                     result.Enums.Add(enumDef);
                 }
             }
+        }
 
+        // Recurse into nested namespaces (skip Private)
+        foreach (var child in ns.Namespaces)
+        {
+            if (child.Name == "Private") continue;
+            WalkNamespaceEnums(child, result);
+        }
+    }
+
+    private static void WalkNamespaceClasses(CppNamespace ns, ParseResult result, string sourceFile)
+    {
+        string nsName = ns.Name;
+
+        if (s_bindableNamespaces.Contains(nsName))
+        {
             // Parse classes/protocols
             foreach (var cppClass in ns.Classes)
             {
@@ -256,7 +334,7 @@ public static class CppAstParser
                 }
 
                 // Skip types that are value structs (defined in MTLStructs.cs)
-                string checkName = $"{(nsName switch { "MTL" => "MTL", "MTL4" => "MTL4", "MTLFX" => "MTLFX", "CA" => "CA", _ => nsName })}{cppClass.Name}";
+                string checkName = $"{NamespaceToPrefix(nsName)}{cppClass.Name}";
                 if (s_valueStructs.Contains(checkName))
                     continue;
 
@@ -279,10 +357,6 @@ public static class CppAstParser
         else if (s_nsNamespace.Contains(nsName))
         {
             // Foundation namespace - only generate whitelisted classes
-            foreach (var cppEnum in ns.Enums)
-            {
-                // Skip NS enums - they're Foundation internal
-            }
             foreach (var cppClass in ns.Classes)
             {
                 string fullName = $"NS{cppClass.Name}";
@@ -304,7 +378,7 @@ public static class CppAstParser
         foreach (var child in ns.Namespaces)
         {
             if (child.Name == "Private") continue;
-            WalkNamespace(child, result, sourceFile);
+            WalkNamespaceClasses(child, result, sourceFile);
         }
     }
 
@@ -314,15 +388,7 @@ public static class CppAstParser
 
     private static EnumDef? ConvertEnum(CppEnum cppEnum, string ns)
     {
-        string prefix = ns switch
-        {
-            "MTL" => "MTL",
-            "MTL4" => "MTL4",
-            "MTLFX" => "MTLFX",
-            "CA" => "CA",
-            "NS" => "NS",
-            _ => ns
-        };
+        string prefix = NamespaceToPrefix(ns);
 
         string enumName;
         string underlyingType;
@@ -340,11 +406,18 @@ public static class CppAstParser
             if (string.IsNullOrEmpty(intTypeName)) return null;
 
             enumName = intTypeName;
-            underlyingType = "uint"; // _MTL_OPTIONS always uses NS::UInteger -> uint
+            // Resolve the actual underlying type through the typedef
+            underlyingType = MapEnumUnderlyingType(cppEnum.IntegerType);
         }
 
         string fullName = $"{prefix}{enumName}";
         bool isFlags = string.IsNullOrEmpty(cppEnum.Name); // Anonymous enums from _MTL_OPTIONS are always flags
+
+        // Record _MTL_OPTIONS typedefs for type mapping
+        if (isFlags)
+        {
+            s_optionsTypedefs[$"{ns}.{enumName}"] = fullName;
+        }
 
         var enumDef = new EnumDef
         {
@@ -353,18 +426,10 @@ public static class CppAstParser
             IsFlags = isFlags,
         };
 
-        // Determine the prefix to strip from member names
-        string memberPrefix = enumName;
-
-        var seen = new HashSet<string>();
+        HashSet<string> seen = [];
         foreach (var item in cppEnum.Items)
         {
             string memberName = item.Name;
-
-            // Strip the enum type prefix from member names
-            // e.g., PixelFormatRGBA8Unorm -> RGBA8Unorm
-            if (memberName.StartsWith(memberPrefix))
-                memberName = memberName.Substring(memberPrefix.Length);
 
             // Handle digit-prefixed names (e.g., "1_0" -> "_1_0")
             if (memberName.Length > 0 && char.IsDigit(memberName[0]))
@@ -376,13 +441,27 @@ public static class CppAstParser
             if (!seen.Add(memberName))
                 continue; // skip duplicates
 
-            string value = item.Value.ToString();
+            // Prefer ValueExpression (raw text from C++ source) when item.Value overflows long
+            var exprText = item.ValueExpression?.ToString();
+            string value;
+            if (item.Value < 0 && !string.IsNullOrEmpty(exprText) && long.TryParse(exprText, out long parsedValue) && parsedValue >= 0)
+            {
+                // CppAst item.Value overflowed — use the original expression text
+                value = exprText;
+            }
+            else
+            {
+                value = item.Value.ToString();
+            }
 
             // Handle negative values for unsigned underlying types
-            if (item.Value < 0 && (underlyingType == "uint" || underlyingType == "ushort" || underlyingType == "byte"))
+            if (item.Value < 0 && value == item.Value.ToString()
+                && (underlyingType == "ulong" || underlyingType == "uint" || underlyingType == "ushort" || underlyingType == "byte"))
             {
                 // Convert to unsigned representation
-                if (underlyingType == "uint")
+                if (underlyingType == "ulong")
+                    value = unchecked((ulong)item.Value).ToString();
+                else if (underlyingType == "uint")
                     value = unchecked((uint)item.Value).ToString();
                 else if (underlyingType == "ushort")
                     value = unchecked((ushort)item.Value).ToString();
@@ -404,11 +483,18 @@ public static class CppAstParser
     {
         if (type == null) return "uint";
 
+        // Resolve typedefs to their underlying type
+        while (type is CppTypedef td)
+            type = td.ElementType;
+
+        // Unwrap qualifiers
+        type = UnwrapType(type);
+
         var displayName = type.GetDisplayName();
         return displayName switch
         {
-            "UInteger" or "NS::UInteger" or "unsigned long" or "unsigned long long" => "uint",
-            "Integer" or "NS::Integer" or "long" or "long long" => "int",
+            "UInteger" or "NS::UInteger" or "unsigned long" or "unsigned long long" => "ulong",
+            "Integer" or "NS::Integer" or "long" or "long long" => "long",
             "unsigned int" or "uint32_t" => "uint",
             "int" or "int32_t" => "int",
             "unsigned short" or "uint16_t" => "ushort",
@@ -435,15 +521,7 @@ public static class CppAstParser
         if (cppClass.Name.StartsWith("_"))
             return null;
 
-        string prefix = ns switch
-        {
-            "MTL" => "MTL",
-            "MTL4" => "MTL4",
-            "MTLFX" => "MTLFX",
-            "CA" => "CA",
-            "NS" => "NS",
-            _ => ns
-        };
+        string prefix = NamespaceToPrefix(ns);
 
         string fullName = $"{prefix}{cppClass.Name}";
 
@@ -452,7 +530,13 @@ public static class CppAstParser
             return null;
 
         // Determine if this is a concrete ObjC class (can be alloc/init'd)
-        bool isClass = s_concreteClasses.Contains(cppClass.Name);
+        // Check CppAst functions first, then fall back to pre-scanned header text
+        // (CppAst may miss alloc() in classes with template base types)
+        bool isClass = cppClass.Functions.Any(fn =>
+            fn.StorageQualifier == CppStorageQualifier.Static &&
+            fn.Name == "alloc" &&
+            fn.Parameters.Count == 0)
+            || s_allocClasses.Contains($"{ns}::{cppClass.Name}");
         string? objCClass = isClass ? fullName : null;
 
         var def = new ObjCClassDef
@@ -463,11 +547,11 @@ public static class CppAstParser
         };
 
         // Track method signatures for deduplication
-        var methodSigs = new HashSet<string>();
+        HashSet<string> methodSigs = [];
         // potentialPropertyNames: collision detection to prevent methods from shadowing properties
-        var potentialPropertyNames = new HashSet<string>();
+        HashSet<string> potentialPropertyNames = [];
         // addedPropertyNames: track which properties have actually been added to def.Properties
-        var addedPropertyNames = new HashSet<string>();
+        HashSet<string> addedPropertyNames = [];
 
         // Pre-pass: identify all potential property names (0-arg, non-void, non-static, non-new methods)
         foreach (var fn in cppClass.Functions)
@@ -481,7 +565,7 @@ public static class CppAstParser
             var retType = MapType(fn.ReturnType, ns, prefix);
             if (retType == null || retType == "void") continue;
 
-            string pcName = char.ToUpperInvariant(fn.Name[0]) + fn.Name.Substring(1);
+            string pcName = char.ToUpperInvariant(fn.Name[0]) + fn.Name[1..];
             potentialPropertyNames.Add(pcName);
         }
 
@@ -506,7 +590,7 @@ public static class CppAstParser
             if (methodDef == null) continue;
 
             // Build dedup key — use PascalCase name for C# uniqueness
-            var pcName = char.ToUpperInvariant(methodDef.Name[0]) + methodDef.Name.Substring(1);
+            var pcName = char.ToUpperInvariant(methodDef.Name[0]) + methodDef.Name[1..];
             var sig = $"{(isStatic ? "s:" : "")}{pcName}({string.Join(",", methodDef.Parameters.Select(p => p.Type))})";
             if (!methodSigs.Add(sig)) continue;
 
@@ -528,7 +612,7 @@ public static class CppAstParser
             if (isProperty && !isStatic)
             {
                 // Don't add if we already have a property with this name
-                string propPcName = char.ToUpperInvariant(methodDef.Name[0]) + methodDef.Name.Substring(1);
+                string propPcName = char.ToUpperInvariant(methodDef.Name[0]) + methodDef.Name[1..];
                 if (addedPropertyNames.Add(propPcName))
                 {
                     def.Properties.Add(new PropertyDef
@@ -548,13 +632,13 @@ public static class CppAstParser
                     && fn.Parameters.Count == 1)
                 {
                     // Check if there's a matching getter (potential property)
-                    string propPcName = fn.Name.Substring(3); // already PascalCase after "set"
+                    string propPcName = fn.Name[3..]; // already PascalCase after "set"
                     if (potentialPropertyNames.Contains(propPcName))
                         continue;
                 }
 
                 // Skip methods whose PascalCase name collides with an existing property
-                string methodPcName = char.ToUpperInvariant(methodDef.Name[0]) + methodDef.Name.Substring(1);
+                string methodPcName = char.ToUpperInvariant(methodDef.Name[0]) + methodDef.Name[1..];
                 if (potentialPropertyNames.Contains(methodPcName))
                     continue;
 
@@ -626,7 +710,7 @@ public static class CppAstParser
         // metal-cpp method names typically encode the selector in the method name
         // e.g., "newBufferWithLength" with params (length, options) -> "newBufferWithLength:options:"
         // We use the function name as the first selector part, then parameter names
-        var parts = new List<string> { fn.Name };
+        List<string> parts = [fn.Name];
         for (int i = 1; i < fn.Parameters.Count; i++)
         {
             var pName = fn.Parameters[i].Name;
@@ -657,13 +741,7 @@ public static class CppAstParser
 
     private static FreeFunctionDef? ConvertFreeFunction(CppFunction fn, string ns)
     {
-        string prefix = ns switch
-        {
-            "MTL" => "MTL",
-            "MTL4" => "MTL4",
-            "MTLFX" => "MTLFX",
-            _ => ns
-        };
+        string prefix = NamespaceToPrefix(ns);
 
         // Map return type
         var retType = MapType(fn.ReturnType, ns, prefix);
@@ -738,11 +816,11 @@ public static class CppAstParser
                 CppPrimitiveKind.Char => "byte",
                 CppPrimitiveKind.Short => "short",
                 CppPrimitiveKind.Int => "int",
-                CppPrimitiveKind.LongLong => "long",
+                CppPrimitiveKind.LongLong => "nint",
                 CppPrimitiveKind.UnsignedChar => "byte",
                 CppPrimitiveKind.UnsignedShort => "ushort",
                 CppPrimitiveKind.UnsignedInt => "uint",
-                CppPrimitiveKind.UnsignedLongLong => "ulong",
+                CppPrimitiveKind.UnsignedLongLong => "nuint",
                 CppPrimitiveKind.Float => "float",
                 CppPrimitiveKind.Double => "double",
                 CppPrimitiveKind.Long => "nint",
@@ -814,6 +892,16 @@ public static class CppAstParser
             if (tdName == "task_id_token_t") return "nint";
             if (tdName == "kern_return_t") return "uint";
             if (tdName == "CGSize") return "CGSize";
+
+            // Check if this typedef is from _MTL_OPTIONS (flags enum)
+            string? parentNs = td.FullParentName;
+            if (!string.IsNullOrEmpty(parentNs))
+            {
+                string key = $"{parentNs}.{tdName}";
+                if (s_optionsTypedefs.TryGetValue(key, out var enumTypeName))
+                    return enumTypeName;
+            }
+
             // Recurse into the underlying type
             return MapType(td.ElementType, ns, prefix);
         }
@@ -875,20 +963,7 @@ public static class CppAstParser
         }
 
         // Determine the correct prefix from the class's actual parent namespace
-        string actualPrefix = prefix;
-        string? classParentNs = cls.FullParentName;
-        if (!string.IsNullOrEmpty(classParentNs))
-        {
-            actualPrefix = classParentNs switch
-            {
-                "MTL" => "MTL",
-                "MTL4" => "MTL4",
-                "MTLFX" => "MTLFX",
-                "CA" => "CA",
-                "NS" => "NS",
-                _ => prefix,
-            };
-        }
+        string actualPrefix = ResolvePrefix(cls.FullParentName, prefix);
 
         string fullName = $"{actualPrefix}{name}";
 
@@ -918,27 +993,14 @@ public static class CppAstParser
             return name; // already prefixed
 
         // Determine actual prefix from enum's parent namespace
-        string actualPrefix = prefix;
-        string? parentNs = cppEnum.FullParentName;
-        if (!string.IsNullOrEmpty(parentNs))
-        {
-            actualPrefix = parentNs switch
-            {
-                "MTL" => "MTL",
-                "MTL4" => "MTL4",
-                "MTLFX" => "MTLFX",
-                "CA" => "CA",
-                "NS" => "NS",
-                _ => prefix,
-            };
-        }
+        string actualPrefix = ResolvePrefix(cppEnum.FullParentName, prefix);
         return $"{actualPrefix}{name}";
     }
 
     private static string Capitalize(string s)
     {
         if (string.IsNullOrEmpty(s)) return s;
-        return char.ToUpperInvariant(s[0]) + s.Substring(1);
+        return char.ToUpperInvariant(s[0]) + s[1..];
     }
 
     // ═══════════════════════════════════════════════════════
@@ -954,6 +1016,7 @@ public static class CppAstParser
     public static bool IsLikelyEnum(string type)
     {
         if (s_knownWrapperTypes.Contains(type)) return false;
+        if (s_valueStructs.Contains(type)) return false;
         if (!type.StartsWith("MTL")) return false;
         return type.Contains("Format")
             || type.EndsWith("Action") || type.EndsWith("Mode") || type.EndsWith("Type")

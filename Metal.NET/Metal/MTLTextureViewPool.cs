@@ -2,15 +2,12 @@
 
 public class MTLTextureViewPool : IDisposable
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTextureViewPool");
-
     public MTLTextureViewPool(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-    }
-
-    public MTLTextureViewPool() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLTextureViewPool()
@@ -19,6 +16,27 @@ public class MTLTextureViewPool : IDisposable
     }
 
     public nint NativePtr { get; }
+
+    public MTLResourceID SetTextureView(MTLTexture texture, nuint index)
+    {
+        MTLResourceID result = ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolSelector.SetTextureViewIndex, texture.NativePtr, index);
+
+        return result;
+    }
+
+    public MTLResourceID SetTextureView(MTLTexture texture, MTLTextureViewDescriptor descriptor, nuint index)
+    {
+        MTLResourceID result = ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolSelector.SetTextureViewDescriptorIndex, texture.NativePtr, descriptor.NativePtr, index);
+
+        return result;
+    }
+
+    public MTLResourceID SetTextureViewFromBuffer(MTLBuffer buffer, MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow, nuint index)
+    {
+        MTLResourceID result = ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolSelector.SetTextureViewFromBufferDescriptorOffsetBytesPerRowIndex, buffer.NativePtr, descriptor.NativePtr, offset, bytesPerRow, index);
+
+        return result;
+    }
 
     public static implicit operator nint(MTLTextureViewPool value)
     {
@@ -44,7 +62,6 @@ public class MTLTextureViewPool : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLTextureViewPoolSelector

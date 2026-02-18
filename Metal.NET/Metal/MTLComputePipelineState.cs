@@ -4,7 +4,10 @@ public class MTLComputePipelineState : IDisposable
 {
     public MTLComputePipelineState(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLComputePipelineState()
@@ -14,21 +17,55 @@ public class MTLComputePipelineState : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.Device));
+    public MTLDevice Device
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.Device));
+    }
 
-    public NSString Label => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.Label));
+    public MTLResourceID GpuResourceID
+    {
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLComputePipelineStateSelector.GpuResourceID);
+    }
 
-    public nuint MaxTotalThreadsPerThreadgroup => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineStateSelector.MaxTotalThreadsPerThreadgroup);
+    public NSString Label
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.Label));
+    }
 
-    public MTLComputePipelineReflection Reflection => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.Reflection));
+    public nuint MaxTotalThreadsPerThreadgroup
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineStateSelector.MaxTotalThreadsPerThreadgroup);
+    }
 
-    public MTLShaderValidation ShaderValidation => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLComputePipelineStateSelector.ShaderValidation));
+    public MTLComputePipelineReflection Reflection
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.Reflection));
+    }
 
-    public nuint StaticThreadgroupMemoryLength => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineStateSelector.StaticThreadgroupMemoryLength);
+    public MTLSize RequiredThreadsPerThreadgroup
+    {
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLComputePipelineStateSelector.RequiredThreadsPerThreadgroup);
+    }
 
-    public Bool8 SupportIndirectCommandBuffers => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLComputePipelineStateSelector.SupportIndirectCommandBuffers);
+    public MTLShaderValidation ShaderValidation
+    {
+        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLComputePipelineStateSelector.ShaderValidation));
+    }
 
-    public nuint ThreadExecutionWidth => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineStateSelector.ThreadExecutionWidth);
+    public nuint StaticThreadgroupMemoryLength
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineStateSelector.StaticThreadgroupMemoryLength);
+    }
+
+    public Bool8 SupportIndirectCommandBuffers
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLComputePipelineStateSelector.SupportIndirectCommandBuffers);
+    }
+
+    public nuint ThreadExecutionWidth
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineStateSelector.ThreadExecutionWidth);
+    }
 
     public MTLFunctionHandle FunctionHandle(NSString name)
     {
@@ -114,7 +151,6 @@ public class MTLComputePipelineState : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLComputePipelineStateSelector

@@ -6,7 +6,10 @@ public class MTLStageInputOutputDescriptor : IDisposable
 
     public MTLStageInputOutputDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLStageInputOutputDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
@@ -20,7 +23,10 @@ public class MTLStageInputOutputDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLAttributeDescriptorArray Attributes => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStageInputOutputDescriptorSelector.Attributes));
+    public MTLAttributeDescriptorArray Attributes
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStageInputOutputDescriptorSelector.Attributes));
+    }
 
     public nuint IndexBufferIndex
     {
@@ -30,11 +36,14 @@ public class MTLStageInputOutputDescriptor : IDisposable
 
     public MTLIndexType IndexType
     {
-        get => (MTLIndexType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLStageInputOutputDescriptorSelector.IndexType));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStageInputOutputDescriptorSelector.SetIndexType, (uint)value);
+        get => (MTLIndexType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStageInputOutputDescriptorSelector.IndexType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStageInputOutputDescriptorSelector.SetIndexType, (ulong)value);
     }
 
-    public MTLBufferLayoutDescriptorArray Layouts => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStageInputOutputDescriptorSelector.Layouts));
+    public MTLBufferLayoutDescriptorArray Layouts
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStageInputOutputDescriptorSelector.Layouts));
+    }
 
     public void Reset()
     {
@@ -51,6 +60,13 @@ public class MTLStageInputOutputDescriptor : IDisposable
         return new(value);
     }
 
+    public static MTLStageInputOutputDescriptor StageInputOutputDescriptor()
+    {
+        MTLStageInputOutputDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLStageInputOutputDescriptorSelector.StageInputOutputDescriptor));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -65,14 +81,6 @@ public class MTLStageInputOutputDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
-    public static MTLStageInputOutputDescriptor StageInputOutputDescriptor()
-    {
-        MTLStageInputOutputDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLStageInputOutputDescriptorSelector.StageInputOutputDescriptor));
-
-        return result;
-    }
-
 }
 
 file class MTLStageInputOutputDescriptorSelector

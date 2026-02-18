@@ -6,7 +6,10 @@ public class MTLStitchedLibraryDescriptor : IDisposable
 
     public MTLStitchedLibraryDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLStitchedLibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
@@ -38,10 +41,10 @@ public class MTLStitchedLibraryDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetFunctions, value.NativePtr);
     }
 
-    public nuint Options
+    public MTLStitchedLibraryOptions Options
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStitchedLibraryDescriptorSelector.Options);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetOptions, value);
+        get => (MTLStitchedLibraryOptions)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStitchedLibraryDescriptorSelector.Options));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetOptions, (ulong)value);
     }
 
     public static implicit operator nint(MTLStitchedLibraryDescriptor value)
@@ -68,7 +71,6 @@ public class MTLStitchedLibraryDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLStitchedLibraryDescriptorSelector

@@ -4,7 +4,10 @@ public class MTLIntersectionFunctionTable : IDisposable
 {
     public MTLIntersectionFunctionTable(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLIntersectionFunctionTable()
@@ -13,6 +16,11 @@ public class MTLIntersectionFunctionTable : IDisposable
     }
 
     public nint NativePtr { get; }
+
+    public MTLResourceID GpuResourceID
+    {
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLIntersectionFunctionTableSelector.GpuResourceID);
+    }
 
     public void SetBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
@@ -24,24 +32,24 @@ public class MTLIntersectionFunctionTable : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetFunctionIndex, function.NativePtr, index);
     }
 
-    public void SetOpaqueCurveIntersectionFunction(nuint signature, nuint index)
+    public void SetOpaqueCurveIntersectionFunction(MTLIntersectionFunctionSignature signature, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueCurveIntersectionFunctionIndex, signature, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueCurveIntersectionFunctionIndex, (ulong)signature, index);
     }
 
-    public void SetOpaqueCurveIntersectionFunction(nuint signature, NSRange range)
+    public void SetOpaqueCurveIntersectionFunction(MTLIntersectionFunctionSignature signature, NSRange range)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueCurveIntersectionFunctionRange, signature, range);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueCurveIntersectionFunctionRange, (ulong)signature, range);
     }
 
-    public void SetOpaqueTriangleIntersectionFunction(nuint signature, nuint index)
+    public void SetOpaqueTriangleIntersectionFunction(MTLIntersectionFunctionSignature signature, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueTriangleIntersectionFunctionIndex, signature, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueTriangleIntersectionFunctionIndex, (ulong)signature, index);
     }
 
-    public void SetOpaqueTriangleIntersectionFunction(nuint signature, NSRange range)
+    public void SetOpaqueTriangleIntersectionFunction(MTLIntersectionFunctionSignature signature, NSRange range)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueTriangleIntersectionFunctionRange, signature, range);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueTriangleIntersectionFunctionRange, (ulong)signature, range);
     }
 
     public void SetVisibleFunctionTable(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
@@ -73,7 +81,6 @@ public class MTLIntersectionFunctionTable : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLIntersectionFunctionTableSelector

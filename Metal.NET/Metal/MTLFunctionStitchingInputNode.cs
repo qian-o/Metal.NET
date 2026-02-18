@@ -6,7 +6,10 @@ public class MTLFunctionStitchingInputNode : IDisposable
 
     public MTLFunctionStitchingInputNode(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLFunctionStitchingInputNode() : this(ObjectiveCRuntime.AllocInit(Class))
@@ -50,7 +53,6 @@ public class MTLFunctionStitchingInputNode : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFunctionStitchingInputNodeSelector

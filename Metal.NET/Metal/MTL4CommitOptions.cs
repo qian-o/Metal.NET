@@ -2,9 +2,18 @@
 
 public class MTL4CommitOptions : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CommitOptions");
+
     public MTL4CommitOptions(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTL4CommitOptions() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTL4CommitOptions()
@@ -43,7 +52,6 @@ public class MTL4CommitOptions : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4CommitOptionsSelector

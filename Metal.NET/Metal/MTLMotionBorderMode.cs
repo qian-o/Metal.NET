@@ -2,7 +2,7 @@
 
 public enum MTLMotionBorderMode : uint
 {
-    Clamp = 0,
+    MotionBorderModeClamp = 0,
 
-    Vanish = 1
+    MotionBorderModeVanish = 1
 }

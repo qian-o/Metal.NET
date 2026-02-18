@@ -2,9 +2,18 @@
 
 public class MTLArgumentDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArgumentDescriptor");
+
     public MTLArgumentDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLArgumentDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLArgumentDescriptor()
@@ -14,12 +23,10 @@ public class MTLArgumentDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArgumentDescriptor");
-
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentDescriptorSelector.Access));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetAccess, (uint)value);
+        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentDescriptorSelector.Access));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetAccess, (ulong)value);
     }
 
     public nuint ArrayLength
@@ -36,8 +43,8 @@ public class MTLArgumentDescriptor : IDisposable
 
     public MTLDataType DataType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentDescriptorSelector.DataType));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetDataType, (uint)value);
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentDescriptorSelector.DataType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetDataType, (ulong)value);
     }
 
     public nuint Index
@@ -48,8 +55,8 @@ public class MTLArgumentDescriptor : IDisposable
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentDescriptorSelector.TextureType));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetTextureType, (uint)value);
+        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentDescriptorSelector.TextureType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetTextureType, (ulong)value);
     }
 
     public static implicit operator nint(MTLArgumentDescriptor value)
@@ -60,6 +67,13 @@ public class MTLArgumentDescriptor : IDisposable
     public static implicit operator MTLArgumentDescriptor(nint value)
     {
         return new(value);
+    }
+
+    public static MTLArgumentDescriptor ArgumentDescriptor()
+    {
+        MTLArgumentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLArgumentDescriptorSelector.ArgumentDescriptor));
+
+        return result;
     }
 
     public void Dispose()
@@ -76,14 +90,6 @@ public class MTLArgumentDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
-    public static MTLArgumentDescriptor ArgumentDescriptor()
-    {
-        MTLArgumentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLArgumentDescriptorSelector.ArgumentDescriptor));
-
-        return result;
-    }
-
 }
 
 file class MTLArgumentDescriptorSelector

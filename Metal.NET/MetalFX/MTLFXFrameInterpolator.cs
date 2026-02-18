@@ -4,7 +4,10 @@ public class MTLFXFrameInterpolator : IDisposable
 {
     public MTLFXFrameInterpolator(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLFXFrameInterpolator()
@@ -43,7 +46,6 @@ public class MTLFXFrameInterpolator : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFXFrameInterpolatorSelector

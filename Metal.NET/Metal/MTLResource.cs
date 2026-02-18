@@ -4,7 +4,10 @@ public class MTLResource : IDisposable
 {
     public MTLResource(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLResource()
@@ -14,19 +17,40 @@ public class MTLResource : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint AllocatedSize => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.AllocatedSize);
+    public nuint AllocatedSize
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.AllocatedSize);
+    }
 
-    public MTLCPUCacheMode CpuCacheMode => (MTLCPUCacheMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLResourceSelector.CpuCacheMode));
+    public MTLCPUCacheMode CpuCacheMode
+    {
+        get => (MTLCPUCacheMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.CpuCacheMode));
+    }
 
-    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceSelector.Device));
+    public MTLDevice Device
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceSelector.Device));
+    }
 
-    public MTLHazardTrackingMode HazardTrackingMode => (MTLHazardTrackingMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLResourceSelector.HazardTrackingMode));
+    public MTLHazardTrackingMode HazardTrackingMode
+    {
+        get => (MTLHazardTrackingMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.HazardTrackingMode));
+    }
 
-    public MTLHeap Heap => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceSelector.Heap));
+    public MTLHeap Heap
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceSelector.Heap));
+    }
 
-    public nuint HeapOffset => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.HeapOffset);
+    public nuint HeapOffset
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.HeapOffset);
+    }
 
-    public Bool8 IsAliasable => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLResourceSelector.IsAliasable);
+    public Bool8 IsAliasable
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLResourceSelector.IsAliasable);
+    }
 
     public NSString Label
     {
@@ -34,25 +58,31 @@ public class MTLResource : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceSelector.SetLabel, value.NativePtr);
     }
 
-    public nuint ResourceOptions => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.ResourceOptions);
+    public MTLResourceOptions ResourceOptions
+    {
+        get => (MTLResourceOptions)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.ResourceOptions));
+    }
 
-    public MTLStorageMode StorageMode => (MTLStorageMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLResourceSelector.StorageMode));
+    public MTLStorageMode StorageMode
+    {
+        get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.StorageMode));
+    }
 
     public void MakeAliasable()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceSelector.MakeAliasable);
     }
 
-    public nuint SetOwner(nint task_id_token)
+    public uint SetOwner(nint task_id_token)
     {
-        nuint result = ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.SetOwner, task_id_token);
+        uint result = ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLResourceSelector.SetOwner, task_id_token);
 
         return result;
     }
 
     public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
     {
-        MTLPurgeableState result = (MTLPurgeableState)ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLResourceSelector.SetPurgeableState, (uint)state);
+        MTLPurgeableState result = (MTLPurgeableState)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.SetPurgeableState, (ulong)state);
 
         return result;
     }
@@ -81,7 +111,6 @@ public class MTLResource : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLResourceSelector

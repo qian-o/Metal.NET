@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public enum MTLCPUCacheMode : uint
+public enum MTLCPUCacheMode : ulong
 {
-    DefaultCache = 0,
+    CPUCacheModeDefaultCache = 0,
 
-    WriteCombined = 1
+    CPUCacheModeWriteCombined = 1
 }

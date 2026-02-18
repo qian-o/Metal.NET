@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public enum MTLTransformType : int
+public enum MTLTransformType : long
 {
-    PackedFloat4x3 = 0,
+    TransformTypePackedFloat4x3 = 0,
 
-    Component = 1
+    TransformTypeComponent = 1
 }

@@ -2,9 +2,18 @@
 
 public class MTLMotionKeyframeData : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLMotionKeyframeData");
+
     public MTLMotionKeyframeData(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLMotionKeyframeData() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLMotionKeyframeData()
@@ -13,8 +22,6 @@ public class MTLMotionKeyframeData : IDisposable
     }
 
     public nint NativePtr { get; }
-
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLMotionKeyframeData");
 
     public MTLBuffer Buffer
     {
@@ -38,6 +45,13 @@ public class MTLMotionKeyframeData : IDisposable
         return new(value);
     }
 
+    public static MTLMotionKeyframeData Data()
+    {
+        MTLMotionKeyframeData result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLMotionKeyframeDataSelector.Data));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -52,14 +66,6 @@ public class MTLMotionKeyframeData : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
-    public static MTLMotionKeyframeData Data()
-    {
-        MTLMotionKeyframeData result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLMotionKeyframeDataSelector.Data));
-
-        return result;
-    }
-
 }
 
 file class MTLMotionKeyframeDataSelector

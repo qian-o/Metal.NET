@@ -2,9 +2,18 @@
 
 public class MTLTensorReferenceType : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorReferenceType");
+
     public MTLTensorReferenceType(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLTensorReferenceType() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLTensorReferenceType()
@@ -14,13 +23,25 @@ public class MTLTensorReferenceType : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLBindingAccess Access => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTensorReferenceTypeSelector.Access));
+    public MTLBindingAccess Access
+    {
+        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorReferenceTypeSelector.Access));
+    }
 
-    public MTLTensorExtents Dimensions => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorReferenceTypeSelector.Dimensions));
+    public MTLTensorExtents Dimensions
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorReferenceTypeSelector.Dimensions));
+    }
 
-    public MTLDataType IndexType => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTensorReferenceTypeSelector.IndexType));
+    public MTLDataType IndexType
+    {
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorReferenceTypeSelector.IndexType));
+    }
 
-    public MTLTensorDataType TensorDataType => (MTLTensorDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTensorReferenceTypeSelector.TensorDataType));
+    public MTLTensorDataType TensorDataType
+    {
+        get => (MTLTensorDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorReferenceTypeSelector.TensorDataType));
+    }
 
     public static implicit operator nint(MTLTensorReferenceType value)
     {
@@ -46,7 +67,6 @@ public class MTLTensorReferenceType : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLTensorReferenceTypeSelector

@@ -6,7 +6,10 @@ public class MTLVertexAttributeDescriptor : IDisposable
 
     public MTLVertexAttributeDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLVertexAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
@@ -28,8 +31,8 @@ public class MTLVertexAttributeDescriptor : IDisposable
 
     public MTLVertexFormat Format
     {
-        get => (MTLVertexFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLVertexAttributeDescriptorSelector.Format));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorSelector.SetFormat, (uint)value);
+        get => (MTLVertexFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLVertexAttributeDescriptorSelector.Format));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorSelector.SetFormat, (ulong)value);
     }
 
     public nuint Offset
@@ -62,7 +65,6 @@ public class MTLVertexAttributeDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLVertexAttributeDescriptorSelector

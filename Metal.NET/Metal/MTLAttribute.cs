@@ -2,9 +2,18 @@
 
 public class MTLAttribute : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAttribute");
+
     public MTLAttribute(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLAttribute() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLAttribute()
@@ -14,23 +23,50 @@ public class MTLAttribute : IDisposable
 
     public nint NativePtr { get; }
 
-    public Bool8 Active => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.Active);
+    public Bool8 Active
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.Active);
+    }
 
-    public nuint AttributeIndex => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeSelector.AttributeIndex);
+    public nuint AttributeIndex
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeSelector.AttributeIndex);
+    }
 
-    public MTLDataType AttributeType => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLAttributeSelector.AttributeType));
+    public MTLDataType AttributeType
+    {
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAttributeSelector.AttributeType));
+    }
 
-    public Bool8 IsActive => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.IsActive);
+    public Bool8 IsActive
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.IsActive);
+    }
 
-    public Bool8 IsPatchControlPointData => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.IsPatchControlPointData);
+    public Bool8 IsPatchControlPointData
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.IsPatchControlPointData);
+    }
 
-    public Bool8 IsPatchData => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.IsPatchData);
+    public Bool8 IsPatchData
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.IsPatchData);
+    }
 
-    public NSString Name => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeSelector.Name));
+    public NSString Name
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeSelector.Name));
+    }
 
-    public Bool8 PatchControlPointData => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.PatchControlPointData);
+    public Bool8 PatchControlPointData
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.PatchControlPointData);
+    }
 
-    public Bool8 PatchData => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.PatchData);
+    public Bool8 PatchData
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.PatchData);
+    }
 
     public static implicit operator nint(MTLAttribute value)
     {
@@ -56,7 +92,6 @@ public class MTLAttribute : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLAttributeSelector

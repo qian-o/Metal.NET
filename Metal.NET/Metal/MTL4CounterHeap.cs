@@ -4,7 +4,10 @@ public class MTL4CounterHeap : IDisposable
 {
     public MTL4CounterHeap(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTL4CounterHeap()
@@ -14,7 +17,10 @@ public class MTL4CounterHeap : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint Count => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CounterHeapSelector.Count);
+    public nuint Count
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CounterHeapSelector.Count);
+    }
 
     public NSString Label
     {
@@ -22,7 +28,10 @@ public class MTL4CounterHeap : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapSelector.SetLabel, value.NativePtr);
     }
 
-    public MTL4CounterHeapType Type => (MTL4CounterHeapType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4CounterHeapSelector.Type));
+    public MTL4CounterHeapType Type
+    {
+        get => (MTL4CounterHeapType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4CounterHeapSelector.Type));
+    }
 
     public void InvalidateCounterRange(NSRange range)
     {
@@ -60,7 +69,6 @@ public class MTL4CounterHeap : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4CounterHeapSelector

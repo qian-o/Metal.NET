@@ -2,9 +2,18 @@
 
 public class MTL4BinaryFunctionDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4BinaryFunctionDescriptor");
+
     public MTL4BinaryFunctionDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTL4BinaryFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTL4BinaryFunctionDescriptor()
@@ -26,10 +35,10 @@ public class MTL4BinaryFunctionDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorSelector.SetName, value.NativePtr);
     }
 
-    public nuint Options
+    public MTL4BinaryFunctionOptions Options
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4BinaryFunctionDescriptorSelector.Options);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorSelector.SetOptions, value);
+        get => (MTL4BinaryFunctionOptions)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4BinaryFunctionDescriptorSelector.Options));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorSelector.SetOptions, (ulong)value);
     }
 
     public static implicit operator nint(MTL4BinaryFunctionDescriptor value)
@@ -56,7 +65,6 @@ public class MTL4BinaryFunctionDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4BinaryFunctionDescriptorSelector

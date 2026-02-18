@@ -6,7 +6,10 @@ public class MTLAccelerationStructureDescriptor : IDisposable
 
     public MTLAccelerationStructureDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
@@ -20,10 +23,10 @@ public class MTLAccelerationStructureDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint Usage
+    public MTLAccelerationStructureUsage Usage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureDescriptorSelector.Usage);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureDescriptorSelector.SetUsage, value);
+        get => (MTLAccelerationStructureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAccelerationStructureDescriptorSelector.Usage));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureDescriptorSelector.SetUsage, (ulong)value);
     }
 
     public static implicit operator nint(MTLAccelerationStructureDescriptor value)
@@ -50,7 +53,6 @@ public class MTLAccelerationStructureDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLAccelerationStructureDescriptorSelector

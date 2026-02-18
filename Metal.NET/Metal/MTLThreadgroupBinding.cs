@@ -4,7 +4,10 @@ public class MTLThreadgroupBinding : IDisposable
 {
     public MTLThreadgroupBinding(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLThreadgroupBinding()
@@ -14,9 +17,15 @@ public class MTLThreadgroupBinding : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint ThreadgroupMemoryAlignment => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLThreadgroupBindingSelector.ThreadgroupMemoryAlignment);
+    public nuint ThreadgroupMemoryAlignment
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLThreadgroupBindingSelector.ThreadgroupMemoryAlignment);
+    }
 
-    public nuint ThreadgroupMemoryDataSize => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLThreadgroupBindingSelector.ThreadgroupMemoryDataSize);
+    public nuint ThreadgroupMemoryDataSize
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLThreadgroupBindingSelector.ThreadgroupMemoryDataSize);
+    }
 
     public static implicit operator nint(MTLThreadgroupBinding value)
     {
@@ -42,7 +51,6 @@ public class MTLThreadgroupBinding : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLThreadgroupBindingSelector

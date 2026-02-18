@@ -2,9 +2,18 @@
 
 public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor");
+
     public MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor()
@@ -13,8 +22,6 @@ public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor : IDisp
     }
 
     public nint NativePtr { get; }
-
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor");
 
     public NSArray BoundingBoxBuffers
     {
@@ -44,6 +51,13 @@ public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor : IDisp
         return new(value);
     }
 
+    public static MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor Descriptor()
+    {
+        MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.Descriptor));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -58,14 +72,6 @@ public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor : IDisp
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
-    public static MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor Descriptor()
-    {
-        MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.Descriptor));
-
-        return result;
-    }
-
 }
 
 file class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorSelector

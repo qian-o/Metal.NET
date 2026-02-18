@@ -2,9 +2,18 @@
 
 public class MTLFunctionReflection : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionReflection");
+
     public MTLFunctionReflection(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLFunctionReflection() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLFunctionReflection()
@@ -14,7 +23,10 @@ public class MTLFunctionReflection : IDisposable
 
     public nint NativePtr { get; }
 
-    public NSArray Bindings => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionReflectionSelector.Bindings));
+    public NSArray Bindings
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionReflectionSelector.Bindings));
+    }
 
     public static implicit operator nint(MTLFunctionReflection value)
     {
@@ -40,7 +52,6 @@ public class MTLFunctionReflection : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFunctionReflectionSelector

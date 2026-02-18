@@ -4,7 +4,10 @@ public class MTLCommandEncoder : IDisposable
 {
     public MTLCommandEncoder(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLCommandEncoder()
@@ -14,7 +17,10 @@ public class MTLCommandEncoder : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandEncoderSelector.Device));
+    public MTLDevice Device
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandEncoderSelector.Device));
+    }
 
     public NSString Label
     {
@@ -22,9 +28,9 @@ public class MTLCommandEncoder : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.SetLabel, value.NativePtr);
     }
 
-    public void BarrierAfterQueueStages(nuint afterQueueStages, nuint beforeStages)
+    public void BarrierAfterQueueStages(MTLStages afterQueueStages, MTLStages beforeStages)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.BarrierAfterQueueStagesBeforeStages, afterQueueStages, beforeStages);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.BarrierAfterQueueStagesBeforeStages, (ulong)afterQueueStages, (ulong)beforeStages);
     }
 
     public void EndEncoding()
@@ -71,7 +77,6 @@ public class MTLCommandEncoder : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLCommandEncoderSelector

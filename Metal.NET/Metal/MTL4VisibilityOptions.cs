@@ -1,7 +1,7 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTL4VisibilityOptions : uint
+public enum MTL4VisibilityOptions : ulong
 {
     VisibilityOptionNone = 0,
 

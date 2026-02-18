@@ -6,7 +6,10 @@ public class MTL4TileRenderPipelineDescriptor : IDisposable
 
     public MTL4TileRenderPipelineDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTL4TileRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
@@ -20,7 +23,10 @@ public class MTL4TileRenderPipelineDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLTileRenderPipelineColorAttachmentDescriptorArray ColorAttachments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4TileRenderPipelineDescriptorSelector.ColorAttachments));
+    public MTLTileRenderPipelineColorAttachmentDescriptorArray ColorAttachments
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4TileRenderPipelineDescriptorSelector.ColorAttachments));
+    }
 
     public nuint MaxTotalThreadsPerThreadgroup
     {
@@ -32,6 +38,12 @@ public class MTL4TileRenderPipelineDescriptor : IDisposable
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4TileRenderPipelineDescriptorSelector.RasterSampleCount);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetRasterSampleCount, value);
+    }
+
+    public MTLSize RequiredThreadsPerThreadgroup
+    {
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTL4TileRenderPipelineDescriptorSelector.RequiredThreadsPerThreadgroup);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetRequiredThreadsPerThreadgroup, value);
     }
 
     public MTL4StaticLinkingDescriptor StaticLinkingDescriptor
@@ -87,7 +99,6 @@ public class MTL4TileRenderPipelineDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4TileRenderPipelineDescriptorSelector

@@ -2,9 +2,18 @@
 
 public class MTLVertexAttributeDescriptorArray : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexAttributeDescriptorArray");
+
     public MTLVertexAttributeDescriptorArray(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLVertexAttributeDescriptorArray() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLVertexAttributeDescriptorArray()
@@ -50,7 +59,6 @@ public class MTLVertexAttributeDescriptorArray : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLVertexAttributeDescriptorArraySelector

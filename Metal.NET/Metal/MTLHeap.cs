@@ -4,7 +4,10 @@ public class MTLHeap : IDisposable
 {
     public MTLHeap(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLHeap()
@@ -14,13 +17,25 @@ public class MTLHeap : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLCPUCacheMode CpuCacheMode => (MTLCPUCacheMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapSelector.CpuCacheMode));
+    public MTLCPUCacheMode CpuCacheMode
+    {
+        get => (MTLCPUCacheMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.CpuCacheMode));
+    }
 
-    public nuint CurrentAllocatedSize => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.CurrentAllocatedSize);
+    public nuint CurrentAllocatedSize
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.CurrentAllocatedSize);
+    }
 
-    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.Device));
+    public MTLDevice Device
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.Device));
+    }
 
-    public MTLHazardTrackingMode HazardTrackingMode => (MTLHazardTrackingMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapSelector.HazardTrackingMode));
+    public MTLHazardTrackingMode HazardTrackingMode
+    {
+        get => (MTLHazardTrackingMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.HazardTrackingMode));
+    }
 
     public NSString Label
     {
@@ -28,15 +43,30 @@ public class MTLHeap : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapSelector.SetLabel, value.NativePtr);
     }
 
-    public nuint ResourceOptions => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.ResourceOptions);
+    public MTLResourceOptions ResourceOptions
+    {
+        get => (MTLResourceOptions)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.ResourceOptions));
+    }
 
-    public nuint Size => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.Size);
+    public nuint Size
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.Size);
+    }
 
-    public MTLStorageMode StorageMode => (MTLStorageMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapSelector.StorageMode));
+    public MTLStorageMode StorageMode
+    {
+        get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.StorageMode));
+    }
 
-    public MTLHeapType Type => (MTLHeapType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapSelector.Type));
+    public MTLHeapType Type
+    {
+        get => (MTLHeapType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.Type));
+    }
 
-    public nuint UsedSize => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.UsedSize);
+    public nuint UsedSize
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.UsedSize);
+    }
 
     public nuint MaxAvailableSize(nuint alignment)
     {
@@ -73,16 +103,16 @@ public class MTLHeap : IDisposable
         return result;
     }
 
-    public MTLBuffer NewBuffer(nuint length, nuint options)
+    public MTLBuffer NewBuffer(nuint length, MTLResourceOptions options)
     {
-        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewBufferOptions, length, options));
+        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewBufferOptions, length, (ulong)options));
 
         return result;
     }
 
-    public MTLBuffer NewBuffer(nuint length, nuint options, nuint offset)
+    public MTLBuffer NewBuffer(nuint length, MTLResourceOptions options, nuint offset)
     {
-        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewBufferOptionsOffset, length, options, offset));
+        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewBufferOptionsOffset, length, (ulong)options, offset));
 
         return result;
     }
@@ -103,7 +133,7 @@ public class MTLHeap : IDisposable
 
     public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
     {
-        MTLPurgeableState result = (MTLPurgeableState)ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapSelector.SetPurgeableState, (uint)state);
+        MTLPurgeableState result = (MTLPurgeableState)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.SetPurgeableState, (ulong)state);
 
         return result;
     }
@@ -132,7 +162,6 @@ public class MTLHeap : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLHeapSelector

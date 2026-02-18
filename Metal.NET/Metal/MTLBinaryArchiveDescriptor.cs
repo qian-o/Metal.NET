@@ -6,7 +6,10 @@ public class MTLBinaryArchiveDescriptor : IDisposable
 
     public MTLBinaryArchiveDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLBinaryArchiveDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
@@ -50,7 +53,6 @@ public class MTLBinaryArchiveDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLBinaryArchiveDescriptorSelector

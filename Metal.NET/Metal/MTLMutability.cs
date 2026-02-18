@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public enum MTLMutability : uint
+public enum MTLMutability : ulong
 {
-    Default = 0,
+    MutabilityDefault = 0,
 
-    Mutable = 1,
+    MutabilityMutable = 1,
 
-    Immutable = 2
+    MutabilityImmutable = 2
 }

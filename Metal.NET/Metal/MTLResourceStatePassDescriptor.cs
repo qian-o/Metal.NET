@@ -2,9 +2,18 @@
 
 public class MTLResourceStatePassDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResourceStatePassDescriptor");
+
     public MTLResourceStatePassDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLResourceStatePassDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLResourceStatePassDescriptor()
@@ -14,9 +23,10 @@ public class MTLResourceStatePassDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResourceStatePassDescriptor");
-
-    public MTLResourceStatePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceStatePassDescriptorSelector.SampleBufferAttachments));
+    public MTLResourceStatePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceStatePassDescriptorSelector.SampleBufferAttachments));
+    }
 
     public static implicit operator nint(MTLResourceStatePassDescriptor value)
     {
@@ -26,6 +36,13 @@ public class MTLResourceStatePassDescriptor : IDisposable
     public static implicit operator MTLResourceStatePassDescriptor(nint value)
     {
         return new(value);
+    }
+
+    public static MTLResourceStatePassDescriptor ResourceStatePassDescriptor()
+    {
+        MTLResourceStatePassDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLResourceStatePassDescriptorSelector.ResourceStatePassDescriptor));
+
+        return result;
     }
 
     public void Dispose()
@@ -42,14 +59,6 @@ public class MTLResourceStatePassDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
-    public static MTLResourceStatePassDescriptor ResourceStatePassDescriptor()
-    {
-        MTLResourceStatePassDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLResourceStatePassDescriptorSelector.ResourceStatePassDescriptor));
-
-        return result;
-    }
-
 }
 
 file class MTLResourceStatePassDescriptorSelector

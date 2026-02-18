@@ -2,9 +2,18 @@
 
 public class MTL4CompilerTaskOptions : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CompilerTaskOptions");
+
     public MTL4CompilerTaskOptions(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTL4CompilerTaskOptions() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTL4CompilerTaskOptions()
@@ -44,7 +53,6 @@ public class MTL4CompilerTaskOptions : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4CompilerTaskOptionsSelector

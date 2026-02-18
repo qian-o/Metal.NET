@@ -1,27 +1,27 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTLIntersectionFunctionSignature : uint
+public enum MTLIntersectionFunctionSignature : ulong
 {
-    None = 0,
+    IntersectionFunctionSignatureNone = 0,
 
-    Instancing = 1,
+    IntersectionFunctionSignatureInstancing = 1,
 
-    TriangleData = 2,
+    IntersectionFunctionSignatureTriangleData = 2,
 
-    WorldSpaceData = 4,
+    IntersectionFunctionSignatureWorldSpaceData = 4,
 
-    InstanceMotion = 8,
+    IntersectionFunctionSignatureInstanceMotion = 8,
 
-    PrimitiveMotion = 16,
+    IntersectionFunctionSignaturePrimitiveMotion = 16,
 
-    ExtendedLimits = 32,
+    IntersectionFunctionSignatureExtendedLimits = 32,
 
-    MaxLevels = 64,
+    IntersectionFunctionSignatureMaxLevels = 64,
 
-    CurveData = 128,
+    IntersectionFunctionSignatureCurveData = 128,
 
-    IntersectionFunctionBuffer = 256,
+    IntersectionFunctionSignatureIntersectionFunctionBuffer = 256,
 
-    UserData = 512
+    IntersectionFunctionSignatureUserData = 512
 }

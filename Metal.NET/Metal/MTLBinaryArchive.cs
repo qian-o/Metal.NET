@@ -4,7 +4,10 @@ public class MTLBinaryArchive : IDisposable
 {
     public MTLBinaryArchive(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLBinaryArchive()
@@ -14,7 +17,10 @@ public class MTLBinaryArchive : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveSelector.Device));
+    public MTLDevice Device
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveSelector.Device));
+    }
 
     public NSString Label
     {
@@ -109,7 +115,6 @@ public class MTLBinaryArchive : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLBinaryArchiveSelector

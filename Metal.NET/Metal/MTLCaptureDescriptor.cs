@@ -6,7 +6,10 @@ public class MTLCaptureDescriptor : IDisposable
 
     public MTLCaptureDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLCaptureDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
@@ -28,8 +31,8 @@ public class MTLCaptureDescriptor : IDisposable
 
     public MTLCaptureDestination Destination
     {
-        get => (MTLCaptureDestination)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLCaptureDescriptorSelector.Destination));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorSelector.SetDestination, (uint)value);
+        get => (MTLCaptureDestination)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCaptureDescriptorSelector.Destination));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorSelector.SetDestination, (ulong)value);
     }
 
     public NSURL OutputURL
@@ -62,7 +65,6 @@ public class MTLCaptureDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLCaptureDescriptorSelector

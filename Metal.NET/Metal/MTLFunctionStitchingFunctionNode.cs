@@ -6,7 +6,10 @@ public class MTLFunctionStitchingFunctionNode : IDisposable
 
     public MTLFunctionStitchingFunctionNode(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLFunctionStitchingFunctionNode() : this(ObjectiveCRuntime.AllocInit(Class))
@@ -62,7 +65,6 @@ public class MTLFunctionStitchingFunctionNode : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFunctionStitchingFunctionNodeSelector

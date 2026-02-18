@@ -4,7 +4,10 @@ public class MTLTextureBinding : IDisposable
 {
     public MTLTextureBinding(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLTextureBinding()
@@ -14,15 +17,30 @@ public class MTLTextureBinding : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint ArrayLength => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindingSelector.ArrayLength);
+    public nuint ArrayLength
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindingSelector.ArrayLength);
+    }
 
-    public Bool8 DepthTexture => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureBindingSelector.DepthTexture);
+    public Bool8 DepthTexture
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureBindingSelector.DepthTexture);
+    }
 
-    public Bool8 IsDepthTexture => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureBindingSelector.IsDepthTexture);
+    public Bool8 IsDepthTexture
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureBindingSelector.IsDepthTexture);
+    }
 
-    public MTLDataType TextureDataType => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTextureBindingSelector.TextureDataType));
+    public MTLDataType TextureDataType
+    {
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureBindingSelector.TextureDataType));
+    }
 
-    public MTLTextureType TextureType => (MTLTextureType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTextureBindingSelector.TextureType));
+    public MTLTextureType TextureType
+    {
+        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureBindingSelector.TextureType));
+    }
 
     public static implicit operator nint(MTLTextureBinding value)
     {
@@ -48,7 +66,6 @@ public class MTLTextureBinding : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLTextureBindingSelector

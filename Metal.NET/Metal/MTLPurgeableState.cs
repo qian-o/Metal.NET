@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public enum MTLPurgeableState : uint
+public enum MTLPurgeableState : ulong
 {
-    KeepCurrent = 1,
+    PurgeableStateKeepCurrent = 1,
 
-    NonVolatile = 2,
+    PurgeableStateNonVolatile = 2,
 
-    Volatile = 3,
+    PurgeableStateVolatile = 3,
 
-    Empty = 4
+    PurgeableStateEmpty = 4
 }

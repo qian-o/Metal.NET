@@ -2,9 +2,18 @@
 
 public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructurePassSampleBufferAttachmentDescriptor");
+
     public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLAccelerationStructurePassSampleBufferAttachmentDescriptor()
@@ -56,7 +65,6 @@ public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptor : IDis
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorSelector

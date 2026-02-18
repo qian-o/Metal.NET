@@ -4,7 +4,10 @@ public class MTLAccelerationStructure : IDisposable
 {
     public MTLAccelerationStructure(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLAccelerationStructure()
@@ -14,7 +17,15 @@ public class MTLAccelerationStructure : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint Size => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureSelector.Size);
+    public MTLResourceID GpuResourceID
+    {
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLAccelerationStructureSelector.GpuResourceID);
+    }
+
+    public nuint Size
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureSelector.Size);
+    }
 
     public static implicit operator nint(MTLAccelerationStructure value)
     {
@@ -40,7 +51,6 @@ public class MTLAccelerationStructure : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLAccelerationStructureSelector

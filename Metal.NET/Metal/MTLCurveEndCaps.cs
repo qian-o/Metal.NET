@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public enum MTLCurveEndCaps : int
+public enum MTLCurveEndCaps : long
 {
-    None = 0,
+    CurveEndCapsNone = 0,
 
-    Disk = 1,
+    CurveEndCapsDisk = 1,
 
-    Sphere = 2
+    CurveEndCapsSphere = 2
 }

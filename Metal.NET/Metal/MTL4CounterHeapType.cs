@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public enum MTL4CounterHeapType : int
+public enum MTL4CounterHeapType : long
 {
-    Invalid = 0,
+    CounterHeapTypeInvalid = 0,
 
-    Timestamp = 1
+    CounterHeapTypeTimestamp = 1
 }

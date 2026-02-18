@@ -2,9 +2,18 @@
 
 public class MTLComputePipelineReflection : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePipelineReflection");
+
     public MTLComputePipelineReflection(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLComputePipelineReflection() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLComputePipelineReflection()
@@ -14,9 +23,15 @@ public class MTLComputePipelineReflection : IDisposable
 
     public nint NativePtr { get; }
 
-    public NSArray Arguments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineReflectionSelector.Arguments));
+    public NSArray Arguments
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineReflectionSelector.Arguments));
+    }
 
-    public NSArray Bindings => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineReflectionSelector.Bindings));
+    public NSArray Bindings
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineReflectionSelector.Bindings));
+    }
 
     public static implicit operator nint(MTLComputePipelineReflection value)
     {
@@ -42,7 +57,6 @@ public class MTLComputePipelineReflection : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLComputePipelineReflectionSelector

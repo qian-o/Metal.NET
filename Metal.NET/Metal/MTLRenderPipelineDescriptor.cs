@@ -6,7 +6,10 @@ public class MTLRenderPipelineDescriptor : IDisposable
 
     public MTLRenderPipelineDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
@@ -38,15 +41,21 @@ public class MTLRenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetBinaryArchives, value.NativePtr);
     }
 
-    public MTLRenderPipelineColorAttachmentDescriptorArray ColorAttachments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.ColorAttachments));
+    public MTLRenderPipelineColorAttachmentDescriptorArray ColorAttachments
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.ColorAttachments));
+    }
 
     public MTLPixelFormat DepthAttachmentPixelFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPipelineDescriptorSelector.DepthAttachmentPixelFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetDepthAttachmentPixelFormat, (uint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorSelector.DepthAttachmentPixelFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetDepthAttachmentPixelFormat, (ulong)value);
     }
 
-    public MTLPipelineBufferDescriptorArray FragmentBuffers => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.FragmentBuffers));
+    public MTLPipelineBufferDescriptorArray FragmentBuffers
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.FragmentBuffers));
+    }
 
     public MTLFunction FragmentFunction
     {
@@ -68,17 +77,29 @@ public class MTLRenderPipelineDescriptor : IDisposable
 
     public MTLPrimitiveTopologyClass InputPrimitiveTopology
     {
-        get => (MTLPrimitiveTopologyClass)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPipelineDescriptorSelector.InputPrimitiveTopology));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetInputPrimitiveTopology, (uint)value);
+        get => (MTLPrimitiveTopologyClass)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorSelector.InputPrimitiveTopology));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetInputPrimitiveTopology, (ulong)value);
     }
 
-    public Bool8 IsAlphaToCoverageEnabled => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.IsAlphaToCoverageEnabled);
+    public Bool8 IsAlphaToCoverageEnabled
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.IsAlphaToCoverageEnabled);
+    }
 
-    public Bool8 IsAlphaToOneEnabled => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.IsAlphaToOneEnabled);
+    public Bool8 IsAlphaToOneEnabled
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.IsAlphaToOneEnabled);
+    }
 
-    public Bool8 IsRasterizationEnabled => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.IsRasterizationEnabled);
+    public Bool8 IsRasterizationEnabled
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.IsRasterizationEnabled);
+    }
 
-    public Bool8 IsTessellationFactorScaleEnabled => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.IsTessellationFactorScaleEnabled);
+    public Bool8 IsTessellationFactorScaleEnabled
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.IsTessellationFactorScaleEnabled);
+    }
 
     public NSString Label
     {
@@ -130,14 +151,14 @@ public class MTLRenderPipelineDescriptor : IDisposable
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPipelineDescriptorSelector.ShaderValidation));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetShaderValidation, (uint)value);
+        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorSelector.ShaderValidation));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetShaderValidation, (ulong)value);
     }
 
     public MTLPixelFormat StencilAttachmentPixelFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPipelineDescriptorSelector.StencilAttachmentPixelFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetStencilAttachmentPixelFormat, (uint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorSelector.StencilAttachmentPixelFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetStencilAttachmentPixelFormat, (ulong)value);
     }
 
     public Bool8 SupportAddingFragmentBinaryFunctions
@@ -160,14 +181,14 @@ public class MTLRenderPipelineDescriptor : IDisposable
 
     public MTLTessellationControlPointIndexType TessellationControlPointIndexType
     {
-        get => (MTLTessellationControlPointIndexType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPipelineDescriptorSelector.TessellationControlPointIndexType));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationControlPointIndexType, (uint)value);
+        get => (MTLTessellationControlPointIndexType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorSelector.TessellationControlPointIndexType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationControlPointIndexType, (ulong)value);
     }
 
     public MTLTessellationFactorFormat TessellationFactorFormat
     {
-        get => (MTLTessellationFactorFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPipelineDescriptorSelector.TessellationFactorFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationFactorFormat, (uint)value);
+        get => (MTLTessellationFactorFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorSelector.TessellationFactorFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationFactorFormat, (ulong)value);
     }
 
     public Bool8 TessellationFactorScaleEnabled
@@ -178,23 +199,26 @@ public class MTLRenderPipelineDescriptor : IDisposable
 
     public MTLTessellationFactorStepFunction TessellationFactorStepFunction
     {
-        get => (MTLTessellationFactorStepFunction)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPipelineDescriptorSelector.TessellationFactorStepFunction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationFactorStepFunction, (uint)value);
+        get => (MTLTessellationFactorStepFunction)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorSelector.TessellationFactorStepFunction));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationFactorStepFunction, (ulong)value);
     }
 
     public MTLWinding TessellationOutputWindingOrder
     {
-        get => (MTLWinding)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPipelineDescriptorSelector.TessellationOutputWindingOrder));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationOutputWindingOrder, (uint)value);
+        get => (MTLWinding)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorSelector.TessellationOutputWindingOrder));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationOutputWindingOrder, (ulong)value);
     }
 
     public MTLTessellationPartitionMode TessellationPartitionMode
     {
-        get => (MTLTessellationPartitionMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPipelineDescriptorSelector.TessellationPartitionMode));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationPartitionMode, (uint)value);
+        get => (MTLTessellationPartitionMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorSelector.TessellationPartitionMode));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationPartitionMode, (ulong)value);
     }
 
-    public MTLPipelineBufferDescriptorArray VertexBuffers => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.VertexBuffers));
+    public MTLPipelineBufferDescriptorArray VertexBuffers
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.VertexBuffers));
+    }
 
     public MTLVertexDescriptor VertexDescriptor
     {
@@ -249,7 +273,6 @@ public class MTLRenderPipelineDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLRenderPipelineDescriptorSelector

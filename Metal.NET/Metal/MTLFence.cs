@@ -4,7 +4,10 @@ public class MTLFence : IDisposable
 {
     public MTLFence(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLFence()
@@ -14,7 +17,10 @@ public class MTLFence : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFenceSelector.Device));
+    public MTLDevice Device
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFenceSelector.Device));
+    }
 
     public NSString Label
     {
@@ -46,7 +52,6 @@ public class MTLFence : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFenceSelector

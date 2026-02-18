@@ -2,9 +2,18 @@
 
 public class MTLAccelerationStructureCurveGeometryDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureCurveGeometryDescriptor");
+
     public MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLAccelerationStructureCurveGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLAccelerationStructureCurveGeometryDescriptor()
@@ -13,8 +22,6 @@ public class MTLAccelerationStructureCurveGeometryDescriptor : IDisposable
     }
 
     public nint NativePtr { get; }
-
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureCurveGeometryDescriptor");
 
     public MTLBuffer ControlPointBuffer
     {
@@ -36,8 +43,8 @@ public class MTLAccelerationStructureCurveGeometryDescriptor : IDisposable
 
     public MTLAttributeFormat ControlPointFormat
     {
-        get => (MTLAttributeFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.ControlPointFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetControlPointFormat, (uint)value);
+        get => (MTLAttributeFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.ControlPointFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetControlPointFormat, (ulong)value);
     }
 
     public nuint ControlPointStride
@@ -48,20 +55,20 @@ public class MTLAccelerationStructureCurveGeometryDescriptor : IDisposable
 
     public MTLCurveBasis CurveBasis
     {
-        get => (MTLCurveBasis)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.CurveBasis));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetCurveBasis, (uint)value);
+        get => (MTLCurveBasis)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.CurveBasis));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetCurveBasis, (ulong)value);
     }
 
     public MTLCurveEndCaps CurveEndCaps
     {
-        get => (MTLCurveEndCaps)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.CurveEndCaps));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetCurveEndCaps, (uint)value);
+        get => (MTLCurveEndCaps)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.CurveEndCaps));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetCurveEndCaps, (ulong)value);
     }
 
     public MTLCurveType CurveType
     {
-        get => (MTLCurveType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.CurveType));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetCurveType, (uint)value);
+        get => (MTLCurveType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.CurveType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetCurveType, (ulong)value);
     }
 
     public MTLBuffer IndexBuffer
@@ -78,8 +85,8 @@ public class MTLAccelerationStructureCurveGeometryDescriptor : IDisposable
 
     public MTLIndexType IndexType
     {
-        get => (MTLIndexType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.IndexType));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetIndexType, (uint)value);
+        get => (MTLIndexType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.IndexType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetIndexType, (ulong)value);
     }
 
     public MTLBuffer RadiusBuffer
@@ -96,8 +103,8 @@ public class MTLAccelerationStructureCurveGeometryDescriptor : IDisposable
 
     public MTLAttributeFormat RadiusFormat
     {
-        get => (MTLAttributeFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.RadiusFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetRadiusFormat, (uint)value);
+        get => (MTLAttributeFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.RadiusFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorSelector.SetRadiusFormat, (ulong)value);
     }
 
     public nuint RadiusStride
@@ -128,6 +135,13 @@ public class MTLAccelerationStructureCurveGeometryDescriptor : IDisposable
         return new(value);
     }
 
+    public static MTLAccelerationStructureCurveGeometryDescriptor Descriptor()
+    {
+        MTLAccelerationStructureCurveGeometryDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructureCurveGeometryDescriptorSelector.Descriptor));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -142,14 +156,6 @@ public class MTLAccelerationStructureCurveGeometryDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
-    public static MTLAccelerationStructureCurveGeometryDescriptor Descriptor()
-    {
-        MTLAccelerationStructureCurveGeometryDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructureCurveGeometryDescriptorSelector.Descriptor));
-
-        return result;
-    }
-
 }
 
 file class MTLAccelerationStructureCurveGeometryDescriptorSelector

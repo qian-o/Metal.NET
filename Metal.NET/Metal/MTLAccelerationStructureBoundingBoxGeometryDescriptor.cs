@@ -2,9 +2,18 @@
 
 public class MTLAccelerationStructureBoundingBoxGeometryDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureBoundingBoxGeometryDescriptor");
+
     public MTLAccelerationStructureBoundingBoxGeometryDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLAccelerationStructureBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLAccelerationStructureBoundingBoxGeometryDescriptor()
@@ -13,8 +22,6 @@ public class MTLAccelerationStructureBoundingBoxGeometryDescriptor : IDisposable
     }
 
     public nint NativePtr { get; }
-
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureBoundingBoxGeometryDescriptor");
 
     public MTLBuffer BoundingBoxBuffer
     {
@@ -50,6 +57,13 @@ public class MTLAccelerationStructureBoundingBoxGeometryDescriptor : IDisposable
         return new(value);
     }
 
+    public static MTLAccelerationStructureBoundingBoxGeometryDescriptor Descriptor()
+    {
+        MTLAccelerationStructureBoundingBoxGeometryDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructureBoundingBoxGeometryDescriptorSelector.Descriptor));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -64,14 +78,6 @@ public class MTLAccelerationStructureBoundingBoxGeometryDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
-    public static MTLAccelerationStructureBoundingBoxGeometryDescriptor Descriptor()
-    {
-        MTLAccelerationStructureBoundingBoxGeometryDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructureBoundingBoxGeometryDescriptorSelector.Descriptor));
-
-        return result;
-    }
-
 }
 
 file class MTLAccelerationStructureBoundingBoxGeometryDescriptorSelector

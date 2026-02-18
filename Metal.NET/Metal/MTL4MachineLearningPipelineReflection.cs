@@ -2,9 +2,18 @@
 
 public class MTL4MachineLearningPipelineReflection : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4MachineLearningPipelineReflection");
+
     public MTL4MachineLearningPipelineReflection(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTL4MachineLearningPipelineReflection() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTL4MachineLearningPipelineReflection()
@@ -14,7 +23,10 @@ public class MTL4MachineLearningPipelineReflection : IDisposable
 
     public nint NativePtr { get; }
 
-    public NSArray Bindings => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineReflectionSelector.Bindings));
+    public NSArray Bindings
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineReflectionSelector.Bindings));
+    }
 
     public static implicit operator nint(MTL4MachineLearningPipelineReflection value)
     {
@@ -40,7 +52,6 @@ public class MTL4MachineLearningPipelineReflection : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4MachineLearningPipelineReflectionSelector

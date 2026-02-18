@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public enum MTLCullMode : uint
+public enum MTLCullMode : ulong
 {
-    None = 0,
+    CullModeNone = 0,
 
-    Front = 1,
+    CullModeFront = 1,
 
-    Back = 2
+    CullModeBack = 2
 }

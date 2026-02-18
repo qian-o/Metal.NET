@@ -4,7 +4,10 @@ public class MTL4MachineLearningPipelineState : IDisposable
 {
     public MTL4MachineLearningPipelineState(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTL4MachineLearningPipelineState()
@@ -14,13 +17,25 @@ public class MTL4MachineLearningPipelineState : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Device));
+    public MTLDevice Device
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Device));
+    }
 
-    public nuint IntermediatesHeapSize => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4MachineLearningPipelineStateSelector.IntermediatesHeapSize);
+    public nuint IntermediatesHeapSize
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4MachineLearningPipelineStateSelector.IntermediatesHeapSize);
+    }
 
-    public NSString Label => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Label));
+    public NSString Label
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Label));
+    }
 
-    public MTL4MachineLearningPipelineReflection Reflection => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Reflection));
+    public MTL4MachineLearningPipelineReflection Reflection
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Reflection));
+    }
 
     public static implicit operator nint(MTL4MachineLearningPipelineState value)
     {
@@ -46,7 +61,6 @@ public class MTL4MachineLearningPipelineState : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4MachineLearningPipelineStateSelector

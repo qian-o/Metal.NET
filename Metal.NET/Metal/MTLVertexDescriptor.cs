@@ -6,7 +6,10 @@ public class MTLVertexDescriptor : IDisposable
 
     public MTLVertexDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLVertexDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
@@ -20,9 +23,15 @@ public class MTLVertexDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLVertexAttributeDescriptorArray Attributes => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorSelector.Attributes));
+    public MTLVertexAttributeDescriptorArray Attributes
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorSelector.Attributes));
+    }
 
-    public MTLVertexBufferLayoutDescriptorArray Layouts => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorSelector.Layouts));
+    public MTLVertexBufferLayoutDescriptorArray Layouts
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorSelector.Layouts));
+    }
 
     public void Reset()
     {
@@ -39,6 +48,13 @@ public class MTLVertexDescriptor : IDisposable
         return new(value);
     }
 
+    public static MTLVertexDescriptor VertexDescriptor()
+    {
+        MTLVertexDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLVertexDescriptorSelector.VertexDescriptor));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -53,14 +69,6 @@ public class MTLVertexDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
-    public static MTLVertexDescriptor VertexDescriptor()
-    {
-        MTLVertexDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLVertexDescriptorSelector.VertexDescriptor));
-
-        return result;
-    }
-
 }
 
 file class MTLVertexDescriptorSelector

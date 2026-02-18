@@ -6,7 +6,10 @@ public class MTLDepthStencilDescriptor : IDisposable
 
     public MTLDepthStencilDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLDepthStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
@@ -28,8 +31,8 @@ public class MTLDepthStencilDescriptor : IDisposable
 
     public MTLCompareFunction DepthCompareFunction
     {
-        get => (MTLCompareFunction)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDepthStencilDescriptorSelector.DepthCompareFunction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetDepthCompareFunction, (uint)value);
+        get => (MTLCompareFunction)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLDepthStencilDescriptorSelector.DepthCompareFunction));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetDepthCompareFunction, (ulong)value);
     }
 
     public Bool8 DepthWriteEnabled
@@ -44,7 +47,10 @@ public class MTLDepthStencilDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetFrontFaceStencil, value.NativePtr);
     }
 
-    public Bool8 IsDepthWriteEnabled => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDepthStencilDescriptorSelector.IsDepthWriteEnabled);
+    public Bool8 IsDepthWriteEnabled
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDepthStencilDescriptorSelector.IsDepthWriteEnabled);
+    }
 
     public NSString Label
     {
@@ -76,7 +82,6 @@ public class MTLDepthStencilDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLDepthStencilDescriptorSelector

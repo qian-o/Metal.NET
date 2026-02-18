@@ -2,9 +2,18 @@
 
 public class MTLVisibleFunctionTableDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVisibleFunctionTableDescriptor");
+
     public MTLVisibleFunctionTableDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLVisibleFunctionTableDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLVisibleFunctionTableDescriptor()
@@ -13,8 +22,6 @@ public class MTLVisibleFunctionTableDescriptor : IDisposable
     }
 
     public nint NativePtr { get; }
-
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVisibleFunctionTableDescriptor");
 
     public nuint FunctionCount
     {
@@ -32,6 +39,13 @@ public class MTLVisibleFunctionTableDescriptor : IDisposable
         return new(value);
     }
 
+    public static MTLVisibleFunctionTableDescriptor VisibleFunctionTableDescriptor()
+    {
+        MTLVisibleFunctionTableDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLVisibleFunctionTableDescriptorSelector.VisibleFunctionTableDescriptor));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -46,14 +60,6 @@ public class MTLVisibleFunctionTableDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
-    public static MTLVisibleFunctionTableDescriptor VisibleFunctionTableDescriptor()
-    {
-        MTLVisibleFunctionTableDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLVisibleFunctionTableDescriptorSelector.VisibleFunctionTableDescriptor));
-
-        return result;
-    }
-
 }
 
 file class MTLVisibleFunctionTableDescriptorSelector

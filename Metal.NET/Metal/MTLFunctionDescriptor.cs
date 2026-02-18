@@ -2,9 +2,18 @@
 
 public class MTLFunctionDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionDescriptor");
+
     public MTLFunctionDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLFunctionDescriptor()
@@ -13,8 +22,6 @@ public class MTLFunctionDescriptor : IDisposable
     }
 
     public nint NativePtr { get; }
-
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionDescriptor");
 
     public NSArray BinaryArchives
     {
@@ -34,10 +41,10 @@ public class MTLFunctionDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetName, value.NativePtr);
     }
 
-    public nuint Options
+    public MTLFunctionOptions Options
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionDescriptorSelector.Options);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetOptions, value);
+        get => (MTLFunctionOptions)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionDescriptorSelector.Options));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetOptions, (ulong)value);
     }
 
     public NSString SpecializedName
@@ -56,6 +63,13 @@ public class MTLFunctionDescriptor : IDisposable
         return new(value);
     }
 
+    public static MTLFunctionDescriptor FunctionDescriptor()
+    {
+        MTLFunctionDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLFunctionDescriptorSelector.FunctionDescriptor));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -70,14 +84,6 @@ public class MTLFunctionDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
-    public static MTLFunctionDescriptor FunctionDescriptor()
-    {
-        MTLFunctionDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLFunctionDescriptorSelector.FunctionDescriptor));
-
-        return result;
-    }
-
 }
 
 file class MTLFunctionDescriptorSelector

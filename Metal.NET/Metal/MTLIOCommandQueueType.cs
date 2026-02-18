@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public enum MTLIOCommandQueueType : int
+public enum MTLIOCommandQueueType : long
 {
-    Concurrent = 0,
+    IOCommandQueueTypeConcurrent = 0,
 
-    Serial = 1
+    IOCommandQueueTypeSerial = 1
 }

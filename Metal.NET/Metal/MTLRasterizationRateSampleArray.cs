@@ -2,9 +2,18 @@
 
 public class MTLRasterizationRateSampleArray : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRasterizationRateSampleArray");
+
     public MTLRasterizationRateSampleArray(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLRasterizationRateSampleArray() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLRasterizationRateSampleArray()
@@ -50,7 +59,6 @@ public class MTLRasterizationRateSampleArray : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLRasterizationRateSampleArraySelector

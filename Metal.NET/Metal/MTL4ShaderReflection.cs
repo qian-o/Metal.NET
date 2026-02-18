@@ -1,11 +1,11 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTL4ShaderReflection : uint
+public enum MTL4ShaderReflection : ulong
 {
-    None = 0,
+    ShaderReflectionNone = 0,
 
-    BindingInfo = 1,
+    ShaderReflectionBindingInfo = 1,
 
-    BufferTypeInfo = 2
+    ShaderReflectionBufferTypeInfo = 2
 }

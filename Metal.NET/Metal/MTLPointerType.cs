@@ -2,9 +2,18 @@
 
 public class MTLPointerType : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPointerType");
+
     public MTLPointerType(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLPointerType() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLPointerType()
@@ -14,19 +23,40 @@ public class MTLPointerType : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLBindingAccess Access => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLPointerTypeSelector.Access));
+    public MTLBindingAccess Access
+    {
+        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLPointerTypeSelector.Access));
+    }
 
-    public nuint Alignment => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeSelector.Alignment);
+    public nuint Alignment
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeSelector.Alignment);
+    }
 
-    public nuint DataSize => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeSelector.DataSize);
+    public nuint DataSize
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeSelector.DataSize);
+    }
 
-    public MTLArrayType ElementArrayType => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeSelector.ElementArrayType));
+    public MTLArrayType ElementArrayType
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeSelector.ElementArrayType));
+    }
 
-    public Bool8 ElementIsArgumentBuffer => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLPointerTypeSelector.ElementIsArgumentBuffer);
+    public Bool8 ElementIsArgumentBuffer
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLPointerTypeSelector.ElementIsArgumentBuffer);
+    }
 
-    public MTLStructType ElementStructType => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeSelector.ElementStructType));
+    public MTLStructType ElementStructType
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeSelector.ElementStructType));
+    }
 
-    public MTLDataType ElementType => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLPointerTypeSelector.ElementType));
+    public MTLDataType ElementType
+    {
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLPointerTypeSelector.ElementType));
+    }
 
     public static implicit operator nint(MTLPointerType value)
     {
@@ -52,7 +82,6 @@ public class MTLPointerType : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLPointerTypeSelector

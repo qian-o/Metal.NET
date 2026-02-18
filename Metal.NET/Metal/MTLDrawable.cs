@@ -4,7 +4,10 @@ public class MTLDrawable : IDisposable
 {
     public MTLDrawable(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLDrawable()
@@ -14,9 +17,15 @@ public class MTLDrawable : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint DrawableID => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDrawableSelector.DrawableID);
+    public nuint DrawableID
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDrawableSelector.DrawableID);
+    }
 
-    public double PresentedTime => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLDrawableSelector.PresentedTime);
+    public double PresentedTime
+    {
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLDrawableSelector.PresentedTime);
+    }
 
     public void AddPresentedHandler(nint function)
     {
@@ -62,7 +71,6 @@ public class MTLDrawable : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLDrawableSelector

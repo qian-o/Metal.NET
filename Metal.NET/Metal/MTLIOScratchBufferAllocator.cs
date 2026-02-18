@@ -4,7 +4,10 @@ public class MTLIOScratchBufferAllocator : IDisposable
 {
     public MTLIOScratchBufferAllocator(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLIOScratchBufferAllocator()
@@ -45,7 +48,6 @@ public class MTLIOScratchBufferAllocator : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLIOScratchBufferAllocatorSelector

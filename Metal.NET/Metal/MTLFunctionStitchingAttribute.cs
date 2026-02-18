@@ -4,7 +4,10 @@ public class MTLFunctionStitchingAttribute : IDisposable
 {
     public MTLFunctionStitchingAttribute(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLFunctionStitchingAttribute()
@@ -38,7 +41,6 @@ public class MTLFunctionStitchingAttribute : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFunctionStitchingAttributeSelector

@@ -2,9 +2,18 @@
 
 public class MTLCaptureManager : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCaptureManager");
+
     public MTLCaptureManager(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLCaptureManager() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLCaptureManager()
@@ -14,15 +23,16 @@ public class MTLCaptureManager : IDisposable
 
     public nint NativePtr { get; }
 
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCaptureManager");
-
     public MTLCaptureScope DefaultCaptureScope
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerSelector.DefaultCaptureScope));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureManagerSelector.SetDefaultCaptureScope, value.NativePtr);
     }
 
-    public Bool8 IsCapturing => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerSelector.IsCapturing);
+    public Bool8 IsCapturing
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerSelector.IsCapturing);
+    }
 
     public MTLCaptureScope NewCaptureScope(MTLDevice device)
     {
@@ -76,7 +86,7 @@ public class MTLCaptureManager : IDisposable
 
     public Bool8 SupportsDestination(MTLCaptureDestination destination)
     {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerSelector.SupportsDestination, (uint)destination);
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerSelector.SupportsDestination, (ulong)destination);
 
         return result;
     }
@@ -89,6 +99,13 @@ public class MTLCaptureManager : IDisposable
     public static implicit operator MTLCaptureManager(nint value)
     {
         return new(value);
+    }
+
+    public static MTLCaptureManager SharedCaptureManager()
+    {
+        MTLCaptureManager result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLCaptureManagerSelector.SharedCaptureManager));
+
+        return result;
     }
 
     public void Dispose()
@@ -105,14 +122,6 @@ public class MTLCaptureManager : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
-    public static MTLCaptureManager SharedCaptureManager()
-    {
-        MTLCaptureManager result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLCaptureManagerSelector.SharedCaptureManager));
-
-        return result;
-    }
-
 }
 
 file class MTLCaptureManagerSelector

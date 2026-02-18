@@ -2,9 +2,18 @@
 
 public class MTLSharedEventListener : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLSharedEventListener");
+
     public MTLSharedEventListener(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLSharedEventListener() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLSharedEventListener()
@@ -14,9 +23,10 @@ public class MTLSharedEventListener : IDisposable
 
     public nint NativePtr { get; }
 
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLSharedEventListener");
-
-    public nint DispatchQueue => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventListenerSelector.DispatchQueue);
+    public nint DispatchQueue
+    {
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventListenerSelector.DispatchQueue);
+    }
 
     public static implicit operator nint(MTLSharedEventListener value)
     {
@@ -26,6 +36,13 @@ public class MTLSharedEventListener : IDisposable
     public static implicit operator MTLSharedEventListener(nint value)
     {
         return new(value);
+    }
+
+    public static MTLSharedEventListener SharedListener()
+    {
+        MTLSharedEventListener result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLSharedEventListenerSelector.SharedListener));
+
+        return result;
     }
 
     public void Dispose()
@@ -42,14 +59,6 @@ public class MTLSharedEventListener : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
-    public static MTLSharedEventListener SharedListener()
-    {
-        MTLSharedEventListener result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLSharedEventListenerSelector.SharedListener));
-
-        return result;
-    }
-
 }
 
 file class MTLSharedEventListenerSelector

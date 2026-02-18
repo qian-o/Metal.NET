@@ -2,9 +2,18 @@
 
 public class MTLLogicalToPhysicalColorAttachmentMap : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLLogicalToPhysicalColorAttachmentMap");
+
     public MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLLogicalToPhysicalColorAttachmentMap() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLLogicalToPhysicalColorAttachmentMap()
@@ -55,7 +64,6 @@ public class MTLLogicalToPhysicalColorAttachmentMap : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLLogicalToPhysicalColorAttachmentMapSelector

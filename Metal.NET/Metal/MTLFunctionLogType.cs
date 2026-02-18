@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLFunctionLogType : uint
+public enum MTLFunctionLogType : ulong
 {
-    Validation = 0
+    FunctionLogTypeValidation = 0
 }

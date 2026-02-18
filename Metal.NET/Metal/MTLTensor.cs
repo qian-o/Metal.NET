@@ -4,7 +4,10 @@ public class MTLTensor : IDisposable
 {
     public MTLTensor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLTensor()
@@ -14,17 +17,40 @@ public class MTLTensor : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLBuffer Buffer => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Buffer));
+    public MTLBuffer Buffer
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Buffer));
+    }
 
-    public nuint BufferOffset => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorSelector.BufferOffset);
+    public nuint BufferOffset
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorSelector.BufferOffset);
+    }
 
-    public MTLTensorDataType DataType => (MTLTensorDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTensorSelector.DataType));
+    public MTLTensorDataType DataType
+    {
+        get => (MTLTensorDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorSelector.DataType));
+    }
 
-    public MTLTensorExtents Dimensions => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Dimensions));
+    public MTLTensorExtents Dimensions
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Dimensions));
+    }
 
-    public MTLTensorExtents Strides => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Strides));
+    public MTLResourceID GpuResourceID
+    {
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTensorSelector.GpuResourceID);
+    }
 
-    public nuint Usage => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorSelector.Usage);
+    public MTLTensorExtents Strides
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Strides));
+    }
+
+    public MTLTensorUsage Usage
+    {
+        get => (MTLTensorUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorSelector.Usage));
+    }
 
     public void GetBytes(nint bytes, MTLTensorExtents strides, MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions)
     {
@@ -60,7 +86,6 @@ public class MTLTensor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLTensorSelector

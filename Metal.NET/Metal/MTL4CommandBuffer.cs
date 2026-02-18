@@ -4,7 +4,10 @@ public class MTL4CommandBuffer : IDisposable
 {
     public MTL4CommandBuffer(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTL4CommandBuffer()
@@ -14,9 +17,15 @@ public class MTL4CommandBuffer : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTL4ComputeCommandEncoder ComputeCommandEncoder => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.ComputeCommandEncoder));
+    public MTL4ComputeCommandEncoder ComputeCommandEncoder
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.ComputeCommandEncoder));
+    }
 
-    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.Device));
+    public MTLDevice Device
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.Device));
+    }
 
     public NSString Label
     {
@@ -24,7 +33,10 @@ public class MTL4CommandBuffer : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.SetLabel, value.NativePtr);
     }
 
-    public MTL4MachineLearningCommandEncoder MachineLearningCommandEncoder => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.MachineLearningCommandEncoder));
+    public MTL4MachineLearningCommandEncoder MachineLearningCommandEncoder
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.MachineLearningCommandEncoder));
+    }
 
     public void BeginCommandBuffer(MTL4CommandAllocator allocator)
     {
@@ -58,9 +70,9 @@ public class MTL4CommandBuffer : IDisposable
         return result;
     }
 
-    public MTL4RenderCommandEncoder RenderCommandEncoder(MTL4RenderPassDescriptor descriptor, nuint options)
+    public MTL4RenderCommandEncoder RenderCommandEncoder(MTL4RenderPassDescriptor descriptor, MTL4RenderEncoderOptions options)
     {
-        MTL4RenderCommandEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.RenderCommandEncoderOptions, descriptor.NativePtr, options));
+        MTL4RenderCommandEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.RenderCommandEncoderOptions, descriptor.NativePtr, (ulong)options));
 
         return result;
     }
@@ -104,7 +116,6 @@ public class MTL4CommandBuffer : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4CommandBufferSelector

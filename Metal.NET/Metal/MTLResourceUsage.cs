@@ -1,11 +1,11 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTLResourceUsage : uint
+public enum MTLResourceUsage : ulong
 {
-    Read = 1,
+    ResourceUsageRead = 1,
 
-    Write = 2,
+    ResourceUsageWrite = 2,
 
-    Sample = 4
+    ResourceUsageSample = 4
 }

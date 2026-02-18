@@ -4,7 +4,10 @@ public class MTLLogContainer : IDisposable
 {
     public MTLLogContainer(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLLogContainer()
@@ -38,7 +41,6 @@ public class MTLLogContainer : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLLogContainerSelector

@@ -4,7 +4,10 @@ public class MTLTextureSwizzleChannels : IDisposable
 {
     public MTLTextureSwizzleChannels(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLTextureSwizzleChannels()
@@ -26,6 +29,20 @@ public class MTLTextureSwizzleChannels : IDisposable
         return new(value);
     }
 
+    public static MTLTextureSwizzleChannels Default()
+    {
+        MTLTextureSwizzleChannels result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLTextureSwizzleChannelsSelector.Default));
+
+        return result;
+    }
+
+    public static MTLTextureSwizzleChannels Make(MTLTextureSwizzle r, MTLTextureSwizzle g, MTLTextureSwizzle b, MTLTextureSwizzle a)
+    {
+        MTLTextureSwizzleChannels result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLTextureSwizzleChannelsSelector.MakeGBA, (ulong)r, (ulong)g, (ulong)b, (ulong)a));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -40,21 +57,6 @@ public class MTLTextureSwizzleChannels : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
-    public static MTLTextureSwizzleChannels Default()
-    {
-        MTLTextureSwizzleChannels result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLTextureSwizzleChannelsSelector.Default));
-
-        return result;
-    }
-
-    public static MTLTextureSwizzleChannels Make(MTLTextureSwizzle r, MTLTextureSwizzle g, MTLTextureSwizzle b, MTLTextureSwizzle a)
-    {
-        MTLTextureSwizzleChannels result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLTextureSwizzleChannelsSelector.MakeGBA, (uint)r, (uint)g, (uint)b, (uint)a));
-
-        return result;
-    }
-
 }
 
 file class MTLTextureSwizzleChannelsSelector

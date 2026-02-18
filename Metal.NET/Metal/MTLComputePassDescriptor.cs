@@ -6,7 +6,10 @@ public class MTLComputePassDescriptor : IDisposable
 
     public MTLComputePassDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLComputePassDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
@@ -22,11 +25,14 @@ public class MTLComputePassDescriptor : IDisposable
 
     public MTLDispatchType DispatchType
     {
-        get => (MTLDispatchType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLComputePassDescriptorSelector.DispatchType));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePassDescriptorSelector.SetDispatchType, (uint)value);
+        get => (MTLDispatchType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLComputePassDescriptorSelector.DispatchType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePassDescriptorSelector.SetDispatchType, (ulong)value);
     }
 
-    public MTLComputePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePassDescriptorSelector.SampleBufferAttachments));
+    public MTLComputePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePassDescriptorSelector.SampleBufferAttachments));
+    }
 
     public static implicit operator nint(MTLComputePassDescriptor value)
     {
@@ -36,6 +42,13 @@ public class MTLComputePassDescriptor : IDisposable
     public static implicit operator MTLComputePassDescriptor(nint value)
     {
         return new(value);
+    }
+
+    public static MTLComputePassDescriptor ComputePassDescriptor()
+    {
+        MTLComputePassDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLComputePassDescriptorSelector.ComputePassDescriptor));
+
+        return result;
     }
 
     public void Dispose()
@@ -52,14 +65,6 @@ public class MTLComputePassDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
-    public static MTLComputePassDescriptor ComputePassDescriptor()
-    {
-        MTLComputePassDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLComputePassDescriptorSelector.ComputePassDescriptor));
-
-        return result;
-    }
-
 }
 
 file class MTLComputePassDescriptorSelector

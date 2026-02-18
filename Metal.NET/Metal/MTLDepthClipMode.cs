@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public enum MTLDepthClipMode : uint
+public enum MTLDepthClipMode : ulong
 {
-    Clip = 0,
+    DepthClipModeClip = 0,
 
-    Clamp = 1
+    DepthClipModeClamp = 1
 }

@@ -2,9 +2,18 @@
 
 public class MTLCommandBufferDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCommandBufferDescriptor");
+
     public MTLCommandBufferDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLCommandBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLCommandBufferDescriptor()
@@ -14,10 +23,10 @@ public class MTLCommandBufferDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint ErrorOptions
+    public MTLCommandBufferErrorOption ErrorOptions
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandBufferDescriptorSelector.ErrorOptions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetErrorOptions, value);
+        get => (MTLCommandBufferErrorOption)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCommandBufferDescriptorSelector.ErrorOptions));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetErrorOptions, (ulong)value);
     }
 
     public MTLLogState LogState
@@ -56,7 +65,6 @@ public class MTLCommandBufferDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLCommandBufferDescriptorSelector

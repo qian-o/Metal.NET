@@ -2,9 +2,18 @@
 
 public class MTL4RenderPipelineBinaryFunctionsDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineBinaryFunctionsDescriptor");
+
     public MTL4RenderPipelineBinaryFunctionsDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTL4RenderPipelineBinaryFunctionsDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTL4RenderPipelineBinaryFunctionsDescriptor()
@@ -73,7 +82,6 @@ public class MTL4RenderPipelineBinaryFunctionsDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4RenderPipelineBinaryFunctionsDescriptorSelector

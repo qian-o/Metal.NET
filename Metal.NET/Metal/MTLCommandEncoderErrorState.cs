@@ -1,14 +1,14 @@
 ﻿namespace Metal.NET;
 
-public enum MTLCommandEncoderErrorState : int
+public enum MTLCommandEncoderErrorState : long
 {
-    Unknown = 0,
+    CommandEncoderErrorStateUnknown = 0,
 
-    Completed = 1,
+    CommandEncoderErrorStateCompleted = 1,
 
-    Affected = 2,
+    CommandEncoderErrorStateAffected = 2,
 
-    Pending = 3,
+    CommandEncoderErrorStatePending = 3,
 
-    Faulted = 4
+    CommandEncoderErrorStateFaulted = 4
 }

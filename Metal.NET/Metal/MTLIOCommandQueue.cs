@@ -4,7 +4,10 @@ public class MTLIOCommandQueue : IDisposable
 {
     public MTLIOCommandQueue(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLIOCommandQueue()
@@ -14,9 +17,15 @@ public class MTLIOCommandQueue : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLIOCommandBuffer CommandBuffer => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueSelector.CommandBuffer));
+    public MTLIOCommandBuffer CommandBuffer
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueSelector.CommandBuffer));
+    }
 
-    public MTLIOCommandBuffer CommandBufferWithUnretainedReferences => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueSelector.CommandBufferWithUnretainedReferences));
+    public MTLIOCommandBuffer CommandBufferWithUnretainedReferences
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueSelector.CommandBufferWithUnretainedReferences));
+    }
 
     public NSString Label
     {
@@ -53,7 +62,6 @@ public class MTLIOCommandQueue : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLIOCommandQueueSelector

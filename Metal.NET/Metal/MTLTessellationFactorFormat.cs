@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLTessellationFactorFormat : uint
+public enum MTLTessellationFactorFormat : ulong
 {
-    Half = 0
+    TessellationFactorFormatHalf = 0
 }

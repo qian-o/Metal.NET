@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public enum MTLBufferSparseTier : int
+public enum MTLBufferSparseTier : long
 {
-    None = 0,
+    BufferSparseTierNone = 0,
 
-    _1 = 1
+    BufferSparseTier1 = 1
 }

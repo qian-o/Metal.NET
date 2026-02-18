@@ -2,9 +2,18 @@
 
 public class MTL4PipelineDataSetSerializerDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PipelineDataSetSerializerDescriptor");
+
     public MTL4PipelineDataSetSerializerDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTL4PipelineDataSetSerializerDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTL4PipelineDataSetSerializerDescriptor()
@@ -14,10 +23,10 @@ public class MTL4PipelineDataSetSerializerDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint Configuration
+    public MTL4PipelineDataSetSerializerConfiguration Configuration
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.Configuration);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.SetConfiguration, value);
+        get => (MTL4PipelineDataSetSerializerConfiguration)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.Configuration));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.SetConfiguration, (ulong)value);
     }
 
     public static implicit operator nint(MTL4PipelineDataSetSerializerDescriptor value)
@@ -44,7 +53,6 @@ public class MTL4PipelineDataSetSerializerDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4PipelineDataSetSerializerDescriptorSelector

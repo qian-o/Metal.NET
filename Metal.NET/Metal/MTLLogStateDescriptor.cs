@@ -2,9 +2,18 @@
 
 public class MTLLogStateDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLLogStateDescriptor");
+
     public MTLLogStateDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLLogStateDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLLogStateDescriptor()
@@ -22,8 +31,8 @@ public class MTLLogStateDescriptor : IDisposable
 
     public MTLLogLevel Level
     {
-        get => (MTLLogLevel)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLLogStateDescriptorSelector.Level));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLogStateDescriptorSelector.SetLevel, (uint)value);
+        get => (MTLLogLevel)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLLogStateDescriptorSelector.Level));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLogStateDescriptorSelector.SetLevel, (ulong)value);
     }
 
     public static implicit operator nint(MTLLogStateDescriptor value)
@@ -50,7 +59,6 @@ public class MTLLogStateDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLLogStateDescriptorSelector

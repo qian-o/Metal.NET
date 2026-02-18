@@ -2,9 +2,18 @@
 
 public class MTL4StaticLinkingDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4StaticLinkingDescriptor");
+
     public MTL4StaticLinkingDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTL4StaticLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTL4StaticLinkingDescriptor()
@@ -56,7 +65,6 @@ public class MTL4StaticLinkingDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4StaticLinkingDescriptorSelector

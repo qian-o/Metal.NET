@@ -1,16 +1,16 @@
 ﻿namespace Metal.NET;
 
-public enum MTLStoreAction : uint
+public enum MTLStoreAction : ulong
 {
-    DontCare = 0,
+    StoreActionDontCare = 0,
 
-    Store = 1,
+    StoreActionStore = 1,
 
-    MultisampleResolve = 2,
+    StoreActionMultisampleResolve = 2,
 
-    StoreAndMultisampleResolve = 3,
+    StoreActionStoreAndMultisampleResolve = 3,
 
-    Unknown = 4,
+    StoreActionUnknown = 4,
 
-    CustomSampleDepthStore = 5
+    StoreActionCustomSampleDepthStore = 5
 }

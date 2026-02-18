@@ -4,7 +4,10 @@ public class MTLLibrary : IDisposable
 {
     public MTLLibrary(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLLibrary()
@@ -14,11 +17,20 @@ public class MTLLibrary : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.Device));
+    public MTLDevice Device
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.Device));
+    }
 
-    public NSArray FunctionNames => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.FunctionNames));
+    public NSArray FunctionNames
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.FunctionNames));
+    }
 
-    public NSString InstallName => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.InstallName));
+    public NSString InstallName
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.InstallName));
+    }
 
     public NSString Label
     {
@@ -26,7 +38,10 @@ public class MTLLibrary : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLibrarySelector.SetLabel, value.NativePtr);
     }
 
-    public MTLLibraryType Type => (MTLLibraryType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLLibrarySelector.Type));
+    public MTLLibraryType Type
+    {
+        get => (MTLLibraryType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLLibrarySelector.Type));
+    }
 
     public MTLFunction NewFunction(NSString functionName)
     {
@@ -108,7 +123,6 @@ public class MTLLibrary : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLLibrarySelector

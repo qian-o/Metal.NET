@@ -4,7 +4,10 @@ public class MTLIOFileHandle : IDisposable
 {
     public MTLIOFileHandle(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLIOFileHandle()
@@ -44,7 +47,6 @@ public class MTLIOFileHandle : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLIOFileHandleSelector

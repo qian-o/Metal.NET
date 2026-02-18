@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public enum MTLSamplerMipFilter : uint
+public enum MTLSamplerMipFilter : ulong
 {
-    NotMipmapped = 0,
+    SamplerMipFilterNotMipmapped = 0,
 
-    Nearest = 1,
+    SamplerMipFilterNearest = 1,
 
-    Linear = 2
+    SamplerMipFilterLinear = 2
 }

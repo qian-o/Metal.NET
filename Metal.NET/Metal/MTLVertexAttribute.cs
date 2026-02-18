@@ -2,9 +2,18 @@
 
 public class MTLVertexAttribute : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexAttribute");
+
     public MTLVertexAttribute(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLVertexAttribute() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLVertexAttribute()
@@ -14,23 +23,50 @@ public class MTLVertexAttribute : IDisposable
 
     public nint NativePtr { get; }
 
-    public Bool8 Active => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.Active);
+    public Bool8 Active
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.Active);
+    }
 
-    public nuint AttributeIndex => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeSelector.AttributeIndex);
+    public nuint AttributeIndex
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeSelector.AttributeIndex);
+    }
 
-    public MTLDataType AttributeType => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLVertexAttributeSelector.AttributeType));
+    public MTLDataType AttributeType
+    {
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLVertexAttributeSelector.AttributeType));
+    }
 
-    public Bool8 IsActive => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.IsActive);
+    public Bool8 IsActive
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.IsActive);
+    }
 
-    public Bool8 IsPatchControlPointData => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.IsPatchControlPointData);
+    public Bool8 IsPatchControlPointData
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.IsPatchControlPointData);
+    }
 
-    public Bool8 IsPatchData => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.IsPatchData);
+    public Bool8 IsPatchData
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.IsPatchData);
+    }
 
-    public NSString Name => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeSelector.Name));
+    public NSString Name
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeSelector.Name));
+    }
 
-    public Bool8 PatchControlPointData => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.PatchControlPointData);
+    public Bool8 PatchControlPointData
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.PatchControlPointData);
+    }
 
-    public Bool8 PatchData => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.PatchData);
+    public Bool8 PatchData
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.PatchData);
+    }
 
     public static implicit operator nint(MTLVertexAttribute value)
     {
@@ -56,7 +92,6 @@ public class MTLVertexAttribute : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLVertexAttributeSelector

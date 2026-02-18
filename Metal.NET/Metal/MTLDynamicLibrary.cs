@@ -4,7 +4,10 @@ public class MTLDynamicLibrary : IDisposable
 {
     public MTLDynamicLibrary(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLDynamicLibrary()
@@ -14,9 +17,15 @@ public class MTLDynamicLibrary : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibrarySelector.Device));
+    public MTLDevice Device
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibrarySelector.Device));
+    }
 
-    public NSString InstallName => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibrarySelector.InstallName));
+    public NSString InstallName
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibrarySelector.InstallName));
+    }
 
     public NSString Label
     {
@@ -57,7 +66,6 @@ public class MTLDynamicLibrary : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLDynamicLibrarySelector

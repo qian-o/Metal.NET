@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public enum MTLSamplerReductionMode : uint
+public enum MTLSamplerReductionMode : ulong
 {
-    WeightedAverage = 0,
+    SamplerReductionModeWeightedAverage = 0,
 
-    Minimum = 1,
+    SamplerReductionModeMinimum = 1,
 
-    Maximum = 2
+    SamplerReductionModeMaximum = 2
 }

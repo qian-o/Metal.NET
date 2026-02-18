@@ -6,7 +6,10 @@ public class MTLSharedEventHandle : IDisposable
 
     public MTLSharedEventHandle(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLSharedEventHandle() : this(ObjectiveCRuntime.AllocInit(Class))
@@ -20,7 +23,10 @@ public class MTLSharedEventHandle : IDisposable
 
     public nint NativePtr { get; }
 
-    public NSString Label => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventHandleSelector.Label));
+    public NSString Label
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventHandleSelector.Label));
+    }
 
     public static implicit operator nint(MTLSharedEventHandle value)
     {
@@ -46,7 +52,6 @@ public class MTLSharedEventHandle : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLSharedEventHandleSelector

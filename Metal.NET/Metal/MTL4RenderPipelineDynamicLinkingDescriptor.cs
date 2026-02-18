@@ -2,9 +2,18 @@
 
 public class MTL4RenderPipelineDynamicLinkingDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineDynamicLinkingDescriptor");
+
     public MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTL4RenderPipelineDynamicLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTL4RenderPipelineDynamicLinkingDescriptor()
@@ -14,15 +23,30 @@ public class MTL4RenderPipelineDynamicLinkingDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTL4PipelineStageDynamicLinkingDescriptor FragmentLinkingDescriptor => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorSelector.FragmentLinkingDescriptor));
+    public MTL4PipelineStageDynamicLinkingDescriptor FragmentLinkingDescriptor
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorSelector.FragmentLinkingDescriptor));
+    }
 
-    public MTL4PipelineStageDynamicLinkingDescriptor MeshLinkingDescriptor => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorSelector.MeshLinkingDescriptor));
+    public MTL4PipelineStageDynamicLinkingDescriptor MeshLinkingDescriptor
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorSelector.MeshLinkingDescriptor));
+    }
 
-    public MTL4PipelineStageDynamicLinkingDescriptor ObjectLinkingDescriptor => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorSelector.ObjectLinkingDescriptor));
+    public MTL4PipelineStageDynamicLinkingDescriptor ObjectLinkingDescriptor
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorSelector.ObjectLinkingDescriptor));
+    }
 
-    public MTL4PipelineStageDynamicLinkingDescriptor TileLinkingDescriptor => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorSelector.TileLinkingDescriptor));
+    public MTL4PipelineStageDynamicLinkingDescriptor TileLinkingDescriptor
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorSelector.TileLinkingDescriptor));
+    }
 
-    public MTL4PipelineStageDynamicLinkingDescriptor VertexLinkingDescriptor => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorSelector.VertexLinkingDescriptor));
+    public MTL4PipelineStageDynamicLinkingDescriptor VertexLinkingDescriptor
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorSelector.VertexLinkingDescriptor));
+    }
 
     public static implicit operator nint(MTL4RenderPipelineDynamicLinkingDescriptor value)
     {
@@ -48,7 +72,6 @@ public class MTL4RenderPipelineDynamicLinkingDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4RenderPipelineDynamicLinkingDescriptorSelector

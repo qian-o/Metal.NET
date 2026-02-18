@@ -6,7 +6,10 @@ public class MTLRenderPassColorAttachmentDescriptor : IDisposable
 
     public MTLRenderPassColorAttachmentDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLRenderPassColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
@@ -19,6 +22,12 @@ public class MTLRenderPassColorAttachmentDescriptor : IDisposable
     }
 
     public nint NativePtr { get; }
+
+    public MTLClearColor ClearColor
+    {
+        get => ObjectiveCRuntime.MsgSendMTLClearColor(NativePtr, MTLRenderPassColorAttachmentDescriptorSelector.ClearColor);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorSelector.SetClearColor, value);
+    }
 
     public static implicit operator nint(MTLRenderPassColorAttachmentDescriptor value)
     {
@@ -44,7 +53,6 @@ public class MTLRenderPassColorAttachmentDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLRenderPassColorAttachmentDescriptorSelector

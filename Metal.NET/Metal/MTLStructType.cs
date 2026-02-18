@@ -2,9 +2,18 @@
 
 public class MTLStructType : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStructType");
+
     public MTLStructType(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLStructType() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLStructType()
@@ -14,7 +23,10 @@ public class MTLStructType : IDisposable
 
     public nint NativePtr { get; }
 
-    public NSArray Members => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeSelector.Members));
+    public NSArray Members
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeSelector.Members));
+    }
 
     public MTLStructMember MemberByName(NSString name)
     {
@@ -47,7 +59,6 @@ public class MTLStructType : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLStructTypeSelector

@@ -1,9 +1,9 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTLCommandBufferErrorOption : uint
+public enum MTLCommandBufferErrorOption : ulong
 {
-    None = 0,
+    CommandBufferErrorOptionNone = 0,
 
-    EncoderExecutionStatus = 1
+    CommandBufferErrorOptionEncoderExecutionStatus = 1
 }

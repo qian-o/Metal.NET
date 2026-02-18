@@ -2,9 +2,18 @@
 
 public class MTLPipelineBufferDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPipelineBufferDescriptor");
+
     public MTLPipelineBufferDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLPipelineBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLPipelineBufferDescriptor()
@@ -16,8 +25,8 @@ public class MTLPipelineBufferDescriptor : IDisposable
 
     public MTLMutability Mutability
     {
-        get => (MTLMutability)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLPipelineBufferDescriptorSelector.Mutability));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorSelector.SetMutability, (uint)value);
+        get => (MTLMutability)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLPipelineBufferDescriptorSelector.Mutability));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorSelector.SetMutability, (ulong)value);
     }
 
     public static implicit operator nint(MTLPipelineBufferDescriptor value)
@@ -44,7 +53,6 @@ public class MTLPipelineBufferDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLPipelineBufferDescriptorSelector

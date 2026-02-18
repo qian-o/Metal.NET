@@ -4,7 +4,10 @@ public class MTLComputeCommandEncoder : IDisposable
 {
     public MTLComputeCommandEncoder(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLComputeCommandEncoder()
@@ -14,7 +17,10 @@ public class MTLComputeCommandEncoder : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLDispatchType DispatchType => (MTLDispatchType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLComputeCommandEncoderSelector.DispatchType));
+    public MTLDispatchType DispatchType
+    {
+        get => (MTLDispatchType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLComputeCommandEncoderSelector.DispatchType));
+    }
 
     public void DispatchThreadgroups(MTLSize threadgroupsPerGrid, MTLSize threadsPerThreadgroup)
     {
@@ -41,9 +47,9 @@ public class MTLComputeCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.ExecuteCommandsInBufferIndirectRangeBufferIndirectBufferOffset, indirectCommandbuffer.NativePtr, indirectRangeBuffer.NativePtr, indirectBufferOffset);
     }
 
-    public void MemoryBarrier(nuint scope)
+    public void MemoryBarrier(MTLBarrierScope scope)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.MemoryBarrier, scope);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.MemoryBarrier, (ulong)scope);
     }
 
     public void SampleCountersInBuffer(MTLCounterSampleBuffer sampleBuffer, nuint sampleIndex, Bool8 barrier)
@@ -146,9 +152,9 @@ public class MTLComputeCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.UseHeap, heap.NativePtr);
     }
 
-    public void UseResource(MTLResource resource, nuint usage)
+    public void UseResource(MTLResource resource, MTLResourceUsage usage)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.UseResourceUsage, resource.NativePtr, usage);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.UseResourceUsage, resource.NativePtr, (ulong)usage);
     }
 
     public void WaitForFence(MTLFence fence)
@@ -180,7 +186,6 @@ public class MTLComputeCommandEncoder : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLComputeCommandEncoderSelector

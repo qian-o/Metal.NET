@@ -1,17 +1,17 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTLAccelerationStructureUsage : uint
+public enum MTLAccelerationStructureUsage : ulong
 {
-    None = 0,
+    AccelerationStructureUsageNone = 0,
 
-    Refit = 1,
+    AccelerationStructureUsageRefit = 1,
 
-    PreferFastBuild = 2,
+    AccelerationStructureUsagePreferFastBuild = 2,
 
-    ExtendedLimits = 4,
+    AccelerationStructureUsageExtendedLimits = 4,
 
-    PreferFastIntersection = 16,
+    AccelerationStructureUsagePreferFastIntersection = 16,
 
-    MinimizeMemory = 32
+    AccelerationStructureUsageMinimizeMemory = 32
 }

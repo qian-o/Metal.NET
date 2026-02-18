@@ -4,7 +4,10 @@ public class MTLFXTemporalScaler : IDisposable
 {
     public MTLFXTemporalScaler(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLFXTemporalScaler()
@@ -43,7 +46,6 @@ public class MTLFXTemporalScaler : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFXTemporalScalerSelector

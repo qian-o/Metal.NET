@@ -4,7 +4,10 @@ public class MTLCounter : IDisposable
 {
     public MTLCounter(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLCounter()
@@ -14,7 +17,10 @@ public class MTLCounter : IDisposable
 
     public nint NativePtr { get; }
 
-    public NSString Name => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSelector.Name));
+    public NSString Name
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSelector.Name));
+    }
 
     public static implicit operator nint(MTLCounter value)
     {
@@ -40,7 +46,6 @@ public class MTLCounter : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLCounterSelector

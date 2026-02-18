@@ -2,9 +2,18 @@
 
 public class MTLRenderPipelineReflection : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPipelineReflection");
+
     public MTLRenderPipelineReflection(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLRenderPipelineReflection() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLRenderPipelineReflection()
@@ -14,21 +23,45 @@ public class MTLRenderPipelineReflection : IDisposable
 
     public nint NativePtr { get; }
 
-    public NSArray FragmentArguments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.FragmentArguments));
+    public NSArray FragmentArguments
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.FragmentArguments));
+    }
 
-    public NSArray FragmentBindings => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.FragmentBindings));
+    public NSArray FragmentBindings
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.FragmentBindings));
+    }
 
-    public NSArray MeshBindings => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.MeshBindings));
+    public NSArray MeshBindings
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.MeshBindings));
+    }
 
-    public NSArray ObjectBindings => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.ObjectBindings));
+    public NSArray ObjectBindings
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.ObjectBindings));
+    }
 
-    public NSArray TileArguments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.TileArguments));
+    public NSArray TileArguments
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.TileArguments));
+    }
 
-    public NSArray TileBindings => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.TileBindings));
+    public NSArray TileBindings
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.TileBindings));
+    }
 
-    public NSArray VertexArguments => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.VertexArguments));
+    public NSArray VertexArguments
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.VertexArguments));
+    }
 
-    public NSArray VertexBindings => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.VertexBindings));
+    public NSArray VertexBindings
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineReflectionSelector.VertexBindings));
+    }
 
     public static implicit operator nint(MTLRenderPipelineReflection value)
     {
@@ -54,7 +87,6 @@ public class MTLRenderPipelineReflection : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLRenderPipelineReflectionSelector

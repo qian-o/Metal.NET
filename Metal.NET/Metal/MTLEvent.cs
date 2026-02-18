@@ -4,7 +4,10 @@ public class MTLEvent : IDisposable
 {
     public MTLEvent(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLEvent()
@@ -14,7 +17,10 @@ public class MTLEvent : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLDevice Device => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLEventSelector.Device));
+    public MTLDevice Device
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLEventSelector.Device));
+    }
 
     public NSString Label
     {
@@ -46,7 +52,6 @@ public class MTLEvent : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLEventSelector

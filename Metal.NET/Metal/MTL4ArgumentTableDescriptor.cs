@@ -2,9 +2,18 @@
 
 public class MTL4ArgumentTableDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4ArgumentTableDescriptor");
+
     public MTL4ArgumentTableDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTL4ArgumentTableDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTL4ArgumentTableDescriptor()
@@ -74,7 +83,6 @@ public class MTL4ArgumentTableDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4ArgumentTableDescriptorSelector

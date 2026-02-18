@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public enum MTLMatrixLayout : int
+public enum MTLMatrixLayout : long
 {
-    ColumnMajor = 0,
+    MatrixLayoutColumnMajor = 0,
 
-    RowMajor = 1
+    MatrixLayoutRowMajor = 1
 }

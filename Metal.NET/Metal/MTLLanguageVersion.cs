@@ -1,28 +1,28 @@
 ﻿namespace Metal.NET;
 
-public enum MTLLanguageVersion : uint
+public enum MTLLanguageVersion : ulong
 {
-    _1_0 = 65536,
+    LanguageVersion1_0 = 65536,
 
-    _1_1 = 65537,
+    LanguageVersion1_1 = 65537,
 
-    _1_2 = 65538,
+    LanguageVersion1_2 = 65538,
 
-    _2_0 = 131072,
+    LanguageVersion2_0 = 131072,
 
-    _2_1 = 131073,
+    LanguageVersion2_1 = 131073,
 
-    _2_2 = 131074,
+    LanguageVersion2_2 = 131074,
 
-    _2_3 = 131075,
+    LanguageVersion2_3 = 131075,
 
-    _2_4 = 131076,
+    LanguageVersion2_4 = 131076,
 
-    _3_0 = 196608,
+    LanguageVersion3_0 = 196608,
 
-    _3_1 = 196609,
+    LanguageVersion3_1 = 196609,
 
-    _3_2 = 196610,
+    LanguageVersion3_2 = 196610,
 
-    _4_0 = 262144
+    LanguageVersion4_0 = 262144
 }

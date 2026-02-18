@@ -6,7 +6,10 @@ public class MTLHeapDescriptor : IDisposable
 
     public MTLHeapDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
@@ -22,26 +25,26 @@ public class MTLHeapDescriptor : IDisposable
 
     public MTLCPUCacheMode CpuCacheMode
     {
-        get => (MTLCPUCacheMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapDescriptorSelector.CpuCacheMode));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorSelector.SetCpuCacheMode, (uint)value);
+        get => (MTLCPUCacheMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapDescriptorSelector.CpuCacheMode));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorSelector.SetCpuCacheMode, (ulong)value);
     }
 
     public MTLHazardTrackingMode HazardTrackingMode
     {
-        get => (MTLHazardTrackingMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapDescriptorSelector.HazardTrackingMode));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorSelector.SetHazardTrackingMode, (uint)value);
+        get => (MTLHazardTrackingMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapDescriptorSelector.HazardTrackingMode));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorSelector.SetHazardTrackingMode, (ulong)value);
     }
 
     public MTLSparsePageSize MaxCompatiblePlacementSparsePageSize
     {
-        get => (MTLSparsePageSize)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapDescriptorSelector.MaxCompatiblePlacementSparsePageSize));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorSelector.SetMaxCompatiblePlacementSparsePageSize, (uint)value);
+        get => (MTLSparsePageSize)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapDescriptorSelector.MaxCompatiblePlacementSparsePageSize));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorSelector.SetMaxCompatiblePlacementSparsePageSize, (ulong)value);
     }
 
-    public nuint ResourceOptions
+    public MTLResourceOptions ResourceOptions
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapDescriptorSelector.ResourceOptions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorSelector.SetResourceOptions, value);
+        get => (MTLResourceOptions)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapDescriptorSelector.ResourceOptions));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorSelector.SetResourceOptions, (ulong)value);
     }
 
     public nuint Size
@@ -52,20 +55,20 @@ public class MTLHeapDescriptor : IDisposable
 
     public MTLSparsePageSize SparsePageSize
     {
-        get => (MTLSparsePageSize)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapDescriptorSelector.SparsePageSize));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorSelector.SetSparsePageSize, (uint)value);
+        get => (MTLSparsePageSize)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapDescriptorSelector.SparsePageSize));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorSelector.SetSparsePageSize, (ulong)value);
     }
 
     public MTLStorageMode StorageMode
     {
-        get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapDescriptorSelector.StorageMode));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorSelector.SetStorageMode, (uint)value);
+        get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapDescriptorSelector.StorageMode));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorSelector.SetStorageMode, (ulong)value);
     }
 
     public MTLHeapType Type
     {
-        get => (MTLHeapType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLHeapDescriptorSelector.Type));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorSelector.SetType, (uint)value);
+        get => (MTLHeapType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapDescriptorSelector.Type));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorSelector.SetType, (ulong)value);
     }
 
     public static implicit operator nint(MTLHeapDescriptor value)
@@ -92,7 +95,6 @@ public class MTLHeapDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLHeapDescriptorSelector

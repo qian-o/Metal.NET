@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public enum MTLIOError : int
+public enum MTLIOError : long
 {
-    URLInvalid = 1,
+    IOErrorURLInvalid = 1,
 
-    Internal = 2
+    IOErrorInternal = 2
 }

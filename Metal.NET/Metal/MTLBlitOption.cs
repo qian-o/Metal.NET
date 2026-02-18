@@ -1,13 +1,13 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTLBlitOption : uint
+public enum MTLBlitOption : ulong
 {
-    None = 0,
+    BlitOptionNone = 0,
 
-    DepthFromDepthStencil = 1,
+    BlitOptionDepthFromDepthStencil = 1,
 
-    StencilFromDepthStencil = 2,
+    BlitOptionStencilFromDepthStencil = 2,
 
-    RowLinearPVRTC = 4
+    BlitOptionRowLinearPVRTC = 4
 }

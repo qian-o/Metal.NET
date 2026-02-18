@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public enum MTLIOStatus : int
+public enum MTLIOStatus : long
 {
-    Pending = 0,
+    IOStatusPending = 0,
 
-    Cancelled = 1,
+    IOStatusCancelled = 1,
 
-    Error = 2,
+    IOStatusError = 2,
 
-    Complete = 3
+    IOStatusComplete = 3
 }

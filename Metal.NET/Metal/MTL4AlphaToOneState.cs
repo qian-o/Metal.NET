@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public enum MTL4AlphaToOneState : int
+public enum MTL4AlphaToOneState : long
 {
-    Disabled = 0,
+    AlphaToOneStateDisabled = 0,
 
-    Enabled = 1
+    AlphaToOneStateEnabled = 1
 }

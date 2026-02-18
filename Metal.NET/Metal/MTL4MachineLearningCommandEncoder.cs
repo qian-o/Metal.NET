@@ -4,7 +4,10 @@ public class MTL4MachineLearningCommandEncoder : IDisposable
 {
     public MTL4MachineLearningCommandEncoder(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTL4MachineLearningCommandEncoder()
@@ -53,7 +56,6 @@ public class MTL4MachineLearningCommandEncoder : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4MachineLearningCommandEncoderSelector

@@ -1,7 +1,7 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTLStitchedLibraryOptions : uint
+public enum MTLStitchedLibraryOptions : ulong
 {
     StitchedLibraryOptionNone = 0,
 

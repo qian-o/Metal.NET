@@ -2,9 +2,18 @@
 
 public class MTLArchitecture : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArchitecture");
+
     public MTLArchitecture(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLArchitecture() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLArchitecture()
@@ -14,7 +23,10 @@ public class MTLArchitecture : IDisposable
 
     public nint NativePtr { get; }
 
-    public NSString Name => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArchitectureSelector.Name));
+    public NSString Name
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArchitectureSelector.Name));
+    }
 
     public static implicit operator nint(MTLArchitecture value)
     {
@@ -40,7 +52,6 @@ public class MTLArchitecture : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLArchitectureSelector

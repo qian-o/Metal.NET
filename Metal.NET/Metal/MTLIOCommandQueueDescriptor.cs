@@ -6,7 +6,10 @@ public class MTLIOCommandQueueDescriptor : IDisposable
 
     public MTLIOCommandQueueDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLIOCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
@@ -34,8 +37,8 @@ public class MTLIOCommandQueueDescriptor : IDisposable
 
     public MTLIOPriority Priority
     {
-        get => (MTLIOPriority)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLIOCommandQueueDescriptorSelector.Priority));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetPriority, (uint)value);
+        get => (MTLIOPriority)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLIOCommandQueueDescriptorSelector.Priority));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetPriority, (ulong)value);
     }
 
     public MTLIOScratchBufferAllocator ScratchBufferAllocator
@@ -46,8 +49,8 @@ public class MTLIOCommandQueueDescriptor : IDisposable
 
     public MTLIOCommandQueueType Type
     {
-        get => (MTLIOCommandQueueType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLIOCommandQueueDescriptorSelector.Type));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetType, (uint)value);
+        get => (MTLIOCommandQueueType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLIOCommandQueueDescriptorSelector.Type));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetType, (ulong)value);
     }
 
     public static implicit operator nint(MTLIOCommandQueueDescriptor value)
@@ -74,7 +77,6 @@ public class MTLIOCommandQueueDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLIOCommandQueueDescriptorSelector

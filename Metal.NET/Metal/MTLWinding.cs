@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public enum MTLWinding : uint
+public enum MTLWinding : ulong
 {
-    Clockwise = 0,
+    WindingClockwise = 0,
 
-    CounterClockwise = 1
+    WindingCounterClockwise = 1
 }

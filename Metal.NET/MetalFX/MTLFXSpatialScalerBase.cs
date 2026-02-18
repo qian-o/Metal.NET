@@ -4,7 +4,10 @@ public class MTLFXSpatialScalerBase : IDisposable
 {
     public MTLFXSpatialScalerBase(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTLFXSpatialScalerBase()
@@ -14,9 +17,15 @@ public class MTLFXSpatialScalerBase : IDisposable
 
     public nint NativePtr { get; }
 
-    public nuint ColorTextureUsage => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.ColorTextureUsage);
+    public MTLTextureUsage ColorTextureUsage
+    {
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerBaseSelector.ColorTextureUsage));
+    }
 
-    public nuint OutputTextureUsage => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.OutputTextureUsage);
+    public MTLTextureUsage OutputTextureUsage
+    {
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerBaseSelector.OutputTextureUsage));
+    }
 
     public nuint InputContentWidth
     {
@@ -42,19 +51,40 @@ public class MTLFXSpatialScalerBase : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerBaseSelector.SetOutputTexture, value.NativePtr);
     }
 
-    public MTLPixelFormat ColorTextureFormat => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXSpatialScalerBaseSelector.ColorTextureFormat));
+    public MTLPixelFormat ColorTextureFormat
+    {
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerBaseSelector.ColorTextureFormat));
+    }
 
-    public MTLPixelFormat OutputTextureFormat => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXSpatialScalerBaseSelector.OutputTextureFormat));
+    public MTLPixelFormat OutputTextureFormat
+    {
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerBaseSelector.OutputTextureFormat));
+    }
 
-    public nuint InputWidth => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.InputWidth);
+    public nuint InputWidth
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.InputWidth);
+    }
 
-    public nuint InputHeight => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.InputHeight);
+    public nuint InputHeight
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.InputHeight);
+    }
 
-    public nuint OutputWidth => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.OutputWidth);
+    public nuint OutputWidth
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.OutputWidth);
+    }
 
-    public nuint OutputHeight => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.OutputHeight);
+    public nuint OutputHeight
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseSelector.OutputHeight);
+    }
 
-    public MTLFXSpatialScalerColorProcessingMode ColorProcessingMode => (MTLFXSpatialScalerColorProcessingMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXSpatialScalerBaseSelector.ColorProcessingMode));
+    public MTLFXSpatialScalerColorProcessingMode ColorProcessingMode
+    {
+        get => (MTLFXSpatialScalerColorProcessingMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerBaseSelector.ColorProcessingMode));
+    }
 
     public MTLFence Fence
     {
@@ -86,7 +116,6 @@ public class MTLFXSpatialScalerBase : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLFXSpatialScalerBaseSelector

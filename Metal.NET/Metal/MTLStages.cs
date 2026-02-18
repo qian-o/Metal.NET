@@ -1,7 +1,7 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTLStages : uint
+public enum MTLStages : ulong
 {
     StageVertex = 1,
 
@@ -23,5 +23,5 @@ public enum MTLStages : uint
 
     StageMachineLearning = 1073741824,
 
-    StageAll = 4294967295
+    StageAll = 9223372036854775807
 }

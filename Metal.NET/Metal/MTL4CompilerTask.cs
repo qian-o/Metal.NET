@@ -4,7 +4,10 @@ public class MTL4CompilerTask : IDisposable
 {
     public MTL4CompilerTask(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTL4CompilerTask()
@@ -14,9 +17,15 @@ public class MTL4CompilerTask : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTL4Compiler Compiler => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskSelector.Compiler));
+    public MTL4Compiler Compiler
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskSelector.Compiler));
+    }
 
-    public MTL4CompilerTaskStatus Status => (MTL4CompilerTaskStatus)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4CompilerTaskSelector.Status));
+    public MTL4CompilerTaskStatus Status
+    {
+        get => (MTL4CompilerTaskStatus)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4CompilerTaskSelector.Status));
+    }
 
     public void WaitUntilCompleted()
     {
@@ -47,7 +56,6 @@ public class MTL4CompilerTask : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4CompilerTaskSelector

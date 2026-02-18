@@ -1,7 +1,7 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTLResourceOptions : uint
+public enum MTLResourceOptions : ulong
 {
     ResourceCPUCacheModeDefaultCache = 0,
 

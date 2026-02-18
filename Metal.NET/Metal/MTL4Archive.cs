@@ -4,7 +4,10 @@ public class MTL4Archive : IDisposable
 {
     public MTL4Archive(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     ~MTL4Archive()
@@ -89,7 +92,6 @@ public class MTL4Archive : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTL4ArchiveSelector

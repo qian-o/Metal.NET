@@ -1,22 +1,22 @@
 ﻿namespace Metal.NET;
 
-public enum MTLStepFunction : uint
+public enum MTLStepFunction : ulong
 {
-    Constant = 0,
+    StepFunctionConstant = 0,
 
-    PerVertex = 1,
+    StepFunctionPerVertex = 1,
 
-    PerInstance = 2,
+    StepFunctionPerInstance = 2,
 
-    PerPatch = 3,
+    StepFunctionPerPatch = 3,
 
-    PerPatchControlPoint = 4,
+    StepFunctionPerPatchControlPoint = 4,
 
-    ThreadPositionInGridX = 5,
+    StepFunctionThreadPositionInGridX = 5,
 
-    ThreadPositionInGridY = 6,
+    StepFunctionThreadPositionInGridY = 6,
 
-    ThreadPositionInGridXIndexed = 7,
+    StepFunctionThreadPositionInGridXIndexed = 7,
 
-    ThreadPositionInGridYIndexed = 8
+    StepFunctionThreadPositionInGridYIndexed = 8
 }

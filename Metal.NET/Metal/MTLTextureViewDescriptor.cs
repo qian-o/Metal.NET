@@ -6,7 +6,10 @@ public class MTLTextureViewDescriptor : IDisposable
 
     public MTLTextureViewDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
     }
 
     public MTLTextureViewDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
@@ -20,10 +23,22 @@ public class MTLTextureViewDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public NSRange LevelRange
+    {
+        get => ObjectiveCRuntime.MsgSendNSRange(NativePtr, MTLTextureViewDescriptorSelector.LevelRange);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureViewDescriptorSelector.SetLevelRange, value);
+    }
+
     public MTLPixelFormat PixelFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTextureViewDescriptorSelector.PixelFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureViewDescriptorSelector.SetPixelFormat, (uint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureViewDescriptorSelector.PixelFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureViewDescriptorSelector.SetPixelFormat, (ulong)value);
+    }
+
+    public NSRange SliceRange
+    {
+        get => ObjectiveCRuntime.MsgSendNSRange(NativePtr, MTLTextureViewDescriptorSelector.SliceRange);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureViewDescriptorSelector.SetSliceRange, value);
     }
 
     public MTLTextureSwizzleChannels Swizzle
@@ -34,8 +49,8 @@ public class MTLTextureViewDescriptor : IDisposable
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTextureViewDescriptorSelector.TextureType));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureViewDescriptorSelector.SetTextureType, (uint)value);
+        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureViewDescriptorSelector.TextureType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureViewDescriptorSelector.SetTextureType, (ulong)value);
     }
 
     public static implicit operator nint(MTLTextureViewDescriptor value)
@@ -62,7 +77,6 @@ public class MTLTextureViewDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLTextureViewDescriptorSelector

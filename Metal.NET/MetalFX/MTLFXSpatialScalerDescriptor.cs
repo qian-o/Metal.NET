@@ -2,9 +2,18 @@
 
 public class MTLFXSpatialScalerDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFXSpatialScalerDescriptor");
+
     public MTLFXSpatialScalerDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLFXSpatialScalerDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLFXSpatialScalerDescriptor()
@@ -14,18 +23,16 @@ public class MTLFXSpatialScalerDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFXSpatialScalerDescriptor");
-
     public MTLPixelFormat ColorTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXSpatialScalerDescriptorSelector.ColorTextureFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetColorTextureFormat, (uint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerDescriptorSelector.ColorTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetColorTextureFormat, (ulong)value);
     }
 
     public MTLPixelFormat OutputTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXSpatialScalerDescriptorSelector.OutputTextureFormat));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetOutputTextureFormat, (uint)value);
+        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerDescriptorSelector.OutputTextureFormat));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetOutputTextureFormat, (ulong)value);
     }
 
     public nuint InputWidth
@@ -54,8 +61,8 @@ public class MTLFXSpatialScalerDescriptor : IDisposable
 
     public MTLFXSpatialScalerColorProcessingMode ColorProcessingMode
     {
-        get => (MTLFXSpatialScalerColorProcessingMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFXSpatialScalerDescriptorSelector.ColorProcessingMode));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetColorProcessingMode, (uint)value);
+        get => (MTLFXSpatialScalerColorProcessingMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerDescriptorSelector.ColorProcessingMode));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetColorProcessingMode, (ulong)value);
     }
 
     public MTLFXSpatialScaler NewSpatialScaler(MTLDevice pDevice)
@@ -82,21 +89,6 @@ public class MTLFXSpatialScalerDescriptor : IDisposable
         return new(value);
     }
 
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
-
     public static Bool8 SupportsDevice(MTLDevice pDevice)
     {
         Bool8 result = ObjectiveCRuntime.MsgSendBool(Class, MTLFXSpatialScalerDescriptorSelector.SupportsDevice, pDevice.NativePtr);
@@ -111,6 +103,20 @@ public class MTLFXSpatialScalerDescriptor : IDisposable
         return result;
     }
 
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
+
+    private void Release()
+    {
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
+    }
 }
 
 file class MTLFXSpatialScalerDescriptorSelector

@@ -2,9 +2,18 @@
 
 public class MTLIntersectionFunctionTableDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIntersectionFunctionTableDescriptor");
+
     public MTLIntersectionFunctionTableDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLIntersectionFunctionTableDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLIntersectionFunctionTableDescriptor()
@@ -13,8 +22,6 @@ public class MTLIntersectionFunctionTableDescriptor : IDisposable
     }
 
     public nint NativePtr { get; }
-
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIntersectionFunctionTableDescriptor");
 
     public nuint FunctionCount
     {
@@ -32,6 +39,13 @@ public class MTLIntersectionFunctionTableDescriptor : IDisposable
         return new(value);
     }
 
+    public static MTLIntersectionFunctionTableDescriptor IntersectionFunctionTableDescriptor()
+    {
+        MTLIntersectionFunctionTableDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLIntersectionFunctionTableDescriptorSelector.IntersectionFunctionTableDescriptor));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -46,14 +60,6 @@ public class MTLIntersectionFunctionTableDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
-    public static MTLIntersectionFunctionTableDescriptor IntersectionFunctionTableDescriptor()
-    {
-        MTLIntersectionFunctionTableDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLIntersectionFunctionTableDescriptorSelector.IntersectionFunctionTableDescriptor));
-
-        return result;
-    }
-
 }
 
 file class MTLIntersectionFunctionTableDescriptorSelector

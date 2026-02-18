@@ -2,9 +2,18 @@
 
 public class MTLCounterSampleBufferDescriptor : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCounterSampleBufferDescriptor");
+
     public MTLCounterSampleBufferDescriptor(nint nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        if (nativePtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+        }
+    }
+
+    public MTLCounterSampleBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
     }
 
     ~MTLCounterSampleBufferDescriptor()
@@ -34,8 +43,8 @@ public class MTLCounterSampleBufferDescriptor : IDisposable
 
     public MTLStorageMode StorageMode
     {
-        get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLCounterSampleBufferDescriptorSelector.StorageMode));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetStorageMode, (uint)value);
+        get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCounterSampleBufferDescriptorSelector.StorageMode));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetStorageMode, (ulong)value);
     }
 
     public static implicit operator nint(MTLCounterSampleBufferDescriptor value)
@@ -62,7 +71,6 @@ public class MTLCounterSampleBufferDescriptor : IDisposable
             ObjectiveCRuntime.Release(NativePtr);
         }
     }
-
 }
 
 file class MTLCounterSampleBufferDescriptorSelector

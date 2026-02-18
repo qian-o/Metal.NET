@@ -1,9 +1,9 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTL4PipelineDataSetSerializerConfiguration : uint
+public enum MTL4PipelineDataSetSerializerConfiguration : ulong
 {
-    CaptureDescriptors = 1,
+    PipelineDataSetSerializerConfigurationCaptureDescriptors = 1,
 
-    CaptureBinaries = 2
+    PipelineDataSetSerializerConfigurationCaptureBinaries = 2
 }
