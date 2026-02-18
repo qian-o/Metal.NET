@@ -67,27 +67,6 @@ public class MTLComputePipelineState : IDisposable
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineStateSelector.ThreadExecutionWidth);
     }
 
-    public MTLFunctionHandle FunctionHandle(NSString name)
-    {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.FunctionHandleWithFunction, name.NativePtr));
-
-        return result;
-    }
-
-    public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function)
-    {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.FunctionHandleWithFunction, function.NativePtr));
-
-        return result;
-    }
-
-    public MTLFunctionHandle FunctionHandle(MTLFunction function)
-    {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.FunctionHandleWithFunction, function.NativePtr));
-
-        return result;
-    }
-
     public nuint ImageblockMemoryLength(MTLSize imageblockDimensions)
     {
         nuint result = ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineStateSelector.ImageblockMemoryLengthForDimensions, imageblockDimensions);
@@ -109,20 +88,6 @@ public class MTLComputePipelineState : IDisposable
         MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.NewComputePipelineStateWithAdditionalBinaryFunctionsError, functions.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
-
-        return result;
-    }
-
-    public MTLIntersectionFunctionTable NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor)
-    {
-        MTLIntersectionFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.NewIntersectionFunctionTableWithDescriptor, descriptor.NativePtr));
-
-        return result;
-    }
-
-    public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor)
-    {
-        MTLVisibleFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.NewVisibleFunctionTableWithDescriptor, descriptor.NativePtr));
 
         return result;
     }
@@ -175,15 +140,9 @@ file class MTLComputePipelineStateSelector
 
     public static readonly Selector ThreadExecutionWidth = Selector.Register("threadExecutionWidth");
 
-    public static readonly Selector FunctionHandleWithFunction = Selector.Register("functionHandleWithFunction:");
-
     public static readonly Selector ImageblockMemoryLengthForDimensions = Selector.Register("imageblockMemoryLengthForDimensions:");
 
     public static readonly Selector NewComputePipelineStateWithBinaryFunctionsError = Selector.Register("newComputePipelineStateWithBinaryFunctions:error:");
 
     public static readonly Selector NewComputePipelineStateWithAdditionalBinaryFunctionsError = Selector.Register("newComputePipelineStateWithAdditionalBinaryFunctions:error:");
-
-    public static readonly Selector NewIntersectionFunctionTableWithDescriptor = Selector.Register("newIntersectionFunctionTableWithDescriptor:");
-
-    public static readonly Selector NewVisibleFunctionTableWithDescriptor = Selector.Register("newVisibleFunctionTableWithDescriptor:");
 }

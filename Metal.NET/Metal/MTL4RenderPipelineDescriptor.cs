@@ -46,12 +46,6 @@ public class MTL4RenderPipelineDescriptor : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.ColorAttachments));
     }
 
-    public MTL4FunctionDescriptor FragmentFunctionDescriptor
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.FragmentFunctionDescriptor));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetFragmentFunctionDescriptor, value.NativePtr);
-    }
-
     public MTL4StaticLinkingDescriptor FragmentStaticLinkingDescriptor
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.FragmentStaticLinkingDescriptor));
@@ -111,12 +105,6 @@ public class MTL4RenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetVertexDescriptor, value.NativePtr);
     }
 
-    public MTL4FunctionDescriptor VertexFunctionDescriptor
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.VertexFunctionDescriptor));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetVertexFunctionDescriptor, value.NativePtr);
-    }
-
     public MTL4StaticLinkingDescriptor VertexStaticLinkingDescriptor
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorSelector.VertexStaticLinkingDescriptor));
@@ -170,10 +158,6 @@ file class MTL4RenderPipelineDescriptorSelector
 
     public static readonly Selector ColorAttachments = Selector.Register("colorAttachments");
 
-    public static readonly Selector FragmentFunctionDescriptor = Selector.Register("fragmentFunctionDescriptor");
-
-    public static readonly Selector SetFragmentFunctionDescriptor = Selector.Register("setFragmentFunctionDescriptor:");
-
     public static readonly Selector FragmentStaticLinkingDescriptor = Selector.Register("fragmentStaticLinkingDescriptor");
 
     public static readonly Selector SetFragmentStaticLinkingDescriptor = Selector.Register("setFragmentStaticLinkingDescriptor:");
@@ -209,10 +193,6 @@ file class MTL4RenderPipelineDescriptorSelector
     public static readonly Selector VertexDescriptor = Selector.Register("vertexDescriptor");
 
     public static readonly Selector SetVertexDescriptor = Selector.Register("setVertexDescriptor:");
-
-    public static readonly Selector VertexFunctionDescriptor = Selector.Register("vertexFunctionDescriptor");
-
-    public static readonly Selector SetVertexFunctionDescriptor = Selector.Register("setVertexFunctionDescriptor:");
 
     public static readonly Selector VertexStaticLinkingDescriptor = Selector.Register("vertexStaticLinkingDescriptor");
 

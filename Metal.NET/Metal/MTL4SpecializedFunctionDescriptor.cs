@@ -23,18 +23,6 @@ public class MTL4SpecializedFunctionDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLFunctionConstantValues ConstantValues
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4SpecializedFunctionDescriptorSelector.ConstantValues));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorSelector.SetConstantValues, value.NativePtr);
-    }
-
-    public MTL4FunctionDescriptor FunctionDescriptor
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4SpecializedFunctionDescriptorSelector.FunctionDescriptor));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorSelector.SetFunctionDescriptor, value.NativePtr);
-    }
-
     public NSString SpecializedName
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4SpecializedFunctionDescriptorSelector.SpecializedName));
@@ -69,14 +57,6 @@ public class MTL4SpecializedFunctionDescriptor : IDisposable
 
 file class MTL4SpecializedFunctionDescriptorSelector
 {
-    public static readonly Selector ConstantValues = Selector.Register("constantValues");
-
-    public static readonly Selector SetConstantValues = Selector.Register("setConstantValues:");
-
-    public static readonly Selector FunctionDescriptor = Selector.Register("functionDescriptor");
-
-    public static readonly Selector SetFunctionDescriptor = Selector.Register("setFunctionDescriptor:");
-
     public static readonly Selector SpecializedName = Selector.Register("specializedName");
 
     public static readonly Selector SetSpecializedName = Selector.Register("setSpecializedName:");

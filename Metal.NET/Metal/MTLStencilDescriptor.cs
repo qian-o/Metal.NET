@@ -41,12 +41,6 @@ public class MTLStencilDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetReadMask, value);
     }
 
-    public MTLCompareFunction StencilCompareFunction
-    {
-        get => (MTLCompareFunction)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorSelector.StencilCompareFunction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetStencilCompareFunction, (ulong)value);
-    }
-
     public MTLStencilOperation StencilFailureOperation
     {
         get => (MTLStencilOperation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorSelector.StencilFailureOperation));
@@ -98,10 +92,6 @@ file class MTLStencilDescriptorSelector
     public static readonly Selector ReadMask = Selector.Register("readMask");
 
     public static readonly Selector SetReadMask = Selector.Register("setReadMask:");
-
-    public static readonly Selector StencilCompareFunction = Selector.Register("stencilCompareFunction");
-
-    public static readonly Selector SetStencilCompareFunction = Selector.Register("setStencilCompareFunction:");
 
     public static readonly Selector StencilFailureOperation = Selector.Register("stencilFailureOperation");
 

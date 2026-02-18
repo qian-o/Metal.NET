@@ -23,12 +23,6 @@ public class MTL4ComputePipelineDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTL4FunctionDescriptor ComputeFunctionDescriptor
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ComputePipelineDescriptorSelector.ComputeFunctionDescriptor));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetComputeFunctionDescriptor, value.NativePtr);
-    }
-
     public nuint MaxTotalThreadsPerThreadgroup
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4ComputePipelineDescriptorSelector.MaxTotalThreadsPerThreadgroup);
@@ -98,10 +92,6 @@ public class MTL4ComputePipelineDescriptor : IDisposable
 
 file class MTL4ComputePipelineDescriptorSelector
 {
-    public static readonly Selector ComputeFunctionDescriptor = Selector.Register("computeFunctionDescriptor");
-
-    public static readonly Selector SetComputeFunctionDescriptor = Selector.Register("setComputeFunctionDescriptor:");
-
     public static readonly Selector MaxTotalThreadsPerThreadgroup = Selector.Register("maxTotalThreadsPerThreadgroup");
 
     public static readonly Selector SetMaxTotalThreadsPerThreadgroup = Selector.Register("setMaxTotalThreadsPerThreadgroup:");

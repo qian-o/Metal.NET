@@ -57,13 +57,6 @@ public class MTLLinkedFunctions : IDisposable
         return new(value);
     }
 
-    public static MTLLinkedFunctions LinkedFunctions()
-    {
-        MTLLinkedFunctions result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLLinkedFunctionsSelector.LinkedFunctions));
-
-        return result;
-    }
-
     public void Dispose()
     {
         Release();
@@ -97,6 +90,4 @@ file class MTLLinkedFunctionsSelector
     public static readonly Selector PrivateFunctions = Selector.Register("privateFunctions");
 
     public static readonly Selector SetPrivateFunctions = Selector.Register("setPrivateFunctions:");
-
-    public static readonly Selector LinkedFunctions = Selector.Register("linkedFunctions");
 }

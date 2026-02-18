@@ -92,9 +92,9 @@ public class MTL4ComputeCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.DispatchThreadgroupsWithIndirectBufferThreadsPerThreadgroup, threadgroupsPerGrid, threadsPerThreadgroup);
     }
 
-    public void DispatchThreadgroups(MTLGPUAddress indirectBuffer, MTLSize threadsPerThreadgroup)
+    public void DispatchThreadgroups(nuint indirectBuffer, MTLSize threadsPerThreadgroup)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.DispatchThreadgroupsWithIndirectBufferThreadsPerThreadgroup, indirectBuffer.NativePtr, threadsPerThreadgroup);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.DispatchThreadgroupsWithIndirectBufferThreadsPerThreadgroup, indirectBuffer, threadsPerThreadgroup);
     }
 
     public void DispatchThreads(MTLSize threadsPerGrid, MTLSize threadsPerThreadgroup)
@@ -102,9 +102,9 @@ public class MTL4ComputeCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.DispatchThreadsWithIndirectBuffer, threadsPerGrid, threadsPerThreadgroup);
     }
 
-    public void DispatchThreads(MTLGPUAddress indirectBuffer)
+    public void DispatchThreads(nuint indirectBuffer)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.DispatchThreadsWithIndirectBuffer, indirectBuffer.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.DispatchThreadsWithIndirectBuffer, indirectBuffer);
     }
 
     public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, NSRange executionRange)
@@ -112,9 +112,9 @@ public class MTL4ComputeCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.ExecuteCommandsInBufferIndirectBuffer, indirectCommandBuffer.NativePtr, executionRange);
     }
 
-    public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandbuffer, MTLGPUAddress indirectRangeBuffer)
+    public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandbuffer, nuint indirectRangeBuffer)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.ExecuteCommandsInBufferIndirectBuffer, indirectCommandbuffer.NativePtr, indirectRangeBuffer.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderSelector.ExecuteCommandsInBufferIndirectBuffer, indirectCommandbuffer.NativePtr, indirectRangeBuffer);
     }
 
     public void FillBuffer(MTLBuffer buffer, NSRange range, byte value)

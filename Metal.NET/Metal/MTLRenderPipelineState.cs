@@ -102,27 +102,6 @@ public class MTLRenderPipelineState : IDisposable
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineStateSelector.ThreadgroupSizeMatchesTileSize);
     }
 
-    public MTLFunctionHandle FunctionHandle(NSString name, MTLRenderStages stage)
-    {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleWithFunctionStage, name.NativePtr, (ulong)stage));
-
-        return result;
-    }
-
-    public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function, MTLRenderStages stage)
-    {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleWithFunctionStage, function.NativePtr, (ulong)stage));
-
-        return result;
-    }
-
-    public MTLFunctionHandle FunctionHandle(MTLFunction function, MTLRenderStages stage)
-    {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleWithFunctionStage, function.NativePtr, (ulong)stage));
-
-        return result;
-    }
-
     public nuint ImageblockMemoryLength(MTLSize imageblockDimensions)
     {
         nuint result = ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.ImageblockMemoryLengthForDimensions, imageblockDimensions);
@@ -130,41 +109,9 @@ public class MTLRenderPipelineState : IDisposable
         return result;
     }
 
-    public MTLIntersectionFunctionTable NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor, MTLRenderStages stage)
-    {
-        MTLIntersectionFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewIntersectionFunctionTableWithDescriptorStage, descriptor.NativePtr, (ulong)stage));
-
-        return result;
-    }
-
     public MTL4PipelineDescriptor NewRenderPipelineDescriptor()
     {
         MTL4PipelineDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineDescriptorForSpecialization));
-
-        return result;
-    }
-
-    public MTLRenderPipelineState NewRenderPipelineState(MTL4RenderPipelineBinaryFunctionsDescriptor binaryFunctionsDescriptor, out NSError? error)
-    {
-        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineStateWithAdditionalBinaryFunctionsError, binaryFunctionsDescriptor.NativePtr, out nint errorPtr));
-
-        error = errorPtr is not 0 ? new(errorPtr) : null;
-
-        return result;
-    }
-
-    public MTLRenderPipelineState NewRenderPipelineState(MTLRenderPipelineFunctionsDescriptor additionalBinaryFunctions, out NSError? error)
-    {
-        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineStateWithAdditionalBinaryFunctionsError, additionalBinaryFunctions.NativePtr, out nint errorPtr));
-
-        error = errorPtr is not 0 ? new(errorPtr) : null;
-
-        return result;
-    }
-
-    public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor, MTLRenderStages stage)
-    {
-        MTLVisibleFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewVisibleFunctionTableWithDescriptorStage, descriptor.NativePtr, (ulong)stage));
 
         return result;
     }
@@ -231,15 +178,7 @@ file class MTLRenderPipelineStateSelector
 
     public static readonly Selector ThreadgroupSizeMatchesTileSize = Selector.Register("threadgroupSizeMatchesTileSize");
 
-    public static readonly Selector FunctionHandleWithFunctionStage = Selector.Register("functionHandleWithFunction:stage:");
-
     public static readonly Selector ImageblockMemoryLengthForDimensions = Selector.Register("imageblockMemoryLengthForDimensions:");
 
-    public static readonly Selector NewIntersectionFunctionTableWithDescriptorStage = Selector.Register("newIntersectionFunctionTableWithDescriptor:stage:");
-
     public static readonly Selector NewRenderPipelineDescriptorForSpecialization = Selector.Register("newRenderPipelineDescriptorForSpecialization");
-
-    public static readonly Selector NewRenderPipelineStateWithAdditionalBinaryFunctionsError = Selector.Register("newRenderPipelineStateWithAdditionalBinaryFunctions:error:");
-
-    public static readonly Selector NewVisibleFunctionTableWithDescriptorStage = Selector.Register("newVisibleFunctionTableWithDescriptor:stage:");
 }

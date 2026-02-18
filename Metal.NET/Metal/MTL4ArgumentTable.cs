@@ -27,14 +27,14 @@ public class MTL4ArgumentTable : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArgumentTableSelector.Label));
     }
 
-    public void SetAddress(MTLGPUAddress gpuAddress, nuint bindingIndex)
+    public void SetAddress(nuint gpuAddress, nuint bindingIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetAddressAttributeStrideAtIndex, gpuAddress.NativePtr, bindingIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetAddressAttributeStrideAtIndex, gpuAddress, bindingIndex);
     }
 
-    public void SetAddress(MTLGPUAddress gpuAddress, nuint stride, nuint bindingIndex)
+    public void SetAddress(nuint gpuAddress, nuint stride, nuint bindingIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetAddressAttributeStrideAtIndex, gpuAddress.NativePtr, stride, bindingIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetAddressAttributeStrideAtIndex, gpuAddress, stride, bindingIndex);
     }
 
     public void SetResource(MTLResourceID resourceID, nuint bindingIndex)

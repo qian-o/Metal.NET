@@ -87,11 +87,6 @@ public class MTLArgumentEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetIndirectCommandBufferAtIndex, indirectCommandBuffer.NativePtr, index);
     }
 
-    public void SetIntersectionFunctionTable(MTLIntersectionFunctionTable intersectionFunctionTable, nuint index)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetIntersectionFunctionTableAtIndex, intersectionFunctionTable.NativePtr, index);
-    }
-
     public void SetRenderPipelineState(MTLRenderPipelineState pipeline, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetRenderPipelineStateAtIndex, pipeline.NativePtr, index);
@@ -105,11 +100,6 @@ public class MTLArgumentEncoder : IDisposable
     public void SetTexture(MTLTexture texture, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetTextureAtIndex, texture.NativePtr, index);
-    }
-
-    public void SetVisibleFunctionTable(MTLVisibleFunctionTable visibleFunctionTable, nuint index)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetVisibleFunctionTableAtIndex, visibleFunctionTable.NativePtr, index);
     }
 
     public static implicit operator nint(MTLArgumentEncoder value)
@@ -166,13 +156,9 @@ file class MTLArgumentEncoderSelector
 
     public static readonly Selector SetIndirectCommandBufferAtIndex = Selector.Register("setIndirectCommandBuffer:atIndex:");
 
-    public static readonly Selector SetIntersectionFunctionTableAtIndex = Selector.Register("setIntersectionFunctionTable:atIndex:");
-
     public static readonly Selector SetRenderPipelineStateAtIndex = Selector.Register("setRenderPipelineState:atIndex:");
 
     public static readonly Selector SetSamplerStateAtIndex = Selector.Register("setSamplerState:atIndex:");
 
     public static readonly Selector SetTextureAtIndex = Selector.Register("setTexture:atIndex:");
-
-    public static readonly Selector SetVisibleFunctionTableAtIndex = Selector.Register("setVisibleFunctionTable:atIndex:");
 }

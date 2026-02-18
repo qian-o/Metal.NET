@@ -50,7 +50,7 @@ public static partial class HeaderParser
     [GeneratedRegex(@"(0[xX][0-9a-fA-F]+|[0-9]+)(ULL|ull|UL|ul|LL|ll|U|u|L|l)\b")]
     private static partial Regex IntegerSuffixPattern();
 
-    private static readonly HashSet<string> BindableNamespaces = ["MTL", "MTL4", "MTLFX", "CA"];
+    private static readonly HashSet<string> BindableNamespaces = ["MTL", "MTL4", "MTLFX", "MTL4FX", "CA"];
 
     private static readonly HashSet<string> NsNamespace = ["NS"];
 
@@ -1423,7 +1423,8 @@ public static partial class HeaderParser
         }
 
         // Check for function pointers, blocks, std::function, handler types
-        if (t.Contains("function") || t.Contains("block") || t.Contains("Block")
+        if (t.Contains("function") || t.Contains("Function")
+            || t.Contains("block") || t.Contains("Block")
             || t.Contains("(*)") || t.Contains("(^"))
         {
             return null;
@@ -1460,6 +1461,14 @@ public static partial class HeaderParser
 
             // char* / const char*
             if (inner == "char" || inner == "unsigned char")
+            {
+                return "nint";
+            }
+
+            // Primitive pointer types (e.g., float*, int*)
+            if (inner is "float" or "double" or "int" or "uint" or "long"
+                or "short" or "uint8_t" or "uint16_t" or "uint32_t" or "uint64_t"
+                or "int8_t" or "int16_t" or "int32_t" or "int64_t" or "size_t")
             {
                 return "nint";
             }
@@ -1587,6 +1596,12 @@ public static partial class HeaderParser
             return MapGenericClassName(mtl4fxType, "MTL4FX");
         }
 
+        // Handle simd:: qualified types (e.g., simd::float4x4)
+        if (t.StartsWith("simd::"))
+        {
+            return "nint";
+        }
+
         // Typedefs not namespace-qualified
         return t switch
         {
@@ -1658,6 +1673,12 @@ public static partial class HeaderParser
                 or "Notification" or "ProcessInfo" or "Set" or "float4x4" => "nint",
             "Referencing" or "Copying" or "SecureCoding" or "_Base" => null,
             "Architecture" or "AccelerationStructureSizes" => "nint",
+            // C++ typedef aliases that resolve to existing types or primitives
+            "Coordinate2D" or "SamplePosition" => "MTLSamplePosition",
+            "AutoreleasedArgument" => "MTLArgument",
+            "AutoreleasedComputePipelineReflection" => "MTLComputePipelineReflection",
+            "AutoreleasedRenderPipelineReflection" => "MTLRenderPipelineReflection",
+            "Timestamp" or "GPUAddress" => "nuint",
             _ => "!UNMAPPED!",
         };
 

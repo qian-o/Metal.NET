@@ -29,12 +29,6 @@ public class MTLSamplerDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetBorderColor, (ulong)value);
     }
 
-    public MTLCompareFunction CompareFunction
-    {
-        get => (MTLCompareFunction)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLSamplerDescriptorSelector.CompareFunction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetCompareFunction, (ulong)value);
-    }
-
     public NSString Label
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSamplerDescriptorSelector.Label));
@@ -156,10 +150,6 @@ file class MTLSamplerDescriptorSelector
     public static readonly Selector BorderColor = Selector.Register("borderColor");
 
     public static readonly Selector SetBorderColor = Selector.Register("setBorderColor:");
-
-    public static readonly Selector CompareFunction = Selector.Register("compareFunction");
-
-    public static readonly Selector SetCompareFunction = Selector.Register("setCompareFunction:");
 
     public static readonly Selector Label = Selector.Register("label");
 

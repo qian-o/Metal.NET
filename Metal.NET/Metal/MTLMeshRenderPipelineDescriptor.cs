@@ -57,18 +57,6 @@ public class MTLMeshRenderPipelineDescriptor : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.FragmentBuffers));
     }
 
-    public MTLFunction FragmentFunction
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.FragmentFunction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetFragmentFunction, value.NativePtr);
-    }
-
-    public MTLLinkedFunctions FragmentLinkedFunctions
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.FragmentLinkedFunctions));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetFragmentLinkedFunctions, value.NativePtr);
-    }
-
     public Bool8 IsAlphaToCoverageEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorSelector.IsAlphaToCoverageEnabled);
@@ -119,18 +107,6 @@ public class MTLMeshRenderPipelineDescriptor : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.MeshBuffers));
     }
 
-    public MTLFunction MeshFunction
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.MeshFunction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetMeshFunction, value.NativePtr);
-    }
-
-    public MTLLinkedFunctions MeshLinkedFunctions
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.MeshLinkedFunctions));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetMeshLinkedFunctions, value.NativePtr);
-    }
-
     public Bool8 MeshThreadgroupSizeIsMultipleOfThreadExecutionWidth
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorSelector.MeshThreadgroupSizeIsMultipleOfThreadExecutionWidth);
@@ -140,18 +116,6 @@ public class MTLMeshRenderPipelineDescriptor : IDisposable
     public MTLPipelineBufferDescriptorArray ObjectBuffers
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.ObjectBuffers));
-    }
-
-    public MTLFunction ObjectFunction
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.ObjectFunction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetObjectFunction, value.NativePtr);
-    }
-
-    public MTLLinkedFunctions ObjectLinkedFunctions
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorSelector.ObjectLinkedFunctions));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetObjectLinkedFunctions, value.NativePtr);
     }
 
     public Bool8 ObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth
@@ -261,14 +225,6 @@ file class MTLMeshRenderPipelineDescriptorSelector
 
     public static readonly Selector FragmentBuffers = Selector.Register("fragmentBuffers");
 
-    public static readonly Selector FragmentFunction = Selector.Register("fragmentFunction");
-
-    public static readonly Selector SetFragmentFunction = Selector.Register("setFragmentFunction:");
-
-    public static readonly Selector FragmentLinkedFunctions = Selector.Register("fragmentLinkedFunctions");
-
-    public static readonly Selector SetFragmentLinkedFunctions = Selector.Register("setFragmentLinkedFunctions:");
-
     public static readonly Selector IsRasterizationEnabled = Selector.Register("isRasterizationEnabled");
 
     public static readonly Selector Label = Selector.Register("label");
@@ -293,27 +249,11 @@ file class MTLMeshRenderPipelineDescriptorSelector
 
     public static readonly Selector MeshBuffers = Selector.Register("meshBuffers");
 
-    public static readonly Selector MeshFunction = Selector.Register("meshFunction");
-
-    public static readonly Selector SetMeshFunction = Selector.Register("setMeshFunction:");
-
-    public static readonly Selector MeshLinkedFunctions = Selector.Register("meshLinkedFunctions");
-
-    public static readonly Selector SetMeshLinkedFunctions = Selector.Register("setMeshLinkedFunctions:");
-
     public static readonly Selector MeshThreadgroupSizeIsMultipleOfThreadExecutionWidth = Selector.Register("meshThreadgroupSizeIsMultipleOfThreadExecutionWidth");
 
     public static readonly Selector SetMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth = Selector.Register("setMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth:");
 
     public static readonly Selector ObjectBuffers = Selector.Register("objectBuffers");
-
-    public static readonly Selector ObjectFunction = Selector.Register("objectFunction");
-
-    public static readonly Selector SetObjectFunction = Selector.Register("setObjectFunction:");
-
-    public static readonly Selector ObjectLinkedFunctions = Selector.Register("objectLinkedFunctions");
-
-    public static readonly Selector SetObjectLinkedFunctions = Selector.Register("setObjectLinkedFunctions:");
 
     public static readonly Selector ObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth = Selector.Register("objectThreadgroupSizeIsMultipleOfThreadExecutionWidth");
 

@@ -23,15 +23,6 @@ public class MTL4Archive : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArchiveSelector.SetLabel, value.NativePtr);
     }
 
-    public MTL4BinaryFunction NewBinaryFunction(MTL4BinaryFunctionDescriptor descriptor, out NSError? error)
-    {
-        MTL4BinaryFunction result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveSelector.NewBinaryFunctionWithDescriptorError, descriptor.NativePtr, out nint errorPtr));
-
-        error = errorPtr is not 0 ? new(errorPtr) : null;
-
-        return result;
-    }
-
     public MTLComputePipelineState NewComputePipelineState(MTL4ComputePipelineDescriptor descriptor, out NSError? error)
     {
         MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveSelector.NewComputePipelineStateWithDescriptorDynamicLinkingDescriptorError, descriptor.NativePtr, out nint errorPtr));
@@ -99,8 +90,6 @@ file class MTL4ArchiveSelector
     public static readonly Selector Label = Selector.Register("label");
 
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
-
-    public static readonly Selector NewBinaryFunctionWithDescriptorError = Selector.Register("newBinaryFunctionWithDescriptor:error:");
 
     public static readonly Selector NewComputePipelineStateWithDescriptorDynamicLinkingDescriptorError = Selector.Register("newComputePipelineStateWithDescriptor:dynamicLinkingDescriptor:error:");
 

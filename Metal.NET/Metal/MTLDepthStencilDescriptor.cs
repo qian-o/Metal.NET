@@ -29,12 +29,6 @@ public class MTLDepthStencilDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetBackFaceStencil, value.NativePtr);
     }
 
-    public MTLCompareFunction DepthCompareFunction
-    {
-        get => (MTLCompareFunction)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLDepthStencilDescriptorSelector.DepthCompareFunction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetDepthCompareFunction, (ulong)value);
-    }
-
     public Bool8 DepthWriteEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDepthStencilDescriptorSelector.IsDepthWriteEnabled);
@@ -89,10 +83,6 @@ file class MTLDepthStencilDescriptorSelector
     public static readonly Selector BackFaceStencil = Selector.Register("backFaceStencil");
 
     public static readonly Selector SetBackFaceStencil = Selector.Register("setBackFaceStencil:");
-
-    public static readonly Selector DepthCompareFunction = Selector.Register("depthCompareFunction");
-
-    public static readonly Selector SetDepthCompareFunction = Selector.Register("setDepthCompareFunction:");
 
     public static readonly Selector IsDepthWriteEnabled = Selector.Register("isDepthWriteEnabled");
 

@@ -71,12 +71,6 @@ public class MTLCompileOptions : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetLibraryType, (ulong)value);
     }
 
-    public MTLMathFloatingPointFunctions MathFloatingPointFunctions
-    {
-        get => (MTLMathFloatingPointFunctions)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCompileOptionsSelector.MathFloatingPointFunctions));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetMathFloatingPointFunctions, (ulong)value);
-    }
-
     public MTLMathMode MathMode
     {
         get => (MTLMathMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCompileOptionsSelector.MathMode));
@@ -172,10 +166,6 @@ file class MTLCompileOptionsSelector
     public static readonly Selector LibraryType = Selector.Register("libraryType");
 
     public static readonly Selector SetLibraryType = Selector.Register("setLibraryType:");
-
-    public static readonly Selector MathFloatingPointFunctions = Selector.Register("mathFloatingPointFunctions");
-
-    public static readonly Selector SetMathFloatingPointFunctions = Selector.Register("setMathFloatingPointFunctions:");
 
     public static readonly Selector MathMode = Selector.Register("mathMode");
 

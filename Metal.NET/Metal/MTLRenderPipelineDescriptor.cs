@@ -57,18 +57,6 @@ public class MTLRenderPipelineDescriptor : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.FragmentBuffers));
     }
 
-    public MTLFunction FragmentFunction
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.FragmentFunction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetFragmentFunction, value.NativePtr);
-    }
-
-    public MTLLinkedFunctions FragmentLinkedFunctions
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.FragmentLinkedFunctions));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetFragmentLinkedFunctions, value.NativePtr);
-    }
-
     public NSArray FragmentPreloadedLibraries
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.FragmentPreloadedLibraries));
@@ -197,12 +185,6 @@ public class MTLRenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationFactorScaleEnabled, value);
     }
 
-    public MTLTessellationFactorStepFunction TessellationFactorStepFunction
-    {
-        get => (MTLTessellationFactorStepFunction)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorSelector.TessellationFactorStepFunction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationFactorStepFunction, (ulong)value);
-    }
-
     public MTLWinding TessellationOutputWindingOrder
     {
         get => (MTLWinding)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorSelector.TessellationOutputWindingOrder));
@@ -224,18 +206,6 @@ public class MTLRenderPipelineDescriptor : IDisposable
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.VertexDescriptor));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetVertexDescriptor, value.NativePtr);
-    }
-
-    public MTLFunction VertexFunction
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.VertexFunction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetVertexFunction, value.NativePtr);
-    }
-
-    public MTLLinkedFunctions VertexLinkedFunctions
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorSelector.VertexLinkedFunctions));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetVertexLinkedFunctions, value.NativePtr);
     }
 
     public NSArray VertexPreloadedLibraries
@@ -296,14 +266,6 @@ file class MTLRenderPipelineDescriptorSelector
     public static readonly Selector SetDepthAttachmentPixelFormat = Selector.Register("setDepthAttachmentPixelFormat:");
 
     public static readonly Selector FragmentBuffers = Selector.Register("fragmentBuffers");
-
-    public static readonly Selector FragmentFunction = Selector.Register("fragmentFunction");
-
-    public static readonly Selector SetFragmentFunction = Selector.Register("setFragmentFunction:");
-
-    public static readonly Selector FragmentLinkedFunctions = Selector.Register("fragmentLinkedFunctions");
-
-    public static readonly Selector SetFragmentLinkedFunctions = Selector.Register("setFragmentLinkedFunctions:");
 
     public static readonly Selector FragmentPreloadedLibraries = Selector.Register("fragmentPreloadedLibraries");
 
@@ -377,10 +339,6 @@ file class MTLRenderPipelineDescriptorSelector
 
     public static readonly Selector SetTessellationFactorScaleEnabled = Selector.Register("setTessellationFactorScaleEnabled:");
 
-    public static readonly Selector TessellationFactorStepFunction = Selector.Register("tessellationFactorStepFunction");
-
-    public static readonly Selector SetTessellationFactorStepFunction = Selector.Register("setTessellationFactorStepFunction:");
-
     public static readonly Selector TessellationOutputWindingOrder = Selector.Register("tessellationOutputWindingOrder");
 
     public static readonly Selector SetTessellationOutputWindingOrder = Selector.Register("setTessellationOutputWindingOrder:");
@@ -394,14 +352,6 @@ file class MTLRenderPipelineDescriptorSelector
     public static readonly Selector VertexDescriptor = Selector.Register("vertexDescriptor");
 
     public static readonly Selector SetVertexDescriptor = Selector.Register("setVertexDescriptor:");
-
-    public static readonly Selector VertexFunction = Selector.Register("vertexFunction");
-
-    public static readonly Selector SetVertexFunction = Selector.Register("setVertexFunction:");
-
-    public static readonly Selector VertexLinkedFunctions = Selector.Register("vertexLinkedFunctions");
-
-    public static readonly Selector SetVertexLinkedFunctions = Selector.Register("setVertexLinkedFunctions:");
 
     public static readonly Selector VertexPreloadedLibraries = Selector.Register("vertexPreloadedLibraries");
 

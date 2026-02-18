@@ -498,7 +498,7 @@ public class MetalBindingsGenerator
         string externReturnType = wrapReturn ? "nint" : f.ReturnType;
 
         sb.AppendLine($"    [LibraryImport(\"{f.FrameworkLibrary}\", EntryPoint = \"{f.NativeName}\")]");
-        sb.AppendLine($"    private static partial {externReturnType} {f.NativeName}({externParamsStr});");
+        sb.AppendLine($"    private static partial {externReturnType} _{f.NativeName}({externParamsStr});");
         sb.AppendLine();
 
         sb.AppendLine($"    public static {f.ReturnType} {ToPascalCase(f.Name)}({publicParamsStr})");
@@ -506,15 +506,15 @@ public class MetalBindingsGenerator
 
         if (f.ReturnType == "void")
         {
-            sb.AppendLine($"        {f.NativeName}({forwardArgsStr});");
+            sb.AppendLine($"        _{f.NativeName}({forwardArgsStr});");
         }
         else if (wrapReturn)
         {
-            sb.AppendLine($"        return new({f.NativeName}({forwardArgsStr}));");
+            sb.AppendLine($"        return new(_{f.NativeName}({forwardArgsStr}));");
         }
         else
         {
-            sb.AppendLine($"        return {f.NativeName}({forwardArgsStr});");
+            sb.AppendLine($"        return _{f.NativeName}({forwardArgsStr});");
         }
 
         sb.AppendLine("    }");

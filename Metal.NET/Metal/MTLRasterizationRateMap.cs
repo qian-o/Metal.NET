@@ -52,16 +52,16 @@ public class MTLRasterizationRateMap : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapSelector.CopyParameterDataToBufferOffset, buffer.NativePtr, offset);
     }
 
-    public MTLCoordinate2D MapPhysicalToScreenCoordinates(MTLCoordinate2D physicalCoordinates, nuint layerIndex)
+    public MTLSamplePosition MapPhysicalToScreenCoordinates(MTLSamplePosition physicalCoordinates, nuint layerIndex)
     {
-        MTLCoordinate2D result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapSelector.MapPhysicalToScreenCoordinatesForLayer, physicalCoordinates.NativePtr, layerIndex));
+        MTLSamplePosition result = ObjectiveCRuntime.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapSelector.MapPhysicalToScreenCoordinatesForLayer, physicalCoordinates, layerIndex);
 
         return result;
     }
 
-    public MTLCoordinate2D MapScreenToPhysicalCoordinates(MTLCoordinate2D screenCoordinates, nuint layerIndex)
+    public MTLSamplePosition MapScreenToPhysicalCoordinates(MTLSamplePosition screenCoordinates, nuint layerIndex)
     {
-        MTLCoordinate2D result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapSelector.MapScreenToPhysicalCoordinatesForLayer, screenCoordinates.NativePtr, layerIndex));
+        MTLSamplePosition result = ObjectiveCRuntime.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapSelector.MapScreenToPhysicalCoordinatesForLayer, screenCoordinates, layerIndex);
 
         return result;
     }

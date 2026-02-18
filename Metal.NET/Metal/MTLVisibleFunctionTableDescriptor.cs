@@ -39,13 +39,6 @@ public class MTLVisibleFunctionTableDescriptor : IDisposable
         return new(value);
     }
 
-    public static MTLVisibleFunctionTableDescriptor VisibleFunctionTableDescriptor()
-    {
-        MTLVisibleFunctionTableDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLVisibleFunctionTableDescriptorSelector.VisibleFunctionTableDescriptor));
-
-        return result;
-    }
-
     public void Dispose()
     {
         Release();
@@ -67,6 +60,4 @@ file class MTLVisibleFunctionTableDescriptorSelector
     public static readonly Selector FunctionCount = Selector.Register("functionCount");
 
     public static readonly Selector SetFunctionCount = Selector.Register("setFunctionCount:");
-
-    public static readonly Selector VisibleFunctionTableDescriptor = Selector.Register("visibleFunctionTableDescriptor");
 }
