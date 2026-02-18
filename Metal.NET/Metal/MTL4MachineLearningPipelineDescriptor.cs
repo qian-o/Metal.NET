@@ -8,12 +8,6 @@ public class MTL4MachineLearningPipelineDescriptor(nint nativePtr) : MTL4Pipelin
     {
     }
 
-    public NSString Label
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetLabel, value.NativePtr);
-    }
-
     public MTL4FunctionDescriptor MachineLearningFunctionDescriptor
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.MachineLearningFunctionDescriptor));
@@ -55,10 +49,6 @@ public class MTL4MachineLearningPipelineDescriptor(nint nativePtr) : MTL4Pipelin
 
 file class MTL4MachineLearningPipelineDescriptorSelector
 {
-    public static readonly Selector Label = Selector.Register("label");
-
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
-
     public static readonly Selector MachineLearningFunctionDescriptor = Selector.Register("machineLearningFunctionDescriptor");
 
     public static readonly Selector SetMachineLearningFunctionDescriptor = Selector.Register("setMachineLearningFunctionDescriptor:");

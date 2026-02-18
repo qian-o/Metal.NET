@@ -2,11 +2,6 @@
 
 public class MTLResource(nint nativePtr) : MTLAllocation(nativePtr)
 {
-    public nuint AllocatedSize
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.AllocatedSize);
-    }
-
     public MTLCPUCacheMode CpuCacheMode
     {
         get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.CpuCacheMode);
@@ -85,8 +80,6 @@ public class MTLResource(nint nativePtr) : MTLAllocation(nativePtr)
 
 file class MTLResourceSelector
 {
-    public static readonly Selector AllocatedSize = Selector.Register("allocatedSize");
-
     public static readonly Selector CpuCacheMode = Selector.Register("cpuCacheMode");
 
     public static readonly Selector Device = Selector.Register("device");

@@ -65,6 +65,13 @@ public class MetalBindingsGenerator
             CollectSignatures(cls);
         }
 
+        Dictionary<string, ObjCClassDef> classLookup = [];
+
+        foreach (ObjCClassDef cls in parsed.Classes)
+        {
+            classLookup.TryAdd(cls.Name, cls);
+        }
+
         HashSet<string> generatedClasses = [];
 
         foreach (ObjCClassDef cls in parsed.Classes.OrderBy(c => c.Name))
@@ -72,7 +79,7 @@ public class MetalBindingsGenerator
             if (generatedClasses.Add(cls.Name))
             {
                 freeFunctionsByClass.TryGetValue(cls.Name, out List<FreeFunctionDef>? freeFuncs);
-                GenerateObjCClassDef(cls, freeFuncs);
+                GenerateObjCClassDef(cls, classLookup, freeFuncs);
             }
         }
 
@@ -154,12 +161,35 @@ public class MetalBindingsGenerator
         WriteSource(e.Folder, $"{e.Name}.cs", sb.ToString());
     }
 
-    private void GenerateObjCClassDef(ObjCClassDef def, List<FreeFunctionDef>? freeFunctions = null)
+    private void GenerateObjCClassDef(ObjCClassDef def, Dictionary<string, ObjCClassDef> classLookup, List<FreeFunctionDef>? freeFunctions = null)
     {
+        // Collect property names from all ancestors to skip inherited properties
+        HashSet<string> inheritedPropertyNames = [];
+
+        if (def.ParentClass != null)
+        {
+            string? current = def.ParentClass;
+
+            while (current != null && classLookup.TryGetValue(current, out ObjCClassDef? parentDef))
+            {
+                foreach (PropertyDef p in parentDef.Properties)
+                {
+                    inheritedPropertyNames.Add(ToPascalCase(p.Name));
+                }
+
+                current = parentDef.ParentClass;
+            }
+        }
+
         Dictionary<string, string> selectors = [];
 
         foreach (PropertyDef p in def.Properties)
         {
+            if (inheritedPropertyNames.Contains(ToPascalCase(p.Name)))
+            {
+                continue;
+            }
+
             string getSel = p.GetSelector ?? p.Name;
             AddSelector(selectors, getSel);
 
@@ -207,11 +237,17 @@ public class MetalBindingsGenerator
 
         foreach (PropertyDef p in def.Properties)
         {
+            string propName = ToPascalCase(p.Name);
+
+            if (inheritedPropertyNames.Contains(propName))
+            {
+                continue;
+            }
+
             string getSelKey = p.GetSelector ?? p.Name;
             string getSel = selectors[getSelKey];
             string propType = p.Type;
             (string Invoke, _) = MapReturnCall(propType);
-            string propName = ToPascalCase(p.Name);
 
             if (Invoke.Contains("TODO"))
             {
