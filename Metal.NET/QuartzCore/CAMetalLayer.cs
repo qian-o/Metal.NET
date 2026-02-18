@@ -37,6 +37,12 @@ public class CAMetalLayer : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetFramebufferOnly, value);
     }
 
+    public CGSize DrawableSize
+    {
+        get => ObjectiveCRuntime.MsgSendCGSize(NativePtr, CAMetalLayerSelector.DrawableSize);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetDrawableSize, value);
+    }
+
     public CAMetalDrawable NextDrawable
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.NextDrawable));

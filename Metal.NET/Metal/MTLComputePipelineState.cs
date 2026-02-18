@@ -22,6 +22,11 @@ public class MTLComputePipelineState : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.Device));
     }
 
+    public MTLResourceID GpuResourceID
+    {
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLComputePipelineStateSelector.GpuResourceID);
+    }
+
     public NSString Label
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.Label));
@@ -35,6 +40,11 @@ public class MTLComputePipelineState : IDisposable
     public MTLComputePipelineReflection Reflection
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.Reflection));
+    }
+
+    public MTLSize RequiredThreadsPerThreadgroup
+    {
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLComputePipelineStateSelector.RequiredThreadsPerThreadgroup);
     }
 
     public MTLShaderValidation ShaderValidation

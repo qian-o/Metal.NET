@@ -70,6 +70,12 @@ public class MTLTileRenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetRasterSampleCount, value);
     }
 
+    public MTLSize RequiredThreadsPerThreadgroup
+    {
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLTileRenderPipelineDescriptorSelector.RequiredThreadsPerThreadgroup);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetRequiredThreadsPerThreadgroup, value);
+    }
+
     public MTLShaderValidation ShaderValidation
     {
         get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTileRenderPipelineDescriptorSelector.ShaderValidation));

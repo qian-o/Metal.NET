@@ -22,6 +22,11 @@ public class MTLRenderPipelineState : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Device));
     }
 
+    public MTLResourceID GpuResourceID
+    {
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLRenderPipelineStateSelector.GpuResourceID);
+    }
+
     public nuint ImageblockSampleLength
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.ImageblockSampleLength);
@@ -65,6 +70,21 @@ public class MTLRenderPipelineState : IDisposable
     public MTLRenderPipelineReflection Reflection
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Reflection));
+    }
+
+    public MTLSize RequiredThreadsPerMeshThreadgroup
+    {
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRenderPipelineStateSelector.RequiredThreadsPerMeshThreadgroup);
+    }
+
+    public MTLSize RequiredThreadsPerObjectThreadgroup
+    {
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRenderPipelineStateSelector.RequiredThreadsPerObjectThreadgroup);
+    }
+
+    public MTLSize RequiredThreadsPerTileThreadgroup
+    {
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRenderPipelineStateSelector.RequiredThreadsPerTileThreadgroup);
     }
 
     public MTLShaderValidation ShaderValidation

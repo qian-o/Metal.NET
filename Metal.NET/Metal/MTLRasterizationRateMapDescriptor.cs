@@ -39,6 +39,12 @@ public class MTLRasterizationRateMapDescriptor : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Layers));
     }
 
+    public MTLSize ScreenSize
+    {
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapDescriptorSelector.ScreenSize);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetScreenSize, value);
+    }
+
     public MTLRasterizationRateLayerDescriptor Layer(nuint layerIndex)
     {
         MTLRasterizationRateLayerDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Layer, layerIndex));

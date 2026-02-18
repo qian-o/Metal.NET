@@ -27,6 +27,11 @@ public class MTLFunctionHandle : IDisposable
         get => (MTLFunctionType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionHandleSelector.FunctionType));
     }
 
+    public MTLResourceID GpuResourceID
+    {
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLFunctionHandleSelector.GpuResourceID);
+    }
+
     public NSString Name
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionHandleSelector.Name));

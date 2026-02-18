@@ -107,6 +107,12 @@ public class MTLCompileOptions : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetPreserveInvariance, value);
     }
 
+    public MTLSize RequiredThreadsPerThreadgroup
+    {
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLCompileOptionsSelector.RequiredThreadsPerThreadgroup);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetRequiredThreadsPerThreadgroup, value);
+    }
+
     public static implicit operator nint(MTLCompileOptions value)
     {
         return value.NativePtr;

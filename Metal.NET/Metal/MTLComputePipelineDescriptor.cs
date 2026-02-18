@@ -76,6 +76,12 @@ public class MTLComputePipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetPreloadedLibraries, value.NativePtr);
     }
 
+    public MTLSize RequiredThreadsPerThreadgroup
+    {
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLComputePipelineDescriptorSelector.RequiredThreadsPerThreadgroup);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetRequiredThreadsPerThreadgroup, value);
+    }
+
     public MTLShaderValidation ShaderValidation
     {
         get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLComputePipelineDescriptorSelector.ShaderValidation));

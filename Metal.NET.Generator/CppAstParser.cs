@@ -1039,6 +1039,7 @@ public static class CppAstParser
     public static bool IsLikelyEnum(string type)
     {
         if (s_knownWrapperTypes.Contains(type)) return false;
+        if (s_valueStructs.Contains(type)) return false;
         if (!type.StartsWith("MTL")) return false;
         return type.Contains("Format")
             || type.EndsWith("Action") || type.EndsWith("Mode") || type.EndsWith("Type")

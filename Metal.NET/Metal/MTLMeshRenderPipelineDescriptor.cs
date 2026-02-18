@@ -178,6 +178,18 @@ public class MTLMeshRenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetRasterizationEnabled, value);
     }
 
+    public MTLSize RequiredThreadsPerMeshThreadgroup
+    {
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLMeshRenderPipelineDescriptorSelector.RequiredThreadsPerMeshThreadgroup);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetRequiredThreadsPerMeshThreadgroup, value);
+    }
+
+    public MTLSize RequiredThreadsPerObjectThreadgroup
+    {
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLMeshRenderPipelineDescriptorSelector.RequiredThreadsPerObjectThreadgroup);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetRequiredThreadsPerObjectThreadgroup, value);
+    }
+
     public MTLShaderValidation ShaderValidation
     {
         get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLMeshRenderPipelineDescriptorSelector.ShaderValidation));

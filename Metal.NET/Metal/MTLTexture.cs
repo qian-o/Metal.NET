@@ -62,6 +62,11 @@ public class MTLTexture : IDisposable
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureSelector.FramebufferOnly);
     }
 
+    public MTLResourceID GpuResourceID
+    {
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureSelector.GpuResourceID);
+    }
+
     public nuint Height
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.Height);

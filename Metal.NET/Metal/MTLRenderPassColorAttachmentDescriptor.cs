@@ -23,6 +23,12 @@ public class MTLRenderPassColorAttachmentDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLClearColor ClearColor
+    {
+        get => ObjectiveCRuntime.MsgSendMTLClearColor(NativePtr, MTLRenderPassColorAttachmentDescriptorSelector.ClearColor);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorSelector.SetClearColor, value);
+    }
+
     public static implicit operator nint(MTLRenderPassColorAttachmentDescriptor value)
     {
         return value.NativePtr;

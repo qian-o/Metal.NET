@@ -141,6 +141,18 @@ public class MTL4MeshRenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetRasterizationEnabled, value);
     }
 
+    public MTLSize RequiredThreadsPerMeshThreadgroup
+    {
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.RequiredThreadsPerMeshThreadgroup);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetRequiredThreadsPerMeshThreadgroup, value);
+    }
+
+    public MTLSize RequiredThreadsPerObjectThreadgroup
+    {
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.RequiredThreadsPerObjectThreadgroup);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetRequiredThreadsPerObjectThreadgroup, value);
+    }
+
     public Bool8 SupportFragmentBinaryLinking
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SupportFragmentBinaryLinking);

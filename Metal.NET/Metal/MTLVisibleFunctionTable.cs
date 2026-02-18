@@ -17,6 +17,11 @@ public class MTLVisibleFunctionTable : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLResourceID GpuResourceID
+    {
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLVisibleFunctionTableSelector.GpuResourceID);
+    }
+
     public void SetFunction(MTLFunctionHandle function, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLVisibleFunctionTableSelector.SetFunctionIndex, function.NativePtr, index);

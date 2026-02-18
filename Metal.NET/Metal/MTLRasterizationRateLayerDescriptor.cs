@@ -33,6 +33,17 @@ public class MTLRasterizationRateLayerDescriptor : IDisposable
         get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.HorizontalSampleStorage);
     }
 
+    public MTLSize MaxSampleCount
+    {
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRasterizationRateLayerDescriptorSelector.MaxSampleCount);
+    }
+
+    public MTLSize SampleCount
+    {
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRasterizationRateLayerDescriptorSelector.SampleCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateLayerDescriptorSelector.SetSampleCount, value);
+    }
+
     public MTLRasterizationRateSampleArray Vertical
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.Vertical));

@@ -23,10 +23,22 @@ public class MTLTextureViewDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
+    public NSRange LevelRange
+    {
+        get => ObjectiveCRuntime.MsgSendNSRange(NativePtr, MTLTextureViewDescriptorSelector.LevelRange);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureViewDescriptorSelector.SetLevelRange, value);
+    }
+
     public MTLPixelFormat PixelFormat
     {
         get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureViewDescriptorSelector.PixelFormat));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureViewDescriptorSelector.SetPixelFormat, (ulong)value);
+    }
+
+    public NSRange SliceRange
+    {
+        get => ObjectiveCRuntime.MsgSendNSRange(NativePtr, MTLTextureViewDescriptorSelector.SliceRange);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureViewDescriptorSelector.SetSliceRange, value);
     }
 
     public MTLTextureSwizzleChannels Swizzle

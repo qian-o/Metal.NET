@@ -22,6 +22,11 @@ public class MTLSamplerState : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSamplerStateSelector.Device));
     }
 
+    public MTLResourceID GpuResourceID
+    {
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLSamplerStateSelector.GpuResourceID);
+    }
+
     public NSString Label
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSamplerStateSelector.Label));

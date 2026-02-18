@@ -17,6 +17,11 @@ public class MTLAccelerationStructure : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLResourceID GpuResourceID
+    {
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLAccelerationStructureSelector.GpuResourceID);
+    }
+
     public nuint Size
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureSelector.Size);

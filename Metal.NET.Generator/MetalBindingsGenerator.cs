@@ -488,7 +488,7 @@ public class MetalBindingsGenerator
             "double" => ("ObjectiveCRuntime.MsgSendDouble", false),
             "nuint" => ("ObjectiveCRuntime.MsgSendNUInt", false),
             "nint" => ("ObjectiveCRuntime.MsgSendPtr", false),
-            _ when IsKnownValueStruct(type) => ("/* TODO: stret */", false),
+            _ when IsKnownValueStruct(type) => ($"ObjectiveCRuntime.MsgSend{type}", false),
             _ when IsLikelyEnum(type) => ("ObjectiveCRuntime.MsgSendULong", false),
             _ => ("ObjectiveCRuntime.MsgSendPtr", true),
         };
@@ -583,7 +583,7 @@ public class MetalBindingsGenerator
         if (retType is "nuint") return "nuint";
         if (retType is "nint") return "nint";
         if (IsLikelyEnum(retType)) return "ulong";
-        if (IsKnownValueStruct(retType)) return "nint";
+        if (IsKnownValueStruct(retType)) return retType;
         return "nint";
     }
 
@@ -598,6 +598,7 @@ public class MetalBindingsGenerator
         "float" => "MsgSendFloat",
         "double" => "MsgSendDouble",
         "nuint" => "MsgSendNUInt",
+        _ when IsKnownValueStruct(runtimeReturnType) => $"MsgSend{runtimeReturnType}",
         _ => "MsgSendPtr",
     };
 

@@ -17,6 +17,11 @@ public class MTLIntersectionFunctionTable : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLResourceID GpuResourceID
+    {
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLIntersectionFunctionTableSelector.GpuResourceID);
+    }
+
     public void SetBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetBufferOffsetIndex, buffer.NativePtr, offset, index);

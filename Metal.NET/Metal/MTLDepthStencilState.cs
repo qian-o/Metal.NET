@@ -22,6 +22,11 @@ public class MTLDepthStencilState : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilStateSelector.Device));
     }
 
+    public MTLResourceID GpuResourceID
+    {
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLDepthStencilStateSelector.GpuResourceID);
+    }
+
     public NSString Label
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilStateSelector.Label));

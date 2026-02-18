@@ -124,6 +124,11 @@ public partial class MTLDevice : IDisposable
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.MaxThreadgroupMemoryLength);
     }
 
+    public MTLSize MaxThreadsPerThreadgroup
+    {
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLDeviceSelector.MaxThreadsPerThreadgroup);
+    }
+
     public nuint MaxTransferRate
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.MaxTransferRate);
@@ -299,6 +304,34 @@ public partial class MTLDevice : IDisposable
     public void GetDefaultSamplePositions(MTLSamplePosition positions, nuint count)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.GetDefaultSamplePositionsCount, positions, count);
+    }
+
+    public MTLSizeAndAlign HeapAccelerationStructureSizeAndAlign(nuint size)
+    {
+        MTLSizeAndAlign result = ObjectiveCRuntime.MsgSendMTLSizeAndAlign(NativePtr, MTLDeviceSelector.HeapAccelerationStructureSizeAndAlign, size);
+
+        return result;
+    }
+
+    public MTLSizeAndAlign HeapAccelerationStructureSizeAndAlign(MTLAccelerationStructureDescriptor descriptor)
+    {
+        MTLSizeAndAlign result = ObjectiveCRuntime.MsgSendMTLSizeAndAlign(NativePtr, MTLDeviceSelector.HeapAccelerationStructureSizeAndAlign, descriptor.NativePtr);
+
+        return result;
+    }
+
+    public MTLSizeAndAlign HeapBufferSizeAndAlign(nuint length, MTLResourceOptions options)
+    {
+        MTLSizeAndAlign result = ObjectiveCRuntime.MsgSendMTLSizeAndAlign(NativePtr, MTLDeviceSelector.HeapBufferSizeAndAlignOptions, length, (ulong)options);
+
+        return result;
+    }
+
+    public MTLSizeAndAlign HeapTextureSizeAndAlign(MTLTextureDescriptor desc)
+    {
+        MTLSizeAndAlign result = ObjectiveCRuntime.MsgSendMTLSizeAndAlign(NativePtr, MTLDeviceSelector.HeapTextureSizeAndAlign, desc.NativePtr);
+
+        return result;
     }
 
     public nuint MinimumLinearTextureAlignmentForPixelFormat(MTLPixelFormat format)
@@ -831,6 +864,20 @@ public partial class MTLDevice : IDisposable
         return result;
     }
 
+    public MTLSize SparseTileSize(MTLTextureType textureType, MTLPixelFormat pixelFormat, nuint sampleCount)
+    {
+        MTLSize result = ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLDeviceSelector.SparseTileSizePixelFormatSampleCount, (ulong)textureType, (ulong)pixelFormat, sampleCount);
+
+        return result;
+    }
+
+    public MTLSize SparseTileSize(MTLTextureType textureType, MTLPixelFormat pixelFormat, nuint sampleCount, MTLSparsePageSize sparsePageSize)
+    {
+        MTLSize result = ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLDeviceSelector.SparseTileSizePixelFormatSampleCountSparsePageSize, (ulong)textureType, (ulong)pixelFormat, sampleCount, (ulong)sparsePageSize);
+
+        return result;
+    }
+
     public Bool8 SupportsCounterSampling(MTLCounterSamplingPoint samplingPoint)
     {
         Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsCounterSampling, (ulong)samplingPoint);
@@ -869,6 +916,13 @@ public partial class MTLDevice : IDisposable
     public Bool8 SupportsVertexAmplificationCount(nuint count)
     {
         Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsVertexAmplificationCount, count);
+
+        return result;
+    }
+
+    public MTLSizeAndAlign TensorSizeAndAlign(MTLTensorDescriptor descriptor)
+    {
+        MTLSizeAndAlign result = ObjectiveCRuntime.MsgSendMTLSizeAndAlign(NativePtr, MTLDeviceSelector.TensorSizeAndAlign, descriptor.NativePtr);
 
         return result;
     }

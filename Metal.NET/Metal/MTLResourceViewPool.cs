@@ -17,6 +17,11 @@ public class MTLResourceViewPool : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLResourceID BaseResourceID
+    {
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLResourceViewPoolSelector.BaseResourceID);
+    }
+
     public MTLDevice Device
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolSelector.Device));
@@ -30,6 +35,13 @@ public class MTLResourceViewPool : IDisposable
     public nuint ResourceViewCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceViewPoolSelector.ResourceViewCount);
+    }
+
+    public MTLResourceID CopyResourceViewsFromPool(MTLResourceViewPool sourcePool, NSRange sourceRange, nuint destinationIndex)
+    {
+        MTLResourceID result = ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLResourceViewPoolSelector.CopyResourceViewsFromPoolSourceRangeDestinationIndex, sourcePool.NativePtr, sourceRange, destinationIndex);
+
+        return result;
     }
 
     public static implicit operator nint(MTLResourceViewPool value)

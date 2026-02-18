@@ -37,6 +37,11 @@ public class MTLTensor : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Dimensions));
     }
 
+    public MTLResourceID GpuResourceID
+    {
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTensorSelector.GpuResourceID);
+    }
+
     public MTLTensorExtents Strides
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Strides));

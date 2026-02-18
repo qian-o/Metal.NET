@@ -17,6 +17,11 @@ public class MTLIndirectCommandBuffer : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLResourceID GpuResourceID
+    {
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLIndirectCommandBufferSelector.GpuResourceID);
+    }
+
     public nuint Size
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferSelector.Size);

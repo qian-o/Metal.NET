@@ -35,6 +35,12 @@ public class MTL4ComputePipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetMaxTotalThreadsPerThreadgroup, value);
     }
 
+    public MTLSize RequiredThreadsPerThreadgroup
+    {
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTL4ComputePipelineDescriptorSelector.RequiredThreadsPerThreadgroup);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetRequiredThreadsPerThreadgroup, value);
+    }
+
     public MTL4StaticLinkingDescriptor StaticLinkingDescriptor
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ComputePipelineDescriptorSelector.StaticLinkingDescriptor));
