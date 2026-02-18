@@ -666,6 +666,13 @@ public static class HeaderParser
         if (!recordDecl.HasDefinition)
             return;
 
+        // Use the canonical definition to get base classes
+        // Skip forward declarations (they have no bases/methods)
+        if (!recordDecl.IsThisDeclarationADefinition)
+            return;
+
+        var definitionDecl = recordDecl;
+
         string className = recordDecl.Name;
         if (string.IsNullOrEmpty(className))
             return;
@@ -701,9 +708,9 @@ public static class HeaderParser
         string? parentClass = null;
         string? objcClass = null;
 
-        if (recordDecl.NumBases > 0)
+        if (definitionDecl.NumBases > 0)
         {
-            foreach (var baseSpec in recordDecl.Bases)
+            foreach (var baseSpec in definitionDecl.Bases)
             {
                 var baseType = baseSpec.Type;
                 parentClass = ExtractParentFromBase(baseType, prefix);
@@ -711,10 +718,24 @@ public static class HeaderParser
                     break;
             }
         }
+        else
+        {
+            // If definition has no bases, try the canonical definition
+            if (definitionDecl.Definition is CXXRecordDecl canonDef && canonDef != definitionDecl && canonDef.NumBases > 0)
+            {
+                foreach (var baseSpec in canonDef.Bases)
+                {
+                    var baseType = baseSpec.Type;
+                    parentClass = ExtractParentFromBase(baseType, prefix);
+                    if (parentClass != null)
+                        break;
+                }
+            }
+        }
 
         // Determine if this is a class (has alloc or CLS registration)
         bool hasAlloc = false;
-        foreach (var method in recordDecl.Methods)
+        foreach (var method in definitionDecl.Methods)
         {
             if (method.Name == "alloc" && method.IsStatic)
             {
@@ -742,7 +763,7 @@ public static class HeaderParser
         var getters = new Dictionary<string, (MethodDef Method, string ReturnType)>();
         var setterNames = new HashSet<string>();
 
-        foreach (var method in recordDecl.Methods)
+        foreach (var method in definitionDecl.Methods)
         {
             if (ShouldSkipMethod(method))
                 continue;
@@ -866,13 +887,60 @@ public static class HeaderParser
 
     private static string? ExtractParentFromBase(ClangSharp.Type baseType, string currentPrefix)
     {
-        // Desugar to find template specialization
+        // Desugar step by step to find TemplateSpecializationType
         var type = baseType;
-        while (type.IsSugared)
+        int maxIter = 10;
+        while (type.IsSugared && maxIter-- > 0)
         {
             var desugared = type.Desugar;
             if (desugared == type)
                 break;
+
+            // Check at each desugar step for TemplateSpecializationType
+            if (desugared is TemplateSpecializationType tst)
+            {
+                if (tst.Handle.NumTemplateArguments >= 2)
+                {
+                    var parentArg = tst.Handle.GetTemplateArgument(1);
+                    string parentStr = parentArg.AsType.ToString();
+                    if (!string.IsNullOrEmpty(parentStr) && parentStr != "class NS::Object" && parentStr != "NS::Object")
+                    {
+                        string? mapped = MapQualifiedTypeName(parentStr);
+                        if (mapped != null && !parentStr.Contains("::"))
+                        {
+                            bool hasPrefix = false;
+                            foreach (var ns in NamespaceMap.Values)
+                            {
+                                if (mapped.StartsWith(ns.Prefix))
+                                {
+                                    hasPrefix = true;
+                                    break;
+                                }
+                            }
+                            if (!hasPrefix)
+                                mapped = currentPrefix + mapped;
+                        }
+                        if (mapped != null && mapped != "NSObject")
+                            return mapped;
+                    }
+                }
+            }
+
+            // Also check RecordType → ClassTemplateSpecializationDecl
+            if (desugared is RecordType rt && rt.Decl is ClassTemplateSpecializationDecl ctsd)
+            {
+                if (ctsd.TemplateArgs.Count >= 2)
+                {
+                    string parentStr = ctsd.TemplateArgs[1].AsType.AsString;
+                    if (!string.IsNullOrEmpty(parentStr) && parentStr != "class NS::Object" && parentStr != "NS::Object")
+                    {
+                        string? mapped = MapQualifiedTypeName(parentStr);
+                        if (mapped != null && mapped != "NSObject")
+                            return mapped;
+                    }
+                }
+            }
+
             type = desugared;
         }
 
@@ -881,21 +949,6 @@ public static class HeaderParser
         // Look for NS::Referencing<Self, Parent> or NS::Copying<Self, Parent>
         if (typeStr.Contains("Referencing") || typeStr.Contains("Copying") || typeStr.Contains("SecureCoding"))
         {
-            // Try to extract parent from template args via the AST
-            if (type is TemplateSpecializationType tst)
-            {
-                // Second template arg is the parent
-                if (tst.Handle.NumTemplateArguments >= 2)
-                {
-                    var parentArg = tst.Handle.GetTemplateArgument(1);
-                    string parentStr = parentArg.AsType.ToString();
-                    if (!string.IsNullOrEmpty(parentStr) && parentStr != "class NS::Object" && parentStr != "NS::Object")
-                    {
-                        return MapQualifiedTypeName(parentStr);
-                    }
-                }
-            }
-
             // Fallback: parse from string representation
             int angleStart = typeStr.IndexOf('<');
             if (angleStart >= 0)
@@ -910,6 +963,20 @@ public static class HeaderParser
                 {
                     string parent = args[1].Trim();
                     string? mapped = MapQualifiedTypeName(parent);
+                    if (mapped != null && !mapped.Contains("::") && !parent.Contains("::"))
+                    {
+                        bool hasPrefix = false;
+                        foreach (var ns in NamespaceMap.Values)
+                        {
+                            if (mapped.StartsWith(ns.Prefix))
+                            {
+                                hasPrefix = true;
+                                break;
+                            }
+                        }
+                        if (!hasPrefix)
+                            mapped = currentPrefix + mapped;
+                    }
                     if (mapped != null && mapped != "NSObject")
                         return mapped;
                 }
