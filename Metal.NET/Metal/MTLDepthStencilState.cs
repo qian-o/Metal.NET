@@ -1,25 +1,18 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLDepthStencilState : IDisposable
+public partial class MTLDepthStencilState : NativeObject
 {
-    public MTLDepthStencilState(nint nativePtr)
+    public MTLDepthStencilState(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public MTLDevice? Device
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilStateSelector.Device);
+            return ptr is not 0 ? new(ptr) : null;
         }
-    }
-
-    ~MTLDepthStencilState()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public MTLDevice Device
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilStateSelector.Device));
     }
 
     public MTLResourceID GpuResourceID
@@ -27,38 +20,17 @@ public class MTLDepthStencilState : IDisposable
         get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLDepthStencilStateSelector.GpuResourceID);
     }
 
-    public NSString Label
+    public NSString? Label
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilStateSelector.Label));
-    }
-
-    public static implicit operator nint(MTLDepthStencilState value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLDepthStencilState(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
+        get
         {
-            ObjectiveCRuntime.Release(NativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilStateSelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
         }
     }
 }
 
-file class MTLDepthStencilStateSelector
+file static class MTLDepthStencilStateSelector
 {
     public static readonly Selector Device = Selector.Register("device");
 

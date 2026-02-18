@@ -1,7 +1,11 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLObjectPayloadBinding(nint nativePtr) : MTLBinding(nativePtr)
+public partial class MTLObjectPayloadBinding : NativeObject
 {
+    public MTLObjectPayloadBinding(nint nativePtr) : base(nativePtr)
+    {
+    }
+
     public nuint ObjectPayloadAlignment
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLObjectPayloadBindingSelector.ObjectPayloadAlignment);
@@ -11,19 +15,9 @@ public class MTLObjectPayloadBinding(nint nativePtr) : MTLBinding(nativePtr)
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLObjectPayloadBindingSelector.ObjectPayloadDataSize);
     }
-
-    public static implicit operator nint(MTLObjectPayloadBinding value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLObjectPayloadBinding(nint value)
-    {
-        return new(value);
-    }
 }
 
-file class MTLObjectPayloadBindingSelector
+file static class MTLObjectPayloadBindingSelector
 {
     public static readonly Selector ObjectPayloadAlignment = Selector.Register("objectPayloadAlignment");
 

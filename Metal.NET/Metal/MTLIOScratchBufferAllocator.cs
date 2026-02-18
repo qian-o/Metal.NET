@@ -1,56 +1,19 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLIOScratchBufferAllocator : IDisposable
+public partial class MTLIOScratchBufferAllocator : NativeObject
 {
-    public MTLIOScratchBufferAllocator(nint nativePtr)
+    public MTLIOScratchBufferAllocator(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
     }
 
-    ~MTLIOScratchBufferAllocator()
+    public MTLIOScratchBuffer? NewScratchBuffer(nuint minimumSize)
     {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public static implicit operator nint(MTLIOScratchBufferAllocator value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLIOScratchBufferAllocator(nint value)
-    {
-        return new(value);
-    }
-
-    public MTLIOScratchBuffer NewScratchBuffer(nuint minimumSize)
-    {
-        MTLIOScratchBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOScratchBufferAllocatorSelector.NewScratchBufferWithMinimumSize, minimumSize));
-
-        return result;
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOScratchBufferAllocatorSelector.NewScratchBuffer, minimumSize);
+        return ptr is not 0 ? new(ptr) : null;
     }
 }
 
-file class MTLIOScratchBufferAllocatorSelector
+file static class MTLIOScratchBufferAllocatorSelector
 {
-    public static readonly Selector NewScratchBufferWithMinimumSize = Selector.Register("newScratchBufferWithMinimumSize:");
+    public static readonly Selector NewScratchBuffer = Selector.Register("newScratchBuffer:");
 }

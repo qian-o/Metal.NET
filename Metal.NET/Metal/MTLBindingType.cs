@@ -1,28 +1,17 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLBindingType : long
 {
-    BindingTypeBuffer = 0,
-
-    BindingTypeThreadgroupMemory = 1,
-
-    BindingTypeTexture = 2,
-
-    BindingTypeSampler = 3,
-
-    BindingTypeImageblockData = 16,
-
-    BindingTypeImageblock = 17,
-
-    BindingTypeVisibleFunctionTable = 24,
-
-    BindingTypePrimitiveAccelerationStructure = 25,
-
-    BindingTypeInstanceAccelerationStructure = 26,
-
-    BindingTypeIntersectionFunctionTable = 27,
-
-    BindingTypeObjectPayload = 34,
-
-    BindingTypeTensor = 37
+    MTLBindingTypeBuffer = 0,
+    MTLBindingTypeThreadgroupMemory = 1,
+    MTLBindingTypeTexture = 2,
+    MTLBindingTypeSampler = 3,
+    MTLBindingTypeImageblockData = 16,
+    MTLBindingTypeImageblock = 17,
+    MTLBindingTypeVisibleFunctionTable = 24,
+    MTLBindingTypePrimitiveAccelerationStructure = 25,
+    MTLBindingTypeInstanceAccelerationStructure = 26,
+    MTLBindingTypeIntersectionFunctionTable = 27,
+    MTLBindingTypeObjectPayload = 34,
+    MTLBindingTypeTensor = 37
 }

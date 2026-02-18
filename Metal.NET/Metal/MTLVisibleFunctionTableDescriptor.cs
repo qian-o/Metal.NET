@@ -1,27 +1,12 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLVisibleFunctionTableDescriptor : IDisposable
+public partial class MTLVisibleFunctionTableDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVisibleFunctionTableDescriptor");
 
-    public MTLVisibleFunctionTableDescriptor(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLVisibleFunctionTableDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLVisibleFunctionTableDescriptor(nint nativePtr) : base(nativePtr)
     {
     }
-
-    ~MTLVisibleFunctionTableDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public nuint FunctionCount
     {
@@ -29,40 +14,14 @@ public class MTLVisibleFunctionTableDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVisibleFunctionTableDescriptorSelector.SetFunctionCount, value);
     }
 
-    public static implicit operator nint(MTLVisibleFunctionTableDescriptor value)
+    public static MTLVisibleFunctionTableDescriptor? VisibleFunctionTableDescriptor()
     {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLVisibleFunctionTableDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public static MTLVisibleFunctionTableDescriptor VisibleFunctionTableDescriptor()
-    {
-        MTLVisibleFunctionTableDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLVisibleFunctionTableDescriptorSelector.VisibleFunctionTableDescriptor));
-
-        return result;
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLVisibleFunctionTableDescriptorSelector.VisibleFunctionTableDescriptor);
+        return ptr is not 0 ? new(ptr) : null;
     }
 }
 
-file class MTLVisibleFunctionTableDescriptorSelector
+file static class MTLVisibleFunctionTableDescriptorSelector
 {
     public static readonly Selector FunctionCount = Selector.Register("functionCount");
 

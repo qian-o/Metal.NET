@@ -1,30 +1,23 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLFunctionHandle : IDisposable
+public partial class MTLFunctionHandle : NativeObject
 {
-    public MTLFunctionHandle(nint nativePtr)
+    public MTLFunctionHandle(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public MTLDevice? Device
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionHandleSelector.Device);
+            return ptr is not 0 ? new(ptr) : null;
         }
-    }
-
-    ~MTLFunctionHandle()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public MTLDevice Device
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionHandleSelector.Device));
     }
 
     public MTLFunctionType FunctionType
     {
-        get => (MTLFunctionType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionHandleSelector.FunctionType);
+        get => (MTLFunctionType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionHandleSelector.FunctionType);
     }
 
     public MTLResourceID GpuResourceID
@@ -32,38 +25,17 @@ public class MTLFunctionHandle : IDisposable
         get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLFunctionHandleSelector.GpuResourceID);
     }
 
-    public NSString Name
+    public NSString? Name
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionHandleSelector.Name));
-    }
-
-    public static implicit operator nint(MTLFunctionHandle value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLFunctionHandle(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
+        get
         {
-            ObjectiveCRuntime.Release(NativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionHandleSelector.Name);
+            return ptr is not 0 ? new(ptr) : null;
         }
     }
 }
 
-file class MTLFunctionHandleSelector
+file static class MTLFunctionHandleSelector
 {
     public static readonly Selector Device = Selector.Register("device");
 

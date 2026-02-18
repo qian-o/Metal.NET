@@ -1,61 +1,25 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTL4CommandBufferOptions : IDisposable
+public partial class MTL4CommandBufferOptions : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CommandBufferOptions");
 
-    public MTL4CommandBufferOptions(nint nativePtr)
+    public MTL4CommandBufferOptions(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public MTLLogState? LogState
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferOptionsSelector.LogState);
+            return ptr is not 0 ? new(ptr) : null;
         }
-    }
-
-    public MTL4CommandBufferOptions() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTL4CommandBufferOptions()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public MTLLogState LogState
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferOptionsSelector.LogState));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferOptionsSelector.SetLogState, value.NativePtr);
-    }
-
-    public static implicit operator nint(MTL4CommandBufferOptions value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4CommandBufferOptions(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferOptionsSelector.SetLogState, value?.NativePtr ?? 0);
     }
 }
 
-file class MTL4CommandBufferOptionsSelector
+file static class MTL4CommandBufferOptionsSelector
 {
     public static readonly Selector LogState = Selector.Register("logState");
 

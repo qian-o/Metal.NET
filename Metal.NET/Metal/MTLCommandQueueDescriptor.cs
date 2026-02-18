@@ -1,32 +1,21 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLCommandQueueDescriptor : IDisposable
+public partial class MTLCommandQueueDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCommandQueueDescriptor");
 
-    public MTLCommandQueueDescriptor(nint nativePtr)
+    public MTLCommandQueueDescriptor(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public MTLLogState? LogState
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueDescriptorSelector.LogState);
+            return ptr is not 0 ? new(ptr) : null;
         }
-    }
-
-    public MTLCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTLCommandQueueDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public MTLLogState LogState
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueDescriptorSelector.LogState));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueDescriptorSelector.SetLogState, value.NativePtr);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueDescriptorSelector.SetLogState, value?.NativePtr ?? 0);
     }
 
     public nuint MaxCommandBufferCount
@@ -34,40 +23,15 @@ public class MTLCommandQueueDescriptor : IDisposable
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandQueueDescriptorSelector.MaxCommandBufferCount);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueDescriptorSelector.SetMaxCommandBufferCount, value);
     }
-
-    public static implicit operator nint(MTLCommandQueueDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLCommandQueueDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
 }
 
-file class MTLCommandQueueDescriptorSelector
+file static class MTLCommandQueueDescriptorSelector
 {
     public static readonly Selector LogState = Selector.Register("logState");
 
-    public static readonly Selector SetLogState = Selector.Register("setLogState:");
-
     public static readonly Selector MaxCommandBufferCount = Selector.Register("maxCommandBufferCount");
+
+    public static readonly Selector SetLogState = Selector.Register("setLogState:");
 
     public static readonly Selector SetMaxCommandBufferCount = Selector.Register("setMaxCommandBufferCount:");
 }

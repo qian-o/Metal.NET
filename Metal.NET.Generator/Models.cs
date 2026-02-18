@@ -1,4 +1,4 @@
-﻿namespace Metal.NET.Generator;
+namespace Metal.NET.Generator;
 
 public class EnumDef
 {

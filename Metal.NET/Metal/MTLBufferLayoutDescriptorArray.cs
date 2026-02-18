@@ -1,69 +1,28 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLBufferLayoutDescriptorArray : IDisposable
+public partial class MTLBufferLayoutDescriptorArray : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLBufferLayoutDescriptorArray");
 
-    public MTLBufferLayoutDescriptorArray(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLBufferLayoutDescriptorArray() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLBufferLayoutDescriptorArray(nint nativePtr) : base(nativePtr)
     {
     }
 
-    ~MTLBufferLayoutDescriptorArray()
+    public MTLBufferLayoutDescriptor? @object(nuint index)
     {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public static implicit operator nint(MTLBufferLayoutDescriptorArray value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLBufferLayoutDescriptorArray(nint value)
-    {
-        return new(value);
-    }
-
-    public MTLBufferLayoutDescriptor Object(nuint index)
-    {
-        MTLBufferLayoutDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArraySelector.ObjectAtIndexedSubscript, index));
-
-        return result;
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArraySelector.Object, index);
+        return ptr is not 0 ? new(ptr) : null;
     }
 
     public void SetObject(MTLBufferLayoutDescriptor bufferDesc, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorArraySelector.SetObjectAtIndexedSubscript, bufferDesc.NativePtr, index);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorArraySelector.SetObject, bufferDesc.NativePtr, index);
     }
 }
 
-file class MTLBufferLayoutDescriptorArraySelector
+file static class MTLBufferLayoutDescriptorArraySelector
 {
-    public static readonly Selector ObjectAtIndexedSubscript = Selector.Register("objectAtIndexedSubscript:");
+    public static readonly Selector Object = Selector.Register("object:");
 
-    public static readonly Selector SetObjectAtIndexedSubscript = Selector.Register("setObject:atIndexedSubscript:");
+    public static readonly Selector SetObject = Selector.Register("setObject::");
 }

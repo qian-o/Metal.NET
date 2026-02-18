@@ -1,12 +1,9 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLTessellationPartitionMode : ulong
 {
-    TessellationPartitionModePow2 = 0,
-
-    TessellationPartitionModeInteger = 1,
-
-    TessellationPartitionModeFractionalOdd = 2,
-
-    TessellationPartitionModeFractionalEven = 3
+    MTLTessellationPartitionModePow2 = 0,
+    MTLTessellationPartitionModeInteger = 1,
+    MTLTessellationPartitionModeFractionalOdd = 2,
+    MTLTessellationPartitionModeFractionalEven = 3
 }

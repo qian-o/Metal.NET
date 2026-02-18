@@ -1,198 +1,102 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLDataType : ulong
 {
-    DataTypeNone = 0,
-
-    DataTypeStruct = 1,
-
-    DataTypeArray = 2,
-
-    DataTypeFloat = 3,
-
-    DataTypeFloat2 = 4,
-
-    DataTypeFloat3 = 5,
-
-    DataTypeFloat4 = 6,
-
-    DataTypeFloat2x2 = 7,
-
-    DataTypeFloat2x3 = 8,
-
-    DataTypeFloat2x4 = 9,
-
-    DataTypeFloat3x2 = 10,
-
-    DataTypeFloat3x3 = 11,
-
-    DataTypeFloat3x4 = 12,
-
-    DataTypeFloat4x2 = 13,
-
-    DataTypeFloat4x3 = 14,
-
-    DataTypeFloat4x4 = 15,
-
-    DataTypeHalf = 16,
-
-    DataTypeHalf2 = 17,
-
-    DataTypeHalf3 = 18,
-
-    DataTypeHalf4 = 19,
-
-    DataTypeHalf2x2 = 20,
-
-    DataTypeHalf2x3 = 21,
-
-    DataTypeHalf2x4 = 22,
-
-    DataTypeHalf3x2 = 23,
-
-    DataTypeHalf3x3 = 24,
-
-    DataTypeHalf3x4 = 25,
-
-    DataTypeHalf4x2 = 26,
-
-    DataTypeHalf4x3 = 27,
-
-    DataTypeHalf4x4 = 28,
-
-    DataTypeInt = 29,
-
-    DataTypeInt2 = 30,
-
-    DataTypeInt3 = 31,
-
-    DataTypeInt4 = 32,
-
-    DataTypeUInt = 33,
-
-    DataTypeUInt2 = 34,
-
-    DataTypeUInt3 = 35,
-
-    DataTypeUInt4 = 36,
-
-    DataTypeShort = 37,
-
-    DataTypeShort2 = 38,
-
-    DataTypeShort3 = 39,
-
-    DataTypeShort4 = 40,
-
-    DataTypeUShort = 41,
-
-    DataTypeUShort2 = 42,
-
-    DataTypeUShort3 = 43,
-
-    DataTypeUShort4 = 44,
-
-    DataTypeChar = 45,
-
-    DataTypeChar2 = 46,
-
-    DataTypeChar3 = 47,
-
-    DataTypeChar4 = 48,
-
-    DataTypeUChar = 49,
-
-    DataTypeUChar2 = 50,
-
-    DataTypeUChar3 = 51,
-
-    DataTypeUChar4 = 52,
-
-    DataTypeBool = 53,
-
-    DataTypeBool2 = 54,
-
-    DataTypeBool3 = 55,
-
-    DataTypeBool4 = 56,
-
-    DataTypeTexture = 58,
-
-    DataTypeSampler = 59,
-
-    DataTypePointer = 60,
-
-    DataTypeR8Unorm = 62,
-
-    DataTypeR8Snorm = 63,
-
-    DataTypeR16Unorm = 64,
-
-    DataTypeR16Snorm = 65,
-
-    DataTypeRG8Unorm = 66,
-
-    DataTypeRG8Snorm = 67,
-
-    DataTypeRG16Unorm = 68,
-
-    DataTypeRG16Snorm = 69,
-
-    DataTypeRGBA8Unorm = 70,
-
-    DataTypeRGBA8Unorm_sRGB = 71,
-
-    DataTypeRGBA8Snorm = 72,
-
-    DataTypeRGBA16Unorm = 73,
-
-    DataTypeRGBA16Snorm = 74,
-
-    DataTypeRGB10A2Unorm = 75,
-
-    DataTypeRG11B10Float = 76,
-
-    DataTypeRGB9E5Float = 77,
-
-    DataTypeRenderPipeline = 78,
-
-    DataTypeComputePipeline = 79,
-
-    DataTypeIndirectCommandBuffer = 80,
-
-    DataTypeLong = 81,
-
-    DataTypeLong2 = 82,
-
-    DataTypeLong3 = 83,
-
-    DataTypeLong4 = 84,
-
-    DataTypeULong = 85,
-
-    DataTypeULong2 = 86,
-
-    DataTypeULong3 = 87,
-
-    DataTypeULong4 = 88,
-
-    DataTypeVisibleFunctionTable = 115,
-
-    DataTypeIntersectionFunctionTable = 116,
-
-    DataTypePrimitiveAccelerationStructure = 117,
-
-    DataTypeInstanceAccelerationStructure = 118,
-
-    DataTypeBFloat = 121,
-
-    DataTypeBFloat2 = 122,
-
-    DataTypeBFloat3 = 123,
-
-    DataTypeBFloat4 = 124,
-
-    DataTypeDepthStencilState = 139,
-
-    DataTypeTensor = 140
+    MTLDataTypeNone = 0,
+    MTLDataTypeStruct = 1,
+    MTLDataTypeArray = 2,
+    MTLDataTypeFloat = 3,
+    MTLDataTypeFloat2 = 4,
+    MTLDataTypeFloat3 = 5,
+    MTLDataTypeFloat4 = 6,
+    MTLDataTypeFloat2x2 = 7,
+    MTLDataTypeFloat2x3 = 8,
+    MTLDataTypeFloat2x4 = 9,
+    MTLDataTypeFloat3x2 = 10,
+    MTLDataTypeFloat3x3 = 11,
+    MTLDataTypeFloat3x4 = 12,
+    MTLDataTypeFloat4x2 = 13,
+    MTLDataTypeFloat4x3 = 14,
+    MTLDataTypeFloat4x4 = 15,
+    MTLDataTypeHalf = 16,
+    MTLDataTypeHalf2 = 17,
+    MTLDataTypeHalf3 = 18,
+    MTLDataTypeHalf4 = 19,
+    MTLDataTypeHalf2x2 = 20,
+    MTLDataTypeHalf2x3 = 21,
+    MTLDataTypeHalf2x4 = 22,
+    MTLDataTypeHalf3x2 = 23,
+    MTLDataTypeHalf3x3 = 24,
+    MTLDataTypeHalf3x4 = 25,
+    MTLDataTypeHalf4x2 = 26,
+    MTLDataTypeHalf4x3 = 27,
+    MTLDataTypeHalf4x4 = 28,
+    MTLDataTypeInt = 29,
+    MTLDataTypeInt2 = 30,
+    MTLDataTypeInt3 = 31,
+    MTLDataTypeInt4 = 32,
+    MTLDataTypeUInt = 33,
+    MTLDataTypeUInt2 = 34,
+    MTLDataTypeUInt3 = 35,
+    MTLDataTypeUInt4 = 36,
+    MTLDataTypeShort = 37,
+    MTLDataTypeShort2 = 38,
+    MTLDataTypeShort3 = 39,
+    MTLDataTypeShort4 = 40,
+    MTLDataTypeUShort = 41,
+    MTLDataTypeUShort2 = 42,
+    MTLDataTypeUShort3 = 43,
+    MTLDataTypeUShort4 = 44,
+    MTLDataTypeChar = 45,
+    MTLDataTypeChar2 = 46,
+    MTLDataTypeChar3 = 47,
+    MTLDataTypeChar4 = 48,
+    MTLDataTypeUChar = 49,
+    MTLDataTypeUChar2 = 50,
+    MTLDataTypeUChar3 = 51,
+    MTLDataTypeUChar4 = 52,
+    MTLDataTypeBool = 53,
+    MTLDataTypeBool2 = 54,
+    MTLDataTypeBool3 = 55,
+    MTLDataTypeBool4 = 56,
+    MTLDataTypeTexture = 58,
+    MTLDataTypeSampler = 59,
+    MTLDataTypePointer = 60,
+    MTLDataTypeR8Unorm = 62,
+    MTLDataTypeR8Snorm = 63,
+    MTLDataTypeR16Unorm = 64,
+    MTLDataTypeR16Snorm = 65,
+    MTLDataTypeRG8Unorm = 66,
+    MTLDataTypeRG8Snorm = 67,
+    MTLDataTypeRG16Unorm = 68,
+    MTLDataTypeRG16Snorm = 69,
+    MTLDataTypeRGBA8Unorm = 70,
+    MTLDataTypeRGBA8Unorm_sRGB = 71,
+    MTLDataTypeRGBA8Snorm = 72,
+    MTLDataTypeRGBA16Unorm = 73,
+    MTLDataTypeRGBA16Snorm = 74,
+    MTLDataTypeRGB10A2Unorm = 75,
+    MTLDataTypeRG11B10Float = 76,
+    MTLDataTypeRGB9E5Float = 77,
+    MTLDataTypeRenderPipeline = 78,
+    MTLDataTypeComputePipeline = 79,
+    MTLDataTypeIndirectCommandBuffer = 80,
+    MTLDataTypeLong = 81,
+    MTLDataTypeLong2 = 82,
+    MTLDataTypeLong3 = 83,
+    MTLDataTypeLong4 = 84,
+    MTLDataTypeULong = 85,
+    MTLDataTypeULong2 = 86,
+    MTLDataTypeULong3 = 87,
+    MTLDataTypeULong4 = 88,
+    MTLDataTypeVisibleFunctionTable = 115,
+    MTLDataTypeIntersectionFunctionTable = 116,
+    MTLDataTypePrimitiveAccelerationStructure = 117,
+    MTLDataTypeInstanceAccelerationStructure = 118,
+    MTLDataTypeBFloat = 121,
+    MTLDataTypeBFloat2 = 122,
+    MTLDataTypeBFloat3 = 123,
+    MTLDataTypeBFloat4 = 124,
+    MTLDataTypeDepthStencilState = 139,
+    MTLDataTypeTensor = 140
 }

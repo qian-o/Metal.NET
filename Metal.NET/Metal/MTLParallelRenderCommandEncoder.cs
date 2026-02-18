@@ -1,60 +1,58 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLParallelRenderCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr)
+public partial class MTLParallelRenderCommandEncoder : NativeObject
 {
-    public MTLRenderCommandEncoder RenderCommandEncoder
+    public MTLParallelRenderCommandEncoder(nint nativePtr) : base(nativePtr)
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLParallelRenderCommandEncoderSelector.RenderCommandEncoder));
     }
 
-    public static implicit operator nint(MTLParallelRenderCommandEncoder value)
+    public MTLRenderCommandEncoder? RenderCommandEncoder
     {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLParallelRenderCommandEncoder(nint value)
-    {
-        return new(value);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLParallelRenderCommandEncoderSelector.RenderCommandEncoder);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public void SetColorStoreAction(MTLStoreAction storeAction, nuint colorAttachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetColorStoreActionAtIndex, (ulong)storeAction, colorAttachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetColorStoreAction, (nuint)storeAction, colorAttachmentIndex);
     }
 
     public void SetColorStoreActionOptions(MTLStoreActionOptions storeActionOptions, nuint colorAttachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetColorStoreActionOptionsAtIndex, (ulong)storeActionOptions, colorAttachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetColorStoreActionOptions, (nuint)storeActionOptions, colorAttachmentIndex);
     }
 
     public void SetDepthStoreAction(MTLStoreAction storeAction)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetDepthStoreAction, (ulong)storeAction);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetDepthStoreAction, (nuint)storeAction);
     }
 
     public void SetDepthStoreActionOptions(MTLStoreActionOptions storeActionOptions)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetDepthStoreActionOptions, (ulong)storeActionOptions);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetDepthStoreActionOptions, (nuint)storeActionOptions);
     }
 
     public void SetStencilStoreAction(MTLStoreAction storeAction)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetStencilStoreAction, (ulong)storeAction);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetStencilStoreAction, (nuint)storeAction);
     }
 
     public void SetStencilStoreActionOptions(MTLStoreActionOptions storeActionOptions)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetStencilStoreActionOptions, (ulong)storeActionOptions);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetStencilStoreActionOptions, (nuint)storeActionOptions);
     }
 }
 
-file class MTLParallelRenderCommandEncoderSelector
+file static class MTLParallelRenderCommandEncoderSelector
 {
     public static readonly Selector RenderCommandEncoder = Selector.Register("renderCommandEncoder");
 
-    public static readonly Selector SetColorStoreActionAtIndex = Selector.Register("setColorStoreAction:atIndex:");
+    public static readonly Selector SetColorStoreAction = Selector.Register("setColorStoreAction::");
 
-    public static readonly Selector SetColorStoreActionOptionsAtIndex = Selector.Register("setColorStoreActionOptions:atIndex:");
+    public static readonly Selector SetColorStoreActionOptions = Selector.Register("setColorStoreActionOptions::");
 
     public static readonly Selector SetDepthStoreAction = Selector.Register("setDepthStoreAction:");
 

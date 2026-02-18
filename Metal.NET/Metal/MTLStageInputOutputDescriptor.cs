@@ -1,31 +1,20 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLStageInputOutputDescriptor : IDisposable
+public partial class MTLStageInputOutputDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStageInputOutputDescriptor");
 
-    public MTLStageInputOutputDescriptor(nint nativePtr)
+    public MTLStageInputOutputDescriptor(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public MTLAttributeDescriptorArray? Attributes
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStageInputOutputDescriptorSelector.Attributes);
+            return ptr is not 0 ? new(ptr) : null;
         }
-    }
-
-    public MTLStageInputOutputDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTLStageInputOutputDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public MTLAttributeDescriptorArray Attributes
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStageInputOutputDescriptorSelector.Attributes));
     }
 
     public nuint IndexBufferIndex
@@ -36,23 +25,17 @@ public class MTLStageInputOutputDescriptor : IDisposable
 
     public MTLIndexType IndexType
     {
-        get => (MTLIndexType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStageInputOutputDescriptorSelector.IndexType);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStageInputOutputDescriptorSelector.SetIndexType, (ulong)value);
+        get => (MTLIndexType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStageInputOutputDescriptorSelector.IndexType);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStageInputOutputDescriptorSelector.SetIndexType, (nuint)value);
     }
 
-    public MTLBufferLayoutDescriptorArray Layouts
+    public MTLBufferLayoutDescriptorArray? Layouts
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStageInputOutputDescriptorSelector.Layouts));
-    }
-
-    public static implicit operator nint(MTLStageInputOutputDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLStageInputOutputDescriptor(nint value)
-    {
-        return new(value);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStageInputOutputDescriptorSelector.Layouts);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public void Reset()
@@ -60,44 +43,28 @@ public class MTLStageInputOutputDescriptor : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLStageInputOutputDescriptorSelector.Reset);
     }
 
-    public static MTLStageInputOutputDescriptor StageInputOutputDescriptor()
+    public static MTLStageInputOutputDescriptor? StageInputOutputDescriptor()
     {
-        MTLStageInputOutputDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLStageInputOutputDescriptorSelector.StageInputOutputDescriptor));
-
-        return result;
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLStageInputOutputDescriptorSelector.StageInputOutputDescriptor);
+        return ptr is not 0 ? new(ptr) : null;
     }
 }
 
-file class MTLStageInputOutputDescriptorSelector
+file static class MTLStageInputOutputDescriptorSelector
 {
     public static readonly Selector Attributes = Selector.Register("attributes");
 
     public static readonly Selector IndexBufferIndex = Selector.Register("indexBufferIndex");
 
-    public static readonly Selector SetIndexBufferIndex = Selector.Register("setIndexBufferIndex:");
-
     public static readonly Selector IndexType = Selector.Register("indexType");
-
-    public static readonly Selector SetIndexType = Selector.Register("setIndexType:");
 
     public static readonly Selector Layouts = Selector.Register("layouts");
 
     public static readonly Selector Reset = Selector.Register("reset");
+
+    public static readonly Selector SetIndexBufferIndex = Selector.Register("setIndexBufferIndex:");
+
+    public static readonly Selector SetIndexType = Selector.Register("setIndexType:");
 
     public static readonly Selector StageInputOutputDescriptor = Selector.Register("stageInputOutputDescriptor");
 }

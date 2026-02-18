@@ -1,54 +1,22 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLIOScratchBuffer : IDisposable
+public partial class MTLIOScratchBuffer : NativeObject
 {
-    public MTLIOScratchBuffer(nint nativePtr)
+    public MTLIOScratchBuffer(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public MTLBuffer? Buffer
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLIOScratchBuffer()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public MTLBuffer Buffer
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOScratchBufferSelector.Buffer));
-    }
-
-    public static implicit operator nint(MTLIOScratchBuffer value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLIOScratchBuffer(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOScratchBufferSelector.Buffer);
+            return ptr is not 0 ? new(ptr) : null;
         }
     }
 }
 
-file class MTLIOScratchBufferSelector
+file static class MTLIOScratchBufferSelector
 {
     public static readonly Selector Buffer = Selector.Register("buffer");
 }

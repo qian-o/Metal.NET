@@ -1,50 +1,28 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum NSStringEncoding : ulong
 {
-    ASCIIStringEncoding = 1,
-
-    NEXTSTEPStringEncoding = 2,
-
-    JapaneseEUCStringEncoding = 3,
-
-    UTF8StringEncoding = 4,
-
-    ISOLatin1StringEncoding = 5,
-
-    SymbolStringEncoding = 6,
-
-    NonLossyASCIIStringEncoding = 7,
-
-    ShiftJISStringEncoding = 8,
-
-    ISOLatin2StringEncoding = 9,
-
-    UnicodeStringEncoding = 10,
-
-    WindowsCP1251StringEncoding = 11,
-
-    WindowsCP1252StringEncoding = 12,
-
-    WindowsCP1253StringEncoding = 13,
-
-    WindowsCP1254StringEncoding = 14,
-
-    WindowsCP1250StringEncoding = 15,
-
-    ISO2022JPStringEncoding = 21,
-
-    MacOSRomanStringEncoding = 30,
-
-    UTF16StringEncoding = UnicodeStringEncoding,
-
-    UTF16BigEndianStringEncoding = 2415919360,
-
-    UTF16LittleEndianStringEncoding = 2483028224,
-
-    UTF32StringEncoding = 2348810496,
-
-    UTF32BigEndianStringEncoding = 2550137088,
-
-    UTF32LittleEndianStringEncoding = 2617245952
+    NSASCIIStringEncoding = 1,
+    NSNEXTSTEPStringEncoding = 2,
+    NSJapaneseEUCStringEncoding = 3,
+    NSUTF8StringEncoding = 4,
+    NSISOLatin1StringEncoding = 5,
+    NSSymbolStringEncoding = 6,
+    NSNonLossyASCIIStringEncoding = 7,
+    NSShiftJISStringEncoding = 8,
+    NSISOLatin2StringEncoding = 9,
+    NSUnicodeStringEncoding = 10,
+    NSWindowsCP1251StringEncoding = 11,
+    NSWindowsCP1252StringEncoding = 12,
+    NSWindowsCP1253StringEncoding = 13,
+    NSWindowsCP1254StringEncoding = 14,
+    NSWindowsCP1250StringEncoding = 15,
+    NSISO2022JPStringEncoding = 21,
+    NSMacOSRomanStringEncoding = 30,
+    NSUTF16StringEncoding = 10,
+    NSUTF16BigEndianStringEncoding = 2415919360,
+    NSUTF16LittleEndianStringEncoding = 2483028224,
+    NSUTF32StringEncoding = 2348810496,
+    NSUTF32BigEndianStringEncoding = 2550137088,
+    NSUTF32LittleEndianStringEncoding = 2617245952
 }

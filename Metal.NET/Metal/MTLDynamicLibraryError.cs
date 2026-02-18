@@ -1,16 +1,11 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLDynamicLibraryError : ulong
 {
-    DynamicLibraryErrorNone = 0,
-
-    DynamicLibraryErrorInvalidFile = 1,
-
-    DynamicLibraryErrorCompilationFailure = 2,
-
-    DynamicLibraryErrorUnresolvedInstallName = 3,
-
-    DynamicLibraryErrorDependencyLoadFailure = 4,
-
-    DynamicLibraryErrorUnsupported = 5
+    MTLDynamicLibraryErrorNone = 0,
+    MTLDynamicLibraryErrorInvalidFile = 1,
+    MTLDynamicLibraryErrorCompilationFailure = 2,
+    MTLDynamicLibraryErrorUnresolvedInstallName = 3,
+    MTLDynamicLibraryErrorDependencyLoadFailure = 4,
+    MTLDynamicLibraryErrorUnsupported = 5
 }

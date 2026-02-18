@@ -1,59 +1,27 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTL4BinaryFunction : IDisposable
+public partial class MTL4BinaryFunction : NativeObject
 {
-    public MTL4BinaryFunction(nint nativePtr)
+    public MTL4BinaryFunction(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
     }
-
-    ~MTL4BinaryFunction()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public MTLFunctionType FunctionType
     {
-        get => (MTLFunctionType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4BinaryFunctionSelector.FunctionType);
+        get => (MTLFunctionType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4BinaryFunctionSelector.FunctionType);
     }
 
-    public NSString Name
+    public NSString? Name
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4BinaryFunctionSelector.Name));
-    }
-
-    public static implicit operator nint(MTL4BinaryFunction value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4BinaryFunction(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
+        get
         {
-            ObjectiveCRuntime.Release(NativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4BinaryFunctionSelector.Name);
+            return ptr is not 0 ? new(ptr) : null;
         }
     }
 }
 
-file class MTL4BinaryFunctionSelector
+file static class MTL4BinaryFunctionSelector
 {
     public static readonly Selector FunctionType = Selector.Register("functionType");
 

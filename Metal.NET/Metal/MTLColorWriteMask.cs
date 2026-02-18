@@ -1,19 +1,13 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 [Flags]
 public enum MTLColorWriteMask : ulong
 {
-    ColorWriteMaskNone = 0,
-
-    ColorWriteMaskRed = 8,
-
-    ColorWriteMaskGreen = 4,
-
-    ColorWriteMaskBlue = 2,
-
-    ColorWriteMaskAlpha = 1,
-
-    ColorWriteMaskAll = 15,
-
-    ColorWriteMaskUnspecialized = 16
+    MTLColorWriteMaskNone = 0,
+    MTLColorWriteMaskRed = 8,
+    MTLColorWriteMaskGreen = 4,
+    MTLColorWriteMaskBlue = 2,
+    MTLColorWriteMaskAlpha = 1,
+    MTLColorWriteMaskAll = 15,
+    MTLColorWriteMaskUnspecialized = 16
 }

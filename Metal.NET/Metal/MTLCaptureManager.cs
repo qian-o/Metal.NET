@@ -1,92 +1,39 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLCaptureManager : IDisposable
+public partial class MTLCaptureManager : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCaptureManager");
 
-    public MTLCaptureManager(nint nativePtr)
+    public MTLCaptureManager(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public MTLCaptureScope? DefaultCaptureScope
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerSelector.DefaultCaptureScope);
+            return ptr is not 0 ? new(ptr) : null;
         }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureManagerSelector.SetDefaultCaptureScope, value?.NativePtr ?? 0);
     }
 
-    public MTLCaptureManager() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTLCaptureManager()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public MTLCaptureScope DefaultCaptureScope
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerSelector.DefaultCaptureScope));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureManagerSelector.SetDefaultCaptureScope, value.NativePtr);
-    }
-
-    public Bool8 IsCapturing
+    public bool IsCapturing
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerSelector.IsCapturing);
     }
 
-    public static implicit operator nint(MTLCaptureManager value)
+    public MTLCaptureScope? NewCaptureScope(MTLDevice device)
     {
-        return value.NativePtr;
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerSelector.NewCaptureScope, device.NativePtr);
+        return ptr is not 0 ? new(ptr) : null;
     }
 
-    public static implicit operator MTLCaptureManager(nint value)
+    public bool StartCapture(MTLCaptureDescriptor descriptor, out NSError? error)
     {
-        return new(value);
-    }
-
-    public MTLCaptureScope NewCaptureScope(MTLDevice device)
-    {
-        MTLCaptureScope result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerSelector.NewCaptureScopeWithMTL4CommandQueue, device.NativePtr));
-
-        return result;
-    }
-
-    public MTLCaptureScope NewCaptureScope(MTLCommandQueue commandQueue)
-    {
-        MTLCaptureScope result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerSelector.NewCaptureScopeWithMTL4CommandQueue, commandQueue.NativePtr));
-
-        return result;
-    }
-
-    public MTLCaptureScope NewCaptureScope(MTL4CommandQueue commandQueue)
-    {
-        MTLCaptureScope result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerSelector.NewCaptureScopeWithMTL4CommandQueue, commandQueue.NativePtr));
-
-        return result;
-    }
-
-    public Bool8 StartCapture(MTLCaptureDescriptor descriptor, out NSError? error)
-    {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerSelector.StartCaptureWithScope, descriptor.NativePtr, out nint errorPtr);
-
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerSelector.StartCapture, descriptor.NativePtr, out nint errorPtr);
         error = errorPtr is not 0 ? new(errorPtr) : null;
-
         return result;
-    }
-
-    public void StartCapture(MTLDevice device)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureManagerSelector.StartCaptureWithScope, device.NativePtr);
-    }
-
-    public void StartCapture(MTLCommandQueue commandQueue)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureManagerSelector.StartCaptureWithScope, commandQueue.NativePtr);
-    }
-
-    public void StartCapture(MTLCaptureScope captureScope)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureManagerSelector.StartCaptureWithScope, captureScope.NativePtr);
     }
 
     public void StopCapture()
@@ -94,51 +41,33 @@ public class MTLCaptureManager : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureManagerSelector.StopCapture);
     }
 
-    public Bool8 SupportsDestination(MTLCaptureDestination destination)
+    public bool SupportsDestination(MTLCaptureDestination destination)
     {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerSelector.SupportsDestination, (ulong)destination);
-
-        return result;
+        return ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerSelector.SupportsDestination, (nint)destination);
     }
 
-    public static MTLCaptureManager SharedCaptureManager()
+    public static MTLCaptureManager? SharedCaptureManager()
     {
-        MTLCaptureManager result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLCaptureManagerSelector.SharedCaptureManager));
-
-        return result;
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLCaptureManagerSelector.SharedCaptureManager);
+        return ptr is not 0 ? new(ptr) : null;
     }
 }
 
-file class MTLCaptureManagerSelector
+file static class MTLCaptureManagerSelector
 {
     public static readonly Selector DefaultCaptureScope = Selector.Register("defaultCaptureScope");
 
-    public static readonly Selector SetDefaultCaptureScope = Selector.Register("setDefaultCaptureScope:");
-
     public static readonly Selector IsCapturing = Selector.Register("isCapturing");
 
-    public static readonly Selector NewCaptureScopeWithMTL4CommandQueue = Selector.Register("newCaptureScopeWithMTL4CommandQueue:");
+    public static readonly Selector NewCaptureScope = Selector.Register("newCaptureScope:");
 
-    public static readonly Selector StartCaptureWithScope = Selector.Register("startCaptureWithScope:");
+    public static readonly Selector SetDefaultCaptureScope = Selector.Register("setDefaultCaptureScope:");
+
+    public static readonly Selector SharedCaptureManager = Selector.Register("sharedCaptureManager");
+
+    public static readonly Selector StartCapture = Selector.Register("startCapture:::");
 
     public static readonly Selector StopCapture = Selector.Register("stopCapture");
 
     public static readonly Selector SupportsDestination = Selector.Register("supportsDestination:");
-
-    public static readonly Selector SharedCaptureManager = Selector.Register("sharedCaptureManager");
 }

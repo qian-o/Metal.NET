@@ -1,59 +1,31 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLCounterSet : IDisposable
+public partial class MTLCounterSet : NativeObject
 {
-    public MTLCounterSet(nint nativePtr)
+    public MTLCounterSet(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public NSArray? Counters
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSetSelector.Counters);
+            return ptr is not 0 ? new(ptr) : null;
         }
     }
 
-    ~MTLCounterSet()
+    public NSString? Name
     {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public NSArray Counters
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSetSelector.Counters));
-    }
-
-    public NSString Name
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSetSelector.Name));
-    }
-
-    public static implicit operator nint(MTLCounterSet value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLCounterSet(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
+        get
         {
-            ObjectiveCRuntime.Release(NativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSetSelector.Name);
+            return ptr is not 0 ? new(ptr) : null;
         }
     }
 }
 
-file class MTLCounterSetSelector
+file static class MTLCounterSetSelector
 {
     public static readonly Selector Counters = Selector.Register("counters");
 

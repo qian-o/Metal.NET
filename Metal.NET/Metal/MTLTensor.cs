@@ -1,10 +1,18 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLTensor(nint nativePtr) : MTLResource(nativePtr)
+public partial class MTLTensor : NativeObject
 {
-    public MTLBuffer Buffer
+    public MTLTensor(nint nativePtr) : base(nativePtr)
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Buffer));
+    }
+
+    public MTLBuffer? Buffer
+    {
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Buffer);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public nuint BufferOffset
@@ -14,12 +22,16 @@ public class MTLTensor(nint nativePtr) : MTLResource(nativePtr)
 
     public MTLTensorDataType DataType
     {
-        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorSelector.DataType);
+        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.DataType);
     }
 
-    public MTLTensorExtents Dimensions
+    public MTLTensorExtents? Dimensions
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Dimensions));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Dimensions);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public MTLResourceID GpuResourceID
@@ -27,38 +39,32 @@ public class MTLTensor(nint nativePtr) : MTLResource(nativePtr)
         get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTensorSelector.GpuResourceID);
     }
 
-    public MTLTensorExtents Strides
+    public MTLTensorExtents? Strides
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Strides));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Strides);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
-    public MTLTensorUsage Usage
+    public nuint Usage
     {
-        get => (MTLTensorUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorSelector.Usage);
-    }
-
-    public static implicit operator nint(MTLTensor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLTensor(nint value)
-    {
-        return new(value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorSelector.Usage);
     }
 
     public void GetBytes(nint bytes, MTLTensorExtents strides, MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorSelector.GetBytesStridesFromSliceOriginSliceDimensions, bytes, strides.NativePtr, sliceOrigin.NativePtr, sliceDimensions.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorSelector.GetBytes, bytes, strides.NativePtr, sliceOrigin.NativePtr, sliceDimensions.NativePtr);
     }
 
     public void ReplaceSliceOrigin(MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions, nint bytes, MTLTensorExtents strides)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorSelector.ReplaceSliceOriginSliceDimensionsWithBytesStrides, sliceOrigin.NativePtr, sliceDimensions.NativePtr, bytes, strides.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorSelector.ReplaceSliceOrigin, sliceOrigin.NativePtr, sliceDimensions.NativePtr, bytes, strides.NativePtr);
     }
 }
 
-file class MTLTensorSelector
+file static class MTLTensorSelector
 {
     public static readonly Selector Buffer = Selector.Register("buffer");
 
@@ -68,13 +74,13 @@ file class MTLTensorSelector
 
     public static readonly Selector Dimensions = Selector.Register("dimensions");
 
+    public static readonly Selector GetBytes = Selector.Register("getBytes::::");
+
     public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
+
+    public static readonly Selector ReplaceSliceOrigin = Selector.Register("replaceSliceOrigin::::");
 
     public static readonly Selector Strides = Selector.Register("strides");
 
     public static readonly Selector Usage = Selector.Register("usage");
-
-    public static readonly Selector GetBytesStridesFromSliceOriginSliceDimensions = Selector.Register("getBytes:strides:fromSliceOrigin:sliceDimensions:");
-
-    public static readonly Selector ReplaceSliceOriginSliceDimensionsWithBytesStrides = Selector.Register("replaceSliceOrigin:sliceDimensions:withBytes:strides:");
 }

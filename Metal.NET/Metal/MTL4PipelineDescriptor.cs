@@ -1,73 +1,41 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTL4PipelineDescriptor : IDisposable
+public partial class MTL4PipelineDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PipelineDescriptor");
 
-    public MTL4PipelineDescriptor(nint nativePtr)
+    public MTL4PipelineDescriptor(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public NSString? Label
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDescriptorSelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
         }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
     }
 
-    public MTL4PipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTL4PipelineOptions? Options
     {
-    }
-
-    ~MTL4PipelineDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public NSString Label
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDescriptorSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDescriptorSelector.SetLabel, value.NativePtr);
-    }
-
-    public MTL4PipelineOptions Options
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDescriptorSelector.Options));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDescriptorSelector.SetOptions, value.NativePtr);
-    }
-
-    public static implicit operator nint(MTL4PipelineDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4PipelineDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
+        get
         {
-            ObjectiveCRuntime.Release(NativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDescriptorSelector.Options);
+            return ptr is not 0 ? new(ptr) : null;
         }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDescriptorSelector.SetOptions, value?.NativePtr ?? 0);
     }
 }
 
-file class MTL4PipelineDescriptorSelector
+file static class MTL4PipelineDescriptorSelector
 {
     public static readonly Selector Label = Selector.Register("label");
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
-
     public static readonly Selector Options = Selector.Register("options");
+
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
 
     public static readonly Selector SetOptions = Selector.Register("setOptions:");
 }

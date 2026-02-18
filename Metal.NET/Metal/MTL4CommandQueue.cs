@@ -1,40 +1,27 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTL4CommandQueue : IDisposable
+public partial class MTL4CommandQueue : NativeObject
 {
-    public MTL4CommandQueue(nint nativePtr)
+    public MTL4CommandQueue(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public MTLDevice? Device
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueSelector.Device);
+            return ptr is not 0 ? new(ptr) : null;
         }
     }
 
-    ~MTL4CommandQueue()
+    public NSString? Label
     {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public MTLDevice Device
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueSelector.Device));
-    }
-
-    public NSString Label
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueSelector.Label));
-    }
-
-    public static implicit operator nint(MTL4CommandQueue value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4CommandQueue(nint value)
-    {
-        return new(value);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueSelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public void AddResidencySet(MTLResidencySet residencySet)
@@ -44,12 +31,12 @@ public class MTL4CommandQueue : IDisposable
 
     public void CopyBufferMappingsFromBuffer(MTLBuffer sourceBuffer, MTLBuffer destinationBuffer, MTL4CopySparseBufferMappingOperation operations, nuint count)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.CopyBufferMappingsFromBufferToBufferOperationsCount, sourceBuffer.NativePtr, destinationBuffer.NativePtr, operations, count);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.CopyBufferMappingsFromBuffer, sourceBuffer.NativePtr, destinationBuffer.NativePtr, operations, count);
     }
 
     public void CopyTextureMappingsFromTexture(MTLTexture sourceTexture, MTLTexture destinationTexture, MTL4CopySparseTextureMappingOperation operations, nuint count)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.CopyTextureMappingsFromTextureToTextureOperationsCount, sourceTexture.NativePtr, destinationTexture.NativePtr, operations, count);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.CopyTextureMappingsFromTexture, sourceTexture.NativePtr, destinationTexture.NativePtr, operations, count);
     }
 
     public void RemoveResidencySet(MTLResidencySet residencySet)
@@ -64,66 +51,51 @@ public class MTL4CommandQueue : IDisposable
 
     public void SignalEvent(MTLEvent @event, nuint value)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.SignalEventValue, @event.NativePtr, value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.SignalEvent, @event.NativePtr, value);
     }
 
     public void UpdateBufferMappings(MTLBuffer buffer, MTLHeap heap, MTL4UpdateSparseBufferMappingOperation operations, nuint count)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.UpdateBufferMappingsHeapOperationsCount, buffer.NativePtr, heap.NativePtr, operations, count);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.UpdateBufferMappings, buffer.NativePtr, heap.NativePtr, operations, count);
     }
 
     public void UpdateTextureMappings(MTLTexture texture, MTLHeap heap, MTL4UpdateSparseTextureMappingOperation operations, nuint count)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.UpdateTextureMappingsHeapOperationsCount, texture.NativePtr, heap.NativePtr, operations, count);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.UpdateTextureMappings, texture.NativePtr, heap.NativePtr, operations, count);
     }
 
     public void Wait(MTLEvent @event, nuint value)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.WaitForDrawable, @event.NativePtr, value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.Wait, @event.NativePtr, value);
     }
 
     public void Wait(MTLDrawable drawable)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.WaitForDrawable, drawable.NativePtr);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.Wait, drawable.NativePtr);
     }
 }
 
-file class MTL4CommandQueueSelector
+file static class MTL4CommandQueueSelector
 {
+    public static readonly Selector AddResidencySet = Selector.Register("addResidencySet:");
+
+    public static readonly Selector CopyBufferMappingsFromBuffer = Selector.Register("copyBufferMappingsFromBuffer::::");
+
+    public static readonly Selector CopyTextureMappingsFromTexture = Selector.Register("copyTextureMappingsFromTexture::::");
+
     public static readonly Selector Device = Selector.Register("device");
 
     public static readonly Selector Label = Selector.Register("label");
-
-    public static readonly Selector AddResidencySet = Selector.Register("addResidencySet:");
-
-    public static readonly Selector CopyBufferMappingsFromBufferToBufferOperationsCount = Selector.Register("copyBufferMappingsFromBuffer:toBuffer:operations:count:");
-
-    public static readonly Selector CopyTextureMappingsFromTextureToTextureOperationsCount = Selector.Register("copyTextureMappingsFromTexture:toTexture:operations:count:");
 
     public static readonly Selector RemoveResidencySet = Selector.Register("removeResidencySet:");
 
     public static readonly Selector SignalDrawable = Selector.Register("signalDrawable:");
 
-    public static readonly Selector SignalEventValue = Selector.Register("signalEvent:value:");
+    public static readonly Selector SignalEvent = Selector.Register("signalEvent::");
 
-    public static readonly Selector UpdateBufferMappingsHeapOperationsCount = Selector.Register("updateBufferMappings:heap:operations:count:");
+    public static readonly Selector UpdateBufferMappings = Selector.Register("updateBufferMappings::::");
 
-    public static readonly Selector UpdateTextureMappingsHeapOperationsCount = Selector.Register("updateTextureMappings:heap:operations:count:");
+    public static readonly Selector UpdateTextureMappings = Selector.Register("updateTextureMappings::::");
 
-    public static readonly Selector WaitForDrawable = Selector.Register("waitForDrawable:");
+    public static readonly Selector Wait = Selector.Register("wait::");
 }

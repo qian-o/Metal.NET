@@ -1,69 +1,28 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLRenderPassColorAttachmentDescriptorArray : IDisposable
+public partial class MTLRenderPassColorAttachmentDescriptorArray : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassColorAttachmentDescriptorArray");
 
-    public MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLRenderPassColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr) : base(nativePtr)
     {
     }
 
-    ~MTLRenderPassColorAttachmentDescriptorArray()
+    public MTLRenderPassColorAttachmentDescriptor? @object(nuint attachmentIndex)
     {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public static implicit operator nint(MTLRenderPassColorAttachmentDescriptorArray value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLRenderPassColorAttachmentDescriptorArray(nint value)
-    {
-        return new(value);
-    }
-
-    public MTLRenderPassColorAttachmentDescriptor Object(nuint attachmentIndex)
-    {
-        MTLRenderPassColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.ObjectAtIndexedSubscript, attachmentIndex));
-
-        return result;
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.Object, attachmentIndex);
+        return ptr is not 0 ? new(ptr) : null;
     }
 
     public void SetObject(MTLRenderPassColorAttachmentDescriptor attachment, nuint attachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.SetObjectAtIndexedSubscript, attachment.NativePtr, attachmentIndex);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.SetObject, attachment.NativePtr, attachmentIndex);
     }
 }
 
-file class MTLRenderPassColorAttachmentDescriptorArraySelector
+file static class MTLRenderPassColorAttachmentDescriptorArraySelector
 {
-    public static readonly Selector ObjectAtIndexedSubscript = Selector.Register("objectAtIndexedSubscript:");
+    public static readonly Selector Object = Selector.Register("object:");
 
-    public static readonly Selector SetObjectAtIndexedSubscript = Selector.Register("setObject:atIndexedSubscript:");
+    public static readonly Selector SetObject = Selector.Register("setObject::");
 }

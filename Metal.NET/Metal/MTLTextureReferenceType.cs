@@ -1,45 +1,35 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLTextureReferenceType(nint nativePtr) : MTLType(nativePtr)
+public partial class MTLTextureReferenceType : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTextureReferenceType");
 
-    public MTLTextureReferenceType() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLTextureReferenceType(nint nativePtr) : base(nativePtr)
     {
     }
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeSelector.Access);
+        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureReferenceTypeSelector.Access);
     }
 
-    public Bool8 IsDepthTexture
+    public bool IsDepthTexture
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureReferenceTypeSelector.IsDepthTexture);
     }
 
     public MTLDataType TextureDataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeSelector.TextureDataType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureReferenceTypeSelector.TextureDataType);
     }
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeSelector.TextureType);
-    }
-
-    public static implicit operator nint(MTLTextureReferenceType value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLTextureReferenceType(nint value)
-    {
-        return new(value);
+        get => (MTLTextureType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureReferenceTypeSelector.TextureType);
     }
 }
 
-file class MTLTextureReferenceTypeSelector
+file static class MTLTextureReferenceTypeSelector
 {
     public static readonly Selector Access = Selector.Register("access");
 

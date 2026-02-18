@@ -1,10 +1,8 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTL4BlendState : long
 {
-    BlendStateDisabled = 0,
-
-    BlendStateEnabled = 1,
-
-    BlendStateUnspecialized = 2
+    MTL4BlendStateDisabled = 0,
+    MTL4BlendStateEnabled = 1,
+    MTL4BlendStateUnspecialized = 2
 }

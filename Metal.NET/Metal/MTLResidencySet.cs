@@ -1,25 +1,18 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLResidencySet : IDisposable
+public partial class MTLResidencySet : NativeObject
 {
-    public MTLResidencySet(nint nativePtr)
+    public MTLResidencySet(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public NSArray? AllAllocations
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.AllAllocations);
+            return ptr is not 0 ? new(ptr) : null;
         }
-    }
-
-    ~MTLResidencySet()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public NSArray AllAllocations
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.AllAllocations));
     }
 
     public nuint AllocatedSize
@@ -32,24 +25,22 @@ public class MTLResidencySet : IDisposable
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResidencySetSelector.AllocationCount);
     }
 
-    public MTLDevice Device
+    public MTLDevice? Device
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.Device));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.Device);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
-    public NSString Label
+    public NSString? Label
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.Label));
-    }
-
-    public static implicit operator nint(MTLResidencySet value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLResidencySet(nint value)
-    {
-        return new(value);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public void AddAllocation(MTLAllocation allocation)
@@ -62,11 +53,9 @@ public class MTLResidencySet : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetSelector.Commit);
     }
 
-    public Bool8 ContainsAllocation(MTLAllocation anAllocation)
+    public bool ContainsAllocation(MTLAllocation anAllocation)
     {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLResidencySetSelector.ContainsAllocation, anAllocation.NativePtr);
-
-        return result;
+        return ObjectiveCRuntime.MsgSendBool(NativePtr, MTLResidencySetSelector.ContainsAllocation, anAllocation.NativePtr);
     }
 
     public void EndResidency()
@@ -88,42 +77,27 @@ public class MTLResidencySet : IDisposable
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetSelector.RequestResidency);
     }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
 }
 
-file class MTLResidencySetSelector
+file static class MTLResidencySetSelector
 {
+    public static readonly Selector AddAllocation = Selector.Register("addAllocation:");
+
     public static readonly Selector AllAllocations = Selector.Register("allAllocations");
 
     public static readonly Selector AllocatedSize = Selector.Register("allocatedSize");
 
     public static readonly Selector AllocationCount = Selector.Register("allocationCount");
 
-    public static readonly Selector Device = Selector.Register("device");
-
-    public static readonly Selector Label = Selector.Register("label");
-
-    public static readonly Selector AddAllocation = Selector.Register("addAllocation:");
-
     public static readonly Selector Commit = Selector.Register("commit");
 
     public static readonly Selector ContainsAllocation = Selector.Register("containsAllocation:");
 
+    public static readonly Selector Device = Selector.Register("device");
+
     public static readonly Selector EndResidency = Selector.Register("endResidency");
+
+    public static readonly Selector Label = Selector.Register("label");
 
     public static readonly Selector RemoveAllAllocations = Selector.Register("removeAllAllocations");
 

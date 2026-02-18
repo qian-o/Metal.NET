@@ -1,32 +1,21 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLResourceViewPoolDescriptor : IDisposable
+public partial class MTLResourceViewPoolDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResourceViewPoolDescriptor");
 
-    public MTLResourceViewPoolDescriptor(nint nativePtr)
+    public MTLResourceViewPoolDescriptor(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public NSString? Label
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolDescriptorSelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
         }
-    }
-
-    public MTLResourceViewPoolDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTLResourceViewPoolDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public NSString Label
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolDescriptorSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceViewPoolDescriptorSelector.SetLabel, value.NativePtr);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceViewPoolDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
     }
 
     public nuint ResourceViewCount
@@ -34,40 +23,15 @@ public class MTLResourceViewPoolDescriptor : IDisposable
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceViewPoolDescriptorSelector.ResourceViewCount);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceViewPoolDescriptorSelector.SetResourceViewCount, value);
     }
-
-    public static implicit operator nint(MTLResourceViewPoolDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLResourceViewPoolDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
 }
 
-file class MTLResourceViewPoolDescriptorSelector
+file static class MTLResourceViewPoolDescriptorSelector
 {
     public static readonly Selector Label = Selector.Register("label");
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
-
     public static readonly Selector ResourceViewCount = Selector.Register("resourceViewCount");
+
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
 
     public static readonly Selector SetResourceViewCount = Selector.Register("setResourceViewCount:");
 }

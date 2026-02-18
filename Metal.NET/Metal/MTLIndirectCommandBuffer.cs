@@ -1,7 +1,11 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLIndirectCommandBuffer(nint nativePtr) : MTLResource(nativePtr)
+public partial class MTLIndirectCommandBuffer : NativeObject
 {
+    public MTLIndirectCommandBuffer(nint nativePtr) : base(nativePtr)
+    {
+    }
+
     public MTLResourceID GpuResourceID
     {
         get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLIndirectCommandBufferSelector.GpuResourceID);
@@ -12,45 +16,33 @@ public class MTLIndirectCommandBuffer(nint nativePtr) : MTLResource(nativePtr)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferSelector.Size);
     }
 
-    public static implicit operator nint(MTLIndirectCommandBuffer value)
+    public MTLIndirectComputeCommand? IndirectComputeCommand(nuint commandIndex)
     {
-        return value.NativePtr;
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectComputeCommand, commandIndex);
+        return ptr is not 0 ? new(ptr) : null;
     }
 
-    public static implicit operator MTLIndirectCommandBuffer(nint value)
+    public MTLIndirectRenderCommand? IndirectRenderCommand(nuint commandIndex)
     {
-        return new(value);
-    }
-
-    public MTLIndirectComputeCommand IndirectComputeCommand(nuint commandIndex)
-    {
-        MTLIndirectComputeCommand result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectComputeCommandAtIndex, commandIndex));
-
-        return result;
-    }
-
-    public MTLIndirectRenderCommand IndirectRenderCommand(nuint commandIndex)
-    {
-        MTLIndirectRenderCommand result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectRenderCommandAtIndex, commandIndex));
-
-        return result;
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectRenderCommand, commandIndex);
+        return ptr is not 0 ? new(ptr) : null;
     }
 
     public void Reset(NSRange range)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferSelector.ResetWithRange, range);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferSelector.Reset, range);
     }
 }
 
-file class MTLIndirectCommandBufferSelector
+file static class MTLIndirectCommandBufferSelector
 {
     public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
 
+    public static readonly Selector IndirectComputeCommand = Selector.Register("indirectComputeCommand:");
+
+    public static readonly Selector IndirectRenderCommand = Selector.Register("indirectRenderCommand:");
+
+    public static readonly Selector Reset = Selector.Register("reset:");
+
     public static readonly Selector Size = Selector.Register("size");
-
-    public static readonly Selector IndirectComputeCommandAtIndex = Selector.Register("indirectComputeCommandAtIndex:");
-
-    public static readonly Selector IndirectRenderCommandAtIndex = Selector.Register("indirectRenderCommandAtIndex:");
-
-    public static readonly Selector ResetWithRange = Selector.Register("resetWithRange:");
 }

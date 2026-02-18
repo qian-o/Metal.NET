@@ -1,8 +1,7 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLLibraryType : long
 {
-    LibraryTypeExecutable = 0,
-
-    LibraryTypeDynamic = 1
+    MTLLibraryTypeExecutable = 0,
+    MTLLibraryTypeDynamic = 1
 }

@@ -1,69 +1,28 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLAttributeDescriptorArray : IDisposable
+public partial class MTLAttributeDescriptorArray : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAttributeDescriptorArray");
 
-    public MTLAttributeDescriptorArray(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLAttributeDescriptorArray() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLAttributeDescriptorArray(nint nativePtr) : base(nativePtr)
     {
     }
 
-    ~MTLAttributeDescriptorArray()
+    public MTLAttributeDescriptor? @object(nuint index)
     {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public static implicit operator nint(MTLAttributeDescriptorArray value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLAttributeDescriptorArray(nint value)
-    {
-        return new(value);
-    }
-
-    public MTLAttributeDescriptor Object(nuint index)
-    {
-        MTLAttributeDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeDescriptorArraySelector.ObjectAtIndexedSubscript, index));
-
-        return result;
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeDescriptorArraySelector.Object, index);
+        return ptr is not 0 ? new(ptr) : null;
     }
 
     public void SetObject(MTLAttributeDescriptor attributeDesc, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorArraySelector.SetObjectAtIndexedSubscript, attributeDesc.NativePtr, index);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorArraySelector.SetObject, attributeDesc.NativePtr, index);
     }
 }
 
-file class MTLAttributeDescriptorArraySelector
+file static class MTLAttributeDescriptorArraySelector
 {
-    public static readonly Selector ObjectAtIndexedSubscript = Selector.Register("objectAtIndexedSubscript:");
+    public static readonly Selector Object = Selector.Register("object:");
 
-    public static readonly Selector SetObjectAtIndexedSubscript = Selector.Register("setObject:atIndexedSubscript:");
+    public static readonly Selector SetObject = Selector.Register("setObject::");
 }

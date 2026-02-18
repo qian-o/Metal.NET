@@ -1,10 +1,8 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLShaderValidation : long
 {
-    ShaderValidationDefault = 0,
-
-    ShaderValidationEnabled = 1,
-
-    ShaderValidationDisabled = 2
+    MTLShaderValidationDefault = 0,
+    MTLShaderValidationEnabled = 1,
+    MTLShaderValidationDisabled = 2
 }

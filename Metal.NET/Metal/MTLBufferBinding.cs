@@ -1,7 +1,11 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLBufferBinding(nint nativePtr) : MTLBinding(nativePtr)
+public partial class MTLBufferBinding : NativeObject
 {
+    public MTLBufferBinding(nint nativePtr) : base(nativePtr)
+    {
+    }
+
     public nuint BufferAlignment
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingSelector.BufferAlignment);
@@ -14,31 +18,29 @@ public class MTLBufferBinding(nint nativePtr) : MTLBinding(nativePtr)
 
     public MTLDataType BufferDataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLBufferBindingSelector.BufferDataType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingSelector.BufferDataType);
     }
 
-    public MTLPointerType BufferPointerType
+    public MTLPointerType? BufferPointerType
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindingSelector.BufferPointerType));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindingSelector.BufferPointerType);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
-    public MTLStructType BufferStructType
+    public MTLStructType? BufferStructType
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindingSelector.BufferStructType));
-    }
-
-    public static implicit operator nint(MTLBufferBinding value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLBufferBinding(nint value)
-    {
-        return new(value);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindingSelector.BufferStructType);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 }
 
-file class MTLBufferBindingSelector
+file static class MTLBufferBindingSelector
 {
     public static readonly Selector BufferAlignment = Selector.Register("bufferAlignment");
 

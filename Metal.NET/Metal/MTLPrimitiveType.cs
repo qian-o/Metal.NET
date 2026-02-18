@@ -1,14 +1,10 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLPrimitiveType : ulong
 {
-    PrimitiveTypePoint = 0,
-
-    PrimitiveTypeLine = 1,
-
-    PrimitiveTypeLineStrip = 2,
-
-    PrimitiveTypeTriangle = 3,
-
-    PrimitiveTypeTriangleStrip = 4
+    MTLPrimitiveTypePoint = 0,
+    MTLPrimitiveTypeLine = 1,
+    MTLPrimitiveTypeLineStrip = 2,
+    MTLPrimitiveTypeTriangle = 3,
+    MTLPrimitiveTypeTriangleStrip = 4
 }

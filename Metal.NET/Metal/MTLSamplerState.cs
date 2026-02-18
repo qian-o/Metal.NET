@@ -1,25 +1,18 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLSamplerState : IDisposable
+public partial class MTLSamplerState : NativeObject
 {
-    public MTLSamplerState(nint nativePtr)
+    public MTLSamplerState(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public MTLDevice? Device
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSamplerStateSelector.Device);
+            return ptr is not 0 ? new(ptr) : null;
         }
-    }
-
-    ~MTLSamplerState()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public MTLDevice Device
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSamplerStateSelector.Device));
     }
 
     public MTLResourceID GpuResourceID
@@ -27,38 +20,17 @@ public class MTLSamplerState : IDisposable
         get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLSamplerStateSelector.GpuResourceID);
     }
 
-    public NSString Label
+    public NSString? Label
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSamplerStateSelector.Label));
-    }
-
-    public static implicit operator nint(MTLSamplerState value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLSamplerState(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
+        get
         {
-            ObjectiveCRuntime.Release(NativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSamplerStateSelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
         }
     }
 }
 
-file class MTLSamplerStateSelector
+file static class MTLSamplerStateSelector
 {
     public static readonly Selector Device = Selector.Register("device");
 

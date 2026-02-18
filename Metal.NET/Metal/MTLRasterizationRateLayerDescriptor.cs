@@ -1,31 +1,20 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLRasterizationRateLayerDescriptor : IDisposable
+public partial class MTLRasterizationRateLayerDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRasterizationRateLayerDescriptor");
 
-    public MTLRasterizationRateLayerDescriptor(nint nativePtr)
+    public MTLRasterizationRateLayerDescriptor(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public MTLRasterizationRateSampleArray? Horizontal
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.Horizontal);
+            return ptr is not 0 ? new(ptr) : null;
         }
-    }
-
-    public MTLRasterizationRateLayerDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTLRasterizationRateLayerDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public MTLRasterizationRateSampleArray Horizontal
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.Horizontal));
     }
 
     public nint HorizontalSampleStorage
@@ -44,43 +33,22 @@ public class MTLRasterizationRateLayerDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateLayerDescriptorSelector.SetSampleCount, value);
     }
 
-    public MTLRasterizationRateSampleArray Vertical
+    public MTLRasterizationRateSampleArray? Vertical
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.Vertical));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.Vertical);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public nint VerticalSampleStorage
     {
         get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.VerticalSampleStorage);
     }
-
-    public static implicit operator nint(MTLRasterizationRateLayerDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLRasterizationRateLayerDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
 }
 
-file class MTLRasterizationRateLayerDescriptorSelector
+file static class MTLRasterizationRateLayerDescriptorSelector
 {
     public static readonly Selector Horizontal = Selector.Register("horizontal");
 

@@ -1,43 +1,41 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTL4LibraryFunctionDescriptor(nint nativePtr) : MTL4FunctionDescriptor(nativePtr)
+public partial class MTL4LibraryFunctionDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4LibraryFunctionDescriptor");
 
-    public MTL4LibraryFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTL4LibraryFunctionDescriptor(nint nativePtr) : base(nativePtr)
     {
     }
 
-    public MTLLibrary Library
+    public MTLLibrary? Library
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryFunctionDescriptorSelector.Library));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorSelector.SetLibrary, value.NativePtr);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryFunctionDescriptorSelector.Library);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorSelector.SetLibrary, value?.NativePtr ?? 0);
     }
 
-    public NSString Name
+    public NSString? Name
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryFunctionDescriptorSelector.Name));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorSelector.SetName, value.NativePtr);
-    }
-
-    public static implicit operator nint(MTL4LibraryFunctionDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4LibraryFunctionDescriptor(nint value)
-    {
-        return new(value);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryFunctionDescriptorSelector.Name);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorSelector.SetName, value?.NativePtr ?? 0);
     }
 }
 
-file class MTL4LibraryFunctionDescriptorSelector
+file static class MTL4LibraryFunctionDescriptorSelector
 {
     public static readonly Selector Library = Selector.Register("library");
 
-    public static readonly Selector SetLibrary = Selector.Register("setLibrary:");
-
     public static readonly Selector Name = Selector.Register("name");
+
+    public static readonly Selector SetLibrary = Selector.Register("setLibrary:");
 
     public static readonly Selector SetName = Selector.Register("setName:");
 }

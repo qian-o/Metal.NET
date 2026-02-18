@@ -1,56 +1,57 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLCommandQueue : IDisposable
+public partial class MTLCommandQueue : NativeObject
 {
-    public MTLCommandQueue(nint nativePtr)
+    public MTLCommandQueue(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public MTLCommandBuffer? CommandBuffer
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.CommandBuffer);
+            return ptr is not 0 ? new(ptr) : null;
         }
     }
 
-    ~MTLCommandQueue()
+    public MTLCommandBuffer? CommandBufferWithUnretainedReferences
     {
-        Release();
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.CommandBufferWithUnretainedReferences);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
-    public nint NativePtr { get; }
-
-    public MTLCommandBuffer CommandBuffer
+    public MTLDevice? Device
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.CommandBufferWithDescriptor));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.Device);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
-    public MTLCommandBuffer CommandBufferWithUnretainedReferences
+    public NSString? Label
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.CommandBufferWithUnretainedReferences));
-    }
-
-    public MTLDevice Device
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.Device));
-    }
-
-    public NSString Label
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueSelector.SetLabel, value.NativePtr);
-    }
-
-    public static implicit operator nint(MTLCommandQueue value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLCommandQueue(nint value)
-    {
-        return new(value);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueSelector.SetLabel, value?.NativePtr ?? 0);
     }
 
     public void AddResidencySet(MTLResidencySet residencySet)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueSelector.AddResidencySet, residencySet.NativePtr);
+    }
+
+    public MTLCommandBuffer? CommandBufferWithDescriptor(MTLCommandBufferDescriptor descriptor)
+    {
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.CommandBuffer, descriptor.NativePtr);
+        return ptr is not 0 ? new(ptr) : null;
     }
 
     public void InsertDebugCaptureBoundary()
@@ -62,38 +63,23 @@ public class MTLCommandQueue : IDisposable
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueSelector.RemoveResidencySet, residencySet.NativePtr);
     }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
 }
 
-file class MTLCommandQueueSelector
+file static class MTLCommandQueueSelector
 {
-    public static readonly Selector CommandBufferWithDescriptor = Selector.Register("commandBufferWithDescriptor:");
+    public static readonly Selector AddResidencySet = Selector.Register("addResidencySet:");
+
+    public static readonly Selector CommandBuffer = Selector.Register("commandBuffer");
 
     public static readonly Selector CommandBufferWithUnretainedReferences = Selector.Register("commandBufferWithUnretainedReferences");
 
     public static readonly Selector Device = Selector.Register("device");
 
-    public static readonly Selector Label = Selector.Register("label");
-
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
-
-    public static readonly Selector AddResidencySet = Selector.Register("addResidencySet:");
-
     public static readonly Selector InsertDebugCaptureBoundary = Selector.Register("insertDebugCaptureBoundary");
 
+    public static readonly Selector Label = Selector.Register("label");
+
     public static readonly Selector RemoveResidencySet = Selector.Register("removeResidencySet:");
+
+    public static readonly Selector SetLabel = Selector.Register("setLabel:");
 }

@@ -1,8 +1,12 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
+public partial class MTLTexture : NativeObject
 {
-    public Bool8 AllowGPUOptimizedContents
+    public MTLTexture(nint nativePtr) : base(nativePtr)
+    {
+    }
+
+    public bool AllowGPUOptimizedContents
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureSelector.AllowGPUOptimizedContents);
     }
@@ -12,9 +16,13 @@ public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.ArrayLength);
     }
 
-    public MTLBuffer Buffer
+    public MTLBuffer? Buffer
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.Buffer));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.Buffer);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public nuint BufferBytesPerRow
@@ -29,7 +37,7 @@ public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
 
     public MTLTextureCompressionType CompressionType
     {
-        get => (MTLTextureCompressionType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureSelector.CompressionType);
+        get => (MTLTextureCompressionType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.CompressionType);
     }
 
     public nuint Depth
@@ -42,9 +50,9 @@ public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.FirstMipmapInTail);
     }
 
-    public Bool8 FramebufferOnly
+    public bool FramebufferOnly
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureSelector.IsFramebufferOnly);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureSelector.FramebufferOnly);
     }
 
     public MTLResourceID GpuResourceID
@@ -67,17 +75,17 @@ public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.IosurfacePlane);
     }
 
-    public Bool8 IsFramebufferOnly
+    public bool IsFramebufferOnly
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureSelector.IsFramebufferOnly);
     }
 
-    public Bool8 IsShareable
+    public bool IsShareable
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureSelector.IsShareable);
     }
 
-    public Bool8 IsSparse
+    public bool IsSparse
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureSelector.IsSparse);
     }
@@ -85,6 +93,15 @@ public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
     public nuint MipmapLevelCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.MipmapLevelCount);
+    }
+
+    public MTLSharedTextureHandle? NewSharedTextureHandle
+    {
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewSharedTextureHandle);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public nuint ParentRelativeLevel
@@ -97,24 +114,36 @@ public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.ParentRelativeSlice);
     }
 
-    public MTLTexture ParentTexture
+    public MTLTexture? ParentTexture
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.ParentTexture));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.ParentTexture);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public MTLPixelFormat PixelFormat
     {
-        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureSelector.PixelFormat);
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.PixelFormat);
     }
 
-    public MTLTexture RemoteStorageTexture
+    public MTLTexture? RemoteStorageTexture
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.RemoteStorageTexture));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.RemoteStorageTexture);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
-    public MTLResource RootResource
+    public MTLResource? RootResource
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.RootResource));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.RootResource);
+            return ptr is not 0 ? new(ptr) : null;
+        }
     }
 
     public nuint SampleCount
@@ -122,19 +151,19 @@ public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.SampleCount);
     }
 
-    public Bool8 Shareable
+    public bool Shareable
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureSelector.IsShareable);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureSelector.Shareable);
     }
 
     public MTLTextureSparseTier SparseTextureTier
     {
-        get => (MTLTextureSparseTier)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureSelector.SparseTextureTier);
+        get => (MTLTextureSparseTier)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.SparseTextureTier);
     }
 
     public MTLTextureSwizzleChannels Swizzle
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.Swizzle));
+        get => ObjectiveCRuntime.MsgSendMTLTextureSwizzleChannels(NativePtr, MTLTextureSelector.Swizzle);
     }
 
     public nuint TailSizeInBytes
@@ -144,12 +173,12 @@ public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureSelector.TextureType);
+        get => (MTLTextureType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.TextureType);
     }
 
-    public MTLTextureUsage Usage
+    public nuint Usage
     {
-        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureSelector.Usage);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.Usage);
     }
 
     public nuint Width
@@ -157,80 +186,52 @@ public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureSelector.Width);
     }
 
-    public static implicit operator nint(MTLTexture value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLTexture(nint value)
-    {
-        return new(value);
-    }
-
     public void GetBytes(nint pixelBytes, nuint bytesPerRow, nuint bytesPerImage, MTLRegion region, nuint level, nuint slice)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureSelector.GetBytesBytesPerRowFromRegionMipmapLevel, pixelBytes, bytesPerRow, bytesPerImage, region, level, slice);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureSelector.GetBytes, pixelBytes, bytesPerRow, bytesPerImage, region, level, slice);
     }
 
     public void GetBytes(nint pixelBytes, nuint bytesPerRow, MTLRegion region, nuint level)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureSelector.GetBytesBytesPerRowFromRegionMipmapLevel, pixelBytes, bytesPerRow, region, level);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureSelector.GetBytes, pixelBytes, bytesPerRow, region, level);
     }
 
-    public MTLTexture NewRemoteTextureViewForDevice(MTLDevice device)
+    public MTLTexture? NewRemoteTextureViewForDevice(MTLDevice device)
     {
-        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewRemoteTextureViewForDevice, device.NativePtr));
-
-        return result;
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewRemoteTextureViewForDevice, device.NativePtr);
+        return ptr is not 0 ? new(ptr) : null;
     }
 
-    public MTLSharedTextureHandle NewSharedTextureHandle()
+    public MTLTexture? NewTextureView(MTLPixelFormat pixelFormat)
     {
-        MTLSharedTextureHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewSharedTextureHandle));
-
-        return result;
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewTextureView, (nuint)pixelFormat);
+        return ptr is not 0 ? new(ptr) : null;
     }
 
-    public MTLTexture NewTextureView(MTLPixelFormat pixelFormat)
+    public MTLTexture? NewTextureView(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange)
     {
-        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewTextureViewWithPixelFormatTextureTypeLevelsSlicesSwizzle, (ulong)pixelFormat));
-
-        return result;
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewTextureView, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange);
+        return ptr is not 0 ? new(ptr) : null;
     }
 
-    public MTLTexture NewTextureView(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange)
+    public MTLTexture? NewTextureView(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange, MTLTextureSwizzleChannels swizzle)
     {
-        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewTextureViewWithPixelFormatTextureTypeLevelsSlicesSwizzle, (ulong)pixelFormat, (ulong)textureType, levelRange, sliceRange));
-
-        return result;
-    }
-
-    public MTLTexture NewTextureView(MTLTextureViewDescriptor descriptor)
-    {
-        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewTextureViewWithPixelFormatTextureTypeLevelsSlicesSwizzle, descriptor.NativePtr));
-
-        return result;
-    }
-
-    public MTLTexture NewTextureView(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange, MTLTextureSwizzleChannels swizzle)
-    {
-        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewTextureViewWithPixelFormatTextureTypeLevelsSlicesSwizzle, (ulong)pixelFormat, (ulong)textureType, levelRange, sliceRange, swizzle.NativePtr));
-
-        return result;
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewTextureView, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange, swizzle);
+        return ptr is not 0 ? new(ptr) : null;
     }
 
     public void ReplaceRegion(MTLRegion region, nuint level, nuint slice, nint pixelBytes, nuint bytesPerRow, nuint bytesPerImage)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureSelector.ReplaceRegionMipmapLevelWithBytesBytesPerRow, region, level, slice, pixelBytes, bytesPerRow, bytesPerImage);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureSelector.ReplaceRegion, region, level, slice, pixelBytes, bytesPerRow, bytesPerImage);
     }
 
     public void ReplaceRegion(MTLRegion region, nuint level, nint pixelBytes, nuint bytesPerRow)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureSelector.ReplaceRegionMipmapLevelWithBytesBytesPerRow, region, level, pixelBytes, bytesPerRow);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureSelector.ReplaceRegion, region, level, pixelBytes, bytesPerRow);
     }
 }
 
-file class MTLTextureSelector
+file static class MTLTextureSelector
 {
     public static readonly Selector AllowGPUOptimizedContents = Selector.Register("allowGPUOptimizedContents");
 
@@ -248,7 +249,9 @@ file class MTLTextureSelector
 
     public static readonly Selector FirstMipmapInTail = Selector.Register("firstMipmapInTail");
 
-    public static readonly Selector IsFramebufferOnly = Selector.Register("isFramebufferOnly");
+    public static readonly Selector FramebufferOnly = Selector.Register("framebufferOnly");
+
+    public static readonly Selector GetBytes = Selector.Register("getBytes::::::");
 
     public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
 
@@ -258,11 +261,19 @@ file class MTLTextureSelector
 
     public static readonly Selector IosurfacePlane = Selector.Register("iosurfacePlane");
 
+    public static readonly Selector IsFramebufferOnly = Selector.Register("isFramebufferOnly");
+
     public static readonly Selector IsShareable = Selector.Register("isShareable");
 
     public static readonly Selector IsSparse = Selector.Register("isSparse");
 
     public static readonly Selector MipmapLevelCount = Selector.Register("mipmapLevelCount");
+
+    public static readonly Selector NewRemoteTextureViewForDevice = Selector.Register("newRemoteTextureViewForDevice:");
+
+    public static readonly Selector NewSharedTextureHandle = Selector.Register("newSharedTextureHandle");
+
+    public static readonly Selector NewTextureView = Selector.Register("newTextureView:");
 
     public static readonly Selector ParentRelativeLevel = Selector.Register("parentRelativeLevel");
 
@@ -274,9 +285,13 @@ file class MTLTextureSelector
 
     public static readonly Selector RemoteStorageTexture = Selector.Register("remoteStorageTexture");
 
+    public static readonly Selector ReplaceRegion = Selector.Register("replaceRegion::::::");
+
     public static readonly Selector RootResource = Selector.Register("rootResource");
 
     public static readonly Selector SampleCount = Selector.Register("sampleCount");
+
+    public static readonly Selector Shareable = Selector.Register("shareable");
 
     public static readonly Selector SparseTextureTier = Selector.Register("sparseTextureTier");
 
@@ -289,14 +304,4 @@ file class MTLTextureSelector
     public static readonly Selector Usage = Selector.Register("usage");
 
     public static readonly Selector Width = Selector.Register("width");
-
-    public static readonly Selector GetBytesBytesPerRowFromRegionMipmapLevel = Selector.Register("getBytes:bytesPerRow:fromRegion:mipmapLevel:");
-
-    public static readonly Selector NewRemoteTextureViewForDevice = Selector.Register("newRemoteTextureViewForDevice:");
-
-    public static readonly Selector NewSharedTextureHandle = Selector.Register("newSharedTextureHandle");
-
-    public static readonly Selector NewTextureViewWithPixelFormatTextureTypeLevelsSlicesSwizzle = Selector.Register("newTextureViewWithPixelFormat:textureType:levels:slices:swizzle:");
-
-    public static readonly Selector ReplaceRegionMipmapLevelWithBytesBytesPerRow = Selector.Register("replaceRegion:mipmapLevel:withBytes:bytesPerRow:");
 }

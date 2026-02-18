@@ -3,35 +3,17 @@ using System.Text;
 
 namespace Metal.NET;
 
-public class NSString : IDisposable
+public class NSString : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("NSString");
 
-    public NSString(nint nativePtr)
+    public NSString(nint nativePtr) : base(nativePtr)
     {
-        ObjectiveCRuntime.Retain(NativePtr = nativePtr);
     }
-
-    ~NSString()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public string Value
     {
         get => Marshal.PtrToStringUTF8(ObjectiveCRuntime.MsgSendPtr(NativePtr, NSStringSelector.Utf8String)) ?? string.Empty;
-    }
-
-    public static implicit operator nint(NSString value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator NSString(nint value)
-    {
-        return new(value);
     }
 
     public static unsafe implicit operator NSString(string value)
@@ -50,21 +32,6 @@ public class NSString : IDisposable
     public override string ToString()
     {
         return Value;
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

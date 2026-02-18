@@ -1,12 +1,9 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLTessellationFactorStepFunction : ulong
 {
-    TessellationFactorStepFunctionConstant = 0,
-
-    TessellationFactorStepFunctionPerPatch = 1,
-
-    TessellationFactorStepFunctionPerInstance = 2,
-
-    TessellationFactorStepFunctionPerPatchAndPerInstance = 3
+    MTLTessellationFactorStepFunctionConstant = 0,
+    MTLTessellationFactorStepFunctionPerPatch = 1,
+    MTLTessellationFactorStepFunctionPerInstance = 2,
+    MTLTessellationFactorStepFunctionPerPatchAndPerInstance = 3
 }

@@ -1,17 +1,12 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 [Flags]
 public enum MTLFunctionOptions : ulong
 {
-    FunctionOptionNone = 0,
-
-    FunctionOptionCompileToBinary = 1,
-
-    FunctionOptionStoreFunctionInMetalPipelinesScript = 2,
-
-    FunctionOptionStoreFunctionInMetalScript = 2,
-
-    FunctionOptionFailOnBinaryArchiveMiss = 4,
-
-    FunctionOptionPipelineIndependent = 8
+    MTLFunctionOptionNone = 0,
+    MTLFunctionOptionCompileToBinary = 1,
+    MTLFunctionOptionStoreFunctionInMetalPipelinesScript = 2,
+    MTLFunctionOptionStoreFunctionInMetalScript = 2,
+    MTLFunctionOptionFailOnBinaryArchiveMiss = 4,
+    MTLFunctionOptionPipelineIndependent = 8
 }

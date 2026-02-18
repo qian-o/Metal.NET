@@ -1,61 +1,25 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTL4CompilerTaskOptions : IDisposable
+public partial class MTL4CompilerTaskOptions : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CompilerTaskOptions");
 
-    public MTL4CompilerTaskOptions(nint nativePtr)
+    public MTL4CompilerTaskOptions(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public NSArray? LookupArchives
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskOptionsSelector.LookupArchives);
+            return ptr is not 0 ? new(ptr) : null;
         }
-    }
-
-    public MTL4CompilerTaskOptions() : this(ObjectiveCRuntime.AllocInit(Class))
-    {
-    }
-
-    ~MTL4CompilerTaskOptions()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public NSArray LookupArchives
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskOptionsSelector.LookupArchives));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerTaskOptionsSelector.SetLookupArchives, value.NativePtr);
-    }
-
-    public static implicit operator nint(MTL4CompilerTaskOptions value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4CompilerTaskOptions(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerTaskOptionsSelector.SetLookupArchives, value?.NativePtr ?? 0);
     }
 }
 
-file class MTL4CompilerTaskOptionsSelector
+file static class MTL4CompilerTaskOptionsSelector
 {
     public static readonly Selector LookupArchives = Selector.Register("lookupArchives");
 

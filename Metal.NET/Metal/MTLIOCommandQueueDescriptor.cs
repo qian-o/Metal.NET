@@ -1,27 +1,12 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLIOCommandQueueDescriptor : IDisposable
+public partial class MTLIOCommandQueueDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIOCommandQueueDescriptor");
 
-    public MTLIOCommandQueueDescriptor(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLIOCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLIOCommandQueueDescriptor(nint nativePtr) : base(nativePtr)
     {
     }
-
-    ~MTLIOCommandQueueDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public nuint MaxCommandBufferCount
     {
@@ -37,67 +22,46 @@ public class MTLIOCommandQueueDescriptor : IDisposable
 
     public MTLIOPriority Priority
     {
-        get => (MTLIOPriority)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLIOCommandQueueDescriptorSelector.Priority);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetPriority, (ulong)value);
+        get => (MTLIOPriority)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueDescriptorSelector.Priority);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetPriority, (nint)value);
     }
 
-    public MTLIOScratchBufferAllocator ScratchBufferAllocator
+    public MTLIOScratchBufferAllocator? ScratchBufferAllocator
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueDescriptorSelector.ScratchBufferAllocator));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetScratchBufferAllocator, value.NativePtr);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueDescriptorSelector.ScratchBufferAllocator);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetScratchBufferAllocator, value?.NativePtr ?? 0);
     }
 
     public MTLIOCommandQueueType Type
     {
-        get => (MTLIOCommandQueueType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLIOCommandQueueDescriptorSelector.Type);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetType, (ulong)value);
-    }
-
-    public static implicit operator nint(MTLIOCommandQueueDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLIOCommandQueueDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        get => (MTLIOCommandQueueType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueDescriptorSelector.Type);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetType, (nint)value);
     }
 }
 
-file class MTLIOCommandQueueDescriptorSelector
+file static class MTLIOCommandQueueDescriptorSelector
 {
     public static readonly Selector MaxCommandBufferCount = Selector.Register("maxCommandBufferCount");
 
-    public static readonly Selector SetMaxCommandBufferCount = Selector.Register("setMaxCommandBufferCount:");
-
     public static readonly Selector MaxCommandsInFlight = Selector.Register("maxCommandsInFlight");
-
-    public static readonly Selector SetMaxCommandsInFlight = Selector.Register("setMaxCommandsInFlight:");
 
     public static readonly Selector Priority = Selector.Register("priority");
 
-    public static readonly Selector SetPriority = Selector.Register("setPriority:");
-
     public static readonly Selector ScratchBufferAllocator = Selector.Register("scratchBufferAllocator");
+
+    public static readonly Selector SetMaxCommandBufferCount = Selector.Register("setMaxCommandBufferCount:");
+
+    public static readonly Selector SetMaxCommandsInFlight = Selector.Register("setMaxCommandsInFlight:");
+
+    public static readonly Selector SetPriority = Selector.Register("setPriority:");
 
     public static readonly Selector SetScratchBufferAllocator = Selector.Register("setScratchBufferAllocator:");
 
-    public static readonly Selector Type = Selector.Register("type");
-
     public static readonly Selector SetType = Selector.Register("setType:");
+
+    public static readonly Selector Type = Selector.Register("type");
 }

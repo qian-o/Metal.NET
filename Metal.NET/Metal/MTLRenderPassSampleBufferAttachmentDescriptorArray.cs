@@ -1,69 +1,28 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLRenderPassSampleBufferAttachmentDescriptorArray : IDisposable
+public partial class MTLRenderPassSampleBufferAttachmentDescriptorArray : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassSampleBufferAttachmentDescriptorArray");
 
-    public MTLRenderPassSampleBufferAttachmentDescriptorArray(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLRenderPassSampleBufferAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLRenderPassSampleBufferAttachmentDescriptorArray(nint nativePtr) : base(nativePtr)
     {
     }
 
-    ~MTLRenderPassSampleBufferAttachmentDescriptorArray()
+    public MTLRenderPassSampleBufferAttachmentDescriptor? @object(nuint attachmentIndex)
     {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public static implicit operator nint(MTLRenderPassSampleBufferAttachmentDescriptorArray value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLRenderPassSampleBufferAttachmentDescriptorArray(nint value)
-    {
-        return new(value);
-    }
-
-    public MTLRenderPassSampleBufferAttachmentDescriptor Object(nuint attachmentIndex)
-    {
-        MTLRenderPassSampleBufferAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorArraySelector.ObjectAtIndexedSubscript, attachmentIndex));
-
-        return result;
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorArraySelector.Object, attachmentIndex);
+        return ptr is not 0 ? new(ptr) : null;
     }
 
     public void SetObject(MTLRenderPassSampleBufferAttachmentDescriptor attachment, nuint attachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorArraySelector.SetObjectAtIndexedSubscript, attachment.NativePtr, attachmentIndex);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorArraySelector.SetObject, attachment.NativePtr, attachmentIndex);
     }
 }
 
-file class MTLRenderPassSampleBufferAttachmentDescriptorArraySelector
+file static class MTLRenderPassSampleBufferAttachmentDescriptorArraySelector
 {
-    public static readonly Selector ObjectAtIndexedSubscript = Selector.Register("objectAtIndexedSubscript:");
+    public static readonly Selector Object = Selector.Register("object:");
 
-    public static readonly Selector SetObjectAtIndexedSubscript = Selector.Register("setObject:atIndexedSubscript:");
+    public static readonly Selector SetObject = Selector.Register("setObject::");
 }

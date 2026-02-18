@@ -1,31 +1,16 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLAttribute : IDisposable
+public partial class MTLAttribute : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAttribute");
 
-    public MTLAttribute(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLAttribute() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLAttribute(nint nativePtr) : base(nativePtr)
     {
     }
 
-    ~MTLAttribute()
+    public bool Active
     {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public Bool8 Active
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.IsActive);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.Active);
     }
 
     public nuint AttributeIndex
@@ -35,76 +20,61 @@ public class MTLAttribute : IDisposable
 
     public MTLDataType AttributeType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAttributeSelector.AttributeType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeSelector.AttributeType);
     }
 
-    public Bool8 IsActive
+    public bool IsActive
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.IsActive);
     }
 
-    public Bool8 IsPatchControlPointData
+    public bool IsPatchControlPointData
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.IsPatchControlPointData);
     }
 
-    public Bool8 IsPatchData
+    public bool IsPatchData
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.IsPatchData);
     }
 
-    public NSString Name
+    public NSString? Name
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeSelector.Name));
-    }
-
-    public Bool8 PatchControlPointData
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.IsPatchControlPointData);
-    }
-
-    public Bool8 PatchData
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.IsPatchData);
-    }
-
-    public static implicit operator nint(MTLAttribute value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLAttribute(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
+        get
         {
-            ObjectiveCRuntime.Release(NativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeSelector.Name);
+            return ptr is not 0 ? new(ptr) : null;
         }
+    }
+
+    public bool PatchControlPointData
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.PatchControlPointData);
+    }
+
+    public bool PatchData
+    {
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.PatchData);
     }
 }
 
-file class MTLAttributeSelector
+file static class MTLAttributeSelector
 {
-    public static readonly Selector IsActive = Selector.Register("isActive");
+    public static readonly Selector Active = Selector.Register("active");
 
     public static readonly Selector AttributeIndex = Selector.Register("attributeIndex");
 
     public static readonly Selector AttributeType = Selector.Register("attributeType");
+
+    public static readonly Selector IsActive = Selector.Register("isActive");
 
     public static readonly Selector IsPatchControlPointData = Selector.Register("isPatchControlPointData");
 
     public static readonly Selector IsPatchData = Selector.Register("isPatchData");
 
     public static readonly Selector Name = Selector.Register("name");
+
+    public static readonly Selector PatchControlPointData = Selector.Register("patchControlPointData");
+
+    public static readonly Selector PatchData = Selector.Register("patchData");
 }

@@ -1,46 +1,29 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTL4CounterHeap : IDisposable
+public partial class MTL4CounterHeap : NativeObject
 {
-    public MTL4CounterHeap(nint nativePtr)
+    public MTL4CounterHeap(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
     }
-
-    ~MTL4CounterHeap()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public nuint Count
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CounterHeapSelector.Count);
     }
 
-    public NSString Label
+    public NSString? Label
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapSelector.SetLabel, value.NativePtr);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapSelector.Label);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapSelector.SetLabel, value?.NativePtr ?? 0);
     }
 
     public MTL4CounterHeapType Type
     {
-        get => (MTL4CounterHeapType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4CounterHeapSelector.Type);
-    }
-
-    public static implicit operator nint(MTL4CounterHeap value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4CounterHeap(nint value)
-    {
-        return new(value);
+        get => (MTL4CounterHeapType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapSelector.Type);
     }
 
     public void InvalidateCounterRange(NSRange range)
@@ -50,38 +33,21 @@ public class MTL4CounterHeap : IDisposable
 
     public nint ResolveCounterRange(NSRange range)
     {
-        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapSelector.ResolveCounterRange, range);
-
-        return result;
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        return ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapSelector.ResolveCounterRange, range);
     }
 }
 
-file class MTL4CounterHeapSelector
+file static class MTL4CounterHeapSelector
 {
     public static readonly Selector Count = Selector.Register("count");
 
+    public static readonly Selector InvalidateCounterRange = Selector.Register("invalidateCounterRange:");
+
     public static readonly Selector Label = Selector.Register("label");
+
+    public static readonly Selector ResolveCounterRange = Selector.Register("resolveCounterRange:");
 
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
 
     public static readonly Selector Type = Selector.Register("type");
-
-    public static readonly Selector InvalidateCounterRange = Selector.Register("invalidateCounterRange:");
-
-    public static readonly Selector ResolveCounterRange = Selector.Register("resolveCounterRange:");
 }

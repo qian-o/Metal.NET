@@ -1,8 +1,7 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTL4TimestampGranularity : long
 {
-    TimestampGranularityRelaxed = 0,
-
-    TimestampGranularityPrecise = 1
+    MTL4TimestampGranularityRelaxed = 0,
+    MTL4TimestampGranularityPrecise = 1
 }

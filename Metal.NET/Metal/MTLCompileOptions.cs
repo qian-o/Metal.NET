@@ -1,86 +1,79 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLCompileOptions : IDisposable
+public partial class MTLCompileOptions : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCompileOptions");
 
-    public MTLCompileOptions(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    public MTLCompileOptions() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLCompileOptions(nint nativePtr) : base(nativePtr)
     {
     }
 
-    ~MTLCompileOptions()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public Bool8 AllowReferencingUndefinedSymbols
+    public bool AllowReferencingUndefinedSymbols
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCompileOptionsSelector.AllowReferencingUndefinedSymbols);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetAllowReferencingUndefinedSymbols, value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetAllowReferencingUndefinedSymbols, (Bool8)value);
     }
 
     public MTLCompileSymbolVisibility CompileSymbolVisibility
     {
-        get => (MTLCompileSymbolVisibility)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCompileOptionsSelector.CompileSymbolVisibility);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetCompileSymbolVisibility, (ulong)value);
+        get => (MTLCompileSymbolVisibility)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.CompileSymbolVisibility);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetCompileSymbolVisibility, (nint)value);
     }
 
-    public Bool8 EnableLogging
+    public bool EnableLogging
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCompileOptionsSelector.EnableLogging);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetEnableLogging, value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetEnableLogging, (Bool8)value);
     }
 
-    public Bool8 FastMathEnabled
+    public bool FastMathEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCompileOptionsSelector.FastMathEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetFastMathEnabled, value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetFastMathEnabled, (Bool8)value);
     }
 
-    public NSString InstallName
+    public NSString? InstallName
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.InstallName));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetInstallName, value.NativePtr);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.InstallName);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetInstallName, value?.NativePtr ?? 0);
     }
 
     public MTLLanguageVersion LanguageVersion
     {
-        get => (MTLLanguageVersion)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCompileOptionsSelector.LanguageVersion);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetLanguageVersion, (ulong)value);
+        get => (MTLLanguageVersion)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCompileOptionsSelector.LanguageVersion);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetLanguageVersion, (nuint)value);
     }
 
-    public NSArray Libraries
+    public NSArray? Libraries
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.Libraries));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetLibraries, value.NativePtr);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.Libraries);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetLibraries, value?.NativePtr ?? 0);
     }
 
     public MTLLibraryType LibraryType
     {
-        get => (MTLLibraryType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCompileOptionsSelector.LibraryType);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetLibraryType, (ulong)value);
+        get => (MTLLibraryType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.LibraryType);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetLibraryType, (nint)value);
     }
 
     public MTLMathFloatingPointFunctions MathFloatingPointFunctions
     {
-        get => (MTLMathFloatingPointFunctions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCompileOptionsSelector.MathFloatingPointFunctions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetMathFloatingPointFunctions, (ulong)value);
+        get => (MTLMathFloatingPointFunctions)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.MathFloatingPointFunctions);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetMathFloatingPointFunctions, (nint)value);
     }
 
     public MTLMathMode MathMode
     {
-        get => (MTLMathMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCompileOptionsSelector.MathMode);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetMathMode, (ulong)value);
+        get => (MTLMathMode)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.MathMode);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetMathMode, (nint)value);
     }
 
     public nuint MaxTotalThreadsPerThreadgroup
@@ -91,8 +84,8 @@ public class MTLCompileOptions : IDisposable
 
     public MTLLibraryOptimizationLevel OptimizationLevel
     {
-        get => (MTLLibraryOptimizationLevel)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCompileOptionsSelector.OptimizationLevel);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetOptimizationLevel, (ulong)value);
+        get => (MTLLibraryOptimizationLevel)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.OptimizationLevel);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetOptimizationLevel, (nint)value);
     }
 
     public nint PreprocessorMacros
@@ -101,10 +94,10 @@ public class MTLCompileOptions : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetPreprocessorMacros, value);
     }
 
-    public Bool8 PreserveInvariance
+    public bool PreserveInvariance
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCompileOptionsSelector.PreserveInvariance);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetPreserveInvariance, value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetPreserveInvariance, (Bool8)value);
     }
 
     public MTLSize RequiredThreadsPerThreadgroup
@@ -112,92 +105,67 @@ public class MTLCompileOptions : IDisposable
         get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLCompileOptionsSelector.RequiredThreadsPerThreadgroup);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetRequiredThreadsPerThreadgroup, value);
     }
-
-    public static implicit operator nint(MTLCompileOptions value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLCompileOptions(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
 }
 
-file class MTLCompileOptionsSelector
+file static class MTLCompileOptionsSelector
 {
     public static readonly Selector AllowReferencingUndefinedSymbols = Selector.Register("allowReferencingUndefinedSymbols");
 
-    public static readonly Selector SetAllowReferencingUndefinedSymbols = Selector.Register("setAllowReferencingUndefinedSymbols:");
-
     public static readonly Selector CompileSymbolVisibility = Selector.Register("compileSymbolVisibility");
-
-    public static readonly Selector SetCompileSymbolVisibility = Selector.Register("setCompileSymbolVisibility:");
 
     public static readonly Selector EnableLogging = Selector.Register("enableLogging");
 
-    public static readonly Selector SetEnableLogging = Selector.Register("setEnableLogging:");
-
     public static readonly Selector FastMathEnabled = Selector.Register("fastMathEnabled");
-
-    public static readonly Selector SetFastMathEnabled = Selector.Register("setFastMathEnabled:");
 
     public static readonly Selector InstallName = Selector.Register("installName");
 
-    public static readonly Selector SetInstallName = Selector.Register("setInstallName:");
-
     public static readonly Selector LanguageVersion = Selector.Register("languageVersion");
-
-    public static readonly Selector SetLanguageVersion = Selector.Register("setLanguageVersion:");
 
     public static readonly Selector Libraries = Selector.Register("libraries");
 
-    public static readonly Selector SetLibraries = Selector.Register("setLibraries:");
-
     public static readonly Selector LibraryType = Selector.Register("libraryType");
-
-    public static readonly Selector SetLibraryType = Selector.Register("setLibraryType:");
 
     public static readonly Selector MathFloatingPointFunctions = Selector.Register("mathFloatingPointFunctions");
 
-    public static readonly Selector SetMathFloatingPointFunctions = Selector.Register("setMathFloatingPointFunctions:");
-
     public static readonly Selector MathMode = Selector.Register("mathMode");
-
-    public static readonly Selector SetMathMode = Selector.Register("setMathMode:");
 
     public static readonly Selector MaxTotalThreadsPerThreadgroup = Selector.Register("maxTotalThreadsPerThreadgroup");
 
-    public static readonly Selector SetMaxTotalThreadsPerThreadgroup = Selector.Register("setMaxTotalThreadsPerThreadgroup:");
-
     public static readonly Selector OptimizationLevel = Selector.Register("optimizationLevel");
-
-    public static readonly Selector SetOptimizationLevel = Selector.Register("setOptimizationLevel:");
 
     public static readonly Selector PreprocessorMacros = Selector.Register("preprocessorMacros");
 
-    public static readonly Selector SetPreprocessorMacros = Selector.Register("setPreprocessorMacros:");
-
     public static readonly Selector PreserveInvariance = Selector.Register("preserveInvariance");
 
-    public static readonly Selector SetPreserveInvariance = Selector.Register("setPreserveInvariance:");
-
     public static readonly Selector RequiredThreadsPerThreadgroup = Selector.Register("requiredThreadsPerThreadgroup");
+
+    public static readonly Selector SetAllowReferencingUndefinedSymbols = Selector.Register("setAllowReferencingUndefinedSymbols:");
+
+    public static readonly Selector SetCompileSymbolVisibility = Selector.Register("setCompileSymbolVisibility:");
+
+    public static readonly Selector SetEnableLogging = Selector.Register("setEnableLogging:");
+
+    public static readonly Selector SetFastMathEnabled = Selector.Register("setFastMathEnabled:");
+
+    public static readonly Selector SetInstallName = Selector.Register("setInstallName:");
+
+    public static readonly Selector SetLanguageVersion = Selector.Register("setLanguageVersion:");
+
+    public static readonly Selector SetLibraries = Selector.Register("setLibraries:");
+
+    public static readonly Selector SetLibraryType = Selector.Register("setLibraryType:");
+
+    public static readonly Selector SetMathFloatingPointFunctions = Selector.Register("setMathFloatingPointFunctions:");
+
+    public static readonly Selector SetMathMode = Selector.Register("setMathMode:");
+
+    public static readonly Selector SetMaxTotalThreadsPerThreadgroup = Selector.Register("setMaxTotalThreadsPerThreadgroup:");
+
+    public static readonly Selector SetOptimizationLevel = Selector.Register("setOptimizationLevel:");
+
+    public static readonly Selector SetPreprocessorMacros = Selector.Register("setPreprocessorMacros:");
+
+    public static readonly Selector SetPreserveInvariance = Selector.Register("setPreserveInvariance:");
 
     public static readonly Selector SetRequiredThreadsPerThreadgroup = Selector.Register("setRequiredThreadsPerThreadgroup:");
 }

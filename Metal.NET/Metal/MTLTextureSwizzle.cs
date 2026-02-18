@@ -1,16 +1,11 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLTextureSwizzle : byte
 {
-    TextureSwizzleZero = 0,
-
-    TextureSwizzleOne = 1,
-
-    TextureSwizzleRed = 2,
-
-    TextureSwizzleGreen = 3,
-
-    TextureSwizzleBlue = 4,
-
-    TextureSwizzleAlpha = 5
+    MTLTextureSwizzleZero = 0,
+    MTLTextureSwizzleOne = 1,
+    MTLTextureSwizzleRed = 2,
+    MTLTextureSwizzleGreen = 3,
+    MTLTextureSwizzleBlue = 4,
+    MTLTextureSwizzleAlpha = 5
 }

@@ -1,15 +1,11 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 [Flags]
 public enum MTLAccelerationStructureInstanceOptions : uint
 {
-    AccelerationStructureInstanceOptionNone = 0,
-
-    AccelerationStructureInstanceOptionDisableTriangleCulling = 1,
-
-    AccelerationStructureInstanceOptionTriangleFrontFacingWindingCounterClockwise = 2,
-
-    AccelerationStructureInstanceOptionOpaque = 4,
-
-    AccelerationStructureInstanceOptionNonOpaque = 8
+    MTLAccelerationStructureInstanceOptionNone = 0,
+    MTLAccelerationStructureInstanceOptionDisableTriangleCulling = 1,
+    MTLAccelerationStructureInstanceOptionTriangleFrontFacingWindingCounterClockwise = 2,
+    MTLAccelerationStructureInstanceOptionOpaque = 4,
+    MTLAccelerationStructureInstanceOptionNonOpaque = 8
 }

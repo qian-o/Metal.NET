@@ -1,24 +1,15 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public enum MTLTensorDataType : long
 {
-    TensorDataTypeNone = 0,
-
-    TensorDataTypeFloat32 = 3,
-
-    TensorDataTypeFloat16 = 16,
-
-    TensorDataTypeBFloat16 = 121,
-
-    TensorDataTypeInt8 = 45,
-
-    TensorDataTypeUInt8 = 49,
-
-    TensorDataTypeInt16 = 37,
-
-    TensorDataTypeUInt16 = 41,
-
-    TensorDataTypeInt32 = 29,
-
-    TensorDataTypeUInt32 = 33
+    MTLTensorDataTypeNone = 0,
+    MTLTensorDataTypeFloat32 = 3,
+    MTLTensorDataTypeFloat16 = 16,
+    MTLTensorDataTypeBFloat16 = 121,
+    MTLTensorDataTypeInt8 = 45,
+    MTLTensorDataTypeUInt8 = 49,
+    MTLTensorDataTypeInt16 = 37,
+    MTLTensorDataTypeUInt16 = 41,
+    MTLTensorDataTypeInt32 = 29,
+    MTLTensorDataTypeUInt32 = 33
 }

@@ -1,112 +1,87 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
-public class MTLFunctionDescriptor : IDisposable
+public partial class MTLFunctionDescriptor : NativeObject
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionDescriptor");
 
-    public MTLFunctionDescriptor(nint nativePtr)
+    public MTLFunctionDescriptor(nint nativePtr) : base(nativePtr)
     {
-        if (nativePtr is not 0)
+    }
+
+    public NSArray? BinaryArchives
+    {
+        get
         {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.BinaryArchives);
+            return ptr is not 0 ? new(ptr) : null;
         }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetBinaryArchives, value?.NativePtr ?? 0);
     }
 
-    public MTLFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    public MTLFunctionConstantValues? ConstantValues
     {
-    }
-
-    ~MTLFunctionDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public NSArray BinaryArchives
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.BinaryArchives));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetBinaryArchives, value.NativePtr);
-    }
-
-    public MTLFunctionConstantValues ConstantValues
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.ConstantValues));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetConstantValues, value.NativePtr);
-    }
-
-    public NSString Name
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.Name));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetName, value.NativePtr);
-    }
-
-    public MTLFunctionOptions Options
-    {
-        get => (MTLFunctionOptions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionDescriptorSelector.Options);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetOptions, (ulong)value);
-    }
-
-    public NSString SpecializedName
-    {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.SpecializedName));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetSpecializedName, value.NativePtr);
-    }
-
-    public static implicit operator nint(MTLFunctionDescriptor value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLFunctionDescriptor(nint value)
-    {
-        return new(value);
-    }
-
-    public static MTLFunctionDescriptor FunctionDescriptor()
-    {
-        MTLFunctionDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLFunctionDescriptorSelector.FunctionDescriptor));
-
-        return result;
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
+        get
         {
-            ObjectiveCRuntime.Release(NativePtr);
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.ConstantValues);
+            return ptr is not 0 ? new(ptr) : null;
         }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetConstantValues, value?.NativePtr ?? 0);
+    }
+
+    public NSString? Name
+    {
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.Name);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetName, value?.NativePtr ?? 0);
+    }
+
+    public nuint Options
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionDescriptorSelector.Options);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetOptions, value);
+    }
+
+    public NSString? SpecializedName
+    {
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.SpecializedName);
+            return ptr is not 0 ? new(ptr) : null;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetSpecializedName, value?.NativePtr ?? 0);
+    }
+
+    public static MTLFunctionDescriptor? FunctionDescriptor()
+    {
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLFunctionDescriptorSelector.FunctionDescriptor);
+        return ptr is not 0 ? new(ptr) : null;
     }
 }
 
-file class MTLFunctionDescriptorSelector
+file static class MTLFunctionDescriptorSelector
 {
     public static readonly Selector BinaryArchives = Selector.Register("binaryArchives");
 
-    public static readonly Selector SetBinaryArchives = Selector.Register("setBinaryArchives:");
-
     public static readonly Selector ConstantValues = Selector.Register("constantValues");
 
-    public static readonly Selector SetConstantValues = Selector.Register("setConstantValues:");
+    public static readonly Selector FunctionDescriptor = Selector.Register("functionDescriptor");
 
     public static readonly Selector Name = Selector.Register("name");
 
-    public static readonly Selector SetName = Selector.Register("setName:");
-
     public static readonly Selector Options = Selector.Register("options");
+
+    public static readonly Selector SetBinaryArchives = Selector.Register("setBinaryArchives:");
+
+    public static readonly Selector SetConstantValues = Selector.Register("setConstantValues:");
+
+    public static readonly Selector SetName = Selector.Register("setName:");
 
     public static readonly Selector SetOptions = Selector.Register("setOptions:");
 
-    public static readonly Selector SpecializedName = Selector.Register("specializedName");
-
     public static readonly Selector SetSpecializedName = Selector.Register("setSpecializedName:");
 
-    public static readonly Selector FunctionDescriptor = Selector.Register("functionDescriptor");
+    public static readonly Selector SpecializedName = Selector.Register("specializedName");
 }
