@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace Metal.NET.Generator;
+﻿namespace Metal.NET.Generator;
 
 // ── Enum definitions ──
 
@@ -9,7 +7,7 @@ public class EnumDef
     public string Name { get; set; } = "";
     public string UnderlyingType { get; set; } = "uint";
     public bool IsFlags { get; set; }
-    public List<EnumMemberDef> Members { get; set; } = new();
+    public List<EnumMemberDef> Members { get; set; } = [];
 
     /// <summary>Subfolder matching metal-cpp structure: "Metal", "Foundation", "QuartzCore", "MetalFX".</summary>
     public string Folder { get; set; } = "Metal";
@@ -35,13 +33,13 @@ public class ObjCClassDef
     public string? ObjCClass { get; set; }
 
     /// <summary>Properties exposed on the object.</summary>
-    public List<PropertyDef> Properties { get; set; } = new();
+    public List<PropertyDef> Properties { get; set; } = [];
 
     /// <summary>Instance methods.</summary>
-    public List<MethodDef> Methods { get; set; } = new();
+    public List<MethodDef> Methods { get; set; } = [];
 
     /// <summary>Static / class methods.</summary>
-    public List<MethodDef> StaticMethods { get; set; } = new();
+    public List<MethodDef> StaticMethods { get; set; } = [];
 
     /// <summary>Subfolder matching metal-cpp structure: "Metal", "Foundation", "QuartzCore", "MetalFX".</summary>
     public string Folder { get; set; } = "Metal";
@@ -72,7 +70,7 @@ public class MethodDef
     public string ReturnType { get; set; } = "void";
 
     /// <summary>Method parameters.</summary>
-    public List<ParamDef> Parameters { get; set; } = new();
+    public List<ParamDef> Parameters { get; set; } = [];
 
     /// <summary>If true, the last parameter is "out NSError".</summary>
     public bool HasErrorOut { get; set; }
@@ -98,7 +96,7 @@ public class FreeFunctionDef
     public string ReturnType { get; set; } = "void";
 
     /// <summary>Parameters.</summary>
-    public List<ParamDef> Parameters { get; set; } = new();
+    public List<ParamDef> Parameters { get; set; } = [];
 
     /// <summary>The target class to inject this into, e.g. "MTLDevice".</summary>
     public string TargetClass { get; set; } = "";

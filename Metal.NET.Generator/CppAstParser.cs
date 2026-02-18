@@ -1,3 +1,4 @@
+using System.Text.RegularExpressions;
 using CppAst;
 
 namespace Metal.NET.Generator;
@@ -111,7 +112,7 @@ public static class CppAstParser
         ScanAllocClasses(metalCppDir);
 
         // Find system C++ include dirs
-        var systemIncludes = new List<string>();
+        List<string> systemIncludes = [];
         foreach (var dir in s_systemIncludes)
         {
             if (Directory.Exists(dir))
@@ -142,7 +143,7 @@ public static class CppAstParser
 
         // Parse via umbrella headers which set up the full include chain.
         // This ensures all types are properly resolved across namespaces.
-        var umbrellaHeaders = new List<string>();
+        List<string> umbrellaHeaders = [];
 
         var metalHpp = Path.Combine(metalCppDir, "Metal", "Metal.hpp");
         if (File.Exists(metalHpp)) umbrellaHeaders.Add(metalHpp);
@@ -221,15 +222,13 @@ public static class CppAstParser
     {
         s_allocClasses.Clear();
 
-        // Pattern: "static ClassName* alloc();" inside a namespace
-        var allocPattern = new System.Text.RegularExpressions.Regex(
+        var allocPattern = new Regex(
             @"static\s+(\w+)\s*\*\s*alloc\s*\(\s*\)\s*;",
-            System.Text.RegularExpressions.RegexOptions.Compiled);
+            RegexOptions.Compiled);
 
-        // Pattern: namespace declaration
-        var nsPattern = new System.Text.RegularExpressions.Regex(
+        var nsPattern = new Regex(
             @"^namespace\s+(\w+)",
-            System.Text.RegularExpressions.RegexOptions.Compiled);
+            RegexOptions.Compiled);
 
         foreach (var dir in new[] { "Metal", "MetalFX", "QuartzCore", "Foundation" })
         {
@@ -256,6 +255,32 @@ public static class CppAstParser
                 }
             }
         }
+    }
+
+    private static string NamespaceToPrefix(string ns) => ns switch
+    {
+        "MTL" => "MTL",
+        "MTL4" => "MTL4",
+        "MTLFX" => "MTLFX",
+        "CA" => "CA",
+        "NS" => "NS",
+        _ => ns,
+    };
+
+    /// <summary>
+    /// Resolve the prefix from the parent namespace of a C++ type,
+    /// falling back to the caller's prefix if the namespace is not recognized.
+    /// </summary>
+    private static string ResolvePrefix(string? parentNs, string fallbackPrefix)
+    {
+        if (string.IsNullOrEmpty(parentNs))
+            return fallbackPrefix;
+
+        return parentNs switch
+        {
+            "MTL" or "MTL4" or "MTLFX" or "CA" or "NS" => NamespaceToPrefix(parentNs),
+            _ => fallbackPrefix,
+        };
     }
 
     private static string NamespaceToFolder(string ns) => ns switch
@@ -309,7 +334,7 @@ public static class CppAstParser
                 }
 
                 // Skip types that are value structs (defined in MTLStructs.cs)
-                string checkName = $"{(nsName switch { "MTL" => "MTL", "MTL4" => "MTL4", "MTLFX" => "MTLFX", "CA" => "CA", _ => nsName })}{cppClass.Name}";
+                string checkName = $"{NamespaceToPrefix(nsName)}{cppClass.Name}";
                 if (s_valueStructs.Contains(checkName))
                     continue;
 
@@ -363,15 +388,7 @@ public static class CppAstParser
 
     private static EnumDef? ConvertEnum(CppEnum cppEnum, string ns)
     {
-        string prefix = ns switch
-        {
-            "MTL" => "MTL",
-            "MTL4" => "MTL4",
-            "MTLFX" => "MTLFX",
-            "CA" => "CA",
-            "NS" => "NS",
-            _ => ns
-        };
+        string prefix = NamespaceToPrefix(ns);
 
         string enumName;
         string underlyingType;
@@ -409,7 +426,7 @@ public static class CppAstParser
             IsFlags = isFlags,
         };
 
-        var seen = new HashSet<string>();
+        HashSet<string> seen = [];
         foreach (var item in cppEnum.Items)
         {
             string memberName = item.Name;
@@ -504,15 +521,7 @@ public static class CppAstParser
         if (cppClass.Name.StartsWith("_"))
             return null;
 
-        string prefix = ns switch
-        {
-            "MTL" => "MTL",
-            "MTL4" => "MTL4",
-            "MTLFX" => "MTLFX",
-            "CA" => "CA",
-            "NS" => "NS",
-            _ => ns
-        };
+        string prefix = NamespaceToPrefix(ns);
 
         string fullName = $"{prefix}{cppClass.Name}";
 
@@ -538,11 +547,11 @@ public static class CppAstParser
         };
 
         // Track method signatures for deduplication
-        var methodSigs = new HashSet<string>();
+        HashSet<string> methodSigs = [];
         // potentialPropertyNames: collision detection to prevent methods from shadowing properties
-        var potentialPropertyNames = new HashSet<string>();
+        HashSet<string> potentialPropertyNames = [];
         // addedPropertyNames: track which properties have actually been added to def.Properties
-        var addedPropertyNames = new HashSet<string>();
+        HashSet<string> addedPropertyNames = [];
 
         // Pre-pass: identify all potential property names (0-arg, non-void, non-static, non-new methods)
         foreach (var fn in cppClass.Functions)
@@ -556,7 +565,7 @@ public static class CppAstParser
             var retType = MapType(fn.ReturnType, ns, prefix);
             if (retType == null || retType == "void") continue;
 
-            string pcName = char.ToUpperInvariant(fn.Name[0]) + fn.Name.Substring(1);
+            string pcName = char.ToUpperInvariant(fn.Name[0]) + fn.Name[1..];
             potentialPropertyNames.Add(pcName);
         }
 
@@ -581,7 +590,7 @@ public static class CppAstParser
             if (methodDef == null) continue;
 
             // Build dedup key — use PascalCase name for C# uniqueness
-            var pcName = char.ToUpperInvariant(methodDef.Name[0]) + methodDef.Name.Substring(1);
+            var pcName = char.ToUpperInvariant(methodDef.Name[0]) + methodDef.Name[1..];
             var sig = $"{(isStatic ? "s:" : "")}{pcName}({string.Join(",", methodDef.Parameters.Select(p => p.Type))})";
             if (!methodSigs.Add(sig)) continue;
 
@@ -603,7 +612,7 @@ public static class CppAstParser
             if (isProperty && !isStatic)
             {
                 // Don't add if we already have a property with this name
-                string propPcName = char.ToUpperInvariant(methodDef.Name[0]) + methodDef.Name.Substring(1);
+                string propPcName = char.ToUpperInvariant(methodDef.Name[0]) + methodDef.Name[1..];
                 if (addedPropertyNames.Add(propPcName))
                 {
                     def.Properties.Add(new PropertyDef
@@ -623,13 +632,13 @@ public static class CppAstParser
                     && fn.Parameters.Count == 1)
                 {
                     // Check if there's a matching getter (potential property)
-                    string propPcName = fn.Name.Substring(3); // already PascalCase after "set"
+                    string propPcName = fn.Name[3..]; // already PascalCase after "set"
                     if (potentialPropertyNames.Contains(propPcName))
                         continue;
                 }
 
                 // Skip methods whose PascalCase name collides with an existing property
-                string methodPcName = char.ToUpperInvariant(methodDef.Name[0]) + methodDef.Name.Substring(1);
+                string methodPcName = char.ToUpperInvariant(methodDef.Name[0]) + methodDef.Name[1..];
                 if (potentialPropertyNames.Contains(methodPcName))
                     continue;
 
@@ -701,7 +710,7 @@ public static class CppAstParser
         // metal-cpp method names typically encode the selector in the method name
         // e.g., "newBufferWithLength" with params (length, options) -> "newBufferWithLength:options:"
         // We use the function name as the first selector part, then parameter names
-        var parts = new List<string> { fn.Name };
+        List<string> parts = [fn.Name];
         for (int i = 1; i < fn.Parameters.Count; i++)
         {
             var pName = fn.Parameters[i].Name;
@@ -732,13 +741,7 @@ public static class CppAstParser
 
     private static FreeFunctionDef? ConvertFreeFunction(CppFunction fn, string ns)
     {
-        string prefix = ns switch
-        {
-            "MTL" => "MTL",
-            "MTL4" => "MTL4",
-            "MTLFX" => "MTLFX",
-            _ => ns
-        };
+        string prefix = NamespaceToPrefix(ns);
 
         // Map return type
         var retType = MapType(fn.ReturnType, ns, prefix);
@@ -960,20 +963,7 @@ public static class CppAstParser
         }
 
         // Determine the correct prefix from the class's actual parent namespace
-        string actualPrefix = prefix;
-        string? classParentNs = cls.FullParentName;
-        if (!string.IsNullOrEmpty(classParentNs))
-        {
-            actualPrefix = classParentNs switch
-            {
-                "MTL" => "MTL",
-                "MTL4" => "MTL4",
-                "MTLFX" => "MTLFX",
-                "CA" => "CA",
-                "NS" => "NS",
-                _ => prefix,
-            };
-        }
+        string actualPrefix = ResolvePrefix(cls.FullParentName, prefix);
 
         string fullName = $"{actualPrefix}{name}";
 
@@ -1003,27 +993,14 @@ public static class CppAstParser
             return name; // already prefixed
 
         // Determine actual prefix from enum's parent namespace
-        string actualPrefix = prefix;
-        string? parentNs = cppEnum.FullParentName;
-        if (!string.IsNullOrEmpty(parentNs))
-        {
-            actualPrefix = parentNs switch
-            {
-                "MTL" => "MTL",
-                "MTL4" => "MTL4",
-                "MTLFX" => "MTLFX",
-                "CA" => "CA",
-                "NS" => "NS",
-                _ => prefix,
-            };
-        }
+        string actualPrefix = ResolvePrefix(cppEnum.FullParentName, prefix);
         return $"{actualPrefix}{name}";
     }
 
     private static string Capitalize(string s)
     {
         if (string.IsNullOrEmpty(s)) return s;
-        return char.ToUpperInvariant(s[0]) + s.Substring(1);
+        return char.ToUpperInvariant(s[0]) + s[1..];
     }
 
     // ═══════════════════════════════════════════════════════
