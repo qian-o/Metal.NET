@@ -1,6 +1,10 @@
 ﻿namespace Metal.NET;
 
-public enum NSComparisonResult : uint
+public enum NSComparisonResult : long
 {
-    OrderedAscending = 4294967295
+    OrderedAscending = -1,
+
+    OrderedSame = 0,
+
+    OrderedDescending = 1
 }

@@ -8,5 +8,5 @@ public enum MTLDeviceLocation : ulong
 
     DeviceLocationExternal = 2,
 
-    DeviceLocationUnspecified = NS::UIntegerMax
+    DeviceLocationUnspecified = 18446744073709551615
 }

@@ -21,7 +21,10 @@ public static partial class HeaderParser
     private static partial Regex OptionsMacroPattern();
 
     [GeneratedRegex(@"^\s*(\w+)\s*=\s*(.+?)\s*,?\s*$")]
-    private static partial Regex EnumMemberPattern();
+    private static partial Regex EnumMemberWithValuePattern();
+
+    [GeneratedRegex(@"^\s*(\w+)\s*,?\s*$")]
+    private static partial Regex EnumMemberNoValuePattern();
 
     [GeneratedRegex(@"_(MTL|NS|CA|MTLFX)_PRIVATE_DEF_SEL\s*\(\s*(\w+)\s*,")]
     private static partial Regex DefSelAccessorPattern();
@@ -407,6 +410,8 @@ public static partial class HeaderParser
             // Parse members until closing brace
             HashSet<string> seen = [];
 
+            long nextAutoValue = 0;
+
             for (int j = i + 1; j < lines.Length; j++)
             {
                 string memberLine = lines[j].Trim();
@@ -416,15 +421,44 @@ public static partial class HeaderParser
                     break;
                 }
 
-                Match memberMatch = EnumMemberPattern().Match(memberLine);
+                Match memberMatch = EnumMemberWithValuePattern().Match(memberLine);
+                string memberName;
+                string resolvedValue;
 
-                if (!memberMatch.Success)
+                if (memberMatch.Success)
                 {
-                    continue;
-                }
+                    memberName = memberMatch.Groups[1].Value;
+                    string value = memberMatch.Groups[2].Value.Trim();
+                    resolvedValue = ResolveEnumValue(value, underlyingType);
 
-                string memberName = memberMatch.Groups[1].Value;
-                string value = memberMatch.Groups[2].Value.Trim();
+                    if (long.TryParse(resolvedValue, out long parsedVal))
+                    {
+                        nextAutoValue = parsedVal + 1;
+                    }
+                    else
+                    {
+                        nextAutoValue++;
+                    }
+                }
+                else
+                {
+                    Match noValueMatch = EnumMemberNoValuePattern().Match(memberLine);
+
+                    if (!noValueMatch.Success)
+                    {
+                        continue;
+                    }
+
+                    memberName = noValueMatch.Groups[1].Value;
+
+                    if (memberName == "{" || memberName == "}" || memberName.StartsWith("//"))
+                    {
+                        continue;
+                    }
+
+                    resolvedValue = nextAutoValue.ToString();
+                    nextAutoValue++;
+                }
 
                 if (memberName.Length > 0 && char.IsDigit(memberName[0]))
                 {
@@ -435,9 +469,6 @@ public static partial class HeaderParser
                 {
                     continue;
                 }
-
-                // Evaluate the value expression
-                string resolvedValue = ResolveEnumValue(value, underlyingType);
 
                 enumDef.Members.Add(new EnumMemberDef
                 {
@@ -473,8 +504,8 @@ public static partial class HeaderParser
     {
         return typeStr switch
         {
-            "NS::UInteger" or "unsigned long" or "unsigned long long" => "ulong",
-            "NS::Integer" or "long" or "long long" => "long",
+            "NS::UInteger" or "UInteger" or "unsigned long" or "unsigned long long" => "ulong",
+            "NS::Integer" or "Integer" or "long" or "long long" => "long",
             "unsigned int" or "uint32_t" => "uint",
             "int" or "int32_t" => "int",
             "unsigned short" or "uint16_t" => "ushort",
@@ -494,6 +525,17 @@ public static partial class HeaderParser
         while (trimmed.StartsWith('(') && trimmed.EndsWith(')'))
         {
             trimmed = trimmed[1..^1].Trim();
+        }
+
+        // Handle known C++ constants
+        if (trimmed is "NS::UIntegerMax" or "UIntegerMax")
+        {
+            return underlyingType == "ulong" ? ulong.MaxValue.ToString() : uint.MaxValue.ToString();
+        }
+
+        if (trimmed is "NS::IntegerMax" or "IntegerMax")
+        {
+            return underlyingType == "long" ? long.MaxValue.ToString() : int.MaxValue.ToString();
         }
 
         // Strip C++ integer literal suffixes (ULL, UL, LL, U, L, etc.)
