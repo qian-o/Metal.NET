@@ -1,12 +1,8 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
-public partial class CAMetalLayer : NativeObject
+public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr)
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("CAMetalLayer");
-
-    public CAMetalLayer(nint nativePtr) : base(nativePtr)
-    {
-    }
 
     public bool AllowsNextDrawableTimeout
     {
@@ -24,8 +20,9 @@ public partial class CAMetalLayer : NativeObject
     {
         get
         {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
+            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.Device);
+
+            return nativePtr is not 0 ? new(nativePtr) : null;
         }
         set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetDevice, value?.NativePtr ?? 0);
     }
@@ -58,8 +55,9 @@ public partial class CAMetalLayer : NativeObject
     {
         get
         {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.NextDrawable);
-            return ptr is not 0 ? new(ptr) : null;
+            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.NextDrawable);
+
+            return nativePtr is not 0 ? new(nativePtr) : null;
         }
     }
 
@@ -73,15 +71,17 @@ public partial class CAMetalLayer : NativeObject
     {
         get
         {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.ResidencySet);
-            return ptr is not 0 ? new(ptr) : null;
+            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.ResidencySet);
+
+            return nativePtr is not 0 ? new(nativePtr) : null;
         }
     }
 
     public static CAMetalLayer? Layer()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, CAMetalLayerSelector.Layer);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(Class, CAMetalLayerSelector.Layer);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 

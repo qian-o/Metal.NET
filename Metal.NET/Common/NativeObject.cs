@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 /// <summary>
 /// Base class for all Objective-C native object wrappers.
@@ -6,7 +6,7 @@ namespace Metal.NET;
 /// </summary>
 public abstract class NativeObject : IDisposable
 {
-    private bool _disposed;
+    private bool disposed;
 
     protected NativeObject(nint nativePtr) : this(nativePtr, true)
     {
@@ -41,14 +41,14 @@ public abstract class NativeObject : IDisposable
 
     protected virtual void Dispose(bool disposing)
     {
-        if (!_disposed)
+        if (!disposed)
         {
             if (NativePtr is not 0)
             {
                 ObjectiveCRuntime.Release(NativePtr);
             }
 
-            _disposed = true;
+            disposed = true;
         }
     }
 }
