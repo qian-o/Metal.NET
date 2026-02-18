@@ -37,13 +37,13 @@ public class MTLTextureDescriptor : IDisposable
 
     public MTLTextureCompressionType CompressionType
     {
-        get => (MTLTextureCompressionType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureDescriptorSelector.CompressionType));
+        get => (MTLTextureCompressionType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureDescriptorSelector.CompressionType);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorSelector.SetCompressionType, (ulong)value);
     }
 
     public MTLCPUCacheMode CpuCacheMode
     {
-        get => (MTLCPUCacheMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureDescriptorSelector.CpuCacheMode));
+        get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureDescriptorSelector.CpuCacheMode);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorSelector.SetCpuCacheMode, (ulong)value);
     }
 
@@ -55,7 +55,7 @@ public class MTLTextureDescriptor : IDisposable
 
     public MTLHazardTrackingMode HazardTrackingMode
     {
-        get => (MTLHazardTrackingMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureDescriptorSelector.HazardTrackingMode));
+        get => (MTLHazardTrackingMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureDescriptorSelector.HazardTrackingMode);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorSelector.SetHazardTrackingMode, (ulong)value);
     }
 
@@ -73,19 +73,19 @@ public class MTLTextureDescriptor : IDisposable
 
     public MTLPixelFormat PixelFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureDescriptorSelector.PixelFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureDescriptorSelector.PixelFormat);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorSelector.SetPixelFormat, (ulong)value);
     }
 
     public MTLSparsePageSize PlacementSparsePageSize
     {
-        get => (MTLSparsePageSize)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureDescriptorSelector.PlacementSparsePageSize));
+        get => (MTLSparsePageSize)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureDescriptorSelector.PlacementSparsePageSize);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorSelector.SetPlacementSparsePageSize, (ulong)value);
     }
 
     public MTLResourceOptions ResourceOptions
     {
-        get => (MTLResourceOptions)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureDescriptorSelector.ResourceOptions));
+        get => (MTLResourceOptions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureDescriptorSelector.ResourceOptions);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorSelector.SetResourceOptions, (ulong)value);
     }
 
@@ -97,7 +97,7 @@ public class MTLTextureDescriptor : IDisposable
 
     public MTLStorageMode StorageMode
     {
-        get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureDescriptorSelector.StorageMode));
+        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureDescriptorSelector.StorageMode);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorSelector.SetStorageMode, (ulong)value);
     }
 
@@ -109,13 +109,13 @@ public class MTLTextureDescriptor : IDisposable
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureDescriptorSelector.TextureType));
+        get => (MTLTextureType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureDescriptorSelector.TextureType);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorSelector.SetTextureType, (ulong)value);
     }
 
     public MTLTextureUsage Usage
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureDescriptorSelector.Usage));
+        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureDescriptorSelector.Usage);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorSelector.SetUsage, (ulong)value);
     }
 
@@ -137,21 +137,21 @@ public class MTLTextureDescriptor : IDisposable
 
     public static MTLTextureDescriptor Texture2DDescriptor(MTLPixelFormat pixelFormat, nuint width, nuint height, Bool8 mipmapped)
     {
-        MTLTextureDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLTextureDescriptorSelector.Texture2DDescriptorWidthHeightMipmapped, (ulong)pixelFormat, width, height, mipmapped));
+        MTLTextureDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLTextureDescriptorSelector.Texture2DDescriptorWithPixelFormatWidthHeightMipmapped, (ulong)pixelFormat, width, height, mipmapped));
 
         return result;
     }
 
     public static MTLTextureDescriptor TextureBufferDescriptor(MTLPixelFormat pixelFormat, nuint width, MTLResourceOptions resourceOptions, MTLTextureUsage usage)
     {
-        MTLTextureDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLTextureDescriptorSelector.TextureBufferDescriptorWidthResourceOptionsUsage, (ulong)pixelFormat, width, (ulong)resourceOptions, (ulong)usage));
+        MTLTextureDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLTextureDescriptorSelector.TextureBufferDescriptorWithPixelFormatWidthResourceOptionsUsage, (ulong)pixelFormat, width, (ulong)resourceOptions, (ulong)usage));
 
         return result;
     }
 
     public static MTLTextureDescriptor TextureCubeDescriptor(MTLPixelFormat pixelFormat, nuint size, Bool8 mipmapped)
     {
-        MTLTextureDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLTextureDescriptorSelector.TextureCubeDescriptorSizeMipmapped, (ulong)pixelFormat, size, mipmapped));
+        MTLTextureDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLTextureDescriptorSelector.TextureCubeDescriptorWithPixelFormatSizeMipmapped, (ulong)pixelFormat, size, mipmapped));
 
         return result;
     }
@@ -242,9 +242,9 @@ file class MTLTextureDescriptorSelector
 
     public static readonly Selector SetWidth = Selector.Register("setWidth:");
 
-    public static readonly Selector Texture2DDescriptorWidthHeightMipmapped = Selector.Register("texture2DDescriptor:width:height:mipmapped:");
+    public static readonly Selector Texture2DDescriptorWithPixelFormatWidthHeightMipmapped = Selector.Register("texture2DDescriptorWithPixelFormat:width:height:mipmapped:");
 
-    public static readonly Selector TextureBufferDescriptorWidthResourceOptionsUsage = Selector.Register("textureBufferDescriptor:width:resourceOptions:usage:");
+    public static readonly Selector TextureBufferDescriptorWithPixelFormatWidthResourceOptionsUsage = Selector.Register("textureBufferDescriptorWithPixelFormat:width:resourceOptions:usage:");
 
-    public static readonly Selector TextureCubeDescriptorSizeMipmapped = Selector.Register("textureCubeDescriptor:size:mipmapped:");
+    public static readonly Selector TextureCubeDescriptorWithPixelFormatSizeMipmapped = Selector.Register("textureCubeDescriptorWithPixelFormat:size:mipmapped:");
 }

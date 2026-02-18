@@ -1,30 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLResource : IDisposable
+public class MTLResource(nint nativePtr) : MTLAllocation(nativePtr)
 {
-    public MTLResource(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLResource()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
-    public nuint AllocatedSize
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.AllocatedSize);
-    }
-
     public MTLCPUCacheMode CpuCacheMode
     {
-        get => (MTLCPUCacheMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.CpuCacheMode));
+        get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.CpuCacheMode);
     }
 
     public MTLDevice Device
@@ -34,7 +14,7 @@ public class MTLResource : IDisposable
 
     public MTLHazardTrackingMode HazardTrackingMode
     {
-        get => (MTLHazardTrackingMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.HazardTrackingMode));
+        get => (MTLHazardTrackingMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.HazardTrackingMode);
     }
 
     public MTLHeap Heap
@@ -60,31 +40,12 @@ public class MTLResource : IDisposable
 
     public MTLResourceOptions ResourceOptions
     {
-        get => (MTLResourceOptions)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.ResourceOptions));
+        get => (MTLResourceOptions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.ResourceOptions);
     }
 
     public MTLStorageMode StorageMode
     {
-        get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.StorageMode));
-    }
-
-    public void MakeAliasable()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceSelector.MakeAliasable);
-    }
-
-    public uint SetOwner(nint task_id_token)
-    {
-        uint result = ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLResourceSelector.SetOwner, task_id_token);
-
-        return result;
-    }
-
-    public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
-    {
-        MTLPurgeableState result = (MTLPurgeableState)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.SetPurgeableState, (ulong)state);
-
-        return result;
+        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.StorageMode);
     }
 
     public static implicit operator nint(MTLResource value)
@@ -97,26 +58,28 @@ public class MTLResource : IDisposable
         return new(value);
     }
 
-    public void Dispose()
+    public void MakeAliasable()
     {
-        Release();
-
-        GC.SuppressFinalize(this);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceSelector.MakeAliasable);
     }
 
-    private void Release()
+    public uint SetOwner(nint task_id_token)
     {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        uint result = ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLResourceSelector.SetOwnerWithIdentity, task_id_token);
+
+        return result;
+    }
+
+    public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
+    {
+        MTLPurgeableState result = (MTLPurgeableState)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.SetPurgeableState, (ulong)state);
+
+        return result;
     }
 }
 
 file class MTLResourceSelector
 {
-    public static readonly Selector AllocatedSize = Selector.Register("allocatedSize");
-
     public static readonly Selector CpuCacheMode = Selector.Register("cpuCacheMode");
 
     public static readonly Selector Device = Selector.Register("device");
@@ -139,7 +102,7 @@ file class MTLResourceSelector
 
     public static readonly Selector MakeAliasable = Selector.Register("makeAliasable");
 
-    public static readonly Selector SetOwner = Selector.Register("setOwner:");
+    public static readonly Selector SetOwnerWithIdentity = Selector.Register("setOwnerWithIdentity:");
 
     public static readonly Selector SetPurgeableState = Selector.Register("setPurgeableState:");
 }

@@ -45,18 +45,6 @@ public class MTLRasterizationRateMapDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetScreenSize, value);
     }
 
-    public MTLRasterizationRateLayerDescriptor Layer(nuint layerIndex)
-    {
-        MTLRasterizationRateLayerDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.Layer, layerIndex));
-
-        return result;
-    }
-
-    public void SetLayer(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetLayerLayerIndex, layer.NativePtr, layerIndex);
-    }
-
     public static implicit operator nint(MTLRasterizationRateMapDescriptor value)
     {
         return value.NativePtr;
@@ -67,23 +55,35 @@ public class MTLRasterizationRateMapDescriptor : IDisposable
         return new(value);
     }
 
+    public MTLRasterizationRateLayerDescriptor Layer(nuint layerIndex)
+    {
+        MTLRasterizationRateLayerDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapDescriptorSelector.LayerAtIndex, layerIndex));
+
+        return result;
+    }
+
+    public void SetLayer(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapDescriptorSelector.SetLayerAtIndex, layer.NativePtr, layerIndex);
+    }
+
     public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptor(MTLSize screenSize)
     {
-        MTLRasterizationRateMapDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLRasterizationRateMapDescriptorSelector.RasterizationRateMapDescriptor, screenSize));
+        MTLRasterizationRateMapDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLRasterizationRateMapDescriptorSelector.RasterizationRateMapDescriptorWithScreenSizeLayerCountLayers, screenSize));
 
         return result;
     }
 
     public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptor(MTLSize screenSize, MTLRasterizationRateLayerDescriptor layer)
     {
-        MTLRasterizationRateMapDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLRasterizationRateMapDescriptorSelector.RasterizationRateMapDescriptorLayer, screenSize, layer.NativePtr));
+        MTLRasterizationRateMapDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLRasterizationRateMapDescriptorSelector.RasterizationRateMapDescriptorWithScreenSizeLayerCountLayers, screenSize, layer.NativePtr));
 
         return result;
     }
 
     public static MTLRasterizationRateMapDescriptor RasterizationRateMapDescriptor(MTLSize screenSize, nuint layerCount, nint layers)
     {
-        MTLRasterizationRateMapDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLRasterizationRateMapDescriptorSelector.RasterizationRateMapDescriptorLayerCountLayers, screenSize, layerCount, layers));
+        MTLRasterizationRateMapDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLRasterizationRateMapDescriptorSelector.RasterizationRateMapDescriptorWithScreenSizeLayerCountLayers, screenSize, layerCount, layers));
 
         return result;
     }
@@ -118,13 +118,9 @@ file class MTLRasterizationRateMapDescriptorSelector
 
     public static readonly Selector SetScreenSize = Selector.Register("setScreenSize:");
 
-    public static readonly Selector Layer = Selector.Register("layer:");
+    public static readonly Selector LayerAtIndex = Selector.Register("layerAtIndex:");
 
-    public static readonly Selector SetLayerLayerIndex = Selector.Register("setLayer:layerIndex:");
+    public static readonly Selector SetLayerAtIndex = Selector.Register("setLayer:atIndex:");
 
-    public static readonly Selector RasterizationRateMapDescriptor = Selector.Register("rasterizationRateMapDescriptor:");
-
-    public static readonly Selector RasterizationRateMapDescriptorLayer = Selector.Register("rasterizationRateMapDescriptor:layer:");
-
-    public static readonly Selector RasterizationRateMapDescriptorLayerCountLayers = Selector.Register("rasterizationRateMapDescriptor:layerCount:layers:");
+    public static readonly Selector RasterizationRateMapDescriptorWithScreenSizeLayerCountLayers = Selector.Register("rasterizationRateMapDescriptorWithScreenSize:layerCount:layers:");
 }

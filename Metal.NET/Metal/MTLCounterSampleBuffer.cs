@@ -32,13 +32,6 @@ public class MTLCounterSampleBuffer : IDisposable
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCounterSampleBufferSelector.SampleCount);
     }
 
-    public nint ResolveCounterRange(NSRange range)
-    {
-        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferSelector.ResolveCounterRange, range);
-
-        return result;
-    }
-
     public static implicit operator nint(MTLCounterSampleBuffer value)
     {
         return value.NativePtr;
@@ -47,6 +40,13 @@ public class MTLCounterSampleBuffer : IDisposable
     public static implicit operator MTLCounterSampleBuffer(nint value)
     {
         return new(value);
+    }
+
+    public nint ResolveCounterRange(NSRange range)
+    {
+        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferSelector.ResolveCounterRange, range);
+
+        return result;
     }
 
     public void Dispose()

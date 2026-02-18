@@ -25,7 +25,7 @@ public class MTLIndirectCommandBufferDescriptor : IDisposable
 
     public MTLIndirectCommandType CommandTypes
     {
-        get => (MTLIndirectCommandType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLIndirectCommandBufferDescriptorSelector.CommandTypes));
+        get => (MTLIndirectCommandType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLIndirectCommandBufferDescriptorSelector.CommandTypes);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorSelector.SetCommandTypes, (ulong)value);
     }
 

@@ -30,17 +30,22 @@ public class MTLIOCommandBuffer : IDisposable
 
     public MTLIOStatus Status
     {
-        get => (MTLIOStatus)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLIOCommandBufferSelector.Status));
+        get => (MTLIOStatus)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLIOCommandBufferSelector.Status);
+    }
+
+    public static implicit operator nint(MTLIOCommandBuffer value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLIOCommandBuffer(nint value)
+    {
+        return new(value);
     }
 
     public void AddBarrier()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.AddBarrier);
-    }
-
-    public void AddCompletedHandler(nint function)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.AddCompletedHandler, function);
     }
 
     public void Commit()
@@ -95,22 +100,12 @@ public class MTLIOCommandBuffer : IDisposable
 
     public void Wait(MTLSharedEvent @event, nuint value)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.WaitValue, @event.NativePtr, value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.WaitForEventValue, @event.NativePtr, value);
     }
 
     public void WaitUntilCompleted()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.WaitUntilCompleted);
-    }
-
-    public static implicit operator nint(MTLIOCommandBuffer value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLIOCommandBuffer(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()
@@ -141,8 +136,6 @@ file class MTLIOCommandBufferSelector
 
     public static readonly Selector AddBarrier = Selector.Register("addBarrier");
 
-    public static readonly Selector AddCompletedHandler = Selector.Register("addCompletedHandler:");
-
     public static readonly Selector Commit = Selector.Register("commit");
 
     public static readonly Selector CopyStatusToBufferOffset = Selector.Register("copyStatusToBuffer:offset:");
@@ -163,7 +156,7 @@ file class MTLIOCommandBufferSelector
 
     public static readonly Selector TryCancel = Selector.Register("tryCancel");
 
-    public static readonly Selector WaitValue = Selector.Register("wait:value:");
+    public static readonly Selector WaitForEventValue = Selector.Register("waitForEvent:value:");
 
     public static readonly Selector WaitUntilCompleted = Selector.Register("waitUntilCompleted");
 }

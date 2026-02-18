@@ -34,7 +34,7 @@ public class MTLFunctionLog : IDisposable
 
     public MTLFunctionLogType Type
     {
-        get => (MTLFunctionLogType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionLogSelector.Type));
+        get => (MTLFunctionLogType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionLogSelector.Type);
     }
 
     public static implicit operator nint(MTLFunctionLog value)

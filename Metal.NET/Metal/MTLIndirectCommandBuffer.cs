@@ -1,22 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTLIndirectCommandBuffer : IDisposable
+public class MTLIndirectCommandBuffer(nint nativePtr) : MTLResource(nativePtr)
 {
-    public MTLIndirectCommandBuffer(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLIndirectCommandBuffer()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public MTLResourceID GpuResourceID
     {
         get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLIndirectCommandBufferSelector.GpuResourceID);
@@ -25,25 +10,6 @@ public class MTLIndirectCommandBuffer : IDisposable
     public nuint Size
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferSelector.Size);
-    }
-
-    public MTLIndirectComputeCommand IndirectComputeCommand(nuint commandIndex)
-    {
-        MTLIndirectComputeCommand result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectComputeCommand, commandIndex));
-
-        return result;
-    }
-
-    public MTLIndirectRenderCommand IndirectRenderCommand(nuint commandIndex)
-    {
-        MTLIndirectRenderCommand result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectRenderCommand, commandIndex));
-
-        return result;
-    }
-
-    public void Reset(NSRange range)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferSelector.Reset, range);
     }
 
     public static implicit operator nint(MTLIndirectCommandBuffer value)
@@ -56,19 +22,23 @@ public class MTLIndirectCommandBuffer : IDisposable
         return new(value);
     }
 
-    public void Dispose()
+    public MTLIndirectComputeCommand IndirectComputeCommand(nuint commandIndex)
     {
-        Release();
+        MTLIndirectComputeCommand result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectComputeCommandAtIndex, commandIndex));
 
-        GC.SuppressFinalize(this);
+        return result;
     }
 
-    private void Release()
+    public MTLIndirectRenderCommand IndirectRenderCommand(nuint commandIndex)
     {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        MTLIndirectRenderCommand result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectRenderCommandAtIndex, commandIndex));
+
+        return result;
+    }
+
+    public void Reset(NSRange range)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferSelector.ResetWithRange, range);
     }
 }
 
@@ -78,9 +48,9 @@ file class MTLIndirectCommandBufferSelector
 
     public static readonly Selector Size = Selector.Register("size");
 
-    public static readonly Selector IndirectComputeCommand = Selector.Register("indirectComputeCommand:");
+    public static readonly Selector IndirectComputeCommandAtIndex = Selector.Register("indirectComputeCommandAtIndex:");
 
-    public static readonly Selector IndirectRenderCommand = Selector.Register("indirectRenderCommand:");
+    public static readonly Selector IndirectRenderCommandAtIndex = Selector.Register("indirectRenderCommandAtIndex:");
 
-    public static readonly Selector Reset = Selector.Register("reset:");
+    public static readonly Selector ResetWithRange = Selector.Register("resetWithRange:");
 }

@@ -1,43 +1,28 @@
 ﻿namespace Metal.NET;
 
-public class MTL4RenderPipelineDescriptor : IDisposable
+public class MTL4RenderPipelineDescriptor(nint nativePtr) : MTL4PipelineDescriptor(nativePtr)
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineDescriptor");
-
-    public MTL4RenderPipelineDescriptor(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
 
     public MTL4RenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
-    ~MTL4RenderPipelineDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public MTL4AlphaToCoverageState AlphaToCoverageState
     {
-        get => (MTL4AlphaToCoverageState)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4RenderPipelineDescriptorSelector.AlphaToCoverageState));
+        get => (MTL4AlphaToCoverageState)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4RenderPipelineDescriptorSelector.AlphaToCoverageState);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetAlphaToCoverageState, (ulong)value);
     }
 
     public MTL4AlphaToOneState AlphaToOneState
     {
-        get => (MTL4AlphaToOneState)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4RenderPipelineDescriptorSelector.AlphaToOneState));
+        get => (MTL4AlphaToOneState)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4RenderPipelineDescriptorSelector.AlphaToOneState);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetAlphaToOneState, (ulong)value);
     }
 
     public MTL4LogicalToPhysicalColorAttachmentMappingState ColorAttachmentMappingState
     {
-        get => (MTL4LogicalToPhysicalColorAttachmentMappingState)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4RenderPipelineDescriptorSelector.ColorAttachmentMappingState));
+        get => (MTL4LogicalToPhysicalColorAttachmentMappingState)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4RenderPipelineDescriptorSelector.ColorAttachmentMappingState);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetColorAttachmentMappingState, (ulong)value);
     }
 
@@ -60,7 +45,7 @@ public class MTL4RenderPipelineDescriptor : IDisposable
 
     public MTLPrimitiveTopologyClass InputPrimitiveTopology
     {
-        get => (MTLPrimitiveTopologyClass)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4RenderPipelineDescriptorSelector.InputPrimitiveTopology));
+        get => (MTLPrimitiveTopologyClass)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4RenderPipelineDescriptorSelector.InputPrimitiveTopology);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetInputPrimitiveTopology, (ulong)value);
     }
 
@@ -83,7 +68,7 @@ public class MTL4RenderPipelineDescriptor : IDisposable
 
     public Bool8 RasterizationEnabled
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4RenderPipelineDescriptorSelector.RasterizationEnabled);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4RenderPipelineDescriptorSelector.IsRasterizationEnabled);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetRasterizationEnabled, value);
     }
 
@@ -95,7 +80,7 @@ public class MTL4RenderPipelineDescriptor : IDisposable
 
     public MTL4IndirectCommandBufferSupportState SupportIndirectCommandBuffers
     {
-        get => (MTL4IndirectCommandBufferSupportState)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4RenderPipelineDescriptorSelector.SupportIndirectCommandBuffers));
+        get => (MTL4IndirectCommandBufferSupportState)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4RenderPipelineDescriptorSelector.SupportIndirectCommandBuffers);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetSupportIndirectCommandBuffers, (ulong)value);
     }
 
@@ -123,11 +108,6 @@ public class MTL4RenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.SetVertexStaticLinkingDescriptor, value.NativePtr);
     }
 
-    public void Reset()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.Reset);
-    }
-
     public static implicit operator nint(MTL4RenderPipelineDescriptor value)
     {
         return value.NativePtr;
@@ -138,19 +118,9 @@ public class MTL4RenderPipelineDescriptor : IDisposable
         return new(value);
     }
 
-    public void Dispose()
+    public void Reset()
     {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorSelector.Reset);
     }
 }
 
@@ -191,8 +161,6 @@ file class MTL4RenderPipelineDescriptorSelector
     public static readonly Selector RasterSampleCount = Selector.Register("rasterSampleCount");
 
     public static readonly Selector SetRasterSampleCount = Selector.Register("setRasterSampleCount:");
-
-    public static readonly Selector RasterizationEnabled = Selector.Register("rasterizationEnabled");
 
     public static readonly Selector SetRasterizationEnabled = Selector.Register("setRasterizationEnabled:");
 

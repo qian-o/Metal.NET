@@ -28,6 +28,16 @@ public class MTLCommandEncoder : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.SetLabel, value.NativePtr);
     }
 
+    public static implicit operator nint(MTLCommandEncoder value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLCommandEncoder(nint value)
+    {
+        return new(value);
+    }
+
     public void BarrierAfterQueueStages(MTLStages afterQueueStages, MTLStages beforeStages)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.BarrierAfterQueueStagesBeforeStages, (ulong)afterQueueStages, (ulong)beforeStages);
@@ -51,16 +61,6 @@ public class MTLCommandEncoder : IDisposable
     public void PushDebugGroup(NSString @string)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.PushDebugGroup, @string.NativePtr);
-    }
-
-    public static implicit operator nint(MTLCommandEncoder value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLCommandEncoder(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

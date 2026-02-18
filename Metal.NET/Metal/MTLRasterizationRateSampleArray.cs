@@ -23,18 +23,6 @@ public class MTLRasterizationRateSampleArray : IDisposable
 
     public nint NativePtr { get; }
 
-    public nint Object(nuint index)
-    {
-        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateSampleArraySelector.Object, index);
-
-        return result;
-    }
-
-    public void SetObject(nint value, nuint index)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateSampleArraySelector.SetObjectIndex, value, index);
-    }
-
     public static implicit operator nint(MTLRasterizationRateSampleArray value)
     {
         return value.NativePtr;
@@ -43,6 +31,18 @@ public class MTLRasterizationRateSampleArray : IDisposable
     public static implicit operator MTLRasterizationRateSampleArray(nint value)
     {
         return new(value);
+    }
+
+    public nint Object(nuint index)
+    {
+        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateSampleArraySelector.ObjectAtIndexedSubscript, index);
+
+        return result;
+    }
+
+    public void SetObject(nint value, nuint index)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateSampleArraySelector.SetObjectAtIndexedSubscript, value, index);
     }
 
     public void Dispose()
@@ -63,7 +63,7 @@ public class MTLRasterizationRateSampleArray : IDisposable
 
 file class MTLRasterizationRateSampleArraySelector
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector ObjectAtIndexedSubscript = Selector.Register("objectAtIndexedSubscript:");
 
-    public static readonly Selector SetObjectIndex = Selector.Register("setObject:index:");
+    public static readonly Selector SetObjectAtIndexedSubscript = Selector.Register("setObject:atIndexedSubscript:");
 }

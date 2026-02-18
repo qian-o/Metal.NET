@@ -47,32 +47,6 @@ public class MTLRasterizationRateMap : IDisposable
         get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapSelector.ScreenSize);
     }
 
-    public void CopyParameterDataToBuffer(MTLBuffer buffer, nuint offset)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapSelector.CopyParameterDataToBufferOffset, buffer.NativePtr, offset);
-    }
-
-    public MTLSamplePosition MapPhysicalToScreenCoordinates(MTLSamplePosition physicalCoordinates, nuint layerIndex)
-    {
-        MTLSamplePosition result = ObjectiveCRuntime.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapSelector.MapPhysicalToScreenCoordinatesLayerIndex, physicalCoordinates, layerIndex);
-
-        return result;
-    }
-
-    public MTLSamplePosition MapScreenToPhysicalCoordinates(MTLSamplePosition screenCoordinates, nuint layerIndex)
-    {
-        MTLSamplePosition result = ObjectiveCRuntime.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapSelector.MapScreenToPhysicalCoordinatesLayerIndex, screenCoordinates, layerIndex);
-
-        return result;
-    }
-
-    public MTLSize PhysicalSize(nuint layerIndex)
-    {
-        MTLSize result = ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapSelector.PhysicalSize, layerIndex);
-
-        return result;
-    }
-
     public static implicit operator nint(MTLRasterizationRateMap value)
     {
         return value.NativePtr;
@@ -81,6 +55,32 @@ public class MTLRasterizationRateMap : IDisposable
     public static implicit operator MTLRasterizationRateMap(nint value)
     {
         return new(value);
+    }
+
+    public void CopyParameterDataToBuffer(MTLBuffer buffer, nuint offset)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapSelector.CopyParameterDataToBufferOffset, buffer.NativePtr, offset);
+    }
+
+    public MTLSamplePosition MapPhysicalToScreenCoordinates(MTLSamplePosition physicalCoordinates, nuint layerIndex)
+    {
+        MTLSamplePosition result = ObjectiveCRuntime.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapSelector.MapPhysicalToScreenCoordinatesForLayer, physicalCoordinates, layerIndex);
+
+        return result;
+    }
+
+    public MTLSamplePosition MapScreenToPhysicalCoordinates(MTLSamplePosition screenCoordinates, nuint layerIndex)
+    {
+        MTLSamplePosition result = ObjectiveCRuntime.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapSelector.MapScreenToPhysicalCoordinatesForLayer, screenCoordinates, layerIndex);
+
+        return result;
+    }
+
+    public MTLSize PhysicalSize(nuint layerIndex)
+    {
+        MTLSize result = ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapSelector.PhysicalSizeForLayer, layerIndex);
+
+        return result;
     }
 
     public void Dispose()
@@ -115,9 +115,9 @@ file class MTLRasterizationRateMapSelector
 
     public static readonly Selector CopyParameterDataToBufferOffset = Selector.Register("copyParameterDataToBuffer:offset:");
 
-    public static readonly Selector MapPhysicalToScreenCoordinatesLayerIndex = Selector.Register("mapPhysicalToScreenCoordinates:layerIndex:");
+    public static readonly Selector MapPhysicalToScreenCoordinatesForLayer = Selector.Register("mapPhysicalToScreenCoordinates:forLayer:");
 
-    public static readonly Selector MapScreenToPhysicalCoordinatesLayerIndex = Selector.Register("mapScreenToPhysicalCoordinates:layerIndex:");
+    public static readonly Selector MapScreenToPhysicalCoordinatesForLayer = Selector.Register("mapScreenToPhysicalCoordinates:forLayer:");
 
-    public static readonly Selector PhysicalSize = Selector.Register("physicalSize:");
+    public static readonly Selector PhysicalSizeForLayer = Selector.Register("physicalSizeForLayer:");
 }

@@ -31,7 +31,7 @@ public class MTLAttributeDescriptor : IDisposable
 
     public MTLAttributeFormat Format
     {
-        get => (MTLAttributeFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAttributeDescriptorSelector.Format));
+        get => (MTLAttributeFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAttributeDescriptorSelector.Format);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetFormat, (ulong)value);
     }
 

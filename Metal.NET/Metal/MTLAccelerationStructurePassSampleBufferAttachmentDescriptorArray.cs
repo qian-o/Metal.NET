@@ -23,18 +23,6 @@ public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray :
 
     public nint NativePtr { get; }
 
-    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor Object(nuint attachmentIndex)
-    {
-        MTLAccelerationStructurePassSampleBufferAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArraySelector.Object, attachmentIndex));
-
-        return result;
-    }
-
-    public void SetObject(MTLAccelerationStructurePassSampleBufferAttachmentDescriptor attachment, nuint attachmentIndex)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, attachmentIndex);
-    }
-
     public static implicit operator nint(MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray value)
     {
         return value.NativePtr;
@@ -43,6 +31,18 @@ public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray :
     public static implicit operator MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray(nint value)
     {
         return new(value);
+    }
+
+    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor Object(nuint attachmentIndex)
+    {
+        MTLAccelerationStructurePassSampleBufferAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArraySelector.ObjectAtIndexedSubscript, attachmentIndex));
+
+        return result;
+    }
+
+    public void SetObject(MTLAccelerationStructurePassSampleBufferAttachmentDescriptor attachment, nuint attachmentIndex)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArraySelector.SetObjectAtIndexedSubscript, attachment.NativePtr, attachmentIndex);
     }
 
     public void Dispose()
@@ -63,7 +63,7 @@ public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray :
 
 file class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArraySelector
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector ObjectAtIndexedSubscript = Selector.Register("objectAtIndexedSubscript:");
 
-    public static readonly Selector SetObjectAttachmentIndex = Selector.Register("setObject:attachmentIndex:");
+    public static readonly Selector SetObjectAtIndexedSubscript = Selector.Register("setObject:atIndexedSubscript:");
 }

@@ -1,27 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTL4LibraryFunctionDescriptor : IDisposable
+public class MTL4LibraryFunctionDescriptor(nint nativePtr) : MTL4FunctionDescriptor(nativePtr)
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4LibraryFunctionDescriptor");
-
-    public MTL4LibraryFunctionDescriptor(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
 
     public MTL4LibraryFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
-
-    ~MTL4LibraryFunctionDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public MTLLibrary Library
     {
@@ -43,21 +28,6 @@ public class MTL4LibraryFunctionDescriptor : IDisposable
     public static implicit operator MTL4LibraryFunctionDescriptor(nint value)
     {
         return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

@@ -65,6 +65,13 @@ public class MetalBindingsGenerator
             CollectSignatures(cls);
         }
 
+        Dictionary<string, ObjCClassDef> classLookup = [];
+
+        foreach (ObjCClassDef cls in parsed.Classes)
+        {
+            classLookup.TryAdd(cls.Name, cls);
+        }
+
         HashSet<string> generatedClasses = [];
 
         foreach (ObjCClassDef cls in parsed.Classes.OrderBy(c => c.Name))
@@ -72,7 +79,7 @@ public class MetalBindingsGenerator
             if (generatedClasses.Add(cls.Name))
             {
                 freeFunctionsByClass.TryGetValue(cls.Name, out List<FreeFunctionDef>? freeFuncs);
-                GenerateObjCClassDef(cls, freeFuncs);
+                GenerateObjCClassDef(cls, classLookup, freeFuncs);
             }
         }
 
@@ -154,12 +161,35 @@ public class MetalBindingsGenerator
         WriteSource(e.Folder, $"{e.Name}.cs", sb.ToString());
     }
 
-    private void GenerateObjCClassDef(ObjCClassDef def, List<FreeFunctionDef>? freeFunctions = null)
+    private void GenerateObjCClassDef(ObjCClassDef def, Dictionary<string, ObjCClassDef> classLookup, List<FreeFunctionDef>? freeFunctions = null)
     {
+        // Collect property names from all ancestors to skip inherited properties
+        HashSet<string> inheritedPropertyNames = [];
+
+        if (def.ParentClass != null)
+        {
+            string? current = def.ParentClass;
+
+            while (current != null && classLookup.TryGetValue(current, out ObjCClassDef? parentDef))
+            {
+                foreach (PropertyDef p in parentDef.Properties)
+                {
+                    inheritedPropertyNames.Add(ToPascalCase(p.Name));
+                }
+
+                current = parentDef.ParentClass;
+            }
+        }
+
         Dictionary<string, string> selectors = [];
 
         foreach (PropertyDef p in def.Properties)
         {
+            if (inheritedPropertyNames.Contains(ToPascalCase(p.Name)))
+            {
+                continue;
+            }
+
             string getSel = p.GetSelector ?? p.Name;
             AddSelector(selectors, getSel);
 
@@ -193,23 +223,31 @@ public class MetalBindingsGenerator
         sb.AppendLine();
 
         bool isConcreteClass = def.IsClass && def.ObjCClass != null;
-        EmitClassHeader(sb, def.Name, hasLibraryImports, isConcreteClass, isConcreteClass ? def.ObjCClass : null);
-
         bool hasStaticMethods = def.StaticMethods.Count > 0;
+        bool hasParent = def.ParentClass != null;
 
-        if (!isConcreteClass && hasStaticMethods)
+        if (hasParent)
         {
-            sb.AppendLine($"    private static readonly nint Class = ObjectiveCRuntime.GetClass(\"{def.Name}\");");
-            sb.AppendLine();
+            EmitDerivedClassHeader(sb, def.Name, hasLibraryImports, def.ParentClass!, isConcreteClass, isConcreteClass ? def.ObjCClass : null, !isConcreteClass && hasStaticMethods);
+        }
+        else
+        {
+            EmitClassHeader(sb, def.Name, hasLibraryImports, isConcreteClass, isConcreteClass ? def.ObjCClass : null, !isConcreteClass && hasStaticMethods);
         }
 
         foreach (PropertyDef p in def.Properties)
         {
+            string propName = ToPascalCase(p.Name);
+
+            if (inheritedPropertyNames.Contains(propName))
+            {
+                continue;
+            }
+
             string getSelKey = p.GetSelector ?? p.Name;
             string getSel = selectors[getSelKey];
             string propType = p.Type;
             (string Invoke, _) = MapReturnCall(propType);
-            string propName = ToPascalCase(p.Name);
 
             if (Invoke.Contains("TODO"))
             {
@@ -240,14 +278,6 @@ public class MetalBindingsGenerator
             sb.AppendLine();
         }
 
-        foreach (MethodDef m in def.Methods)
-        {
-            if (EmitMethod(sb, def.Name, m, selectors, isStatic: false))
-            {
-                sb.AppendLine();
-            }
-        }
-
         sb.AppendLine($"    public static implicit operator nint({def.Name} value)");
         sb.AppendLine("    {");
         sb.AppendLine("        return value.NativePtr;");
@@ -259,6 +289,14 @@ public class MetalBindingsGenerator
         sb.AppendLine("    }");
         sb.AppendLine();
 
+        foreach (MethodDef m in def.Methods)
+        {
+            if (EmitMethod(sb, def.Name, m, selectors, isStatic: false))
+            {
+                sb.AppendLine();
+            }
+        }
+
         foreach (MethodDef m in def.StaticMethods)
         {
             if (EmitMethod(sb, def.Name, m, selectors, isStatic: true))
@@ -267,20 +305,23 @@ public class MetalBindingsGenerator
             }
         }
 
-        sb.AppendLine("    public void Dispose()");
-        sb.AppendLine("    {");
-        sb.AppendLine("        Release();");
-        sb.AppendLine();
-        sb.AppendLine("        GC.SuppressFinalize(this);");
-        sb.AppendLine("    }");
-        sb.AppendLine();
-        sb.AppendLine("    private void Release()");
-        sb.AppendLine("    {");
-        sb.AppendLine("        if (NativePtr is not 0)");
-        sb.AppendLine("        {");
-        sb.AppendLine("            ObjectiveCRuntime.Release(NativePtr);");
-        sb.AppendLine("        }");
-        sb.AppendLine("    }");
+        if (!hasParent)
+        {
+            sb.AppendLine("    public void Dispose()");
+            sb.AppendLine("    {");
+            sb.AppendLine("        Release();");
+            sb.AppendLine();
+            sb.AppendLine("        GC.SuppressFinalize(this);");
+            sb.AppendLine("    }");
+            sb.AppendLine();
+            sb.AppendLine("    private void Release()");
+            sb.AppendLine("    {");
+            sb.AppendLine("        if (NativePtr is not 0)");
+            sb.AppendLine("        {");
+            sb.AppendLine("            ObjectiveCRuntime.Release(NativePtr);");
+            sb.AppendLine("        }");
+            sb.AppendLine("    }");
+        }
 
         if (freeFunctions != null && freeFunctions.Count > 0)
         {
@@ -316,7 +357,7 @@ public class MetalBindingsGenerator
         WriteSource(def.Folder, $"{def.Name}.cs", sb.ToString());
     }
 
-    private static void EmitClassHeader(StringBuilder sb, string name, bool hasLibraryImports, bool isConcreteClass, string? objcClassName)
+    private static void EmitClassHeader(StringBuilder sb, string name, bool hasLibraryImports, bool isConcreteClass, string? objcClassName, bool emitClassForStaticMethods = false)
     {
         sb.AppendLine($"public{(hasLibraryImports ? " partial" : "")} class {name} : IDisposable");
         sb.AppendLine("{");
@@ -324,6 +365,11 @@ public class MetalBindingsGenerator
         if (isConcreteClass && objcClassName != null)
         {
             sb.AppendLine($"    private static readonly nint Class = ObjectiveCRuntime.GetClass(\"{objcClassName}\");");
+            sb.AppendLine();
+        }
+        else if (emitClassForStaticMethods)
+        {
+            sb.AppendLine($"    private static readonly nint Class = ObjectiveCRuntime.GetClass(\"{name}\");");
             sb.AppendLine();
         }
 
@@ -351,6 +397,31 @@ public class MetalBindingsGenerator
         sb.AppendLine();
         sb.AppendLine("    public nint NativePtr { get; }");
         sb.AppendLine();
+    }
+
+    private static void EmitDerivedClassHeader(StringBuilder sb, string name, bool hasLibraryImports, string parentClass, bool isConcreteClass = false, string? objcClassName = null, bool emitClassForStaticMethods = false)
+    {
+        sb.AppendLine($"public{(hasLibraryImports ? " partial" : "")} class {name}(nint nativePtr) : {parentClass}(nativePtr)");
+        sb.AppendLine("{");
+
+        if (isConcreteClass && objcClassName != null)
+        {
+            sb.AppendLine($"    private static readonly nint Class = ObjectiveCRuntime.GetClass(\"{objcClassName}\");");
+            sb.AppendLine();
+        }
+        else if (emitClassForStaticMethods)
+        {
+            sb.AppendLine($"    private static readonly nint Class = ObjectiveCRuntime.GetClass(\"{name}\");");
+            sb.AppendLine();
+        }
+
+        if (isConcreteClass)
+        {
+            sb.AppendLine($"    public {name}() : this(ObjectiveCRuntime.AllocInit(Class))");
+            sb.AppendLine("    {");
+            sb.AppendLine("    }");
+            sb.AppendLine();
+        }
     }
 
     private static void EmitClassFooter(StringBuilder sb, string name)
@@ -500,7 +571,7 @@ public class MetalBindingsGenerator
         string externReturnType = wrapReturn ? "nint" : f.ReturnType;
 
         sb.AppendLine($"    [LibraryImport(\"{f.FrameworkLibrary}\", EntryPoint = \"{f.NativeName}\")]");
-        sb.AppendLine($"    private static partial {externReturnType} {f.NativeName}({externParamsStr});");
+        sb.AppendLine($"    private static partial {externReturnType} _{f.NativeName}({externParamsStr});");
         sb.AppendLine();
 
         sb.AppendLine($"    public static {f.ReturnType} {ToPascalCase(f.Name)}({publicParamsStr})");
@@ -508,15 +579,15 @@ public class MetalBindingsGenerator
 
         if (f.ReturnType == "void")
         {
-            sb.AppendLine($"        {f.NativeName}({forwardArgsStr});");
+            sb.AppendLine($"        _{f.NativeName}({forwardArgsStr});");
         }
         else if (wrapReturn)
         {
-            sb.AppendLine($"        return new({f.NativeName}({forwardArgsStr}));");
+            sb.AppendLine($"        return new(_{f.NativeName}({forwardArgsStr}));");
         }
         else
         {
-            sb.AppendLine($"        return {f.NativeName}({forwardArgsStr});");
+            sb.AppendLine($"        return _{f.NativeName}({forwardArgsStr});");
         }
 
         sb.AppendLine("    }");
@@ -526,7 +597,7 @@ public class MetalBindingsGenerator
     {
         if (IsLikelyEnum(type))
         {
-            return $"({type})({expr})";
+            return $"({type}){expr}";
         }
 
         (_, bool NeedsWrap) = MapReturnCall(type);
@@ -584,11 +655,11 @@ public class MetalBindingsGenerator
         _ => "nint",
     };
 
-    private static bool IsObjCWrapper(string type) => CppAstParser.IsObjCWrapper(type);
+    private static bool IsObjCWrapper(string type) => HeaderParser.IsObjCWrapper(type);
 
-    private static bool IsKnownValueStruct(string type) => CppAstParser.IsKnownValueStruct(type);
+    private static bool IsKnownValueStruct(string type) => HeaderParser.IsKnownValueStruct(type);
 
-    private static bool IsLikelyEnum(string type) => CppAstParser.IsLikelyEnum(type) || RuntimeKnownEnums.Contains(type);
+    private static bool IsLikelyEnum(string type) => HeaderParser.IsLikelyEnum(type) || RuntimeKnownEnums.Contains(type);
 
     private static void AddSelector(Dictionary<string, string> dict, string selector)
     {
@@ -624,7 +695,7 @@ public class MetalBindingsGenerator
 
         string name = sb.ToString();
 
-        if (CppAstParser.IsCSharpKeyword(name))
+        if (HeaderParser.IsCSharpKeyword(name))
         {
             name = $"@{name}";
         }

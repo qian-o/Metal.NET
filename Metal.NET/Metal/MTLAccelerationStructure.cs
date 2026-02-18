@@ -1,22 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructure : IDisposable
+public class MTLAccelerationStructure(nint nativePtr) : MTLResource(nativePtr)
 {
-    public MTLAccelerationStructure(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLAccelerationStructure()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public MTLResourceID GpuResourceID
     {
         get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLAccelerationStructureSelector.GpuResourceID);
@@ -35,21 +20,6 @@ public class MTLAccelerationStructure : IDisposable
     public static implicit operator MTLAccelerationStructure(nint value)
     {
         return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

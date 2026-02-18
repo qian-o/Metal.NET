@@ -37,7 +37,7 @@ public class MTL4BinaryFunctionDescriptor : IDisposable
 
     public MTL4BinaryFunctionOptions Options
     {
-        get => (MTL4BinaryFunctionOptions)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4BinaryFunctionDescriptorSelector.Options));
+        get => (MTL4BinaryFunctionOptions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4BinaryFunctionDescriptorSelector.Options);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorSelector.SetOptions, (ulong)value);
     }
 

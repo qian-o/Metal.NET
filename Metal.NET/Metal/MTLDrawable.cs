@@ -27,9 +27,14 @@ public class MTLDrawable : IDisposable
         get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLDrawableSelector.PresentedTime);
     }
 
-    public void AddPresentedHandler(nint function)
+    public static implicit operator nint(MTLDrawable value)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableSelector.AddPresentedHandler, function);
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLDrawable(nint value)
+    {
+        return new(value);
     }
 
     public void Present()
@@ -45,16 +50,6 @@ public class MTLDrawable : IDisposable
     public void PresentAtTime(double presentationTime)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableSelector.PresentAtTime, presentationTime);
-    }
-
-    public static implicit operator nint(MTLDrawable value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLDrawable(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()
@@ -78,8 +73,6 @@ file class MTLDrawableSelector
     public static readonly Selector DrawableID = Selector.Register("drawableID");
 
     public static readonly Selector PresentedTime = Selector.Register("presentedTime");
-
-    public static readonly Selector AddPresentedHandler = Selector.Register("addPresentedHandler:");
 
     public static readonly Selector Present = Selector.Register("present");
 

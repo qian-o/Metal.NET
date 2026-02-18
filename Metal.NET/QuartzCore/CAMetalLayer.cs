@@ -2,6 +2,8 @@
 
 public class CAMetalLayer : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("CAMetalLayer");
+
     public CAMetalLayer(nint nativePtr)
     {
         if (nativePtr is not 0)
@@ -17,8 +19,6 @@ public class CAMetalLayer : IDisposable
 
     public nint NativePtr { get; }
 
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("CAMetalLayer");
-
     public MTLDevice Device
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.Device));
@@ -27,7 +27,7 @@ public class CAMetalLayer : IDisposable
 
     public MTLPixelFormat PixelFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, CAMetalLayerSelector.PixelFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, CAMetalLayerSelector.PixelFormat);
         set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetPixelFormat, (ulong)value);
     }
 

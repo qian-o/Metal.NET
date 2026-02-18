@@ -1,25 +1,20 @@
 ﻿namespace Metal.NET;
 
-public class MTL4MachineLearningCommandEncoder : IDisposable
+public class MTL4MachineLearningCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativePtr)
 {
-    public MTL4MachineLearningCommandEncoder(nint nativePtr)
+    public static implicit operator nint(MTL4MachineLearningCommandEncoder value)
     {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
+        return value.NativePtr;
     }
 
-    ~MTL4MachineLearningCommandEncoder()
+    public static implicit operator MTL4MachineLearningCommandEncoder(nint value)
     {
-        Release();
+        return new(value);
     }
-
-    public nint NativePtr { get; }
 
     public void DispatchNetwork(MTLHeap heap)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderSelector.DispatchNetwork, heap.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderSelector.DispatchNetworkWithIntermediatesHeap, heap.NativePtr);
     }
 
     public void SetArgumentTable(MTL4ArgumentTable argumentTable)
@@ -31,36 +26,11 @@ public class MTL4MachineLearningCommandEncoder : IDisposable
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderSelector.SetPipelineState, pipelineState.NativePtr);
     }
-
-    public static implicit operator nint(MTL4MachineLearningCommandEncoder value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4MachineLearningCommandEncoder(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-    }
 }
 
 file class MTL4MachineLearningCommandEncoderSelector
 {
-    public static readonly Selector DispatchNetwork = Selector.Register("dispatchNetwork:");
+    public static readonly Selector DispatchNetworkWithIntermediatesHeap = Selector.Register("dispatchNetworkWithIntermediatesHeap:");
 
     public static readonly Selector SetArgumentTable = Selector.Register("setArgumentTable:");
 

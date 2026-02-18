@@ -1,27 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTL4TileRenderPipelineDescriptor : IDisposable
+public class MTL4TileRenderPipelineDescriptor(nint nativePtr) : MTL4PipelineDescriptor(nativePtr)
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4TileRenderPipelineDescriptor");
-
-    public MTL4TileRenderPipelineDescriptor(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
 
     public MTL4TileRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
-
-    ~MTL4TileRenderPipelineDescriptor()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
 
     public MTLTileRenderPipelineColorAttachmentDescriptorArray ColorAttachments
     {
@@ -70,11 +55,6 @@ public class MTL4TileRenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetTileFunctionDescriptor, value.NativePtr);
     }
 
-    public void Reset()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.Reset);
-    }
-
     public static implicit operator nint(MTL4TileRenderPipelineDescriptor value)
     {
         return value.NativePtr;
@@ -85,19 +65,9 @@ public class MTL4TileRenderPipelineDescriptor : IDisposable
         return new(value);
     }
 
-    public void Dispose()
+    public void Reset()
     {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.Reset);
     }
 }
 

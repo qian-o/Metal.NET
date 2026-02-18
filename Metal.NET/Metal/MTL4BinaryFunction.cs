@@ -19,7 +19,7 @@ public class MTL4BinaryFunction : IDisposable
 
     public MTLFunctionType FunctionType
     {
-        get => (MTLFunctionType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4BinaryFunctionSelector.FunctionType));
+        get => (MTLFunctionType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4BinaryFunctionSelector.FunctionType);
     }
 
     public NSString Name

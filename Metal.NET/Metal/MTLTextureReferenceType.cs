@@ -1,31 +1,16 @@
 ﻿namespace Metal.NET;
 
-public class MTLTextureReferenceType : IDisposable
+public class MTLTextureReferenceType(nint nativePtr) : MTLType(nativePtr)
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTextureReferenceType");
-
-    public MTLTextureReferenceType(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
 
     public MTLTextureReferenceType() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
-    ~MTLTextureReferenceType()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeSelector.Access));
+        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeSelector.Access);
     }
 
     public Bool8 IsDepthTexture
@@ -35,12 +20,12 @@ public class MTLTextureReferenceType : IDisposable
 
     public MTLDataType TextureDataType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeSelector.TextureDataType));
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeSelector.TextureDataType);
     }
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeSelector.TextureType));
+        get => (MTLTextureType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeSelector.TextureType);
     }
 
     public static implicit operator nint(MTLTextureReferenceType value)
@@ -51,21 +36,6 @@ public class MTLTextureReferenceType : IDisposable
     public static implicit operator MTLTextureReferenceType(nint value)
     {
         return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

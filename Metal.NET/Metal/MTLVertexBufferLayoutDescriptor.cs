@@ -23,12 +23,6 @@ public class MTLVertexBufferLayoutDescriptor : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLVertexStepFunction StepFunction
-    {
-        get => (MTLVertexStepFunction)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLVertexBufferLayoutDescriptorSelector.StepFunction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorSelector.SetStepFunction, (ulong)value);
-    }
-
     public nuint StepRate
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexBufferLayoutDescriptorSelector.StepRate);
@@ -69,10 +63,6 @@ public class MTLVertexBufferLayoutDescriptor : IDisposable
 
 file class MTLVertexBufferLayoutDescriptorSelector
 {
-    public static readonly Selector StepFunction = Selector.Register("stepFunction");
-
-    public static readonly Selector SetStepFunction = Selector.Register("setStepFunction:");
-
     public static readonly Selector StepRate = Selector.Register("stepRate");
 
     public static readonly Selector SetStepRate = Selector.Register("setStepRate:");

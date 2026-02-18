@@ -23,18 +23,6 @@ public class MTLRenderPassSampleBufferAttachmentDescriptorArray : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLRenderPassSampleBufferAttachmentDescriptor Object(nuint attachmentIndex)
-    {
-        MTLRenderPassSampleBufferAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorArraySelector.Object, attachmentIndex));
-
-        return result;
-    }
-
-    public void SetObject(MTLRenderPassSampleBufferAttachmentDescriptor attachment, nuint attachmentIndex)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, attachmentIndex);
-    }
-
     public static implicit operator nint(MTLRenderPassSampleBufferAttachmentDescriptorArray value)
     {
         return value.NativePtr;
@@ -43,6 +31,18 @@ public class MTLRenderPassSampleBufferAttachmentDescriptorArray : IDisposable
     public static implicit operator MTLRenderPassSampleBufferAttachmentDescriptorArray(nint value)
     {
         return new(value);
+    }
+
+    public MTLRenderPassSampleBufferAttachmentDescriptor Object(nuint attachmentIndex)
+    {
+        MTLRenderPassSampleBufferAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorArraySelector.ObjectAtIndexedSubscript, attachmentIndex));
+
+        return result;
+    }
+
+    public void SetObject(MTLRenderPassSampleBufferAttachmentDescriptor attachment, nuint attachmentIndex)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorArraySelector.SetObjectAtIndexedSubscript, attachment.NativePtr, attachmentIndex);
     }
 
     public void Dispose()
@@ -63,7 +63,7 @@ public class MTLRenderPassSampleBufferAttachmentDescriptorArray : IDisposable
 
 file class MTLRenderPassSampleBufferAttachmentDescriptorArraySelector
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector ObjectAtIndexedSubscript = Selector.Register("objectAtIndexedSubscript:");
 
-    public static readonly Selector SetObjectAttachmentIndex = Selector.Register("setObject:attachmentIndex:");
+    public static readonly Selector SetObjectAtIndexedSubscript = Selector.Register("setObject:atIndexedSubscript:");
 }

@@ -53,11 +53,6 @@ public class MTL4RenderPipelineBinaryFunctionsDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineBinaryFunctionsDescriptorSelector.SetVertexAdditionalBinaryFunctions, value.NativePtr);
     }
 
-    public void Reset()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineBinaryFunctionsDescriptorSelector.Reset);
-    }
-
     public static implicit operator nint(MTL4RenderPipelineBinaryFunctionsDescriptor value)
     {
         return value.NativePtr;
@@ -66,6 +61,11 @@ public class MTL4RenderPipelineBinaryFunctionsDescriptor : IDisposable
     public static implicit operator MTL4RenderPipelineBinaryFunctionsDescriptor(nint value)
     {
         return new(value);
+    }
+
+    public void Reset()
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineBinaryFunctionsDescriptorSelector.Reset);
     }
 
     public void Dispose()

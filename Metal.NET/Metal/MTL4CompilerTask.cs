@@ -24,12 +24,7 @@ public class MTL4CompilerTask : IDisposable
 
     public MTL4CompilerTaskStatus Status
     {
-        get => (MTL4CompilerTaskStatus)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4CompilerTaskSelector.Status));
-    }
-
-    public void WaitUntilCompleted()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerTaskSelector.WaitUntilCompleted);
+        get => (MTL4CompilerTaskStatus)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4CompilerTaskSelector.Status);
     }
 
     public static implicit operator nint(MTL4CompilerTask value)
@@ -40,6 +35,11 @@ public class MTL4CompilerTask : IDisposable
     public static implicit operator MTL4CompilerTask(nint value)
     {
         return new(value);
+    }
+
+    public void WaitUntilCompleted()
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerTaskSelector.WaitUntilCompleted);
     }
 
     public void Dispose()

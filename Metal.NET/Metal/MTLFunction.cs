@@ -29,7 +29,7 @@ public class MTLFunction : IDisposable
 
     public MTLFunctionType FunctionType
     {
-        get => (MTLFunctionType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionSelector.FunctionType));
+        get => (MTLFunctionType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionSelector.FunctionType);
     }
 
     public NSString Label
@@ -45,7 +45,7 @@ public class MTLFunction : IDisposable
 
     public MTLFunctionOptions Options
     {
-        get => (MTLFunctionOptions)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionSelector.Options));
+        get => (MTLFunctionOptions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionSelector.Options);
     }
 
     public nint PatchControlPointCount
@@ -55,7 +55,7 @@ public class MTLFunction : IDisposable
 
     public MTLPatchType PatchType
     {
-        get => (MTLPatchType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionSelector.PatchType));
+        get => (MTLPatchType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionSelector.PatchType);
     }
 
     public NSArray StageInputAttributes
@@ -68,20 +68,6 @@ public class MTLFunction : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.VertexAttributes));
     }
 
-    public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex)
-    {
-        MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.NewArgumentEncoder, bufferIndex));
-
-        return result;
-    }
-
-    public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex, nint reflection)
-    {
-        MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.NewArgumentEncoderReflection, bufferIndex, reflection));
-
-        return result;
-    }
-
     public static implicit operator nint(MTLFunction value)
     {
         return value.NativePtr;
@@ -90,6 +76,20 @@ public class MTLFunction : IDisposable
     public static implicit operator MTLFunction(nint value)
     {
         return new(value);
+    }
+
+    public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex)
+    {
+        MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.NewArgumentEncoderWithBufferIndexReflection, bufferIndex));
+
+        return result;
+    }
+
+    public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex, MTLArgument reflection)
+    {
+        MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.NewArgumentEncoderWithBufferIndexReflection, bufferIndex, reflection.NativePtr));
+
+        return result;
     }
 
     public void Dispose()
@@ -132,7 +132,5 @@ file class MTLFunctionSelector
 
     public static readonly Selector VertexAttributes = Selector.Register("vertexAttributes");
 
-    public static readonly Selector NewArgumentEncoder = Selector.Register("newArgumentEncoder:");
-
-    public static readonly Selector NewArgumentEncoderReflection = Selector.Register("newArgumentEncoder:reflection:");
+    public static readonly Selector NewArgumentEncoderWithBufferIndexReflection = Selector.Register("newArgumentEncoderWithBufferIndex:reflection:");
 }

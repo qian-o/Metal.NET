@@ -17,6 +17,16 @@ public class MTLIndirectComputeCommand : IDisposable
 
     public nint NativePtr { get; }
 
+    public static implicit operator nint(MTLIndirectComputeCommand value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLIndirectComputeCommand(nint value)
+    {
+        return new(value);
+    }
+
     public void ClearBarrier()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.ClearBarrier);
@@ -54,12 +64,12 @@ public class MTLIndirectComputeCommand : IDisposable
 
     public void SetKernelBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetKernelBufferOffsetIndex, buffer.NativePtr, offset, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetKernelBufferOffsetAttributeStrideAtIndex, buffer.NativePtr, offset, index);
     }
 
     public void SetKernelBuffer(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetKernelBufferOffsetStrideIndex, buffer.NativePtr, offset, stride, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetKernelBufferOffsetAttributeStrideAtIndex, buffer.NativePtr, offset, stride, index);
     }
 
     public void SetStageInRegion(MTLRegion region)
@@ -69,17 +79,7 @@ public class MTLIndirectComputeCommand : IDisposable
 
     public void SetThreadgroupMemoryLength(nuint length, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetThreadgroupMemoryLengthIndex, length, index);
-    }
-
-    public static implicit operator nint(MTLIndirectComputeCommand value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLIndirectComputeCommand(nint value)
-    {
-        return new(value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetThreadgroupMemoryLengthAtIndex, length, index);
     }
 
     public void Dispose()
@@ -114,11 +114,9 @@ file class MTLIndirectComputeCommandSelector
 
     public static readonly Selector SetImageblockWidthHeight = Selector.Register("setImageblockWidth:height:");
 
-    public static readonly Selector SetKernelBufferOffsetIndex = Selector.Register("setKernelBuffer:offset:index:");
-
-    public static readonly Selector SetKernelBufferOffsetStrideIndex = Selector.Register("setKernelBuffer:offset:stride:index:");
+    public static readonly Selector SetKernelBufferOffsetAttributeStrideAtIndex = Selector.Register("setKernelBuffer:offset:attributeStride:atIndex:");
 
     public static readonly Selector SetStageInRegion = Selector.Register("setStageInRegion:");
 
-    public static readonly Selector SetThreadgroupMemoryLengthIndex = Selector.Register("setThreadgroupMemoryLength:index:");
+    public static readonly Selector SetThreadgroupMemoryLengthAtIndex = Selector.Register("setThreadgroupMemoryLength:atIndex:");
 }

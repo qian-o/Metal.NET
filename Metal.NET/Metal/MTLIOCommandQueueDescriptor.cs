@@ -37,7 +37,7 @@ public class MTLIOCommandQueueDescriptor : IDisposable
 
     public MTLIOPriority Priority
     {
-        get => (MTLIOPriority)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLIOCommandQueueDescriptorSelector.Priority));
+        get => (MTLIOPriority)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLIOCommandQueueDescriptorSelector.Priority);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetPriority, (ulong)value);
     }
 
@@ -49,7 +49,7 @@ public class MTLIOCommandQueueDescriptor : IDisposable
 
     public MTLIOCommandQueueType Type
     {
-        get => (MTLIOCommandQueueType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLIOCommandQueueDescriptorSelector.Type));
+        get => (MTLIOCommandQueueType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLIOCommandQueueDescriptorSelector.Type);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetType, (ulong)value);
     }
 

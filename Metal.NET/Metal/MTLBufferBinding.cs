@@ -1,22 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTLBufferBinding : IDisposable
+public class MTLBufferBinding(nint nativePtr) : MTLBinding(nativePtr)
 {
-    public MTLBufferBinding(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLBufferBinding()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public nuint BufferAlignment
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingSelector.BufferAlignment);
@@ -29,7 +14,7 @@ public class MTLBufferBinding : IDisposable
 
     public MTLDataType BufferDataType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLBufferBindingSelector.BufferDataType));
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLBufferBindingSelector.BufferDataType);
     }
 
     public MTLPointerType BufferPointerType
@@ -50,21 +35,6 @@ public class MTLBufferBinding : IDisposable
     public static implicit operator MTLBufferBinding(nint value)
     {
         return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

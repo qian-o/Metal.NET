@@ -1,38 +1,16 @@
 ﻿namespace Metal.NET;
 
-public class MTLStructType : IDisposable
+public class MTLStructType(nint nativePtr) : MTLType(nativePtr)
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStructType");
-
-    public MTLStructType(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
 
     public MTLStructType() : this(ObjectiveCRuntime.AllocInit(Class))
     {
     }
 
-    ~MTLStructType()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public NSArray Members
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeSelector.Members));
-    }
-
-    public MTLStructMember MemberByName(NSString name)
-    {
-        MTLStructMember result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeSelector.MemberByName, name.NativePtr));
-
-        return result;
     }
 
     public static implicit operator nint(MTLStructType value)
@@ -45,19 +23,11 @@ public class MTLStructType : IDisposable
         return new(value);
     }
 
-    public void Dispose()
+    public MTLStructMember MemberByName(NSString name)
     {
-        Release();
+        MTLStructMember result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeSelector.MemberByName, name.NativePtr));
 
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        return result;
     }
 }
 

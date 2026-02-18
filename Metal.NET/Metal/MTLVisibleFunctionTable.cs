@@ -1,30 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLVisibleFunctionTable : IDisposable
+public class MTLVisibleFunctionTable(nint nativePtr) : MTLResource(nativePtr)
 {
-    public MTLVisibleFunctionTable(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLVisibleFunctionTable()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public MTLResourceID GpuResourceID
     {
         get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLVisibleFunctionTableSelector.GpuResourceID);
-    }
-
-    public void SetFunction(MTLFunctionHandle function, nuint index)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLVisibleFunctionTableSelector.SetFunctionIndex, function.NativePtr, index);
     }
 
     public static implicit operator nint(MTLVisibleFunctionTable value)
@@ -37,19 +17,9 @@ public class MTLVisibleFunctionTable : IDisposable
         return new(value);
     }
 
-    public void Dispose()
+    public void SetFunction(MTLFunctionHandle function, nuint index)
     {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLVisibleFunctionTableSelector.SetFunctionAtIndex, function.NativePtr, index);
     }
 }
 
@@ -57,5 +27,5 @@ file class MTLVisibleFunctionTableSelector
 {
     public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
 
-    public static readonly Selector SetFunctionIndex = Selector.Register("setFunction:index:");
+    public static readonly Selector SetFunctionAtIndex = Selector.Register("setFunction:atIndex:");
 }

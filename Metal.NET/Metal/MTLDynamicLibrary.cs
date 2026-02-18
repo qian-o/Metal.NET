@@ -33,15 +33,6 @@ public class MTLDynamicLibrary : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDynamicLibrarySelector.SetLabel, value.NativePtr);
     }
 
-    public Bool8 SerializeToURL(NSURL url, out NSError? error)
-    {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDynamicLibrarySelector.SerializeToURLError, url.NativePtr, out nint errorPtr);
-
-        error = errorPtr is not 0 ? new(errorPtr) : null;
-
-        return result;
-    }
-
     public static implicit operator nint(MTLDynamicLibrary value)
     {
         return value.NativePtr;
@@ -50,6 +41,15 @@ public class MTLDynamicLibrary : IDisposable
     public static implicit operator MTLDynamicLibrary(nint value)
     {
         return new(value);
+    }
+
+    public Bool8 SerializeToURL(NSURL url, out NSError? error)
+    {
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDynamicLibrarySelector.SerializeToURLError, url.NativePtr, out nint errorPtr);
+
+        error = errorPtr is not 0 ? new(errorPtr) : null;
+
+        return result;
     }
 
     public void Dispose()

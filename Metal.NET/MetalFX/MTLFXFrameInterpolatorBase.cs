@@ -19,47 +19,47 @@ public class MTLFXFrameInterpolatorBase : IDisposable
 
     public MTLTextureUsage ColorTextureUsage
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseSelector.ColorTextureUsage));
+        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseSelector.ColorTextureUsage);
     }
 
     public MTLTextureUsage OutputTextureUsage
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseSelector.OutputTextureUsage));
+        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseSelector.OutputTextureUsage);
     }
 
     public MTLTextureUsage DepthTextureUsage
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseSelector.DepthTextureUsage));
+        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseSelector.DepthTextureUsage);
     }
 
     public MTLTextureUsage MotionTextureUsage
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseSelector.MotionTextureUsage));
+        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseSelector.MotionTextureUsage);
     }
 
     public MTLTextureUsage UiTextureUsage
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseSelector.UiTextureUsage));
+        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseSelector.UiTextureFormat);
     }
 
     public MTLPixelFormat ColorTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseSelector.ColorTextureFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseSelector.ColorTextureFormat);
     }
 
     public MTLPixelFormat DepthTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseSelector.DepthTextureFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseSelector.DepthTextureFormat);
     }
 
     public MTLPixelFormat MotionTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseSelector.MotionTextureFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseSelector.MotionTextureFormat);
     }
 
     public MTLPixelFormat OutputTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseSelector.OutputTextureFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseSelector.OutputTextureFormat);
     }
 
     public nuint InputWidth
@@ -84,7 +84,7 @@ public class MTLFXFrameInterpolatorBase : IDisposable
 
     public MTLPixelFormat UiTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseSelector.UiTextureFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseSelector.UiTextureFormat);
     }
 
     public MTLTexture ColorTexture
@@ -199,16 +199,6 @@ public class MTLFXFrameInterpolatorBase : IDisposable
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXFrameInterpolatorBaseSelector.IsDepthReversed);
     }
 
-    public void SetUITexture(MTLTexture uiTexture)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseSelector.SetUITexture, uiTexture.NativePtr);
-    }
-
-    public void SetDepthReversed(Bool8 depthReversed)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseSelector.SetDepthReversed, depthReversed);
-    }
-
     public static implicit operator nint(MTLFXFrameInterpolatorBase value)
     {
         return value.NativePtr;
@@ -217,6 +207,16 @@ public class MTLFXFrameInterpolatorBase : IDisposable
     public static implicit operator MTLFXFrameInterpolatorBase(nint value)
     {
         return new(value);
+    }
+
+    public void SetUITexture(MTLTexture uiTexture)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseSelector.SetUITexture, uiTexture.NativePtr);
+    }
+
+    public void SetDepthReversed(Bool8 depthReversed)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseSelector.SetDepthReversed, depthReversed);
     }
 
     public void Dispose()
@@ -245,7 +245,7 @@ file class MTLFXFrameInterpolatorBaseSelector
 
     public static readonly Selector MotionTextureUsage = Selector.Register("motionTextureUsage");
 
-    public static readonly Selector UiTextureUsage = Selector.Register("uiTextureUsage");
+    public static readonly Selector UiTextureFormat = Selector.Register("uiTextureFormat");
 
     public static readonly Selector ColorTextureFormat = Selector.Register("colorTextureFormat");
 
@@ -262,8 +262,6 @@ file class MTLFXFrameInterpolatorBaseSelector
     public static readonly Selector OutputWidth = Selector.Register("outputWidth");
 
     public static readonly Selector OutputHeight = Selector.Register("outputHeight");
-
-    public static readonly Selector UiTextureFormat = Selector.Register("uiTextureFormat");
 
     public static readonly Selector ColorTexture = Selector.Register("colorTexture");
 

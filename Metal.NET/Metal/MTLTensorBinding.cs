@@ -1,22 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensorBinding : IDisposable
+public class MTLTensorBinding(nint nativePtr) : MTLBinding(nativePtr)
 {
-    public MTLTensorBinding(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTLTensorBinding()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public MTLTensorExtents Dimensions
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindingSelector.Dimensions));
@@ -24,12 +9,12 @@ public class MTLTensorBinding : IDisposable
 
     public MTLDataType IndexType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorBindingSelector.IndexType));
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorBindingSelector.IndexType);
     }
 
     public MTLTensorDataType TensorDataType
     {
-        get => (MTLTensorDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorBindingSelector.TensorDataType));
+        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorBindingSelector.TensorDataType);
     }
 
     public static implicit operator nint(MTLTensorBinding value)
@@ -40,21 +25,6 @@ public class MTLTensorBinding : IDisposable
     public static implicit operator MTLTensorBinding(nint value)
     {
         return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 

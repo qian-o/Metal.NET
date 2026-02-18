@@ -25,7 +25,7 @@ public class MTLAccelerationStructureDescriptor : IDisposable
 
     public MTLAccelerationStructureUsage Usage
     {
-        get => (MTLAccelerationStructureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAccelerationStructureDescriptorSelector.Usage));
+        get => (MTLAccelerationStructureUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAccelerationStructureDescriptorSelector.Usage);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureDescriptorSelector.SetUsage, (ulong)value);
     }
 

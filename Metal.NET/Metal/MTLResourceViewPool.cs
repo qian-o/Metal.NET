@@ -37,13 +37,6 @@ public class MTLResourceViewPool : IDisposable
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceViewPoolSelector.ResourceViewCount);
     }
 
-    public MTLResourceID CopyResourceViewsFromPool(MTLResourceViewPool sourcePool, NSRange sourceRange, nuint destinationIndex)
-    {
-        MTLResourceID result = ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLResourceViewPoolSelector.CopyResourceViewsFromPoolSourceRangeDestinationIndex, sourcePool.NativePtr, sourceRange, destinationIndex);
-
-        return result;
-    }
-
     public static implicit operator nint(MTLResourceViewPool value)
     {
         return value.NativePtr;
@@ -52,6 +45,13 @@ public class MTLResourceViewPool : IDisposable
     public static implicit operator MTLResourceViewPool(nint value)
     {
         return new(value);
+    }
+
+    public MTLResourceID CopyResourceViewsFromPool(MTLResourceViewPool sourcePool, NSRange sourceRange, nuint destinationIndex)
+    {
+        MTLResourceID result = ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLResourceViewPoolSelector.CopyResourceViewsFromPoolSourceRangeDestinationIndex, sourcePool.NativePtr, sourceRange, destinationIndex);
+
+        return result;
     }
 
     public void Dispose()

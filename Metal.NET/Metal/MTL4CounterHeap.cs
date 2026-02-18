@@ -30,7 +30,17 @@ public class MTL4CounterHeap : IDisposable
 
     public MTL4CounterHeapType Type
     {
-        get => (MTL4CounterHeapType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4CounterHeapSelector.Type));
+        get => (MTL4CounterHeapType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4CounterHeapSelector.Type);
+    }
+
+    public static implicit operator nint(MTL4CounterHeap value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTL4CounterHeap(nint value)
+    {
+        return new(value);
     }
 
     public void InvalidateCounterRange(NSRange range)
@@ -43,16 +53,6 @@ public class MTL4CounterHeap : IDisposable
         nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapSelector.ResolveCounterRange, range);
 
         return result;
-    }
-
-    public static implicit operator nint(MTL4CounterHeap value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4CounterHeap(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()

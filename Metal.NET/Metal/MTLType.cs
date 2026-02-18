@@ -25,7 +25,7 @@ public class MTLType : IDisposable
 
     public MTLDataType DataType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTypeSelector.DataType));
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTypeSelector.DataType);
     }
 
     public static implicit operator nint(MTLType value)

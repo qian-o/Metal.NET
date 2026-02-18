@@ -25,12 +25,12 @@ public class MTLArgument : IDisposable
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentSelector.Access));
+        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentSelector.Access);
     }
 
     public Bool8 Active
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLArgumentSelector.Active);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLArgumentSelector.IsActive);
     }
 
     public nuint ArrayLength
@@ -50,7 +50,7 @@ public class MTLArgument : IDisposable
 
     public MTLDataType BufferDataType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentSelector.BufferDataType));
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentSelector.BufferDataType);
     }
 
     public MTLPointerType BufferPointerType
@@ -85,12 +85,12 @@ public class MTLArgument : IDisposable
 
     public MTLDataType TextureDataType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentSelector.TextureDataType));
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentSelector.TextureDataType);
     }
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentSelector.TextureType));
+        get => (MTLTextureType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentSelector.TextureType);
     }
 
     public nuint ThreadgroupMemoryAlignment
@@ -105,7 +105,7 @@ public class MTLArgument : IDisposable
 
     public MTLArgumentType Type
     {
-        get => (MTLArgumentType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentSelector.Type));
+        get => (MTLArgumentType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentSelector.Type);
     }
 
     public static implicit operator nint(MTLArgument value)
@@ -138,7 +138,7 @@ file class MTLArgumentSelector
 {
     public static readonly Selector Access = Selector.Register("access");
 
-    public static readonly Selector Active = Selector.Register("active");
+    public static readonly Selector IsActive = Selector.Register("isActive");
 
     public static readonly Selector ArrayLength = Selector.Register("arrayLength");
 
@@ -153,8 +153,6 @@ file class MTLArgumentSelector
     public static readonly Selector BufferStructType = Selector.Register("bufferStructType");
 
     public static readonly Selector Index = Selector.Register("index");
-
-    public static readonly Selector IsActive = Selector.Register("isActive");
 
     public static readonly Selector IsDepthTexture = Selector.Register("isDepthTexture");
 

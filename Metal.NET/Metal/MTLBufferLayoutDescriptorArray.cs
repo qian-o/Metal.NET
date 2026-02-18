@@ -23,18 +23,6 @@ public class MTLBufferLayoutDescriptorArray : IDisposable
 
     public nint NativePtr { get; }
 
-    public MTLBufferLayoutDescriptor Object(nuint index)
-    {
-        MTLBufferLayoutDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArraySelector.Object, index));
-
-        return result;
-    }
-
-    public void SetObject(MTLBufferLayoutDescriptor bufferDesc, nuint index)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorArraySelector.SetObjectIndex, bufferDesc.NativePtr, index);
-    }
-
     public static implicit operator nint(MTLBufferLayoutDescriptorArray value)
     {
         return value.NativePtr;
@@ -43,6 +31,18 @@ public class MTLBufferLayoutDescriptorArray : IDisposable
     public static implicit operator MTLBufferLayoutDescriptorArray(nint value)
     {
         return new(value);
+    }
+
+    public MTLBufferLayoutDescriptor Object(nuint index)
+    {
+        MTLBufferLayoutDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArraySelector.ObjectAtIndexedSubscript, index));
+
+        return result;
+    }
+
+    public void SetObject(MTLBufferLayoutDescriptor bufferDesc, nuint index)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorArraySelector.SetObjectAtIndexedSubscript, bufferDesc.NativePtr, index);
     }
 
     public void Dispose()
@@ -63,7 +63,7 @@ public class MTLBufferLayoutDescriptorArray : IDisposable
 
 file class MTLBufferLayoutDescriptorArraySelector
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector ObjectAtIndexedSubscript = Selector.Register("objectAtIndexedSubscript:");
 
-    public static readonly Selector SetObjectIndex = Selector.Register("setObject:index:");
+    public static readonly Selector SetObjectAtIndexedSubscript = Selector.Register("setObject:atIndexedSubscript:");
 }

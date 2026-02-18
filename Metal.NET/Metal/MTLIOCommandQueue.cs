@@ -33,11 +33,6 @@ public class MTLIOCommandQueue : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueSelector.SetLabel, value.NativePtr);
     }
 
-    public void EnqueueBarrier()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueSelector.EnqueueBarrier);
-    }
-
     public static implicit operator nint(MTLIOCommandQueue value)
     {
         return value.NativePtr;
@@ -46,6 +41,11 @@ public class MTLIOCommandQueue : IDisposable
     public static implicit operator MTLIOCommandQueue(nint value)
     {
         return new(value);
+    }
+
+    public void EnqueueBarrier()
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueSelector.EnqueueBarrier);
     }
 
     public void Dispose()

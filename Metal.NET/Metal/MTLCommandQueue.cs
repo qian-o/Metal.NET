@@ -19,7 +19,7 @@ public class MTLCommandQueue : IDisposable
 
     public MTLCommandBuffer CommandBuffer
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.CommandBuffer));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.CommandBufferWithDescriptor));
     }
 
     public MTLCommandBuffer CommandBufferWithUnretainedReferences
@@ -38,6 +38,16 @@ public class MTLCommandQueue : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueSelector.SetLabel, value.NativePtr);
     }
 
+    public static implicit operator nint(MTLCommandQueue value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTLCommandQueue(nint value)
+    {
+        return new(value);
+    }
+
     public void AddResidencySet(MTLResidencySet residencySet)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueSelector.AddResidencySet, residencySet.NativePtr);
@@ -51,16 +61,6 @@ public class MTLCommandQueue : IDisposable
     public void RemoveResidencySet(MTLResidencySet residencySet)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueSelector.RemoveResidencySet, residencySet.NativePtr);
-    }
-
-    public static implicit operator nint(MTLCommandQueue value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTLCommandQueue(nint value)
-    {
-        return new(value);
     }
 
     public void Dispose()
@@ -81,7 +81,7 @@ public class MTLCommandQueue : IDisposable
 
 file class MTLCommandQueueSelector
 {
-    public static readonly Selector CommandBuffer = Selector.Register("commandBuffer");
+    public static readonly Selector CommandBufferWithDescriptor = Selector.Register("commandBufferWithDescriptor:");
 
     public static readonly Selector CommandBufferWithUnretainedReferences = Selector.Register("commandBufferWithUnretainedReferences");
 

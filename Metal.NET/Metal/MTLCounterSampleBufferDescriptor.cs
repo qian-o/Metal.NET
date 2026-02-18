@@ -43,7 +43,7 @@ public class MTLCounterSampleBufferDescriptor : IDisposable
 
     public MTLStorageMode StorageMode
     {
-        get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCounterSampleBufferDescriptorSelector.StorageMode));
+        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCounterSampleBufferDescriptorSelector.StorageMode);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetStorageMode, (ulong)value);
     }
 
