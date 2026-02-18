@@ -25,13 +25,13 @@ public class MTLFXSpatialScalerDescriptor : IDisposable
 
     public MTLPixelFormat ColorTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerDescriptorSelector.ColorTextureFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerDescriptorSelector.ColorTextureFormat);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetColorTextureFormat, (ulong)value);
     }
 
     public MTLPixelFormat OutputTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerDescriptorSelector.OutputTextureFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerDescriptorSelector.OutputTextureFormat);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetOutputTextureFormat, (ulong)value);
     }
 
@@ -61,7 +61,7 @@ public class MTLFXSpatialScalerDescriptor : IDisposable
 
     public MTLFXSpatialScalerColorProcessingMode ColorProcessingMode
     {
-        get => (MTLFXSpatialScalerColorProcessingMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerDescriptorSelector.ColorProcessingMode));
+        get => (MTLFXSpatialScalerColorProcessingMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXSpatialScalerDescriptorSelector.ColorProcessingMode);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetColorProcessingMode, (ulong)value);
     }
 

@@ -25,7 +25,7 @@ public class MTLPipelineBufferDescriptor : IDisposable
 
     public MTLMutability Mutability
     {
-        get => (MTLMutability)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLPipelineBufferDescriptorSelector.Mutability));
+        get => (MTLMutability)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLPipelineBufferDescriptorSelector.Mutability);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorSelector.SetMutability, (ulong)value);
     }
 

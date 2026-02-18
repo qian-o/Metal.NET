@@ -4,7 +4,7 @@ public class MTLComputeCommandEncoder(nint nativePtr) : MTLCommandEncoder(native
 {
     public MTLDispatchType DispatchType
     {
-        get => (MTLDispatchType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLComputeCommandEncoderSelector.DispatchType));
+        get => (MTLDispatchType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLComputeCommandEncoderSelector.DispatchType);
     }
 
     public static implicit operator nint(MTLComputeCommandEncoder value)

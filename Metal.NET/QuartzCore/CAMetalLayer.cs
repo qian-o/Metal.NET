@@ -27,7 +27,7 @@ public class CAMetalLayer : IDisposable
 
     public MTLPixelFormat PixelFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, CAMetalLayerSelector.PixelFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, CAMetalLayerSelector.PixelFormat);
         set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetPixelFormat, (ulong)value);
     }
 

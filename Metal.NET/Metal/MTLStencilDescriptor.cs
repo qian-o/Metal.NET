@@ -25,13 +25,13 @@ public class MTLStencilDescriptor : IDisposable
 
     public MTLStencilOperation DepthFailureOperation
     {
-        get => (MTLStencilOperation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorSelector.DepthFailureOperation));
+        get => (MTLStencilOperation)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorSelector.DepthFailureOperation);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetDepthFailureOperation, (ulong)value);
     }
 
     public MTLStencilOperation DepthStencilPassOperation
     {
-        get => (MTLStencilOperation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorSelector.DepthStencilPassOperation));
+        get => (MTLStencilOperation)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorSelector.DepthStencilPassOperation);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetDepthStencilPassOperation, (ulong)value);
     }
 
@@ -43,7 +43,7 @@ public class MTLStencilDescriptor : IDisposable
 
     public MTLStencilOperation StencilFailureOperation
     {
-        get => (MTLStencilOperation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorSelector.StencilFailureOperation));
+        get => (MTLStencilOperation)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorSelector.StencilFailureOperation);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorSelector.SetStencilFailureOperation, (ulong)value);
     }
 

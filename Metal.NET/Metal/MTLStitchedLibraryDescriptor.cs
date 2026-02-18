@@ -43,7 +43,7 @@ public class MTLStitchedLibraryDescriptor : IDisposable
 
     public MTLStitchedLibraryOptions Options
     {
-        get => (MTLStitchedLibraryOptions)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStitchedLibraryDescriptorSelector.Options));
+        get => (MTLStitchedLibraryOptions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStitchedLibraryDescriptorSelector.Options);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetOptions, (ulong)value);
     }
 

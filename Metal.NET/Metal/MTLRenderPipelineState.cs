@@ -89,7 +89,7 @@ public class MTLRenderPipelineState : IDisposable
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineStateSelector.ShaderValidation));
+        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineStateSelector.ShaderValidation);
     }
 
     public Bool8 SupportIndirectCommandBuffers

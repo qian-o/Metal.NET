@@ -84,7 +84,7 @@ public class MTLComputePipelineDescriptor : IDisposable
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLComputePipelineDescriptorSelector.ShaderValidation));
+        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLComputePipelineDescriptorSelector.ShaderValidation);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetShaderValidation, (ulong)value);
     }
 

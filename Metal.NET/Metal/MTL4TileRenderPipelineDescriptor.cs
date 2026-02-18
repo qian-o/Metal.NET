@@ -4,6 +4,10 @@ public class MTL4TileRenderPipelineDescriptor(nint nativePtr) : MTL4PipelineDesc
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4TileRenderPipelineDescriptor");
 
+    public MTL4TileRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     public MTLTileRenderPipelineColorAttachmentDescriptorArray ColorAttachments
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4TileRenderPipelineDescriptorSelector.ColorAttachments));

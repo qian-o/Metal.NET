@@ -378,6 +378,14 @@ public class MetalBindingsGenerator
             sb.AppendLine($"    private static readonly nint Class = ObjectiveCRuntime.GetClass(\"{name}\");");
             sb.AppendLine();
         }
+
+        if (isConcreteClass)
+        {
+            sb.AppendLine($"    public {name}() : this(ObjectiveCRuntime.AllocInit(Class))");
+            sb.AppendLine("    {");
+            sb.AppendLine("    }");
+            sb.AppendLine();
+        }
     }
 
     private static void EmitClassFooter(StringBuilder sb, string name)
@@ -553,7 +561,7 @@ public class MetalBindingsGenerator
     {
         if (IsLikelyEnum(type))
         {
-            return $"({type})({expr})";
+            return $"({type}){expr}";
         }
 
         (_, bool NeedsWrap) = MapReturnCall(type);

@@ -4,62 +4,62 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : MTLFXFrameInterpo
 {
     public MTLTextureUsage ColorTextureUsage
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.ColorTextureUsage));
+        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.ColorTextureUsage);
     }
 
     public MTLTextureUsage DepthTextureUsage
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DepthTextureUsage));
+        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DepthTextureUsage);
     }
 
     public MTLTextureUsage MotionTextureUsage
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.MotionTextureUsage));
+        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.MotionTextureUsage);
     }
 
     public MTLTextureUsage ReactiveTextureUsage
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.ReactiveTextureUsage));
+        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.ReactiveTextureUsage);
     }
 
     public MTLTextureUsage DiffuseAlbedoTextureUsage
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DiffuseAlbedoTextureUsage));
+        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DiffuseAlbedoTextureUsage);
     }
 
     public MTLTextureUsage SpecularAlbedoTextureUsage
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SpecularAlbedoTextureUsage));
+        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SpecularAlbedoTextureUsage);
     }
 
     public MTLTextureUsage NormalTextureUsage
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.NormalTextureUsage));
+        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.NormalTextureUsage);
     }
 
     public MTLTextureUsage RoughnessTextureUsage
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.RoughnessTextureUsage));
+        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.RoughnessTextureUsage);
     }
 
     public MTLTextureUsage SpecularHitDistanceTextureUsage
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SpecularHitDistanceTextureUsage));
+        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SpecularHitDistanceTextureUsage);
     }
 
     public MTLTextureUsage DenoiseStrengthMaskTextureUsage
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DenoiseStrengthMaskTextureUsage));
+        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DenoiseStrengthMaskTextureUsage);
     }
 
     public MTLTextureUsage TransparencyOverlayTextureUsage
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.TransparencyOverlayTextureUsage));
+        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.TransparencyOverlayTextureUsage);
     }
 
     public MTLTextureUsage OutputTextureUsage
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.OutputTextureUsage));
+        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.OutputTextureUsage);
     }
 
     public MTLTexture ColorTexture
@@ -183,62 +183,62 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : MTLFXFrameInterpo
 
     public MTLPixelFormat ColorTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.ColorTextureFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.ColorTextureFormat);
     }
 
     public MTLPixelFormat DepthTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DepthTextureFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DepthTextureFormat);
     }
 
     public MTLPixelFormat MotionTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.MotionTextureFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.MotionTextureFormat);
     }
 
     public MTLPixelFormat DiffuseAlbedoTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DiffuseAlbedoTextureFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DiffuseAlbedoTextureFormat);
     }
 
     public MTLPixelFormat SpecularAlbedoTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SpecularAlbedoTextureFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SpecularAlbedoTextureFormat);
     }
 
     public MTLPixelFormat NormalTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.NormalTextureFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.NormalTextureFormat);
     }
 
     public MTLPixelFormat RoughnessTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.RoughnessTextureFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.RoughnessTextureFormat);
     }
 
     public MTLPixelFormat SpecularHitDistanceTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SpecularHitDistanceTextureFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SpecularHitDistanceTextureFormat);
     }
 
     public MTLPixelFormat DenoiseStrengthMaskTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DenoiseStrengthMaskTextureFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.DenoiseStrengthMaskTextureFormat);
     }
 
     public MTLPixelFormat TransparencyOverlayTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.TransparencyOverlayTextureFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.TransparencyOverlayTextureFormat);
     }
 
     public MTLPixelFormat ReactiveMaskTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.ReactiveMaskTextureFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.ReactiveMaskTextureFormat);
     }
 
     public MTLPixelFormat OutputTextureFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.OutputTextureFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.OutputTextureFormat);
     }
 
     public nuint InputWidth

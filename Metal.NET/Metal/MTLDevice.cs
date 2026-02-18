@@ -41,7 +41,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLArgumentBuffersTier ArgumentBuffersSupport
     {
-        get => (MTLArgumentBuffersTier)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLDeviceSelector.ArgumentBuffersSupport));
+        get => (MTLArgumentBuffersTier)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLDeviceSelector.ArgumentBuffersSupport);
     }
 
     public Bool8 BarycentricCoordsSupported
@@ -96,7 +96,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLDeviceLocation Location
     {
-        get => (MTLDeviceLocation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLDeviceSelector.Location));
+        get => (MTLDeviceLocation)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLDeviceSelector.Location);
     }
 
     public nuint LocationNumber
@@ -176,7 +176,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLReadWriteTextureTier ReadWriteTextureSupport
     {
-        get => (MTLReadWriteTextureTier)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLDeviceSelector.ReadWriteTextureSupport));
+        get => (MTLReadWriteTextureTier)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLDeviceSelector.ReadWriteTextureSupport);
     }
 
     public nuint RecommendedMaxWorkingSetSize

@@ -4,6 +4,10 @@ public class MTL4LibraryFunctionDescriptor(nint nativePtr) : MTL4FunctionDescrip
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4LibraryFunctionDescriptor");
 
+    public MTL4LibraryFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     public MTLLibrary Library
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryFunctionDescriptorSelector.Library));

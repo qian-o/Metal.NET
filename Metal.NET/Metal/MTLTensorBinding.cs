@@ -9,12 +9,12 @@ public class MTLTensorBinding(nint nativePtr) : MTLBinding(nativePtr)
 
     public MTLDataType IndexType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorBindingSelector.IndexType));
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorBindingSelector.IndexType);
     }
 
     public MTLTensorDataType TensorDataType
     {
-        get => (MTLTensorDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorBindingSelector.TensorDataType));
+        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorBindingSelector.TensorDataType);
     }
 
     public static implicit operator nint(MTLTensorBinding value)

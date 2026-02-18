@@ -14,7 +14,7 @@ public class MTLTensor(nint nativePtr) : MTLResource(nativePtr)
 
     public MTLTensorDataType DataType
     {
-        get => (MTLTensorDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorSelector.DataType));
+        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorSelector.DataType);
     }
 
     public MTLTensorExtents Dimensions
@@ -34,7 +34,7 @@ public class MTLTensor(nint nativePtr) : MTLResource(nativePtr)
 
     public MTLTensorUsage Usage
     {
-        get => (MTLTensorUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorSelector.Usage));
+        get => (MTLTensorUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorSelector.Usage);
     }
 
     public static implicit operator nint(MTLTensor value)

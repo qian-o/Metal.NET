@@ -43,7 +43,7 @@ public class MTLFunctionDescriptor : IDisposable
 
     public MTLFunctionOptions Options
     {
-        get => (MTLFunctionOptions)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionDescriptorSelector.Options));
+        get => (MTLFunctionOptions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionDescriptorSelector.Options);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetOptions, (ulong)value);
     }
 

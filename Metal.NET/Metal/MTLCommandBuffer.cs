@@ -59,7 +59,7 @@ public class MTLCommandBuffer : IDisposable
 
     public MTLCommandBufferErrorOption ErrorOptions
     {
-        get => (MTLCommandBufferErrorOption)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCommandBufferSelector.ErrorOptions));
+        get => (MTLCommandBufferErrorOption)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCommandBufferSelector.ErrorOptions);
     }
 
     public double KernelEndTime
@@ -95,7 +95,7 @@ public class MTLCommandBuffer : IDisposable
 
     public MTLCommandBufferStatus Status
     {
-        get => (MTLCommandBufferStatus)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCommandBufferSelector.Status));
+        get => (MTLCommandBufferStatus)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCommandBufferSelector.Status);
     }
 
     public static implicit operator nint(MTLCommandBuffer value)

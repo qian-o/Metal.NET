@@ -31,7 +31,7 @@ public class MTL4CounterHeapDescriptor : IDisposable
 
     public MTL4CounterHeapType Type
     {
-        get => (MTL4CounterHeapType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4CounterHeapDescriptorSelector.Type));
+        get => (MTL4CounterHeapType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4CounterHeapDescriptorSelector.Type);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapDescriptorSelector.SetType, (ulong)value);
     }
 

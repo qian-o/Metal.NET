@@ -4,6 +4,10 @@ public class MTL4AccelerationStructureTriangleGeometryDescriptor(nint nativePtr)
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4AccelerationStructureTriangleGeometryDescriptor");
 
+    public MTL4AccelerationStructureTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     public MTL4BufferRange IndexBuffer
     {
         get => ObjectiveCRuntime.MsgSendMTL4BufferRange(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.IndexBuffer);
@@ -12,7 +16,7 @@ public class MTL4AccelerationStructureTriangleGeometryDescriptor(nint nativePtr)
 
     public MTLIndexType IndexType
     {
-        get => (MTLIndexType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.IndexType));
+        get => (MTLIndexType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.IndexType);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.SetIndexType, (ulong)value);
     }
 
@@ -24,7 +28,7 @@ public class MTL4AccelerationStructureTriangleGeometryDescriptor(nint nativePtr)
 
     public MTLMatrixLayout TransformationMatrixLayout
     {
-        get => (MTLMatrixLayout)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.TransformationMatrixLayout));
+        get => (MTLMatrixLayout)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.TransformationMatrixLayout);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.SetTransformationMatrixLayout, (ulong)value);
     }
 
@@ -42,7 +46,7 @@ public class MTL4AccelerationStructureTriangleGeometryDescriptor(nint nativePtr)
 
     public MTLAttributeFormat VertexFormat
     {
-        get => (MTLAttributeFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.VertexFormat));
+        get => (MTLAttributeFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.VertexFormat);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureTriangleGeometryDescriptorSelector.SetVertexFormat, (ulong)value);
     }
 

@@ -4,6 +4,10 @@ public class MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor(nint n
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor");
 
+    public MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     public MTL4BufferRange BoundingBoxBuffers
     {
         get => ObjectiveCRuntime.MsgSendMTL4BufferRange(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.BoundingBoxBuffers);

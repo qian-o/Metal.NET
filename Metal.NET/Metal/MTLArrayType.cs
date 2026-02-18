@@ -4,6 +4,10 @@ public class MTLArrayType(nint nativePtr) : MTLType(nativePtr)
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArrayType");
 
+    public MTLArrayType() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     public nuint ArgumentIndexStride
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeSelector.ArgumentIndexStride);
@@ -41,7 +45,7 @@ public class MTLArrayType(nint nativePtr) : MTLType(nativePtr)
 
     public MTLDataType ElementType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArrayTypeSelector.ElementType));
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArrayTypeSelector.ElementType);
     }
 
     public nuint Stride

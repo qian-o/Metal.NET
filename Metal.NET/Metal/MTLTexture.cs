@@ -29,7 +29,7 @@ public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
 
     public MTLTextureCompressionType CompressionType
     {
-        get => (MTLTextureCompressionType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureSelector.CompressionType));
+        get => (MTLTextureCompressionType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureSelector.CompressionType);
     }
 
     public nuint Depth
@@ -104,7 +104,7 @@ public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
 
     public MTLPixelFormat PixelFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureSelector.PixelFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureSelector.PixelFormat);
     }
 
     public MTLTexture RemoteStorageTexture
@@ -129,7 +129,7 @@ public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
 
     public MTLTextureSparseTier SparseTextureTier
     {
-        get => (MTLTextureSparseTier)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureSelector.SparseTextureTier));
+        get => (MTLTextureSparseTier)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureSelector.SparseTextureTier);
     }
 
     public MTLTextureSwizzleChannels Swizzle
@@ -144,12 +144,12 @@ public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureSelector.TextureType));
+        get => (MTLTextureType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureSelector.TextureType);
     }
 
     public MTLTextureUsage Usage
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureSelector.Usage));
+        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureSelector.Usage);
     }
 
     public nuint Width

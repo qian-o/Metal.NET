@@ -4,6 +4,10 @@ public class MTLIntersectionFunctionDescriptor(nint nativePtr) : MTLFunctionDesc
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIntersectionFunctionDescriptor");
 
+    public MTLIntersectionFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     public static implicit operator nint(MTLIntersectionFunctionDescriptor value)
     {
         return value.NativePtr;

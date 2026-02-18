@@ -25,7 +25,7 @@ public class MTLArgumentDescriptor : IDisposable
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentDescriptorSelector.Access));
+        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentDescriptorSelector.Access);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetAccess, (ulong)value);
     }
 
@@ -43,7 +43,7 @@ public class MTLArgumentDescriptor : IDisposable
 
     public MTLDataType DataType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentDescriptorSelector.DataType));
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentDescriptorSelector.DataType);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetDataType, (ulong)value);
     }
 
@@ -55,7 +55,7 @@ public class MTLArgumentDescriptor : IDisposable
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentDescriptorSelector.TextureType));
+        get => (MTLTextureType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentDescriptorSelector.TextureType);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetTextureType, (ulong)value);
     }
 

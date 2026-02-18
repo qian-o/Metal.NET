@@ -4,6 +4,10 @@ public class MTLStructType(nint nativePtr) : MTLType(nativePtr)
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStructType");
 
+    public MTLStructType() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     public NSArray Members
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeSelector.Members));

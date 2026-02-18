@@ -4,6 +4,10 @@ public class MTL4AccelerationStructureCurveGeometryDescriptor(nint nativePtr) : 
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4AccelerationStructureCurveGeometryDescriptor");
 
+    public MTL4AccelerationStructureCurveGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     public MTL4BufferRange ControlPointBuffer
     {
         get => ObjectiveCRuntime.MsgSendMTL4BufferRange(NativePtr, MTL4AccelerationStructureCurveGeometryDescriptorSelector.ControlPointBuffer);
@@ -18,7 +22,7 @@ public class MTL4AccelerationStructureCurveGeometryDescriptor(nint nativePtr) : 
 
     public MTLAttributeFormat ControlPointFormat
     {
-        get => (MTLAttributeFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4AccelerationStructureCurveGeometryDescriptorSelector.ControlPointFormat));
+        get => (MTLAttributeFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4AccelerationStructureCurveGeometryDescriptorSelector.ControlPointFormat);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureCurveGeometryDescriptorSelector.SetControlPointFormat, (ulong)value);
     }
 
@@ -30,19 +34,19 @@ public class MTL4AccelerationStructureCurveGeometryDescriptor(nint nativePtr) : 
 
     public MTLCurveBasis CurveBasis
     {
-        get => (MTLCurveBasis)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4AccelerationStructureCurveGeometryDescriptorSelector.CurveBasis));
+        get => (MTLCurveBasis)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4AccelerationStructureCurveGeometryDescriptorSelector.CurveBasis);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureCurveGeometryDescriptorSelector.SetCurveBasis, (ulong)value);
     }
 
     public MTLCurveEndCaps CurveEndCaps
     {
-        get => (MTLCurveEndCaps)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4AccelerationStructureCurveGeometryDescriptorSelector.CurveEndCaps));
+        get => (MTLCurveEndCaps)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4AccelerationStructureCurveGeometryDescriptorSelector.CurveEndCaps);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureCurveGeometryDescriptorSelector.SetCurveEndCaps, (ulong)value);
     }
 
     public MTLCurveType CurveType
     {
-        get => (MTLCurveType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4AccelerationStructureCurveGeometryDescriptorSelector.CurveType));
+        get => (MTLCurveType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4AccelerationStructureCurveGeometryDescriptorSelector.CurveType);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureCurveGeometryDescriptorSelector.SetCurveType, (ulong)value);
     }
 
@@ -54,7 +58,7 @@ public class MTL4AccelerationStructureCurveGeometryDescriptor(nint nativePtr) : 
 
     public MTLIndexType IndexType
     {
-        get => (MTLIndexType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4AccelerationStructureCurveGeometryDescriptorSelector.IndexType));
+        get => (MTLIndexType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4AccelerationStructureCurveGeometryDescriptorSelector.IndexType);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureCurveGeometryDescriptorSelector.SetIndexType, (ulong)value);
     }
 
@@ -66,7 +70,7 @@ public class MTL4AccelerationStructureCurveGeometryDescriptor(nint nativePtr) : 
 
     public MTLAttributeFormat RadiusFormat
     {
-        get => (MTLAttributeFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4AccelerationStructureCurveGeometryDescriptorSelector.RadiusFormat));
+        get => (MTLAttributeFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4AccelerationStructureCurveGeometryDescriptorSelector.RadiusFormat);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureCurveGeometryDescriptorSelector.SetRadiusFormat, (ulong)value);
     }
 

@@ -4,6 +4,10 @@ public class MTLFunctionStitchingFunctionNode(nint nativePtr) : MTLFunctionStitc
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingFunctionNode");
 
+    public MTLFunctionStitchingFunctionNode() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     public NSArray Arguments
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionStitchingFunctionNodeSelector.Arguments));

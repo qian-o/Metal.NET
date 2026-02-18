@@ -4,6 +4,10 @@ public class MTL4ComputePipelineDescriptor(nint nativePtr) : MTL4PipelineDescrip
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4ComputePipelineDescriptor");
 
+    public MTL4ComputePipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     public MTL4FunctionDescriptor ComputeFunctionDescriptor
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ComputePipelineDescriptorSelector.ComputeFunctionDescriptor));
@@ -36,7 +40,7 @@ public class MTL4ComputePipelineDescriptor(nint nativePtr) : MTL4PipelineDescrip
 
     public MTL4IndirectCommandBufferSupportState SupportIndirectCommandBuffers
     {
-        get => (MTL4IndirectCommandBufferSupportState)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4ComputePipelineDescriptorSelector.SupportIndirectCommandBuffers));
+        get => (MTL4IndirectCommandBufferSupportState)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4ComputePipelineDescriptorSelector.SupportIndirectCommandBuffers);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorSelector.SetSupportIndirectCommandBuffers, (ulong)value);
     }
 

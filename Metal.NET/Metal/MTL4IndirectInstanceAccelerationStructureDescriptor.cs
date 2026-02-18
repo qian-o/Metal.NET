@@ -4,6 +4,10 @@ public class MTL4IndirectInstanceAccelerationStructureDescriptor(nint nativePtr)
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4IndirectInstanceAccelerationStructureDescriptor");
 
+    public MTL4IndirectInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     public MTL4BufferRange InstanceCountBuffer
     {
         get => ObjectiveCRuntime.MsgSendMTL4BufferRange(NativePtr, MTL4IndirectInstanceAccelerationStructureDescriptorSelector.InstanceCountBuffer);
@@ -24,13 +28,13 @@ public class MTL4IndirectInstanceAccelerationStructureDescriptor(nint nativePtr)
 
     public MTLAccelerationStructureInstanceDescriptorType InstanceDescriptorType
     {
-        get => (MTLAccelerationStructureInstanceDescriptorType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4IndirectInstanceAccelerationStructureDescriptorSelector.InstanceDescriptorType));
+        get => (MTLAccelerationStructureInstanceDescriptorType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4IndirectInstanceAccelerationStructureDescriptorSelector.InstanceDescriptorType);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4IndirectInstanceAccelerationStructureDescriptorSelector.SetInstanceDescriptorType, (ulong)value);
     }
 
     public MTLMatrixLayout InstanceTransformationMatrixLayout
     {
-        get => (MTLMatrixLayout)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4IndirectInstanceAccelerationStructureDescriptorSelector.InstanceTransformationMatrixLayout));
+        get => (MTLMatrixLayout)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4IndirectInstanceAccelerationStructureDescriptorSelector.InstanceTransformationMatrixLayout);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4IndirectInstanceAccelerationStructureDescriptorSelector.SetInstanceTransformationMatrixLayout, (ulong)value);
     }
 
@@ -66,7 +70,7 @@ public class MTL4IndirectInstanceAccelerationStructureDescriptor(nint nativePtr)
 
     public MTLTransformType MotionTransformType
     {
-        get => (MTLTransformType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4IndirectInstanceAccelerationStructureDescriptorSelector.MotionTransformType));
+        get => (MTLTransformType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4IndirectInstanceAccelerationStructureDescriptorSelector.MotionTransformType);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4IndirectInstanceAccelerationStructureDescriptorSelector.SetMotionTransformType, (ulong)value);
     }
 

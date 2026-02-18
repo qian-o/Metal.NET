@@ -30,7 +30,7 @@ public class MTLIOCommandBuffer : IDisposable
 
     public MTLIOStatus Status
     {
-        get => (MTLIOStatus)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLIOCommandBufferSelector.Status));
+        get => (MTLIOStatus)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLIOCommandBufferSelector.Status);
     }
 
     public static implicit operator nint(MTLIOCommandBuffer value)

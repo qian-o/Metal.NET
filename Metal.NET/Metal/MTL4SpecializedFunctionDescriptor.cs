@@ -4,6 +4,10 @@ public class MTL4SpecializedFunctionDescriptor(nint nativePtr) : MTL4FunctionDes
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4SpecializedFunctionDescriptor");
 
+    public MTL4SpecializedFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     public MTLFunctionConstantValues ConstantValues
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4SpecializedFunctionDescriptorSelector.ConstantValues));

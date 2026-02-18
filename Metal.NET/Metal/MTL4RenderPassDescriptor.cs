@@ -108,7 +108,7 @@ public class MTL4RenderPassDescriptor : IDisposable
 
     public MTLVisibilityResultType VisibilityResultType
     {
-        get => (MTLVisibilityResultType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4RenderPassDescriptorSelector.VisibilityResultType));
+        get => (MTLVisibilityResultType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4RenderPassDescriptorSelector.VisibilityResultType);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorSelector.SetVisibilityResultType, (ulong)value);
     }
 

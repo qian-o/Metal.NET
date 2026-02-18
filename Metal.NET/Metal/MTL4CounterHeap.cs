@@ -30,7 +30,7 @@ public class MTL4CounterHeap : IDisposable
 
     public MTL4CounterHeapType Type
     {
-        get => (MTL4CounterHeapType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4CounterHeapSelector.Type));
+        get => (MTL4CounterHeapType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4CounterHeapSelector.Type);
     }
 
     public static implicit operator nint(MTL4CounterHeap value)

@@ -25,7 +25,7 @@ public class MTLCommandBufferDescriptor : IDisposable
 
     public MTLCommandBufferErrorOption ErrorOptions
     {
-        get => (MTLCommandBufferErrorOption)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCommandBufferDescriptorSelector.ErrorOptions));
+        get => (MTLCommandBufferErrorOption)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCommandBufferDescriptorSelector.ErrorOptions);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetErrorOptions, (ulong)value);
     }
 

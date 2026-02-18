@@ -25,7 +25,7 @@ public class MTLRenderPipelineColorAttachmentDescriptor : IDisposable
 
     public MTLBlendOperation AlphaBlendOperation
     {
-        get => (MTLBlendOperation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.AlphaBlendOperation));
+        get => (MTLBlendOperation)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.AlphaBlendOperation);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetAlphaBlendOperation, (ulong)value);
     }
 
@@ -37,13 +37,13 @@ public class MTLRenderPipelineColorAttachmentDescriptor : IDisposable
 
     public MTLBlendFactor DestinationAlphaBlendFactor
     {
-        get => (MTLBlendFactor)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.DestinationAlphaBlendFactor));
+        get => (MTLBlendFactor)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.DestinationAlphaBlendFactor);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetDestinationAlphaBlendFactor, (ulong)value);
     }
 
     public MTLBlendFactor DestinationRGBBlendFactor
     {
-        get => (MTLBlendFactor)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.DestinationRGBBlendFactor));
+        get => (MTLBlendFactor)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.DestinationRGBBlendFactor);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetDestinationRGBBlendFactor, (ulong)value);
     }
 
@@ -54,31 +54,31 @@ public class MTLRenderPipelineColorAttachmentDescriptor : IDisposable
 
     public MTLPixelFormat PixelFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.PixelFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.PixelFormat);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetPixelFormat, (ulong)value);
     }
 
     public MTLBlendOperation RgbBlendOperation
     {
-        get => (MTLBlendOperation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.RgbBlendOperation));
+        get => (MTLBlendOperation)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.RgbBlendOperation);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetRgbBlendOperation, (ulong)value);
     }
 
     public MTLBlendFactor SourceAlphaBlendFactor
     {
-        get => (MTLBlendFactor)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SourceAlphaBlendFactor));
+        get => (MTLBlendFactor)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SourceAlphaBlendFactor);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetSourceAlphaBlendFactor, (ulong)value);
     }
 
     public MTLBlendFactor SourceRGBBlendFactor
     {
-        get => (MTLBlendFactor)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SourceRGBBlendFactor));
+        get => (MTLBlendFactor)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SourceRGBBlendFactor);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetSourceRGBBlendFactor, (ulong)value);
     }
 
     public MTLColorWriteMask WriteMask
     {
-        get => (MTLColorWriteMask)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.WriteMask));
+        get => (MTLColorWriteMask)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.WriteMask);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetWriteMask, (ulong)value);
     }
 

@@ -4,6 +4,10 @@ public class MTLFunctionStitchingAttributeAlwaysInline(nint nativePtr) : MTLFunc
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingAttributeAlwaysInline");
 
+    public MTLFunctionStitchingAttributeAlwaysInline() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     public static implicit operator nint(MTLFunctionStitchingAttributeAlwaysInline value)
     {
         return value.NativePtr;

@@ -19,12 +19,12 @@ public class MTLTextureBinding(nint nativePtr) : MTLBinding(nativePtr)
 
     public MTLDataType TextureDataType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureBindingSelector.TextureDataType));
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureBindingSelector.TextureDataType);
     }
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureBindingSelector.TextureType));
+        get => (MTLTextureType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureBindingSelector.TextureType);
     }
 
     public static implicit operator nint(MTLTextureBinding value)

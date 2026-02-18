@@ -31,7 +31,7 @@ public class MTLVertexAttributeDescriptor : IDisposable
 
     public MTLVertexFormat Format
     {
-        get => (MTLVertexFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLVertexAttributeDescriptorSelector.Format));
+        get => (MTLVertexFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLVertexAttributeDescriptorSelector.Format);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorSelector.SetFormat, (ulong)value);
     }
 

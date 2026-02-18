@@ -4,9 +4,13 @@ public class MTLTextureReferenceType(nint nativePtr) : MTLType(nativePtr)
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTextureReferenceType");
 
+    public MTLTextureReferenceType() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeSelector.Access));
+        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeSelector.Access);
     }
 
     public Bool8 IsDepthTexture
@@ -16,12 +20,12 @@ public class MTLTextureReferenceType(nint nativePtr) : MTLType(nativePtr)
 
     public MTLDataType TextureDataType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeSelector.TextureDataType));
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeSelector.TextureDataType);
     }
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeSelector.TextureType));
+        get => (MTLTextureType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeSelector.TextureType);
     }
 
     public static implicit operator nint(MTLTextureReferenceType value)

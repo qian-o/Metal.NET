@@ -31,7 +31,7 @@ public class MTLLogStateDescriptor : IDisposable
 
     public MTLLogLevel Level
     {
-        get => (MTLLogLevel)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLLogStateDescriptorSelector.Level));
+        get => (MTLLogLevel)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLLogStateDescriptorSelector.Level);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLogStateDescriptorSelector.SetLevel, (ulong)value);
     }
 

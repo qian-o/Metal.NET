@@ -25,13 +25,13 @@ public class MTL4PipelineOptions : IDisposable
 
     public MTL4ShaderReflection ShaderReflection
     {
-        get => (MTL4ShaderReflection)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4PipelineOptionsSelector.ShaderReflection));
+        get => (MTL4ShaderReflection)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4PipelineOptionsSelector.ShaderReflection);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineOptionsSelector.SetShaderReflection, (ulong)value);
     }
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4PipelineOptionsSelector.ShaderValidation));
+        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4PipelineOptionsSelector.ShaderValidation);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineOptionsSelector.SetShaderValidation, (ulong)value);
     }
 

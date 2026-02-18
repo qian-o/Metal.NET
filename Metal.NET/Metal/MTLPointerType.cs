@@ -4,9 +4,13 @@ public class MTLPointerType(nint nativePtr) : MTLType(nativePtr)
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPointerType");
 
+    public MTLPointerType() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLPointerTypeSelector.Access));
+        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLPointerTypeSelector.Access);
     }
 
     public nuint Alignment
@@ -36,7 +40,7 @@ public class MTLPointerType(nint nativePtr) : MTLType(nativePtr)
 
     public MTLDataType ElementType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLPointerTypeSelector.ElementType));
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLPointerTypeSelector.ElementType);
     }
 
     public static implicit operator nint(MTLPointerType value)

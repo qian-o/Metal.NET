@@ -24,7 +24,7 @@ public class MTLBuffer(nint nativePtr) : MTLResource(nativePtr)
 
     public MTLBufferSparseTier SparseBufferTier
     {
-        get => (MTLBufferSparseTier)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLBufferSelector.SparseBufferTier));
+        get => (MTLBufferSparseTier)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLBufferSelector.SparseBufferTier);
     }
 
     public static implicit operator nint(MTLBuffer value)

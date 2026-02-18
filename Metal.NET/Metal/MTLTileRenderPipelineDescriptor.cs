@@ -78,7 +78,7 @@ public class MTLTileRenderPipelineDescriptor : IDisposable
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTileRenderPipelineDescriptorSelector.ShaderValidation));
+        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTileRenderPipelineDescriptorSelector.ShaderValidation);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetShaderValidation, (ulong)value);
     }
 

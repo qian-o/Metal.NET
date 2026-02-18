@@ -48,7 +48,7 @@ public class MTLMeshRenderPipelineDescriptor : IDisposable
 
     public MTLPixelFormat DepthAttachmentPixelFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLMeshRenderPipelineDescriptorSelector.DepthAttachmentPixelFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLMeshRenderPipelineDescriptorSelector.DepthAttachmentPixelFormat);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetDepthAttachmentPixelFormat, (ulong)value);
     }
 
@@ -192,13 +192,13 @@ public class MTLMeshRenderPipelineDescriptor : IDisposable
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLMeshRenderPipelineDescriptorSelector.ShaderValidation));
+        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLMeshRenderPipelineDescriptorSelector.ShaderValidation);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetShaderValidation, (ulong)value);
     }
 
     public MTLPixelFormat StencilAttachmentPixelFormat
     {
-        get => (MTLPixelFormat)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLMeshRenderPipelineDescriptorSelector.StencilAttachmentPixelFormat));
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLMeshRenderPipelineDescriptorSelector.StencilAttachmentPixelFormat);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorSelector.SetStencilAttachmentPixelFormat, (ulong)value);
     }
 

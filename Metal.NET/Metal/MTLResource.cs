@@ -24,7 +24,7 @@ public class MTLResource : IDisposable
 
     public MTLCPUCacheMode CpuCacheMode
     {
-        get => (MTLCPUCacheMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.CpuCacheMode));
+        get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.CpuCacheMode);
     }
 
     public MTLDevice Device
@@ -34,7 +34,7 @@ public class MTLResource : IDisposable
 
     public MTLHazardTrackingMode HazardTrackingMode
     {
-        get => (MTLHazardTrackingMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.HazardTrackingMode));
+        get => (MTLHazardTrackingMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.HazardTrackingMode);
     }
 
     public MTLHeap Heap
@@ -60,12 +60,12 @@ public class MTLResource : IDisposable
 
     public MTLResourceOptions ResourceOptions
     {
-        get => (MTLResourceOptions)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.ResourceOptions));
+        get => (MTLResourceOptions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.ResourceOptions);
     }
 
     public MTLStorageMode StorageMode
     {
-        get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.StorageMode));
+        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceSelector.StorageMode);
     }
 
     public static implicit operator nint(MTLResource value)

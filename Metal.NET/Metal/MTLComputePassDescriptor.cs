@@ -25,7 +25,7 @@ public class MTLComputePassDescriptor : IDisposable
 
     public MTLDispatchType DispatchType
     {
-        get => (MTLDispatchType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLComputePassDescriptorSelector.DispatchType));
+        get => (MTLDispatchType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLComputePassDescriptorSelector.DispatchType);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePassDescriptorSelector.SetDispatchType, (ulong)value);
     }
 

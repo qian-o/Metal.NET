@@ -25,7 +25,7 @@ public class MTL4PipelineDataSetSerializerDescriptor : IDisposable
 
     public MTL4PipelineDataSetSerializerConfiguration Configuration
     {
-        get => (MTL4PipelineDataSetSerializerConfiguration)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.Configuration));
+        get => (MTL4PipelineDataSetSerializerConfiguration)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.Configuration);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.SetConfiguration, (ulong)value);
     }
 

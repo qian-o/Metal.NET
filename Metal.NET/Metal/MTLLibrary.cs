@@ -40,7 +40,7 @@ public class MTLLibrary : IDisposable
 
     public MTLLibraryType Type
     {
-        get => (MTLLibraryType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLLibrarySelector.Type));
+        get => (MTLLibraryType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLLibrarySelector.Type);
     }
 
     public static implicit operator nint(MTLLibrary value)

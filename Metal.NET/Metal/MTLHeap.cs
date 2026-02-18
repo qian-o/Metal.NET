@@ -19,7 +19,7 @@ public class MTLHeap : IDisposable
 
     public MTLCPUCacheMode CpuCacheMode
     {
-        get => (MTLCPUCacheMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.CpuCacheMode));
+        get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.CpuCacheMode);
     }
 
     public nuint CurrentAllocatedSize
@@ -34,7 +34,7 @@ public class MTLHeap : IDisposable
 
     public MTLHazardTrackingMode HazardTrackingMode
     {
-        get => (MTLHazardTrackingMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.HazardTrackingMode));
+        get => (MTLHazardTrackingMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.HazardTrackingMode);
     }
 
     public NSString Label
@@ -45,7 +45,7 @@ public class MTLHeap : IDisposable
 
     public MTLResourceOptions ResourceOptions
     {
-        get => (MTLResourceOptions)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.ResourceOptions));
+        get => (MTLResourceOptions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.ResourceOptions);
     }
 
     public nuint Size
@@ -55,12 +55,12 @@ public class MTLHeap : IDisposable
 
     public MTLStorageMode StorageMode
     {
-        get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.StorageMode));
+        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.StorageMode);
     }
 
     public MTLHeapType Type
     {
-        get => (MTLHeapType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.Type));
+        get => (MTLHeapType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapSelector.Type);
     }
 
     public nuint UsedSize

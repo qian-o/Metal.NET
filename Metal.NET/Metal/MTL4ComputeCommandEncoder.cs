@@ -4,7 +4,7 @@ public class MTL4ComputeCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nati
 {
     public MTLStages Stages
     {
-        get => (MTLStages)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4ComputeCommandEncoderSelector.Stages));
+        get => (MTLStages)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4ComputeCommandEncoderSelector.Stages);
     }
 
     public static implicit operator nint(MTL4ComputeCommandEncoder value)

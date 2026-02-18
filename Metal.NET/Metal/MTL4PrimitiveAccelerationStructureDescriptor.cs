@@ -4,6 +4,10 @@ public class MTL4PrimitiveAccelerationStructureDescriptor(nint nativePtr) : MTL4
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PrimitiveAccelerationStructureDescriptor");
 
+    public MTL4PrimitiveAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     public NSArray GeometryDescriptors
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PrimitiveAccelerationStructureDescriptorSelector.GeometryDescriptors));
@@ -12,7 +16,7 @@ public class MTL4PrimitiveAccelerationStructureDescriptor(nint nativePtr) : MTL4
 
     public MTLMotionBorderMode MotionEndBorderMode
     {
-        get => (MTLMotionBorderMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4PrimitiveAccelerationStructureDescriptorSelector.MotionEndBorderMode));
+        get => (MTLMotionBorderMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4PrimitiveAccelerationStructureDescriptorSelector.MotionEndBorderMode);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PrimitiveAccelerationStructureDescriptorSelector.SetMotionEndBorderMode, (ulong)value);
     }
 
@@ -30,7 +34,7 @@ public class MTL4PrimitiveAccelerationStructureDescriptor(nint nativePtr) : MTL4
 
     public MTLMotionBorderMode MotionStartBorderMode
     {
-        get => (MTLMotionBorderMode)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4PrimitiveAccelerationStructureDescriptorSelector.MotionStartBorderMode));
+        get => (MTLMotionBorderMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4PrimitiveAccelerationStructureDescriptorSelector.MotionStartBorderMode);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PrimitiveAccelerationStructureDescriptorSelector.SetMotionStartBorderMode, (ulong)value);
     }
 

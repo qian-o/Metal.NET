@@ -4,6 +4,10 @@ public class MTL4StitchedFunctionDescriptor(nint nativePtr) : MTL4FunctionDescri
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4StitchedFunctionDescriptor");
 
+    public MTL4StitchedFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     public NSArray FunctionDescriptors
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StitchedFunctionDescriptorSelector.FunctionDescriptors));
