@@ -4,6 +4,10 @@ public class MTLRenderPassStencilAttachmentDescriptor(nint nativePtr) : MTLRende
 {
     private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassStencilAttachmentDescriptor");
 
+    public MTLRenderPassStencilAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(Class))
+    {
+    }
+
     public uint ClearStencil
     {
         get => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPassStencilAttachmentDescriptorSelector.ClearStencil);
