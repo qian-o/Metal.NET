@@ -64,14 +64,14 @@ public class MTLComputePipelineState(nint nativePtr) : MTLAllocation(nativePtr)
 
     public MTLFunctionHandle FunctionHandle(NSString name)
     {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.FunctionHandleWithFunction, name.NativePtr));
+        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.FunctionHandleWithName, name.NativePtr));
 
         return result;
     }
 
     public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function)
     {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.FunctionHandleWithFunction, function.NativePtr));
+        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.FunctionHandleWithBinaryFunction, function.NativePtr));
 
         return result;
     }
@@ -144,6 +144,10 @@ file class MTLComputePipelineStateSelector
     public static readonly Selector SupportIndirectCommandBuffers = Selector.Register("supportIndirectCommandBuffers");
 
     public static readonly Selector ThreadExecutionWidth = Selector.Register("threadExecutionWidth");
+
+    public static readonly Selector FunctionHandleWithName = Selector.Register("functionHandleWithName:");
+
+    public static readonly Selector FunctionHandleWithBinaryFunction = Selector.Register("functionHandleWithBinaryFunction:");
 
     public static readonly Selector FunctionHandleWithFunction = Selector.Register("functionHandleWithFunction:");
 

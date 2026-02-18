@@ -169,7 +169,7 @@ public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
 
     public void GetBytes(nint pixelBytes, nuint bytesPerRow, nuint bytesPerImage, MTLRegion region, nuint level, nuint slice)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureSelector.GetBytesBytesPerRowFromRegionMipmapLevel, pixelBytes, bytesPerRow, bytesPerImage, region, level, slice);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureSelector.GetBytesBytesPerRowBytesPerImageFromRegionMipmapLevelSlice, pixelBytes, bytesPerRow, bytesPerImage, region, level, slice);
     }
 
     public void GetBytes(nint pixelBytes, nuint bytesPerRow, MTLRegion region, nuint level)
@@ -193,21 +193,21 @@ public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
 
     public MTLTexture NewTextureView(MTLPixelFormat pixelFormat)
     {
-        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewTextureViewWithPixelFormatTextureTypeLevelsSlicesSwizzle, (ulong)pixelFormat));
+        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewTextureViewWithPixelFormat, (ulong)pixelFormat));
 
         return result;
     }
 
     public MTLTexture NewTextureView(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange)
     {
-        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewTextureViewWithPixelFormatTextureTypeLevelsSlicesSwizzle, (ulong)pixelFormat, (ulong)textureType, levelRange, sliceRange));
+        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewTextureViewWithPixelFormatTextureTypeLevelsSlices, (ulong)pixelFormat, (ulong)textureType, levelRange, sliceRange));
 
         return result;
     }
 
     public MTLTexture NewTextureView(MTLTextureViewDescriptor descriptor)
     {
-        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewTextureViewWithPixelFormatTextureTypeLevelsSlicesSwizzle, descriptor.NativePtr));
+        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureSelector.NewTextureViewWithDescriptor, descriptor.NativePtr));
 
         return result;
     }
@@ -221,7 +221,7 @@ public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
 
     public void ReplaceRegion(MTLRegion region, nuint level, nuint slice, nint pixelBytes, nuint bytesPerRow, nuint bytesPerImage)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureSelector.ReplaceRegionMipmapLevelWithBytesBytesPerRow, region, level, slice, pixelBytes, bytesPerRow, bytesPerImage);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureSelector.ReplaceRegionMipmapLevelSliceWithBytesBytesPerRowBytesPerImage, region, level, slice, pixelBytes, bytesPerRow, bytesPerImage);
     }
 
     public void ReplaceRegion(MTLRegion region, nuint level, nint pixelBytes, nuint bytesPerRow)
@@ -290,13 +290,23 @@ file class MTLTextureSelector
 
     public static readonly Selector Width = Selector.Register("width");
 
+    public static readonly Selector GetBytesBytesPerRowBytesPerImageFromRegionMipmapLevelSlice = Selector.Register("getBytes:bytesPerRow:bytesPerImage:fromRegion:mipmapLevel:slice:");
+
     public static readonly Selector GetBytesBytesPerRowFromRegionMipmapLevel = Selector.Register("getBytes:bytesPerRow:fromRegion:mipmapLevel:");
 
     public static readonly Selector NewRemoteTextureViewForDevice = Selector.Register("newRemoteTextureViewForDevice:");
 
     public static readonly Selector NewSharedTextureHandle = Selector.Register("newSharedTextureHandle");
 
+    public static readonly Selector NewTextureViewWithPixelFormat = Selector.Register("newTextureViewWithPixelFormat:");
+
+    public static readonly Selector NewTextureViewWithPixelFormatTextureTypeLevelsSlices = Selector.Register("newTextureViewWithPixelFormat:textureType:levels:slices:");
+
+    public static readonly Selector NewTextureViewWithDescriptor = Selector.Register("newTextureViewWithDescriptor:");
+
     public static readonly Selector NewTextureViewWithPixelFormatTextureTypeLevelsSlicesSwizzle = Selector.Register("newTextureViewWithPixelFormat:textureType:levels:slices:swizzle:");
+
+    public static readonly Selector ReplaceRegionMipmapLevelSliceWithBytesBytesPerRowBytesPerImage = Selector.Register("replaceRegion:mipmapLevel:slice:withBytes:bytesPerRow:bytesPerImage:");
 
     public static readonly Selector ReplaceRegionMipmapLevelWithBytesBytesPerRow = Selector.Register("replaceRegion:mipmapLevel:withBytes:bytesPerRow:");
 }

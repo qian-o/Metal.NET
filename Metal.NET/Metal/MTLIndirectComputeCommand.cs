@@ -64,7 +64,7 @@ public class MTLIndirectComputeCommand : IDisposable
 
     public void SetKernelBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetKernelBufferOffsetAttributeStrideAtIndex, buffer.NativePtr, offset, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetKernelBufferOffsetAtIndex, buffer.NativePtr, offset, index);
     }
 
     public void SetKernelBuffer(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
@@ -113,6 +113,8 @@ file class MTLIndirectComputeCommandSelector
     public static readonly Selector SetComputePipelineState = Selector.Register("setComputePipelineState:");
 
     public static readonly Selector SetImageblockWidthHeight = Selector.Register("setImageblockWidth:height:");
+
+    public static readonly Selector SetKernelBufferOffsetAtIndex = Selector.Register("setKernelBuffer:offset:atIndex:");
 
     public static readonly Selector SetKernelBufferOffsetAttributeStrideAtIndex = Selector.Register("setKernelBuffer:offset:attributeStride:atIndex:");
 

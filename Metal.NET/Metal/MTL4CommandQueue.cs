@@ -79,7 +79,7 @@ public class MTL4CommandQueue : IDisposable
 
     public void Wait(MTLEvent @event, nuint value)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.WaitForDrawable, @event.NativePtr, value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.WaitForEventValue, @event.NativePtr, value);
     }
 
     public void Wait(MTLDrawable drawable)
@@ -124,6 +124,8 @@ file class MTL4CommandQueueSelector
     public static readonly Selector UpdateBufferMappingsHeapOperationsCount = Selector.Register("updateBufferMappings:heap:operations:count:");
 
     public static readonly Selector UpdateTextureMappingsHeapOperationsCount = Selector.Register("updateTextureMappings:heap:operations:count:");
+
+    public static readonly Selector WaitForEventValue = Selector.Register("waitForEvent:value:");
 
     public static readonly Selector WaitForDrawable = Selector.Register("waitForDrawable:");
 }

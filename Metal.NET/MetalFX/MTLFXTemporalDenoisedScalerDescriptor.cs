@@ -209,7 +209,7 @@ public class MTLFXTemporalDenoisedScalerDescriptor : IDisposable
 
     public MTLFXTemporalDenoisedScaler NewTemporalDenoisedScaler(MTLDevice device)
     {
-        MTLFXTemporalDenoisedScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.NewTemporalDenoisedScalerWithDeviceCompiler, device.NativePtr));
+        MTLFXTemporalDenoisedScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerDescriptorSelector.NewTemporalDenoisedScalerWithDevice, device.NativePtr));
 
         return result;
     }
@@ -366,6 +366,8 @@ file class MTLFXTemporalDenoisedScalerDescriptorSelector
     public static readonly Selector SetDenoiseStrengthMaskTextureEnabled = Selector.Register("setDenoiseStrengthMaskTextureEnabled:");
 
     public static readonly Selector SetTransparencyOverlayTextureEnabled = Selector.Register("setTransparencyOverlayTextureEnabled:");
+
+    public static readonly Selector NewTemporalDenoisedScalerWithDevice = Selector.Register("newTemporalDenoisedScalerWithDevice:");
 
     public static readonly Selector NewTemporalDenoisedScalerWithDeviceCompiler = Selector.Register("newTemporalDenoisedScalerWithDevice:compiler:");
 

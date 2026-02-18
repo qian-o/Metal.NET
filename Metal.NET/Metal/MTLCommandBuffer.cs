@@ -29,12 +29,12 @@ public class MTLCommandBuffer : IDisposable
 
     public MTLAccelerationStructureCommandEncoder AccelerationStructureCommandEncoder
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.AccelerationStructureCommandEncoderWithDescriptor));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.AccelerationStructureCommandEncoder));
     }
 
     public MTLBlitCommandEncoder BlitCommandEncoder
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.BlitCommandEncoderWithDescriptor));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.BlitCommandEncoder));
     }
 
     public MTLCommandQueue CommandQueue
@@ -44,7 +44,7 @@ public class MTLCommandBuffer : IDisposable
 
     public MTLComputeCommandEncoder ComputeCommandEncoder
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.ComputeCommandEncoderWithDispatchType));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.ComputeCommandEncoder));
     }
 
     public MTLDevice Device
@@ -85,7 +85,7 @@ public class MTLCommandBuffer : IDisposable
 
     public MTLResourceStateCommandEncoder ResourceStateCommandEncoder
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.ResourceStateCommandEncoderWithDescriptor));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.ResourceStateCommandEncoder));
     }
 
     public Bool8 RetainedReferences
@@ -204,13 +204,13 @@ file class MTLCommandBufferSelector
 
     public static readonly Selector GPUStartTime = Selector.Register("GPUStartTime");
 
-    public static readonly Selector AccelerationStructureCommandEncoderWithDescriptor = Selector.Register("accelerationStructureCommandEncoderWithDescriptor:");
+    public static readonly Selector AccelerationStructureCommandEncoder = Selector.Register("accelerationStructureCommandEncoder");
 
-    public static readonly Selector BlitCommandEncoderWithDescriptor = Selector.Register("blitCommandEncoderWithDescriptor:");
+    public static readonly Selector BlitCommandEncoder = Selector.Register("blitCommandEncoder");
 
     public static readonly Selector CommandQueue = Selector.Register("commandQueue");
 
-    public static readonly Selector ComputeCommandEncoderWithDispatchType = Selector.Register("computeCommandEncoderWithDispatchType:");
+    public static readonly Selector ComputeCommandEncoder = Selector.Register("computeCommandEncoder");
 
     public static readonly Selector Device = Selector.Register("device");
 
@@ -228,7 +228,7 @@ file class MTLCommandBufferSelector
 
     public static readonly Selector Logs = Selector.Register("logs");
 
-    public static readonly Selector ResourceStateCommandEncoderWithDescriptor = Selector.Register("resourceStateCommandEncoderWithDescriptor:");
+    public static readonly Selector ResourceStateCommandEncoder = Selector.Register("resourceStateCommandEncoder");
 
     public static readonly Selector RetainedReferences = Selector.Register("retainedReferences");
 

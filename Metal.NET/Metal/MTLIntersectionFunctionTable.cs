@@ -29,7 +29,7 @@ public class MTLIntersectionFunctionTable(nint nativePtr) : MTLResource(nativePt
 
     public void SetOpaqueCurveIntersectionFunction(MTLIntersectionFunctionSignature signature, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueCurveIntersectionFunctionWithSignatureWithRange, (ulong)signature, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueCurveIntersectionFunctionWithSignatureAtIndex, (ulong)signature, index);
     }
 
     public void SetOpaqueCurveIntersectionFunction(MTLIntersectionFunctionSignature signature, NSRange range)
@@ -39,7 +39,7 @@ public class MTLIntersectionFunctionTable(nint nativePtr) : MTLResource(nativePt
 
     public void SetOpaqueTriangleIntersectionFunction(MTLIntersectionFunctionSignature signature, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueTriangleIntersectionFunctionWithSignatureWithRange, (ulong)signature, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueTriangleIntersectionFunctionWithSignatureAtIndex, (ulong)signature, index);
     }
 
     public void SetOpaqueTriangleIntersectionFunction(MTLIntersectionFunctionSignature signature, NSRange range)
@@ -61,7 +61,11 @@ file class MTLIntersectionFunctionTableSelector
 
     public static readonly Selector SetFunctionAtIndex = Selector.Register("setFunction:atIndex:");
 
+    public static readonly Selector SetOpaqueCurveIntersectionFunctionWithSignatureAtIndex = Selector.Register("setOpaqueCurveIntersectionFunctionWithSignature:atIndex:");
+
     public static readonly Selector SetOpaqueCurveIntersectionFunctionWithSignatureWithRange = Selector.Register("setOpaqueCurveIntersectionFunctionWithSignature:withRange:");
+
+    public static readonly Selector SetOpaqueTriangleIntersectionFunctionWithSignatureAtIndex = Selector.Register("setOpaqueTriangleIntersectionFunctionWithSignature:atIndex:");
 
     public static readonly Selector SetOpaqueTriangleIntersectionFunctionWithSignatureWithRange = Selector.Register("setOpaqueTriangleIntersectionFunctionWithSignature:withRange:");
 

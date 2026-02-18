@@ -129,7 +129,7 @@ public class MTLIndirectRenderCommand : IDisposable
 
     public void SetVertexBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetVertexBufferOffsetAttributeStrideAtIndex, buffer.NativePtr, offset, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetVertexBufferOffsetAtIndex, buffer.NativePtr, offset, index);
     }
 
     public void SetVertexBuffer(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
@@ -194,6 +194,8 @@ file class MTLIndirectRenderCommandSelector
     public static readonly Selector SetRenderPipelineState = Selector.Register("setRenderPipelineState:");
 
     public static readonly Selector SetTriangleFillMode = Selector.Register("setTriangleFillMode:");
+
+    public static readonly Selector SetVertexBufferOffsetAtIndex = Selector.Register("setVertexBuffer:offset:atIndex:");
 
     public static readonly Selector SetVertexBufferOffsetAttributeStrideAtIndex = Selector.Register("setVertexBuffer:offset:attributeStride:atIndex:");
 }

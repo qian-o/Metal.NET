@@ -39,7 +39,7 @@ public class MTL4ArgumentTable : IDisposable
 
     public void SetAddress(nuint gpuAddress, nuint bindingIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetAddressAttributeStrideAtIndex, gpuAddress, bindingIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetAddressAtIndex, gpuAddress, bindingIndex);
     }
 
     public void SetAddress(nuint gpuAddress, nuint stride, nuint bindingIndex)
@@ -83,6 +83,8 @@ file class MTL4ArgumentTableSelector
     public static readonly Selector Device = Selector.Register("device");
 
     public static readonly Selector Label = Selector.Register("label");
+
+    public static readonly Selector SetAddressAtIndex = Selector.Register("setAddress:atIndex:");
 
     public static readonly Selector SetAddressAttributeStrideAtIndex = Selector.Register("setAddress:attributeStride:atIndex:");
 

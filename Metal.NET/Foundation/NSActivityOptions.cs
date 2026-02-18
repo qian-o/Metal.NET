@@ -11,9 +11,9 @@ public enum NSActivityOptions : ulong
 
     ActivityAutomaticTerminationDisabled = 32768,
 
-    ActivityUserInitiated = 0x00FFFFFF | ActivityIdleSystemSleepDisabled,
+    ActivityUserInitiated = 16777215,
 
-    ActivityUserInitiatedAllowingIdleSystemSleep = ActivityUserInitiated & ~ActivityIdleSystemSleepDisabled,
+    ActivityUserInitiatedAllowingIdleSystemSleep = 15728639,
 
     ActivityBackground = 255,
 

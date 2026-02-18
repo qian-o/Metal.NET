@@ -72,21 +72,21 @@ public class MTLHeap(nint nativePtr) : MTLAllocation(nativePtr)
 
     public MTLAccelerationStructure NewAccelerationStructure(nuint size)
     {
-        MTLAccelerationStructure result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewAccelerationStructureWithDescriptorOffset, size));
+        MTLAccelerationStructure result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewAccelerationStructureWithSize, size));
 
         return result;
     }
 
     public MTLAccelerationStructure NewAccelerationStructure(MTLAccelerationStructureDescriptor descriptor)
     {
-        MTLAccelerationStructure result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewAccelerationStructureWithDescriptorOffset, descriptor.NativePtr));
+        MTLAccelerationStructure result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewAccelerationStructureWithDescriptor, descriptor.NativePtr));
 
         return result;
     }
 
     public MTLAccelerationStructure NewAccelerationStructure(nuint size, nuint offset)
     {
-        MTLAccelerationStructure result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewAccelerationStructureWithDescriptorOffset, size, offset));
+        MTLAccelerationStructure result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewAccelerationStructureWithSizeOffset, size, offset));
 
         return result;
     }
@@ -100,7 +100,7 @@ public class MTLHeap(nint nativePtr) : MTLAllocation(nativePtr)
 
     public MTLBuffer NewBuffer(nuint length, MTLResourceOptions options)
     {
-        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewBufferWithLengthOptionsOffset, length, (ulong)options));
+        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewBufferWithLengthOptions, length, (ulong)options));
 
         return result;
     }
@@ -114,7 +114,7 @@ public class MTLHeap(nint nativePtr) : MTLAllocation(nativePtr)
 
     public MTLTexture NewTexture(MTLTextureDescriptor descriptor)
     {
-        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewTextureWithDescriptorOffset, descriptor.NativePtr));
+        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewTextureWithDescriptor, descriptor.NativePtr));
 
         return result;
     }
@@ -160,9 +160,19 @@ file class MTLHeapSelector
 
     public static readonly Selector MaxAvailableSizeWithAlignment = Selector.Register("maxAvailableSizeWithAlignment:");
 
+    public static readonly Selector NewAccelerationStructureWithSize = Selector.Register("newAccelerationStructureWithSize:");
+
+    public static readonly Selector NewAccelerationStructureWithDescriptor = Selector.Register("newAccelerationStructureWithDescriptor:");
+
+    public static readonly Selector NewAccelerationStructureWithSizeOffset = Selector.Register("newAccelerationStructureWithSize:offset:");
+
     public static readonly Selector NewAccelerationStructureWithDescriptorOffset = Selector.Register("newAccelerationStructureWithDescriptor:offset:");
 
+    public static readonly Selector NewBufferWithLengthOptions = Selector.Register("newBufferWithLength:options:");
+
     public static readonly Selector NewBufferWithLengthOptionsOffset = Selector.Register("newBufferWithLength:options:offset:");
+
+    public static readonly Selector NewTextureWithDescriptor = Selector.Register("newTextureWithDescriptor:");
 
     public static readonly Selector NewTextureWithDescriptorOffset = Selector.Register("newTextureWithDescriptor:offset:");
 

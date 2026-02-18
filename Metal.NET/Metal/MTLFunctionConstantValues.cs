@@ -40,7 +40,7 @@ public class MTLFunctionConstantValues : IDisposable
 
     public void SetConstantValue(nint value, MTLDataType type, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValueTypeWithName, value, (ulong)type, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValueTypeAtIndex, value, (ulong)type, index);
     }
 
     public void SetConstantValue(nint value, MTLDataType type, NSString name)
@@ -72,6 +72,8 @@ public class MTLFunctionConstantValues : IDisposable
 file class MTLFunctionConstantValuesSelector
 {
     public static readonly Selector Reset = Selector.Register("reset");
+
+    public static readonly Selector SetConstantValueTypeAtIndex = Selector.Register("setConstantValue:type:atIndex:");
 
     public static readonly Selector SetConstantValueTypeWithName = Selector.Register("setConstantValue:type:withName:");
 

@@ -46,14 +46,14 @@ public class MTLCaptureManager : IDisposable
 
     public MTLCaptureScope NewCaptureScope(MTLDevice device)
     {
-        MTLCaptureScope result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerSelector.NewCaptureScopeWithMTL4CommandQueue, device.NativePtr));
+        MTLCaptureScope result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerSelector.NewCaptureScopeWithDevice, device.NativePtr));
 
         return result;
     }
 
     public MTLCaptureScope NewCaptureScope(MTLCommandQueue commandQueue)
     {
-        MTLCaptureScope result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerSelector.NewCaptureScopeWithMTL4CommandQueue, commandQueue.NativePtr));
+        MTLCaptureScope result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerSelector.NewCaptureScopeWithCommandQueue, commandQueue.NativePtr));
 
         return result;
     }
@@ -67,7 +67,7 @@ public class MTLCaptureManager : IDisposable
 
     public Bool8 StartCapture(MTLCaptureDescriptor descriptor, out NSError? error)
     {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerSelector.StartCaptureWithScope, descriptor.NativePtr, out nint errorPtr);
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerSelector.StartCaptureWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -76,12 +76,12 @@ public class MTLCaptureManager : IDisposable
 
     public void StartCapture(MTLDevice device)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureManagerSelector.StartCaptureWithScope, device.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureManagerSelector.StartCaptureWithDevice, device.NativePtr);
     }
 
     public void StartCapture(MTLCommandQueue commandQueue)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureManagerSelector.StartCaptureWithScope, commandQueue.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureManagerSelector.StartCaptureWithCommandQueue, commandQueue.NativePtr);
     }
 
     public void StartCapture(MTLCaptureScope captureScope)
@@ -132,7 +132,17 @@ file class MTLCaptureManagerSelector
 
     public static readonly Selector IsCapturing = Selector.Register("isCapturing");
 
+    public static readonly Selector NewCaptureScopeWithDevice = Selector.Register("newCaptureScopeWithDevice:");
+
+    public static readonly Selector NewCaptureScopeWithCommandQueue = Selector.Register("newCaptureScopeWithCommandQueue:");
+
     public static readonly Selector NewCaptureScopeWithMTL4CommandQueue = Selector.Register("newCaptureScopeWithMTL4CommandQueue:");
+
+    public static readonly Selector StartCaptureWithDescriptorError = Selector.Register("startCaptureWithDescriptor:error:");
+
+    public static readonly Selector StartCaptureWithDevice = Selector.Register("startCaptureWithDevice:");
+
+    public static readonly Selector StartCaptureWithCommandQueue = Selector.Register("startCaptureWithCommandQueue:");
 
     public static readonly Selector StartCaptureWithScope = Selector.Register("startCaptureWithScope:");
 

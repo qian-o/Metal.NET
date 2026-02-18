@@ -137,7 +137,7 @@ public class MTLFXTemporalScalerDescriptor : IDisposable
 
     public MTLFXTemporalScaler NewTemporalScaler(MTLDevice device)
     {
-        MTLFXTemporalScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerDescriptorSelector.NewTemporalScalerWithDeviceCompiler, device.NativePtr));
+        MTLFXTemporalScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerDescriptorSelector.NewTemporalScalerWithDevice, device.NativePtr));
 
         return result;
     }
@@ -254,6 +254,8 @@ file class MTLFXTemporalScalerDescriptorSelector
     public static readonly Selector SetInputContentPropertiesEnabled = Selector.Register("setInputContentPropertiesEnabled:");
 
     public static readonly Selector SetReactiveMaskTextureEnabled = Selector.Register("setReactiveMaskTextureEnabled:");
+
+    public static readonly Selector NewTemporalScalerWithDevice = Selector.Register("newTemporalScalerWithDevice:");
 
     public static readonly Selector NewTemporalScalerWithDeviceCompiler = Selector.Register("newTemporalScalerWithDevice:compiler:");
 

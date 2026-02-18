@@ -29,7 +29,7 @@ public class MTLAccelerationStructureCommandEncoder(nint nativePtr) : MTLCommand
 
     public void RefitAccelerationStructure(MTLAccelerationStructure sourceAccelerationStructure, MTLAccelerationStructureDescriptor descriptor, MTLAccelerationStructure destinationAccelerationStructure, MTLBuffer scratchBuffer, nuint scratchBufferOffset)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderSelector.RefitAccelerationStructureDescriptorDestinationScratchBufferScratchBufferOffsetOptions, sourceAccelerationStructure.NativePtr, descriptor.NativePtr, destinationAccelerationStructure.NativePtr, scratchBuffer.NativePtr, scratchBufferOffset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderSelector.RefitAccelerationStructureDescriptorDestinationScratchBufferScratchBufferOffset, sourceAccelerationStructure.NativePtr, descriptor.NativePtr, destinationAccelerationStructure.NativePtr, scratchBuffer.NativePtr, scratchBufferOffset);
     }
 
     public void RefitAccelerationStructure(MTLAccelerationStructure sourceAccelerationStructure, MTLAccelerationStructureDescriptor descriptor, MTLAccelerationStructure destinationAccelerationStructure, MTLBuffer scratchBuffer, nuint scratchBufferOffset, MTLAccelerationStructureRefitOptions options)
@@ -64,7 +64,7 @@ public class MTLAccelerationStructureCommandEncoder(nint nativePtr) : MTLCommand
 
     public void WriteCompactedAccelerationStructureSize(MTLAccelerationStructure accelerationStructure, MTLBuffer buffer, nuint offset)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderSelector.WriteCompactedAccelerationStructureSizeToBufferOffsetSizeDataType, accelerationStructure.NativePtr, buffer.NativePtr, offset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderSelector.WriteCompactedAccelerationStructureSizeToBufferOffset, accelerationStructure.NativePtr, buffer.NativePtr, offset);
     }
 
     public void WriteCompactedAccelerationStructureSize(MTLAccelerationStructure accelerationStructure, MTLBuffer buffer, nuint offset, MTLDataType sizeDataType)
@@ -81,6 +81,8 @@ file class MTLAccelerationStructureCommandEncoderSelector
 
     public static readonly Selector CopyAndCompactAccelerationStructureToAccelerationStructure = Selector.Register("copyAndCompactAccelerationStructure:toAccelerationStructure:");
 
+    public static readonly Selector RefitAccelerationStructureDescriptorDestinationScratchBufferScratchBufferOffset = Selector.Register("refitAccelerationStructure:descriptor:destination:scratchBuffer:scratchBufferOffset:");
+
     public static readonly Selector RefitAccelerationStructureDescriptorDestinationScratchBufferScratchBufferOffsetOptions = Selector.Register("refitAccelerationStructure:descriptor:destination:scratchBuffer:scratchBufferOffset:options:");
 
     public static readonly Selector SampleCountersInBufferAtSampleIndexWithBarrier = Selector.Register("sampleCountersInBuffer:atSampleIndex:withBarrier:");
@@ -92,6 +94,8 @@ file class MTLAccelerationStructureCommandEncoderSelector
     public static readonly Selector UseResourceUsage = Selector.Register("useResource:usage:");
 
     public static readonly Selector WaitForFence = Selector.Register("waitForFence:");
+
+    public static readonly Selector WriteCompactedAccelerationStructureSizeToBufferOffset = Selector.Register("writeCompactedAccelerationStructureSize:toBuffer:offset:");
 
     public static readonly Selector WriteCompactedAccelerationStructureSizeToBufferOffsetSizeDataType = Selector.Register("writeCompactedAccelerationStructureSize:toBuffer:offset:sizeDataType:");
 }

@@ -50,7 +50,7 @@ public class MTL4CommandBuffer : IDisposable
 
     public void BeginCommandBuffer(MTL4CommandAllocator allocator)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.BeginCommandBufferWithAllocatorOptions, allocator.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.BeginCommandBufferWithAllocator, allocator.NativePtr);
     }
 
     public void BeginCommandBuffer(MTL4CommandAllocator allocator, MTL4CommandBufferOptions options)
@@ -75,7 +75,7 @@ public class MTL4CommandBuffer : IDisposable
 
     public MTL4RenderCommandEncoder RenderCommandEncoder(MTL4RenderPassDescriptor descriptor)
     {
-        MTL4RenderCommandEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.RenderCommandEncoderWithDescriptorOptions, descriptor.NativePtr));
+        MTL4RenderCommandEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.RenderCommandEncoderWithDescriptor, descriptor.NativePtr));
 
         return result;
     }
@@ -130,6 +130,8 @@ file class MTL4CommandBufferSelector
 
     public static readonly Selector MachineLearningCommandEncoder = Selector.Register("machineLearningCommandEncoder");
 
+    public static readonly Selector BeginCommandBufferWithAllocator = Selector.Register("beginCommandBufferWithAllocator:");
+
     public static readonly Selector BeginCommandBufferWithAllocatorOptions = Selector.Register("beginCommandBufferWithAllocator:options:");
 
     public static readonly Selector EndCommandBuffer = Selector.Register("endCommandBuffer");
@@ -137,6 +139,8 @@ file class MTL4CommandBufferSelector
     public static readonly Selector PopDebugGroup = Selector.Register("popDebugGroup");
 
     public static readonly Selector PushDebugGroup = Selector.Register("pushDebugGroup:");
+
+    public static readonly Selector RenderCommandEncoderWithDescriptor = Selector.Register("renderCommandEncoderWithDescriptor:");
 
     public static readonly Selector RenderCommandEncoderWithDescriptorOptions = Selector.Register("renderCommandEncoderWithDescriptor:options:");
 

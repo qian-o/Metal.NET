@@ -36,7 +36,7 @@ public enum NSStringEncoding : ulong
 
     MacOSRomanStringEncoding = 30,
 
-    UTF16StringEncoding = UnicodeStringEncoding,
+    UTF16StringEncoding = 10,
 
     UTF16BigEndianStringEncoding = 2415919360,
 

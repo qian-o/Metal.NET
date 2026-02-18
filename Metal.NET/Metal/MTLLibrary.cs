@@ -55,14 +55,14 @@ public class MTLLibrary : IDisposable
 
     public MTLFunction NewFunction(NSString functionName)
     {
-        MTLFunction result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.NewFunctionWithDescriptorError, functionName.NativePtr));
+        MTLFunction result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.NewFunctionWithName, functionName.NativePtr));
 
         return result;
     }
 
     public MTLFunction NewFunction(NSString name, MTLFunctionConstantValues constantValues, out NSError? error)
     {
-        MTLFunction result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.NewFunctionWithDescriptorError, name.NativePtr, constantValues.NativePtr, out nint errorPtr));
+        MTLFunction result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.NewFunctionWithNameConstantValuesError, name.NativePtr, constantValues.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -123,6 +123,10 @@ file class MTLLibrarySelector
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
 
     public static readonly Selector Type = Selector.Register("type");
+
+    public static readonly Selector NewFunctionWithName = Selector.Register("newFunctionWithName:");
+
+    public static readonly Selector NewFunctionWithNameConstantValuesError = Selector.Register("newFunctionWithName:constantValues:error:");
 
     public static readonly Selector NewFunctionWithDescriptorError = Selector.Register("newFunctionWithDescriptor:error:");
 

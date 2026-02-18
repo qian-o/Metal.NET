@@ -44,7 +44,7 @@ public class MTL4Archive : IDisposable
 
     public MTLComputePipelineState NewComputePipelineState(MTL4ComputePipelineDescriptor descriptor, out NSError? error)
     {
-        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveSelector.NewComputePipelineStateWithDescriptorDynamicLinkingDescriptorError, descriptor.NativePtr, out nint errorPtr));
+        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveSelector.NewComputePipelineStateWithDescriptorError, descriptor.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -62,7 +62,7 @@ public class MTL4Archive : IDisposable
 
     public MTLRenderPipelineState NewRenderPipelineState(MTL4PipelineDescriptor descriptor, out NSError? error)
     {
-        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveSelector.NewRenderPipelineStateWithDescriptorDynamicLinkingDescriptorError, descriptor.NativePtr, out nint errorPtr));
+        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveSelector.NewRenderPipelineStateWithDescriptorError, descriptor.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -102,7 +102,11 @@ file class MTL4ArchiveSelector
 
     public static readonly Selector NewBinaryFunctionWithDescriptorError = Selector.Register("newBinaryFunctionWithDescriptor:error:");
 
+    public static readonly Selector NewComputePipelineStateWithDescriptorError = Selector.Register("newComputePipelineStateWithDescriptor:error:");
+
     public static readonly Selector NewComputePipelineStateWithDescriptorDynamicLinkingDescriptorError = Selector.Register("newComputePipelineStateWithDescriptor:dynamicLinkingDescriptor:error:");
+
+    public static readonly Selector NewRenderPipelineStateWithDescriptorError = Selector.Register("newRenderPipelineStateWithDescriptor:error:");
 
     public static readonly Selector NewRenderPipelineStateWithDescriptorDynamicLinkingDescriptorError = Selector.Register("newRenderPipelineStateWithDescriptor:dynamicLinkingDescriptor:error:");
 }

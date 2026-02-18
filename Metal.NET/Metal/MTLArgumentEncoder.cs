@@ -69,7 +69,7 @@ public class MTLArgumentEncoder : IDisposable
 
     public void SetArgumentBuffer(MTLBuffer argumentBuffer, nuint offset)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetArgumentBufferStartOffsetArrayElement, argumentBuffer.NativePtr, offset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetArgumentBufferOffset, argumentBuffer.NativePtr, offset);
     }
 
     public void SetArgumentBuffer(MTLBuffer argumentBuffer, nuint startOffset, nuint arrayElement)
@@ -155,6 +155,8 @@ file class MTLArgumentEncoderSelector
     public static readonly Selector NewArgumentEncoderForBufferAtIndex = Selector.Register("newArgumentEncoderForBufferAtIndex:");
 
     public static readonly Selector SetAccelerationStructureAtIndex = Selector.Register("setAccelerationStructure:atIndex:");
+
+    public static readonly Selector SetArgumentBufferOffset = Selector.Register("setArgumentBuffer:offset:");
 
     public static readonly Selector SetArgumentBufferStartOffsetArrayElement = Selector.Register("setArgumentBuffer:startOffset:arrayElement:");
 

@@ -38,7 +38,7 @@ public class MTL4MachineLearningPipelineDescriptor(nint nativePtr) : MTL4Pipelin
 
     public void SetInputDimensions(MTLTensorExtents dimensions, nint bufferIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetInputDimensionsWithRange, dimensions.NativePtr, bufferIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetInputDimensionsAtBufferIndex, dimensions.NativePtr, bufferIndex);
     }
 
     public void SetInputDimensions(NSArray dimensions, NSRange range)
@@ -56,6 +56,8 @@ file class MTL4MachineLearningPipelineDescriptorSelector
     public static readonly Selector InputDimensionsAtBufferIndex = Selector.Register("inputDimensionsAtBufferIndex:");
 
     public static readonly Selector Reset = Selector.Register("reset");
+
+    public static readonly Selector SetInputDimensionsAtBufferIndex = Selector.Register("setInputDimensions:atBufferIndex:");
 
     public static readonly Selector SetInputDimensionsWithRange = Selector.Register("setInputDimensions:withRange:");
 }

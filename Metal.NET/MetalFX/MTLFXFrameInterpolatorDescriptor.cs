@@ -99,7 +99,7 @@ public class MTLFXFrameInterpolatorDescriptor : IDisposable
 
     public MTLFXFrameInterpolator NewFrameInterpolator(MTLDevice device)
     {
-        MTLFXFrameInterpolator result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.NewFrameInterpolatorWithDeviceCompiler, device.NativePtr));
+        MTLFXFrameInterpolator result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.NewFrameInterpolatorWithDevice, device.NativePtr));
 
         return result;
     }
@@ -182,6 +182,8 @@ file class MTLFXFrameInterpolatorDescriptorSelector
     public static readonly Selector SetOutputHeight = Selector.Register("setOutputHeight:");
 
     public static readonly Selector SetUITextureFormat = Selector.Register("setUITextureFormat:");
+
+    public static readonly Selector NewFrameInterpolatorWithDevice = Selector.Register("newFrameInterpolatorWithDevice:");
 
     public static readonly Selector NewFrameInterpolatorWithDeviceCompiler = Selector.Register("newFrameInterpolatorWithDevice:compiler:");
 

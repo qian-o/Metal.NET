@@ -80,7 +80,7 @@ public class MTLFunction : IDisposable
 
     public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex)
     {
-        MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.NewArgumentEncoderWithBufferIndexReflection, bufferIndex));
+        MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.NewArgumentEncoderWithBufferIndex, bufferIndex));
 
         return result;
     }
@@ -131,6 +131,8 @@ file class MTLFunctionSelector
     public static readonly Selector StageInputAttributes = Selector.Register("stageInputAttributes");
 
     public static readonly Selector VertexAttributes = Selector.Register("vertexAttributes");
+
+    public static readonly Selector NewArgumentEncoderWithBufferIndex = Selector.Register("newArgumentEncoderWithBufferIndex:");
 
     public static readonly Selector NewArgumentEncoderWithBufferIndexReflection = Selector.Register("newArgumentEncoderWithBufferIndex:reflection:");
 }

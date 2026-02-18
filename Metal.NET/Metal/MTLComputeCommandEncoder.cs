@@ -19,7 +19,7 @@ public class MTLComputeCommandEncoder(nint nativePtr) : MTLCommandEncoder(native
 
     public void DispatchThreadgroups(MTLSize threadgroupsPerGrid, MTLSize threadsPerThreadgroup)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.DispatchThreadgroupsWithIndirectBufferIndirectBufferOffsetThreadsPerThreadgroup, threadgroupsPerGrid, threadsPerThreadgroup);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.DispatchThreadgroupsThreadsPerThreadgroup, threadgroupsPerGrid, threadsPerThreadgroup);
     }
 
     public void DispatchThreadgroups(MTLBuffer indirectBuffer, nuint indirectBufferOffset, MTLSize threadsPerThreadgroup)
@@ -34,7 +34,7 @@ public class MTLComputeCommandEncoder(nint nativePtr) : MTLCommandEncoder(native
 
     public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, NSRange executionRange)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.ExecuteCommandsInBufferIndirectBufferIndirectBufferOffset, indirectCommandBuffer.NativePtr, executionRange);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.ExecuteCommandsInBufferWithRange, indirectCommandBuffer.NativePtr, executionRange);
     }
 
     public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandbuffer, MTLBuffer indirectRangeBuffer, nuint indirectBufferOffset)
@@ -44,7 +44,7 @@ public class MTLComputeCommandEncoder(nint nativePtr) : MTLCommandEncoder(native
 
     public void MemoryBarrier(MTLBarrierScope scope)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.MemoryBarrierWithResourcesCount, (ulong)scope);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.MemoryBarrierWithScope, (ulong)scope);
     }
 
     public void SampleCountersInBuffer(MTLCounterSampleBuffer sampleBuffer, nuint sampleIndex, Bool8 barrier)
@@ -59,7 +59,7 @@ public class MTLComputeCommandEncoder(nint nativePtr) : MTLCommandEncoder(native
 
     public void SetBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetBufferOffsetAttributeStrideAtIndex, buffer.NativePtr, offset, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetBufferOffsetAtIndex, buffer.NativePtr, offset, index);
     }
 
     public void SetBuffer(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
@@ -69,7 +69,7 @@ public class MTLComputeCommandEncoder(nint nativePtr) : MTLCommandEncoder(native
 
     public void SetBufferOffset(nuint offset, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetBufferOffsetAttributeStrideAtIndex3, offset, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetBufferOffsetAtIndex2, offset, index);
     }
 
     public void SetBufferOffset(nuint offset, nuint stride, nuint index)
@@ -79,7 +79,7 @@ public class MTLComputeCommandEncoder(nint nativePtr) : MTLCommandEncoder(native
 
     public void SetBytes(nint bytes, nuint length, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetBytesLengthAttributeStrideAtIndex, bytes, length, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetBytesLengthAtIndex, bytes, length, index);
     }
 
     public void SetBytes(nint bytes, nuint length, nuint stride, nuint index)
@@ -104,7 +104,7 @@ public class MTLComputeCommandEncoder(nint nativePtr) : MTLCommandEncoder(native
 
     public void SetSamplerState(MTLSamplerState sampler, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetSamplerStateLodMinClampLodMaxClampAtIndex, sampler.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetSamplerStateAtIndex, sampler.NativePtr, index);
     }
 
     public void SetSamplerState(MTLSamplerState sampler, float lodMinClamp, float lodMaxClamp, nuint index)
@@ -114,7 +114,7 @@ public class MTLComputeCommandEncoder(nint nativePtr) : MTLCommandEncoder(native
 
     public void SetStageInRegion(MTLRegion region)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetStageInRegionWithIndirectBufferIndirectBufferOffset, region);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetStageInRegion, region);
     }
 
     public void SetStageInRegion(MTLBuffer indirectBuffer, nuint indirectBufferOffset)
@@ -162,21 +162,31 @@ file class MTLComputeCommandEncoderSelector
 {
     public static readonly Selector DispatchType = Selector.Register("dispatchType");
 
+    public static readonly Selector DispatchThreadgroupsThreadsPerThreadgroup = Selector.Register("dispatchThreadgroups:threadsPerThreadgroup:");
+
     public static readonly Selector DispatchThreadgroupsWithIndirectBufferIndirectBufferOffsetThreadsPerThreadgroup = Selector.Register("dispatchThreadgroupsWithIndirectBuffer:indirectBufferOffset:threadsPerThreadgroup:");
 
     public static readonly Selector DispatchThreadsThreadsPerThreadgroup = Selector.Register("dispatchThreads:threadsPerThreadgroup:");
 
+    public static readonly Selector ExecuteCommandsInBufferWithRange = Selector.Register("executeCommandsInBuffer:withRange:");
+
     public static readonly Selector ExecuteCommandsInBufferIndirectBufferIndirectBufferOffset = Selector.Register("executeCommandsInBuffer:indirectBuffer:indirectBufferOffset:");
 
-    public static readonly Selector MemoryBarrierWithResourcesCount = Selector.Register("memoryBarrierWithResources:count:");
+    public static readonly Selector MemoryBarrierWithScope = Selector.Register("memoryBarrierWithScope:");
 
     public static readonly Selector SampleCountersInBufferAtSampleIndexWithBarrier = Selector.Register("sampleCountersInBuffer:atSampleIndex:withBarrier:");
 
     public static readonly Selector SetAccelerationStructureAtBufferIndex = Selector.Register("setAccelerationStructure:atBufferIndex:");
 
+    public static readonly Selector SetBufferOffsetAtIndex = Selector.Register("setBuffer:offset:atIndex:");
+
     public static readonly Selector SetBufferOffsetAttributeStrideAtIndex = Selector.Register("setBuffer:offset:attributeStride:atIndex:");
 
+    public static readonly Selector SetBufferOffsetAtIndex2 = Selector.Register("setBufferOffset:atIndex:");
+
     public static readonly Selector SetBufferOffsetAttributeStrideAtIndex3 = Selector.Register("setBufferOffset:attributeStride:atIndex:");
+
+    public static readonly Selector SetBytesLengthAtIndex = Selector.Register("setBytes:length:atIndex:");
 
     public static readonly Selector SetBytesLengthAttributeStrideAtIndex = Selector.Register("setBytes:length:attributeStride:atIndex:");
 
@@ -186,7 +196,11 @@ file class MTLComputeCommandEncoderSelector
 
     public static readonly Selector SetIntersectionFunctionTableAtBufferIndex = Selector.Register("setIntersectionFunctionTable:atBufferIndex:");
 
+    public static readonly Selector SetSamplerStateAtIndex = Selector.Register("setSamplerState:atIndex:");
+
     public static readonly Selector SetSamplerStateLodMinClampLodMaxClampAtIndex = Selector.Register("setSamplerState:lodMinClamp:lodMaxClamp:atIndex:");
+
+    public static readonly Selector SetStageInRegion = Selector.Register("setStageInRegion:");
 
     public static readonly Selector SetStageInRegionWithIndirectBufferIndirectBufferOffset = Selector.Register("setStageInRegionWithIndirectBuffer:indirectBufferOffset:");
 

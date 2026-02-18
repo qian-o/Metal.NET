@@ -14,7 +14,7 @@ public class MTLTextureViewPool(nint nativePtr) : MTLResourceViewPool(nativePtr)
 
     public MTLResourceID SetTextureView(MTLTexture texture, nuint index)
     {
-        MTLResourceID result = ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolSelector.SetTextureViewDescriptorAtIndex, texture.NativePtr, index);
+        MTLResourceID result = ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolSelector.SetTextureViewAtIndex, texture.NativePtr, index);
 
         return result;
     }
@@ -36,6 +36,8 @@ public class MTLTextureViewPool(nint nativePtr) : MTLResourceViewPool(nativePtr)
 
 file class MTLTextureViewPoolSelector
 {
+    public static readonly Selector SetTextureViewAtIndex = Selector.Register("setTextureView:atIndex:");
+
     public static readonly Selector SetTextureViewDescriptorAtIndex = Selector.Register("setTextureView:descriptor:atIndex:");
 
     public static readonly Selector SetTextureViewFromBufferDescriptorOffsetBytesPerRowAtIndex = Selector.Register("setTextureViewFromBuffer:descriptor:offset:bytesPerRow:atIndex:");

@@ -24,7 +24,7 @@ public class MTLResourceStateCommandEncoder(nint nativePtr) : MTLCommandEncoder(
 
     public void UpdateTextureMapping(MTLTexture texture, MTLSparseTextureMappingMode mode, MTLRegion region, nuint mipLevel, nuint slice)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStateCommandEncoderSelector.UpdateTextureMappingModeIndirectBufferIndirectBufferOffset, texture.NativePtr, (ulong)mode, region, mipLevel, slice);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStateCommandEncoderSelector.UpdateTextureMappingModeRegionMipLevelSlice, texture.NativePtr, (ulong)mode, region, mipLevel, slice);
     }
 
     public void UpdateTextureMapping(MTLTexture texture, MTLSparseTextureMappingMode mode, MTLBuffer indirectBuffer, nuint indirectBufferOffset)
@@ -48,6 +48,8 @@ file class MTLResourceStateCommandEncoderSelector
     public static readonly Selector MoveTextureMappingsFromTextureSourceSliceSourceLevelSourceOriginSourceSizeToTextureDestinationSliceDestinationLevelDestinationOrigin = Selector.Register("moveTextureMappingsFromTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:");
 
     public static readonly Selector UpdateFence = Selector.Register("updateFence:");
+
+    public static readonly Selector UpdateTextureMappingModeRegionMipLevelSlice = Selector.Register("updateTextureMapping:mode:region:mipLevel:slice:");
 
     public static readonly Selector UpdateTextureMappingModeIndirectBufferIndirectBufferOffset = Selector.Register("updateTextureMapping:mode:indirectBuffer:indirectBufferOffset:");
 

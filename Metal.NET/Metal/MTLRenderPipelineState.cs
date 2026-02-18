@@ -99,14 +99,14 @@ public class MTLRenderPipelineState(nint nativePtr) : MTLAllocation(nativePtr)
 
     public MTLFunctionHandle FunctionHandle(NSString name, MTLRenderStages stage)
     {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleWithFunctionStage, name.NativePtr, (ulong)stage));
+        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleWithNameStage, name.NativePtr, (ulong)stage));
 
         return result;
     }
 
     public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function, MTLRenderStages stage)
     {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleWithFunctionStage, function.NativePtr, (ulong)stage));
+        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandleWithBinaryFunctionStage, function.NativePtr, (ulong)stage));
 
         return result;
     }
@@ -141,7 +141,7 @@ public class MTLRenderPipelineState(nint nativePtr) : MTLAllocation(nativePtr)
 
     public MTLRenderPipelineState NewRenderPipelineState(MTL4RenderPipelineBinaryFunctionsDescriptor binaryFunctionsDescriptor, out NSError? error)
     {
-        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineStateWithAdditionalBinaryFunctionsError, binaryFunctionsDescriptor.NativePtr, out nint errorPtr));
+        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineStateWithBinaryFunctionsError, binaryFunctionsDescriptor.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -201,6 +201,10 @@ file class MTLRenderPipelineStateSelector
 
     public static readonly Selector ThreadgroupSizeMatchesTileSize = Selector.Register("threadgroupSizeMatchesTileSize");
 
+    public static readonly Selector FunctionHandleWithNameStage = Selector.Register("functionHandleWithName:stage:");
+
+    public static readonly Selector FunctionHandleWithBinaryFunctionStage = Selector.Register("functionHandleWithBinaryFunction:stage:");
+
     public static readonly Selector FunctionHandleWithFunctionStage = Selector.Register("functionHandleWithFunction:stage:");
 
     public static readonly Selector ImageblockMemoryLengthForDimensions = Selector.Register("imageblockMemoryLengthForDimensions:");
@@ -208,6 +212,8 @@ file class MTLRenderPipelineStateSelector
     public static readonly Selector NewIntersectionFunctionTableWithDescriptorStage = Selector.Register("newIntersectionFunctionTableWithDescriptor:stage:");
 
     public static readonly Selector NewRenderPipelineDescriptorForSpecialization = Selector.Register("newRenderPipelineDescriptorForSpecialization");
+
+    public static readonly Selector NewRenderPipelineStateWithBinaryFunctionsError = Selector.Register("newRenderPipelineStateWithBinaryFunctions:error:");
 
     public static readonly Selector NewRenderPipelineStateWithAdditionalBinaryFunctionsError = Selector.Register("newRenderPipelineStateWithAdditionalBinaryFunctions:error:");
 

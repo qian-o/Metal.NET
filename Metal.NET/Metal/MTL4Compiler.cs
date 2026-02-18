@@ -44,7 +44,7 @@ public class MTL4Compiler : IDisposable
 
     public MTL4BinaryFunction NewBinaryFunction(MTL4BinaryFunctionDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError? error)
     {
-        MTL4BinaryFunction result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewBinaryFunctionWithDescriptorCompilerTaskOptionsCompletionHandler, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr));
+        MTL4BinaryFunction result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewBinaryFunctionWithDescriptorCompilerTaskOptionsError, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -53,7 +53,7 @@ public class MTL4Compiler : IDisposable
 
     public MTLComputePipelineState NewComputePipelineState(MTL4ComputePipelineDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError? error)
     {
-        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewComputePipelineStateWithDescriptorDynamicLinkingDescriptorCompilerTaskOptionsCompletionHandler, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr));
+        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewComputePipelineStateWithDescriptorCompilerTaskOptionsError, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -62,7 +62,7 @@ public class MTL4Compiler : IDisposable
 
     public MTLComputePipelineState NewComputePipelineState(MTL4ComputePipelineDescriptor descriptor, MTL4PipelineStageDynamicLinkingDescriptor dynamicLinkingDescriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError? error)
     {
-        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewComputePipelineStateWithDescriptorDynamicLinkingDescriptorCompilerTaskOptionsCompletionHandler, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr));
+        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewComputePipelineStateWithDescriptorDynamicLinkingDescriptorCompilerTaskOptionsError, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -71,7 +71,7 @@ public class MTL4Compiler : IDisposable
 
     public MTLDynamicLibrary NewDynamicLibrary(MTLLibrary library, out NSError? error)
     {
-        MTLDynamicLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewDynamicLibraryWithURLCompletionHandler, library.NativePtr, out nint errorPtr));
+        MTLDynamicLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewDynamicLibraryError, library.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -80,7 +80,7 @@ public class MTL4Compiler : IDisposable
 
     public MTLDynamicLibrary NewDynamicLibrary(NSURL url, out NSError? error)
     {
-        MTLDynamicLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewDynamicLibraryWithURLCompletionHandler, url.NativePtr, out nint errorPtr));
+        MTLDynamicLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewDynamicLibraryWithURLError, url.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -89,7 +89,7 @@ public class MTL4Compiler : IDisposable
 
     public MTLLibrary NewLibrary(MTL4LibraryDescriptor descriptor, out NSError? error)
     {
-        MTLLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewLibraryWithDescriptorCompletionHandler, descriptor.NativePtr, out nint errorPtr));
+        MTLLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewLibraryWithDescriptorError, descriptor.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -98,7 +98,7 @@ public class MTL4Compiler : IDisposable
 
     public MTL4MachineLearningPipelineState NewMachineLearningPipelineState(MTL4MachineLearningPipelineDescriptor descriptor, out NSError? error)
     {
-        MTL4MachineLearningPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewMachineLearningPipelineStateWithDescriptorCompletionHandler, descriptor.NativePtr, out nint errorPtr));
+        MTL4MachineLearningPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewMachineLearningPipelineStateWithDescriptorError, descriptor.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -107,7 +107,7 @@ public class MTL4Compiler : IDisposable
 
     public MTLRenderPipelineState NewRenderPipelineState(MTL4PipelineDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError? error)
     {
-        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewRenderPipelineStateWithDescriptorDynamicLinkingDescriptorCompilerTaskOptionsCompletionHandler, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr));
+        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewRenderPipelineStateWithDescriptorCompilerTaskOptionsError, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -116,7 +116,7 @@ public class MTL4Compiler : IDisposable
 
     public MTLRenderPipelineState NewRenderPipelineState(MTL4PipelineDescriptor descriptor, MTL4RenderPipelineDynamicLinkingDescriptor dynamicLinkingDescriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError? error)
     {
-        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewRenderPipelineStateWithDescriptorDynamicLinkingDescriptorCompilerTaskOptionsCompletionHandler, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr));
+        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewRenderPipelineStateWithDescriptorDynamicLinkingDescriptorCompilerTaskOptionsError, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -125,7 +125,7 @@ public class MTL4Compiler : IDisposable
 
     public MTLRenderPipelineState NewRenderPipelineStateBySpecialization(MTL4PipelineDescriptor descriptor, MTLRenderPipelineState pipeline, out NSError? error)
     {
-        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewRenderPipelineStateBySpecializationWithDescriptorPipelineCompletionHandler, descriptor.NativePtr, pipeline.NativePtr, out nint errorPtr));
+        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewRenderPipelineStateBySpecializationWithDescriptorPipelineError, descriptor.NativePtr, pipeline.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -156,17 +156,23 @@ file class MTL4CompilerSelector
 
     public static readonly Selector PipelineDataSetSerializer = Selector.Register("pipelineDataSetSerializer");
 
-    public static readonly Selector NewBinaryFunctionWithDescriptorCompilerTaskOptionsCompletionHandler = Selector.Register("newBinaryFunctionWithDescriptor:compilerTaskOptions:completionHandler:");
+    public static readonly Selector NewBinaryFunctionWithDescriptorCompilerTaskOptionsError = Selector.Register("newBinaryFunctionWithDescriptor:compilerTaskOptions:error:");
 
-    public static readonly Selector NewComputePipelineStateWithDescriptorDynamicLinkingDescriptorCompilerTaskOptionsCompletionHandler = Selector.Register("newComputePipelineStateWithDescriptor:dynamicLinkingDescriptor:compilerTaskOptions:completionHandler:");
+    public static readonly Selector NewComputePipelineStateWithDescriptorCompilerTaskOptionsError = Selector.Register("newComputePipelineStateWithDescriptor:compilerTaskOptions:error:");
 
-    public static readonly Selector NewDynamicLibraryWithURLCompletionHandler = Selector.Register("newDynamicLibraryWithURL:completionHandler:");
+    public static readonly Selector NewComputePipelineStateWithDescriptorDynamicLinkingDescriptorCompilerTaskOptionsError = Selector.Register("newComputePipelineStateWithDescriptor:dynamicLinkingDescriptor:compilerTaskOptions:error:");
 
-    public static readonly Selector NewLibraryWithDescriptorCompletionHandler = Selector.Register("newLibraryWithDescriptor:completionHandler:");
+    public static readonly Selector NewDynamicLibraryError = Selector.Register("newDynamicLibrary:error:");
 
-    public static readonly Selector NewMachineLearningPipelineStateWithDescriptorCompletionHandler = Selector.Register("newMachineLearningPipelineStateWithDescriptor:completionHandler:");
+    public static readonly Selector NewDynamicLibraryWithURLError = Selector.Register("newDynamicLibraryWithURL:error:");
 
-    public static readonly Selector NewRenderPipelineStateWithDescriptorDynamicLinkingDescriptorCompilerTaskOptionsCompletionHandler = Selector.Register("newRenderPipelineStateWithDescriptor:dynamicLinkingDescriptor:compilerTaskOptions:completionHandler:");
+    public static readonly Selector NewLibraryWithDescriptorError = Selector.Register("newLibraryWithDescriptor:error:");
 
-    public static readonly Selector NewRenderPipelineStateBySpecializationWithDescriptorPipelineCompletionHandler = Selector.Register("newRenderPipelineStateBySpecializationWithDescriptor:pipeline:completionHandler:");
+    public static readonly Selector NewMachineLearningPipelineStateWithDescriptorError = Selector.Register("newMachineLearningPipelineStateWithDescriptor:error:");
+
+    public static readonly Selector NewRenderPipelineStateWithDescriptorCompilerTaskOptionsError = Selector.Register("newRenderPipelineStateWithDescriptor:compilerTaskOptions:error:");
+
+    public static readonly Selector NewRenderPipelineStateWithDescriptorDynamicLinkingDescriptorCompilerTaskOptionsError = Selector.Register("newRenderPipelineStateWithDescriptor:dynamicLinkingDescriptor:compilerTaskOptions:error:");
+
+    public static readonly Selector NewRenderPipelineStateBySpecializationWithDescriptorPipelineError = Selector.Register("newRenderPipelineStateBySpecializationWithDescriptor:pipeline:error:");
 }
