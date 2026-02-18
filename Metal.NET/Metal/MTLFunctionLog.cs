@@ -17,9 +17,24 @@ public class MTLFunctionLog : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLFunctionLogDebugLocation DebugLocation
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.DebugLocation));
+    }
+
     public NSString EncoderLabel
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.EncoderLabel));
+    }
+
+    public MTLFunction Function
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.Function));
+    }
+
+    public MTLFunctionLogType Type
+    {
+        get => (MTLFunctionLogType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionLogSelector.Type));
     }
 
     public static implicit operator nint(MTLFunctionLog value)
@@ -50,5 +65,11 @@ public class MTLFunctionLog : IDisposable
 
 file class MTLFunctionLogSelector
 {
+    public static readonly Selector DebugLocation = Selector.Register("debugLocation");
+
     public static readonly Selector EncoderLabel = Selector.Register("encoderLabel");
+
+    public static readonly Selector Function = Selector.Register("function");
+
+    public static readonly Selector Type = Selector.Register("type");
 }

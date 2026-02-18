@@ -287,6 +287,20 @@ public partial class MTLDevice : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.ConvertSparseTileRegionsToPixelRegionsWithTileSizeNumRegions, tileRegions, pixelRegions, tileSize, numRegions);
     }
 
+    public MTLFunctionHandle FunctionHandle(MTLFunction function)
+    {
+        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.FunctionHandleWithBinaryFunction, function.NativePtr));
+
+        return result;
+    }
+
+    public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function)
+    {
+        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.FunctionHandleWithBinaryFunction, function.NativePtr));
+
+        return result;
+    }
+
     public void GetDefaultSamplePositions(MTLSamplePosition positions, nuint count)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.GetDefaultSamplePositionsCount, positions, count);
@@ -457,6 +471,24 @@ public partial class MTLDevice : IDisposable
     public MTL4Compiler NewCompiler(MTL4CompilerDescriptor descriptor, out NSError? error)
     {
         MTL4Compiler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewCompilerWithDescriptorError, descriptor.NativePtr, out nint errorPtr));
+
+        error = errorPtr is not 0 ? new(errorPtr) : null;
+
+        return result;
+    }
+
+    public MTLComputePipelineState NewComputePipelineState(MTLFunction computeFunction, out NSError? error)
+    {
+        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewComputePipelineStateWithDescriptorOptionsCompletionHandler, computeFunction.NativePtr, out nint errorPtr));
+
+        error = errorPtr is not 0 ? new(errorPtr) : null;
+
+        return result;
+    }
+
+    public MTLComputePipelineState NewComputePipelineState(MTLFunction computeFunction, MTLPipelineOption options, MTLComputePipelineReflection reflection, out NSError? error)
+    {
+        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewComputePipelineStateWithDescriptorOptionsCompletionHandler, computeFunction.NativePtr, (ulong)options, reflection.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -1020,6 +1052,8 @@ file class MTLDeviceSelector
     public static readonly Selector ConvertSparsePixelRegionsToTileRegionsWithTileSizeAlignmentModeNumRegions = Selector.Register("convertSparsePixelRegions:toTileRegions:withTileSize:alignmentMode:numRegions:");
 
     public static readonly Selector ConvertSparseTileRegionsToPixelRegionsWithTileSizeNumRegions = Selector.Register("convertSparseTileRegions:toPixelRegions:withTileSize:numRegions:");
+
+    public static readonly Selector FunctionHandleWithBinaryFunction = Selector.Register("functionHandleWithBinaryFunction:");
 
     public static readonly Selector GetDefaultSamplePositionsCount = Selector.Register("getDefaultSamplePositions:count:");
 

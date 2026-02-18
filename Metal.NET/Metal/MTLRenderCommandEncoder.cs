@@ -202,6 +202,11 @@ public class MTLRenderCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetFragmentBytesLengthAtIndex, bytes, length, index);
     }
 
+    public void SetFragmentIntersectionFunctionTable(MTLIntersectionFunctionTable intersectionFunctionTable, nuint bufferIndex)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetFragmentIntersectionFunctionTableAtBufferIndex, intersectionFunctionTable.NativePtr, bufferIndex);
+    }
+
     public void SetFragmentSamplerState(MTLSamplerState sampler, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetFragmentSamplerStateLodMinClampLodMaxClampAtIndex, sampler.NativePtr, index);
@@ -215,6 +220,11 @@ public class MTLRenderCommandEncoder : IDisposable
     public void SetFragmentTexture(MTLTexture texture, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetFragmentTextureAtIndex, texture.NativePtr, index);
+    }
+
+    public void SetFragmentVisibleFunctionTable(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetFragmentVisibleFunctionTableAtBufferIndex, functionTable.NativePtr, bufferIndex);
     }
 
     public void SetFrontFacingWinding(MTLWinding frontFacingWinding)
@@ -357,6 +367,11 @@ public class MTLRenderCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetTileBytesLengthAtIndex, bytes, length, index);
     }
 
+    public void SetTileIntersectionFunctionTable(MTLIntersectionFunctionTable intersectionFunctionTable, nuint bufferIndex)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetTileIntersectionFunctionTableAtBufferIndex, intersectionFunctionTable.NativePtr, bufferIndex);
+    }
+
     public void SetTileSamplerState(MTLSamplerState sampler, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetTileSamplerStateLodMinClampLodMaxClampAtIndex, sampler.NativePtr, index);
@@ -370,6 +385,11 @@ public class MTLRenderCommandEncoder : IDisposable
     public void SetTileTexture(MTLTexture texture, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetTileTextureAtIndex, texture.NativePtr, index);
+    }
+
+    public void SetTileVisibleFunctionTable(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetTileVisibleFunctionTableAtBufferIndex, functionTable.NativePtr, bufferIndex);
     }
 
     public void SetTriangleFillMode(MTLTriangleFillMode fillMode)
@@ -417,6 +437,11 @@ public class MTLRenderCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetVertexBytesLengthAttributeStrideAtIndex, bytes, length, stride, index);
     }
 
+    public void SetVertexIntersectionFunctionTable(MTLIntersectionFunctionTable intersectionFunctionTable, nuint bufferIndex)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetVertexIntersectionFunctionTableAtBufferIndex, intersectionFunctionTable.NativePtr, bufferIndex);
+    }
+
     public void SetVertexSamplerState(MTLSamplerState sampler, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetVertexSamplerStateLodMinClampLodMaxClampAtIndex, sampler.NativePtr, index);
@@ -430,6 +455,11 @@ public class MTLRenderCommandEncoder : IDisposable
     public void SetVertexTexture(MTLTexture texture, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetVertexTextureAtIndex, texture.NativePtr, index);
+    }
+
+    public void SetVertexVisibleFunctionTable(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderSelector.SetVertexVisibleFunctionTableAtBufferIndex, functionTable.NativePtr, bufferIndex);
     }
 
     public void SetViewport(MTLViewport viewport)
@@ -564,9 +594,13 @@ file class MTLRenderCommandEncoderSelector
 
     public static readonly Selector SetFragmentBytesLengthAtIndex = Selector.Register("setFragmentBytes:length:atIndex:");
 
+    public static readonly Selector SetFragmentIntersectionFunctionTableAtBufferIndex = Selector.Register("setFragmentIntersectionFunctionTable:atBufferIndex:");
+
     public static readonly Selector SetFragmentSamplerStateLodMinClampLodMaxClampAtIndex = Selector.Register("setFragmentSamplerState:lodMinClamp:lodMaxClamp:atIndex:");
 
     public static readonly Selector SetFragmentTextureAtIndex = Selector.Register("setFragmentTexture:atIndex:");
+
+    public static readonly Selector SetFragmentVisibleFunctionTableAtBufferIndex = Selector.Register("setFragmentVisibleFunctionTable:atBufferIndex:");
 
     public static readonly Selector SetFrontFacingWinding = Selector.Register("setFrontFacingWinding:");
 
@@ -620,9 +654,13 @@ file class MTLRenderCommandEncoderSelector
 
     public static readonly Selector SetTileBytesLengthAtIndex = Selector.Register("setTileBytes:length:atIndex:");
 
+    public static readonly Selector SetTileIntersectionFunctionTableAtBufferIndex = Selector.Register("setTileIntersectionFunctionTable:atBufferIndex:");
+
     public static readonly Selector SetTileSamplerStateLodMinClampLodMaxClampAtIndex = Selector.Register("setTileSamplerState:lodMinClamp:lodMaxClamp:atIndex:");
 
     public static readonly Selector SetTileTextureAtIndex = Selector.Register("setTileTexture:atIndex:");
+
+    public static readonly Selector SetTileVisibleFunctionTableAtBufferIndex = Selector.Register("setTileVisibleFunctionTable:atBufferIndex:");
 
     public static readonly Selector SetTriangleFillMode = Selector.Register("setTriangleFillMode:");
 
@@ -636,9 +674,13 @@ file class MTLRenderCommandEncoderSelector
 
     public static readonly Selector SetVertexBytesLengthAttributeStrideAtIndex = Selector.Register("setVertexBytes:length:attributeStride:atIndex:");
 
+    public static readonly Selector SetVertexIntersectionFunctionTableAtBufferIndex = Selector.Register("setVertexIntersectionFunctionTable:atBufferIndex:");
+
     public static readonly Selector SetVertexSamplerStateLodMinClampLodMaxClampAtIndex = Selector.Register("setVertexSamplerState:lodMinClamp:lodMaxClamp:atIndex:");
 
     public static readonly Selector SetVertexTextureAtIndex = Selector.Register("setVertexTexture:atIndex:");
+
+    public static readonly Selector SetVertexVisibleFunctionTableAtBufferIndex = Selector.Register("setVertexVisibleFunctionTable:atBufferIndex:");
 
     public static readonly Selector SetViewport = Selector.Register("setViewport:");
 

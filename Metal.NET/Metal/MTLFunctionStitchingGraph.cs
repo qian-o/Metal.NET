@@ -41,6 +41,12 @@ public class MTLFunctionStitchingGraph : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionStitchingGraphSelector.SetNodes, value.NativePtr);
     }
 
+    public MTLFunctionStitchingFunctionNode OutputNode
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionStitchingGraphSelector.OutputNode));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionStitchingGraphSelector.SetOutputNode, value.NativePtr);
+    }
+
     public static implicit operator nint(MTLFunctionStitchingGraph value)
     {
         return value.NativePtr;
@@ -80,4 +86,8 @@ file class MTLFunctionStitchingGraphSelector
     public static readonly Selector Nodes = Selector.Register("nodes");
 
     public static readonly Selector SetNodes = Selector.Register("setNodes:");
+
+    public static readonly Selector OutputNode = Selector.Register("outputNode");
+
+    public static readonly Selector SetOutputNode = Selector.Register("setOutputNode:");
 }

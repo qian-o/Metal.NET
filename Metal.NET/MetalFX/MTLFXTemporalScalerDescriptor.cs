@@ -125,16 +125,16 @@ public class MTLFXTemporalScalerDescriptor : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorSelector.SetReactiveMaskTextureEnabled, enabled);
     }
 
-    public MTLFXTemporalScaler NewTemporalScaler(MTLDevice pDevice)
+    public MTLFXTemporalScaler NewTemporalScaler(MTLDevice device)
     {
-        MTLFXTemporalScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerDescriptorSelector.NewTemporalScalerWithDeviceCompiler, pDevice.NativePtr));
+        MTLFXTemporalScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerDescriptorSelector.NewTemporalScalerWithDeviceCompiler, device.NativePtr));
 
         return result;
     }
 
-    public MTL4FXTemporalScaler NewTemporalScaler(MTLDevice pDevice, MTL4Compiler pCompiler)
+    public MTL4FXTemporalScaler NewTemporalScaler(MTLDevice device, MTL4Compiler compiler)
     {
-        MTL4FXTemporalScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerDescriptorSelector.NewTemporalScalerWithDeviceCompiler, pDevice.NativePtr, pCompiler.NativePtr));
+        MTL4FXTemporalScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerDescriptorSelector.NewTemporalScalerWithDeviceCompiler, device.NativePtr, compiler.NativePtr));
 
         return result;
     }
@@ -149,30 +149,30 @@ public class MTLFXTemporalScalerDescriptor : IDisposable
         return new(value);
     }
 
-    public static float SupportedInputContentMinScale(MTLDevice pDevice)
+    public static float SupportedInputContentMinScale(MTLDevice device)
     {
-        float result = ObjectiveCRuntime.MsgSendFloat(Class, MTLFXTemporalScalerDescriptorSelector.SupportedInputContentMinScaleForDevice, pDevice.NativePtr);
+        float result = ObjectiveCRuntime.MsgSendFloat(Class, MTLFXTemporalScalerDescriptorSelector.SupportedInputContentMinScaleForDevice, device.NativePtr);
 
         return result;
     }
 
-    public static float SupportedInputContentMaxScale(MTLDevice pDevice)
+    public static float SupportedInputContentMaxScale(MTLDevice device)
     {
-        float result = ObjectiveCRuntime.MsgSendFloat(Class, MTLFXTemporalScalerDescriptorSelector.SupportedInputContentMaxScaleForDevice, pDevice.NativePtr);
+        float result = ObjectiveCRuntime.MsgSendFloat(Class, MTLFXTemporalScalerDescriptorSelector.SupportedInputContentMaxScaleForDevice, device.NativePtr);
 
         return result;
     }
 
-    public static Bool8 SupportsDevice(MTLDevice pDevice)
+    public static Bool8 SupportsDevice(MTLDevice device)
     {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(Class, MTLFXTemporalScalerDescriptorSelector.SupportsDevice, pDevice.NativePtr);
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(Class, MTLFXTemporalScalerDescriptorSelector.SupportsDevice, device.NativePtr);
 
         return result;
     }
 
-    public static Bool8 SupportsMetal4FX(MTLDevice pDevice)
+    public static Bool8 SupportsMetal4FX(MTLDevice device)
     {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(Class, MTLFXTemporalScalerDescriptorSelector.SupportsMetal4FX, pDevice.NativePtr);
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(Class, MTLFXTemporalScalerDescriptorSelector.SupportsMetal4FX, device.NativePtr);
 
         return result;
     }

@@ -27,6 +27,11 @@ public class MTLFunction : IDisposable
         get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.FunctionConstantsDictionary);
     }
 
+    public MTLFunctionType FunctionType
+    {
+        get => (MTLFunctionType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionSelector.FunctionType));
+    }
+
     public NSString Label
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.Label));
@@ -36,6 +41,11 @@ public class MTLFunction : IDisposable
     public NSString Name
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.Name));
+    }
+
+    public MTLFunctionOptions Options
+    {
+        get => (MTLFunctionOptions)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionSelector.Options));
     }
 
     public nint PatchControlPointCount
@@ -104,11 +114,15 @@ file class MTLFunctionSelector
 
     public static readonly Selector FunctionConstantsDictionary = Selector.Register("functionConstantsDictionary");
 
+    public static readonly Selector FunctionType = Selector.Register("functionType");
+
     public static readonly Selector Label = Selector.Register("label");
 
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
 
     public static readonly Selector Name = Selector.Register("name");
+
+    public static readonly Selector Options = Selector.Register("options");
 
     public static readonly Selector PatchControlPointCount = Selector.Register("patchControlPointCount");
 

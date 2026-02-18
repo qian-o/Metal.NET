@@ -17,6 +17,11 @@ public class MTL4BinaryFunction : IDisposable
 
     public nint NativePtr { get; }
 
+    public MTLFunctionType FunctionType
+    {
+        get => (MTLFunctionType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4BinaryFunctionSelector.FunctionType));
+    }
+
     public NSString Name
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4BinaryFunctionSelector.Name));
@@ -50,5 +55,7 @@ public class MTL4BinaryFunction : IDisposable
 
 file class MTL4BinaryFunctionSelector
 {
+    public static readonly Selector FunctionType = Selector.Register("functionType");
+
     public static readonly Selector Name = Selector.Register("name");
 }

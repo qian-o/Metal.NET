@@ -874,6 +874,12 @@ public static partial class HeaderParser
 
                     string paramName = string.IsNullOrEmpty(p.Name) ? $"param{methodDef.Parameters.Count}" : p.Name;
 
+                    // Strip Hungarian notation 'p' prefix for pointer params (e.g., pDevice -> device)
+                    if (paramName.Length > 1 && paramName[0] == 'p' && char.IsUpper(paramName[1]))
+                    {
+                        paramName = char.ToLowerInvariant(paramName[1]) + paramName[2..];
+                    }
+
                     if (CSharpKeywords.Contains(paramName))
                     {
                         paramName = $"@{paramName}";
@@ -1129,6 +1135,12 @@ public static partial class HeaderParser
                     }
 
                     string paramName = string.IsNullOrEmpty(p.Name) ? $"param{def.Parameters.Count}" : p.Name;
+
+                    // Strip Hungarian notation 'p' prefix for pointer params (e.g., pDevice -> device)
+                    if (paramName.Length > 1 && paramName[0] == 'p' && char.IsUpper(paramName[1]))
+                    {
+                        paramName = char.ToLowerInvariant(paramName[1]) + paramName[2..];
+                    }
 
                     if (CSharpKeywords.Contains(paramName))
                     {
@@ -1423,9 +1435,9 @@ public static partial class HeaderParser
         }
 
         // Check for function pointers, blocks, std::function, handler types
-        if (t.Contains("function") || t.Contains("Function")
-            || t.Contains("block") || t.Contains("Block")
-            || t.Contains("(*)") || t.Contains("(^"))
+        if (t.Contains("function") || t.Contains("block") || t.Contains("Block")
+            || t.Contains("(*)") || t.Contains("(^")
+            || t.EndsWith("Function") || t.EndsWith("Function&"))
         {
             return null;
         }

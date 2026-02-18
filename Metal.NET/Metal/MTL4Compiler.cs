@@ -32,6 +32,15 @@ public class MTL4Compiler : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.PipelineDataSetSerializer));
     }
 
+    public MTL4BinaryFunction NewBinaryFunction(MTL4BinaryFunctionDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError? error)
+    {
+        MTL4BinaryFunction result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewBinaryFunctionWithDescriptorCompilerTaskOptionsCompletionHandler, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr));
+
+        error = errorPtr is not 0 ? new(errorPtr) : null;
+
+        return result;
+    }
+
     public MTLComputePipelineState NewComputePipelineState(MTL4ComputePipelineDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError? error)
     {
         MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerSelector.NewComputePipelineStateWithDescriptorDynamicLinkingDescriptorCompilerTaskOptionsCompletionHandler, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr));
@@ -146,6 +155,8 @@ file class MTL4CompilerSelector
     public static readonly Selector Label = Selector.Register("label");
 
     public static readonly Selector PipelineDataSetSerializer = Selector.Register("pipelineDataSetSerializer");
+
+    public static readonly Selector NewBinaryFunctionWithDescriptorCompilerTaskOptionsCompletionHandler = Selector.Register("newBinaryFunctionWithDescriptor:compilerTaskOptions:completionHandler:");
 
     public static readonly Selector NewComputePipelineStateWithDescriptorDynamicLinkingDescriptorCompilerTaskOptionsCompletionHandler = Selector.Register("newComputePipelineStateWithDescriptor:dynamicLinkingDescriptor:compilerTaskOptions:completionHandler:");
 

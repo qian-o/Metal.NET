@@ -102,6 +102,11 @@ public class MTLComputeCommandEncoder : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetImageblockWidthHeight, width, height);
     }
 
+    public void SetIntersectionFunctionTable(MTLIntersectionFunctionTable intersectionFunctionTable, nuint bufferIndex)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetIntersectionFunctionTableAtBufferIndex, intersectionFunctionTable.NativePtr, bufferIndex);
+    }
+
     public void SetSamplerState(MTLSamplerState sampler, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetSamplerStateLodMinClampLodMaxClampAtIndex, sampler.NativePtr, index);
@@ -130,6 +135,11 @@ public class MTLComputeCommandEncoder : IDisposable
     public void SetThreadgroupMemoryLength(nuint length, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetThreadgroupMemoryLengthAtIndex, length, index);
+    }
+
+    public void SetVisibleFunctionTable(MTLVisibleFunctionTable visibleFunctionTable, nuint bufferIndex)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.SetVisibleFunctionTableAtBufferIndex, visibleFunctionTable.NativePtr, bufferIndex);
     }
 
     public void UpdateFence(MTLFence fence)
@@ -204,6 +214,8 @@ file class MTLComputeCommandEncoderSelector
 
     public static readonly Selector SetImageblockWidthHeight = Selector.Register("setImageblockWidth:height:");
 
+    public static readonly Selector SetIntersectionFunctionTableAtBufferIndex = Selector.Register("setIntersectionFunctionTable:atBufferIndex:");
+
     public static readonly Selector SetSamplerStateLodMinClampLodMaxClampAtIndex = Selector.Register("setSamplerState:lodMinClamp:lodMaxClamp:atIndex:");
 
     public static readonly Selector SetStageInRegionWithIndirectBufferIndirectBufferOffset = Selector.Register("setStageInRegionWithIndirectBuffer:indirectBufferOffset:");
@@ -211,6 +223,8 @@ file class MTLComputeCommandEncoderSelector
     public static readonly Selector SetTextureAtIndex = Selector.Register("setTexture:atIndex:");
 
     public static readonly Selector SetThreadgroupMemoryLengthAtIndex = Selector.Register("setThreadgroupMemoryLength:atIndex:");
+
+    public static readonly Selector SetVisibleFunctionTableAtBufferIndex = Selector.Register("setVisibleFunctionTable:atBufferIndex:");
 
     public static readonly Selector UpdateFence = Selector.Register("updateFence:");
 

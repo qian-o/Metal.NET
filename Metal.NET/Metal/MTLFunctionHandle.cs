@@ -22,6 +22,11 @@ public class MTLFunctionHandle : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionHandleSelector.Device));
     }
 
+    public MTLFunctionType FunctionType
+    {
+        get => (MTLFunctionType)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionHandleSelector.FunctionType));
+    }
+
     public MTLResourceID GpuResourceID
     {
         get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLFunctionHandleSelector.GpuResourceID);
@@ -61,6 +66,8 @@ public class MTLFunctionHandle : IDisposable
 file class MTLFunctionHandleSelector
 {
     public static readonly Selector Device = Selector.Register("device");
+
+    public static readonly Selector FunctionType = Selector.Register("functionType");
 
     public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
 

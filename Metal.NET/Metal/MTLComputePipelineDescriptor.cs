@@ -34,6 +34,12 @@ public class MTLComputePipelineDescriptor : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.Buffers));
     }
 
+    public MTLFunction ComputeFunction
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.ComputeFunction));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetComputeFunction, value.NativePtr);
+    }
+
     public NSArray InsertLibraries
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.InsertLibraries));
@@ -44,6 +50,12 @@ public class MTLComputePipelineDescriptor : IDisposable
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.Label));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetLabel, value.NativePtr);
+    }
+
+    public MTLLinkedFunctions LinkedFunctions
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.LinkedFunctions));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetLinkedFunctions, value.NativePtr);
     }
 
     public nuint MaxCallStackDepth
@@ -139,6 +151,10 @@ file class MTLComputePipelineDescriptorSelector
 
     public static readonly Selector Buffers = Selector.Register("buffers");
 
+    public static readonly Selector ComputeFunction = Selector.Register("computeFunction");
+
+    public static readonly Selector SetComputeFunction = Selector.Register("setComputeFunction:");
+
     public static readonly Selector InsertLibraries = Selector.Register("insertLibraries");
 
     public static readonly Selector SetInsertLibraries = Selector.Register("setInsertLibraries:");
@@ -146,6 +162,10 @@ file class MTLComputePipelineDescriptorSelector
     public static readonly Selector Label = Selector.Register("label");
 
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
+
+    public static readonly Selector LinkedFunctions = Selector.Register("linkedFunctions");
+
+    public static readonly Selector SetLinkedFunctions = Selector.Register("setLinkedFunctions:");
 
     public static readonly Selector MaxCallStackDepth = Selector.Register("maxCallStackDepth");
 

@@ -46,6 +46,12 @@ public class MTL4MeshRenderPipelineDescriptor : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.ColorAttachments));
     }
 
+    public MTL4FunctionDescriptor FragmentFunctionDescriptor
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.FragmentFunctionDescriptor));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetFragmentFunctionDescriptor, value.NativePtr);
+    }
+
     public MTL4StaticLinkingDescriptor FragmentStaticLinkingDescriptor
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.FragmentStaticLinkingDescriptor));
@@ -81,6 +87,12 @@ public class MTL4MeshRenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetMaxVertexAmplificationCount, value);
     }
 
+    public MTL4FunctionDescriptor MeshFunctionDescriptor
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.MeshFunctionDescriptor));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetMeshFunctionDescriptor, value.NativePtr);
+    }
+
     public MTL4StaticLinkingDescriptor MeshStaticLinkingDescriptor
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.MeshStaticLinkingDescriptor));
@@ -91,6 +103,12 @@ public class MTL4MeshRenderPipelineDescriptor : IDisposable
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.MeshThreadgroupSizeIsMultipleOfThreadExecutionWidth);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth, value);
+    }
+
+    public MTL4FunctionDescriptor ObjectFunctionDescriptor
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.ObjectFunctionDescriptor));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetObjectFunctionDescriptor, value.NativePtr);
     }
 
     public MTL4StaticLinkingDescriptor ObjectStaticLinkingDescriptor
@@ -206,6 +224,10 @@ file class MTL4MeshRenderPipelineDescriptorSelector
 
     public static readonly Selector ColorAttachments = Selector.Register("colorAttachments");
 
+    public static readonly Selector FragmentFunctionDescriptor = Selector.Register("fragmentFunctionDescriptor");
+
+    public static readonly Selector SetFragmentFunctionDescriptor = Selector.Register("setFragmentFunctionDescriptor:");
+
     public static readonly Selector FragmentStaticLinkingDescriptor = Selector.Register("fragmentStaticLinkingDescriptor");
 
     public static readonly Selector SetFragmentStaticLinkingDescriptor = Selector.Register("setFragmentStaticLinkingDescriptor:");
@@ -228,6 +250,10 @@ file class MTL4MeshRenderPipelineDescriptorSelector
 
     public static readonly Selector SetMaxVertexAmplificationCount = Selector.Register("setMaxVertexAmplificationCount:");
 
+    public static readonly Selector MeshFunctionDescriptor = Selector.Register("meshFunctionDescriptor");
+
+    public static readonly Selector SetMeshFunctionDescriptor = Selector.Register("setMeshFunctionDescriptor:");
+
     public static readonly Selector MeshStaticLinkingDescriptor = Selector.Register("meshStaticLinkingDescriptor");
 
     public static readonly Selector SetMeshStaticLinkingDescriptor = Selector.Register("setMeshStaticLinkingDescriptor:");
@@ -235,6 +261,10 @@ file class MTL4MeshRenderPipelineDescriptorSelector
     public static readonly Selector MeshThreadgroupSizeIsMultipleOfThreadExecutionWidth = Selector.Register("meshThreadgroupSizeIsMultipleOfThreadExecutionWidth");
 
     public static readonly Selector SetMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth = Selector.Register("setMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth:");
+
+    public static readonly Selector ObjectFunctionDescriptor = Selector.Register("objectFunctionDescriptor");
+
+    public static readonly Selector SetObjectFunctionDescriptor = Selector.Register("setObjectFunctionDescriptor:");
 
     public static readonly Selector ObjectStaticLinkingDescriptor = Selector.Register("objectStaticLinkingDescriptor");
 

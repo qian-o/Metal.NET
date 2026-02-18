@@ -64,6 +64,12 @@ public class MTL4TileRenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetThreadgroupSizeMatchesTileSize, value);
     }
 
+    public MTL4FunctionDescriptor TileFunctionDescriptor
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4TileRenderPipelineDescriptorSelector.TileFunctionDescriptor));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.SetTileFunctionDescriptor, value.NativePtr);
+    }
+
     public void Reset()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorSelector.Reset);
@@ -122,6 +128,10 @@ file class MTL4TileRenderPipelineDescriptorSelector
     public static readonly Selector ThreadgroupSizeMatchesTileSize = Selector.Register("threadgroupSizeMatchesTileSize");
 
     public static readonly Selector SetThreadgroupSizeMatchesTileSize = Selector.Register("setThreadgroupSizeMatchesTileSize:");
+
+    public static readonly Selector TileFunctionDescriptor = Selector.Register("tileFunctionDescriptor");
+
+    public static readonly Selector SetTileFunctionDescriptor = Selector.Register("setTileFunctionDescriptor:");
 
     public static readonly Selector Reset = Selector.Register("reset");
 }

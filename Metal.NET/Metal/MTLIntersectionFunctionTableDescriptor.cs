@@ -39,6 +39,13 @@ public class MTLIntersectionFunctionTableDescriptor : IDisposable
         return new(value);
     }
 
+    public static MTLIntersectionFunctionTableDescriptor IntersectionFunctionTableDescriptor()
+    {
+        MTLIntersectionFunctionTableDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLIntersectionFunctionTableDescriptorSelector.IntersectionFunctionTableDescriptor));
+
+        return result;
+    }
+
     public void Dispose()
     {
         Release();
@@ -60,4 +67,6 @@ file class MTLIntersectionFunctionTableDescriptorSelector
     public static readonly Selector FunctionCount = Selector.Register("functionCount");
 
     public static readonly Selector SetFunctionCount = Selector.Register("setFunctionCount:");
+
+    public static readonly Selector IntersectionFunctionTableDescriptor = Selector.Register("intersectionFunctionTableDescriptor");
 }

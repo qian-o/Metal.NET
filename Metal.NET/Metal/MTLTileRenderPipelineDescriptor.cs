@@ -40,6 +40,12 @@ public class MTLTileRenderPipelineDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetLabel, value.NativePtr);
     }
 
+    public MTLLinkedFunctions LinkedFunctions
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.LinkedFunctions));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetLinkedFunctions, value.NativePtr);
+    }
+
     public nuint MaxCallStackDepth
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTileRenderPipelineDescriptorSelector.MaxCallStackDepth);
@@ -93,6 +99,12 @@ public class MTLTileRenderPipelineDescriptor : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.TileBuffers));
     }
 
+    public MTLFunction TileFunction
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.TileFunction));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetTileFunction, value.NativePtr);
+    }
+
     public void Reset()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.Reset);
@@ -136,6 +148,10 @@ file class MTLTileRenderPipelineDescriptorSelector
 
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
 
+    public static readonly Selector LinkedFunctions = Selector.Register("linkedFunctions");
+
+    public static readonly Selector SetLinkedFunctions = Selector.Register("setLinkedFunctions:");
+
     public static readonly Selector MaxCallStackDepth = Selector.Register("maxCallStackDepth");
 
     public static readonly Selector SetMaxCallStackDepth = Selector.Register("setMaxCallStackDepth:");
@@ -169,6 +185,10 @@ file class MTLTileRenderPipelineDescriptorSelector
     public static readonly Selector SetThreadgroupSizeMatchesTileSize = Selector.Register("setThreadgroupSizeMatchesTileSize:");
 
     public static readonly Selector TileBuffers = Selector.Register("tileBuffers");
+
+    public static readonly Selector TileFunction = Selector.Register("tileFunction");
+
+    public static readonly Selector SetTileFunction = Selector.Register("setTileFunction:");
 
     public static readonly Selector Reset = Selector.Register("reset");
 }

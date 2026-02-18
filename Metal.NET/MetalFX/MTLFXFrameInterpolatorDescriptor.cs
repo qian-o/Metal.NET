@@ -87,16 +87,16 @@ public class MTLFXFrameInterpolatorDescriptor : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.SetUITextureFormat, (ulong)uiTextureFormat);
     }
 
-    public MTLFXFrameInterpolator NewFrameInterpolator(MTLDevice pDevice)
+    public MTLFXFrameInterpolator NewFrameInterpolator(MTLDevice device)
     {
-        MTLFXFrameInterpolator result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.NewFrameInterpolatorWithDeviceCompiler, pDevice.NativePtr));
+        MTLFXFrameInterpolator result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.NewFrameInterpolatorWithDeviceCompiler, device.NativePtr));
 
         return result;
     }
 
-    public MTL4FXFrameInterpolator NewFrameInterpolator(MTLDevice pDevice, MTL4Compiler pCompiler)
+    public MTL4FXFrameInterpolator NewFrameInterpolator(MTLDevice device, MTL4Compiler compiler)
     {
-        MTL4FXFrameInterpolator result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.NewFrameInterpolatorWithDeviceCompiler, pDevice.NativePtr, pCompiler.NativePtr));
+        MTL4FXFrameInterpolator result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.NewFrameInterpolatorWithDeviceCompiler, device.NativePtr, compiler.NativePtr));
 
         return result;
     }

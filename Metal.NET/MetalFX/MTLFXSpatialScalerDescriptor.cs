@@ -65,16 +65,16 @@ public class MTLFXSpatialScalerDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetColorProcessingMode, (ulong)value);
     }
 
-    public MTLFXSpatialScaler NewSpatialScaler(MTLDevice pDevice)
+    public MTLFXSpatialScaler NewSpatialScaler(MTLDevice device)
     {
-        MTLFXSpatialScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorSelector.NewSpatialScalerWithDeviceCompiler, pDevice.NativePtr));
+        MTLFXSpatialScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorSelector.NewSpatialScalerWithDeviceCompiler, device.NativePtr));
 
         return result;
     }
 
-    public MTL4FXSpatialScaler NewSpatialScaler(MTLDevice pDevice, MTL4Compiler pCompiler)
+    public MTL4FXSpatialScaler NewSpatialScaler(MTLDevice device, MTL4Compiler compiler)
     {
-        MTL4FXSpatialScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorSelector.NewSpatialScalerWithDeviceCompiler, pDevice.NativePtr, pCompiler.NativePtr));
+        MTL4FXSpatialScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorSelector.NewSpatialScalerWithDeviceCompiler, device.NativePtr, compiler.NativePtr));
 
         return result;
     }
@@ -89,16 +89,16 @@ public class MTLFXSpatialScalerDescriptor : IDisposable
         return new(value);
     }
 
-    public static Bool8 SupportsDevice(MTLDevice pDevice)
+    public static Bool8 SupportsDevice(MTLDevice device)
     {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(Class, MTLFXSpatialScalerDescriptorSelector.SupportsDevice, pDevice.NativePtr);
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(Class, MTLFXSpatialScalerDescriptorSelector.SupportsDevice, device.NativePtr);
 
         return result;
     }
 
-    public static Bool8 SupportsMetal4FX(MTLDevice pDevice)
+    public static Bool8 SupportsMetal4FX(MTLDevice device)
     {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(Class, MTLFXSpatialScalerDescriptorSelector.SupportsMetal4FX, pDevice.NativePtr);
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(Class, MTLFXSpatialScalerDescriptorSelector.SupportsMetal4FX, device.NativePtr);
 
         return result;
     }

@@ -17,9 +17,9 @@ public class MTL4FXSpatialScaler : IDisposable
 
     public nint NativePtr { get; }
 
-    public void EncodeToCommandBuffer(MTL4CommandBuffer pCommandBuffer)
+    public void EncodeToCommandBuffer(MTL4CommandBuffer commandBuffer)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4FXSpatialScalerSelector.EncodeToCommandBuffer, pCommandBuffer.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4FXSpatialScalerSelector.EncodeToCommandBuffer, commandBuffer.NativePtr);
     }
 
     public static implicit operator nint(MTL4FXSpatialScaler value)

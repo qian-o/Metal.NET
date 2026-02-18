@@ -29,10 +29,22 @@ public class MTLFunctionDescriptor : IDisposable
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetBinaryArchives, value.NativePtr);
     }
 
+    public MTLFunctionConstantValues ConstantValues
+    {
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.ConstantValues));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetConstantValues, value.NativePtr);
+    }
+
     public NSString Name
     {
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.Name));
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetName, value.NativePtr);
+    }
+
+    public MTLFunctionOptions Options
+    {
+        get => (MTLFunctionOptions)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionDescriptorSelector.Options));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetOptions, (ulong)value);
     }
 
     public NSString SpecializedName
@@ -49,6 +61,13 @@ public class MTLFunctionDescriptor : IDisposable
     public static implicit operator MTLFunctionDescriptor(nint value)
     {
         return new(value);
+    }
+
+    public static MTLFunctionDescriptor FunctionDescriptor()
+    {
+        MTLFunctionDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLFunctionDescriptorSelector.FunctionDescriptor));
+
+        return result;
     }
 
     public void Dispose()
@@ -73,11 +92,21 @@ file class MTLFunctionDescriptorSelector
 
     public static readonly Selector SetBinaryArchives = Selector.Register("setBinaryArchives:");
 
+    public static readonly Selector ConstantValues = Selector.Register("constantValues");
+
+    public static readonly Selector SetConstantValues = Selector.Register("setConstantValues:");
+
     public static readonly Selector Name = Selector.Register("name");
 
     public static readonly Selector SetName = Selector.Register("setName:");
 
+    public static readonly Selector Options = Selector.Register("options");
+
+    public static readonly Selector SetOptions = Selector.Register("setOptions:");
+
     public static readonly Selector SpecializedName = Selector.Register("specializedName");
 
     public static readonly Selector SetSpecializedName = Selector.Register("setSpecializedName:");
+
+    public static readonly Selector FunctionDescriptor = Selector.Register("functionDescriptor");
 }

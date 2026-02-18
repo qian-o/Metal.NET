@@ -17,9 +17,9 @@ public class MTLFXTemporalScaler : IDisposable
 
     public nint NativePtr { get; }
 
-    public void EncodeToCommandBuffer(MTLCommandBuffer pCommandBuffer)
+    public void EncodeToCommandBuffer(MTLCommandBuffer commandBuffer)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerSelector.EncodeToCommandBuffer, pCommandBuffer.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerSelector.EncodeToCommandBuffer, commandBuffer.NativePtr);
     }
 
     public static implicit operator nint(MTLFXTemporalScaler value)

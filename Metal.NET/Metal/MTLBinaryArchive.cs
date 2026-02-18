@@ -37,6 +37,15 @@ public class MTLBinaryArchive : IDisposable
         return result;
     }
 
+    public Bool8 AddFunction(MTLFunctionDescriptor descriptor, MTLLibrary library, out NSError? error)
+    {
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.AddFunctionWithDescriptorLibraryError, descriptor.NativePtr, library.NativePtr, out nint errorPtr);
+
+        error = errorPtr is not 0 ? new(errorPtr) : null;
+
+        return result;
+    }
+
     public Bool8 AddLibrary(MTLStitchedLibraryDescriptor descriptor, out NSError? error)
     {
         Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveSelector.AddLibraryWithDescriptorError, descriptor.NativePtr, out nint errorPtr);
@@ -117,6 +126,8 @@ file class MTLBinaryArchiveSelector
     public static readonly Selector SetLabel = Selector.Register("setLabel:");
 
     public static readonly Selector AddComputePipelineFunctionsWithDescriptorError = Selector.Register("addComputePipelineFunctionsWithDescriptor:error:");
+
+    public static readonly Selector AddFunctionWithDescriptorLibraryError = Selector.Register("addFunctionWithDescriptor:library:error:");
 
     public static readonly Selector AddLibraryWithDescriptorError = Selector.Register("addLibraryWithDescriptor:error:");
 
