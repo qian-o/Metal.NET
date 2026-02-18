@@ -1,22 +1,7 @@
 ﻿namespace Metal.NET;
 
-public class MTL4RenderCommandEncoder : IDisposable
+public class MTL4RenderCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativePtr)
 {
-    public MTL4RenderCommandEncoder(nint nativePtr)
-    {
-        if (nativePtr is not 0)
-        {
-            ObjectiveCRuntime.Retain(NativePtr = nativePtr);
-        }
-    }
-
-    ~MTL4RenderCommandEncoder()
-    {
-        Release();
-    }
-
-    public nint NativePtr { get; }
-
     public nuint TileHeight
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderCommandEncoderSelector.TileHeight);
@@ -25,6 +10,16 @@ public class MTL4RenderCommandEncoder : IDisposable
     public nuint TileWidth
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderCommandEncoderSelector.TileWidth);
+    }
+
+    public static implicit operator nint(MTL4RenderCommandEncoder value)
+    {
+        return value.NativePtr;
+    }
+
+    public static implicit operator MTL4RenderCommandEncoder(nint value)
+    {
+        return new(value);
     }
 
     public void DispatchThreadsPerTile(MTLSize threadsPerTile)
@@ -220,31 +215,6 @@ public class MTL4RenderCommandEncoder : IDisposable
     public void WriteTimestamp(MTL4TimestampGranularity granularity, MTLRenderStages stage, MTL4CounterHeap counterHeap, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderSelector.WriteTimestampWithGranularityAfterStageIntoHeapAtIndex, (ulong)granularity, (ulong)stage, counterHeap.NativePtr, index);
-    }
-
-    public static implicit operator nint(MTL4RenderCommandEncoder value)
-    {
-        return value.NativePtr;
-    }
-
-    public static implicit operator MTL4RenderCommandEncoder(nint value)
-    {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        Release();
-
-        GC.SuppressFinalize(this);
-    }
-
-    private void Release()
-    {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 }
 
