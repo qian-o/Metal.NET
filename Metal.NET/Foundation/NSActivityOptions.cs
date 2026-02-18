@@ -3,15 +3,15 @@
 [Flags]
 public enum NSActivityOptions : ulong
 {
-    ActivityIdleDisplaySleepDisabled = 1ULL << 40,
+    ActivityIdleDisplaySleepDisabled = 1099511627776,
 
-    ActivityIdleSystemSleepDisabled = 1ULL << 20,
+    ActivityIdleSystemSleepDisabled = 1048576,
 
-    ActivitySuddenTerminationDisabled = 1ULL << 14,
+    ActivitySuddenTerminationDisabled = 16384,
 
-    ActivityAutomaticTerminationDisabled = 1ULL << 15,
+    ActivityAutomaticTerminationDisabled = 32768,
 
-    ActivityUserInitiated = 0x00FFFFFFULL | ActivityIdleSystemSleepDisabled,
+    ActivityUserInitiated = 0x00FFFFFF | ActivityIdleSystemSleepDisabled,
 
     ActivityUserInitiatedAllowingIdleSystemSleep = ActivityUserInitiated & ~ActivityIdleSystemSleepDisabled,
 

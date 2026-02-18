@@ -19,7 +19,10 @@ public class NSString : IDisposable
 
     public nint NativePtr { get; }
 
-    public string Value => Marshal.PtrToStringUTF8(ObjectiveCRuntime.MsgSendPtr(NativePtr, NSStringSelector.Utf8String)) ?? string.Empty;
+    public string Value
+    {
+        get => Marshal.PtrToStringUTF8(ObjectiveCRuntime.MsgSendPtr(NativePtr, NSStringSelector.Utf8String)) ?? string.Empty;
+    }
 
     public static implicit operator nint(NSString value)
     {

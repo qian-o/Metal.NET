@@ -193,15 +193,8 @@ public class MetalBindingsGenerator
         sb.AppendLine();
 
         bool isConcreteClass = def.IsClass && def.ObjCClass != null;
-        EmitClassHeader(sb, def.Name, hasLibraryImports, isConcreteClass, isConcreteClass ? def.ObjCClass : null);
-
         bool hasStaticMethods = def.StaticMethods.Count > 0;
-
-        if (!isConcreteClass && hasStaticMethods)
-        {
-            sb.AppendLine($"    private static readonly nint Class = ObjectiveCRuntime.GetClass(\"{def.Name}\");");
-            sb.AppendLine();
-        }
+        EmitClassHeader(sb, def.Name, hasLibraryImports, isConcreteClass, isConcreteClass ? def.ObjCClass : null, !isConcreteClass && hasStaticMethods);
 
         foreach (PropertyDef p in def.Properties)
         {
@@ -316,7 +309,7 @@ public class MetalBindingsGenerator
         WriteSource(def.Folder, $"{def.Name}.cs", sb.ToString());
     }
 
-    private static void EmitClassHeader(StringBuilder sb, string name, bool hasLibraryImports, bool isConcreteClass, string? objcClassName)
+    private static void EmitClassHeader(StringBuilder sb, string name, bool hasLibraryImports, bool isConcreteClass, string? objcClassName, bool emitClassForStaticMethods = false)
     {
         sb.AppendLine($"public{(hasLibraryImports ? " partial" : "")} class {name} : IDisposable");
         sb.AppendLine("{");
@@ -324,6 +317,11 @@ public class MetalBindingsGenerator
         if (isConcreteClass && objcClassName != null)
         {
             sb.AppendLine($"    private static readonly nint Class = ObjectiveCRuntime.GetClass(\"{objcClassName}\");");
+            sb.AppendLine();
+        }
+        else if (emitClassForStaticMethods)
+        {
+            sb.AppendLine($"    private static readonly nint Class = ObjectiveCRuntime.GetClass(\"{name}\");");
             sb.AppendLine();
         }
 

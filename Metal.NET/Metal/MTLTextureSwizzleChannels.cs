@@ -2,6 +2,8 @@
 
 public class MTLTextureSwizzleChannels : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTextureSwizzleChannels");
+
     public MTLTextureSwizzleChannels(nint nativePtr)
     {
         if (nativePtr is not 0)
@@ -16,8 +18,6 @@ public class MTLTextureSwizzleChannels : IDisposable
     }
 
     public nint NativePtr { get; }
-
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTextureSwizzleChannels");
 
     public static implicit operator nint(MTLTextureSwizzleChannels value)
     {

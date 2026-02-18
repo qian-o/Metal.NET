@@ -2,6 +2,8 @@
 
 public class CAMetalLayer : IDisposable
 {
+    private static readonly nint Class = ObjectiveCRuntime.GetClass("CAMetalLayer");
+
     public CAMetalLayer(nint nativePtr)
     {
         if (nativePtr is not 0)
@@ -16,8 +18,6 @@ public class CAMetalLayer : IDisposable
     }
 
     public nint NativePtr { get; }
-
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("CAMetalLayer");
 
     public MTLDevice Device
     {

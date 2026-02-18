@@ -47,6 +47,9 @@ public static partial class HeaderParser
     [GeneratedRegex(@"^(\d+)\s*<<\s*(\d+)$")]
     private static partial Regex ShiftExprPattern();
 
+    [GeneratedRegex(@"(0[xX][0-9a-fA-F]+|[0-9]+)(ULL|ull|UL|ul|LL|ll|U|u|L|l)\b")]
+    private static partial Regex IntegerSuffixPattern();
+
     private static readonly HashSet<string> BindableNamespaces = ["MTL", "MTL4", "MTLFX", "CA"];
 
     private static readonly HashSet<string> NsNamespace = ["NS"];
@@ -538,8 +541,9 @@ public static partial class HeaderParser
             return underlyingType == "long" ? long.MaxValue.ToString() : int.MaxValue.ToString();
         }
 
-        // Strip C++ integer literal suffixes (ULL, UL, LL, U, L, etc.)
-        string stripped = StripIntegerSuffix(trimmed);
+        // Strip C++ integer literal suffixes from all numeric literals in the expression
+        string stripped = IntegerSuffixPattern().Replace(trimmed, "$1");
+        stripped = StripIntegerSuffix(stripped);
 
         // Handle simple shift expressions like "1 << 40"
         Match shiftMatch = ShiftExprPattern().Match(stripped);
