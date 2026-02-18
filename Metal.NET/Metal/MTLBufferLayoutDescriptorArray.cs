@@ -25,14 +25,14 @@ public class MTLBufferLayoutDescriptorArray : IDisposable
 
     public MTLBufferLayoutDescriptor Object(nuint index)
     {
-        MTLBufferLayoutDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArraySelector.Object, index));
+        MTLBufferLayoutDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArraySelector.ObjectAtIndexedSubscript, index));
 
         return result;
     }
 
     public void SetObject(MTLBufferLayoutDescriptor bufferDesc, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorArraySelector.SetObjectIndex, bufferDesc.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorArraySelector.SetObjectAtIndexedSubscript, bufferDesc.NativePtr, index);
     }
 
     public static implicit operator nint(MTLBufferLayoutDescriptorArray value)
@@ -63,7 +63,7 @@ public class MTLBufferLayoutDescriptorArray : IDisposable
 
 file class MTLBufferLayoutDescriptorArraySelector
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector ObjectAtIndexedSubscript = Selector.Register("objectAtIndexedSubscript:");
 
-    public static readonly Selector SetObjectIndex = Selector.Register("setObject:index:");
+    public static readonly Selector SetObjectAtIndexedSubscript = Selector.Register("setObject:atIndexedSubscript:");
 }

@@ -25,14 +25,14 @@ public class MTLRenderPassColorAttachmentDescriptorArray : IDisposable
 
     public MTLRenderPassColorAttachmentDescriptor Object(nuint attachmentIndex)
     {
-        MTLRenderPassColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.Object, attachmentIndex));
+        MTLRenderPassColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.ObjectAtIndexedSubscript, attachmentIndex));
 
         return result;
     }
 
     public void SetObject(MTLRenderPassColorAttachmentDescriptor attachment, nuint attachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, attachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.SetObjectAtIndexedSubscript, attachment.NativePtr, attachmentIndex);
     }
 
     public static implicit operator nint(MTLRenderPassColorAttachmentDescriptorArray value)
@@ -63,7 +63,7 @@ public class MTLRenderPassColorAttachmentDescriptorArray : IDisposable
 
 file class MTLRenderPassColorAttachmentDescriptorArraySelector
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector ObjectAtIndexedSubscript = Selector.Register("objectAtIndexedSubscript:");
 
-    public static readonly Selector SetObjectAttachmentIndex = Selector.Register("setObject:attachmentIndex:");
+    public static readonly Selector SetObjectAtIndexedSubscript = Selector.Register("setObject:atIndexedSubscript:");
 }

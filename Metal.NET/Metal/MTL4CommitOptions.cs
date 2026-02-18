@@ -23,11 +23,6 @@ public class MTL4CommitOptions : IDisposable
 
     public nint NativePtr { get; }
 
-    public void AddFeedbackHandler(nint function)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommitOptionsSelector.AddFeedbackHandler, function);
-    }
-
     public static implicit operator nint(MTL4CommitOptions value)
     {
         return value.NativePtr;
@@ -56,5 +51,4 @@ public class MTL4CommitOptions : IDisposable
 
 file class MTL4CommitOptionsSelector
 {
-    public static readonly Selector AddFeedbackHandler = Selector.Register("addFeedbackHandler:");
 }

@@ -25,14 +25,14 @@ public class MTLRasterizationRateLayerArray : IDisposable
 
     public MTLRasterizationRateLayerDescriptor Object(nuint layerIndex)
     {
-        MTLRasterizationRateLayerDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerArraySelector.Object, layerIndex));
+        MTLRasterizationRateLayerDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerArraySelector.ObjectAtIndexedSubscript, layerIndex));
 
         return result;
     }
 
     public void SetObject(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateLayerArraySelector.SetObjectLayerIndex, layer.NativePtr, layerIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateLayerArraySelector.SetObjectAtIndexedSubscript, layer.NativePtr, layerIndex);
     }
 
     public static implicit operator nint(MTLRasterizationRateLayerArray value)
@@ -63,7 +63,7 @@ public class MTLRasterizationRateLayerArray : IDisposable
 
 file class MTLRasterizationRateLayerArraySelector
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector ObjectAtIndexedSubscript = Selector.Register("objectAtIndexedSubscript:");
 
-    public static readonly Selector SetObjectLayerIndex = Selector.Register("setObject:layerIndex:");
+    public static readonly Selector SetObjectAtIndexedSubscript = Selector.Register("setObject:atIndexedSubscript:");
 }

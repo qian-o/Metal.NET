@@ -25,7 +25,7 @@ public class MTL4RenderPipelineColorAttachmentDescriptorArray : IDisposable
 
     public MTL4RenderPipelineColorAttachmentDescriptor Object(nuint attachmentIndex)
     {
-        MTL4RenderPipelineColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.Object, attachmentIndex));
+        MTL4RenderPipelineColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.ObjectAtIndexedSubscript, attachmentIndex));
 
         return result;
     }
@@ -37,7 +37,7 @@ public class MTL4RenderPipelineColorAttachmentDescriptorArray : IDisposable
 
     public void SetObject(MTL4RenderPipelineColorAttachmentDescriptor attachment, nuint attachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, attachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.SetObjectAtIndexedSubscript, attachment.NativePtr, attachmentIndex);
     }
 
     public static implicit operator nint(MTL4RenderPipelineColorAttachmentDescriptorArray value)
@@ -68,9 +68,9 @@ public class MTL4RenderPipelineColorAttachmentDescriptorArray : IDisposable
 
 file class MTL4RenderPipelineColorAttachmentDescriptorArraySelector
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector ObjectAtIndexedSubscript = Selector.Register("objectAtIndexedSubscript:");
 
     public static readonly Selector Reset = Selector.Register("reset");
 
-    public static readonly Selector SetObjectAttachmentIndex = Selector.Register("setObject:attachmentIndex:");
+    public static readonly Selector SetObjectAtIndexedSubscript = Selector.Register("setObject:atIndexedSubscript:");
 }

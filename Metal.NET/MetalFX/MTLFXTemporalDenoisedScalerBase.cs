@@ -286,16 +286,16 @@ public class MTLFXTemporalDenoisedScalerBase : IDisposable
         get => ObjectiveCRuntime.MsgSendFloat(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.InputContentMaxScale);
     }
 
-    public nint WorldToViewMatrix
+    public MTLFXsimd::float4x4 WorldToViewMatrix
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.WorldToViewMatrix);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetWorldToViewMatrix, value);
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.WorldToViewMatrix));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetWorldToViewMatrix, value.NativePtr);
     }
 
-    public nint ViewToClipMatrix
+    public MTLFXsimd::float4x4 ViewToClipMatrix
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.ViewToClipMatrix);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetViewToClipMatrix, value);
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.ViewToClipMatrix));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseSelector.SetViewToClipMatrix, value.NativePtr);
     }
 
     public MTLFence Fence

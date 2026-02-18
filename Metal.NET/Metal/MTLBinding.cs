@@ -24,7 +24,7 @@ public class MTLBinding : IDisposable
 
     public Bool8 Argument
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingSelector.Argument);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingSelector.IsArgument);
     }
 
     public nuint Index
@@ -54,7 +54,7 @@ public class MTLBinding : IDisposable
 
     public Bool8 Used
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingSelector.Used);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingSelector.IsUsed);
     }
 
     public static implicit operator nint(MTLBinding value)
@@ -87,17 +87,13 @@ file class MTLBindingSelector
 {
     public static readonly Selector Access = Selector.Register("access");
 
-    public static readonly Selector Argument = Selector.Register("argument");
+    public static readonly Selector IsArgument = Selector.Register("isArgument");
 
     public static readonly Selector Index = Selector.Register("index");
-
-    public static readonly Selector IsArgument = Selector.Register("isArgument");
 
     public static readonly Selector IsUsed = Selector.Register("isUsed");
 
     public static readonly Selector Name = Selector.Register("name");
 
     public static readonly Selector Type = Selector.Register("type");
-
-    public static readonly Selector Used = Selector.Register("used");
 }

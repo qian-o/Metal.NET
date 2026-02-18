@@ -24,7 +24,7 @@ public class MTLTextureBinding : IDisposable
 
     public Bool8 DepthTexture
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureBindingSelector.DepthTexture);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureBindingSelector.IsDepthTexture);
     }
 
     public Bool8 IsDepthTexture
@@ -71,8 +71,6 @@ public class MTLTextureBinding : IDisposable
 file class MTLTextureBindingSelector
 {
     public static readonly Selector ArrayLength = Selector.Register("arrayLength");
-
-    public static readonly Selector DepthTexture = Selector.Register("depthTexture");
 
     public static readonly Selector IsDepthTexture = Selector.Register("isDepthTexture");
 

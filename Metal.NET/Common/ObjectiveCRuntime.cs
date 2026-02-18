@@ -61,6 +61,9 @@ internal static unsafe partial class ObjectiveCRuntime
     public static partial void MsgSend(nint receiver, Selector selector, float a, float b, float c, float d);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    public static partial void MsgSend(nint receiver, Selector selector, MTL4BufferRange a);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial void MsgSend(nint receiver, Selector selector, MTLClearColor a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -124,6 +127,12 @@ internal static unsafe partial class ObjectiveCRuntime
     public static partial void MsgSend(nint receiver, Selector selector, nint a, MTLRegion b, nuint c, nuint d, Bool8 e, nint f, nuint g);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    public static partial void MsgSend(nint receiver, Selector selector, nint a, MTLSize b);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    public static partial void MsgSend(nint receiver, Selector selector, nint a, MTLSize b, MTLSize c);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial void MsgSend(nint receiver, Selector selector, nint a, nint b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -140,9 +149,6 @@ internal static unsafe partial class ObjectiveCRuntime
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial void MsgSend(nint receiver, Selector selector, nint a, nint b, MTL4UpdateSparseTextureMappingOperation c, nuint d);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    public static partial void MsgSend(nint receiver, Selector selector, nint a, nint b, nint c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial void MsgSend(nint receiver, Selector selector, nint a, nint b, nint c, MTL4BufferRange d);
@@ -199,9 +205,6 @@ internal static unsafe partial class ObjectiveCRuntime
     public static partial void MsgSend(nint receiver, Selector selector, nint a, nuint b, MTLSize c, MTLSize d);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    public static partial void MsgSend(nint receiver, Selector selector, nint a, nuint b, nint c);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial void MsgSend(nint receiver, Selector selector, nint a, nuint b, nint c, nuint d);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -241,13 +244,16 @@ internal static unsafe partial class ObjectiveCRuntime
     public static partial void MsgSend(nint receiver, Selector selector, nint a, nuint b, nuint c, nuint d, MTLSize e, nint f, nuint g, nuint h, MTLOrigin i, ulong j);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    public static partial void MsgSend(nint receiver, Selector selector, nint a, nuint b, ulong c);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial void MsgSend(nint receiver, Selector selector, nint a, ulong b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    public static partial void MsgSend(nint receiver, Selector selector, nint a, ulong b, MTLRegion c, nint d, nint e, nuint f);
+    public static partial void MsgSend(nint receiver, Selector selector, nint a, ulong b, MTLRegion c, nuint d, nuint e);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    public static partial void MsgSend(nint receiver, Selector selector, nint a, ulong b, MTLRegion c, nuint d, nuint e);
+    public static partial void MsgSend(nint receiver, Selector selector, nint a, ulong b, MTLRegion c, nuint d, nuint e, nuint f);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial void MsgSend(nint receiver, Selector selector, nint a, ulong b, nint c);
@@ -269,12 +275,6 @@ internal static unsafe partial class ObjectiveCRuntime
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial void MsgSend(nint receiver, Selector selector, nuint a);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    public static partial void MsgSend(nint receiver, Selector selector, nuint a, MTLSize b);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    public static partial void MsgSend(nint receiver, Selector selector, nuint a, MTLSize b, MTLSize c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial void MsgSend(nint receiver, Selector selector, nuint a, MTLVertexAmplificationViewMapping b);
@@ -313,6 +313,9 @@ internal static unsafe partial class ObjectiveCRuntime
     public static partial void MsgSend(nint receiver, Selector selector, ulong a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    public static partial void MsgSend(nint receiver, Selector selector, ulong a, nint b);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial void MsgSend(nint receiver, Selector selector, ulong a, nint b, nuint c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -340,25 +343,16 @@ internal static unsafe partial class ObjectiveCRuntime
     public static partial void MsgSend(nint receiver, Selector selector, ulong a, nuint b, ulong c, nint d, nuint e, nuint f, nint g, nuint h);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    public static partial void MsgSend(nint receiver, Selector selector, ulong a, nuint b, ulong c, nuint d, nuint e);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    public static partial void MsgSend(nint receiver, Selector selector, ulong a, nuint b, ulong c, nuint d, nuint e, nuint f);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    public static partial void MsgSend(nint receiver, Selector selector, ulong a, nuint b, ulong c, nuint d, nuint e, nuint f, nint g, nuint h);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial void MsgSend(nint receiver, Selector selector, ulong a, ulong b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial void MsgSend(nint receiver, Selector selector, ulong a, ulong b, nint c, nuint d);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    public static partial void MsgSend(nint receiver, Selector selector, ulong a, ulong b, nint c, nuint d, nint e, nuint f);
+    public static partial void MsgSend(nint receiver, Selector selector, ulong a, ulong b, nint c, nuint d, nint e);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    public static partial void MsgSend(nint receiver, Selector selector, ulong a, ulong b, nuint c, nuint d, nuint e);
+    public static partial void MsgSend(nint receiver, Selector selector, ulong a, ulong b, nint c, nuint d, nint e, nuint f);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial void MsgSend(nint receiver, Selector selector, ulong a, ulong b, ulong c);
@@ -414,6 +408,13 @@ internal static unsafe partial class ObjectiveCRuntime
 
     #endregion
 
+    #region MsgSendMTL4BufferRange
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    public static partial MTL4BufferRange MsgSendMTL4BufferRange(nint receiver, Selector selector);
+
+    #endregion
+
     #region MsgSendMTLClearColor
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -437,13 +438,6 @@ internal static unsafe partial class ObjectiveCRuntime
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial MTLResourceID MsgSendMTLResourceID(nint receiver, Selector selector, nint a, nuint b);
-
-    #endregion
-
-    #region MsgSendMTLSamplePosition
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    public static partial MTLSamplePosition MsgSendMTLSamplePosition(nint receiver, Selector selector, MTLSamplePosition a, nuint b);
 
     #endregion
 
@@ -529,9 +523,6 @@ internal static unsafe partial class ObjectiveCRuntime
     public static partial nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    public static partial nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c, out nint error);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -556,7 +547,7 @@ internal static unsafe partial class ObjectiveCRuntime
     public static partial nint MsgSendPtr(nint receiver, Selector selector, nint a, ulong b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    public static partial nint MsgSendPtr(nint receiver, Selector selector, nint a, ulong b, nint c, out nint error);
+    public static partial nint MsgSendPtr(nint receiver, Selector selector, nint a, ulong b, ulong c, out nint error);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial nint MsgSendPtr(nint receiver, Selector selector, nint a, ulong b, out nint error);
@@ -602,9 +593,6 @@ internal static unsafe partial class ObjectiveCRuntime
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial nint MsgSendPtr(nint receiver, Selector selector, ulong a, ulong b, NSRange c, NSRange d, nint e);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    public static partial nint MsgSendPtr(nint receiver, Selector selector, ulong a, ulong b, ulong c, ulong d);
 
     #endregion
 

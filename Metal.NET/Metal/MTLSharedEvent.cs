@@ -30,14 +30,14 @@ public class MTLSharedEvent : IDisposable
         return result;
     }
 
-    public void NotifyListener(MTLSharedEventListener listener, nuint value, nint function)
+    public void NotifyListener(MTLSharedEventListener listener, nuint value, MTLSharedEventNotificationFunction function)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLSharedEventSelector.NotifyListenerValueFunction, listener.NativePtr, value, function);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLSharedEventSelector.NotifyListenerAtValueBlock, listener.NativePtr, value, (ulong)function);
     }
 
     public Bool8 WaitUntilSignaledValue(nuint value, nuint milliseconds)
     {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLSharedEventSelector.WaitUntilSignaledValueMilliseconds, value, milliseconds);
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLSharedEventSelector.WaitUntilSignaledValueTimeoutMS, value, milliseconds);
 
         return result;
     }
@@ -76,7 +76,7 @@ file class MTLSharedEventSelector
 
     public static readonly Selector NewSharedEventHandle = Selector.Register("newSharedEventHandle");
 
-    public static readonly Selector NotifyListenerValueFunction = Selector.Register("notifyListener:value:function:");
+    public static readonly Selector NotifyListenerAtValueBlock = Selector.Register("notifyListener:atValue:block:");
 
-    public static readonly Selector WaitUntilSignaledValueMilliseconds = Selector.Register("waitUntilSignaledValue:milliseconds:");
+    public static readonly Selector WaitUntilSignaledValueTimeoutMS = Selector.Register("waitUntilSignaledValue:timeoutMS:");
 }

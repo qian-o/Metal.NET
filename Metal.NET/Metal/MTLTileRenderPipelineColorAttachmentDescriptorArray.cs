@@ -25,14 +25,14 @@ public class MTLTileRenderPipelineColorAttachmentDescriptorArray : IDisposable
 
     public MTLTileRenderPipelineColorAttachmentDescriptor Object(nuint attachmentIndex)
     {
-        MTLTileRenderPipelineColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorArraySelector.Object, attachmentIndex));
+        MTLTileRenderPipelineColorAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorArraySelector.ObjectAtIndexedSubscript, attachmentIndex));
 
         return result;
     }
 
     public void SetObject(MTLTileRenderPipelineColorAttachmentDescriptor attachment, nuint attachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, attachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorArraySelector.SetObjectAtIndexedSubscript, attachment.NativePtr, attachmentIndex);
     }
 
     public static implicit operator nint(MTLTileRenderPipelineColorAttachmentDescriptorArray value)
@@ -63,7 +63,7 @@ public class MTLTileRenderPipelineColorAttachmentDescriptorArray : IDisposable
 
 file class MTLTileRenderPipelineColorAttachmentDescriptorArraySelector
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector ObjectAtIndexedSubscript = Selector.Register("objectAtIndexedSubscript:");
 
-    public static readonly Selector SetObjectAttachmentIndex = Selector.Register("setObject:attachmentIndex:");
+    public static readonly Selector SetObjectAtIndexedSubscript = Selector.Register("setObject:atIndexedSubscript:");
 }

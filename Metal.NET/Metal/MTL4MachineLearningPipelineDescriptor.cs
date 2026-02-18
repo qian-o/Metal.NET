@@ -49,12 +49,12 @@ public class MTL4MachineLearningPipelineDescriptor : IDisposable
 
     public void SetInputDimensions(MTLTensorExtents dimensions, nint bufferIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetInputDimensionsBufferIndex, dimensions.NativePtr, bufferIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetInputDimensionsWithRange, dimensions.NativePtr, bufferIndex);
     }
 
     public void SetInputDimensions(NSArray dimensions, NSRange range)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetInputDimensionsRange, dimensions.NativePtr, range);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorSelector.SetInputDimensionsWithRange, dimensions.NativePtr, range);
     }
 
     public static implicit operator nint(MTL4MachineLearningPipelineDescriptor value)
@@ -97,7 +97,5 @@ file class MTL4MachineLearningPipelineDescriptorSelector
 
     public static readonly Selector Reset = Selector.Register("reset");
 
-    public static readonly Selector SetInputDimensionsBufferIndex = Selector.Register("setInputDimensions:bufferIndex:");
-
-    public static readonly Selector SetInputDimensionsRange = Selector.Register("setInputDimensions:range:");
+    public static readonly Selector SetInputDimensionsWithRange = Selector.Register("setInputDimensions:withRange:");
 }

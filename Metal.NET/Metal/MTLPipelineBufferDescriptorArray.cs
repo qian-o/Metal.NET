@@ -25,14 +25,14 @@ public class MTLPipelineBufferDescriptorArray : IDisposable
 
     public MTLPipelineBufferDescriptor Object(nuint bufferIndex)
     {
-        MTLPipelineBufferDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPipelineBufferDescriptorArraySelector.Object, bufferIndex));
+        MTLPipelineBufferDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPipelineBufferDescriptorArraySelector.ObjectAtIndexedSubscript, bufferIndex));
 
         return result;
     }
 
     public void SetObject(MTLPipelineBufferDescriptor buffer, nuint bufferIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorArraySelector.SetObjectBufferIndex, buffer.NativePtr, bufferIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorArraySelector.SetObjectAtIndexedSubscript, buffer.NativePtr, bufferIndex);
     }
 
     public static implicit operator nint(MTLPipelineBufferDescriptorArray value)
@@ -63,7 +63,7 @@ public class MTLPipelineBufferDescriptorArray : IDisposable
 
 file class MTLPipelineBufferDescriptorArraySelector
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector ObjectAtIndexedSubscript = Selector.Register("objectAtIndexedSubscript:");
 
-    public static readonly Selector SetObjectBufferIndex = Selector.Register("setObject:bufferIndex:");
+    public static readonly Selector SetObjectAtIndexedSubscript = Selector.Register("setObject:atIndexedSubscript:");
 }

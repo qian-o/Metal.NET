@@ -25,7 +25,7 @@ public class MTLAttribute : IDisposable
 
     public Bool8 Active
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.Active);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.IsActive);
     }
 
     public nuint AttributeIndex
@@ -60,12 +60,12 @@ public class MTLAttribute : IDisposable
 
     public Bool8 PatchControlPointData
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.PatchControlPointData);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.IsPatchControlPointData);
     }
 
     public Bool8 PatchData
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.PatchData);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.IsPatchData);
     }
 
     public static implicit operator nint(MTLAttribute value)
@@ -96,21 +96,15 @@ public class MTLAttribute : IDisposable
 
 file class MTLAttributeSelector
 {
-    public static readonly Selector Active = Selector.Register("active");
+    public static readonly Selector IsActive = Selector.Register("isActive");
 
     public static readonly Selector AttributeIndex = Selector.Register("attributeIndex");
 
     public static readonly Selector AttributeType = Selector.Register("attributeType");
-
-    public static readonly Selector IsActive = Selector.Register("isActive");
 
     public static readonly Selector IsPatchControlPointData = Selector.Register("isPatchControlPointData");
 
     public static readonly Selector IsPatchData = Selector.Register("isPatchData");
 
     public static readonly Selector Name = Selector.Register("name");
-
-    public static readonly Selector PatchControlPointData = Selector.Register("patchControlPointData");
-
-    public static readonly Selector PatchData = Selector.Register("patchData");
 }

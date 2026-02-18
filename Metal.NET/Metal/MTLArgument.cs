@@ -30,7 +30,7 @@ public class MTLArgument : IDisposable
 
     public Bool8 Active
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLArgumentSelector.Active);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLArgumentSelector.IsActive);
     }
 
     public nuint ArrayLength
@@ -138,7 +138,7 @@ file class MTLArgumentSelector
 {
     public static readonly Selector Access = Selector.Register("access");
 
-    public static readonly Selector Active = Selector.Register("active");
+    public static readonly Selector IsActive = Selector.Register("isActive");
 
     public static readonly Selector ArrayLength = Selector.Register("arrayLength");
 
@@ -153,8 +153,6 @@ file class MTLArgumentSelector
     public static readonly Selector BufferStructType = Selector.Register("bufferStructType");
 
     public static readonly Selector Index = Selector.Register("index");
-
-    public static readonly Selector IsActive = Selector.Register("isActive");
 
     public static readonly Selector IsDepthTexture = Selector.Register("isDepthTexture");
 

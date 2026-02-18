@@ -31,7 +31,7 @@ public class MTLRenderPipelineColorAttachmentDescriptor : IDisposable
 
     public Bool8 BlendingEnabled
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.BlendingEnabled);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.IsBlendingEnabled);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorSelector.SetBlendingEnabled, value);
     }
 
@@ -114,7 +114,7 @@ file class MTLRenderPipelineColorAttachmentDescriptorSelector
 
     public static readonly Selector SetAlphaBlendOperation = Selector.Register("setAlphaBlendOperation:");
 
-    public static readonly Selector BlendingEnabled = Selector.Register("blendingEnabled");
+    public static readonly Selector IsBlendingEnabled = Selector.Register("isBlendingEnabled");
 
     public static readonly Selector SetBlendingEnabled = Selector.Register("setBlendingEnabled:");
 
@@ -125,8 +125,6 @@ file class MTLRenderPipelineColorAttachmentDescriptorSelector
     public static readonly Selector DestinationRGBBlendFactor = Selector.Register("destinationRGBBlendFactor");
 
     public static readonly Selector SetDestinationRGBBlendFactor = Selector.Register("setDestinationRGBBlendFactor:");
-
-    public static readonly Selector IsBlendingEnabled = Selector.Register("isBlendingEnabled");
 
     public static readonly Selector PixelFormat = Selector.Register("pixelFormat");
 

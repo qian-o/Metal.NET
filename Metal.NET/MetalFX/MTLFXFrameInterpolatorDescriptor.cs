@@ -89,14 +89,14 @@ public class MTLFXFrameInterpolatorDescriptor : IDisposable
 
     public MTLFXFrameInterpolator NewFrameInterpolator(MTLDevice pDevice)
     {
-        MTLFXFrameInterpolator result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.NewFrameInterpolator, pDevice.NativePtr));
+        MTLFXFrameInterpolator result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.NewFrameInterpolatorWithDeviceCompiler, pDevice.NativePtr));
 
         return result;
     }
 
-    public MTLFXFrameInterpolator NewFrameInterpolator(MTLDevice pDevice, MTL4Compiler pCompiler)
+    public MTL4FXFrameInterpolator NewFrameInterpolator(MTLDevice pDevice, MTL4Compiler pCompiler)
     {
-        MTLFXFrameInterpolator result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.NewFrameInterpolatorPCompiler, pDevice.NativePtr, pCompiler.NativePtr));
+        MTL4FXFrameInterpolator result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorSelector.NewFrameInterpolatorWithDeviceCompiler, pDevice.NativePtr, pCompiler.NativePtr));
 
         return result;
     }
@@ -183,9 +183,7 @@ file class MTLFXFrameInterpolatorDescriptorSelector
 
     public static readonly Selector SetUITextureFormat = Selector.Register("setUITextureFormat:");
 
-    public static readonly Selector NewFrameInterpolator = Selector.Register("newFrameInterpolator:");
-
-    public static readonly Selector NewFrameInterpolatorPCompiler = Selector.Register("newFrameInterpolator:pCompiler:");
+    public static readonly Selector NewFrameInterpolatorWithDeviceCompiler = Selector.Register("newFrameInterpolatorWithDevice:compiler:");
 
     public static readonly Selector SupportsMetal4FX = Selector.Register("supportsMetal4FX:");
 

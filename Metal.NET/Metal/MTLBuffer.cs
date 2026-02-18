@@ -61,7 +61,7 @@ public class MTLBuffer : IDisposable
 
     public MTLTensor NewTensor(MTLTensorDescriptor descriptor, nuint offset, out NSError? error)
     {
-        MTLTensor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.NewTensorOffsetError, descriptor.NativePtr, offset, out nint errorPtr));
+        MTLTensor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.NewTensorWithDescriptorOffsetError, descriptor.NativePtr, offset, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -70,7 +70,7 @@ public class MTLBuffer : IDisposable
 
     public MTLTexture NewTexture(MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow)
     {
-        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.NewTextureOffsetBytesPerRow, descriptor.NativePtr, offset, bytesPerRow));
+        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.NewTextureWithDescriptorOffsetBytesPerRow, descriptor.NativePtr, offset, bytesPerRow));
 
         return result;
     }
@@ -124,9 +124,9 @@ file class MTLBufferSelector
 
     public static readonly Selector NewRemoteBufferViewForDevice = Selector.Register("newRemoteBufferViewForDevice:");
 
-    public static readonly Selector NewTensorOffsetError = Selector.Register("newTensor:offset:error:");
+    public static readonly Selector NewTensorWithDescriptorOffsetError = Selector.Register("newTensorWithDescriptor:offset:error:");
 
-    public static readonly Selector NewTextureOffsetBytesPerRow = Selector.Register("newTexture:offset:bytesPerRow:");
+    public static readonly Selector NewTextureWithDescriptorOffsetBytesPerRow = Selector.Register("newTextureWithDescriptor:offset:bytesPerRow:");
 
     public static readonly Selector RemoveAllDebugMarkers = Selector.Register("removeAllDebugMarkers");
 }

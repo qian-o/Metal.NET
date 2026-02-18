@@ -40,12 +40,12 @@ public class MTL4CommandBuffer : IDisposable
 
     public void BeginCommandBuffer(MTL4CommandAllocator allocator)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.BeginCommandBuffer, allocator.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.BeginCommandBufferWithAllocatorOptions, allocator.NativePtr);
     }
 
     public void BeginCommandBuffer(MTL4CommandAllocator allocator, MTL4CommandBufferOptions options)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.BeginCommandBufferOptions, allocator.NativePtr, options.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.BeginCommandBufferWithAllocatorOptions, allocator.NativePtr, options.NativePtr);
     }
 
     public void EndCommandBuffer()
@@ -65,21 +65,21 @@ public class MTL4CommandBuffer : IDisposable
 
     public MTL4RenderCommandEncoder RenderCommandEncoder(MTL4RenderPassDescriptor descriptor)
     {
-        MTL4RenderCommandEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.RenderCommandEncoder, descriptor.NativePtr));
+        MTL4RenderCommandEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.RenderCommandEncoderWithDescriptorOptions, descriptor.NativePtr));
 
         return result;
     }
 
     public MTL4RenderCommandEncoder RenderCommandEncoder(MTL4RenderPassDescriptor descriptor, MTL4RenderEncoderOptions options)
     {
-        MTL4RenderCommandEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.RenderCommandEncoderOptions, descriptor.NativePtr, (ulong)options));
+        MTL4RenderCommandEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.RenderCommandEncoderWithDescriptorOptions, descriptor.NativePtr, (ulong)options));
 
         return result;
     }
 
     public void ResolveCounterHeap(MTL4CounterHeap counterHeap, NSRange range, MTL4BufferRange bufferRange, MTLFence fenceToWait, MTLFence fenceToUpdate)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.ResolveCounterHeapRangeBufferRangeFenceToWaitFenceToUpdate, counterHeap.NativePtr, range, bufferRange, fenceToWait.NativePtr, fenceToUpdate.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.ResolveCounterHeapWithRangeIntoBufferWaitFenceUpdateFence, counterHeap.NativePtr, range, bufferRange, fenceToWait.NativePtr, fenceToUpdate.NativePtr);
     }
 
     public void UseResidencySet(MTLResidencySet residencySet)
@@ -89,7 +89,7 @@ public class MTL4CommandBuffer : IDisposable
 
     public void WriteTimestampIntoHeap(MTL4CounterHeap counterHeap, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.WriteTimestampIntoHeapIndex, counterHeap.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.WriteTimestampIntoHeapAtIndex, counterHeap.NativePtr, index);
     }
 
     public static implicit operator nint(MTL4CommandBuffer value)
@@ -130,9 +130,7 @@ file class MTL4CommandBufferSelector
 
     public static readonly Selector MachineLearningCommandEncoder = Selector.Register("machineLearningCommandEncoder");
 
-    public static readonly Selector BeginCommandBuffer = Selector.Register("beginCommandBuffer:");
-
-    public static readonly Selector BeginCommandBufferOptions = Selector.Register("beginCommandBuffer:options:");
+    public static readonly Selector BeginCommandBufferWithAllocatorOptions = Selector.Register("beginCommandBufferWithAllocator:options:");
 
     public static readonly Selector EndCommandBuffer = Selector.Register("endCommandBuffer");
 
@@ -140,13 +138,11 @@ file class MTL4CommandBufferSelector
 
     public static readonly Selector PushDebugGroup = Selector.Register("pushDebugGroup:");
 
-    public static readonly Selector RenderCommandEncoder = Selector.Register("renderCommandEncoder:");
+    public static readonly Selector RenderCommandEncoderWithDescriptorOptions = Selector.Register("renderCommandEncoderWithDescriptor:options:");
 
-    public static readonly Selector RenderCommandEncoderOptions = Selector.Register("renderCommandEncoder:options:");
-
-    public static readonly Selector ResolveCounterHeapRangeBufferRangeFenceToWaitFenceToUpdate = Selector.Register("resolveCounterHeap:range:bufferRange:fenceToWait:fenceToUpdate:");
+    public static readonly Selector ResolveCounterHeapWithRangeIntoBufferWaitFenceUpdateFence = Selector.Register("resolveCounterHeap:withRange:intoBuffer:waitFence:updateFence:");
 
     public static readonly Selector UseResidencySet = Selector.Register("useResidencySet:");
 
-    public static readonly Selector WriteTimestampIntoHeapIndex = Selector.Register("writeTimestampIntoHeap:index:");
+    public static readonly Selector WriteTimestampIntoHeapAtIndex = Selector.Register("writeTimestampIntoHeap:atIndex:");
 }

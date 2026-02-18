@@ -25,14 +25,14 @@ public class MTLVertexAttributeDescriptorArray : IDisposable
 
     public MTLVertexAttributeDescriptor Object(nuint index)
     {
-        MTLVertexAttributeDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeDescriptorArraySelector.Object, index));
+        MTLVertexAttributeDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeDescriptorArraySelector.ObjectAtIndexedSubscript, index));
 
         return result;
     }
 
     public void SetObject(MTLVertexAttributeDescriptor attributeDesc, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorArraySelector.SetObjectIndex, attributeDesc.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorArraySelector.SetObjectAtIndexedSubscript, attributeDesc.NativePtr, index);
     }
 
     public static implicit operator nint(MTLVertexAttributeDescriptorArray value)
@@ -63,7 +63,7 @@ public class MTLVertexAttributeDescriptorArray : IDisposable
 
 file class MTLVertexAttributeDescriptorArraySelector
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector ObjectAtIndexedSubscript = Selector.Register("objectAtIndexedSubscript:");
 
-    public static readonly Selector SetObjectIndex = Selector.Register("setObject:index:");
+    public static readonly Selector SetObjectAtIndexedSubscript = Selector.Register("setObject:atIndexedSubscript:");
 }

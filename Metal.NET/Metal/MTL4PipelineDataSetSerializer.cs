@@ -28,7 +28,7 @@ public class MTL4PipelineDataSetSerializer : IDisposable
 
     public nint SerializeAsPipelinesScript(out NSError? error)
     {
-        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDataSetSerializerSelector.SerializeAsPipelinesScript, out nint errorPtr);
+        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDataSetSerializerSelector.SerializeAsPipelinesScriptWithError, out nint errorPtr);
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -65,5 +65,5 @@ file class MTL4PipelineDataSetSerializerSelector
 {
     public static readonly Selector SerializeAsArchiveAndFlushToURLError = Selector.Register("serializeAsArchiveAndFlushToURL:error:");
 
-    public static readonly Selector SerializeAsPipelinesScript = Selector.Register("serializeAsPipelinesScript:");
+    public static readonly Selector SerializeAsPipelinesScriptWithError = Selector.Register("serializeAsPipelinesScriptWithError:");
 }

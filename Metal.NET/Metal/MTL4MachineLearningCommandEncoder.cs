@@ -19,7 +19,7 @@ public class MTL4MachineLearningCommandEncoder : IDisposable
 
     public void DispatchNetwork(MTLHeap heap)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderSelector.DispatchNetwork, heap.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderSelector.DispatchNetworkWithIntermediatesHeap, heap.NativePtr);
     }
 
     public void SetArgumentTable(MTL4ArgumentTable argumentTable)
@@ -60,7 +60,7 @@ public class MTL4MachineLearningCommandEncoder : IDisposable
 
 file class MTL4MachineLearningCommandEncoderSelector
 {
-    public static readonly Selector DispatchNetwork = Selector.Register("dispatchNetwork:");
+    public static readonly Selector DispatchNetworkWithIntermediatesHeap = Selector.Register("dispatchNetworkWithIntermediatesHeap:");
 
     public static readonly Selector SetArgumentTable = Selector.Register("setArgumentTable:");
 

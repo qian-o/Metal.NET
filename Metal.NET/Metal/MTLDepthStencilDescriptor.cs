@@ -37,7 +37,7 @@ public class MTLDepthStencilDescriptor : IDisposable
 
     public Bool8 DepthWriteEnabled
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDepthStencilDescriptorSelector.DepthWriteEnabled);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDepthStencilDescriptorSelector.IsDepthWriteEnabled);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetDepthWriteEnabled, value);
     }
 
@@ -94,15 +94,13 @@ file class MTLDepthStencilDescriptorSelector
 
     public static readonly Selector SetDepthCompareFunction = Selector.Register("setDepthCompareFunction:");
 
-    public static readonly Selector DepthWriteEnabled = Selector.Register("depthWriteEnabled");
+    public static readonly Selector IsDepthWriteEnabled = Selector.Register("isDepthWriteEnabled");
 
     public static readonly Selector SetDepthWriteEnabled = Selector.Register("setDepthWriteEnabled:");
 
     public static readonly Selector FrontFaceStencil = Selector.Register("frontFaceStencil");
 
     public static readonly Selector SetFrontFaceStencil = Selector.Register("setFrontFaceStencil:");
-
-    public static readonly Selector IsDepthWriteEnabled = Selector.Register("isDepthWriteEnabled");
 
     public static readonly Selector Label = Selector.Register("label");
 

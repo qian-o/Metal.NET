@@ -30,17 +30,17 @@ public class MTLFunctionConstantValues : IDisposable
 
     public void SetConstantValue(nint value, MTLDataType type, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValueTypeIndex, value, (ulong)type, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValueTypeWithName, value, (ulong)type, index);
     }
 
     public void SetConstantValue(nint value, MTLDataType type, NSString name)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValueTypeName, value, (ulong)type, name.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValueTypeWithName, value, (ulong)type, name.NativePtr);
     }
 
     public void SetConstantValues(nint values, MTLDataType type, NSRange range)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValuesTypeRange, values, (ulong)type, range);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValuesTypeWithRange, values, (ulong)type, range);
     }
 
     public static implicit operator nint(MTLFunctionConstantValues value)
@@ -73,9 +73,7 @@ file class MTLFunctionConstantValuesSelector
 {
     public static readonly Selector Reset = Selector.Register("reset");
 
-    public static readonly Selector SetConstantValueTypeIndex = Selector.Register("setConstantValue:type:index:");
+    public static readonly Selector SetConstantValueTypeWithName = Selector.Register("setConstantValue:type:withName:");
 
-    public static readonly Selector SetConstantValueTypeName = Selector.Register("setConstantValue:type:name:");
-
-    public static readonly Selector SetConstantValuesTypeRange = Selector.Register("setConstantValues:type:range:");
+    public static readonly Selector SetConstantValuesTypeWithRange = Selector.Register("setConstantValues:type:withRange:");
 }

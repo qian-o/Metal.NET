@@ -19,7 +19,7 @@ public class MTLCommandQueue : IDisposable
 
     public MTLCommandBuffer CommandBuffer
     {
-        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.CommandBuffer));
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.CommandBufferWithDescriptor));
     }
 
     public MTLCommandBuffer CommandBufferWithUnretainedReferences
@@ -81,7 +81,7 @@ public class MTLCommandQueue : IDisposable
 
 file class MTLCommandQueueSelector
 {
-    public static readonly Selector CommandBuffer = Selector.Register("commandBuffer");
+    public static readonly Selector CommandBufferWithDescriptor = Selector.Register("commandBufferWithDescriptor:");
 
     public static readonly Selector CommandBufferWithUnretainedReferences = Selector.Register("commandBufferWithUnretainedReferences");
 

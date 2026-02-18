@@ -75,7 +75,7 @@ public class MTLResource : IDisposable
 
     public uint SetOwner(nint task_id_token)
     {
-        uint result = ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLResourceSelector.SetOwner, task_id_token);
+        uint result = ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLResourceSelector.SetOwnerWithIdentity, task_id_token);
 
         return result;
     }
@@ -139,7 +139,7 @@ file class MTLResourceSelector
 
     public static readonly Selector MakeAliasable = Selector.Register("makeAliasable");
 
-    public static readonly Selector SetOwner = Selector.Register("setOwner:");
+    public static readonly Selector SetOwnerWithIdentity = Selector.Register("setOwnerWithIdentity:");
 
     public static readonly Selector SetPurgeableState = Selector.Register("setPurgeableState:");
 }

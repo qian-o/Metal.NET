@@ -25,14 +25,14 @@ public class MTLResourceStatePassSampleBufferAttachmentDescriptorArray : IDispos
 
     public MTLResourceStatePassSampleBufferAttachmentDescriptor Object(nuint attachmentIndex)
     {
-        MTLResourceStatePassSampleBufferAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorArraySelector.Object, attachmentIndex));
+        MTLResourceStatePassSampleBufferAttachmentDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorArraySelector.ObjectAtIndexedSubscript, attachmentIndex));
 
         return result;
     }
 
     public void SetObject(MTLResourceStatePassSampleBufferAttachmentDescriptor attachment, nuint attachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorArraySelector.SetObjectAttachmentIndex, attachment.NativePtr, attachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorArraySelector.SetObjectAtIndexedSubscript, attachment.NativePtr, attachmentIndex);
     }
 
     public static implicit operator nint(MTLResourceStatePassSampleBufferAttachmentDescriptorArray value)
@@ -63,7 +63,7 @@ public class MTLResourceStatePassSampleBufferAttachmentDescriptorArray : IDispos
 
 file class MTLResourceStatePassSampleBufferAttachmentDescriptorArraySelector
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector ObjectAtIndexedSubscript = Selector.Register("objectAtIndexedSubscript:");
 
-    public static readonly Selector SetObjectAttachmentIndex = Selector.Register("setObject:attachmentIndex:");
+    public static readonly Selector SetObjectAtIndexedSubscript = Selector.Register("setObject:atIndexedSubscript:");
 }

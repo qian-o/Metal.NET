@@ -25,14 +25,14 @@ public class MTLRasterizationRateSampleArray : IDisposable
 
     public nint Object(nuint index)
     {
-        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateSampleArraySelector.Object, index);
+        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateSampleArraySelector.ObjectAtIndexedSubscript, index);
 
         return result;
     }
 
     public void SetObject(nint value, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateSampleArraySelector.SetObjectIndex, value, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateSampleArraySelector.SetObjectAtIndexedSubscript, value, index);
     }
 
     public static implicit operator nint(MTLRasterizationRateSampleArray value)
@@ -63,7 +63,7 @@ public class MTLRasterizationRateSampleArray : IDisposable
 
 file class MTLRasterizationRateSampleArraySelector
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly Selector ObjectAtIndexedSubscript = Selector.Register("objectAtIndexedSubscript:");
 
-    public static readonly Selector SetObjectIndex = Selector.Register("setObject:index:");
+    public static readonly Selector SetObjectAtIndexedSubscript = Selector.Register("setObject:atIndexedSubscript:");
 }

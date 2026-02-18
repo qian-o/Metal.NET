@@ -52,23 +52,23 @@ public class MTLRasterizationRateMap : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapSelector.CopyParameterDataToBufferOffset, buffer.NativePtr, offset);
     }
 
-    public MTLSamplePosition MapPhysicalToScreenCoordinates(MTLSamplePosition physicalCoordinates, nuint layerIndex)
+    public MTLCoordinate2D MapPhysicalToScreenCoordinates(MTLCoordinate2D physicalCoordinates, nuint layerIndex)
     {
-        MTLSamplePosition result = ObjectiveCRuntime.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapSelector.MapPhysicalToScreenCoordinatesLayerIndex, physicalCoordinates, layerIndex);
+        MTLCoordinate2D result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapSelector.MapPhysicalToScreenCoordinatesForLayer, physicalCoordinates.NativePtr, layerIndex));
 
         return result;
     }
 
-    public MTLSamplePosition MapScreenToPhysicalCoordinates(MTLSamplePosition screenCoordinates, nuint layerIndex)
+    public MTLCoordinate2D MapScreenToPhysicalCoordinates(MTLCoordinate2D screenCoordinates, nuint layerIndex)
     {
-        MTLSamplePosition result = ObjectiveCRuntime.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapSelector.MapScreenToPhysicalCoordinatesLayerIndex, screenCoordinates, layerIndex);
+        MTLCoordinate2D result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapSelector.MapScreenToPhysicalCoordinatesForLayer, screenCoordinates.NativePtr, layerIndex));
 
         return result;
     }
 
     public MTLSize PhysicalSize(nuint layerIndex)
     {
-        MTLSize result = ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapSelector.PhysicalSize, layerIndex);
+        MTLSize result = ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapSelector.PhysicalSizeForLayer, layerIndex);
 
         return result;
     }
@@ -115,9 +115,9 @@ file class MTLRasterizationRateMapSelector
 
     public static readonly Selector CopyParameterDataToBufferOffset = Selector.Register("copyParameterDataToBuffer:offset:");
 
-    public static readonly Selector MapPhysicalToScreenCoordinatesLayerIndex = Selector.Register("mapPhysicalToScreenCoordinates:layerIndex:");
+    public static readonly Selector MapPhysicalToScreenCoordinatesForLayer = Selector.Register("mapPhysicalToScreenCoordinates:forLayer:");
 
-    public static readonly Selector MapScreenToPhysicalCoordinatesLayerIndex = Selector.Register("mapScreenToPhysicalCoordinates:layerIndex:");
+    public static readonly Selector MapScreenToPhysicalCoordinatesForLayer = Selector.Register("mapScreenToPhysicalCoordinates:forLayer:");
 
-    public static readonly Selector PhysicalSize = Selector.Register("physicalSize:");
+    public static readonly Selector PhysicalSizeForLayer = Selector.Register("physicalSizeForLayer:");
 }

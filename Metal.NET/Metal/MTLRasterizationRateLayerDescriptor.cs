@@ -28,9 +28,9 @@ public class MTLRasterizationRateLayerDescriptor : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.Horizontal));
     }
 
-    public nint HorizontalSampleStorage
+    public MTLfloat HorizontalSampleStorage
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.HorizontalSampleStorage);
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.HorizontalSampleStorage));
     }
 
     public MTLSize MaxSampleCount
@@ -49,9 +49,9 @@ public class MTLRasterizationRateLayerDescriptor : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.Vertical));
     }
 
-    public nint VerticalSampleStorage
+    public MTLfloat VerticalSampleStorage
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.VerticalSampleStorage);
+        get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorSelector.VerticalSampleStorage));
     }
 
     public static implicit operator nint(MTLRasterizationRateLayerDescriptor value)

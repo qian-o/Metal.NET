@@ -69,28 +69,28 @@ public class MTLComputePipelineState : IDisposable
 
     public MTLFunctionHandle FunctionHandle(NSString name)
     {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.FunctionHandle, name.NativePtr));
+        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.FunctionHandleWithFunction, name.NativePtr));
 
         return result;
     }
 
     public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function)
     {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.FunctionHandle, function.NativePtr));
+        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.FunctionHandleWithFunction, function.NativePtr));
 
         return result;
     }
 
     public MTLFunctionHandle FunctionHandle(MTLFunction function)
     {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.FunctionHandle, function.NativePtr));
+        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.FunctionHandleWithFunction, function.NativePtr));
 
         return result;
     }
 
     public nuint ImageblockMemoryLength(MTLSize imageblockDimensions)
     {
-        nuint result = ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineStateSelector.ImageblockMemoryLength, imageblockDimensions);
+        nuint result = ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineStateSelector.ImageblockMemoryLengthForDimensions, imageblockDimensions);
 
         return result;
     }
@@ -106,7 +106,7 @@ public class MTLComputePipelineState : IDisposable
 
     public MTLComputePipelineState NewComputePipelineState(NSArray functions, out NSError? error)
     {
-        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.NewComputePipelineStateError, functions.NativePtr, out nint errorPtr));
+        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.NewComputePipelineStateWithAdditionalBinaryFunctionsError, functions.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -115,14 +115,14 @@ public class MTLComputePipelineState : IDisposable
 
     public MTLIntersectionFunctionTable NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor)
     {
-        MTLIntersectionFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.NewIntersectionFunctionTable, descriptor.NativePtr));
+        MTLIntersectionFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.NewIntersectionFunctionTableWithDescriptor, descriptor.NativePtr));
 
         return result;
     }
 
     public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor)
     {
-        MTLVisibleFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.NewVisibleFunctionTable, descriptor.NativePtr));
+        MTLVisibleFunctionTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateSelector.NewVisibleFunctionTableWithDescriptor, descriptor.NativePtr));
 
         return result;
     }
@@ -175,15 +175,15 @@ file class MTLComputePipelineStateSelector
 
     public static readonly Selector ThreadExecutionWidth = Selector.Register("threadExecutionWidth");
 
-    public static readonly Selector FunctionHandle = Selector.Register("functionHandle:");
+    public static readonly Selector FunctionHandleWithFunction = Selector.Register("functionHandleWithFunction:");
 
-    public static readonly Selector ImageblockMemoryLength = Selector.Register("imageblockMemoryLength:");
+    public static readonly Selector ImageblockMemoryLengthForDimensions = Selector.Register("imageblockMemoryLengthForDimensions:");
 
     public static readonly Selector NewComputePipelineStateWithBinaryFunctionsError = Selector.Register("newComputePipelineStateWithBinaryFunctions:error:");
 
-    public static readonly Selector NewComputePipelineStateError = Selector.Register("newComputePipelineState:error:");
+    public static readonly Selector NewComputePipelineStateWithAdditionalBinaryFunctionsError = Selector.Register("newComputePipelineStateWithAdditionalBinaryFunctions:error:");
 
-    public static readonly Selector NewIntersectionFunctionTable = Selector.Register("newIntersectionFunctionTable:");
+    public static readonly Selector NewIntersectionFunctionTableWithDescriptor = Selector.Register("newIntersectionFunctionTableWithDescriptor:");
 
-    public static readonly Selector NewVisibleFunctionTable = Selector.Register("newVisibleFunctionTable:");
+    public static readonly Selector NewVisibleFunctionTableWithDescriptor = Selector.Register("newVisibleFunctionTableWithDescriptor:");
 }

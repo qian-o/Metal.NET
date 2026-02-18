@@ -137,7 +137,7 @@ public class MTL4MeshRenderPipelineDescriptor : IDisposable
 
     public Bool8 RasterizationEnabled
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.RasterizationEnabled);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.IsRasterizationEnabled);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorSelector.SetRasterizationEnabled, value);
     }
 
@@ -281,8 +281,6 @@ file class MTL4MeshRenderPipelineDescriptorSelector
     public static readonly Selector RasterSampleCount = Selector.Register("rasterSampleCount");
 
     public static readonly Selector SetRasterSampleCount = Selector.Register("setRasterSampleCount:");
-
-    public static readonly Selector RasterizationEnabled = Selector.Register("rasterizationEnabled");
 
     public static readonly Selector SetRasterizationEnabled = Selector.Register("setRasterizationEnabled:");
 

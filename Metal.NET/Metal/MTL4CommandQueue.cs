@@ -34,12 +34,12 @@ public class MTL4CommandQueue : IDisposable
 
     public void CopyBufferMappingsFromBuffer(MTLBuffer sourceBuffer, MTLBuffer destinationBuffer, MTL4CopySparseBufferMappingOperation operations, nuint count)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.CopyBufferMappingsFromBufferDestinationBufferOperationsCount, sourceBuffer.NativePtr, destinationBuffer.NativePtr, operations, count);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.CopyBufferMappingsFromBufferToBufferOperationsCount, sourceBuffer.NativePtr, destinationBuffer.NativePtr, operations, count);
     }
 
     public void CopyTextureMappingsFromTexture(MTLTexture sourceTexture, MTLTexture destinationTexture, MTL4CopySparseTextureMappingOperation operations, nuint count)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.CopyTextureMappingsFromTextureDestinationTextureOperationsCount, sourceTexture.NativePtr, destinationTexture.NativePtr, operations, count);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.CopyTextureMappingsFromTextureToTextureOperationsCount, sourceTexture.NativePtr, destinationTexture.NativePtr, operations, count);
     }
 
     public void RemoveResidencySet(MTLResidencySet residencySet)
@@ -69,12 +69,12 @@ public class MTL4CommandQueue : IDisposable
 
     public void Wait(MTLEvent @event, nuint value)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.WaitValue, @event.NativePtr, value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.WaitForDrawable, @event.NativePtr, value);
     }
 
     public void Wait(MTLDrawable drawable)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.Wait, drawable.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueSelector.WaitForDrawable, drawable.NativePtr);
     }
 
     public static implicit operator nint(MTL4CommandQueue value)
@@ -111,9 +111,9 @@ file class MTL4CommandQueueSelector
 
     public static readonly Selector AddResidencySet = Selector.Register("addResidencySet:");
 
-    public static readonly Selector CopyBufferMappingsFromBufferDestinationBufferOperationsCount = Selector.Register("copyBufferMappingsFromBuffer:destinationBuffer:operations:count:");
+    public static readonly Selector CopyBufferMappingsFromBufferToBufferOperationsCount = Selector.Register("copyBufferMappingsFromBuffer:toBuffer:operations:count:");
 
-    public static readonly Selector CopyTextureMappingsFromTextureDestinationTextureOperationsCount = Selector.Register("copyTextureMappingsFromTexture:destinationTexture:operations:count:");
+    public static readonly Selector CopyTextureMappingsFromTextureToTextureOperationsCount = Selector.Register("copyTextureMappingsFromTexture:toTexture:operations:count:");
 
     public static readonly Selector RemoveResidencySet = Selector.Register("removeResidencySet:");
 
@@ -125,7 +125,5 @@ file class MTL4CommandQueueSelector
 
     public static readonly Selector UpdateTextureMappingsHeapOperationsCount = Selector.Register("updateTextureMappings:heap:operations:count:");
 
-    public static readonly Selector WaitValue = Selector.Register("wait:value:");
-
-    public static readonly Selector Wait = Selector.Register("wait:");
+    public static readonly Selector WaitForDrawable = Selector.Register("waitForDrawable:");
 }

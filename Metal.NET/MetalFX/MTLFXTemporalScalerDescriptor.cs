@@ -127,14 +127,14 @@ public class MTLFXTemporalScalerDescriptor : IDisposable
 
     public MTLFXTemporalScaler NewTemporalScaler(MTLDevice pDevice)
     {
-        MTLFXTemporalScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerDescriptorSelector.NewTemporalScaler, pDevice.NativePtr));
+        MTLFXTemporalScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerDescriptorSelector.NewTemporalScalerWithDeviceCompiler, pDevice.NativePtr));
 
         return result;
     }
 
-    public MTLFXTemporalScaler NewTemporalScaler(MTLDevice pDevice, MTL4Compiler pCompiler)
+    public MTL4FXTemporalScaler NewTemporalScaler(MTLDevice pDevice, MTL4Compiler pCompiler)
     {
-        MTLFXTemporalScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerDescriptorSelector.NewTemporalScalerPCompiler, pDevice.NativePtr, pCompiler.NativePtr));
+        MTL4FXTemporalScaler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerDescriptorSelector.NewTemporalScalerWithDeviceCompiler, pDevice.NativePtr, pCompiler.NativePtr));
 
         return result;
     }
@@ -151,14 +151,14 @@ public class MTLFXTemporalScalerDescriptor : IDisposable
 
     public static float SupportedInputContentMinScale(MTLDevice pDevice)
     {
-        float result = ObjectiveCRuntime.MsgSendFloat(Class, MTLFXTemporalScalerDescriptorSelector.SupportedInputContentMinScale, pDevice.NativePtr);
+        float result = ObjectiveCRuntime.MsgSendFloat(Class, MTLFXTemporalScalerDescriptorSelector.SupportedInputContentMinScaleForDevice, pDevice.NativePtr);
 
         return result;
     }
 
     public static float SupportedInputContentMaxScale(MTLDevice pDevice)
     {
-        float result = ObjectiveCRuntime.MsgSendFloat(Class, MTLFXTemporalScalerDescriptorSelector.SupportedInputContentMaxScale, pDevice.NativePtr);
+        float result = ObjectiveCRuntime.MsgSendFloat(Class, MTLFXTemporalScalerDescriptorSelector.SupportedInputContentMaxScaleForDevice, pDevice.NativePtr);
 
         return result;
     }
@@ -255,13 +255,11 @@ file class MTLFXTemporalScalerDescriptorSelector
 
     public static readonly Selector SetReactiveMaskTextureEnabled = Selector.Register("setReactiveMaskTextureEnabled:");
 
-    public static readonly Selector NewTemporalScaler = Selector.Register("newTemporalScaler:");
+    public static readonly Selector NewTemporalScalerWithDeviceCompiler = Selector.Register("newTemporalScalerWithDevice:compiler:");
 
-    public static readonly Selector NewTemporalScalerPCompiler = Selector.Register("newTemporalScaler:pCompiler:");
+    public static readonly Selector SupportedInputContentMinScaleForDevice = Selector.Register("supportedInputContentMinScaleForDevice:");
 
-    public static readonly Selector SupportedInputContentMinScale = Selector.Register("supportedInputContentMinScale:");
-
-    public static readonly Selector SupportedInputContentMaxScale = Selector.Register("supportedInputContentMaxScale:");
+    public static readonly Selector SupportedInputContentMaxScaleForDevice = Selector.Register("supportedInputContentMaxScaleForDevice:");
 
     public static readonly Selector SupportsDevice = Selector.Register("supportsDevice:");
 

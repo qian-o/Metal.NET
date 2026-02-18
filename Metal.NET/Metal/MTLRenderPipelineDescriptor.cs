@@ -25,13 +25,13 @@ public class MTLRenderPipelineDescriptor : IDisposable
 
     public Bool8 AlphaToCoverageEnabled
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.AlphaToCoverageEnabled);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.IsAlphaToCoverageEnabled);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetAlphaToCoverageEnabled, value);
     }
 
     public Bool8 AlphaToOneEnabled
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.AlphaToOneEnabled);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.IsAlphaToOneEnabled);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetAlphaToOneEnabled, value);
     }
 
@@ -139,7 +139,7 @@ public class MTLRenderPipelineDescriptor : IDisposable
 
     public Bool8 RasterizationEnabled
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.RasterizationEnabled);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.IsRasterizationEnabled);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetRasterizationEnabled, value);
     }
 
@@ -193,7 +193,7 @@ public class MTLRenderPipelineDescriptor : IDisposable
 
     public Bool8 TessellationFactorScaleEnabled
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.TessellationFactorScaleEnabled);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorSelector.IsTessellationFactorScaleEnabled);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorSelector.SetTessellationFactorScaleEnabled, value);
     }
 
@@ -277,11 +277,11 @@ public class MTLRenderPipelineDescriptor : IDisposable
 
 file class MTLRenderPipelineDescriptorSelector
 {
-    public static readonly Selector AlphaToCoverageEnabled = Selector.Register("alphaToCoverageEnabled");
+    public static readonly Selector IsAlphaToCoverageEnabled = Selector.Register("isAlphaToCoverageEnabled");
 
     public static readonly Selector SetAlphaToCoverageEnabled = Selector.Register("setAlphaToCoverageEnabled:");
 
-    public static readonly Selector AlphaToOneEnabled = Selector.Register("alphaToOneEnabled");
+    public static readonly Selector IsAlphaToOneEnabled = Selector.Register("isAlphaToOneEnabled");
 
     public static readonly Selector SetAlphaToOneEnabled = Selector.Register("setAlphaToOneEnabled:");
 
@@ -313,10 +313,6 @@ file class MTLRenderPipelineDescriptorSelector
 
     public static readonly Selector SetInputPrimitiveTopology = Selector.Register("setInputPrimitiveTopology:");
 
-    public static readonly Selector IsAlphaToCoverageEnabled = Selector.Register("isAlphaToCoverageEnabled");
-
-    public static readonly Selector IsAlphaToOneEnabled = Selector.Register("isAlphaToOneEnabled");
-
     public static readonly Selector IsRasterizationEnabled = Selector.Register("isRasterizationEnabled");
 
     public static readonly Selector IsTessellationFactorScaleEnabled = Selector.Register("isTessellationFactorScaleEnabled");
@@ -344,8 +340,6 @@ file class MTLRenderPipelineDescriptorSelector
     public static readonly Selector RasterSampleCount = Selector.Register("rasterSampleCount");
 
     public static readonly Selector SetRasterSampleCount = Selector.Register("setRasterSampleCount:");
-
-    public static readonly Selector RasterizationEnabled = Selector.Register("rasterizationEnabled");
 
     public static readonly Selector SetRasterizationEnabled = Selector.Register("setRasterizationEnabled:");
 
@@ -380,8 +374,6 @@ file class MTLRenderPipelineDescriptorSelector
     public static readonly Selector TessellationFactorFormat = Selector.Register("tessellationFactorFormat");
 
     public static readonly Selector SetTessellationFactorFormat = Selector.Register("setTessellationFactorFormat:");
-
-    public static readonly Selector TessellationFactorScaleEnabled = Selector.Register("tessellationFactorScaleEnabled");
 
     public static readonly Selector SetTessellationFactorScaleEnabled = Selector.Register("setTessellationFactorScaleEnabled:");
 

@@ -19,7 +19,7 @@ public class MTLIOScratchBufferAllocator : IDisposable
 
     public MTLIOScratchBuffer NewScratchBuffer(nuint minimumSize)
     {
-        MTLIOScratchBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOScratchBufferAllocatorSelector.NewScratchBuffer, minimumSize));
+        MTLIOScratchBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOScratchBufferAllocatorSelector.NewScratchBufferWithMinimumSize, minimumSize));
 
         return result;
     }
@@ -52,5 +52,5 @@ public class MTLIOScratchBufferAllocator : IDisposable
 
 file class MTLIOScratchBufferAllocatorSelector
 {
-    public static readonly Selector NewScratchBuffer = Selector.Register("newScratchBuffer:");
+    public static readonly Selector NewScratchBufferWithMinimumSize = Selector.Register("newScratchBufferWithMinimumSize:");
 }

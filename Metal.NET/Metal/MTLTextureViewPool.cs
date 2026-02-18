@@ -19,21 +19,21 @@ public class MTLTextureViewPool : IDisposable
 
     public MTLResourceID SetTextureView(MTLTexture texture, nuint index)
     {
-        MTLResourceID result = ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolSelector.SetTextureViewIndex, texture.NativePtr, index);
+        MTLResourceID result = ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolSelector.SetTextureViewDescriptorAtIndex, texture.NativePtr, index);
 
         return result;
     }
 
     public MTLResourceID SetTextureView(MTLTexture texture, MTLTextureViewDescriptor descriptor, nuint index)
     {
-        MTLResourceID result = ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolSelector.SetTextureViewDescriptorIndex, texture.NativePtr, descriptor.NativePtr, index);
+        MTLResourceID result = ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolSelector.SetTextureViewDescriptorAtIndex, texture.NativePtr, descriptor.NativePtr, index);
 
         return result;
     }
 
     public MTLResourceID SetTextureViewFromBuffer(MTLBuffer buffer, MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow, nuint index)
     {
-        MTLResourceID result = ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolSelector.SetTextureViewFromBufferDescriptorOffsetBytesPerRowIndex, buffer.NativePtr, descriptor.NativePtr, offset, bytesPerRow, index);
+        MTLResourceID result = ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolSelector.SetTextureViewFromBufferDescriptorOffsetBytesPerRowAtIndex, buffer.NativePtr, descriptor.NativePtr, offset, bytesPerRow, index);
 
         return result;
     }
@@ -66,9 +66,7 @@ public class MTLTextureViewPool : IDisposable
 
 file class MTLTextureViewPoolSelector
 {
-    public static readonly Selector SetTextureViewIndex = Selector.Register("setTextureView:index:");
+    public static readonly Selector SetTextureViewDescriptorAtIndex = Selector.Register("setTextureView:descriptor:atIndex:");
 
-    public static readonly Selector SetTextureViewDescriptorIndex = Selector.Register("setTextureView:descriptor:index:");
-
-    public static readonly Selector SetTextureViewFromBufferDescriptorOffsetBytesPerRowIndex = Selector.Register("setTextureViewFromBuffer:descriptor:offset:bytesPerRow:index:");
+    public static readonly Selector SetTextureViewFromBufferDescriptorOffsetBytesPerRowAtIndex = Selector.Register("setTextureViewFromBuffer:descriptor:offset:bytesPerRow:atIndex:");
 }

@@ -70,14 +70,14 @@ public class MTLFunction : IDisposable
 
     public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex)
     {
-        MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.NewArgumentEncoder, bufferIndex));
+        MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.NewArgumentEncoderWithBufferIndexReflection, bufferIndex));
 
         return result;
     }
 
-    public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex, nint reflection)
+    public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex, MTLAutoreleasedArgument reflection)
     {
-        MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.NewArgumentEncoderReflection, bufferIndex, reflection));
+        MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.NewArgumentEncoderWithBufferIndexReflection, bufferIndex, reflection.NativePtr));
 
         return result;
     }
@@ -132,7 +132,5 @@ file class MTLFunctionSelector
 
     public static readonly Selector VertexAttributes = Selector.Register("vertexAttributes");
 
-    public static readonly Selector NewArgumentEncoder = Selector.Register("newArgumentEncoder:");
-
-    public static readonly Selector NewArgumentEncoderReflection = Selector.Register("newArgumentEncoder:reflection:");
+    public static readonly Selector NewArgumentEncoderWithBufferIndexReflection = Selector.Register("newArgumentEncoderWithBufferIndex:reflection:");
 }

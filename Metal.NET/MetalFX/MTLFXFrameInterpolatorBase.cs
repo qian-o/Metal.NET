@@ -39,7 +39,7 @@ public class MTLFXFrameInterpolatorBase : IDisposable
 
     public MTLTextureUsage UiTextureUsage
     {
-        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseSelector.UiTextureUsage));
+        get => (MTLTextureUsage)(ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFXFrameInterpolatorBaseSelector.UiTextureFormat));
     }
 
     public MTLPixelFormat ColorTextureFormat
@@ -245,7 +245,7 @@ file class MTLFXFrameInterpolatorBaseSelector
 
     public static readonly Selector MotionTextureUsage = Selector.Register("motionTextureUsage");
 
-    public static readonly Selector UiTextureUsage = Selector.Register("uiTextureUsage");
+    public static readonly Selector UiTextureFormat = Selector.Register("uiTextureFormat");
 
     public static readonly Selector ColorTextureFormat = Selector.Register("colorTextureFormat");
 
@@ -262,8 +262,6 @@ file class MTLFXFrameInterpolatorBaseSelector
     public static readonly Selector OutputWidth = Selector.Register("outputWidth");
 
     public static readonly Selector OutputHeight = Selector.Register("outputHeight");
-
-    public static readonly Selector UiTextureFormat = Selector.Register("uiTextureFormat");
 
     public static readonly Selector ColorTexture = Selector.Register("colorTexture");
 

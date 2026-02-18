@@ -584,11 +584,11 @@ public class MetalBindingsGenerator
         _ => "nint",
     };
 
-    private static bool IsObjCWrapper(string type) => CppAstParser.IsObjCWrapper(type);
+    private static bool IsObjCWrapper(string type) => HeaderParser.IsObjCWrapper(type);
 
-    private static bool IsKnownValueStruct(string type) => CppAstParser.IsKnownValueStruct(type);
+    private static bool IsKnownValueStruct(string type) => HeaderParser.IsKnownValueStruct(type);
 
-    private static bool IsLikelyEnum(string type) => CppAstParser.IsLikelyEnum(type) || RuntimeKnownEnums.Contains(type);
+    private static bool IsLikelyEnum(string type) => HeaderParser.IsLikelyEnum(type) || RuntimeKnownEnums.Contains(type);
 
     private static void AddSelector(Dictionary<string, string> dict, string selector)
     {
@@ -624,7 +624,7 @@ public class MetalBindingsGenerator
 
         string name = sb.ToString();
 
-        if (CppAstParser.IsCSharpKeyword(name))
+        if (HeaderParser.IsCSharpKeyword(name))
         {
             name = $"@{name}";
         }

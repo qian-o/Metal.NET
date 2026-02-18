@@ -54,12 +54,12 @@ public class MTLTensor : IDisposable
 
     public void GetBytes(nint bytes, MTLTensorExtents strides, MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorSelector.GetBytesStridesSliceOriginSliceDimensions, bytes, strides.NativePtr, sliceOrigin.NativePtr, sliceDimensions.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorSelector.GetBytesStridesFromSliceOriginSliceDimensions, bytes, strides.NativePtr, sliceOrigin.NativePtr, sliceDimensions.NativePtr);
     }
 
     public void ReplaceSliceOrigin(MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions, nint bytes, MTLTensorExtents strides)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorSelector.ReplaceSliceOriginSliceDimensionsBytesStrides, sliceOrigin.NativePtr, sliceDimensions.NativePtr, bytes, strides.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorSelector.ReplaceSliceOriginSliceDimensionsWithBytesStrides, sliceOrigin.NativePtr, sliceDimensions.NativePtr, bytes, strides.NativePtr);
     }
 
     public static implicit operator nint(MTLTensor value)
@@ -104,7 +104,7 @@ file class MTLTensorSelector
 
     public static readonly Selector Usage = Selector.Register("usage");
 
-    public static readonly Selector GetBytesStridesSliceOriginSliceDimensions = Selector.Register("getBytes:strides:sliceOrigin:sliceDimensions:");
+    public static readonly Selector GetBytesStridesFromSliceOriginSliceDimensions = Selector.Register("getBytes:strides:fromSliceOrigin:sliceDimensions:");
 
-    public static readonly Selector ReplaceSliceOriginSliceDimensionsBytesStrides = Selector.Register("replaceSliceOrigin:sliceDimensions:bytes:strides:");
+    public static readonly Selector ReplaceSliceOriginSliceDimensionsWithBytesStrides = Selector.Register("replaceSliceOrigin:sliceDimensions:withBytes:strides:");
 }

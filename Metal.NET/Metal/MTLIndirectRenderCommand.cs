@@ -24,7 +24,7 @@ public class MTLIndirectRenderCommand : IDisposable
 
     public void DrawIndexedPatches(nuint numberOfPatchControlPoints, nuint patchStart, nuint patchCount, MTLBuffer patchIndexBuffer, nuint patchIndexBufferOffset, MTLBuffer controlPointIndexBuffer, nuint controlPointIndexBufferOffset, nuint instanceCount, nuint baseInstance, MTLBuffer buffer, nuint offset, nuint instanceStride)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.DrawIndexedPatchesPatchStartPatchCountPatchIndexBufferPatchIndexBufferOffsetControlPointIndexBufferControlPointIndexBufferOffsetInstanceCountBaseInstanceBufferOffsetInstanceStride, numberOfPatchControlPoints, patchStart, patchCount, patchIndexBuffer.NativePtr, patchIndexBufferOffset, controlPointIndexBuffer.NativePtr, controlPointIndexBufferOffset, instanceCount, baseInstance, buffer.NativePtr, offset, instanceStride);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.DrawIndexedPatchesPatchStartPatchCountPatchIndexBufferPatchIndexBufferOffsetControlPointIndexBufferControlPointIndexBufferOffsetInstanceCountBaseInstanceTessellationFactorBufferTessellationFactorBufferOffsetTessellationFactorBufferInstanceStride, numberOfPatchControlPoints, patchStart, patchCount, patchIndexBuffer.NativePtr, patchIndexBufferOffset, controlPointIndexBuffer.NativePtr, controlPointIndexBufferOffset, instanceCount, baseInstance, buffer.NativePtr, offset, instanceStride);
     }
 
     public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, MTLBuffer indexBuffer, nuint indexBufferOffset, nuint instanceCount, nint baseVertex, nuint baseInstance)
@@ -44,7 +44,7 @@ public class MTLIndirectRenderCommand : IDisposable
 
     public void DrawPatches(nuint numberOfPatchControlPoints, nuint patchStart, nuint patchCount, MTLBuffer patchIndexBuffer, nuint patchIndexBufferOffset, nuint instanceCount, nuint baseInstance, MTLBuffer buffer, nuint offset, nuint instanceStride)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.DrawPatchesPatchStartPatchCountPatchIndexBufferPatchIndexBufferOffsetInstanceCountBaseInstanceBufferOffsetInstanceStride, numberOfPatchControlPoints, patchStart, patchCount, patchIndexBuffer.NativePtr, patchIndexBufferOffset, instanceCount, baseInstance, buffer.NativePtr, offset, instanceStride);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.DrawPatchesPatchStartPatchCountPatchIndexBufferPatchIndexBufferOffsetInstanceCountBaseInstanceTessellationFactorBufferTessellationFactorBufferOffsetTessellationFactorBufferInstanceStride, numberOfPatchControlPoints, patchStart, patchCount, patchIndexBuffer.NativePtr, patchIndexBufferOffset, instanceCount, baseInstance, buffer.NativePtr, offset, instanceStride);
     }
 
     public void DrawPrimitives(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount, nuint instanceCount, nuint baseInstance)
@@ -84,7 +84,7 @@ public class MTLIndirectRenderCommand : IDisposable
 
     public void SetFragmentBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetFragmentBufferOffsetIndex, buffer.NativePtr, offset, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetFragmentBufferOffsetAtIndex, buffer.NativePtr, offset, index);
     }
 
     public void SetFrontFacingWinding(MTLWinding frontFacingWindning)
@@ -94,17 +94,17 @@ public class MTLIndirectRenderCommand : IDisposable
 
     public void SetMeshBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetMeshBufferOffsetIndex, buffer.NativePtr, offset, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetMeshBufferOffsetAtIndex, buffer.NativePtr, offset, index);
     }
 
     public void SetObjectBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetObjectBufferOffsetIndex, buffer.NativePtr, offset, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetObjectBufferOffsetAtIndex, buffer.NativePtr, offset, index);
     }
 
     public void SetObjectThreadgroupMemoryLength(nuint length, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetObjectThreadgroupMemoryLengthIndex, length, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetObjectThreadgroupMemoryLengthAtIndex, length, index);
     }
 
     public void SetRenderPipelineState(MTLRenderPipelineState pipelineState)
@@ -119,12 +119,12 @@ public class MTLIndirectRenderCommand : IDisposable
 
     public void SetVertexBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetVertexBufferOffsetIndex, buffer.NativePtr, offset, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetVertexBufferOffsetAttributeStrideAtIndex, buffer.NativePtr, offset, index);
     }
 
     public void SetVertexBuffer(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetVertexBufferOffsetStrideIndex, buffer.NativePtr, offset, stride, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandSelector.SetVertexBufferOffsetAttributeStrideAtIndex, buffer.NativePtr, offset, stride, index);
     }
 
     public static implicit operator nint(MTLIndirectRenderCommand value)
@@ -157,7 +157,7 @@ file class MTLIndirectRenderCommandSelector
 {
     public static readonly Selector ClearBarrier = Selector.Register("clearBarrier");
 
-    public static readonly Selector DrawIndexedPatchesPatchStartPatchCountPatchIndexBufferPatchIndexBufferOffsetControlPointIndexBufferControlPointIndexBufferOffsetInstanceCountBaseInstanceBufferOffsetInstanceStride = Selector.Register("drawIndexedPatches:patchStart:patchCount:patchIndexBuffer:patchIndexBufferOffset:controlPointIndexBuffer:controlPointIndexBufferOffset:instanceCount:baseInstance:buffer:offset:instanceStride:");
+    public static readonly Selector DrawIndexedPatchesPatchStartPatchCountPatchIndexBufferPatchIndexBufferOffsetControlPointIndexBufferControlPointIndexBufferOffsetInstanceCountBaseInstanceTessellationFactorBufferTessellationFactorBufferOffsetTessellationFactorBufferInstanceStride = Selector.Register("drawIndexedPatches:patchStart:patchCount:patchIndexBuffer:patchIndexBufferOffset:controlPointIndexBuffer:controlPointIndexBufferOffset:instanceCount:baseInstance:tessellationFactorBuffer:tessellationFactorBufferOffset:tessellationFactorBufferInstanceStride:");
 
     public static readonly Selector DrawIndexedPrimitivesIndexCountIndexTypeIndexBufferIndexBufferOffsetInstanceCountBaseVertexBaseInstance = Selector.Register("drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferOffset:instanceCount:baseVertex:baseInstance:");
 
@@ -165,7 +165,7 @@ file class MTLIndirectRenderCommandSelector
 
     public static readonly Selector DrawMeshThreadsThreadsPerObjectThreadgroupThreadsPerMeshThreadgroup = Selector.Register("drawMeshThreads:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:");
 
-    public static readonly Selector DrawPatchesPatchStartPatchCountPatchIndexBufferPatchIndexBufferOffsetInstanceCountBaseInstanceBufferOffsetInstanceStride = Selector.Register("drawPatches:patchStart:patchCount:patchIndexBuffer:patchIndexBufferOffset:instanceCount:baseInstance:buffer:offset:instanceStride:");
+    public static readonly Selector DrawPatchesPatchStartPatchCountPatchIndexBufferPatchIndexBufferOffsetInstanceCountBaseInstanceTessellationFactorBufferTessellationFactorBufferOffsetTessellationFactorBufferInstanceStride = Selector.Register("drawPatches:patchStart:patchCount:patchIndexBuffer:patchIndexBufferOffset:instanceCount:baseInstance:tessellationFactorBuffer:tessellationFactorBufferOffset:tessellationFactorBufferInstanceStride:");
 
     public static readonly Selector DrawPrimitivesVertexStartVertexCountInstanceCountBaseInstance = Selector.Register("drawPrimitives:vertexStart:vertexCount:instanceCount:baseInstance:");
 
@@ -181,21 +181,19 @@ file class MTLIndirectRenderCommandSelector
 
     public static readonly Selector SetDepthStencilState = Selector.Register("setDepthStencilState:");
 
-    public static readonly Selector SetFragmentBufferOffsetIndex = Selector.Register("setFragmentBuffer:offset:index:");
+    public static readonly Selector SetFragmentBufferOffsetAtIndex = Selector.Register("setFragmentBuffer:offset:atIndex:");
 
     public static readonly Selector SetFrontFacingWinding = Selector.Register("setFrontFacingWinding:");
 
-    public static readonly Selector SetMeshBufferOffsetIndex = Selector.Register("setMeshBuffer:offset:index:");
+    public static readonly Selector SetMeshBufferOffsetAtIndex = Selector.Register("setMeshBuffer:offset:atIndex:");
 
-    public static readonly Selector SetObjectBufferOffsetIndex = Selector.Register("setObjectBuffer:offset:index:");
+    public static readonly Selector SetObjectBufferOffsetAtIndex = Selector.Register("setObjectBuffer:offset:atIndex:");
 
-    public static readonly Selector SetObjectThreadgroupMemoryLengthIndex = Selector.Register("setObjectThreadgroupMemoryLength:index:");
+    public static readonly Selector SetObjectThreadgroupMemoryLengthAtIndex = Selector.Register("setObjectThreadgroupMemoryLength:atIndex:");
 
     public static readonly Selector SetRenderPipelineState = Selector.Register("setRenderPipelineState:");
 
     public static readonly Selector SetTriangleFillMode = Selector.Register("setTriangleFillMode:");
 
-    public static readonly Selector SetVertexBufferOffsetIndex = Selector.Register("setVertexBuffer:offset:index:");
-
-    public static readonly Selector SetVertexBufferOffsetStrideIndex = Selector.Register("setVertexBuffer:offset:stride:index:");
+    public static readonly Selector SetVertexBufferOffsetAttributeStrideAtIndex = Selector.Register("setVertexBuffer:offset:attributeStride:atIndex:");
 }

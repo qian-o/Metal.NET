@@ -27,29 +27,29 @@ public class MTL4ArgumentTable : IDisposable
         get => new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArgumentTableSelector.Label));
     }
 
-    public void SetAddress(nuint gpuAddress, nuint bindingIndex)
+    public void SetAddress(MTLGPUAddress gpuAddress, nuint bindingIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetAddressBindingIndex, gpuAddress, bindingIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetAddressAttributeStrideAtIndex, gpuAddress.NativePtr, bindingIndex);
     }
 
-    public void SetAddress(nuint gpuAddress, nuint stride, nuint bindingIndex)
+    public void SetAddress(MTLGPUAddress gpuAddress, nuint stride, nuint bindingIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetAddressStrideBindingIndex, gpuAddress, stride, bindingIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetAddressAttributeStrideAtIndex, gpuAddress.NativePtr, stride, bindingIndex);
     }
 
     public void SetResource(MTLResourceID resourceID, nuint bindingIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetResourceBindingIndex, resourceID, bindingIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetResourceAtBufferIndex, resourceID, bindingIndex);
     }
 
     public void SetSamplerState(MTLResourceID resourceID, nuint bindingIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetSamplerStateBindingIndex, resourceID, bindingIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetSamplerStateAtIndex, resourceID, bindingIndex);
     }
 
     public void SetTexture(MTLResourceID resourceID, nuint bindingIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetTextureBindingIndex, resourceID, bindingIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetTextureAtIndex, resourceID, bindingIndex);
     }
 
     public static implicit operator nint(MTL4ArgumentTable value)
@@ -84,13 +84,11 @@ file class MTL4ArgumentTableSelector
 
     public static readonly Selector Label = Selector.Register("label");
 
-    public static readonly Selector SetAddressBindingIndex = Selector.Register("setAddress:bindingIndex:");
+    public static readonly Selector SetAddressAttributeStrideAtIndex = Selector.Register("setAddress:attributeStride:atIndex:");
 
-    public static readonly Selector SetAddressStrideBindingIndex = Selector.Register("setAddress:stride:bindingIndex:");
+    public static readonly Selector SetResourceAtBufferIndex = Selector.Register("setResource:atBufferIndex:");
 
-    public static readonly Selector SetResourceBindingIndex = Selector.Register("setResource:bindingIndex:");
+    public static readonly Selector SetSamplerStateAtIndex = Selector.Register("setSamplerState:atIndex:");
 
-    public static readonly Selector SetSamplerStateBindingIndex = Selector.Register("setSamplerState:bindingIndex:");
-
-    public static readonly Selector SetTextureBindingIndex = Selector.Register("setTexture:bindingIndex:");
+    public static readonly Selector SetTextureAtIndex = Selector.Register("setTexture:atIndex:");
 }

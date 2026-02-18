@@ -137,21 +137,21 @@ public class MTLTextureDescriptor : IDisposable
 
     public static MTLTextureDescriptor Texture2DDescriptor(MTLPixelFormat pixelFormat, nuint width, nuint height, Bool8 mipmapped)
     {
-        MTLTextureDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLTextureDescriptorSelector.Texture2DDescriptorWidthHeightMipmapped, (ulong)pixelFormat, width, height, mipmapped));
+        MTLTextureDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLTextureDescriptorSelector.Texture2DDescriptorWithPixelFormatWidthHeightMipmapped, (ulong)pixelFormat, width, height, mipmapped));
 
         return result;
     }
 
     public static MTLTextureDescriptor TextureBufferDescriptor(MTLPixelFormat pixelFormat, nuint width, MTLResourceOptions resourceOptions, MTLTextureUsage usage)
     {
-        MTLTextureDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLTextureDescriptorSelector.TextureBufferDescriptorWidthResourceOptionsUsage, (ulong)pixelFormat, width, (ulong)resourceOptions, (ulong)usage));
+        MTLTextureDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLTextureDescriptorSelector.TextureBufferDescriptorWithPixelFormatWidthResourceOptionsUsage, (ulong)pixelFormat, width, (ulong)resourceOptions, (ulong)usage));
 
         return result;
     }
 
     public static MTLTextureDescriptor TextureCubeDescriptor(MTLPixelFormat pixelFormat, nuint size, Bool8 mipmapped)
     {
-        MTLTextureDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLTextureDescriptorSelector.TextureCubeDescriptorSizeMipmapped, (ulong)pixelFormat, size, mipmapped));
+        MTLTextureDescriptor result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLTextureDescriptorSelector.TextureCubeDescriptorWithPixelFormatSizeMipmapped, (ulong)pixelFormat, size, mipmapped));
 
         return result;
     }
@@ -242,9 +242,9 @@ file class MTLTextureDescriptorSelector
 
     public static readonly Selector SetWidth = Selector.Register("setWidth:");
 
-    public static readonly Selector Texture2DDescriptorWidthHeightMipmapped = Selector.Register("texture2DDescriptor:width:height:mipmapped:");
+    public static readonly Selector Texture2DDescriptorWithPixelFormatWidthHeightMipmapped = Selector.Register("texture2DDescriptorWithPixelFormat:width:height:mipmapped:");
 
-    public static readonly Selector TextureBufferDescriptorWidthResourceOptionsUsage = Selector.Register("textureBufferDescriptor:width:resourceOptions:usage:");
+    public static readonly Selector TextureBufferDescriptorWithPixelFormatWidthResourceOptionsUsage = Selector.Register("textureBufferDescriptorWithPixelFormat:width:resourceOptions:usage:");
 
-    public static readonly Selector TextureCubeDescriptorSizeMipmapped = Selector.Register("textureCubeDescriptor:size:mipmapped:");
+    public static readonly Selector TextureCubeDescriptorWithPixelFormatSizeMipmapped = Selector.Register("textureCubeDescriptorWithPixelFormat:size:mipmapped:");
 }

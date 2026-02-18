@@ -46,7 +46,7 @@ public partial class MTLDevice : IDisposable
 
     public Bool8 BarycentricCoordsSupported
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.BarycentricCoordsSupported);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.AreBarycentricCoordsSupported);
     }
 
     public NSArray CounterSets
@@ -61,7 +61,7 @@ public partial class MTLDevice : IDisposable
 
     public Bool8 Depth24Stencil8PixelFormatSupported
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.Depth24Stencil8PixelFormatSupported);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.IsDepth24Stencil8PixelFormatSupported);
     }
 
     public Bool8 HasUnifiedMemory
@@ -71,7 +71,7 @@ public partial class MTLDevice : IDisposable
 
     public Bool8 Headless
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.Headless);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.IsHeadless);
     }
 
     public Bool8 IsDepth24Stencil8PixelFormatSupported
@@ -106,7 +106,7 @@ public partial class MTLDevice : IDisposable
 
     public Bool8 LowPower
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.LowPower);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.IsLowPower);
     }
 
     public nuint MaxArgumentBufferSamplerCount
@@ -161,7 +161,7 @@ public partial class MTLDevice : IDisposable
 
     public Bool8 ProgrammableSamplePositionsSupported
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.ProgrammableSamplePositionsSupported);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.AreProgrammableSamplePositionsSupported);
     }
 
     public nuint QueryTimestampFrequency
@@ -171,7 +171,7 @@ public partial class MTLDevice : IDisposable
 
     public Bool8 RasterOrderGroupsSupported
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.RasterOrderGroupsSupported);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.AreRasterOrderGroupsSupported);
     }
 
     public MTLReadWriteTextureTier ReadWriteTextureSupport
@@ -191,7 +191,7 @@ public partial class MTLDevice : IDisposable
 
     public Bool8 Removable
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.Removable);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.IsRemovable);
     }
 
     public Bool8 ShouldMaximizeConcurrentCompilation
@@ -202,7 +202,7 @@ public partial class MTLDevice : IDisposable
 
     public nuint SparseTileSizeInBytes
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.SparseTileSizeInBytes);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceSelector.SparseTileSizeInBytesForSparsePageSize);
     }
 
     public Bool8 Supports32BitFloatFiltering
@@ -272,31 +272,31 @@ public partial class MTLDevice : IDisposable
 
     public nint AccelerationStructureSizes(MTLAccelerationStructureDescriptor descriptor)
     {
-        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.AccelerationStructureSizes, descriptor.NativePtr);
+        nint result = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.AccelerationStructureSizesWithDescriptor, descriptor.NativePtr);
 
         return result;
     }
 
     public void ConvertSparsePixelRegions(MTLRegion pixelRegions, MTLRegion tileRegions, MTLSize tileSize, MTLSparseTextureRegionAlignmentMode mode, nuint numRegions)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.ConvertSparsePixelRegionsTileRegionsTileSizeModeNumRegions, pixelRegions, tileRegions, tileSize, (ulong)mode, numRegions);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.ConvertSparsePixelRegionsToTileRegionsWithTileSizeAlignmentModeNumRegions, pixelRegions, tileRegions, tileSize, (ulong)mode, numRegions);
     }
 
     public void ConvertSparseTileRegions(MTLRegion tileRegions, MTLRegion pixelRegions, MTLSize tileSize, nuint numRegions)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.ConvertSparseTileRegionsPixelRegionsTileSizeNumRegions, tileRegions, pixelRegions, tileSize, numRegions);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.ConvertSparseTileRegionsToPixelRegionsWithTileSizeNumRegions, tileRegions, pixelRegions, tileSize, numRegions);
     }
 
     public MTLFunctionHandle FunctionHandle(MTLFunction function)
     {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.FunctionHandle, function.NativePtr));
+        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.FunctionHandleWithBinaryFunction, function.NativePtr));
 
         return result;
     }
 
     public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function)
     {
-        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.FunctionHandle, function.NativePtr));
+        MTLFunctionHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.FunctionHandleWithBinaryFunction, function.NativePtr));
 
         return result;
     }
@@ -308,28 +308,28 @@ public partial class MTLDevice : IDisposable
 
     public MTLSizeAndAlign HeapAccelerationStructureSizeAndAlign(nuint size)
     {
-        MTLSizeAndAlign result = ObjectiveCRuntime.MsgSendMTLSizeAndAlign(NativePtr, MTLDeviceSelector.HeapAccelerationStructureSizeAndAlign, size);
+        MTLSizeAndAlign result = ObjectiveCRuntime.MsgSendMTLSizeAndAlign(NativePtr, MTLDeviceSelector.HeapAccelerationStructureSizeAndAlignWithDescriptor, size);
 
         return result;
     }
 
     public MTLSizeAndAlign HeapAccelerationStructureSizeAndAlign(MTLAccelerationStructureDescriptor descriptor)
     {
-        MTLSizeAndAlign result = ObjectiveCRuntime.MsgSendMTLSizeAndAlign(NativePtr, MTLDeviceSelector.HeapAccelerationStructureSizeAndAlign, descriptor.NativePtr);
+        MTLSizeAndAlign result = ObjectiveCRuntime.MsgSendMTLSizeAndAlign(NativePtr, MTLDeviceSelector.HeapAccelerationStructureSizeAndAlignWithDescriptor, descriptor.NativePtr);
 
         return result;
     }
 
     public MTLSizeAndAlign HeapBufferSizeAndAlign(nuint length, MTLResourceOptions options)
     {
-        MTLSizeAndAlign result = ObjectiveCRuntime.MsgSendMTLSizeAndAlign(NativePtr, MTLDeviceSelector.HeapBufferSizeAndAlignOptions, length, (ulong)options);
+        MTLSizeAndAlign result = ObjectiveCRuntime.MsgSendMTLSizeAndAlign(NativePtr, MTLDeviceSelector.HeapBufferSizeAndAlignWithLengthOptions, length, (ulong)options);
 
         return result;
     }
 
     public MTLSizeAndAlign HeapTextureSizeAndAlign(MTLTextureDescriptor desc)
     {
-        MTLSizeAndAlign result = ObjectiveCRuntime.MsgSendMTLSizeAndAlign(NativePtr, MTLDeviceSelector.HeapTextureSizeAndAlign, desc.NativePtr);
+        MTLSizeAndAlign result = ObjectiveCRuntime.MsgSendMTLSizeAndAlign(NativePtr, MTLDeviceSelector.HeapTextureSizeAndAlignWithDescriptor, desc.NativePtr);
 
         return result;
     }
@@ -350,21 +350,21 @@ public partial class MTLDevice : IDisposable
 
     public MTLAccelerationStructure NewAccelerationStructure(nuint size)
     {
-        MTLAccelerationStructure result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewAccelerationStructure, size));
+        MTLAccelerationStructure result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewAccelerationStructureWithDescriptor, size));
 
         return result;
     }
 
     public MTLAccelerationStructure NewAccelerationStructure(MTLAccelerationStructureDescriptor descriptor)
     {
-        MTLAccelerationStructure result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewAccelerationStructure, descriptor.NativePtr));
+        MTLAccelerationStructure result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewAccelerationStructureWithDescriptor, descriptor.NativePtr));
 
         return result;
     }
 
     public MTL4Archive NewArchive(NSURL url, out NSError? error)
     {
-        MTL4Archive result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewArchiveError, url.NativePtr, out nint errorPtr));
+        MTL4Archive result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewArchiveWithURLError, url.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -373,21 +373,21 @@ public partial class MTLDevice : IDisposable
 
     public MTLArgumentEncoder NewArgumentEncoder(NSArray arguments)
     {
-        MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewArgumentEncoder, arguments.NativePtr));
+        MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewArgumentEncoderWithBufferBinding, arguments.NativePtr));
 
         return result;
     }
 
     public MTLArgumentEncoder NewArgumentEncoder(MTLBufferBinding bufferBinding)
     {
-        MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewArgumentEncoder, bufferBinding.NativePtr));
+        MTLArgumentEncoder result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewArgumentEncoderWithBufferBinding, bufferBinding.NativePtr));
 
         return result;
     }
 
     public MTL4ArgumentTable NewArgumentTable(MTL4ArgumentTableDescriptor descriptor, out NSError? error)
     {
-        MTL4ArgumentTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewArgumentTableError, descriptor.NativePtr, out nint errorPtr));
+        MTL4ArgumentTable result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewArgumentTableWithDescriptorError, descriptor.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -396,7 +396,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLBinaryArchive NewBinaryArchive(MTLBinaryArchiveDescriptor descriptor, out NSError? error)
     {
-        MTLBinaryArchive result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBinaryArchiveError, descriptor.NativePtr, out nint errorPtr));
+        MTLBinaryArchive result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBinaryArchiveWithDescriptorError, descriptor.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -405,35 +405,35 @@ public partial class MTLDevice : IDisposable
 
     public MTLBuffer NewBuffer(nuint length, MTLResourceOptions options)
     {
-        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferOptions, length, (ulong)options));
+        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferWithLengthOptionsPlacementSparsePageSize, length, (ulong)options));
 
         return result;
     }
 
     public MTLBuffer NewBuffer(nint pointer, nuint length, MTLResourceOptions options)
     {
-        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferLengthOptions, pointer, length, (ulong)options));
+        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferWithLengthOptionsPlacementSparsePageSize, pointer, length, (ulong)options));
 
         return result;
     }
 
     public MTLBuffer NewBuffer(nuint length, MTLResourceOptions options, MTLSparsePageSize placementSparsePageSize)
     {
-        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferOptionsPlacementSparsePageSize, length, (ulong)options, (ulong)placementSparsePageSize));
+        MTLBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewBufferWithLengthOptionsPlacementSparsePageSize, length, (ulong)options, (ulong)placementSparsePageSize));
 
         return result;
     }
 
     public MTL4CommandAllocator NewCommandAllocator()
     {
-        MTL4CommandAllocator result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewCommandAllocator));
+        MTL4CommandAllocator result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewCommandAllocatorWithDescriptorError));
 
         return result;
     }
 
     public MTL4CommandAllocator NewCommandAllocator(MTL4CommandAllocatorDescriptor descriptor, out NSError? error)
     {
-        MTL4CommandAllocator result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewCommandAllocatorError, descriptor.NativePtr, out nint errorPtr));
+        MTL4CommandAllocator result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewCommandAllocatorWithDescriptorError, descriptor.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -449,28 +449,28 @@ public partial class MTLDevice : IDisposable
 
     public MTLCommandQueue NewCommandQueue()
     {
-        MTLCommandQueue result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewCommandQueue));
+        MTLCommandQueue result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewCommandQueueWithDescriptor));
 
         return result;
     }
 
     public MTLCommandQueue NewCommandQueue(nuint maxCommandBufferCount)
     {
-        MTLCommandQueue result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewCommandQueue1, maxCommandBufferCount));
+        MTLCommandQueue result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewCommandQueueWithDescriptor, maxCommandBufferCount));
 
         return result;
     }
 
     public MTLCommandQueue NewCommandQueue(MTLCommandQueueDescriptor descriptor)
     {
-        MTLCommandQueue result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewCommandQueue1, descriptor.NativePtr));
+        MTLCommandQueue result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewCommandQueueWithDescriptor, descriptor.NativePtr));
 
         return result;
     }
 
     public MTL4Compiler NewCompiler(MTL4CompilerDescriptor descriptor, out NSError? error)
     {
-        MTL4Compiler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewCompilerError, descriptor.NativePtr, out nint errorPtr));
+        MTL4Compiler result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewCompilerWithDescriptorError, descriptor.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -479,39 +479,34 @@ public partial class MTLDevice : IDisposable
 
     public MTLComputePipelineState NewComputePipelineState(MTLFunction computeFunction, out NSError? error)
     {
-        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewComputePipelineStateError, computeFunction.NativePtr, out nint errorPtr));
+        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewComputePipelineStateWithDescriptorOptionsCompletionHandler, computeFunction.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
     }
 
-    public MTLComputePipelineState NewComputePipelineState(MTLFunction computeFunction, MTLPipelineOption options, nint reflection, out NSError? error)
+    public MTLComputePipelineState NewComputePipelineState(MTLFunction computeFunction, MTLPipelineOption options, MTLAutoreleasedComputePipelineReflection reflection, out NSError? error)
     {
-        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewComputePipelineStateOptionsReflectionError, computeFunction.NativePtr, (ulong)options, reflection, out nint errorPtr));
+        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewComputePipelineStateWithDescriptorOptionsCompletionHandler, computeFunction.NativePtr, (ulong)options, (ulong)reflection, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
     }
 
-    public MTLComputePipelineState NewComputePipelineState(MTLComputePipelineDescriptor descriptor, MTLPipelineOption options, nint reflection, out NSError? error)
+    public MTLComputePipelineState NewComputePipelineState(MTLComputePipelineDescriptor descriptor, MTLPipelineOption options, MTLAutoreleasedComputePipelineReflection reflection, out NSError? error)
     {
-        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewComputePipelineStateOptionsReflectionError, descriptor.NativePtr, (ulong)options, reflection, out nint errorPtr));
+        MTLComputePipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewComputePipelineStateWithDescriptorOptionsCompletionHandler, descriptor.NativePtr, (ulong)options, (ulong)reflection, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
-    }
-
-    public void NewComputePipelineState(MTLFunction pFunction, nint completionHandler)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.NewComputePipelineStateCompletionHandler, pFunction.NativePtr, completionHandler);
     }
 
     public MTL4CounterHeap NewCounterHeap(MTL4CounterHeapDescriptor descriptor, out NSError? error)
     {
-        MTL4CounterHeap result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewCounterHeapError, descriptor.NativePtr, out nint errorPtr));
+        MTL4CounterHeap result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewCounterHeapWithDescriptorError, descriptor.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -520,7 +515,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLCounterSampleBuffer NewCounterSampleBuffer(MTLCounterSampleBufferDescriptor descriptor, out NSError? error)
     {
-        MTLCounterSampleBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewCounterSampleBufferError, descriptor.NativePtr, out nint errorPtr));
+        MTLCounterSampleBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewCounterSampleBufferWithDescriptorError, descriptor.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -529,14 +524,14 @@ public partial class MTLDevice : IDisposable
 
     public MTLLibrary NewDefaultLibrary()
     {
-        MTLLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewDefaultLibrary));
+        MTLLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewDefaultLibraryWithBundleError));
 
         return result;
     }
 
     public MTLLibrary NewDefaultLibrary(nint bundle, out NSError? error)
     {
-        MTLLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewDefaultLibraryError, bundle, out nint errorPtr));
+        MTLLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewDefaultLibraryWithBundleError, bundle, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -545,14 +540,14 @@ public partial class MTLDevice : IDisposable
 
     public MTLDepthStencilState NewDepthStencilState(MTLDepthStencilDescriptor descriptor)
     {
-        MTLDepthStencilState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewDepthStencilState, descriptor.NativePtr));
+        MTLDepthStencilState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewDepthStencilStateWithDescriptor, descriptor.NativePtr));
 
         return result;
     }
 
     public MTLDynamicLibrary NewDynamicLibrary(MTLLibrary library, out NSError? error)
     {
-        MTLDynamicLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewDynamicLibraryError, library.NativePtr, out nint errorPtr));
+        MTLDynamicLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewDynamicLibraryWithURLError, library.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -561,7 +556,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLDynamicLibrary NewDynamicLibrary(NSURL url, out NSError? error)
     {
-        MTLDynamicLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewDynamicLibraryError, url.NativePtr, out nint errorPtr));
+        MTLDynamicLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewDynamicLibraryWithURLError, url.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -584,14 +579,14 @@ public partial class MTLDevice : IDisposable
 
     public MTLHeap NewHeap(MTLHeapDescriptor descriptor)
     {
-        MTLHeap result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewHeap, descriptor.NativePtr));
+        MTLHeap result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewHeapWithDescriptor, descriptor.NativePtr));
 
         return result;
     }
 
     public MTLIOCommandQueue NewIOCommandQueue(MTLIOCommandQueueDescriptor descriptor, out NSError? error)
     {
-        MTLIOCommandQueue result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewIOCommandQueueError, descriptor.NativePtr, out nint errorPtr));
+        MTLIOCommandQueue result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewIOCommandQueueWithDescriptorError, descriptor.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -600,7 +595,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLIOFileHandle NewIOFileHandle(NSURL url, out NSError? error)
     {
-        MTLIOFileHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewIOFileHandleError, url.NativePtr, out nint errorPtr));
+        MTLIOFileHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewIOFileHandleWithURLCompressionMethodError, url.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -609,7 +604,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLIOFileHandle NewIOFileHandle(NSURL url, MTLIOCompressionMethod compressionMethod, out NSError? error)
     {
-        MTLIOFileHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewIOFileHandleCompressionMethodError, url.NativePtr, (ulong)compressionMethod, out nint errorPtr));
+        MTLIOFileHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewIOFileHandleWithURLCompressionMethodError, url.NativePtr, (ulong)compressionMethod, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -618,7 +613,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLIOFileHandle NewIOHandle(NSURL url, out NSError? error)
     {
-        MTLIOFileHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewIOHandleError, url.NativePtr, out nint errorPtr));
+        MTLIOFileHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewIOHandleWithURLCompressionMethodError, url.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -627,7 +622,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLIOFileHandle NewIOHandle(NSURL url, MTLIOCompressionMethod compressionMethod, out NSError? error)
     {
-        MTLIOFileHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewIOHandleCompressionMethodError, url.NativePtr, (ulong)compressionMethod, out nint errorPtr));
+        MTLIOFileHandle result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewIOHandleWithURLCompressionMethodError, url.NativePtr, (ulong)compressionMethod, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -636,14 +631,14 @@ public partial class MTLDevice : IDisposable
 
     public MTLIndirectCommandBuffer NewIndirectCommandBuffer(MTLIndirectCommandBufferDescriptor descriptor, nuint maxCount, MTLResourceOptions options)
     {
-        MTLIndirectCommandBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewIndirectCommandBufferMaxCountOptions, descriptor.NativePtr, maxCount, (ulong)options));
+        MTLIndirectCommandBuffer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewIndirectCommandBufferWithDescriptorMaxCommandCountOptions, descriptor.NativePtr, maxCount, (ulong)options));
 
         return result;
     }
 
     public MTLLibrary NewLibrary(NSString filepath, out NSError? error)
     {
-        MTLLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewLibraryError, filepath.NativePtr, out nint errorPtr));
+        MTLLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewLibraryWithStitchedDescriptorCompletionHandler, filepath.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -652,7 +647,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLLibrary NewLibrary(NSURL url, out NSError? error)
     {
-        MTLLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewLibraryError, url.NativePtr, out nint errorPtr));
+        MTLLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewLibraryWithStitchedDescriptorCompletionHandler, url.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -661,7 +656,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLLibrary NewLibrary(nint data, out NSError? error)
     {
-        MTLLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewLibraryError, data, out nint errorPtr));
+        MTLLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewLibraryWithStitchedDescriptorCompletionHandler, data, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -670,7 +665,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLLibrary NewLibrary(NSString source, MTLCompileOptions options, out NSError? error)
     {
-        MTLLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewLibraryOptionsError, source.NativePtr, options.NativePtr, out nint errorPtr));
+        MTLLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewLibraryWithStitchedDescriptorCompletionHandler, source.NativePtr, options.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -679,26 +674,16 @@ public partial class MTLDevice : IDisposable
 
     public MTLLibrary NewLibrary(MTLStitchedLibraryDescriptor descriptor, out NSError? error)
     {
-        MTLLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewLibraryError, descriptor.NativePtr, out nint errorPtr));
+        MTLLibrary result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewLibraryWithStitchedDescriptorCompletionHandler, descriptor.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
     }
 
-    public void NewLibrary(NSString pSource, MTLCompileOptions pOptions, nint completionHandler)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.NewLibraryPOptionsCompletionHandler, pSource.NativePtr, pOptions.NativePtr, completionHandler);
-    }
-
-    public void NewLibrary(MTLStitchedLibraryDescriptor pDescriptor, nint completionHandler)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.NewLibraryCompletionHandler, pDescriptor.NativePtr, completionHandler);
-    }
-
     public MTLLogState NewLogState(MTLLogStateDescriptor descriptor, out NSError? error)
     {
-        MTLLogState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewLogStateError, descriptor.NativePtr, out nint errorPtr));
+        MTLLogState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewLogStateWithDescriptorError, descriptor.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -707,14 +692,14 @@ public partial class MTLDevice : IDisposable
 
     public MTL4CommandQueue NewMTL4CommandQueue()
     {
-        MTL4CommandQueue result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewMTL4CommandQueue));
+        MTL4CommandQueue result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewMTL4CommandQueueWithDescriptorError));
 
         return result;
     }
 
     public MTL4CommandQueue NewMTL4CommandQueue(MTL4CommandQueueDescriptor descriptor, out NSError? error)
     {
-        MTL4CommandQueue result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewMTL4CommandQueueError, descriptor.NativePtr, out nint errorPtr));
+        MTL4CommandQueue result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewMTL4CommandQueueWithDescriptorError, descriptor.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -723,62 +708,57 @@ public partial class MTLDevice : IDisposable
 
     public MTL4PipelineDataSetSerializer NewPipelineDataSetSerializer(MTL4PipelineDataSetSerializerDescriptor descriptor)
     {
-        MTL4PipelineDataSetSerializer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewPipelineDataSetSerializer, descriptor.NativePtr));
+        MTL4PipelineDataSetSerializer result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewPipelineDataSetSerializerWithDescriptor, descriptor.NativePtr));
 
         return result;
     }
 
     public MTLRasterizationRateMap NewRasterizationRateMap(MTLRasterizationRateMapDescriptor descriptor)
     {
-        MTLRasterizationRateMap result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRasterizationRateMap, descriptor.NativePtr));
+        MTLRasterizationRateMap result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRasterizationRateMapWithDescriptor, descriptor.NativePtr));
 
         return result;
     }
 
     public MTLRenderPipelineState NewRenderPipelineState(MTLRenderPipelineDescriptor descriptor, out NSError? error)
     {
-        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateError, descriptor.NativePtr, out nint errorPtr));
+        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateWithMeshDescriptorOptionsCompletionHandler, descriptor.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
     }
 
-    public MTLRenderPipelineState NewRenderPipelineState(MTLRenderPipelineDescriptor descriptor, MTLPipelineOption options, nint reflection, out NSError? error)
+    public MTLRenderPipelineState NewRenderPipelineState(MTLRenderPipelineDescriptor descriptor, MTLPipelineOption options, MTLAutoreleasedRenderPipelineReflection reflection, out NSError? error)
     {
-        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateOptionsReflectionError, descriptor.NativePtr, (ulong)options, reflection, out nint errorPtr));
+        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateWithMeshDescriptorOptionsCompletionHandler, descriptor.NativePtr, (ulong)options, (ulong)reflection, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
     }
 
-    public MTLRenderPipelineState NewRenderPipelineState(MTLTileRenderPipelineDescriptor descriptor, MTLPipelineOption options, nint reflection, out NSError? error)
+    public MTLRenderPipelineState NewRenderPipelineState(MTLTileRenderPipelineDescriptor descriptor, MTLPipelineOption options, MTLAutoreleasedRenderPipelineReflection reflection, out NSError? error)
     {
-        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateOptionsReflectionError, descriptor.NativePtr, (ulong)options, reflection, out nint errorPtr));
+        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateWithMeshDescriptorOptionsCompletionHandler, descriptor.NativePtr, (ulong)options, (ulong)reflection, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
     }
 
-    public MTLRenderPipelineState NewRenderPipelineState(MTLMeshRenderPipelineDescriptor descriptor, MTLPipelineOption options, nint reflection, out NSError? error)
+    public MTLRenderPipelineState NewRenderPipelineState(MTLMeshRenderPipelineDescriptor descriptor, MTLPipelineOption options, MTLAutoreleasedRenderPipelineReflection reflection, out NSError? error)
     {
-        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateOptionsReflectionError, descriptor.NativePtr, (ulong)options, reflection, out nint errorPtr));
+        MTLRenderPipelineState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewRenderPipelineStateWithMeshDescriptorOptionsCompletionHandler, descriptor.NativePtr, (ulong)options, (ulong)reflection, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
-    }
-
-    public void NewRenderPipelineState(MTLRenderPipelineDescriptor pDescriptor, nint completionHandler)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.NewRenderPipelineStateCompletionHandler, pDescriptor.NativePtr, completionHandler);
     }
 
     public MTLResidencySet NewResidencySet(MTLResidencySetDescriptor desc, out NSError? error)
     {
-        MTLResidencySet result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewResidencySetError, desc.NativePtr, out nint errorPtr));
+        MTLResidencySet result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewResidencySetWithDescriptorError, desc.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -787,42 +767,42 @@ public partial class MTLDevice : IDisposable
 
     public MTLSamplerState NewSamplerState(MTLSamplerDescriptor descriptor)
     {
-        MTLSamplerState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewSamplerState, descriptor.NativePtr));
+        MTLSamplerState result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewSamplerStateWithDescriptor, descriptor.NativePtr));
 
         return result;
     }
 
     public MTLSharedEvent NewSharedEvent()
     {
-        MTLSharedEvent result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewSharedEvent));
+        MTLSharedEvent result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewSharedEventWithHandle));
 
         return result;
     }
 
     public MTLSharedEvent NewSharedEvent(MTLSharedEventHandle sharedEventHandle)
     {
-        MTLSharedEvent result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewSharedEvent1, sharedEventHandle.NativePtr));
+        MTLSharedEvent result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewSharedEventWithHandle, sharedEventHandle.NativePtr));
 
         return result;
     }
 
     public MTLTexture NewSharedTexture(MTLTextureDescriptor descriptor)
     {
-        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewSharedTexture, descriptor.NativePtr));
+        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewSharedTextureWithHandle, descriptor.NativePtr));
 
         return result;
     }
 
     public MTLTexture NewSharedTexture(MTLSharedTextureHandle sharedHandle)
     {
-        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewSharedTexture, sharedHandle.NativePtr));
+        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewSharedTextureWithHandle, sharedHandle.NativePtr));
 
         return result;
     }
 
     public MTLTensor NewTensor(MTLTensorDescriptor descriptor, out NSError? error)
     {
-        MTLTensor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewTensorError, descriptor.NativePtr, out nint errorPtr));
+        MTLTensor result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewTensorWithDescriptorError, descriptor.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
@@ -831,30 +811,30 @@ public partial class MTLDevice : IDisposable
 
     public MTLTexture NewTexture(MTLTextureDescriptor descriptor)
     {
-        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewTexture, descriptor.NativePtr));
+        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewTextureWithDescriptorIosurfacePlane, descriptor.NativePtr));
 
         return result;
     }
 
     public MTLTexture NewTexture(MTLTextureDescriptor descriptor, nint iosurface, nuint plane)
     {
-        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewTextureIosurfacePlane, descriptor.NativePtr, iosurface, plane));
+        MTLTexture result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewTextureWithDescriptorIosurfacePlane, descriptor.NativePtr, iosurface, plane));
 
         return result;
     }
 
     public MTLTextureViewPool NewTextureViewPool(MTLResourceViewPoolDescriptor descriptor, out NSError? error)
     {
-        MTLTextureViewPool result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewTextureViewPoolError, descriptor.NativePtr, out nint errorPtr));
+        MTLTextureViewPool result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceSelector.NewTextureViewPoolWithDescriptorError, descriptor.NativePtr, out nint errorPtr));
 
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
     }
 
-    public void SampleTimestamps(nint cpuTimestamp, nint gpuTimestamp)
+    public void SampleTimestamps(MTLTimestamp cpuTimestamp, MTLTimestamp gpuTimestamp)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.SampleTimestampsGpuTimestamp, cpuTimestamp, gpuTimestamp);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceSelector.SampleTimestampsGpuTimestamp, cpuTimestamp.NativePtr, gpuTimestamp.NativePtr);
     }
 
     public nuint SizeOfCounterHeapEntry(MTL4CounterHeapType type)
@@ -866,14 +846,14 @@ public partial class MTLDevice : IDisposable
 
     public MTLSize SparseTileSize(MTLTextureType textureType, MTLPixelFormat pixelFormat, nuint sampleCount)
     {
-        MTLSize result = ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLDeviceSelector.SparseTileSizePixelFormatSampleCount, (ulong)textureType, (ulong)pixelFormat, sampleCount);
+        MTLSize result = ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLDeviceSelector.SparseTileSizeWithTextureTypePixelFormatSampleCountSparsePageSize, (ulong)textureType, (ulong)pixelFormat, sampleCount);
 
         return result;
     }
 
     public MTLSize SparseTileSize(MTLTextureType textureType, MTLPixelFormat pixelFormat, nuint sampleCount, MTLSparsePageSize sparsePageSize)
     {
-        MTLSize result = ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLDeviceSelector.SparseTileSizePixelFormatSampleCountSparsePageSize, (ulong)textureType, (ulong)pixelFormat, sampleCount, (ulong)sparsePageSize);
+        MTLSize result = ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLDeviceSelector.SparseTileSizeWithTextureTypePixelFormatSampleCountSparsePageSize, (ulong)textureType, (ulong)pixelFormat, sampleCount, (ulong)sparsePageSize);
 
         return result;
     }
@@ -901,7 +881,7 @@ public partial class MTLDevice : IDisposable
 
     public Bool8 SupportsRasterizationRateMap(nuint layerCount)
     {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsRasterizationRateMap, layerCount);
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceSelector.SupportsRasterizationRateMapWithLayerCount, layerCount);
 
         return result;
     }
@@ -922,7 +902,7 @@ public partial class MTLDevice : IDisposable
 
     public MTLSizeAndAlign TensorSizeAndAlign(MTLTensorDescriptor descriptor)
     {
-        MTLSizeAndAlign result = ObjectiveCRuntime.MsgSendMTLSizeAndAlign(NativePtr, MTLDeviceSelector.TensorSizeAndAlign, descriptor.NativePtr);
+        MTLSizeAndAlign result = ObjectiveCRuntime.MsgSendMTLSizeAndAlign(NativePtr, MTLDeviceSelector.TensorSizeAndAlignWithDescriptor, descriptor.NativePtr);
 
         return result;
     }
@@ -955,7 +935,7 @@ public partial class MTLDevice : IDisposable
     [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLCreateSystemDefaultDevice")]
     private static partial nint MTLCreateSystemDefaultDevice();
 
-    public static MTLDevice CreateSystemDefaultDevice()
+    public static MTLDevice MTLCreateSystemDefaultDevice()
     {
         return new(MTLCreateSystemDefaultDevice());
     }
@@ -963,25 +943,17 @@ public partial class MTLDevice : IDisposable
     [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLCopyAllDevices")]
     private static partial nint MTLCopyAllDevices();
 
-    public static NSArray CopyAllDevices()
+    public static NSArray MTLCopyAllDevices()
     {
         return new(MTLCopyAllDevices());
     }
 
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLCopyAllDevicesWithObserver")]
-    private static partial nint MTLCopyAllDevicesWithObserver(nint pOutObserver, nint handler);
-
-    public static NSArray CopyAllDevicesWithObserver(nint pOutObserver, nint handler)
-    {
-        return new(MTLCopyAllDevicesWithObserver(pOutObserver, handler));
-    }
-
     [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLRemoveDeviceObserver")]
-    private static partial void MTLRemoveDeviceObserver(nint pObserver);
+    private static partial void MTLRemoveDeviceObserver(nint param0);
 
-    public static void RemoveDeviceObserver(nint pObserver)
+    public static void MTLRemoveDeviceObserver(nint param0)
     {
-        MTLRemoveDeviceObserver(pObserver);
+        MTLRemoveDeviceObserver(param0);
     }
 }
 
@@ -997,19 +969,13 @@ file class MTLDeviceSelector
 
     public static readonly Selector ArgumentBuffersSupport = Selector.Register("argumentBuffersSupport");
 
-    public static readonly Selector BarycentricCoordsSupported = Selector.Register("barycentricCoordsSupported");
-
     public static readonly Selector CounterSets = Selector.Register("counterSets");
 
     public static readonly Selector CurrentAllocatedSize = Selector.Register("currentAllocatedSize");
 
-    public static readonly Selector Depth24Stencil8PixelFormatSupported = Selector.Register("depth24Stencil8PixelFormatSupported");
+    public static readonly Selector IsDepth24Stencil8PixelFormatSupported = Selector.Register("isDepth24Stencil8PixelFormatSupported");
 
     public static readonly Selector HasUnifiedMemory = Selector.Register("hasUnifiedMemory");
-
-    public static readonly Selector Headless = Selector.Register("headless");
-
-    public static readonly Selector IsDepth24Stencil8PixelFormatSupported = Selector.Register("isDepth24Stencil8PixelFormatSupported");
 
     public static readonly Selector IsHeadless = Selector.Register("isHeadless");
 
@@ -1020,8 +986,6 @@ file class MTLDeviceSelector
     public static readonly Selector Location = Selector.Register("location");
 
     public static readonly Selector LocationNumber = Selector.Register("locationNumber");
-
-    public static readonly Selector LowPower = Selector.Register("lowPower");
 
     public static readonly Selector MaxArgumentBufferSamplerCount = Selector.Register("maxArgumentBufferSamplerCount");
 
@@ -1043,11 +1007,7 @@ file class MTLDeviceSelector
 
     public static readonly Selector PeerIndex = Selector.Register("peerIndex");
 
-    public static readonly Selector ProgrammableSamplePositionsSupported = Selector.Register("programmableSamplePositionsSupported");
-
     public static readonly Selector QueryTimestampFrequency = Selector.Register("queryTimestampFrequency");
-
-    public static readonly Selector RasterOrderGroupsSupported = Selector.Register("rasterOrderGroupsSupported");
 
     public static readonly Selector ReadWriteTextureSupport = Selector.Register("readWriteTextureSupport");
 
@@ -1055,13 +1015,11 @@ file class MTLDeviceSelector
 
     public static readonly Selector RegistryID = Selector.Register("registryID");
 
-    public static readonly Selector Removable = Selector.Register("removable");
-
     public static readonly Selector ShouldMaximizeConcurrentCompilation = Selector.Register("shouldMaximizeConcurrentCompilation");
 
     public static readonly Selector SetShouldMaximizeConcurrentCompilation = Selector.Register("setShouldMaximizeConcurrentCompilation:");
 
-    public static readonly Selector SparseTileSizeInBytes = Selector.Register("sparseTileSizeInBytes");
+    public static readonly Selector SparseTileSizeInBytesForSparsePageSize = Selector.Register("sparseTileSizeInBytesForSparsePageSize:");
 
     public static readonly Selector Supports32BitFloatFiltering = Selector.Register("supports32BitFloatFiltering");
 
@@ -1089,139 +1047,103 @@ file class MTLDeviceSelector
 
     public static readonly Selector SupportsShaderBarycentricCoordinates = Selector.Register("supportsShaderBarycentricCoordinates");
 
-    public static readonly Selector AccelerationStructureSizes = Selector.Register("accelerationStructureSizes:");
+    public static readonly Selector AccelerationStructureSizesWithDescriptor = Selector.Register("accelerationStructureSizesWithDescriptor:");
 
-    public static readonly Selector ConvertSparsePixelRegionsTileRegionsTileSizeModeNumRegions = Selector.Register("convertSparsePixelRegions:tileRegions:tileSize:mode:numRegions:");
+    public static readonly Selector ConvertSparsePixelRegionsToTileRegionsWithTileSizeAlignmentModeNumRegions = Selector.Register("convertSparsePixelRegions:toTileRegions:withTileSize:alignmentMode:numRegions:");
 
-    public static readonly Selector ConvertSparseTileRegionsPixelRegionsTileSizeNumRegions = Selector.Register("convertSparseTileRegions:pixelRegions:tileSize:numRegions:");
+    public static readonly Selector ConvertSparseTileRegionsToPixelRegionsWithTileSizeNumRegions = Selector.Register("convertSparseTileRegions:toPixelRegions:withTileSize:numRegions:");
 
-    public static readonly Selector FunctionHandle = Selector.Register("functionHandle:");
+    public static readonly Selector FunctionHandleWithBinaryFunction = Selector.Register("functionHandleWithBinaryFunction:");
 
     public static readonly Selector GetDefaultSamplePositionsCount = Selector.Register("getDefaultSamplePositions:count:");
 
-    public static readonly Selector HeapAccelerationStructureSizeAndAlign = Selector.Register("heapAccelerationStructureSizeAndAlign:");
+    public static readonly Selector HeapAccelerationStructureSizeAndAlignWithDescriptor = Selector.Register("heapAccelerationStructureSizeAndAlignWithDescriptor:");
 
-    public static readonly Selector HeapBufferSizeAndAlignOptions = Selector.Register("heapBufferSizeAndAlign:options:");
+    public static readonly Selector HeapBufferSizeAndAlignWithLengthOptions = Selector.Register("heapBufferSizeAndAlignWithLength:options:");
 
-    public static readonly Selector HeapTextureSizeAndAlign = Selector.Register("heapTextureSizeAndAlign:");
+    public static readonly Selector HeapTextureSizeAndAlignWithDescriptor = Selector.Register("heapTextureSizeAndAlignWithDescriptor:");
 
     public static readonly Selector MinimumLinearTextureAlignmentForPixelFormat = Selector.Register("minimumLinearTextureAlignmentForPixelFormat:");
 
     public static readonly Selector MinimumTextureBufferAlignmentForPixelFormat = Selector.Register("minimumTextureBufferAlignmentForPixelFormat:");
 
-    public static readonly Selector NewAccelerationStructure = Selector.Register("newAccelerationStructure:");
+    public static readonly Selector NewAccelerationStructureWithDescriptor = Selector.Register("newAccelerationStructureWithDescriptor:");
 
-    public static readonly Selector NewArchiveError = Selector.Register("newArchive:error:");
+    public static readonly Selector NewArchiveWithURLError = Selector.Register("newArchiveWithURL:error:");
 
-    public static readonly Selector NewArgumentEncoder = Selector.Register("newArgumentEncoder:");
+    public static readonly Selector NewArgumentEncoderWithBufferBinding = Selector.Register("newArgumentEncoderWithBufferBinding:");
 
-    public static readonly Selector NewArgumentTableError = Selector.Register("newArgumentTable:error:");
+    public static readonly Selector NewArgumentTableWithDescriptorError = Selector.Register("newArgumentTableWithDescriptor:error:");
 
-    public static readonly Selector NewBinaryArchiveError = Selector.Register("newBinaryArchive:error:");
+    public static readonly Selector NewBinaryArchiveWithDescriptorError = Selector.Register("newBinaryArchiveWithDescriptor:error:");
 
-    public static readonly Selector NewBufferOptions = Selector.Register("newBuffer:options:");
+    public static readonly Selector NewBufferWithLengthOptionsPlacementSparsePageSize = Selector.Register("newBufferWithLength:options:placementSparsePageSize:");
 
-    public static readonly Selector NewBufferLengthOptions = Selector.Register("newBuffer:length:options:");
-
-    public static readonly Selector NewBufferOptionsPlacementSparsePageSize = Selector.Register("newBuffer:options:placementSparsePageSize:");
-
-    public static readonly Selector NewCommandAllocator = Selector.Register("newCommandAllocator");
-
-    public static readonly Selector NewCommandAllocatorError = Selector.Register("newCommandAllocator:error:");
+    public static readonly Selector NewCommandAllocatorWithDescriptorError = Selector.Register("newCommandAllocatorWithDescriptor:error:");
 
     public static readonly Selector NewCommandBuffer = Selector.Register("newCommandBuffer");
 
-    public static readonly Selector NewCommandQueue = Selector.Register("newCommandQueue");
+    public static readonly Selector NewCommandQueueWithDescriptor = Selector.Register("newCommandQueueWithDescriptor:");
 
-    public static readonly Selector NewCommandQueue1 = Selector.Register("newCommandQueue:");
+    public static readonly Selector NewCompilerWithDescriptorError = Selector.Register("newCompilerWithDescriptor:error:");
 
-    public static readonly Selector NewCompilerError = Selector.Register("newCompiler:error:");
+    public static readonly Selector NewComputePipelineStateWithDescriptorOptionsCompletionHandler = Selector.Register("newComputePipelineStateWithDescriptor:options:completionHandler:");
 
-    public static readonly Selector NewComputePipelineStateError = Selector.Register("newComputePipelineState:error:");
+    public static readonly Selector NewCounterHeapWithDescriptorError = Selector.Register("newCounterHeapWithDescriptor:error:");
 
-    public static readonly Selector NewComputePipelineStateOptionsReflectionError = Selector.Register("newComputePipelineState:options:reflection:error:");
+    public static readonly Selector NewCounterSampleBufferWithDescriptorError = Selector.Register("newCounterSampleBufferWithDescriptor:error:");
 
-    public static readonly Selector NewComputePipelineStateCompletionHandler = Selector.Register("newComputePipelineState:completionHandler:");
+    public static readonly Selector NewDefaultLibraryWithBundleError = Selector.Register("newDefaultLibraryWithBundle:error:");
 
-    public static readonly Selector NewCounterHeapError = Selector.Register("newCounterHeap:error:");
+    public static readonly Selector NewDepthStencilStateWithDescriptor = Selector.Register("newDepthStencilStateWithDescriptor:");
 
-    public static readonly Selector NewCounterSampleBufferError = Selector.Register("newCounterSampleBuffer:error:");
-
-    public static readonly Selector NewDefaultLibrary = Selector.Register("newDefaultLibrary");
-
-    public static readonly Selector NewDefaultLibraryError = Selector.Register("newDefaultLibrary:error:");
-
-    public static readonly Selector NewDepthStencilState = Selector.Register("newDepthStencilState:");
-
-    public static readonly Selector NewDynamicLibraryError = Selector.Register("newDynamicLibrary:error:");
+    public static readonly Selector NewDynamicLibraryWithURLError = Selector.Register("newDynamicLibraryWithURL:error:");
 
     public static readonly Selector NewEvent = Selector.Register("newEvent");
 
     public static readonly Selector NewFence = Selector.Register("newFence");
 
-    public static readonly Selector NewHeap = Selector.Register("newHeap:");
+    public static readonly Selector NewHeapWithDescriptor = Selector.Register("newHeapWithDescriptor:");
 
-    public static readonly Selector NewIOCommandQueueError = Selector.Register("newIOCommandQueue:error:");
+    public static readonly Selector NewIOCommandQueueWithDescriptorError = Selector.Register("newIOCommandQueueWithDescriptor:error:");
 
-    public static readonly Selector NewIOFileHandleError = Selector.Register("newIOFileHandle:error:");
+    public static readonly Selector NewIOFileHandleWithURLCompressionMethodError = Selector.Register("newIOFileHandleWithURL:compressionMethod:error:");
 
-    public static readonly Selector NewIOFileHandleCompressionMethodError = Selector.Register("newIOFileHandle:compressionMethod:error:");
+    public static readonly Selector NewIOHandleWithURLCompressionMethodError = Selector.Register("newIOHandleWithURL:compressionMethod:error:");
 
-    public static readonly Selector NewIOHandleError = Selector.Register("newIOHandle:error:");
+    public static readonly Selector NewIndirectCommandBufferWithDescriptorMaxCommandCountOptions = Selector.Register("newIndirectCommandBufferWithDescriptor:maxCommandCount:options:");
 
-    public static readonly Selector NewIOHandleCompressionMethodError = Selector.Register("newIOHandle:compressionMethod:error:");
+    public static readonly Selector NewLibraryWithStitchedDescriptorCompletionHandler = Selector.Register("newLibraryWithStitchedDescriptor:completionHandler:");
 
-    public static readonly Selector NewIndirectCommandBufferMaxCountOptions = Selector.Register("newIndirectCommandBuffer:maxCount:options:");
+    public static readonly Selector NewLogStateWithDescriptorError = Selector.Register("newLogStateWithDescriptor:error:");
 
-    public static readonly Selector NewLibraryError = Selector.Register("newLibrary:error:");
+    public static readonly Selector NewMTL4CommandQueueWithDescriptorError = Selector.Register("newMTL4CommandQueueWithDescriptor:error:");
 
-    public static readonly Selector NewLibraryOptionsError = Selector.Register("newLibrary:options:error:");
+    public static readonly Selector NewPipelineDataSetSerializerWithDescriptor = Selector.Register("newPipelineDataSetSerializerWithDescriptor:");
 
-    public static readonly Selector NewLibraryPOptionsCompletionHandler = Selector.Register("newLibrary:pOptions:completionHandler:");
+    public static readonly Selector NewRasterizationRateMapWithDescriptor = Selector.Register("newRasterizationRateMapWithDescriptor:");
 
-    public static readonly Selector NewLibraryCompletionHandler = Selector.Register("newLibrary:completionHandler:");
+    public static readonly Selector NewRenderPipelineStateWithMeshDescriptorOptionsCompletionHandler = Selector.Register("newRenderPipelineStateWithMeshDescriptor:options:completionHandler:");
 
-    public static readonly Selector NewLogStateError = Selector.Register("newLogState:error:");
+    public static readonly Selector NewResidencySetWithDescriptorError = Selector.Register("newResidencySetWithDescriptor:error:");
 
-    public static readonly Selector NewMTL4CommandQueue = Selector.Register("newMTL4CommandQueue");
+    public static readonly Selector NewSamplerStateWithDescriptor = Selector.Register("newSamplerStateWithDescriptor:");
 
-    public static readonly Selector NewMTL4CommandQueueError = Selector.Register("newMTL4CommandQueue:error:");
+    public static readonly Selector NewSharedEventWithHandle = Selector.Register("newSharedEventWithHandle:");
 
-    public static readonly Selector NewPipelineDataSetSerializer = Selector.Register("newPipelineDataSetSerializer:");
+    public static readonly Selector NewSharedTextureWithHandle = Selector.Register("newSharedTextureWithHandle:");
 
-    public static readonly Selector NewRasterizationRateMap = Selector.Register("newRasterizationRateMap:");
+    public static readonly Selector NewTensorWithDescriptorError = Selector.Register("newTensorWithDescriptor:error:");
 
-    public static readonly Selector NewRenderPipelineStateError = Selector.Register("newRenderPipelineState:error:");
+    public static readonly Selector NewTextureWithDescriptorIosurfacePlane = Selector.Register("newTextureWithDescriptor:iosurface:plane:");
 
-    public static readonly Selector NewRenderPipelineStateOptionsReflectionError = Selector.Register("newRenderPipelineState:options:reflection:error:");
-
-    public static readonly Selector NewRenderPipelineStateCompletionHandler = Selector.Register("newRenderPipelineState:completionHandler:");
-
-    public static readonly Selector NewResidencySetError = Selector.Register("newResidencySet:error:");
-
-    public static readonly Selector NewSamplerState = Selector.Register("newSamplerState:");
-
-    public static readonly Selector NewSharedEvent = Selector.Register("newSharedEvent");
-
-    public static readonly Selector NewSharedEvent1 = Selector.Register("newSharedEvent:");
-
-    public static readonly Selector NewSharedTexture = Selector.Register("newSharedTexture:");
-
-    public static readonly Selector NewTensorError = Selector.Register("newTensor:error:");
-
-    public static readonly Selector NewTexture = Selector.Register("newTexture:");
-
-    public static readonly Selector NewTextureIosurfacePlane = Selector.Register("newTexture:iosurface:plane:");
-
-    public static readonly Selector NewTextureViewPoolError = Selector.Register("newTextureViewPool:error:");
+    public static readonly Selector NewTextureViewPoolWithDescriptorError = Selector.Register("newTextureViewPoolWithDescriptor:error:");
 
     public static readonly Selector SampleTimestampsGpuTimestamp = Selector.Register("sampleTimestamps:gpuTimestamp:");
 
     public static readonly Selector SizeOfCounterHeapEntry = Selector.Register("sizeOfCounterHeapEntry:");
 
-    public static readonly Selector SparseTileSizePixelFormatSampleCount = Selector.Register("sparseTileSize:pixelFormat:sampleCount:");
-
-    public static readonly Selector SparseTileSizePixelFormatSampleCountSparsePageSize = Selector.Register("sparseTileSize:pixelFormat:sampleCount:sparsePageSize:");
+    public static readonly Selector SparseTileSizeWithTextureTypePixelFormatSampleCountSparsePageSize = Selector.Register("sparseTileSizeWithTextureType:pixelFormat:sampleCount:sparsePageSize:");
 
     public static readonly Selector SupportsCounterSampling = Selector.Register("supportsCounterSampling:");
 
@@ -1229,11 +1151,11 @@ file class MTLDeviceSelector
 
     public static readonly Selector SupportsFeatureSet = Selector.Register("supportsFeatureSet:");
 
-    public static readonly Selector SupportsRasterizationRateMap = Selector.Register("supportsRasterizationRateMap:");
+    public static readonly Selector SupportsRasterizationRateMapWithLayerCount = Selector.Register("supportsRasterizationRateMapWithLayerCount:");
 
     public static readonly Selector SupportsTextureSampleCount = Selector.Register("supportsTextureSampleCount:");
 
     public static readonly Selector SupportsVertexAmplificationCount = Selector.Register("supportsVertexAmplificationCount:");
 
-    public static readonly Selector TensorSizeAndAlign = Selector.Register("tensorSizeAndAlign:");
+    public static readonly Selector TensorSizeAndAlignWithDescriptor = Selector.Register("tensorSizeAndAlignWithDescriptor:");
 }

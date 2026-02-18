@@ -488,60 +488,40 @@ public static partial class HeaderParser
 
     private static string ResolveEnumValue(string expr, string underlyingType)
     {
-        // Handle simple shift expressions like "1 << 4"
-        string trimmed = expr.TrimEnd(',');
+        string trimmed = expr.TrimEnd(',').Trim();
 
-        Match shiftMatch = ShiftExprPattern().Match(trimmed);
+        // Strip outer parentheses
+        while (trimmed.StartsWith('(') && trimmed.EndsWith(')'))
+        {
+            trimmed = trimmed[1..^1].Trim();
+        }
+
+        // Strip C++ integer literal suffixes (ULL, UL, LL, U, L, etc.)
+        string stripped = StripIntegerSuffix(trimmed);
+
+        // Handle simple shift expressions like "1 << 40"
+        Match shiftMatch = ShiftExprPattern().Match(stripped);
 
         if (shiftMatch.Success)
         {
             long baseVal = long.Parse(shiftMatch.Groups[1].Value);
             int shift = int.Parse(shiftMatch.Groups[2].Value);
-            long result = baseVal << shift;
+            ulong result = (ulong)baseVal << shift;
 
             return result.ToString();
         }
 
-        // Handle hex literals
-        if (trimmed.StartsWith("0x") || trimmed.StartsWith("0X"))
+        // Handle hex literals (with or without suffixes already stripped)
+        if (stripped.StartsWith("0x") || stripped.StartsWith("0X"))
         {
-            if (ulong.TryParse(trimmed[2..], System.Globalization.NumberStyles.HexNumber, null, out ulong hexVal))
+            if (ulong.TryParse(stripped[2..], System.Globalization.NumberStyles.HexNumber, null, out ulong hexVal))
             {
                 return hexVal.ToString();
             }
         }
 
-        // Handle bitwise OR expressions like "flag1 | flag2" - try to evaluate if all are numeric
-        if (trimmed.Contains('|') && !trimmed.Contains("::"))
-        {
-            string[] parts = trimmed.Split('|');
-            bool allNumeric = true;
-            ulong combined = 0;
-
-            foreach (string part in parts)
-            {
-                string p = part.Trim();
-
-                if (ulong.TryParse(p, out ulong val))
-                {
-                    combined |= val;
-                }
-                else
-                {
-                    allNumeric = false;
-
-                    break;
-                }
-            }
-
-            if (allNumeric)
-            {
-                return combined.ToString();
-            }
-        }
-
         // Handle negative values with unsigned types
-        if (long.TryParse(trimmed, out long longVal))
+        if (long.TryParse(stripped, out long longVal))
         {
             if (longVal < 0)
             {
@@ -569,16 +549,59 @@ public static partial class HeaderParser
             return longVal.ToString();
         }
 
-        // Handle UL/ULL suffixes
-        string noSuffix = trimmed.TrimEnd('U', 'L', 'u', 'l');
-
-        if (noSuffix != trimmed && long.TryParse(noSuffix, out long suffVal))
+        // Handle cast expressions like "static_cast<NS::UInteger>(-1)"
+        if (stripped.Contains("static_cast"))
         {
-            return suffVal.ToString();
+            int parenStart = stripped.IndexOf('(');
+            int parenEnd = stripped.LastIndexOf(')');
+
+            if (parenStart >= 0 && parenEnd > parenStart)
+            {
+                string innerExpr = stripped[(parenStart + 1)..parenEnd].Trim();
+                string innerResolved = ResolveEnumValue(innerExpr, underlyingType);
+
+                if (long.TryParse(innerResolved, out long castVal) && castVal < 0)
+                {
+                    if (underlyingType == "ulong")
+                    {
+                        return unchecked((ulong)castVal).ToString();
+                    }
+
+                    if (underlyingType == "uint")
+                    {
+                        return unchecked((uint)castVal).ToString();
+                    }
+                }
+
+                return innerResolved;
+            }
         }
 
-        // For complex expressions we can't resolve, return as-is but trimmed
-        return trimmed;
+        // For complex expressions (e.g., bitwise operations referencing other enum members),
+        // return the numeric string if possible, otherwise return as-is
+        return stripped;
+    }
+
+    private static string StripIntegerSuffix(string value)
+    {
+        // Strip C++ integer literal suffixes: ULL, ull, UL, ul, LL, ll, U, u, L, l
+        string result = value;
+
+        while (result.Length > 0)
+        {
+            char last = result[^1];
+
+            if (last is 'U' or 'u' or 'L' or 'l')
+            {
+                result = result[..^1];
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        return result;
     }
 
     private static void ParseClasses(
@@ -1282,6 +1305,14 @@ public static partial class HeaderParser
                 continue;
             }
 
+            // Detect C-style array parameters (e.g., "const MTL::Buffer* const buffers[]")
+            if (p.Contains("[]"))
+            {
+                paramList.Add(new RawParamInfo(p, ""));
+
+                continue;
+            }
+
             string possibleName = p[(lastSp + 1)..].Trim();
 
             // If possibleName starts with *, it's part of the type
@@ -1299,7 +1330,8 @@ public static partial class HeaderParser
                     paramList.Add(new RawParamInfo(paramType.Trim(), paramName));
                 }
             }
-            else if (char.IsLetter(possibleName[0]) || possibleName[0] == '_')
+            else if ((char.IsLetter(possibleName[0]) || possibleName[0] == '_')
+                && !possibleName.Contains("::") && !possibleName.Contains('*'))
             {
                 string paramType = p[..lastSp].Trim();
                 paramList.Add(new RawParamInfo(paramType, possibleName));
@@ -1355,15 +1387,21 @@ public static partial class HeaderParser
 
         string t = typeStr.Trim();
 
+        // Reject array types
+        if (t.Contains("[]"))
+        {
+            return null;
+        }
+
         // Strip leading const
         if (t.StartsWith("const "))
         {
             t = t[6..].Trim();
         }
 
-        // Check for function pointers, blocks, std::function
+        // Check for function pointers, blocks, std::function, handler types
         if (t.Contains("function") || t.Contains("block") || t.Contains("Block")
-            || t.Contains("(*)") || t.Contains("(^)"))
+            || t.Contains("(*)") || t.Contains("(^"))
         {
             return null;
         }
@@ -1580,6 +1618,12 @@ public static partial class HeaderParser
 
     private static string? MapGenericClassName(string name, string prefix)
     {
+        // Skip handler/callback types (std::function wrappers and block types)
+        if (name.Contains("Handler"))
+        {
+            return null;
+        }
+
         // Special class name mappings
         string? mapped = name switch
         {

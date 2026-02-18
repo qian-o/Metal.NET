@@ -29,21 +29,21 @@ public class MTLIndirectCommandBuffer : IDisposable
 
     public MTLIndirectComputeCommand IndirectComputeCommand(nuint commandIndex)
     {
-        MTLIndirectComputeCommand result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectComputeCommand, commandIndex));
+        MTLIndirectComputeCommand result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectComputeCommandAtIndex, commandIndex));
 
         return result;
     }
 
     public MTLIndirectRenderCommand IndirectRenderCommand(nuint commandIndex)
     {
-        MTLIndirectRenderCommand result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectRenderCommand, commandIndex));
+        MTLIndirectRenderCommand result = new(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectRenderCommandAtIndex, commandIndex));
 
         return result;
     }
 
     public void Reset(NSRange range)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferSelector.Reset, range);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferSelector.ResetWithRange, range);
     }
 
     public static implicit operator nint(MTLIndirectCommandBuffer value)
@@ -78,9 +78,9 @@ file class MTLIndirectCommandBufferSelector
 
     public static readonly Selector Size = Selector.Register("size");
 
-    public static readonly Selector IndirectComputeCommand = Selector.Register("indirectComputeCommand:");
+    public static readonly Selector IndirectComputeCommandAtIndex = Selector.Register("indirectComputeCommandAtIndex:");
 
-    public static readonly Selector IndirectRenderCommand = Selector.Register("indirectRenderCommand:");
+    public static readonly Selector IndirectRenderCommandAtIndex = Selector.Register("indirectRenderCommandAtIndex:");
 
-    public static readonly Selector Reset = Selector.Register("reset:");
+    public static readonly Selector ResetWithRange = Selector.Register("resetWithRange:");
 }

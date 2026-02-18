@@ -84,3 +84,55 @@ public class FreeFunctionDef
 
     public string FrameworkLibrary { get; set; } = "/System/Library/Frameworks/Metal.framework/Metal";
 }
+
+/// <summary>Result of parsing all metal-cpp headers.</summary>
+public class ParseResult
+{
+    public List<EnumDef> Enums { get; } = [];
+
+    public List<ObjCClassDef> Classes { get; } = [];
+
+    public List<FreeFunctionDef> FreeFunctions { get; } = [];
+
+    public void Deduplicate()
+    {
+        Dictionary<string, EnumDef> seenEnums = [];
+
+        foreach (EnumDef e in Enums)
+        {
+            if (!seenEnums.ContainsKey(e.Name))
+            {
+                seenEnums[e.Name] = e;
+            }
+        }
+
+        Enums.Clear();
+        Enums.AddRange(seenEnums.Values);
+
+        Dictionary<string, ObjCClassDef> seenClasses = [];
+
+        foreach (ObjCClassDef c in Classes)
+        {
+            if (!seenClasses.ContainsKey(c.Name))
+            {
+                seenClasses[c.Name] = c;
+            }
+        }
+
+        Classes.Clear();
+        Classes.AddRange(seenClasses.Values);
+
+        Dictionary<string, FreeFunctionDef> seenFuncs = [];
+
+        foreach (FreeFunctionDef f in FreeFunctions)
+        {
+            if (!seenFuncs.ContainsKey(f.NativeName))
+            {
+                seenFuncs[f.NativeName] = f;
+            }
+        }
+
+        FreeFunctions.Clear();
+        FreeFunctions.AddRange(seenFuncs.Values);
+    }
+}

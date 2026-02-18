@@ -24,7 +24,7 @@ public class MTLVisibleFunctionTable : IDisposable
 
     public void SetFunction(MTLFunctionHandle function, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLVisibleFunctionTableSelector.SetFunctionIndex, function.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLVisibleFunctionTableSelector.SetFunctionAtIndex, function.NativePtr, index);
     }
 
     public static implicit operator nint(MTLVisibleFunctionTable value)
@@ -57,5 +57,5 @@ file class MTLVisibleFunctionTableSelector
 {
     public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
 
-    public static readonly Selector SetFunctionIndex = Selector.Register("setFunction:index:");
+    public static readonly Selector SetFunctionAtIndex = Selector.Register("setFunction:atIndex:");
 }
