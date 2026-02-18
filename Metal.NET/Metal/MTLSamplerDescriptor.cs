@@ -25,14 +25,14 @@ public class MTLSamplerDescriptor : IDisposable
 
     public MTLSamplerBorderColor BorderColor
     {
-        get => (MTLSamplerBorderColor)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLSamplerDescriptorSelector.BorderColor));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetBorderColor, (uint)value);
+        get => (MTLSamplerBorderColor)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSamplerDescriptorSelector.BorderColor));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetBorderColor, (nuint)value);
     }
 
     public MTLCompareFunction CompareFunction
     {
-        get => (MTLCompareFunction)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLSamplerDescriptorSelector.CompareFunction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetCompareFunction, (uint)value);
+        get => (MTLCompareFunction)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSamplerDescriptorSelector.CompareFunction));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetCompareFunction, (nuint)value);
     }
 
     public NSString Label
@@ -67,8 +67,8 @@ public class MTLSamplerDescriptor : IDisposable
 
     public MTLSamplerMinMagFilter MagFilter
     {
-        get => (MTLSamplerMinMagFilter)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLSamplerDescriptorSelector.MagFilter));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetMagFilter, (uint)value);
+        get => (MTLSamplerMinMagFilter)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSamplerDescriptorSelector.MagFilter));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetMagFilter, (nuint)value);
     }
 
     public nuint MaxAnisotropy
@@ -79,14 +79,14 @@ public class MTLSamplerDescriptor : IDisposable
 
     public MTLSamplerMinMagFilter MinFilter
     {
-        get => (MTLSamplerMinMagFilter)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLSamplerDescriptorSelector.MinFilter));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetMinFilter, (uint)value);
+        get => (MTLSamplerMinMagFilter)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSamplerDescriptorSelector.MinFilter));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetMinFilter, (nuint)value);
     }
 
     public MTLSamplerMipFilter MipFilter
     {
-        get => (MTLSamplerMipFilter)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLSamplerDescriptorSelector.MipFilter));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetMipFilter, (uint)value);
+        get => (MTLSamplerMipFilter)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSamplerDescriptorSelector.MipFilter));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetMipFilter, (nuint)value);
     }
 
     public Bool8 NormalizedCoordinates
@@ -97,20 +97,20 @@ public class MTLSamplerDescriptor : IDisposable
 
     public MTLSamplerAddressMode RAddressMode
     {
-        get => (MTLSamplerAddressMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLSamplerDescriptorSelector.RAddressMode));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetRAddressMode, (uint)value);
+        get => (MTLSamplerAddressMode)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSamplerDescriptorSelector.RAddressMode));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetRAddressMode, (nuint)value);
     }
 
     public MTLSamplerReductionMode ReductionMode
     {
-        get => (MTLSamplerReductionMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLSamplerDescriptorSelector.ReductionMode));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetReductionMode, (uint)value);
+        get => (MTLSamplerReductionMode)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSamplerDescriptorSelector.ReductionMode));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetReductionMode, (nuint)value);
     }
 
     public MTLSamplerAddressMode SAddressMode
     {
-        get => (MTLSamplerAddressMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLSamplerDescriptorSelector.SAddressMode));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetSAddressMode, (uint)value);
+        get => (MTLSamplerAddressMode)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSamplerDescriptorSelector.SAddressMode));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetSAddressMode, (nuint)value);
     }
 
     public Bool8 SupportArgumentBuffers
@@ -121,8 +121,8 @@ public class MTLSamplerDescriptor : IDisposable
 
     public MTLSamplerAddressMode TAddressMode
     {
-        get => (MTLSamplerAddressMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLSamplerDescriptorSelector.TAddressMode));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetTAddressMode, (uint)value);
+        get => (MTLSamplerAddressMode)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSamplerDescriptorSelector.TAddressMode));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorSelector.SetTAddressMode, (nuint)value);
     }
 
     public static implicit operator nint(MTLSamplerDescriptor value)

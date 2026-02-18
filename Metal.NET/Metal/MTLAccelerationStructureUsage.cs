@@ -1,7 +1,7 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTLAccelerationStructureUsage : uint
+public enum MTLAccelerationStructureUsage : ulong
 {
     AccelerationStructureUsageNone = 0,
 

@@ -21,8 +21,8 @@ public class MTLArgumentDescriptor : IDisposable
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentDescriptorSelector.Access));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetAccess, (uint)value);
+        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorSelector.Access));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetAccess, (nuint)value);
     }
 
     public nuint ArrayLength
@@ -39,8 +39,8 @@ public class MTLArgumentDescriptor : IDisposable
 
     public MTLDataType DataType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentDescriptorSelector.DataType));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetDataType, (uint)value);
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorSelector.DataType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetDataType, (nuint)value);
     }
 
     public nuint Index
@@ -51,8 +51,8 @@ public class MTLArgumentDescriptor : IDisposable
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentDescriptorSelector.TextureType));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetTextureType, (uint)value);
+        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorSelector.TextureType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetTextureType, (nuint)value);
     }
 
     public static implicit operator nint(MTLArgumentDescriptor value)

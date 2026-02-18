@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTL4AlphaToCoverageState : int
+public enum MTL4AlphaToCoverageState : long
 {
     AlphaToCoverageStateDisabled = 0,
 

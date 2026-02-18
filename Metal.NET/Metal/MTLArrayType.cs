@@ -54,7 +54,7 @@ public class MTLArrayType : IDisposable
 
     public MTLDataType ElementType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArrayTypeSelector.ElementType));
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeSelector.ElementType));
     }
 
     public nuint Stride

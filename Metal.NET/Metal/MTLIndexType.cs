@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLIndexType : uint
+public enum MTLIndexType : ulong
 {
     IndexTypeUInt16 = 0,
 

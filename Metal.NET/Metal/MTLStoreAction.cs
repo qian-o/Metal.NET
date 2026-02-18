@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLStoreAction : uint
+public enum MTLStoreAction : ulong
 {
     StoreActionDontCare = 0,
 

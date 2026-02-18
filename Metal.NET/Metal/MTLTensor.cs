@@ -29,7 +29,7 @@ public class MTLTensor : IDisposable
 
     public MTLTensorDataType DataType
     {
-        get => (MTLTensorDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTensorSelector.DataType));
+        get => (MTLTensorDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorSelector.DataType));
     }
 
     public MTLTensorExtents Dimensions
@@ -44,7 +44,7 @@ public class MTLTensor : IDisposable
 
     public MTLTensorUsage Usage
     {
-        get => (MTLTensorUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTensorSelector.Usage));
+        get => (MTLTensorUsage)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorSelector.Usage));
     }
 
     public void GetBytes(nint bytes, MTLTensorExtents strides, MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions)

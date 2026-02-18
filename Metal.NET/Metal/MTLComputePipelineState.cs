@@ -39,7 +39,7 @@ public class MTLComputePipelineState : IDisposable
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLComputePipelineStateSelector.ShaderValidation));
+        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineStateSelector.ShaderValidation));
     }
 
     public nuint StaticThreadgroupMemoryLength

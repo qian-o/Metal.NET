@@ -39,7 +39,7 @@ public class MTLBuffer : IDisposable
 
     public MTLBufferSparseTier SparseBufferTier
     {
-        get => (MTLBufferSparseTier)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLBufferSelector.SparseBufferTier));
+        get => (MTLBufferSparseTier)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferSelector.SparseBufferTier));
     }
 
     public void AddDebugMarker(NSString marker, NSRange range)

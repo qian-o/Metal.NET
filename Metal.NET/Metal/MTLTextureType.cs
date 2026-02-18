@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLTextureType : uint
+public enum MTLTextureType : ulong
 {
     TextureType1D = 0,
 

@@ -25,8 +25,8 @@ public class MTLComputePassDescriptor : IDisposable
 
     public MTLDispatchType DispatchType
     {
-        get => (MTLDispatchType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLComputePassDescriptorSelector.DispatchType));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePassDescriptorSelector.SetDispatchType, (uint)value);
+        get => (MTLDispatchType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePassDescriptorSelector.DispatchType));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePassDescriptorSelector.SetDispatchType, (nuint)value);
     }
 
     public MTLComputePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments

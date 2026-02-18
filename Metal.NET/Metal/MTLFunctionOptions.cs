@@ -1,7 +1,7 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTLFunctionOptions : uint
+public enum MTLFunctionOptions : ulong
 {
     FunctionOptionNone = 0,
 

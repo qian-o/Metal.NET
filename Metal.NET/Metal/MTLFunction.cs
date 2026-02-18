@@ -29,7 +29,7 @@ public class MTLFunction : IDisposable
 
     public MTLFunctionType FunctionType
     {
-        get => (MTLFunctionType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFunctionSelector.FunctionType));
+        get => (MTLFunctionType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionSelector.FunctionType));
     }
 
     public NSString Label
@@ -45,7 +45,7 @@ public class MTLFunction : IDisposable
 
     public MTLFunctionOptions Options
     {
-        get => (MTLFunctionOptions)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFunctionSelector.Options));
+        get => (MTLFunctionOptions)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionSelector.Options));
     }
 
     public nint PatchControlPointCount
@@ -55,7 +55,7 @@ public class MTLFunction : IDisposable
 
     public MTLPatchType PatchType
     {
-        get => (MTLPatchType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFunctionSelector.PatchType));
+        get => (MTLPatchType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionSelector.PatchType));
     }
 
     public NSArray StageInputAttributes

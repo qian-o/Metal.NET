@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLVisibilityResultType : int
+public enum MTLVisibilityResultType : long
 {
     VisibilityResultTypeReset = 0,
 

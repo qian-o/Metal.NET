@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLTessellationPartitionMode : uint
+public enum MTLTessellationPartitionMode : ulong
 {
     TessellationPartitionModePow2 = 0,
 

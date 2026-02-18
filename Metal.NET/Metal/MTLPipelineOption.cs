@@ -1,7 +1,7 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTLPipelineOption : uint
+public enum MTLPipelineOption : ulong
 {
     PipelineOptionNone = 0,
 

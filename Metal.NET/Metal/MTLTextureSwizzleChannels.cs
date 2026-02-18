@@ -38,7 +38,7 @@ public class MTLTextureSwizzleChannels : IDisposable
 
     public static MTLTextureSwizzleChannels Make(MTLTextureSwizzle r, MTLTextureSwizzle g, MTLTextureSwizzle b, MTLTextureSwizzle a)
     {
-        MTLTextureSwizzleChannels result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLTextureSwizzleChannelsSelector.MakeGBA, (uint)r, (uint)g, (uint)b, (uint)a));
+        MTLTextureSwizzleChannels result = new(ObjectiveCRuntime.MsgSendPtr(Class, MTLTextureSwizzleChannelsSelector.MakeGBA, (nuint)r, (nuint)g, (nuint)b, (nuint)a));
 
         return result;
     }

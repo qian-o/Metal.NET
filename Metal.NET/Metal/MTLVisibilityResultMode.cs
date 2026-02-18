@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLVisibilityResultMode : uint
+public enum MTLVisibilityResultMode : ulong
 {
     VisibilityResultModeDisabled = 0,
 

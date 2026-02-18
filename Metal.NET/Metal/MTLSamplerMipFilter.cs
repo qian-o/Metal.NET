@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLSamplerMipFilter : uint
+public enum MTLSamplerMipFilter : ulong
 {
     SamplerMipFilterNotMipmapped = 0,
 

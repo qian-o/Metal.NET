@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLHeapType : int
+public enum MTLHeapType : long
 {
     HeapTypeAutomatic = 0,
 

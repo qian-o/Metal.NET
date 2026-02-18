@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLCaptureError : int
+public enum MTLCaptureError : long
 {
     CaptureErrorNotSupported = 1,
 

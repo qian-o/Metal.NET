@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLBinaryArchiveError : uint
+public enum MTLBinaryArchiveError : ulong
 {
     BinaryArchiveErrorNone = 0,
 

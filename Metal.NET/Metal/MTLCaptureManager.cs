@@ -82,7 +82,7 @@ public class MTLCaptureManager : IDisposable
 
     public Bool8 SupportsDestination(MTLCaptureDestination destination)
     {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerSelector.SupportsDestination, (uint)destination);
+        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerSelector.SupportsDestination, (nuint)destination);
 
         return result;
     }

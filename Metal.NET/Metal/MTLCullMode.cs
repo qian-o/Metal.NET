@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLCullMode : uint
+public enum MTLCullMode : ulong
 {
     CullModeNone = 0,
 

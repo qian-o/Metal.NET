@@ -19,7 +19,7 @@ public class MTLArgument : IDisposable
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentSelector.Access));
+        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentSelector.Access));
     }
 
     public Bool8 Active
@@ -44,7 +44,7 @@ public class MTLArgument : IDisposable
 
     public MTLDataType BufferDataType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentSelector.BufferDataType));
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentSelector.BufferDataType));
     }
 
     public MTLPointerType BufferPointerType
@@ -79,12 +79,12 @@ public class MTLArgument : IDisposable
 
     public MTLDataType TextureDataType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentSelector.TextureDataType));
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentSelector.TextureDataType));
     }
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentSelector.TextureType));
+        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentSelector.TextureType));
     }
 
     public nuint ThreadgroupMemoryAlignment
@@ -99,7 +99,7 @@ public class MTLArgument : IDisposable
 
     public MTLArgumentType Type
     {
-        get => (MTLArgumentType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLArgumentSelector.Type));
+        get => (MTLArgumentType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentSelector.Type));
     }
 
     public static implicit operator nint(MTLArgument value)

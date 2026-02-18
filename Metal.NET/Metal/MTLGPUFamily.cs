@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLGPUFamily : int
+public enum MTLGPUFamily : long
 {
     GPUFamilyApple1 = 1001,
 

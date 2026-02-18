@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLMutability : uint
+public enum MTLMutability : ulong
 {
     MutabilityDefault = 0,
 

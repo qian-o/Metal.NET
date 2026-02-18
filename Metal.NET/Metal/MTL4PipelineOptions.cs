@@ -19,14 +19,14 @@ public class MTL4PipelineOptions : IDisposable
 
     public MTL4ShaderReflection ShaderReflection
     {
-        get => (MTL4ShaderReflection)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4PipelineOptionsSelector.ShaderReflection));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineOptionsSelector.SetShaderReflection, (uint)value);
+        get => (MTL4ShaderReflection)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4PipelineOptionsSelector.ShaderReflection));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineOptionsSelector.SetShaderReflection, (nuint)value);
     }
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4PipelineOptionsSelector.ShaderValidation));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineOptionsSelector.SetShaderValidation, (uint)value);
+        get => (MTLShaderValidation)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4PipelineOptionsSelector.ShaderValidation));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineOptionsSelector.SetShaderValidation, (nuint)value);
     }
 
     public static implicit operator nint(MTL4PipelineOptions value)

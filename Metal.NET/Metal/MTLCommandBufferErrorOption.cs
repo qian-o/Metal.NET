@@ -1,7 +1,7 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTLCommandBufferErrorOption : uint
+public enum MTLCommandBufferErrorOption : ulong
 {
     CommandBufferErrorOptionNone = 0,
 

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLAttributeFormat : uint
+public enum MTLAttributeFormat : ulong
 {
     AttributeFormatInvalid = 0,
 

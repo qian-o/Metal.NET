@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLCompileSymbolVisibility : int
+public enum MTLCompileSymbolVisibility : long
 {
     CompileSymbolVisibilityDefault = 0,
 

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLMultisampleDepthResolveFilter : uint
+public enum MTLMultisampleDepthResolveFilter : ulong
 {
     MultisampleDepthResolveFilterSample0 = 0,
 

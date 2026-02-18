@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLCompareFunction : uint
+public enum MTLCompareFunction : ulong
 {
     CompareFunctionNever = 0,
 

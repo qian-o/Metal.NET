@@ -25,8 +25,8 @@ public class MTLAccelerationStructureDescriptor : IDisposable
 
     public MTLAccelerationStructureUsage Usage
     {
-        get => (MTLAccelerationStructureUsage)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLAccelerationStructureDescriptorSelector.Usage));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureDescriptorSelector.SetUsage, (uint)value);
+        get => (MTLAccelerationStructureUsage)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureDescriptorSelector.Usage));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureDescriptorSelector.SetUsage, (nuint)value);
     }
 
     public static implicit operator nint(MTLAccelerationStructureDescriptor value)

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLVertexStepFunction : uint
+public enum MTLVertexStepFunction : ulong
 {
     VertexStepFunctionConstant = 0,
 

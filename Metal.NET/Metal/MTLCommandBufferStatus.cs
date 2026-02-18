@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLCommandBufferStatus : uint
+public enum MTLCommandBufferStatus : ulong
 {
     CommandBufferStatusNotEnqueued = 0,
 

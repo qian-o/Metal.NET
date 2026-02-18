@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLStorageMode : uint
+public enum MTLStorageMode : ulong
 {
     StorageModeShared = 0,
 

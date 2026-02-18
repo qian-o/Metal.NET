@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLCommandEncoderErrorState : int
+public enum MTLCommandEncoderErrorState : long
 {
     CommandEncoderErrorStateUnknown = 0,
 

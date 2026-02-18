@@ -1,7 +1,7 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTLAccelerationStructureRefitOptions : uint
+public enum MTLAccelerationStructureRefitOptions : ulong
 {
     AccelerationStructureRefitOptionVertexData = 1,
 

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLFXSpatialScalerColorProcessingMode : int
+public enum MTLFXSpatialScalerColorProcessingMode : long
 {
     SpatialScalerColorProcessingModePerceptual = 0,
 

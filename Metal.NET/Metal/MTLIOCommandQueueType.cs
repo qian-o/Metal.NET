@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLIOCommandQueueType : int
+public enum MTLIOCommandQueueType : long
 {
     IOCommandQueueTypeConcurrent = 0,
 

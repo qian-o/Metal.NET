@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLCommandBufferError : uint
+public enum MTLCommandBufferError : ulong
 {
     CommandBufferErrorNone = 0,
 

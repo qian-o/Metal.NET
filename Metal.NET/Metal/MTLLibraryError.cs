@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLLibraryError : uint
+public enum MTLLibraryError : ulong
 {
     LibraryErrorUnsupported = 1,
 

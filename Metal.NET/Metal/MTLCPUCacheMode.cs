@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLCPUCacheMode : uint
+public enum MTLCPUCacheMode : ulong
 {
     CPUCacheModeDefaultCache = 0,
 

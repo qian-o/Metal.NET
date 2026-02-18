@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLArgumentType : uint
+public enum MTLArgumentType : ulong
 {
     ArgumentTypeBuffer = 0,
 

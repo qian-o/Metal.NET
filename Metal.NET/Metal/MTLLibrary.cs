@@ -40,7 +40,7 @@ public class MTLLibrary : IDisposable
 
     public MTLLibraryType Type
     {
-        get => (MTLLibraryType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLLibrarySelector.Type));
+        get => (MTLLibraryType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLLibrarySelector.Type));
     }
 
     public MTLFunction NewFunction(NSString functionName)

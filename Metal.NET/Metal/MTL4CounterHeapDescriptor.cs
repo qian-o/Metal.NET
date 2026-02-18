@@ -25,8 +25,8 @@ public class MTL4CounterHeapDescriptor : IDisposable
 
     public MTL4CounterHeapType Type
     {
-        get => (MTL4CounterHeapType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4CounterHeapDescriptorSelector.Type));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapDescriptorSelector.SetType, (uint)value);
+        get => (MTL4CounterHeapType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CounterHeapDescriptorSelector.Type));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapDescriptorSelector.SetType, (nuint)value);
     }
 
     public static implicit operator nint(MTL4CounterHeapDescriptor value)

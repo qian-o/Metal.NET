@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLDataType : uint
+public enum MTLDataType : ulong
 {
     DataTypeNone = 0,
 

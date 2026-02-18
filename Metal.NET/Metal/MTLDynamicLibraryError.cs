@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLDynamicLibraryError : uint
+public enum MTLDynamicLibraryError : ulong
 {
     DynamicLibraryErrorNone = 0,
 

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLIOCompressionStatus : int
+public enum MTLIOCompressionStatus : long
 {
     IOCompressionStatusComplete = 0,
 

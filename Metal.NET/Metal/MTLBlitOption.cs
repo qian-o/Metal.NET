@@ -1,7 +1,7 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTLBlitOption : uint
+public enum MTLBlitOption : ulong
 {
     BlitOptionNone = 0,
 

@@ -30,7 +30,7 @@ public class MTLIOCommandBuffer : IDisposable
 
     public MTLIOStatus Status
     {
-        get => (MTLIOStatus)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLIOCommandBufferSelector.Status));
+        get => (MTLIOStatus)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIOCommandBufferSelector.Status));
     }
 
     public void AddBarrier()

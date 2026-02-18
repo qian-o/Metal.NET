@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLBindingType : int
+public enum MTLBindingType : long
 {
     BindingTypeBuffer = 0,
 

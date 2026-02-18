@@ -1,7 +1,7 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTLRenderStages : uint
+public enum MTLRenderStages : ulong
 {
     RenderStageVertex = 1,
 

@@ -24,17 +24,17 @@ public class MTLFunctionConstantValues : IDisposable
 
     public void SetConstantValue(nint value, MTLDataType type, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValueTypeIndex, value, (uint)type, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValueTypeIndex, value, (nuint)type, index);
     }
 
     public void SetConstantValue(nint value, MTLDataType type, NSString name)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValueTypeName, value, (uint)type, name.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValueTypeName, value, (nuint)type, name.NativePtr);
     }
 
     public void SetConstantValues(nint values, MTLDataType type, NSRange range)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValuesTypeRange, values, (uint)type, range);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionConstantValuesSelector.SetConstantValuesTypeRange, values, (nuint)type, range);
     }
 
     public static implicit operator nint(MTLFunctionConstantValues value)

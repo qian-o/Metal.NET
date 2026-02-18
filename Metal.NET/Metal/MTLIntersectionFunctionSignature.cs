@@ -1,7 +1,7 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTLIntersectionFunctionSignature : uint
+public enum MTLIntersectionFunctionSignature : ulong
 {
     IntersectionFunctionSignatureNone = 0,
 

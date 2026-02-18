@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLSparsePageSize : int
+public enum MTLSparsePageSize : long
 {
     SparsePageSize16 = 101,
 

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLCounterSamplingPoint : uint
+public enum MTLCounterSamplingPoint : ulong
 {
     CounterSamplingPointAtStageBoundary = 0,
 

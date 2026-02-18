@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLFunctionType : uint
+public enum MTLFunctionType : ulong
 {
     FunctionTypeVertex = 1,
 

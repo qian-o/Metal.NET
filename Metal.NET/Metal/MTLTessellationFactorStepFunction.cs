@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLTessellationFactorStepFunction : uint
+public enum MTLTessellationFactorStepFunction : ulong
 {
     TessellationFactorStepFunctionConstant = 0,
 

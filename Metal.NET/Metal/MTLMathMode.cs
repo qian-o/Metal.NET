@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLMathMode : int
+public enum MTLMathMode : long
 {
     MathModeSafe = 0,
 

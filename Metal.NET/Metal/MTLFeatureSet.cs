@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLFeatureSet : uint
+public enum MTLFeatureSet : ulong
 {
     FeatureSet_iOS_GPUFamily1_v1 = 0,
 

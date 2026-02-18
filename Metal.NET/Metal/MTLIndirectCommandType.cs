@@ -1,7 +1,7 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTLIndirectCommandType : uint
+public enum MTLIndirectCommandType : ulong
 {
     IndirectCommandTypeDraw = 1,
 

@@ -29,7 +29,7 @@ public class MTLAttribute : IDisposable
 
     public MTLDataType AttributeType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLAttributeSelector.AttributeType));
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeSelector.AttributeType));
     }
 
     public Bool8 IsActive

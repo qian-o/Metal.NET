@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLAccelerationStructureInstanceDescriptorType : uint
+public enum MTLAccelerationStructureInstanceDescriptorType : ulong
 {
     AccelerationStructureInstanceDescriptorTypeDefault = 0,
 

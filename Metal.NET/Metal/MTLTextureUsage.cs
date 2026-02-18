@@ -1,7 +1,7 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTLTextureUsage : uint
+public enum MTLTextureUsage : ulong
 {
     TextureUsageUnknown = 0,
 

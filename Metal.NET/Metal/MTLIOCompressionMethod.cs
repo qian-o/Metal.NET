@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLIOCompressionMethod : int
+public enum MTLIOCompressionMethod : long
 {
     IOCompressionMethodZlib = 0,
 

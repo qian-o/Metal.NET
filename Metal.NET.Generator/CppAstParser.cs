@@ -361,7 +361,8 @@ public static class CppAstParser
             if (string.IsNullOrEmpty(intTypeName)) return null;
 
             enumName = intTypeName;
-            underlyingType = "uint"; // _MTL_OPTIONS always uses NS::UInteger -> uint
+            // Resolve the actual underlying type through the typedef
+            underlyingType = MapEnumUnderlyingType(cppEnum.IntegerType);
         }
 
         string fullName = $"{prefix}{enumName}";
@@ -395,13 +396,27 @@ public static class CppAstParser
             if (!seen.Add(memberName))
                 continue; // skip duplicates
 
-            string value = item.Value.ToString();
+            // Prefer ValueExpression (raw text from C++ source) when item.Value overflows long
+            var exprText = item.ValueExpression?.ToString();
+            string value;
+            if (item.Value < 0 && !string.IsNullOrEmpty(exprText) && long.TryParse(exprText, out long parsedValue) && parsedValue >= 0)
+            {
+                // CppAst item.Value overflowed — use the original expression text
+                value = exprText;
+            }
+            else
+            {
+                value = item.Value.ToString();
+            }
 
             // Handle negative values for unsigned underlying types
-            if (item.Value < 0 && (underlyingType == "uint" || underlyingType == "ushort" || underlyingType == "byte"))
+            if (item.Value < 0 && value == item.Value.ToString()
+                && (underlyingType == "ulong" || underlyingType == "uint" || underlyingType == "ushort" || underlyingType == "byte"))
             {
                 // Convert to unsigned representation
-                if (underlyingType == "uint")
+                if (underlyingType == "ulong")
+                    value = unchecked((ulong)item.Value).ToString();
+                else if (underlyingType == "uint")
                     value = unchecked((uint)item.Value).ToString();
                 else if (underlyingType == "ushort")
                     value = unchecked((ushort)item.Value).ToString();
@@ -423,11 +438,18 @@ public static class CppAstParser
     {
         if (type == null) return "uint";
 
+        // Resolve typedefs to their underlying type
+        while (type is CppTypedef td)
+            type = td.ElementType;
+
+        // Unwrap qualifiers
+        type = UnwrapType(type);
+
         var displayName = type.GetDisplayName();
         return displayName switch
         {
-            "UInteger" or "NS::UInteger" or "unsigned long" or "unsigned long long" => "uint",
-            "Integer" or "NS::Integer" or "long" or "long long" => "int",
+            "UInteger" or "NS::UInteger" or "unsigned long" or "unsigned long long" => "ulong",
+            "Integer" or "NS::Integer" or "long" or "long long" => "long",
             "unsigned int" or "uint32_t" => "uint",
             "int" or "int32_t" => "int",
             "unsigned short" or "uint16_t" => "ushort",

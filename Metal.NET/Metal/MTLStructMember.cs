@@ -29,7 +29,7 @@ public class MTLStructMember : IDisposable
 
     public MTLDataType DataType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLStructMemberSelector.DataType));
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStructMemberSelector.DataType));
     }
 
     public NSString Name

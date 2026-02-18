@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLTensorError : int
+public enum MTLTensorError : long
 {
     TensorErrorNone = 0,
 

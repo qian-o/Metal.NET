@@ -19,7 +19,7 @@ public class MTLPointerType : IDisposable
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLPointerTypeSelector.Access));
+        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeSelector.Access));
     }
 
     public nuint Alignment
@@ -49,7 +49,7 @@ public class MTLPointerType : IDisposable
 
     public MTLDataType ElementType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLPointerTypeSelector.ElementType));
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeSelector.ElementType));
     }
 
     public static implicit operator nint(MTLPointerType value)

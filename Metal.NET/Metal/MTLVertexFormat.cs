@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLVertexFormat : uint
+public enum MTLVertexFormat : ulong
 {
     VertexFormatInvalid = 0,
 

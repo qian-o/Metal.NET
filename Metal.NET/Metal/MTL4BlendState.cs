@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTL4BlendState : int
+public enum MTL4BlendState : long
 {
     BlendStateDisabled = 0,
 

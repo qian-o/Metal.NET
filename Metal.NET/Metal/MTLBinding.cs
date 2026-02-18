@@ -19,7 +19,7 @@ public class MTLBinding : IDisposable
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLBindingSelector.Access));
+        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBindingSelector.Access));
     }
 
     public Bool8 Argument
@@ -49,7 +49,7 @@ public class MTLBinding : IDisposable
 
     public MTLBindingType Type
     {
-        get => (MTLBindingType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLBindingSelector.Type));
+        get => (MTLBindingType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBindingSelector.Type));
     }
 
     public Bool8 Used

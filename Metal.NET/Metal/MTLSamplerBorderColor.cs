@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLSamplerBorderColor : uint
+public enum MTLSamplerBorderColor : ulong
 {
     SamplerBorderColorTransparentBlack = 0,
 

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLCurveType : int
+public enum MTLCurveType : long
 {
     CurveTypeRound = 0,
 

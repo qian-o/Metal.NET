@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLCaptureDestination : int
+public enum MTLCaptureDestination : long
 {
     CaptureDestinationDeveloperTools = 1,
 

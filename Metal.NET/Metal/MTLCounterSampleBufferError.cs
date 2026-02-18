@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLCounterSampleBufferError : int
+public enum MTLCounterSampleBufferError : long
 {
     CounterSampleBufferErrorOutOfMemory = 0,
 

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLPatchType : uint
+public enum MTLPatchType : ulong
 {
     PatchTypeNone = 0,
 

@@ -24,12 +24,12 @@ public class MTLTensorBinding : IDisposable
 
     public MTLDataType IndexType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTensorBindingSelector.IndexType));
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorBindingSelector.IndexType));
     }
 
     public MTLTensorDataType TensorDataType
     {
-        get => (MTLTensorDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTensorBindingSelector.TensorDataType));
+        get => (MTLTensorDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorBindingSelector.TensorDataType));
     }
 
     public static implicit operator nint(MTLTensorBinding value)

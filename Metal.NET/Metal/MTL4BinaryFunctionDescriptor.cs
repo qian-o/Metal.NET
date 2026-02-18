@@ -31,8 +31,8 @@ public class MTL4BinaryFunctionDescriptor : IDisposable
 
     public MTL4BinaryFunctionOptions Options
     {
-        get => (MTL4BinaryFunctionOptions)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4BinaryFunctionDescriptorSelector.Options));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorSelector.SetOptions, (uint)value);
+        get => (MTL4BinaryFunctionOptions)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4BinaryFunctionDescriptorSelector.Options));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorSelector.SetOptions, (nuint)value);
     }
 
     public static implicit operator nint(MTL4BinaryFunctionDescriptor value)

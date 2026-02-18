@@ -1,7 +1,7 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTL4RenderEncoderOptions : uint
+public enum MTL4RenderEncoderOptions : ulong
 {
     RenderEncoderOptionNone = 0,
 

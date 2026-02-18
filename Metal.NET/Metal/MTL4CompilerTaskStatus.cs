@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTL4CompilerTaskStatus : int
+public enum MTL4CompilerTaskStatus : long
 {
     CompilerTaskStatusNone = 0,
 

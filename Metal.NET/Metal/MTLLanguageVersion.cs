@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLLanguageVersion : uint
+public enum MTLLanguageVersion : ulong
 {
     LanguageVersion1_0 = 65536,
 

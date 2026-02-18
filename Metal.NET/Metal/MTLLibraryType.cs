@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLLibraryType : int
+public enum MTLLibraryType : long
 {
     LibraryTypeExecutable = 0,
 

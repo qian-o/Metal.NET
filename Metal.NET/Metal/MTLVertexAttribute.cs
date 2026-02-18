@@ -29,7 +29,7 @@ public class MTLVertexAttribute : IDisposable
 
     public MTLDataType AttributeType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLVertexAttributeSelector.AttributeType));
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeSelector.AttributeType));
     }
 
     public Bool8 IsActive

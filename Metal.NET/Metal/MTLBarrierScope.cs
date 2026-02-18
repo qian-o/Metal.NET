@@ -1,7 +1,7 @@
 ﻿namespace Metal.NET;
 
 [Flags]
-public enum MTLBarrierScope : uint
+public enum MTLBarrierScope : ulong
 {
     BarrierScopeBuffers = 1,
 

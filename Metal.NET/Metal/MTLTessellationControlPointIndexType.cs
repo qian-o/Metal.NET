@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLTessellationControlPointIndexType : uint
+public enum MTLTessellationControlPointIndexType : ulong
 {
     TessellationControlPointIndexTypeNone = 0,
 

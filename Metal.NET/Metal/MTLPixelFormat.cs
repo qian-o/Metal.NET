@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLPixelFormat : uint
+public enum MTLPixelFormat : ulong
 {
     PixelFormatInvalid = 0,
 

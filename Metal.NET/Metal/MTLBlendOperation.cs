@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLBlendOperation : uint
+public enum MTLBlendOperation : ulong
 {
     BlendOperationAdd = 0,
 

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLPrimitiveTopologyClass : uint
+public enum MTLPrimitiveTopologyClass : ulong
 {
     PrimitiveTopologyClassUnspecified = 0,
 

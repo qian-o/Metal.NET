@@ -37,8 +37,8 @@ public class MTLIOCommandQueueDescriptor : IDisposable
 
     public MTLIOPriority Priority
     {
-        get => (MTLIOPriority)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLIOCommandQueueDescriptorSelector.Priority));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetPriority, (uint)value);
+        get => (MTLIOPriority)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIOCommandQueueDescriptorSelector.Priority));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetPriority, (nuint)value);
     }
 
     public MTLIOScratchBufferAllocator ScratchBufferAllocator
@@ -49,8 +49,8 @@ public class MTLIOCommandQueueDescriptor : IDisposable
 
     public MTLIOCommandQueueType Type
     {
-        get => (MTLIOCommandQueueType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLIOCommandQueueDescriptorSelector.Type));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetType, (uint)value);
+        get => (MTLIOCommandQueueType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIOCommandQueueDescriptorSelector.Type));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetType, (nuint)value);
     }
 
     public static implicit operator nint(MTLIOCommandQueueDescriptor value)

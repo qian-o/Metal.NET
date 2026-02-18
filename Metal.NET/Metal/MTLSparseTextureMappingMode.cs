@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLSparseTextureMappingMode : uint
+public enum MTLSparseTextureMappingMode : ulong
 {
     SparseTextureMappingModeMap = 0,
 

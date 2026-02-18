@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLTensorDataType : int
+public enum MTLTensorDataType : long
 {
     TensorDataTypeNone = 0,
 

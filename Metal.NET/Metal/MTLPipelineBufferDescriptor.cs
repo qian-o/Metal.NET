@@ -19,8 +19,8 @@ public class MTLPipelineBufferDescriptor : IDisposable
 
     public MTLMutability Mutability
     {
-        get => (MTLMutability)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLPipelineBufferDescriptorSelector.Mutability));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorSelector.SetMutability, (uint)value);
+        get => (MTLMutability)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPipelineBufferDescriptorSelector.Mutability));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorSelector.SetMutability, (nuint)value);
     }
 
     public static implicit operator nint(MTLPipelineBufferDescriptor value)

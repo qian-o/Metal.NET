@@ -25,8 +25,8 @@ public class MTLLogStateDescriptor : IDisposable
 
     public MTLLogLevel Level
     {
-        get => (MTLLogLevel)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLLogStateDescriptorSelector.Level));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLogStateDescriptorSelector.SetLevel, (uint)value);
+        get => (MTLLogLevel)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLLogStateDescriptorSelector.Level));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLogStateDescriptorSelector.SetLevel, (nuint)value);
     }
 
     public static implicit operator nint(MTLLogStateDescriptor value)

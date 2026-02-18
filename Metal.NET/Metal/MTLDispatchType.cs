@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLDispatchType : uint
+public enum MTLDispatchType : ulong
 {
     DispatchTypeSerial = 0,
 

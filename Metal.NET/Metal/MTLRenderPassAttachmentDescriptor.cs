@@ -31,8 +31,8 @@ public class MTLRenderPassAttachmentDescriptor : IDisposable
 
     public MTLLoadAction LoadAction
     {
-        get => (MTLLoadAction)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.LoadAction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetLoadAction, (uint)value);
+        get => (MTLLoadAction)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.LoadAction));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetLoadAction, (nuint)value);
     }
 
     public nuint ResolveDepthPlane
@@ -67,14 +67,14 @@ public class MTLRenderPassAttachmentDescriptor : IDisposable
 
     public MTLStoreAction StoreAction
     {
-        get => (MTLStoreAction)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.StoreAction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetStoreAction, (uint)value);
+        get => (MTLStoreAction)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.StoreAction));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetStoreAction, (nuint)value);
     }
 
     public MTLStoreActionOptions StoreActionOptions
     {
-        get => (MTLStoreActionOptions)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.StoreActionOptions));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetStoreActionOptions, (uint)value);
+        get => (MTLStoreActionOptions)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.StoreActionOptions));
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetStoreActionOptions, (nuint)value);
     }
 
     public MTLTexture Texture

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTL4IndirectCommandBufferSupportState : int
+public enum MTL4IndirectCommandBufferSupportState : long
 {
     IndirectCommandBufferSupportStateDisabled = 0,
 

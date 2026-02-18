@@ -24,7 +24,7 @@ public class MTLResource : IDisposable
 
     public MTLCPUCacheMode CpuCacheMode
     {
-        get => (MTLCPUCacheMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLResourceSelector.CpuCacheMode));
+        get => (MTLCPUCacheMode)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.CpuCacheMode));
     }
 
     public MTLDevice Device
@@ -34,7 +34,7 @@ public class MTLResource : IDisposable
 
     public MTLHazardTrackingMode HazardTrackingMode
     {
-        get => (MTLHazardTrackingMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLResourceSelector.HazardTrackingMode));
+        get => (MTLHazardTrackingMode)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.HazardTrackingMode));
     }
 
     public MTLHeap Heap
@@ -60,12 +60,12 @@ public class MTLResource : IDisposable
 
     public MTLResourceOptions ResourceOptions
     {
-        get => (MTLResourceOptions)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLResourceSelector.ResourceOptions));
+        get => (MTLResourceOptions)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.ResourceOptions));
     }
 
     public MTLStorageMode StorageMode
     {
-        get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLResourceSelector.StorageMode));
+        get => (MTLStorageMode)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.StorageMode));
     }
 
     public void MakeAliasable()
@@ -82,7 +82,7 @@ public class MTLResource : IDisposable
 
     public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
     {
-        MTLPurgeableState result = (MTLPurgeableState)ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLResourceSelector.SetPurgeableState, (uint)state);
+        MTLPurgeableState result = (MTLPurgeableState)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.SetPurgeableState, (nuint)state);
 
         return result;
     }

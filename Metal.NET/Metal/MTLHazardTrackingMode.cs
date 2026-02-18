@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLHazardTrackingMode : uint
+public enum MTLHazardTrackingMode : ulong
 {
     HazardTrackingModeDefault = 0,
 

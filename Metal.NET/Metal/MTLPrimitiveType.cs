@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLPrimitiveType : uint
+public enum MTLPrimitiveType : ulong
 {
     PrimitiveTypePoint = 0,
 

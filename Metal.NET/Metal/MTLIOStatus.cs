@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLIOStatus : int
+public enum MTLIOStatus : long
 {
     IOStatusPending = 0,
 

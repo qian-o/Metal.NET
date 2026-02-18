@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLCurveEndCaps : int
+public enum MTLCurveEndCaps : long
 {
     CurveEndCapsNone = 0,
 

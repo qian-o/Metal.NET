@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLMathFloatingPointFunctions : int
+public enum MTLMathFloatingPointFunctions : long
 {
     MathFloatingPointFunctionsFast = 0,
 

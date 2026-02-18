@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLStencilOperation : uint
+public enum MTLStencilOperation : ulong
 {
     StencilOperationKeep = 0,
 

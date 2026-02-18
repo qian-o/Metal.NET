@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLStepFunction : uint
+public enum MTLStepFunction : ulong
 {
     StepFunctionConstant = 0,
 

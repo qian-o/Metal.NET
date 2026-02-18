@@ -34,7 +34,7 @@ public class MTLFunctionConstant : IDisposable
 
     public MTLDataType Type
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLFunctionConstantSelector.Type));
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionConstantSelector.Type));
     }
 
     public static implicit operator nint(MTLFunctionConstant value)

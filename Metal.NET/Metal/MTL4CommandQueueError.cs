@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTL4CommandQueueError : int
+public enum MTL4CommandQueueError : long
 {
     CommandQueueErrorNone = 0,
 

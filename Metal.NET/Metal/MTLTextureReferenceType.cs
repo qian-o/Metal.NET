@@ -19,7 +19,7 @@ public class MTLTextureReferenceType : IDisposable
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTextureReferenceTypeSelector.Access));
+        get => (MTLBindingAccess)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureReferenceTypeSelector.Access));
     }
 
     public Bool8 IsDepthTexture
@@ -29,12 +29,12 @@ public class MTLTextureReferenceType : IDisposable
 
     public MTLDataType TextureDataType
     {
-        get => (MTLDataType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTextureReferenceTypeSelector.TextureDataType));
+        get => (MTLDataType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureReferenceTypeSelector.TextureDataType));
     }
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLTextureReferenceTypeSelector.TextureType));
+        get => (MTLTextureType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureReferenceTypeSelector.TextureType));
     }
 
     public static implicit operator nint(MTLTextureReferenceType value)

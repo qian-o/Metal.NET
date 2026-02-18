@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLBindingAccess : uint
+public enum MTLBindingAccess : ulong
 {
     BindingAccessReadOnly = 0,
 

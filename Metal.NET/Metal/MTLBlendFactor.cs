@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLBlendFactor : uint
+public enum MTLBlendFactor : ulong
 {
     BlendFactorZero = 0,
 

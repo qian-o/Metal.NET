@@ -30,7 +30,7 @@ public class MTL4CounterHeap : IDisposable
 
     public MTL4CounterHeapType Type
     {
-        get => (MTL4CounterHeapType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTL4CounterHeapSelector.Type));
+        get => (MTL4CounterHeapType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CounterHeapSelector.Type));
     }
 
     public void InvalidateCounterRange(NSRange range)

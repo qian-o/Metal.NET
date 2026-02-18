@@ -19,7 +19,7 @@ public class MTLComputeCommandEncoder : IDisposable
 
     public MTLDispatchType DispatchType
     {
-        get => (MTLDispatchType)(ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLComputeCommandEncoderSelector.DispatchType));
+        get => (MTLDispatchType)(ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputeCommandEncoderSelector.DispatchType));
     }
 
     public void DispatchThreadgroups(MTLSize threadgroupsPerGrid, MTLSize threadsPerThreadgroup)
@@ -49,7 +49,7 @@ public class MTLComputeCommandEncoder : IDisposable
 
     public void MemoryBarrier(MTLBarrierScope scope)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.MemoryBarrier, (uint)scope);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.MemoryBarrier, (nuint)scope);
     }
 
     public void SampleCountersInBuffer(MTLCounterSampleBuffer sampleBuffer, nuint sampleIndex, Bool8 barrier)
@@ -154,7 +154,7 @@ public class MTLComputeCommandEncoder : IDisposable
 
     public void UseResource(MTLResource resource, MTLResourceUsage usage)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.UseResourceUsage, resource.NativePtr, (uint)usage);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderSelector.UseResourceUsage, resource.NativePtr, (nuint)usage);
     }
 
     public void WaitForFence(MTLFence fence)

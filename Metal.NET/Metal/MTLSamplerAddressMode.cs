@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLSamplerAddressMode : uint
+public enum MTLSamplerAddressMode : ulong
 {
     SamplerAddressModeClampToEdge = 0,
 

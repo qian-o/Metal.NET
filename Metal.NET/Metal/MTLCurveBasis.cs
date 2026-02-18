@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public enum MTLCurveBasis : int
+public enum MTLCurveBasis : long
 {
     CurveBasisBSpline = 0,
 
