@@ -26,6 +26,10 @@ public static class CppAstParser
     // e.g., "MTL.RenderStages" -> "MTLRenderStages"
     private static readonly Dictionary<string, string> s_optionsTypedefs = new();
 
+    // ── Classes with alloc() methods, detected by scanning C++ header text ──
+    // Key: "Namespace::ClassName", e.g., "MTL::TextureDescriptor"
+    private static readonly HashSet<string> s_allocClasses = new();
+
     // ── Foundation types with hand-written implementations ──
     private static readonly HashSet<string> s_handWrittenTypes = ["NSString", "NSError", "NSArray"];
 
@@ -76,10 +80,6 @@ public static class CppAstParser
         "MTLFunctionLogDebugLocation",
     ];
 
-    /// <summary>
-    /// Concrete ObjC classes that can be alloc/init'd (not protocols).
-    /// Names without prefix — matched against CppAst class names.
-    /// </summary>
     // ── C# keywords that must be escaped ──
     private static readonly HashSet<string> s_csharpKeywords =
     [
@@ -104,6 +104,11 @@ public static class CppAstParser
     {
         var result = new ParseResult();
         s_optionsTypedefs.Clear();
+
+        // Pre-scan C++ headers to detect classes with alloc() methods.
+        // CppAst may not see alloc() in classes that inherit from template base classes,
+        // so we scan the raw header text with a regex as a reliable fallback.
+        ScanAllocClasses(metalCppDir);
 
         // Find system C++ include dirs
         var systemIncludes = new List<string>();
@@ -205,6 +210,52 @@ public static class CppAstParser
         result.Deduplicate();
 
         return result;
+    }
+
+    /// <summary>
+    /// Pre-scan C++ headers to build a set of classes that have static alloc() methods.
+    /// This is needed because CppAst may not parse alloc() methods in classes that
+    /// inherit from template base classes (e.g., NS::Copying&lt;&gt;).
+    /// </summary>
+    private static void ScanAllocClasses(string metalCppDir)
+    {
+        s_allocClasses.Clear();
+
+        // Pattern: "static ClassName* alloc();" inside a namespace
+        var allocPattern = new System.Text.RegularExpressions.Regex(
+            @"static\s+(\w+)\s*\*\s*alloc\s*\(\s*\)\s*;",
+            System.Text.RegularExpressions.RegexOptions.Compiled);
+
+        // Pattern: namespace declaration
+        var nsPattern = new System.Text.RegularExpressions.Regex(
+            @"^namespace\s+(\w+)",
+            System.Text.RegularExpressions.RegexOptions.Compiled);
+
+        foreach (var dir in new[] { "Metal", "MetalFX", "QuartzCore", "Foundation" })
+        {
+            var fullDir = Path.Combine(metalCppDir, dir);
+            if (!Directory.Exists(fullDir)) continue;
+
+            foreach (var file in Directory.GetFiles(fullDir, "*.hpp"))
+            {
+                string currentNs = "";
+                foreach (var line in File.ReadLines(file))
+                {
+                    var nsMatch = nsPattern.Match(line);
+                    if (nsMatch.Success)
+                    {
+                        currentNs = nsMatch.Groups[1].Value;
+                        continue;
+                    }
+
+                    var allocMatch = allocPattern.Match(line);
+                    if (allocMatch.Success && !string.IsNullOrEmpty(currentNs))
+                    {
+                        s_allocClasses.Add($"{currentNs}::{allocMatch.Groups[1].Value}");
+                    }
+                }
+            }
+        }
     }
 
     private static string NamespaceToFolder(string ns) => ns switch
@@ -470,11 +521,13 @@ public static class CppAstParser
             return null;
 
         // Determine if this is a concrete ObjC class (can be alloc/init'd)
-        // Detect by checking if the class has a static alloc() method
+        // Check CppAst functions first, then fall back to pre-scanned header text
+        // (CppAst may miss alloc() in classes with template base types)
         bool isClass = cppClass.Functions.Any(fn =>
             fn.StorageQualifier == CppStorageQualifier.Static &&
             fn.Name == "alloc" &&
-            fn.Parameters.Count == 0);
+            fn.Parameters.Count == 0)
+            || s_allocClasses.Contains($"{ns}::{cppClass.Name}");
         string? objCClass = isClass ? fullName : null;
 
         var def = new ObjCClassDef
