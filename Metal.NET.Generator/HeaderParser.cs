@@ -41,6 +41,9 @@ public static partial class HeaderParser
     [GeneratedRegex(@"extern\s+""C""\s+(.+?)\s+(\w+)\s*\((.*?)\)\s*;")]
     private static partial Regex ExternCPattern();
 
+    [GeneratedRegex(@"^(\d+)\s*<<\s*(\d+)$")]
+    private static partial Regex ShiftExprPattern();
+
     private static readonly HashSet<string> BindableNamespaces = ["MTL", "MTL4", "MTLFX", "CA"];
 
     private static readonly HashSet<string> NsNamespace = ["NS"];
@@ -488,7 +491,7 @@ public static partial class HeaderParser
         // Handle simple shift expressions like "1 << 4"
         string trimmed = expr.TrimEnd(',');
 
-        Match shiftMatch = Regex.Match(trimmed, @"^(\d+)\s*<<\s*(\d+)$");
+        Match shiftMatch = ShiftExprPattern().Match(trimmed);
 
         if (shiftMatch.Success)
         {
@@ -1284,7 +1287,7 @@ public static partial class HeaderParser
             // If possibleName starts with *, it's part of the type
             if (possibleName.StartsWith('*'))
             {
-                string paramType = p[..lastSp].Trim() + possibleName.Substring(0, possibleName.LastIndexOf('*') + 1);
+                string paramType = p[..lastSp].Trim() + possibleName[..(possibleName.LastIndexOf('*') + 1)];
                 string paramName = possibleName.TrimStart('*');
 
                 if (string.IsNullOrEmpty(paramName))
@@ -1578,38 +1581,27 @@ public static partial class HeaderParser
     private static string? MapGenericClassName(string name, string prefix)
     {
         // Special class name mappings
-        if (name == "String") return "NSString";
-        if (name == "Error") return "NSError";
-        if (name == "Array") return "NSArray";
-        if (name == "URL") return "NSURL";
-        if (name == "Number") return "nint";
-        if (name == "Data") return "nint";
-        if (name == "Dictionary") return "nint";
-        if (name == "Object") return "nint";
-        if (name == "Bundle") return "nint";
-        if (name == "Notification") return "nint";
-        if (name == "ProcessInfo") return "nint";
-        if (name == "Set") return "nint";
-        if (name == "float4x4") return "nint";
-
-        if (name == "Referencing" || name == "Copying" || name == "SecureCoding" || name == "_Base")
+        string? mapped = name switch
         {
-            return null;
-        }
+            "String" => "NSString",
+            "Error" => "NSError",
+            "Array" => "NSArray",
+            "URL" => "NSURL",
+            "Number" or "Data" or "Dictionary" or "Object" or "Bundle"
+                or "Notification" or "ProcessInfo" or "Set" or "float4x4" => "nint",
+            "Referencing" or "Copying" or "SecureCoding" or "_Base" => null,
+            "Architecture" or "AccelerationStructureSizes" => "nint",
+            _ => "!UNMAPPED!",
+        };
 
-        if (name == "Architecture" || name == "AccelerationStructureSizes")
+        if (mapped != "!UNMAPPED!")
         {
-            return "nint";
+            return mapped;
         }
 
         // If name already has a known prefix, use it directly
         if (name.StartsWith("MTL") || name.StartsWith("CA") || name.StartsWith("NS") || name.StartsWith("MTLFX"))
         {
-            if (ValueStructs.Contains(name))
-            {
-                return name;
-            }
-
             return name;
         }
 
