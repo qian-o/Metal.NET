@@ -5,6 +5,24 @@ namespace Metal.NET;
 
 internal static unsafe partial class ObjectiveCRuntime
 {
+    static ObjectiveCRuntime()
+    {
+        string[] frameworks =
+        [
+            "CoreGraphics",
+            "QuartzCore",
+            "AppKit",
+            "Metal",
+            "MetalFX",
+            "MetalKit"
+        ];
+
+        foreach (string framework in frameworks)
+        {
+            NativeLibrary.TryLoad(framework, out _);
+        }
+    }
+
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_getClass")]
     public static partial nint GetClass(byte* name);
 
