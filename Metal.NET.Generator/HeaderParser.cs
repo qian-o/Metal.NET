@@ -300,7 +300,7 @@ public static partial class HeaderParser
 
         File.WriteAllText(combinedHeader, string.Join('\n', includes));
 
-        string[] clangArgs =
+        List<string> clangArgsList =
         [
             "-x", "c++",
             "-std=c++17",
@@ -308,9 +308,25 @@ public static partial class HeaderParser
             "-DINFINITY=__builtin_inf()",
             $"-I{metalCppDir}",
             $"-I{stubsDir}",
-            "-isystem", "/usr/lib/gcc/x86_64-linux-gnu/14/include",
-            "-isystem", "/usr/include",
         ];
+
+        // Add system include paths for Linux (detect available GCC versions)
+        if (OperatingSystem.IsLinux())
+        {
+            string? gccInclude = FindGccIncludePath();
+
+            if (gccInclude is not null)
+            {
+                clangArgsList.AddRange(["-isystem", gccInclude]);
+            }
+
+            if (Directory.Exists("/usr/include"))
+            {
+                clangArgsList.AddRange(["-isystem", "/usr/include"]);
+            }
+        }
+
+        string[] clangArgs = [.. clangArgsList];
 
         CXIndex index = CXIndex.Create();
         CXTranslationUnit cxTu = CXTranslationUnit.CreateFromSourceFile(
@@ -320,6 +336,32 @@ public static partial class HeaderParser
             ReadOnlySpan<CXUnsavedFile>.Empty);
 
         return TranslationUnit.GetOrCreate(cxTu);
+    }
+
+    private static string? FindGccIncludePath()
+    {
+        string basePath = "/usr/lib/gcc";
+
+        if (!Directory.Exists(basePath))
+        {
+            return null;
+        }
+
+        // Search for the highest GCC version include directory
+        foreach (string arch in Directory.GetDirectories(basePath))
+        {
+            string? best = Directory.GetDirectories(arch)
+                .Where(d => File.Exists(Path.Combine(d, "include", "stddef.h")))
+                .OrderByDescending(d => d)
+                .FirstOrDefault();
+
+            if (best is not null)
+            {
+                return Path.Combine(best, "include");
+            }
+        }
+
+        return null;
     }
 
     // ──────────────────────────────────────────────────────────────────────
@@ -1468,10 +1510,12 @@ public static partial class HeaderParser
         }
 
         // Check for function pointers, blocks, std::function, handler types
-        if (t.Contains("function<") || t.Contains("block") || t.Contains("Block")
-            || t.Contains("(*)") || t.Contains("(^")
-            || t.Contains("Handler")
-            || t.EndsWith("Function") || t.EndsWith("Function&") || t.EndsWith("Function &"))
+        // Normalize spaces for consistent checking (ClangSharp may add spaces before & and *)
+        string tNorm = t.Replace(" &", "&").Replace(" *", "*");
+        if (tNorm.Contains("function<") || tNorm.Contains("block") || tNorm.Contains("Block")
+            || tNorm.Contains("(*)") || tNorm.Contains("(^")
+            || tNorm.Contains("Handler")
+            || tNorm.EndsWith("Function") || tNorm.EndsWith("Function&"))
         {
             return null;
         }
