@@ -780,7 +780,7 @@ class Generator
             if (m.CppName.StartsWith("set") && m.CppName.Length > 3 && char.IsUpper(m.CppName[3]) &&
                 m.ReturnType == "void" && m.Parameters.Count == 1)
             {
-                string propName = char.ToLower(m.CppName[3]) + m.CppName[4..];
+                string propName = char.ToLower(m.CppName[3]) + (m.CppName.Length > 4 ? m.CppName[4..] : "");
                 setterMap[propName] = m;
             }
         }
@@ -1212,12 +1212,14 @@ class Generator
     static string ToPascalCase(string name)
     {
         if (string.IsNullOrEmpty(name)) return name;
+        if (name.Length == 1) return char.ToUpper(name[0]).ToString();
         return char.ToUpper(name[0]) + name[1..];
     }
 
     static string ToCamelCase(string name)
     {
         if (string.IsNullOrEmpty(name)) return name;
+        if (name.Length == 1) return char.ToLower(name[0]).ToString();
         return char.ToLower(name[0]) + name[1..];
     }
 
