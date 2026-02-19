@@ -2,11 +2,6 @@ namespace Metal.NET;
 
 public class MTLResource(nint nativePtr, bool retain) : MTLAllocation(nativePtr, retain)
 {
-    public new nuint AllocatedSize
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceBindings.AllocatedSize);
-    }
-
     public MTLCPUCacheMode CpuCacheMode
     {
         get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceBindings.CpuCacheMode);
@@ -66,8 +61,6 @@ public class MTLResource(nint nativePtr, bool retain) : MTLAllocation(nativePtr,
 
 file static class MTLResourceBindings
 {
-    public static readonly Selector AllocatedSize = "allocatedSize";
-
     public static readonly Selector CpuCacheMode = "cpuCacheMode";
 
     public static readonly Selector Device = "device";

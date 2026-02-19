@@ -1008,9 +1008,12 @@ class Generator
         // Properties (sorted alphabetically)
         foreach (var prop in properties)
         {
+            int prevLen = sb.Length;
             if (hasPrecedingMember) sb.AppendLine();
-            EmitProperty(sb, prop, csClassName, classDef.CppNamespace, selectors, inheritedProperties);
-            hasPrecedingMember = true;
+            if (EmitProperty(sb, prop, csClassName, classDef.CppNamespace, selectors, inheritedProperties))
+                hasPrecedingMember = true;
+            else
+                sb.Length = prevLen; // undo the blank line
         }
 
         // Methods
@@ -1168,17 +1171,21 @@ class Generator
     // Property emission
     // =========================================================================
 
-    void EmitProperty(StringBuilder sb, PropertyDef prop, string csClassName,
+    bool EmitProperty(StringBuilder sb, PropertyDef prop, string csClassName,
         string ns, SortedDictionary<string, string> selectors, HashSet<string> inheritedProperties)
     {
         var getter = prop.Getter;
         string csPropName = ToPascalCase(getter.CppName);
+
+        // Skip properties already defined in a parent class — they are inherited automatically
+        if (inheritedProperties.Contains(csPropName))
+            return false;
+
         string csType = MapCppType(getter.ReturnType, ns);
         bool nullable = IsNullableType(csType);
         bool isEnum = IsEnumType(csType);
         bool isStruct = StructTypes.Contains(csType);
         bool isBool = csType == "bool";
-        bool isNew = inheritedProperties.Contains(csPropName);
 
         // Register getter selector
         string selectorName = csPropName;
@@ -1207,12 +1214,10 @@ class Generator
             selectors.TryAdd(setSelName, setSelObjC);
         }
 
-        string newMod = isNew ? "new " : "";
-
         if (nullable)
         {
             // Use NativeObject.GetProperty/SetProperty helpers for cached nullable reference type properties
-            sb.AppendLine($"    public {newMod}{typeStr} {csPropName}");
+            sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => GetProperty(ref field, {selectorRef});");
 
@@ -1224,7 +1229,7 @@ class Generator
         {
             string msgSend = GetMsgSendForEnumGet(csType);
 
-            sb.AppendLine($"    public {newMod}{typeStr} {csPropName}");
+            sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => ({csType}){msgSend}({target}, {selectorRef});");
 
@@ -1237,7 +1242,7 @@ class Generator
         }
         else if (isBool)
         {
-            sb.AppendLine($"    public {newMod}bool {csPropName}");
+            sb.AppendLine($"    public bool {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => ObjectiveCRuntime.MsgSendBool({target}, {selectorRef});");
 
@@ -1249,7 +1254,7 @@ class Generator
         {
             string msgSend = GetMsgSendForStruct(csType);
 
-            sb.AppendLine($"    public {newMod}{typeStr} {csPropName}");
+            sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => ObjectiveCRuntime.{msgSend}({target}, {selectorRef});");
 
@@ -1262,7 +1267,7 @@ class Generator
             string msgSend = GetMsgSendMethod(csType);
             string getCast = csType is "int" or "long" ? $"({csType})" : "";
 
-            sb.AppendLine($"    public {newMod}{typeStr} {csPropName}");
+            sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => {getCast}ObjectiveCRuntime.{msgSend}({target}, {selectorRef});");
 
@@ -1273,6 +1278,8 @@ class Generator
             }
             sb.AppendLine("    }");
         }
+
+        return true;
     }
 
     // =========================================================================

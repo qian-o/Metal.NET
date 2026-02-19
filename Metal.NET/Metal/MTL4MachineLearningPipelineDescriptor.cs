@@ -6,12 +6,6 @@ public class MTL4MachineLearningPipelineDescriptor(nint nativePtr, bool retain) 
     {
     }
 
-    public new NSString? Label
-    {
-        get => GetProperty(ref field, MTL4MachineLearningPipelineDescriptorBindings.Label);
-        set => SetProperty(ref field, MTL4MachineLearningPipelineDescriptorBindings.SetLabel, value);
-    }
-
     public MTL4FunctionDescriptor? MachineLearningFunctionDescriptor
     {
         get => GetProperty(ref field, MTL4MachineLearningPipelineDescriptorBindings.MachineLearningFunctionDescriptor);
@@ -47,8 +41,6 @@ file static class MTL4MachineLearningPipelineDescriptorBindings
 
     public static readonly Selector InputDimensionsAtBufferIndex = "inputDimensionsAtBufferIndex:";
 
-    public static readonly Selector Label = "label";
-
     public static readonly Selector MachineLearningFunctionDescriptor = "machineLearningFunctionDescriptor";
 
     public static readonly Selector Reset = "reset";
@@ -56,8 +48,6 @@ file static class MTL4MachineLearningPipelineDescriptorBindings
     public static readonly Selector SetInputDimensions = "setInputDimensions:atBufferIndex:";
 
     public static readonly Selector SetInputDimensionswithRange = "setInputDimensions:withRange:";
-
-    public static readonly Selector SetLabel = "setLabel:";
 
     public static readonly Selector SetMachineLearningFunctionDescriptor = "setMachineLearningFunctionDescriptor:";
 }
