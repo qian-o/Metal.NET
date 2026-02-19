@@ -2,20 +2,9 @@
 using System.Text.RegularExpressions;
 
 // --- Entry point ---
-if (args.Length < 2)
-{
-    Console.Error.WriteLine("Usage: dotnet run -- <metal-cpp-dir> <output-dir>");
-    return 1;
-}
-
-string metalCppDir = Path.GetFullPath(args[0]);
-string outputDir = Path.GetFullPath(args[1]);
-
-if (!Directory.Exists(metalCppDir))
-{
-    Console.Error.WriteLine($"metal-cpp directory not found: {metalCppDir}");
-    return 1;
-}
+string projectDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", ".."));
+string metalCppDir = Path.Combine(projectDir, "Metal.NET.Generator", "metal-cpp");
+string outputDir = Path.Combine(projectDir, "Metal.NET");
 
 var generator = new Generator(metalCppDir, outputDir);
 generator.Run();
