@@ -1,4 +1,4 @@
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace Metal.NET.Generator;
 
@@ -72,7 +72,7 @@ partial class TypeMapper(GeneratorContext context)
 
     #region Type Mapping
 
-    public string MapCppType(string cppType, string defaultNs)
+    public static string MapCppType(string cppType, string defaultNs)
     {
         string t = cppType.Trim();
 

@@ -1,9 +1,7 @@
 ﻿using Metal.NET.Generator;
 
 string projectDir = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "..", "..", "..", ".."));
-string metalCppDir = Path.Combine(projectDir, "Metal.NET.Generator", "metal-cpp");
-string outputDir = Path.Combine(projectDir, "Metal.NET");
 
-Generator generator = new(metalCppDir, outputDir);
-generator.Run();
+new Generator(Path.Combine(projectDir, "Metal.NET.Generator", "metal-cpp"), Path.Combine(projectDir, "Metal.NET")).Run();
+
 return 0;

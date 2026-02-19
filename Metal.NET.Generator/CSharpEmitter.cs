@@ -1,4 +1,4 @@
-using System.Text;
+﻿using System.Text;
 
 namespace Metal.NET.Generator;
 
@@ -11,10 +11,25 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     /// <summary>
     /// Hand-written classes to skip during generation.
     /// </summary>
-    static readonly HashSet<string> SkipClasses = ["NSString", "NSError", "NSArray", "NSURL",
-        "NSDictionary", "NSNotification", "NSNotificationCenter", "NSSet", "NSEnumerator",
-        "NSObject", "NSProcessInfo", "NSBundle", "NSAutoreleasePool", "NSNumber", "NSValue",
-        "NSDate"];
+    static readonly HashSet<string> SkipClasses =
+    [
+        "NSString",
+        "NSError",
+        "NSArray",
+        "NSURL",
+        "NSDictionary",
+        "NSNotification",
+        "NSNotificationCenter",
+        "NSSet",
+        "NSEnumerator",
+        "NSObject",
+        "NSProcessInfo",
+        "NSBundle",
+        "NSAutoreleasePool",
+        "NSNumber",
+        "NSValue",
+        "NSDate"
+    ];
 
     #region Generation Entry Point
 
@@ -39,10 +54,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         {
             string prefix = TypeMapper.GetPrefix(classDef.CppNamespace);
             string csClassName = prefix + classDef.Name;
-            HashSet<string> propNames = classDef.Methods
-                .Where(m => m.Parameters.Count == 0 && m.ReturnType != "void" && !m.UsesClassTarget)
-                .Select(m => TypeMapper.ToPascalCase(m.CppName))
-                .ToHashSet();
+            HashSet<string> propNames = [.. classDef.Methods.Where(m => m.Parameters.Count == 0 && m.ReturnType != "void" && !m.UsesClassTarget).Select(m => TypeMapper.ToPascalCase(m.CppName))];
             classPropertyMap[csClassName] = propNames;
         }
 
@@ -131,18 +143,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         bool hasFreeFunctions = freeFunctions.Count > 0;
 
         // Filter out methods with unmapped array params, function pointer params, or unmappable types
-        List<MethodInfo> validMethods = classDef.Methods
-            .Where(m => !m.Parameters.Any(p => p.CppType == "ARRAY_PARAM"))
-            .Where(m => !HasUnmergableArrayParam(m))
-            .Where(m => !HasFunctionPointerParam(m))
-            .Where(m => !HasUnmappableParam(m))
-            .ToList();
+        List<MethodInfo> validMethods = [.. classDef.Methods.Where(m => !m.Parameters.Any(p => p.CppType == "ARRAY_PARAM")).Where(m => !HasUnmergableArrayParam(m)).Where(m => !HasFunctionPointerParam(m)).Where(m => !HasUnmappableParam(m))];
 
-        HashSet<string> hasZeroParamVersion = validMethods
-            .Where(m => m.Parameters.Count == 0 && m.ReturnType != "void" && !m.UsesClassTarget)
-            .Select(m => m.CppName).ToHashSet();
+        HashSet<string> hasZeroParamVersion = [.. validMethods.Where(m => m.Parameters.Count == 0 && m.ReturnType != "void" && !m.UsesClassTarget).Select(m => m.CppName)];
 
-        (List<PropertyDef> properties, List<MethodInfo> methods) = CategorizeMembers(validMethods, classDef.CppNamespace);
+        (List<PropertyDef> properties, List<MethodInfo> methods) = CategorizeMembers(validMethods);
 
         SortedDictionary<string, string> selectors = [];
         StringBuilder sb = new();
@@ -187,7 +192,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         foreach (MethodInfo method in methods)
         {
             if (hasPrecedingMember) sb.AppendLine();
-            EmitMethod(sb, method, csClassName, classDef.CppNamespace, selectors, hasClassField, hasZeroParamVersion);
+            EmitMethod(sb, method, csClassName, classDef.CppNamespace, selectors, hasZeroParamVersion);
             hasPrecedingMember = true;
         }
 
@@ -229,8 +234,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Member Categorization
 
-    (List<PropertyDef> Properties, List<MethodInfo> Methods) CategorizeMembers(
-        List<MethodInfo> allMethods, string ns)
+    static (List<PropertyDef> Properties, List<MethodInfo> Methods) CategorizeMembers(List<MethodInfo> allMethods)
     {
         List<PropertyDef> properties = [];
         List<MethodInfo> methods = [];
@@ -295,7 +299,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             p.CppType.Contains("Function &"));
     }
 
-    bool HasUnmappableParam(MethodInfo method)
+    static bool HasUnmappableParam(MethodInfo method)
     {
         foreach (ParamDef p in method.Parameters)
         {
@@ -327,8 +331,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Property Emission
 
-    bool EmitProperty(StringBuilder sb, PropertyDef prop, string csClassName,
-        string ns, SortedDictionary<string, string> selectors, HashSet<string> inheritedProperties)
+    bool EmitProperty(StringBuilder sb, PropertyDef prop, string csClassName, string ns, SortedDictionary<string, string> selectors, HashSet<string> inheritedProperties)
     {
         MethodInfo getter = prop.Getter;
         string csPropName = TypeMapper.ToPascalCase(getter.CppName);
@@ -336,7 +339,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         if (inheritedProperties.Contains(csPropName))
             return false;
 
-        string csType = typeMapper.MapCppType(getter.ReturnType, ns);
+        string csType = TypeMapper.MapCppType(getter.ReturnType, ns);
         bool nullable = typeMapper.IsNullableType(csType);
         bool isEnum = typeMapper.IsEnumType(csType);
         bool isStruct = TypeMapper.StructTypes.Contains(csType);
@@ -431,9 +434,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Method Emission
 
-    void EmitMethod(StringBuilder sb, MethodInfo method, string csClassName,
-        string ns, SortedDictionary<string, string> selectors, bool hasClassField,
-        HashSet<string> methodsWithZeroParamProperty)
+    void EmitMethod(StringBuilder sb, MethodInfo method, string csClassName, string ns, SortedDictionary<string, string> selectors, HashSet<string> methodsWithZeroParamProperty)
     {
         string csMethodName;
         string selectorObjC;
@@ -474,7 +475,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         string selectorRef = $"{csClassName}Bindings.{selectorKey}";
 
-        string returnType = typeMapper.MapCppType(method.ReturnType, ns);
+        string returnType = TypeMapper.MapCppType(method.ReturnType, ns);
         bool nullable = typeMapper.IsNullableType(returnType);
         bool isEnum = typeMapper.IsEnumType(returnType);
         bool isStruct = TypeMapper.StructTypes.Contains(returnType);
@@ -500,7 +501,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 needsUnsafeContext = true;
                 string elemCppType = param.CppType["OBJ_ARRAY:".Length..];
-                string elemCsType = typeMapper.MapCppType(elemCppType + "*", ns);
+                string elemCsType = TypeMapper.MapCppType(elemCppType + "*", ns);
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
                 csParams.Add($"{elemCsType}[] {csParamName}");
@@ -549,7 +550,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 needsUnsafeContext = true;
                 string elemCppType = param.CppType["STRUCT_ARRAY:".Length..];
-                string elemCsType = typeMapper.MapCppType(elemCppType, ns);
+                string elemCsType = TypeMapper.MapCppType(elemCppType, ns);
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
                 csParams.Add($"{elemCsType}[] {csParamName}");
@@ -571,7 +572,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 continue;
             }
 
-            string csParamType = typeMapper.MapCppType(param.CppType, ns);
+            string csParamType = TypeMapper.MapCppType(param.CppType, ns);
             string paramName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
             if (param.CppType.Contains("Error**"))
@@ -727,13 +728,13 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     void EmitFreeFunction(StringBuilder sb, FreeFunctionDef func, string cppNamespace)
     {
-        string csReturnType = typeMapper.MapCppType(func.ReturnType, cppNamespace);
+        string csReturnType = TypeMapper.MapCppType(func.ReturnType, cppNamespace);
         bool nullable = typeMapper.IsNullableType(csReturnType);
 
         List<string> pinvokeParams = [];
         foreach (ParamDef p in func.Parameters)
         {
-            string csType = typeMapper.MapCppType(p.CppType, cppNamespace);
+            string csType = TypeMapper.MapCppType(p.CppType, cppNamespace);
             if (typeMapper.IsNullableType(csType))
                 pinvokeParams.Add($"nint {TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(p.Name))}");
             else
@@ -750,7 +751,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         List<string> callArgs = [];
         foreach (ParamDef p in func.Parameters)
         {
-            string csType = typeMapper.MapCppType(p.CppType, cppNamespace);
+            string csType = TypeMapper.MapCppType(p.CppType, cppNamespace);
             string csName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(p.Name));
             if (typeMapper.IsNullableType(csType))
             {

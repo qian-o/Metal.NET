@@ -1,4 +1,4 @@
-using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
 namespace Metal.NET.Generator;
 
@@ -70,7 +70,7 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
 
                 string content = File.ReadAllText(file);
                 ParseEnums(content);
-                ParseClasses(content, file);
+                ParseClasses(content);
                 ParseFreeFunctions(content, subdir, file);
             }
         }
@@ -167,7 +167,7 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
             rawMembers.Add((cppMemberName, csValue));
         }
 
-        string stripPrefix = ComputeEnumStripPrefix(cppEnumName, rawMembers.Select(m => m.CppName).ToList());
+        string stripPrefix = ComputeEnumStripPrefix(cppEnumName, [.. rawMembers.Select(m => m.CppName)]);
 
         List<EnumMember> members = [];
         foreach ((string cppName, string value) in rawMembers)
@@ -368,7 +368,7 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
 
     #region Class Parsing
 
-    void ParseClasses(string content, string filePath)
+    void ParseClasses(string content)
     {
         List<(string Ns, int Pos)> namespacePositions = [];
         foreach (Match m in NamespacePatternRegex().Matches(content))
@@ -464,7 +464,7 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
         return -1;
     }
 
-    List<(string ReturnType, string Name, bool IsStatic, bool IsConst, List<ParamDef> Params)> ParseMethodDeclarations(string classBody)
+    static List<(string ReturnType, string Name, bool IsStatic, bool IsConst, List<ParamDef> Params)> ParseMethodDeclarations(string classBody)
     {
         List<(string, string, bool, bool, List<ParamDef>)> result = [];
 
@@ -501,8 +501,7 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
         return result;
     }
 
-    Dictionary<(string MethodName, int ParamCount, int OverloadIndex), ImplInfo> ParseInlineImplementations(
-        string content, string ns, string className)
+    static Dictionary<(string MethodName, int ParamCount, int OverloadIndex), ImplInfo> ParseInlineImplementations(string content, string ns, string className)
     {
         Dictionary<(string, int, int), ImplInfo> result = [];
         Dictionary<(string, int), int> countTracker = [];
@@ -540,7 +539,7 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
 
     #region Parameter Parsing
 
-    List<ParamDef> ParseParameters(string paramsStr)
+    static List<ParamDef> ParseParameters(string paramsStr)
     {
         if (string.IsNullOrWhiteSpace(paramsStr)) return [];
 
@@ -610,7 +609,7 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
             ParamDef param = parameters[i];
             ParamDef next = parameters[i + 1];
 
-            if (param.CppType.EndsWith("*") && next.CppType is "NS::UInteger" && next.Name is "count")
+            if (param.CppType.EndsWith('*') && next.CppType is "NS::UInteger" && next.Name is "count")
             {
                 string baseType = param.CppType[..^1].Trim();
 
