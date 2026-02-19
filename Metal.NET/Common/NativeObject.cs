@@ -8,6 +8,14 @@ public abstract class NativeObject(nint nativePtr) : IDisposable
 {
     private bool released;
 
+    protected NativeObject(nint nativePtr, bool retain) : this(nativePtr)
+    {
+        if (retain)
+        {
+            ObjectiveCRuntime.Retain(nativePtr);
+        }
+    }
+
     ~NativeObject()
     {
         Release();
@@ -36,9 +44,7 @@ public abstract class NativeObject(nint nativePtr) : IDisposable
 
         if (field is null || field.NativePtr != nativePtr)
         {
-            ObjectiveCRuntime.Retain(nativePtr);
-
-            field = (T)Activator.CreateInstance(typeof(T), nativePtr)!;
+            field = (T)Activator.CreateInstance(typeof(T), nativePtr, true)!;
         }
 
         return field;
