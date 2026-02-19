@@ -87,3 +87,14 @@ dotnet run --project Metal.NET.Generator
 dotnet build Metal.NET
 ```
 
+## Disclaimer
+
+> **This library was built with AI assistance.** It has undergone preliminary testing to verify basic usability, but has **not** been exhaustively validated in production scenarios. If you plan to use it in a real project, please ensure it meets your requirements through thorough testing.
+
+## Alternatives
+
+If you are looking for more mature or alternative Metal bindings for .NET, consider:
+
+- [SharpMetal](https://github.com/IsaacMarovitz/SharpMetal) — A community-maintained C# Metal binding library.
+- **.NET `net-macos` / `net-ios` TFM** — Apple platform targets shipped with .NET that include official Metal API bindings via [dotnet/macios](https://github.com/dotnet/macios).
+
