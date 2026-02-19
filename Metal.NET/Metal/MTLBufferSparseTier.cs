@@ -4,5 +4,5 @@ public enum MTLBufferSparseTier : long
 {
     None = 0,
 
-    _1 = 1
+    MTL1 = 1
 }

@@ -27,7 +27,7 @@ return 0;
 
 record EnumDef(string CppNamespace, string Name, string BackingType, bool IsFlags, List<EnumMember> Members);
 record EnumMember(string Name, string Value);
-record FreeFunctionDef(string CEntryPoint, string ReturnType, string CppName, List<ParamDef> Parameters, string LibraryPath, string CppNamespace);
+record FreeFunctionDef(string CEntryPoint, string ReturnType, string CppName, List<ParamDef> Parameters, string LibraryPath, string CppNamespace, string TargetClassName);
 
 class ClassDef
 {
@@ -216,7 +216,7 @@ class Generator
                 string content = File.ReadAllText(file);
                 ParseEnums(content);
                 ParseClasses(content, file);
-                ParseFreeFunctions(content, subdir);
+                ParseFreeFunctions(content, subdir, file);
             }
         }
     }
@@ -268,7 +268,7 @@ class Generator
             string csEnumName = prefix + name;
             _enumBackingTypes[csEnumName] = backingType;
 
-            var members = ParseEnumMembers(body, name);
+            var members = ParseEnumMembers(body, name, prefix);
             _enums.Add(new EnumDef(cppNamespace, name, backingType, isFlags, members));
         }
     }
@@ -285,7 +285,7 @@ class Generator
         _ => "ulong"
     };
 
-    static List<EnumMember> ParseEnumMembers(string body, string cppEnumName)
+    static List<EnumMember> ParseEnumMembers(string body, string cppEnumName, string nsPrefix)
     {
         // First pass: collect all C++ member names and their values
         var rawMembers = new List<(string CppName, string Value)>();
@@ -331,9 +331,9 @@ class Generator
                 ? cppName[stripPrefix.Length..]
                 : cppName;
 
-            // If the stripped name starts with a digit, prefix with '_'
+            // If the stripped name starts with a digit, prefix with the namespace prefix (e.g., MTL)
             if (csName.Length > 0 && char.IsDigit(csName[0]))
-                csName = "_" + csName;
+                csName = nsPrefix + csName;
 
             // If empty after stripping, keep original
             if (string.IsNullOrEmpty(csName))
@@ -487,7 +487,7 @@ class Generator
     // Free function parsing (extern "C" declarations)
     // =========================================================================
 
-    void ParseFreeFunctions(string content, string subdir)
+    void ParseFreeFunctions(string content, string subdir, string filePath)
     {
         string libraryPath = subdir switch
         {
@@ -506,6 +506,9 @@ class Generator
             "QuartzCore" => "CA",
             _ => "MTL"
         };
+
+        // Derive target class name from the header file name (e.g., MTLDevice.hpp → MTLDevice)
+        string targetClassName = Path.GetFileNameWithoutExtension(filePath);
 
         // Match: extern "C" ReturnType FuncName(params);
         var externRegex = new Regex(
@@ -530,7 +533,7 @@ class Generator
             string prefix = GetPrefix(cppNamespace);
             string cppName = cFuncName.StartsWith(prefix) ? cFuncName[prefix.Length..] : cFuncName;
 
-            _freeFunctions.Add(new FreeFunctionDef(cFuncName, returnType, cppName, parameters, libraryPath, cppNamespace));
+            _freeFunctions.Add(new FreeFunctionDef(cFuncName, returnType, cppName, parameters, libraryPath, cppNamespace, targetClassName));
         }
     }
 
@@ -833,17 +836,19 @@ class Generator
             return result;
         }
 
+        // Build lookup of free functions per target class
+        var freeFuncsByClass = _freeFunctions
+            .GroupBy(f => f.TargetClassName)
+            .ToDictionary(g => g.Key, g => g.ToList());
+
         foreach (var classDef in _classes)
         {
             string prefix = GetPrefix(classDef.CppNamespace);
             string csClassName = prefix + classDef.Name;
             var inheritedProps = GetInheritedProperties(csClassName);
-            GenerateClass(classDef, inheritedProps);
+            freeFuncsByClass.TryGetValue(csClassName, out var classFuncs);
+            GenerateClass(classDef, inheritedProps, classFuncs ?? []);
         }
-
-        // Generate free function files (grouped by namespace)
-        foreach (var group in _freeFunctions.GroupBy(f => f.CppNamespace))
-            GenerateFreeFunctions(group.Key, [.. group]);
     }
 
     void GenerateEnum(EnumDef enumDef)
@@ -878,97 +883,71 @@ class Generator
         Console.WriteLine($"  Generated: {subdir}/{csEnumName}.cs");
     }
 
-    void GenerateFreeFunctions(string cppNamespace, List<FreeFunctionDef> functions)
+    void EmitFreeFunction(StringBuilder sb, FreeFunctionDef func, string cppNamespace)
     {
-        string prefix = GetPrefix(cppNamespace);
-        string className = prefix + "Functions";
-        string subdir = GetOutputSubdir(cppNamespace);
-        string dir = Path.Combine(_outputDir, subdir);
-        Directory.CreateDirectory(dir);
+        string csReturnType = MapCppType(func.ReturnType, cppNamespace);
+        bool nullable = IsNullableType(csReturnType);
 
-        var sb = new StringBuilder();
-        sb.AppendLine("using System.Runtime.InteropServices;");
-        sb.AppendLine();
-        sb.AppendLine("namespace Metal.NET;");
-        sb.AppendLine();
-        sb.AppendLine($"public static partial class {className}");
-        sb.AppendLine("{");
-
-        bool first = true;
-        foreach (var func in functions)
+        // Build P/Invoke parameter list
+        var pinvokeParams = new List<string>();
+        foreach (var p in func.Parameters)
         {
-            string csReturnType = MapCppType(func.ReturnType, cppNamespace);
-            bool nullable = IsNullableType(csReturnType);
+            string csType = MapCppType(p.CppType, cppNamespace);
+            if (IsNullableType(csType))
+                pinvokeParams.Add($"nint {EscapeReservedWord(ToCamelCase(p.Name))}");
+            else
+                pinvokeParams.Add($"{csType} {EscapeReservedWord(ToCamelCase(p.Name))}");
+        }
 
-            // Build P/Invoke parameter list
-            var pinvokeParams = new List<string>();
-            foreach (var p in func.Parameters)
+        string pinvokeReturnType = nullable ? "nint" : csReturnType;
+
+        // P/Invoke declaration
+        sb.AppendLine($"    [LibraryImport(\"{func.LibraryPath}\", EntryPoint = \"{func.CEntryPoint}\")]");
+        sb.AppendLine($"    private static partial {pinvokeReturnType} {func.CEntryPoint}({string.Join(", ", pinvokeParams)});");
+        sb.AppendLine();
+
+        // Public wrapper method
+        var wrapperParams = new List<string>();
+        var callArgs = new List<string>();
+        foreach (var p in func.Parameters)
+        {
+            string csType = MapCppType(p.CppType, cppNamespace);
+            string csName = EscapeReservedWord(ToCamelCase(p.Name));
+            if (IsNullableType(csType))
             {
-                string csType = MapCppType(p.CppType, cppNamespace);
-                if (IsNullableType(csType))
-                    pinvokeParams.Add($"nint {EscapeReservedWord(ToCamelCase(p.Name))}");
-                else
-                    pinvokeParams.Add($"{csType} {EscapeReservedWord(ToCamelCase(p.Name))}");
-            }
-
-            string pinvokeReturnType = nullable ? "nint" : csReturnType;
-
-            if (!first) sb.AppendLine();
-            first = false;
-
-            // P/Invoke declaration
-            sb.AppendLine($"    [LibraryImport(\"{func.LibraryPath}\", EntryPoint = \"{func.CEntryPoint}\")]");
-            sb.AppendLine($"    private static partial {pinvokeReturnType} {func.CEntryPoint}({string.Join(", ", pinvokeParams)});");
-            sb.AppendLine();
-
-            // Public wrapper method
-            var wrapperParams = new List<string>();
-            var callArgs = new List<string>();
-            foreach (var p in func.Parameters)
-            {
-                string csType = MapCppType(p.CppType, cppNamespace);
-                string csName = EscapeReservedWord(ToCamelCase(p.Name));
-                if (IsNullableType(csType))
-                {
-                    wrapperParams.Add($"{csType} {csName}");
-                    callArgs.Add($"{csName}.NativePtr");
-                }
-                else
-                {
-                    wrapperParams.Add($"{csType} {csName}");
-                    callArgs.Add(csName);
-                }
-            }
-
-            string csFullReturnType = nullable ? $"{csReturnType}?" : csReturnType;
-            string wrapperParamStr = string.Join(", ", wrapperParams);
-            string callArgStr = string.Join(", ", callArgs);
-
-            if (nullable)
-            {
-                sb.AppendLine($"    public static {csFullReturnType} {func.CppName}({wrapperParamStr})");
-                sb.AppendLine("    {");
-                sb.AppendLine($"        nint ptr = {func.CEntryPoint}({callArgStr});");
-                sb.AppendLine($"        return ptr is not 0 ? new {csReturnType}(ptr) : null;");
-                sb.AppendLine("    }");
-            }
-            else if (csReturnType == "void")
-            {
-                sb.AppendLine($"    public static void {func.CppName}({wrapperParamStr}) => {func.CEntryPoint}({callArgStr});");
+                wrapperParams.Add($"{csType} {csName}");
+                callArgs.Add($"{csName}.NativePtr");
             }
             else
             {
-                sb.AppendLine($"    public static {csReturnType} {func.CppName}({wrapperParamStr}) => {func.CEntryPoint}({callArgStr});");
+                wrapperParams.Add($"{csType} {csName}");
+                callArgs.Add(csName);
             }
         }
 
-        sb.AppendLine("}");
+        string csFullReturnType = nullable ? $"{csReturnType}?" : csReturnType;
+        string wrapperParamStr = string.Join(", ", wrapperParams);
+        string callArgStr = string.Join(", ", callArgs);
 
-        File.WriteAllText(Path.Combine(dir, $"{className}.cs"), sb.ToString());
-        Console.WriteLine($"  Generated: {subdir}/{className}.cs");
+        if (nullable)
+        {
+            sb.AppendLine($"    public static {csFullReturnType} {func.CppName}({wrapperParamStr})");
+            sb.AppendLine("    {");
+            sb.AppendLine($"        nint ptr = {func.CEntryPoint}({callArgStr});");
+            sb.AppendLine($"        return ptr is not 0 ? new {csReturnType}(ptr) : null;");
+            sb.AppendLine("    }");
+        }
+        else if (csReturnType == "void")
+        {
+            sb.AppendLine($"    public static void {func.CppName}({wrapperParamStr}) => {func.CEntryPoint}({callArgStr});");
+        }
+        else
+        {
+            sb.AppendLine($"    public static {csReturnType} {func.CppName}({wrapperParamStr}) => {func.CEntryPoint}({callArgStr});");
+        }
     }
 
-    void GenerateClass(ClassDef classDef, HashSet<string> inheritedProperties)
+    void GenerateClass(ClassDef classDef, HashSet<string> inheritedProperties, List<FreeFunctionDef> freeFunctions)
     {
         string prefix = GetPrefix(classDef.CppNamespace);
         string csClassName = prefix + classDef.Name;
@@ -980,6 +959,7 @@ class Generator
         Directory.CreateDirectory(dir);
 
         bool hasClassField = _registeredClasses.Contains(csClassName);
+        bool hasFreeFunctions = freeFunctions.Count > 0;
 
         // Filter out methods with array params, function pointer params, or unmappable types
         var validMethods = classDef.Methods
@@ -1000,14 +980,23 @@ class Generator
 
         var selectors = new SortedDictionary<string, string>();
         var sb = new StringBuilder();
+
+        if (hasFreeFunctions)
+        {
+            sb.AppendLine("using System.Runtime.InteropServices;");
+            sb.AppendLine();
+        }
+
         sb.AppendLine("namespace Metal.NET;");
         sb.AppendLine();
 
         // Reference type class with primary constructor inheriting base class or NativeObject
+        // Use 'partial' when we have free functions that need LibraryImport
         string baseClass = classDef.BaseClassName != null && _knownClassNames.Contains(classDef.BaseClassName)
             ? classDef.BaseClassName
             : "NativeObject";
-        sb.AppendLine($"public class {csClassName}(nint nativePtr) : {baseClass}(nativePtr)");
+        string partialKeyword = hasFreeFunctions ? "partial " : "";
+        sb.AppendLine($"public {partialKeyword}class {csClassName}(nint nativePtr) : {baseClass}(nativePtr)");
         sb.AppendLine("{");
 
         // For creatable objects, add parameterless constructor
@@ -1033,6 +1022,14 @@ class Generator
         {
             if (hasPrecedingMember) sb.AppendLine();
             EmitMethod(sb, method, csClassName, classDef.CppNamespace, selectors, hasClassField, hasZeroParamVersion);
+            hasPrecedingMember = true;
+        }
+
+        // Static free functions (e.g., MTLCreateSystemDefaultDevice → MTLDevice.CreateSystemDefaultDevice)
+        foreach (var func in freeFunctions)
+        {
+            if (hasPrecedingMember) sb.AppendLine();
+            EmitFreeFunction(sb, func, classDef.CppNamespace);
             hasPrecedingMember = true;
         }
 

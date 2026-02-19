@@ -4,7 +4,7 @@ public enum MTLReadWriteTextureTier : ulong
 {
     None = 0,
 
-    _1 = 1,
+    MTL1 = 1,
 
-    _2 = 2
+    MTL2 = 2
 }
