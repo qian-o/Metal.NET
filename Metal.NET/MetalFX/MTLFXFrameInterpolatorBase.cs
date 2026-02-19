@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXFrameInterpolatorBase(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr)
 {
     public float AspectRatio
     {

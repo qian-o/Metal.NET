@@ -6,7 +6,7 @@ namespace Metal.NET;
 /// <summary>
 /// Wraps an Objective-C NSString with bidirectional <see cref="string"/> conversion.
 /// </summary>
-public class NSString(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class NSString(nint nativePtr) : NativeObject(nativePtr)
 {
     public string Value
     {
@@ -17,7 +17,7 @@ public class NSString(nint nativePtr, bool retain) : NativeObject(nativePtr, ret
     {
         fixed (byte* utf8 = Encoding.UTF8.GetBytes(value + '\0'))
         {
-            return new(ObjectiveCRuntime.MsgSendPtr(NSStringBindings.Class, NSStringBindings.StringWithUtf8String, (nint)utf8), true);
+            return new(ObjectiveCRuntime.MsgSendPtr(NSStringBindings.Class, NSStringBindings.StringWithUtf8String, (nint)utf8));
         }
     }
 

@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLResourceViewPoolDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTLResourceViewPoolDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLResourceViewPoolDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceViewPoolDescriptorBindings.Class), false)
+    public MTLResourceViewPoolDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceViewPoolDescriptorBindings.Class))
     {
     }
 

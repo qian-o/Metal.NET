@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLArrayType(nint nativePtr, bool retain) : MTLType(nativePtr, retain)
+public class MTLArrayType(nint nativePtr) : MTLType(nativePtr)
 {
-    public MTLArrayType() : this(ObjectiveCRuntime.AllocInit(MTLArrayTypeBindings.Class), false)
+    public MTLArrayType() : this(ObjectiveCRuntime.AllocInit(MTLArrayTypeBindings.Class))
     {
     }
 

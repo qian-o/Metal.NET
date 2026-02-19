@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOCommandQueue(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTLIOCommandQueue(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLIOCommandBuffer? CommandBuffer
     {

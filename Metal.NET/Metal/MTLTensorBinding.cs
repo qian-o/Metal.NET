@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensorBinding(nint nativePtr, bool retain) : MTLBinding(nativePtr, retain)
+public class MTLTensorBinding(nint nativePtr) : MTLBinding(nativePtr)
 {
     public MTLTensorExtents? Dimensions
     {

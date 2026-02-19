@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLCommandEncoder(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTLCommandEncoder(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
