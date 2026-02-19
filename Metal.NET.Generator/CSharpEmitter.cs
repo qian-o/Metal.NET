@@ -161,11 +161,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         // Filter out methods with unmapped array params, function pointer params, or unmappable types
         List<MethodInfo> validMethods =
         [
-            .. classDef.Methods
-                .Where(m => !m.Parameters.Any(p => p.CppType == "ARRAY_PARAM"))
-                .Where(m => !HasUnmergableArrayParam(m))
-                .Where(m => !HasFunctionPointerParam(m))
-                .Where(m => !HasUnmappableParam(m))
+            .. classDef.Methods.Where(m => !m.Parameters.Any(p => p.CppType == "ARRAY_PARAM")
+                                           && !HasUnmergableArrayParam(m)
+                                           && !HasFunctionPointerParam(m)
+                                           && !HasUnmappableParam(m))
         ];
 
         HashSet<string> hasZeroParamVersion =
@@ -354,8 +353,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             methods.Add(m);
         }
 
-        properties.Sort((a, b) => string.Compare(
-            TypeMapper.ToPascalCase(a.Getter.CppName), TypeMapper.ToPascalCase(b.Getter.CppName), StringComparison.Ordinal));
+        properties.Sort((a, b) => string.CompareOrdinal(TypeMapper.ToPascalCase(a.Getter.CppName), TypeMapper.ToPascalCase(b.Getter.CppName)));
 
         return (properties, methods);
     }
@@ -390,12 +388,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             }
         }
 
-        if (TypeMapper.IsUnmappableCppType(method.ReturnType))
-        {
-            return true;
-        }
-
-        return false;
+        return TypeMapper.IsUnmappableCppType(method.ReturnType);
     }
 
     static bool HasUnmergableArrayParam(MethodInfo method)
@@ -452,8 +445,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
         selectors.TryAdd(selectorName, selectorObjC);
 
+        const string Target = "NativePtr";
+
         string selectorRef = $"{csClassName}Bindings.{selectorName}";
-        string target = "NativePtr";
         string typeStr = nullable ? $"{csType}?" : csType;
 
         // Resolve setter selector
@@ -489,7 +483,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             string msgSend = typeMapper.GetMsgSendForEnumGet(csType);
             sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => ({csType}){msgSend}({target}, {selectorRef});");
+            sb.AppendLine($"        get => ({csType}){msgSend}({Target}, {selectorRef});");
             if (prop.Setter != null)
             {
                 string setCast = typeMapper.GetEnumSetCast(csType);
@@ -501,7 +495,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         {
             sb.AppendLine($"    public bool {csPropName}");
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => ObjectiveCRuntime.MsgSendBool({target}, {selectorRef});");
+            sb.AppendLine($"        get => ObjectiveCRuntime.MsgSendBool({Target}, {selectorRef});");
             if (prop.Setter != null)
             {
                 sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, (Bool8)value);");
@@ -513,7 +507,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             string msgSend = TypeMapper.GetMsgSendForStruct(csType);
             sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => ObjectiveCRuntime.{msgSend}({target}, {selectorRef});");
+            sb.AppendLine($"        get => ObjectiveCRuntime.{msgSend}({Target}, {selectorRef});");
             if (prop.Setter != null)
             {
                 sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value);");
@@ -526,7 +520,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             string getCast = csType is "int" or "long" ? $"({csType})" : "";
             sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => {getCast}ObjectiveCRuntime.{msgSend}({target}, {selectorRef});");
+            sb.AppendLine($"        get => {getCast}ObjectiveCRuntime.{msgSend}({Target}, {selectorRef});");
             if (prop.Setter != null)
             {
                 string setCast = csType switch { "int" => "(nint)", "long" => "(nint)", _ => "" };
@@ -632,9 +626,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
                 arraySetupLines.Add($"        nint* {ptrVar} = stackalloc nint[{csParamName}.Length];");
                 arraySetupLines.Add($"        for (int i = 0; i < {csParamName}.Length; i++)");
-                arraySetupLines.Add($"        {{");
+                arraySetupLines.Add("        {");
                 arraySetupLines.Add($"            {ptrVar}[i] = {csParamName}[i].NativePtr;");
-                arraySetupLines.Add($"        }}");
+                arraySetupLines.Add("        }");
 
                 callArgs.Add($"(nint){ptrVar}");
 
@@ -657,9 +651,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
                 arraySetupLines.Add($"        {elemType}* {ptrVar} = stackalloc {elemType}[{csParamName}.Length];");
                 arraySetupLines.Add($"        for (int i = 0; i < {csParamName}.Length; i++)");
-                arraySetupLines.Add($"        {{");
+                arraySetupLines.Add("        {");
                 arraySetupLines.Add($"            {ptrVar}[i] = {csParamName}[i];");
-                arraySetupLines.Add($"        }}");
+                arraySetupLines.Add("        }");
 
                 callArgs.Add($"(nint){ptrVar}");
                 continue;
@@ -878,7 +872,8 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             else
             {
                 pinvokeParams.Add($"{csType} {TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(p.Name))}");
-            }        }
+            }
+        }
 
         string pinvokeReturnType = nullable ? "nint" : csReturnType;
 
@@ -914,7 +909,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             sb.AppendLine("    {");
             sb.AppendLine($"        nint nativePtr = {func.CEntryPoint}({callArgStr});");
             sb.AppendLine();
-            sb.AppendLine($"        return nativePtr is not 0 ? new(nativePtr, false) : null;");
+            sb.AppendLine("        return nativePtr is not 0 ? new(nativePtr, false) : null;");
             sb.AppendLine("    }");
         }
         else if (csReturnType == "void")
