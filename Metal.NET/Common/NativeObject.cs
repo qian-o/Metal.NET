@@ -8,11 +8,13 @@ public abstract class NativeObject : IDisposable
 {
     private bool released;
 
+    /// <summary>
     /// <param name="nativePtr">The raw Objective-C pointer.</param>
     /// <param name="retain">
     /// <c>true</c> to retain a +0 reference (non-ownership returns);
     /// <c>false</c> when the caller already owns a +1 reference (new/alloc/copy/init).
     /// </param>
+    /// </summary>
     protected NativeObject(nint nativePtr, bool retain)
     {
         NativePtr = nativePtr;
