@@ -100,3 +100,10 @@ If you are looking for more mature or alternative Metal bindings for .NET, consi
 - [SharpMetal](https://github.com/IsaacMarovitz/SharpMetal) — A community-maintained C# Metal binding library.
 - **.NET `net-macos` / `net-ios` TFM** — Apple platform targets shipped with .NET that include official Metal API bindings via [dotnet/macios](https://github.com/dotnet/macios).
 
+## Trademarks
+
+"Metal" is a trademark of Apple Inc. This project is not affiliated with or endorsed by Apple Inc.
+
+## Third-Party Notices
+
+See [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) for details on third-party components used in this project.
