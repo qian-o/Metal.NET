@@ -16,9 +16,7 @@ public class NSArray(nint nativePtr) : NativeObject(nativePtr)
             return null;
         }
 
-        ObjectiveCRuntime.Retain(nativePtr);
-
-        return (T)Activator.CreateInstance(typeof(T), nativePtr)!;
+        return (T)Activator.CreateInstance(typeof(T), nativePtr, true)!;
     }
 }
 

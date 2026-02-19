@@ -4,12 +4,14 @@
 /// Base class for all Objective-C native object wrappers.
 /// Every wrapper holds a +1 reference and releases it on dispose.
 /// </summary>
-public abstract class NativeObject(nint nativePtr) : IDisposable
+public abstract class NativeObject : IDisposable
 {
     private bool released;
 
-    protected NativeObject(nint nativePtr, bool retain) : this(nativePtr)
+    protected NativeObject(nint nativePtr, bool retain)
     {
+        NativePtr = nativePtr;
+
         if (retain)
         {
             ObjectiveCRuntime.Retain(nativePtr);
@@ -24,7 +26,7 @@ public abstract class NativeObject(nint nativePtr) : IDisposable
     /// <summary>
     /// The underlying Objective-C pointer.
     /// </summary>
-    public nint NativePtr { get; } = nativePtr;
+    public nint NativePtr { get; }
 
     public void Dispose()
     {
