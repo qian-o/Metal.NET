@@ -21,14 +21,7 @@ public class MTL4Compiler(nint nativePtr, bool retain) : NativeObject(nativePtr,
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewBinaryFunction, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
 
-        if (errorPtr is not 0)
-        {
-            error = new(errorPtr, true);
-        }
-        else
-        {
-            error = null;
-        }
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
         return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
@@ -37,14 +30,7 @@ public class MTL4Compiler(nint nativePtr, bool retain) : NativeObject(nativePtr,
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewComputePipelineState, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
 
-        if (errorPtr is not 0)
-        {
-            error = new(errorPtr, true);
-        }
-        else
-        {
-            error = null;
-        }
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
         return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
@@ -53,14 +39,7 @@ public class MTL4Compiler(nint nativePtr, bool retain) : NativeObject(nativePtr,
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewComputePipelineStateWithDescriptordynamicLinkingDescriptorcompilerTaskOptionserror, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
 
-        if (errorPtr is not 0)
-        {
-            error = new(errorPtr, true);
-        }
-        else
-        {
-            error = null;
-        }
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
         return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
@@ -69,14 +48,7 @@ public class MTL4Compiler(nint nativePtr, bool retain) : NativeObject(nativePtr,
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewDynamicLibrary, library.NativePtr, out nint errorPtr);
 
-        if (errorPtr is not 0)
-        {
-            error = new(errorPtr, true);
-        }
-        else
-        {
-            error = null;
-        }
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
         return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
@@ -85,14 +57,7 @@ public class MTL4Compiler(nint nativePtr, bool retain) : NativeObject(nativePtr,
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewDynamicLibraryWithURLerror, url.NativePtr, out nint errorPtr);
 
-        if (errorPtr is not 0)
-        {
-            error = new(errorPtr, true);
-        }
-        else
-        {
-            error = null;
-        }
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
         return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
@@ -101,14 +66,7 @@ public class MTL4Compiler(nint nativePtr, bool retain) : NativeObject(nativePtr,
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewLibrary, descriptor.NativePtr, out nint errorPtr);
 
-        if (errorPtr is not 0)
-        {
-            error = new(errorPtr, true);
-        }
-        else
-        {
-            error = null;
-        }
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
         return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
@@ -117,14 +75,7 @@ public class MTL4Compiler(nint nativePtr, bool retain) : NativeObject(nativePtr,
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewMachineLearningPipelineState, descriptor.NativePtr, out nint errorPtr);
 
-        if (errorPtr is not 0)
-        {
-            error = new(errorPtr, true);
-        }
-        else
-        {
-            error = null;
-        }
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
         return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
@@ -133,14 +84,7 @@ public class MTL4Compiler(nint nativePtr, bool retain) : NativeObject(nativePtr,
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewRenderPipelineState, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
 
-        if (errorPtr is not 0)
-        {
-            error = new(errorPtr, true);
-        }
-        else
-        {
-            error = null;
-        }
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
         return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
@@ -149,14 +93,7 @@ public class MTL4Compiler(nint nativePtr, bool retain) : NativeObject(nativePtr,
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewRenderPipelineStateWithDescriptordynamicLinkingDescriptorcompilerTaskOptionserror, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
 
-        if (errorPtr is not 0)
-        {
-            error = new(errorPtr, true);
-        }
-        else
-        {
-            error = null;
-        }
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
         return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
@@ -165,14 +102,7 @@ public class MTL4Compiler(nint nativePtr, bool retain) : NativeObject(nativePtr,
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewRenderPipelineStateBySpecialization, descriptor.NativePtr, pipeline.NativePtr, out nint errorPtr);
 
-        if (errorPtr is not 0)
-        {
-            error = new(errorPtr, true);
-        }
-        else
-        {
-            error = null;
-        }
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
         return nativePtr is not 0 ? new(nativePtr, false) : null;
     }

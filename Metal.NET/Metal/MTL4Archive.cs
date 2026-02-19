@@ -1,4 +1,4 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public class MTL4Archive(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
@@ -12,14 +12,7 @@ public class MTL4Archive(nint nativePtr, bool retain) : NativeObject(nativePtr, 
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewBinaryFunction, descriptor.NativePtr, out nint errorPtr);
 
-        if (errorPtr is not 0)
-        {
-            error = new(errorPtr, true);
-        }
-        else
-        {
-            error = null;
-        }
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
         return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
@@ -28,14 +21,7 @@ public class MTL4Archive(nint nativePtr, bool retain) : NativeObject(nativePtr, 
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewComputePipelineState, descriptor.NativePtr, out nint errorPtr);
 
-        if (errorPtr is not 0)
-        {
-            error = new(errorPtr, true);
-        }
-        else
-        {
-            error = null;
-        }
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
         return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
@@ -44,14 +30,7 @@ public class MTL4Archive(nint nativePtr, bool retain) : NativeObject(nativePtr, 
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewComputePipelineStateWithDescriptordynamicLinkingDescriptorerror, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
 
-        if (errorPtr is not 0)
-        {
-            error = new(errorPtr, true);
-        }
-        else
-        {
-            error = null;
-        }
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
         return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
@@ -60,14 +39,7 @@ public class MTL4Archive(nint nativePtr, bool retain) : NativeObject(nativePtr, 
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewRenderPipelineState, descriptor.NativePtr, out nint errorPtr);
 
-        if (errorPtr is not 0)
-        {
-            error = new(errorPtr, true);
-        }
-        else
-        {
-            error = null;
-        }
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
         return nativePtr is not 0 ? new(nativePtr, false) : null;
     }

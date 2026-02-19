@@ -22,14 +22,7 @@ public class MTLDynamicLibrary(nint nativePtr, bool retain) : NativeObject(nativ
     {
         var result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDynamicLibraryBindings.SerializeToURL, url.NativePtr, out nint errorPtr);
 
-        if (errorPtr is not 0)
-        {
-            error = new(errorPtr, true);
-        }
-        else
-        {
-            error = null;
-        }
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
         return result;
     }

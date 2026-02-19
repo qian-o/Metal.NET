@@ -39,14 +39,7 @@ public class MTLLibrary(nint nativePtr, bool retain) : NativeObject(nativePtr, r
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.NewFunctionWithNameconstantValueserror, name.NativePtr, constantValues.NativePtr, out nint errorPtr);
 
-        if (errorPtr is not 0)
-        {
-            error = new(errorPtr, true);
-        }
-        else
-        {
-            error = null;
-        }
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
         return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
@@ -55,14 +48,7 @@ public class MTLLibrary(nint nativePtr, bool retain) : NativeObject(nativePtr, r
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.NewFunctionWithDescriptorerror, descriptor.NativePtr, out nint errorPtr);
 
-        if (errorPtr is not 0)
-        {
-            error = new(errorPtr, true);
-        }
-        else
-        {
-            error = null;
-        }
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
         return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
@@ -71,14 +57,7 @@ public class MTLLibrary(nint nativePtr, bool retain) : NativeObject(nativePtr, r
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.NewIntersectionFunction, descriptor.NativePtr, out nint errorPtr);
 
-        if (errorPtr is not 0)
-        {
-            error = new(errorPtr, true);
-        }
-        else
-        {
-            error = null;
-        }
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
         return nativePtr is not 0 ? new(nativePtr, false) : null;
     }

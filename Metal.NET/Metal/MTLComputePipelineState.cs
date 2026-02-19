@@ -82,14 +82,7 @@ public class MTLComputePipelineState(nint nativePtr, bool retain) : MTLAllocatio
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineStateWithBinaryFunctions, additionalBinaryFunctions.NativePtr, out nint errorPtr);
 
-        if (errorPtr is not 0)
-        {
-            error = new(errorPtr, true);
-        }
-        else
-        {
-            error = null;
-        }
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
         return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
@@ -98,14 +91,7 @@ public class MTLComputePipelineState(nint nativePtr, bool retain) : MTLAllocatio
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineState, functions.NativePtr, out nint errorPtr);
 
-        if (errorPtr is not 0)
-        {
-            error = new(errorPtr, true);
-        }
-        else
-        {
-            error = null;
-        }
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
         return nativePtr is not 0 ? new(nativePtr, false) : null;
     }

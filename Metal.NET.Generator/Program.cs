@@ -1389,14 +1389,7 @@ class Generator
             if (hasOutError)
             {
                 sb.AppendLine();
-                sb.AppendLine("        if (errorPtr is not 0)");
-                sb.AppendLine("        {");
-                sb.AppendLine("            error = new(errorPtr, true);");
-                sb.AppendLine("        }");
-                sb.AppendLine("        else");
-                sb.AppendLine("        {");
-                sb.AppendLine("            error = null;");
-                sb.AppendLine("        }");
+                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr, true) : null;");
             }
         }
         else if (nullable)
@@ -1406,14 +1399,7 @@ class Generator
             {
                 sb.AppendLine($"        nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine("        if (errorPtr is not 0)");
-                sb.AppendLine("        {");
-                sb.AppendLine("            error = new(errorPtr, true);");
-                sb.AppendLine("        }");
-                sb.AppendLine("        else");
-                sb.AppendLine("        {");
-                sb.AppendLine("            error = null;");
-                sb.AppendLine("        }");
+                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr, true) : null;");
                 sb.AppendLine();
                 sb.AppendLine($"        return nativePtr is not 0 ? new(nativePtr, {retainFlag}) : null;");
             }
@@ -1431,14 +1417,7 @@ class Generator
             {
                 sb.AppendLine($"        var result = ({returnType}){msgSend}({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine("        if (errorPtr is not 0)");
-                sb.AppendLine("        {");
-                sb.AppendLine("            error = new(errorPtr, true);");
-                sb.AppendLine("        }");
-                sb.AppendLine("        else");
-                sb.AppendLine("        {");
-                sb.AppendLine("            error = null;");
-                sb.AppendLine("        }");
+                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr, true) : null;");
                 sb.AppendLine();
                 sb.AppendLine("        return result;");
             }
@@ -1453,14 +1432,7 @@ class Generator
             {
                 sb.AppendLine($"        var result = ObjectiveCRuntime.MsgSendBool({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine("        if (errorPtr is not 0)");
-                sb.AppendLine("        {");
-                sb.AppendLine("            error = new(errorPtr, true);");
-                sb.AppendLine("        }");
-                sb.AppendLine("        else");
-                sb.AppendLine("        {");
-                sb.AppendLine("            error = null;");
-                sb.AppendLine("        }");
+                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr, true) : null;");
                 sb.AppendLine();
                 sb.AppendLine("        return result;");
             }
@@ -1476,14 +1448,7 @@ class Generator
             {
                 sb.AppendLine($"        var result = ObjectiveCRuntime.{msgSend}({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine("        if (errorPtr is not 0)");
-                sb.AppendLine("        {");
-                sb.AppendLine("            error = new(errorPtr, true);");
-                sb.AppendLine("        }");
-                sb.AppendLine("        else");
-                sb.AppendLine("        {");
-                sb.AppendLine("            error = null;");
-                sb.AppendLine("        }");
+                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr, true) : null;");
                 sb.AppendLine();
                 sb.AppendLine("        return result;");
             }
@@ -1500,14 +1465,7 @@ class Generator
             {
                 sb.AppendLine($"        var result = {retCast}ObjectiveCRuntime.{msgSend}({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine("        if (errorPtr is not 0)");
-                sb.AppendLine("        {");
-                sb.AppendLine("            error = new(errorPtr, true);");
-                sb.AppendLine("        }");
-                sb.AppendLine("        else");
-                sb.AppendLine("        {");
-                sb.AppendLine("            error = null;");
-                sb.AppendLine("        }");
+                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr, true) : null;");
                 sb.AppendLine();
                 sb.AppendLine("        return result;");
             }
@@ -1614,12 +1572,13 @@ class Generator
 
     static bool IsOwnershipTransferMethod(string cppName)
     {
-        // ObjC memory management: new/alloc/copy/mutableCopy return +1
+        // ObjC memory management: new/alloc/copy/mutableCopy/init return +1
         // Must be followed by uppercase letter or end-of-string (e.g. "newCommandQueue" but not "next", "allocatedSize")
         if (cppName.StartsWith("new") && (cppName.Length == 3 || char.IsUpper(cppName[3]))) return true;
         if (cppName.StartsWith("alloc") && (cppName.Length == 5 || char.IsUpper(cppName[5]))) return true;
         if (cppName.StartsWith("copy") && (cppName.Length == 4 || char.IsUpper(cppName[4]))) return true;
         if (cppName.StartsWith("mutableCopy") && (cppName.Length == 11 || char.IsUpper(cppName[11]))) return true;
+        if (cppName.StartsWith("init") && (cppName.Length == 4 || char.IsUpper(cppName[4]))) return true;
         return false;
     }
 
