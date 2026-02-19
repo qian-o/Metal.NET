@@ -3,19 +3,19 @@ namespace Metal.NET;
 [Flags]
 public enum MTLIndirectCommandType : ulong
 {
-    MTLIndirectCommandTypeDraw = 1,
+    Draw = 1,
 
-    MTLIndirectCommandTypeDrawIndexed = 2,
+    DrawIndexed = 2,
 
-    MTLIndirectCommandTypeDrawPatches = 4,
+    DrawPatches = 4,
 
-    MTLIndirectCommandTypeDrawIndexedPatches = 8,
+    DrawIndexedPatches = 8,
 
-    MTLIndirectCommandTypeConcurrentDispatch = 32,
+    ConcurrentDispatch = 32,
 
-    MTLIndirectCommandTypeConcurrentDispatchThreads = 64,
+    ConcurrentDispatchThreads = 64,
 
-    MTLIndirectCommandTypeDrawMeshThreadgroups = 128,
+    DrawMeshThreadgroups = 128,
 
-    MTLIndirectCommandTypeDrawMeshThreads = 256
+    DrawMeshThreads = 256
 }

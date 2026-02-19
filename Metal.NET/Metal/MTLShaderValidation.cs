@@ -2,9 +2,9 @@ namespace Metal.NET;
 
 public enum MTLShaderValidation : long
 {
-    MTLShaderValidationDefault = 0,
+    Default = 0,
 
-    MTLShaderValidationEnabled = 1,
+    Enabled = 1,
 
-    MTLShaderValidationDisabled = 2
+    Disabled = 2
 }

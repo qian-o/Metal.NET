@@ -2,11 +2,11 @@ namespace Metal.NET;
 
 public enum MTL4CompilerTaskStatus : long
 {
-    MTL4CompilerTaskStatusNone = 0,
+    None = 0,
 
-    MTL4CompilerTaskStatusScheduled = 1,
+    Scheduled = 1,
 
-    MTL4CompilerTaskStatusCompiling = 2,
+    Compiling = 2,
 
-    MTL4CompilerTaskStatusFinished = 3
+    Finished = 3
 }

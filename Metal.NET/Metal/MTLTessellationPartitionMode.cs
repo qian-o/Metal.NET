@@ -2,11 +2,11 @@ namespace Metal.NET;
 
 public enum MTLTessellationPartitionMode : ulong
 {
-    MTLTessellationPartitionModePow2 = 0,
+    Pow2 = 0,
 
-    MTLTessellationPartitionModeInteger = 1,
+    Integer = 1,
 
-    MTLTessellationPartitionModeFractionalOdd = 2,
+    FractionalOdd = 2,
 
-    MTLTessellationPartitionModeFractionalEven = 3
+    FractionalEven = 3
 }

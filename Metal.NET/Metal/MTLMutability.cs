@@ -2,9 +2,9 @@ namespace Metal.NET;
 
 public enum MTLMutability : ulong
 {
-    MTLMutabilityDefault = 0,
+    Default = 0,
 
-    MTLMutabilityMutable = 1,
+    Mutable = 1,
 
-    MTLMutabilityImmutable = 2
+    Immutable = 2
 }

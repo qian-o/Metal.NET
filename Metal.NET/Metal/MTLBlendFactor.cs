@@ -2,43 +2,43 @@ namespace Metal.NET;
 
 public enum MTLBlendFactor : ulong
 {
-    MTLBlendFactorZero = 0,
+    Zero = 0,
 
-    MTLBlendFactorOne = 1,
+    One = 1,
 
-    MTLBlendFactorSourceColor = 2,
+    SourceColor = 2,
 
-    MTLBlendFactorOneMinusSourceColor = 3,
+    OneMinusSourceColor = 3,
 
-    MTLBlendFactorSourceAlpha = 4,
+    SourceAlpha = 4,
 
-    MTLBlendFactorOneMinusSourceAlpha = 5,
+    OneMinusSourceAlpha = 5,
 
-    MTLBlendFactorDestinationColor = 6,
+    DestinationColor = 6,
 
-    MTLBlendFactorOneMinusDestinationColor = 7,
+    OneMinusDestinationColor = 7,
 
-    MTLBlendFactorDestinationAlpha = 8,
+    DestinationAlpha = 8,
 
-    MTLBlendFactorOneMinusDestinationAlpha = 9,
+    OneMinusDestinationAlpha = 9,
 
-    MTLBlendFactorSourceAlphaSaturated = 10,
+    SourceAlphaSaturated = 10,
 
-    MTLBlendFactorBlendColor = 11,
+    BlendColor = 11,
 
-    MTLBlendFactorOneMinusBlendColor = 12,
+    OneMinusBlendColor = 12,
 
-    MTLBlendFactorBlendAlpha = 13,
+    BlendAlpha = 13,
 
-    MTLBlendFactorOneMinusBlendAlpha = 14,
+    OneMinusBlendAlpha = 14,
 
-    MTLBlendFactorSource1Color = 15,
+    Source1Color = 15,
 
-    MTLBlendFactorOneMinusSource1Color = 16,
+    OneMinusSource1Color = 16,
 
-    MTLBlendFactorSource1Alpha = 17,
+    Source1Alpha = 17,
 
-    MTLBlendFactorOneMinusSource1Alpha = 18,
+    OneMinusSource1Alpha = 18,
 
-    MTLBlendFactorUnspecialized = 19
+    Unspecialized = 19
 }

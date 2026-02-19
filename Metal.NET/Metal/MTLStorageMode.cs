@@ -2,11 +2,11 @@ namespace Metal.NET;
 
 public enum MTLStorageMode : ulong
 {
-    MTLStorageModeShared = 0,
+    Shared = 0,
 
-    MTLStorageModeManaged = 1,
+    Managed = 1,
 
-    MTLStorageModePrivate = 2,
+    Private = 2,
 
-    MTLStorageModeMemoryless = 3
+    Memoryless = 3
 }

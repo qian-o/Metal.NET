@@ -2,111 +2,111 @@ namespace Metal.NET;
 
 public enum MTLVertexFormat : ulong
 {
-    MTLVertexFormatInvalid = 0,
+    Invalid = 0,
 
-    MTLVertexFormatUChar2 = 1,
+    UChar2 = 1,
 
-    MTLVertexFormatUChar3 = 2,
+    UChar3 = 2,
 
-    MTLVertexFormatUChar4 = 3,
+    UChar4 = 3,
 
-    MTLVertexFormatChar2 = 4,
+    Char2 = 4,
 
-    MTLVertexFormatChar3 = 5,
+    Char3 = 5,
 
-    MTLVertexFormatChar4 = 6,
+    Char4 = 6,
 
-    MTLVertexFormatUChar2Normalized = 7,
+    UChar2Normalized = 7,
 
-    MTLVertexFormatUChar3Normalized = 8,
+    UChar3Normalized = 8,
 
-    MTLVertexFormatUChar4Normalized = 9,
+    UChar4Normalized = 9,
 
-    MTLVertexFormatChar2Normalized = 10,
+    Char2Normalized = 10,
 
-    MTLVertexFormatChar3Normalized = 11,
+    Char3Normalized = 11,
 
-    MTLVertexFormatChar4Normalized = 12,
+    Char4Normalized = 12,
 
-    MTLVertexFormatUShort2 = 13,
+    UShort2 = 13,
 
-    MTLVertexFormatUShort3 = 14,
+    UShort3 = 14,
 
-    MTLVertexFormatUShort4 = 15,
+    UShort4 = 15,
 
-    MTLVertexFormatShort2 = 16,
+    Short2 = 16,
 
-    MTLVertexFormatShort3 = 17,
+    Short3 = 17,
 
-    MTLVertexFormatShort4 = 18,
+    Short4 = 18,
 
-    MTLVertexFormatUShort2Normalized = 19,
+    UShort2Normalized = 19,
 
-    MTLVertexFormatUShort3Normalized = 20,
+    UShort3Normalized = 20,
 
-    MTLVertexFormatUShort4Normalized = 21,
+    UShort4Normalized = 21,
 
-    MTLVertexFormatShort2Normalized = 22,
+    Short2Normalized = 22,
 
-    MTLVertexFormatShort3Normalized = 23,
+    Short3Normalized = 23,
 
-    MTLVertexFormatShort4Normalized = 24,
+    Short4Normalized = 24,
 
-    MTLVertexFormatHalf2 = 25,
+    Half2 = 25,
 
-    MTLVertexFormatHalf3 = 26,
+    Half3 = 26,
 
-    MTLVertexFormatHalf4 = 27,
+    Half4 = 27,
 
-    MTLVertexFormatFloat = 28,
+    Float = 28,
 
-    MTLVertexFormatFloat2 = 29,
+    Float2 = 29,
 
-    MTLVertexFormatFloat3 = 30,
+    Float3 = 30,
 
-    MTLVertexFormatFloat4 = 31,
+    Float4 = 31,
 
-    MTLVertexFormatInt = 32,
+    Int = 32,
 
-    MTLVertexFormatInt2 = 33,
+    Int2 = 33,
 
-    MTLVertexFormatInt3 = 34,
+    Int3 = 34,
 
-    MTLVertexFormatInt4 = 35,
+    Int4 = 35,
 
-    MTLVertexFormatUInt = 36,
+    UInt = 36,
 
-    MTLVertexFormatUInt2 = 37,
+    UInt2 = 37,
 
-    MTLVertexFormatUInt3 = 38,
+    UInt3 = 38,
 
-    MTLVertexFormatUInt4 = 39,
+    UInt4 = 39,
 
-    MTLVertexFormatInt1010102Normalized = 40,
+    Int1010102Normalized = 40,
 
-    MTLVertexFormatUInt1010102Normalized = 41,
+    UInt1010102Normalized = 41,
 
-    MTLVertexFormatUChar4Normalized_BGRA = 42,
+    UChar4Normalized_BGRA = 42,
 
-    MTLVertexFormatUChar = 45,
+    UChar = 45,
 
-    MTLVertexFormatChar = 46,
+    Char = 46,
 
-    MTLVertexFormatUCharNormalized = 47,
+    UCharNormalized = 47,
 
-    MTLVertexFormatCharNormalized = 48,
+    CharNormalized = 48,
 
-    MTLVertexFormatUShort = 49,
+    UShort = 49,
 
-    MTLVertexFormatShort = 50,
+    Short = 50,
 
-    MTLVertexFormatUShortNormalized = 51,
+    UShortNormalized = 51,
 
-    MTLVertexFormatShortNormalized = 52,
+    ShortNormalized = 52,
 
-    MTLVertexFormatHalf = 53,
+    Half = 53,
 
-    MTLVertexFormatFloatRG11B10 = 54,
+    FloatRG11B10 = 54,
 
-    MTLVertexFormatFloatRGB9E5 = 55
+    FloatRGB9E5 = 55
 }

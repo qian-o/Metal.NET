@@ -2,27 +2,27 @@ namespace Metal.NET;
 
 public enum MTLCommandBufferError : ulong
 {
-    MTLCommandBufferErrorNone = 0,
+    None = 0,
 
-    MTLCommandBufferErrorInternal = 1,
+    Internal = 1,
 
-    MTLCommandBufferErrorTimeout = 2,
+    Timeout = 2,
 
-    MTLCommandBufferErrorPageFault = 3,
+    PageFault = 3,
 
-    MTLCommandBufferErrorBlacklisted = 4,
+    Blacklisted = 4,
 
-    MTLCommandBufferErrorAccessRevoked = 4,
+    AccessRevoked = 4,
 
-    MTLCommandBufferErrorNotPermitted = 7,
+    NotPermitted = 7,
 
-    MTLCommandBufferErrorOutOfMemory = 8,
+    OutOfMemory = 8,
 
-    MTLCommandBufferErrorInvalidResource = 9,
+    InvalidResource = 9,
 
-    MTLCommandBufferErrorMemoryless = 10,
+    Memoryless = 10,
 
-    MTLCommandBufferErrorDeviceRemoved = 11,
+    DeviceRemoved = 11,
 
-    MTLCommandBufferErrorStackOverflow = 12
+    StackOverflow = 12
 }

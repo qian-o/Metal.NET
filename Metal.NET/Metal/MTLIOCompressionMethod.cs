@@ -2,13 +2,13 @@ namespace Metal.NET;
 
 public enum MTLIOCompressionMethod : long
 {
-    MTLIOCompressionMethodZlib = 0,
+    Zlib = 0,
 
-    MTLIOCompressionMethodLZFSE = 1,
+    LZFSE = 1,
 
-    MTLIOCompressionMethodLZ4 = 2,
+    LZ4 = 2,
 
-    MTLIOCompressionMethodLZMA = 3,
+    LZMA = 3,
 
-    MTLIOCompressionMethodLZBitmap = 4
+    LZBitmap = 4
 }

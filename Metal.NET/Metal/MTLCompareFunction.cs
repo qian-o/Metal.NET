@@ -2,19 +2,19 @@ namespace Metal.NET;
 
 public enum MTLCompareFunction : ulong
 {
-    MTLCompareFunctionNever = 0,
+    Never = 0,
 
-    MTLCompareFunctionLess = 1,
+    Less = 1,
 
-    MTLCompareFunctionEqual = 2,
+    Equal = 2,
 
-    MTLCompareFunctionLessEqual = 3,
+    LessEqual = 3,
 
-    MTLCompareFunctionGreater = 4,
+    Greater = 4,
 
-    MTLCompareFunctionNotEqual = 5,
+    NotEqual = 5,
 
-    MTLCompareFunctionGreaterEqual = 6,
+    GreaterEqual = 6,
 
-    MTLCompareFunctionAlways = 7
+    Always = 7
 }

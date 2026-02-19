@@ -2,7 +2,7 @@ namespace Metal.NET;
 
 public enum MTLMultisampleStencilResolveFilter : ulong
 {
-    MTLMultisampleStencilResolveFilterSample0 = 0,
+    Sample0 = 0,
 
-    MTLMultisampleStencilResolveFilterDepthResolvedSample = 1
+    DepthResolvedSample = 1
 }

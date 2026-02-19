@@ -27,6 +27,7 @@ return 0;
 
 record EnumDef(string CppNamespace, string Name, string BackingType, bool IsFlags, List<EnumMember> Members);
 record EnumMember(string Name, string Value);
+record FreeFunctionDef(string CEntryPoint, string ReturnType, string CppName, List<ParamDef> Parameters, string LibraryPath, string CppNamespace);
 
 class ClassDef
 {
@@ -67,6 +68,8 @@ class Generator
     readonly List<EnumDef> _enums = [];
     // All parsed classes
     readonly List<ClassDef> _classes = [];
+    // All parsed free functions (extern "C")
+    readonly List<FreeFunctionDef> _freeFunctions = [];
     // All known generated class names (for validating base class references)
     readonly HashSet<string> _knownClassNames = new();
 
@@ -142,7 +145,7 @@ class Generator
         Console.WriteLine("Parsing header files...");
         ParseAllHeaders();
 
-        Console.WriteLine($"Found {_enums.Count} enums, {_classes.Count} classes");
+        Console.WriteLine($"Found {_enums.Count} enums, {_classes.Count} classes, {_freeFunctions.Count} free functions");
 
         Console.WriteLine("Generating C# files...");
         GenerateAll();
@@ -213,6 +216,7 @@ class Generator
                 string content = File.ReadAllText(file);
                 ParseEnums(content);
                 ParseClasses(content, file);
+                ParseFreeFunctions(content, subdir);
             }
         }
     }
@@ -264,7 +268,7 @@ class Generator
             string csEnumName = prefix + name;
             _enumBackingTypes[csEnumName] = backingType;
 
-            var members = ParseEnumMembers(body, prefix);
+            var members = ParseEnumMembers(body, name);
             _enums.Add(new EnumDef(cppNamespace, name, backingType, isFlags, members));
         }
     }
@@ -281,9 +285,11 @@ class Generator
         _ => "ulong"
     };
 
-    static List<EnumMember> ParseEnumMembers(string body, string prefix)
+    static List<EnumMember> ParseEnumMembers(string body, string cppEnumName)
     {
         var members = new List<EnumMember>();
+        // Map from C++ member name to resolved value (for cross-references in expressions)
+        var cppNameToValue = new Dictionary<string, string>();
         int nextImplicitValue = 0;
 
         foreach (var rawLine in body.Split('\n'))
@@ -295,13 +301,13 @@ class Generator
             var memberMatch = Regex.Match(line, @"^(\w+)\s*(?:=\s*(.+))?$");
             if (!memberMatch.Success) continue;
 
-            string memberName = memberMatch.Groups[1].Value;
+            string cppMemberName = memberMatch.Groups[1].Value;
             string csValue;
 
             if (memberMatch.Groups[2].Success)
             {
                 string value = memberMatch.Groups[2].Value.Trim();
-                csValue = EvaluateEnumValue(value, prefix, members);
+                csValue = EvaluateEnumValue(value, cppNameToValue);
                 // Update implicit counter
                 if (long.TryParse(csValue, out long parsed))
                     nextImplicitValue = (int)(parsed + 1);
@@ -312,23 +318,33 @@ class Generator
                 nextImplicitValue++;
             }
 
-            members.Add(new EnumMember(prefix + memberName, csValue));
+            cppNameToValue[cppMemberName] = csValue;
+
+            // Strip enum type name prefix from member name (e.g., GPUFamilyApple1 → Apple1)
+            string csName = cppMemberName.StartsWith(cppEnumName)
+                ? cppMemberName[cppEnumName.Length..]
+                : cppMemberName;
+
+            // If the stripped name starts with a digit, prefix with '_'
+            if (csName.Length > 0 && char.IsDigit(csName[0]))
+                csName = "_" + csName;
+
+            members.Add(new EnumMember(csName, csValue));
         }
 
         return members;
     }
 
-    static string EvaluateEnumValue(string value, string prefix, List<EnumMember> existingMembers)
+    static string EvaluateEnumValue(string value, Dictionary<string, string> cppNameToValue)
     {
         try
         {
             string resolved = value;
 
-            foreach (var existing in existingMembers)
+            foreach (var (cppName, memberValue) in cppNameToValue)
             {
-                string shortName = existing.Name[prefix.Length..];
-                if (resolved.Contains(shortName))
-                    resolved = resolved.Replace(shortName, existing.Value);
+                if (resolved.Contains(cppName))
+                    resolved = resolved.Replace(cppName, memberValue);
             }
 
             resolved = Regex.Replace(resolved, @"(0x[\da-fA-F]+)ULL", "$1");
@@ -417,6 +433,57 @@ class Generator
         }
 
         return ulong.TryParse(s, out value);
+    }
+
+    // =========================================================================
+    // Free function parsing (extern "C" declarations)
+    // =========================================================================
+
+    void ParseFreeFunctions(string content, string subdir)
+    {
+        string libraryPath = subdir switch
+        {
+            "Metal" => "/System/Library/Frameworks/Metal.framework/Metal",
+            "MetalFX" => "/System/Library/Frameworks/MetalFX.framework/MetalFX",
+            "Foundation" => "/System/Library/Frameworks/Foundation.framework/Foundation",
+            "QuartzCore" => "/System/Library/Frameworks/QuartzCore.framework/QuartzCore",
+            _ => "/System/Library/Frameworks/Metal.framework/Metal"
+        };
+
+        string cppNamespace = subdir switch
+        {
+            "Metal" => "MTL",
+            "MetalFX" => "MTLFX",
+            "Foundation" => "NS",
+            "QuartzCore" => "CA",
+            _ => "MTL"
+        };
+
+        // Match: extern "C" ReturnType FuncName(params);
+        var externRegex = new Regex(
+            @"extern\s+""C""\s+(.+?)\s+(\w+)\s*\(([^)]*)\)\s*;",
+            RegexOptions.Multiline);
+
+        foreach (Match m in externRegex.Matches(content))
+        {
+            string returnType = m.Groups[1].Value.Trim();
+            string cFuncName = m.Groups[2].Value.Trim();
+            string paramsStr = m.Groups[3].Value.Trim();
+
+            // Skip functions with unmappable types
+            if (IsUnmappableCppType(returnType)) continue;
+
+            var parameters = ParseParameters(paramsStr);
+            if (parameters.Any(p => IsUnmappableCppType(p.CppType) || p.CppType == "ARRAY_PARAM")) continue;
+            if (parameters.Any(p => p.CppType.Contains("Handler") || p.CppType.Contains("Block") ||
+                p.CppType.Contains("function") || p.CppType.Contains("Function"))) continue;
+
+            // Derive C++ wrapper name from the _NS_EXPORT pattern (e.g., MTLCreateSystemDefaultDevice → CreateSystemDefaultDevice)
+            string prefix = GetPrefix(cppNamespace);
+            string cppName = cFuncName.StartsWith(prefix) ? cFuncName[prefix.Length..] : cFuncName;
+
+            _freeFunctions.Add(new FreeFunctionDef(cFuncName, returnType, cppName, parameters, libraryPath, cppNamespace));
+        }
     }
 
     // =========================================================================
@@ -725,6 +792,10 @@ class Generator
             var inheritedProps = GetInheritedProperties(csClassName);
             GenerateClass(classDef, inheritedProps);
         }
+
+        // Generate free function files (grouped by namespace)
+        foreach (var group in _freeFunctions.GroupBy(f => f.CppNamespace))
+            GenerateFreeFunctions(group.Key, [.. group]);
     }
 
     void GenerateEnum(EnumDef enumDef)
@@ -757,6 +828,96 @@ class Generator
         sb.AppendLine("}");
         File.WriteAllText(Path.Combine(dir, $"{csEnumName}.cs"), sb.ToString());
         Console.WriteLine($"  Generated: {subdir}/{csEnumName}.cs");
+    }
+
+    void GenerateFreeFunctions(string cppNamespace, List<FreeFunctionDef> functions)
+    {
+        string prefix = GetPrefix(cppNamespace);
+        string className = prefix + "Functions";
+        string subdir = GetOutputSubdir(cppNamespace);
+        string dir = Path.Combine(_outputDir, subdir);
+        Directory.CreateDirectory(dir);
+
+        var sb = new StringBuilder();
+        sb.AppendLine("using System.Runtime.InteropServices;");
+        sb.AppendLine();
+        sb.AppendLine("namespace Metal.NET;");
+        sb.AppendLine();
+        sb.AppendLine($"public static partial class {className}");
+        sb.AppendLine("{");
+
+        bool first = true;
+        foreach (var func in functions)
+        {
+            string csReturnType = MapCppType(func.ReturnType, cppNamespace);
+            bool nullable = IsNullableType(csReturnType);
+
+            // Build P/Invoke parameter list
+            var pinvokeParams = new List<string>();
+            foreach (var p in func.Parameters)
+            {
+                string csType = MapCppType(p.CppType, cppNamespace);
+                if (IsNullableType(csType))
+                    pinvokeParams.Add($"nint {EscapeReservedWord(ToCamelCase(p.Name))}");
+                else
+                    pinvokeParams.Add($"{csType} {EscapeReservedWord(ToCamelCase(p.Name))}");
+            }
+
+            string pinvokeReturnType = nullable ? "nint" : csReturnType;
+
+            if (!first) sb.AppendLine();
+            first = false;
+
+            // P/Invoke declaration
+            sb.AppendLine($"    [LibraryImport(\"{func.LibraryPath}\", EntryPoint = \"{func.CEntryPoint}\")]");
+            sb.AppendLine($"    private static partial {pinvokeReturnType} {func.CEntryPoint}({string.Join(", ", pinvokeParams)});");
+            sb.AppendLine();
+
+            // Public wrapper method
+            var wrapperParams = new List<string>();
+            var callArgs = new List<string>();
+            foreach (var p in func.Parameters)
+            {
+                string csType = MapCppType(p.CppType, cppNamespace);
+                string csName = EscapeReservedWord(ToCamelCase(p.Name));
+                if (IsNullableType(csType))
+                {
+                    wrapperParams.Add($"{csType} {csName}");
+                    callArgs.Add($"{csName}.NativePtr");
+                }
+                else
+                {
+                    wrapperParams.Add($"{csType} {csName}");
+                    callArgs.Add(csName);
+                }
+            }
+
+            string csFullReturnType = nullable ? $"{csReturnType}?" : csReturnType;
+            string wrapperParamStr = string.Join(", ", wrapperParams);
+            string callArgStr = string.Join(", ", callArgs);
+
+            if (nullable)
+            {
+                sb.AppendLine($"    public static {csFullReturnType} {func.CppName}({wrapperParamStr})");
+                sb.AppendLine("    {");
+                sb.AppendLine($"        nint ptr = {func.CEntryPoint}({callArgStr});");
+                sb.AppendLine($"        return ptr is not 0 ? new {csReturnType}(ptr) : null;");
+                sb.AppendLine("    }");
+            }
+            else if (csReturnType == "void")
+            {
+                sb.AppendLine($"    public static void {func.CppName}({wrapperParamStr}) => {func.CEntryPoint}({callArgStr});");
+            }
+            else
+            {
+                sb.AppendLine($"    public static {csReturnType} {func.CppName}({wrapperParamStr}) => {func.CEntryPoint}({callArgStr});");
+            }
+        }
+
+        sb.AppendLine("}");
+
+        File.WriteAllText(Path.Combine(dir, $"{className}.cs"), sb.ToString());
+        Console.WriteLine($"  Generated: {subdir}/{className}.cs");
     }
 
     void GenerateClass(ClassDef classDef, HashSet<string> inheritedProperties)

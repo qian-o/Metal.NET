@@ -2,13 +2,13 @@ namespace Metal.NET;
 
 public enum MTLCounterSamplingPoint : ulong
 {
-    MTLCounterSamplingPointAtStageBoundary = 0,
+    AtStageBoundary = 0,
 
-    MTLCounterSamplingPointAtDrawBoundary = 1,
+    AtDrawBoundary = 1,
 
-    MTLCounterSamplingPointAtDispatchBoundary = 2,
+    AtDispatchBoundary = 2,
 
-    MTLCounterSamplingPointAtTileDispatchBoundary = 3,
+    AtTileDispatchBoundary = 3,
 
-    MTLCounterSamplingPointAtBlitBoundary = 4
+    AtBlitBoundary = 4
 }

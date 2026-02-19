@@ -2,13 +2,13 @@ namespace Metal.NET;
 
 public enum MTLVertexStepFunction : ulong
 {
-    MTLVertexStepFunctionConstant = 0,
+    Constant = 0,
 
-    MTLVertexStepFunctionPerVertex = 1,
+    PerVertex = 1,
 
-    MTLVertexStepFunctionPerInstance = 2,
+    PerInstance = 2,
 
-    MTLVertexStepFunctionPerPatch = 3,
+    PerPatch = 3,
 
-    MTLVertexStepFunctionPerPatchControlPoint = 4
+    PerPatchControlPoint = 4
 }

@@ -2,9 +2,9 @@ namespace Metal.NET;
 
 public enum MTLLoadAction : ulong
 {
-    MTLLoadActionDontCare = 0,
+    DontCare = 0,
 
-    MTLLoadActionLoad = 1,
+    Load = 1,
 
-    MTLLoadActionClear = 2
+    Clear = 2
 }

@@ -2,7 +2,7 @@ namespace Metal.NET;
 
 public enum MTLCompileSymbolVisibility : long
 {
-    MTLCompileSymbolVisibilityDefault = 0,
+    Default = 0,
 
-    MTLCompileSymbolVisibilityHidden = 1
+    Hidden = 1
 }

@@ -2,7 +2,7 @@ namespace Metal.NET;
 
 public enum MTLTextureCompressionType : long
 {
-    MTLTextureCompressionTypeLossless = 0,
+    Lossless = 0,
 
-    MTLTextureCompressionTypeLossy = 1
+    Lossy = 1
 }

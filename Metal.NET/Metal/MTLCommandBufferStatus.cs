@@ -2,15 +2,15 @@ namespace Metal.NET;
 
 public enum MTLCommandBufferStatus : ulong
 {
-    MTLCommandBufferStatusNotEnqueued = 0,
+    NotEnqueued = 0,
 
-    MTLCommandBufferStatusEnqueued = 1,
+    Enqueued = 1,
 
-    MTLCommandBufferStatusCommitted = 2,
+    Committed = 2,
 
-    MTLCommandBufferStatusScheduled = 3,
+    Scheduled = 3,
 
-    MTLCommandBufferStatusCompleted = 4,
+    Completed = 4,
 
-    MTLCommandBufferStatusError = 5
+    Error = 5
 }

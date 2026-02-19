@@ -2,11 +2,11 @@ namespace Metal.NET;
 
 public enum MTLDeviceLocation : ulong
 {
-    MTLDeviceLocationBuiltIn = 0,
+    BuiltIn = 0,
 
-    MTLDeviceLocationSlot = 1,
+    Slot = 1,
 
-    MTLDeviceLocationExternal = 2,
+    External = 2,
 
-    MTLDeviceLocationUnspecified = 18446744073709551615
+    Unspecified = 18446744073709551615
 }

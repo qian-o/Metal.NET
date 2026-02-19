@@ -2,15 +2,15 @@ namespace Metal.NET;
 
 public enum MTLBindingAccess : ulong
 {
-    MTLBindingAccessReadOnly = 0,
+    ReadOnly = 0,
 
-    MTLBindingAccessReadWrite = 1,
+    ReadWrite = 1,
 
-    MTLBindingAccessWriteOnly = 2,
+    WriteOnly = 2,
 
-    MTLArgumentAccessReadOnly = 0,
+    ArgumentAccessReadOnly = 0,
 
-    MTLArgumentAccessReadWrite = 1,
+    ArgumentAccessReadWrite = 1,
 
-    MTLArgumentAccessWriteOnly = 2
+    ArgumentAccessWriteOnly = 2
 }

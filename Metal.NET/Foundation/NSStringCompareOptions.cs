@@ -3,21 +3,21 @@ namespace Metal.NET;
 [Flags]
 public enum NSStringCompareOptions : ulong
 {
-    NSCaseInsensitiveSearch = 1,
+    CaseInsensitiveSearch = 1,
 
-    NSLiteralSearch = 2,
+    LiteralSearch = 2,
 
-    NSBackwardsSearch = 4,
+    BackwardsSearch = 4,
 
-    NSAnchoredSearch = 8,
+    AnchoredSearch = 8,
 
-    NSNumericSearch = 64,
+    NumericSearch = 64,
 
-    NSDiacriticInsensitiveSearch = 128,
+    DiacriticInsensitiveSearch = 128,
 
-    NSWidthInsensitiveSearch = 256,
+    WidthInsensitiveSearch = 256,
 
-    NSForcedOrderingSearch = 512,
+    ForcedOrderingSearch = 512,
 
-    NSRegularExpressionSearch = 1024
+    RegularExpressionSearch = 1024
 }

@@ -2,7 +2,7 @@ namespace Metal.NET;
 
 public enum MTLTriangleFillMode : ulong
 {
-    MTLTriangleFillModeFill = 0,
+    Fill = 0,
 
-    MTLTriangleFillModeLines = 1
+    Lines = 1
 }

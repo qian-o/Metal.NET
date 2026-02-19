@@ -2,27 +2,27 @@ namespace Metal.NET;
 
 public enum MTLBindingType : long
 {
-    MTLBindingTypeBuffer = 0,
+    Buffer = 0,
 
-    MTLBindingTypeThreadgroupMemory = 1,
+    ThreadgroupMemory = 1,
 
-    MTLBindingTypeTexture = 2,
+    Texture = 2,
 
-    MTLBindingTypeSampler = 3,
+    Sampler = 3,
 
-    MTLBindingTypeImageblockData = 16,
+    ImageblockData = 16,
 
-    MTLBindingTypeImageblock = 17,
+    Imageblock = 17,
 
-    MTLBindingTypeVisibleFunctionTable = 24,
+    VisibleFunctionTable = 24,
 
-    MTLBindingTypePrimitiveAccelerationStructure = 25,
+    PrimitiveAccelerationStructure = 25,
 
-    MTLBindingTypeInstanceAccelerationStructure = 26,
+    InstanceAccelerationStructure = 26,
 
-    MTLBindingTypeIntersectionFunctionTable = 27,
+    IntersectionFunctionTable = 27,
 
-    MTLBindingTypeObjectPayload = 34,
+    ObjectPayload = 34,
 
-    MTLBindingTypeTensor = 37
+    Tensor = 37
 }

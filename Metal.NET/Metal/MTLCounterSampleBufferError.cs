@@ -2,9 +2,9 @@ namespace Metal.NET;
 
 public enum MTLCounterSampleBufferError : long
 {
-    MTLCounterSampleBufferErrorOutOfMemory = 0,
+    OutOfMemory = 0,
 
-    MTLCounterSampleBufferErrorInvalid = 1,
+    Invalid = 1,
 
-    MTLCounterSampleBufferErrorInternal = 2
+    Internal = 2
 }

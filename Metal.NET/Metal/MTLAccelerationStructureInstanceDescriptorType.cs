@@ -2,13 +2,13 @@ namespace Metal.NET;
 
 public enum MTLAccelerationStructureInstanceDescriptorType : ulong
 {
-    MTLAccelerationStructureInstanceDescriptorTypeDefault = 0,
+    Default = 0,
 
-    MTLAccelerationStructureInstanceDescriptorTypeUserID = 1,
+    UserID = 1,
 
-    MTLAccelerationStructureInstanceDescriptorTypeMotion = 2,
+    Motion = 2,
 
-    MTLAccelerationStructureInstanceDescriptorTypeIndirect = 3,
+    Indirect = 3,
 
-    MTLAccelerationStructureInstanceDescriptorTypeIndirectMotion = 4
+    IndirectMotion = 4
 }

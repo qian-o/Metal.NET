@@ -2,15 +2,15 @@ namespace Metal.NET;
 
 public enum MTLBlendOperation : ulong
 {
-    MTLBlendOperationAdd = 0,
+    Add = 0,
 
-    MTLBlendOperationSubtract = 1,
+    Subtract = 1,
 
-    MTLBlendOperationReverseSubtract = 2,
+    ReverseSubtract = 2,
 
-    MTLBlendOperationMin = 3,
+    Min = 3,
 
-    MTLBlendOperationMax = 4,
+    Max = 4,
 
-    MTLBlendOperationUnspecialized = 5
+    Unspecialized = 5
 }

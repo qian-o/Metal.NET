@@ -3,17 +3,17 @@ namespace Metal.NET;
 [Flags]
 public enum MTLColorWriteMask : ulong
 {
-    MTLColorWriteMaskNone = 0,
+    None = 0,
 
-    MTLColorWriteMaskRed = 8,
+    Red = 8,
 
-    MTLColorWriteMaskGreen = 4,
+    Green = 4,
 
-    MTLColorWriteMaskBlue = 2,
+    Blue = 2,
 
-    MTLColorWriteMaskAlpha = 1,
+    Alpha = 1,
 
-    MTLColorWriteMaskAll = 15,
+    All = 15,
 
-    MTLColorWriteMaskUnspecialized = 16
+    Unspecialized = 16
 }

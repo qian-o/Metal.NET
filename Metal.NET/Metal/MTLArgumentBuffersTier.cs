@@ -2,7 +2,7 @@ namespace Metal.NET;
 
 public enum MTLArgumentBuffersTier : ulong
 {
-    MTLArgumentBuffersTier1 = 0,
+    _1 = 0,
 
-    MTLArgumentBuffersTier2 = 1
+    _2 = 1
 }

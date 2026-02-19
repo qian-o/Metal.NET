@@ -2,11 +2,11 @@ namespace Metal.NET;
 
 public enum MTLIOStatus : long
 {
-    MTLIOStatusPending = 0,
+    Pending = 0,
 
-    MTLIOStatusCancelled = 1,
+    Cancelled = 1,
 
-    MTLIOStatusError = 2,
+    Error = 2,
 
-    MTLIOStatusComplete = 3
+    Complete = 3
 }

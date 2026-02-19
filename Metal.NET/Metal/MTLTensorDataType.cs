@@ -2,23 +2,23 @@ namespace Metal.NET;
 
 public enum MTLTensorDataType : long
 {
-    MTLTensorDataTypeNone = 0,
+    None = 0,
 
-    MTLTensorDataTypeFloat32 = 3,
+    Float32 = 3,
 
-    MTLTensorDataTypeFloat16 = 16,
+    Float16 = 16,
 
-    MTLTensorDataTypeBFloat16 = 121,
+    BFloat16 = 121,
 
-    MTLTensorDataTypeInt8 = 45,
+    Int8 = 45,
 
-    MTLTensorDataTypeUInt8 = 49,
+    UInt8 = 49,
 
-    MTLTensorDataTypeInt16 = 37,
+    Int16 = 37,
 
-    MTLTensorDataTypeUInt16 = 41,
+    UInt16 = 41,
 
-    MTLTensorDataTypeInt32 = 29,
+    Int32 = 29,
 
-    MTLTensorDataTypeUInt32 = 33
+    UInt32 = 33
 }

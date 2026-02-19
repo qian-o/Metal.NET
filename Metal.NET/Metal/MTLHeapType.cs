@@ -2,9 +2,9 @@ namespace Metal.NET;
 
 public enum MTLHeapType : long
 {
-    MTLHeapTypeAutomatic = 0,
+    Automatic = 0,
 
-    MTLHeapTypePlacement = 1,
+    Placement = 1,
 
-    MTLHeapTypeSparse = 2
+    Sparse = 2
 }

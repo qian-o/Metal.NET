@@ -2,7 +2,7 @@ namespace Metal.NET;
 
 public enum MTLWinding : ulong
 {
-    MTLWindingClockwise = 0,
+    Clockwise = 0,
 
-    MTLWindingCounterClockwise = 1
+    CounterClockwise = 1
 }

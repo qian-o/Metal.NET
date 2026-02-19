@@ -3,13 +3,13 @@ namespace Metal.NET;
 [Flags]
 public enum MTLPipelineOption : ulong
 {
-    MTLPipelineOptionNone = 0,
+    None = 0,
 
-    MTLPipelineOptionArgumentInfo = 1,
+    ArgumentInfo = 1,
 
-    MTLPipelineOptionBindingInfo = 1,
+    BindingInfo = 1,
 
-    MTLPipelineOptionBufferTypeInfo = 2,
+    BufferTypeInfo = 2,
 
-    MTLPipelineOptionFailOnBinaryArchiveMiss = 4
+    FailOnBinaryArchiveMiss = 4
 }

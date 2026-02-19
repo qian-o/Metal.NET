@@ -2,7 +2,7 @@ namespace Metal.NET;
 
 public enum MTLCurveType : long
 {
-    MTLCurveTypeRound = 0,
+    Round = 0,
 
-    MTLCurveTypeFlat = 1
+    Flat = 1
 }

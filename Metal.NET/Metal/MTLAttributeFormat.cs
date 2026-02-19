@@ -2,111 +2,111 @@ namespace Metal.NET;
 
 public enum MTLAttributeFormat : ulong
 {
-    MTLAttributeFormatInvalid = 0,
+    Invalid = 0,
 
-    MTLAttributeFormatUChar2 = 1,
+    UChar2 = 1,
 
-    MTLAttributeFormatUChar3 = 2,
+    UChar3 = 2,
 
-    MTLAttributeFormatUChar4 = 3,
+    UChar4 = 3,
 
-    MTLAttributeFormatChar2 = 4,
+    Char2 = 4,
 
-    MTLAttributeFormatChar3 = 5,
+    Char3 = 5,
 
-    MTLAttributeFormatChar4 = 6,
+    Char4 = 6,
 
-    MTLAttributeFormatUChar2Normalized = 7,
+    UChar2Normalized = 7,
 
-    MTLAttributeFormatUChar3Normalized = 8,
+    UChar3Normalized = 8,
 
-    MTLAttributeFormatUChar4Normalized = 9,
+    UChar4Normalized = 9,
 
-    MTLAttributeFormatChar2Normalized = 10,
+    Char2Normalized = 10,
 
-    MTLAttributeFormatChar3Normalized = 11,
+    Char3Normalized = 11,
 
-    MTLAttributeFormatChar4Normalized = 12,
+    Char4Normalized = 12,
 
-    MTLAttributeFormatUShort2 = 13,
+    UShort2 = 13,
 
-    MTLAttributeFormatUShort3 = 14,
+    UShort3 = 14,
 
-    MTLAttributeFormatUShort4 = 15,
+    UShort4 = 15,
 
-    MTLAttributeFormatShort2 = 16,
+    Short2 = 16,
 
-    MTLAttributeFormatShort3 = 17,
+    Short3 = 17,
 
-    MTLAttributeFormatShort4 = 18,
+    Short4 = 18,
 
-    MTLAttributeFormatUShort2Normalized = 19,
+    UShort2Normalized = 19,
 
-    MTLAttributeFormatUShort3Normalized = 20,
+    UShort3Normalized = 20,
 
-    MTLAttributeFormatUShort4Normalized = 21,
+    UShort4Normalized = 21,
 
-    MTLAttributeFormatShort2Normalized = 22,
+    Short2Normalized = 22,
 
-    MTLAttributeFormatShort3Normalized = 23,
+    Short3Normalized = 23,
 
-    MTLAttributeFormatShort4Normalized = 24,
+    Short4Normalized = 24,
 
-    MTLAttributeFormatHalf2 = 25,
+    Half2 = 25,
 
-    MTLAttributeFormatHalf3 = 26,
+    Half3 = 26,
 
-    MTLAttributeFormatHalf4 = 27,
+    Half4 = 27,
 
-    MTLAttributeFormatFloat = 28,
+    Float = 28,
 
-    MTLAttributeFormatFloat2 = 29,
+    Float2 = 29,
 
-    MTLAttributeFormatFloat3 = 30,
+    Float3 = 30,
 
-    MTLAttributeFormatFloat4 = 31,
+    Float4 = 31,
 
-    MTLAttributeFormatInt = 32,
+    Int = 32,
 
-    MTLAttributeFormatInt2 = 33,
+    Int2 = 33,
 
-    MTLAttributeFormatInt3 = 34,
+    Int3 = 34,
 
-    MTLAttributeFormatInt4 = 35,
+    Int4 = 35,
 
-    MTLAttributeFormatUInt = 36,
+    UInt = 36,
 
-    MTLAttributeFormatUInt2 = 37,
+    UInt2 = 37,
 
-    MTLAttributeFormatUInt3 = 38,
+    UInt3 = 38,
 
-    MTLAttributeFormatUInt4 = 39,
+    UInt4 = 39,
 
-    MTLAttributeFormatInt1010102Normalized = 40,
+    Int1010102Normalized = 40,
 
-    MTLAttributeFormatUInt1010102Normalized = 41,
+    UInt1010102Normalized = 41,
 
-    MTLAttributeFormatUChar4Normalized_BGRA = 42,
+    UChar4Normalized_BGRA = 42,
 
-    MTLAttributeFormatUChar = 45,
+    UChar = 45,
 
-    MTLAttributeFormatChar = 46,
+    Char = 46,
 
-    MTLAttributeFormatUCharNormalized = 47,
+    UCharNormalized = 47,
 
-    MTLAttributeFormatCharNormalized = 48,
+    CharNormalized = 48,
 
-    MTLAttributeFormatUShort = 49,
+    UShort = 49,
 
-    MTLAttributeFormatShort = 50,
+    Short = 50,
 
-    MTLAttributeFormatUShortNormalized = 51,
+    UShortNormalized = 51,
 
-    MTLAttributeFormatShortNormalized = 52,
+    ShortNormalized = 52,
 
-    MTLAttributeFormatHalf = 53,
+    Half = 53,
 
-    MTLAttributeFormatFloatRG11B10 = 54,
+    FloatRG11B10 = 54,
 
-    MTLAttributeFormatFloatRGB9E5 = 55
+    FloatRGB9E5 = 55
 }

@@ -2,9 +2,9 @@ namespace Metal.NET;
 
 public enum MTLVisibilityResultMode : ulong
 {
-    MTLVisibilityResultModeDisabled = 0,
+    Disabled = 0,
 
-    MTLVisibilityResultModeBoolean = 1,
+    Boolean = 1,
 
-    MTLVisibilityResultModeCounting = 2
+    Counting = 2
 }

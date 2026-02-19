@@ -2,9 +2,9 @@ namespace Metal.NET;
 
 public enum MTLTextureSparseTier : long
 {
-    MTLTextureSparseTierNone = 0,
+    None = 0,
 
-    MTLTextureSparseTier1 = 1,
+    _1 = 1,
 
-    MTLTextureSparseTier2 = 2
+    _2 = 2
 }

@@ -2,7 +2,7 @@ namespace Metal.NET;
 
 public enum MTL4LogicalToPhysicalColorAttachmentMappingState : long
 {
-    MTL4LogicalToPhysicalColorAttachmentMappingStateIdentity = 0,
+    Identity = 0,
 
-    MTL4LogicalToPhysicalColorAttachmentMappingStateInherited = 1
+    Inherited = 1
 }

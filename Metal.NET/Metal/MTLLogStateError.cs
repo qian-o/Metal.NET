@@ -2,7 +2,7 @@ namespace Metal.NET;
 
 public enum MTLLogStateError : ulong
 {
-    MTLLogStateErrorInvalidSize = 1,
+    InvalidSize = 1,
 
-    MTLLogStateErrorInvalid = 2
+    Invalid = 2
 }

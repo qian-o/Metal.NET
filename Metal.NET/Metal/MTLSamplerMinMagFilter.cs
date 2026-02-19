@@ -2,7 +2,7 @@ namespace Metal.NET;
 
 public enum MTLSamplerMinMagFilter : ulong
 {
-    MTLSamplerMinMagFilterNearest = 0,
+    Nearest = 0,
 
-    MTLSamplerMinMagFilterLinear = 1
+    Linear = 1
 }

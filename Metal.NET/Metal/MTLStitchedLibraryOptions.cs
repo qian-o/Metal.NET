@@ -3,9 +3,9 @@ namespace Metal.NET;
 [Flags]
 public enum MTLStitchedLibraryOptions : ulong
 {
-    MTLStitchedLibraryOptionNone = 0,
+    StitchedLibraryOptionNone = 0,
 
-    MTLStitchedLibraryOptionFailOnBinaryArchiveMiss = 1,
+    StitchedLibraryOptionFailOnBinaryArchiveMiss = 1,
 
-    MTLStitchedLibraryOptionStoreLibraryInMetalPipelinesScript = 2
+    StitchedLibraryOptionStoreLibraryInMetalPipelinesScript = 2
 }

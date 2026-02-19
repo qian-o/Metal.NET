@@ -2,13 +2,13 @@ namespace Metal.NET;
 
 public enum MTLPrimitiveType : ulong
 {
-    MTLPrimitiveTypePoint = 0,
+    Point = 0,
 
-    MTLPrimitiveTypeLine = 1,
+    Line = 1,
 
-    MTLPrimitiveTypeLineStrip = 2,
+    LineStrip = 2,
 
-    MTLPrimitiveTypeTriangle = 3,
+    Triangle = 3,
 
-    MTLPrimitiveTypeTriangleStrip = 4
+    TriangleStrip = 4
 }
