@@ -47,7 +47,7 @@ public class MTLCaptureManager(nint nativePtr, bool retain) : NativeObject(nativ
 
     public bool StartCapture(MTLCaptureDescriptor descriptor, out NSError? error)
     {
-        var result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerBindings.StartCapture, descriptor.NativePtr, out nint errorPtr);
+        bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerBindings.StartCapture, descriptor.NativePtr, out nint errorPtr);
 
         error = errorPtr is not 0 ? new(errorPtr, true) : null;
 

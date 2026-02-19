@@ -170,7 +170,7 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
         string stripPrefix = ComputeEnumStripPrefix(cppEnumName, rawMembers.Select(m => m.CppName).ToList());
 
         List<EnumMember> members = [];
-        foreach (var (cppName, value) in rawMembers)
+        foreach ((string cppName, string value) in rawMembers)
         {
             string csName = cppName.StartsWith(stripPrefix)
                 ? cppName[stripPrefix.Length..]
@@ -228,7 +228,7 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
         {
             string resolved = value;
 
-            foreach (var (cppName, memberValue) in cppNameToValue)
+            foreach ((string cppName, string memberValue) in cppNameToValue)
             {
                 if (resolved.Contains(cppName))
                     resolved = resolved.Replace(cppName, memberValue);
@@ -403,7 +403,7 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
 
             List<MethodInfo> methods = [];
             Dictionary<(string, int), int> overloadCounter = [];
-            foreach (var (retType, name, isStatic, isConst, parameters) in rawMethods)
+            foreach ((string retType, string name, bool isStatic, bool isConst, List<ParamDef> parameters) in rawMethods)
             {
                 if (SkipMethods.Contains(name)) continue;
 

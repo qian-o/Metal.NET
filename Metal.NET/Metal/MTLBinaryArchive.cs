@@ -15,7 +15,7 @@ public class MTLBinaryArchive(nint nativePtr, bool retain) : NativeObject(native
 
     public bool AddComputePipelineFunctions(MTLComputePipelineDescriptor descriptor, out NSError? error)
     {
-        var result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddComputePipelineFunctions, descriptor.NativePtr, out nint errorPtr);
+        bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddComputePipelineFunctions, descriptor.NativePtr, out nint errorPtr);
 
         error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
@@ -24,7 +24,7 @@ public class MTLBinaryArchive(nint nativePtr, bool retain) : NativeObject(native
 
     public bool AddFunction(MTLFunctionDescriptor descriptor, MTLLibrary library, out NSError? error)
     {
-        var result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddFunction, descriptor.NativePtr, library.NativePtr, out nint errorPtr);
+        bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddFunction, descriptor.NativePtr, library.NativePtr, out nint errorPtr);
 
         error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
@@ -33,7 +33,7 @@ public class MTLBinaryArchive(nint nativePtr, bool retain) : NativeObject(native
 
     public bool AddLibrary(MTLStitchedLibraryDescriptor descriptor, out NSError? error)
     {
-        var result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddLibrary, descriptor.NativePtr, out nint errorPtr);
+        bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddLibrary, descriptor.NativePtr, out nint errorPtr);
 
         error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
@@ -42,7 +42,7 @@ public class MTLBinaryArchive(nint nativePtr, bool retain) : NativeObject(native
 
     public bool AddMeshRenderPipelineFunctions(MTLMeshRenderPipelineDescriptor descriptor, out NSError? error)
     {
-        var result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddMeshRenderPipelineFunctions, descriptor.NativePtr, out nint errorPtr);
+        bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddMeshRenderPipelineFunctions, descriptor.NativePtr, out nint errorPtr);
 
         error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
@@ -51,7 +51,7 @@ public class MTLBinaryArchive(nint nativePtr, bool retain) : NativeObject(native
 
     public bool AddRenderPipelineFunctions(MTLRenderPipelineDescriptor descriptor, out NSError? error)
     {
-        var result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddRenderPipelineFunctions, descriptor.NativePtr, out nint errorPtr);
+        bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddRenderPipelineFunctions, descriptor.NativePtr, out nint errorPtr);
 
         error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
@@ -60,7 +60,7 @@ public class MTLBinaryArchive(nint nativePtr, bool retain) : NativeObject(native
 
     public bool AddTileRenderPipelineFunctions(MTLTileRenderPipelineDescriptor descriptor, out NSError? error)
     {
-        var result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddTileRenderPipelineFunctions, descriptor.NativePtr, out nint errorPtr);
+        bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddTileRenderPipelineFunctions, descriptor.NativePtr, out nint errorPtr);
 
         error = errorPtr is not 0 ? new(errorPtr, true) : null;
 
@@ -69,7 +69,7 @@ public class MTLBinaryArchive(nint nativePtr, bool retain) : NativeObject(native
 
     public bool SerializeToURL(NSURL url, out NSError? error)
     {
-        var result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.SerializeToURL, url.NativePtr, out nint errorPtr);
+        bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.SerializeToURL, url.NativePtr, out nint errorPtr);
 
         error = errorPtr is not 0 ? new(errorPtr, true) : null;
 

@@ -142,7 +142,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             .Where(m => m.Parameters.Count == 0 && m.ReturnType != "void" && !m.UsesClassTarget)
             .Select(m => m.CppName).ToHashSet();
 
-        var (properties, methods) = CategorizeMembers(validMethods, classDef.CppNamespace);
+        (List<PropertyDef> properties, List<MethodInfo> methods) = CategorizeMembers(validMethods, classDef.CppNamespace);
 
         SortedDictionary<string, string> selectors = [];
         StringBuilder sb = new();
@@ -213,7 +213,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             first = false;
         }
 
-        foreach (var (name, objc) in selectors)
+        foreach ((string name, string objc) in selectors)
         {
             if (!first) sb.AppendLine();
             sb.AppendLine($"    public static readonly Selector {name} = \"{objc}\";");
