@@ -5,7 +5,10 @@
 /// </summary>
 public class NSArray(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public nuint Count => ObjectiveCRuntime.MsgSendNUInt(NativePtr, NSArrayBindings.Count);
+    public nuint Count
+    {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, NSArrayBindings.Count);
+    }
 
     public T? ObjectAtIndex<T>(nuint index) where T : NativeObject
     {

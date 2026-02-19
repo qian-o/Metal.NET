@@ -2,30 +2,19 @@
 
 public class NSError(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public string LocalizedDescription
+    public NSString? LocalizedDescription
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorBindings.LocalizedDescription);
-
-            using NSString str = new(ptr, true);
-
-            return str;
-        }
+        get => GetProperty(ref field, NSErrorBindings.LocalizedDescription);
     }
 
-    public nint Code => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorBindings.Code);
-
-    public string Domain
+    public nint Code
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorBindings.Domain);
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorBindings.Code);
+    }
 
-            using NSString str = new(ptr, true);
-
-            return str;
-        }
+    public NSString? Domain
+    {
+        get => GetProperty(ref field, NSErrorBindings.Domain);
     }
 }
 
