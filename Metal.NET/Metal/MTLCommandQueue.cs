@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLCommandQueue(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTLCommandQueue(nint nativePtr, bool owned) : NativeObject(nativePtr, owned)
 {
     public MTLCommandBuffer? CommandBuffer
     {
@@ -43,7 +43,7 @@ public class MTLCommandQueue(nint nativePtr, bool retain) : NativeObject(nativeP
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBufferWithDescriptor, descriptor.NativePtr);
 
-        return nativePtr is not 0 ? new(nativePtr, true) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public void InsertDebugCaptureBoundary()

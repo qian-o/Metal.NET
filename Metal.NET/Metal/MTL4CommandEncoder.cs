@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandEncoder(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTL4CommandEncoder(nint nativePtr, bool owned) : NativeObject(nativePtr, owned)
 {
     public MTL4CommandBuffer? CommandBuffer
     {

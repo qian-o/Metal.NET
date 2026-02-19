@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionStitchingAttribute(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTLFunctionStitchingAttribute(nint nativePtr, bool owned) : NativeObject(nativePtr, owned)
 {
 }
 

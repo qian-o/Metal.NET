@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXSpatialScalerBase(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTLFXSpatialScalerBase(nint nativePtr, bool owned) : NativeObject(nativePtr, owned)
 {
     public MTLFXSpatialScalerColorProcessingMode ColorProcessingMode
     {

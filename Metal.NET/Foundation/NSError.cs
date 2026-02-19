@@ -3,7 +3,7 @@
 /// <summary>
 /// Wraps an Objective-C NSError with access to error code, domain, and localized description.
 /// </summary>
-public class NSError(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class NSError(nint nativePtr, bool owned) : NativeObject(nativePtr, owned)
 {
     public NSString? LocalizedDescription
     {

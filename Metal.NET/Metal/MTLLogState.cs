@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLLogState(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTLLogState(nint nativePtr, bool owned) : NativeObject(nativePtr, owned)
 {
 }
 

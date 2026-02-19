@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLBuffer(nint nativePtr, bool retain) : MTLResource(nativePtr, retain)
+public class MTLBuffer(nint nativePtr, bool owned) : MTLResource(nativePtr, owned)
 {
     public nint Contents
     {
@@ -41,23 +41,23 @@ public class MTLBuffer(nint nativePtr, bool retain) : MTLResource(nativePtr, ret
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewRemoteBufferViewForDevice, device.NativePtr);
 
-        return nativePtr is not 0 ? new(nativePtr, false) : null;
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public MTLTensor? NewTensor(MTLTensorDescriptor descriptor, nuint offset, out NSError? error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewTensor, descriptor.NativePtr, offset, out nint errorPtr);
 
-        error = errorPtr is not 0 ? new(errorPtr, true) : null;
+        error = errorPtr is not 0 ? new(errorPtr, false) : null;
 
-        return nativePtr is not 0 ? new(nativePtr, false) : null;
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public MTLTexture? NewTexture(MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewTexture, descriptor.NativePtr, offset, bytesPerRow);
 
-        return nativePtr is not 0 ? new(nativePtr, false) : null;
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public void RemoveAllDebugMarkers()

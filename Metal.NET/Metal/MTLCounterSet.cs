@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLCounterSet(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTLCounterSet(nint nativePtr, bool owned) : NativeObject(nativePtr, owned)
 {
     public NSArray? Counters
     {

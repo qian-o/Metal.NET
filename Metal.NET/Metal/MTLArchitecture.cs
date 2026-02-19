@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLArchitecture(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTLArchitecture(nint nativePtr, bool owned) : NativeObject(nativePtr, owned)
 {
-    public MTLArchitecture() : this(ObjectiveCRuntime.AllocInit(MTLArchitectureBindings.Class), false)
+    public MTLArchitecture() : this(ObjectiveCRuntime.AllocInit(MTLArchitectureBindings.Class), true)
     {
     }
 

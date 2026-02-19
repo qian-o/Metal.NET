@@ -3,7 +3,7 @@
 /// <summary>
 /// Wraps an Objective-C NSArray pointer.
 /// </summary>
-public class NSArray(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class NSArray(nint nativePtr, bool owned) : NativeObject(nativePtr, owned)
 {
     public nuint Count
     {
@@ -12,7 +12,7 @@ public class NSArray(nint nativePtr, bool retain) : NativeObject(nativePtr, reta
 
     /// <summary>
     /// Returns the object at the given index, or <c>null</c> if the pointer is zero.
-    /// The returned object is retained (+1) for safe lifecycle management.
+    /// The returned object is an unowned view managed by Objective-C.
     /// </summary>
     public T? ObjectAtIndex<T>(nuint index) where T : NativeObject
     {
@@ -23,7 +23,7 @@ public class NSArray(nint nativePtr, bool retain) : NativeObject(nativePtr, reta
             return null;
         }
 
-        return (T)Activator.CreateInstance(typeof(T), nativePtr, true)!;
+        return (T)Activator.CreateInstance(typeof(T), nativePtr, false)!;
     }
 }
 

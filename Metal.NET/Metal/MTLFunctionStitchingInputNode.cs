@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionStitchingInputNode(nint nativePtr, bool retain) : MTLFunctionStitchingNode(nativePtr, retain)
+public class MTLFunctionStitchingInputNode(nint nativePtr, bool owned) : MTLFunctionStitchingNode(nativePtr, owned)
 {
-    public MTLFunctionStitchingInputNode() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingInputNodeBindings.Class), false)
+    public MTLFunctionStitchingInputNode() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingInputNodeBindings.Class), true)
     {
     }
 

@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTL4TileRenderPipelineDescriptor(nint nativePtr, bool retain) : MTL4PipelineDescriptor(nativePtr, retain)
+public class MTL4TileRenderPipelineDescriptor(nint nativePtr, bool owned) : MTL4PipelineDescriptor(nativePtr, owned)
 {
-    public MTL4TileRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4TileRenderPipelineDescriptorBindings.Class), false)
+    public MTL4TileRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4TileRenderPipelineDescriptorBindings.Class), true)
     {
     }
 

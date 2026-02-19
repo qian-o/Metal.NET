@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CounterHeap(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTL4CounterHeap(nint nativePtr, bool owned) : NativeObject(nativePtr, owned)
 {
     public nuint Count
     {

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLResource(nint nativePtr, bool retain) : MTLAllocation(nativePtr, retain)
+public class MTLResource(nint nativePtr, bool owned) : MTLAllocation(nativePtr, owned)
 {
     public MTLCPUCacheMode CpuCacheMode
     {

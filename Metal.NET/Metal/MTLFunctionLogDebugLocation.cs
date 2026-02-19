@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionLogDebugLocation(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTLFunctionLogDebugLocation(nint nativePtr, bool owned) : NativeObject(nativePtr, owned)
 {
     public nuint Column
     {

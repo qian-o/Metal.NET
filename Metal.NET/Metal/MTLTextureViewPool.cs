@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLTextureViewPool(nint nativePtr, bool retain) : MTLResourceViewPool(nativePtr, retain)
+public class MTLTextureViewPool(nint nativePtr, bool owned) : MTLResourceViewPool(nativePtr, owned)
 {
     public MTLResourceID SetTextureView(MTLTexture texture, nuint index)
     {

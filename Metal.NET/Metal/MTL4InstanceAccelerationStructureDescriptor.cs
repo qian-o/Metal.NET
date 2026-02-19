@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTL4InstanceAccelerationStructureDescriptor(nint nativePtr, bool retain) : MTL4AccelerationStructureDescriptor(nativePtr, retain)
+public class MTL4InstanceAccelerationStructureDescriptor(nint nativePtr, bool owned) : MTL4AccelerationStructureDescriptor(nativePtr, owned)
 {
-    public MTL4InstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4InstanceAccelerationStructureDescriptorBindings.Class), false)
+    public MTL4InstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4InstanceAccelerationStructureDescriptorBindings.Class), true)
     {
     }
 

@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLSamplerDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTLSamplerDescriptor(nint nativePtr, bool owned) : NativeObject(nativePtr, owned)
 {
-    public MTLSamplerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLSamplerDescriptorBindings.Class), false)
+    public MTLSamplerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLSamplerDescriptorBindings.Class), true)
     {
     }
 

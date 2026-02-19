@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLStencilDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTLStencilDescriptor(nint nativePtr, bool owned) : NativeObject(nativePtr, owned)
 {
-    public MTLStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStencilDescriptorBindings.Class), false)
+    public MTLStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStencilDescriptorBindings.Class), true)
     {
     }
 

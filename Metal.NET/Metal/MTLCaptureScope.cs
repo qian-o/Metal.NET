@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLCaptureScope(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTLCaptureScope(nint nativePtr, bool owned) : NativeObject(nativePtr, owned)
 {
     public MTLCommandQueue? CommandQueue
     {

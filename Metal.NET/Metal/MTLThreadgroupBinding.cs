@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLThreadgroupBinding(nint nativePtr, bool retain) : MTLBinding(nativePtr, retain)
+public class MTLThreadgroupBinding(nint nativePtr, bool owned) : MTLBinding(nativePtr, owned)
 {
     public nuint ThreadgroupMemoryAlignment
     {

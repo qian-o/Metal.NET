@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLComputeCommandEncoder(nint nativePtr, bool retain) : MTLCommandEncoder(nativePtr, retain)
+public class MTLComputeCommandEncoder(nint nativePtr, bool owned) : MTLCommandEncoder(nativePtr, owned)
 {
     public MTLDispatchType DispatchType
     {

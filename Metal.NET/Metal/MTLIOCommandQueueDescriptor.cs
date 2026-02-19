@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOCommandQueueDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTLIOCommandQueueDescriptor(nint nativePtr, bool owned) : NativeObject(nativePtr, owned)
 {
-    public MTLIOCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIOCommandQueueDescriptorBindings.Class), false)
+    public MTLIOCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIOCommandQueueDescriptorBindings.Class), true)
     {
     }
 

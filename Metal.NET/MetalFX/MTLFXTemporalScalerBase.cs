@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXTemporalScalerBase(nint nativePtr, bool retain) : MTLFXFrameInterpolatableScaler(nativePtr, retain)
+public class MTLFXTemporalScalerBase(nint nativePtr, bool owned) : MTLFXFrameInterpolatableScaler(nativePtr, owned)
 {
     public MTLTexture? ColorTexture
     {

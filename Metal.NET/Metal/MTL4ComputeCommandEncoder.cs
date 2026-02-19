@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTL4ComputeCommandEncoder(nint nativePtr, bool retain) : MTL4CommandEncoder(nativePtr, retain)
+public class MTL4ComputeCommandEncoder(nint nativePtr, bool owned) : MTL4CommandEncoder(nativePtr, owned)
 {
     public MTLStages Stages
     {

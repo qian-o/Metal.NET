@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTL4FXTemporalScaler(nint nativePtr, bool retain) : MTLFXTemporalScalerBase(nativePtr, retain)
+public class MTL4FXTemporalScaler(nint nativePtr, bool owned) : MTLFXTemporalScalerBase(nativePtr, owned)
 {
     public void EncodeToCommandBuffer(MTL4CommandBuffer pCommandBuffer)
     {

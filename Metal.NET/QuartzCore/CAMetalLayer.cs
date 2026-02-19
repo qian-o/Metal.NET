@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class CAMetalLayer(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class CAMetalLayer(nint nativePtr, bool owned) : NativeObject(nativePtr, owned)
 {
-    public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(CAMetalLayerBindings.Class), false)
+    public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(CAMetalLayerBindings.Class), true)
     {
     }
 
@@ -68,7 +68,7 @@ public class CAMetalLayer(nint nativePtr, bool retain) : NativeObject(nativePtr,
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(CAMetalLayerBindings.Class, CAMetalLayerBindings.Layer);
 
-        return nativePtr is not 0 ? new(nativePtr, true) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 }
 

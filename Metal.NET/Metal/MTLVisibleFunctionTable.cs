@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLVisibleFunctionTable(nint nativePtr, bool retain) : MTLResource(nativePtr, retain)
+public class MTLVisibleFunctionTable(nint nativePtr, bool owned) : MTLResource(nativePtr, owned)
 {
     public MTLResourceID GpuResourceID
     {

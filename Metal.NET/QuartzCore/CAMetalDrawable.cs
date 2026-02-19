@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class CAMetalDrawable(nint nativePtr, bool retain) : MTLDrawable(nativePtr, retain)
+public class CAMetalDrawable(nint nativePtr, bool owned) : MTLDrawable(nativePtr, owned)
 {
     public CAMetalLayer? Layer
     {

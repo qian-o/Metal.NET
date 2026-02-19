@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandBufferOptions(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTL4CommandBufferOptions(nint nativePtr, bool owned) : NativeObject(nativePtr, owned)
 {
-    public MTL4CommandBufferOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CommandBufferOptionsBindings.Class), false)
+    public MTL4CommandBufferOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CommandBufferOptionsBindings.Class), true)
     {
     }
 
