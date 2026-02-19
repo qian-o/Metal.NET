@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr)
 {
@@ -20,7 +20,7 @@ public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, CAMetalLayerBindings.Device);
+        get => GetProperty(ref field, CAMetalLayerBindings.Device);
         set => SetProperty(ref field, CAMetalLayerBindings.SetDevice, value);
     }
 
