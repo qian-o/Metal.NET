@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class CAMetalDrawable(nint nativePtr, bool retain) : MTLDrawable(nativePtr, retain)
 {

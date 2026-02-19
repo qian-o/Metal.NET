@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor(nint nativePtr, bool retain) : MTL4AccelerationStructureGeometryDescriptor(nativePtr, retain)
 {

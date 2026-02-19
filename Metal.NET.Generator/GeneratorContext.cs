@@ -1,4 +1,4 @@
-namespace Metal.NET.Generator;
+﻿namespace Metal.NET.Generator;
 
 /// <summary>
 /// Shared mutable state that flows from <see cref="CppParser"/> to <see cref="CSharpEmitter"/>.

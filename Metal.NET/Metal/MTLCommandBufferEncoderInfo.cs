@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTLCommandBufferEncoderInfo(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {

@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTLTextureReferenceType(nint nativePtr, bool retain) : MTLType(nativePtr, retain)
 {

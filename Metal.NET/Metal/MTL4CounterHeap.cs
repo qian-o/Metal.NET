@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTL4CounterHeap(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {

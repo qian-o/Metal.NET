@@ -1,4 +1,4 @@
-namespace Metal.NET.Generator;
+﻿namespace Metal.NET.Generator;
 
 /// <summary>
 /// Parsed C++ enum definition.

@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTLPointerType(nint nativePtr, bool retain) : MTLType(nativePtr, retain)
 {

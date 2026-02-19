@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTL4InstanceAccelerationStructureDescriptor(nint nativePtr, bool retain) : MTL4AccelerationStructureDescriptor(nativePtr, retain)
 {

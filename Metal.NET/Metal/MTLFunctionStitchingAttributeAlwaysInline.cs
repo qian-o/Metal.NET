@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTLFunctionStitchingAttributeAlwaysInline(nint nativePtr, bool retain) : MTLFunctionStitchingAttribute(nativePtr, retain)
 {

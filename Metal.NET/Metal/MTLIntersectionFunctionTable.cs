@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTLIntersectionFunctionTable(nint nativePtr, bool retain) : MTLResource(nativePtr, retain)
 {

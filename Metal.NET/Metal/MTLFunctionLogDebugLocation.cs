@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTLFunctionLogDebugLocation(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {

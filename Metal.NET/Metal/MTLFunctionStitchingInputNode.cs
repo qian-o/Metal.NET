@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTLFunctionStitchingInputNode(nint nativePtr, bool retain) : MTLFunctionStitchingNode(nativePtr, retain)
 {

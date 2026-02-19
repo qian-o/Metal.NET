@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTL4RenderCommandEncoder(nint nativePtr, bool retain) : MTL4CommandEncoder(nativePtr, retain)
 {

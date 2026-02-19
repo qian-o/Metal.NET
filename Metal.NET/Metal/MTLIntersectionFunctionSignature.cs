@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 [Flags]
 public enum MTLIntersectionFunctionSignature : ulong

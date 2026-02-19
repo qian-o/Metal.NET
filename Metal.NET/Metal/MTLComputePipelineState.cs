@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTLComputePipelineState(nint nativePtr, bool retain) : MTLAllocation(nativePtr, retain)
 {

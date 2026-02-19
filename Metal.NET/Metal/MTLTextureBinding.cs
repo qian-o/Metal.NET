@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTLTextureBinding(nint nativePtr, bool retain) : MTLBinding(nativePtr, retain)
 {

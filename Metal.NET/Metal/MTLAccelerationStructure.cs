@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTLAccelerationStructure(nint nativePtr, bool retain) : MTLResource(nativePtr, retain)
 {

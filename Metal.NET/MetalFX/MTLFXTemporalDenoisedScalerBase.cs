@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTLFXTemporalDenoisedScalerBase(nint nativePtr, bool retain) : MTLFXFrameInterpolatableScaler(nativePtr, retain)
 {

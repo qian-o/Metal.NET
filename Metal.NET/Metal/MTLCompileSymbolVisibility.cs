@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public enum MTLCompileSymbolVisibility : long
 {

@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTLComputePipelineDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {

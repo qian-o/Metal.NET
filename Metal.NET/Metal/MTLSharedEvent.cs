@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTLSharedEvent(nint nativePtr, bool retain) : MTLEvent(nativePtr, retain)
 {

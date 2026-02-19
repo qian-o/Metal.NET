@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 /// <summary>
 /// Wraps an Objective-C NSURL for file and resource URL creation.
