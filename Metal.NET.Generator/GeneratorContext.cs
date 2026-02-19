@@ -8,12 +8,12 @@ class GeneratorContext
     /// <summary>
     /// Accessor name → ObjC selector string (from bridge files).
     /// </summary>
-    public Dictionary<string, string> SelectorMap { get; } = new();
+    public Dictionary<string, string> SelectorMap { get; } = [];
 
     /// <summary>
     /// ObjC class names that have _DEF_CLS entries.
     /// </summary>
-    public HashSet<string> RegisteredClasses { get; } = new();
+    public HashSet<string> RegisteredClasses { get; } = [];
 
     /// <summary>
     /// All parsed enums.
@@ -33,10 +33,10 @@ class GeneratorContext
     /// <summary>
     /// Enum C# name → backing type (e.g., "MTLPixelFormat" → "ulong").
     /// </summary>
-    public Dictionary<string, string> EnumBackingTypes { get; } = new();
+    public Dictionary<string, string> EnumBackingTypes { get; } = [];
 
     /// <summary>
     /// All known generated class names (for validating base class references).
     /// </summary>
-    public HashSet<string> KnownClassNames { get; } = new();
+    public HashSet<string> KnownClassNames { get; } = [];
 }

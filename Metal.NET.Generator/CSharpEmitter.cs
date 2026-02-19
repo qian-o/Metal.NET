@@ -20,13 +20,13 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     public void GenerateAll()
     {
-        foreach (var enumDef in context.Enums)
+        foreach (EnumDef enumDef in context.Enums)
         {
             GenerateEnum(enumDef);
         }
 
         // Build known class names (both generated and hand-written)
-        foreach (var classDef in context.Classes)
+        foreach (ClassDef classDef in context.Classes)
         {
             string prefix = TypeMapper.GetPrefix(classDef.CppNamespace);
             context.KnownClassNames.Add(prefix + classDef.Name);
@@ -34,12 +34,12 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         context.KnownClassNames.UnionWith(["NSString", "NSError", "NSArray", "NSURL", "NativeObject"]);
 
         // Build a map of class name → property names for inheritance detection
-        var classPropertyMap = new Dictionary<string, HashSet<string>>();
-        foreach (var classDef in context.Classes)
+        Dictionary<string, HashSet<string>> classPropertyMap = [];
+        foreach (ClassDef classDef in context.Classes)
         {
             string prefix = TypeMapper.GetPrefix(classDef.CppNamespace);
             string csClassName = prefix + classDef.Name;
-            var propNames = classDef.Methods
+            HashSet<string> propNames = classDef.Methods
                 .Where(m => m.Parameters.Count == 0 && m.ReturnType != "void" && !m.UsesClassTarget)
                 .Select(m => TypeMapper.ToPascalCase(m.CppName))
                 .ToHashSet();
@@ -49,30 +49,30 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         // Build inherited property names by walking the inheritance chain
         HashSet<string> GetInheritedProperties(string csClassName)
         {
-            var result = new HashSet<string>();
+            HashSet<string> result = [];
             if (!classPropertyMap.ContainsKey(csClassName)) return result;
-            var classDef = context.Classes.First(c => TypeMapper.GetPrefix(c.CppNamespace) + c.Name == csClassName);
-            var current = classDef.BaseClassName;
-            while (current != null && context.KnownClassNames.Contains(current) && classPropertyMap.TryGetValue(current, out var parentProps))
+            ClassDef classDef = context.Classes.First(c => TypeMapper.GetPrefix(c.CppNamespace) + c.Name == csClassName);
+            string? current = classDef.BaseClassName;
+            while (current != null && context.KnownClassNames.Contains(current) && classPropertyMap.TryGetValue(current, out HashSet<string>? parentProps))
             {
                 result.UnionWith(parentProps);
-                var parentDef = context.Classes.FirstOrDefault(c => TypeMapper.GetPrefix(c.CppNamespace) + c.Name == current);
+                ClassDef? parentDef = context.Classes.FirstOrDefault(c => TypeMapper.GetPrefix(c.CppNamespace) + c.Name == current);
                 current = parentDef?.BaseClassName;
             }
             return result;
         }
 
         // Build lookup of free functions per target class
-        var freeFuncsByClass = context.FreeFunctions
+        Dictionary<string, List<FreeFunctionDef>> freeFuncsByClass = context.FreeFunctions
             .GroupBy(f => f.TargetClassName)
             .ToDictionary(g => g.Key, g => g.ToList());
 
-        foreach (var classDef in context.Classes)
+        foreach (ClassDef classDef in context.Classes)
         {
             string prefix = TypeMapper.GetPrefix(classDef.CppNamespace);
             string csClassName = prefix + classDef.Name;
-            var inheritedProps = GetInheritedProperties(csClassName);
-            freeFuncsByClass.TryGetValue(csClassName, out var classFuncs);
+            HashSet<string> inheritedProps = GetInheritedProperties(csClassName);
+            freeFuncsByClass.TryGetValue(csClassName, out List<FreeFunctionDef>? classFuncs);
             GenerateClass(classDef, inheritedProps, classFuncs ?? []);
         }
     }
@@ -89,7 +89,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string dir = Path.Combine(outputDir, subdir);
         Directory.CreateDirectory(dir);
 
-        var sb = new StringBuilder();
+        StringBuilder sb = new();
         sb.AppendLine("namespace Metal.NET;");
         sb.AppendLine();
 
@@ -101,7 +101,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         for (int i = 0; i < enumDef.Members.Count; i++)
         {
-            var member = enumDef.Members[i];
+            EnumMember member = enumDef.Members[i];
             string comma = i < enumDef.Members.Count - 1 ? "," : "";
             if (i > 0) sb.AppendLine();
             sb.AppendLine($"    {member.Name} = {member.Value}{comma}");
@@ -131,21 +131,21 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         bool hasFreeFunctions = freeFunctions.Count > 0;
 
         // Filter out methods with unmapped array params, function pointer params, or unmappable types
-        var validMethods = classDef.Methods
+        List<MethodInfo> validMethods = classDef.Methods
             .Where(m => !m.Parameters.Any(p => p.CppType == "ARRAY_PARAM"))
             .Where(m => !HasUnmergableArrayParam(m))
             .Where(m => !HasFunctionPointerParam(m))
             .Where(m => !HasUnmappableParam(m))
             .ToList();
 
-        var hasZeroParamVersion = validMethods
+        HashSet<string> hasZeroParamVersion = validMethods
             .Where(m => m.Parameters.Count == 0 && m.ReturnType != "void" && !m.UsesClassTarget)
             .Select(m => m.CppName).ToHashSet();
 
         var (properties, methods) = CategorizeMembers(validMethods, classDef.CppNamespace);
 
-        var selectors = new SortedDictionary<string, string>();
-        var sb = new StringBuilder();
+        SortedDictionary<string, string> selectors = [];
+        StringBuilder sb = new();
 
         if (hasFreeFunctions)
         {
@@ -173,7 +173,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
 
         // Properties (sorted alphabetically)
-        foreach (var prop in properties)
+        foreach (PropertyDef prop in properties)
         {
             int prevLen = sb.Length;
             if (hasPrecedingMember) sb.AppendLine();
@@ -184,7 +184,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
 
         // Methods
-        foreach (var method in methods)
+        foreach (MethodInfo method in methods)
         {
             if (hasPrecedingMember) sb.AppendLine();
             EmitMethod(sb, method, csClassName, classDef.CppNamespace, selectors, hasClassField, hasZeroParamVersion);
@@ -192,7 +192,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
 
         // Static free functions
-        foreach (var func in freeFunctions)
+        foreach (FreeFunctionDef func in freeFunctions)
         {
             if (hasPrecedingMember) sb.AppendLine();
             EmitFreeFunction(sb, func, classDef.CppNamespace);
@@ -232,13 +232,13 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     (List<PropertyDef> Properties, List<MethodInfo> Methods) CategorizeMembers(
         List<MethodInfo> allMethods, string ns)
     {
-        var properties = new List<PropertyDef>();
-        var methods = new List<MethodInfo>();
-        var used = new HashSet<MethodInfo>(ReferenceEqualityComparer.Instance);
+        List<PropertyDef> properties = [];
+        List<MethodInfo> methods = [];
+        HashSet<MethodInfo> used = new(ReferenceEqualityComparer.Instance);
 
         // Build setter map
-        var setterMap = new Dictionary<string, MethodInfo>(StringComparer.Ordinal);
-        foreach (var m in allMethods)
+        Dictionary<string, MethodInfo> setterMap = new(StringComparer.Ordinal);
+        foreach (MethodInfo m in allMethods)
         {
             if (m.CppName.StartsWith("set") && m.CppName.Length > 3 && char.IsUpper(m.CppName[3]) &&
                 m.ReturnType == "void" && m.Parameters.Count == 1)
@@ -249,7 +249,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
 
         // Find getters
-        foreach (var m in allMethods)
+        foreach (MethodInfo m in allMethods)
         {
             if (m.ReturnType == "void") continue;
             if (m.Parameters.Count > 0) continue;
@@ -259,7 +259,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             if (TypeMapper.IsOwnershipTransferMethod(m.CppName)) continue;
 
             MethodInfo? setter = null;
-            if (setterMap.TryGetValue(m.CppName, out var s))
+            if (setterMap.TryGetValue(m.CppName, out MethodInfo? s))
             {
                 setter = s;
                 used.Add(s);
@@ -270,7 +270,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
 
         // Remaining become methods
-        foreach (var m in allMethods)
+        foreach (MethodInfo m in allMethods)
         {
             if (used.Contains(m)) continue;
             methods.Add(m);
@@ -297,7 +297,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     bool HasUnmappableParam(MethodInfo method)
     {
-        foreach (var p in method.Parameters)
+        foreach (ParamDef p in method.Parameters)
         {
             if (p.CppType.StartsWith("OBJ_ARRAY:") || p.CppType.StartsWith("PRIM_ARRAY:") || p.CppType.StartsWith("STRUCT_ARRAY:") || p.CppType == "ARRAY_PARAM") continue;
             if (TypeMapper.IsUnmappableCppType(p.CppType)) return true;
@@ -308,7 +308,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     static bool HasUnmergableArrayParam(MethodInfo method)
     {
-        var p = method.Parameters;
+        List<ParamDef> p = method.Parameters;
         for (int i = 0; i < p.Count; i++)
         {
             if (p[i].CppType.StartsWith("OBJ_ARRAY:") || p[i].CppType.StartsWith("PRIM_ARRAY:") || p[i].CppType.StartsWith("STRUCT_ARRAY:"))
@@ -330,7 +330,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     bool EmitProperty(StringBuilder sb, PropertyDef prop, string csClassName,
         string ns, SortedDictionary<string, string> selectors, HashSet<string> inheritedProperties)
     {
-        var getter = prop.Getter;
+        MethodInfo getter = prop.Getter;
         string csPropName = TypeMapper.ToPascalCase(getter.CppName);
 
         if (inheritedProperties.Contains(csPropName))
@@ -485,15 +485,15 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         bool needsRetain = nullable && !TypeMapper.IsOwnershipTransferMethod(cppName);
 
         // Build C# parameter list and call arguments
-        var csParams = new List<string>();
-        var callArgs = new List<string> { target, selectorRef };
-        var arraySetupLines = new List<string>();
-        var fixedStatements = new List<string>();
+        List<string> csParams = [];
+        List<string> callArgs = [target, selectorRef];
+        List<string> arraySetupLines = [];
+        List<string> fixedStatements = [];
         bool needsUnsafeContext = false;
 
         for (int pi = 0; pi < method.Parameters.Count; pi++)
         {
-            var param = method.Parameters[pi];
+            ParamDef param = method.Parameters[pi];
             if (param.CppType == "ARRAY_PARAM") continue;
 
             if (param.CppType.StartsWith("OBJ_ARRAY:"))
@@ -606,13 +606,13 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         sb.AppendLine($"    public {staticKw}{unsafeKw}{csReturnType} {csMethodName}({paramStr})");
         sb.AppendLine("    {");
 
-        foreach (var line in arraySetupLines)
+        foreach (string line in arraySetupLines)
             sb.AppendLine(line);
         if (arraySetupLines.Count > 0)
             sb.AppendLine();
 
         string indent = "        ";
-        foreach (var fixedStmt in fixedStatements)
+        foreach (string fixedStmt in fixedStatements)
         {
             sb.AppendLine($"{indent}{fixedStmt}");
             sb.AppendLine($"{indent}{{");
@@ -651,7 +651,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             string msgSend = typeMapper.GetMsgSendForEnumGet(returnType);
             if (hasOutError)
             {
-                sb.AppendLine($"{indent}var result = ({returnType}){msgSend}({argsStr});");
+                sb.AppendLine($"{indent}{returnType} result = ({returnType}){msgSend}({argsStr});");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}error = errorPtr is not 0 ? new(errorPtr, true) : null;");
                 sb.AppendLine();
@@ -666,7 +666,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         {
             if (hasOutError)
             {
-                sb.AppendLine($"{indent}var result = ObjectiveCRuntime.MsgSendBool({argsStr});");
+                sb.AppendLine($"{indent}bool result = ObjectiveCRuntime.MsgSendBool({argsStr});");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}error = errorPtr is not 0 ? new(errorPtr, true) : null;");
                 sb.AppendLine();
@@ -682,7 +682,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             string msgSend = TypeMapper.GetMsgSendForStruct(returnType);
             if (hasOutError)
             {
-                sb.AppendLine($"{indent}var result = ObjectiveCRuntime.{msgSend}({argsStr});");
+                sb.AppendLine($"{indent}{returnType} result = ObjectiveCRuntime.{msgSend}({argsStr});");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}error = errorPtr is not 0 ? new(errorPtr, true) : null;");
                 sb.AppendLine();
@@ -699,7 +699,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             string retCast = returnType is "uint" or "ulong" or "int" or "long" ? $"({returnType})" : "";
             if (hasOutError)
             {
-                sb.AppendLine($"{indent}var result = {retCast}ObjectiveCRuntime.{msgSend}({argsStr});");
+                sb.AppendLine($"{indent}{csReturnType} result = {retCast}ObjectiveCRuntime.{msgSend}({argsStr});");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}error = errorPtr is not 0 ? new(errorPtr, true) : null;");
                 sb.AppendLine();
@@ -730,8 +730,8 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string csReturnType = typeMapper.MapCppType(func.ReturnType, cppNamespace);
         bool nullable = typeMapper.IsNullableType(csReturnType);
 
-        var pinvokeParams = new List<string>();
-        foreach (var p in func.Parameters)
+        List<string> pinvokeParams = [];
+        foreach (ParamDef p in func.Parameters)
         {
             string csType = typeMapper.MapCppType(p.CppType, cppNamespace);
             if (typeMapper.IsNullableType(csType))
@@ -746,9 +746,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         sb.AppendLine($"    private static partial {pinvokeReturnType} {func.CEntryPoint}({string.Join(", ", pinvokeParams)});");
         sb.AppendLine();
 
-        var wrapperParams = new List<string>();
-        var callArgs = new List<string>();
-        foreach (var p in func.Parameters)
+        List<string> wrapperParams = [];
+        List<string> callArgs = [];
+        foreach (ParamDef p in func.Parameters)
         {
             string csType = typeMapper.MapCppType(p.CppType, cppNamespace);
             string csName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(p.Name));

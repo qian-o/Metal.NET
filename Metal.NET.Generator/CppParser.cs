@@ -6,7 +6,7 @@ namespace Metal.NET.Generator;
 /// Regex-based parser for metal-cpp C++ headers.
 /// Extracts enums, classes, methods, free functions, and ObjC selector mappings.
 /// </summary>
-class CppParser(string metalCppDir, GeneratorContext context)
+partial class CppParser(string metalCppDir, GeneratorContext context)
 {
     /// <summary>
     /// Methods to skip during parsing.
@@ -25,18 +25,17 @@ class CppParser(string metalCppDir, GeneratorContext context)
             Path.Combine(metalCppDir, "MetalFX", "MTLFXPrivate.hpp"),
         ];
 
-        foreach (var file in bridgeFiles)
+        foreach (string file in bridgeFiles)
         {
             if (!File.Exists(file)) continue;
             string content = File.ReadAllText(file);
 
-            foreach (Match m in Regex.Matches(content,
-                @"_\w+_PRIVATE_DEF_SEL\(\s*(\w+)\s*,\s*""([^""]+)""\s*\)"))
+            foreach (Match m in SelectorDefRegex().Matches(content))
             {
                 context.SelectorMap[m.Groups[1].Value] = m.Groups[2].Value;
             }
 
-            foreach (Match m in Regex.Matches(content, @"_\w+_PRIVATE_DEF_CLS\(\s*(\w+)\s*\)"))
+            foreach (Match m in ClassDefRegex().Matches(content))
             {
                 context.RegisteredClasses.Add(m.Groups[1].Value);
             }
@@ -53,12 +52,12 @@ class CppParser(string metalCppDir, GeneratorContext context)
     {
         string[] subdirs = ["Metal", "Foundation", "QuartzCore", "MetalFX"];
 
-        foreach (var subdir in subdirs)
+        foreach (string subdir in subdirs)
         {
             string dir = Path.Combine(metalCppDir, subdir);
             if (!Directory.Exists(dir)) continue;
 
-            foreach (var file in Directory.GetFiles(dir, "*.hpp"))
+            foreach (string file in Directory.GetFiles(dir, "*.hpp"))
             {
                 string fileName = Path.GetFileName(file);
                 if (fileName.Contains("Private") || fileName.Contains("HeaderBridge") ||
@@ -83,16 +82,11 @@ class CppParser(string metalCppDir, GeneratorContext context)
 
     void ParseEnums(string content)
     {
-        var enumRegex = new Regex(
-            @"_(\w+)_(ENUM|OPTIONS)\s*\(\s*([^,]+?)\s*,\s*(\w+)\s*\)\s*\{([^}]*)\}",
-            RegexOptions.Singleline);
-
-        var namespaceRegex = new Regex(@"namespace\s+(MTL4FX|MTL4|MTLFX|MTL|NS|CA)\s*\{", RegexOptions.Multiline);
-        var nsPositions = new List<(string Ns, int Pos)>();
-        foreach (Match nm in namespaceRegex.Matches(content))
+        List<(string Ns, int Pos)> nsPositions = [];
+        foreach (Match nm in NamespacePatternRegex().Matches(content))
             nsPositions.Add((nm.Groups[1].Value, nm.Index));
 
-        foreach (Match m in enumRegex.Matches(content))
+        foreach (Match m in EnumPatternRegex().Matches(content))
         {
             string nsPrefix = m.Groups[1].Value;
             bool isFlags = m.Groups[2].Value == "OPTIONS";
@@ -122,7 +116,7 @@ class CppParser(string metalCppDir, GeneratorContext context)
             string csEnumName = prefix + name;
             context.EnumBackingTypes[csEnumName] = backingType;
 
-            var members = ParseEnumMembers(body, name, prefix);
+            List<EnumMember> members = ParseEnumMembers(body, name, prefix);
             context.Enums.Add(new EnumDef(cppNamespace, name, backingType, isFlags, members));
         }
     }
@@ -141,16 +135,16 @@ class CppParser(string metalCppDir, GeneratorContext context)
 
     static List<EnumMember> ParseEnumMembers(string body, string cppEnumName, string nsPrefix)
     {
-        var rawMembers = new List<(string CppName, string Value)>();
-        var cppNameToValue = new Dictionary<string, string>();
+        List<(string CppName, string Value)> rawMembers = [];
+        Dictionary<string, string> cppNameToValue = [];
         int nextImplicitValue = 0;
 
-        foreach (var rawLine in body.Split('\n'))
+        foreach (string rawLine in body.Split('\n'))
         {
-            var line = rawLine.Trim().TrimEnd(',');
+            string line = rawLine.Trim().TrimEnd(',');
             if (string.IsNullOrWhiteSpace(line)) continue;
 
-            var memberMatch = Regex.Match(line, @"^(\w+)\s*(?:=\s*(.+))?$");
+            Match memberMatch = EnumMemberRegex().Match(line);
             if (!memberMatch.Success) continue;
 
             string cppMemberName = memberMatch.Groups[1].Value;
@@ -175,7 +169,7 @@ class CppParser(string metalCppDir, GeneratorContext context)
 
         string stripPrefix = ComputeEnumStripPrefix(cppEnumName, rawMembers.Select(m => m.CppName).ToList());
 
-        var members = new List<EnumMember>();
+        List<EnumMember> members = [];
         foreach (var (cppName, value) in rawMembers)
         {
             string csName = cppName.StartsWith(stripPrefix)
@@ -202,7 +196,7 @@ class CppParser(string metalCppDir, GeneratorContext context)
             return cppEnumName;
 
         string lcp = memberNames[0];
-        foreach (var name in memberNames.Skip(1))
+        foreach (string name in memberNames.Skip(1))
         {
             int i = 0;
             while (i < lcp.Length && i < name.Length && lcp[i] == name[i])
@@ -240,18 +234,18 @@ class CppParser(string metalCppDir, GeneratorContext context)
                     resolved = resolved.Replace(cppName, memberValue);
             }
 
-            resolved = Regex.Replace(resolved, @"(0x[\da-fA-F]+)ULL", "$1");
-            resolved = Regex.Replace(resolved, @"(\d+)ULL", "$1");
-            resolved = Regex.Replace(resolved, @"(0x[\da-fA-F]+)UL", "$1");
-            resolved = Regex.Replace(resolved, @"(\d+)UL", "$1");
+            resolved = HexUllSuffixRegex().Replace(resolved, "$1");
+            resolved = DecimalUllSuffixRegex().Replace(resolved, "$1");
+            resolved = HexUlSuffixRegex().Replace(resolved, "$1");
+            resolved = DecimalUlSuffixRegex().Replace(resolved, "$1");
             resolved = resolved.Replace("NS::UIntegerMax", "18446744073709551615");
             resolved = resolved.Replace("NS::IntegerMax", "9223372036854775807");
-            resolved = Regex.Replace(resolved, @"(-?\d+)L\b", "$1");
+            resolved = LSuffixRegex().Replace(resolved, "$1");
             resolved = resolved.Trim();
             while (resolved.StartsWith('(') && resolved.EndsWith(')'))
                 resolved = resolved[1..^1].Trim();
 
-            var shiftMatch = Regex.Match(resolved, @"^1\s*<<\s*(\d+)$");
+            Match shiftMatch = ShiftPatternRegex().Match(resolved);
             if (shiftMatch.Success)
                 return (1L << int.Parse(shiftMatch.Groups[1].Value)).ToString();
 
@@ -286,7 +280,7 @@ class CppParser(string metalCppDir, GeneratorContext context)
             if (expr.Contains('|') && !expr.Contains('~'))
             {
                 ulong result = 0;
-                foreach (var part in expr.Split('|'))
+                foreach (string part in expr.Split('|'))
                 {
                     if (TryParseSimpleValue(part.Trim(), out ulong v))
                         result |= v;
@@ -296,7 +290,7 @@ class CppParser(string metalCppDir, GeneratorContext context)
                 return result;
             }
 
-            var andNotMatch = Regex.Match(expr, @"^(\d+)&~(\d+)$");
+            Match andNotMatch = AndNotPatternRegex().Match(expr);
             if (andNotMatch.Success)
                 return ulong.Parse(andNotMatch.Groups[1].Value) & ~ulong.Parse(andNotMatch.Groups[2].Value);
 
@@ -314,7 +308,7 @@ class CppParser(string metalCppDir, GeneratorContext context)
         if (s.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
             return ulong.TryParse(s[2..], System.Globalization.NumberStyles.HexNumber, null, out value);
 
-        var shiftMatch = Regex.Match(s, @"^(\d+)<<(\d+)$");
+        Match shiftMatch = SimpleShiftPatternRegex().Match(s);
         if (shiftMatch.Success)
         {
             value = ulong.Parse(shiftMatch.Groups[1].Value) << int.Parse(shiftMatch.Groups[2].Value);
@@ -350,11 +344,7 @@ class CppParser(string metalCppDir, GeneratorContext context)
 
         string targetClassName = Path.GetFileNameWithoutExtension(filePath);
 
-        var externRegex = new Regex(
-            @"extern\s+""C""\s+(.+?)\s+(\w+)\s*\(([^)]*)\)\s*;",
-            RegexOptions.Multiline);
-
-        foreach (Match m in externRegex.Matches(content))
+        foreach (Match m in ExternCRegex().Matches(content))
         {
             string returnType = m.Groups[1].Value.Trim();
             string cFuncName = m.Groups[2].Value.Trim();
@@ -362,7 +352,7 @@ class CppParser(string metalCppDir, GeneratorContext context)
 
             if (TypeMapper.IsUnmappableCppType(returnType)) continue;
 
-            var parameters = ParseParameters(paramsStr);
+            List<ParamDef> parameters = ParseParameters(paramsStr);
             if (parameters.Any(p => TypeMapper.IsUnmappableCppType(p.CppType) || p.CppType == "ARRAY_PARAM")) continue;
             if (parameters.Any(p => p.CppType.Contains("Handler") || p.CppType.Contains("Block") ||
                 p.CppType.Contains("function") || p.CppType.Contains("Function"))) continue;
@@ -380,17 +370,11 @@ class CppParser(string metalCppDir, GeneratorContext context)
 
     void ParseClasses(string content, string filePath)
     {
-        var classRegex = new Regex(
-            @"class\s+(\w+)\s*:\s*public\s+NS::(Referencing|Copying)\s*<\s*(\w+)(?:\s*,\s*((?:[\w:]+::)?)(\w+))?\s*>",
-            RegexOptions.Multiline);
-
-        var namespaceRegex = new Regex(@"namespace\s+(MTL4FX|MTL4|MTLFX|MTL|NS|CA)\s*\{", RegexOptions.Multiline);
-
-        var namespacePositions = new List<(string Ns, int Pos)>();
-        foreach (Match m in namespaceRegex.Matches(content))
+        List<(string Ns, int Pos)> namespacePositions = [];
+        foreach (Match m in NamespacePatternRegex().Matches(content))
             namespacePositions.Add((m.Groups[1].Value, m.Index));
 
-        foreach (Match cm in classRegex.Matches(content))
+        foreach (Match cm in ClassPatternRegex().Matches(content))
         {
             string className = cm.Groups[1].Value;
             bool isCopying = cm.Groups[2].Value == "Copying";
@@ -413,23 +397,23 @@ class CppParser(string metalCppDir, GeneratorContext context)
             if (braceEnd < 0) continue;
 
             string classBody = content[(braceStart + 1)..braceEnd];
-            var rawMethods = ParseMethodDeclarations(classBody);
+            List<(string ReturnType, string Name, bool IsStatic, bool IsConst, List<ParamDef> Params)> rawMethods = ParseMethodDeclarations(classBody);
 
-            var implInfo = ParseInlineImplementations(content, ns, className);
+            Dictionary<(string MethodName, int ParamCount, int OverloadIndex), ImplInfo> implInfo = ParseInlineImplementations(content, ns, className);
 
-            var methods = new List<MethodInfo>();
-            var overloadCounter = new Dictionary<(string, int), int>();
+            List<MethodInfo> methods = [];
+            Dictionary<(string, int), int> overloadCounter = [];
             foreach (var (retType, name, isStatic, isConst, parameters) in rawMethods)
             {
                 if (SkipMethods.Contains(name)) continue;
 
-                var countKey = (name, parameters.Count);
+                (string, int) countKey = (name, parameters.Count);
                 if (!overloadCounter.TryGetValue(countKey, out int idx))
                     idx = 0;
                 overloadCounter[countKey] = idx + 1;
 
-                var key = (name, parameters.Count, idx);
-                bool usesClassTarget = implInfo.TryGetValue(key, out var info) && info.UsesClassTarget;
+                (string, int, int) key = (name, parameters.Count, idx);
+                bool usesClassTarget = implInfo.TryGetValue(key, out ImplInfo? info) && info.UsesClassTarget;
                 string? selAccessor = info?.Accessor;
 
                 methods.Add(new MethodInfo
@@ -482,14 +466,14 @@ class CppParser(string metalCppDir, GeneratorContext context)
 
     List<(string ReturnType, string Name, bool IsStatic, bool IsConst, List<ParamDef> Params)> ParseMethodDeclarations(string classBody)
     {
-        var result = new List<(string, string, bool, bool, List<ParamDef>)>();
+        List<(string, string, bool, bool, List<ParamDef>)> result = [];
 
-        var cleaned = Regex.Replace(classBody, @"//[^\n]*", "");
-        cleaned = Regex.Replace(cleaned, @"/\*.*?\*/", "", RegexOptions.Singleline);
+        string cleaned = SingleLineCommentRegex().Replace(classBody, "");
+        cleaned = MultiLineCommentRegex().Replace(cleaned, "");
 
-        foreach (var rawLine in cleaned.Split('\n'))
+        foreach (string rawLine in cleaned.Split('\n'))
         {
-            var line = rawLine.Trim();
+            string line = rawLine.Trim();
             if (string.IsNullOrWhiteSpace(line) || line.StartsWith("public:") ||
                 line.StartsWith("private:") || line.StartsWith("protected:") ||
                 line.StartsWith("//") ||
@@ -499,8 +483,7 @@ class CppParser(string metalCppDir, GeneratorContext context)
                 line.StartsWith("typedef ") || line.StartsWith("friend "))
                 continue;
 
-            var methodMatch = Regex.Match(line,
-                @"^(static\s+)?(.+?)\s+(\w+)\s*\(([^)]*)\)\s*(const)?\s*;?\s*$");
+            Match methodMatch = MethodDeclRegex().Match(line);
             if (!methodMatch.Success) continue;
 
             bool isStatic = methodMatch.Groups[1].Success;
@@ -511,7 +494,7 @@ class CppParser(string metalCppDir, GeneratorContext context)
 
             if (returnType is "class" or "struct") continue;
 
-            var parameters = ParseParameters(paramsStr);
+            List<ParamDef> parameters = ParseParameters(paramsStr);
             result.Add((returnType, name, isStatic, isConst, parameters));
         }
 
@@ -521,11 +504,11 @@ class CppParser(string metalCppDir, GeneratorContext context)
     Dictionary<(string MethodName, int ParamCount, int OverloadIndex), ImplInfo> ParseInlineImplementations(
         string content, string ns, string className)
     {
-        var result = new Dictionary<(string, int, int), ImplInfo>();
-        var countTracker = new Dictionary<(string, int), int>();
+        Dictionary<(string, int, int), ImplInfo> result = [];
+        Dictionary<(string, int), int> countTracker = [];
         string nsPattern = Regex.Escape(ns);
 
-        var implRegex = new Regex(
+        Regex implRegex = new(
             $@"_\w+_INLINE\s+.+?\s+{nsPattern}::{Regex.Escape(className)}::(\w+)\s*\(([^)]*)\)\s*(?:const\s*)?\{{(.*?)\}}",
             RegexOptions.Singleline);
 
@@ -537,12 +520,12 @@ class CppParser(string metalCppDir, GeneratorContext context)
 
             int paramCount = string.IsNullOrWhiteSpace(paramsStr) ? 0 : SplitParams(paramsStr).Count;
 
-            bool usesClassTarget = Regex.IsMatch(body, @"_\w+_PRIVATE_CLS\(");
+            bool usesClassTarget = ClsCheckRegex().IsMatch(body);
 
-            var selMatch = Regex.Match(body, @"_\w+_PRIVATE_SEL\(\s*(\w+)\s*\)");
+            Match selMatch = SelMatchRegex().Match(body);
             string? accessor = selMatch.Success ? selMatch.Groups[1].Value : null;
 
-            var key = (methodName, paramCount);
+            (string, int) key = (methodName, paramCount);
             if (!countTracker.TryGetValue(key, out int idx))
                 idx = 0;
             countTracker[key] = idx + 1;
@@ -561,16 +544,16 @@ class CppParser(string metalCppDir, GeneratorContext context)
     {
         if (string.IsNullOrWhiteSpace(paramsStr)) return [];
 
-        var parameters = new List<ParamDef>();
-        foreach (var part in SplitParams(paramsStr))
+        List<ParamDef> parameters = [];
+        foreach (string part in SplitParams(paramsStr))
         {
-            var p = part.Trim();
+            string p = part.Trim();
             if (string.IsNullOrWhiteSpace(p)) continue;
 
             if (p.Contains("[]"))
             {
-                var cleaned = p.Replace("[]", "").Replace("const ", "").Trim();
-                var lastSpace = cleaned.LastIndexOf(' ');
+                string cleaned = p.Replace("[]", "").Replace("const ", "").Trim();
+                int lastSpace = cleaned.LastIndexOf(' ');
                 if (lastSpace < 0)
                 {
                     parameters.Add(new ParamDef("ARRAY_PARAM", "array"));
@@ -600,9 +583,9 @@ class CppParser(string metalCppDir, GeneratorContext context)
                 continue;
             }
 
-            var cleanedParam = p.Replace("const ", "").Trim();
+            string cleanedParam = p.Replace("const ", "").Trim();
 
-            var paramLastSpace = cleanedParam.LastIndexOf(' ');
+            int paramLastSpace = cleanedParam.LastIndexOf(' ');
             if (paramLastSpace < 0)
             {
                 parameters.Add(new ParamDef(cleanedParam, "param"));
@@ -624,15 +607,15 @@ class CppParser(string metalCppDir, GeneratorContext context)
         // Post-process: detect StructType* + NS::UInteger count pairs and convert to STRUCT_ARRAY
         for (int i = 0; i < parameters.Count - 1; i++)
         {
-            var param = parameters[i];
-            var next = parameters[i + 1];
+            ParamDef param = parameters[i];
+            ParamDef next = parameters[i + 1];
 
             if (param.CppType.EndsWith("*") && next.CppType is "NS::UInteger" && next.Name is "count")
             {
                 string baseType = param.CppType[..^1].Trim();
 
                 string resolved = baseType;
-                var nsMatch = Regex.Match(baseType, @"^(MTL4FX|MTL4|MTLFX|MTL|NS|CA|CG)\s*::\s*(.+)$");
+                Match nsMatch = NamespaceTypeRegex().Match(baseType);
                 if (nsMatch.Success)
                     resolved = TypeMapper.GetPrefix(nsMatch.Groups[1].Value) + nsMatch.Groups[2].Value.Trim();
 
@@ -648,7 +631,7 @@ class CppParser(string metalCppDir, GeneratorContext context)
 
     static List<string> SplitParams(string paramsStr)
     {
-        var result = new List<string>();
+        List<string> result = [];
         int depth = 0;
         int start = 0;
 
@@ -667,6 +650,73 @@ class CppParser(string metalCppDir, GeneratorContext context)
         result.Add(paramsStr[start..]);
         return result;
     }
+
+    #endregion
+
+    #region Generated Regex
+
+    [GeneratedRegex(@"_\w+_PRIVATE_DEF_SEL\(\s*(\w+)\s*,\s*""([^""]+)""\s*\)")]
+    private static partial Regex SelectorDefRegex();
+
+    [GeneratedRegex(@"_\w+_PRIVATE_DEF_CLS\(\s*(\w+)\s*\)")]
+    private static partial Regex ClassDefRegex();
+
+    [GeneratedRegex(@"_(\w+)_(ENUM|OPTIONS)\s*\(\s*([^,]+?)\s*,\s*(\w+)\s*\)\s*\{([^}]*)\}", RegexOptions.Singleline)]
+    private static partial Regex EnumPatternRegex();
+
+    [GeneratedRegex(@"namespace\s+(MTL4FX|MTL4|MTLFX|MTL|NS|CA)\s*\{", RegexOptions.Multiline)]
+    private static partial Regex NamespacePatternRegex();
+
+    [GeneratedRegex(@"^(\w+)\s*(?:=\s*(.+))?$")]
+    private static partial Regex EnumMemberRegex();
+
+    [GeneratedRegex(@"(0x[\da-fA-F]+)ULL")]
+    private static partial Regex HexUllSuffixRegex();
+
+    [GeneratedRegex(@"(\d+)ULL")]
+    private static partial Regex DecimalUllSuffixRegex();
+
+    [GeneratedRegex(@"(0x[\da-fA-F]+)UL")]
+    private static partial Regex HexUlSuffixRegex();
+
+    [GeneratedRegex(@"(\d+)UL")]
+    private static partial Regex DecimalUlSuffixRegex();
+
+    [GeneratedRegex(@"(-?\d+)L\b")]
+    private static partial Regex LSuffixRegex();
+
+    [GeneratedRegex(@"^1\s*<<\s*(\d+)$")]
+    private static partial Regex ShiftPatternRegex();
+
+    [GeneratedRegex(@"^(\d+)&~(\d+)$")]
+    private static partial Regex AndNotPatternRegex();
+
+    [GeneratedRegex(@"^(\d+)<<(\d+)$")]
+    private static partial Regex SimpleShiftPatternRegex();
+
+    [GeneratedRegex(@"extern\s+""C""\s+(.+?)\s+(\w+)\s*\(([^)]*)\)\s*;", RegexOptions.Multiline)]
+    private static partial Regex ExternCRegex();
+
+    [GeneratedRegex(@"class\s+(\w+)\s*:\s*public\s+NS::(Referencing|Copying)\s*<\s*(\w+)(?:\s*,\s*((?:[\w:]+::)?)(\w+))?\s*>", RegexOptions.Multiline)]
+    private static partial Regex ClassPatternRegex();
+
+    [GeneratedRegex(@"//[^\n]*")]
+    private static partial Regex SingleLineCommentRegex();
+
+    [GeneratedRegex(@"/\*.*?\*/", RegexOptions.Singleline)]
+    private static partial Regex MultiLineCommentRegex();
+
+    [GeneratedRegex(@"^(static\s+)?(.+?)\s+(\w+)\s*\(([^)]*)\)\s*(const)?\s*;?\s*$")]
+    private static partial Regex MethodDeclRegex();
+
+    [GeneratedRegex(@"_\w+_PRIVATE_CLS\(")]
+    private static partial Regex ClsCheckRegex();
+
+    [GeneratedRegex(@"_\w+_PRIVATE_SEL\(\s*(\w+)\s*\)")]
+    private static partial Regex SelMatchRegex();
+
+    [GeneratedRegex(@"^(MTL4FX|MTL4|MTLFX|MTL|NS|CA|CG)\s*::\s*(.+)$")]
+    private static partial Regex NamespaceTypeRegex();
 
     #endregion
 }

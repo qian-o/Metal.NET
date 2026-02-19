@@ -7,11 +7,11 @@ class Generator(string metalCppDir, string outputDir)
 {
     public void Run()
     {
-        var context = new GeneratorContext();
-        var typeMapper = new TypeMapper(context);
+        GeneratorContext context = new();
+        TypeMapper typeMapper = new(context);
 
         Console.WriteLine("Parsing selector definitions...");
-        var parser = new CppParser(metalCppDir, context);
+        CppParser parser = new(metalCppDir, context);
         parser.ParseBridgeFiles();
 
         Console.WriteLine("Parsing header files...");
@@ -20,7 +20,7 @@ class Generator(string metalCppDir, string outputDir)
         Console.WriteLine($"Found {context.Enums.Count} enums, {context.Classes.Count} classes, {context.FreeFunctions.Count} free functions");
 
         Console.WriteLine("Generating C# files...");
-        var emitter = new CSharpEmitter(outputDir, context, typeMapper);
+        CSharpEmitter emitter = new(outputDir, context, typeMapper);
         emitter.GenerateAll();
 
         Console.WriteLine("Done!");

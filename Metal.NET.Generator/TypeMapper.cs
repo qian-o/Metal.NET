@@ -6,7 +6,7 @@ namespace Metal.NET.Generator;
 /// Maps C++ types to C# types, resolves MsgSend method variants,
 /// and provides naming helpers (PascalCase, camelCase, reserved word escaping).
 /// </summary>
-class TypeMapper(GeneratorContext context)
+partial class TypeMapper(GeneratorContext context)
 {
     /// <summary>
     /// Struct types (returned by value, not nullable).
@@ -117,7 +117,7 @@ class TypeMapper(GeneratorContext context)
         if (simple != null) return simple;
 
         // Namespaced types
-        var nsMatch = Regex.Match(t, @"^(MTL4FX|MTL4|MTLFX|MTL|NS|CA|CG)\s*::\s*(.+)$");
+        Match nsMatch = NamespaceTypeRegex().Match(t);
         if (nsMatch.Success)
         {
             string typeNs = nsMatch.Groups[1].Value;
@@ -272,6 +272,13 @@ class TypeMapper(GeneratorContext context)
 
     public static string EscapeReservedWord(string name) =>
         CSharpReservedWords.Contains(name) ? "@" + name : name;
+
+    #endregion
+
+    #region Generated Regex
+
+    [GeneratedRegex(@"^(MTL4FX|MTL4|MTLFX|MTL|NS|CA|CG)\s*::\s*(.+)$")]
+    private static partial Regex NamespaceTypeRegex();
 
     #endregion
 }
