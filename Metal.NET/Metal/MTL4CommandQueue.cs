@@ -4,12 +4,12 @@ public class MTL4CommandQueue(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTL4CommandQueueBindings.Device);
+        get => GetProperty(ref field, MTL4CommandQueueBindings.Device);
     }
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTL4CommandQueueBindings.Label);
+        get => GetProperty(ref field, MTL4CommandQueueBindings.Label);
     }
 
     public void AddResidencySet(MTLResidencySet residencySet)

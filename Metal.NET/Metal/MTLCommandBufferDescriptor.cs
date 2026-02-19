@@ -14,7 +14,7 @@ public class MTLCommandBufferDescriptor(nint nativePtr) : NativeObject(nativePtr
 
     public MTLLogState? LogState
     {
-        get => GetProperty<MTLLogState>(ref field, MTLCommandBufferDescriptorBindings.LogState);
+        get => GetProperty(ref field, MTLCommandBufferDescriptorBindings.LogState);
         set => SetProperty(ref field, MTLCommandBufferDescriptorBindings.SetLogState, value);
     }
 

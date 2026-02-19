@@ -4,12 +4,12 @@ public class MTLRasterizationRateMap(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTLRasterizationRateMapBindings.Device);
+        get => GetProperty(ref field, MTLRasterizationRateMapBindings.Device);
     }
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLRasterizationRateMapBindings.Label);
+        get => GetProperty(ref field, MTLRasterizationRateMapBindings.Label);
     }
 
     public nuint LayerCount

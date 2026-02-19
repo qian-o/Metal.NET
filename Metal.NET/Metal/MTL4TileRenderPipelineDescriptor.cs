@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTL4TileRenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4TileRenderPipelineDescriptor(nint nativePtr) : MTL4PipelineDescriptor(nativePtr)
 {
     public MTL4TileRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4TileRenderPipelineDescriptorBindings.Class))
     {
@@ -8,7 +8,7 @@ public class MTL4TileRenderPipelineDescriptor(nint nativePtr) : NativeObject(nat
 
     public MTLTileRenderPipelineColorAttachmentDescriptorArray? ColorAttachments
     {
-        get => GetProperty<MTLTileRenderPipelineColorAttachmentDescriptorArray>(ref field, MTL4TileRenderPipelineDescriptorBindings.ColorAttachments);
+        get => GetProperty(ref field, MTL4TileRenderPipelineDescriptorBindings.ColorAttachments);
     }
 
     public nuint MaxTotalThreadsPerThreadgroup
@@ -31,7 +31,7 @@ public class MTL4TileRenderPipelineDescriptor(nint nativePtr) : NativeObject(nat
 
     public MTL4StaticLinkingDescriptor? StaticLinkingDescriptor
     {
-        get => GetProperty<MTL4StaticLinkingDescriptor>(ref field, MTL4TileRenderPipelineDescriptorBindings.StaticLinkingDescriptor);
+        get => GetProperty(ref field, MTL4TileRenderPipelineDescriptorBindings.StaticLinkingDescriptor);
         set => SetProperty(ref field, MTL4TileRenderPipelineDescriptorBindings.SetStaticLinkingDescriptor, value);
     }
 
@@ -49,7 +49,7 @@ public class MTL4TileRenderPipelineDescriptor(nint nativePtr) : NativeObject(nat
 
     public MTL4FunctionDescriptor? TileFunctionDescriptor
     {
-        get => GetProperty<MTL4FunctionDescriptor>(ref field, MTL4TileRenderPipelineDescriptorBindings.TileFunctionDescriptor);
+        get => GetProperty(ref field, MTL4TileRenderPipelineDescriptorBindings.TileFunctionDescriptor);
         set => SetProperty(ref field, MTL4TileRenderPipelineDescriptorBindings.SetTileFunctionDescriptor, value);
     }
 

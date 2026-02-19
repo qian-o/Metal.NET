@@ -32,7 +32,7 @@ public class MTLCompileOptions(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? InstallName
     {
-        get => GetProperty<NSString>(ref field, MTLCompileOptionsBindings.InstallName);
+        get => GetProperty(ref field, MTLCompileOptionsBindings.InstallName);
         set => SetProperty(ref field, MTLCompileOptionsBindings.SetInstallName, value);
     }
 
@@ -44,7 +44,7 @@ public class MTLCompileOptions(nint nativePtr) : NativeObject(nativePtr)
 
     public NSArray? Libraries
     {
-        get => GetProperty<NSArray>(ref field, MTLCompileOptionsBindings.Libraries);
+        get => GetProperty(ref field, MTLCompileOptionsBindings.Libraries);
         set => SetProperty(ref field, MTLCompileOptionsBindings.SetLibraries, value);
     }
 

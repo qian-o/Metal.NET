@@ -8,42 +8,42 @@ public class MTLRenderPipelineReflection(nint nativePtr) : NativeObject(nativePt
 
     public NSArray? FragmentArguments
     {
-        get => GetProperty<NSArray>(ref field, MTLRenderPipelineReflectionBindings.FragmentArguments);
+        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.FragmentArguments);
     }
 
     public NSArray? FragmentBindings
     {
-        get => GetProperty<NSArray>(ref field, MTLRenderPipelineReflectionBindings.FragmentBindings);
+        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.FragmentBindings);
     }
 
     public NSArray? MeshBindings
     {
-        get => GetProperty<NSArray>(ref field, MTLRenderPipelineReflectionBindings.MeshBindings);
+        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.MeshBindings);
     }
 
     public NSArray? ObjectBindings
     {
-        get => GetProperty<NSArray>(ref field, MTLRenderPipelineReflectionBindings.ObjectBindings);
+        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.ObjectBindings);
     }
 
     public NSArray? TileArguments
     {
-        get => GetProperty<NSArray>(ref field, MTLRenderPipelineReflectionBindings.TileArguments);
+        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.TileArguments);
     }
 
     public NSArray? TileBindings
     {
-        get => GetProperty<NSArray>(ref field, MTLRenderPipelineReflectionBindings.TileBindings);
+        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.TileBindings);
     }
 
     public NSArray? VertexArguments
     {
-        get => GetProperty<NSArray>(ref field, MTLRenderPipelineReflectionBindings.VertexArguments);
+        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.VertexArguments);
     }
 
     public NSArray? VertexBindings
     {
-        get => GetProperty<NSArray>(ref field, MTLRenderPipelineReflectionBindings.VertexBindings);
+        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.VertexBindings);
     }
 }
 

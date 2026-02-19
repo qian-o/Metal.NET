@@ -8,7 +8,7 @@ public class MTL4CommandAllocatorDescriptor(nint nativePtr) : NativeObject(nativ
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTL4CommandAllocatorDescriptorBindings.Label);
+        get => GetProperty(ref field, MTL4CommandAllocatorDescriptorBindings.Label);
         set => SetProperty(ref field, MTL4CommandAllocatorDescriptorBindings.SetLabel, value);
     }
 }

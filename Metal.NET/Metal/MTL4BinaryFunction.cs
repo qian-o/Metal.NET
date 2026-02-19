@@ -9,7 +9,7 @@ public class MTL4BinaryFunction(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Name
     {
-        get => GetProperty<NSString>(ref field, MTL4BinaryFunctionBindings.Name);
+        get => GetProperty(ref field, MTL4BinaryFunctionBindings.Name);
     }
 }
 

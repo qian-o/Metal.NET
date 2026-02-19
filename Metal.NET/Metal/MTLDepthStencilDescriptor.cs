@@ -8,7 +8,7 @@ public class MTLDepthStencilDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLStencilDescriptor? BackFaceStencil
     {
-        get => GetProperty<MTLStencilDescriptor>(ref field, MTLDepthStencilDescriptorBindings.BackFaceStencil);
+        get => GetProperty(ref field, MTLDepthStencilDescriptorBindings.BackFaceStencil);
         set => SetProperty(ref field, MTLDepthStencilDescriptorBindings.SetBackFaceStencil, value);
     }
 
@@ -26,7 +26,7 @@ public class MTLDepthStencilDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLStencilDescriptor? FrontFaceStencil
     {
-        get => GetProperty<MTLStencilDescriptor>(ref field, MTLDepthStencilDescriptorBindings.FrontFaceStencil);
+        get => GetProperty(ref field, MTLDepthStencilDescriptorBindings.FrontFaceStencil);
         set => SetProperty(ref field, MTLDepthStencilDescriptorBindings.SetFrontFaceStencil, value);
     }
 
@@ -37,7 +37,7 @@ public class MTLDepthStencilDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLDepthStencilDescriptorBindings.Label);
+        get => GetProperty(ref field, MTLDepthStencilDescriptorBindings.Label);
         set => SetProperty(ref field, MTLDepthStencilDescriptorBindings.SetLabel, value);
     }
 }

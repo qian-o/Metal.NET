@@ -4,7 +4,7 @@ public class MTLFunction(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTLFunctionBindings.Device);
+        get => GetProperty(ref field, MTLFunctionBindings.Device);
     }
 
     public MTLFunctionType FunctionType
@@ -14,13 +14,13 @@ public class MTLFunction(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLFunctionBindings.Label);
+        get => GetProperty(ref field, MTLFunctionBindings.Label);
         set => SetProperty(ref field, MTLFunctionBindings.SetLabel, value);
     }
 
     public NSString? Name
     {
-        get => GetProperty<NSString>(ref field, MTLFunctionBindings.Name);
+        get => GetProperty(ref field, MTLFunctionBindings.Name);
     }
 
     public MTLFunctionOptions Options
@@ -40,12 +40,12 @@ public class MTLFunction(nint nativePtr) : NativeObject(nativePtr)
 
     public NSArray? StageInputAttributes
     {
-        get => GetProperty<NSArray>(ref field, MTLFunctionBindings.StageInputAttributes);
+        get => GetProperty(ref field, MTLFunctionBindings.StageInputAttributes);
     }
 
     public NSArray? VertexAttributes
     {
-        get => GetProperty<NSArray>(ref field, MTLFunctionBindings.VertexAttributes);
+        get => GetProperty(ref field, MTLFunctionBindings.VertexAttributes);
     }
 
     public MTLArgumentEncoder? NewArgumentEncoder(nuint bufferIndex)

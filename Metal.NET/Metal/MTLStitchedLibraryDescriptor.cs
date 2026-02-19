@@ -8,19 +8,19 @@ public class MTLStitchedLibraryDescriptor(nint nativePtr) : NativeObject(nativeP
 
     public NSArray? BinaryArchives
     {
-        get => GetProperty<NSArray>(ref field, MTLStitchedLibraryDescriptorBindings.BinaryArchives);
+        get => GetProperty(ref field, MTLStitchedLibraryDescriptorBindings.BinaryArchives);
         set => SetProperty(ref field, MTLStitchedLibraryDescriptorBindings.SetBinaryArchives, value);
     }
 
     public NSArray? FunctionGraphs
     {
-        get => GetProperty<NSArray>(ref field, MTLStitchedLibraryDescriptorBindings.FunctionGraphs);
+        get => GetProperty(ref field, MTLStitchedLibraryDescriptorBindings.FunctionGraphs);
         set => SetProperty(ref field, MTLStitchedLibraryDescriptorBindings.SetFunctionGraphs, value);
     }
 
     public NSArray? Functions
     {
-        get => GetProperty<NSArray>(ref field, MTLStitchedLibraryDescriptorBindings.Functions);
+        get => GetProperty(ref field, MTLStitchedLibraryDescriptorBindings.Functions);
         set => SetProperty(ref field, MTLStitchedLibraryDescriptorBindings.SetFunctions, value);
     }
 

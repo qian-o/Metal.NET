@@ -8,7 +8,7 @@ public class MTLAccelerationStructurePassDescriptor(nint nativePtr) : NativeObje
 
     public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray? SampleBufferAttachments
     {
-        get => GetProperty<MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray>(ref field, MTLAccelerationStructurePassDescriptorBindings.SampleBufferAttachments);
+        get => GetProperty(ref field, MTLAccelerationStructurePassDescriptorBindings.SampleBufferAttachments);
     }
 
     public static MTLAccelerationStructurePassDescriptor? AccelerationStructurePassDescriptor()

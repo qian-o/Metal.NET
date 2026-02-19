@@ -4,17 +4,17 @@ public class MTLDynamicLibrary(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTLDynamicLibraryBindings.Device);
+        get => GetProperty(ref field, MTLDynamicLibraryBindings.Device);
     }
 
     public NSString? InstallName
     {
-        get => GetProperty<NSString>(ref field, MTLDynamicLibraryBindings.InstallName);
+        get => GetProperty(ref field, MTLDynamicLibraryBindings.InstallName);
     }
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLDynamicLibraryBindings.Label);
+        get => GetProperty(ref field, MTLDynamicLibraryBindings.Label);
         set => SetProperty(ref field, MTLDynamicLibraryBindings.SetLabel, value);
     }
 

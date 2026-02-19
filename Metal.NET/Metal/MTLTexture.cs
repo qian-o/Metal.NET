@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLTexture(nint nativePtr) : NativeObject(nativePtr)
+public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
 {
     public bool AllowGPUOptimizedContents
     {
@@ -14,7 +14,7 @@ public class MTLTexture(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLBuffer? Buffer
     {
-        get => GetProperty<MTLBuffer>(ref field, MTLTextureBindings.Buffer);
+        get => GetProperty(ref field, MTLTextureBindings.Buffer);
     }
 
     public nuint BufferBytesPerRow
@@ -89,7 +89,7 @@ public class MTLTexture(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLSharedTextureHandle? NewSharedTextureHandle
     {
-        get => GetProperty<MTLSharedTextureHandle>(ref field, MTLTextureBindings.NewSharedTextureHandle);
+        get => GetProperty(ref field, MTLTextureBindings.NewSharedTextureHandle);
     }
 
     public nuint ParentRelativeLevel
@@ -104,7 +104,7 @@ public class MTLTexture(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLTexture? ParentTexture
     {
-        get => GetProperty<MTLTexture>(ref field, MTLTextureBindings.ParentTexture);
+        get => GetProperty(ref field, MTLTextureBindings.ParentTexture);
     }
 
     public MTLPixelFormat PixelFormat
@@ -114,12 +114,12 @@ public class MTLTexture(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLTexture? RemoteStorageTexture
     {
-        get => GetProperty<MTLTexture>(ref field, MTLTextureBindings.RemoteStorageTexture);
+        get => GetProperty(ref field, MTLTextureBindings.RemoteStorageTexture);
     }
 
     public MTLResource? RootResource
     {
-        get => GetProperty<MTLResource>(ref field, MTLTextureBindings.RootResource);
+        get => GetProperty(ref field, MTLTextureBindings.RootResource);
     }
 
     public nuint SampleCount

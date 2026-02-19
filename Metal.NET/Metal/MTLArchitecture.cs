@@ -8,7 +8,7 @@ public class MTLArchitecture(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Name
     {
-        get => GetProperty<NSString>(ref field, MTLArchitectureBindings.Name);
+        get => GetProperty(ref field, MTLArchitectureBindings.Name);
     }
 }
 

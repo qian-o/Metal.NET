@@ -14,7 +14,7 @@ public class MTL4ArgumentTableDescriptor(nint nativePtr) : NativeObject(nativePt
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTL4ArgumentTableDescriptorBindings.Label);
+        get => GetProperty(ref field, MTL4ArgumentTableDescriptorBindings.Label);
         set => SetProperty(ref field, MTL4ArgumentTableDescriptorBindings.SetLabel, value);
     }
 

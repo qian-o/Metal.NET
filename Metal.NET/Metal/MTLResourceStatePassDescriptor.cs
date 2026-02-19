@@ -8,7 +8,7 @@ public class MTLResourceStatePassDescriptor(nint nativePtr) : NativeObject(nativ
 
     public MTLResourceStatePassSampleBufferAttachmentDescriptorArray? SampleBufferAttachments
     {
-        get => GetProperty<MTLResourceStatePassSampleBufferAttachmentDescriptorArray>(ref field, MTLResourceStatePassDescriptorBindings.SampleBufferAttachments);
+        get => GetProperty(ref field, MTLResourceStatePassDescriptorBindings.SampleBufferAttachments);
     }
 
     public static MTLResourceStatePassDescriptor? ResourceStatePassDescriptor()

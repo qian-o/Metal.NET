@@ -13,7 +13,7 @@ public class MTLFunctionConstant(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Name
     {
-        get => GetProperty<NSString>(ref field, MTLFunctionConstantBindings.Name);
+        get => GetProperty(ref field, MTLFunctionConstantBindings.Name);
     }
 
     public bool Required

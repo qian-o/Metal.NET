@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLRenderPassStencilAttachmentDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLRenderPassStencilAttachmentDescriptor(nint nativePtr) : MTLRenderPassAttachmentDescriptor(nativePtr)
 {
     public MTLRenderPassStencilAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassStencilAttachmentDescriptorBindings.Class))
     {

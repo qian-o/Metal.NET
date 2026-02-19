@@ -1,10 +1,10 @@
 namespace Metal.NET;
 
-public class MTLTensorBinding(nint nativePtr) : NativeObject(nativePtr)
+public class MTLTensorBinding(nint nativePtr) : MTLBinding(nativePtr)
 {
     public MTLTensorExtents? Dimensions
     {
-        get => GetProperty<MTLTensorExtents>(ref field, MTLTensorBindingBindings.Dimensions);
+        get => GetProperty(ref field, MTLTensorBindingBindings.Dimensions);
     }
 
     public MTLDataType IndexType

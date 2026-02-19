@@ -1,10 +1,10 @@
 namespace Metal.NET;
 
-public class MTLFXTemporalScalerBase(nint nativePtr) : NativeObject(nativePtr)
+public class MTLFXTemporalScalerBase(nint nativePtr) : MTLFXFrameInterpolatableScaler(nativePtr)
 {
     public MTLTexture? ColorTexture
     {
-        get => GetProperty<MTLTexture>(ref field, MTLFXTemporalScalerBaseBindings.ColorTexture);
+        get => GetProperty(ref field, MTLFXTemporalScalerBaseBindings.ColorTexture);
         set => SetProperty(ref field, MTLFXTemporalScalerBaseBindings.SetColorTexture, value);
     }
 
@@ -20,7 +20,7 @@ public class MTLFXTemporalScalerBase(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLTexture? DepthTexture
     {
-        get => GetProperty<MTLTexture>(ref field, MTLFXTemporalScalerBaseBindings.DepthTexture);
+        get => GetProperty(ref field, MTLFXTemporalScalerBaseBindings.DepthTexture);
         set => SetProperty(ref field, MTLFXTemporalScalerBaseBindings.SetDepthTexture, value);
     }
 
@@ -36,13 +36,13 @@ public class MTLFXTemporalScalerBase(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLTexture? ExposureTexture
     {
-        get => GetProperty<MTLTexture>(ref field, MTLFXTemporalScalerBaseBindings.ExposureTexture);
+        get => GetProperty(ref field, MTLFXTemporalScalerBaseBindings.ExposureTexture);
         set => SetProperty(ref field, MTLFXTemporalScalerBaseBindings.SetExposureTexture, value);
     }
 
     public MTLFence? Fence
     {
-        get => GetProperty<MTLFence>(ref field, MTLFXTemporalScalerBaseBindings.Fence);
+        get => GetProperty(ref field, MTLFXTemporalScalerBaseBindings.Fence);
         set => SetProperty(ref field, MTLFXTemporalScalerBaseBindings.SetFence, value);
     }
 
@@ -97,7 +97,7 @@ public class MTLFXTemporalScalerBase(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLTexture? MotionTexture
     {
-        get => GetProperty<MTLTexture>(ref field, MTLFXTemporalScalerBaseBindings.MotionTexture);
+        get => GetProperty(ref field, MTLFXTemporalScalerBaseBindings.MotionTexture);
         set => SetProperty(ref field, MTLFXTemporalScalerBaseBindings.SetMotionTexture, value);
     }
 
@@ -130,7 +130,7 @@ public class MTLFXTemporalScalerBase(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLTexture? OutputTexture
     {
-        get => GetProperty<MTLTexture>(ref field, MTLFXTemporalScalerBaseBindings.OutputTexture);
+        get => GetProperty(ref field, MTLFXTemporalScalerBaseBindings.OutputTexture);
         set => SetProperty(ref field, MTLFXTemporalScalerBaseBindings.SetOutputTexture, value);
     }
 
@@ -157,7 +157,7 @@ public class MTLFXTemporalScalerBase(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLTexture? ReactiveMaskTexture
     {
-        get => GetProperty<MTLTexture>(ref field, MTLFXTemporalScalerBaseBindings.ReactiveMaskTexture);
+        get => GetProperty(ref field, MTLFXTemporalScalerBaseBindings.ReactiveMaskTexture);
         set => SetProperty(ref field, MTLFXTemporalScalerBaseBindings.SetReactiveMaskTexture, value);
     }
 

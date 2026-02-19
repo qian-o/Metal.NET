@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr) : MTLAccelerationStructureGeometryDescriptor(nativePtr)
 {
     public MTLAccelerationStructureTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureTriangleGeometryDescriptorBindings.Class))
     {
@@ -8,7 +8,7 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr) 
 
     public MTLBuffer? IndexBuffer
     {
-        get => GetProperty<MTLBuffer>(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.IndexBuffer);
+        get => GetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.IndexBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetIndexBuffer, value);
     }
 
@@ -26,7 +26,7 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr) 
 
     public MTLBuffer? TransformationMatrixBuffer
     {
-        get => GetProperty<MTLBuffer>(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.TransformationMatrixBuffer);
+        get => GetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.TransformationMatrixBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetTransformationMatrixBuffer, value);
     }
 
@@ -50,7 +50,7 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr) 
 
     public MTLBuffer? VertexBuffer
     {
-        get => GetProperty<MTLBuffer>(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.VertexBuffer);
+        get => GetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.VertexBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetVertexBuffer, value);
     }
 

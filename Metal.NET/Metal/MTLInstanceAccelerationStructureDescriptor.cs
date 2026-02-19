@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLInstanceAccelerationStructureDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLInstanceAccelerationStructureDescriptor(nint nativePtr) : MTLAccelerationStructureDescriptor(nativePtr)
 {
     public MTLInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLInstanceAccelerationStructureDescriptorBindings.Class))
     {
@@ -14,7 +14,7 @@ public class MTLInstanceAccelerationStructureDescriptor(nint nativePtr) : Native
 
     public MTLBuffer? InstanceDescriptorBuffer
     {
-        get => GetProperty<MTLBuffer>(ref field, MTLInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorBuffer);
+        get => GetProperty(ref field, MTLInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorBuffer);
         set => SetProperty(ref field, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorBuffer, value);
     }
 
@@ -44,13 +44,13 @@ public class MTLInstanceAccelerationStructureDescriptor(nint nativePtr) : Native
 
     public NSArray? InstancedAccelerationStructures
     {
-        get => GetProperty<NSArray>(ref field, MTLInstanceAccelerationStructureDescriptorBindings.InstancedAccelerationStructures);
+        get => GetProperty(ref field, MTLInstanceAccelerationStructureDescriptorBindings.InstancedAccelerationStructures);
         set => SetProperty(ref field, MTLInstanceAccelerationStructureDescriptorBindings.SetInstancedAccelerationStructures, value);
     }
 
     public MTLBuffer? MotionTransformBuffer
     {
-        get => GetProperty<MTLBuffer>(ref field, MTLInstanceAccelerationStructureDescriptorBindings.MotionTransformBuffer);
+        get => GetProperty(ref field, MTLInstanceAccelerationStructureDescriptorBindings.MotionTransformBuffer);
         set => SetProperty(ref field, MTLInstanceAccelerationStructureDescriptorBindings.SetMotionTransformBuffer, value);
     }
 

@@ -4,17 +4,17 @@ public class MTLCaptureScope(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLCommandQueue? CommandQueue
     {
-        get => GetProperty<MTLCommandQueue>(ref field, MTLCaptureScopeBindings.CommandQueue);
+        get => GetProperty(ref field, MTLCaptureScopeBindings.CommandQueue);
     }
 
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTLCaptureScopeBindings.Device);
+        get => GetProperty(ref field, MTLCaptureScopeBindings.Device);
     }
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLCaptureScopeBindings.Label);
+        get => GetProperty(ref field, MTLCaptureScopeBindings.Label);
         set => SetProperty(ref field, MTLCaptureScopeBindings.SetLabel, value);
     }
 

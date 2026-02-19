@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor(nint nativePtr) : MTL4AccelerationStructureGeometryDescriptor(nativePtr)
 {
     public MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.Class))
     {

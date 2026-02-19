@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLAccelerationStructure(nint nativePtr) : NativeObject(nativePtr)
+public class MTLAccelerationStructure(nint nativePtr) : MTLResource(nativePtr)
 {
     public MTLResourceID GpuResourceID
     {

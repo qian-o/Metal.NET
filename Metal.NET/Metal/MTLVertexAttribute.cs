@@ -38,7 +38,7 @@ public class MTLVertexAttribute(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Name
     {
-        get => GetProperty<NSString>(ref field, MTLVertexAttributeBindings.Name);
+        get => GetProperty(ref field, MTLVertexAttributeBindings.Name);
     }
 
     public bool PatchControlPointData

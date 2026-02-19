@@ -14,7 +14,7 @@ public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptor(nint n
 
     public MTLCounterSampleBuffer? SampleBuffer
     {
-        get => GetProperty<MTLCounterSampleBuffer>(ref field, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.SampleBuffer);
+        get => GetProperty(ref field, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.SampleBuffer);
         set => SetProperty(ref field, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, value);
     }
 

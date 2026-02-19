@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLArrayType(nint nativePtr) : NativeObject(nativePtr)
+public class MTLArrayType(nint nativePtr) : MTLType(nativePtr)
 {
     public MTLArrayType() : this(ObjectiveCRuntime.AllocInit(MTLArrayTypeBindings.Class))
     {
@@ -18,27 +18,27 @@ public class MTLArrayType(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLArrayType? ElementArrayType
     {
-        get => GetProperty<MTLArrayType>(ref field, MTLArrayTypeBindings.ElementArrayType);
+        get => GetProperty(ref field, MTLArrayTypeBindings.ElementArrayType);
     }
 
     public MTLPointerType? ElementPointerType
     {
-        get => GetProperty<MTLPointerType>(ref field, MTLArrayTypeBindings.ElementPointerType);
+        get => GetProperty(ref field, MTLArrayTypeBindings.ElementPointerType);
     }
 
     public MTLStructType? ElementStructType
     {
-        get => GetProperty<MTLStructType>(ref field, MTLArrayTypeBindings.ElementStructType);
+        get => GetProperty(ref field, MTLArrayTypeBindings.ElementStructType);
     }
 
     public MTLTensorReferenceType? ElementTensorReferenceType
     {
-        get => GetProperty<MTLTensorReferenceType>(ref field, MTLArrayTypeBindings.ElementTensorReferenceType);
+        get => GetProperty(ref field, MTLArrayTypeBindings.ElementTensorReferenceType);
     }
 
     public MTLTextureReferenceType? ElementTextureReferenceType
     {
-        get => GetProperty<MTLTextureReferenceType>(ref field, MTLArrayTypeBindings.ElementTextureReferenceType);
+        get => GetProperty(ref field, MTLArrayTypeBindings.ElementTextureReferenceType);
     }
 
     public MTLDataType ElementType

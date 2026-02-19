@@ -4,12 +4,12 @@ public class MTLFence(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTLFenceBindings.Device);
+        get => GetProperty(ref field, MTLFenceBindings.Device);
     }
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLFenceBindings.Label);
+        get => GetProperty(ref field, MTLFenceBindings.Label);
         set => SetProperty(ref field, MTLFenceBindings.SetLabel, value);
     }
 }

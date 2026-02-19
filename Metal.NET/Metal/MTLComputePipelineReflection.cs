@@ -8,12 +8,12 @@ public class MTLComputePipelineReflection(nint nativePtr) : NativeObject(nativeP
 
     public NSArray? Arguments
     {
-        get => GetProperty<NSArray>(ref field, MTLComputePipelineReflectionBindings.Arguments);
+        get => GetProperty(ref field, MTLComputePipelineReflectionBindings.Arguments);
     }
 
     public NSArray? Bindings
     {
-        get => GetProperty<NSArray>(ref field, MTLComputePipelineReflectionBindings.Bindings);
+        get => GetProperty(ref field, MTLComputePipelineReflectionBindings.Bindings);
     }
 }
 

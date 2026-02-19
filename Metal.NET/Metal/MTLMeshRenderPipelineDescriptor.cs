@@ -20,13 +20,13 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr) : NativeObject(nati
 
     public NSArray? BinaryArchives
     {
-        get => GetProperty<NSArray>(ref field, MTLMeshRenderPipelineDescriptorBindings.BinaryArchives);
+        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.BinaryArchives);
         set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetBinaryArchives, value);
     }
 
     public MTLRenderPipelineColorAttachmentDescriptorArray? ColorAttachments
     {
-        get => GetProperty<MTLRenderPipelineColorAttachmentDescriptorArray>(ref field, MTLMeshRenderPipelineDescriptorBindings.ColorAttachments);
+        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.ColorAttachments);
     }
 
     public MTLPixelFormat DepthAttachmentPixelFormat
@@ -37,18 +37,18 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr) : NativeObject(nati
 
     public MTLPipelineBufferDescriptorArray? FragmentBuffers
     {
-        get => GetProperty<MTLPipelineBufferDescriptorArray>(ref field, MTLMeshRenderPipelineDescriptorBindings.FragmentBuffers);
+        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.FragmentBuffers);
     }
 
     public MTLFunction? FragmentFunction
     {
-        get => GetProperty<MTLFunction>(ref field, MTLMeshRenderPipelineDescriptorBindings.FragmentFunction);
+        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.FragmentFunction);
         set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetFragmentFunction, value);
     }
 
     public MTLLinkedFunctions? FragmentLinkedFunctions
     {
-        get => GetProperty<MTLLinkedFunctions>(ref field, MTLMeshRenderPipelineDescriptorBindings.FragmentLinkedFunctions);
+        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.FragmentLinkedFunctions);
         set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetFragmentLinkedFunctions, value);
     }
 
@@ -69,7 +69,7 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr) : NativeObject(nati
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLMeshRenderPipelineDescriptorBindings.Label);
+        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.Label);
         set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetLabel, value);
     }
 
@@ -99,18 +99,18 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr) : NativeObject(nati
 
     public MTLPipelineBufferDescriptorArray? MeshBuffers
     {
-        get => GetProperty<MTLPipelineBufferDescriptorArray>(ref field, MTLMeshRenderPipelineDescriptorBindings.MeshBuffers);
+        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.MeshBuffers);
     }
 
     public MTLFunction? MeshFunction
     {
-        get => GetProperty<MTLFunction>(ref field, MTLMeshRenderPipelineDescriptorBindings.MeshFunction);
+        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.MeshFunction);
         set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetMeshFunction, value);
     }
 
     public MTLLinkedFunctions? MeshLinkedFunctions
     {
-        get => GetProperty<MTLLinkedFunctions>(ref field, MTLMeshRenderPipelineDescriptorBindings.MeshLinkedFunctions);
+        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.MeshLinkedFunctions);
         set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetMeshLinkedFunctions, value);
     }
 
@@ -122,18 +122,18 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr) : NativeObject(nati
 
     public MTLPipelineBufferDescriptorArray? ObjectBuffers
     {
-        get => GetProperty<MTLPipelineBufferDescriptorArray>(ref field, MTLMeshRenderPipelineDescriptorBindings.ObjectBuffers);
+        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.ObjectBuffers);
     }
 
     public MTLFunction? ObjectFunction
     {
-        get => GetProperty<MTLFunction>(ref field, MTLMeshRenderPipelineDescriptorBindings.ObjectFunction);
+        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.ObjectFunction);
         set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetObjectFunction, value);
     }
 
     public MTLLinkedFunctions? ObjectLinkedFunctions
     {
-        get => GetProperty<MTLLinkedFunctions>(ref field, MTLMeshRenderPipelineDescriptorBindings.ObjectLinkedFunctions);
+        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.ObjectLinkedFunctions);
         set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetObjectLinkedFunctions, value);
     }
 

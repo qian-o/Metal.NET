@@ -4,7 +4,7 @@ public class MTLFunctionHandle(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTLFunctionHandleBindings.Device);
+        get => GetProperty(ref field, MTLFunctionHandleBindings.Device);
     }
 
     public MTLFunctionType FunctionType
@@ -19,7 +19,7 @@ public class MTLFunctionHandle(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Name
     {
-        get => GetProperty<NSString>(ref field, MTLFunctionHandleBindings.Name);
+        get => GetProperty(ref field, MTLFunctionHandleBindings.Name);
     }
 }
 

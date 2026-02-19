@@ -14,7 +14,7 @@ public class MTL4CommandQueueDescriptor(nint nativePtr) : NativeObject(nativePtr
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTL4CommandQueueDescriptorBindings.Label);
+        get => GetProperty(ref field, MTL4CommandQueueDescriptorBindings.Label);
         set => SetProperty(ref field, MTL4CommandQueueDescriptorBindings.SetLabel, value);
     }
 }

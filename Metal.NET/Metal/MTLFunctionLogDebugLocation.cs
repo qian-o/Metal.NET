@@ -9,7 +9,7 @@ public class MTLFunctionLogDebugLocation(nint nativePtr) : NativeObject(nativePt
 
     public NSString? FunctionName
     {
-        get => GetProperty<NSString>(ref field, MTLFunctionLogDebugLocationBindings.FunctionName);
+        get => GetProperty(ref field, MTLFunctionLogDebugLocationBindings.FunctionName);
     }
 
     public nuint Line
@@ -19,7 +19,7 @@ public class MTLFunctionLogDebugLocation(nint nativePtr) : NativeObject(nativePt
 
     public NSURL? URL
     {
-        get => GetProperty<NSURL>(ref field, MTLFunctionLogDebugLocationBindings.URL);
+        get => GetProperty(ref field, MTLFunctionLogDebugLocationBindings.URL);
     }
 }
 

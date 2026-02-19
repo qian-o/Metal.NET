@@ -8,27 +8,27 @@ public class MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr) : Native
 
     public MTL4PipelineStageDynamicLinkingDescriptor? FragmentLinkingDescriptor
     {
-        get => GetProperty<MTL4PipelineStageDynamicLinkingDescriptor>(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.FragmentLinkingDescriptor);
+        get => GetProperty(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.FragmentLinkingDescriptor);
     }
 
     public MTL4PipelineStageDynamicLinkingDescriptor? MeshLinkingDescriptor
     {
-        get => GetProperty<MTL4PipelineStageDynamicLinkingDescriptor>(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.MeshLinkingDescriptor);
+        get => GetProperty(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.MeshLinkingDescriptor);
     }
 
     public MTL4PipelineStageDynamicLinkingDescriptor? ObjectLinkingDescriptor
     {
-        get => GetProperty<MTL4PipelineStageDynamicLinkingDescriptor>(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.ObjectLinkingDescriptor);
+        get => GetProperty(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.ObjectLinkingDescriptor);
     }
 
     public MTL4PipelineStageDynamicLinkingDescriptor? TileLinkingDescriptor
     {
-        get => GetProperty<MTL4PipelineStageDynamicLinkingDescriptor>(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.TileLinkingDescriptor);
+        get => GetProperty(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.TileLinkingDescriptor);
     }
 
     public MTL4PipelineStageDynamicLinkingDescriptor? VertexLinkingDescriptor
     {
-        get => GetProperty<MTL4PipelineStageDynamicLinkingDescriptor>(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.VertexLinkingDescriptor);
+        get => GetProperty(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.VertexLinkingDescriptor);
     }
 }
 

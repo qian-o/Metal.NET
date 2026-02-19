@@ -4,17 +4,17 @@ public class MTLIOCommandQueue(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLIOCommandBuffer? CommandBuffer
     {
-        get => GetProperty<MTLIOCommandBuffer>(ref field, MTLIOCommandQueueBindings.CommandBuffer);
+        get => GetProperty(ref field, MTLIOCommandQueueBindings.CommandBuffer);
     }
 
     public MTLIOCommandBuffer? CommandBufferWithUnretainedReferences
     {
-        get => GetProperty<MTLIOCommandBuffer>(ref field, MTLIOCommandQueueBindings.CommandBufferWithUnretainedReferences);
+        get => GetProperty(ref field, MTLIOCommandQueueBindings.CommandBufferWithUnretainedReferences);
     }
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLIOCommandQueueBindings.Label);
+        get => GetProperty(ref field, MTLIOCommandQueueBindings.Label);
         set => SetProperty(ref field, MTLIOCommandQueueBindings.SetLabel, value);
     }
 

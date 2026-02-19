@@ -8,7 +8,7 @@ public class MTL4RenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLRenderPassColorAttachmentDescriptorArray? ColorAttachments
     {
-        get => GetProperty<MTLRenderPassColorAttachmentDescriptorArray>(ref field, MTL4RenderPassDescriptorBindings.ColorAttachments);
+        get => GetProperty(ref field, MTL4RenderPassDescriptorBindings.ColorAttachments);
     }
 
     public nuint DefaultRasterSampleCount
@@ -19,7 +19,7 @@ public class MTL4RenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLRenderPassDepthAttachmentDescriptor? DepthAttachment
     {
-        get => GetProperty<MTLRenderPassDepthAttachmentDescriptor>(ref field, MTL4RenderPassDescriptorBindings.DepthAttachment);
+        get => GetProperty(ref field, MTL4RenderPassDescriptorBindings.DepthAttachment);
         set => SetProperty(ref field, MTL4RenderPassDescriptorBindings.SetDepthAttachment, value);
     }
 
@@ -31,7 +31,7 @@ public class MTL4RenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLRasterizationRateMap? RasterizationRateMap
     {
-        get => GetProperty<MTLRasterizationRateMap>(ref field, MTL4RenderPassDescriptorBindings.RasterizationRateMap);
+        get => GetProperty(ref field, MTL4RenderPassDescriptorBindings.RasterizationRateMap);
         set => SetProperty(ref field, MTL4RenderPassDescriptorBindings.SetRasterizationRateMap, value);
     }
 
@@ -55,7 +55,7 @@ public class MTL4RenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLRenderPassStencilAttachmentDescriptor? StencilAttachment
     {
-        get => GetProperty<MTLRenderPassStencilAttachmentDescriptor>(ref field, MTL4RenderPassDescriptorBindings.StencilAttachment);
+        get => GetProperty(ref field, MTL4RenderPassDescriptorBindings.StencilAttachment);
         set => SetProperty(ref field, MTL4RenderPassDescriptorBindings.SetStencilAttachment, value);
     }
 
@@ -85,7 +85,7 @@ public class MTL4RenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLBuffer? VisibilityResultBuffer
     {
-        get => GetProperty<MTLBuffer>(ref field, MTL4RenderPassDescriptorBindings.VisibilityResultBuffer);
+        get => GetProperty(ref field, MTL4RenderPassDescriptorBindings.VisibilityResultBuffer);
         set => SetProperty(ref field, MTL4RenderPassDescriptorBindings.SetVisibilityResultBuffer, value);
     }
 

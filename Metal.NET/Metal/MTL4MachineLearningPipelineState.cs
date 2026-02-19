@@ -1,10 +1,10 @@
 namespace Metal.NET;
 
-public class MTL4MachineLearningPipelineState(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4MachineLearningPipelineState(nint nativePtr) : MTLAllocation(nativePtr)
 {
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTL4MachineLearningPipelineStateBindings.Device);
+        get => GetProperty(ref field, MTL4MachineLearningPipelineStateBindings.Device);
     }
 
     public nuint IntermediatesHeapSize
@@ -14,12 +14,12 @@ public class MTL4MachineLearningPipelineState(nint nativePtr) : NativeObject(nat
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTL4MachineLearningPipelineStateBindings.Label);
+        get => GetProperty(ref field, MTL4MachineLearningPipelineStateBindings.Label);
     }
 
     public MTL4MachineLearningPipelineReflection? Reflection
     {
-        get => GetProperty<MTL4MachineLearningPipelineReflection>(ref field, MTL4MachineLearningPipelineStateBindings.Reflection);
+        get => GetProperty(ref field, MTL4MachineLearningPipelineStateBindings.Reflection);
     }
 }
 

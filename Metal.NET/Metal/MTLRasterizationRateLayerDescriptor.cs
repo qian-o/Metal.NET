@@ -8,7 +8,7 @@ public class MTLRasterizationRateLayerDescriptor(nint nativePtr) : NativeObject(
 
     public MTLRasterizationRateSampleArray? Horizontal
     {
-        get => GetProperty<MTLRasterizationRateSampleArray>(ref field, MTLRasterizationRateLayerDescriptorBindings.Horizontal);
+        get => GetProperty(ref field, MTLRasterizationRateLayerDescriptorBindings.Horizontal);
     }
 
     public float HorizontalSampleStorage
@@ -29,7 +29,7 @@ public class MTLRasterizationRateLayerDescriptor(nint nativePtr) : NativeObject(
 
     public MTLRasterizationRateSampleArray? Vertical
     {
-        get => GetProperty<MTLRasterizationRateSampleArray>(ref field, MTLRasterizationRateLayerDescriptorBindings.Vertical);
+        get => GetProperty(ref field, MTLRasterizationRateLayerDescriptorBindings.Vertical);
     }
 
     public float VerticalSampleStorage

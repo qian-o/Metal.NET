@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLAccelerationStructureMotionCurveGeometryDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLAccelerationStructureMotionCurveGeometryDescriptor(nint nativePtr) : MTLAccelerationStructureGeometryDescriptor(nativePtr)
 {
     public MTLAccelerationStructureMotionCurveGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.Class))
     {
@@ -8,7 +8,7 @@ public class MTLAccelerationStructureMotionCurveGeometryDescriptor(nint nativePt
 
     public NSArray? ControlPointBuffers
     {
-        get => GetProperty<NSArray>(ref field, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.ControlPointBuffers);
+        get => GetProperty(ref field, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.ControlPointBuffers);
         set => SetProperty(ref field, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetControlPointBuffers, value);
     }
 
@@ -50,7 +50,7 @@ public class MTLAccelerationStructureMotionCurveGeometryDescriptor(nint nativePt
 
     public MTLBuffer? IndexBuffer
     {
-        get => GetProperty<MTLBuffer>(ref field, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.IndexBuffer);
+        get => GetProperty(ref field, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.IndexBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetIndexBuffer, value);
     }
 
@@ -68,7 +68,7 @@ public class MTLAccelerationStructureMotionCurveGeometryDescriptor(nint nativePt
 
     public NSArray? RadiusBuffers
     {
-        get => GetProperty<NSArray>(ref field, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.RadiusBuffers);
+        get => GetProperty(ref field, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.RadiusBuffers);
         set => SetProperty(ref field, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetRadiusBuffers, value);
     }
 

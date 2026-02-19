@@ -8,13 +8,13 @@ public class MTL4CompilerDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTL4CompilerDescriptorBindings.Label);
+        get => GetProperty(ref field, MTL4CompilerDescriptorBindings.Label);
         set => SetProperty(ref field, MTL4CompilerDescriptorBindings.SetLabel, value);
     }
 
     public MTL4PipelineDataSetSerializer? PipelineDataSetSerializer
     {
-        get => GetProperty<MTL4PipelineDataSetSerializer>(ref field, MTL4CompilerDescriptorBindings.PipelineDataSetSerializer);
+        get => GetProperty(ref field, MTL4CompilerDescriptorBindings.PipelineDataSetSerializer);
         set => SetProperty(ref field, MTL4CompilerDescriptorBindings.SetPipelineDataSetSerializer, value);
     }
 }

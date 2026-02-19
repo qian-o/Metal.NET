@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr) : MTLAccelerationStructureGeometryDescriptor(nativePtr)
 {
     public MTLAccelerationStructureCurveGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureCurveGeometryDescriptorBindings.Class))
     {
@@ -8,7 +8,7 @@ public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr) : N
 
     public MTLBuffer? ControlPointBuffer
     {
-        get => GetProperty<MTLBuffer>(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.ControlPointBuffer);
+        get => GetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.ControlPointBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetControlPointBuffer, value);
     }
 
@@ -56,7 +56,7 @@ public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr) : N
 
     public MTLBuffer? IndexBuffer
     {
-        get => GetProperty<MTLBuffer>(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.IndexBuffer);
+        get => GetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.IndexBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetIndexBuffer, value);
     }
 
@@ -74,7 +74,7 @@ public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr) : N
 
     public MTLBuffer? RadiusBuffer
     {
-        get => GetProperty<MTLBuffer>(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.RadiusBuffer);
+        get => GetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.RadiusBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetRadiusBuffer, value);
     }
 

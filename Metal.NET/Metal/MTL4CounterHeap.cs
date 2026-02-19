@@ -9,7 +9,7 @@ public class MTL4CounterHeap(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTL4CounterHeapBindings.Label);
+        get => GetProperty(ref field, MTL4CounterHeapBindings.Label);
         set => SetProperty(ref field, MTL4CounterHeapBindings.SetLabel, value);
     }
 

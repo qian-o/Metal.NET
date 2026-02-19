@@ -9,12 +9,12 @@ public class MTL4CommandAllocator(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTL4CommandAllocatorBindings.Device);
+        get => GetProperty(ref field, MTL4CommandAllocatorBindings.Device);
     }
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTL4CommandAllocatorBindings.Label);
+        get => GetProperty(ref field, MTL4CommandAllocatorBindings.Label);
     }
 
     public void Reset()

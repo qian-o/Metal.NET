@@ -4,7 +4,7 @@ public class MTL4CompilerTask(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTL4Compiler? Compiler
     {
-        get => GetProperty<MTL4Compiler>(ref field, MTL4CompilerTaskBindings.Compiler);
+        get => GetProperty(ref field, MTL4CompilerTaskBindings.Compiler);
     }
 
     public MTL4CompilerTaskStatus Status

@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr) : MTLAccelerationStructureDescriptor(nativePtr)
 {
     public MTLIndirectInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIndirectInstanceAccelerationStructureDescriptorBindings.Class))
     {
@@ -8,7 +8,7 @@ public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr) 
 
     public MTLBuffer? InstanceCountBuffer
     {
-        get => GetProperty<MTLBuffer>(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceCountBuffer);
+        get => GetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceCountBuffer);
         set => SetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceCountBuffer, value);
     }
 
@@ -20,7 +20,7 @@ public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr) 
 
     public MTLBuffer? InstanceDescriptorBuffer
     {
-        get => GetProperty<MTLBuffer>(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorBuffer);
+        get => GetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorBuffer);
         set => SetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorBuffer, value);
     }
 
@@ -62,7 +62,7 @@ public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr) 
 
     public MTLBuffer? MotionTransformBuffer
     {
-        get => GetProperty<MTLBuffer>(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformBuffer);
+        get => GetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformBuffer);
         set => SetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformBuffer, value);
     }
 
@@ -74,7 +74,7 @@ public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr) 
 
     public MTLBuffer? MotionTransformCountBuffer
     {
-        get => GetProperty<MTLBuffer>(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformCountBuffer);
+        get => GetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformCountBuffer);
         set => SetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformCountBuffer, value);
     }
 

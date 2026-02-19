@@ -4,7 +4,7 @@ public class MTL4CommitFeedback(nint nativePtr) : NativeObject(nativePtr)
 {
     public NSError? Error
     {
-        get => GetProperty<NSError>(ref field, MTL4CommitFeedbackBindings.Error);
+        get => GetProperty(ref field, MTL4CommitFeedbackBindings.Error);
     }
 
     public double GPUEndTime

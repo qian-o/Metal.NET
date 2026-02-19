@@ -8,12 +8,12 @@ public class MTLVertexDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLVertexAttributeDescriptorArray? Attributes
     {
-        get => GetProperty<MTLVertexAttributeDescriptorArray>(ref field, MTLVertexDescriptorBindings.Attributes);
+        get => GetProperty(ref field, MTLVertexDescriptorBindings.Attributes);
     }
 
     public MTLVertexBufferLayoutDescriptorArray? Layouts
     {
-        get => GetProperty<MTLVertexBufferLayoutDescriptorArray>(ref field, MTLVertexDescriptorBindings.Layouts);
+        get => GetProperty(ref field, MTLVertexDescriptorBindings.Layouts);
     }
 
     public void Reset()

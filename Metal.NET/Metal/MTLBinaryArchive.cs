@@ -4,12 +4,12 @@ public class MTLBinaryArchive(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTLBinaryArchiveBindings.Device);
+        get => GetProperty(ref field, MTLBinaryArchiveBindings.Device);
     }
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLBinaryArchiveBindings.Label);
+        get => GetProperty(ref field, MTLBinaryArchiveBindings.Label);
         set => SetProperty(ref field, MTLBinaryArchiveBindings.SetLabel, value);
     }
 

@@ -44,7 +44,7 @@ public class MTLRenderPassAttachmentDescriptor(nint nativePtr) : NativeObject(na
 
     public MTLTexture? ResolveTexture
     {
-        get => GetProperty<MTLTexture>(ref field, MTLRenderPassAttachmentDescriptorBindings.ResolveTexture);
+        get => GetProperty(ref field, MTLRenderPassAttachmentDescriptorBindings.ResolveTexture);
         set => SetProperty(ref field, MTLRenderPassAttachmentDescriptorBindings.SetResolveTexture, value);
     }
 
@@ -68,7 +68,7 @@ public class MTLRenderPassAttachmentDescriptor(nint nativePtr) : NativeObject(na
 
     public MTLTexture? Texture
     {
-        get => GetProperty<MTLTexture>(ref field, MTLRenderPassAttachmentDescriptorBindings.Texture);
+        get => GetProperty(ref field, MTLRenderPassAttachmentDescriptorBindings.Texture);
         set => SetProperty(ref field, MTLRenderPassAttachmentDescriptorBindings.SetTexture, value);
     }
 }

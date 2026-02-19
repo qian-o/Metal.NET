@@ -20,7 +20,7 @@ public class MTLSamplerDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLSamplerDescriptorBindings.Label);
+        get => GetProperty(ref field, MTLSamplerDescriptorBindings.Label);
         set => SetProperty(ref field, MTLSamplerDescriptorBindings.SetLabel, value);
     }
 

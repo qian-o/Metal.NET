@@ -8,19 +8,19 @@ public class MTL4LibraryDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Name
     {
-        get => GetProperty<NSString>(ref field, MTL4LibraryDescriptorBindings.Name);
+        get => GetProperty(ref field, MTL4LibraryDescriptorBindings.Name);
         set => SetProperty(ref field, MTL4LibraryDescriptorBindings.SetName, value);
     }
 
     public MTLCompileOptions? Options
     {
-        get => GetProperty<MTLCompileOptions>(ref field, MTL4LibraryDescriptorBindings.Options);
+        get => GetProperty(ref field, MTL4LibraryDescriptorBindings.Options);
         set => SetProperty(ref field, MTL4LibraryDescriptorBindings.SetOptions, value);
     }
 
     public NSString? Source
     {
-        get => GetProperty<NSString>(ref field, MTL4LibraryDescriptorBindings.Source);
+        get => GetProperty(ref field, MTL4LibraryDescriptorBindings.Source);
         set => SetProperty(ref field, MTL4LibraryDescriptorBindings.SetSource, value);
     }
 }

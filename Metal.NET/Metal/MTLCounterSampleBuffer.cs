@@ -4,12 +4,12 @@ public class MTLCounterSampleBuffer(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTLCounterSampleBufferBindings.Device);
+        get => GetProperty(ref field, MTLCounterSampleBufferBindings.Device);
     }
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLCounterSampleBufferBindings.Label);
+        get => GetProperty(ref field, MTLCounterSampleBufferBindings.Label);
     }
 
     public nuint SampleCount

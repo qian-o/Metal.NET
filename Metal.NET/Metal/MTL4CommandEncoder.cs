@@ -4,12 +4,12 @@ public class MTL4CommandEncoder(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTL4CommandBuffer? CommandBuffer
     {
-        get => GetProperty<MTL4CommandBuffer>(ref field, MTL4CommandEncoderBindings.CommandBuffer);
+        get => GetProperty(ref field, MTL4CommandEncoderBindings.CommandBuffer);
     }
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTL4CommandEncoderBindings.Label);
+        get => GetProperty(ref field, MTL4CommandEncoderBindings.Label);
         set => SetProperty(ref field, MTL4CommandEncoderBindings.SetLabel, value);
     }
 

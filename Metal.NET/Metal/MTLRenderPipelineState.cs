@@ -1,10 +1,10 @@
 namespace Metal.NET;
 
-public class MTLRenderPipelineState(nint nativePtr) : NativeObject(nativePtr)
+public class MTLRenderPipelineState(nint nativePtr) : MTLAllocation(nativePtr)
 {
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTLRenderPipelineStateBindings.Device);
+        get => GetProperty(ref field, MTLRenderPipelineStateBindings.Device);
     }
 
     public MTLResourceID GpuResourceID
@@ -19,7 +19,7 @@ public class MTLRenderPipelineState(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLRenderPipelineStateBindings.Label);
+        get => GetProperty(ref field, MTLRenderPipelineStateBindings.Label);
     }
 
     public nuint MaxTotalThreadgroupsPerMeshGrid
@@ -49,7 +49,7 @@ public class MTLRenderPipelineState(nint nativePtr) : NativeObject(nativePtr)
 
     public MTL4PipelineDescriptor? NewRenderPipelineDescriptor
     {
-        get => GetProperty<MTL4PipelineDescriptor>(ref field, MTLRenderPipelineStateBindings.NewRenderPipelineDescriptor);
+        get => GetProperty(ref field, MTLRenderPipelineStateBindings.NewRenderPipelineDescriptor);
     }
 
     public nuint ObjectThreadExecutionWidth
@@ -59,7 +59,7 @@ public class MTLRenderPipelineState(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLRenderPipelineReflection? Reflection
     {
-        get => GetProperty<MTLRenderPipelineReflection>(ref field, MTLRenderPipelineStateBindings.Reflection);
+        get => GetProperty(ref field, MTLRenderPipelineStateBindings.Reflection);
     }
 
     public MTLSize RequiredThreadsPerMeshThreadgroup

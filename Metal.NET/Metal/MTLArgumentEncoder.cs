@@ -9,7 +9,7 @@ public class MTLArgumentEncoder(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTLArgumentEncoderBindings.Device);
+        get => GetProperty(ref field, MTLArgumentEncoderBindings.Device);
     }
 
     public nuint EncodedLength
@@ -19,7 +19,7 @@ public class MTLArgumentEncoder(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLArgumentEncoderBindings.Label);
+        get => GetProperty(ref field, MTLArgumentEncoderBindings.Label);
         set => SetProperty(ref field, MTLArgumentEncoderBindings.SetLabel, value);
     }
 

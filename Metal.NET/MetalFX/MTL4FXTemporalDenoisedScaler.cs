@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTL4FXTemporalDenoisedScaler(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4FXTemporalDenoisedScaler(nint nativePtr) : MTLFXTemporalDenoisedScalerBase(nativePtr)
 {
     public void EncodeToCommandBuffer(MTL4CommandBuffer commandBuffer)
     {

@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLRenderPassDepthAttachmentDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLRenderPassDepthAttachmentDescriptor(nint nativePtr) : MTLRenderPassAttachmentDescriptor(nativePtr)
 {
     public MTLRenderPassDepthAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassDepthAttachmentDescriptorBindings.Class))
     {

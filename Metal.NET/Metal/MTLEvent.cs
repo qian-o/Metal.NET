@@ -4,12 +4,12 @@ public class MTLEvent(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTLEventBindings.Device);
+        get => GetProperty(ref field, MTLEventBindings.Device);
     }
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLEventBindings.Label);
+        get => GetProperty(ref field, MTLEventBindings.Label);
         set => SetProperty(ref field, MTLEventBindings.SetLabel, value);
     }
 }

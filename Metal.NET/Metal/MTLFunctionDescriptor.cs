@@ -8,19 +8,19 @@ public class MTLFunctionDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public NSArray? BinaryArchives
     {
-        get => GetProperty<NSArray>(ref field, MTLFunctionDescriptorBindings.BinaryArchives);
+        get => GetProperty(ref field, MTLFunctionDescriptorBindings.BinaryArchives);
         set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetBinaryArchives, value);
     }
 
     public MTLFunctionConstantValues? ConstantValues
     {
-        get => GetProperty<MTLFunctionConstantValues>(ref field, MTLFunctionDescriptorBindings.ConstantValues);
+        get => GetProperty(ref field, MTLFunctionDescriptorBindings.ConstantValues);
         set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetConstantValues, value);
     }
 
     public NSString? Name
     {
-        get => GetProperty<NSString>(ref field, MTLFunctionDescriptorBindings.Name);
+        get => GetProperty(ref field, MTLFunctionDescriptorBindings.Name);
         set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetName, value);
     }
 
@@ -32,7 +32,7 @@ public class MTLFunctionDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? SpecializedName
     {
-        get => GetProperty<NSString>(ref field, MTLFunctionDescriptorBindings.SpecializedName);
+        get => GetProperty(ref field, MTLFunctionDescriptorBindings.SpecializedName);
         set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetSpecializedName, value);
     }
 

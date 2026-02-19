@@ -4,12 +4,12 @@ public class MTL4ArgumentTable(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTL4ArgumentTableBindings.Device);
+        get => GetProperty(ref field, MTL4ArgumentTableBindings.Device);
     }
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTL4ArgumentTableBindings.Label);
+        get => GetProperty(ref field, MTL4ArgumentTableBindings.Label);
     }
 
     public void SetAddress(nuint gpuAddress, nuint bindingIndex)

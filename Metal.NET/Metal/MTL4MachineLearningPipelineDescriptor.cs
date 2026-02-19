@@ -1,20 +1,20 @@
 namespace Metal.NET;
 
-public class MTL4MachineLearningPipelineDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4MachineLearningPipelineDescriptor(nint nativePtr) : MTL4PipelineDescriptor(nativePtr)
 {
     public MTL4MachineLearningPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4MachineLearningPipelineDescriptorBindings.Class))
     {
     }
 
-    public NSString? Label
+    public new NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTL4MachineLearningPipelineDescriptorBindings.Label);
+        get => GetProperty(ref field, MTL4MachineLearningPipelineDescriptorBindings.Label);
         set => SetProperty(ref field, MTL4MachineLearningPipelineDescriptorBindings.SetLabel, value);
     }
 
     public MTL4FunctionDescriptor? MachineLearningFunctionDescriptor
     {
-        get => GetProperty<MTL4FunctionDescriptor>(ref field, MTL4MachineLearningPipelineDescriptorBindings.MachineLearningFunctionDescriptor);
+        get => GetProperty(ref field, MTL4MachineLearningPipelineDescriptorBindings.MachineLearningFunctionDescriptor);
         set => SetProperty(ref field, MTL4MachineLearningPipelineDescriptorBindings.SetMachineLearningFunctionDescriptor, value);
     }
 

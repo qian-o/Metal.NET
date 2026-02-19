@@ -14,7 +14,7 @@ public class MTLResidencySetDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLResidencySetDescriptorBindings.Label);
+        get => GetProperty(ref field, MTLResidencySetDescriptorBindings.Label);
         set => SetProperty(ref field, MTLResidencySetDescriptorBindings.SetLabel, value);
     }
 }

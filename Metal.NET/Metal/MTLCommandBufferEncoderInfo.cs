@@ -4,7 +4,7 @@ public class MTLCommandBufferEncoderInfo(nint nativePtr) : NativeObject(nativePt
 {
     public NSArray? DebugSignposts
     {
-        get => GetProperty<NSArray>(ref field, MTLCommandBufferEncoderInfoBindings.DebugSignposts);
+        get => GetProperty(ref field, MTLCommandBufferEncoderInfoBindings.DebugSignposts);
     }
 
     public MTLCommandEncoderErrorState ErrorState
@@ -14,7 +14,7 @@ public class MTLCommandBufferEncoderInfo(nint nativePtr) : NativeObject(nativePt
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLCommandBufferEncoderInfoBindings.Label);
+        get => GetProperty(ref field, MTLCommandBufferEncoderInfoBindings.Label);
     }
 }
 

@@ -1,10 +1,10 @@
 namespace Metal.NET;
 
-public class MTLSharedEvent(nint nativePtr) : NativeObject(nativePtr)
+public class MTLSharedEvent(nint nativePtr) : MTLEvent(nativePtr)
 {
     public MTLSharedEventHandle? NewSharedEventHandle
     {
-        get => GetProperty<MTLSharedEventHandle>(ref field, MTLSharedEventBindings.NewSharedEventHandle);
+        get => GetProperty(ref field, MTLSharedEventBindings.NewSharedEventHandle);
     }
 
     public nuint SignaledValue

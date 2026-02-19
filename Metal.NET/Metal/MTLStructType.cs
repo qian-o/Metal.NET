@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLStructType(nint nativePtr) : NativeObject(nativePtr)
+public class MTLStructType(nint nativePtr) : MTLType(nativePtr)
 {
     public MTLStructType() : this(ObjectiveCRuntime.AllocInit(MTLStructTypeBindings.Class))
     {
@@ -8,7 +8,7 @@ public class MTLStructType(nint nativePtr) : NativeObject(nativePtr)
 
     public NSArray? Members
     {
-        get => GetProperty<NSArray>(ref field, MTLStructTypeBindings.Members);
+        get => GetProperty(ref field, MTLStructTypeBindings.Members);
     }
 
     public MTLStructMember? MemberByName(NSString name)

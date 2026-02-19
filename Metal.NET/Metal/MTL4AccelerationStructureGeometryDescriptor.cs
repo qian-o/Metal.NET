@@ -20,7 +20,7 @@ public class MTL4AccelerationStructureGeometryDescriptor(nint nativePtr) : Nativ
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTL4AccelerationStructureGeometryDescriptorBindings.Label);
+        get => GetProperty(ref field, MTL4AccelerationStructureGeometryDescriptorBindings.Label);
         set => SetProperty(ref field, MTL4AccelerationStructureGeometryDescriptorBindings.SetLabel, value);
     }
 

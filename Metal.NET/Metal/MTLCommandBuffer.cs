@@ -4,32 +4,32 @@ public class MTLCommandBuffer(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLAccelerationStructureCommandEncoder? AccelerationStructureCommandEncoder
     {
-        get => GetProperty<MTLAccelerationStructureCommandEncoder>(ref field, MTLCommandBufferBindings.AccelerationStructureCommandEncoder);
+        get => GetProperty(ref field, MTLCommandBufferBindings.AccelerationStructureCommandEncoder);
     }
 
     public MTLBlitCommandEncoder? BlitCommandEncoder
     {
-        get => GetProperty<MTLBlitCommandEncoder>(ref field, MTLCommandBufferBindings.BlitCommandEncoder);
+        get => GetProperty(ref field, MTLCommandBufferBindings.BlitCommandEncoder);
     }
 
     public MTLCommandQueue? CommandQueue
     {
-        get => GetProperty<MTLCommandQueue>(ref field, MTLCommandBufferBindings.CommandQueue);
+        get => GetProperty(ref field, MTLCommandBufferBindings.CommandQueue);
     }
 
     public MTLComputeCommandEncoder? ComputeCommandEncoder
     {
-        get => GetProperty<MTLComputeCommandEncoder>(ref field, MTLCommandBufferBindings.ComputeCommandEncoder);
+        get => GetProperty(ref field, MTLCommandBufferBindings.ComputeCommandEncoder);
     }
 
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTLCommandBufferBindings.Device);
+        get => GetProperty(ref field, MTLCommandBufferBindings.Device);
     }
 
     public NSError? Error
     {
-        get => GetProperty<NSError>(ref field, MTLCommandBufferBindings.Error);
+        get => GetProperty(ref field, MTLCommandBufferBindings.Error);
     }
 
     public MTLCommandBufferErrorOption ErrorOptions
@@ -59,18 +59,18 @@ public class MTLCommandBuffer(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLCommandBufferBindings.Label);
+        get => GetProperty(ref field, MTLCommandBufferBindings.Label);
         set => SetProperty(ref field, MTLCommandBufferBindings.SetLabel, value);
     }
 
     public MTLLogContainer? Logs
     {
-        get => GetProperty<MTLLogContainer>(ref field, MTLCommandBufferBindings.Logs);
+        get => GetProperty(ref field, MTLCommandBufferBindings.Logs);
     }
 
     public MTLResourceStateCommandEncoder? ResourceStateCommandEncoder
     {
-        get => GetProperty<MTLResourceStateCommandEncoder>(ref field, MTLCommandBufferBindings.ResourceStateCommandEncoder);
+        get => GetProperty(ref field, MTLCommandBufferBindings.ResourceStateCommandEncoder);
     }
 
     public bool RetainedReferences

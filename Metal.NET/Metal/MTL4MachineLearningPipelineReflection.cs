@@ -8,7 +8,7 @@ public class MTL4MachineLearningPipelineReflection(nint nativePtr) : NativeObjec
 
     public NSArray? Bindings
     {
-        get => GetProperty<NSArray>(ref field, MTL4MachineLearningPipelineReflectionBindings.Bindings);
+        get => GetProperty(ref field, MTL4MachineLearningPipelineReflectionBindings.Bindings);
     }
 }
 

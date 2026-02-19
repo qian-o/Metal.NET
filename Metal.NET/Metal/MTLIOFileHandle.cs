@@ -4,7 +4,7 @@ public class MTLIOFileHandle(nint nativePtr) : NativeObject(nativePtr)
 {
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLIOFileHandleBindings.Label);
+        get => GetProperty(ref field, MTLIOFileHandleBindings.Label);
         set => SetProperty(ref field, MTLIOFileHandleBindings.SetLabel, value);
     }
 }

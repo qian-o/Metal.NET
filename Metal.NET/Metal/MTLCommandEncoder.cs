@@ -4,12 +4,12 @@ public class MTLCommandEncoder(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTLCommandEncoderBindings.Device);
+        get => GetProperty(ref field, MTLCommandEncoderBindings.Device);
     }
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLCommandEncoderBindings.Label);
+        get => GetProperty(ref field, MTLCommandEncoderBindings.Label);
         set => SetProperty(ref field, MTLCommandEncoderBindings.SetLabel, value);
     }
 

@@ -14,7 +14,7 @@ public class MTLComputePassSampleBufferAttachmentDescriptor(nint nativePtr) : Na
 
     public MTLCounterSampleBuffer? SampleBuffer
     {
-        get => GetProperty<MTLCounterSampleBuffer>(ref field, MTLComputePassSampleBufferAttachmentDescriptorBindings.SampleBuffer);
+        get => GetProperty(ref field, MTLComputePassSampleBufferAttachmentDescriptorBindings.SampleBuffer);
         set => SetProperty(ref field, MTLComputePassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, value);
     }
 

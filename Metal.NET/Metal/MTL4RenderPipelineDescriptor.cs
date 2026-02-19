@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTL4RenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4RenderPipelineDescriptor(nint nativePtr) : MTL4PipelineDescriptor(nativePtr)
 {
     public MTL4RenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineDescriptorBindings.Class))
     {
@@ -26,18 +26,18 @@ public class MTL4RenderPipelineDescriptor(nint nativePtr) : NativeObject(nativeP
 
     public MTL4RenderPipelineColorAttachmentDescriptorArray? ColorAttachments
     {
-        get => GetProperty<MTL4RenderPipelineColorAttachmentDescriptorArray>(ref field, MTL4RenderPipelineDescriptorBindings.ColorAttachments);
+        get => GetProperty(ref field, MTL4RenderPipelineDescriptorBindings.ColorAttachments);
     }
 
     public MTL4FunctionDescriptor? FragmentFunctionDescriptor
     {
-        get => GetProperty<MTL4FunctionDescriptor>(ref field, MTL4RenderPipelineDescriptorBindings.FragmentFunctionDescriptor);
+        get => GetProperty(ref field, MTL4RenderPipelineDescriptorBindings.FragmentFunctionDescriptor);
         set => SetProperty(ref field, MTL4RenderPipelineDescriptorBindings.SetFragmentFunctionDescriptor, value);
     }
 
     public MTL4StaticLinkingDescriptor? FragmentStaticLinkingDescriptor
     {
-        get => GetProperty<MTL4StaticLinkingDescriptor>(ref field, MTL4RenderPipelineDescriptorBindings.FragmentStaticLinkingDescriptor);
+        get => GetProperty(ref field, MTL4RenderPipelineDescriptorBindings.FragmentStaticLinkingDescriptor);
         set => SetProperty(ref field, MTL4RenderPipelineDescriptorBindings.SetFragmentStaticLinkingDescriptor, value);
     }
 
@@ -90,19 +90,19 @@ public class MTL4RenderPipelineDescriptor(nint nativePtr) : NativeObject(nativeP
 
     public MTLVertexDescriptor? VertexDescriptor
     {
-        get => GetProperty<MTLVertexDescriptor>(ref field, MTL4RenderPipelineDescriptorBindings.VertexDescriptor);
+        get => GetProperty(ref field, MTL4RenderPipelineDescriptorBindings.VertexDescriptor);
         set => SetProperty(ref field, MTL4RenderPipelineDescriptorBindings.SetVertexDescriptor, value);
     }
 
     public MTL4FunctionDescriptor? VertexFunctionDescriptor
     {
-        get => GetProperty<MTL4FunctionDescriptor>(ref field, MTL4RenderPipelineDescriptorBindings.VertexFunctionDescriptor);
+        get => GetProperty(ref field, MTL4RenderPipelineDescriptorBindings.VertexFunctionDescriptor);
         set => SetProperty(ref field, MTL4RenderPipelineDescriptorBindings.SetVertexFunctionDescriptor, value);
     }
 
     public MTL4StaticLinkingDescriptor? VertexStaticLinkingDescriptor
     {
-        get => GetProperty<MTL4StaticLinkingDescriptor>(ref field, MTL4RenderPipelineDescriptorBindings.VertexStaticLinkingDescriptor);
+        get => GetProperty(ref field, MTL4RenderPipelineDescriptorBindings.VertexStaticLinkingDescriptor);
         set => SetProperty(ref field, MTL4RenderPipelineDescriptorBindings.SetVertexStaticLinkingDescriptor, value);
     }
 

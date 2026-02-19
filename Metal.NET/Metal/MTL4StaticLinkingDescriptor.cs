@@ -8,13 +8,13 @@ public class MTL4StaticLinkingDescriptor(nint nativePtr) : NativeObject(nativePt
 
     public NSArray? FunctionDescriptors
     {
-        get => GetProperty<NSArray>(ref field, MTL4StaticLinkingDescriptorBindings.FunctionDescriptors);
+        get => GetProperty(ref field, MTL4StaticLinkingDescriptorBindings.FunctionDescriptors);
         set => SetProperty(ref field, MTL4StaticLinkingDescriptorBindings.SetFunctionDescriptors, value);
     }
 
     public NSArray? PrivateFunctionDescriptors
     {
-        get => GetProperty<NSArray>(ref field, MTL4StaticLinkingDescriptorBindings.PrivateFunctionDescriptors);
+        get => GetProperty(ref field, MTL4StaticLinkingDescriptorBindings.PrivateFunctionDescriptors);
         set => SetProperty(ref field, MTL4StaticLinkingDescriptorBindings.SetPrivateFunctionDescriptors, value);
     }
 }

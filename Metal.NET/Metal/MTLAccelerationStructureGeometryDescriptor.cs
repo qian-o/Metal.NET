@@ -20,7 +20,7 @@ public class MTLAccelerationStructureGeometryDescriptor(nint nativePtr) : Native
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLAccelerationStructureGeometryDescriptorBindings.Label);
+        get => GetProperty(ref field, MTLAccelerationStructureGeometryDescriptorBindings.Label);
         set => SetProperty(ref field, MTLAccelerationStructureGeometryDescriptorBindings.SetLabel, value);
     }
 
@@ -32,7 +32,7 @@ public class MTLAccelerationStructureGeometryDescriptor(nint nativePtr) : Native
 
     public MTLBuffer? PrimitiveDataBuffer
     {
-        get => GetProperty<MTLBuffer>(ref field, MTLAccelerationStructureGeometryDescriptorBindings.PrimitiveDataBuffer);
+        get => GetProperty(ref field, MTLAccelerationStructureGeometryDescriptorBindings.PrimitiveDataBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureGeometryDescriptorBindings.SetPrimitiveDataBuffer, value);
     }
 

@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTL4MachineLearningCommandEncoder(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4MachineLearningCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativePtr)
 {
     public void DispatchNetwork(MTLHeap heap)
     {

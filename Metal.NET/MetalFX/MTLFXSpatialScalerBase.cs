@@ -9,7 +9,7 @@ public class MTLFXSpatialScalerBase(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLTexture? ColorTexture
     {
-        get => GetProperty<MTLTexture>(ref field, MTLFXSpatialScalerBaseBindings.ColorTexture);
+        get => GetProperty(ref field, MTLFXSpatialScalerBaseBindings.ColorTexture);
         set => SetProperty(ref field, MTLFXSpatialScalerBaseBindings.SetColorTexture, value);
     }
 
@@ -25,7 +25,7 @@ public class MTLFXSpatialScalerBase(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLFence? Fence
     {
-        get => GetProperty<MTLFence>(ref field, MTLFXSpatialScalerBaseBindings.Fence);
+        get => GetProperty(ref field, MTLFXSpatialScalerBaseBindings.Fence);
         set => SetProperty(ref field, MTLFXSpatialScalerBaseBindings.SetFence, value);
     }
 
@@ -58,7 +58,7 @@ public class MTLFXSpatialScalerBase(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLTexture? OutputTexture
     {
-        get => GetProperty<MTLTexture>(ref field, MTLFXSpatialScalerBaseBindings.OutputTexture);
+        get => GetProperty(ref field, MTLFXSpatialScalerBaseBindings.OutputTexture);
         set => SetProperty(ref field, MTLFXSpatialScalerBaseBindings.SetOutputTexture, value);
     }
 

@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLFXFrameInterpolator(nint nativePtr) : NativeObject(nativePtr)
+public class MTLFXFrameInterpolator(nint nativePtr) : MTLFXFrameInterpolatorBase(nativePtr)
 {
     public void EncodeToCommandBuffer(MTLCommandBuffer commandBuffer)
     {

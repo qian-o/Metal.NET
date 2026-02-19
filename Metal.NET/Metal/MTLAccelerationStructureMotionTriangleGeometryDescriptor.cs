@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativePtr) : MTLAccelerationStructureGeometryDescriptor(nativePtr)
 {
     public MTLAccelerationStructureMotionTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.Class))
     {
@@ -8,7 +8,7 @@ public class MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativ
 
     public MTLBuffer? IndexBuffer
     {
-        get => GetProperty<MTLBuffer>(ref field, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.IndexBuffer);
+        get => GetProperty(ref field, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.IndexBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetIndexBuffer, value);
     }
 
@@ -26,7 +26,7 @@ public class MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativ
 
     public MTLBuffer? TransformationMatrixBuffer
     {
-        get => GetProperty<MTLBuffer>(ref field, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.TransformationMatrixBuffer);
+        get => GetProperty(ref field, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.TransformationMatrixBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetTransformationMatrixBuffer, value);
     }
 
@@ -50,7 +50,7 @@ public class MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativ
 
     public NSArray? VertexBuffers
     {
-        get => GetProperty<NSArray>(ref field, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.VertexBuffers);
+        get => GetProperty(ref field, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.VertexBuffers);
         set => SetProperty(ref field, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetVertexBuffers, value);
     }
 

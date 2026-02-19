@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTL4ComputePipelineDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4ComputePipelineDescriptor(nint nativePtr) : MTL4PipelineDescriptor(nativePtr)
 {
     public MTL4ComputePipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4ComputePipelineDescriptorBindings.Class))
     {
@@ -8,7 +8,7 @@ public class MTL4ComputePipelineDescriptor(nint nativePtr) : NativeObject(native
 
     public MTL4FunctionDescriptor? ComputeFunctionDescriptor
     {
-        get => GetProperty<MTL4FunctionDescriptor>(ref field, MTL4ComputePipelineDescriptorBindings.ComputeFunctionDescriptor);
+        get => GetProperty(ref field, MTL4ComputePipelineDescriptorBindings.ComputeFunctionDescriptor);
         set => SetProperty(ref field, MTL4ComputePipelineDescriptorBindings.SetComputeFunctionDescriptor, value);
     }
 
@@ -26,7 +26,7 @@ public class MTL4ComputePipelineDescriptor(nint nativePtr) : NativeObject(native
 
     public MTL4StaticLinkingDescriptor? StaticLinkingDescriptor
     {
-        get => GetProperty<MTL4StaticLinkingDescriptor>(ref field, MTL4ComputePipelineDescriptorBindings.StaticLinkingDescriptor);
+        get => GetProperty(ref field, MTL4ComputePipelineDescriptorBindings.StaticLinkingDescriptor);
         set => SetProperty(ref field, MTL4ComputePipelineDescriptorBindings.SetStaticLinkingDescriptor, value);
     }
 

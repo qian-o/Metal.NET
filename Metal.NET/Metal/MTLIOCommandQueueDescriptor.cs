@@ -26,7 +26,7 @@ public class MTLIOCommandQueueDescriptor(nint nativePtr) : NativeObject(nativePt
 
     public MTLIOScratchBufferAllocator? ScratchBufferAllocator
     {
-        get => GetProperty<MTLIOScratchBufferAllocator>(ref field, MTLIOCommandQueueDescriptorBindings.ScratchBufferAllocator);
+        get => GetProperty(ref field, MTLIOCommandQueueDescriptorBindings.ScratchBufferAllocator);
         set => SetProperty(ref field, MTLIOCommandQueueDescriptorBindings.SetScratchBufferAllocator, value);
     }
 

@@ -4,12 +4,12 @@ public class MTLSharedTextureHandle(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTLSharedTextureHandleBindings.Device);
+        get => GetProperty(ref field, MTLSharedTextureHandleBindings.Device);
     }
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLSharedTextureHandleBindings.Label);
+        get => GetProperty(ref field, MTLSharedTextureHandleBindings.Label);
     }
 }
 

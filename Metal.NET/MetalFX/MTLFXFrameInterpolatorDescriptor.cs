@@ -56,7 +56,7 @@ public class MTLFXFrameInterpolatorDescriptor(nint nativePtr) : NativeObject(nat
 
     public MTLFXFrameInterpolatableScaler? Scaler
     {
-        get => GetProperty<MTLFXFrameInterpolatableScaler>(ref field, MTLFXFrameInterpolatorDescriptorBindings.Scaler);
+        get => GetProperty(ref field, MTLFXFrameInterpolatorDescriptorBindings.Scaler);
         set => SetProperty(ref field, MTLFXFrameInterpolatorDescriptorBindings.SetScaler, value);
     }
 

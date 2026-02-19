@@ -4,22 +4,22 @@ public class MTLLibrary(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTLLibraryBindings.Device);
+        get => GetProperty(ref field, MTLLibraryBindings.Device);
     }
 
     public NSArray? FunctionNames
     {
-        get => GetProperty<NSArray>(ref field, MTLLibraryBindings.FunctionNames);
+        get => GetProperty(ref field, MTLLibraryBindings.FunctionNames);
     }
 
     public NSString? InstallName
     {
-        get => GetProperty<NSString>(ref field, MTLLibraryBindings.InstallName);
+        get => GetProperty(ref field, MTLLibraryBindings.InstallName);
     }
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLLibraryBindings.Label);
+        get => GetProperty(ref field, MTLLibraryBindings.Label);
         set => SetProperty(ref field, MTLLibraryBindings.SetLabel, value);
     }
 

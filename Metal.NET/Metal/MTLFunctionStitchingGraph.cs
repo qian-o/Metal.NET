@@ -8,25 +8,25 @@ public class MTLFunctionStitchingGraph(nint nativePtr) : NativeObject(nativePtr)
 
     public NSArray? Attributes
     {
-        get => GetProperty<NSArray>(ref field, MTLFunctionStitchingGraphBindings.Attributes);
+        get => GetProperty(ref field, MTLFunctionStitchingGraphBindings.Attributes);
         set => SetProperty(ref field, MTLFunctionStitchingGraphBindings.SetAttributes, value);
     }
 
     public NSString? FunctionName
     {
-        get => GetProperty<NSString>(ref field, MTLFunctionStitchingGraphBindings.FunctionName);
+        get => GetProperty(ref field, MTLFunctionStitchingGraphBindings.FunctionName);
         set => SetProperty(ref field, MTLFunctionStitchingGraphBindings.SetFunctionName, value);
     }
 
     public NSArray? Nodes
     {
-        get => GetProperty<NSArray>(ref field, MTLFunctionStitchingGraphBindings.Nodes);
+        get => GetProperty(ref field, MTLFunctionStitchingGraphBindings.Nodes);
         set => SetProperty(ref field, MTLFunctionStitchingGraphBindings.SetNodes, value);
     }
 
     public MTLFunctionStitchingFunctionNode? OutputNode
     {
-        get => GetProperty<MTLFunctionStitchingFunctionNode>(ref field, MTLFunctionStitchingGraphBindings.OutputNode);
+        get => GetProperty(ref field, MTLFunctionStitchingGraphBindings.OutputNode);
         set => SetProperty(ref field, MTLFunctionStitchingGraphBindings.SetOutputNode, value);
     }
 }

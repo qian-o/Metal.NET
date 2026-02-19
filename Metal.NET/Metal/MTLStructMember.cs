@@ -13,7 +13,7 @@ public class MTLStructMember(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLArrayType? ArrayType
     {
-        get => GetProperty<MTLArrayType>(ref field, MTLStructMemberBindings.ArrayType);
+        get => GetProperty(ref field, MTLStructMemberBindings.ArrayType);
     }
 
     public MTLDataType DataType
@@ -23,7 +23,7 @@ public class MTLStructMember(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Name
     {
-        get => GetProperty<NSString>(ref field, MTLStructMemberBindings.Name);
+        get => GetProperty(ref field, MTLStructMemberBindings.Name);
     }
 
     public nuint Offset
@@ -33,22 +33,22 @@ public class MTLStructMember(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLPointerType? PointerType
     {
-        get => GetProperty<MTLPointerType>(ref field, MTLStructMemberBindings.PointerType);
+        get => GetProperty(ref field, MTLStructMemberBindings.PointerType);
     }
 
     public MTLStructType? StructType
     {
-        get => GetProperty<MTLStructType>(ref field, MTLStructMemberBindings.StructType);
+        get => GetProperty(ref field, MTLStructMemberBindings.StructType);
     }
 
     public MTLTensorReferenceType? TensorReferenceType
     {
-        get => GetProperty<MTLTensorReferenceType>(ref field, MTLStructMemberBindings.TensorReferenceType);
+        get => GetProperty(ref field, MTLStructMemberBindings.TensorReferenceType);
     }
 
     public MTLTextureReferenceType? TextureReferenceType
     {
-        get => GetProperty<MTLTextureReferenceType>(ref field, MTLStructMemberBindings.TextureReferenceType);
+        get => GetProperty(ref field, MTLStructMemberBindings.TextureReferenceType);
     }
 }
 

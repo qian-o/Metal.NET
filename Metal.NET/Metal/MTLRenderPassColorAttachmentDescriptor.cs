@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLRenderPassColorAttachmentDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLRenderPassColorAttachmentDescriptor(nint nativePtr) : MTLRenderPassAttachmentDescriptor(nativePtr)
 {
     public MTLRenderPassColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassColorAttachmentDescriptorBindings.Class))
     {

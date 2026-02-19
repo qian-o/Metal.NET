@@ -1,10 +1,10 @@
 namespace Metal.NET;
 
-public class MTLParallelRenderCommandEncoder(nint nativePtr) : NativeObject(nativePtr)
+public class MTLParallelRenderCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr)
 {
     public MTLRenderCommandEncoder? RenderCommandEncoder
     {
-        get => GetProperty<MTLRenderCommandEncoder>(ref field, MTLParallelRenderCommandEncoderBindings.RenderCommandEncoder);
+        get => GetProperty(ref field, MTLParallelRenderCommandEncoderBindings.RenderCommandEncoder);
     }
 
     public void SetColorStoreAction(MTLStoreAction storeAction, nuint colorAttachmentIndex)

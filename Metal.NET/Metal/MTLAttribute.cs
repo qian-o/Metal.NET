@@ -38,7 +38,7 @@ public class MTLAttribute(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Name
     {
-        get => GetProperty<NSString>(ref field, MTLAttributeBindings.Name);
+        get => GetProperty(ref field, MTLAttributeBindings.Name);
     }
 
     public bool PatchControlPointData

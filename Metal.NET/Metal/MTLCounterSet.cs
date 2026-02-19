@@ -4,12 +4,12 @@ public class MTLCounterSet(nint nativePtr) : NativeObject(nativePtr)
 {
     public NSArray? Counters
     {
-        get => GetProperty<NSArray>(ref field, MTLCounterSetBindings.Counters);
+        get => GetProperty(ref field, MTLCounterSetBindings.Counters);
     }
 
     public NSString? Name
     {
-        get => GetProperty<NSString>(ref field, MTLCounterSetBindings.Name);
+        get => GetProperty(ref field, MTLCounterSetBindings.Name);
     }
 }
 

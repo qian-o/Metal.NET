@@ -8,7 +8,7 @@ public class MTLRenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLRenderPassColorAttachmentDescriptorArray? ColorAttachments
     {
-        get => GetProperty<MTLRenderPassColorAttachmentDescriptorArray>(ref field, MTLRenderPassDescriptorBindings.ColorAttachments);
+        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.ColorAttachments);
     }
 
     public nuint DefaultRasterSampleCount
@@ -19,7 +19,7 @@ public class MTLRenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLRenderPassDepthAttachmentDescriptor? DepthAttachment
     {
-        get => GetProperty<MTLRenderPassDepthAttachmentDescriptor>(ref field, MTLRenderPassDescriptorBindings.DepthAttachment);
+        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.DepthAttachment);
         set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetDepthAttachment, value);
     }
 
@@ -31,7 +31,7 @@ public class MTLRenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLRasterizationRateMap? RasterizationRateMap
     {
-        get => GetProperty<MTLRasterizationRateMap>(ref field, MTLRenderPassDescriptorBindings.RasterizationRateMap);
+        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.RasterizationRateMap);
         set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetRasterizationRateMap, value);
     }
 
@@ -55,12 +55,12 @@ public class MTLRenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLRenderPassSampleBufferAttachmentDescriptorArray? SampleBufferAttachments
     {
-        get => GetProperty<MTLRenderPassSampleBufferAttachmentDescriptorArray>(ref field, MTLRenderPassDescriptorBindings.SampleBufferAttachments);
+        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.SampleBufferAttachments);
     }
 
     public MTLRenderPassStencilAttachmentDescriptor? StencilAttachment
     {
-        get => GetProperty<MTLRenderPassStencilAttachmentDescriptor>(ref field, MTLRenderPassDescriptorBindings.StencilAttachment);
+        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.StencilAttachment);
         set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetStencilAttachment, value);
     }
 
@@ -90,7 +90,7 @@ public class MTLRenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLBuffer? VisibilityResultBuffer
     {
-        get => GetProperty<MTLBuffer>(ref field, MTLRenderPassDescriptorBindings.VisibilityResultBuffer);
+        get => GetProperty(ref field, MTLRenderPassDescriptorBindings.VisibilityResultBuffer);
         set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetVisibilityResultBuffer, value);
     }
 

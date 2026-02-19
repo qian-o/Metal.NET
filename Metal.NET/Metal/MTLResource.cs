@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLResource(nint nativePtr) : NativeObject(nativePtr)
+public class MTLResource(nint nativePtr) : MTLAllocation(nativePtr)
 {
-    public nuint AllocatedSize
+    public new nuint AllocatedSize
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceBindings.AllocatedSize);
     }
@@ -14,7 +14,7 @@ public class MTLResource(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTLResourceBindings.Device);
+        get => GetProperty(ref field, MTLResourceBindings.Device);
     }
 
     public MTLHazardTrackingMode HazardTrackingMode
@@ -24,7 +24,7 @@ public class MTLResource(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLHeap? Heap
     {
-        get => GetProperty<MTLHeap>(ref field, MTLResourceBindings.Heap);
+        get => GetProperty(ref field, MTLResourceBindings.Heap);
     }
 
     public nuint HeapOffset
@@ -39,7 +39,7 @@ public class MTLResource(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLResourceBindings.Label);
+        get => GetProperty(ref field, MTLResourceBindings.Label);
         set => SetProperty(ref field, MTLResourceBindings.SetLabel, value);
     }
 

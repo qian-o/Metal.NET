@@ -4,22 +4,22 @@ public class MTLCommandQueue(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLCommandBuffer? CommandBuffer
     {
-        get => GetProperty<MTLCommandBuffer>(ref field, MTLCommandQueueBindings.CommandBuffer);
+        get => GetProperty(ref field, MTLCommandQueueBindings.CommandBuffer);
     }
 
     public MTLCommandBuffer? CommandBufferWithUnretainedReferences
     {
-        get => GetProperty<MTLCommandBuffer>(ref field, MTLCommandQueueBindings.CommandBufferWithUnretainedReferences);
+        get => GetProperty(ref field, MTLCommandQueueBindings.CommandBufferWithUnretainedReferences);
     }
 
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTLCommandQueueBindings.Device);
+        get => GetProperty(ref field, MTLCommandQueueBindings.Device);
     }
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLCommandQueueBindings.Label);
+        get => GetProperty(ref field, MTLCommandQueueBindings.Label);
         set => SetProperty(ref field, MTLCommandQueueBindings.SetLabel, value);
     }
 

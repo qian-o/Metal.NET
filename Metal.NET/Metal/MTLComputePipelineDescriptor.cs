@@ -8,36 +8,36 @@ public class MTLComputePipelineDescriptor(nint nativePtr) : NativeObject(nativeP
 
     public NSArray? BinaryArchives
     {
-        get => GetProperty<NSArray>(ref field, MTLComputePipelineDescriptorBindings.BinaryArchives);
+        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.BinaryArchives);
         set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetBinaryArchives, value);
     }
 
     public MTLPipelineBufferDescriptorArray? Buffers
     {
-        get => GetProperty<MTLPipelineBufferDescriptorArray>(ref field, MTLComputePipelineDescriptorBindings.Buffers);
+        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.Buffers);
     }
 
     public MTLFunction? ComputeFunction
     {
-        get => GetProperty<MTLFunction>(ref field, MTLComputePipelineDescriptorBindings.ComputeFunction);
+        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.ComputeFunction);
         set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetComputeFunction, value);
     }
 
     public NSArray? InsertLibraries
     {
-        get => GetProperty<NSArray>(ref field, MTLComputePipelineDescriptorBindings.InsertLibraries);
+        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.InsertLibraries);
         set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetInsertLibraries, value);
     }
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLComputePipelineDescriptorBindings.Label);
+        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.Label);
         set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetLabel, value);
     }
 
     public MTLLinkedFunctions? LinkedFunctions
     {
-        get => GetProperty<MTLLinkedFunctions>(ref field, MTLComputePipelineDescriptorBindings.LinkedFunctions);
+        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.LinkedFunctions);
         set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetLinkedFunctions, value);
     }
 
@@ -55,7 +55,7 @@ public class MTLComputePipelineDescriptor(nint nativePtr) : NativeObject(nativeP
 
     public NSArray? PreloadedLibraries
     {
-        get => GetProperty<NSArray>(ref field, MTLComputePipelineDescriptorBindings.PreloadedLibraries);
+        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.PreloadedLibraries);
         set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetPreloadedLibraries, value);
     }
 
@@ -73,7 +73,7 @@ public class MTLComputePipelineDescriptor(nint nativePtr) : NativeObject(nativeP
 
     public MTLStageInputOutputDescriptor? StageInputDescriptor
     {
-        get => GetProperty<MTLStageInputOutputDescriptor>(ref field, MTLComputePipelineDescriptorBindings.StageInputDescriptor);
+        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.StageInputDescriptor);
         set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetStageInputDescriptor, value);
     }
 

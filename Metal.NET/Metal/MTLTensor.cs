@@ -1,10 +1,10 @@
 namespace Metal.NET;
 
-public class MTLTensor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLTensor(nint nativePtr) : MTLResource(nativePtr)
 {
     public MTLBuffer? Buffer
     {
-        get => GetProperty<MTLBuffer>(ref field, MTLTensorBindings.Buffer);
+        get => GetProperty(ref field, MTLTensorBindings.Buffer);
     }
 
     public nuint BufferOffset
@@ -19,7 +19,7 @@ public class MTLTensor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLTensorExtents? Dimensions
     {
-        get => GetProperty<MTLTensorExtents>(ref field, MTLTensorBindings.Dimensions);
+        get => GetProperty(ref field, MTLTensorBindings.Dimensions);
     }
 
     public MTLResourceID GpuResourceID
@@ -29,7 +29,7 @@ public class MTLTensor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLTensorExtents? Strides
     {
-        get => GetProperty<MTLTensorExtents>(ref field, MTLTensorBindings.Strides);
+        get => GetProperty(ref field, MTLTensorBindings.Strides);
     }
 
     public MTLTensorUsage Usage

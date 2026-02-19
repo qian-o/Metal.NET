@@ -20,7 +20,7 @@ public class MTLTensorDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLTensorExtents? Dimensions
     {
-        get => GetProperty<MTLTensorExtents>(ref field, MTLTensorDescriptorBindings.Dimensions);
+        get => GetProperty(ref field, MTLTensorDescriptorBindings.Dimensions);
         set => SetProperty(ref field, MTLTensorDescriptorBindings.SetDimensions, value);
     }
 
@@ -44,7 +44,7 @@ public class MTLTensorDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLTensorExtents? Strides
     {
-        get => GetProperty<MTLTensorExtents>(ref field, MTLTensorDescriptorBindings.Strides);
+        get => GetProperty(ref field, MTLTensorDescriptorBindings.Strides);
         set => SetProperty(ref field, MTLTensorDescriptorBindings.SetStrides, value);
     }
 

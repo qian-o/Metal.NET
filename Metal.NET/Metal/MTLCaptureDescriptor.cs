@@ -14,7 +14,7 @@ public class MTLCaptureDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public NSURL? OutputURL
     {
-        get => GetProperty<NSURL>(ref field, MTLCaptureDescriptorBindings.OutputURL);
+        get => GetProperty(ref field, MTLCaptureDescriptorBindings.OutputURL);
         set => SetProperty(ref field, MTLCaptureDescriptorBindings.SetOutputURL, value);
     }
 }

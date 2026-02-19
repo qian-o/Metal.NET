@@ -4,7 +4,7 @@ public class MTLSharedEventHandle(nint nativePtr) : NativeObject(nativePtr)
 {
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLSharedEventHandleBindings.Label);
+        get => GetProperty(ref field, MTLSharedEventHandleBindings.Label);
     }
 }
 

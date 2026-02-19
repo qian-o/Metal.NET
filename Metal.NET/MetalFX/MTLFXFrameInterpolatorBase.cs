@@ -10,7 +10,7 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr
 
     public MTLTexture? ColorTexture
     {
-        get => GetProperty<MTLTexture>(ref field, MTLFXFrameInterpolatorBaseBindings.ColorTexture);
+        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.ColorTexture);
         set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetColorTexture, value);
     }
 
@@ -32,7 +32,7 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr
 
     public MTLTexture? DepthTexture
     {
-        get => GetProperty<MTLTexture>(ref field, MTLFXFrameInterpolatorBaseBindings.DepthTexture);
+        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.DepthTexture);
         set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetDepthTexture, value);
     }
 
@@ -54,7 +54,7 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr
 
     public MTLFence? Fence
     {
-        get => GetProperty<MTLFence>(ref field, MTLFXFrameInterpolatorBaseBindings.Fence);
+        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.Fence);
         set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetFence, value);
     }
 
@@ -99,7 +99,7 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr
 
     public MTLTexture? MotionTexture
     {
-        get => GetProperty<MTLTexture>(ref field, MTLFXFrameInterpolatorBaseBindings.MotionTexture);
+        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.MotionTexture);
         set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetMotionTexture, value);
     }
 
@@ -138,7 +138,7 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr
 
     public MTLTexture? OutputTexture
     {
-        get => GetProperty<MTLTexture>(ref field, MTLFXFrameInterpolatorBaseBindings.OutputTexture);
+        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.OutputTexture);
         set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetOutputTexture, value);
     }
 
@@ -159,7 +159,7 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr
 
     public MTLTexture? PrevColorTexture
     {
-        get => GetProperty<MTLTexture>(ref field, MTLFXFrameInterpolatorBaseBindings.PrevColorTexture);
+        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.PrevColorTexture);
         set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetPrevColorTexture, value);
     }
 
@@ -171,7 +171,7 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr
 
     public MTLTexture? UiTexture
     {
-        get => GetProperty<MTLTexture>(ref field, MTLFXFrameInterpolatorBaseBindings.UiTexture);
+        get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.UiTexture);
     }
 
     public MTLPixelFormat UiTextureFormat

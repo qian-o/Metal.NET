@@ -4,17 +4,17 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTL4CompilerBindings.Device);
+        get => GetProperty(ref field, MTL4CompilerBindings.Device);
     }
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTL4CompilerBindings.Label);
+        get => GetProperty(ref field, MTL4CompilerBindings.Label);
     }
 
     public MTL4PipelineDataSetSerializer? PipelineDataSetSerializer
     {
-        get => GetProperty<MTL4PipelineDataSetSerializer>(ref field, MTL4CompilerBindings.PipelineDataSetSerializer);
+        get => GetProperty(ref field, MTL4CompilerBindings.PipelineDataSetSerializer);
     }
 
     public MTL4BinaryFunction? NewBinaryFunction(MTL4BinaryFunctionDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError? error)

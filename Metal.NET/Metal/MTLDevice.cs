@@ -4,7 +4,7 @@ public class MTLDevice(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLArchitecture? Architecture
     {
-        get => GetProperty<MTLArchitecture>(ref field, MTLDeviceBindings.Architecture);
+        get => GetProperty(ref field, MTLDeviceBindings.Architecture);
     }
 
     public bool AreBarycentricCoordsSupported
@@ -34,7 +34,7 @@ public class MTLDevice(nint nativePtr) : NativeObject(nativePtr)
 
     public NSArray? CounterSets
     {
-        get => GetProperty<NSArray>(ref field, MTLDeviceBindings.CounterSets);
+        get => GetProperty(ref field, MTLDeviceBindings.CounterSets);
     }
 
     public nuint CurrentAllocatedSize
@@ -124,47 +124,47 @@ public class MTLDevice(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Name
     {
-        get => GetProperty<NSString>(ref field, MTLDeviceBindings.Name);
+        get => GetProperty(ref field, MTLDeviceBindings.Name);
     }
 
     public MTL4CommandAllocator? NewCommandAllocator
     {
-        get => GetProperty<MTL4CommandAllocator>(ref field, MTLDeviceBindings.NewCommandAllocator);
+        get => GetProperty(ref field, MTLDeviceBindings.NewCommandAllocator);
     }
 
     public MTL4CommandBuffer? NewCommandBuffer
     {
-        get => GetProperty<MTL4CommandBuffer>(ref field, MTLDeviceBindings.NewCommandBuffer);
+        get => GetProperty(ref field, MTLDeviceBindings.NewCommandBuffer);
     }
 
     public MTLCommandQueue? NewCommandQueue
     {
-        get => GetProperty<MTLCommandQueue>(ref field, MTLDeviceBindings.NewCommandQueue);
+        get => GetProperty(ref field, MTLDeviceBindings.NewCommandQueue);
     }
 
     public MTLLibrary? NewDefaultLibrary
     {
-        get => GetProperty<MTLLibrary>(ref field, MTLDeviceBindings.NewDefaultLibrary);
+        get => GetProperty(ref field, MTLDeviceBindings.NewDefaultLibrary);
     }
 
     public MTLEvent? NewEvent
     {
-        get => GetProperty<MTLEvent>(ref field, MTLDeviceBindings.NewEvent);
+        get => GetProperty(ref field, MTLDeviceBindings.NewEvent);
     }
 
     public MTLFence? NewFence
     {
-        get => GetProperty<MTLFence>(ref field, MTLDeviceBindings.NewFence);
+        get => GetProperty(ref field, MTLDeviceBindings.NewFence);
     }
 
     public MTL4CommandQueue? NewMTL4CommandQueue
     {
-        get => GetProperty<MTL4CommandQueue>(ref field, MTLDeviceBindings.NewMTL4CommandQueue);
+        get => GetProperty(ref field, MTLDeviceBindings.NewMTL4CommandQueue);
     }
 
     public MTLSharedEvent? NewSharedEvent
     {
-        get => GetProperty<MTLSharedEvent>(ref field, MTLDeviceBindings.NewSharedEvent);
+        get => GetProperty(ref field, MTLDeviceBindings.NewSharedEvent);
     }
 
     public uint PeerCount

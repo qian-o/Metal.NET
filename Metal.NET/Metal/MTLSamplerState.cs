@@ -4,7 +4,7 @@ public class MTLSamplerState(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTLSamplerStateBindings.Device);
+        get => GetProperty(ref field, MTLSamplerStateBindings.Device);
     }
 
     public MTLResourceID GpuResourceID
@@ -14,7 +14,7 @@ public class MTLSamplerState(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLSamplerStateBindings.Label);
+        get => GetProperty(ref field, MTLSamplerStateBindings.Label);
     }
 }
 

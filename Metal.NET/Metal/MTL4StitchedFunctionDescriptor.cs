@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTL4StitchedFunctionDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4StitchedFunctionDescriptor(nint nativePtr) : MTL4FunctionDescriptor(nativePtr)
 {
     public MTL4StitchedFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4StitchedFunctionDescriptorBindings.Class))
     {
@@ -8,13 +8,13 @@ public class MTL4StitchedFunctionDescriptor(nint nativePtr) : NativeObject(nativ
 
     public NSArray? FunctionDescriptors
     {
-        get => GetProperty<NSArray>(ref field, MTL4StitchedFunctionDescriptorBindings.FunctionDescriptors);
+        get => GetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.FunctionDescriptors);
         set => SetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.SetFunctionDescriptors, value);
     }
 
     public MTLFunctionStitchingGraph? FunctionGraph
     {
-        get => GetProperty<MTLFunctionStitchingGraph>(ref field, MTL4StitchedFunctionDescriptorBindings.FunctionGraph);
+        get => GetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.FunctionGraph);
         set => SetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.SetFunctionGraph, value);
     }
 }

@@ -8,13 +8,13 @@ public class MTLCounterSampleBufferDescriptor(nint nativePtr) : NativeObject(nat
 
     public MTLCounterSet? CounterSet
     {
-        get => GetProperty<MTLCounterSet>(ref field, MTLCounterSampleBufferDescriptorBindings.CounterSet);
+        get => GetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.CounterSet);
         set => SetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.SetCounterSet, value);
     }
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLCounterSampleBufferDescriptorBindings.Label);
+        get => GetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.Label);
         set => SetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.SetLabel, value);
     }
 

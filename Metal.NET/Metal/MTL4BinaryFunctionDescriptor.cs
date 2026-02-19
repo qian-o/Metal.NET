@@ -8,13 +8,13 @@ public class MTL4BinaryFunctionDescriptor(nint nativePtr) : NativeObject(nativeP
 
     public MTL4FunctionDescriptor? FunctionDescriptor
     {
-        get => GetProperty<MTL4FunctionDescriptor>(ref field, MTL4BinaryFunctionDescriptorBindings.FunctionDescriptor);
+        get => GetProperty(ref field, MTL4BinaryFunctionDescriptorBindings.FunctionDescriptor);
         set => SetProperty(ref field, MTL4BinaryFunctionDescriptorBindings.SetFunctionDescriptor, value);
     }
 
     public NSString? Name
     {
-        get => GetProperty<NSString>(ref field, MTL4BinaryFunctionDescriptorBindings.Name);
+        get => GetProperty(ref field, MTL4BinaryFunctionDescriptorBindings.Name);
         set => SetProperty(ref field, MTL4BinaryFunctionDescriptorBindings.SetName, value);
     }
 

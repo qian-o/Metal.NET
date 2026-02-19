@@ -38,12 +38,12 @@ public class MTLArgument(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLPointerType? BufferPointerType
     {
-        get => GetProperty<MTLPointerType>(ref field, MTLArgumentBindings.BufferPointerType);
+        get => GetProperty(ref field, MTLArgumentBindings.BufferPointerType);
     }
 
     public MTLStructType? BufferStructType
     {
-        get => GetProperty<MTLStructType>(ref field, MTLArgumentBindings.BufferStructType);
+        get => GetProperty(ref field, MTLArgumentBindings.BufferStructType);
     }
 
     public nuint Index
@@ -63,7 +63,7 @@ public class MTLArgument(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Name
     {
-        get => GetProperty<NSString>(ref field, MTLArgumentBindings.Name);
+        get => GetProperty(ref field, MTLArgumentBindings.Name);
     }
 
     public MTLDataType TextureDataType

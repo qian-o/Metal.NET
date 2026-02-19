@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTL4LibraryFunctionDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4LibraryFunctionDescriptor(nint nativePtr) : MTL4FunctionDescriptor(nativePtr)
 {
     public MTL4LibraryFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4LibraryFunctionDescriptorBindings.Class))
     {
@@ -8,13 +8,13 @@ public class MTL4LibraryFunctionDescriptor(nint nativePtr) : NativeObject(native
 
     public MTLLibrary? Library
     {
-        get => GetProperty<MTLLibrary>(ref field, MTL4LibraryFunctionDescriptorBindings.Library);
+        get => GetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.Library);
         set => SetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.SetLibrary, value);
     }
 
     public NSString? Name
     {
-        get => GetProperty<NSString>(ref field, MTL4LibraryFunctionDescriptorBindings.Name);
+        get => GetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.Name);
         set => SetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.SetName, value);
     }
 }

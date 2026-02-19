@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLPointerType(nint nativePtr) : NativeObject(nativePtr)
+public class MTLPointerType(nint nativePtr) : MTLType(nativePtr)
 {
     public MTLPointerType() : this(ObjectiveCRuntime.AllocInit(MTLPointerTypeBindings.Class))
     {
@@ -23,7 +23,7 @@ public class MTLPointerType(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLArrayType? ElementArrayType
     {
-        get => GetProperty<MTLArrayType>(ref field, MTLPointerTypeBindings.ElementArrayType);
+        get => GetProperty(ref field, MTLPointerTypeBindings.ElementArrayType);
     }
 
     public bool ElementIsArgumentBuffer
@@ -33,7 +33,7 @@ public class MTLPointerType(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLStructType? ElementStructType
     {
-        get => GetProperty<MTLStructType>(ref field, MTLPointerTypeBindings.ElementStructType);
+        get => GetProperty(ref field, MTLPointerTypeBindings.ElementStructType);
     }
 
     public MTLDataType ElementType

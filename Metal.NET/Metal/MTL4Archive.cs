@@ -4,7 +4,7 @@ public class MTL4Archive(nint nativePtr) : NativeObject(nativePtr)
 {
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTL4ArchiveBindings.Label);
+        get => GetProperty(ref field, MTL4ArchiveBindings.Label);
         set => SetProperty(ref field, MTL4ArchiveBindings.SetLabel, value);
     }
 

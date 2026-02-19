@@ -9,12 +9,12 @@ public class MTLResourceViewPool(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTLResourceViewPoolBindings.Device);
+        get => GetProperty(ref field, MTLResourceViewPoolBindings.Device);
     }
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLResourceViewPoolBindings.Label);
+        get => GetProperty(ref field, MTLResourceViewPoolBindings.Label);
     }
 
     public nuint ResourceViewCount

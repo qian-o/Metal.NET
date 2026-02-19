@@ -4,7 +4,7 @@ public class MTLResidencySet(nint nativePtr) : NativeObject(nativePtr)
 {
     public NSArray? AllAllocations
     {
-        get => GetProperty<NSArray>(ref field, MTLResidencySetBindings.AllAllocations);
+        get => GetProperty(ref field, MTLResidencySetBindings.AllAllocations);
     }
 
     public nuint AllocatedSize
@@ -19,12 +19,12 @@ public class MTLResidencySet(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTLResidencySetBindings.Device);
+        get => GetProperty(ref field, MTLResidencySetBindings.Device);
     }
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLResidencySetBindings.Label);
+        get => GetProperty(ref field, MTLResidencySetBindings.Label);
     }
 
     public void AddAllocation(MTLAllocation allocation)

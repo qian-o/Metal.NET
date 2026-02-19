@@ -4,7 +4,7 @@ public class MTLCounter(nint nativePtr) : NativeObject(nativePtr)
 {
     public NSString? Name
     {
-        get => GetProperty<NSString>(ref field, MTLCounterBindings.Name);
+        get => GetProperty(ref field, MTLCounterBindings.Name);
     }
 }
 

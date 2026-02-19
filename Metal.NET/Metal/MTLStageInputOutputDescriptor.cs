@@ -8,7 +8,7 @@ public class MTLStageInputOutputDescriptor(nint nativePtr) : NativeObject(native
 
     public MTLAttributeDescriptorArray? Attributes
     {
-        get => GetProperty<MTLAttributeDescriptorArray>(ref field, MTLStageInputOutputDescriptorBindings.Attributes);
+        get => GetProperty(ref field, MTLStageInputOutputDescriptorBindings.Attributes);
     }
 
     public nuint IndexBufferIndex
@@ -25,7 +25,7 @@ public class MTLStageInputOutputDescriptor(nint nativePtr) : NativeObject(native
 
     public MTLBufferLayoutDescriptorArray? Layouts
     {
-        get => GetProperty<MTLBufferLayoutDescriptorArray>(ref field, MTLStageInputOutputDescriptorBindings.Layouts);
+        get => GetProperty(ref field, MTLStageInputOutputDescriptorBindings.Layouts);
     }
 
     public void Reset()

@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTL4AccelerationStructureMotionCurveGeometryDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4AccelerationStructureMotionCurveGeometryDescriptor(nint nativePtr) : MTL4AccelerationStructureGeometryDescriptor(nativePtr)
 {
     public MTL4AccelerationStructureMotionCurveGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureMotionCurveGeometryDescriptorBindings.Class))
     {

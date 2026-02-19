@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLFunctionStitchingFunctionNode(nint nativePtr) : NativeObject(nativePtr)
+public class MTLFunctionStitchingFunctionNode(nint nativePtr) : MTLFunctionStitchingNode(nativePtr)
 {
     public MTLFunctionStitchingFunctionNode() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingFunctionNodeBindings.Class))
     {
@@ -8,19 +8,19 @@ public class MTLFunctionStitchingFunctionNode(nint nativePtr) : NativeObject(nat
 
     public NSArray? Arguments
     {
-        get => GetProperty<NSArray>(ref field, MTLFunctionStitchingFunctionNodeBindings.Arguments);
+        get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.Arguments);
         set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetArguments, value);
     }
 
     public NSArray? ControlDependencies
     {
-        get => GetProperty<NSArray>(ref field, MTLFunctionStitchingFunctionNodeBindings.ControlDependencies);
+        get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.ControlDependencies);
         set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetControlDependencies, value);
     }
 
     public NSString? Name
     {
-        get => GetProperty<NSString>(ref field, MTLFunctionStitchingFunctionNodeBindings.Name);
+        get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.Name);
         set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetName, value);
     }
 }

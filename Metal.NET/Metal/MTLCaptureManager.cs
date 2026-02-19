@@ -8,7 +8,7 @@ public class MTLCaptureManager(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLCaptureScope? DefaultCaptureScope
     {
-        get => GetProperty<MTLCaptureScope>(ref field, MTLCaptureManagerBindings.DefaultCaptureScope);
+        get => GetProperty(ref field, MTLCaptureManagerBindings.DefaultCaptureScope);
         set => SetProperty(ref field, MTLCaptureManagerBindings.SetDefaultCaptureScope, value);
     }
 

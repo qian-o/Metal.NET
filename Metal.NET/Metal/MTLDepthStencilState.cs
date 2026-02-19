@@ -4,7 +4,7 @@ public class MTLDepthStencilState(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTLDepthStencilStateBindings.Device);
+        get => GetProperty(ref field, MTLDepthStencilStateBindings.Device);
     }
 
     public MTLResourceID GpuResourceID
@@ -14,7 +14,7 @@ public class MTLDepthStencilState(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLDepthStencilStateBindings.Label);
+        get => GetProperty(ref field, MTLDepthStencilStateBindings.Label);
     }
 }
 

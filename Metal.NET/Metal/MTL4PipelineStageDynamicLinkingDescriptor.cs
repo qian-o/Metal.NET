@@ -8,7 +8,7 @@ public class MTL4PipelineStageDynamicLinkingDescriptor(nint nativePtr) : NativeO
 
     public NSArray? BinaryLinkedFunctions
     {
-        get => GetProperty<NSArray>(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.BinaryLinkedFunctions);
+        get => GetProperty(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.BinaryLinkedFunctions);
         set => SetProperty(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.SetBinaryLinkedFunctions, value);
     }
 
@@ -20,7 +20,7 @@ public class MTL4PipelineStageDynamicLinkingDescriptor(nint nativePtr) : NativeO
 
     public NSArray? PreloadedLibraries
     {
-        get => GetProperty<NSArray>(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.PreloadedLibraries);
+        get => GetProperty(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.PreloadedLibraries);
         set => SetProperty(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.SetPreloadedLibraries, value);
     }
 }

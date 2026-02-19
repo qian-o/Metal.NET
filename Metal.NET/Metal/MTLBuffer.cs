@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLBuffer(nint nativePtr) : NativeObject(nativePtr)
+public class MTLBuffer(nint nativePtr) : MTLResource(nativePtr)
 {
     public nint Contents
     {
@@ -19,7 +19,7 @@ public class MTLBuffer(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLBuffer? RemoteStorageBuffer
     {
-        get => GetProperty<MTLBuffer>(ref field, MTLBufferBindings.RemoteStorageBuffer);
+        get => GetProperty(ref field, MTLBufferBindings.RemoteStorageBuffer);
     }
 
     public MTLBufferSparseTier SparseBufferTier

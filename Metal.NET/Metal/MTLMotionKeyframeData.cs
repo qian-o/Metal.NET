@@ -8,7 +8,7 @@ public class MTLMotionKeyframeData(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLBuffer? Buffer
     {
-        get => GetProperty<MTLBuffer>(ref field, MTLMotionKeyframeDataBindings.Buffer);
+        get => GetProperty(ref field, MTLMotionKeyframeDataBindings.Buffer);
         set => SetProperty(ref field, MTLMotionKeyframeDataBindings.SetBuffer, value);
     }
 

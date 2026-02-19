@@ -29,7 +29,7 @@ public class MTLBinding(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Name
     {
-        get => GetProperty<NSString>(ref field, MTLBindingBindings.Name);
+        get => GetProperty(ref field, MTLBindingBindings.Name);
     }
 
     public MTLBindingType Type

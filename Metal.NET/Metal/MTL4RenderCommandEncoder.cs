@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTL4RenderCommandEncoder(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4RenderCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativePtr)
 {
     public nuint TileHeight
     {

@@ -8,24 +8,24 @@ public class MTLTileRenderPipelineDescriptor(nint nativePtr) : NativeObject(nati
 
     public NSArray? BinaryArchives
     {
-        get => GetProperty<NSArray>(ref field, MTLTileRenderPipelineDescriptorBindings.BinaryArchives);
+        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.BinaryArchives);
         set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetBinaryArchives, value);
     }
 
     public MTLTileRenderPipelineColorAttachmentDescriptorArray? ColorAttachments
     {
-        get => GetProperty<MTLTileRenderPipelineColorAttachmentDescriptorArray>(ref field, MTLTileRenderPipelineDescriptorBindings.ColorAttachments);
+        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.ColorAttachments);
     }
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLTileRenderPipelineDescriptorBindings.Label);
+        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.Label);
         set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetLabel, value);
     }
 
     public MTLLinkedFunctions? LinkedFunctions
     {
-        get => GetProperty<MTLLinkedFunctions>(ref field, MTLTileRenderPipelineDescriptorBindings.LinkedFunctions);
+        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.LinkedFunctions);
         set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetLinkedFunctions, value);
     }
 
@@ -43,7 +43,7 @@ public class MTLTileRenderPipelineDescriptor(nint nativePtr) : NativeObject(nati
 
     public NSArray? PreloadedLibraries
     {
-        get => GetProperty<NSArray>(ref field, MTLTileRenderPipelineDescriptorBindings.PreloadedLibraries);
+        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.PreloadedLibraries);
         set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetPreloadedLibraries, value);
     }
 
@@ -79,12 +79,12 @@ public class MTLTileRenderPipelineDescriptor(nint nativePtr) : NativeObject(nati
 
     public MTLPipelineBufferDescriptorArray? TileBuffers
     {
-        get => GetProperty<MTLPipelineBufferDescriptorArray>(ref field, MTLTileRenderPipelineDescriptorBindings.TileBuffers);
+        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.TileBuffers);
     }
 
     public MTLFunction? TileFunction
     {
-        get => GetProperty<MTLFunction>(ref field, MTLTileRenderPipelineDescriptorBindings.TileFunction);
+        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.TileFunction);
         set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetTileFunction, value);
     }
 

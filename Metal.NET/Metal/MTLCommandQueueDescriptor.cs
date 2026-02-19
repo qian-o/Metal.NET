@@ -8,7 +8,7 @@ public class MTLCommandQueueDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLLogState? LogState
     {
-        get => GetProperty<MTLLogState>(ref field, MTLCommandQueueDescriptorBindings.LogState);
+        get => GetProperty(ref field, MTLCommandQueueDescriptorBindings.LogState);
         set => SetProperty(ref field, MTLCommandQueueDescriptorBindings.SetLogState, value);
     }
 

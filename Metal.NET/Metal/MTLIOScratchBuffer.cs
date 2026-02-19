@@ -4,7 +4,7 @@ public class MTLIOScratchBuffer(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLBuffer? Buffer
     {
-        get => GetProperty<MTLBuffer>(ref field, MTLIOScratchBufferBindings.Buffer);
+        get => GetProperty(ref field, MTLIOScratchBufferBindings.Buffer);
     }
 }
 

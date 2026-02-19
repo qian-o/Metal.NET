@@ -14,7 +14,7 @@ public class MTLComputePassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLComputePassSampleBufferAttachmentDescriptorArray? SampleBufferAttachments
     {
-        get => GetProperty<MTLComputePassSampleBufferAttachmentDescriptorArray>(ref field, MTLComputePassDescriptorBindings.SampleBufferAttachments);
+        get => GetProperty(ref field, MTLComputePassDescriptorBindings.SampleBufferAttachments);
     }
 
     public static MTLComputePassDescriptor? ComputePassDescriptor()

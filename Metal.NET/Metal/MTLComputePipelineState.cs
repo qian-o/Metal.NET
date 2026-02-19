@@ -1,10 +1,10 @@
 namespace Metal.NET;
 
-public class MTLComputePipelineState(nint nativePtr) : NativeObject(nativePtr)
+public class MTLComputePipelineState(nint nativePtr) : MTLAllocation(nativePtr)
 {
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTLComputePipelineStateBindings.Device);
+        get => GetProperty(ref field, MTLComputePipelineStateBindings.Device);
     }
 
     public MTLResourceID GpuResourceID
@@ -14,7 +14,7 @@ public class MTLComputePipelineState(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLComputePipelineStateBindings.Label);
+        get => GetProperty(ref field, MTLComputePipelineStateBindings.Label);
     }
 
     public nuint MaxTotalThreadsPerThreadgroup
@@ -24,7 +24,7 @@ public class MTLComputePipelineState(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLComputePipelineReflection? Reflection
     {
-        get => GetProperty<MTLComputePipelineReflection>(ref field, MTLComputePipelineStateBindings.Reflection);
+        get => GetProperty(ref field, MTLComputePipelineStateBindings.Reflection);
     }
 
     public MTLSize RequiredThreadsPerThreadgroup

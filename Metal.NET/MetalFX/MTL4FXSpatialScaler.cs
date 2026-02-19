@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTL4FXSpatialScaler(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4FXSpatialScaler(nint nativePtr) : MTLFXSpatialScalerBase(nativePtr)
 {
     public void EncodeToCommandBuffer(MTL4CommandBuffer pCommandBuffer)
     {

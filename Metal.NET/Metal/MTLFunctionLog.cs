@@ -4,17 +4,17 @@ public class MTLFunctionLog(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLFunctionLogDebugLocation? DebugLocation
     {
-        get => GetProperty<MTLFunctionLogDebugLocation>(ref field, MTLFunctionLogBindings.DebugLocation);
+        get => GetProperty(ref field, MTLFunctionLogBindings.DebugLocation);
     }
 
     public NSString? EncoderLabel
     {
-        get => GetProperty<NSString>(ref field, MTLFunctionLogBindings.EncoderLabel);
+        get => GetProperty(ref field, MTLFunctionLogBindings.EncoderLabel);
     }
 
     public MTLFunction? Function
     {
-        get => GetProperty<MTLFunction>(ref field, MTLFunctionLogBindings.Function);
+        get => GetProperty(ref field, MTLFunctionLogBindings.Function);
     }
 
     public MTLFunctionLogType Type

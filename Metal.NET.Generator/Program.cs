@@ -67,6 +67,8 @@ class Generator
     readonly List<EnumDef> _enums = [];
     // All parsed classes
     readonly List<ClassDef> _classes = [];
+    // All known generated class names (for validating base class references)
+    readonly HashSet<string> _knownClassNames = new();
 
     // Hand-written classes to skip
     static readonly HashSet<string> SkipClasses = ["NSString", "NSError", "NSArray", "NSURL",
@@ -677,8 +679,52 @@ class Generator
     {
         foreach (var enumDef in _enums)
             GenerateEnum(enumDef);
+
+        // Build known class names (both generated and hand-written)
         foreach (var classDef in _classes)
-            GenerateClass(classDef);
+        {
+            string prefix = GetPrefix(classDef.CppNamespace);
+            _knownClassNames.Add(prefix + classDef.Name);
+        }
+        // Also include hand-written classes that are valid base classes
+        _knownClassNames.UnionWith(["NSString", "NSError", "NSArray", "NSURL", "NativeObject"]);
+
+        // Build a map of class name -> property names for "new" keyword detection
+        var classPropertyMap = new Dictionary<string, HashSet<string>>();
+        foreach (var classDef in _classes)
+        {
+            string prefix = GetPrefix(classDef.CppNamespace);
+            string csClassName = prefix + classDef.Name;
+            var propNames = classDef.Methods
+                .Where(m => m.Parameters.Count == 0 && m.ReturnType != "void" && !m.UsesClassTarget)
+                .Select(m => ToPascalCase(m.CppName))
+                .ToHashSet();
+            classPropertyMap[csClassName] = propNames;
+        }
+
+        // Build inherited property names by walking the inheritance chain
+        HashSet<string> GetInheritedProperties(string csClassName)
+        {
+            var result = new HashSet<string>();
+            if (!classPropertyMap.ContainsKey(csClassName)) return result;
+            var classDef = _classes.First(c => GetPrefix(c.CppNamespace) + c.Name == csClassName);
+            var current = classDef.BaseClassName;
+            while (current != null && _knownClassNames.Contains(current) && classPropertyMap.TryGetValue(current, out var parentProps))
+            {
+                result.UnionWith(parentProps);
+                var parentDef = _classes.FirstOrDefault(c => GetPrefix(c.CppNamespace) + c.Name == current);
+                current = parentDef?.BaseClassName;
+            }
+            return result;
+        }
+
+        foreach (var classDef in _classes)
+        {
+            string prefix = GetPrefix(classDef.CppNamespace);
+            string csClassName = prefix + classDef.Name;
+            var inheritedProps = GetInheritedProperties(csClassName);
+            GenerateClass(classDef, inheritedProps);
+        }
     }
 
     void GenerateEnum(EnumDef enumDef)
@@ -713,7 +759,7 @@ class Generator
         Console.WriteLine($"  Generated: {subdir}/{csEnumName}.cs");
     }
 
-    void GenerateClass(ClassDef classDef)
+    void GenerateClass(ClassDef classDef, HashSet<string> inheritedProperties)
     {
         string prefix = GetPrefix(classDef.CppNamespace);
         string csClassName = prefix + classDef.Name;
@@ -748,8 +794,11 @@ class Generator
         sb.AppendLine("namespace Metal.NET;");
         sb.AppendLine();
 
-        // Reference type class with primary constructor inheriting NativeObject
-        sb.AppendLine($"public class {csClassName}(nint nativePtr) : NativeObject(nativePtr)");
+        // Reference type class with primary constructor inheriting base class or NativeObject
+        string baseClass = classDef.BaseClassName != null && _knownClassNames.Contains(classDef.BaseClassName)
+            ? classDef.BaseClassName
+            : "NativeObject";
+        sb.AppendLine($"public class {csClassName}(nint nativePtr) : {baseClass}(nativePtr)");
         sb.AppendLine("{");
 
         // For creatable objects, add parameterless constructor
@@ -766,7 +815,7 @@ class Generator
         foreach (var prop in properties)
         {
             if (hasPrecedingMember) sb.AppendLine();
-            EmitProperty(sb, prop, csClassName, classDef.CppNamespace, selectors);
+            EmitProperty(sb, prop, csClassName, classDef.CppNamespace, selectors, inheritedProperties);
             hasPrecedingMember = true;
         }
 
@@ -918,7 +967,7 @@ class Generator
     // =========================================================================
 
     void EmitProperty(StringBuilder sb, PropertyDef prop, string csClassName,
-        string ns, SortedDictionary<string, string> selectors)
+        string ns, SortedDictionary<string, string> selectors, HashSet<string> inheritedProperties)
     {
         var getter = prop.Getter;
         string csPropName = ToPascalCase(getter.CppName);
@@ -927,6 +976,7 @@ class Generator
         bool isEnum = IsEnumType(csType);
         bool isStruct = StructTypes.Contains(csType);
         bool isBool = csType == "bool";
+        bool isNew = inheritedProperties.Contains(csPropName);
 
         // Register getter selector
         string selectorName = csPropName;
@@ -955,12 +1005,14 @@ class Generator
             selectors.TryAdd(setSelName, setSelObjC);
         }
 
+        string newMod = isNew ? "new " : "";
+
         if (nullable)
         {
             // Use NativeObject.GetProperty/SetProperty helpers for cached nullable reference type properties
-            sb.AppendLine($"    public {typeStr} {csPropName}");
+            sb.AppendLine($"    public {newMod}{typeStr} {csPropName}");
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => GetProperty<{csType}>(ref field, {selectorRef});");
+            sb.AppendLine($"        get => GetProperty(ref field, {selectorRef});");
 
             if (prop.Setter != null)
                 sb.AppendLine($"        set => SetProperty(ref field, {csClassName}Bindings.{setSelName}, value);");
@@ -970,7 +1022,7 @@ class Generator
         {
             string msgSend = GetMsgSendForEnumGet(csType);
 
-            sb.AppendLine($"    public {typeStr} {csPropName}");
+            sb.AppendLine($"    public {newMod}{typeStr} {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => ({csType}){msgSend}({target}, {selectorRef});");
 
@@ -983,7 +1035,7 @@ class Generator
         }
         else if (isBool)
         {
-            sb.AppendLine($"    public bool {csPropName}");
+            sb.AppendLine($"    public {newMod}bool {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => ObjectiveCRuntime.MsgSendBool({target}, {selectorRef});");
 
@@ -995,7 +1047,7 @@ class Generator
         {
             string msgSend = GetMsgSendForStruct(csType);
 
-            sb.AppendLine($"    public {typeStr} {csPropName}");
+            sb.AppendLine($"    public {newMod}{typeStr} {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => ObjectiveCRuntime.{msgSend}({target}, {selectorRef});");
 
@@ -1007,7 +1059,7 @@ class Generator
         {
             string msgSend = GetMsgSendMethod(csType);
 
-            sb.AppendLine($"    public {typeStr} {csPropName}");
+            sb.AppendLine($"    public {newMod}{typeStr} {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => ObjectiveCRuntime.{msgSend}({target}, {selectorRef});");
 

@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLBufferBinding(nint nativePtr) : NativeObject(nativePtr)
+public class MTLBufferBinding(nint nativePtr) : MTLBinding(nativePtr)
 {
     public nuint BufferAlignment
     {
@@ -19,12 +19,12 @@ public class MTLBufferBinding(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLPointerType? BufferPointerType
     {
-        get => GetProperty<MTLPointerType>(ref field, MTLBufferBindingBindings.BufferPointerType);
+        get => GetProperty(ref field, MTLBufferBindingBindings.BufferPointerType);
     }
 
     public MTLStructType? BufferStructType
     {
-        get => GetProperty<MTLStructType>(ref field, MTLBufferBindingBindings.BufferStructType);
+        get => GetProperty(ref field, MTLBufferBindingBindings.BufferStructType);
     }
 }
 

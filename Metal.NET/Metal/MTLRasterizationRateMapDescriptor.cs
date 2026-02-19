@@ -8,7 +8,7 @@ public class MTLRasterizationRateMapDescriptor(nint nativePtr) : NativeObject(na
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLRasterizationRateMapDescriptorBindings.Label);
+        get => GetProperty(ref field, MTLRasterizationRateMapDescriptorBindings.Label);
         set => SetProperty(ref field, MTLRasterizationRateMapDescriptorBindings.SetLabel, value);
     }
 
@@ -19,7 +19,7 @@ public class MTLRasterizationRateMapDescriptor(nint nativePtr) : NativeObject(na
 
     public MTLRasterizationRateLayerArray? Layers
     {
-        get => GetProperty<MTLRasterizationRateLayerArray>(ref field, MTLRasterizationRateMapDescriptorBindings.Layers);
+        get => GetProperty(ref field, MTLRasterizationRateMapDescriptorBindings.Layers);
     }
 
     public MTLSize ScreenSize

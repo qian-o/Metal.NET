@@ -4,12 +4,12 @@ public class MTLIOCommandBuffer(nint nativePtr) : NativeObject(nativePtr)
 {
     public NSError? Error
     {
-        get => GetProperty<NSError>(ref field, MTLIOCommandBufferBindings.Error);
+        get => GetProperty(ref field, MTLIOCommandBufferBindings.Error);
     }
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLIOCommandBufferBindings.Label);
+        get => GetProperty(ref field, MTLIOCommandBufferBindings.Label);
         set => SetProperty(ref field, MTLIOCommandBufferBindings.SetLabel, value);
     }
 

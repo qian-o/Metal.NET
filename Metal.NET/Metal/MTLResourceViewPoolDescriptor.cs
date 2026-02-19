@@ -8,7 +8,7 @@ public class MTLResourceViewPoolDescriptor(nint nativePtr) : NativeObject(native
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLResourceViewPoolDescriptorBindings.Label);
+        get => GetProperty(ref field, MTLResourceViewPoolDescriptorBindings.Label);
         set => SetProperty(ref field, MTLResourceViewPoolDescriptorBindings.SetLabel, value);
     }
 

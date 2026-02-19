@@ -8,7 +8,7 @@ public class MTLBinaryArchiveDescriptor(nint nativePtr) : NativeObject(nativePtr
 
     public NSURL? Url
     {
-        get => GetProperty<NSURL>(ref field, MTLBinaryArchiveDescriptorBindings.Url);
+        get => GetProperty(ref field, MTLBinaryArchiveDescriptorBindings.Url);
         set => SetProperty(ref field, MTLBinaryArchiveDescriptorBindings.SetUrl, value);
     }
 }

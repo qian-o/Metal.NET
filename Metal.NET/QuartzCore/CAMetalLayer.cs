@@ -1,4 +1,4 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr)
 {
@@ -50,7 +50,7 @@ public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr)
 
     public CAMetalDrawable? NextDrawable
     {
-        get => GetProperty<CAMetalDrawable>(ref field, CAMetalLayerBindings.NextDrawable);
+        get => GetProperty(ref field, CAMetalLayerBindings.NextDrawable);
     }
 
     public MTLPixelFormat PixelFormat
@@ -61,7 +61,7 @@ public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLResidencySet? ResidencySet
     {
-        get => GetProperty<MTLResidencySet>(ref field, CAMetalLayerBindings.ResidencySet);
+        get => GetProperty(ref field, CAMetalLayerBindings.ResidencySet);
     }
 
     public static CAMetalLayer? Layer()

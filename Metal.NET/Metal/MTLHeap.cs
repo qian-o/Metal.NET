@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLHeap(nint nativePtr) : NativeObject(nativePtr)
+public class MTLHeap(nint nativePtr) : MTLAllocation(nativePtr)
 {
     public MTLCPUCacheMode CpuCacheMode
     {
@@ -14,7 +14,7 @@ public class MTLHeap(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLDevice? Device
     {
-        get => GetProperty<MTLDevice>(ref field, MTLHeapBindings.Device);
+        get => GetProperty(ref field, MTLHeapBindings.Device);
     }
 
     public MTLHazardTrackingMode HazardTrackingMode
@@ -24,7 +24,7 @@ public class MTLHeap(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Label
     {
-        get => GetProperty<NSString>(ref field, MTLHeapBindings.Label);
+        get => GetProperty(ref field, MTLHeapBindings.Label);
         set => SetProperty(ref field, MTLHeapBindings.SetLabel, value);
     }
 
