@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLBinding(nint nativePtr)
+public class MTLBinding(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLBindingAccess Access
     {
         get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBindingBindings.Access);
@@ -34,7 +32,18 @@ public readonly struct MTLBinding(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBindingBindings.Name);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
     }
 

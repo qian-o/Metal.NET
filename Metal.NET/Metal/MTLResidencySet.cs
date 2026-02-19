@@ -1,15 +1,24 @@
 namespace Metal.NET;
 
-public readonly struct MTLResidencySet(nint nativePtr)
+public class MTLResidencySet(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public NSArray? AllAllocations
     {
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetBindings.AllAllocations);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -28,7 +37,18 @@ public readonly struct MTLResidencySet(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetBindings.Device);
-            return ptr is not 0 ? new MTLDevice(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLDevice(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -37,7 +57,18 @@ public readonly struct MTLResidencySet(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetBindings.Label);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
     }
 

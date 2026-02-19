@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct NSURL(nint nativePtr)
+public class NSURL(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public nint FileSystemRepresentation
     {
         get => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSURLBindings.FileSystemRepresentation);
@@ -12,13 +10,13 @@ public readonly struct NSURL(nint nativePtr)
     public NSURL? InitFileURLWithPath(NSString pPath)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSURLBindings.InitFileURLWithPath, pPath.NativePtr);
-        return ptr is not 0 ? new NSURL(ptr) : default;
+        return ptr is not 0 ? new NSURL(ptr) : null;
     }
 
     public static NSURL? FileURLWithPath(NSString pPath)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NSURLBindings.Class, NSURLBindings.NSURL, pPath.NativePtr);
-        return ptr is not 0 ? new NSURL(ptr) : default;
+        return ptr is not 0 ? new NSURL(ptr) : null;
     }
 }
 

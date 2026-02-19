@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLIOCommandQueueDescriptor(nint nativePtr)
+public class MTLIOCommandQueueDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLIOCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIOCommandQueueDescriptorBindings.Class))
     {
     }
@@ -31,9 +29,24 @@ public readonly struct MTLIOCommandQueueDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueDescriptorBindings.ScratchBufferAllocator);
-            return ptr is not 0 ? new MTLIOScratchBufferAllocator(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLIOScratchBufferAllocator(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorBindings.SetScratchBufferAllocator, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorBindings.SetScratchBufferAllocator, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLIOCommandQueueType Type

@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLBuffer(nint nativePtr)
+public class MTLBuffer(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public nint Contents
     {
         get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.Contents);
@@ -24,7 +22,18 @@ public readonly struct MTLBuffer(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.RemoteStorageBuffer);
-            return ptr is not 0 ? new MTLBuffer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLBuffer(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -46,20 +55,20 @@ public readonly struct MTLBuffer(nint nativePtr)
     public MTLBuffer? NewRemoteBufferViewForDevice(MTLDevice device)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewRemoteBufferViewForDevice, device.NativePtr);
-        return ptr is not 0 ? new MTLBuffer(ptr) : default;
+        return ptr is not 0 ? new MTLBuffer(ptr) : null;
     }
 
     public MTLTensor? NewTensor(MTLTensorDescriptor descriptor, nuint offset, out NSError? error)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewTensor, descriptor.NativePtr, offset, out nint errorPtr);
-        error = errorPtr is not 0 ? new NSError(errorPtr) : default;
-        return ptr is not 0 ? new MTLTensor(ptr) : default;
+        error = errorPtr is not 0 ? new NSError(errorPtr) : null;
+        return ptr is not 0 ? new MTLTensor(ptr) : null;
     }
 
     public MTLTexture? NewTexture(MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewTexture, descriptor.NativePtr, offset, bytesPerRow);
-        return ptr is not 0 ? new MTLTexture(ptr) : default;
+        return ptr is not 0 ? new MTLTexture(ptr) : null;
     }
 
     public void RemoveAllDebugMarkers()

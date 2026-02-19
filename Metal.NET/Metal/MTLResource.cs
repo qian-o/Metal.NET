@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLResource(nint nativePtr)
+public class MTLResource(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public nuint AllocatedSize
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceBindings.AllocatedSize);
@@ -19,7 +17,18 @@ public readonly struct MTLResource(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceBindings.Device);
-            return ptr is not 0 ? new MTLDevice(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLDevice(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -33,7 +42,18 @@ public readonly struct MTLResource(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceBindings.Heap);
-            return ptr is not 0 ? new MTLHeap(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLHeap(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -52,9 +72,24 @@ public readonly struct MTLResource(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceBindings.Label);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceBindings.SetLabel, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceBindings.SetLabel, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLResourceOptions ResourceOptions

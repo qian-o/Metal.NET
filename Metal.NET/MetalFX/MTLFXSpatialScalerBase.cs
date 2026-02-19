@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLFXSpatialScalerBase(nint nativePtr)
+public class MTLFXSpatialScalerBase(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLFXSpatialScalerColorProcessingMode ColorProcessingMode
     {
         get => (MTLFXSpatialScalerColorProcessingMode)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerBaseBindings.ColorProcessingMode);
@@ -14,9 +12,24 @@ public readonly struct MTLFXSpatialScalerBase(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerBaseBindings.ColorTexture);
-            return ptr is not 0 ? new MTLTexture(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLTexture(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerBaseBindings.SetColorTexture, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerBaseBindings.SetColorTexture, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLPixelFormat ColorTextureFormat
@@ -34,9 +47,24 @@ public readonly struct MTLFXSpatialScalerBase(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerBaseBindings.Fence);
-            return ptr is not 0 ? new MTLFence(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLFence(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerBaseBindings.SetFence, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerBaseBindings.SetFence, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint InputContentHeight
@@ -71,9 +99,24 @@ public readonly struct MTLFXSpatialScalerBase(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerBaseBindings.OutputTexture);
-            return ptr is not 0 ? new MTLTexture(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLTexture(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerBaseBindings.SetOutputTexture, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerBaseBindings.SetOutputTexture, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLPixelFormat OutputTextureFormat

@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLFXTemporalScalerDescriptor(nint nativePtr)
+public class MTLFXTemporalScalerDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLFXTemporalScalerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXTemporalScalerDescriptorBindings.Class))
     {
     }
@@ -98,13 +96,13 @@ public readonly struct MTLFXTemporalScalerDescriptor(nint nativePtr)
     public MTLFXTemporalScaler? NewTemporalScaler(MTLDevice pDevice)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerDescriptorBindings.NewTemporalScaler, pDevice.NativePtr);
-        return ptr is not 0 ? new MTLFXTemporalScaler(ptr) : default;
+        return ptr is not 0 ? new MTLFXTemporalScaler(ptr) : null;
     }
 
     public MTL4FXTemporalScaler? NewTemporalScaler(MTLDevice pDevice, MTL4Compiler pCompiler)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerDescriptorBindings.NewTemporalScaler, pDevice.NativePtr, pCompiler.NativePtr);
-        return ptr is not 0 ? new MTL4FXTemporalScaler(ptr) : default;
+        return ptr is not 0 ? new MTL4FXTemporalScaler(ptr) : null;
     }
 
     public static float SupportedInputContentMinScale(MTLDevice pDevice)

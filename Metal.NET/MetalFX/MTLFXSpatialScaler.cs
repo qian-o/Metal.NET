@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLFXSpatialScaler(nint nativePtr)
+public class MTLFXSpatialScaler(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public void EncodeToCommandBuffer(MTLCommandBuffer pCommandBuffer)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerBindings.EncodeToCommandBuffer, pCommandBuffer.NativePtr);

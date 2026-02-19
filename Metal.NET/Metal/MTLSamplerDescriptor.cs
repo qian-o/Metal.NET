@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLSamplerDescriptor(nint nativePtr)
+public class MTLSamplerDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLSamplerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLSamplerDescriptorBindings.Class))
     {
     }
@@ -25,9 +23,24 @@ public readonly struct MTLSamplerDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSamplerDescriptorBindings.Label);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public bool LodAverage

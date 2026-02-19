@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLCaptureDescriptor(nint nativePtr)
+public class MTLCaptureDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLCaptureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCaptureDescriptorBindings.Class))
     {
     }
@@ -19,9 +17,24 @@ public readonly struct MTLCaptureDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureDescriptorBindings.OutputURL);
-            return ptr is not 0 ? new NSURL(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSURL(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorBindings.SetOutputURL, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorBindings.SetOutputURL, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 }
 

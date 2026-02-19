@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLRenderPassColorAttachmentDescriptor(nint nativePtr)
+public class MTLRenderPassColorAttachmentDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLRenderPassColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassColorAttachmentDescriptorBindings.Class))
     {
     }

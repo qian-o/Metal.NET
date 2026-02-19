@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLRasterizationRateSampleArray(nint nativePtr)
+public class MTLRasterizationRateSampleArray(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLRasterizationRateSampleArray() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateSampleArrayBindings.Class))
     {
     }

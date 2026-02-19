@@ -1,15 +1,24 @@
 namespace Metal.NET;
 
-public readonly struct MTLTensor(nint nativePtr)
+public class MTLTensor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLBuffer? Buffer
     {
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindings.Buffer);
-            return ptr is not 0 ? new MTLBuffer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLBuffer(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -28,7 +37,18 @@ public readonly struct MTLTensor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindings.Dimensions);
-            return ptr is not 0 ? new MTLTensorExtents(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLTensorExtents(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -42,7 +62,18 @@ public readonly struct MTLTensor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindings.Strides);
-            return ptr is not 0 ? new MTLTensorExtents(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLTensorExtents(ptr);
+            }
+
+            return field;
         }
     }
 

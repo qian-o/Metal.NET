@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLFunctionStitchingInputNode(nint nativePtr)
+public class MTLFunctionStitchingInputNode(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLFunctionStitchingInputNode() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingInputNodeBindings.Class))
     {
     }

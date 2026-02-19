@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTL4RenderPassDescriptor(nint nativePtr)
+public class MTL4RenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTL4RenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPassDescriptorBindings.Class))
     {
     }
@@ -13,7 +11,18 @@ public readonly struct MTL4RenderPassDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorBindings.ColorAttachments);
-            return ptr is not 0 ? new MTLRenderPassColorAttachmentDescriptorArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLRenderPassColorAttachmentDescriptorArray(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -28,9 +37,24 @@ public readonly struct MTL4RenderPassDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorBindings.DepthAttachment);
-            return ptr is not 0 ? new MTLRenderPassDepthAttachmentDescriptor(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLRenderPassDepthAttachmentDescriptor(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetDepthAttachment, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetDepthAttachment, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint ImageblockSampleLength
@@ -44,9 +68,24 @@ public readonly struct MTL4RenderPassDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorBindings.RasterizationRateMap);
-            return ptr is not 0 ? new MTLRasterizationRateMap(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLRasterizationRateMap(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetRasterizationRateMap, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetRasterizationRateMap, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint RenderTargetArrayLength
@@ -72,9 +111,24 @@ public readonly struct MTL4RenderPassDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorBindings.StencilAttachment);
-            return ptr is not 0 ? new MTLRenderPassStencilAttachmentDescriptor(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLRenderPassStencilAttachmentDescriptor(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetStencilAttachment, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetStencilAttachment, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public bool SupportColorAttachmentMapping
@@ -106,9 +160,24 @@ public readonly struct MTL4RenderPassDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorBindings.VisibilityResultBuffer);
-            return ptr is not 0 ? new MTLBuffer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLBuffer(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetVisibilityResultBuffer, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetVisibilityResultBuffer, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLVisibilityResultType VisibilityResultType

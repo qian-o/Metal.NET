@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTL4CommandAllocator(nint nativePtr)
+public class MTL4CommandAllocator(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public nuint AllocatedSize
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CommandAllocatorBindings.AllocatedSize);
@@ -14,7 +12,18 @@ public readonly struct MTL4CommandAllocator(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorBindings.Device);
-            return ptr is not 0 ? new MTLDevice(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLDevice(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -23,7 +32,18 @@ public readonly struct MTL4CommandAllocator(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorBindings.Label);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
     }
 

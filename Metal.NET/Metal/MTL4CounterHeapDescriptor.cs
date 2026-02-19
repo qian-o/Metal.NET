@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTL4CounterHeapDescriptor(nint nativePtr)
+public class MTL4CounterHeapDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTL4CounterHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CounterHeapDescriptorBindings.Class))
     {
     }

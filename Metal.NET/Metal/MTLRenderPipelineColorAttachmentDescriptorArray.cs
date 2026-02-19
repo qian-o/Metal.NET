@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLRenderPipelineColorAttachmentDescriptorArray(nint nativePtr)
+public class MTLRenderPipelineColorAttachmentDescriptorArray(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLRenderPipelineColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineColorAttachmentDescriptorArrayBindings.Class))
     {
     }
@@ -11,7 +9,7 @@ public readonly struct MTLRenderPipelineColorAttachmentDescriptorArray(nint nati
     public MTLRenderPipelineColorAttachmentDescriptor? Object(nuint attachmentIndex)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineColorAttachmentDescriptorArrayBindings.Object, attachmentIndex);
-        return ptr is not 0 ? new MTLRenderPipelineColorAttachmentDescriptor(ptr) : default;
+        return ptr is not 0 ? new MTLRenderPipelineColorAttachmentDescriptor(ptr) : null;
     }
 
     public void SetObject(MTLRenderPipelineColorAttachmentDescriptor attachment, nuint attachmentIndex)

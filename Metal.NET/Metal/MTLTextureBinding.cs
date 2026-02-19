@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLTextureBinding(nint nativePtr)
+public class MTLTextureBinding(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public nuint ArrayLength
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindingBindings.ArrayLength);

@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLTileRenderPipelineDescriptor(nint nativePtr)
+public class MTLTileRenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLTileRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTileRenderPipelineDescriptorBindings.Class))
     {
     }
@@ -13,9 +11,24 @@ public readonly struct MTLTileRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorBindings.BinaryArchives);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetBinaryArchives, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetBinaryArchives, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLTileRenderPipelineColorAttachmentDescriptorArray? ColorAttachments
@@ -23,7 +36,18 @@ public readonly struct MTLTileRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorBindings.ColorAttachments);
-            return ptr is not 0 ? new MTLTileRenderPipelineColorAttachmentDescriptorArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLTileRenderPipelineColorAttachmentDescriptorArray(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -32,9 +56,24 @@ public readonly struct MTLTileRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorBindings.Label);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLLinkedFunctions? LinkedFunctions
@@ -42,9 +81,24 @@ public readonly struct MTLTileRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorBindings.LinkedFunctions);
-            return ptr is not 0 ? new MTLLinkedFunctions(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLLinkedFunctions(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetLinkedFunctions, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetLinkedFunctions, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint MaxCallStackDepth
@@ -64,9 +118,24 @@ public readonly struct MTLTileRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorBindings.PreloadedLibraries);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetPreloadedLibraries, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetPreloadedLibraries, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint RasterSampleCount
@@ -104,7 +173,18 @@ public readonly struct MTLTileRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorBindings.TileBuffers);
-            return ptr is not 0 ? new MTLPipelineBufferDescriptorArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLPipelineBufferDescriptorArray(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -113,9 +193,24 @@ public readonly struct MTLTileRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorBindings.TileFunction);
-            return ptr is not 0 ? new MTLFunction(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLFunction(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetTileFunction, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetTileFunction, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public void Reset()

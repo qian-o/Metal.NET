@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLFXFrameInterpolator(nint nativePtr)
+public class MTLFXFrameInterpolator(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public void EncodeToCommandBuffer(MTLCommandBuffer commandBuffer)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBindings.EncodeToCommandBuffer, commandBuffer.NativePtr);

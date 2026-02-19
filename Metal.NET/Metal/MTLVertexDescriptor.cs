@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLVertexDescriptor(nint nativePtr)
+public class MTLVertexDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLVertexDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexDescriptorBindings.Class))
     {
     }
@@ -13,7 +11,18 @@ public readonly struct MTLVertexDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorBindings.Attributes);
-            return ptr is not 0 ? new MTLVertexAttributeDescriptorArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLVertexAttributeDescriptorArray(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -22,7 +31,18 @@ public readonly struct MTLVertexDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorBindings.Layouts);
-            return ptr is not 0 ? new MTLVertexBufferLayoutDescriptorArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLVertexBufferLayoutDescriptorArray(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -34,7 +54,7 @@ public readonly struct MTLVertexDescriptor(nint nativePtr)
     public static MTLVertexDescriptor? VertexDescriptor()
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLVertexDescriptorBindings.Class, MTLVertexDescriptorBindings.VertexDescriptor);
-        return ptr is not 0 ? new MTLVertexDescriptor(ptr) : default;
+        return ptr is not 0 ? new MTLVertexDescriptor(ptr) : null;
     }
 }
 

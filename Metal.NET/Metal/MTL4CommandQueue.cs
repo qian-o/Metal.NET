@@ -1,15 +1,24 @@
 namespace Metal.NET;
 
-public readonly struct MTL4CommandQueue(nint nativePtr)
+public class MTL4CommandQueue(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLDevice? Device
     {
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueBindings.Device);
-            return ptr is not 0 ? new MTLDevice(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLDevice(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -18,7 +27,18 @@ public readonly struct MTL4CommandQueue(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueBindings.Label);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
     }
 

@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLAllocation(nint nativePtr)
+public class MTLAllocation(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public nuint AllocatedSize
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAllocationBindings.AllocatedSize);

@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLFXFrameInterpolatorDescriptor(nint nativePtr)
+public class MTLFXFrameInterpolatorDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLFXFrameInterpolatorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXFrameInterpolatorDescriptorBindings.Class))
     {
     }
@@ -61,9 +59,24 @@ public readonly struct MTLFXFrameInterpolatorDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.Scaler);
-            return ptr is not 0 ? new MTLFXFrameInterpolatableScaler(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLFXFrameInterpolatableScaler(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetScaler, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetScaler, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLPixelFormat UiTextureFormat
@@ -74,13 +87,13 @@ public readonly struct MTLFXFrameInterpolatorDescriptor(nint nativePtr)
     public MTLFXFrameInterpolator? NewFrameInterpolator(MTLDevice pDevice)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.NewFrameInterpolator, pDevice.NativePtr);
-        return ptr is not 0 ? new MTLFXFrameInterpolator(ptr) : default;
+        return ptr is not 0 ? new MTLFXFrameInterpolator(ptr) : null;
     }
 
     public MTL4FXFrameInterpolator? NewFrameInterpolator(MTLDevice pDevice, MTL4Compiler pCompiler)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.NewFrameInterpolator, pDevice.NativePtr, pCompiler.NativePtr);
-        return ptr is not 0 ? new MTL4FXFrameInterpolator(ptr) : default;
+        return ptr is not 0 ? new MTL4FXFrameInterpolator(ptr) : null;
     }
 
     public static bool SupportsMetal4FX(MTLDevice device)

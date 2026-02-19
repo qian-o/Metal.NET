@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTL4MeshRenderPipelineDescriptor(nint nativePtr)
+public class MTL4MeshRenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTL4MeshRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4MeshRenderPipelineDescriptorBindings.Class))
     {
     }
@@ -31,7 +29,18 @@ public readonly struct MTL4MeshRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.ColorAttachments);
-            return ptr is not 0 ? new MTL4RenderPipelineColorAttachmentDescriptorArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTL4RenderPipelineColorAttachmentDescriptorArray(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -40,9 +49,24 @@ public readonly struct MTL4MeshRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.FragmentFunctionDescriptor);
-            return ptr is not 0 ? new MTL4FunctionDescriptor(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTL4FunctionDescriptor(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetFragmentFunctionDescriptor, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetFragmentFunctionDescriptor, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTL4StaticLinkingDescriptor? FragmentStaticLinkingDescriptor
@@ -50,9 +74,24 @@ public readonly struct MTL4MeshRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.FragmentStaticLinkingDescriptor);
-            return ptr is not 0 ? new MTL4StaticLinkingDescriptor(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTL4StaticLinkingDescriptor(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetFragmentStaticLinkingDescriptor, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetFragmentStaticLinkingDescriptor, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public bool IsRasterizationEnabled
@@ -89,9 +128,24 @@ public readonly struct MTL4MeshRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.MeshFunctionDescriptor);
-            return ptr is not 0 ? new MTL4FunctionDescriptor(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTL4FunctionDescriptor(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetMeshFunctionDescriptor, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetMeshFunctionDescriptor, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTL4StaticLinkingDescriptor? MeshStaticLinkingDescriptor
@@ -99,9 +153,24 @@ public readonly struct MTL4MeshRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.MeshStaticLinkingDescriptor);
-            return ptr is not 0 ? new MTL4StaticLinkingDescriptor(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTL4StaticLinkingDescriptor(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetMeshStaticLinkingDescriptor, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetMeshStaticLinkingDescriptor, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public bool MeshThreadgroupSizeIsMultipleOfThreadExecutionWidth
@@ -115,9 +184,24 @@ public readonly struct MTL4MeshRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.ObjectFunctionDescriptor);
-            return ptr is not 0 ? new MTL4FunctionDescriptor(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTL4FunctionDescriptor(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetObjectFunctionDescriptor, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetObjectFunctionDescriptor, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTL4StaticLinkingDescriptor? ObjectStaticLinkingDescriptor
@@ -125,9 +209,24 @@ public readonly struct MTL4MeshRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.ObjectStaticLinkingDescriptor);
-            return ptr is not 0 ? new MTL4StaticLinkingDescriptor(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTL4StaticLinkingDescriptor(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetObjectStaticLinkingDescriptor, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetObjectStaticLinkingDescriptor, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public bool ObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth

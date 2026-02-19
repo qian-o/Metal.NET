@@ -1,15 +1,24 @@
 namespace Metal.NET;
 
-public readonly struct MTLCounterSet(nint nativePtr)
+public class MTLCounterSet(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public NSArray? Counters
     {
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSetBindings.Counters);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -18,7 +27,18 @@ public readonly struct MTLCounterSet(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSetBindings.Name);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
     }
 }

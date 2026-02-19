@@ -1,15 +1,24 @@
 namespace Metal.NET;
 
-public readonly struct MTLCommandBuffer(nint nativePtr)
+public class MTLCommandBuffer(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLAccelerationStructureCommandEncoder? AccelerationStructureCommandEncoder
     {
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.AccelerationStructureCommandEncoder);
-            return ptr is not 0 ? new MTLAccelerationStructureCommandEncoder(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLAccelerationStructureCommandEncoder(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -18,7 +27,18 @@ public readonly struct MTLCommandBuffer(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.BlitCommandEncoder);
-            return ptr is not 0 ? new MTLBlitCommandEncoder(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLBlitCommandEncoder(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -27,7 +47,18 @@ public readonly struct MTLCommandBuffer(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.CommandQueue);
-            return ptr is not 0 ? new MTLCommandQueue(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLCommandQueue(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -36,7 +67,18 @@ public readonly struct MTLCommandBuffer(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ComputeCommandEncoder);
-            return ptr is not 0 ? new MTLComputeCommandEncoder(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLComputeCommandEncoder(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -45,7 +87,18 @@ public readonly struct MTLCommandBuffer(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.Device);
-            return ptr is not 0 ? new MTLDevice(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLDevice(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -54,7 +107,18 @@ public readonly struct MTLCommandBuffer(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.Error);
-            return ptr is not 0 ? new NSError(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSError(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -88,9 +152,24 @@ public readonly struct MTLCommandBuffer(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.Label);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.SetLabel, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.SetLabel, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLLogContainer? Logs
@@ -98,7 +177,18 @@ public readonly struct MTLCommandBuffer(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.Logs);
-            return ptr is not 0 ? new MTLLogContainer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLLogContainer(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -107,7 +197,18 @@ public readonly struct MTLCommandBuffer(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ResourceStateCommandEncoder);
-            return ptr is not 0 ? new MTLResourceStateCommandEncoder(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLResourceStateCommandEncoder(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -124,13 +225,13 @@ public readonly struct MTLCommandBuffer(nint nativePtr)
     public MTLAccelerationStructureCommandEncoder? AccelerationStructureCommandEncoderWithDescriptor(MTLAccelerationStructurePassDescriptor descriptor)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.AccelerationStructureCommandEncoder, descriptor.NativePtr);
-        return ptr is not 0 ? new MTLAccelerationStructureCommandEncoder(ptr) : default;
+        return ptr is not 0 ? new MTLAccelerationStructureCommandEncoder(ptr) : null;
     }
 
     public MTLBlitCommandEncoder? BlitCommandEncoderWithDescriptor(MTLBlitPassDescriptor blitPassDescriptor)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.BlitCommandEncoder, blitPassDescriptor.NativePtr);
-        return ptr is not 0 ? new MTLBlitCommandEncoder(ptr) : default;
+        return ptr is not 0 ? new MTLBlitCommandEncoder(ptr) : null;
     }
 
     public void Commit()
@@ -141,13 +242,13 @@ public readonly struct MTLCommandBuffer(nint nativePtr)
     public MTLComputeCommandEncoder? ComputeCommandEncoderWithDescriptor(MTLComputePassDescriptor computePassDescriptor)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ComputeCommandEncoder, computePassDescriptor.NativePtr);
-        return ptr is not 0 ? new MTLComputeCommandEncoder(ptr) : default;
+        return ptr is not 0 ? new MTLComputeCommandEncoder(ptr) : null;
     }
 
     public MTLComputeCommandEncoder? ComputeCommandEncoderWithDispatchType(MTLDispatchType dispatchType)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ComputeCommandEncoder, (nuint)dispatchType);
-        return ptr is not 0 ? new MTLComputeCommandEncoder(ptr) : default;
+        return ptr is not 0 ? new MTLComputeCommandEncoder(ptr) : null;
     }
 
     public void EncodeSignalEvent(MTLEvent @event, nuint value)
@@ -168,7 +269,7 @@ public readonly struct MTLCommandBuffer(nint nativePtr)
     public MTLParallelRenderCommandEncoder? ParallelRenderCommandEncoder(MTLRenderPassDescriptor renderPassDescriptor)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ParallelRenderCommandEncoder, renderPassDescriptor.NativePtr);
-        return ptr is not 0 ? new MTLParallelRenderCommandEncoder(ptr) : default;
+        return ptr is not 0 ? new MTLParallelRenderCommandEncoder(ptr) : null;
     }
 
     public void PopDebugGroup()
@@ -199,13 +300,13 @@ public readonly struct MTLCommandBuffer(nint nativePtr)
     public MTLRenderCommandEncoder? RenderCommandEncoder(MTLRenderPassDescriptor renderPassDescriptor)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.RenderCommandEncoder, renderPassDescriptor.NativePtr);
-        return ptr is not 0 ? new MTLRenderCommandEncoder(ptr) : default;
+        return ptr is not 0 ? new MTLRenderCommandEncoder(ptr) : null;
     }
 
     public MTLResourceStateCommandEncoder? ResourceStateCommandEncoderWithDescriptor(MTLResourceStatePassDescriptor resourceStatePassDescriptor)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ResourceStateCommandEncoder, resourceStatePassDescriptor.NativePtr);
-        return ptr is not 0 ? new MTLResourceStateCommandEncoder(ptr) : default;
+        return ptr is not 0 ? new MTLResourceStateCommandEncoder(ptr) : null;
     }
 
     public void UseResidencySet(MTLResidencySet residencySet)

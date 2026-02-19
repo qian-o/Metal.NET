@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLRenderPipelineDescriptor(nint nativePtr)
+public class MTLRenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineDescriptorBindings.Class))
     {
     }
@@ -25,9 +23,24 @@ public readonly struct MTLRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorBindings.BinaryArchives);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetBinaryArchives, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetBinaryArchives, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLRenderPipelineColorAttachmentDescriptorArray? ColorAttachments
@@ -35,7 +48,18 @@ public readonly struct MTLRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorBindings.ColorAttachments);
-            return ptr is not 0 ? new MTLRenderPipelineColorAttachmentDescriptorArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLRenderPipelineColorAttachmentDescriptorArray(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -50,7 +74,18 @@ public readonly struct MTLRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorBindings.FragmentBuffers);
-            return ptr is not 0 ? new MTLPipelineBufferDescriptorArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLPipelineBufferDescriptorArray(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -59,9 +94,24 @@ public readonly struct MTLRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorBindings.FragmentFunction);
-            return ptr is not 0 ? new MTLFunction(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLFunction(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetFragmentFunction, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetFragmentFunction, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLLinkedFunctions? FragmentLinkedFunctions
@@ -69,9 +119,24 @@ public readonly struct MTLRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorBindings.FragmentLinkedFunctions);
-            return ptr is not 0 ? new MTLLinkedFunctions(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLLinkedFunctions(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetFragmentLinkedFunctions, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetFragmentLinkedFunctions, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public NSArray? FragmentPreloadedLibraries
@@ -79,9 +144,24 @@ public readonly struct MTLRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorBindings.FragmentPreloadedLibraries);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetFragmentPreloadedLibraries, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetFragmentPreloadedLibraries, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLPrimitiveTopologyClass InputPrimitiveTopology
@@ -115,9 +195,24 @@ public readonly struct MTLRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorBindings.Label);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint MaxFragmentCallStackDepth
@@ -233,7 +328,18 @@ public readonly struct MTLRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorBindings.VertexBuffers);
-            return ptr is not 0 ? new MTLPipelineBufferDescriptorArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLPipelineBufferDescriptorArray(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -242,9 +348,24 @@ public readonly struct MTLRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorBindings.VertexDescriptor);
-            return ptr is not 0 ? new MTLVertexDescriptor(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLVertexDescriptor(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetVertexDescriptor, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetVertexDescriptor, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLFunction? VertexFunction
@@ -252,9 +373,24 @@ public readonly struct MTLRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorBindings.VertexFunction);
-            return ptr is not 0 ? new MTLFunction(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLFunction(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetVertexFunction, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetVertexFunction, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLLinkedFunctions? VertexLinkedFunctions
@@ -262,9 +398,24 @@ public readonly struct MTLRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorBindings.VertexLinkedFunctions);
-            return ptr is not 0 ? new MTLLinkedFunctions(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLLinkedFunctions(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetVertexLinkedFunctions, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetVertexLinkedFunctions, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public NSArray? VertexPreloadedLibraries
@@ -272,9 +423,24 @@ public readonly struct MTLRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorBindings.VertexPreloadedLibraries);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetVertexPreloadedLibraries, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetVertexPreloadedLibraries, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public void Reset()

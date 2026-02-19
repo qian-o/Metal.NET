@@ -1,15 +1,24 @@
 namespace Metal.NET;
 
-public readonly struct CAMetalDrawable(nint nativePtr)
+public class CAMetalDrawable(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public CAMetalLayer? Layer
     {
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalDrawableBindings.Layer);
-            return ptr is not 0 ? new CAMetalLayer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new CAMetalLayer(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -18,7 +27,18 @@ public readonly struct CAMetalDrawable(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalDrawableBindings.Texture);
-            return ptr is not 0 ? new MTLTexture(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLTexture(ptr);
+            }
+
+            return field;
         }
     }
 }

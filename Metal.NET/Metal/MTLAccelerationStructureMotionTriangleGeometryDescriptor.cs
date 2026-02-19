@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativePtr)
+public class MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLAccelerationStructureMotionTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.Class))
     {
     }
@@ -13,9 +11,24 @@ public readonly struct MTLAccelerationStructureMotionTriangleGeometryDescriptor(
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.IndexBuffer);
-            return ptr is not 0 ? new MTLBuffer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLBuffer(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetIndexBuffer, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetIndexBuffer, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint IndexBufferOffset
@@ -35,9 +48,24 @@ public readonly struct MTLAccelerationStructureMotionTriangleGeometryDescriptor(
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.TransformationMatrixBuffer);
-            return ptr is not 0 ? new MTLBuffer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLBuffer(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetTransformationMatrixBuffer, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetTransformationMatrixBuffer, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint TransformationMatrixBufferOffset
@@ -63,9 +91,24 @@ public readonly struct MTLAccelerationStructureMotionTriangleGeometryDescriptor(
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.VertexBuffers);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetVertexBuffers, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetVertexBuffers, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLAttributeFormat VertexFormat
@@ -83,7 +126,7 @@ public readonly struct MTLAccelerationStructureMotionTriangleGeometryDescriptor(
     public static MTLAccelerationStructureMotionTriangleGeometryDescriptor? Descriptor()
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.Class, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.Descriptor);
-        return ptr is not 0 ? new MTLAccelerationStructureMotionTriangleGeometryDescriptor(ptr) : default;
+        return ptr is not 0 ? new MTLAccelerationStructureMotionTriangleGeometryDescriptor(ptr) : null;
     }
 }
 

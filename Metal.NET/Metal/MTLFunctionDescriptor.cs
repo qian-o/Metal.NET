@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLFunctionDescriptor(nint nativePtr)
+public class MTLFunctionDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFunctionDescriptorBindings.Class))
     {
     }
@@ -13,9 +11,24 @@ public readonly struct MTLFunctionDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorBindings.BinaryArchives);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetBinaryArchives, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetBinaryArchives, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLFunctionConstantValues? ConstantValues
@@ -23,9 +36,24 @@ public readonly struct MTLFunctionDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorBindings.ConstantValues);
-            return ptr is not 0 ? new MTLFunctionConstantValues(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLFunctionConstantValues(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetConstantValues, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetConstantValues, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public NSString? Name
@@ -33,9 +61,24 @@ public readonly struct MTLFunctionDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorBindings.Name);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetName, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetName, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLFunctionOptions Options
@@ -49,15 +92,30 @@ public readonly struct MTLFunctionDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorBindings.SpecializedName);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetSpecializedName, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetSpecializedName, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public static MTLFunctionDescriptor? FunctionDescriptor()
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLFunctionDescriptorBindings.Class, MTLFunctionDescriptorBindings.FunctionDescriptor);
-        return ptr is not 0 ? new MTLFunctionDescriptor(ptr) : default;
+        return ptr is not 0 ? new MTLFunctionDescriptor(ptr) : null;
     }
 }
 

@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLTextureReferenceType(nint nativePtr)
+public class MTLTextureReferenceType(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLTextureReferenceType() : this(ObjectiveCRuntime.AllocInit(MTLTextureReferenceTypeBindings.Class))
     {
     }

@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTL4RenderCommandEncoder(nint nativePtr)
+public class MTL4RenderCommandEncoder(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public nuint TileHeight
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderCommandEncoderBindings.TileHeight);

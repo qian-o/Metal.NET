@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTL4PipelineDescriptor(nint nativePtr)
+public class MTL4PipelineDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTL4PipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineDescriptorBindings.Class))
     {
     }
@@ -13,9 +11,24 @@ public readonly struct MTL4PipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDescriptorBindings.Label);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTL4PipelineOptions? Options
@@ -23,9 +36,24 @@ public readonly struct MTL4PipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDescriptorBindings.Options);
-            return ptr is not 0 ? new MTL4PipelineOptions(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTL4PipelineOptions(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDescriptorBindings.SetOptions, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDescriptorBindings.SetOptions, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 }
 

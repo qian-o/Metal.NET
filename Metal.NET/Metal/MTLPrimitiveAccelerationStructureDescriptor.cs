@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr)
+public class MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLPrimitiveAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLPrimitiveAccelerationStructureDescriptorBindings.Class))
     {
     }
@@ -13,9 +11,24 @@ public readonly struct MTLPrimitiveAccelerationStructureDescriptor(nint nativePt
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.GeometryDescriptors);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetGeometryDescriptors, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetGeometryDescriptors, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLMotionBorderMode MotionEndBorderMode
@@ -51,7 +64,7 @@ public readonly struct MTLPrimitiveAccelerationStructureDescriptor(nint nativePt
     public static MTLPrimitiveAccelerationStructureDescriptor? Descriptor()
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLPrimitiveAccelerationStructureDescriptorBindings.Class, MTLPrimitiveAccelerationStructureDescriptorBindings.Descriptor);
-        return ptr is not 0 ? new MTLPrimitiveAccelerationStructureDescriptor(ptr) : default;
+        return ptr is not 0 ? new MTLPrimitiveAccelerationStructureDescriptor(ptr) : null;
     }
 }
 

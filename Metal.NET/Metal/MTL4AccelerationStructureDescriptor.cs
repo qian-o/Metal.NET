@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTL4AccelerationStructureDescriptor(nint nativePtr)
+public class MTL4AccelerationStructureDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTL4AccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureDescriptorBindings.Class))
     {
     }

@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLAccelerationStructureBoundingBoxGeometryDescriptor(nint nativePtr)
+public class MTLAccelerationStructureBoundingBoxGeometryDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLAccelerationStructureBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.Class))
     {
     }
@@ -13,9 +11,24 @@ public readonly struct MTLAccelerationStructureBoundingBoxGeometryDescriptor(nin
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.BoundingBoxBuffer);
-            return ptr is not 0 ? new MTLBuffer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLBuffer(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBuffer, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBuffer, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint BoundingBoxBufferOffset
@@ -39,7 +52,7 @@ public readonly struct MTLAccelerationStructureBoundingBoxGeometryDescriptor(nin
     public static MTLAccelerationStructureBoundingBoxGeometryDescriptor? Descriptor()
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.Class, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.Descriptor);
-        return ptr is not 0 ? new MTLAccelerationStructureBoundingBoxGeometryDescriptor(ptr) : default;
+        return ptr is not 0 ? new MTLAccelerationStructureBoundingBoxGeometryDescriptor(ptr) : null;
     }
 }
 

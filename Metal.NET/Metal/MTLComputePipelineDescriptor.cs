@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLComputePipelineDescriptor(nint nativePtr)
+public class MTLComputePipelineDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLComputePipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLComputePipelineDescriptorBindings.Class))
     {
     }
@@ -13,9 +11,24 @@ public readonly struct MTLComputePipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorBindings.BinaryArchives);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetBinaryArchives, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetBinaryArchives, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLPipelineBufferDescriptorArray? Buffers
@@ -23,7 +36,18 @@ public readonly struct MTLComputePipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorBindings.Buffers);
-            return ptr is not 0 ? new MTLPipelineBufferDescriptorArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLPipelineBufferDescriptorArray(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -32,9 +56,24 @@ public readonly struct MTLComputePipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorBindings.ComputeFunction);
-            return ptr is not 0 ? new MTLFunction(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLFunction(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetComputeFunction, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetComputeFunction, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public NSArray? InsertLibraries
@@ -42,9 +81,24 @@ public readonly struct MTLComputePipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorBindings.InsertLibraries);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetInsertLibraries, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetInsertLibraries, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public NSString? Label
@@ -52,9 +106,24 @@ public readonly struct MTLComputePipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorBindings.Label);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLLinkedFunctions? LinkedFunctions
@@ -62,9 +131,24 @@ public readonly struct MTLComputePipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorBindings.LinkedFunctions);
-            return ptr is not 0 ? new MTLLinkedFunctions(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLLinkedFunctions(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetLinkedFunctions, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetLinkedFunctions, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint MaxCallStackDepth
@@ -84,9 +168,24 @@ public readonly struct MTLComputePipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorBindings.PreloadedLibraries);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetPreloadedLibraries, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetPreloadedLibraries, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLSize RequiredThreadsPerThreadgroup
@@ -106,9 +205,24 @@ public readonly struct MTLComputePipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorBindings.StageInputDescriptor);
-            return ptr is not 0 ? new MTLStageInputOutputDescriptor(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLStageInputOutputDescriptor(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetStageInputDescriptor, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetStageInputDescriptor, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public bool SupportAddingBinaryFunctions

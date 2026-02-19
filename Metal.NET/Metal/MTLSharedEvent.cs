@@ -1,15 +1,24 @@
 namespace Metal.NET;
 
-public readonly struct MTLSharedEvent(nint nativePtr)
+public class MTLSharedEvent(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLSharedEventHandle? NewSharedEventHandle
     {
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventBindings.NewSharedEventHandle);
-            return ptr is not 0 ? new MTLSharedEventHandle(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLSharedEventHandle(ptr);
+            }
+
+            return field;
         }
     }
 

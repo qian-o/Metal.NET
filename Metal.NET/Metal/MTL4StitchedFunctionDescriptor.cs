@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTL4StitchedFunctionDescriptor(nint nativePtr)
+public class MTL4StitchedFunctionDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTL4StitchedFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4StitchedFunctionDescriptorBindings.Class))
     {
     }
@@ -13,9 +11,24 @@ public readonly struct MTL4StitchedFunctionDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StitchedFunctionDescriptorBindings.FunctionDescriptors);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorBindings.SetFunctionDescriptors, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorBindings.SetFunctionDescriptors, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLFunctionStitchingGraph? FunctionGraph
@@ -23,9 +36,24 @@ public readonly struct MTL4StitchedFunctionDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StitchedFunctionDescriptorBindings.FunctionGraph);
-            return ptr is not 0 ? new MTLFunctionStitchingGraph(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLFunctionStitchingGraph(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorBindings.SetFunctionGraph, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorBindings.SetFunctionGraph, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 }
 

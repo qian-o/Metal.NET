@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLComputePassSampleBufferAttachmentDescriptorArray(nint nativePtr)
+public class MTLComputePassSampleBufferAttachmentDescriptorArray(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLComputePassSampleBufferAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLComputePassSampleBufferAttachmentDescriptorArrayBindings.Class))
     {
     }
@@ -11,7 +9,7 @@ public readonly struct MTLComputePassSampleBufferAttachmentDescriptorArray(nint 
     public MTLComputePassSampleBufferAttachmentDescriptor? Object(nuint attachmentIndex)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorArrayBindings.Object, attachmentIndex);
-        return ptr is not 0 ? new MTLComputePassSampleBufferAttachmentDescriptor(ptr) : default;
+        return ptr is not 0 ? new MTLComputePassSampleBufferAttachmentDescriptor(ptr) : null;
     }
 
     public void SetObject(MTLComputePassSampleBufferAttachmentDescriptor attachment, nuint attachmentIndex)

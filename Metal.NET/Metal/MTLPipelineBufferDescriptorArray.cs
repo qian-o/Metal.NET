@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLPipelineBufferDescriptorArray(nint nativePtr)
+public class MTLPipelineBufferDescriptorArray(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLPipelineBufferDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLPipelineBufferDescriptorArrayBindings.Class))
     {
     }
@@ -11,7 +9,7 @@ public readonly struct MTLPipelineBufferDescriptorArray(nint nativePtr)
     public MTLPipelineBufferDescriptor? Object(nuint bufferIndex)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPipelineBufferDescriptorArrayBindings.Object, bufferIndex);
-        return ptr is not 0 ? new MTLPipelineBufferDescriptor(ptr) : default;
+        return ptr is not 0 ? new MTLPipelineBufferDescriptor(ptr) : null;
     }
 
     public void SetObject(MTLPipelineBufferDescriptor buffer, nuint bufferIndex)

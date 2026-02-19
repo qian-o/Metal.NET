@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr)
+public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLIndirectInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIndirectInstanceAccelerationStructureDescriptorBindings.Class))
     {
     }
@@ -13,9 +11,24 @@ public readonly struct MTLIndirectInstanceAccelerationStructureDescriptor(nint n
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceCountBuffer);
-            return ptr is not 0 ? new MTLBuffer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLBuffer(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceCountBuffer, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceCountBuffer, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint InstanceCountBufferOffset
@@ -29,9 +42,24 @@ public readonly struct MTLIndirectInstanceAccelerationStructureDescriptor(nint n
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorBuffer);
-            return ptr is not 0 ? new MTLBuffer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLBuffer(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorBuffer, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorBuffer, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint InstanceDescriptorBufferOffset
@@ -75,9 +103,24 @@ public readonly struct MTLIndirectInstanceAccelerationStructureDescriptor(nint n
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformBuffer);
-            return ptr is not 0 ? new MTLBuffer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLBuffer(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformBuffer, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformBuffer, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint MotionTransformBufferOffset
@@ -91,9 +134,24 @@ public readonly struct MTLIndirectInstanceAccelerationStructureDescriptor(nint n
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformCountBuffer);
-            return ptr is not 0 ? new MTLBuffer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLBuffer(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformCountBuffer, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformCountBuffer, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint MotionTransformCountBufferOffset
@@ -117,7 +175,7 @@ public readonly struct MTLIndirectInstanceAccelerationStructureDescriptor(nint n
     public static MTLIndirectInstanceAccelerationStructureDescriptor? Descriptor()
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLIndirectInstanceAccelerationStructureDescriptorBindings.Class, MTLIndirectInstanceAccelerationStructureDescriptorBindings.Descriptor);
-        return ptr is not 0 ? new MTLIndirectInstanceAccelerationStructureDescriptor(ptr) : default;
+        return ptr is not 0 ? new MTLIndirectInstanceAccelerationStructureDescriptor(ptr) : null;
     }
 }
 

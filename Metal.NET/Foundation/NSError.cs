@@ -1,9 +1,7 @@
 ﻿namespace Metal.NET;
 
-public readonly struct NSError(nint nativePtr)
+public class NSError(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public string LocalizedDescription => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorBindings.LocalizedDescription));
 
     public nint Code => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorBindings.Code);

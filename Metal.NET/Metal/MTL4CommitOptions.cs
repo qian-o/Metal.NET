@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTL4CommitOptions(nint nativePtr)
+public class MTL4CommitOptions(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTL4CommitOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CommitOptionsBindings.Class))
     {
     }

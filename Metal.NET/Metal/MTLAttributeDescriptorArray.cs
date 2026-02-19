@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLAttributeDescriptorArray(nint nativePtr)
+public class MTLAttributeDescriptorArray(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLAttributeDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLAttributeDescriptorArrayBindings.Class))
     {
     }
@@ -11,7 +9,7 @@ public readonly struct MTLAttributeDescriptorArray(nint nativePtr)
     public MTLAttributeDescriptor? Object(nuint index)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeDescriptorArrayBindings.Object, index);
-        return ptr is not 0 ? new MTLAttributeDescriptor(ptr) : default;
+        return ptr is not 0 ? new MTLAttributeDescriptor(ptr) : null;
     }
 
     public void SetObject(MTLAttributeDescriptor attributeDesc, nuint index)

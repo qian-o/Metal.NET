@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTL4RenderPipelineColorAttachmentDescriptor(nint nativePtr)
+public class MTL4RenderPipelineColorAttachmentDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTL4RenderPipelineColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineColorAttachmentDescriptorBindings.Class))
     {
     }

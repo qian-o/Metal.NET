@@ -1,15 +1,24 @@
 namespace Metal.NET;
 
-public readonly struct MTLIOCommandQueue(nint nativePtr)
+public class MTLIOCommandQueue(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLIOCommandBuffer? CommandBuffer
     {
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueBindings.CommandBuffer);
-            return ptr is not 0 ? new MTLIOCommandBuffer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLIOCommandBuffer(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -18,7 +27,18 @@ public readonly struct MTLIOCommandQueue(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueBindings.CommandBufferWithUnretainedReferences);
-            return ptr is not 0 ? new MTLIOCommandBuffer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLIOCommandBuffer(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -27,9 +47,24 @@ public readonly struct MTLIOCommandQueue(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueBindings.Label);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueBindings.SetLabel, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueBindings.SetLabel, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public void EnqueueBarrier()

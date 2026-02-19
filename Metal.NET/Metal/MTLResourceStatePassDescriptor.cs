@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLResourceStatePassDescriptor(nint nativePtr)
+public class MTLResourceStatePassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLResourceStatePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceStatePassDescriptorBindings.Class))
     {
     }
@@ -13,14 +11,25 @@ public readonly struct MTLResourceStatePassDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceStatePassDescriptorBindings.SampleBufferAttachments);
-            return ptr is not 0 ? new MTLResourceStatePassSampleBufferAttachmentDescriptorArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLResourceStatePassSampleBufferAttachmentDescriptorArray(ptr);
+            }
+
+            return field;
         }
     }
 
     public static MTLResourceStatePassDescriptor? ResourceStatePassDescriptor()
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLResourceStatePassDescriptorBindings.Class, MTLResourceStatePassDescriptorBindings.ResourceStatePassDescriptor);
-        return ptr is not 0 ? new MTLResourceStatePassDescriptor(ptr) : default;
+        return ptr is not 0 ? new MTLResourceStatePassDescriptor(ptr) : null;
     }
 }
 

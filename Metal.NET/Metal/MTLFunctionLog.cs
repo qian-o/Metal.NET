@@ -1,15 +1,24 @@
 namespace Metal.NET;
 
-public readonly struct MTLFunctionLog(nint nativePtr)
+public class MTLFunctionLog(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLFunctionLogDebugLocation? DebugLocation
     {
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogBindings.DebugLocation);
-            return ptr is not 0 ? new MTLFunctionLogDebugLocation(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLFunctionLogDebugLocation(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -18,7 +27,18 @@ public readonly struct MTLFunctionLog(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogBindings.EncoderLabel);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -27,7 +47,18 @@ public readonly struct MTLFunctionLog(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogBindings.Function);
-            return ptr is not 0 ? new MTLFunction(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLFunction(ptr);
+            }
+
+            return field;
         }
     }
 

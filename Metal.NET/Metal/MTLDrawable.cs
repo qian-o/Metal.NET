@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLDrawable(nint nativePtr)
+public class MTLDrawable(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public nuint DrawableID
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDrawableBindings.DrawableID);

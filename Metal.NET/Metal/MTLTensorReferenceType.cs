@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLTensorReferenceType(nint nativePtr)
+public class MTLTensorReferenceType(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLTensorReferenceType() : this(ObjectiveCRuntime.AllocInit(MTLTensorReferenceTypeBindings.Class))
     {
     }
@@ -18,7 +16,18 @@ public readonly struct MTLTensorReferenceType(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorReferenceTypeBindings.Dimensions);
-            return ptr is not 0 ? new MTLTensorExtents(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLTensorExtents(ptr);
+            }
+
+            return field;
         }
     }
 

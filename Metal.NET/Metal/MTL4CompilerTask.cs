@@ -1,15 +1,24 @@
 namespace Metal.NET;
 
-public readonly struct MTL4CompilerTask(nint nativePtr)
+public class MTL4CompilerTask(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTL4Compiler? Compiler
     {
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskBindings.Compiler);
-            return ptr is not 0 ? new MTL4Compiler(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTL4Compiler(ptr);
+            }
+
+            return field;
         }
     }
 

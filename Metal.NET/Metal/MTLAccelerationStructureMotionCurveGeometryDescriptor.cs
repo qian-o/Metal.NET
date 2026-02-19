@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLAccelerationStructureMotionCurveGeometryDescriptor(nint nativePtr)
+public class MTLAccelerationStructureMotionCurveGeometryDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLAccelerationStructureMotionCurveGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.Class))
     {
     }
@@ -13,9 +11,24 @@ public readonly struct MTLAccelerationStructureMotionCurveGeometryDescriptor(nin
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.ControlPointBuffers);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetControlPointBuffers, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetControlPointBuffers, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint ControlPointCount
@@ -59,9 +72,24 @@ public readonly struct MTLAccelerationStructureMotionCurveGeometryDescriptor(nin
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.IndexBuffer);
-            return ptr is not 0 ? new MTLBuffer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLBuffer(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetIndexBuffer, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetIndexBuffer, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint IndexBufferOffset
@@ -81,9 +109,24 @@ public readonly struct MTLAccelerationStructureMotionCurveGeometryDescriptor(nin
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.RadiusBuffers);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetRadiusBuffers, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetRadiusBuffers, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLAttributeFormat RadiusFormat
@@ -113,7 +156,7 @@ public readonly struct MTLAccelerationStructureMotionCurveGeometryDescriptor(nin
     public static MTLAccelerationStructureMotionCurveGeometryDescriptor? Descriptor()
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.Class, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.Descriptor);
-        return ptr is not 0 ? new MTLAccelerationStructureMotionCurveGeometryDescriptor(ptr) : default;
+        return ptr is not 0 ? new MTLAccelerationStructureMotionCurveGeometryDescriptor(ptr) : null;
     }
 }
 

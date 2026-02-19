@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLRenderPassAttachmentDescriptor(nint nativePtr)
+public class MTLRenderPassAttachmentDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLRenderPassAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassAttachmentDescriptorBindings.Class))
     {
     }
@@ -49,9 +47,24 @@ public readonly struct MTLRenderPassAttachmentDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassAttachmentDescriptorBindings.ResolveTexture);
-            return ptr is not 0 ? new MTLTexture(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLTexture(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetResolveTexture, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetResolveTexture, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint Slice
@@ -77,9 +90,24 @@ public readonly struct MTLRenderPassAttachmentDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassAttachmentDescriptorBindings.Texture);
-            return ptr is not 0 ? new MTLTexture(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLTexture(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetTexture, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetTexture, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 }
 

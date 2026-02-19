@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLTextureViewDescriptor(nint nativePtr)
+public class MTLTextureViewDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLTextureViewDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTextureViewDescriptorBindings.Class))
     {
     }

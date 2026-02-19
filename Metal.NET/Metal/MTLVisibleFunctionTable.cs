@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLVisibleFunctionTable(nint nativePtr)
+public class MTLVisibleFunctionTable(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLResourceID GpuResourceID
     {
         get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLVisibleFunctionTableBindings.GpuResourceID);

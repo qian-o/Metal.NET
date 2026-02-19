@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLBinaryArchiveDescriptor(nint nativePtr)
+public class MTLBinaryArchiveDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLBinaryArchiveDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBinaryArchiveDescriptorBindings.Class))
     {
     }
@@ -13,9 +11,24 @@ public readonly struct MTLBinaryArchiveDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveDescriptorBindings.Url);
-            return ptr is not 0 ? new NSURL(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSURL(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBinaryArchiveDescriptorBindings.SetUrl, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLBinaryArchiveDescriptorBindings.SetUrl, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 }
 

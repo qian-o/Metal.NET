@@ -1,52 +1,65 @@
 namespace Metal.NET;
 
-public readonly struct MTL4Archive(nint nativePtr)
+public class MTL4Archive(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public NSString? Label
     {
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.Label);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArchiveBindings.SetLabel, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArchiveBindings.SetLabel, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTL4BinaryFunction? NewBinaryFunction(MTL4BinaryFunctionDescriptor descriptor, out NSError? error)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewBinaryFunction, descriptor.NativePtr, out nint errorPtr);
-        error = errorPtr is not 0 ? new NSError(errorPtr) : default;
-        return ptr is not 0 ? new MTL4BinaryFunction(ptr) : default;
+        error = errorPtr is not 0 ? new NSError(errorPtr) : null;
+        return ptr is not 0 ? new MTL4BinaryFunction(ptr) : null;
     }
 
     public MTLComputePipelineState? NewComputePipelineState(MTL4ComputePipelineDescriptor descriptor, out NSError? error)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewComputePipelineState, descriptor.NativePtr, out nint errorPtr);
-        error = errorPtr is not 0 ? new NSError(errorPtr) : default;
-        return ptr is not 0 ? new MTLComputePipelineState(ptr) : default;
+        error = errorPtr is not 0 ? new NSError(errorPtr) : null;
+        return ptr is not 0 ? new MTLComputePipelineState(ptr) : null;
     }
 
     public MTLComputePipelineState? NewComputePipelineState(MTL4ComputePipelineDescriptor descriptor, MTL4PipelineStageDynamicLinkingDescriptor dynamicLinkingDescriptor, out NSError? error)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewComputePipelineState, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
-        error = errorPtr is not 0 ? new NSError(errorPtr) : default;
-        return ptr is not 0 ? new MTLComputePipelineState(ptr) : default;
+        error = errorPtr is not 0 ? new NSError(errorPtr) : null;
+        return ptr is not 0 ? new MTLComputePipelineState(ptr) : null;
     }
 
     public MTLRenderPipelineState? NewRenderPipelineState(MTL4PipelineDescriptor descriptor, out NSError? error)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewRenderPipelineState, descriptor.NativePtr, out nint errorPtr);
-        error = errorPtr is not 0 ? new NSError(errorPtr) : default;
-        return ptr is not 0 ? new MTLRenderPipelineState(ptr) : default;
+        error = errorPtr is not 0 ? new NSError(errorPtr) : null;
+        return ptr is not 0 ? new MTLRenderPipelineState(ptr) : null;
     }
 
     public MTLRenderPipelineState? NewRenderPipelineState(MTL4PipelineDescriptor descriptor, MTL4RenderPipelineDynamicLinkingDescriptor dynamicLinkingDescriptor, out NSError? error)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewRenderPipelineState, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
-        error = errorPtr is not 0 ? new NSError(errorPtr) : default;
-        return ptr is not 0 ? new MTLRenderPipelineState(ptr) : default;
+        error = errorPtr is not 0 ? new NSError(errorPtr) : null;
+        return ptr is not 0 ? new MTLRenderPipelineState(ptr) : null;
     }
 }
 

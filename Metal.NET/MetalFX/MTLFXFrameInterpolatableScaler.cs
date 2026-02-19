@@ -1,8 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLFXFrameInterpolatableScaler(nint nativePtr)
+public class MTLFXFrameInterpolatableScaler(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
 }
 
 file static class MTLFXFrameInterpolatableScalerBindings

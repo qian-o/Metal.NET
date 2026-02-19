@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLFXTemporalDenoisedScaler(nint nativePtr)
+public class MTLFXTemporalDenoisedScaler(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public void EncodeToCommandBuffer(MTLCommandBuffer commandBuffer)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBindings.EncodeToCommandBuffer, commandBuffer.NativePtr);

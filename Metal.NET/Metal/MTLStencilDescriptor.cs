@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLStencilDescriptor(nint nativePtr)
+public class MTLStencilDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStencilDescriptorBindings.Class))
     {
     }

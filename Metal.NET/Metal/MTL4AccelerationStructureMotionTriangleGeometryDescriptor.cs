@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTL4AccelerationStructureMotionTriangleGeometryDescriptor(nint nativePtr)
+public class MTL4AccelerationStructureMotionTriangleGeometryDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTL4AccelerationStructureMotionTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureMotionTriangleGeometryDescriptorBindings.Class))
     {
     }

@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLArgumentEncoder(nint nativePtr)
+public class MTLArgumentEncoder(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public nuint Alignment
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentEncoderBindings.Alignment);
@@ -14,7 +12,18 @@ public readonly struct MTLArgumentEncoder(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderBindings.Device);
-            return ptr is not 0 ? new MTLDevice(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLDevice(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -28,9 +37,24 @@ public readonly struct MTLArgumentEncoder(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderBindings.Label);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetLabel, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetLabel, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nint ConstantData(nuint index)
@@ -41,7 +65,7 @@ public readonly struct MTLArgumentEncoder(nint nativePtr)
     public MTLArgumentEncoder? NewArgumentEncoder(nuint index)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderBindings.NewArgumentEncoder, index);
-        return ptr is not 0 ? new MTLArgumentEncoder(ptr) : default;
+        return ptr is not 0 ? new MTLArgumentEncoder(ptr) : null;
     }
 
     public void SetAccelerationStructure(MTLAccelerationStructure accelerationStructure, nuint index)

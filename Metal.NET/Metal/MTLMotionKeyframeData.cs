@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLMotionKeyframeData(nint nativePtr)
+public class MTLMotionKeyframeData(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLMotionKeyframeData() : this(ObjectiveCRuntime.AllocInit(MTLMotionKeyframeDataBindings.Class))
     {
     }
@@ -13,9 +11,24 @@ public readonly struct MTLMotionKeyframeData(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMotionKeyframeDataBindings.Buffer);
-            return ptr is not 0 ? new MTLBuffer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLBuffer(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataBindings.SetBuffer, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataBindings.SetBuffer, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint Offset
@@ -27,7 +40,7 @@ public readonly struct MTLMotionKeyframeData(nint nativePtr)
     public static MTLMotionKeyframeData? Data()
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLMotionKeyframeDataBindings.Class, MTLMotionKeyframeDataBindings.Data);
-        return ptr is not 0 ? new MTLMotionKeyframeData(ptr) : default;
+        return ptr is not 0 ? new MTLMotionKeyframeData(ptr) : null;
     }
 }
 

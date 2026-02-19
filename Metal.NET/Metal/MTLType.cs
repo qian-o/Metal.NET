@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLType(nint nativePtr)
+public class MTLType(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLType() : this(ObjectiveCRuntime.AllocInit(MTLTypeBindings.Class))
     {
     }

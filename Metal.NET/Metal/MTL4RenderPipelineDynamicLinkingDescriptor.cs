@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr)
+public class MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTL4RenderPipelineDynamicLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineDynamicLinkingDescriptorBindings.Class))
     {
     }
@@ -13,7 +11,18 @@ public readonly struct MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorBindings.FragmentLinkingDescriptor);
-            return ptr is not 0 ? new MTL4PipelineStageDynamicLinkingDescriptor(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTL4PipelineStageDynamicLinkingDescriptor(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -22,7 +31,18 @@ public readonly struct MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorBindings.MeshLinkingDescriptor);
-            return ptr is not 0 ? new MTL4PipelineStageDynamicLinkingDescriptor(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTL4PipelineStageDynamicLinkingDescriptor(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -31,7 +51,18 @@ public readonly struct MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorBindings.ObjectLinkingDescriptor);
-            return ptr is not 0 ? new MTL4PipelineStageDynamicLinkingDescriptor(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTL4PipelineStageDynamicLinkingDescriptor(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -40,7 +71,18 @@ public readonly struct MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorBindings.TileLinkingDescriptor);
-            return ptr is not 0 ? new MTL4PipelineStageDynamicLinkingDescriptor(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTL4PipelineStageDynamicLinkingDescriptor(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -49,7 +91,18 @@ public readonly struct MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorBindings.VertexLinkingDescriptor);
-            return ptr is not 0 ? new MTL4PipelineStageDynamicLinkingDescriptor(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTL4PipelineStageDynamicLinkingDescriptor(ptr);
+            }
+
+            return field;
         }
     }
 }

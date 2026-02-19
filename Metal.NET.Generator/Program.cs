@@ -748,38 +748,40 @@ class Generator
         sb.AppendLine("namespace Metal.NET;");
         sb.AppendLine();
 
-        // Value type struct with primary constructor
-        sb.AppendLine($"public readonly struct {csClassName}(nint nativePtr)");
+        // Reference type class with primary constructor inheriting NativeObject
+        sb.AppendLine($"public class {csClassName}(nint nativePtr) : NativeObject(nativePtr)");
         sb.AppendLine("{");
-        sb.AppendLine("    public readonly nint NativePtr = nativePtr;");
 
         // For creatable objects, add parameterless constructor
+        bool hasPrecedingMember = false;
         if (hasClassField)
         {
-            sb.AppendLine();
             sb.AppendLine($"    public {csClassName}() : this(ObjectiveCRuntime.AllocInit({csClassName}Bindings.Class))");
             sb.AppendLine("    {");
             sb.AppendLine("    }");
+            hasPrecedingMember = true;
         }
 
         // Properties (sorted alphabetically)
         foreach (var prop in properties)
         {
-            sb.AppendLine();
+            if (hasPrecedingMember) sb.AppendLine();
             EmitProperty(sb, prop, csClassName, classDef.CppNamespace, selectors);
+            hasPrecedingMember = true;
         }
 
         // Methods
         foreach (var method in methods)
         {
-            sb.AppendLine();
+            if (hasPrecedingMember) sb.AppendLine();
             EmitMethod(sb, method, csClassName, classDef.CppNamespace, selectors, hasClassField, hasZeroParamVersion);
+            hasPrecedingMember = true;
         }
 
         sb.AppendLine("}");
         sb.AppendLine();
 
-        // Bindings class (renamed from Selector)
+        // Bindings class
         sb.AppendLine($"file static class {csClassName}Bindings");
         sb.AppendLine("{");
 
@@ -955,17 +957,35 @@ class Generator
 
         if (nullable)
         {
-            // Value type nullable: return new T?(new T(ptr)) if ptr != 0, else null
+            // Use C# 14.0 field keyword to cache reference type wrapper,
+            // avoiding unnecessary object creation when pointer hasn't changed
             sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine("        get");
             sb.AppendLine("        {");
             sb.AppendLine($"            nint ptr = ObjectiveCRuntime.MsgSendPtr({target}, {selectorRef});");
-            sb.AppendLine($"            return ptr is not 0 ? new {csType}(ptr) : default;");
+            sb.AppendLine();
+            sb.AppendLine("            if (ptr == 0)");
+            sb.AppendLine("            {");
+            sb.AppendLine("                return field = null;");
+            sb.AppendLine("            }");
+            sb.AppendLine();
+            sb.AppendLine("            if (field is null || field.NativePtr != ptr)");
+            sb.AppendLine("            {");
+            sb.AppendLine($"                field = new {csType}(ptr);");
+            sb.AppendLine("            }");
+            sb.AppendLine();
+            sb.AppendLine("            return field;");
             sb.AppendLine("        }");
 
             if (prop.Setter != null)
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value?.NativePtr ?? 0);");
+            {
+                sb.AppendLine("        set");
+                sb.AppendLine("        {");
+                sb.AppendLine($"            ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value?.NativePtr ?? 0);");
+                sb.AppendLine("            field = value;");
+                sb.AppendLine("        }");
+            }
             sb.AppendLine("    }");
         }
         else if (isEnum)
@@ -1120,20 +1140,20 @@ class Generator
         {
             sb.AppendLine($"        ObjectiveCRuntime.MsgSend({argsStr});");
             if (hasOutError)
-                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : default;");
+                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : null;");
         }
         else if (nullable)
         {
             if (hasOutError)
             {
                 sb.AppendLine($"        nint ptr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
-                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : default;");
-                sb.AppendLine($"        return ptr is not 0 ? new {returnType}(ptr) : default;");
+                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : null;");
+                sb.AppendLine($"        return ptr is not 0 ? new {returnType}(ptr) : null;");
             }
             else
             {
                 sb.AppendLine($"        nint ptr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
-                sb.AppendLine($"        return ptr is not 0 ? new {returnType}(ptr) : default;");
+                sb.AppendLine($"        return ptr is not 0 ? new {returnType}(ptr) : null;");
             }
         }
         else if (isEnum)
@@ -1142,7 +1162,7 @@ class Generator
             if (hasOutError)
             {
                 sb.AppendLine($"        var result = ({returnType}){msgSend}({argsStr});");
-                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : default;");
+                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : null;");
                 sb.AppendLine("        return result;");
             }
             else
@@ -1155,7 +1175,7 @@ class Generator
             if (hasOutError)
             {
                 sb.AppendLine($"        var result = ObjectiveCRuntime.MsgSendBool({argsStr});");
-                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : default;");
+                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : null;");
                 sb.AppendLine("        return result;");
             }
             else
@@ -1169,7 +1189,7 @@ class Generator
             if (hasOutError)
             {
                 sb.AppendLine($"        var result = ObjectiveCRuntime.{msgSend}({argsStr});");
-                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : default;");
+                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : null;");
                 sb.AppendLine("        return result;");
             }
             else
@@ -1183,7 +1203,7 @@ class Generator
             if (hasOutError)
             {
                 sb.AppendLine($"        var result = ObjectiveCRuntime.{msgSend}({argsStr});");
-                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : default;");
+                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : null;");
                 sb.AppendLine("        return result;");
             }
             else

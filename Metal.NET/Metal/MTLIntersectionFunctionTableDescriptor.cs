@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLIntersectionFunctionTableDescriptor(nint nativePtr)
+public class MTLIntersectionFunctionTableDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLIntersectionFunctionTableDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIntersectionFunctionTableDescriptorBindings.Class))
     {
     }
@@ -17,7 +15,7 @@ public readonly struct MTLIntersectionFunctionTableDescriptor(nint nativePtr)
     public static MTLIntersectionFunctionTableDescriptor? IntersectionFunctionTableDescriptor()
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLIntersectionFunctionTableDescriptorBindings.Class, MTLIntersectionFunctionTableDescriptorBindings.IntersectionFunctionTableDescriptor);
-        return ptr is not 0 ? new MTLIntersectionFunctionTableDescriptor(ptr) : default;
+        return ptr is not 0 ? new MTLIntersectionFunctionTableDescriptor(ptr) : null;
     }
 }
 

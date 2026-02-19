@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTL4ComputeCommandEncoder(nint nativePtr)
+public class MTL4ComputeCommandEncoder(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLStages Stages
     {
         get => (MTLStages)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4ComputeCommandEncoderBindings.Stages);

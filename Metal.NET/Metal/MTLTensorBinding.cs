@@ -1,15 +1,24 @@
 namespace Metal.NET;
 
-public readonly struct MTLTensorBinding(nint nativePtr)
+public class MTLTensorBinding(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLTensorExtents? Dimensions
     {
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindingBindings.Dimensions);
-            return ptr is not 0 ? new MTLTensorExtents(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLTensorExtents(ptr);
+            }
+
+            return field;
         }
     }
 

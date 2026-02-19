@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLDepthStencilDescriptor(nint nativePtr)
+public class MTLDepthStencilDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLDepthStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLDepthStencilDescriptorBindings.Class))
     {
     }
@@ -13,9 +11,24 @@ public readonly struct MTLDepthStencilDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorBindings.BackFaceStencil);
-            return ptr is not 0 ? new MTLStencilDescriptor(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLStencilDescriptor(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetBackFaceStencil, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetBackFaceStencil, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLCompareFunction DepthCompareFunction
@@ -35,9 +48,24 @@ public readonly struct MTLDepthStencilDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorBindings.FrontFaceStencil);
-            return ptr is not 0 ? new MTLStencilDescriptor(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLStencilDescriptor(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetFrontFaceStencil, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetFrontFaceStencil, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public bool IsDepthWriteEnabled
@@ -50,9 +78,24 @@ public readonly struct MTLDepthStencilDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorBindings.Label);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 }
 

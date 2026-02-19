@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLTensorDescriptor(nint nativePtr)
+public class MTLTensorDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLTensorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTensorDescriptorBindings.Class))
     {
     }
@@ -25,9 +23,24 @@ public readonly struct MTLTensorDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorDescriptorBindings.Dimensions);
-            return ptr is not 0 ? new MTLTensorExtents(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLTensorExtents(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetDimensions, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetDimensions, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLHazardTrackingMode HazardTrackingMode
@@ -53,9 +66,24 @@ public readonly struct MTLTensorDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorDescriptorBindings.Strides);
-            return ptr is not 0 ? new MTLTensorExtents(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLTensorExtents(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetStrides, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetStrides, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLTensorUsage Usage

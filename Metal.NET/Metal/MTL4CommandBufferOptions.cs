@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTL4CommandBufferOptions(nint nativePtr)
+public class MTL4CommandBufferOptions(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTL4CommandBufferOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CommandBufferOptionsBindings.Class))
     {
     }
@@ -13,9 +11,24 @@ public readonly struct MTL4CommandBufferOptions(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferOptionsBindings.LogState);
-            return ptr is not 0 ? new MTLLogState(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLLogState(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferOptionsBindings.SetLogState, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferOptionsBindings.SetLogState, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 }
 

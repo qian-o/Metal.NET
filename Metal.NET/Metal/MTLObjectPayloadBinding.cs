@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLObjectPayloadBinding(nint nativePtr)
+public class MTLObjectPayloadBinding(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public nuint ObjectPayloadAlignment
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLObjectPayloadBindingBindings.ObjectPayloadAlignment);

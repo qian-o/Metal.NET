@@ -3,10 +3,8 @@ using System.Text;
 
 namespace Metal.NET;
 
-public readonly struct NSString(nint nativePtr)
+public class NSString(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public string Value
     {
         get => Marshal.PtrToStringUTF8(ObjectiveCRuntime.MsgSendPtr(NativePtr, NSStringBindings.Utf8String)) ?? string.Empty;

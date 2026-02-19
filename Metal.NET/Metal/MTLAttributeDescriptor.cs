@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLAttributeDescriptor(nint nativePtr)
+public class MTLAttributeDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAttributeDescriptorBindings.Class))
     {
     }

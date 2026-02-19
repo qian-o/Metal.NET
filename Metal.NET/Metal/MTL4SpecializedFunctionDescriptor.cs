@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTL4SpecializedFunctionDescriptor(nint nativePtr)
+public class MTL4SpecializedFunctionDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTL4SpecializedFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4SpecializedFunctionDescriptorBindings.Class))
     {
     }
@@ -13,9 +11,24 @@ public readonly struct MTL4SpecializedFunctionDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4SpecializedFunctionDescriptorBindings.ConstantValues);
-            return ptr is not 0 ? new MTLFunctionConstantValues(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLFunctionConstantValues(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorBindings.SetConstantValues, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorBindings.SetConstantValues, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTL4FunctionDescriptor? FunctionDescriptor
@@ -23,9 +36,24 @@ public readonly struct MTL4SpecializedFunctionDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4SpecializedFunctionDescriptorBindings.FunctionDescriptor);
-            return ptr is not 0 ? new MTL4FunctionDescriptor(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTL4FunctionDescriptor(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorBindings.SetFunctionDescriptor, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorBindings.SetFunctionDescriptor, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public NSString? SpecializedName
@@ -33,9 +61,24 @@ public readonly struct MTL4SpecializedFunctionDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4SpecializedFunctionDescriptorBindings.SpecializedName);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorBindings.SetSpecializedName, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorBindings.SetSpecializedName, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 }
 

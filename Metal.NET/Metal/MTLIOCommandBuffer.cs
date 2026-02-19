@@ -1,15 +1,24 @@
 namespace Metal.NET;
 
-public readonly struct MTLIOCommandBuffer(nint nativePtr)
+public class MTLIOCommandBuffer(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public NSError? Error
     {
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferBindings.Error);
-            return ptr is not 0 ? new NSError(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSError(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -18,9 +27,24 @@ public readonly struct MTLIOCommandBuffer(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferBindings.Label);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.SetLabel, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.SetLabel, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLIOStatus Status

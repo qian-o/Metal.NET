@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLPointerType(nint nativePtr)
+public class MTLPointerType(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLPointerType() : this(ObjectiveCRuntime.AllocInit(MTLPointerTypeBindings.Class))
     {
     }
@@ -28,7 +26,18 @@ public readonly struct MTLPointerType(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeBindings.ElementArrayType);
-            return ptr is not 0 ? new MTLArrayType(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLArrayType(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -42,7 +51,18 @@ public readonly struct MTLPointerType(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeBindings.ElementStructType);
-            return ptr is not 0 ? new MTLStructType(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLStructType(ptr);
+            }
+
+            return field;
         }
     }
 

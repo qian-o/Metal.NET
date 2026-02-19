@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLFunctionConstantValues(nint nativePtr)
+public class MTLFunctionConstantValues(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLFunctionConstantValues() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantValuesBindings.Class))
     {
     }

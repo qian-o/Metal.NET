@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLCommandQueueDescriptor(nint nativePtr)
+public class MTLCommandQueueDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCommandQueueDescriptorBindings.Class))
     {
     }
@@ -13,9 +11,24 @@ public readonly struct MTLCommandQueueDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueDescriptorBindings.LogState);
-            return ptr is not 0 ? new MTLLogState(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLLogState(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueDescriptorBindings.SetLogState, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueDescriptorBindings.SetLogState, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint MaxCommandBufferCount

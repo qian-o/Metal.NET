@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLTextureDescriptor(nint nativePtr)
+public class MTLTextureDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLTextureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTextureDescriptorBindings.Class))
     {
     }
@@ -113,19 +111,19 @@ public readonly struct MTLTextureDescriptor(nint nativePtr)
     public static MTLTextureDescriptor? Texture2DDescriptor(MTLPixelFormat pixelFormat, nuint width, nuint height, bool mipmapped)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.Texture2DDescriptor, (nuint)pixelFormat, width, height, (Bool8)mipmapped);
-        return ptr is not 0 ? new MTLTextureDescriptor(ptr) : default;
+        return ptr is not 0 ? new MTLTextureDescriptor(ptr) : null;
     }
 
     public static MTLTextureDescriptor? TextureBufferDescriptor(MTLPixelFormat pixelFormat, nuint width, MTLResourceOptions resourceOptions, MTLTextureUsage usage)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.TextureBufferDescriptor, (nuint)pixelFormat, width, (nuint)resourceOptions, (nuint)usage);
-        return ptr is not 0 ? new MTLTextureDescriptor(ptr) : default;
+        return ptr is not 0 ? new MTLTextureDescriptor(ptr) : null;
     }
 
     public static MTLTextureDescriptor? TextureCubeDescriptor(MTLPixelFormat pixelFormat, nuint size, bool mipmapped)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.TextureCubeDescriptor, (nuint)pixelFormat, size, (Bool8)mipmapped);
-        return ptr is not 0 ? new MTLTextureDescriptor(ptr) : default;
+        return ptr is not 0 ? new MTLTextureDescriptor(ptr) : null;
     }
 }
 

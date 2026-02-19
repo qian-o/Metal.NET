@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLFunctionReflection(nint nativePtr)
+public class MTLFunctionReflection(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLFunctionReflection() : this(ObjectiveCRuntime.AllocInit(MTLFunctionReflectionBindings.Class))
     {
     }
@@ -13,7 +11,18 @@ public readonly struct MTLFunctionReflection(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionReflectionBindings.Bindings);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
     }
 }

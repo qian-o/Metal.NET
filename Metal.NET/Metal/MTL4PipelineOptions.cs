@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTL4PipelineOptions(nint nativePtr)
+public class MTL4PipelineOptions(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTL4PipelineOptions() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineOptionsBindings.Class))
     {
     }

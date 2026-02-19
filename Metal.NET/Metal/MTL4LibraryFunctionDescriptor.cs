@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTL4LibraryFunctionDescriptor(nint nativePtr)
+public class MTL4LibraryFunctionDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTL4LibraryFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4LibraryFunctionDescriptorBindings.Class))
     {
     }
@@ -13,9 +11,24 @@ public readonly struct MTL4LibraryFunctionDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryFunctionDescriptorBindings.Library);
-            return ptr is not 0 ? new MTLLibrary(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLLibrary(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorBindings.SetLibrary, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorBindings.SetLibrary, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public NSString? Name
@@ -23,9 +36,24 @@ public readonly struct MTL4LibraryFunctionDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryFunctionDescriptorBindings.Name);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorBindings.SetName, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorBindings.SetName, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 }
 

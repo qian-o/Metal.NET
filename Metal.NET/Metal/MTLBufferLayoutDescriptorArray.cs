@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLBufferLayoutDescriptorArray(nint nativePtr)
+public class MTLBufferLayoutDescriptorArray(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLBufferLayoutDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLBufferLayoutDescriptorArrayBindings.Class))
     {
     }
@@ -11,7 +9,7 @@ public readonly struct MTLBufferLayoutDescriptorArray(nint nativePtr)
     public MTLBufferLayoutDescriptor? Object(nuint index)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArrayBindings.Object, index);
-        return ptr is not 0 ? new MTLBufferLayoutDescriptor(ptr) : default;
+        return ptr is not 0 ? new MTLBufferLayoutDescriptor(ptr) : null;
     }
 
     public void SetObject(MTLBufferLayoutDescriptor bufferDesc, nuint index)

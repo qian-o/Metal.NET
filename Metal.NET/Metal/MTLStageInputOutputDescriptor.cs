@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLStageInputOutputDescriptor(nint nativePtr)
+public class MTLStageInputOutputDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLStageInputOutputDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStageInputOutputDescriptorBindings.Class))
     {
     }
@@ -13,7 +11,18 @@ public readonly struct MTLStageInputOutputDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStageInputOutputDescriptorBindings.Attributes);
-            return ptr is not 0 ? new MTLAttributeDescriptorArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLAttributeDescriptorArray(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -34,7 +43,18 @@ public readonly struct MTLStageInputOutputDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStageInputOutputDescriptorBindings.Layouts);
-            return ptr is not 0 ? new MTLBufferLayoutDescriptorArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLBufferLayoutDescriptorArray(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -46,7 +66,7 @@ public readonly struct MTLStageInputOutputDescriptor(nint nativePtr)
     public static MTLStageInputOutputDescriptor? StageInputOutputDescriptor()
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLStageInputOutputDescriptorBindings.Class, MTLStageInputOutputDescriptorBindings.StageInputOutputDescriptor);
-        return ptr is not 0 ? new MTLStageInputOutputDescriptor(ptr) : default;
+        return ptr is not 0 ? new MTLStageInputOutputDescriptor(ptr) : null;
     }
 }
 

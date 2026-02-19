@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr)
+public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLAccelerationStructureTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureTriangleGeometryDescriptorBindings.Class))
     {
     }
@@ -13,9 +11,24 @@ public readonly struct MTLAccelerationStructureTriangleGeometryDescriptor(nint n
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.IndexBuffer);
-            return ptr is not 0 ? new MTLBuffer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLBuffer(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetIndexBuffer, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetIndexBuffer, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint IndexBufferOffset
@@ -35,9 +48,24 @@ public readonly struct MTLAccelerationStructureTriangleGeometryDescriptor(nint n
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.TransformationMatrixBuffer);
-            return ptr is not 0 ? new MTLBuffer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLBuffer(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetTransformationMatrixBuffer, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetTransformationMatrixBuffer, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint TransformationMatrixBufferOffset
@@ -63,9 +91,24 @@ public readonly struct MTLAccelerationStructureTriangleGeometryDescriptor(nint n
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.VertexBuffer);
-            return ptr is not 0 ? new MTLBuffer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLBuffer(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetVertexBuffer, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetVertexBuffer, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint VertexBufferOffset
@@ -89,7 +132,7 @@ public readonly struct MTLAccelerationStructureTriangleGeometryDescriptor(nint n
     public static MTLAccelerationStructureTriangleGeometryDescriptor? Descriptor()
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructureTriangleGeometryDescriptorBindings.Class, MTLAccelerationStructureTriangleGeometryDescriptorBindings.Descriptor);
-        return ptr is not 0 ? new MTLAccelerationStructureTriangleGeometryDescriptor(ptr) : default;
+        return ptr is not 0 ? new MTLAccelerationStructureTriangleGeometryDescriptor(ptr) : null;
     }
 }
 

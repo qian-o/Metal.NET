@@ -1,15 +1,24 @@
 namespace Metal.NET;
 
-public readonly struct MTLIOScratchBuffer(nint nativePtr)
+public class MTLIOScratchBuffer(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLBuffer? Buffer
     {
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOScratchBufferBindings.Buffer);
-            return ptr is not 0 ? new MTLBuffer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLBuffer(ptr);
+            }
+
+            return field;
         }
     }
 }

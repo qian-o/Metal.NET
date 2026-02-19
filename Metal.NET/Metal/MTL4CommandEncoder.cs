@@ -1,15 +1,24 @@
 namespace Metal.NET;
 
-public readonly struct MTL4CommandEncoder(nint nativePtr)
+public class MTL4CommandEncoder(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTL4CommandBuffer? CommandBuffer
     {
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandEncoderBindings.CommandBuffer);
-            return ptr is not 0 ? new MTL4CommandBuffer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTL4CommandBuffer(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -18,9 +27,24 @@ public readonly struct MTL4CommandEncoder(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandEncoderBindings.Label);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandEncoderBindings.SetLabel, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandEncoderBindings.SetLabel, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public void BarrierAfterEncoderStages(MTLStages afterEncoderStages, MTLStages beforeEncoderStages, MTL4VisibilityOptions visibilityOptions)

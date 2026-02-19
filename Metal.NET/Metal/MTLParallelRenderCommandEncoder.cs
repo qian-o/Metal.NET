@@ -1,15 +1,24 @@
 namespace Metal.NET;
 
-public readonly struct MTLParallelRenderCommandEncoder(nint nativePtr)
+public class MTLParallelRenderCommandEncoder(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLRenderCommandEncoder? RenderCommandEncoder
     {
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLParallelRenderCommandEncoderBindings.RenderCommandEncoder);
-            return ptr is not 0 ? new MTLRenderCommandEncoder(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLRenderCommandEncoder(ptr);
+            }
+
+            return field;
         }
     }
 

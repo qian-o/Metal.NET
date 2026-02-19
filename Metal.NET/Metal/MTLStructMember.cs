@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLStructMember(nint nativePtr)
+public class MTLStructMember(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLStructMember() : this(ObjectiveCRuntime.AllocInit(MTLStructMemberBindings.Class))
     {
     }
@@ -18,7 +16,18 @@ public readonly struct MTLStructMember(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.ArrayType);
-            return ptr is not 0 ? new MTLArrayType(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLArrayType(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -32,7 +41,18 @@ public readonly struct MTLStructMember(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.Name);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -46,7 +66,18 @@ public readonly struct MTLStructMember(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.PointerType);
-            return ptr is not 0 ? new MTLPointerType(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLPointerType(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -55,7 +86,18 @@ public readonly struct MTLStructMember(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.StructType);
-            return ptr is not 0 ? new MTLStructType(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLStructType(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -64,7 +106,18 @@ public readonly struct MTLStructMember(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.TensorReferenceType);
-            return ptr is not 0 ? new MTLTensorReferenceType(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLTensorReferenceType(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -73,7 +126,18 @@ public readonly struct MTLStructMember(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.TextureReferenceType);
-            return ptr is not 0 ? new MTLTextureReferenceType(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLTextureReferenceType(ptr);
+            }
+
+            return field;
         }
     }
 }

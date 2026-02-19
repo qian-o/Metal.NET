@@ -3,10 +3,8 @@
 /// <summary>
 /// Wraps an Objective-C NSArray pointer.
 /// </summary>
-public readonly struct NSArray(nint nativePtr)
+public class NSArray(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public nuint Count => ObjectiveCRuntime.MsgSendNUInt(NativePtr, NSArrayBindings.Count);
 
     public nint ObjectAtIndex(nint index)

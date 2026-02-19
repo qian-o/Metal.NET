@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLTextureViewPool(nint nativePtr)
+public class MTLTextureViewPool(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLResourceID SetTextureView(MTLTexture texture, nuint index)
     {
         return ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolBindings.SetTextureView, texture.NativePtr, index);

@@ -1,15 +1,24 @@
 namespace Metal.NET;
 
-public readonly struct MTL4CommandBuffer(nint nativePtr)
+public class MTL4CommandBuffer(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTL4ComputeCommandEncoder? ComputeCommandEncoder
     {
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.ComputeCommandEncoder);
-            return ptr is not 0 ? new MTL4ComputeCommandEncoder(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTL4ComputeCommandEncoder(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -18,7 +27,18 @@ public readonly struct MTL4CommandBuffer(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.Device);
-            return ptr is not 0 ? new MTLDevice(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLDevice(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -27,9 +47,24 @@ public readonly struct MTL4CommandBuffer(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.Label);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferBindings.SetLabel, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferBindings.SetLabel, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTL4MachineLearningCommandEncoder? MachineLearningCommandEncoder
@@ -37,7 +72,18 @@ public readonly struct MTL4CommandBuffer(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.MachineLearningCommandEncoder);
-            return ptr is not 0 ? new MTL4MachineLearningCommandEncoder(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTL4MachineLearningCommandEncoder(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -69,13 +115,13 @@ public readonly struct MTL4CommandBuffer(nint nativePtr)
     public MTL4RenderCommandEncoder? RenderCommandEncoder(MTL4RenderPassDescriptor descriptor)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoder, descriptor.NativePtr);
-        return ptr is not 0 ? new MTL4RenderCommandEncoder(ptr) : default;
+        return ptr is not 0 ? new MTL4RenderCommandEncoder(ptr) : null;
     }
 
     public MTL4RenderCommandEncoder? RenderCommandEncoder(MTL4RenderPassDescriptor descriptor, MTL4RenderEncoderOptions options)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoder, descriptor.NativePtr, (nuint)options);
-        return ptr is not 0 ? new MTL4RenderCommandEncoder(ptr) : default;
+        return ptr is not 0 ? new MTL4RenderCommandEncoder(ptr) : null;
     }
 
     public void ResolveCounterHeap(MTL4CounterHeap counterHeap, NSRange range, MTL4BufferRange bufferRange, MTLFence fenceToWait, MTLFence fenceToUpdate)

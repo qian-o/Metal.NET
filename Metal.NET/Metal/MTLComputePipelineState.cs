@@ -1,15 +1,24 @@
 namespace Metal.NET;
 
-public readonly struct MTLComputePipelineState(nint nativePtr)
+public class MTLComputePipelineState(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLDevice? Device
     {
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.Device);
-            return ptr is not 0 ? new MTLDevice(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLDevice(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -23,7 +32,18 @@ public readonly struct MTLComputePipelineState(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.Label);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -37,7 +57,18 @@ public readonly struct MTLComputePipelineState(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.Reflection);
-            return ptr is not 0 ? new MTLComputePipelineReflection(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLComputePipelineReflection(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -69,19 +100,19 @@ public readonly struct MTLComputePipelineState(nint nativePtr)
     public MTLFunctionHandle? FunctionHandle(NSString name)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.FunctionHandle, name.NativePtr);
-        return ptr is not 0 ? new MTLFunctionHandle(ptr) : default;
+        return ptr is not 0 ? new MTLFunctionHandle(ptr) : null;
     }
 
     public MTLFunctionHandle? FunctionHandle(MTL4BinaryFunction function)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.FunctionHandle, function.NativePtr);
-        return ptr is not 0 ? new MTLFunctionHandle(ptr) : default;
+        return ptr is not 0 ? new MTLFunctionHandle(ptr) : null;
     }
 
     public MTLFunctionHandle? FunctionHandle(MTLFunction function)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.FunctionHandle, function.NativePtr);
-        return ptr is not 0 ? new MTLFunctionHandle(ptr) : default;
+        return ptr is not 0 ? new MTLFunctionHandle(ptr) : null;
     }
 
     public nuint ImageblockMemoryLength(MTLSize imageblockDimensions)
@@ -92,27 +123,27 @@ public readonly struct MTLComputePipelineState(nint nativePtr)
     public MTLComputePipelineState? NewComputePipelineStateWithBinaryFunctions(NSArray additionalBinaryFunctions, out NSError? error)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineStateWithBinaryFunctions, additionalBinaryFunctions.NativePtr, out nint errorPtr);
-        error = errorPtr is not 0 ? new NSError(errorPtr) : default;
-        return ptr is not 0 ? new MTLComputePipelineState(ptr) : default;
+        error = errorPtr is not 0 ? new NSError(errorPtr) : null;
+        return ptr is not 0 ? new MTLComputePipelineState(ptr) : null;
     }
 
     public MTLComputePipelineState? NewComputePipelineState(NSArray functions, out NSError? error)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineState, functions.NativePtr, out nint errorPtr);
-        error = errorPtr is not 0 ? new NSError(errorPtr) : default;
-        return ptr is not 0 ? new MTLComputePipelineState(ptr) : default;
+        error = errorPtr is not 0 ? new NSError(errorPtr) : null;
+        return ptr is not 0 ? new MTLComputePipelineState(ptr) : null;
     }
 
     public MTLIntersectionFunctionTable? NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewIntersectionFunctionTable, descriptor.NativePtr);
-        return ptr is not 0 ? new MTLIntersectionFunctionTable(ptr) : default;
+        return ptr is not 0 ? new MTLIntersectionFunctionTable(ptr) : null;
     }
 
     public MTLVisibleFunctionTable? NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewVisibleFunctionTable, descriptor.NativePtr);
-        return ptr is not 0 ? new MTLVisibleFunctionTable(ptr) : default;
+        return ptr is not 0 ? new MTLVisibleFunctionTable(ptr) : null;
     }
 }
 

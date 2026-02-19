@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLCompileOptions(nint nativePtr)
+public class MTLCompileOptions(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLCompileOptions() : this(ObjectiveCRuntime.AllocInit(MTLCompileOptionsBindings.Class))
     {
     }
@@ -37,9 +35,24 @@ public readonly struct MTLCompileOptions(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsBindings.InstallName);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetInstallName, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetInstallName, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLLanguageVersion LanguageVersion
@@ -53,9 +66,24 @@ public readonly struct MTLCompileOptions(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsBindings.Libraries);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetLibraries, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetLibraries, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLLibraryType LibraryType

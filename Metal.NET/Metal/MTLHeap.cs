@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLHeap(nint nativePtr)
+public class MTLHeap(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLCPUCacheMode CpuCacheMode
     {
         get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapBindings.CpuCacheMode);
@@ -19,7 +17,18 @@ public readonly struct MTLHeap(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.Device);
-            return ptr is not 0 ? new MTLDevice(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLDevice(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -33,9 +42,24 @@ public readonly struct MTLHeap(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.Label);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapBindings.SetLabel, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapBindings.SetLabel, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLResourceOptions ResourceOptions
@@ -71,49 +95,49 @@ public readonly struct MTLHeap(nint nativePtr)
     public MTLAccelerationStructure? NewAccelerationStructure(nuint size)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewAccelerationStructure, size);
-        return ptr is not 0 ? new MTLAccelerationStructure(ptr) : default;
+        return ptr is not 0 ? new MTLAccelerationStructure(ptr) : null;
     }
 
     public MTLAccelerationStructure? NewAccelerationStructure(MTLAccelerationStructureDescriptor descriptor)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewAccelerationStructure, descriptor.NativePtr);
-        return ptr is not 0 ? new MTLAccelerationStructure(ptr) : default;
+        return ptr is not 0 ? new MTLAccelerationStructure(ptr) : null;
     }
 
     public MTLAccelerationStructure? NewAccelerationStructure(nuint size, nuint offset)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewAccelerationStructure, size, offset);
-        return ptr is not 0 ? new MTLAccelerationStructure(ptr) : default;
+        return ptr is not 0 ? new MTLAccelerationStructure(ptr) : null;
     }
 
     public MTLAccelerationStructure? NewAccelerationStructure(MTLAccelerationStructureDescriptor descriptor, nuint offset)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewAccelerationStructure, descriptor.NativePtr, offset);
-        return ptr is not 0 ? new MTLAccelerationStructure(ptr) : default;
+        return ptr is not 0 ? new MTLAccelerationStructure(ptr) : null;
     }
 
     public MTLBuffer? NewBuffer(nuint length, MTLResourceOptions options)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewBuffer, length, (nuint)options);
-        return ptr is not 0 ? new MTLBuffer(ptr) : default;
+        return ptr is not 0 ? new MTLBuffer(ptr) : null;
     }
 
     public MTLBuffer? NewBuffer(nuint length, MTLResourceOptions options, nuint offset)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewBuffer, length, (nuint)options, offset);
-        return ptr is not 0 ? new MTLBuffer(ptr) : default;
+        return ptr is not 0 ? new MTLBuffer(ptr) : null;
     }
 
     public MTLTexture? NewTexture(MTLTextureDescriptor descriptor)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewTexture, descriptor.NativePtr);
-        return ptr is not 0 ? new MTLTexture(ptr) : default;
+        return ptr is not 0 ? new MTLTexture(ptr) : null;
     }
 
     public MTLTexture? NewTexture(MTLTextureDescriptor descriptor, nuint offset)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewTexture, descriptor.NativePtr, offset);
-        return ptr is not 0 ? new MTLTexture(ptr) : default;
+        return ptr is not 0 ? new MTLTexture(ptr) : null;
     }
 
     public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)

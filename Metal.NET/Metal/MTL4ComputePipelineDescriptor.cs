@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTL4ComputePipelineDescriptor(nint nativePtr)
+public class MTL4ComputePipelineDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTL4ComputePipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4ComputePipelineDescriptorBindings.Class))
     {
     }
@@ -13,9 +11,24 @@ public readonly struct MTL4ComputePipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ComputePipelineDescriptorBindings.ComputeFunctionDescriptor);
-            return ptr is not 0 ? new MTL4FunctionDescriptor(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTL4FunctionDescriptor(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorBindings.SetComputeFunctionDescriptor, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorBindings.SetComputeFunctionDescriptor, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint MaxTotalThreadsPerThreadgroup
@@ -35,9 +48,24 @@ public readonly struct MTL4ComputePipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ComputePipelineDescriptorBindings.StaticLinkingDescriptor);
-            return ptr is not 0 ? new MTL4StaticLinkingDescriptor(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTL4StaticLinkingDescriptor(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorBindings.SetStaticLinkingDescriptor, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorBindings.SetStaticLinkingDescriptor, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public bool SupportBinaryLinking

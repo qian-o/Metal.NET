@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLTensorExtents(nint nativePtr)
+public class MTLTensorExtents(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLTensorExtents() : this(ObjectiveCRuntime.AllocInit(MTLTensorExtentsBindings.Class))
     {
     }

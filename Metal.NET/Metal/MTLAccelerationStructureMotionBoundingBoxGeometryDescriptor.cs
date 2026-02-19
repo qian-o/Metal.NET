@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor(nint nativePtr)
+public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.Class))
     {
     }
@@ -13,9 +11,24 @@ public readonly struct MTLAccelerationStructureMotionBoundingBoxGeometryDescript
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.BoundingBoxBuffers);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBuffers, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBuffers, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint BoundingBoxCount
@@ -33,7 +46,7 @@ public readonly struct MTLAccelerationStructureMotionBoundingBoxGeometryDescript
     public static MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor? Descriptor()
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.Class, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.Descriptor);
-        return ptr is not 0 ? new MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor(ptr) : default;
+        return ptr is not 0 ? new MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor(ptr) : null;
     }
 }
 

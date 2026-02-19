@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTL4CompilerTaskOptions(nint nativePtr)
+public class MTL4CompilerTaskOptions(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTL4CompilerTaskOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CompilerTaskOptionsBindings.Class))
     {
     }
@@ -13,9 +11,24 @@ public readonly struct MTL4CompilerTaskOptions(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskOptionsBindings.LookupArchives);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerTaskOptionsBindings.SetLookupArchives, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerTaskOptionsBindings.SetLookupArchives, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 }
 

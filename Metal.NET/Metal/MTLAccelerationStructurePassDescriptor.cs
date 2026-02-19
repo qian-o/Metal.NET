@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLAccelerationStructurePassDescriptor(nint nativePtr)
+public class MTLAccelerationStructurePassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLAccelerationStructurePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassDescriptorBindings.Class))
     {
     }
@@ -13,14 +11,25 @@ public readonly struct MTLAccelerationStructurePassDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructurePassDescriptorBindings.SampleBufferAttachments);
-            return ptr is not 0 ? new MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray(ptr);
+            }
+
+            return field;
         }
     }
 
     public static MTLAccelerationStructurePassDescriptor? AccelerationStructurePassDescriptor()
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructurePassDescriptorBindings.Class, MTLAccelerationStructurePassDescriptorBindings.AccelerationStructurePassDescriptor);
-        return ptr is not 0 ? new MTLAccelerationStructurePassDescriptor(ptr) : default;
+        return ptr is not 0 ? new MTLAccelerationStructurePassDescriptor(ptr) : null;
     }
 }
 

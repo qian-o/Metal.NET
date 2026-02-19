@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLMeshRenderPipelineDescriptor(nint nativePtr)
+public class MTLMeshRenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLMeshRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLMeshRenderPipelineDescriptorBindings.Class))
     {
     }
@@ -25,9 +23,24 @@ public readonly struct MTLMeshRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorBindings.BinaryArchives);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetBinaryArchives, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetBinaryArchives, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLRenderPipelineColorAttachmentDescriptorArray? ColorAttachments
@@ -35,7 +48,18 @@ public readonly struct MTLMeshRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorBindings.ColorAttachments);
-            return ptr is not 0 ? new MTLRenderPipelineColorAttachmentDescriptorArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLRenderPipelineColorAttachmentDescriptorArray(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -50,7 +74,18 @@ public readonly struct MTLMeshRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorBindings.FragmentBuffers);
-            return ptr is not 0 ? new MTLPipelineBufferDescriptorArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLPipelineBufferDescriptorArray(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -59,9 +94,24 @@ public readonly struct MTLMeshRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorBindings.FragmentFunction);
-            return ptr is not 0 ? new MTLFunction(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLFunction(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetFragmentFunction, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetFragmentFunction, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLLinkedFunctions? FragmentLinkedFunctions
@@ -69,9 +119,24 @@ public readonly struct MTLMeshRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorBindings.FragmentLinkedFunctions);
-            return ptr is not 0 ? new MTLLinkedFunctions(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLLinkedFunctions(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetFragmentLinkedFunctions, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetFragmentLinkedFunctions, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public bool IsAlphaToCoverageEnabled
@@ -94,9 +159,24 @@ public readonly struct MTLMeshRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorBindings.Label);
-            return ptr is not 0 ? new NSString(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSString(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint MaxTotalThreadgroupsPerMeshGrid
@@ -128,7 +208,18 @@ public readonly struct MTLMeshRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorBindings.MeshBuffers);
-            return ptr is not 0 ? new MTLPipelineBufferDescriptorArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLPipelineBufferDescriptorArray(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -137,9 +228,24 @@ public readonly struct MTLMeshRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorBindings.MeshFunction);
-            return ptr is not 0 ? new MTLFunction(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLFunction(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetMeshFunction, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetMeshFunction, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLLinkedFunctions? MeshLinkedFunctions
@@ -147,9 +253,24 @@ public readonly struct MTLMeshRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorBindings.MeshLinkedFunctions);
-            return ptr is not 0 ? new MTLLinkedFunctions(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLLinkedFunctions(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetMeshLinkedFunctions, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetMeshLinkedFunctions, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public bool MeshThreadgroupSizeIsMultipleOfThreadExecutionWidth
@@ -163,7 +284,18 @@ public readonly struct MTLMeshRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorBindings.ObjectBuffers);
-            return ptr is not 0 ? new MTLPipelineBufferDescriptorArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLPipelineBufferDescriptorArray(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -172,9 +304,24 @@ public readonly struct MTLMeshRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorBindings.ObjectFunction);
-            return ptr is not 0 ? new MTLFunction(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLFunction(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetObjectFunction, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetObjectFunction, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLLinkedFunctions? ObjectLinkedFunctions
@@ -182,9 +329,24 @@ public readonly struct MTLMeshRenderPipelineDescriptor(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMeshRenderPipelineDescriptorBindings.ObjectLinkedFunctions);
-            return ptr is not 0 ? new MTLLinkedFunctions(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLLinkedFunctions(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetObjectLinkedFunctions, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetObjectLinkedFunctions, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public bool ObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth

@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLFXFrameInterpolatorBase(nint nativePtr)
+public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public float AspectRatio
     {
         get => ObjectiveCRuntime.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.AspectRatio);
@@ -15,9 +13,24 @@ public readonly struct MTLFXFrameInterpolatorBase(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorBaseBindings.ColorTexture);
-            return ptr is not 0 ? new MTLTexture(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLTexture(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetColorTexture, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetColorTexture, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLPixelFormat ColorTextureFormat
@@ -41,9 +54,24 @@ public readonly struct MTLFXFrameInterpolatorBase(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorBaseBindings.DepthTexture);
-            return ptr is not 0 ? new MTLTexture(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLTexture(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDepthTexture, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDepthTexture, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLPixelFormat DepthTextureFormat
@@ -67,9 +95,24 @@ public readonly struct MTLFXFrameInterpolatorBase(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorBaseBindings.Fence);
-            return ptr is not 0 ? new MTLFence(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLFence(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetFence, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetFence, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public float FieldOfView
@@ -116,9 +159,24 @@ public readonly struct MTLFXFrameInterpolatorBase(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorBaseBindings.MotionTexture);
-            return ptr is not 0 ? new MTLTexture(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLTexture(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetMotionTexture, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetMotionTexture, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLPixelFormat MotionTextureFormat
@@ -159,9 +217,24 @@ public readonly struct MTLFXFrameInterpolatorBase(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorBaseBindings.OutputTexture);
-            return ptr is not 0 ? new MTLTexture(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLTexture(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetOutputTexture, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetOutputTexture, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLPixelFormat OutputTextureFormat
@@ -184,9 +257,24 @@ public readonly struct MTLFXFrameInterpolatorBase(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorBaseBindings.PrevColorTexture);
-            return ptr is not 0 ? new MTLTexture(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLTexture(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetPrevColorTexture, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetPrevColorTexture, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public bool ShouldResetHistory
@@ -200,7 +288,18 @@ public readonly struct MTLFXFrameInterpolatorBase(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorBaseBindings.UiTexture);
-            return ptr is not 0 ? new MTLTexture(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLTexture(ptr);
+            }
+
+            return field;
         }
     }
 

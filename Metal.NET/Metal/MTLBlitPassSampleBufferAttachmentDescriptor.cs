@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLBlitPassSampleBufferAttachmentDescriptor(nint nativePtr)
+public class MTLBlitPassSampleBufferAttachmentDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLBlitPassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBlitPassSampleBufferAttachmentDescriptorBindings.Class))
     {
     }
@@ -19,9 +17,24 @@ public readonly struct MTLBlitPassSampleBufferAttachmentDescriptor(nint nativePt
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorBindings.SampleBuffer);
-            return ptr is not 0 ? new MTLCounterSampleBuffer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLCounterSampleBuffer(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint StartOfEncoderSampleIndex

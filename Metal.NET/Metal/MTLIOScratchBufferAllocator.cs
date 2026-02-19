@@ -1,13 +1,11 @@
 namespace Metal.NET;
 
-public readonly struct MTLIOScratchBufferAllocator(nint nativePtr)
+public class MTLIOScratchBufferAllocator(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLIOScratchBuffer? NewScratchBuffer(nuint minimumSize)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOScratchBufferAllocatorBindings.NewScratchBuffer, minimumSize);
-        return ptr is not 0 ? new MTLIOScratchBuffer(ptr) : default;
+        return ptr is not 0 ? new MTLIOScratchBuffer(ptr) : null;
     }
 }
 

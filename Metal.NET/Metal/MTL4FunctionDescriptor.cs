@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTL4FunctionDescriptor(nint nativePtr)
+public class MTL4FunctionDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTL4FunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4FunctionDescriptorBindings.Class))
     {
     }

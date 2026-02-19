@@ -1,15 +1,24 @@
 namespace Metal.NET;
 
-public readonly struct MTL4CommitFeedback(nint nativePtr)
+public class MTL4CommitFeedback(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public NSError? Error
     {
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommitFeedbackBindings.Error);
-            return ptr is not 0 ? new NSError(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSError(ptr);
+            }
+
+            return field;
         }
     }
 

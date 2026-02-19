@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLIndirectCommandBuffer(nint nativePtr)
+public class MTLIndirectCommandBuffer(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLResourceID GpuResourceID
     {
         get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLIndirectCommandBufferBindings.GpuResourceID);
@@ -17,13 +15,13 @@ public readonly struct MTLIndirectCommandBuffer(nint nativePtr)
     public MTLIndirectComputeCommand? IndirectComputeCommand(nuint commandIndex)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferBindings.IndirectComputeCommand, commandIndex);
-        return ptr is not 0 ? new MTLIndirectComputeCommand(ptr) : default;
+        return ptr is not 0 ? new MTLIndirectComputeCommand(ptr) : null;
     }
 
     public MTLIndirectRenderCommand? IndirectRenderCommand(nuint commandIndex)
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferBindings.IndirectRenderCommand, commandIndex);
-        return ptr is not 0 ? new MTLIndirectRenderCommand(ptr) : default;
+        return ptr is not 0 ? new MTLIndirectRenderCommand(ptr) : null;
     }
 
     public void Reset(NSRange range)

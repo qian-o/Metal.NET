@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct CAMetalLayer(nint nativePtr)
+public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(CAMetalLayerBindings.Class))
     {
     }
@@ -25,9 +23,24 @@ public readonly struct CAMetalLayer(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerBindings.Device);
-            return ptr is not 0 ? new MTLDevice(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLDevice(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetDevice, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetDevice, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public bool DisplaySyncEnabled
@@ -59,7 +72,18 @@ public readonly struct CAMetalLayer(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerBindings.NextDrawable);
-            return ptr is not 0 ? new CAMetalDrawable(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new CAMetalDrawable(ptr);
+            }
+
+            return field;
         }
     }
 
@@ -74,14 +98,25 @@ public readonly struct CAMetalLayer(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerBindings.ResidencySet);
-            return ptr is not 0 ? new MTLResidencySet(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLResidencySet(ptr);
+            }
+
+            return field;
         }
     }
 
     public static CAMetalLayer? Layer()
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(CAMetalLayerBindings.Class, CAMetalLayerBindings.Layer);
-        return ptr is not 0 ? new CAMetalLayer(ptr) : default;
+        return ptr is not 0 ? new CAMetalLayer(ptr) : null;
     }
 }
 

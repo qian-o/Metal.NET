@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLInstanceAccelerationStructureDescriptor(nint nativePtr)
+public class MTLInstanceAccelerationStructureDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLInstanceAccelerationStructureDescriptorBindings.Class))
     {
     }
@@ -19,9 +17,24 @@ public readonly struct MTLInstanceAccelerationStructureDescriptor(nint nativePtr
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorBuffer);
-            return ptr is not 0 ? new MTLBuffer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLBuffer(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorBuffer, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorBuffer, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint InstanceDescriptorBufferOffset
@@ -53,9 +66,24 @@ public readonly struct MTLInstanceAccelerationStructureDescriptor(nint nativePtr
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.InstancedAccelerationStructures);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstancedAccelerationStructures, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstancedAccelerationStructures, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public MTLBuffer? MotionTransformBuffer
@@ -63,9 +91,24 @@ public readonly struct MTLInstanceAccelerationStructureDescriptor(nint nativePtr
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.MotionTransformBuffer);
-            return ptr is not 0 ? new MTLBuffer(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new MTLBuffer(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetMotionTransformBuffer, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetMotionTransformBuffer, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public nuint MotionTransformBufferOffset
@@ -95,7 +138,7 @@ public readonly struct MTLInstanceAccelerationStructureDescriptor(nint nativePtr
     public static MTLInstanceAccelerationStructureDescriptor? Descriptor()
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLInstanceAccelerationStructureDescriptorBindings.Class, MTLInstanceAccelerationStructureDescriptorBindings.Descriptor);
-        return ptr is not 0 ? new MTLInstanceAccelerationStructureDescriptor(ptr) : default;
+        return ptr is not 0 ? new MTLInstanceAccelerationStructureDescriptor(ptr) : null;
     }
 }
 

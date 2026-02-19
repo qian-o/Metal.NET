@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTL4MachineLearningPipelineReflection(nint nativePtr)
+public class MTL4MachineLearningPipelineReflection(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTL4MachineLearningPipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTL4MachineLearningPipelineReflectionBindings.Class))
     {
     }
@@ -13,7 +11,18 @@ public readonly struct MTL4MachineLearningPipelineReflection(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineReflectionBindings.Bindings);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
     }
 }

@@ -1,9 +1,7 @@
 namespace Metal.NET;
 
-public readonly struct MTLLinkedFunctions(nint nativePtr)
+public class MTLLinkedFunctions(nint nativePtr) : NativeObject(nativePtr)
 {
-    public readonly nint NativePtr = nativePtr;
-
     public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(MTLLinkedFunctionsBindings.Class))
     {
     }
@@ -13,9 +11,24 @@ public readonly struct MTLLinkedFunctions(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLinkedFunctionsBindings.BinaryFunctions);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsBindings.SetBinaryFunctions, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsBindings.SetBinaryFunctions, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public NSArray? Functions
@@ -23,9 +36,24 @@ public readonly struct MTLLinkedFunctions(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLinkedFunctionsBindings.Functions);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsBindings.SetFunctions, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsBindings.SetFunctions, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public NSArray? PrivateFunctions
@@ -33,15 +61,30 @@ public readonly struct MTLLinkedFunctions(nint nativePtr)
         get
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLinkedFunctionsBindings.PrivateFunctions);
-            return ptr is not 0 ? new NSArray(ptr) : default;
+
+            if (ptr == 0)
+            {
+                return field = null;
+            }
+
+            if (field is null || field.NativePtr != ptr)
+            {
+                field = new NSArray(ptr);
+            }
+
+            return field;
         }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsBindings.SetPrivateFunctions, value?.NativePtr ?? 0);
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsBindings.SetPrivateFunctions, value?.NativePtr ?? 0);
+            field = value;
+        }
     }
 
     public static MTLLinkedFunctions? LinkedFunctions()
     {
         nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLLinkedFunctionsBindings.Class, MTLLinkedFunctionsBindings.LinkedFunctions);
-        return ptr is not 0 ? new MTLLinkedFunctions(ptr) : default;
+        return ptr is not 0 ? new MTLLinkedFunctions(ptr) : null;
     }
 }
 
