@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Metal.NET;
 
-public static unsafe partial class ObjectiveCRuntime
+internal static unsafe partial class ObjectiveCRuntime
 {
     static ObjectiveCRuntime()
     {
@@ -597,16 +597,6 @@ public static unsafe partial class ObjectiveCRuntime
         {
             return GetClass(utf8);
         }
-    }
-
-    public static nint Retain(nint obj)
-    {
-        return MsgSendPtr(obj, (Selector)"retain");
-    }
-
-    public static void Release(nint obj)
-    {
-        MsgSend(obj, (Selector)"release");
     }
 
     public static nint AllocInit(nint @class)

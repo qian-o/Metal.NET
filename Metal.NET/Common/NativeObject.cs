@@ -17,7 +17,7 @@ public abstract class NativeObject(nint nativePtr) : IDisposable
     {
         if (NativePtr is not 0)
         {
-            ObjectiveCRuntime.Release(NativePtr);
+            ObjectiveCRuntime.MsgSend(NativePtr, NativeObjectBindings.Release);
         }
 
         GC.SuppressFinalize(this);
@@ -52,4 +52,9 @@ public abstract class NativeObject(nint nativePtr) : IDisposable
 
         field = value;
     }
+}
+
+file static class NativeObjectBindings
+{
+    public static readonly Selector Release = "release";
 }
