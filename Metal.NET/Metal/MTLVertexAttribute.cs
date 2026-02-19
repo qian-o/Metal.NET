@@ -38,22 +38,7 @@ public class MTLVertexAttribute(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeBindings.Name);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSString>(ref field, MTLVertexAttributeBindings.Name);
     }
 
     public bool PatchControlPointData
@@ -71,21 +56,21 @@ file static class MTLVertexAttributeBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexAttribute");
 
-    public static readonly Selector Active = Selector.Register("isActive");
+    public static readonly Selector Active = "isActive";
 
-    public static readonly Selector AttributeIndex = Selector.Register("attributeIndex");
+    public static readonly Selector AttributeIndex = "attributeIndex";
 
-    public static readonly Selector AttributeType = Selector.Register("attributeType");
+    public static readonly Selector AttributeType = "attributeType";
 
-    public static readonly Selector IsActive = Selector.Register("isActive");
+    public static readonly Selector IsActive = "isActive";
 
-    public static readonly Selector IsPatchControlPointData = Selector.Register("isPatchControlPointData");
+    public static readonly Selector IsPatchControlPointData = "isPatchControlPointData";
 
-    public static readonly Selector IsPatchData = Selector.Register("isPatchData");
+    public static readonly Selector IsPatchData = "isPatchData";
 
-    public static readonly Selector Name = Selector.Register("name");
+    public static readonly Selector Name = "name";
 
-    public static readonly Selector PatchControlPointData = Selector.Register("isPatchControlPointData");
+    public static readonly Selector PatchControlPointData = "isPatchControlPointData";
 
-    public static readonly Selector PatchData = Selector.Register("isPatchData");
+    public static readonly Selector PatchData = "isPatchData";
 }

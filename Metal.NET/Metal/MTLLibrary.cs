@@ -4,87 +4,23 @@ public class MTLLibrary(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.Device);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLDevice(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLDevice>(ref field, MTLLibraryBindings.Device);
     }
 
     public NSArray? FunctionNames
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.FunctionNames);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSArray(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSArray>(ref field, MTLLibraryBindings.FunctionNames);
     }
 
     public NSString? InstallName
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.InstallName);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSString>(ref field, MTLLibraryBindings.InstallName);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLLibraryBindings.SetLabel, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSString>(ref field, MTLLibraryBindings.Label);
+        set => SetProperty(ref field, MTLLibraryBindings.SetLabel, value);
     }
 
     public MTLLibraryType Type
@@ -128,21 +64,21 @@ public class MTLLibrary(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLLibraryBindings
 {
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector FunctionNames = Selector.Register("functionNames");
+    public static readonly Selector FunctionNames = "functionNames";
 
-    public static readonly Selector InstallName = Selector.Register("installName");
+    public static readonly Selector InstallName = "installName";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector NewFunction = Selector.Register("newFunctionWithName:");
+    public static readonly Selector NewFunction = "newFunctionWithName:";
 
-    public static readonly Selector NewIntersectionFunction = Selector.Register("newIntersectionFunctionWithDescriptor:error:");
+    public static readonly Selector NewIntersectionFunction = "newIntersectionFunctionWithDescriptor:error:";
 
-    public static readonly Selector ReflectionForFunction = Selector.Register("reflectionForFunctionWithName:");
+    public static readonly Selector ReflectionForFunction = "reflectionForFunctionWithName:";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector Type = Selector.Register("type");
+    public static readonly Selector Type = "type";
 }

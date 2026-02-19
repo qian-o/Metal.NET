@@ -14,27 +14,8 @@ public class MTLResourceStatePassSampleBufferAttachmentDescriptor(nint nativePtr
 
     public MTLCounterSampleBuffer? SampleBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SampleBuffer);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLCounterSampleBuffer(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLCounterSampleBuffer>(ref field, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SampleBuffer);
+        set => SetProperty(ref field, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, value);
     }
 
     public nuint StartOfEncoderSampleIndex
@@ -48,15 +29,15 @@ file static class MTLResourceStatePassSampleBufferAttachmentDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResourceStatePassSampleBufferAttachmentDescriptor");
 
-    public static readonly Selector EndOfEncoderSampleIndex = Selector.Register("endOfEncoderSampleIndex");
+    public static readonly Selector EndOfEncoderSampleIndex = "endOfEncoderSampleIndex";
 
-    public static readonly Selector SampleBuffer = Selector.Register("sampleBuffer");
+    public static readonly Selector SampleBuffer = "sampleBuffer";
 
-    public static readonly Selector SetEndOfEncoderSampleIndex = Selector.Register("setEndOfEncoderSampleIndex:");
+    public static readonly Selector SetEndOfEncoderSampleIndex = "setEndOfEncoderSampleIndex:";
 
-    public static readonly Selector SetSampleBuffer = Selector.Register("setSampleBuffer:");
+    public static readonly Selector SetSampleBuffer = "setSampleBuffer:";
 
-    public static readonly Selector SetStartOfEncoderSampleIndex = Selector.Register("setStartOfEncoderSampleIndex:");
+    public static readonly Selector SetStartOfEncoderSampleIndex = "setStartOfEncoderSampleIndex:";
 
-    public static readonly Selector StartOfEncoderSampleIndex = Selector.Register("startOfEncoderSampleIndex");
+    public static readonly Selector StartOfEncoderSampleIndex = "startOfEncoderSampleIndex";
 }

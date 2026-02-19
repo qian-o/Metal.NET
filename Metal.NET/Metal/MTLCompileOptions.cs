@@ -32,27 +32,8 @@ public class MTLCompileOptions(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? InstallName
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsBindings.InstallName);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetInstallName, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSString>(ref field, MTLCompileOptionsBindings.InstallName);
+        set => SetProperty(ref field, MTLCompileOptionsBindings.SetInstallName, value);
     }
 
     public MTLLanguageVersion LanguageVersion
@@ -63,27 +44,8 @@ public class MTLCompileOptions(nint nativePtr) : NativeObject(nativePtr)
 
     public NSArray? Libraries
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsBindings.Libraries);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSArray(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetLibraries, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSArray>(ref field, MTLCompileOptionsBindings.Libraries);
+        set => SetProperty(ref field, MTLCompileOptionsBindings.SetLibraries, value);
     }
 
     public MTLLibraryType LibraryType
@@ -133,59 +95,59 @@ file static class MTLCompileOptionsBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCompileOptions");
 
-    public static readonly Selector AllowReferencingUndefinedSymbols = Selector.Register("allowReferencingUndefinedSymbols");
+    public static readonly Selector AllowReferencingUndefinedSymbols = "allowReferencingUndefinedSymbols";
 
-    public static readonly Selector CompileSymbolVisibility = Selector.Register("compileSymbolVisibility");
+    public static readonly Selector CompileSymbolVisibility = "compileSymbolVisibility";
 
-    public static readonly Selector EnableLogging = Selector.Register("enableLogging");
+    public static readonly Selector EnableLogging = "enableLogging";
 
-    public static readonly Selector FastMathEnabled = Selector.Register("fastMathEnabled");
+    public static readonly Selector FastMathEnabled = "fastMathEnabled";
 
-    public static readonly Selector InstallName = Selector.Register("installName");
+    public static readonly Selector InstallName = "installName";
 
-    public static readonly Selector LanguageVersion = Selector.Register("languageVersion");
+    public static readonly Selector LanguageVersion = "languageVersion";
 
-    public static readonly Selector Libraries = Selector.Register("libraries");
+    public static readonly Selector Libraries = "libraries";
 
-    public static readonly Selector LibraryType = Selector.Register("libraryType");
+    public static readonly Selector LibraryType = "libraryType";
 
-    public static readonly Selector MathFloatingPointFunctions = Selector.Register("mathFloatingPointFunctions");
+    public static readonly Selector MathFloatingPointFunctions = "mathFloatingPointFunctions";
 
-    public static readonly Selector MathMode = Selector.Register("mathMode");
+    public static readonly Selector MathMode = "mathMode";
 
-    public static readonly Selector MaxTotalThreadsPerThreadgroup = Selector.Register("maxTotalThreadsPerThreadgroup");
+    public static readonly Selector MaxTotalThreadsPerThreadgroup = "maxTotalThreadsPerThreadgroup";
 
-    public static readonly Selector OptimizationLevel = Selector.Register("optimizationLevel");
+    public static readonly Selector OptimizationLevel = "optimizationLevel";
 
-    public static readonly Selector PreserveInvariance = Selector.Register("preserveInvariance");
+    public static readonly Selector PreserveInvariance = "preserveInvariance";
 
-    public static readonly Selector RequiredThreadsPerThreadgroup = Selector.Register("requiredThreadsPerThreadgroup");
+    public static readonly Selector RequiredThreadsPerThreadgroup = "requiredThreadsPerThreadgroup";
 
-    public static readonly Selector SetAllowReferencingUndefinedSymbols = Selector.Register("setAllowReferencingUndefinedSymbols:");
+    public static readonly Selector SetAllowReferencingUndefinedSymbols = "setAllowReferencingUndefinedSymbols:";
 
-    public static readonly Selector SetCompileSymbolVisibility = Selector.Register("setCompileSymbolVisibility:");
+    public static readonly Selector SetCompileSymbolVisibility = "setCompileSymbolVisibility:";
 
-    public static readonly Selector SetEnableLogging = Selector.Register("setEnableLogging:");
+    public static readonly Selector SetEnableLogging = "setEnableLogging:";
 
-    public static readonly Selector SetFastMathEnabled = Selector.Register("setFastMathEnabled:");
+    public static readonly Selector SetFastMathEnabled = "setFastMathEnabled:";
 
-    public static readonly Selector SetInstallName = Selector.Register("setInstallName:");
+    public static readonly Selector SetInstallName = "setInstallName:";
 
-    public static readonly Selector SetLanguageVersion = Selector.Register("setLanguageVersion:");
+    public static readonly Selector SetLanguageVersion = "setLanguageVersion:";
 
-    public static readonly Selector SetLibraries = Selector.Register("setLibraries:");
+    public static readonly Selector SetLibraries = "setLibraries:";
 
-    public static readonly Selector SetLibraryType = Selector.Register("setLibraryType:");
+    public static readonly Selector SetLibraryType = "setLibraryType:";
 
-    public static readonly Selector SetMathFloatingPointFunctions = Selector.Register("setMathFloatingPointFunctions:");
+    public static readonly Selector SetMathFloatingPointFunctions = "setMathFloatingPointFunctions:";
 
-    public static readonly Selector SetMathMode = Selector.Register("setMathMode:");
+    public static readonly Selector SetMathMode = "setMathMode:";
 
-    public static readonly Selector SetMaxTotalThreadsPerThreadgroup = Selector.Register("setMaxTotalThreadsPerThreadgroup:");
+    public static readonly Selector SetMaxTotalThreadsPerThreadgroup = "setMaxTotalThreadsPerThreadgroup:";
 
-    public static readonly Selector SetOptimizationLevel = Selector.Register("setOptimizationLevel:");
+    public static readonly Selector SetOptimizationLevel = "setOptimizationLevel:";
 
-    public static readonly Selector SetPreserveInvariance = Selector.Register("setPreserveInvariance:");
+    public static readonly Selector SetPreserveInvariance = "setPreserveInvariance:";
 
-    public static readonly Selector SetRequiredThreadsPerThreadgroup = Selector.Register("setRequiredThreadsPerThreadgroup:");
+    public static readonly Selector SetRequiredThreadsPerThreadgroup = "setRequiredThreadsPerThreadgroup:";
 }

@@ -20,27 +20,8 @@ public class MTLTensorDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLTensorExtents? Dimensions
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorDescriptorBindings.Dimensions);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTensorExtents(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetDimensions, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLTensorExtents>(ref field, MTLTensorDescriptorBindings.Dimensions);
+        set => SetProperty(ref field, MTLTensorDescriptorBindings.SetDimensions, value);
     }
 
     public MTLHazardTrackingMode HazardTrackingMode
@@ -63,27 +44,8 @@ public class MTLTensorDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLTensorExtents? Strides
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorDescriptorBindings.Strides);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTensorExtents(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetStrides, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLTensorExtents>(ref field, MTLTensorDescriptorBindings.Strides);
+        set => SetProperty(ref field, MTLTensorDescriptorBindings.SetStrides, value);
     }
 
     public MTLTensorUsage Usage
@@ -97,35 +59,35 @@ file static class MTLTensorDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorDescriptor");
 
-    public static readonly Selector CpuCacheMode = Selector.Register("cpuCacheMode");
+    public static readonly Selector CpuCacheMode = "cpuCacheMode";
 
-    public static readonly Selector DataType = Selector.Register("dataType");
+    public static readonly Selector DataType = "dataType";
 
-    public static readonly Selector Dimensions = Selector.Register("dimensions");
+    public static readonly Selector Dimensions = "dimensions";
 
-    public static readonly Selector HazardTrackingMode = Selector.Register("hazardTrackingMode");
+    public static readonly Selector HazardTrackingMode = "hazardTrackingMode";
 
-    public static readonly Selector ResourceOptions = Selector.Register("resourceOptions");
+    public static readonly Selector ResourceOptions = "resourceOptions";
 
-    public static readonly Selector SetCpuCacheMode = Selector.Register("setCpuCacheMode:");
+    public static readonly Selector SetCpuCacheMode = "setCpuCacheMode:";
 
-    public static readonly Selector SetDataType = Selector.Register("setDataType:");
+    public static readonly Selector SetDataType = "setDataType:";
 
-    public static readonly Selector SetDimensions = Selector.Register("setDimensions:");
+    public static readonly Selector SetDimensions = "setDimensions:";
 
-    public static readonly Selector SetHazardTrackingMode = Selector.Register("setHazardTrackingMode:");
+    public static readonly Selector SetHazardTrackingMode = "setHazardTrackingMode:";
 
-    public static readonly Selector SetResourceOptions = Selector.Register("setResourceOptions:");
+    public static readonly Selector SetResourceOptions = "setResourceOptions:";
 
-    public static readonly Selector SetStorageMode = Selector.Register("setStorageMode:");
+    public static readonly Selector SetStorageMode = "setStorageMode:";
 
-    public static readonly Selector SetStrides = Selector.Register("setStrides:");
+    public static readonly Selector SetStrides = "setStrides:";
 
-    public static readonly Selector SetUsage = Selector.Register("setUsage:");
+    public static readonly Selector SetUsage = "setUsage:";
 
-    public static readonly Selector StorageMode = Selector.Register("storageMode");
+    public static readonly Selector StorageMode = "storageMode";
 
-    public static readonly Selector Strides = Selector.Register("strides");
+    public static readonly Selector Strides = "strides";
 
-    public static readonly Selector Usage = Selector.Register("usage");
+    public static readonly Selector Usage = "usage";
 }

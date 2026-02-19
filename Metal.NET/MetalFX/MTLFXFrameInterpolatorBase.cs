@@ -10,27 +10,8 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr
 
     public MTLTexture? ColorTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorBaseBindings.ColorTexture);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTexture(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetColorTexture, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLTexture>(ref field, MTLFXFrameInterpolatorBaseBindings.ColorTexture);
+        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetColorTexture, value);
     }
 
     public MTLPixelFormat ColorTextureFormat
@@ -51,27 +32,8 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr
 
     public MTLTexture? DepthTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorBaseBindings.DepthTexture);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTexture(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDepthTexture, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLTexture>(ref field, MTLFXFrameInterpolatorBaseBindings.DepthTexture);
+        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetDepthTexture, value);
     }
 
     public MTLPixelFormat DepthTextureFormat
@@ -92,27 +54,8 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr
 
     public MTLFence? Fence
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorBaseBindings.Fence);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLFence(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetFence, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLFence>(ref field, MTLFXFrameInterpolatorBaseBindings.Fence);
+        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetFence, value);
     }
 
     public float FieldOfView
@@ -156,27 +99,8 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr
 
     public MTLTexture? MotionTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorBaseBindings.MotionTexture);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTexture(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetMotionTexture, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLTexture>(ref field, MTLFXFrameInterpolatorBaseBindings.MotionTexture);
+        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetMotionTexture, value);
     }
 
     public MTLPixelFormat MotionTextureFormat
@@ -214,27 +138,8 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr
 
     public MTLTexture? OutputTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorBaseBindings.OutputTexture);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTexture(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetOutputTexture, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLTexture>(ref field, MTLFXFrameInterpolatorBaseBindings.OutputTexture);
+        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetOutputTexture, value);
     }
 
     public MTLPixelFormat OutputTextureFormat
@@ -254,27 +159,8 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr
 
     public MTLTexture? PrevColorTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorBaseBindings.PrevColorTexture);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTexture(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetPrevColorTexture, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLTexture>(ref field, MTLFXFrameInterpolatorBaseBindings.PrevColorTexture);
+        set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetPrevColorTexture, value);
     }
 
     public bool ShouldResetHistory
@@ -285,22 +171,7 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr
 
     public MTLTexture? UiTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorBaseBindings.UiTexture);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTexture(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLTexture>(ref field, MTLFXFrameInterpolatorBaseBindings.UiTexture);
     }
 
     public MTLPixelFormat UiTextureFormat
@@ -316,103 +187,103 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr
 
 file static class MTLFXFrameInterpolatorBaseBindings
 {
-    public static readonly Selector AspectRatio = Selector.Register("aspectRatio");
+    public static readonly Selector AspectRatio = "aspectRatio";
 
-    public static readonly Selector ColorTexture = Selector.Register("colorTexture");
+    public static readonly Selector ColorTexture = "colorTexture";
 
-    public static readonly Selector ColorTextureFormat = Selector.Register("colorTextureFormat");
+    public static readonly Selector ColorTextureFormat = "colorTextureFormat";
 
-    public static readonly Selector ColorTextureUsage = Selector.Register("colorTextureUsage");
+    public static readonly Selector ColorTextureUsage = "colorTextureUsage";
 
-    public static readonly Selector DeltaTime = Selector.Register("deltaTime");
+    public static readonly Selector DeltaTime = "deltaTime";
 
-    public static readonly Selector DepthTexture = Selector.Register("depthTexture");
+    public static readonly Selector DepthTexture = "depthTexture";
 
-    public static readonly Selector DepthTextureFormat = Selector.Register("depthTextureFormat");
+    public static readonly Selector DepthTextureFormat = "depthTextureFormat";
 
-    public static readonly Selector DepthTextureUsage = Selector.Register("depthTextureUsage");
+    public static readonly Selector DepthTextureUsage = "depthTextureUsage";
 
-    public static readonly Selector FarPlane = Selector.Register("farPlane");
+    public static readonly Selector FarPlane = "farPlane";
 
-    public static readonly Selector Fence = Selector.Register("fence");
+    public static readonly Selector Fence = "fence";
 
-    public static readonly Selector FieldOfView = Selector.Register("fieldOfView");
+    public static readonly Selector FieldOfView = "fieldOfView";
 
-    public static readonly Selector InputHeight = Selector.Register("inputHeight");
+    public static readonly Selector InputHeight = "inputHeight";
 
-    public static readonly Selector InputWidth = Selector.Register("inputWidth");
+    public static readonly Selector InputWidth = "inputWidth";
 
-    public static readonly Selector IsDepthReversed = Selector.Register("isDepthReversed");
+    public static readonly Selector IsDepthReversed = "isDepthReversed";
 
-    public static readonly Selector IsUITextureComposited = Selector.Register("isUITextureComposited");
+    public static readonly Selector IsUITextureComposited = "isUITextureComposited";
 
-    public static readonly Selector JitterOffsetX = Selector.Register("jitterOffsetX");
+    public static readonly Selector JitterOffsetX = "jitterOffsetX";
 
-    public static readonly Selector JitterOffsetY = Selector.Register("jitterOffsetY");
+    public static readonly Selector JitterOffsetY = "jitterOffsetY";
 
-    public static readonly Selector MotionTexture = Selector.Register("motionTexture");
+    public static readonly Selector MotionTexture = "motionTexture";
 
-    public static readonly Selector MotionTextureFormat = Selector.Register("motionTextureFormat");
+    public static readonly Selector MotionTextureFormat = "motionTextureFormat";
 
-    public static readonly Selector MotionTextureUsage = Selector.Register("motionTextureUsage");
+    public static readonly Selector MotionTextureUsage = "motionTextureUsage";
 
-    public static readonly Selector MotionVectorScaleX = Selector.Register("motionVectorScaleX");
+    public static readonly Selector MotionVectorScaleX = "motionVectorScaleX";
 
-    public static readonly Selector MotionVectorScaleY = Selector.Register("motionVectorScaleY");
+    public static readonly Selector MotionVectorScaleY = "motionVectorScaleY";
 
-    public static readonly Selector NearPlane = Selector.Register("nearPlane");
+    public static readonly Selector NearPlane = "nearPlane";
 
-    public static readonly Selector OutputHeight = Selector.Register("outputHeight");
+    public static readonly Selector OutputHeight = "outputHeight";
 
-    public static readonly Selector OutputTexture = Selector.Register("outputTexture");
+    public static readonly Selector OutputTexture = "outputTexture";
 
-    public static readonly Selector OutputTextureFormat = Selector.Register("outputTextureFormat");
+    public static readonly Selector OutputTextureFormat = "outputTextureFormat";
 
-    public static readonly Selector OutputTextureUsage = Selector.Register("outputTextureUsage");
+    public static readonly Selector OutputTextureUsage = "outputTextureUsage";
 
-    public static readonly Selector OutputWidth = Selector.Register("outputWidth");
+    public static readonly Selector OutputWidth = "outputWidth";
 
-    public static readonly Selector PrevColorTexture = Selector.Register("prevColorTexture");
+    public static readonly Selector PrevColorTexture = "prevColorTexture";
 
-    public static readonly Selector SetAspectRatio = Selector.Register("setAspectRatio:");
+    public static readonly Selector SetAspectRatio = "setAspectRatio:";
 
-    public static readonly Selector SetColorTexture = Selector.Register("setColorTexture:");
+    public static readonly Selector SetColorTexture = "setColorTexture:";
 
-    public static readonly Selector SetDeltaTime = Selector.Register("setDeltaTime:");
+    public static readonly Selector SetDeltaTime = "setDeltaTime:";
 
-    public static readonly Selector SetDepthTexture = Selector.Register("setDepthTexture:");
+    public static readonly Selector SetDepthTexture = "setDepthTexture:";
 
-    public static readonly Selector SetFarPlane = Selector.Register("setFarPlane:");
+    public static readonly Selector SetFarPlane = "setFarPlane:";
 
-    public static readonly Selector SetFence = Selector.Register("setFence:");
+    public static readonly Selector SetFence = "setFence:";
 
-    public static readonly Selector SetFieldOfView = Selector.Register("setFieldOfView:");
+    public static readonly Selector SetFieldOfView = "setFieldOfView:";
 
-    public static readonly Selector SetIsUITextureComposited = Selector.Register("setIsUITextureComposited:");
+    public static readonly Selector SetIsUITextureComposited = "setIsUITextureComposited:";
 
-    public static readonly Selector SetJitterOffsetX = Selector.Register("setJitterOffsetX:");
+    public static readonly Selector SetJitterOffsetX = "setJitterOffsetX:";
 
-    public static readonly Selector SetJitterOffsetY = Selector.Register("setJitterOffsetY:");
+    public static readonly Selector SetJitterOffsetY = "setJitterOffsetY:";
 
-    public static readonly Selector SetMotionTexture = Selector.Register("setMotionTexture:");
+    public static readonly Selector SetMotionTexture = "setMotionTexture:";
 
-    public static readonly Selector SetMotionVectorScaleX = Selector.Register("setMotionVectorScaleX:");
+    public static readonly Selector SetMotionVectorScaleX = "setMotionVectorScaleX:";
 
-    public static readonly Selector SetMotionVectorScaleY = Selector.Register("setMotionVectorScaleY:");
+    public static readonly Selector SetMotionVectorScaleY = "setMotionVectorScaleY:";
 
-    public static readonly Selector SetNearPlane = Selector.Register("setNearPlane:");
+    public static readonly Selector SetNearPlane = "setNearPlane:";
 
-    public static readonly Selector SetOutputTexture = Selector.Register("setOutputTexture:");
+    public static readonly Selector SetOutputTexture = "setOutputTexture:";
 
-    public static readonly Selector SetPrevColorTexture = Selector.Register("setPrevColorTexture:");
+    public static readonly Selector SetPrevColorTexture = "setPrevColorTexture:";
 
-    public static readonly Selector SetShouldResetHistory = Selector.Register("setShouldResetHistory:");
+    public static readonly Selector SetShouldResetHistory = "setShouldResetHistory:";
 
-    public static readonly Selector ShouldResetHistory = Selector.Register("shouldResetHistory");
+    public static readonly Selector ShouldResetHistory = "shouldResetHistory";
 
-    public static readonly Selector UiTexture = Selector.Register("uiTexture");
+    public static readonly Selector UiTexture = "uiTexture";
 
-    public static readonly Selector UiTextureFormat = Selector.Register("uiTextureFormat");
+    public static readonly Selector UiTextureFormat = "uiTextureFormat";
 
-    public static readonly Selector UiTextureUsage = Selector.Register("uiTextureFormat");
+    public static readonly Selector UiTextureUsage = "uiTextureFormat";
 }

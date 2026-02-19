@@ -13,22 +13,7 @@ public class MTLTensorReferenceType(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLTensorExtents? Dimensions
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorReferenceTypeBindings.Dimensions);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTensorExtents(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLTensorExtents>(ref field, MTLTensorReferenceTypeBindings.Dimensions);
     }
 
     public MTLDataType IndexType
@@ -46,11 +31,11 @@ file static class MTLTensorReferenceTypeBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorReferenceType");
 
-    public static readonly Selector Access = Selector.Register("access");
+    public static readonly Selector Access = "access";
 
-    public static readonly Selector Dimensions = Selector.Register("dimensions");
+    public static readonly Selector Dimensions = "dimensions";
 
-    public static readonly Selector IndexType = Selector.Register("indexType");
+    public static readonly Selector IndexType = "indexType";
 
-    public static readonly Selector TensorDataType = Selector.Register("tensorDataType");
+    public static readonly Selector TensorDataType = "tensorDataType";
 }

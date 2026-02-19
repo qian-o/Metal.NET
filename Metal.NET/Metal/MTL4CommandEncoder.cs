@@ -4,47 +4,13 @@ public class MTL4CommandEncoder(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTL4CommandBuffer? CommandBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandEncoderBindings.CommandBuffer);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4CommandBuffer(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTL4CommandBuffer>(ref field, MTL4CommandEncoderBindings.CommandBuffer);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandEncoderBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandEncoderBindings.SetLabel, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSString>(ref field, MTL4CommandEncoderBindings.Label);
+        set => SetProperty(ref field, MTL4CommandEncoderBindings.SetLabel, value);
     }
 
     public void BarrierAfterEncoderStages(MTLStages afterEncoderStages, MTLStages beforeEncoderStages, MTL4VisibilityOptions visibilityOptions)
@@ -95,27 +61,27 @@ public class MTL4CommandEncoder(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTL4CommandEncoderBindings
 {
-    public static readonly Selector BarrierAfterEncoderStages = Selector.Register("barrierAfterEncoderStages:beforeEncoderStages:visibilityOptions:");
+    public static readonly Selector BarrierAfterEncoderStages = "barrierAfterEncoderStages:beforeEncoderStages:visibilityOptions:";
 
-    public static readonly Selector BarrierAfterQueueStages = Selector.Register("barrierAfterQueueStages:beforeStages:visibilityOptions:");
+    public static readonly Selector BarrierAfterQueueStages = "barrierAfterQueueStages:beforeStages:visibilityOptions:";
 
-    public static readonly Selector BarrierAfterStages = Selector.Register("barrierAfterStages:beforeQueueStages:visibilityOptions:");
+    public static readonly Selector BarrierAfterStages = "barrierAfterStages:beforeQueueStages:visibilityOptions:";
 
-    public static readonly Selector CommandBuffer = Selector.Register("commandBuffer");
+    public static readonly Selector CommandBuffer = "commandBuffer";
 
-    public static readonly Selector EndEncoding = Selector.Register("endEncoding");
+    public static readonly Selector EndEncoding = "endEncoding";
 
-    public static readonly Selector InsertDebugSignpost = Selector.Register("insertDebugSignpost:");
+    public static readonly Selector InsertDebugSignpost = "insertDebugSignpost:";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector PopDebugGroup = Selector.Register("popDebugGroup");
+    public static readonly Selector PopDebugGroup = "popDebugGroup";
 
-    public static readonly Selector PushDebugGroup = Selector.Register("pushDebugGroup:");
+    public static readonly Selector PushDebugGroup = "pushDebugGroup:";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector UpdateFence = Selector.Register("updateFence:afterEncoderStages:");
+    public static readonly Selector UpdateFence = "updateFence:afterEncoderStages:";
 
-    public static readonly Selector WaitForFence = Selector.Register("waitForFence:beforeEncoderStages:");
+    public static readonly Selector WaitForFence = "waitForFence:beforeEncoderStages:";
 }

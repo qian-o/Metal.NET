@@ -10,5 +10,5 @@ public class MTLFXTemporalScaler(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLFXTemporalScalerBindings
 {
-    public static readonly Selector EncodeToCommandBuffer = Selector.Register("encodeToCommandBuffer:");
+    public static readonly Selector EncodeToCommandBuffer = "encodeToCommandBuffer:";
 }

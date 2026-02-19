@@ -20,27 +20,8 @@ public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerBindings.Device);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLDevice(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetDevice, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLDevice>(ref field, CAMetalLayerBindings.Device);
+        set => SetProperty(ref field, CAMetalLayerBindings.SetDevice, value);
     }
 
     public bool DisplaySyncEnabled
@@ -69,22 +50,7 @@ public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr)
 
     public CAMetalDrawable? NextDrawable
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerBindings.NextDrawable);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new CAMetalDrawable(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<CAMetalDrawable>(ref field, CAMetalLayerBindings.NextDrawable);
     }
 
     public MTLPixelFormat PixelFormat
@@ -95,22 +61,7 @@ public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLResidencySet? ResidencySet
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerBindings.ResidencySet);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLResidencySet(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLResidencySet>(ref field, CAMetalLayerBindings.ResidencySet);
     }
 
     public static CAMetalLayer? Layer()
@@ -124,41 +75,41 @@ file static class CAMetalLayerBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("CAMetalLayer");
 
-    public static readonly Selector AllowsNextDrawableTimeout = Selector.Register("allowsNextDrawableTimeout");
+    public static readonly Selector AllowsNextDrawableTimeout = "allowsNextDrawableTimeout";
 
-    public static readonly Selector Colorspace = Selector.Register("colorspace");
+    public static readonly Selector Colorspace = "colorspace";
 
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector DisplaySyncEnabled = Selector.Register("displaySyncEnabled");
+    public static readonly Selector DisplaySyncEnabled = "displaySyncEnabled";
 
-    public static readonly Selector DrawableSize = Selector.Register("drawableSize");
+    public static readonly Selector DrawableSize = "drawableSize";
 
-    public static readonly Selector FramebufferOnly = Selector.Register("framebufferOnly");
+    public static readonly Selector FramebufferOnly = "framebufferOnly";
 
-    public static readonly Selector Layer = Selector.Register("layer");
+    public static readonly Selector Layer = "layer";
 
-    public static readonly Selector MaximumDrawableCount = Selector.Register("maximumDrawableCount");
+    public static readonly Selector MaximumDrawableCount = "maximumDrawableCount";
 
-    public static readonly Selector NextDrawable = Selector.Register("nextDrawable");
+    public static readonly Selector NextDrawable = "nextDrawable";
 
-    public static readonly Selector PixelFormat = Selector.Register("pixelFormat");
+    public static readonly Selector PixelFormat = "pixelFormat";
 
-    public static readonly Selector ResidencySet = Selector.Register("residencySet");
+    public static readonly Selector ResidencySet = "residencySet";
 
-    public static readonly Selector SetAllowsNextDrawableTimeout = Selector.Register("setAllowsNextDrawableTimeout:");
+    public static readonly Selector SetAllowsNextDrawableTimeout = "setAllowsNextDrawableTimeout:";
 
-    public static readonly Selector SetColorspace = Selector.Register("setColorspace:");
+    public static readonly Selector SetColorspace = "setColorspace:";
 
-    public static readonly Selector SetDevice = Selector.Register("setDevice:");
+    public static readonly Selector SetDevice = "setDevice:";
 
-    public static readonly Selector SetDisplaySyncEnabled = Selector.Register("setDisplaySyncEnabled:");
+    public static readonly Selector SetDisplaySyncEnabled = "setDisplaySyncEnabled:";
 
-    public static readonly Selector SetDrawableSize = Selector.Register("setDrawableSize:");
+    public static readonly Selector SetDrawableSize = "setDrawableSize:";
 
-    public static readonly Selector SetFramebufferOnly = Selector.Register("setFramebufferOnly:");
+    public static readonly Selector SetFramebufferOnly = "setFramebufferOnly:";
 
-    public static readonly Selector SetMaximumDrawableCount = Selector.Register("setMaximumDrawableCount:");
+    public static readonly Selector SetMaximumDrawableCount = "setMaximumDrawableCount:";
 
-    public static readonly Selector SetPixelFormat = Selector.Register("setPixelFormat:");
+    public static readonly Selector SetPixelFormat = "setPixelFormat:";
 }

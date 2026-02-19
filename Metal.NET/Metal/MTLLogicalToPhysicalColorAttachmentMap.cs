@@ -26,9 +26,9 @@ file static class MTLLogicalToPhysicalColorAttachmentMapBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLLogicalToPhysicalColorAttachmentMap");
 
-    public static readonly Selector GetPhysicalIndex = Selector.Register("getPhysicalIndexForLogicalIndex:");
+    public static readonly Selector GetPhysicalIndex = "getPhysicalIndexForLogicalIndex:";
 
-    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector Reset = "reset";
 
-    public static readonly Selector SetPhysicalIndex = Selector.Register("setPhysicalIndex:forLogicalIndex:");
+    public static readonly Selector SetPhysicalIndex = "setPhysicalIndex:forLogicalIndex:";
 }

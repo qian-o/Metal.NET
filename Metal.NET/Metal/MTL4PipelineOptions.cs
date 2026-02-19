@@ -23,11 +23,11 @@ file static class MTL4PipelineOptionsBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PipelineOptions");
 
-    public static readonly Selector SetShaderReflection = Selector.Register("setShaderReflection:");
+    public static readonly Selector SetShaderReflection = "setShaderReflection:";
 
-    public static readonly Selector SetShaderValidation = Selector.Register("setShaderValidation:");
+    public static readonly Selector SetShaderValidation = "setShaderValidation:";
 
-    public static readonly Selector ShaderReflection = Selector.Register("shaderReflection");
+    public static readonly Selector ShaderReflection = "shaderReflection";
 
-    public static readonly Selector ShaderValidation = Selector.Register("shaderValidation");
+    public static readonly Selector ShaderValidation = "shaderValidation";
 }

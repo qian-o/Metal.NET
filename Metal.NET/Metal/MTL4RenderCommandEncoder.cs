@@ -145,43 +145,43 @@ public class MTL4RenderCommandEncoder(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTL4RenderCommandEncoderBindings
 {
-    public static readonly Selector DispatchThreadsPerTile = Selector.Register("dispatchThreadsPerTile:");
+    public static readonly Selector DispatchThreadsPerTile = "dispatchThreadsPerTile:";
 
-    public static readonly Selector DrawIndexedPrimitives = Selector.Register("drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferLength:");
+    public static readonly Selector DrawIndexedPrimitives = "drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferLength:";
 
-    public static readonly Selector DrawMeshThreadgroups = Selector.Register("drawMeshThreadgroups:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:");
+    public static readonly Selector DrawMeshThreadgroups = "drawMeshThreadgroups:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
 
-    public static readonly Selector DrawMeshThreads = Selector.Register("drawMeshThreads:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:");
+    public static readonly Selector DrawMeshThreads = "drawMeshThreads:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
 
-    public static readonly Selector DrawPrimitives = Selector.Register("drawPrimitives:vertexStart:vertexCount:");
+    public static readonly Selector DrawPrimitives = "drawPrimitives:vertexStart:vertexCount:";
 
-    public static readonly Selector ExecuteCommandsInBuffer = Selector.Register("executeCommandsInBuffer:withRange:");
+    public static readonly Selector ExecuteCommandsInBuffer = "executeCommandsInBuffer:withRange:";
 
-    public static readonly Selector SetArgumentTable = Selector.Register("setArgumentTable:atStages:");
+    public static readonly Selector SetArgumentTable = "setArgumentTable:atStages:";
 
-    public static readonly Selector SetBlendColor = Selector.Register("setBlendColorRed:green:blue:alpha:");
+    public static readonly Selector SetBlendColor = "setBlendColorRed:green:blue:alpha:";
 
-    public static readonly Selector SetColorStoreAction = Selector.Register("setColorStoreAction:atIndex:");
+    public static readonly Selector SetColorStoreAction = "setColorStoreAction:atIndex:";
 
-    public static readonly Selector SetDepthBias = Selector.Register("setDepthBias:slopeScale:clamp:");
+    public static readonly Selector SetDepthBias = "setDepthBias:slopeScale:clamp:";
 
-    public static readonly Selector SetDepthTestBounds = Selector.Register("setDepthTestMinBound:maxBound:");
+    public static readonly Selector SetDepthTestBounds = "setDepthTestMinBound:maxBound:";
 
-    public static readonly Selector SetObjectThreadgroupMemoryLength = Selector.Register("setObjectThreadgroupMemoryLength:atIndex:");
+    public static readonly Selector SetObjectThreadgroupMemoryLength = "setObjectThreadgroupMemoryLength:atIndex:";
 
-    public static readonly Selector SetScissorRects = Selector.Register("setScissorRects:count:");
+    public static readonly Selector SetScissorRects = "setScissorRects:count:";
 
-    public static readonly Selector SetStencilReferenceValues = Selector.Register("setStencilFrontReferenceValue:backReferenceValue:");
+    public static readonly Selector SetStencilReferenceValues = "setStencilFrontReferenceValue:backReferenceValue:";
 
-    public static readonly Selector SetThreadgroupMemoryLength = Selector.Register("setThreadgroupMemoryLength:offset:atIndex:");
+    public static readonly Selector SetThreadgroupMemoryLength = "setThreadgroupMemoryLength:offset:atIndex:";
 
-    public static readonly Selector SetVertexAmplificationCount = Selector.Register("setVertexAmplificationCount:viewMappings:");
+    public static readonly Selector SetVertexAmplificationCount = "setVertexAmplificationCount:viewMappings:";
 
-    public static readonly Selector SetViewports = Selector.Register("setViewports:count:");
+    public static readonly Selector SetViewports = "setViewports:count:";
 
-    public static readonly Selector SetVisibilityResultMode = Selector.Register("setVisibilityResultMode:offset:");
+    public static readonly Selector SetVisibilityResultMode = "setVisibilityResultMode:offset:";
 
-    public static readonly Selector TileHeight = Selector.Register("tileHeight");
+    public static readonly Selector TileHeight = "tileHeight";
 
-    public static readonly Selector TileWidth = Selector.Register("tileWidth");
+    public static readonly Selector TileWidth = "tileWidth";
 }

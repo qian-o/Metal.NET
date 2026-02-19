@@ -33,7 +33,7 @@ file static class NSStringBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("NSString");
 
-    public static readonly Selector Utf8String = Selector.Register("UTF8String");
+    public static readonly Selector Utf8String = "UTF8String";
 
-    public static readonly Selector StringWithUtf8String = Selector.Register("stringWithUTF8String:");
+    public static readonly Selector StringWithUtf8String = "stringWithUTF8String:";
 }

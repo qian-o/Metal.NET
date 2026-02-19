@@ -16,5 +16,5 @@ file static class MTLTypeBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLType");
 
-    public static readonly Selector DataType = Selector.Register("dataType");
+    public static readonly Selector DataType = "dataType";
 }

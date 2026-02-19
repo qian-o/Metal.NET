@@ -4,62 +4,17 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.Device);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLDevice(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLDevice>(ref field, MTL4CompilerBindings.Device);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSString>(ref field, MTL4CompilerBindings.Label);
     }
 
     public MTL4PipelineDataSetSerializer? PipelineDataSetSerializer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.PipelineDataSetSerializer);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4PipelineDataSetSerializer(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTL4PipelineDataSetSerializer>(ref field, MTL4CompilerBindings.PipelineDataSetSerializer);
     }
 
     public MTL4BinaryFunction? NewBinaryFunction(MTL4BinaryFunctionDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError? error)
@@ -135,23 +90,23 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTL4CompilerBindings
 {
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector NewBinaryFunction = Selector.Register("newBinaryFunctionWithDescriptor:compilerTaskOptions:error:");
+    public static readonly Selector NewBinaryFunction = "newBinaryFunctionWithDescriptor:compilerTaskOptions:error:";
 
-    public static readonly Selector NewComputePipelineState = Selector.Register("newComputePipelineStateWithDescriptor:compilerTaskOptions:error:");
+    public static readonly Selector NewComputePipelineState = "newComputePipelineStateWithDescriptor:compilerTaskOptions:error:";
 
-    public static readonly Selector NewDynamicLibrary = Selector.Register("newDynamicLibrary:error:");
+    public static readonly Selector NewDynamicLibrary = "newDynamicLibrary:error:";
 
-    public static readonly Selector NewLibrary = Selector.Register("newLibraryWithDescriptor:error:");
+    public static readonly Selector NewLibrary = "newLibraryWithDescriptor:error:";
 
-    public static readonly Selector NewMachineLearningPipelineState = Selector.Register("newMachineLearningPipelineStateWithDescriptor:error:");
+    public static readonly Selector NewMachineLearningPipelineState = "newMachineLearningPipelineStateWithDescriptor:error:";
 
-    public static readonly Selector NewRenderPipelineState = Selector.Register("newRenderPipelineStateWithDescriptor:compilerTaskOptions:error:");
+    public static readonly Selector NewRenderPipelineState = "newRenderPipelineStateWithDescriptor:compilerTaskOptions:error:";
 
-    public static readonly Selector NewRenderPipelineStateBySpecialization = Selector.Register("newRenderPipelineStateBySpecializationWithDescriptor:pipeline:error:");
+    public static readonly Selector NewRenderPipelineStateBySpecialization = "newRenderPipelineStateBySpecializationWithDescriptor:pipeline:error:";
 
-    public static readonly Selector PipelineDataSetSerializer = Selector.Register("pipelineDataSetSerializer");
+    public static readonly Selector PipelineDataSetSerializer = "pipelineDataSetSerializer";
 }

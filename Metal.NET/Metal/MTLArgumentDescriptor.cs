@@ -53,29 +53,29 @@ file static class MTLArgumentDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArgumentDescriptor");
 
-    public static readonly Selector Access = Selector.Register("access");
+    public static readonly Selector Access = "access";
 
-    public static readonly Selector ArgumentDescriptor = Selector.Register("argumentDescriptor");
+    public static readonly Selector ArgumentDescriptor = "argumentDescriptor";
 
-    public static readonly Selector ArrayLength = Selector.Register("arrayLength");
+    public static readonly Selector ArrayLength = "arrayLength";
 
-    public static readonly Selector ConstantBlockAlignment = Selector.Register("constantBlockAlignment");
+    public static readonly Selector ConstantBlockAlignment = "constantBlockAlignment";
 
-    public static readonly Selector DataType = Selector.Register("dataType");
+    public static readonly Selector DataType = "dataType";
 
-    public static readonly Selector Index = Selector.Register("index");
+    public static readonly Selector Index = "index";
 
-    public static readonly Selector SetAccess = Selector.Register("setAccess:");
+    public static readonly Selector SetAccess = "setAccess:";
 
-    public static readonly Selector SetArrayLength = Selector.Register("setArrayLength:");
+    public static readonly Selector SetArrayLength = "setArrayLength:";
 
-    public static readonly Selector SetConstantBlockAlignment = Selector.Register("setConstantBlockAlignment:");
+    public static readonly Selector SetConstantBlockAlignment = "setConstantBlockAlignment:";
 
-    public static readonly Selector SetDataType = Selector.Register("setDataType:");
+    public static readonly Selector SetDataType = "setDataType:";
 
-    public static readonly Selector SetIndex = Selector.Register("setIndex:");
+    public static readonly Selector SetIndex = "setIndex:";
 
-    public static readonly Selector SetTextureType = Selector.Register("setTextureType:");
+    public static readonly Selector SetTextureType = "setTextureType:";
 
-    public static readonly Selector TextureType = Selector.Register("textureType");
+    public static readonly Selector TextureType = "textureType";
 }

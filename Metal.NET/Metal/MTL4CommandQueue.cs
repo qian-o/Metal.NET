@@ -4,42 +4,12 @@ public class MTL4CommandQueue(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueBindings.Device);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLDevice(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLDevice>(ref field, MTL4CommandQueueBindings.Device);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSString>(ref field, MTL4CommandQueueBindings.Label);
     }
 
     public void AddResidencySet(MTLResidencySet residencySet)
@@ -95,25 +65,25 @@ public class MTL4CommandQueue(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTL4CommandQueueBindings
 {
-    public static readonly Selector AddResidencySet = Selector.Register("addResidencySet:");
+    public static readonly Selector AddResidencySet = "addResidencySet:";
 
-    public static readonly Selector CopyBufferMappingsFromBuffer = Selector.Register("copyBufferMappingsFromBuffer:toBuffer:operations:count:");
+    public static readonly Selector CopyBufferMappingsFromBuffer = "copyBufferMappingsFromBuffer:toBuffer:operations:count:";
 
-    public static readonly Selector CopyTextureMappingsFromTexture = Selector.Register("copyTextureMappingsFromTexture:toTexture:operations:count:");
+    public static readonly Selector CopyTextureMappingsFromTexture = "copyTextureMappingsFromTexture:toTexture:operations:count:";
 
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector RemoveResidencySet = Selector.Register("removeResidencySet:");
+    public static readonly Selector RemoveResidencySet = "removeResidencySet:";
 
-    public static readonly Selector SignalDrawable = Selector.Register("signalDrawable:");
+    public static readonly Selector SignalDrawable = "signalDrawable:";
 
-    public static readonly Selector SignalEvent = Selector.Register("signalEvent:value:");
+    public static readonly Selector SignalEvent = "signalEvent:value:";
 
-    public static readonly Selector UpdateBufferMappings = Selector.Register("updateBufferMappings:heap:operations:count:");
+    public static readonly Selector UpdateBufferMappings = "updateBufferMappings:heap:operations:count:";
 
-    public static readonly Selector UpdateTextureMappings = Selector.Register("updateTextureMappings:heap:operations:count:");
+    public static readonly Selector UpdateTextureMappings = "updateTextureMappings:heap:operations:count:";
 
-    public static readonly Selector Wait = Selector.Register("waitForEvent:value:");
+    public static readonly Selector Wait = "waitForEvent:value:";
 }

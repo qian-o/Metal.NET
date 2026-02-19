@@ -10,5 +10,5 @@ public class MTLFXFrameInterpolator(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLFXFrameInterpolatorBindings
 {
-    public static readonly Selector EncodeToCommandBuffer = Selector.Register("encodeToCommandBuffer:");
+    public static readonly Selector EncodeToCommandBuffer = "encodeToCommandBuffer:";
 }

@@ -8,22 +8,7 @@ public class MTLStructType(nint nativePtr) : NativeObject(nativePtr)
 
     public NSArray? Members
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeBindings.Members);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSArray(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSArray>(ref field, MTLStructTypeBindings.Members);
     }
 
     public MTLStructMember? MemberByName(NSString name)
@@ -37,7 +22,7 @@ file static class MTLStructTypeBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStructType");
 
-    public static readonly Selector MemberByName = Selector.Register("memberByName:");
+    public static readonly Selector MemberByName = "memberByName:";
 
-    public static readonly Selector Members = Selector.Register("members");
+    public static readonly Selector Members = "members";
 }

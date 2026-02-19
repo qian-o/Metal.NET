@@ -85,33 +85,33 @@ public class MTLIndirectRenderCommand(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLIndirectRenderCommandBindings
 {
-    public static readonly Selector ClearBarrier = Selector.Register("clearBarrier");
+    public static readonly Selector ClearBarrier = "clearBarrier";
 
-    public static readonly Selector DrawIndexedPatches = Selector.Register("drawIndexedPatches:patchStart:patchCount:patchIndexBuffer:patchIndexBufferOffset:controlPointIndexBuffer:controlPointIndexBufferOffset:instanceCount:baseInstance:tessellationFactorBuffer:tessellationFactorBufferOffset:tessellationFactorBufferInstanceStride:");
+    public static readonly Selector DrawIndexedPatches = "drawIndexedPatches:patchStart:patchCount:patchIndexBuffer:patchIndexBufferOffset:controlPointIndexBuffer:controlPointIndexBufferOffset:instanceCount:baseInstance:tessellationFactorBuffer:tessellationFactorBufferOffset:tessellationFactorBufferInstanceStride:";
 
-    public static readonly Selector DrawIndexedPrimitives = Selector.Register("drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferOffset:instanceCount:baseVertex:baseInstance:");
+    public static readonly Selector DrawIndexedPrimitives = "drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferOffset:instanceCount:baseVertex:baseInstance:";
 
-    public static readonly Selector DrawMeshThreadgroups = Selector.Register("drawMeshThreadgroups:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:");
+    public static readonly Selector DrawMeshThreadgroups = "drawMeshThreadgroups:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
 
-    public static readonly Selector DrawMeshThreads = Selector.Register("drawMeshThreads:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:");
+    public static readonly Selector DrawMeshThreads = "drawMeshThreads:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
 
-    public static readonly Selector DrawPatches = Selector.Register("drawPatches:patchStart:patchCount:patchIndexBuffer:patchIndexBufferOffset:instanceCount:baseInstance:tessellationFactorBuffer:tessellationFactorBufferOffset:tessellationFactorBufferInstanceStride:");
+    public static readonly Selector DrawPatches = "drawPatches:patchStart:patchCount:patchIndexBuffer:patchIndexBufferOffset:instanceCount:baseInstance:tessellationFactorBuffer:tessellationFactorBufferOffset:tessellationFactorBufferInstanceStride:";
 
-    public static readonly Selector DrawPrimitives = Selector.Register("drawPrimitives:vertexStart:vertexCount:instanceCount:baseInstance:");
+    public static readonly Selector DrawPrimitives = "drawPrimitives:vertexStart:vertexCount:instanceCount:baseInstance:";
 
-    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector Reset = "reset";
 
-    public static readonly Selector SetBarrier = Selector.Register("setBarrier");
+    public static readonly Selector SetBarrier = "setBarrier";
 
-    public static readonly Selector SetDepthBias = Selector.Register("setDepthBias:slopeScale:clamp:");
+    public static readonly Selector SetDepthBias = "setDepthBias:slopeScale:clamp:";
 
-    public static readonly Selector SetFragmentBuffer = Selector.Register("setFragmentBuffer:offset:atIndex:");
+    public static readonly Selector SetFragmentBuffer = "setFragmentBuffer:offset:atIndex:";
 
-    public static readonly Selector SetMeshBuffer = Selector.Register("setMeshBuffer:offset:atIndex:");
+    public static readonly Selector SetMeshBuffer = "setMeshBuffer:offset:atIndex:";
 
-    public static readonly Selector SetObjectBuffer = Selector.Register("setObjectBuffer:offset:atIndex:");
+    public static readonly Selector SetObjectBuffer = "setObjectBuffer:offset:atIndex:";
 
-    public static readonly Selector SetObjectThreadgroupMemoryLength = Selector.Register("setObjectThreadgroupMemoryLength:atIndex:");
+    public static readonly Selector SetObjectThreadgroupMemoryLength = "setObjectThreadgroupMemoryLength:atIndex:";
 
-    public static readonly Selector SetVertexBuffer = Selector.Register("setVertexBuffer:offset:atIndex:");
+    public static readonly Selector SetVertexBuffer = "setVertexBuffer:offset:atIndex:";
 }

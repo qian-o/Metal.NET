@@ -9,22 +9,7 @@ public class MTLArgumentEncoder(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderBindings.Device);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLDevice(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLDevice>(ref field, MTLArgumentEncoderBindings.Device);
     }
 
     public nuint EncodedLength
@@ -34,27 +19,8 @@ public class MTLArgumentEncoder(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetLabel, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSString>(ref field, MTLArgumentEncoderBindings.Label);
+        set => SetProperty(ref field, MTLArgumentEncoderBindings.SetLabel, value);
     }
 
     public nint ConstantData(nuint index)
@@ -131,39 +97,39 @@ public class MTLArgumentEncoder(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLArgumentEncoderBindings
 {
-    public static readonly Selector Alignment = Selector.Register("alignment");
+    public static readonly Selector Alignment = "alignment";
 
-    public static readonly Selector ConstantData = Selector.Register("constantDataAtIndex:");
+    public static readonly Selector ConstantData = "constantDataAtIndex:";
 
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector EncodedLength = Selector.Register("encodedLength");
+    public static readonly Selector EncodedLength = "encodedLength";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector NewArgumentEncoder = Selector.Register("newArgumentEncoderForBufferAtIndex:");
+    public static readonly Selector NewArgumentEncoder = "newArgumentEncoderForBufferAtIndex:";
 
-    public static readonly Selector SetAccelerationStructure = Selector.Register("setAccelerationStructure:atIndex:");
+    public static readonly Selector SetAccelerationStructure = "setAccelerationStructure:atIndex:";
 
-    public static readonly Selector SetArgumentBuffer = Selector.Register("setArgumentBuffer:offset:");
+    public static readonly Selector SetArgumentBuffer = "setArgumentBuffer:offset:";
 
-    public static readonly Selector SetBuffer = Selector.Register("setBuffer:offset:atIndex:");
+    public static readonly Selector SetBuffer = "setBuffer:offset:atIndex:";
 
-    public static readonly Selector SetComputePipelineState = Selector.Register("setComputePipelineState:atIndex:");
+    public static readonly Selector SetComputePipelineState = "setComputePipelineState:atIndex:";
 
-    public static readonly Selector SetDepthStencilState = Selector.Register("setDepthStencilState:atIndex:");
+    public static readonly Selector SetDepthStencilState = "setDepthStencilState:atIndex:";
 
-    public static readonly Selector SetIndirectCommandBuffer = Selector.Register("setIndirectCommandBuffer:atIndex:");
+    public static readonly Selector SetIndirectCommandBuffer = "setIndirectCommandBuffer:atIndex:";
 
-    public static readonly Selector SetIntersectionFunctionTable = Selector.Register("setIntersectionFunctionTable:atIndex:");
+    public static readonly Selector SetIntersectionFunctionTable = "setIntersectionFunctionTable:atIndex:";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector SetRenderPipelineState = Selector.Register("setRenderPipelineState:atIndex:");
+    public static readonly Selector SetRenderPipelineState = "setRenderPipelineState:atIndex:";
 
-    public static readonly Selector SetSamplerState = Selector.Register("setSamplerState:atIndex:");
+    public static readonly Selector SetSamplerState = "setSamplerState:atIndex:";
 
-    public static readonly Selector SetTexture = Selector.Register("setTexture:atIndex:");
+    public static readonly Selector SetTexture = "setTexture:atIndex:";
 
-    public static readonly Selector SetVisibleFunctionTable = Selector.Register("setVisibleFunctionTable:atIndex:");
+    public static readonly Selector SetVisibleFunctionTable = "setVisibleFunctionTable:atIndex:";
 }

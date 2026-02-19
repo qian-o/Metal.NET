@@ -30,13 +30,13 @@ public class MTLTextureBinding(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLTextureBindingBindings
 {
-    public static readonly Selector ArrayLength = Selector.Register("arrayLength");
+    public static readonly Selector ArrayLength = "arrayLength";
 
-    public static readonly Selector DepthTexture = Selector.Register("isDepthTexture");
+    public static readonly Selector DepthTexture = "isDepthTexture";
 
-    public static readonly Selector IsDepthTexture = Selector.Register("isDepthTexture");
+    public static readonly Selector IsDepthTexture = "isDepthTexture";
 
-    public static readonly Selector TextureDataType = Selector.Register("textureDataType");
+    public static readonly Selector TextureDataType = "textureDataType";
 
-    public static readonly Selector TextureType = Selector.Register("textureType");
+    public static readonly Selector TextureType = "textureType";
 }

@@ -4,22 +4,7 @@ public class MTLRenderPipelineState(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.Device);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLDevice(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLDevice>(ref field, MTLRenderPipelineStateBindings.Device);
     }
 
     public MTLResourceID GpuResourceID
@@ -34,22 +19,7 @@ public class MTLRenderPipelineState(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSString>(ref field, MTLRenderPipelineStateBindings.Label);
     }
 
     public nuint MaxTotalThreadgroupsPerMeshGrid
@@ -79,22 +49,7 @@ public class MTLRenderPipelineState(nint nativePtr) : NativeObject(nativePtr)
 
     public MTL4PipelineDescriptor? NewRenderPipelineDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewRenderPipelineDescriptor);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4PipelineDescriptor(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTL4PipelineDescriptor>(ref field, MTLRenderPipelineStateBindings.NewRenderPipelineDescriptor);
     }
 
     public nuint ObjectThreadExecutionWidth
@@ -104,22 +59,7 @@ public class MTLRenderPipelineState(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLRenderPipelineReflection? Reflection
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.Reflection);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLRenderPipelineReflection(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLRenderPipelineReflection>(ref field, MTLRenderPipelineStateBindings.Reflection);
     }
 
     public MTLSize RequiredThreadsPerMeshThreadgroup
@@ -204,49 +144,49 @@ public class MTLRenderPipelineState(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLRenderPipelineStateBindings
 {
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector FunctionHandle = Selector.Register("functionHandleWithName:stage:");
+    public static readonly Selector FunctionHandle = "functionHandleWithName:stage:";
 
-    public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
+    public static readonly Selector GpuResourceID = "gpuResourceID";
 
-    public static readonly Selector ImageblockMemoryLength = Selector.Register("imageblockMemoryLengthForDimensions:");
+    public static readonly Selector ImageblockMemoryLength = "imageblockMemoryLengthForDimensions:";
 
-    public static readonly Selector ImageblockSampleLength = Selector.Register("imageblockSampleLength");
+    public static readonly Selector ImageblockSampleLength = "imageblockSampleLength";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector MaxTotalThreadgroupsPerMeshGrid = Selector.Register("maxTotalThreadgroupsPerMeshGrid");
+    public static readonly Selector MaxTotalThreadgroupsPerMeshGrid = "maxTotalThreadgroupsPerMeshGrid";
 
-    public static readonly Selector MaxTotalThreadsPerMeshThreadgroup = Selector.Register("maxTotalThreadsPerMeshThreadgroup");
+    public static readonly Selector MaxTotalThreadsPerMeshThreadgroup = "maxTotalThreadsPerMeshThreadgroup";
 
-    public static readonly Selector MaxTotalThreadsPerObjectThreadgroup = Selector.Register("maxTotalThreadsPerObjectThreadgroup");
+    public static readonly Selector MaxTotalThreadsPerObjectThreadgroup = "maxTotalThreadsPerObjectThreadgroup";
 
-    public static readonly Selector MaxTotalThreadsPerThreadgroup = Selector.Register("maxTotalThreadsPerThreadgroup");
+    public static readonly Selector MaxTotalThreadsPerThreadgroup = "maxTotalThreadsPerThreadgroup";
 
-    public static readonly Selector MeshThreadExecutionWidth = Selector.Register("meshThreadExecutionWidth");
+    public static readonly Selector MeshThreadExecutionWidth = "meshThreadExecutionWidth";
 
-    public static readonly Selector NewIntersectionFunctionTable = Selector.Register("newIntersectionFunctionTableWithDescriptor:stage:");
+    public static readonly Selector NewIntersectionFunctionTable = "newIntersectionFunctionTableWithDescriptor:stage:";
 
-    public static readonly Selector NewRenderPipelineDescriptor = Selector.Register("newRenderPipelineDescriptorForSpecialization");
+    public static readonly Selector NewRenderPipelineDescriptor = "newRenderPipelineDescriptorForSpecialization";
 
-    public static readonly Selector NewRenderPipelineState = Selector.Register("newRenderPipelineStateWithBinaryFunctions:error:");
+    public static readonly Selector NewRenderPipelineState = "newRenderPipelineStateWithBinaryFunctions:error:";
 
-    public static readonly Selector NewVisibleFunctionTable = Selector.Register("newVisibleFunctionTableWithDescriptor:stage:");
+    public static readonly Selector NewVisibleFunctionTable = "newVisibleFunctionTableWithDescriptor:stage:";
 
-    public static readonly Selector ObjectThreadExecutionWidth = Selector.Register("objectThreadExecutionWidth");
+    public static readonly Selector ObjectThreadExecutionWidth = "objectThreadExecutionWidth";
 
-    public static readonly Selector Reflection = Selector.Register("reflection");
+    public static readonly Selector Reflection = "reflection";
 
-    public static readonly Selector RequiredThreadsPerMeshThreadgroup = Selector.Register("requiredThreadsPerMeshThreadgroup");
+    public static readonly Selector RequiredThreadsPerMeshThreadgroup = "requiredThreadsPerMeshThreadgroup";
 
-    public static readonly Selector RequiredThreadsPerObjectThreadgroup = Selector.Register("requiredThreadsPerObjectThreadgroup");
+    public static readonly Selector RequiredThreadsPerObjectThreadgroup = "requiredThreadsPerObjectThreadgroup";
 
-    public static readonly Selector RequiredThreadsPerTileThreadgroup = Selector.Register("requiredThreadsPerTileThreadgroup");
+    public static readonly Selector RequiredThreadsPerTileThreadgroup = "requiredThreadsPerTileThreadgroup";
 
-    public static readonly Selector ShaderValidation = Selector.Register("shaderValidation");
+    public static readonly Selector ShaderValidation = "shaderValidation";
 
-    public static readonly Selector SupportIndirectCommandBuffers = Selector.Register("supportIndirectCommandBuffers");
+    public static readonly Selector SupportIndirectCommandBuffers = "supportIndirectCommandBuffers";
 
-    public static readonly Selector ThreadgroupSizeMatchesTileSize = Selector.Register("threadgroupSizeMatchesTileSize");
+    public static readonly Selector ThreadgroupSizeMatchesTileSize = "threadgroupSizeMatchesTileSize";
 }

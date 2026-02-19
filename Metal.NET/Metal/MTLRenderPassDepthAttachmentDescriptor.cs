@@ -23,11 +23,11 @@ file static class MTLRenderPassDepthAttachmentDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassDepthAttachmentDescriptor");
 
-    public static readonly Selector ClearDepth = Selector.Register("clearDepth");
+    public static readonly Selector ClearDepth = "clearDepth";
 
-    public static readonly Selector DepthResolveFilter = Selector.Register("depthResolveFilter");
+    public static readonly Selector DepthResolveFilter = "depthResolveFilter";
 
-    public static readonly Selector SetClearDepth = Selector.Register("setClearDepth:");
+    public static readonly Selector SetClearDepth = "setClearDepth:";
 
-    public static readonly Selector SetDepthResolveFilter = Selector.Register("setDepthResolveFilter:");
+    public static readonly Selector SetDepthResolveFilter = "setDepthResolveFilter:";
 }

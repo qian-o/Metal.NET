@@ -65,39 +65,39 @@ file static class MTL4InstanceAccelerationStructureDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4InstanceAccelerationStructureDescriptor");
 
-    public static readonly Selector InstanceCount = Selector.Register("instanceCount");
+    public static readonly Selector InstanceCount = "instanceCount";
 
-    public static readonly Selector InstanceDescriptorBuffer = Selector.Register("instanceDescriptorBuffer");
+    public static readonly Selector InstanceDescriptorBuffer = "instanceDescriptorBuffer";
 
-    public static readonly Selector InstanceDescriptorStride = Selector.Register("instanceDescriptorStride");
+    public static readonly Selector InstanceDescriptorStride = "instanceDescriptorStride";
 
-    public static readonly Selector InstanceDescriptorType = Selector.Register("instanceDescriptorType");
+    public static readonly Selector InstanceDescriptorType = "instanceDescriptorType";
 
-    public static readonly Selector InstanceTransformationMatrixLayout = Selector.Register("instanceTransformationMatrixLayout");
+    public static readonly Selector InstanceTransformationMatrixLayout = "instanceTransformationMatrixLayout";
 
-    public static readonly Selector MotionTransformBuffer = Selector.Register("motionTransformBuffer");
+    public static readonly Selector MotionTransformBuffer = "motionTransformBuffer";
 
-    public static readonly Selector MotionTransformCount = Selector.Register("motionTransformCount");
+    public static readonly Selector MotionTransformCount = "motionTransformCount";
 
-    public static readonly Selector MotionTransformStride = Selector.Register("motionTransformStride");
+    public static readonly Selector MotionTransformStride = "motionTransformStride";
 
-    public static readonly Selector MotionTransformType = Selector.Register("motionTransformType");
+    public static readonly Selector MotionTransformType = "motionTransformType";
 
-    public static readonly Selector SetInstanceCount = Selector.Register("setInstanceCount:");
+    public static readonly Selector SetInstanceCount = "setInstanceCount:";
 
-    public static readonly Selector SetInstanceDescriptorBuffer = Selector.Register("setInstanceDescriptorBuffer:");
+    public static readonly Selector SetInstanceDescriptorBuffer = "setInstanceDescriptorBuffer:";
 
-    public static readonly Selector SetInstanceDescriptorStride = Selector.Register("setInstanceDescriptorStride:");
+    public static readonly Selector SetInstanceDescriptorStride = "setInstanceDescriptorStride:";
 
-    public static readonly Selector SetInstanceDescriptorType = Selector.Register("setInstanceDescriptorType:");
+    public static readonly Selector SetInstanceDescriptorType = "setInstanceDescriptorType:";
 
-    public static readonly Selector SetInstanceTransformationMatrixLayout = Selector.Register("setInstanceTransformationMatrixLayout:");
+    public static readonly Selector SetInstanceTransformationMatrixLayout = "setInstanceTransformationMatrixLayout:";
 
-    public static readonly Selector SetMotionTransformBuffer = Selector.Register("setMotionTransformBuffer:");
+    public static readonly Selector SetMotionTransformBuffer = "setMotionTransformBuffer:";
 
-    public static readonly Selector SetMotionTransformCount = Selector.Register("setMotionTransformCount:");
+    public static readonly Selector SetMotionTransformCount = "setMotionTransformCount:";
 
-    public static readonly Selector SetMotionTransformStride = Selector.Register("setMotionTransformStride:");
+    public static readonly Selector SetMotionTransformStride = "setMotionTransformStride:";
 
-    public static readonly Selector SetMotionTransformType = Selector.Register("setMotionTransformType:");
+    public static readonly Selector SetMotionTransformType = "setMotionTransformType:";
 }

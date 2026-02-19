@@ -11,7 +11,7 @@ public readonly struct Selector(nint nativePtr)
 {
     public readonly nint NativePtr = nativePtr;
 
-    public static unsafe Selector Register(string name)
+    public static unsafe implicit operator Selector(string name)
     {
         fixed (byte* utf8 = Encoding.UTF8.GetBytes(name + '\0'))
         {

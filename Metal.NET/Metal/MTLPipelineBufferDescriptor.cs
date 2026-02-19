@@ -17,7 +17,7 @@ file static class MTLPipelineBufferDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPipelineBufferDescriptor");
 
-    public static readonly Selector Mutability = Selector.Register("mutability");
+    public static readonly Selector Mutability = "mutability";
 
-    public static readonly Selector SetMutability = Selector.Register("setMutability:");
+    public static readonly Selector SetMutability = "setMutability:";
 }

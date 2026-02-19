@@ -19,22 +19,7 @@ public class MTLBuffer(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLBuffer? RemoteStorageBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.RemoteStorageBuffer);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLBuffer(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLBuffer>(ref field, MTLBufferBindings.RemoteStorageBuffer);
     }
 
     public MTLBufferSparseTier SparseBufferTier
@@ -79,25 +64,25 @@ public class MTLBuffer(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLBufferBindings
 {
-    public static readonly Selector AddDebugMarker = Selector.Register("addDebugMarker:range:");
+    public static readonly Selector AddDebugMarker = "addDebugMarker:range:";
 
-    public static readonly Selector Contents = Selector.Register("contents");
+    public static readonly Selector Contents = "contents";
 
-    public static readonly Selector DidModifyRange = Selector.Register("didModifyRange:");
+    public static readonly Selector DidModifyRange = "didModifyRange:";
 
-    public static readonly Selector GpuAddress = Selector.Register("gpuAddress");
+    public static readonly Selector GpuAddress = "gpuAddress";
 
-    public static readonly Selector Length = Selector.Register("length");
+    public static readonly Selector Length = "length";
 
-    public static readonly Selector NewRemoteBufferViewForDevice = Selector.Register("newRemoteBufferViewForDevice:");
+    public static readonly Selector NewRemoteBufferViewForDevice = "newRemoteBufferViewForDevice:";
 
-    public static readonly Selector NewTensor = Selector.Register("newTensorWithDescriptor:offset:error:");
+    public static readonly Selector NewTensor = "newTensorWithDescriptor:offset:error:";
 
-    public static readonly Selector NewTexture = Selector.Register("newTextureWithDescriptor:offset:bytesPerRow:");
+    public static readonly Selector NewTexture = "newTextureWithDescriptor:offset:bytesPerRow:";
 
-    public static readonly Selector RemoteStorageBuffer = Selector.Register("remoteStorageBuffer");
+    public static readonly Selector RemoteStorageBuffer = "remoteStorageBuffer";
 
-    public static readonly Selector RemoveAllDebugMarkers = Selector.Register("removeAllDebugMarkers");
+    public static readonly Selector RemoveAllDebugMarkers = "removeAllDebugMarkers";
 
-    public static readonly Selector SparseBufferTier = Selector.Register("sparseBufferTier");
+    public static readonly Selector SparseBufferTier = "sparseBufferTier";
 }

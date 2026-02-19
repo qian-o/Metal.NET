@@ -17,7 +17,7 @@ file static class MTLFunctionStitchingInputNodeBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingInputNode");
 
-    public static readonly Selector ArgumentIndex = Selector.Register("argumentIndex");
+    public static readonly Selector ArgumentIndex = "argumentIndex";
 
-    public static readonly Selector SetArgumentIndex = Selector.Register("setArgumentIndex:");
+    public static readonly Selector SetArgumentIndex = "setArgumentIndex:";
 }

@@ -8,52 +8,14 @@ public class MTLCounterSampleBufferDescriptor(nint nativePtr) : NativeObject(nat
 
     public MTLCounterSet? CounterSet
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferDescriptorBindings.CounterSet);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLCounterSet(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorBindings.SetCounterSet, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLCounterSet>(ref field, MTLCounterSampleBufferDescriptorBindings.CounterSet);
+        set => SetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.SetCounterSet, value);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferDescriptorBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSString>(ref field, MTLCounterSampleBufferDescriptorBindings.Label);
+        set => SetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.SetLabel, value);
     }
 
     public nuint SampleCount
@@ -73,19 +35,19 @@ file static class MTLCounterSampleBufferDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCounterSampleBufferDescriptor");
 
-    public static readonly Selector CounterSet = Selector.Register("counterSet");
+    public static readonly Selector CounterSet = "counterSet";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector SampleCount = Selector.Register("sampleCount");
+    public static readonly Selector SampleCount = "sampleCount";
 
-    public static readonly Selector SetCounterSet = Selector.Register("setCounterSet:");
+    public static readonly Selector SetCounterSet = "setCounterSet:";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector SetSampleCount = Selector.Register("setSampleCount:");
+    public static readonly Selector SetSampleCount = "setSampleCount:";
 
-    public static readonly Selector SetStorageMode = Selector.Register("setStorageMode:");
+    public static readonly Selector SetStorageMode = "setStorageMode:";
 
-    public static readonly Selector StorageMode = Selector.Register("storageMode");
+    public static readonly Selector StorageMode = "storageMode";
 }

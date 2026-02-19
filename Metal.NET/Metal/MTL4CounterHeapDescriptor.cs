@@ -23,11 +23,11 @@ file static class MTL4CounterHeapDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CounterHeapDescriptor");
 
-    public static readonly Selector Count = Selector.Register("count");
+    public static readonly Selector Count = "count";
 
-    public static readonly Selector SetCount = Selector.Register("setCount:");
+    public static readonly Selector SetCount = "setCount:";
 
-    public static readonly Selector SetType = Selector.Register("setType:");
+    public static readonly Selector SetType = "setType:";
 
-    public static readonly Selector Type = Selector.Register("type");
+    public static readonly Selector Type = "type";
 }

@@ -21,7 +21,7 @@ file static class MTLTensorExtentsBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorExtents");
 
-    public static readonly Selector ExtentAtDimensionIndex = Selector.Register("extentAtDimensionIndex:");
+    public static readonly Selector ExtentAtDimensionIndex = "extentAtDimensionIndex:";
 
-    public static readonly Selector Rank = Selector.Register("rank");
+    public static readonly Selector Rank = "rank";
 }

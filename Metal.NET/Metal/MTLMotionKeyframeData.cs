@@ -8,27 +8,8 @@ public class MTLMotionKeyframeData(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLBuffer? Buffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMotionKeyframeDataBindings.Buffer);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLBuffer(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataBindings.SetBuffer, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLBuffer>(ref field, MTLMotionKeyframeDataBindings.Buffer);
+        set => SetProperty(ref field, MTLMotionKeyframeDataBindings.SetBuffer, value);
     }
 
     public nuint Offset
@@ -48,13 +29,13 @@ file static class MTLMotionKeyframeDataBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLMotionKeyframeData");
 
-    public static readonly Selector Buffer = Selector.Register("buffer");
+    public static readonly Selector Buffer = "buffer";
 
-    public static readonly Selector Data = Selector.Register("data");
+    public static readonly Selector Data = "data";
 
-    public static readonly Selector Offset = Selector.Register("offset");
+    public static readonly Selector Offset = "offset";
 
-    public static readonly Selector SetBuffer = Selector.Register("setBuffer:");
+    public static readonly Selector SetBuffer = "setBuffer:";
 
-    public static readonly Selector SetOffset = Selector.Register("setOffset:");
+    public static readonly Selector SetOffset = "setOffset:";
 }

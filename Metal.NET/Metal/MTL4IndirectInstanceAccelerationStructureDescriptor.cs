@@ -77,47 +77,47 @@ file static class MTL4IndirectInstanceAccelerationStructureDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4IndirectInstanceAccelerationStructureDescriptor");
 
-    public static readonly Selector InstanceCountBuffer = Selector.Register("instanceCountBuffer");
+    public static readonly Selector InstanceCountBuffer = "instanceCountBuffer";
 
-    public static readonly Selector InstanceDescriptorBuffer = Selector.Register("instanceDescriptorBuffer");
+    public static readonly Selector InstanceDescriptorBuffer = "instanceDescriptorBuffer";
 
-    public static readonly Selector InstanceDescriptorStride = Selector.Register("instanceDescriptorStride");
+    public static readonly Selector InstanceDescriptorStride = "instanceDescriptorStride";
 
-    public static readonly Selector InstanceDescriptorType = Selector.Register("instanceDescriptorType");
+    public static readonly Selector InstanceDescriptorType = "instanceDescriptorType";
 
-    public static readonly Selector InstanceTransformationMatrixLayout = Selector.Register("instanceTransformationMatrixLayout");
+    public static readonly Selector InstanceTransformationMatrixLayout = "instanceTransformationMatrixLayout";
 
-    public static readonly Selector MaxInstanceCount = Selector.Register("maxInstanceCount");
+    public static readonly Selector MaxInstanceCount = "maxInstanceCount";
 
-    public static readonly Selector MaxMotionTransformCount = Selector.Register("maxMotionTransformCount");
+    public static readonly Selector MaxMotionTransformCount = "maxMotionTransformCount";
 
-    public static readonly Selector MotionTransformBuffer = Selector.Register("motionTransformBuffer");
+    public static readonly Selector MotionTransformBuffer = "motionTransformBuffer";
 
-    public static readonly Selector MotionTransformCountBuffer = Selector.Register("motionTransformCountBuffer");
+    public static readonly Selector MotionTransformCountBuffer = "motionTransformCountBuffer";
 
-    public static readonly Selector MotionTransformStride = Selector.Register("motionTransformStride");
+    public static readonly Selector MotionTransformStride = "motionTransformStride";
 
-    public static readonly Selector MotionTransformType = Selector.Register("motionTransformType");
+    public static readonly Selector MotionTransformType = "motionTransformType";
 
-    public static readonly Selector SetInstanceCountBuffer = Selector.Register("setInstanceCountBuffer:");
+    public static readonly Selector SetInstanceCountBuffer = "setInstanceCountBuffer:";
 
-    public static readonly Selector SetInstanceDescriptorBuffer = Selector.Register("setInstanceDescriptorBuffer:");
+    public static readonly Selector SetInstanceDescriptorBuffer = "setInstanceDescriptorBuffer:";
 
-    public static readonly Selector SetInstanceDescriptorStride = Selector.Register("setInstanceDescriptorStride:");
+    public static readonly Selector SetInstanceDescriptorStride = "setInstanceDescriptorStride:";
 
-    public static readonly Selector SetInstanceDescriptorType = Selector.Register("setInstanceDescriptorType:");
+    public static readonly Selector SetInstanceDescriptorType = "setInstanceDescriptorType:";
 
-    public static readonly Selector SetInstanceTransformationMatrixLayout = Selector.Register("setInstanceTransformationMatrixLayout:");
+    public static readonly Selector SetInstanceTransformationMatrixLayout = "setInstanceTransformationMatrixLayout:";
 
-    public static readonly Selector SetMaxInstanceCount = Selector.Register("setMaxInstanceCount:");
+    public static readonly Selector SetMaxInstanceCount = "setMaxInstanceCount:";
 
-    public static readonly Selector SetMaxMotionTransformCount = Selector.Register("setMaxMotionTransformCount:");
+    public static readonly Selector SetMaxMotionTransformCount = "setMaxMotionTransformCount:";
 
-    public static readonly Selector SetMotionTransformBuffer = Selector.Register("setMotionTransformBuffer:");
+    public static readonly Selector SetMotionTransformBuffer = "setMotionTransformBuffer:";
 
-    public static readonly Selector SetMotionTransformCountBuffer = Selector.Register("setMotionTransformCountBuffer:");
+    public static readonly Selector SetMotionTransformCountBuffer = "setMotionTransformCountBuffer:";
 
-    public static readonly Selector SetMotionTransformStride = Selector.Register("setMotionTransformStride:");
+    public static readonly Selector SetMotionTransformStride = "setMotionTransformStride:";
 
-    public static readonly Selector SetMotionTransformType = Selector.Register("setMotionTransformType:");
+    public static readonly Selector SetMotionTransformType = "setMotionTransformType:";
 }

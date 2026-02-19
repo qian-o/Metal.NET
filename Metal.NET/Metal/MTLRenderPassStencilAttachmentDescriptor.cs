@@ -23,11 +23,11 @@ file static class MTLRenderPassStencilAttachmentDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassStencilAttachmentDescriptor");
 
-    public static readonly Selector ClearStencil = Selector.Register("clearStencil");
+    public static readonly Selector ClearStencil = "clearStencil";
 
-    public static readonly Selector SetClearStencil = Selector.Register("setClearStencil:");
+    public static readonly Selector SetClearStencil = "setClearStencil:";
 
-    public static readonly Selector SetStencilResolveFilter = Selector.Register("setStencilResolveFilter:");
+    public static readonly Selector SetStencilResolveFilter = "setStencilResolveFilter:";
 
-    public static readonly Selector StencilResolveFilter = Selector.Register("stencilResolveFilter");
+    public static readonly Selector StencilResolveFilter = "stencilResolveFilter";
 }

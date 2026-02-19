@@ -8,22 +8,7 @@ public class MTLRasterizationRateLayerDescriptor(nint nativePtr) : NativeObject(
 
     public MTLRasterizationRateSampleArray? Horizontal
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorBindings.Horizontal);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLRasterizationRateSampleArray(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLRasterizationRateSampleArray>(ref field, MTLRasterizationRateLayerDescriptorBindings.Horizontal);
     }
 
     public float HorizontalSampleStorage
@@ -44,22 +29,7 @@ public class MTLRasterizationRateLayerDescriptor(nint nativePtr) : NativeObject(
 
     public MTLRasterizationRateSampleArray? Vertical
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerDescriptorBindings.Vertical);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLRasterizationRateSampleArray(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLRasterizationRateSampleArray>(ref field, MTLRasterizationRateLayerDescriptorBindings.Vertical);
     }
 
     public float VerticalSampleStorage
@@ -72,17 +42,17 @@ file static class MTLRasterizationRateLayerDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRasterizationRateLayerDescriptor");
 
-    public static readonly Selector Horizontal = Selector.Register("horizontal");
+    public static readonly Selector Horizontal = "horizontal";
 
-    public static readonly Selector HorizontalSampleStorage = Selector.Register("horizontalSampleStorage");
+    public static readonly Selector HorizontalSampleStorage = "horizontalSampleStorage";
 
-    public static readonly Selector MaxSampleCount = Selector.Register("maxSampleCount");
+    public static readonly Selector MaxSampleCount = "maxSampleCount";
 
-    public static readonly Selector SampleCount = Selector.Register("sampleCount");
+    public static readonly Selector SampleCount = "sampleCount";
 
-    public static readonly Selector SetSampleCount = Selector.Register("setSampleCount:");
+    public static readonly Selector SetSampleCount = "setSampleCount:";
 
-    public static readonly Selector Vertical = Selector.Register("vertical");
+    public static readonly Selector Vertical = "vertical";
 
-    public static readonly Selector VerticalSampleStorage = Selector.Register("verticalSampleStorage");
+    public static readonly Selector VerticalSampleStorage = "verticalSampleStorage";
 }

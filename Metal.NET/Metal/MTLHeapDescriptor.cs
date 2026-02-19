@@ -59,35 +59,35 @@ file static class MTLHeapDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLHeapDescriptor");
 
-    public static readonly Selector CpuCacheMode = Selector.Register("cpuCacheMode");
+    public static readonly Selector CpuCacheMode = "cpuCacheMode";
 
-    public static readonly Selector HazardTrackingMode = Selector.Register("hazardTrackingMode");
+    public static readonly Selector HazardTrackingMode = "hazardTrackingMode";
 
-    public static readonly Selector MaxCompatiblePlacementSparsePageSize = Selector.Register("maxCompatiblePlacementSparsePageSize");
+    public static readonly Selector MaxCompatiblePlacementSparsePageSize = "maxCompatiblePlacementSparsePageSize";
 
-    public static readonly Selector ResourceOptions = Selector.Register("resourceOptions");
+    public static readonly Selector ResourceOptions = "resourceOptions";
 
-    public static readonly Selector SetCpuCacheMode = Selector.Register("setCpuCacheMode:");
+    public static readonly Selector SetCpuCacheMode = "setCpuCacheMode:";
 
-    public static readonly Selector SetHazardTrackingMode = Selector.Register("setHazardTrackingMode:");
+    public static readonly Selector SetHazardTrackingMode = "setHazardTrackingMode:";
 
-    public static readonly Selector SetMaxCompatiblePlacementSparsePageSize = Selector.Register("setMaxCompatiblePlacementSparsePageSize:");
+    public static readonly Selector SetMaxCompatiblePlacementSparsePageSize = "setMaxCompatiblePlacementSparsePageSize:";
 
-    public static readonly Selector SetResourceOptions = Selector.Register("setResourceOptions:");
+    public static readonly Selector SetResourceOptions = "setResourceOptions:";
 
-    public static readonly Selector SetSize = Selector.Register("setSize:");
+    public static readonly Selector SetSize = "setSize:";
 
-    public static readonly Selector SetSparsePageSize = Selector.Register("setSparsePageSize:");
+    public static readonly Selector SetSparsePageSize = "setSparsePageSize:";
 
-    public static readonly Selector SetStorageMode = Selector.Register("setStorageMode:");
+    public static readonly Selector SetStorageMode = "setStorageMode:";
 
-    public static readonly Selector SetType = Selector.Register("setType:");
+    public static readonly Selector SetType = "setType:";
 
-    public static readonly Selector Size = Selector.Register("size");
+    public static readonly Selector Size = "size";
 
-    public static readonly Selector SparsePageSize = Selector.Register("sparsePageSize");
+    public static readonly Selector SparsePageSize = "sparsePageSize";
 
-    public static readonly Selector StorageMode = Selector.Register("storageMode");
+    public static readonly Selector StorageMode = "storageMode";
 
-    public static readonly Selector Type = Selector.Register("type");
+    public static readonly Selector Type = "type";
 }

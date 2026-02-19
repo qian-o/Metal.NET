@@ -131,77 +131,77 @@ file static class MTLTextureDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTextureDescriptor");
 
-    public static readonly Selector AllowGPUOptimizedContents = Selector.Register("allowGPUOptimizedContents");
+    public static readonly Selector AllowGPUOptimizedContents = "allowGPUOptimizedContents";
 
-    public static readonly Selector ArrayLength = Selector.Register("arrayLength");
+    public static readonly Selector ArrayLength = "arrayLength";
 
-    public static readonly Selector CompressionType = Selector.Register("compressionType");
+    public static readonly Selector CompressionType = "compressionType";
 
-    public static readonly Selector CpuCacheMode = Selector.Register("cpuCacheMode");
+    public static readonly Selector CpuCacheMode = "cpuCacheMode";
 
-    public static readonly Selector Depth = Selector.Register("depth");
+    public static readonly Selector Depth = "depth";
 
-    public static readonly Selector HazardTrackingMode = Selector.Register("hazardTrackingMode");
+    public static readonly Selector HazardTrackingMode = "hazardTrackingMode";
 
-    public static readonly Selector Height = Selector.Register("height");
+    public static readonly Selector Height = "height";
 
-    public static readonly Selector MipmapLevelCount = Selector.Register("mipmapLevelCount");
+    public static readonly Selector MipmapLevelCount = "mipmapLevelCount";
 
-    public static readonly Selector PixelFormat = Selector.Register("pixelFormat");
+    public static readonly Selector PixelFormat = "pixelFormat";
 
-    public static readonly Selector PlacementSparsePageSize = Selector.Register("placementSparsePageSize");
+    public static readonly Selector PlacementSparsePageSize = "placementSparsePageSize";
 
-    public static readonly Selector ResourceOptions = Selector.Register("resourceOptions");
+    public static readonly Selector ResourceOptions = "resourceOptions";
 
-    public static readonly Selector SampleCount = Selector.Register("sampleCount");
+    public static readonly Selector SampleCount = "sampleCount";
 
-    public static readonly Selector SetAllowGPUOptimizedContents = Selector.Register("setAllowGPUOptimizedContents:");
+    public static readonly Selector SetAllowGPUOptimizedContents = "setAllowGPUOptimizedContents:";
 
-    public static readonly Selector SetArrayLength = Selector.Register("setArrayLength:");
+    public static readonly Selector SetArrayLength = "setArrayLength:";
 
-    public static readonly Selector SetCompressionType = Selector.Register("setCompressionType:");
+    public static readonly Selector SetCompressionType = "setCompressionType:";
 
-    public static readonly Selector SetCpuCacheMode = Selector.Register("setCpuCacheMode:");
+    public static readonly Selector SetCpuCacheMode = "setCpuCacheMode:";
 
-    public static readonly Selector SetDepth = Selector.Register("setDepth:");
+    public static readonly Selector SetDepth = "setDepth:";
 
-    public static readonly Selector SetHazardTrackingMode = Selector.Register("setHazardTrackingMode:");
+    public static readonly Selector SetHazardTrackingMode = "setHazardTrackingMode:";
 
-    public static readonly Selector SetHeight = Selector.Register("setHeight:");
+    public static readonly Selector SetHeight = "setHeight:";
 
-    public static readonly Selector SetMipmapLevelCount = Selector.Register("setMipmapLevelCount:");
+    public static readonly Selector SetMipmapLevelCount = "setMipmapLevelCount:";
 
-    public static readonly Selector SetPixelFormat = Selector.Register("setPixelFormat:");
+    public static readonly Selector SetPixelFormat = "setPixelFormat:";
 
-    public static readonly Selector SetPlacementSparsePageSize = Selector.Register("setPlacementSparsePageSize:");
+    public static readonly Selector SetPlacementSparsePageSize = "setPlacementSparsePageSize:";
 
-    public static readonly Selector SetResourceOptions = Selector.Register("setResourceOptions:");
+    public static readonly Selector SetResourceOptions = "setResourceOptions:";
 
-    public static readonly Selector SetSampleCount = Selector.Register("setSampleCount:");
+    public static readonly Selector SetSampleCount = "setSampleCount:";
 
-    public static readonly Selector SetStorageMode = Selector.Register("setStorageMode:");
+    public static readonly Selector SetStorageMode = "setStorageMode:";
 
-    public static readonly Selector SetSwizzle = Selector.Register("setSwizzle:");
+    public static readonly Selector SetSwizzle = "setSwizzle:";
 
-    public static readonly Selector SetTextureType = Selector.Register("setTextureType:");
+    public static readonly Selector SetTextureType = "setTextureType:";
 
-    public static readonly Selector SetUsage = Selector.Register("setUsage:");
+    public static readonly Selector SetUsage = "setUsage:";
 
-    public static readonly Selector SetWidth = Selector.Register("setWidth:");
+    public static readonly Selector SetWidth = "setWidth:";
 
-    public static readonly Selector StorageMode = Selector.Register("storageMode");
+    public static readonly Selector StorageMode = "storageMode";
 
-    public static readonly Selector Swizzle = Selector.Register("swizzle");
+    public static readonly Selector Swizzle = "swizzle";
 
-    public static readonly Selector Texture2DDescriptor = Selector.Register("texture2DDescriptorWithPixelFormat:width:height:mipmapped:");
+    public static readonly Selector Texture2DDescriptor = "texture2DDescriptorWithPixelFormat:width:height:mipmapped:";
 
-    public static readonly Selector TextureBufferDescriptor = Selector.Register("textureBufferDescriptorWithPixelFormat:width:resourceOptions:usage:");
+    public static readonly Selector TextureBufferDescriptor = "textureBufferDescriptorWithPixelFormat:width:resourceOptions:usage:";
 
-    public static readonly Selector TextureCubeDescriptor = Selector.Register("textureCubeDescriptorWithPixelFormat:size:mipmapped:");
+    public static readonly Selector TextureCubeDescriptor = "textureCubeDescriptorWithPixelFormat:size:mipmapped:";
 
-    public static readonly Selector TextureType = Selector.Register("textureType");
+    public static readonly Selector TextureType = "textureType";
 
-    public static readonly Selector Usage = Selector.Register("usage");
+    public static readonly Selector Usage = "usage";
 
-    public static readonly Selector Width = Selector.Register("width");
+    public static readonly Selector Width = "width";
 }

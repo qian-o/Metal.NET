@@ -8,52 +8,14 @@ public class MTL4CompilerDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerDescriptorBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSString>(ref field, MTL4CompilerDescriptorBindings.Label);
+        set => SetProperty(ref field, MTL4CompilerDescriptorBindings.SetLabel, value);
     }
 
     public MTL4PipelineDataSetSerializer? PipelineDataSetSerializer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerDescriptorBindings.PipelineDataSetSerializer);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4PipelineDataSetSerializer(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerDescriptorBindings.SetPipelineDataSetSerializer, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTL4PipelineDataSetSerializer>(ref field, MTL4CompilerDescriptorBindings.PipelineDataSetSerializer);
+        set => SetProperty(ref field, MTL4CompilerDescriptorBindings.SetPipelineDataSetSerializer, value);
     }
 }
 
@@ -61,11 +23,11 @@ file static class MTL4CompilerDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CompilerDescriptor");
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector PipelineDataSetSerializer = Selector.Register("pipelineDataSetSerializer");
+    public static readonly Selector PipelineDataSetSerializer = "pipelineDataSetSerializer";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector SetPipelineDataSetSerializer = Selector.Register("setPipelineDataSetSerializer:");
+    public static readonly Selector SetPipelineDataSetSerializer = "setPipelineDataSetSerializer:";
 }

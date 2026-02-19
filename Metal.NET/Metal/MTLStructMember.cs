@@ -13,22 +13,7 @@ public class MTLStructMember(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLArrayType? ArrayType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.ArrayType);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLArrayType(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLArrayType>(ref field, MTLStructMemberBindings.ArrayType);
     }
 
     public MTLDataType DataType
@@ -38,22 +23,7 @@ public class MTLStructMember(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.Name);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSString>(ref field, MTLStructMemberBindings.Name);
     }
 
     public nuint Offset
@@ -63,82 +33,22 @@ public class MTLStructMember(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLPointerType? PointerType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.PointerType);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLPointerType(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLPointerType>(ref field, MTLStructMemberBindings.PointerType);
     }
 
     public MTLStructType? StructType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.StructType);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLStructType(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLStructType>(ref field, MTLStructMemberBindings.StructType);
     }
 
     public MTLTensorReferenceType? TensorReferenceType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.TensorReferenceType);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTensorReferenceType(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLTensorReferenceType>(ref field, MTLStructMemberBindings.TensorReferenceType);
     }
 
     public MTLTextureReferenceType? TextureReferenceType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.TextureReferenceType);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTextureReferenceType(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLTextureReferenceType>(ref field, MTLStructMemberBindings.TextureReferenceType);
     }
 }
 
@@ -146,21 +56,21 @@ file static class MTLStructMemberBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStructMember");
 
-    public static readonly Selector ArgumentIndex = Selector.Register("argumentIndex");
+    public static readonly Selector ArgumentIndex = "argumentIndex";
 
-    public static readonly Selector ArrayType = Selector.Register("arrayType");
+    public static readonly Selector ArrayType = "arrayType";
 
-    public static readonly Selector DataType = Selector.Register("dataType");
+    public static readonly Selector DataType = "dataType";
 
-    public static readonly Selector Name = Selector.Register("name");
+    public static readonly Selector Name = "name";
 
-    public static readonly Selector Offset = Selector.Register("offset");
+    public static readonly Selector Offset = "offset";
 
-    public static readonly Selector PointerType = Selector.Register("pointerType");
+    public static readonly Selector PointerType = "pointerType";
 
-    public static readonly Selector StructType = Selector.Register("structType");
+    public static readonly Selector StructType = "structType";
 
-    public static readonly Selector TensorReferenceType = Selector.Register("tensorReferenceType");
+    public static readonly Selector TensorReferenceType = "tensorReferenceType";
 
-    public static readonly Selector TextureReferenceType = Selector.Register("textureReferenceType");
+    public static readonly Selector TextureReferenceType = "textureReferenceType";
 }

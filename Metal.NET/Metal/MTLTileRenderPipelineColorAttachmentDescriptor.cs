@@ -17,7 +17,7 @@ file static class MTLTileRenderPipelineColorAttachmentDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTileRenderPipelineColorAttachmentDescriptor");
 
-    public static readonly Selector PixelFormat = Selector.Register("pixelFormat");
+    public static readonly Selector PixelFormat = "pixelFormat";
 
-    public static readonly Selector SetPixelFormat = Selector.Register("setPixelFormat:");
+    public static readonly Selector SetPixelFormat = "setPixelFormat:";
 }

@@ -10,5 +10,5 @@ public class MTLFXSpatialScaler(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLFXSpatialScalerBindings
 {
-    public static readonly Selector EncodeToCommandBuffer = Selector.Register("encodeToCommandBuffer:");
+    public static readonly Selector EncodeToCommandBuffer = "encodeToCommandBuffer:";
 }

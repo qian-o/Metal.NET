@@ -795,7 +795,7 @@ class Generator
         foreach (var (name, objc) in selectors)
         {
             if (!first) sb.AppendLine();
-            sb.AppendLine($"    public static readonly Selector {name} = Selector.Register(\"{objc}\");");
+            sb.AppendLine($"    public static readonly Selector {name} = \"{objc}\";");
             first = false;
         }
         sb.AppendLine("}");
@@ -957,35 +957,13 @@ class Generator
 
         if (nullable)
         {
-            // Use C# 14.0 field keyword to cache reference type wrapper,
-            // avoiding unnecessary object creation when pointer hasn't changed
+            // Use NativeObject.GetProperty/SetProperty helpers for cached nullable reference type properties
             sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
-            sb.AppendLine("        get");
-            sb.AppendLine("        {");
-            sb.AppendLine($"            nint ptr = ObjectiveCRuntime.MsgSendPtr({target}, {selectorRef});");
-            sb.AppendLine();
-            sb.AppendLine("            if (ptr == 0)");
-            sb.AppendLine("            {");
-            sb.AppendLine("                return field = null;");
-            sb.AppendLine("            }");
-            sb.AppendLine();
-            sb.AppendLine("            if (field is null || field.NativePtr != ptr)");
-            sb.AppendLine("            {");
-            sb.AppendLine($"                field = new {csType}(ptr);");
-            sb.AppendLine("            }");
-            sb.AppendLine();
-            sb.AppendLine("            return field;");
-            sb.AppendLine("        }");
+            sb.AppendLine($"        get => GetProperty<{csType}>(ref field, {selectorRef});");
 
             if (prop.Setter != null)
-            {
-                sb.AppendLine("        set");
-                sb.AppendLine("        {");
-                sb.AppendLine($"            ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value?.NativePtr ?? 0);");
-                sb.AppendLine("            field = value;");
-                sb.AppendLine("        }");
-            }
+                sb.AppendLine($"        set => SetProperty(ref field, {csClassName}Bindings.{setSelName}, value);");
             sb.AppendLine("    }");
         }
         else if (isEnum)

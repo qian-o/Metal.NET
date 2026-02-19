@@ -14,22 +14,7 @@ public class MTLTexture(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLBuffer? Buffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.Buffer);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLBuffer(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLBuffer>(ref field, MTLTextureBindings.Buffer);
     }
 
     public nuint BufferBytesPerRow
@@ -104,22 +89,7 @@ public class MTLTexture(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLSharedTextureHandle? NewSharedTextureHandle
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.NewSharedTextureHandle);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLSharedTextureHandle(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLSharedTextureHandle>(ref field, MTLTextureBindings.NewSharedTextureHandle);
     }
 
     public nuint ParentRelativeLevel
@@ -134,22 +104,7 @@ public class MTLTexture(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLTexture? ParentTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.ParentTexture);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTexture(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLTexture>(ref field, MTLTextureBindings.ParentTexture);
     }
 
     public MTLPixelFormat PixelFormat
@@ -159,42 +114,12 @@ public class MTLTexture(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLTexture? RemoteStorageTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.RemoteStorageTexture);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTexture(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLTexture>(ref field, MTLTextureBindings.RemoteStorageTexture);
     }
 
     public MTLResource? RootResource
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.RootResource);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLResource(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLResource>(ref field, MTLTextureBindings.RootResource);
     }
 
     public nuint SampleCount
@@ -290,75 +215,75 @@ public class MTLTexture(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLTextureBindings
 {
-    public static readonly Selector AllowGPUOptimizedContents = Selector.Register("allowGPUOptimizedContents");
+    public static readonly Selector AllowGPUOptimizedContents = "allowGPUOptimizedContents";
 
-    public static readonly Selector ArrayLength = Selector.Register("arrayLength");
+    public static readonly Selector ArrayLength = "arrayLength";
 
-    public static readonly Selector Buffer = Selector.Register("buffer");
+    public static readonly Selector Buffer = "buffer";
 
-    public static readonly Selector BufferBytesPerRow = Selector.Register("bufferBytesPerRow");
+    public static readonly Selector BufferBytesPerRow = "bufferBytesPerRow";
 
-    public static readonly Selector BufferOffset = Selector.Register("bufferOffset");
+    public static readonly Selector BufferOffset = "bufferOffset";
 
-    public static readonly Selector CompressionType = Selector.Register("compressionType");
+    public static readonly Selector CompressionType = "compressionType";
 
-    public static readonly Selector Depth = Selector.Register("depth");
+    public static readonly Selector Depth = "depth";
 
-    public static readonly Selector FirstMipmapInTail = Selector.Register("firstMipmapInTail");
+    public static readonly Selector FirstMipmapInTail = "firstMipmapInTail";
 
-    public static readonly Selector FramebufferOnly = Selector.Register("isFramebufferOnly");
+    public static readonly Selector FramebufferOnly = "isFramebufferOnly";
 
-    public static readonly Selector GetBytes = Selector.Register("getBytes:bytesPerRow:bytesPerImage:fromRegion:mipmapLevel:slice:");
+    public static readonly Selector GetBytes = "getBytes:bytesPerRow:bytesPerImage:fromRegion:mipmapLevel:slice:";
 
-    public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
+    public static readonly Selector GpuResourceID = "gpuResourceID";
 
-    public static readonly Selector Height = Selector.Register("height");
+    public static readonly Selector Height = "height";
 
-    public static readonly Selector Iosurface = Selector.Register("iosurface");
+    public static readonly Selector Iosurface = "iosurface";
 
-    public static readonly Selector IosurfacePlane = Selector.Register("iosurfacePlane");
+    public static readonly Selector IosurfacePlane = "iosurfacePlane";
 
-    public static readonly Selector IsFramebufferOnly = Selector.Register("isFramebufferOnly");
+    public static readonly Selector IsFramebufferOnly = "isFramebufferOnly";
 
-    public static readonly Selector IsShareable = Selector.Register("isShareable");
+    public static readonly Selector IsShareable = "isShareable";
 
-    public static readonly Selector IsSparse = Selector.Register("isSparse");
+    public static readonly Selector IsSparse = "isSparse";
 
-    public static readonly Selector MipmapLevelCount = Selector.Register("mipmapLevelCount");
+    public static readonly Selector MipmapLevelCount = "mipmapLevelCount";
 
-    public static readonly Selector NewRemoteTextureViewForDevice = Selector.Register("newRemoteTextureViewForDevice:");
+    public static readonly Selector NewRemoteTextureViewForDevice = "newRemoteTextureViewForDevice:";
 
-    public static readonly Selector NewSharedTextureHandle = Selector.Register("newSharedTextureHandle");
+    public static readonly Selector NewSharedTextureHandle = "newSharedTextureHandle";
 
-    public static readonly Selector NewTextureView = Selector.Register("newTextureViewWithPixelFormat:");
+    public static readonly Selector NewTextureView = "newTextureViewWithPixelFormat:";
 
-    public static readonly Selector ParentRelativeLevel = Selector.Register("parentRelativeLevel");
+    public static readonly Selector ParentRelativeLevel = "parentRelativeLevel";
 
-    public static readonly Selector ParentRelativeSlice = Selector.Register("parentRelativeSlice");
+    public static readonly Selector ParentRelativeSlice = "parentRelativeSlice";
 
-    public static readonly Selector ParentTexture = Selector.Register("parentTexture");
+    public static readonly Selector ParentTexture = "parentTexture";
 
-    public static readonly Selector PixelFormat = Selector.Register("pixelFormat");
+    public static readonly Selector PixelFormat = "pixelFormat";
 
-    public static readonly Selector RemoteStorageTexture = Selector.Register("remoteStorageTexture");
+    public static readonly Selector RemoteStorageTexture = "remoteStorageTexture";
 
-    public static readonly Selector ReplaceRegion = Selector.Register("replaceRegion:mipmapLevel:slice:withBytes:bytesPerRow:bytesPerImage:");
+    public static readonly Selector ReplaceRegion = "replaceRegion:mipmapLevel:slice:withBytes:bytesPerRow:bytesPerImage:";
 
-    public static readonly Selector RootResource = Selector.Register("rootResource");
+    public static readonly Selector RootResource = "rootResource";
 
-    public static readonly Selector SampleCount = Selector.Register("sampleCount");
+    public static readonly Selector SampleCount = "sampleCount";
 
-    public static readonly Selector Shareable = Selector.Register("isShareable");
+    public static readonly Selector Shareable = "isShareable";
 
-    public static readonly Selector SparseTextureTier = Selector.Register("sparseTextureTier");
+    public static readonly Selector SparseTextureTier = "sparseTextureTier";
 
-    public static readonly Selector Swizzle = Selector.Register("swizzle");
+    public static readonly Selector Swizzle = "swizzle";
 
-    public static readonly Selector TailSizeInBytes = Selector.Register("tailSizeInBytes");
+    public static readonly Selector TailSizeInBytes = "tailSizeInBytes";
 
-    public static readonly Selector TextureType = Selector.Register("textureType");
+    public static readonly Selector TextureType = "textureType";
 
-    public static readonly Selector Usage = Selector.Register("usage");
+    public static readonly Selector Usage = "usage";
 
-    public static readonly Selector Width = Selector.Register("width");
+    public static readonly Selector Width = "width";
 }

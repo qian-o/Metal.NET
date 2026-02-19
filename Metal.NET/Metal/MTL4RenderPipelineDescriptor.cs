@@ -26,72 +26,19 @@ public class MTL4RenderPipelineDescriptor(nint nativePtr) : NativeObject(nativeP
 
     public MTL4RenderPipelineColorAttachmentDescriptorArray? ColorAttachments
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorBindings.ColorAttachments);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4RenderPipelineColorAttachmentDescriptorArray(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTL4RenderPipelineColorAttachmentDescriptorArray>(ref field, MTL4RenderPipelineDescriptorBindings.ColorAttachments);
     }
 
     public MTL4FunctionDescriptor? FragmentFunctionDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorBindings.FragmentFunctionDescriptor);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4FunctionDescriptor(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetFragmentFunctionDescriptor, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTL4FunctionDescriptor>(ref field, MTL4RenderPipelineDescriptorBindings.FragmentFunctionDescriptor);
+        set => SetProperty(ref field, MTL4RenderPipelineDescriptorBindings.SetFragmentFunctionDescriptor, value);
     }
 
     public MTL4StaticLinkingDescriptor? FragmentStaticLinkingDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorBindings.FragmentStaticLinkingDescriptor);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4StaticLinkingDescriptor(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetFragmentStaticLinkingDescriptor, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTL4StaticLinkingDescriptor>(ref field, MTL4RenderPipelineDescriptorBindings.FragmentStaticLinkingDescriptor);
+        set => SetProperty(ref field, MTL4RenderPipelineDescriptorBindings.SetFragmentStaticLinkingDescriptor, value);
     }
 
     public MTLPrimitiveTopologyClass InputPrimitiveTopology
@@ -143,77 +90,20 @@ public class MTL4RenderPipelineDescriptor(nint nativePtr) : NativeObject(nativeP
 
     public MTLVertexDescriptor? VertexDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorBindings.VertexDescriptor);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLVertexDescriptor(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetVertexDescriptor, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLVertexDescriptor>(ref field, MTL4RenderPipelineDescriptorBindings.VertexDescriptor);
+        set => SetProperty(ref field, MTL4RenderPipelineDescriptorBindings.SetVertexDescriptor, value);
     }
 
     public MTL4FunctionDescriptor? VertexFunctionDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorBindings.VertexFunctionDescriptor);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4FunctionDescriptor(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetVertexFunctionDescriptor, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTL4FunctionDescriptor>(ref field, MTL4RenderPipelineDescriptorBindings.VertexFunctionDescriptor);
+        set => SetProperty(ref field, MTL4RenderPipelineDescriptorBindings.SetVertexFunctionDescriptor, value);
     }
 
     public MTL4StaticLinkingDescriptor? VertexStaticLinkingDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorBindings.VertexStaticLinkingDescriptor);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4StaticLinkingDescriptor(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetVertexStaticLinkingDescriptor, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTL4StaticLinkingDescriptor>(ref field, MTL4RenderPipelineDescriptorBindings.VertexStaticLinkingDescriptor);
+        set => SetProperty(ref field, MTL4RenderPipelineDescriptorBindings.SetVertexStaticLinkingDescriptor, value);
     }
 
     public void Reset()
@@ -226,69 +116,69 @@ file static class MTL4RenderPipelineDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineDescriptor");
 
-    public static readonly Selector AlphaToCoverageState = Selector.Register("alphaToCoverageState");
+    public static readonly Selector AlphaToCoverageState = "alphaToCoverageState";
 
-    public static readonly Selector AlphaToOneState = Selector.Register("alphaToOneState");
+    public static readonly Selector AlphaToOneState = "alphaToOneState";
 
-    public static readonly Selector ColorAttachmentMappingState = Selector.Register("colorAttachmentMappingState");
+    public static readonly Selector ColorAttachmentMappingState = "colorAttachmentMappingState";
 
-    public static readonly Selector ColorAttachments = Selector.Register("colorAttachments");
+    public static readonly Selector ColorAttachments = "colorAttachments";
 
-    public static readonly Selector FragmentFunctionDescriptor = Selector.Register("fragmentFunctionDescriptor");
+    public static readonly Selector FragmentFunctionDescriptor = "fragmentFunctionDescriptor";
 
-    public static readonly Selector FragmentStaticLinkingDescriptor = Selector.Register("fragmentStaticLinkingDescriptor");
+    public static readonly Selector FragmentStaticLinkingDescriptor = "fragmentStaticLinkingDescriptor";
 
-    public static readonly Selector InputPrimitiveTopology = Selector.Register("inputPrimitiveTopology");
+    public static readonly Selector InputPrimitiveTopology = "inputPrimitiveTopology";
 
-    public static readonly Selector IsRasterizationEnabled = Selector.Register("isRasterizationEnabled");
+    public static readonly Selector IsRasterizationEnabled = "isRasterizationEnabled";
 
-    public static readonly Selector MaxVertexAmplificationCount = Selector.Register("maxVertexAmplificationCount");
+    public static readonly Selector MaxVertexAmplificationCount = "maxVertexAmplificationCount";
 
-    public static readonly Selector RasterizationEnabled = Selector.Register("isRasterizationEnabled");
+    public static readonly Selector RasterizationEnabled = "isRasterizationEnabled";
 
-    public static readonly Selector RasterSampleCount = Selector.Register("rasterSampleCount");
+    public static readonly Selector RasterSampleCount = "rasterSampleCount";
 
-    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector Reset = "reset";
 
-    public static readonly Selector SetAlphaToCoverageState = Selector.Register("setAlphaToCoverageState:");
+    public static readonly Selector SetAlphaToCoverageState = "setAlphaToCoverageState:";
 
-    public static readonly Selector SetAlphaToOneState = Selector.Register("setAlphaToOneState:");
+    public static readonly Selector SetAlphaToOneState = "setAlphaToOneState:";
 
-    public static readonly Selector SetColorAttachmentMappingState = Selector.Register("setColorAttachmentMappingState:");
+    public static readonly Selector SetColorAttachmentMappingState = "setColorAttachmentMappingState:";
 
-    public static readonly Selector SetFragmentFunctionDescriptor = Selector.Register("setFragmentFunctionDescriptor:");
+    public static readonly Selector SetFragmentFunctionDescriptor = "setFragmentFunctionDescriptor:";
 
-    public static readonly Selector SetFragmentStaticLinkingDescriptor = Selector.Register("setFragmentStaticLinkingDescriptor:");
+    public static readonly Selector SetFragmentStaticLinkingDescriptor = "setFragmentStaticLinkingDescriptor:";
 
-    public static readonly Selector SetInputPrimitiveTopology = Selector.Register("setInputPrimitiveTopology:");
+    public static readonly Selector SetInputPrimitiveTopology = "setInputPrimitiveTopology:";
 
-    public static readonly Selector SetMaxVertexAmplificationCount = Selector.Register("setMaxVertexAmplificationCount:");
+    public static readonly Selector SetMaxVertexAmplificationCount = "setMaxVertexAmplificationCount:";
 
-    public static readonly Selector SetRasterizationEnabled = Selector.Register("setRasterizationEnabled:");
+    public static readonly Selector SetRasterizationEnabled = "setRasterizationEnabled:";
 
-    public static readonly Selector SetRasterSampleCount = Selector.Register("setRasterSampleCount:");
+    public static readonly Selector SetRasterSampleCount = "setRasterSampleCount:";
 
-    public static readonly Selector SetSupportFragmentBinaryLinking = Selector.Register("setSupportFragmentBinaryLinking:");
+    public static readonly Selector SetSupportFragmentBinaryLinking = "setSupportFragmentBinaryLinking:";
 
-    public static readonly Selector SetSupportIndirectCommandBuffers = Selector.Register("setSupportIndirectCommandBuffers:");
+    public static readonly Selector SetSupportIndirectCommandBuffers = "setSupportIndirectCommandBuffers:";
 
-    public static readonly Selector SetSupportVertexBinaryLinking = Selector.Register("setSupportVertexBinaryLinking:");
+    public static readonly Selector SetSupportVertexBinaryLinking = "setSupportVertexBinaryLinking:";
 
-    public static readonly Selector SetVertexDescriptor = Selector.Register("setVertexDescriptor:");
+    public static readonly Selector SetVertexDescriptor = "setVertexDescriptor:";
 
-    public static readonly Selector SetVertexFunctionDescriptor = Selector.Register("setVertexFunctionDescriptor:");
+    public static readonly Selector SetVertexFunctionDescriptor = "setVertexFunctionDescriptor:";
 
-    public static readonly Selector SetVertexStaticLinkingDescriptor = Selector.Register("setVertexStaticLinkingDescriptor:");
+    public static readonly Selector SetVertexStaticLinkingDescriptor = "setVertexStaticLinkingDescriptor:";
 
-    public static readonly Selector SupportFragmentBinaryLinking = Selector.Register("supportFragmentBinaryLinking");
+    public static readonly Selector SupportFragmentBinaryLinking = "supportFragmentBinaryLinking";
 
-    public static readonly Selector SupportIndirectCommandBuffers = Selector.Register("supportIndirectCommandBuffers");
+    public static readonly Selector SupportIndirectCommandBuffers = "supportIndirectCommandBuffers";
 
-    public static readonly Selector SupportVertexBinaryLinking = Selector.Register("supportVertexBinaryLinking");
+    public static readonly Selector SupportVertexBinaryLinking = "supportVertexBinaryLinking";
 
-    public static readonly Selector VertexDescriptor = Selector.Register("vertexDescriptor");
+    public static readonly Selector VertexDescriptor = "vertexDescriptor";
 
-    public static readonly Selector VertexFunctionDescriptor = Selector.Register("vertexFunctionDescriptor");
+    public static readonly Selector VertexFunctionDescriptor = "vertexFunctionDescriptor";
 
-    public static readonly Selector VertexStaticLinkingDescriptor = Selector.Register("vertexStaticLinkingDescriptor");
+    public static readonly Selector VertexStaticLinkingDescriptor = "vertexStaticLinkingDescriptor";
 }

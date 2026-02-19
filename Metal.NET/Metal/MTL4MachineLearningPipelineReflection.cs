@@ -8,22 +8,7 @@ public class MTL4MachineLearningPipelineReflection(nint nativePtr) : NativeObjec
 
     public NSArray? Bindings
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineReflectionBindings.Bindings);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSArray(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSArray>(ref field, MTL4MachineLearningPipelineReflectionBindings.Bindings);
     }
 }
 
@@ -31,5 +16,5 @@ file static class MTL4MachineLearningPipelineReflectionBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4MachineLearningPipelineReflection");
 
-    public static readonly Selector Bindings = Selector.Register("bindings");
+    public static readonly Selector Bindings = "bindings";
 }

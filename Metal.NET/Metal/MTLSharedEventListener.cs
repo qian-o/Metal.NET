@@ -22,7 +22,7 @@ file static class MTLSharedEventListenerBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLSharedEventListener");
 
-    public static readonly Selector DispatchQueue = Selector.Register("dispatchQueue");
+    public static readonly Selector DispatchQueue = "dispatchQueue";
 
-    public static readonly Selector SharedListener = Selector.Register("sharedListener");
+    public static readonly Selector SharedListener = "sharedListener";
 }

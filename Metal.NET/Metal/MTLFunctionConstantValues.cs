@@ -31,9 +31,9 @@ file static class MTLFunctionConstantValuesBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionConstantValues");
 
-    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector Reset = "reset";
 
-    public static readonly Selector SetConstantValue = Selector.Register("setConstantValue:type:atIndex:");
+    public static readonly Selector SetConstantValue = "setConstantValue:type:atIndex:";
 
-    public static readonly Selector SetConstantValues = Selector.Register("setConstantValues:type:withRange:");
+    public static readonly Selector SetConstantValues = "setConstantValues:type:withRange:";
 }

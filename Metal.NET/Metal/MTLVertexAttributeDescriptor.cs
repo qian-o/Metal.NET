@@ -29,15 +29,15 @@ file static class MTLVertexAttributeDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexAttributeDescriptor");
 
-    public static readonly Selector BufferIndex = Selector.Register("bufferIndex");
+    public static readonly Selector BufferIndex = "bufferIndex";
 
-    public static readonly Selector Format = Selector.Register("format");
+    public static readonly Selector Format = "format";
 
-    public static readonly Selector Offset = Selector.Register("offset");
+    public static readonly Selector Offset = "offset";
 
-    public static readonly Selector SetBufferIndex = Selector.Register("setBufferIndex:");
+    public static readonly Selector SetBufferIndex = "setBufferIndex:";
 
-    public static readonly Selector SetFormat = Selector.Register("setFormat:");
+    public static readonly Selector SetFormat = "setFormat:";
 
-    public static readonly Selector SetOffset = Selector.Register("setOffset:");
+    public static readonly Selector SetOffset = "setOffset:";
 }

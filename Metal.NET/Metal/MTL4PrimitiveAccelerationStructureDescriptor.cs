@@ -8,27 +8,8 @@ public class MTL4PrimitiveAccelerationStructureDescriptor(nint nativePtr) : Nati
 
     public NSArray? GeometryDescriptors
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PrimitiveAccelerationStructureDescriptorBindings.GeometryDescriptors);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSArray(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4PrimitiveAccelerationStructureDescriptorBindings.SetGeometryDescriptors, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSArray>(ref field, MTL4PrimitiveAccelerationStructureDescriptorBindings.GeometryDescriptors);
+        set => SetProperty(ref field, MTL4PrimitiveAccelerationStructureDescriptorBindings.SetGeometryDescriptors, value);
     }
 
     public MTLMotionBorderMode MotionEndBorderMode
@@ -66,27 +47,27 @@ file static class MTL4PrimitiveAccelerationStructureDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PrimitiveAccelerationStructureDescriptor");
 
-    public static readonly Selector GeometryDescriptors = Selector.Register("geometryDescriptors");
+    public static readonly Selector GeometryDescriptors = "geometryDescriptors";
 
-    public static readonly Selector MotionEndBorderMode = Selector.Register("motionEndBorderMode");
+    public static readonly Selector MotionEndBorderMode = "motionEndBorderMode";
 
-    public static readonly Selector MotionEndTime = Selector.Register("motionEndTime");
+    public static readonly Selector MotionEndTime = "motionEndTime";
 
-    public static readonly Selector MotionKeyframeCount = Selector.Register("motionKeyframeCount");
+    public static readonly Selector MotionKeyframeCount = "motionKeyframeCount";
 
-    public static readonly Selector MotionStartBorderMode = Selector.Register("motionStartBorderMode");
+    public static readonly Selector MotionStartBorderMode = "motionStartBorderMode";
 
-    public static readonly Selector MotionStartTime = Selector.Register("motionStartTime");
+    public static readonly Selector MotionStartTime = "motionStartTime";
 
-    public static readonly Selector SetGeometryDescriptors = Selector.Register("setGeometryDescriptors:");
+    public static readonly Selector SetGeometryDescriptors = "setGeometryDescriptors:";
 
-    public static readonly Selector SetMotionEndBorderMode = Selector.Register("setMotionEndBorderMode:");
+    public static readonly Selector SetMotionEndBorderMode = "setMotionEndBorderMode:";
 
-    public static readonly Selector SetMotionEndTime = Selector.Register("setMotionEndTime:");
+    public static readonly Selector SetMotionEndTime = "setMotionEndTime:";
 
-    public static readonly Selector SetMotionKeyframeCount = Selector.Register("setMotionKeyframeCount:");
+    public static readonly Selector SetMotionKeyframeCount = "setMotionKeyframeCount:";
 
-    public static readonly Selector SetMotionStartBorderMode = Selector.Register("setMotionStartBorderMode:");
+    public static readonly Selector SetMotionStartBorderMode = "setMotionStartBorderMode:";
 
-    public static readonly Selector SetMotionStartTime = Selector.Register("setMotionStartTime:");
+    public static readonly Selector SetMotionStartTime = "setMotionStartTime:";
 }

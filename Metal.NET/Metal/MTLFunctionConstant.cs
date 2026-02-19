@@ -13,22 +13,7 @@ public class MTLFunctionConstant(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionConstantBindings.Name);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSString>(ref field, MTLFunctionConstantBindings.Name);
     }
 
     public bool Required
@@ -46,11 +31,11 @@ file static class MTLFunctionConstantBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionConstant");
 
-    public static readonly Selector Index = Selector.Register("index");
+    public static readonly Selector Index = "index";
 
-    public static readonly Selector Name = Selector.Register("name");
+    public static readonly Selector Name = "name";
 
-    public static readonly Selector Required = Selector.Register("required");
+    public static readonly Selector Required = "required";
 
-    public static readonly Selector Type = Selector.Register("type");
+    public static readonly Selector Type = "type";
 }

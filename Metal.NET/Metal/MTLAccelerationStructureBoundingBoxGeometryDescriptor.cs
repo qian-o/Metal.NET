@@ -8,27 +8,8 @@ public class MTLAccelerationStructureBoundingBoxGeometryDescriptor(nint nativePt
 
     public MTLBuffer? BoundingBoxBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.BoundingBoxBuffer);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLBuffer(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBuffer, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLBuffer>(ref field, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.BoundingBoxBuffer);
+        set => SetProperty(ref field, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBuffer, value);
     }
 
     public nuint BoundingBoxBufferOffset
@@ -60,21 +41,21 @@ file static class MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureBoundingBoxGeometryDescriptor");
 
-    public static readonly Selector BoundingBoxBuffer = Selector.Register("boundingBoxBuffer");
+    public static readonly Selector BoundingBoxBuffer = "boundingBoxBuffer";
 
-    public static readonly Selector BoundingBoxBufferOffset = Selector.Register("boundingBoxBufferOffset");
+    public static readonly Selector BoundingBoxBufferOffset = "boundingBoxBufferOffset";
 
-    public static readonly Selector BoundingBoxCount = Selector.Register("boundingBoxCount");
+    public static readonly Selector BoundingBoxCount = "boundingBoxCount";
 
-    public static readonly Selector BoundingBoxStride = Selector.Register("boundingBoxStride");
+    public static readonly Selector BoundingBoxStride = "boundingBoxStride";
 
-    public static readonly Selector Descriptor = Selector.Register("descriptor");
+    public static readonly Selector Descriptor = "descriptor";
 
-    public static readonly Selector SetBoundingBoxBuffer = Selector.Register("setBoundingBoxBuffer:");
+    public static readonly Selector SetBoundingBoxBuffer = "setBoundingBoxBuffer:";
 
-    public static readonly Selector SetBoundingBoxBufferOffset = Selector.Register("setBoundingBoxBufferOffset:");
+    public static readonly Selector SetBoundingBoxBufferOffset = "setBoundingBoxBufferOffset:";
 
-    public static readonly Selector SetBoundingBoxCount = Selector.Register("setBoundingBoxCount:");
+    public static readonly Selector SetBoundingBoxCount = "setBoundingBoxCount:";
 
-    public static readonly Selector SetBoundingBoxStride = Selector.Register("setBoundingBoxStride:");
+    public static readonly Selector SetBoundingBoxStride = "setBoundingBoxStride:";
 }

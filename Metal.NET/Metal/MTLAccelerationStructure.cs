@@ -15,7 +15,7 @@ public class MTLAccelerationStructure(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLAccelerationStructureBindings
 {
-    public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
+    public static readonly Selector GpuResourceID = "gpuResourceID";
 
-    public static readonly Selector Size = Selector.Register("size");
+    public static readonly Selector Size = "size";
 }

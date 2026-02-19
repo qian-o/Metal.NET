@@ -31,11 +31,11 @@ file static class MTLTextureReferenceTypeBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTextureReferenceType");
 
-    public static readonly Selector Access = Selector.Register("access");
+    public static readonly Selector Access = "access";
 
-    public static readonly Selector IsDepthTexture = Selector.Register("isDepthTexture");
+    public static readonly Selector IsDepthTexture = "isDepthTexture";
 
-    public static readonly Selector TextureDataType = Selector.Register("textureDataType");
+    public static readonly Selector TextureDataType = "textureDataType";
 
-    public static readonly Selector TextureType = Selector.Register("textureType");
+    public static readonly Selector TextureType = "textureType";
 }

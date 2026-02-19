@@ -18,102 +18,27 @@ public class MTLArrayType(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLArrayType? ElementArrayType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementArrayType);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLArrayType(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLArrayType>(ref field, MTLArrayTypeBindings.ElementArrayType);
     }
 
     public MTLPointerType? ElementPointerType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementPointerType);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLPointerType(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLPointerType>(ref field, MTLArrayTypeBindings.ElementPointerType);
     }
 
     public MTLStructType? ElementStructType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementStructType);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLStructType(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLStructType>(ref field, MTLArrayTypeBindings.ElementStructType);
     }
 
     public MTLTensorReferenceType? ElementTensorReferenceType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementTensorReferenceType);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTensorReferenceType(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLTensorReferenceType>(ref field, MTLArrayTypeBindings.ElementTensorReferenceType);
     }
 
     public MTLTextureReferenceType? ElementTextureReferenceType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementTextureReferenceType);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTextureReferenceType(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLTextureReferenceType>(ref field, MTLArrayTypeBindings.ElementTextureReferenceType);
     }
 
     public MTLDataType ElementType
@@ -131,21 +56,21 @@ file static class MTLArrayTypeBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArrayType");
 
-    public static readonly Selector ArgumentIndexStride = Selector.Register("argumentIndexStride");
+    public static readonly Selector ArgumentIndexStride = "argumentIndexStride";
 
-    public static readonly Selector ArrayLength = Selector.Register("arrayLength");
+    public static readonly Selector ArrayLength = "arrayLength";
 
-    public static readonly Selector ElementArrayType = Selector.Register("elementArrayType");
+    public static readonly Selector ElementArrayType = "elementArrayType";
 
-    public static readonly Selector ElementPointerType = Selector.Register("elementPointerType");
+    public static readonly Selector ElementPointerType = "elementPointerType";
 
-    public static readonly Selector ElementStructType = Selector.Register("elementStructType");
+    public static readonly Selector ElementStructType = "elementStructType";
 
-    public static readonly Selector ElementTensorReferenceType = Selector.Register("elementTensorReferenceType");
+    public static readonly Selector ElementTensorReferenceType = "elementTensorReferenceType";
 
-    public static readonly Selector ElementTextureReferenceType = Selector.Register("elementTextureReferenceType");
+    public static readonly Selector ElementTextureReferenceType = "elementTextureReferenceType";
 
-    public static readonly Selector ElementType = Selector.Register("elementType");
+    public static readonly Selector ElementType = "elementType";
 
-    public static readonly Selector Stride = Selector.Register("stride");
+    public static readonly Selector Stride = "stride";
 }

@@ -23,11 +23,11 @@ file static class MTLLogStateDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLLogStateDescriptor");
 
-    public static readonly Selector BufferSize = Selector.Register("bufferSize");
+    public static readonly Selector BufferSize = "bufferSize";
 
-    public static readonly Selector Level = Selector.Register("level");
+    public static readonly Selector Level = "level";
 
-    public static readonly Selector SetBufferSize = Selector.Register("setBufferSize:");
+    public static readonly Selector SetBufferSize = "setBufferSize:";
 
-    public static readonly Selector SetLevel = Selector.Register("setLevel:");
+    public static readonly Selector SetLevel = "setLevel:";
 }

@@ -29,15 +29,15 @@ file static class MTLVertexBufferLayoutDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexBufferLayoutDescriptor");
 
-    public static readonly Selector SetStepFunction = Selector.Register("setStepFunction:");
+    public static readonly Selector SetStepFunction = "setStepFunction:";
 
-    public static readonly Selector SetStepRate = Selector.Register("setStepRate:");
+    public static readonly Selector SetStepRate = "setStepRate:";
 
-    public static readonly Selector SetStride = Selector.Register("setStride:");
+    public static readonly Selector SetStride = "setStride:";
 
-    public static readonly Selector StepFunction = Selector.Register("stepFunction");
+    public static readonly Selector StepFunction = "stepFunction";
 
-    public static readonly Selector StepRate = Selector.Register("stepRate");
+    public static readonly Selector StepRate = "stepRate";
 
-    public static readonly Selector Stride = Selector.Register("stride");
+    public static readonly Selector Stride = "stride";
 }

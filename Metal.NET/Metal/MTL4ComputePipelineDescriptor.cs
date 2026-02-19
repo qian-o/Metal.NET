@@ -8,27 +8,8 @@ public class MTL4ComputePipelineDescriptor(nint nativePtr) : NativeObject(native
 
     public MTL4FunctionDescriptor? ComputeFunctionDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ComputePipelineDescriptorBindings.ComputeFunctionDescriptor);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4FunctionDescriptor(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorBindings.SetComputeFunctionDescriptor, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTL4FunctionDescriptor>(ref field, MTL4ComputePipelineDescriptorBindings.ComputeFunctionDescriptor);
+        set => SetProperty(ref field, MTL4ComputePipelineDescriptorBindings.SetComputeFunctionDescriptor, value);
     }
 
     public nuint MaxTotalThreadsPerThreadgroup
@@ -45,27 +26,8 @@ public class MTL4ComputePipelineDescriptor(nint nativePtr) : NativeObject(native
 
     public MTL4StaticLinkingDescriptor? StaticLinkingDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ComputePipelineDescriptorBindings.StaticLinkingDescriptor);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4StaticLinkingDescriptor(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorBindings.SetStaticLinkingDescriptor, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTL4StaticLinkingDescriptor>(ref field, MTL4ComputePipelineDescriptorBindings.StaticLinkingDescriptor);
+        set => SetProperty(ref field, MTL4ComputePipelineDescriptorBindings.SetStaticLinkingDescriptor, value);
     }
 
     public bool SupportBinaryLinking
@@ -96,33 +58,33 @@ file static class MTL4ComputePipelineDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4ComputePipelineDescriptor");
 
-    public static readonly Selector ComputeFunctionDescriptor = Selector.Register("computeFunctionDescriptor");
+    public static readonly Selector ComputeFunctionDescriptor = "computeFunctionDescriptor";
 
-    public static readonly Selector MaxTotalThreadsPerThreadgroup = Selector.Register("maxTotalThreadsPerThreadgroup");
+    public static readonly Selector MaxTotalThreadsPerThreadgroup = "maxTotalThreadsPerThreadgroup";
 
-    public static readonly Selector RequiredThreadsPerThreadgroup = Selector.Register("requiredThreadsPerThreadgroup");
+    public static readonly Selector RequiredThreadsPerThreadgroup = "requiredThreadsPerThreadgroup";
 
-    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector Reset = "reset";
 
-    public static readonly Selector SetComputeFunctionDescriptor = Selector.Register("setComputeFunctionDescriptor:");
+    public static readonly Selector SetComputeFunctionDescriptor = "setComputeFunctionDescriptor:";
 
-    public static readonly Selector SetMaxTotalThreadsPerThreadgroup = Selector.Register("setMaxTotalThreadsPerThreadgroup:");
+    public static readonly Selector SetMaxTotalThreadsPerThreadgroup = "setMaxTotalThreadsPerThreadgroup:";
 
-    public static readonly Selector SetRequiredThreadsPerThreadgroup = Selector.Register("setRequiredThreadsPerThreadgroup:");
+    public static readonly Selector SetRequiredThreadsPerThreadgroup = "setRequiredThreadsPerThreadgroup:";
 
-    public static readonly Selector SetStaticLinkingDescriptor = Selector.Register("setStaticLinkingDescriptor:");
+    public static readonly Selector SetStaticLinkingDescriptor = "setStaticLinkingDescriptor:";
 
-    public static readonly Selector SetSupportBinaryLinking = Selector.Register("setSupportBinaryLinking:");
+    public static readonly Selector SetSupportBinaryLinking = "setSupportBinaryLinking:";
 
-    public static readonly Selector SetSupportIndirectCommandBuffers = Selector.Register("setSupportIndirectCommandBuffers:");
+    public static readonly Selector SetSupportIndirectCommandBuffers = "setSupportIndirectCommandBuffers:";
 
-    public static readonly Selector SetThreadGroupSizeIsMultipleOfThreadExecutionWidth = Selector.Register("setThreadGroupSizeIsMultipleOfThreadExecutionWidth:");
+    public static readonly Selector SetThreadGroupSizeIsMultipleOfThreadExecutionWidth = "setThreadGroupSizeIsMultipleOfThreadExecutionWidth:";
 
-    public static readonly Selector StaticLinkingDescriptor = Selector.Register("staticLinkingDescriptor");
+    public static readonly Selector StaticLinkingDescriptor = "staticLinkingDescriptor";
 
-    public static readonly Selector SupportBinaryLinking = Selector.Register("supportBinaryLinking");
+    public static readonly Selector SupportBinaryLinking = "supportBinaryLinking";
 
-    public static readonly Selector SupportIndirectCommandBuffers = Selector.Register("supportIndirectCommandBuffers");
+    public static readonly Selector SupportIndirectCommandBuffers = "supportIndirectCommandBuffers";
 
-    public static readonly Selector ThreadGroupSizeIsMultipleOfThreadExecutionWidth = Selector.Register("threadGroupSizeIsMultipleOfThreadExecutionWidth");
+    public static readonly Selector ThreadGroupSizeIsMultipleOfThreadExecutionWidth = "threadGroupSizeIsMultipleOfThreadExecutionWidth";
 }

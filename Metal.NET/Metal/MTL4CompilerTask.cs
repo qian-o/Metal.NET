@@ -4,22 +4,7 @@ public class MTL4CompilerTask(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTL4Compiler? Compiler
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskBindings.Compiler);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4Compiler(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTL4Compiler>(ref field, MTL4CompilerTaskBindings.Compiler);
     }
 
     public MTL4CompilerTaskStatus Status
@@ -35,9 +20,9 @@ public class MTL4CompilerTask(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTL4CompilerTaskBindings
 {
-    public static readonly Selector Compiler = Selector.Register("compiler");
+    public static readonly Selector Compiler = "compiler";
 
-    public static readonly Selector Status = Selector.Register("status");
+    public static readonly Selector Status = "status";
 
-    public static readonly Selector WaitUntilCompleted = Selector.Register("waitUntilCompleted");
+    public static readonly Selector WaitUntilCompleted = "waitUntilCompleted";
 }

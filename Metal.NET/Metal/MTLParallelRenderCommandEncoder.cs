@@ -4,22 +4,7 @@ public class MTLParallelRenderCommandEncoder(nint nativePtr) : NativeObject(nati
 {
     public MTLRenderCommandEncoder? RenderCommandEncoder
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLParallelRenderCommandEncoderBindings.RenderCommandEncoder);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLRenderCommandEncoder(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLRenderCommandEncoder>(ref field, MTLParallelRenderCommandEncoderBindings.RenderCommandEncoder);
     }
 
     public void SetColorStoreAction(MTLStoreAction storeAction, nuint colorAttachmentIndex)
@@ -35,9 +20,9 @@ public class MTLParallelRenderCommandEncoder(nint nativePtr) : NativeObject(nati
 
 file static class MTLParallelRenderCommandEncoderBindings
 {
-    public static readonly Selector RenderCommandEncoder = Selector.Register("renderCommandEncoder");
+    public static readonly Selector RenderCommandEncoder = "renderCommandEncoder";
 
-    public static readonly Selector SetColorStoreAction = Selector.Register("setColorStoreAction:atIndex:");
+    public static readonly Selector SetColorStoreAction = "setColorStoreAction:atIndex:";
 
-    public static readonly Selector SetColorStoreActionOptions = Selector.Register("setColorStoreActionOptions:atIndex:");
+    public static readonly Selector SetColorStoreActionOptions = "setColorStoreActionOptions:atIndex:";
 }

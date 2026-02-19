@@ -9,42 +9,12 @@ public class MTLResourceViewPool(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolBindings.Device);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLDevice(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLDevice>(ref field, MTLResourceViewPoolBindings.Device);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSString>(ref field, MTLResourceViewPoolBindings.Label);
     }
 
     public nuint ResourceViewCount
@@ -60,13 +30,13 @@ public class MTLResourceViewPool(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLResourceViewPoolBindings
 {
-    public static readonly Selector BaseResourceID = Selector.Register("baseResourceID");
+    public static readonly Selector BaseResourceID = "baseResourceID";
 
-    public static readonly Selector CopyResourceViewsFromPool = Selector.Register("copyResourceViewsFromPool:sourceRange:destinationIndex:");
+    public static readonly Selector CopyResourceViewsFromPool = "copyResourceViewsFromPool:sourceRange:destinationIndex:";
 
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector ResourceViewCount = Selector.Register("resourceViewCount");
+    public static readonly Selector ResourceViewCount = "resourceViewCount";
 }

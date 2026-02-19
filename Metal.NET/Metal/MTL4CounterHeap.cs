@@ -9,27 +9,8 @@ public class MTL4CounterHeap(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapBindings.SetLabel, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSString>(ref field, MTL4CounterHeapBindings.Label);
+        set => SetProperty(ref field, MTL4CounterHeapBindings.SetLabel, value);
     }
 
     public MTL4CounterHeapType Type
@@ -45,13 +26,13 @@ public class MTL4CounterHeap(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTL4CounterHeapBindings
 {
-    public static readonly Selector Count = Selector.Register("count");
+    public static readonly Selector Count = "count";
 
-    public static readonly Selector InvalidateCounterRange = Selector.Register("invalidateCounterRange:");
+    public static readonly Selector InvalidateCounterRange = "invalidateCounterRange:";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector Type = Selector.Register("type");
+    public static readonly Selector Type = "type";
 }

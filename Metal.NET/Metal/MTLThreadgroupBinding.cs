@@ -15,7 +15,7 @@ public class MTLThreadgroupBinding(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLThreadgroupBindingBindings
 {
-    public static readonly Selector ThreadgroupMemoryAlignment = Selector.Register("threadgroupMemoryAlignment");
+    public static readonly Selector ThreadgroupMemoryAlignment = "threadgroupMemoryAlignment";
 
-    public static readonly Selector ThreadgroupMemoryDataSize = Selector.Register("threadgroupMemoryDataSize");
+    public static readonly Selector ThreadgroupMemoryDataSize = "threadgroupMemoryDataSize";
 }

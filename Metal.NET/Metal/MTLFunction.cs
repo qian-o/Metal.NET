@@ -4,22 +4,7 @@ public class MTLFunction(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionBindings.Device);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLDevice(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLDevice>(ref field, MTLFunctionBindings.Device);
     }
 
     public MTLFunctionType FunctionType
@@ -29,47 +14,13 @@ public class MTLFunction(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionBindings.SetLabel, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSString>(ref field, MTLFunctionBindings.Label);
+        set => SetProperty(ref field, MTLFunctionBindings.SetLabel, value);
     }
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionBindings.Name);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSString>(ref field, MTLFunctionBindings.Name);
     }
 
     public MTLFunctionOptions Options
@@ -89,42 +40,12 @@ public class MTLFunction(nint nativePtr) : NativeObject(nativePtr)
 
     public NSArray? StageInputAttributes
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionBindings.StageInputAttributes);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSArray(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSArray>(ref field, MTLFunctionBindings.StageInputAttributes);
     }
 
     public NSArray? VertexAttributes
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionBindings.VertexAttributes);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSArray(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSArray>(ref field, MTLFunctionBindings.VertexAttributes);
     }
 
     public MTLArgumentEncoder? NewArgumentEncoder(nuint bufferIndex)
@@ -136,25 +57,25 @@ public class MTLFunction(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLFunctionBindings
 {
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector FunctionType = Selector.Register("functionType");
+    public static readonly Selector FunctionType = "functionType";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector Name = Selector.Register("name");
+    public static readonly Selector Name = "name";
 
-    public static readonly Selector NewArgumentEncoder = Selector.Register("newArgumentEncoderWithBufferIndex:");
+    public static readonly Selector NewArgumentEncoder = "newArgumentEncoderWithBufferIndex:";
 
-    public static readonly Selector Options = Selector.Register("options");
+    public static readonly Selector Options = "options";
 
-    public static readonly Selector PatchControlPointCount = Selector.Register("patchControlPointCount");
+    public static readonly Selector PatchControlPointCount = "patchControlPointCount";
 
-    public static readonly Selector PatchType = Selector.Register("patchType");
+    public static readonly Selector PatchType = "patchType";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector StageInputAttributes = Selector.Register("stageInputAttributes");
+    public static readonly Selector StageInputAttributes = "stageInputAttributes";
 
-    public static readonly Selector VertexAttributes = Selector.Register("vertexAttributes");
+    public static readonly Selector VertexAttributes = "vertexAttributes";
 }

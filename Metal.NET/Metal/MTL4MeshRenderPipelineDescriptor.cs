@@ -26,72 +26,19 @@ public class MTL4MeshRenderPipelineDescriptor(nint nativePtr) : NativeObject(nat
 
     public MTL4RenderPipelineColorAttachmentDescriptorArray? ColorAttachments
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.ColorAttachments);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4RenderPipelineColorAttachmentDescriptorArray(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTL4RenderPipelineColorAttachmentDescriptorArray>(ref field, MTL4MeshRenderPipelineDescriptorBindings.ColorAttachments);
     }
 
     public MTL4FunctionDescriptor? FragmentFunctionDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.FragmentFunctionDescriptor);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4FunctionDescriptor(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetFragmentFunctionDescriptor, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTL4FunctionDescriptor>(ref field, MTL4MeshRenderPipelineDescriptorBindings.FragmentFunctionDescriptor);
+        set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetFragmentFunctionDescriptor, value);
     }
 
     public MTL4StaticLinkingDescriptor? FragmentStaticLinkingDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.FragmentStaticLinkingDescriptor);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4StaticLinkingDescriptor(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetFragmentStaticLinkingDescriptor, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTL4StaticLinkingDescriptor>(ref field, MTL4MeshRenderPipelineDescriptorBindings.FragmentStaticLinkingDescriptor);
+        set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetFragmentStaticLinkingDescriptor, value);
     }
 
     public bool IsRasterizationEnabled
@@ -125,52 +72,14 @@ public class MTL4MeshRenderPipelineDescriptor(nint nativePtr) : NativeObject(nat
 
     public MTL4FunctionDescriptor? MeshFunctionDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.MeshFunctionDescriptor);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4FunctionDescriptor(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetMeshFunctionDescriptor, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTL4FunctionDescriptor>(ref field, MTL4MeshRenderPipelineDescriptorBindings.MeshFunctionDescriptor);
+        set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetMeshFunctionDescriptor, value);
     }
 
     public MTL4StaticLinkingDescriptor? MeshStaticLinkingDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.MeshStaticLinkingDescriptor);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4StaticLinkingDescriptor(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetMeshStaticLinkingDescriptor, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTL4StaticLinkingDescriptor>(ref field, MTL4MeshRenderPipelineDescriptorBindings.MeshStaticLinkingDescriptor);
+        set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetMeshStaticLinkingDescriptor, value);
     }
 
     public bool MeshThreadgroupSizeIsMultipleOfThreadExecutionWidth
@@ -181,52 +90,14 @@ public class MTL4MeshRenderPipelineDescriptor(nint nativePtr) : NativeObject(nat
 
     public MTL4FunctionDescriptor? ObjectFunctionDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.ObjectFunctionDescriptor);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4FunctionDescriptor(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetObjectFunctionDescriptor, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTL4FunctionDescriptor>(ref field, MTL4MeshRenderPipelineDescriptorBindings.ObjectFunctionDescriptor);
+        set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetObjectFunctionDescriptor, value);
     }
 
     public MTL4StaticLinkingDescriptor? ObjectStaticLinkingDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.ObjectStaticLinkingDescriptor);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4StaticLinkingDescriptor(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetObjectStaticLinkingDescriptor, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTL4StaticLinkingDescriptor>(ref field, MTL4MeshRenderPipelineDescriptorBindings.ObjectStaticLinkingDescriptor);
+        set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetObjectStaticLinkingDescriptor, value);
     }
 
     public bool ObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth
@@ -299,105 +170,105 @@ file static class MTL4MeshRenderPipelineDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4MeshRenderPipelineDescriptor");
 
-    public static readonly Selector AlphaToCoverageState = Selector.Register("alphaToCoverageState");
+    public static readonly Selector AlphaToCoverageState = "alphaToCoverageState";
 
-    public static readonly Selector AlphaToOneState = Selector.Register("alphaToOneState");
+    public static readonly Selector AlphaToOneState = "alphaToOneState";
 
-    public static readonly Selector ColorAttachmentMappingState = Selector.Register("colorAttachmentMappingState");
+    public static readonly Selector ColorAttachmentMappingState = "colorAttachmentMappingState";
 
-    public static readonly Selector ColorAttachments = Selector.Register("colorAttachments");
+    public static readonly Selector ColorAttachments = "colorAttachments";
 
-    public static readonly Selector FragmentFunctionDescriptor = Selector.Register("fragmentFunctionDescriptor");
+    public static readonly Selector FragmentFunctionDescriptor = "fragmentFunctionDescriptor";
 
-    public static readonly Selector FragmentStaticLinkingDescriptor = Selector.Register("fragmentStaticLinkingDescriptor");
+    public static readonly Selector FragmentStaticLinkingDescriptor = "fragmentStaticLinkingDescriptor";
 
-    public static readonly Selector IsRasterizationEnabled = Selector.Register("isRasterizationEnabled");
+    public static readonly Selector IsRasterizationEnabled = "isRasterizationEnabled";
 
-    public static readonly Selector MaxTotalThreadgroupsPerMeshGrid = Selector.Register("maxTotalThreadgroupsPerMeshGrid");
+    public static readonly Selector MaxTotalThreadgroupsPerMeshGrid = "maxTotalThreadgroupsPerMeshGrid";
 
-    public static readonly Selector MaxTotalThreadsPerMeshThreadgroup = Selector.Register("maxTotalThreadsPerMeshThreadgroup");
+    public static readonly Selector MaxTotalThreadsPerMeshThreadgroup = "maxTotalThreadsPerMeshThreadgroup";
 
-    public static readonly Selector MaxTotalThreadsPerObjectThreadgroup = Selector.Register("maxTotalThreadsPerObjectThreadgroup");
+    public static readonly Selector MaxTotalThreadsPerObjectThreadgroup = "maxTotalThreadsPerObjectThreadgroup";
 
-    public static readonly Selector MaxVertexAmplificationCount = Selector.Register("maxVertexAmplificationCount");
+    public static readonly Selector MaxVertexAmplificationCount = "maxVertexAmplificationCount";
 
-    public static readonly Selector MeshFunctionDescriptor = Selector.Register("meshFunctionDescriptor");
+    public static readonly Selector MeshFunctionDescriptor = "meshFunctionDescriptor";
 
-    public static readonly Selector MeshStaticLinkingDescriptor = Selector.Register("meshStaticLinkingDescriptor");
+    public static readonly Selector MeshStaticLinkingDescriptor = "meshStaticLinkingDescriptor";
 
-    public static readonly Selector MeshThreadgroupSizeIsMultipleOfThreadExecutionWidth = Selector.Register("meshThreadgroupSizeIsMultipleOfThreadExecutionWidth");
+    public static readonly Selector MeshThreadgroupSizeIsMultipleOfThreadExecutionWidth = "meshThreadgroupSizeIsMultipleOfThreadExecutionWidth";
 
-    public static readonly Selector ObjectFunctionDescriptor = Selector.Register("objectFunctionDescriptor");
+    public static readonly Selector ObjectFunctionDescriptor = "objectFunctionDescriptor";
 
-    public static readonly Selector ObjectStaticLinkingDescriptor = Selector.Register("objectStaticLinkingDescriptor");
+    public static readonly Selector ObjectStaticLinkingDescriptor = "objectStaticLinkingDescriptor";
 
-    public static readonly Selector ObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth = Selector.Register("objectThreadgroupSizeIsMultipleOfThreadExecutionWidth");
+    public static readonly Selector ObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth = "objectThreadgroupSizeIsMultipleOfThreadExecutionWidth";
 
-    public static readonly Selector PayloadMemoryLength = Selector.Register("payloadMemoryLength");
+    public static readonly Selector PayloadMemoryLength = "payloadMemoryLength";
 
-    public static readonly Selector RasterizationEnabled = Selector.Register("isRasterizationEnabled");
+    public static readonly Selector RasterizationEnabled = "isRasterizationEnabled";
 
-    public static readonly Selector RasterSampleCount = Selector.Register("rasterSampleCount");
+    public static readonly Selector RasterSampleCount = "rasterSampleCount";
 
-    public static readonly Selector RequiredThreadsPerMeshThreadgroup = Selector.Register("requiredThreadsPerMeshThreadgroup");
+    public static readonly Selector RequiredThreadsPerMeshThreadgroup = "requiredThreadsPerMeshThreadgroup";
 
-    public static readonly Selector RequiredThreadsPerObjectThreadgroup = Selector.Register("requiredThreadsPerObjectThreadgroup");
+    public static readonly Selector RequiredThreadsPerObjectThreadgroup = "requiredThreadsPerObjectThreadgroup";
 
-    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector Reset = "reset";
 
-    public static readonly Selector SetAlphaToCoverageState = Selector.Register("setAlphaToCoverageState:");
+    public static readonly Selector SetAlphaToCoverageState = "setAlphaToCoverageState:";
 
-    public static readonly Selector SetAlphaToOneState = Selector.Register("setAlphaToOneState:");
+    public static readonly Selector SetAlphaToOneState = "setAlphaToOneState:";
 
-    public static readonly Selector SetColorAttachmentMappingState = Selector.Register("setColorAttachmentMappingState:");
+    public static readonly Selector SetColorAttachmentMappingState = "setColorAttachmentMappingState:";
 
-    public static readonly Selector SetFragmentFunctionDescriptor = Selector.Register("setFragmentFunctionDescriptor:");
+    public static readonly Selector SetFragmentFunctionDescriptor = "setFragmentFunctionDescriptor:";
 
-    public static readonly Selector SetFragmentStaticLinkingDescriptor = Selector.Register("setFragmentStaticLinkingDescriptor:");
+    public static readonly Selector SetFragmentStaticLinkingDescriptor = "setFragmentStaticLinkingDescriptor:";
 
-    public static readonly Selector SetMaxTotalThreadgroupsPerMeshGrid = Selector.Register("setMaxTotalThreadgroupsPerMeshGrid:");
+    public static readonly Selector SetMaxTotalThreadgroupsPerMeshGrid = "setMaxTotalThreadgroupsPerMeshGrid:";
 
-    public static readonly Selector SetMaxTotalThreadsPerMeshThreadgroup = Selector.Register("setMaxTotalThreadsPerMeshThreadgroup:");
+    public static readonly Selector SetMaxTotalThreadsPerMeshThreadgroup = "setMaxTotalThreadsPerMeshThreadgroup:";
 
-    public static readonly Selector SetMaxTotalThreadsPerObjectThreadgroup = Selector.Register("setMaxTotalThreadsPerObjectThreadgroup:");
+    public static readonly Selector SetMaxTotalThreadsPerObjectThreadgroup = "setMaxTotalThreadsPerObjectThreadgroup:";
 
-    public static readonly Selector SetMaxVertexAmplificationCount = Selector.Register("setMaxVertexAmplificationCount:");
+    public static readonly Selector SetMaxVertexAmplificationCount = "setMaxVertexAmplificationCount:";
 
-    public static readonly Selector SetMeshFunctionDescriptor = Selector.Register("setMeshFunctionDescriptor:");
+    public static readonly Selector SetMeshFunctionDescriptor = "setMeshFunctionDescriptor:";
 
-    public static readonly Selector SetMeshStaticLinkingDescriptor = Selector.Register("setMeshStaticLinkingDescriptor:");
+    public static readonly Selector SetMeshStaticLinkingDescriptor = "setMeshStaticLinkingDescriptor:";
 
-    public static readonly Selector SetMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth = Selector.Register("setMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth:");
+    public static readonly Selector SetMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth = "setMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth:";
 
-    public static readonly Selector SetObjectFunctionDescriptor = Selector.Register("setObjectFunctionDescriptor:");
+    public static readonly Selector SetObjectFunctionDescriptor = "setObjectFunctionDescriptor:";
 
-    public static readonly Selector SetObjectStaticLinkingDescriptor = Selector.Register("setObjectStaticLinkingDescriptor:");
+    public static readonly Selector SetObjectStaticLinkingDescriptor = "setObjectStaticLinkingDescriptor:";
 
-    public static readonly Selector SetObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth = Selector.Register("setObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth:");
+    public static readonly Selector SetObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth = "setObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth:";
 
-    public static readonly Selector SetPayloadMemoryLength = Selector.Register("setPayloadMemoryLength:");
+    public static readonly Selector SetPayloadMemoryLength = "setPayloadMemoryLength:";
 
-    public static readonly Selector SetRasterizationEnabled = Selector.Register("setRasterizationEnabled:");
+    public static readonly Selector SetRasterizationEnabled = "setRasterizationEnabled:";
 
-    public static readonly Selector SetRasterSampleCount = Selector.Register("setRasterSampleCount:");
+    public static readonly Selector SetRasterSampleCount = "setRasterSampleCount:";
 
-    public static readonly Selector SetRequiredThreadsPerMeshThreadgroup = Selector.Register("setRequiredThreadsPerMeshThreadgroup:");
+    public static readonly Selector SetRequiredThreadsPerMeshThreadgroup = "setRequiredThreadsPerMeshThreadgroup:";
 
-    public static readonly Selector SetRequiredThreadsPerObjectThreadgroup = Selector.Register("setRequiredThreadsPerObjectThreadgroup:");
+    public static readonly Selector SetRequiredThreadsPerObjectThreadgroup = "setRequiredThreadsPerObjectThreadgroup:";
 
-    public static readonly Selector SetSupportFragmentBinaryLinking = Selector.Register("setSupportFragmentBinaryLinking:");
+    public static readonly Selector SetSupportFragmentBinaryLinking = "setSupportFragmentBinaryLinking:";
 
-    public static readonly Selector SetSupportIndirectCommandBuffers = Selector.Register("setSupportIndirectCommandBuffers:");
+    public static readonly Selector SetSupportIndirectCommandBuffers = "setSupportIndirectCommandBuffers:";
 
-    public static readonly Selector SetSupportMeshBinaryLinking = Selector.Register("setSupportMeshBinaryLinking:");
+    public static readonly Selector SetSupportMeshBinaryLinking = "setSupportMeshBinaryLinking:";
 
-    public static readonly Selector SetSupportObjectBinaryLinking = Selector.Register("setSupportObjectBinaryLinking:");
+    public static readonly Selector SetSupportObjectBinaryLinking = "setSupportObjectBinaryLinking:";
 
-    public static readonly Selector SupportFragmentBinaryLinking = Selector.Register("supportFragmentBinaryLinking");
+    public static readonly Selector SupportFragmentBinaryLinking = "supportFragmentBinaryLinking";
 
-    public static readonly Selector SupportIndirectCommandBuffers = Selector.Register("supportIndirectCommandBuffers");
+    public static readonly Selector SupportIndirectCommandBuffers = "supportIndirectCommandBuffers";
 
-    public static readonly Selector SupportMeshBinaryLinking = Selector.Register("supportMeshBinaryLinking");
+    public static readonly Selector SupportMeshBinaryLinking = "supportMeshBinaryLinking";
 
-    public static readonly Selector SupportObjectBinaryLinking = Selector.Register("supportObjectBinaryLinking");
+    public static readonly Selector SupportObjectBinaryLinking = "supportObjectBinaryLinking";
 }

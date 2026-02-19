@@ -29,22 +29,7 @@ public class MTLBinding(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBindingBindings.Name);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSString>(ref field, MTLBindingBindings.Name);
     }
 
     public MTLBindingType Type
@@ -60,19 +45,19 @@ public class MTLBinding(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLBindingBindings
 {
-    public static readonly Selector Access = Selector.Register("access");
+    public static readonly Selector Access = "access";
 
-    public static readonly Selector Argument = Selector.Register("isArgument");
+    public static readonly Selector Argument = "isArgument";
 
-    public static readonly Selector Index = Selector.Register("index");
+    public static readonly Selector Index = "index";
 
-    public static readonly Selector IsArgument = Selector.Register("isArgument");
+    public static readonly Selector IsArgument = "isArgument";
 
-    public static readonly Selector IsUsed = Selector.Register("isUsed");
+    public static readonly Selector IsUsed = "isUsed";
 
-    public static readonly Selector Name = Selector.Register("name");
+    public static readonly Selector Name = "name";
 
-    public static readonly Selector Type = Selector.Register("type");
+    public static readonly Selector Type = "type";
 
-    public static readonly Selector Used = Selector.Register("isUsed");
+    public static readonly Selector Used = "isUsed";
 }

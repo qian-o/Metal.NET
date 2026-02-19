@@ -4,42 +4,12 @@ public class MTLRasterizationRateMap(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapBindings.Device);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLDevice(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLDevice>(ref field, MTLRasterizationRateMapBindings.Device);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateMapBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSString>(ref field, MTLRasterizationRateMapBindings.Label);
     }
 
     public nuint LayerCount
@@ -75,19 +45,19 @@ public class MTLRasterizationRateMap(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLRasterizationRateMapBindings
 {
-    public static readonly Selector CopyParameterDataToBuffer = Selector.Register("copyParameterDataToBuffer:offset:");
+    public static readonly Selector CopyParameterDataToBuffer = "copyParameterDataToBuffer:offset:";
 
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector LayerCount = Selector.Register("layerCount");
+    public static readonly Selector LayerCount = "layerCount";
 
-    public static readonly Selector ParameterBufferSizeAndAlign = Selector.Register("parameterBufferSizeAndAlign");
+    public static readonly Selector ParameterBufferSizeAndAlign = "parameterBufferSizeAndAlign";
 
-    public static readonly Selector PhysicalGranularity = Selector.Register("physicalGranularity");
+    public static readonly Selector PhysicalGranularity = "physicalGranularity";
 
-    public static readonly Selector PhysicalSize = Selector.Register("physicalSizeForLayer:");
+    public static readonly Selector PhysicalSize = "physicalSizeForLayer:";
 
-    public static readonly Selector ScreenSize = Selector.Register("screenSize");
+    public static readonly Selector ScreenSize = "screenSize";
 }

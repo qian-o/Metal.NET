@@ -27,9 +27,9 @@ file static class MTL4RenderPipelineColorAttachmentDescriptorArrayBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineColorAttachmentDescriptorArray");
 
-    public static readonly Selector Object = Selector.Register("objectAtIndexedSubscript:");
+    public static readonly Selector Object = "objectAtIndexedSubscript:";
 
-    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector Reset = "reset";
 
-    public static readonly Selector SetObject = Selector.Register("setObject:atIndexedSubscript:");
+    public static readonly Selector SetObject = "setObject:atIndexedSubscript:";
 }

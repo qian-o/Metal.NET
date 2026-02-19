@@ -4,22 +4,7 @@ public class MTLDevice(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLArchitecture? Architecture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.Architecture);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLArchitecture(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLArchitecture>(ref field, MTLDeviceBindings.Architecture);
     }
 
     public bool AreBarycentricCoordsSupported
@@ -49,22 +34,7 @@ public class MTLDevice(nint nativePtr) : NativeObject(nativePtr)
 
     public NSArray? CounterSets
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.CounterSets);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSArray(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSArray>(ref field, MTLDeviceBindings.CounterSets);
     }
 
     public nuint CurrentAllocatedSize
@@ -154,182 +124,47 @@ public class MTLDevice(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.Name);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSString>(ref field, MTLDeviceBindings.Name);
     }
 
     public MTL4CommandAllocator? NewCommandAllocator
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewCommandAllocator);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4CommandAllocator(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTL4CommandAllocator>(ref field, MTLDeviceBindings.NewCommandAllocator);
     }
 
     public MTL4CommandBuffer? NewCommandBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewCommandBuffer);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4CommandBuffer(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTL4CommandBuffer>(ref field, MTLDeviceBindings.NewCommandBuffer);
     }
 
     public MTLCommandQueue? NewCommandQueue
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewCommandQueue);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLCommandQueue(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLCommandQueue>(ref field, MTLDeviceBindings.NewCommandQueue);
     }
 
     public MTLLibrary? NewDefaultLibrary
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewDefaultLibrary);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLLibrary(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLLibrary>(ref field, MTLDeviceBindings.NewDefaultLibrary);
     }
 
     public MTLEvent? NewEvent
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewEvent);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLEvent(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLEvent>(ref field, MTLDeviceBindings.NewEvent);
     }
 
     public MTLFence? NewFence
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewFence);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLFence(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLFence>(ref field, MTLDeviceBindings.NewFence);
     }
 
     public MTL4CommandQueue? NewMTL4CommandQueue
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewMTL4CommandQueue);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4CommandQueue(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTL4CommandQueue>(ref field, MTLDeviceBindings.NewMTL4CommandQueue);
     }
 
     public MTLSharedEvent? NewSharedEvent
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewSharedEvent);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLSharedEvent(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLSharedEvent>(ref field, MTLDeviceBindings.NewSharedEvent);
     }
 
     public uint PeerCount
@@ -880,215 +715,215 @@ public class MTLDevice(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLDeviceBindings
 {
-    public static readonly Selector AccelerationStructureSizes = Selector.Register("accelerationStructureSizesWithDescriptor:");
+    public static readonly Selector AccelerationStructureSizes = "accelerationStructureSizesWithDescriptor:";
 
-    public static readonly Selector Architecture = Selector.Register("architecture");
+    public static readonly Selector Architecture = "architecture";
 
-    public static readonly Selector AreBarycentricCoordsSupported = Selector.Register("areBarycentricCoordsSupported");
+    public static readonly Selector AreBarycentricCoordsSupported = "areBarycentricCoordsSupported";
 
-    public static readonly Selector AreProgrammableSamplePositionsSupported = Selector.Register("areProgrammableSamplePositionsSupported");
+    public static readonly Selector AreProgrammableSamplePositionsSupported = "areProgrammableSamplePositionsSupported";
 
-    public static readonly Selector AreRasterOrderGroupsSupported = Selector.Register("areRasterOrderGroupsSupported");
+    public static readonly Selector AreRasterOrderGroupsSupported = "areRasterOrderGroupsSupported";
 
-    public static readonly Selector ArgumentBuffersSupport = Selector.Register("argumentBuffersSupport");
+    public static readonly Selector ArgumentBuffersSupport = "argumentBuffersSupport";
 
-    public static readonly Selector BarycentricCoordsSupported = Selector.Register("areBarycentricCoordsSupported");
+    public static readonly Selector BarycentricCoordsSupported = "areBarycentricCoordsSupported";
 
-    public static readonly Selector ConvertSparsePixelRegions = Selector.Register("convertSparsePixelRegions:toTileRegions:withTileSize:alignmentMode:numRegions:");
+    public static readonly Selector ConvertSparsePixelRegions = "convertSparsePixelRegions:toTileRegions:withTileSize:alignmentMode:numRegions:";
 
-    public static readonly Selector ConvertSparseTileRegions = Selector.Register("convertSparseTileRegions:toPixelRegions:withTileSize:numRegions:");
+    public static readonly Selector ConvertSparseTileRegions = "convertSparseTileRegions:toPixelRegions:withTileSize:numRegions:";
 
-    public static readonly Selector CounterSets = Selector.Register("counterSets");
+    public static readonly Selector CounterSets = "counterSets";
 
-    public static readonly Selector CurrentAllocatedSize = Selector.Register("currentAllocatedSize");
+    public static readonly Selector CurrentAllocatedSize = "currentAllocatedSize";
 
-    public static readonly Selector Depth24Stencil8PixelFormatSupported = Selector.Register("isDepth24Stencil8PixelFormatSupported");
+    public static readonly Selector Depth24Stencil8PixelFormatSupported = "isDepth24Stencil8PixelFormatSupported";
 
-    public static readonly Selector FunctionHandle = Selector.Register("functionHandleWithFunction:");
+    public static readonly Selector FunctionHandle = "functionHandleWithFunction:";
 
-    public static readonly Selector GetDefaultSamplePositions = Selector.Register("getDefaultSamplePositions:count:");
+    public static readonly Selector GetDefaultSamplePositions = "getDefaultSamplePositions:count:";
 
-    public static readonly Selector HasUnifiedMemory = Selector.Register("hasUnifiedMemory");
+    public static readonly Selector HasUnifiedMemory = "hasUnifiedMemory";
 
-    public static readonly Selector Headless = Selector.Register("isHeadless");
+    public static readonly Selector Headless = "isHeadless";
 
-    public static readonly Selector HeapAccelerationStructureSizeAndAlign = Selector.Register("heapAccelerationStructureSizeAndAlignWithSize:");
+    public static readonly Selector HeapAccelerationStructureSizeAndAlign = "heapAccelerationStructureSizeAndAlignWithSize:";
 
-    public static readonly Selector HeapBufferSizeAndAlign = Selector.Register("heapBufferSizeAndAlignWithLength:options:");
+    public static readonly Selector HeapBufferSizeAndAlign = "heapBufferSizeAndAlignWithLength:options:";
 
-    public static readonly Selector HeapTextureSizeAndAlign = Selector.Register("heapTextureSizeAndAlignWithDescriptor:");
+    public static readonly Selector HeapTextureSizeAndAlign = "heapTextureSizeAndAlignWithDescriptor:";
 
-    public static readonly Selector IsDepth24Stencil8PixelFormatSupported = Selector.Register("isDepth24Stencil8PixelFormatSupported");
+    public static readonly Selector IsDepth24Stencil8PixelFormatSupported = "isDepth24Stencil8PixelFormatSupported";
 
-    public static readonly Selector IsHeadless = Selector.Register("isHeadless");
+    public static readonly Selector IsHeadless = "isHeadless";
 
-    public static readonly Selector IsLowPower = Selector.Register("isLowPower");
+    public static readonly Selector IsLowPower = "isLowPower";
 
-    public static readonly Selector IsRemovable = Selector.Register("isRemovable");
+    public static readonly Selector IsRemovable = "isRemovable";
 
-    public static readonly Selector Location = Selector.Register("location");
+    public static readonly Selector Location = "location";
 
-    public static readonly Selector LocationNumber = Selector.Register("locationNumber");
+    public static readonly Selector LocationNumber = "locationNumber";
 
-    public static readonly Selector LowPower = Selector.Register("isLowPower");
+    public static readonly Selector LowPower = "isLowPower";
 
-    public static readonly Selector MaxArgumentBufferSamplerCount = Selector.Register("maxArgumentBufferSamplerCount");
+    public static readonly Selector MaxArgumentBufferSamplerCount = "maxArgumentBufferSamplerCount";
 
-    public static readonly Selector MaxBufferLength = Selector.Register("maxBufferLength");
+    public static readonly Selector MaxBufferLength = "maxBufferLength";
 
-    public static readonly Selector MaximumConcurrentCompilationTaskCount = Selector.Register("maximumConcurrentCompilationTaskCount");
+    public static readonly Selector MaximumConcurrentCompilationTaskCount = "maximumConcurrentCompilationTaskCount";
 
-    public static readonly Selector MaxThreadgroupMemoryLength = Selector.Register("maxThreadgroupMemoryLength");
+    public static readonly Selector MaxThreadgroupMemoryLength = "maxThreadgroupMemoryLength";
 
-    public static readonly Selector MaxThreadsPerThreadgroup = Selector.Register("maxThreadsPerThreadgroup");
+    public static readonly Selector MaxThreadsPerThreadgroup = "maxThreadsPerThreadgroup";
 
-    public static readonly Selector MaxTransferRate = Selector.Register("maxTransferRate");
+    public static readonly Selector MaxTransferRate = "maxTransferRate";
 
-    public static readonly Selector MinimumLinearTextureAlignmentForPixelFormat = Selector.Register("minimumLinearTextureAlignmentForPixelFormat:");
+    public static readonly Selector MinimumLinearTextureAlignmentForPixelFormat = "minimumLinearTextureAlignmentForPixelFormat:";
 
-    public static readonly Selector MinimumTextureBufferAlignmentForPixelFormat = Selector.Register("minimumTextureBufferAlignmentForPixelFormat:");
+    public static readonly Selector MinimumTextureBufferAlignmentForPixelFormat = "minimumTextureBufferAlignmentForPixelFormat:";
 
-    public static readonly Selector Name = Selector.Register("name");
+    public static readonly Selector Name = "name";
 
-    public static readonly Selector NewAccelerationStructure = Selector.Register("newAccelerationStructureWithSize:");
+    public static readonly Selector NewAccelerationStructure = "newAccelerationStructureWithSize:";
 
-    public static readonly Selector NewArchive = Selector.Register("newArchiveWithURL:error:");
+    public static readonly Selector NewArchive = "newArchiveWithURL:error:";
 
-    public static readonly Selector NewArgumentEncoder = Selector.Register("newArgumentEncoderWithArguments:");
+    public static readonly Selector NewArgumentEncoder = "newArgumentEncoderWithArguments:";
 
-    public static readonly Selector NewArgumentTable = Selector.Register("newArgumentTableWithDescriptor:error:");
+    public static readonly Selector NewArgumentTable = "newArgumentTableWithDescriptor:error:";
 
-    public static readonly Selector NewBinaryArchive = Selector.Register("newBinaryArchiveWithDescriptor:error:");
+    public static readonly Selector NewBinaryArchive = "newBinaryArchiveWithDescriptor:error:";
 
-    public static readonly Selector NewBuffer = Selector.Register("newBufferWithLength:options:");
+    public static readonly Selector NewBuffer = "newBufferWithLength:options:";
 
-    public static readonly Selector NewCommandAllocator = Selector.Register("newCommandAllocator");
+    public static readonly Selector NewCommandAllocator = "newCommandAllocator";
 
-    public static readonly Selector NewCommandBuffer = Selector.Register("newCommandBuffer");
+    public static readonly Selector NewCommandBuffer = "newCommandBuffer";
 
-    public static readonly Selector NewCommandQueue = Selector.Register("newCommandQueue");
+    public static readonly Selector NewCommandQueue = "newCommandQueue";
 
-    public static readonly Selector NewCompiler = Selector.Register("newCompilerWithDescriptor:error:");
+    public static readonly Selector NewCompiler = "newCompilerWithDescriptor:error:";
 
-    public static readonly Selector NewComputePipelineState = Selector.Register("newComputePipelineStateWithFunction:error:");
+    public static readonly Selector NewComputePipelineState = "newComputePipelineStateWithFunction:error:";
 
-    public static readonly Selector NewCounterHeap = Selector.Register("newCounterHeapWithDescriptor:error:");
+    public static readonly Selector NewCounterHeap = "newCounterHeapWithDescriptor:error:";
 
-    public static readonly Selector NewCounterSampleBuffer = Selector.Register("newCounterSampleBufferWithDescriptor:error:");
+    public static readonly Selector NewCounterSampleBuffer = "newCounterSampleBufferWithDescriptor:error:";
 
-    public static readonly Selector NewDefaultLibrary = Selector.Register("newDefaultLibrary");
+    public static readonly Selector NewDefaultLibrary = "newDefaultLibrary";
 
-    public static readonly Selector NewDepthStencilState = Selector.Register("newDepthStencilStateWithDescriptor:");
+    public static readonly Selector NewDepthStencilState = "newDepthStencilStateWithDescriptor:";
 
-    public static readonly Selector NewDynamicLibrary = Selector.Register("newDynamicLibrary:error:");
+    public static readonly Selector NewDynamicLibrary = "newDynamicLibrary:error:";
 
-    public static readonly Selector NewEvent = Selector.Register("newEvent");
+    public static readonly Selector NewEvent = "newEvent";
 
-    public static readonly Selector NewFence = Selector.Register("newFence");
+    public static readonly Selector NewFence = "newFence";
 
-    public static readonly Selector NewHeap = Selector.Register("newHeapWithDescriptor:");
+    public static readonly Selector NewHeap = "newHeapWithDescriptor:";
 
-    public static readonly Selector NewIndirectCommandBuffer = Selector.Register("newIndirectCommandBufferWithDescriptor:maxCommandCount:options:");
+    public static readonly Selector NewIndirectCommandBuffer = "newIndirectCommandBufferWithDescriptor:maxCommandCount:options:";
 
-    public static readonly Selector NewIOCommandQueue = Selector.Register("newIOCommandQueueWithDescriptor:error:");
+    public static readonly Selector NewIOCommandQueue = "newIOCommandQueueWithDescriptor:error:";
 
-    public static readonly Selector NewIOFileHandle = Selector.Register("newIOFileHandleWithURL:error:");
+    public static readonly Selector NewIOFileHandle = "newIOFileHandleWithURL:error:";
 
-    public static readonly Selector NewIOHandle = Selector.Register("newIOHandleWithURL:error:");
+    public static readonly Selector NewIOHandle = "newIOHandleWithURL:error:";
 
-    public static readonly Selector NewLibrary = Selector.Register("newLibraryWithFile:error:");
+    public static readonly Selector NewLibrary = "newLibraryWithFile:error:";
 
-    public static readonly Selector NewLogState = Selector.Register("newLogStateWithDescriptor:error:");
+    public static readonly Selector NewLogState = "newLogStateWithDescriptor:error:";
 
-    public static readonly Selector NewMTL4CommandQueue = Selector.Register("newMTL4CommandQueue");
+    public static readonly Selector NewMTL4CommandQueue = "newMTL4CommandQueue";
 
-    public static readonly Selector NewPipelineDataSetSerializer = Selector.Register("newPipelineDataSetSerializerWithDescriptor:");
+    public static readonly Selector NewPipelineDataSetSerializer = "newPipelineDataSetSerializerWithDescriptor:";
 
-    public static readonly Selector NewRasterizationRateMap = Selector.Register("newRasterizationRateMapWithDescriptor:");
+    public static readonly Selector NewRasterizationRateMap = "newRasterizationRateMapWithDescriptor:";
 
-    public static readonly Selector NewRenderPipelineState = Selector.Register("newRenderPipelineStateWithDescriptor:error:");
+    public static readonly Selector NewRenderPipelineState = "newRenderPipelineStateWithDescriptor:error:";
 
-    public static readonly Selector NewResidencySet = Selector.Register("newResidencySetWithDescriptor:error:");
+    public static readonly Selector NewResidencySet = "newResidencySetWithDescriptor:error:";
 
-    public static readonly Selector NewSamplerState = Selector.Register("newSamplerStateWithDescriptor:");
+    public static readonly Selector NewSamplerState = "newSamplerStateWithDescriptor:";
 
-    public static readonly Selector NewSharedEvent = Selector.Register("newSharedEvent");
+    public static readonly Selector NewSharedEvent = "newSharedEvent";
 
-    public static readonly Selector NewSharedTexture = Selector.Register("newSharedTextureWithDescriptor:");
+    public static readonly Selector NewSharedTexture = "newSharedTextureWithDescriptor:";
 
-    public static readonly Selector NewTensor = Selector.Register("newTensorWithDescriptor:error:");
+    public static readonly Selector NewTensor = "newTensorWithDescriptor:error:";
 
-    public static readonly Selector NewTexture = Selector.Register("newTextureWithDescriptor:");
+    public static readonly Selector NewTexture = "newTextureWithDescriptor:";
 
-    public static readonly Selector NewTextureViewPool = Selector.Register("newTextureViewPoolWithDescriptor:error:");
+    public static readonly Selector NewTextureViewPool = "newTextureViewPoolWithDescriptor:error:";
 
-    public static readonly Selector PeerCount = Selector.Register("peerCount");
+    public static readonly Selector PeerCount = "peerCount";
 
-    public static readonly Selector PeerGroupID = Selector.Register("peerGroupID");
+    public static readonly Selector PeerGroupID = "peerGroupID";
 
-    public static readonly Selector PeerIndex = Selector.Register("peerIndex");
+    public static readonly Selector PeerIndex = "peerIndex";
 
-    public static readonly Selector ProgrammableSamplePositionsSupported = Selector.Register("areProgrammableSamplePositionsSupported");
+    public static readonly Selector ProgrammableSamplePositionsSupported = "areProgrammableSamplePositionsSupported";
 
-    public static readonly Selector QueryTimestampFrequency = Selector.Register("queryTimestampFrequency");
+    public static readonly Selector QueryTimestampFrequency = "queryTimestampFrequency";
 
-    public static readonly Selector RasterOrderGroupsSupported = Selector.Register("areRasterOrderGroupsSupported");
+    public static readonly Selector RasterOrderGroupsSupported = "areRasterOrderGroupsSupported";
 
-    public static readonly Selector ReadWriteTextureSupport = Selector.Register("readWriteTextureSupport");
+    public static readonly Selector ReadWriteTextureSupport = "readWriteTextureSupport";
 
-    public static readonly Selector RecommendedMaxWorkingSetSize = Selector.Register("recommendedMaxWorkingSetSize");
+    public static readonly Selector RecommendedMaxWorkingSetSize = "recommendedMaxWorkingSetSize";
 
-    public static readonly Selector RegistryID = Selector.Register("registryID");
+    public static readonly Selector RegistryID = "registryID";
 
-    public static readonly Selector Removable = Selector.Register("isRemovable");
+    public static readonly Selector Removable = "isRemovable";
 
-    public static readonly Selector SetShouldMaximizeConcurrentCompilation = Selector.Register("setShouldMaximizeConcurrentCompilation:");
+    public static readonly Selector SetShouldMaximizeConcurrentCompilation = "setShouldMaximizeConcurrentCompilation:";
 
-    public static readonly Selector ShouldMaximizeConcurrentCompilation = Selector.Register("shouldMaximizeConcurrentCompilation");
+    public static readonly Selector ShouldMaximizeConcurrentCompilation = "shouldMaximizeConcurrentCompilation";
 
-    public static readonly Selector SizeOfCounterHeapEntry = Selector.Register("sizeOfCounterHeapEntry:");
+    public static readonly Selector SizeOfCounterHeapEntry = "sizeOfCounterHeapEntry:";
 
-    public static readonly Selector SparseTileSize = Selector.Register("sparseTileSizeWithTextureType:pixelFormat:sampleCount:");
+    public static readonly Selector SparseTileSize = "sparseTileSizeWithTextureType:pixelFormat:sampleCount:";
 
-    public static readonly Selector SparseTileSizeInBytes = Selector.Register("sparseTileSizeInBytes");
+    public static readonly Selector SparseTileSizeInBytes = "sparseTileSizeInBytes";
 
-    public static readonly Selector Supports32BitFloatFiltering = Selector.Register("supports32BitFloatFiltering");
+    public static readonly Selector Supports32BitFloatFiltering = "supports32BitFloatFiltering";
 
-    public static readonly Selector Supports32BitMSAA = Selector.Register("supports32BitMSAA");
+    public static readonly Selector Supports32BitMSAA = "supports32BitMSAA";
 
-    public static readonly Selector SupportsBCTextureCompression = Selector.Register("supportsBCTextureCompression");
+    public static readonly Selector SupportsBCTextureCompression = "supportsBCTextureCompression";
 
-    public static readonly Selector SupportsCounterSampling = Selector.Register("supportsCounterSampling:");
+    public static readonly Selector SupportsCounterSampling = "supportsCounterSampling:";
 
-    public static readonly Selector SupportsDynamicLibraries = Selector.Register("supportsDynamicLibraries");
+    public static readonly Selector SupportsDynamicLibraries = "supportsDynamicLibraries";
 
-    public static readonly Selector SupportsFamily = Selector.Register("supportsFamily:");
+    public static readonly Selector SupportsFamily = "supportsFamily:";
 
-    public static readonly Selector SupportsFeatureSet = Selector.Register("supportsFeatureSet:");
+    public static readonly Selector SupportsFeatureSet = "supportsFeatureSet:";
 
-    public static readonly Selector SupportsFunctionPointers = Selector.Register("supportsFunctionPointers");
+    public static readonly Selector SupportsFunctionPointers = "supportsFunctionPointers";
 
-    public static readonly Selector SupportsFunctionPointersFromRender = Selector.Register("supportsFunctionPointersFromRender");
+    public static readonly Selector SupportsFunctionPointersFromRender = "supportsFunctionPointersFromRender";
 
-    public static readonly Selector SupportsPrimitiveMotionBlur = Selector.Register("supportsPrimitiveMotionBlur");
+    public static readonly Selector SupportsPrimitiveMotionBlur = "supportsPrimitiveMotionBlur";
 
-    public static readonly Selector SupportsPullModelInterpolation = Selector.Register("supportsPullModelInterpolation");
+    public static readonly Selector SupportsPullModelInterpolation = "supportsPullModelInterpolation";
 
-    public static readonly Selector SupportsQueryTextureLOD = Selector.Register("supportsQueryTextureLOD");
+    public static readonly Selector SupportsQueryTextureLOD = "supportsQueryTextureLOD";
 
-    public static readonly Selector SupportsRasterizationRateMap = Selector.Register("supportsRasterizationRateMapWithLayerCount:");
+    public static readonly Selector SupportsRasterizationRateMap = "supportsRasterizationRateMapWithLayerCount:";
 
-    public static readonly Selector SupportsRaytracing = Selector.Register("supportsRaytracing");
+    public static readonly Selector SupportsRaytracing = "supportsRaytracing";
 
-    public static readonly Selector SupportsRaytracingFromRender = Selector.Register("supportsRaytracingFromRender");
+    public static readonly Selector SupportsRaytracingFromRender = "supportsRaytracingFromRender";
 
-    public static readonly Selector SupportsRenderDynamicLibraries = Selector.Register("supportsRenderDynamicLibraries");
+    public static readonly Selector SupportsRenderDynamicLibraries = "supportsRenderDynamicLibraries";
 
-    public static readonly Selector SupportsShaderBarycentricCoordinates = Selector.Register("supportsShaderBarycentricCoordinates");
+    public static readonly Selector SupportsShaderBarycentricCoordinates = "supportsShaderBarycentricCoordinates";
 
-    public static readonly Selector SupportsTextureSampleCount = Selector.Register("supportsTextureSampleCount:");
+    public static readonly Selector SupportsTextureSampleCount = "supportsTextureSampleCount:";
 
-    public static readonly Selector SupportsVertexAmplificationCount = Selector.Register("supportsVertexAmplificationCount:");
+    public static readonly Selector SupportsVertexAmplificationCount = "supportsVertexAmplificationCount:";
 
-    public static readonly Selector TensorSizeAndAlign = Selector.Register("tensorSizeAndAlignWithDescriptor:");
+    public static readonly Selector TensorSizeAndAlign = "tensorSizeAndAlignWithDescriptor:";
 }

@@ -9,28 +9,13 @@ public class MTL4BinaryFunction(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4BinaryFunctionBindings.Name);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSString>(ref field, MTL4BinaryFunctionBindings.Name);
     }
 }
 
 file static class MTL4BinaryFunctionBindings
 {
-    public static readonly Selector FunctionType = Selector.Register("functionType");
+    public static readonly Selector FunctionType = "functionType";
 
-    public static readonly Selector Name = Selector.Register("name");
+    public static readonly Selector Name = "name";
 }

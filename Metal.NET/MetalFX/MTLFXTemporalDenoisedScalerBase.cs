@@ -4,27 +4,8 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : NativeObject(nati
 {
     public MTLTexture? ColorTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.ColorTexture);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTexture(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetColorTexture, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLTexture>(ref field, MTLFXTemporalDenoisedScalerBaseBindings.ColorTexture);
+        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetColorTexture, value);
     }
 
     public MTLPixelFormat ColorTextureFormat
@@ -39,27 +20,8 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : NativeObject(nati
 
     public MTLTexture? DenoiseStrengthMaskTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.DenoiseStrengthMaskTexture);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTexture(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetDenoiseStrengthMaskTexture, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLTexture>(ref field, MTLFXTemporalDenoisedScalerBaseBindings.DenoiseStrengthMaskTexture);
+        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetDenoiseStrengthMaskTexture, value);
     }
 
     public MTLPixelFormat DenoiseStrengthMaskTextureFormat
@@ -74,27 +36,8 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : NativeObject(nati
 
     public MTLTexture? DepthTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.DepthTexture);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTexture(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetDepthTexture, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLTexture>(ref field, MTLFXTemporalDenoisedScalerBaseBindings.DepthTexture);
+        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetDepthTexture, value);
     }
 
     public MTLPixelFormat DepthTextureFormat
@@ -109,27 +52,8 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : NativeObject(nati
 
     public MTLTexture? DiffuseAlbedoTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.DiffuseAlbedoTexture);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTexture(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetDiffuseAlbedoTexture, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLTexture>(ref field, MTLFXTemporalDenoisedScalerBaseBindings.DiffuseAlbedoTexture);
+        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetDiffuseAlbedoTexture, value);
     }
 
     public MTLPixelFormat DiffuseAlbedoTextureFormat
@@ -144,52 +68,14 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : NativeObject(nati
 
     public MTLTexture? ExposureTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.ExposureTexture);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTexture(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetExposureTexture, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLTexture>(ref field, MTLFXTemporalDenoisedScalerBaseBindings.ExposureTexture);
+        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetExposureTexture, value);
     }
 
     public MTLFence? Fence
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.Fence);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLFence(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetFence, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLFence>(ref field, MTLFXTemporalDenoisedScalerBaseBindings.Fence);
+        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetFence, value);
     }
 
     public float InputContentMaxScale
@@ -231,27 +117,8 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : NativeObject(nati
 
     public MTLTexture? MotionTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.MotionTexture);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTexture(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetMotionTexture, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLTexture>(ref field, MTLFXTemporalDenoisedScalerBaseBindings.MotionTexture);
+        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetMotionTexture, value);
     }
 
     public MTLPixelFormat MotionTextureFormat
@@ -278,27 +145,8 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : NativeObject(nati
 
     public MTLTexture? NormalTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.NormalTexture);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTexture(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetNormalTexture, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLTexture>(ref field, MTLFXTemporalDenoisedScalerBaseBindings.NormalTexture);
+        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetNormalTexture, value);
     }
 
     public MTLPixelFormat NormalTextureFormat
@@ -318,27 +166,8 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : NativeObject(nati
 
     public MTLTexture? OutputTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.OutputTexture);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTexture(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetOutputTexture, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLTexture>(ref field, MTLFXTemporalDenoisedScalerBaseBindings.OutputTexture);
+        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetOutputTexture, value);
     }
 
     public MTLPixelFormat OutputTextureFormat
@@ -364,27 +193,8 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : NativeObject(nati
 
     public MTLTexture? ReactiveMaskTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.ReactiveMaskTexture);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTexture(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetReactiveMaskTexture, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLTexture>(ref field, MTLFXTemporalDenoisedScalerBaseBindings.ReactiveMaskTexture);
+        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetReactiveMaskTexture, value);
     }
 
     public MTLPixelFormat ReactiveMaskTextureFormat
@@ -399,27 +209,8 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : NativeObject(nati
 
     public MTLTexture? RoughnessTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.RoughnessTexture);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTexture(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetRoughnessTexture, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLTexture>(ref field, MTLFXTemporalDenoisedScalerBaseBindings.RoughnessTexture);
+        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetRoughnessTexture, value);
     }
 
     public MTLPixelFormat RoughnessTextureFormat
@@ -440,27 +231,8 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : NativeObject(nati
 
     public MTLTexture? SpecularAlbedoTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SpecularAlbedoTexture);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTexture(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetSpecularAlbedoTexture, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLTexture>(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SpecularAlbedoTexture);
+        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetSpecularAlbedoTexture, value);
     }
 
     public MTLPixelFormat SpecularAlbedoTextureFormat
@@ -475,27 +247,8 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : NativeObject(nati
 
     public MTLTexture? SpecularHitDistanceTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SpecularHitDistanceTexture);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTexture(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetSpecularHitDistanceTexture, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLTexture>(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SpecularHitDistanceTexture);
+        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetSpecularHitDistanceTexture, value);
     }
 
     public MTLPixelFormat SpecularHitDistanceTextureFormat
@@ -510,27 +263,8 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : NativeObject(nati
 
     public MTLTexture? TransparencyOverlayTexture
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.TransparencyOverlayTexture);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTexture(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetTransparencyOverlayTexture, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLTexture>(ref field, MTLFXTemporalDenoisedScalerBaseBindings.TransparencyOverlayTexture);
+        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetTransparencyOverlayTexture, value);
     }
 
     public MTLPixelFormat TransparencyOverlayTextureFormat
@@ -558,153 +292,153 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : NativeObject(nati
 
 file static class MTLFXTemporalDenoisedScalerBaseBindings
 {
-    public static readonly Selector ColorTexture = Selector.Register("colorTexture");
+    public static readonly Selector ColorTexture = "colorTexture";
 
-    public static readonly Selector ColorTextureFormat = Selector.Register("colorTextureFormat");
+    public static readonly Selector ColorTextureFormat = "colorTextureFormat";
 
-    public static readonly Selector ColorTextureUsage = Selector.Register("colorTextureUsage");
+    public static readonly Selector ColorTextureUsage = "colorTextureUsage";
 
-    public static readonly Selector DenoiseStrengthMaskTexture = Selector.Register("denoiseStrengthMaskTexture");
+    public static readonly Selector DenoiseStrengthMaskTexture = "denoiseStrengthMaskTexture";
 
-    public static readonly Selector DenoiseStrengthMaskTextureFormat = Selector.Register("denoiseStrengthMaskTextureFormat");
+    public static readonly Selector DenoiseStrengthMaskTextureFormat = "denoiseStrengthMaskTextureFormat";
 
-    public static readonly Selector DenoiseStrengthMaskTextureUsage = Selector.Register("denoiseStrengthMaskTextureUsage");
+    public static readonly Selector DenoiseStrengthMaskTextureUsage = "denoiseStrengthMaskTextureUsage";
 
-    public static readonly Selector DepthTexture = Selector.Register("depthTexture");
+    public static readonly Selector DepthTexture = "depthTexture";
 
-    public static readonly Selector DepthTextureFormat = Selector.Register("depthTextureFormat");
+    public static readonly Selector DepthTextureFormat = "depthTextureFormat";
 
-    public static readonly Selector DepthTextureUsage = Selector.Register("depthTextureUsage");
+    public static readonly Selector DepthTextureUsage = "depthTextureUsage";
 
-    public static readonly Selector DiffuseAlbedoTexture = Selector.Register("diffuseAlbedoTexture");
+    public static readonly Selector DiffuseAlbedoTexture = "diffuseAlbedoTexture";
 
-    public static readonly Selector DiffuseAlbedoTextureFormat = Selector.Register("diffuseAlbedoTextureFormat");
+    public static readonly Selector DiffuseAlbedoTextureFormat = "diffuseAlbedoTextureFormat";
 
-    public static readonly Selector DiffuseAlbedoTextureUsage = Selector.Register("diffuseAlbedoTextureUsage");
+    public static readonly Selector DiffuseAlbedoTextureUsage = "diffuseAlbedoTextureUsage";
 
-    public static readonly Selector ExposureTexture = Selector.Register("exposureTexture");
+    public static readonly Selector ExposureTexture = "exposureTexture";
 
-    public static readonly Selector Fence = Selector.Register("fence");
+    public static readonly Selector Fence = "fence";
 
-    public static readonly Selector InputContentMaxScale = Selector.Register("inputContentMaxScale");
+    public static readonly Selector InputContentMaxScale = "inputContentMaxScale";
 
-    public static readonly Selector InputContentMinScale = Selector.Register("inputContentMinScale");
+    public static readonly Selector InputContentMinScale = "inputContentMinScale";
 
-    public static readonly Selector InputHeight = Selector.Register("inputHeight");
+    public static readonly Selector InputHeight = "inputHeight";
 
-    public static readonly Selector InputWidth = Selector.Register("inputWidth");
+    public static readonly Selector InputWidth = "inputWidth";
 
-    public static readonly Selector IsDepthReversed = Selector.Register("isDepthReversed");
+    public static readonly Selector IsDepthReversed = "isDepthReversed";
 
-    public static readonly Selector JitterOffsetX = Selector.Register("jitterOffsetX");
+    public static readonly Selector JitterOffsetX = "jitterOffsetX";
 
-    public static readonly Selector JitterOffsetY = Selector.Register("jitterOffsetY");
+    public static readonly Selector JitterOffsetY = "jitterOffsetY";
 
-    public static readonly Selector MotionTexture = Selector.Register("motionTexture");
+    public static readonly Selector MotionTexture = "motionTexture";
 
-    public static readonly Selector MotionTextureFormat = Selector.Register("motionTextureFormat");
+    public static readonly Selector MotionTextureFormat = "motionTextureFormat";
 
-    public static readonly Selector MotionTextureUsage = Selector.Register("motionTextureUsage");
+    public static readonly Selector MotionTextureUsage = "motionTextureUsage";
 
-    public static readonly Selector MotionVectorScaleX = Selector.Register("motionVectorScaleX");
+    public static readonly Selector MotionVectorScaleX = "motionVectorScaleX";
 
-    public static readonly Selector MotionVectorScaleY = Selector.Register("motionVectorScaleY");
+    public static readonly Selector MotionVectorScaleY = "motionVectorScaleY";
 
-    public static readonly Selector NormalTexture = Selector.Register("normalTexture");
+    public static readonly Selector NormalTexture = "normalTexture";
 
-    public static readonly Selector NormalTextureFormat = Selector.Register("normalTextureFormat");
+    public static readonly Selector NormalTextureFormat = "normalTextureFormat";
 
-    public static readonly Selector NormalTextureUsage = Selector.Register("normalTextureUsage");
+    public static readonly Selector NormalTextureUsage = "normalTextureUsage";
 
-    public static readonly Selector OutputHeight = Selector.Register("outputHeight");
+    public static readonly Selector OutputHeight = "outputHeight";
 
-    public static readonly Selector OutputTexture = Selector.Register("outputTexture");
+    public static readonly Selector OutputTexture = "outputTexture";
 
-    public static readonly Selector OutputTextureFormat = Selector.Register("outputTextureFormat");
+    public static readonly Selector OutputTextureFormat = "outputTextureFormat";
 
-    public static readonly Selector OutputTextureUsage = Selector.Register("outputTextureUsage");
+    public static readonly Selector OutputTextureUsage = "outputTextureUsage";
 
-    public static readonly Selector OutputWidth = Selector.Register("outputWidth");
+    public static readonly Selector OutputWidth = "outputWidth";
 
-    public static readonly Selector PreExposure = Selector.Register("preExposure");
+    public static readonly Selector PreExposure = "preExposure";
 
-    public static readonly Selector ReactiveMaskTexture = Selector.Register("reactiveMaskTexture");
+    public static readonly Selector ReactiveMaskTexture = "reactiveMaskTexture";
 
-    public static readonly Selector ReactiveMaskTextureFormat = Selector.Register("reactiveMaskTextureFormat");
+    public static readonly Selector ReactiveMaskTextureFormat = "reactiveMaskTextureFormat";
 
-    public static readonly Selector ReactiveTextureUsage = Selector.Register("reactiveTextureUsage");
+    public static readonly Selector ReactiveTextureUsage = "reactiveTextureUsage";
 
-    public static readonly Selector RoughnessTexture = Selector.Register("roughnessTexture");
+    public static readonly Selector RoughnessTexture = "roughnessTexture";
 
-    public static readonly Selector RoughnessTextureFormat = Selector.Register("roughnessTextureFormat");
+    public static readonly Selector RoughnessTextureFormat = "roughnessTextureFormat";
 
-    public static readonly Selector RoughnessTextureUsage = Selector.Register("roughnessTextureUsage");
+    public static readonly Selector RoughnessTextureUsage = "roughnessTextureUsage";
 
-    public static readonly Selector SetColorTexture = Selector.Register("setColorTexture:");
+    public static readonly Selector SetColorTexture = "setColorTexture:";
 
-    public static readonly Selector SetDenoiseStrengthMaskTexture = Selector.Register("setDenoiseStrengthMaskTexture:");
+    public static readonly Selector SetDenoiseStrengthMaskTexture = "setDenoiseStrengthMaskTexture:";
 
-    public static readonly Selector SetDepthTexture = Selector.Register("setDepthTexture:");
+    public static readonly Selector SetDepthTexture = "setDepthTexture:";
 
-    public static readonly Selector SetDiffuseAlbedoTexture = Selector.Register("setDiffuseAlbedoTexture:");
+    public static readonly Selector SetDiffuseAlbedoTexture = "setDiffuseAlbedoTexture:";
 
-    public static readonly Selector SetExposureTexture = Selector.Register("setExposureTexture:");
+    public static readonly Selector SetExposureTexture = "setExposureTexture:";
 
-    public static readonly Selector SetFence = Selector.Register("setFence:");
+    public static readonly Selector SetFence = "setFence:";
 
-    public static readonly Selector SetJitterOffsetX = Selector.Register("setJitterOffsetX:");
+    public static readonly Selector SetJitterOffsetX = "setJitterOffsetX:";
 
-    public static readonly Selector SetJitterOffsetY = Selector.Register("setJitterOffsetY:");
+    public static readonly Selector SetJitterOffsetY = "setJitterOffsetY:";
 
-    public static readonly Selector SetMotionTexture = Selector.Register("setMotionTexture:");
+    public static readonly Selector SetMotionTexture = "setMotionTexture:";
 
-    public static readonly Selector SetMotionVectorScaleX = Selector.Register("setMotionVectorScaleX:");
+    public static readonly Selector SetMotionVectorScaleX = "setMotionVectorScaleX:";
 
-    public static readonly Selector SetMotionVectorScaleY = Selector.Register("setMotionVectorScaleY:");
+    public static readonly Selector SetMotionVectorScaleY = "setMotionVectorScaleY:";
 
-    public static readonly Selector SetNormalTexture = Selector.Register("setNormalTexture:");
+    public static readonly Selector SetNormalTexture = "setNormalTexture:";
 
-    public static readonly Selector SetOutputTexture = Selector.Register("setOutputTexture:");
+    public static readonly Selector SetOutputTexture = "setOutputTexture:";
 
-    public static readonly Selector SetPreExposure = Selector.Register("setPreExposure:");
+    public static readonly Selector SetPreExposure = "setPreExposure:";
 
-    public static readonly Selector SetReactiveMaskTexture = Selector.Register("setReactiveMaskTexture:");
+    public static readonly Selector SetReactiveMaskTexture = "setReactiveMaskTexture:";
 
-    public static readonly Selector SetRoughnessTexture = Selector.Register("setRoughnessTexture:");
+    public static readonly Selector SetRoughnessTexture = "setRoughnessTexture:";
 
-    public static readonly Selector SetShouldResetHistory = Selector.Register("setShouldResetHistory:");
+    public static readonly Selector SetShouldResetHistory = "setShouldResetHistory:";
 
-    public static readonly Selector SetSpecularAlbedoTexture = Selector.Register("setSpecularAlbedoTexture:");
+    public static readonly Selector SetSpecularAlbedoTexture = "setSpecularAlbedoTexture:";
 
-    public static readonly Selector SetSpecularHitDistanceTexture = Selector.Register("setSpecularHitDistanceTexture:");
+    public static readonly Selector SetSpecularHitDistanceTexture = "setSpecularHitDistanceTexture:";
 
-    public static readonly Selector SetTransparencyOverlayTexture = Selector.Register("setTransparencyOverlayTexture:");
+    public static readonly Selector SetTransparencyOverlayTexture = "setTransparencyOverlayTexture:";
 
-    public static readonly Selector SetViewToClipMatrix = Selector.Register("setViewToClipMatrix:");
+    public static readonly Selector SetViewToClipMatrix = "setViewToClipMatrix:";
 
-    public static readonly Selector SetWorldToViewMatrix = Selector.Register("setWorldToViewMatrix:");
+    public static readonly Selector SetWorldToViewMatrix = "setWorldToViewMatrix:";
 
-    public static readonly Selector ShouldResetHistory = Selector.Register("shouldResetHistory");
+    public static readonly Selector ShouldResetHistory = "shouldResetHistory";
 
-    public static readonly Selector SpecularAlbedoTexture = Selector.Register("specularAlbedoTexture");
+    public static readonly Selector SpecularAlbedoTexture = "specularAlbedoTexture";
 
-    public static readonly Selector SpecularAlbedoTextureFormat = Selector.Register("specularAlbedoTextureFormat");
+    public static readonly Selector SpecularAlbedoTextureFormat = "specularAlbedoTextureFormat";
 
-    public static readonly Selector SpecularAlbedoTextureUsage = Selector.Register("specularAlbedoTextureUsage");
+    public static readonly Selector SpecularAlbedoTextureUsage = "specularAlbedoTextureUsage";
 
-    public static readonly Selector SpecularHitDistanceTexture = Selector.Register("specularHitDistanceTexture");
+    public static readonly Selector SpecularHitDistanceTexture = "specularHitDistanceTexture";
 
-    public static readonly Selector SpecularHitDistanceTextureFormat = Selector.Register("specularHitDistanceTextureFormat");
+    public static readonly Selector SpecularHitDistanceTextureFormat = "specularHitDistanceTextureFormat";
 
-    public static readonly Selector SpecularHitDistanceTextureUsage = Selector.Register("specularHitDistanceTextureUsage");
+    public static readonly Selector SpecularHitDistanceTextureUsage = "specularHitDistanceTextureUsage";
 
-    public static readonly Selector TransparencyOverlayTexture = Selector.Register("transparencyOverlayTexture");
+    public static readonly Selector TransparencyOverlayTexture = "transparencyOverlayTexture";
 
-    public static readonly Selector TransparencyOverlayTextureFormat = Selector.Register("transparencyOverlayTextureFormat");
+    public static readonly Selector TransparencyOverlayTextureFormat = "transparencyOverlayTextureFormat";
 
-    public static readonly Selector TransparencyOverlayTextureUsage = Selector.Register("transparencyOverlayTextureUsage");
+    public static readonly Selector TransparencyOverlayTextureUsage = "transparencyOverlayTextureUsage";
 
-    public static readonly Selector ViewToClipMatrix = Selector.Register("viewToClipMatrix");
+    public static readonly Selector ViewToClipMatrix = "viewToClipMatrix";
 
-    public static readonly Selector WorldToViewMatrix = Selector.Register("worldToViewMatrix");
+    public static readonly Selector WorldToViewMatrix = "worldToViewMatrix";
 }

@@ -38,42 +38,12 @@ public class MTLArgument(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLPointerType? BufferPointerType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentBindings.BufferPointerType);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLPointerType(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLPointerType>(ref field, MTLArgumentBindings.BufferPointerType);
     }
 
     public MTLStructType? BufferStructType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentBindings.BufferStructType);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLStructType(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLStructType>(ref field, MTLArgumentBindings.BufferStructType);
     }
 
     public nuint Index
@@ -93,22 +63,7 @@ public class MTLArgument(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentBindings.Name);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSString>(ref field, MTLArgumentBindings.Name);
     }
 
     public MTLDataType TextureDataType
@@ -141,37 +96,37 @@ file static class MTLArgumentBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArgument");
 
-    public static readonly Selector Access = Selector.Register("access");
+    public static readonly Selector Access = "access";
 
-    public static readonly Selector Active = Selector.Register("isActive");
+    public static readonly Selector Active = "isActive";
 
-    public static readonly Selector ArrayLength = Selector.Register("arrayLength");
+    public static readonly Selector ArrayLength = "arrayLength";
 
-    public static readonly Selector BufferAlignment = Selector.Register("bufferAlignment");
+    public static readonly Selector BufferAlignment = "bufferAlignment";
 
-    public static readonly Selector BufferDataSize = Selector.Register("bufferDataSize");
+    public static readonly Selector BufferDataSize = "bufferDataSize";
 
-    public static readonly Selector BufferDataType = Selector.Register("bufferDataType");
+    public static readonly Selector BufferDataType = "bufferDataType";
 
-    public static readonly Selector BufferPointerType = Selector.Register("bufferPointerType");
+    public static readonly Selector BufferPointerType = "bufferPointerType";
 
-    public static readonly Selector BufferStructType = Selector.Register("bufferStructType");
+    public static readonly Selector BufferStructType = "bufferStructType";
 
-    public static readonly Selector Index = Selector.Register("index");
+    public static readonly Selector Index = "index";
 
-    public static readonly Selector IsActive = Selector.Register("isActive");
+    public static readonly Selector IsActive = "isActive";
 
-    public static readonly Selector IsDepthTexture = Selector.Register("isDepthTexture");
+    public static readonly Selector IsDepthTexture = "isDepthTexture";
 
-    public static readonly Selector Name = Selector.Register("name");
+    public static readonly Selector Name = "name";
 
-    public static readonly Selector TextureDataType = Selector.Register("textureDataType");
+    public static readonly Selector TextureDataType = "textureDataType";
 
-    public static readonly Selector TextureType = Selector.Register("textureType");
+    public static readonly Selector TextureType = "textureType";
 
-    public static readonly Selector ThreadgroupMemoryAlignment = Selector.Register("threadgroupMemoryAlignment");
+    public static readonly Selector ThreadgroupMemoryAlignment = "threadgroupMemoryAlignment";
 
-    public static readonly Selector ThreadgroupMemoryDataSize = Selector.Register("threadgroupMemoryDataSize");
+    public static readonly Selector ThreadgroupMemoryDataSize = "threadgroupMemoryDataSize";
 
-    public static readonly Selector Type = Selector.Register("type");
+    public static readonly Selector Type = "type";
 }

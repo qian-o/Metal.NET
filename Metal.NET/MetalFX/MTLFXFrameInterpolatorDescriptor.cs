@@ -56,27 +56,8 @@ public class MTLFXFrameInterpolatorDescriptor(nint nativePtr) : NativeObject(nat
 
     public MTLFXFrameInterpolatableScaler? Scaler
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.Scaler);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLFXFrameInterpolatableScaler(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetScaler, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLFXFrameInterpolatableScaler>(ref field, MTLFXFrameInterpolatorDescriptorBindings.Scaler);
+        set => SetProperty(ref field, MTLFXFrameInterpolatorDescriptorBindings.SetScaler, value);
     }
 
     public MTLPixelFormat UiTextureFormat
@@ -111,47 +92,47 @@ file static class MTLFXFrameInterpolatorDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFXFrameInterpolatorDescriptor");
 
-    public static readonly Selector ColorTextureFormat = Selector.Register("colorTextureFormat");
+    public static readonly Selector ColorTextureFormat = "colorTextureFormat";
 
-    public static readonly Selector DepthTextureFormat = Selector.Register("depthTextureFormat");
+    public static readonly Selector DepthTextureFormat = "depthTextureFormat";
 
-    public static readonly Selector InputHeight = Selector.Register("inputHeight");
+    public static readonly Selector InputHeight = "inputHeight";
 
-    public static readonly Selector InputWidth = Selector.Register("inputWidth");
+    public static readonly Selector InputWidth = "inputWidth";
 
-    public static readonly Selector MotionTextureFormat = Selector.Register("motionTextureFormat");
+    public static readonly Selector MotionTextureFormat = "motionTextureFormat";
 
-    public static readonly Selector NewFrameInterpolator = Selector.Register("newFrameInterpolatorWithDevice:");
+    public static readonly Selector NewFrameInterpolator = "newFrameInterpolatorWithDevice:";
 
-    public static readonly Selector OutputHeight = Selector.Register("outputHeight");
+    public static readonly Selector OutputHeight = "outputHeight";
 
-    public static readonly Selector OutputTextureFormat = Selector.Register("outputTextureFormat");
+    public static readonly Selector OutputTextureFormat = "outputTextureFormat";
 
-    public static readonly Selector OutputWidth = Selector.Register("outputWidth");
+    public static readonly Selector OutputWidth = "outputWidth";
 
-    public static readonly Selector Scaler = Selector.Register("scaler");
+    public static readonly Selector Scaler = "scaler";
 
-    public static readonly Selector SetColorTextureFormat = Selector.Register("setColorTextureFormat:");
+    public static readonly Selector SetColorTextureFormat = "setColorTextureFormat:";
 
-    public static readonly Selector SetDepthTextureFormat = Selector.Register("setDepthTextureFormat:");
+    public static readonly Selector SetDepthTextureFormat = "setDepthTextureFormat:";
 
-    public static readonly Selector SetInputHeight = Selector.Register("setInputHeight:");
+    public static readonly Selector SetInputHeight = "setInputHeight:";
 
-    public static readonly Selector SetInputWidth = Selector.Register("setInputWidth:");
+    public static readonly Selector SetInputWidth = "setInputWidth:";
 
-    public static readonly Selector SetMotionTextureFormat = Selector.Register("setMotionTextureFormat:");
+    public static readonly Selector SetMotionTextureFormat = "setMotionTextureFormat:";
 
-    public static readonly Selector SetOutputHeight = Selector.Register("setOutputHeight:");
+    public static readonly Selector SetOutputHeight = "setOutputHeight:";
 
-    public static readonly Selector SetOutputTextureFormat = Selector.Register("setOutputTextureFormat:");
+    public static readonly Selector SetOutputTextureFormat = "setOutputTextureFormat:";
 
-    public static readonly Selector SetOutputWidth = Selector.Register("setOutputWidth:");
+    public static readonly Selector SetOutputWidth = "setOutputWidth:";
 
-    public static readonly Selector SetScaler = Selector.Register("setScaler:");
+    public static readonly Selector SetScaler = "setScaler:";
 
-    public static readonly Selector SupportsDevice = Selector.Register("supportsDevice:");
+    public static readonly Selector SupportsDevice = "supportsDevice:";
 
-    public static readonly Selector SupportsMetal4FX = Selector.Register("supportsMetal4FX:");
+    public static readonly Selector SupportsMetal4FX = "supportsMetal4FX:";
 
-    public static readonly Selector UiTextureFormat = Selector.Register("uiTextureFormat");
+    public static readonly Selector UiTextureFormat = "uiTextureFormat";
 }

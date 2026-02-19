@@ -8,22 +8,7 @@ public class MTLStageInputOutputDescriptor(nint nativePtr) : NativeObject(native
 
     public MTLAttributeDescriptorArray? Attributes
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStageInputOutputDescriptorBindings.Attributes);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLAttributeDescriptorArray(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLAttributeDescriptorArray>(ref field, MTLStageInputOutputDescriptorBindings.Attributes);
     }
 
     public nuint IndexBufferIndex
@@ -40,22 +25,7 @@ public class MTLStageInputOutputDescriptor(nint nativePtr) : NativeObject(native
 
     public MTLBufferLayoutDescriptorArray? Layouts
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStageInputOutputDescriptorBindings.Layouts);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLBufferLayoutDescriptorArray(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLBufferLayoutDescriptorArray>(ref field, MTLStageInputOutputDescriptorBindings.Layouts);
     }
 
     public void Reset()
@@ -74,19 +44,19 @@ file static class MTLStageInputOutputDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStageInputOutputDescriptor");
 
-    public static readonly Selector Attributes = Selector.Register("attributes");
+    public static readonly Selector Attributes = "attributes";
 
-    public static readonly Selector IndexBufferIndex = Selector.Register("indexBufferIndex");
+    public static readonly Selector IndexBufferIndex = "indexBufferIndex";
 
-    public static readonly Selector IndexType = Selector.Register("indexType");
+    public static readonly Selector IndexType = "indexType";
 
-    public static readonly Selector Layouts = Selector.Register("layouts");
+    public static readonly Selector Layouts = "layouts";
 
-    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector Reset = "reset";
 
-    public static readonly Selector SetIndexBufferIndex = Selector.Register("setIndexBufferIndex:");
+    public static readonly Selector SetIndexBufferIndex = "setIndexBufferIndex:";
 
-    public static readonly Selector SetIndexType = Selector.Register("setIndexType:");
+    public static readonly Selector SetIndexType = "setIndexType:";
 
-    public static readonly Selector StageInputOutputDescriptor = Selector.Register("stageInputOutputDescriptor");
+    public static readonly Selector StageInputOutputDescriptor = "stageInputOutputDescriptor";
 }

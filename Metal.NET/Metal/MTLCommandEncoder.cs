@@ -4,47 +4,13 @@ public class MTLCommandEncoder(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandEncoderBindings.Device);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLDevice(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLDevice>(ref field, MTLCommandEncoderBindings.Device);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandEncoderBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderBindings.SetLabel, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSString>(ref field, MTLCommandEncoderBindings.Label);
+        set => SetProperty(ref field, MTLCommandEncoderBindings.SetLabel, value);
     }
 
     public void BarrierAfterQueueStages(MTLStages afterQueueStages, MTLStages beforeStages)
@@ -75,19 +41,19 @@ public class MTLCommandEncoder(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLCommandEncoderBindings
 {
-    public static readonly Selector BarrierAfterQueueStages = Selector.Register("barrierAfterQueueStages:beforeStages:");
+    public static readonly Selector BarrierAfterQueueStages = "barrierAfterQueueStages:beforeStages:";
 
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector EndEncoding = Selector.Register("endEncoding");
+    public static readonly Selector EndEncoding = "endEncoding";
 
-    public static readonly Selector InsertDebugSignpost = Selector.Register("insertDebugSignpost:");
+    public static readonly Selector InsertDebugSignpost = "insertDebugSignpost:";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector PopDebugGroup = Selector.Register("popDebugGroup");
+    public static readonly Selector PopDebugGroup = "popDebugGroup";
 
-    public static readonly Selector PushDebugGroup = Selector.Register("pushDebugGroup:");
+    public static readonly Selector PushDebugGroup = "pushDebugGroup:";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLabel = "setLabel:";
 }

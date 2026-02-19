@@ -8,102 +8,27 @@ public class MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr) : Native
 
     public MTL4PipelineStageDynamicLinkingDescriptor? FragmentLinkingDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorBindings.FragmentLinkingDescriptor);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4PipelineStageDynamicLinkingDescriptor(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTL4PipelineStageDynamicLinkingDescriptor>(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.FragmentLinkingDescriptor);
     }
 
     public MTL4PipelineStageDynamicLinkingDescriptor? MeshLinkingDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorBindings.MeshLinkingDescriptor);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4PipelineStageDynamicLinkingDescriptor(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTL4PipelineStageDynamicLinkingDescriptor>(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.MeshLinkingDescriptor);
     }
 
     public MTL4PipelineStageDynamicLinkingDescriptor? ObjectLinkingDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorBindings.ObjectLinkingDescriptor);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4PipelineStageDynamicLinkingDescriptor(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTL4PipelineStageDynamicLinkingDescriptor>(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.ObjectLinkingDescriptor);
     }
 
     public MTL4PipelineStageDynamicLinkingDescriptor? TileLinkingDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorBindings.TileLinkingDescriptor);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4PipelineStageDynamicLinkingDescriptor(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTL4PipelineStageDynamicLinkingDescriptor>(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.TileLinkingDescriptor);
     }
 
     public MTL4PipelineStageDynamicLinkingDescriptor? VertexLinkingDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDynamicLinkingDescriptorBindings.VertexLinkingDescriptor);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4PipelineStageDynamicLinkingDescriptor(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTL4PipelineStageDynamicLinkingDescriptor>(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.VertexLinkingDescriptor);
     }
 }
 
@@ -111,13 +36,13 @@ file static class MTL4RenderPipelineDynamicLinkingDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineDynamicLinkingDescriptor");
 
-    public static readonly Selector FragmentLinkingDescriptor = Selector.Register("fragmentLinkingDescriptor");
+    public static readonly Selector FragmentLinkingDescriptor = "fragmentLinkingDescriptor";
 
-    public static readonly Selector MeshLinkingDescriptor = Selector.Register("meshLinkingDescriptor");
+    public static readonly Selector MeshLinkingDescriptor = "meshLinkingDescriptor";
 
-    public static readonly Selector ObjectLinkingDescriptor = Selector.Register("objectLinkingDescriptor");
+    public static readonly Selector ObjectLinkingDescriptor = "objectLinkingDescriptor";
 
-    public static readonly Selector TileLinkingDescriptor = Selector.Register("tileLinkingDescriptor");
+    public static readonly Selector TileLinkingDescriptor = "tileLinkingDescriptor";
 
-    public static readonly Selector VertexLinkingDescriptor = Selector.Register("vertexLinkingDescriptor");
+    public static readonly Selector VertexLinkingDescriptor = "vertexLinkingDescriptor";
 }

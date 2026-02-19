@@ -14,22 +14,7 @@ public class MTLHeap(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.Device);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLDevice(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLDevice>(ref field, MTLHeapBindings.Device);
     }
 
     public MTLHazardTrackingMode HazardTrackingMode
@@ -39,27 +24,8 @@ public class MTLHeap(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapBindings.SetLabel, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSString>(ref field, MTLHeapBindings.Label);
+        set => SetProperty(ref field, MTLHeapBindings.SetLabel, value);
     }
 
     public MTLResourceOptions ResourceOptions
@@ -148,35 +114,35 @@ public class MTLHeap(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLHeapBindings
 {
-    public static readonly Selector CpuCacheMode = Selector.Register("cpuCacheMode");
+    public static readonly Selector CpuCacheMode = "cpuCacheMode";
 
-    public static readonly Selector CurrentAllocatedSize = Selector.Register("currentAllocatedSize");
+    public static readonly Selector CurrentAllocatedSize = "currentAllocatedSize";
 
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector HazardTrackingMode = Selector.Register("hazardTrackingMode");
+    public static readonly Selector HazardTrackingMode = "hazardTrackingMode";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector MaxAvailableSize = Selector.Register("maxAvailableSizeWithAlignment:");
+    public static readonly Selector MaxAvailableSize = "maxAvailableSizeWithAlignment:";
 
-    public static readonly Selector NewAccelerationStructure = Selector.Register("newAccelerationStructureWithSize:");
+    public static readonly Selector NewAccelerationStructure = "newAccelerationStructureWithSize:";
 
-    public static readonly Selector NewBuffer = Selector.Register("newBufferWithLength:options:");
+    public static readonly Selector NewBuffer = "newBufferWithLength:options:";
 
-    public static readonly Selector NewTexture = Selector.Register("newTextureWithDescriptor:");
+    public static readonly Selector NewTexture = "newTextureWithDescriptor:";
 
-    public static readonly Selector ResourceOptions = Selector.Register("resourceOptions");
+    public static readonly Selector ResourceOptions = "resourceOptions";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector SetPurgeableState = Selector.Register("setPurgeableState:");
+    public static readonly Selector SetPurgeableState = "setPurgeableState:";
 
-    public static readonly Selector Size = Selector.Register("size");
+    public static readonly Selector Size = "size";
 
-    public static readonly Selector StorageMode = Selector.Register("storageMode");
+    public static readonly Selector StorageMode = "storageMode";
 
-    public static readonly Selector Type = Selector.Register("type");
+    public static readonly Selector Type = "type";
 
-    public static readonly Selector UsedSize = Selector.Register("usedSize");
+    public static readonly Selector UsedSize = "usedSize";
 }

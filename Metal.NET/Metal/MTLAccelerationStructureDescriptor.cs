@@ -17,7 +17,7 @@ file static class MTLAccelerationStructureDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureDescriptor");
 
-    public static readonly Selector SetUsage = Selector.Register("setUsage:");
+    public static readonly Selector SetUsage = "setUsage:";
 
-    public static readonly Selector Usage = Selector.Register("usage");
+    public static readonly Selector Usage = "usage";
 }

@@ -125,79 +125,79 @@ file static class MTLIndirectCommandBufferDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIndirectCommandBufferDescriptor");
 
-    public static readonly Selector CommandTypes = Selector.Register("commandTypes");
+    public static readonly Selector CommandTypes = "commandTypes";
 
-    public static readonly Selector InheritBuffers = Selector.Register("inheritBuffers");
+    public static readonly Selector InheritBuffers = "inheritBuffers";
 
-    public static readonly Selector InheritCullMode = Selector.Register("inheritCullMode");
+    public static readonly Selector InheritCullMode = "inheritCullMode";
 
-    public static readonly Selector InheritDepthBias = Selector.Register("inheritDepthBias");
+    public static readonly Selector InheritDepthBias = "inheritDepthBias";
 
-    public static readonly Selector InheritDepthClipMode = Selector.Register("inheritDepthClipMode");
+    public static readonly Selector InheritDepthClipMode = "inheritDepthClipMode";
 
-    public static readonly Selector InheritDepthStencilState = Selector.Register("inheritDepthStencilState");
+    public static readonly Selector InheritDepthStencilState = "inheritDepthStencilState";
 
-    public static readonly Selector InheritFrontFacingWinding = Selector.Register("inheritFrontFacingWinding");
+    public static readonly Selector InheritFrontFacingWinding = "inheritFrontFacingWinding";
 
-    public static readonly Selector InheritPipelineState = Selector.Register("inheritPipelineState");
+    public static readonly Selector InheritPipelineState = "inheritPipelineState";
 
-    public static readonly Selector InheritTriangleFillMode = Selector.Register("inheritTriangleFillMode");
+    public static readonly Selector InheritTriangleFillMode = "inheritTriangleFillMode";
 
-    public static readonly Selector MaxFragmentBufferBindCount = Selector.Register("maxFragmentBufferBindCount");
+    public static readonly Selector MaxFragmentBufferBindCount = "maxFragmentBufferBindCount";
 
-    public static readonly Selector MaxKernelBufferBindCount = Selector.Register("maxKernelBufferBindCount");
+    public static readonly Selector MaxKernelBufferBindCount = "maxKernelBufferBindCount";
 
-    public static readonly Selector MaxKernelThreadgroupMemoryBindCount = Selector.Register("maxKernelThreadgroupMemoryBindCount");
+    public static readonly Selector MaxKernelThreadgroupMemoryBindCount = "maxKernelThreadgroupMemoryBindCount";
 
-    public static readonly Selector MaxMeshBufferBindCount = Selector.Register("maxMeshBufferBindCount");
+    public static readonly Selector MaxMeshBufferBindCount = "maxMeshBufferBindCount";
 
-    public static readonly Selector MaxObjectBufferBindCount = Selector.Register("maxObjectBufferBindCount");
+    public static readonly Selector MaxObjectBufferBindCount = "maxObjectBufferBindCount";
 
-    public static readonly Selector MaxObjectThreadgroupMemoryBindCount = Selector.Register("maxObjectThreadgroupMemoryBindCount");
+    public static readonly Selector MaxObjectThreadgroupMemoryBindCount = "maxObjectThreadgroupMemoryBindCount";
 
-    public static readonly Selector MaxVertexBufferBindCount = Selector.Register("maxVertexBufferBindCount");
+    public static readonly Selector MaxVertexBufferBindCount = "maxVertexBufferBindCount";
 
-    public static readonly Selector SetCommandTypes = Selector.Register("setCommandTypes:");
+    public static readonly Selector SetCommandTypes = "setCommandTypes:";
 
-    public static readonly Selector SetInheritBuffers = Selector.Register("setInheritBuffers:");
+    public static readonly Selector SetInheritBuffers = "setInheritBuffers:";
 
-    public static readonly Selector SetInheritCullMode = Selector.Register("setInheritCullMode:");
+    public static readonly Selector SetInheritCullMode = "setInheritCullMode:";
 
-    public static readonly Selector SetInheritDepthBias = Selector.Register("setInheritDepthBias:");
+    public static readonly Selector SetInheritDepthBias = "setInheritDepthBias:";
 
-    public static readonly Selector SetInheritDepthClipMode = Selector.Register("setInheritDepthClipMode:");
+    public static readonly Selector SetInheritDepthClipMode = "setInheritDepthClipMode:";
 
-    public static readonly Selector SetInheritDepthStencilState = Selector.Register("setInheritDepthStencilState:");
+    public static readonly Selector SetInheritDepthStencilState = "setInheritDepthStencilState:";
 
-    public static readonly Selector SetInheritFrontFacingWinding = Selector.Register("setInheritFrontFacingWinding:");
+    public static readonly Selector SetInheritFrontFacingWinding = "setInheritFrontFacingWinding:";
 
-    public static readonly Selector SetInheritPipelineState = Selector.Register("setInheritPipelineState:");
+    public static readonly Selector SetInheritPipelineState = "setInheritPipelineState:";
 
-    public static readonly Selector SetInheritTriangleFillMode = Selector.Register("setInheritTriangleFillMode:");
+    public static readonly Selector SetInheritTriangleFillMode = "setInheritTriangleFillMode:";
 
-    public static readonly Selector SetMaxFragmentBufferBindCount = Selector.Register("setMaxFragmentBufferBindCount:");
+    public static readonly Selector SetMaxFragmentBufferBindCount = "setMaxFragmentBufferBindCount:";
 
-    public static readonly Selector SetMaxKernelBufferBindCount = Selector.Register("setMaxKernelBufferBindCount:");
+    public static readonly Selector SetMaxKernelBufferBindCount = "setMaxKernelBufferBindCount:";
 
-    public static readonly Selector SetMaxKernelThreadgroupMemoryBindCount = Selector.Register("setMaxKernelThreadgroupMemoryBindCount:");
+    public static readonly Selector SetMaxKernelThreadgroupMemoryBindCount = "setMaxKernelThreadgroupMemoryBindCount:";
 
-    public static readonly Selector SetMaxMeshBufferBindCount = Selector.Register("setMaxMeshBufferBindCount:");
+    public static readonly Selector SetMaxMeshBufferBindCount = "setMaxMeshBufferBindCount:";
 
-    public static readonly Selector SetMaxObjectBufferBindCount = Selector.Register("setMaxObjectBufferBindCount:");
+    public static readonly Selector SetMaxObjectBufferBindCount = "setMaxObjectBufferBindCount:";
 
-    public static readonly Selector SetMaxObjectThreadgroupMemoryBindCount = Selector.Register("setMaxObjectThreadgroupMemoryBindCount:");
+    public static readonly Selector SetMaxObjectThreadgroupMemoryBindCount = "setMaxObjectThreadgroupMemoryBindCount:";
 
-    public static readonly Selector SetMaxVertexBufferBindCount = Selector.Register("setMaxVertexBufferBindCount:");
+    public static readonly Selector SetMaxVertexBufferBindCount = "setMaxVertexBufferBindCount:";
 
-    public static readonly Selector SetSupportColorAttachmentMapping = Selector.Register("setSupportColorAttachmentMapping:");
+    public static readonly Selector SetSupportColorAttachmentMapping = "setSupportColorAttachmentMapping:";
 
-    public static readonly Selector SetSupportDynamicAttributeStride = Selector.Register("setSupportDynamicAttributeStride:");
+    public static readonly Selector SetSupportDynamicAttributeStride = "setSupportDynamicAttributeStride:";
 
-    public static readonly Selector SetSupportRayTracing = Selector.Register("setSupportRayTracing:");
+    public static readonly Selector SetSupportRayTracing = "setSupportRayTracing:";
 
-    public static readonly Selector SupportColorAttachmentMapping = Selector.Register("supportColorAttachmentMapping");
+    public static readonly Selector SupportColorAttachmentMapping = "supportColorAttachmentMapping";
 
-    public static readonly Selector SupportDynamicAttributeStride = Selector.Register("supportDynamicAttributeStride");
+    public static readonly Selector SupportDynamicAttributeStride = "supportDynamicAttributeStride";
 
-    public static readonly Selector SupportRayTracing = Selector.Register("supportRayTracing");
+    public static readonly Selector SupportRayTracing = "supportRayTracing";
 }

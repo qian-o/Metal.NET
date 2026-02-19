@@ -20,27 +20,8 @@ public class MTLAccelerationStructureGeometryDescriptor(nint nativePtr) : Native
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSString>(ref field, MTLAccelerationStructureGeometryDescriptorBindings.Label);
+        set => SetProperty(ref field, MTLAccelerationStructureGeometryDescriptorBindings.SetLabel, value);
     }
 
     public bool Opaque
@@ -51,27 +32,8 @@ public class MTLAccelerationStructureGeometryDescriptor(nint nativePtr) : Native
 
     public MTLBuffer? PrimitiveDataBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.PrimitiveDataBuffer);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLBuffer(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.SetPrimitiveDataBuffer, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLBuffer>(ref field, MTLAccelerationStructureGeometryDescriptorBindings.PrimitiveDataBuffer);
+        set => SetProperty(ref field, MTLAccelerationStructureGeometryDescriptorBindings.SetPrimitiveDataBuffer, value);
     }
 
     public nuint PrimitiveDataBufferOffset
@@ -97,35 +59,35 @@ file static class MTLAccelerationStructureGeometryDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureGeometryDescriptor");
 
-    public static readonly Selector AllowDuplicateIntersectionFunctionInvocation = Selector.Register("allowDuplicateIntersectionFunctionInvocation");
+    public static readonly Selector AllowDuplicateIntersectionFunctionInvocation = "allowDuplicateIntersectionFunctionInvocation";
 
-    public static readonly Selector IntersectionFunctionTableOffset = Selector.Register("intersectionFunctionTableOffset");
+    public static readonly Selector IntersectionFunctionTableOffset = "intersectionFunctionTableOffset";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector Opaque = Selector.Register("opaque");
+    public static readonly Selector Opaque = "opaque";
 
-    public static readonly Selector PrimitiveDataBuffer = Selector.Register("primitiveDataBuffer");
+    public static readonly Selector PrimitiveDataBuffer = "primitiveDataBuffer";
 
-    public static readonly Selector PrimitiveDataBufferOffset = Selector.Register("primitiveDataBufferOffset");
+    public static readonly Selector PrimitiveDataBufferOffset = "primitiveDataBufferOffset";
 
-    public static readonly Selector PrimitiveDataElementSize = Selector.Register("primitiveDataElementSize");
+    public static readonly Selector PrimitiveDataElementSize = "primitiveDataElementSize";
 
-    public static readonly Selector PrimitiveDataStride = Selector.Register("primitiveDataStride");
+    public static readonly Selector PrimitiveDataStride = "primitiveDataStride";
 
-    public static readonly Selector SetAllowDuplicateIntersectionFunctionInvocation = Selector.Register("setAllowDuplicateIntersectionFunctionInvocation:");
+    public static readonly Selector SetAllowDuplicateIntersectionFunctionInvocation = "setAllowDuplicateIntersectionFunctionInvocation:";
 
-    public static readonly Selector SetIntersectionFunctionTableOffset = Selector.Register("setIntersectionFunctionTableOffset:");
+    public static readonly Selector SetIntersectionFunctionTableOffset = "setIntersectionFunctionTableOffset:";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector SetOpaque = Selector.Register("setOpaque:");
+    public static readonly Selector SetOpaque = "setOpaque:";
 
-    public static readonly Selector SetPrimitiveDataBuffer = Selector.Register("setPrimitiveDataBuffer:");
+    public static readonly Selector SetPrimitiveDataBuffer = "setPrimitiveDataBuffer:";
 
-    public static readonly Selector SetPrimitiveDataBufferOffset = Selector.Register("setPrimitiveDataBufferOffset:");
+    public static readonly Selector SetPrimitiveDataBufferOffset = "setPrimitiveDataBufferOffset:";
 
-    public static readonly Selector SetPrimitiveDataElementSize = Selector.Register("setPrimitiveDataElementSize:");
+    public static readonly Selector SetPrimitiveDataElementSize = "setPrimitiveDataElementSize:";
 
-    public static readonly Selector SetPrimitiveDataStride = Selector.Register("setPrimitiveDataStride:");
+    public static readonly Selector SetPrimitiveDataStride = "setPrimitiveDataStride:";
 }

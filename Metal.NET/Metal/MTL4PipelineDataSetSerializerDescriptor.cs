@@ -17,7 +17,7 @@ file static class MTL4PipelineDataSetSerializerDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PipelineDataSetSerializerDescriptor");
 
-    public static readonly Selector Configuration = Selector.Register("configuration");
+    public static readonly Selector Configuration = "configuration";
 
-    public static readonly Selector SetConfiguration = Selector.Register("setConfiguration:");
+    public static readonly Selector SetConfiguration = "setConfiguration:";
 }

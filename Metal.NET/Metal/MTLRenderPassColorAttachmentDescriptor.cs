@@ -17,7 +17,7 @@ file static class MTLRenderPassColorAttachmentDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassColorAttachmentDescriptor");
 
-    public static readonly Selector ClearColor = Selector.Register("clearColor");
+    public static readonly Selector ClearColor = "clearColor";
 
-    public static readonly Selector SetClearColor = Selector.Register("setClearColor:");
+    public static readonly Selector SetClearColor = "setClearColor:";
 }

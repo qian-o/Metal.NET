@@ -8,22 +8,7 @@ public class MTLAccelerationStructurePassDescriptor(nint nativePtr) : NativeObje
 
     public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray? SampleBufferAttachments
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructurePassDescriptorBindings.SampleBufferAttachments);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray>(ref field, MTLAccelerationStructurePassDescriptorBindings.SampleBufferAttachments);
     }
 
     public static MTLAccelerationStructurePassDescriptor? AccelerationStructurePassDescriptor()
@@ -37,7 +22,7 @@ file static class MTLAccelerationStructurePassDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructurePassDescriptor");
 
-    public static readonly Selector AccelerationStructurePassDescriptor = Selector.Register("accelerationStructurePassDescriptor");
+    public static readonly Selector AccelerationStructurePassDescriptor = "accelerationStructurePassDescriptor";
 
-    public static readonly Selector SampleBufferAttachments = Selector.Register("sampleBufferAttachments");
+    public static readonly Selector SampleBufferAttachments = "sampleBufferAttachments";
 }

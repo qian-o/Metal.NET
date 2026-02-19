@@ -4,122 +4,32 @@ public class MTLCommandBuffer(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLAccelerationStructureCommandEncoder? AccelerationStructureCommandEncoder
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.AccelerationStructureCommandEncoder);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLAccelerationStructureCommandEncoder(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLAccelerationStructureCommandEncoder>(ref field, MTLCommandBufferBindings.AccelerationStructureCommandEncoder);
     }
 
     public MTLBlitCommandEncoder? BlitCommandEncoder
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.BlitCommandEncoder);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLBlitCommandEncoder(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLBlitCommandEncoder>(ref field, MTLCommandBufferBindings.BlitCommandEncoder);
     }
 
     public MTLCommandQueue? CommandQueue
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.CommandQueue);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLCommandQueue(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLCommandQueue>(ref field, MTLCommandBufferBindings.CommandQueue);
     }
 
     public MTLComputeCommandEncoder? ComputeCommandEncoder
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ComputeCommandEncoder);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLComputeCommandEncoder(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLComputeCommandEncoder>(ref field, MTLCommandBufferBindings.ComputeCommandEncoder);
     }
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.Device);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLDevice(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLDevice>(ref field, MTLCommandBufferBindings.Device);
     }
 
     public NSError? Error
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.Error);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSError(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSError>(ref field, MTLCommandBufferBindings.Error);
     }
 
     public MTLCommandBufferErrorOption ErrorOptions
@@ -149,67 +59,18 @@ public class MTLCommandBuffer(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.SetLabel, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSString>(ref field, MTLCommandBufferBindings.Label);
+        set => SetProperty(ref field, MTLCommandBufferBindings.SetLabel, value);
     }
 
     public MTLLogContainer? Logs
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.Logs);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLLogContainer(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLLogContainer>(ref field, MTLCommandBufferBindings.Logs);
     }
 
     public MTLResourceStateCommandEncoder? ResourceStateCommandEncoder
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ResourceStateCommandEncoder);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLResourceStateCommandEncoder(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLResourceStateCommandEncoder>(ref field, MTLCommandBufferBindings.ResourceStateCommandEncoder);
     }
 
     public bool RetainedReferences
@@ -327,65 +188,65 @@ public class MTLCommandBuffer(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLCommandBufferBindings
 {
-    public static readonly Selector AccelerationStructureCommandEncoder = Selector.Register("accelerationStructureCommandEncoder");
+    public static readonly Selector AccelerationStructureCommandEncoder = "accelerationStructureCommandEncoder";
 
-    public static readonly Selector BlitCommandEncoder = Selector.Register("blitCommandEncoder");
+    public static readonly Selector BlitCommandEncoder = "blitCommandEncoder";
 
-    public static readonly Selector CommandQueue = Selector.Register("commandQueue");
+    public static readonly Selector CommandQueue = "commandQueue";
 
-    public static readonly Selector Commit = Selector.Register("commit");
+    public static readonly Selector Commit = "commit";
 
-    public static readonly Selector ComputeCommandEncoder = Selector.Register("computeCommandEncoder");
+    public static readonly Selector ComputeCommandEncoder = "computeCommandEncoder";
 
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector EncodeSignalEvent = Selector.Register("encodeSignalEvent:value:");
+    public static readonly Selector EncodeSignalEvent = "encodeSignalEvent:value:";
 
-    public static readonly Selector EncodeWait = Selector.Register("encodeWaitForEvent:value:");
+    public static readonly Selector EncodeWait = "encodeWaitForEvent:value:";
 
-    public static readonly Selector Enqueue = Selector.Register("enqueue");
+    public static readonly Selector Enqueue = "enqueue";
 
-    public static readonly Selector Error = Selector.Register("error");
+    public static readonly Selector Error = "error";
 
-    public static readonly Selector ErrorOptions = Selector.Register("errorOptions");
+    public static readonly Selector ErrorOptions = "errorOptions";
 
-    public static readonly Selector GPUEndTime = Selector.Register("GPUEndTime");
+    public static readonly Selector GPUEndTime = "GPUEndTime";
 
-    public static readonly Selector GPUStartTime = Selector.Register("GPUStartTime");
+    public static readonly Selector GPUStartTime = "GPUStartTime";
 
-    public static readonly Selector KernelEndTime = Selector.Register("kernelEndTime");
+    public static readonly Selector KernelEndTime = "kernelEndTime";
 
-    public static readonly Selector KernelStartTime = Selector.Register("kernelStartTime");
+    public static readonly Selector KernelStartTime = "kernelStartTime";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector Logs = Selector.Register("logs");
+    public static readonly Selector Logs = "logs";
 
-    public static readonly Selector ParallelRenderCommandEncoder = Selector.Register("parallelRenderCommandEncoderWithDescriptor:");
+    public static readonly Selector ParallelRenderCommandEncoder = "parallelRenderCommandEncoderWithDescriptor:";
 
-    public static readonly Selector PopDebugGroup = Selector.Register("popDebugGroup");
+    public static readonly Selector PopDebugGroup = "popDebugGroup";
 
-    public static readonly Selector PresentDrawable = Selector.Register("presentDrawable:");
+    public static readonly Selector PresentDrawable = "presentDrawable:";
 
-    public static readonly Selector PresentDrawableAfterMinimumDuration = Selector.Register("presentDrawable:afterMinimumDuration:");
+    public static readonly Selector PresentDrawableAfterMinimumDuration = "presentDrawable:afterMinimumDuration:";
 
-    public static readonly Selector PresentDrawableAtTime = Selector.Register("presentDrawable:atTime:");
+    public static readonly Selector PresentDrawableAtTime = "presentDrawable:atTime:";
 
-    public static readonly Selector PushDebugGroup = Selector.Register("pushDebugGroup:");
+    public static readonly Selector PushDebugGroup = "pushDebugGroup:";
 
-    public static readonly Selector RenderCommandEncoder = Selector.Register("renderCommandEncoderWithDescriptor:");
+    public static readonly Selector RenderCommandEncoder = "renderCommandEncoderWithDescriptor:";
 
-    public static readonly Selector ResourceStateCommandEncoder = Selector.Register("resourceStateCommandEncoder");
+    public static readonly Selector ResourceStateCommandEncoder = "resourceStateCommandEncoder";
 
-    public static readonly Selector RetainedReferences = Selector.Register("retainedReferences");
+    public static readonly Selector RetainedReferences = "retainedReferences";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector Status = Selector.Register("status");
+    public static readonly Selector Status = "status";
 
-    public static readonly Selector UseResidencySet = Selector.Register("useResidencySet:");
+    public static readonly Selector UseResidencySet = "useResidencySet:";
 
-    public static readonly Selector WaitUntilCompleted = Selector.Register("waitUntilCompleted");
+    public static readonly Selector WaitUntilCompleted = "waitUntilCompleted";
 
-    public static readonly Selector WaitUntilScheduled = Selector.Register("waitUntilScheduled");
+    public static readonly Selector WaitUntilScheduled = "waitUntilScheduled";
 }

@@ -14,27 +14,8 @@ public class MTLCommandBufferDescriptor(nint nativePtr) : NativeObject(nativePtr
 
     public MTLLogState? LogState
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferDescriptorBindings.LogState);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLLogState(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorBindings.SetLogState, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLLogState>(ref field, MTLCommandBufferDescriptorBindings.LogState);
+        set => SetProperty(ref field, MTLCommandBufferDescriptorBindings.SetLogState, value);
     }
 
     public bool RetainedReferences
@@ -48,15 +29,15 @@ file static class MTLCommandBufferDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCommandBufferDescriptor");
 
-    public static readonly Selector ErrorOptions = Selector.Register("errorOptions");
+    public static readonly Selector ErrorOptions = "errorOptions";
 
-    public static readonly Selector LogState = Selector.Register("logState");
+    public static readonly Selector LogState = "logState";
 
-    public static readonly Selector RetainedReferences = Selector.Register("retainedReferences");
+    public static readonly Selector RetainedReferences = "retainedReferences";
 
-    public static readonly Selector SetErrorOptions = Selector.Register("setErrorOptions:");
+    public static readonly Selector SetErrorOptions = "setErrorOptions:";
 
-    public static readonly Selector SetLogState = Selector.Register("setLogState:");
+    public static readonly Selector SetLogState = "setLogState:";
 
-    public static readonly Selector SetRetainedReferences = Selector.Register("setRetainedReferences:");
+    public static readonly Selector SetRetainedReferences = "setRetainedReferences:";
 }

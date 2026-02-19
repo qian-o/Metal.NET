@@ -32,13 +32,13 @@ public class MTLIndirectCommandBuffer(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLIndirectCommandBufferBindings
 {
-    public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
+    public static readonly Selector GpuResourceID = "gpuResourceID";
 
-    public static readonly Selector IndirectComputeCommand = Selector.Register("indirectComputeCommandAtIndex:");
+    public static readonly Selector IndirectComputeCommand = "indirectComputeCommandAtIndex:";
 
-    public static readonly Selector IndirectRenderCommand = Selector.Register("indirectRenderCommandAtIndex:");
+    public static readonly Selector IndirectRenderCommand = "indirectRenderCommandAtIndex:";
 
-    public static readonly Selector Reset = Selector.Register("resetWithRange:");
+    public static readonly Selector Reset = "resetWithRange:";
 
-    public static readonly Selector Size = Selector.Register("size");
+    public static readonly Selector Size = "size";
 }

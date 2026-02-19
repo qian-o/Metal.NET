@@ -8,22 +8,7 @@ public class MTL4TileRenderPipelineDescriptor(nint nativePtr) : NativeObject(nat
 
     public MTLTileRenderPipelineColorAttachmentDescriptorArray? ColorAttachments
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4TileRenderPipelineDescriptorBindings.ColorAttachments);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTileRenderPipelineColorAttachmentDescriptorArray(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLTileRenderPipelineColorAttachmentDescriptorArray>(ref field, MTL4TileRenderPipelineDescriptorBindings.ColorAttachments);
     }
 
     public nuint MaxTotalThreadsPerThreadgroup
@@ -46,27 +31,8 @@ public class MTL4TileRenderPipelineDescriptor(nint nativePtr) : NativeObject(nat
 
     public MTL4StaticLinkingDescriptor? StaticLinkingDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4TileRenderPipelineDescriptorBindings.StaticLinkingDescriptor);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4StaticLinkingDescriptor(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetStaticLinkingDescriptor, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTL4StaticLinkingDescriptor>(ref field, MTL4TileRenderPipelineDescriptorBindings.StaticLinkingDescriptor);
+        set => SetProperty(ref field, MTL4TileRenderPipelineDescriptorBindings.SetStaticLinkingDescriptor, value);
     }
 
     public bool SupportBinaryLinking
@@ -83,27 +49,8 @@ public class MTL4TileRenderPipelineDescriptor(nint nativePtr) : NativeObject(nat
 
     public MTL4FunctionDescriptor? TileFunctionDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4TileRenderPipelineDescriptorBindings.TileFunctionDescriptor);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4FunctionDescriptor(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetTileFunctionDescriptor, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTL4FunctionDescriptor>(ref field, MTL4TileRenderPipelineDescriptorBindings.TileFunctionDescriptor);
+        set => SetProperty(ref field, MTL4TileRenderPipelineDescriptorBindings.SetTileFunctionDescriptor, value);
     }
 
     public void Reset()
@@ -116,35 +63,35 @@ file static class MTL4TileRenderPipelineDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4TileRenderPipelineDescriptor");
 
-    public static readonly Selector ColorAttachments = Selector.Register("colorAttachments");
+    public static readonly Selector ColorAttachments = "colorAttachments";
 
-    public static readonly Selector MaxTotalThreadsPerThreadgroup = Selector.Register("maxTotalThreadsPerThreadgroup");
+    public static readonly Selector MaxTotalThreadsPerThreadgroup = "maxTotalThreadsPerThreadgroup";
 
-    public static readonly Selector RasterSampleCount = Selector.Register("rasterSampleCount");
+    public static readonly Selector RasterSampleCount = "rasterSampleCount";
 
-    public static readonly Selector RequiredThreadsPerThreadgroup = Selector.Register("requiredThreadsPerThreadgroup");
+    public static readonly Selector RequiredThreadsPerThreadgroup = "requiredThreadsPerThreadgroup";
 
-    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector Reset = "reset";
 
-    public static readonly Selector SetMaxTotalThreadsPerThreadgroup = Selector.Register("setMaxTotalThreadsPerThreadgroup:");
+    public static readonly Selector SetMaxTotalThreadsPerThreadgroup = "setMaxTotalThreadsPerThreadgroup:";
 
-    public static readonly Selector SetRasterSampleCount = Selector.Register("setRasterSampleCount:");
+    public static readonly Selector SetRasterSampleCount = "setRasterSampleCount:";
 
-    public static readonly Selector SetRequiredThreadsPerThreadgroup = Selector.Register("setRequiredThreadsPerThreadgroup:");
+    public static readonly Selector SetRequiredThreadsPerThreadgroup = "setRequiredThreadsPerThreadgroup:";
 
-    public static readonly Selector SetStaticLinkingDescriptor = Selector.Register("setStaticLinkingDescriptor:");
+    public static readonly Selector SetStaticLinkingDescriptor = "setStaticLinkingDescriptor:";
 
-    public static readonly Selector SetSupportBinaryLinking = Selector.Register("setSupportBinaryLinking:");
+    public static readonly Selector SetSupportBinaryLinking = "setSupportBinaryLinking:";
 
-    public static readonly Selector SetThreadgroupSizeMatchesTileSize = Selector.Register("setThreadgroupSizeMatchesTileSize:");
+    public static readonly Selector SetThreadgroupSizeMatchesTileSize = "setThreadgroupSizeMatchesTileSize:";
 
-    public static readonly Selector SetTileFunctionDescriptor = Selector.Register("setTileFunctionDescriptor:");
+    public static readonly Selector SetTileFunctionDescriptor = "setTileFunctionDescriptor:";
 
-    public static readonly Selector StaticLinkingDescriptor = Selector.Register("staticLinkingDescriptor");
+    public static readonly Selector StaticLinkingDescriptor = "staticLinkingDescriptor";
 
-    public static readonly Selector SupportBinaryLinking = Selector.Register("supportBinaryLinking");
+    public static readonly Selector SupportBinaryLinking = "supportBinaryLinking";
 
-    public static readonly Selector ThreadgroupSizeMatchesTileSize = Selector.Register("threadgroupSizeMatchesTileSize");
+    public static readonly Selector ThreadgroupSizeMatchesTileSize = "threadgroupSizeMatchesTileSize";
 
-    public static readonly Selector TileFunctionDescriptor = Selector.Register("tileFunctionDescriptor");
+    public static readonly Selector TileFunctionDescriptor = "tileFunctionDescriptor";
 }

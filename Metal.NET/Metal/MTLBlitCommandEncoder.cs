@@ -135,39 +135,39 @@ public class MTLBlitCommandEncoder(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLBlitCommandEncoderBindings
 {
-    public static readonly Selector CopyFromBuffer = Selector.Register("copyFromBuffer:sourceOffset:sourceBytesPerRow:sourceBytesPerImage:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:");
+    public static readonly Selector CopyFromBuffer = "copyFromBuffer:sourceOffset:sourceBytesPerRow:sourceBytesPerImage:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:";
 
-    public static readonly Selector CopyFromTensor = Selector.Register("copyFromTensor:sourceOrigin:sourceDimensions:toTensor:destinationOrigin:destinationDimensions:");
+    public static readonly Selector CopyFromTensor = "copyFromTensor:sourceOrigin:sourceDimensions:toTensor:destinationOrigin:destinationDimensions:";
 
-    public static readonly Selector CopyFromTexture = Selector.Register("copyFromTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:");
+    public static readonly Selector CopyFromTexture = "copyFromTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:toTexture:destinationSlice:destinationLevel:destinationOrigin:";
 
-    public static readonly Selector CopyIndirectCommandBuffer = Selector.Register("copyIndirectCommandBuffer:sourceRange:destination:destinationIndex:");
+    public static readonly Selector CopyIndirectCommandBuffer = "copyIndirectCommandBuffer:sourceRange:destination:destinationIndex:";
 
-    public static readonly Selector FillBuffer = Selector.Register("fillBuffer:range:value:");
+    public static readonly Selector FillBuffer = "fillBuffer:range:value:";
 
-    public static readonly Selector GenerateMipmaps = Selector.Register("generateMipmapsForTexture:");
+    public static readonly Selector GenerateMipmaps = "generateMipmapsForTexture:";
 
-    public static readonly Selector GetTextureAccessCounters = Selector.Register("getTextureAccessCounters:region:mipLevel:slice:resetCounters:countersBuffer:countersBufferOffset:");
+    public static readonly Selector GetTextureAccessCounters = "getTextureAccessCounters:region:mipLevel:slice:resetCounters:countersBuffer:countersBufferOffset:";
 
-    public static readonly Selector OptimizeContentsForCPUAccess = Selector.Register("optimizeContentsForCPUAccess:");
+    public static readonly Selector OptimizeContentsForCPUAccess = "optimizeContentsForCPUAccess:";
 
-    public static readonly Selector OptimizeContentsForGPUAccess = Selector.Register("optimizeContentsForGPUAccess:");
+    public static readonly Selector OptimizeContentsForGPUAccess = "optimizeContentsForGPUAccess:";
 
-    public static readonly Selector OptimizeIndirectCommandBuffer = Selector.Register("optimizeIndirectCommandBuffer:withRange:");
+    public static readonly Selector OptimizeIndirectCommandBuffer = "optimizeIndirectCommandBuffer:withRange:";
 
-    public static readonly Selector ResetCommandsInBuffer = Selector.Register("resetCommandsInBuffer:withRange:");
+    public static readonly Selector ResetCommandsInBuffer = "resetCommandsInBuffer:withRange:";
 
-    public static readonly Selector ResetTextureAccessCounters = Selector.Register("resetTextureAccessCounters:region:mipLevel:slice:");
+    public static readonly Selector ResetTextureAccessCounters = "resetTextureAccessCounters:region:mipLevel:slice:";
 
-    public static readonly Selector ResolveCounters = Selector.Register("resolveCounters:inRange:destinationBuffer:destinationOffset:");
+    public static readonly Selector ResolveCounters = "resolveCounters:inRange:destinationBuffer:destinationOffset:";
 
-    public static readonly Selector SampleCountersInBuffer = Selector.Register("sampleCountersInBuffer:atSampleIndex:withBarrier:");
+    public static readonly Selector SampleCountersInBuffer = "sampleCountersInBuffer:atSampleIndex:withBarrier:";
 
-    public static readonly Selector SynchronizeResource = Selector.Register("synchronizeResource:");
+    public static readonly Selector SynchronizeResource = "synchronizeResource:";
 
-    public static readonly Selector SynchronizeTexture = Selector.Register("synchronizeTexture:slice:level:");
+    public static readonly Selector SynchronizeTexture = "synchronizeTexture:slice:level:";
 
-    public static readonly Selector UpdateFence = Selector.Register("updateFence:");
+    public static readonly Selector UpdateFence = "updateFence:";
 
-    public static readonly Selector WaitForFence = Selector.Register("waitForFence:");
+    public static readonly Selector WaitForFence = "waitForFence:";
 }

@@ -50,19 +50,19 @@ public class MTLIndirectComputeCommand(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLIndirectComputeCommandBindings
 {
-    public static readonly Selector ClearBarrier = Selector.Register("clearBarrier");
+    public static readonly Selector ClearBarrier = "clearBarrier";
 
-    public static readonly Selector ConcurrentDispatchThreadgroups = Selector.Register("concurrentDispatchThreadgroups:threadsPerThreadgroup:");
+    public static readonly Selector ConcurrentDispatchThreadgroups = "concurrentDispatchThreadgroups:threadsPerThreadgroup:";
 
-    public static readonly Selector ConcurrentDispatchThreads = Selector.Register("concurrentDispatchThreads:threadsPerThreadgroup:");
+    public static readonly Selector ConcurrentDispatchThreads = "concurrentDispatchThreads:threadsPerThreadgroup:";
 
-    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector Reset = "reset";
 
-    public static readonly Selector SetBarrier = Selector.Register("setBarrier");
+    public static readonly Selector SetBarrier = "setBarrier";
 
-    public static readonly Selector SetImageblockWidth = Selector.Register("setImageblockWidth:height:");
+    public static readonly Selector SetImageblockWidth = "setImageblockWidth:height:";
 
-    public static readonly Selector SetKernelBuffer = Selector.Register("setKernelBuffer:offset:atIndex:");
+    public static readonly Selector SetKernelBuffer = "setKernelBuffer:offset:atIndex:";
 
-    public static readonly Selector SetThreadgroupMemoryLength = Selector.Register("setThreadgroupMemoryLength:atIndex:");
+    public static readonly Selector SetThreadgroupMemoryLength = "setThreadgroupMemoryLength:atIndex:";
 }

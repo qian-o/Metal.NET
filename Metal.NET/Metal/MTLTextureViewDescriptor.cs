@@ -41,23 +41,23 @@ file static class MTLTextureViewDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTextureViewDescriptor");
 
-    public static readonly Selector LevelRange = Selector.Register("levelRange");
+    public static readonly Selector LevelRange = "levelRange";
 
-    public static readonly Selector PixelFormat = Selector.Register("pixelFormat");
+    public static readonly Selector PixelFormat = "pixelFormat";
 
-    public static readonly Selector SetLevelRange = Selector.Register("setLevelRange:");
+    public static readonly Selector SetLevelRange = "setLevelRange:";
 
-    public static readonly Selector SetPixelFormat = Selector.Register("setPixelFormat:");
+    public static readonly Selector SetPixelFormat = "setPixelFormat:";
 
-    public static readonly Selector SetSliceRange = Selector.Register("setSliceRange:");
+    public static readonly Selector SetSliceRange = "setSliceRange:";
 
-    public static readonly Selector SetSwizzle = Selector.Register("setSwizzle:");
+    public static readonly Selector SetSwizzle = "setSwizzle:";
 
-    public static readonly Selector SetTextureType = Selector.Register("setTextureType:");
+    public static readonly Selector SetTextureType = "setTextureType:";
 
-    public static readonly Selector SliceRange = Selector.Register("sliceRange");
+    public static readonly Selector SliceRange = "sliceRange";
 
-    public static readonly Selector Swizzle = Selector.Register("swizzle");
+    public static readonly Selector Swizzle = "swizzle";
 
-    public static readonly Selector TextureType = Selector.Register("textureType");
+    public static readonly Selector TextureType = "textureType";
 }

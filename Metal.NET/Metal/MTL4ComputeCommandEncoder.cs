@@ -170,45 +170,45 @@ public class MTL4ComputeCommandEncoder(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTL4ComputeCommandEncoderBindings
 {
-    public static readonly Selector BuildAccelerationStructure = Selector.Register("buildAccelerationStructure:descriptor:scratchBuffer:");
+    public static readonly Selector BuildAccelerationStructure = "buildAccelerationStructure:descriptor:scratchBuffer:";
 
-    public static readonly Selector CopyAccelerationStructure = Selector.Register("copyAccelerationStructure:toAccelerationStructure:");
+    public static readonly Selector CopyAccelerationStructure = "copyAccelerationStructure:toAccelerationStructure:";
 
-    public static readonly Selector CopyAndCompactAccelerationStructure = Selector.Register("copyAndCompactAccelerationStructure:toAccelerationStructure:");
+    public static readonly Selector CopyAndCompactAccelerationStructure = "copyAndCompactAccelerationStructure:toAccelerationStructure:";
 
-    public static readonly Selector CopyFromBuffer = Selector.Register("copyFromBuffer:sourceOffset:toBuffer:destinationOffset:size:");
+    public static readonly Selector CopyFromBuffer = "copyFromBuffer:sourceOffset:toBuffer:destinationOffset:size:";
 
-    public static readonly Selector CopyFromTensor = Selector.Register("copyFromTensor:sourceOrigin:sourceDimensions:toTensor:destinationOrigin:destinationDimensions:");
+    public static readonly Selector CopyFromTensor = "copyFromTensor:sourceOrigin:sourceDimensions:toTensor:destinationOrigin:destinationDimensions:";
 
-    public static readonly Selector CopyFromTexture = Selector.Register("copyFromTexture:toTexture:");
+    public static readonly Selector CopyFromTexture = "copyFromTexture:toTexture:";
 
-    public static readonly Selector CopyIndirectCommandBuffer = Selector.Register("copyIndirectCommandBuffer:sourceRange:destination:destinationIndex:");
+    public static readonly Selector CopyIndirectCommandBuffer = "copyIndirectCommandBuffer:sourceRange:destination:destinationIndex:";
 
-    public static readonly Selector DispatchThreadgroups = Selector.Register("dispatchThreadgroups:threadsPerThreadgroup:");
+    public static readonly Selector DispatchThreadgroups = "dispatchThreadgroups:threadsPerThreadgroup:";
 
-    public static readonly Selector DispatchThreads = Selector.Register("dispatchThreads:threadsPerThreadgroup:");
+    public static readonly Selector DispatchThreads = "dispatchThreads:threadsPerThreadgroup:";
 
-    public static readonly Selector ExecuteCommandsInBuffer = Selector.Register("executeCommandsInBuffer:withRange:");
+    public static readonly Selector ExecuteCommandsInBuffer = "executeCommandsInBuffer:withRange:";
 
-    public static readonly Selector FillBuffer = Selector.Register("fillBuffer:range:value:");
+    public static readonly Selector FillBuffer = "fillBuffer:range:value:";
 
-    public static readonly Selector GenerateMipmaps = Selector.Register("generateMipmapsForTexture:");
+    public static readonly Selector GenerateMipmaps = "generateMipmapsForTexture:";
 
-    public static readonly Selector OptimizeContentsForCPUAccess = Selector.Register("optimizeContentsForCPUAccess:");
+    public static readonly Selector OptimizeContentsForCPUAccess = "optimizeContentsForCPUAccess:";
 
-    public static readonly Selector OptimizeContentsForGPUAccess = Selector.Register("optimizeContentsForGPUAccess:");
+    public static readonly Selector OptimizeContentsForGPUAccess = "optimizeContentsForGPUAccess:";
 
-    public static readonly Selector OptimizeIndirectCommandBuffer = Selector.Register("optimizeIndirectCommandBuffer:withRange:");
+    public static readonly Selector OptimizeIndirectCommandBuffer = "optimizeIndirectCommandBuffer:withRange:";
 
-    public static readonly Selector RefitAccelerationStructure = Selector.Register("refitAccelerationStructure:descriptor:destination:scratchBuffer:");
+    public static readonly Selector RefitAccelerationStructure = "refitAccelerationStructure:descriptor:destination:scratchBuffer:";
 
-    public static readonly Selector ResetCommandsInBuffer = Selector.Register("resetCommandsInBuffer:withRange:");
+    public static readonly Selector ResetCommandsInBuffer = "resetCommandsInBuffer:withRange:";
 
-    public static readonly Selector SetImageblockWidth = Selector.Register("setImageblockWidth:height:");
+    public static readonly Selector SetImageblockWidth = "setImageblockWidth:height:";
 
-    public static readonly Selector SetThreadgroupMemoryLength = Selector.Register("setThreadgroupMemoryLength:atIndex:");
+    public static readonly Selector SetThreadgroupMemoryLength = "setThreadgroupMemoryLength:atIndex:";
 
-    public static readonly Selector Stages = Selector.Register("stages");
+    public static readonly Selector Stages = "stages";
 
-    public static readonly Selector WriteCompactedAccelerationStructureSize = Selector.Register("writeCompactedAccelerationStructureSize:toBuffer:");
+    public static readonly Selector WriteCompactedAccelerationStructureSize = "writeCompactedAccelerationStructureSize:toBuffer:";
 }

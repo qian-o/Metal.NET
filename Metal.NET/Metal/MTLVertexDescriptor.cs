@@ -8,42 +8,12 @@ public class MTLVertexDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLVertexAttributeDescriptorArray? Attributes
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorBindings.Attributes);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLVertexAttributeDescriptorArray(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLVertexAttributeDescriptorArray>(ref field, MTLVertexDescriptorBindings.Attributes);
     }
 
     public MTLVertexBufferLayoutDescriptorArray? Layouts
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorBindings.Layouts);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLVertexBufferLayoutDescriptorArray(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLVertexBufferLayoutDescriptorArray>(ref field, MTLVertexDescriptorBindings.Layouts);
     }
 
     public void Reset()
@@ -62,11 +32,11 @@ file static class MTLVertexDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexDescriptor");
 
-    public static readonly Selector Attributes = Selector.Register("attributes");
+    public static readonly Selector Attributes = "attributes";
 
-    public static readonly Selector Layouts = Selector.Register("layouts");
+    public static readonly Selector Layouts = "layouts";
 
-    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector Reset = "reset";
 
-    public static readonly Selector VertexDescriptor = Selector.Register("vertexDescriptor");
+    public static readonly Selector VertexDescriptor = "vertexDescriptor";
 }

@@ -10,5 +10,5 @@ public class MTL4MachineLearningCommandEncoder(nint nativePtr) : NativeObject(na
 
 file static class MTL4MachineLearningCommandEncoderBindings
 {
-    public static readonly Selector DispatchNetwork = Selector.Register("dispatchNetworkWithIntermediatesHeap:");
+    public static readonly Selector DispatchNetwork = "dispatchNetworkWithIntermediatesHeap:";
 }

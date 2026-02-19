@@ -10,5 +10,5 @@ public class MTLAllocation(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLAllocationBindings
 {
-    public static readonly Selector AllocatedSize = Selector.Register("allocatedSize");
+    public static readonly Selector AllocatedSize = "allocatedSize";
 }

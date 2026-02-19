@@ -4,22 +4,7 @@ public class MTLTensor(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLBuffer? Buffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindings.Buffer);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLBuffer(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLBuffer>(ref field, MTLTensorBindings.Buffer);
     }
 
     public nuint BufferOffset
@@ -34,22 +19,7 @@ public class MTLTensor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLTensorExtents? Dimensions
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindings.Dimensions);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTensorExtents(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLTensorExtents>(ref field, MTLTensorBindings.Dimensions);
     }
 
     public MTLResourceID GpuResourceID
@@ -59,22 +29,7 @@ public class MTLTensor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLTensorExtents? Strides
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindings.Strides);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTensorExtents(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLTensorExtents>(ref field, MTLTensorBindings.Strides);
     }
 
     public MTLTensorUsage Usage
@@ -95,21 +50,21 @@ public class MTLTensor(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLTensorBindings
 {
-    public static readonly Selector Buffer = Selector.Register("buffer");
+    public static readonly Selector Buffer = "buffer";
 
-    public static readonly Selector BufferOffset = Selector.Register("bufferOffset");
+    public static readonly Selector BufferOffset = "bufferOffset";
 
-    public static readonly Selector DataType = Selector.Register("dataType");
+    public static readonly Selector DataType = "dataType";
 
-    public static readonly Selector Dimensions = Selector.Register("dimensions");
+    public static readonly Selector Dimensions = "dimensions";
 
-    public static readonly Selector GetBytes = Selector.Register("getBytes:strides:fromSliceOrigin:sliceDimensions:");
+    public static readonly Selector GetBytes = "getBytes:strides:fromSliceOrigin:sliceDimensions:";
 
-    public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
+    public static readonly Selector GpuResourceID = "gpuResourceID";
 
-    public static readonly Selector ReplaceSliceOrigin = Selector.Register("replaceSliceOrigin:sliceDimensions:withBytes:strides:");
+    public static readonly Selector ReplaceSliceOrigin = "replaceSliceOrigin:sliceDimensions:withBytes:strides:";
 
-    public static readonly Selector Strides = Selector.Register("strides");
+    public static readonly Selector Strides = "strides";
 
-    public static readonly Selector Usage = Selector.Register("usage");
+    public static readonly Selector Usage = "usage";
 }

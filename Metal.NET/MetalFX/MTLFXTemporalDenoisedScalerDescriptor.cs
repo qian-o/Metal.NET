@@ -187,101 +187,101 @@ file static class MTLFXTemporalDenoisedScalerDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFXTemporalDenoisedScalerDescriptor");
 
-    public static readonly Selector ColorTextureFormat = Selector.Register("colorTextureFormat");
+    public static readonly Selector ColorTextureFormat = "colorTextureFormat";
 
-    public static readonly Selector DenoiseStrengthMaskTextureFormat = Selector.Register("denoiseStrengthMaskTextureFormat");
+    public static readonly Selector DenoiseStrengthMaskTextureFormat = "denoiseStrengthMaskTextureFormat";
 
-    public static readonly Selector DepthTextureFormat = Selector.Register("depthTextureFormat");
+    public static readonly Selector DepthTextureFormat = "depthTextureFormat";
 
-    public static readonly Selector DiffuseAlbedoTextureFormat = Selector.Register("diffuseAlbedoTextureFormat");
+    public static readonly Selector DiffuseAlbedoTextureFormat = "diffuseAlbedoTextureFormat";
 
-    public static readonly Selector InputContentMaxScale = Selector.Register("inputContentMaxScale");
+    public static readonly Selector InputContentMaxScale = "inputContentMaxScale";
 
-    public static readonly Selector InputContentMinScale = Selector.Register("inputContentMinScale");
+    public static readonly Selector InputContentMinScale = "inputContentMinScale";
 
-    public static readonly Selector InputHeight = Selector.Register("inputHeight");
+    public static readonly Selector InputHeight = "inputHeight";
 
-    public static readonly Selector InputWidth = Selector.Register("inputWidth");
+    public static readonly Selector InputWidth = "inputWidth";
 
-    public static readonly Selector IsAutoExposureEnabled = Selector.Register("isAutoExposureEnabled");
+    public static readonly Selector IsAutoExposureEnabled = "isAutoExposureEnabled";
 
-    public static readonly Selector IsDenoiseStrengthMaskTextureEnabled = Selector.Register("isDenoiseStrengthMaskTextureEnabled");
+    public static readonly Selector IsDenoiseStrengthMaskTextureEnabled = "isDenoiseStrengthMaskTextureEnabled";
 
-    public static readonly Selector IsInputContentPropertiesEnabled = Selector.Register("isInputContentPropertiesEnabled");
+    public static readonly Selector IsInputContentPropertiesEnabled = "isInputContentPropertiesEnabled";
 
-    public static readonly Selector IsReactiveMaskTextureEnabled = Selector.Register("isReactiveMaskTextureEnabled");
+    public static readonly Selector IsReactiveMaskTextureEnabled = "isReactiveMaskTextureEnabled";
 
-    public static readonly Selector IsSpecularHitDistanceTextureEnabled = Selector.Register("isSpecularHitDistanceTextureEnabled");
+    public static readonly Selector IsSpecularHitDistanceTextureEnabled = "isSpecularHitDistanceTextureEnabled";
 
-    public static readonly Selector IsTransparencyOverlayTextureEnabled = Selector.Register("isTransparencyOverlayTextureEnabled");
+    public static readonly Selector IsTransparencyOverlayTextureEnabled = "isTransparencyOverlayTextureEnabled";
 
-    public static readonly Selector MotionTextureFormat = Selector.Register("motionTextureFormat");
+    public static readonly Selector MotionTextureFormat = "motionTextureFormat";
 
-    public static readonly Selector NewTemporalDenoisedScaler = Selector.Register("newTemporalDenoisedScalerWithDevice:");
+    public static readonly Selector NewTemporalDenoisedScaler = "newTemporalDenoisedScalerWithDevice:";
 
-    public static readonly Selector NormalTextureFormat = Selector.Register("normalTextureFormat");
+    public static readonly Selector NormalTextureFormat = "normalTextureFormat";
 
-    public static readonly Selector OutputHeight = Selector.Register("outputHeight");
+    public static readonly Selector OutputHeight = "outputHeight";
 
-    public static readonly Selector OutputTextureFormat = Selector.Register("outputTextureFormat");
+    public static readonly Selector OutputTextureFormat = "outputTextureFormat";
 
-    public static readonly Selector OutputWidth = Selector.Register("outputWidth");
+    public static readonly Selector OutputWidth = "outputWidth";
 
-    public static readonly Selector ReactiveMaskTextureFormat = Selector.Register("reactiveMaskTextureFormat");
+    public static readonly Selector ReactiveMaskTextureFormat = "reactiveMaskTextureFormat";
 
-    public static readonly Selector RequiresSynchronousInitialization = Selector.Register("requiresSynchronousInitialization");
+    public static readonly Selector RequiresSynchronousInitialization = "requiresSynchronousInitialization";
 
-    public static readonly Selector RoughnessTextureFormat = Selector.Register("roughnessTextureFormat");
+    public static readonly Selector RoughnessTextureFormat = "roughnessTextureFormat";
 
-    public static readonly Selector SetColorTextureFormat = Selector.Register("setColorTextureFormat:");
+    public static readonly Selector SetColorTextureFormat = "setColorTextureFormat:";
 
-    public static readonly Selector SetDenoiseStrengthMaskTextureFormat = Selector.Register("setDenoiseStrengthMaskTextureFormat:");
+    public static readonly Selector SetDenoiseStrengthMaskTextureFormat = "setDenoiseStrengthMaskTextureFormat:";
 
-    public static readonly Selector SetDepthTextureFormat = Selector.Register("setDepthTextureFormat:");
+    public static readonly Selector SetDepthTextureFormat = "setDepthTextureFormat:";
 
-    public static readonly Selector SetDiffuseAlbedoTextureFormat = Selector.Register("setDiffuseAlbedoTextureFormat:");
+    public static readonly Selector SetDiffuseAlbedoTextureFormat = "setDiffuseAlbedoTextureFormat:";
 
-    public static readonly Selector SetInputContentMaxScale = Selector.Register("setInputContentMaxScale:");
+    public static readonly Selector SetInputContentMaxScale = "setInputContentMaxScale:";
 
-    public static readonly Selector SetInputContentMinScale = Selector.Register("setInputContentMinScale:");
+    public static readonly Selector SetInputContentMinScale = "setInputContentMinScale:";
 
-    public static readonly Selector SetInputHeight = Selector.Register("setInputHeight:");
+    public static readonly Selector SetInputHeight = "setInputHeight:";
 
-    public static readonly Selector SetInputWidth = Selector.Register("setInputWidth:");
+    public static readonly Selector SetInputWidth = "setInputWidth:";
 
-    public static readonly Selector SetMotionTextureFormat = Selector.Register("setMotionTextureFormat:");
+    public static readonly Selector SetMotionTextureFormat = "setMotionTextureFormat:";
 
-    public static readonly Selector SetNormalTextureFormat = Selector.Register("setNormalTextureFormat:");
+    public static readonly Selector SetNormalTextureFormat = "setNormalTextureFormat:";
 
-    public static readonly Selector SetOutputHeight = Selector.Register("setOutputHeight:");
+    public static readonly Selector SetOutputHeight = "setOutputHeight:";
 
-    public static readonly Selector SetOutputTextureFormat = Selector.Register("setOutputTextureFormat:");
+    public static readonly Selector SetOutputTextureFormat = "setOutputTextureFormat:";
 
-    public static readonly Selector SetOutputWidth = Selector.Register("setOutputWidth:");
+    public static readonly Selector SetOutputWidth = "setOutputWidth:";
 
-    public static readonly Selector SetReactiveMaskTextureFormat = Selector.Register("setReactiveMaskTextureFormat:");
+    public static readonly Selector SetReactiveMaskTextureFormat = "setReactiveMaskTextureFormat:";
 
-    public static readonly Selector SetRequiresSynchronousInitialization = Selector.Register("setRequiresSynchronousInitialization:");
+    public static readonly Selector SetRequiresSynchronousInitialization = "setRequiresSynchronousInitialization:";
 
-    public static readonly Selector SetRoughnessTextureFormat = Selector.Register("setRoughnessTextureFormat:");
+    public static readonly Selector SetRoughnessTextureFormat = "setRoughnessTextureFormat:";
 
-    public static readonly Selector SetSpecularAlbedoTextureFormat = Selector.Register("setSpecularAlbedoTextureFormat:");
+    public static readonly Selector SetSpecularAlbedoTextureFormat = "setSpecularAlbedoTextureFormat:";
 
-    public static readonly Selector SetSpecularHitDistanceTextureFormat = Selector.Register("setSpecularHitDistanceTextureFormat:");
+    public static readonly Selector SetSpecularHitDistanceTextureFormat = "setSpecularHitDistanceTextureFormat:";
 
-    public static readonly Selector SetTransparencyOverlayTextureFormat = Selector.Register("setTransparencyOverlayTextureFormat:");
+    public static readonly Selector SetTransparencyOverlayTextureFormat = "setTransparencyOverlayTextureFormat:";
 
-    public static readonly Selector SpecularAlbedoTextureFormat = Selector.Register("specularAlbedoTextureFormat");
+    public static readonly Selector SpecularAlbedoTextureFormat = "specularAlbedoTextureFormat";
 
-    public static readonly Selector SpecularHitDistanceTextureFormat = Selector.Register("specularHitDistanceTextureFormat");
+    public static readonly Selector SpecularHitDistanceTextureFormat = "specularHitDistanceTextureFormat";
 
-    public static readonly Selector SupportedInputContentMaxScale = Selector.Register("supportedInputContentMaxScaleForDevice:");
+    public static readonly Selector SupportedInputContentMaxScale = "supportedInputContentMaxScaleForDevice:";
 
-    public static readonly Selector SupportedInputContentMinScale = Selector.Register("supportedInputContentMinScaleForDevice:");
+    public static readonly Selector SupportedInputContentMinScale = "supportedInputContentMinScaleForDevice:";
 
-    public static readonly Selector SupportsDevice = Selector.Register("supportsDevice:");
+    public static readonly Selector SupportsDevice = "supportsDevice:";
 
-    public static readonly Selector SupportsMetal4FX = Selector.Register("supportsMetal4FX:");
+    public static readonly Selector SupportsMetal4FX = "supportsMetal4FX:";
 
-    public static readonly Selector TransparencyOverlayTextureFormat = Selector.Register("transparencyOverlayTextureFormat");
+    public static readonly Selector TransparencyOverlayTextureFormat = "transparencyOverlayTextureFormat";
 }

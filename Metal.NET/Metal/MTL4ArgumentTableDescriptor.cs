@@ -14,27 +14,8 @@ public class MTL4ArgumentTableDescriptor(nint nativePtr) : NativeObject(nativePt
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArgumentTableDescriptorBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSString>(ref field, MTL4ArgumentTableDescriptorBindings.Label);
+        set => SetProperty(ref field, MTL4ArgumentTableDescriptorBindings.SetLabel, value);
     }
 
     public nuint MaxBufferBindCount
@@ -66,27 +47,27 @@ file static class MTL4ArgumentTableDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4ArgumentTableDescriptor");
 
-    public static readonly Selector InitializeBindings = Selector.Register("initializeBindings");
+    public static readonly Selector InitializeBindings = "initializeBindings";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector MaxBufferBindCount = Selector.Register("maxBufferBindCount");
+    public static readonly Selector MaxBufferBindCount = "maxBufferBindCount";
 
-    public static readonly Selector MaxSamplerStateBindCount = Selector.Register("maxSamplerStateBindCount");
+    public static readonly Selector MaxSamplerStateBindCount = "maxSamplerStateBindCount";
 
-    public static readonly Selector MaxTextureBindCount = Selector.Register("maxTextureBindCount");
+    public static readonly Selector MaxTextureBindCount = "maxTextureBindCount";
 
-    public static readonly Selector SetInitializeBindings = Selector.Register("setInitializeBindings:");
+    public static readonly Selector SetInitializeBindings = "setInitializeBindings:";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector SetMaxBufferBindCount = Selector.Register("setMaxBufferBindCount:");
+    public static readonly Selector SetMaxBufferBindCount = "setMaxBufferBindCount:";
 
-    public static readonly Selector SetMaxSamplerStateBindCount = Selector.Register("setMaxSamplerStateBindCount:");
+    public static readonly Selector SetMaxSamplerStateBindCount = "setMaxSamplerStateBindCount:";
 
-    public static readonly Selector SetMaxTextureBindCount = Selector.Register("setMaxTextureBindCount:");
+    public static readonly Selector SetMaxTextureBindCount = "setMaxTextureBindCount:";
 
-    public static readonly Selector SetSupportAttributeStrides = Selector.Register("setSupportAttributeStrides:");
+    public static readonly Selector SetSupportAttributeStrides = "setSupportAttributeStrides:";
 
-    public static readonly Selector SupportAttributeStrides = Selector.Register("supportAttributeStrides");
+    public static readonly Selector SupportAttributeStrides = "supportAttributeStrides";
 }

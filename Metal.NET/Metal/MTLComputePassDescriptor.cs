@@ -14,22 +14,7 @@ public class MTLComputePassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLComputePassSampleBufferAttachmentDescriptorArray? SampleBufferAttachments
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePassDescriptorBindings.SampleBufferAttachments);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLComputePassSampleBufferAttachmentDescriptorArray(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLComputePassSampleBufferAttachmentDescriptorArray>(ref field, MTLComputePassDescriptorBindings.SampleBufferAttachments);
     }
 
     public static MTLComputePassDescriptor? ComputePassDescriptor()
@@ -43,11 +28,11 @@ file static class MTLComputePassDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePassDescriptor");
 
-    public static readonly Selector ComputePassDescriptor = Selector.Register("computePassDescriptor");
+    public static readonly Selector ComputePassDescriptor = "computePassDescriptor";
 
-    public static readonly Selector DispatchType = Selector.Register("dispatchType");
+    public static readonly Selector DispatchType = "dispatchType";
 
-    public static readonly Selector SampleBufferAttachments = Selector.Register("sampleBufferAttachments");
+    public static readonly Selector SampleBufferAttachments = "sampleBufferAttachments";
 
-    public static readonly Selector SetDispatchType = Selector.Register("setDispatchType:");
+    public static readonly Selector SetDispatchType = "setDispatchType:";
 }

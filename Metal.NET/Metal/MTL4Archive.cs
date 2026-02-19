@@ -4,27 +4,8 @@ public class MTL4Archive(nint nativePtr) : NativeObject(nativePtr)
 {
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArchiveBindings.SetLabel, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSString>(ref field, MTL4ArchiveBindings.Label);
+        set => SetProperty(ref field, MTL4ArchiveBindings.SetLabel, value);
     }
 
     public MTL4BinaryFunction? NewBinaryFunction(MTL4BinaryFunctionDescriptor descriptor, out NSError? error)
@@ -65,13 +46,13 @@ public class MTL4Archive(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTL4ArchiveBindings
 {
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector NewBinaryFunction = Selector.Register("newBinaryFunctionWithDescriptor:error:");
+    public static readonly Selector NewBinaryFunction = "newBinaryFunctionWithDescriptor:error:";
 
-    public static readonly Selector NewComputePipelineState = Selector.Register("newComputePipelineStateWithDescriptor:error:");
+    public static readonly Selector NewComputePipelineState = "newComputePipelineStateWithDescriptor:error:";
 
-    public static readonly Selector NewRenderPipelineState = Selector.Register("newRenderPipelineStateWithDescriptor:error:");
+    public static readonly Selector NewRenderPipelineState = "newRenderPipelineStateWithDescriptor:error:";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLabel = "setLabel:";
 }

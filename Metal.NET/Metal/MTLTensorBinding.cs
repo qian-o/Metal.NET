@@ -4,22 +4,7 @@ public class MTLTensorBinding(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLTensorExtents? Dimensions
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindingBindings.Dimensions);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLTensorExtents(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLTensorExtents>(ref field, MTLTensorBindingBindings.Dimensions);
     }
 
     public MTLDataType IndexType
@@ -35,9 +20,9 @@ public class MTLTensorBinding(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLTensorBindingBindings
 {
-    public static readonly Selector Dimensions = Selector.Register("dimensions");
+    public static readonly Selector Dimensions = "dimensions";
 
-    public static readonly Selector IndexType = Selector.Register("indexType");
+    public static readonly Selector IndexType = "indexType";
 
-    public static readonly Selector TensorDataType = Selector.Register("tensorDataType");
+    public static readonly Selector TensorDataType = "tensorDataType";
 }

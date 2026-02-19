@@ -15,7 +15,7 @@ public class NSArray(nint nativePtr) : NativeObject(nativePtr)
 
 file static class NSArrayBindings
 {
-    public static readonly Selector Count = Selector.Register("count");
+    public static readonly Selector Count = "count";
 
-    public static readonly Selector ObjectAtIndex = Selector.Register("objectAtIndex:");
+    public static readonly Selector ObjectAtIndex = "objectAtIndex:";
 }

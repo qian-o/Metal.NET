@@ -575,16 +575,16 @@ internal static unsafe partial class ObjectiveCRuntime
 
     public static nint Retain(nint obj)
     {
-        return MsgSendPtr(obj, Selector.Register("retain"));
+        return MsgSendPtr(obj, (Selector)"retain");
     }
 
     public static void Release(nint obj)
     {
-        MsgSend(obj, Selector.Register("release"));
+        MsgSend(obj, (Selector)"release");
     }
 
     public static nint AllocInit(nint @class)
     {
-        return MsgSendPtr(MsgSendPtr(@class, Selector.Register("alloc")), Selector.Register("init"));
+        return MsgSendPtr(MsgSendPtr(@class, (Selector)"alloc"), (Selector)"init");
     }
 }

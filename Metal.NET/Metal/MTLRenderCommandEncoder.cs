@@ -425,131 +425,131 @@ public class MTLRenderCommandEncoder(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLRenderCommandEncoderBindings
 {
-    public static readonly Selector DispatchThreadsPerTile = Selector.Register("dispatchThreadsPerTile:");
+    public static readonly Selector DispatchThreadsPerTile = "dispatchThreadsPerTile:";
 
-    public static readonly Selector DrawIndexedPatches = Selector.Register("drawIndexedPatches:patchStart:patchCount:patchIndexBuffer:patchIndexBufferOffset:controlPointIndexBuffer:controlPointIndexBufferOffset:instanceCount:baseInstance:");
+    public static readonly Selector DrawIndexedPatches = "drawIndexedPatches:patchStart:patchCount:patchIndexBuffer:patchIndexBufferOffset:controlPointIndexBuffer:controlPointIndexBufferOffset:instanceCount:baseInstance:";
 
-    public static readonly Selector DrawIndexedPrimitives = Selector.Register("drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferOffset:instanceCount:");
+    public static readonly Selector DrawIndexedPrimitives = "drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferOffset:instanceCount:";
 
-    public static readonly Selector DrawMeshThreadgroups = Selector.Register("drawMeshThreadgroups:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:");
+    public static readonly Selector DrawMeshThreadgroups = "drawMeshThreadgroups:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
 
-    public static readonly Selector DrawMeshThreads = Selector.Register("drawMeshThreads:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:");
+    public static readonly Selector DrawMeshThreads = "drawMeshThreads:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
 
-    public static readonly Selector DrawPatches = Selector.Register("drawPatches:patchStart:patchCount:patchIndexBuffer:patchIndexBufferOffset:instanceCount:baseInstance:");
+    public static readonly Selector DrawPatches = "drawPatches:patchStart:patchCount:patchIndexBuffer:patchIndexBufferOffset:instanceCount:baseInstance:";
 
-    public static readonly Selector DrawPrimitives = Selector.Register("drawPrimitives:vertexStart:vertexCount:instanceCount:");
+    public static readonly Selector DrawPrimitives = "drawPrimitives:vertexStart:vertexCount:instanceCount:";
 
-    public static readonly Selector ExecuteCommandsInBuffer = Selector.Register("executeCommandsInBuffer:withRange:");
+    public static readonly Selector ExecuteCommandsInBuffer = "executeCommandsInBuffer:withRange:";
 
-    public static readonly Selector MemoryBarrier = Selector.Register("memoryBarrierWithScope:afterStages:beforeStages:");
+    public static readonly Selector MemoryBarrier = "memoryBarrierWithScope:afterStages:beforeStages:";
 
-    public static readonly Selector SampleCountersInBuffer = Selector.Register("sampleCountersInBuffer:atSampleIndex:withBarrier:");
+    public static readonly Selector SampleCountersInBuffer = "sampleCountersInBuffer:atSampleIndex:withBarrier:";
 
-    public static readonly Selector SetBlendColor = Selector.Register("setBlendColorRed:green:blue:alpha:");
+    public static readonly Selector SetBlendColor = "setBlendColorRed:green:blue:alpha:";
 
-    public static readonly Selector SetColorStoreAction = Selector.Register("setColorStoreAction:atIndex:");
+    public static readonly Selector SetColorStoreAction = "setColorStoreAction:atIndex:";
 
-    public static readonly Selector SetColorStoreActionOptions = Selector.Register("setColorStoreActionOptions:atIndex:");
+    public static readonly Selector SetColorStoreActionOptions = "setColorStoreActionOptions:atIndex:";
 
-    public static readonly Selector SetDepthBias = Selector.Register("setDepthBias:slopeScale:clamp:");
+    public static readonly Selector SetDepthBias = "setDepthBias:slopeScale:clamp:";
 
-    public static readonly Selector SetDepthTestBounds = Selector.Register("setDepthTestMinBound:maxBound:");
+    public static readonly Selector SetDepthTestBounds = "setDepthTestMinBound:maxBound:";
 
-    public static readonly Selector SetFragmentAccelerationStructure = Selector.Register("setFragmentAccelerationStructure:atBufferIndex:");
+    public static readonly Selector SetFragmentAccelerationStructure = "setFragmentAccelerationStructure:atBufferIndex:";
 
-    public static readonly Selector SetFragmentBuffer = Selector.Register("setFragmentBuffer:offset:atIndex:");
+    public static readonly Selector SetFragmentBuffer = "setFragmentBuffer:offset:atIndex:";
 
-    public static readonly Selector SetFragmentBufferOffset = Selector.Register("setFragmentBufferOffset:atIndex:");
+    public static readonly Selector SetFragmentBufferOffset = "setFragmentBufferOffset:atIndex:";
 
-    public static readonly Selector SetFragmentBytes = Selector.Register("setFragmentBytes:length:atIndex:");
+    public static readonly Selector SetFragmentBytes = "setFragmentBytes:length:atIndex:";
 
-    public static readonly Selector SetFragmentIntersectionFunctionTable = Selector.Register("setFragmentIntersectionFunctionTable:atBufferIndex:");
+    public static readonly Selector SetFragmentIntersectionFunctionTable = "setFragmentIntersectionFunctionTable:atBufferIndex:";
 
-    public static readonly Selector SetFragmentSamplerState = Selector.Register("setFragmentSamplerState:atIndex:");
+    public static readonly Selector SetFragmentSamplerState = "setFragmentSamplerState:atIndex:";
 
-    public static readonly Selector SetFragmentTexture = Selector.Register("setFragmentTexture:atIndex:");
+    public static readonly Selector SetFragmentTexture = "setFragmentTexture:atIndex:";
 
-    public static readonly Selector SetFragmentVisibleFunctionTable = Selector.Register("setFragmentVisibleFunctionTable:atBufferIndex:");
+    public static readonly Selector SetFragmentVisibleFunctionTable = "setFragmentVisibleFunctionTable:atBufferIndex:";
 
-    public static readonly Selector SetMeshBuffer = Selector.Register("setMeshBuffer:offset:atIndex:");
+    public static readonly Selector SetMeshBuffer = "setMeshBuffer:offset:atIndex:";
 
-    public static readonly Selector SetMeshBufferOffset = Selector.Register("setMeshBufferOffset:atIndex:");
+    public static readonly Selector SetMeshBufferOffset = "setMeshBufferOffset:atIndex:";
 
-    public static readonly Selector SetMeshBytes = Selector.Register("setMeshBytes:length:atIndex:");
+    public static readonly Selector SetMeshBytes = "setMeshBytes:length:atIndex:";
 
-    public static readonly Selector SetMeshSamplerState = Selector.Register("setMeshSamplerState:atIndex:");
+    public static readonly Selector SetMeshSamplerState = "setMeshSamplerState:atIndex:";
 
-    public static readonly Selector SetMeshTexture = Selector.Register("setMeshTexture:atIndex:");
+    public static readonly Selector SetMeshTexture = "setMeshTexture:atIndex:";
 
-    public static readonly Selector SetObjectBuffer = Selector.Register("setObjectBuffer:offset:atIndex:");
+    public static readonly Selector SetObjectBuffer = "setObjectBuffer:offset:atIndex:";
 
-    public static readonly Selector SetObjectBufferOffset = Selector.Register("setObjectBufferOffset:atIndex:");
+    public static readonly Selector SetObjectBufferOffset = "setObjectBufferOffset:atIndex:";
 
-    public static readonly Selector SetObjectBytes = Selector.Register("setObjectBytes:length:atIndex:");
+    public static readonly Selector SetObjectBytes = "setObjectBytes:length:atIndex:";
 
-    public static readonly Selector SetObjectSamplerState = Selector.Register("setObjectSamplerState:atIndex:");
+    public static readonly Selector SetObjectSamplerState = "setObjectSamplerState:atIndex:";
 
-    public static readonly Selector SetObjectTexture = Selector.Register("setObjectTexture:atIndex:");
+    public static readonly Selector SetObjectTexture = "setObjectTexture:atIndex:";
 
-    public static readonly Selector SetObjectThreadgroupMemoryLength = Selector.Register("setObjectThreadgroupMemoryLength:atIndex:");
+    public static readonly Selector SetObjectThreadgroupMemoryLength = "setObjectThreadgroupMemoryLength:atIndex:";
 
-    public static readonly Selector SetScissorRects = Selector.Register("setScissorRects:count:");
+    public static readonly Selector SetScissorRects = "setScissorRects:count:";
 
-    public static readonly Selector SetStencilReferenceValues = Selector.Register("setStencilFrontReferenceValue:backReferenceValue:");
+    public static readonly Selector SetStencilReferenceValues = "setStencilFrontReferenceValue:backReferenceValue:";
 
-    public static readonly Selector SetTessellationFactorBuffer = Selector.Register("setTessellationFactorBuffer:offset:instanceStride:");
+    public static readonly Selector SetTessellationFactorBuffer = "setTessellationFactorBuffer:offset:instanceStride:";
 
-    public static readonly Selector SetThreadgroupMemoryLength = Selector.Register("setThreadgroupMemoryLength:offset:atIndex:");
+    public static readonly Selector SetThreadgroupMemoryLength = "setThreadgroupMemoryLength:offset:atIndex:";
 
-    public static readonly Selector SetTileAccelerationStructure = Selector.Register("setTileAccelerationStructure:atBufferIndex:");
+    public static readonly Selector SetTileAccelerationStructure = "setTileAccelerationStructure:atBufferIndex:";
 
-    public static readonly Selector SetTileBuffer = Selector.Register("setTileBuffer:offset:atIndex:");
+    public static readonly Selector SetTileBuffer = "setTileBuffer:offset:atIndex:";
 
-    public static readonly Selector SetTileBufferOffset = Selector.Register("setTileBufferOffset:atIndex:");
+    public static readonly Selector SetTileBufferOffset = "setTileBufferOffset:atIndex:";
 
-    public static readonly Selector SetTileBytes = Selector.Register("setTileBytes:length:atIndex:");
+    public static readonly Selector SetTileBytes = "setTileBytes:length:atIndex:";
 
-    public static readonly Selector SetTileIntersectionFunctionTable = Selector.Register("setTileIntersectionFunctionTable:atBufferIndex:");
+    public static readonly Selector SetTileIntersectionFunctionTable = "setTileIntersectionFunctionTable:atBufferIndex:";
 
-    public static readonly Selector SetTileSamplerState = Selector.Register("setTileSamplerState:atIndex:");
+    public static readonly Selector SetTileSamplerState = "setTileSamplerState:atIndex:";
 
-    public static readonly Selector SetTileTexture = Selector.Register("setTileTexture:atIndex:");
+    public static readonly Selector SetTileTexture = "setTileTexture:atIndex:";
 
-    public static readonly Selector SetTileVisibleFunctionTable = Selector.Register("setTileVisibleFunctionTable:atBufferIndex:");
+    public static readonly Selector SetTileVisibleFunctionTable = "setTileVisibleFunctionTable:atBufferIndex:";
 
-    public static readonly Selector SetVertexAccelerationStructure = Selector.Register("setVertexAccelerationStructure:atBufferIndex:");
+    public static readonly Selector SetVertexAccelerationStructure = "setVertexAccelerationStructure:atBufferIndex:";
 
-    public static readonly Selector SetVertexAmplificationCount = Selector.Register("setVertexAmplificationCount:viewMappings:");
+    public static readonly Selector SetVertexAmplificationCount = "setVertexAmplificationCount:viewMappings:";
 
-    public static readonly Selector SetVertexBuffer = Selector.Register("setVertexBuffer:offset:atIndex:");
+    public static readonly Selector SetVertexBuffer = "setVertexBuffer:offset:atIndex:";
 
-    public static readonly Selector SetVertexBufferOffset = Selector.Register("setVertexBufferOffset:atIndex:");
+    public static readonly Selector SetVertexBufferOffset = "setVertexBufferOffset:atIndex:";
 
-    public static readonly Selector SetVertexBytes = Selector.Register("setVertexBytes:length:atIndex:");
+    public static readonly Selector SetVertexBytes = "setVertexBytes:length:atIndex:";
 
-    public static readonly Selector SetVertexIntersectionFunctionTable = Selector.Register("setVertexIntersectionFunctionTable:atBufferIndex:");
+    public static readonly Selector SetVertexIntersectionFunctionTable = "setVertexIntersectionFunctionTable:atBufferIndex:";
 
-    public static readonly Selector SetVertexSamplerState = Selector.Register("setVertexSamplerState:atIndex:");
+    public static readonly Selector SetVertexSamplerState = "setVertexSamplerState:atIndex:";
 
-    public static readonly Selector SetVertexTexture = Selector.Register("setVertexTexture:atIndex:");
+    public static readonly Selector SetVertexTexture = "setVertexTexture:atIndex:";
 
-    public static readonly Selector SetVertexVisibleFunctionTable = Selector.Register("setVertexVisibleFunctionTable:atBufferIndex:");
+    public static readonly Selector SetVertexVisibleFunctionTable = "setVertexVisibleFunctionTable:atBufferIndex:";
 
-    public static readonly Selector SetViewports = Selector.Register("setViewports:count:");
+    public static readonly Selector SetViewports = "setViewports:count:";
 
-    public static readonly Selector SetVisibilityResultMode = Selector.Register("setVisibilityResultMode:offset:");
+    public static readonly Selector SetVisibilityResultMode = "setVisibilityResultMode:offset:";
 
-    public static readonly Selector TextureBarrier = Selector.Register("textureBarrier");
+    public static readonly Selector TextureBarrier = "textureBarrier";
 
-    public static readonly Selector TileHeight = Selector.Register("tileHeight");
+    public static readonly Selector TileHeight = "tileHeight";
 
-    public static readonly Selector TileWidth = Selector.Register("tileWidth");
+    public static readonly Selector TileWidth = "tileWidth";
 
-    public static readonly Selector UpdateFence = Selector.Register("updateFence:afterStages:");
+    public static readonly Selector UpdateFence = "updateFence:afterStages:";
 
-    public static readonly Selector UseHeap = Selector.Register("useHeap:");
+    public static readonly Selector UseHeap = "useHeap:";
 
-    public static readonly Selector UseResource = Selector.Register("useResource:usage:");
+    public static readonly Selector UseResource = "useResource:usage:";
 
-    public static readonly Selector WaitForFence = Selector.Register("waitForFence:beforeStages:");
+    public static readonly Selector WaitForFence = "waitForFence:beforeStages:";
 }

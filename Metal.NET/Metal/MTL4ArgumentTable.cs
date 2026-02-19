@@ -4,42 +4,12 @@ public class MTL4ArgumentTable(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArgumentTableBindings.Device);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLDevice(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLDevice>(ref field, MTL4ArgumentTableBindings.Device);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArgumentTableBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSString>(ref field, MTL4ArgumentTableBindings.Label);
     }
 
     public void SetAddress(nuint gpuAddress, nuint bindingIndex)
@@ -70,15 +40,15 @@ public class MTL4ArgumentTable(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTL4ArgumentTableBindings
 {
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector SetAddress = Selector.Register("setAddress:atIndex:");
+    public static readonly Selector SetAddress = "setAddress:atIndex:";
 
-    public static readonly Selector SetResource = Selector.Register("setResource:atBufferIndex:");
+    public static readonly Selector SetResource = "setResource:atBufferIndex:";
 
-    public static readonly Selector SetSamplerState = Selector.Register("setSamplerState:atIndex:");
+    public static readonly Selector SetSamplerState = "setSamplerState:atIndex:";
 
-    public static readonly Selector SetTexture = Selector.Register("setTexture:atIndex:");
+    public static readonly Selector SetTexture = "setTexture:atIndex:";
 }

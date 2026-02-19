@@ -19,54 +19,24 @@ public class MTLBufferBinding(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLPointerType? BufferPointerType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindingBindings.BufferPointerType);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLPointerType(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLPointerType>(ref field, MTLBufferBindingBindings.BufferPointerType);
     }
 
     public MTLStructType? BufferStructType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindingBindings.BufferStructType);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLStructType(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLStructType>(ref field, MTLBufferBindingBindings.BufferStructType);
     }
 }
 
 file static class MTLBufferBindingBindings
 {
-    public static readonly Selector BufferAlignment = Selector.Register("bufferAlignment");
+    public static readonly Selector BufferAlignment = "bufferAlignment";
 
-    public static readonly Selector BufferDataSize = Selector.Register("bufferDataSize");
+    public static readonly Selector BufferDataSize = "bufferDataSize";
 
-    public static readonly Selector BufferDataType = Selector.Register("bufferDataType");
+    public static readonly Selector BufferDataType = "bufferDataType";
 
-    public static readonly Selector BufferPointerType = Selector.Register("bufferPointerType");
+    public static readonly Selector BufferPointerType = "bufferPointerType";
 
-    public static readonly Selector BufferStructType = Selector.Register("bufferStructType");
+    public static readonly Selector BufferStructType = "bufferStructType";
 }

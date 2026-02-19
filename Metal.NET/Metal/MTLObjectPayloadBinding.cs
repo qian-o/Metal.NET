@@ -15,7 +15,7 @@ public class MTLObjectPayloadBinding(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLObjectPayloadBindingBindings
 {
-    public static readonly Selector ObjectPayloadAlignment = Selector.Register("objectPayloadAlignment");
+    public static readonly Selector ObjectPayloadAlignment = "objectPayloadAlignment";
 
-    public static readonly Selector ObjectPayloadDataSize = Selector.Register("objectPayloadDataSize");
+    public static readonly Selector ObjectPayloadDataSize = "objectPayloadDataSize";
 }

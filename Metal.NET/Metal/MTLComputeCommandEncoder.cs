@@ -140,45 +140,45 @@ public class MTLComputeCommandEncoder(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLComputeCommandEncoderBindings
 {
-    public static readonly Selector DispatchThreadgroups = Selector.Register("dispatchThreadgroups:threadsPerThreadgroup:");
+    public static readonly Selector DispatchThreadgroups = "dispatchThreadgroups:threadsPerThreadgroup:";
 
-    public static readonly Selector DispatchThreads = Selector.Register("dispatchThreads:threadsPerThreadgroup:");
+    public static readonly Selector DispatchThreads = "dispatchThreads:threadsPerThreadgroup:";
 
-    public static readonly Selector DispatchType = Selector.Register("dispatchType");
+    public static readonly Selector DispatchType = "dispatchType";
 
-    public static readonly Selector ExecuteCommandsInBuffer = Selector.Register("executeCommandsInBuffer:withRange:");
+    public static readonly Selector ExecuteCommandsInBuffer = "executeCommandsInBuffer:withRange:";
 
-    public static readonly Selector MemoryBarrier = Selector.Register("memoryBarrierWithScope:");
+    public static readonly Selector MemoryBarrier = "memoryBarrierWithScope:";
 
-    public static readonly Selector SampleCountersInBuffer = Selector.Register("sampleCountersInBuffer:atSampleIndex:withBarrier:");
+    public static readonly Selector SampleCountersInBuffer = "sampleCountersInBuffer:atSampleIndex:withBarrier:";
 
-    public static readonly Selector SetAccelerationStructure = Selector.Register("setAccelerationStructure:atBufferIndex:");
+    public static readonly Selector SetAccelerationStructure = "setAccelerationStructure:atBufferIndex:";
 
-    public static readonly Selector SetBuffer = Selector.Register("setBuffer:offset:atIndex:");
+    public static readonly Selector SetBuffer = "setBuffer:offset:atIndex:";
 
-    public static readonly Selector SetBufferOffset = Selector.Register("setBufferOffset:atIndex:");
+    public static readonly Selector SetBufferOffset = "setBufferOffset:atIndex:";
 
-    public static readonly Selector SetBytes = Selector.Register("setBytes:length:atIndex:");
+    public static readonly Selector SetBytes = "setBytes:length:atIndex:";
 
-    public static readonly Selector SetImageblockWidth = Selector.Register("setImageblockWidth:height:");
+    public static readonly Selector SetImageblockWidth = "setImageblockWidth:height:";
 
-    public static readonly Selector SetIntersectionFunctionTable = Selector.Register("setIntersectionFunctionTable:atBufferIndex:");
+    public static readonly Selector SetIntersectionFunctionTable = "setIntersectionFunctionTable:atBufferIndex:";
 
-    public static readonly Selector SetSamplerState = Selector.Register("setSamplerState:atIndex:");
+    public static readonly Selector SetSamplerState = "setSamplerState:atIndex:";
 
-    public static readonly Selector SetStageInRegion = Selector.Register("setStageInRegionWithIndirectBuffer:indirectBufferOffset:");
+    public static readonly Selector SetStageInRegion = "setStageInRegionWithIndirectBuffer:indirectBufferOffset:";
 
-    public static readonly Selector SetTexture = Selector.Register("setTexture:atIndex:");
+    public static readonly Selector SetTexture = "setTexture:atIndex:";
 
-    public static readonly Selector SetThreadgroupMemoryLength = Selector.Register("setThreadgroupMemoryLength:atIndex:");
+    public static readonly Selector SetThreadgroupMemoryLength = "setThreadgroupMemoryLength:atIndex:";
 
-    public static readonly Selector SetVisibleFunctionTable = Selector.Register("setVisibleFunctionTable:atBufferIndex:");
+    public static readonly Selector SetVisibleFunctionTable = "setVisibleFunctionTable:atBufferIndex:";
 
-    public static readonly Selector UpdateFence = Selector.Register("updateFence:");
+    public static readonly Selector UpdateFence = "updateFence:";
 
-    public static readonly Selector UseHeap = Selector.Register("useHeap:");
+    public static readonly Selector UseHeap = "useHeap:";
 
-    public static readonly Selector UseResource = Selector.Register("useResource:usage:");
+    public static readonly Selector UseResource = "useResource:usage:";
 
-    public static readonly Selector WaitForFence = Selector.Register("waitForFence:");
+    public static readonly Selector WaitForFence = "waitForFence:";
 }

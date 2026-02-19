@@ -8,27 +8,8 @@ public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr) : N
 
     public MTLBuffer? ControlPointBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.ControlPointBuffer);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLBuffer(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetControlPointBuffer, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLBuffer>(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.ControlPointBuffer);
+        set => SetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetControlPointBuffer, value);
     }
 
     public nuint ControlPointBufferOffset
@@ -75,27 +56,8 @@ public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr) : N
 
     public MTLBuffer? IndexBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.IndexBuffer);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLBuffer(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetIndexBuffer, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLBuffer>(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.IndexBuffer);
+        set => SetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetIndexBuffer, value);
     }
 
     public nuint IndexBufferOffset
@@ -112,27 +74,8 @@ public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr) : N
 
     public MTLBuffer? RadiusBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.RadiusBuffer);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLBuffer(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetRadiusBuffer, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLBuffer>(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.RadiusBuffer);
+        set => SetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetRadiusBuffer, value);
     }
 
     public nuint RadiusBufferOffset
@@ -176,73 +119,73 @@ file static class MTLAccelerationStructureCurveGeometryDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureCurveGeometryDescriptor");
 
-    public static readonly Selector ControlPointBuffer = Selector.Register("controlPointBuffer");
+    public static readonly Selector ControlPointBuffer = "controlPointBuffer";
 
-    public static readonly Selector ControlPointBufferOffset = Selector.Register("controlPointBufferOffset");
+    public static readonly Selector ControlPointBufferOffset = "controlPointBufferOffset";
 
-    public static readonly Selector ControlPointCount = Selector.Register("controlPointCount");
+    public static readonly Selector ControlPointCount = "controlPointCount";
 
-    public static readonly Selector ControlPointFormat = Selector.Register("controlPointFormat");
+    public static readonly Selector ControlPointFormat = "controlPointFormat";
 
-    public static readonly Selector ControlPointStride = Selector.Register("controlPointStride");
+    public static readonly Selector ControlPointStride = "controlPointStride";
 
-    public static readonly Selector CurveBasis = Selector.Register("curveBasis");
+    public static readonly Selector CurveBasis = "curveBasis";
 
-    public static readonly Selector CurveEndCaps = Selector.Register("curveEndCaps");
+    public static readonly Selector CurveEndCaps = "curveEndCaps";
 
-    public static readonly Selector CurveType = Selector.Register("curveType");
+    public static readonly Selector CurveType = "curveType";
 
-    public static readonly Selector Descriptor = Selector.Register("descriptor");
+    public static readonly Selector Descriptor = "descriptor";
 
-    public static readonly Selector IndexBuffer = Selector.Register("indexBuffer");
+    public static readonly Selector IndexBuffer = "indexBuffer";
 
-    public static readonly Selector IndexBufferOffset = Selector.Register("indexBufferOffset");
+    public static readonly Selector IndexBufferOffset = "indexBufferOffset";
 
-    public static readonly Selector IndexType = Selector.Register("indexType");
+    public static readonly Selector IndexType = "indexType";
 
-    public static readonly Selector RadiusBuffer = Selector.Register("radiusBuffer");
+    public static readonly Selector RadiusBuffer = "radiusBuffer";
 
-    public static readonly Selector RadiusBufferOffset = Selector.Register("radiusBufferOffset");
+    public static readonly Selector RadiusBufferOffset = "radiusBufferOffset";
 
-    public static readonly Selector RadiusFormat = Selector.Register("radiusFormat");
+    public static readonly Selector RadiusFormat = "radiusFormat";
 
-    public static readonly Selector RadiusStride = Selector.Register("radiusStride");
+    public static readonly Selector RadiusStride = "radiusStride";
 
-    public static readonly Selector SegmentControlPointCount = Selector.Register("segmentControlPointCount");
+    public static readonly Selector SegmentControlPointCount = "segmentControlPointCount";
 
-    public static readonly Selector SegmentCount = Selector.Register("segmentCount");
+    public static readonly Selector SegmentCount = "segmentCount";
 
-    public static readonly Selector SetControlPointBuffer = Selector.Register("setControlPointBuffer:");
+    public static readonly Selector SetControlPointBuffer = "setControlPointBuffer:";
 
-    public static readonly Selector SetControlPointBufferOffset = Selector.Register("setControlPointBufferOffset:");
+    public static readonly Selector SetControlPointBufferOffset = "setControlPointBufferOffset:";
 
-    public static readonly Selector SetControlPointCount = Selector.Register("setControlPointCount:");
+    public static readonly Selector SetControlPointCount = "setControlPointCount:";
 
-    public static readonly Selector SetControlPointFormat = Selector.Register("setControlPointFormat:");
+    public static readonly Selector SetControlPointFormat = "setControlPointFormat:";
 
-    public static readonly Selector SetControlPointStride = Selector.Register("setControlPointStride:");
+    public static readonly Selector SetControlPointStride = "setControlPointStride:";
 
-    public static readonly Selector SetCurveBasis = Selector.Register("setCurveBasis:");
+    public static readonly Selector SetCurveBasis = "setCurveBasis:";
 
-    public static readonly Selector SetCurveEndCaps = Selector.Register("setCurveEndCaps:");
+    public static readonly Selector SetCurveEndCaps = "setCurveEndCaps:";
 
-    public static readonly Selector SetCurveType = Selector.Register("setCurveType:");
+    public static readonly Selector SetCurveType = "setCurveType:";
 
-    public static readonly Selector SetIndexBuffer = Selector.Register("setIndexBuffer:");
+    public static readonly Selector SetIndexBuffer = "setIndexBuffer:";
 
-    public static readonly Selector SetIndexBufferOffset = Selector.Register("setIndexBufferOffset:");
+    public static readonly Selector SetIndexBufferOffset = "setIndexBufferOffset:";
 
-    public static readonly Selector SetIndexType = Selector.Register("setIndexType:");
+    public static readonly Selector SetIndexType = "setIndexType:";
 
-    public static readonly Selector SetRadiusBuffer = Selector.Register("setRadiusBuffer:");
+    public static readonly Selector SetRadiusBuffer = "setRadiusBuffer:";
 
-    public static readonly Selector SetRadiusBufferOffset = Selector.Register("setRadiusBufferOffset:");
+    public static readonly Selector SetRadiusBufferOffset = "setRadiusBufferOffset:";
 
-    public static readonly Selector SetRadiusFormat = Selector.Register("setRadiusFormat:");
+    public static readonly Selector SetRadiusFormat = "setRadiusFormat:";
 
-    public static readonly Selector SetRadiusStride = Selector.Register("setRadiusStride:");
+    public static readonly Selector SetRadiusStride = "setRadiusStride:";
 
-    public static readonly Selector SetSegmentControlPointCount = Selector.Register("setSegmentControlPointCount:");
+    public static readonly Selector SetSegmentControlPointCount = "setSegmentControlPointCount:";
 
-    public static readonly Selector SetSegmentCount = Selector.Register("setSegmentCount:");
+    public static readonly Selector SetSegmentCount = "setSegmentCount:";
 }

@@ -23,9 +23,9 @@ file static class MTLIntersectionFunctionTableDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIntersectionFunctionTableDescriptor");
 
-    public static readonly Selector FunctionCount = Selector.Register("functionCount");
+    public static readonly Selector FunctionCount = "functionCount";
 
-    public static readonly Selector IntersectionFunctionTableDescriptor = Selector.Register("intersectionFunctionTableDescriptor");
+    public static readonly Selector IntersectionFunctionTableDescriptor = "intersectionFunctionTableDescriptor";
 
-    public static readonly Selector SetFunctionCount = Selector.Register("setFunctionCount:");
+    public static readonly Selector SetFunctionCount = "setFunctionCount:";
 }

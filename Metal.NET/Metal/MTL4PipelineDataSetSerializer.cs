@@ -12,5 +12,5 @@ public class MTL4PipelineDataSetSerializer(nint nativePtr) : NativeObject(native
 
 file static class MTL4PipelineDataSetSerializerBindings
 {
-    public static readonly Selector SerializeAsArchiveAndFlushToURL = Selector.Register("serializeAsArchiveAndFlushToURL:error:");
+    public static readonly Selector SerializeAsArchiveAndFlushToURL = "serializeAsArchiveAndFlushToURL:error:";
 }

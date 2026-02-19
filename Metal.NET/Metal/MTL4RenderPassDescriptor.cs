@@ -8,22 +8,7 @@ public class MTL4RenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLRenderPassColorAttachmentDescriptorArray? ColorAttachments
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorBindings.ColorAttachments);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLRenderPassColorAttachmentDescriptorArray(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLRenderPassColorAttachmentDescriptorArray>(ref field, MTL4RenderPassDescriptorBindings.ColorAttachments);
     }
 
     public nuint DefaultRasterSampleCount
@@ -34,27 +19,8 @@ public class MTL4RenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLRenderPassDepthAttachmentDescriptor? DepthAttachment
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorBindings.DepthAttachment);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLRenderPassDepthAttachmentDescriptor(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetDepthAttachment, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLRenderPassDepthAttachmentDescriptor>(ref field, MTL4RenderPassDescriptorBindings.DepthAttachment);
+        set => SetProperty(ref field, MTL4RenderPassDescriptorBindings.SetDepthAttachment, value);
     }
 
     public nuint ImageblockSampleLength
@@ -65,27 +31,8 @@ public class MTL4RenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLRasterizationRateMap? RasterizationRateMap
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorBindings.RasterizationRateMap);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLRasterizationRateMap(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetRasterizationRateMap, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLRasterizationRateMap>(ref field, MTL4RenderPassDescriptorBindings.RasterizationRateMap);
+        set => SetProperty(ref field, MTL4RenderPassDescriptorBindings.SetRasterizationRateMap, value);
     }
 
     public nuint RenderTargetArrayLength
@@ -108,27 +55,8 @@ public class MTL4RenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLRenderPassStencilAttachmentDescriptor? StencilAttachment
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorBindings.StencilAttachment);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLRenderPassStencilAttachmentDescriptor(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetStencilAttachment, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLRenderPassStencilAttachmentDescriptor>(ref field, MTL4RenderPassDescriptorBindings.StencilAttachment);
+        set => SetProperty(ref field, MTL4RenderPassDescriptorBindings.SetStencilAttachment, value);
     }
 
     public bool SupportColorAttachmentMapping
@@ -157,27 +85,8 @@ public class MTL4RenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLBuffer? VisibilityResultBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorBindings.VisibilityResultBuffer);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLBuffer(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetVisibilityResultBuffer, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<MTLBuffer>(ref field, MTL4RenderPassDescriptorBindings.VisibilityResultBuffer);
+        set => SetProperty(ref field, MTL4RenderPassDescriptorBindings.SetVisibilityResultBuffer, value);
     }
 
     public MTLVisibilityResultType VisibilityResultType
@@ -201,65 +110,65 @@ file static class MTL4RenderPassDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPassDescriptor");
 
-    public static readonly Selector ColorAttachments = Selector.Register("colorAttachments");
+    public static readonly Selector ColorAttachments = "colorAttachments";
 
-    public static readonly Selector DefaultRasterSampleCount = Selector.Register("defaultRasterSampleCount");
+    public static readonly Selector DefaultRasterSampleCount = "defaultRasterSampleCount";
 
-    public static readonly Selector DepthAttachment = Selector.Register("depthAttachment");
+    public static readonly Selector DepthAttachment = "depthAttachment";
 
-    public static readonly Selector GetSamplePositions = Selector.Register("getSamplePositions:count:");
+    public static readonly Selector GetSamplePositions = "getSamplePositions:count:";
 
-    public static readonly Selector ImageblockSampleLength = Selector.Register("imageblockSampleLength");
+    public static readonly Selector ImageblockSampleLength = "imageblockSampleLength";
 
-    public static readonly Selector RasterizationRateMap = Selector.Register("rasterizationRateMap");
+    public static readonly Selector RasterizationRateMap = "rasterizationRateMap";
 
-    public static readonly Selector RenderTargetArrayLength = Selector.Register("renderTargetArrayLength");
+    public static readonly Selector RenderTargetArrayLength = "renderTargetArrayLength";
 
-    public static readonly Selector RenderTargetHeight = Selector.Register("renderTargetHeight");
+    public static readonly Selector RenderTargetHeight = "renderTargetHeight";
 
-    public static readonly Selector RenderTargetWidth = Selector.Register("renderTargetWidth");
+    public static readonly Selector RenderTargetWidth = "renderTargetWidth";
 
-    public static readonly Selector SetDefaultRasterSampleCount = Selector.Register("setDefaultRasterSampleCount:");
+    public static readonly Selector SetDefaultRasterSampleCount = "setDefaultRasterSampleCount:";
 
-    public static readonly Selector SetDepthAttachment = Selector.Register("setDepthAttachment:");
+    public static readonly Selector SetDepthAttachment = "setDepthAttachment:";
 
-    public static readonly Selector SetImageblockSampleLength = Selector.Register("setImageblockSampleLength:");
+    public static readonly Selector SetImageblockSampleLength = "setImageblockSampleLength:";
 
-    public static readonly Selector SetRasterizationRateMap = Selector.Register("setRasterizationRateMap:");
+    public static readonly Selector SetRasterizationRateMap = "setRasterizationRateMap:";
 
-    public static readonly Selector SetRenderTargetArrayLength = Selector.Register("setRenderTargetArrayLength:");
+    public static readonly Selector SetRenderTargetArrayLength = "setRenderTargetArrayLength:";
 
-    public static readonly Selector SetRenderTargetHeight = Selector.Register("setRenderTargetHeight:");
+    public static readonly Selector SetRenderTargetHeight = "setRenderTargetHeight:";
 
-    public static readonly Selector SetRenderTargetWidth = Selector.Register("setRenderTargetWidth:");
+    public static readonly Selector SetRenderTargetWidth = "setRenderTargetWidth:";
 
-    public static readonly Selector SetSamplePositions = Selector.Register("setSamplePositions:count:");
+    public static readonly Selector SetSamplePositions = "setSamplePositions:count:";
 
-    public static readonly Selector SetStencilAttachment = Selector.Register("setStencilAttachment:");
+    public static readonly Selector SetStencilAttachment = "setStencilAttachment:";
 
-    public static readonly Selector SetSupportColorAttachmentMapping = Selector.Register("setSupportColorAttachmentMapping:");
+    public static readonly Selector SetSupportColorAttachmentMapping = "setSupportColorAttachmentMapping:";
 
-    public static readonly Selector SetThreadgroupMemoryLength = Selector.Register("setThreadgroupMemoryLength:");
+    public static readonly Selector SetThreadgroupMemoryLength = "setThreadgroupMemoryLength:";
 
-    public static readonly Selector SetTileHeight = Selector.Register("setTileHeight:");
+    public static readonly Selector SetTileHeight = "setTileHeight:";
 
-    public static readonly Selector SetTileWidth = Selector.Register("setTileWidth:");
+    public static readonly Selector SetTileWidth = "setTileWidth:";
 
-    public static readonly Selector SetVisibilityResultBuffer = Selector.Register("setVisibilityResultBuffer:");
+    public static readonly Selector SetVisibilityResultBuffer = "setVisibilityResultBuffer:";
 
-    public static readonly Selector SetVisibilityResultType = Selector.Register("setVisibilityResultType:");
+    public static readonly Selector SetVisibilityResultType = "setVisibilityResultType:";
 
-    public static readonly Selector StencilAttachment = Selector.Register("stencilAttachment");
+    public static readonly Selector StencilAttachment = "stencilAttachment";
 
-    public static readonly Selector SupportColorAttachmentMapping = Selector.Register("supportColorAttachmentMapping");
+    public static readonly Selector SupportColorAttachmentMapping = "supportColorAttachmentMapping";
 
-    public static readonly Selector ThreadgroupMemoryLength = Selector.Register("threadgroupMemoryLength");
+    public static readonly Selector ThreadgroupMemoryLength = "threadgroupMemoryLength";
 
-    public static readonly Selector TileHeight = Selector.Register("tileHeight");
+    public static readonly Selector TileHeight = "tileHeight";
 
-    public static readonly Selector TileWidth = Selector.Register("tileWidth");
+    public static readonly Selector TileWidth = "tileWidth";
 
-    public static readonly Selector VisibilityResultBuffer = Selector.Register("visibilityResultBuffer");
+    public static readonly Selector VisibilityResultBuffer = "visibilityResultBuffer";
 
-    public static readonly Selector VisibilityResultType = Selector.Register("visibilityResultType");
+    public static readonly Selector VisibilityResultType = "visibilityResultType";
 }

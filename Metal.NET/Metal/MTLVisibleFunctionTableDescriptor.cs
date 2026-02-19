@@ -23,9 +23,9 @@ file static class MTLVisibleFunctionTableDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVisibleFunctionTableDescriptor");
 
-    public static readonly Selector FunctionCount = Selector.Register("functionCount");
+    public static readonly Selector FunctionCount = "functionCount";
 
-    public static readonly Selector SetFunctionCount = Selector.Register("setFunctionCount:");
+    public static readonly Selector SetFunctionCount = "setFunctionCount:";
 
-    public static readonly Selector VisibleFunctionTableDescriptor = Selector.Register("visibleFunctionTableDescriptor");
+    public static readonly Selector VisibleFunctionTableDescriptor = "visibleFunctionTableDescriptor";
 }

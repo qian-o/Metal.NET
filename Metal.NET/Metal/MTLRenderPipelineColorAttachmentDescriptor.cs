@@ -70,41 +70,41 @@ file static class MTLRenderPipelineColorAttachmentDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPipelineColorAttachmentDescriptor");
 
-    public static readonly Selector AlphaBlendOperation = Selector.Register("alphaBlendOperation");
+    public static readonly Selector AlphaBlendOperation = "alphaBlendOperation";
 
-    public static readonly Selector BlendingEnabled = Selector.Register("isBlendingEnabled");
+    public static readonly Selector BlendingEnabled = "isBlendingEnabled";
 
-    public static readonly Selector DestinationAlphaBlendFactor = Selector.Register("destinationAlphaBlendFactor");
+    public static readonly Selector DestinationAlphaBlendFactor = "destinationAlphaBlendFactor";
 
-    public static readonly Selector DestinationRGBBlendFactor = Selector.Register("destinationRGBBlendFactor");
+    public static readonly Selector DestinationRGBBlendFactor = "destinationRGBBlendFactor";
 
-    public static readonly Selector IsBlendingEnabled = Selector.Register("isBlendingEnabled");
+    public static readonly Selector IsBlendingEnabled = "isBlendingEnabled";
 
-    public static readonly Selector PixelFormat = Selector.Register("pixelFormat");
+    public static readonly Selector PixelFormat = "pixelFormat";
 
-    public static readonly Selector RgbBlendOperation = Selector.Register("rgbBlendOperation");
+    public static readonly Selector RgbBlendOperation = "rgbBlendOperation";
 
-    public static readonly Selector SetAlphaBlendOperation = Selector.Register("setAlphaBlendOperation:");
+    public static readonly Selector SetAlphaBlendOperation = "setAlphaBlendOperation:";
 
-    public static readonly Selector SetBlendingEnabled = Selector.Register("setBlendingEnabled:");
+    public static readonly Selector SetBlendingEnabled = "setBlendingEnabled:";
 
-    public static readonly Selector SetDestinationAlphaBlendFactor = Selector.Register("setDestinationAlphaBlendFactor:");
+    public static readonly Selector SetDestinationAlphaBlendFactor = "setDestinationAlphaBlendFactor:";
 
-    public static readonly Selector SetDestinationRGBBlendFactor = Selector.Register("setDestinationRGBBlendFactor:");
+    public static readonly Selector SetDestinationRGBBlendFactor = "setDestinationRGBBlendFactor:";
 
-    public static readonly Selector SetPixelFormat = Selector.Register("setPixelFormat:");
+    public static readonly Selector SetPixelFormat = "setPixelFormat:";
 
-    public static readonly Selector SetRgbBlendOperation = Selector.Register("setRgbBlendOperation:");
+    public static readonly Selector SetRgbBlendOperation = "setRgbBlendOperation:";
 
-    public static readonly Selector SetSourceAlphaBlendFactor = Selector.Register("setSourceAlphaBlendFactor:");
+    public static readonly Selector SetSourceAlphaBlendFactor = "setSourceAlphaBlendFactor:";
 
-    public static readonly Selector SetSourceRGBBlendFactor = Selector.Register("setSourceRGBBlendFactor:");
+    public static readonly Selector SetSourceRGBBlendFactor = "setSourceRGBBlendFactor:";
 
-    public static readonly Selector SetWriteMask = Selector.Register("setWriteMask:");
+    public static readonly Selector SetWriteMask = "setWriteMask:";
 
-    public static readonly Selector SourceAlphaBlendFactor = Selector.Register("sourceAlphaBlendFactor");
+    public static readonly Selector SourceAlphaBlendFactor = "sourceAlphaBlendFactor";
 
-    public static readonly Selector SourceRGBBlendFactor = Selector.Register("sourceRGBBlendFactor");
+    public static readonly Selector SourceRGBBlendFactor = "sourceRGBBlendFactor";
 
-    public static readonly Selector WriteMask = Selector.Register("writeMask");
+    public static readonly Selector WriteMask = "writeMask";
 }

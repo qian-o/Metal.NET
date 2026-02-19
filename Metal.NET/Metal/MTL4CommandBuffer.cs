@@ -4,87 +4,23 @@ public class MTL4CommandBuffer(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTL4ComputeCommandEncoder? ComputeCommandEncoder
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.ComputeCommandEncoder);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4ComputeCommandEncoder(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTL4ComputeCommandEncoder>(ref field, MTL4CommandBufferBindings.ComputeCommandEncoder);
     }
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.Device);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLDevice(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLDevice>(ref field, MTL4CommandBufferBindings.Device);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferBindings.SetLabel, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSString>(ref field, MTL4CommandBufferBindings.Label);
+        set => SetProperty(ref field, MTL4CommandBufferBindings.SetLabel, value);
     }
 
     public MTL4MachineLearningCommandEncoder? MachineLearningCommandEncoder
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.MachineLearningCommandEncoder);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTL4MachineLearningCommandEncoder(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTL4MachineLearningCommandEncoder>(ref field, MTL4CommandBufferBindings.MachineLearningCommandEncoder);
     }
 
     public void BeginCommandBuffer(MTL4CommandAllocator allocator)
@@ -142,29 +78,29 @@ public class MTL4CommandBuffer(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTL4CommandBufferBindings
 {
-    public static readonly Selector BeginCommandBuffer = Selector.Register("beginCommandBufferWithAllocator:");
+    public static readonly Selector BeginCommandBuffer = "beginCommandBufferWithAllocator:";
 
-    public static readonly Selector ComputeCommandEncoder = Selector.Register("computeCommandEncoder");
+    public static readonly Selector ComputeCommandEncoder = "computeCommandEncoder";
 
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector EndCommandBuffer = Selector.Register("endCommandBuffer");
+    public static readonly Selector EndCommandBuffer = "endCommandBuffer";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector MachineLearningCommandEncoder = Selector.Register("machineLearningCommandEncoder");
+    public static readonly Selector MachineLearningCommandEncoder = "machineLearningCommandEncoder";
 
-    public static readonly Selector PopDebugGroup = Selector.Register("popDebugGroup");
+    public static readonly Selector PopDebugGroup = "popDebugGroup";
 
-    public static readonly Selector PushDebugGroup = Selector.Register("pushDebugGroup:");
+    public static readonly Selector PushDebugGroup = "pushDebugGroup:";
 
-    public static readonly Selector RenderCommandEncoder = Selector.Register("renderCommandEncoderWithDescriptor:");
+    public static readonly Selector RenderCommandEncoder = "renderCommandEncoderWithDescriptor:";
 
-    public static readonly Selector ResolveCounterHeap = Selector.Register("resolveCounterHeap:withRange:intoBuffer:waitFence:updateFence:");
+    public static readonly Selector ResolveCounterHeap = "resolveCounterHeap:withRange:intoBuffer:waitFence:updateFence:";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector UseResidencySet = Selector.Register("useResidencySet:");
+    public static readonly Selector UseResidencySet = "useResidencySet:";
 
-    public static readonly Selector WriteTimestampIntoHeap = Selector.Register("writeTimestampIntoHeap:atIndex:");
+    public static readonly Selector WriteTimestampIntoHeap = "writeTimestampIntoHeap:atIndex:";
 }

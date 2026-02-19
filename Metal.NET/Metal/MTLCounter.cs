@@ -4,26 +4,11 @@ public class MTLCounter(nint nativePtr) : NativeObject(nativePtr)
 {
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterBindings.Name);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSString>(ref field, MTLCounterBindings.Name);
     }
 }
 
 file static class MTLCounterBindings
 {
-    public static readonly Selector Name = Selector.Register("name");
+    public static readonly Selector Name = "name";
 }

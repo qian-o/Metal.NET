@@ -45,15 +45,15 @@ public class MTLIntersectionFunctionTable(nint nativePtr) : NativeObject(nativeP
 
 file static class MTLIntersectionFunctionTableBindings
 {
-    public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
+    public static readonly Selector GpuResourceID = "gpuResourceID";
 
-    public static readonly Selector SetBuffer = Selector.Register("setBuffer:offset:atIndex:");
+    public static readonly Selector SetBuffer = "setBuffer:offset:atIndex:";
 
-    public static readonly Selector SetFunction = Selector.Register("setFunction:atIndex:");
+    public static readonly Selector SetFunction = "setFunction:atIndex:";
 
-    public static readonly Selector SetOpaqueCurveIntersectionFunction = Selector.Register("setOpaqueCurveIntersectionFunctionWithSignature:atIndex:");
+    public static readonly Selector SetOpaqueCurveIntersectionFunction = "setOpaqueCurveIntersectionFunctionWithSignature:atIndex:";
 
-    public static readonly Selector SetOpaqueTriangleIntersectionFunction = Selector.Register("setOpaqueTriangleIntersectionFunctionWithSignature:atIndex:");
+    public static readonly Selector SetOpaqueTriangleIntersectionFunction = "setOpaqueTriangleIntersectionFunctionWithSignature:atIndex:";
 
-    public static readonly Selector SetVisibleFunctionTable = Selector.Register("setVisibleFunctionTable:atBufferIndex:");
+    public static readonly Selector SetVisibleFunctionTable = "setVisibleFunctionTable:atBufferIndex:";
 }

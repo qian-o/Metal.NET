@@ -23,22 +23,7 @@ public class MTLPointerType(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLArrayType? ElementArrayType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeBindings.ElementArrayType);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLArrayType(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLArrayType>(ref field, MTLPointerTypeBindings.ElementArrayType);
     }
 
     public bool ElementIsArgumentBuffer
@@ -48,22 +33,7 @@ public class MTLPointerType(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLStructType? ElementStructType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeBindings.ElementStructType);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLStructType(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLStructType>(ref field, MTLPointerTypeBindings.ElementStructType);
     }
 
     public MTLDataType ElementType
@@ -76,17 +46,17 @@ file static class MTLPointerTypeBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPointerType");
 
-    public static readonly Selector Access = Selector.Register("access");
+    public static readonly Selector Access = "access";
 
-    public static readonly Selector Alignment = Selector.Register("alignment");
+    public static readonly Selector Alignment = "alignment";
 
-    public static readonly Selector DataSize = Selector.Register("dataSize");
+    public static readonly Selector DataSize = "dataSize";
 
-    public static readonly Selector ElementArrayType = Selector.Register("elementArrayType");
+    public static readonly Selector ElementArrayType = "elementArrayType";
 
-    public static readonly Selector ElementIsArgumentBuffer = Selector.Register("elementIsArgumentBuffer");
+    public static readonly Selector ElementIsArgumentBuffer = "elementIsArgumentBuffer";
 
-    public static readonly Selector ElementStructType = Selector.Register("elementStructType");
+    public static readonly Selector ElementStructType = "elementStructType";
 
-    public static readonly Selector ElementType = Selector.Register("elementType");
+    public static readonly Selector ElementType = "elementType";
 }

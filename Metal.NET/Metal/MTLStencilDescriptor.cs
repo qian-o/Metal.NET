@@ -47,27 +47,27 @@ file static class MTLStencilDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStencilDescriptor");
 
-    public static readonly Selector DepthFailureOperation = Selector.Register("depthFailureOperation");
+    public static readonly Selector DepthFailureOperation = "depthFailureOperation";
 
-    public static readonly Selector DepthStencilPassOperation = Selector.Register("depthStencilPassOperation");
+    public static readonly Selector DepthStencilPassOperation = "depthStencilPassOperation";
 
-    public static readonly Selector ReadMask = Selector.Register("readMask");
+    public static readonly Selector ReadMask = "readMask";
 
-    public static readonly Selector SetDepthFailureOperation = Selector.Register("setDepthFailureOperation:");
+    public static readonly Selector SetDepthFailureOperation = "setDepthFailureOperation:";
 
-    public static readonly Selector SetDepthStencilPassOperation = Selector.Register("setDepthStencilPassOperation:");
+    public static readonly Selector SetDepthStencilPassOperation = "setDepthStencilPassOperation:";
 
-    public static readonly Selector SetReadMask = Selector.Register("setReadMask:");
+    public static readonly Selector SetReadMask = "setReadMask:";
 
-    public static readonly Selector SetStencilCompareFunction = Selector.Register("setStencilCompareFunction:");
+    public static readonly Selector SetStencilCompareFunction = "setStencilCompareFunction:";
 
-    public static readonly Selector SetStencilFailureOperation = Selector.Register("setStencilFailureOperation:");
+    public static readonly Selector SetStencilFailureOperation = "setStencilFailureOperation:";
 
-    public static readonly Selector SetWriteMask = Selector.Register("setWriteMask:");
+    public static readonly Selector SetWriteMask = "setWriteMask:";
 
-    public static readonly Selector StencilCompareFunction = Selector.Register("stencilCompareFunction");
+    public static readonly Selector StencilCompareFunction = "stencilCompareFunction";
 
-    public static readonly Selector StencilFailureOperation = Selector.Register("stencilFailureOperation");
+    public static readonly Selector StencilFailureOperation = "stencilFailureOperation";
 
-    public static readonly Selector WriteMask = Selector.Register("writeMask");
+    public static readonly Selector WriteMask = "writeMask";
 }

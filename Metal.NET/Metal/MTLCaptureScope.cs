@@ -4,67 +4,18 @@ public class MTLCaptureScope(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLCommandQueue? CommandQueue
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeBindings.CommandQueue);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLCommandQueue(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLCommandQueue>(ref field, MTLCaptureScopeBindings.CommandQueue);
     }
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeBindings.Device);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLDevice(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLDevice>(ref field, MTLCaptureScopeBindings.Device);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeBindings.SetLabel, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSString>(ref field, MTLCaptureScopeBindings.Label);
+        set => SetProperty(ref field, MTLCaptureScopeBindings.SetLabel, value);
     }
 
     public void BeginScope()
@@ -80,15 +31,15 @@ public class MTLCaptureScope(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLCaptureScopeBindings
 {
-    public static readonly Selector BeginScope = Selector.Register("beginScope");
+    public static readonly Selector BeginScope = "beginScope";
 
-    public static readonly Selector CommandQueue = Selector.Register("commandQueue");
+    public static readonly Selector CommandQueue = "commandQueue";
 
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector EndScope = Selector.Register("endScope");
+    public static readonly Selector EndScope = "endScope";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLabel = "setLabel:";
 }

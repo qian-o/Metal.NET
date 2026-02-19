@@ -4,87 +4,23 @@ public class MTLCommandQueue(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLCommandBuffer? CommandBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBuffer);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLCommandBuffer(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLCommandBuffer>(ref field, MTLCommandQueueBindings.CommandBuffer);
     }
 
     public MTLCommandBuffer? CommandBufferWithUnretainedReferences
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBufferWithUnretainedReferences);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLCommandBuffer(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLCommandBuffer>(ref field, MTLCommandQueueBindings.CommandBufferWithUnretainedReferences);
     }
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.Device);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLDevice(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLDevice>(ref field, MTLCommandQueueBindings.Device);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueBindings.SetLabel, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSString>(ref field, MTLCommandQueueBindings.Label);
+        set => SetProperty(ref field, MTLCommandQueueBindings.SetLabel, value);
     }
 
     public void AddResidencySet(MTLResidencySet residencySet)
@@ -111,19 +47,19 @@ public class MTLCommandQueue(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLCommandQueueBindings
 {
-    public static readonly Selector AddResidencySet = Selector.Register("addResidencySet:");
+    public static readonly Selector AddResidencySet = "addResidencySet:";
 
-    public static readonly Selector CommandBuffer = Selector.Register("commandBuffer");
+    public static readonly Selector CommandBuffer = "commandBuffer";
 
-    public static readonly Selector CommandBufferWithUnretainedReferences = Selector.Register("commandBufferWithUnretainedReferences");
+    public static readonly Selector CommandBufferWithUnretainedReferences = "commandBufferWithUnretainedReferences";
 
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector InsertDebugCaptureBoundary = Selector.Register("insertDebugCaptureBoundary");
+    public static readonly Selector InsertDebugCaptureBoundary = "insertDebugCaptureBoundary";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector RemoveResidencySet = Selector.Register("removeResidencySet:");
+    public static readonly Selector RemoveResidencySet = "removeResidencySet:";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLabel = "setLabel:";
 }

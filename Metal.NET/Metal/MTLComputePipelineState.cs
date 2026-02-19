@@ -4,22 +4,7 @@ public class MTLComputePipelineState(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.Device);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLDevice(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLDevice>(ref field, MTLComputePipelineStateBindings.Device);
     }
 
     public MTLResourceID GpuResourceID
@@ -29,22 +14,7 @@ public class MTLComputePipelineState(nint nativePtr) : NativeObject(nativePtr)
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSString>(ref field, MTLComputePipelineStateBindings.Label);
     }
 
     public nuint MaxTotalThreadsPerThreadgroup
@@ -54,22 +24,7 @@ public class MTLComputePipelineState(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLComputePipelineReflection? Reflection
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.Reflection);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLComputePipelineReflection(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLComputePipelineReflection>(ref field, MTLComputePipelineStateBindings.Reflection);
     }
 
     public MTLSize RequiredThreadsPerThreadgroup
@@ -149,35 +104,35 @@ public class MTLComputePipelineState(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLComputePipelineStateBindings
 {
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector FunctionHandle = Selector.Register("functionHandleWithName:");
+    public static readonly Selector FunctionHandle = "functionHandleWithName:";
 
-    public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
+    public static readonly Selector GpuResourceID = "gpuResourceID";
 
-    public static readonly Selector ImageblockMemoryLength = Selector.Register("imageblockMemoryLengthForDimensions:");
+    public static readonly Selector ImageblockMemoryLength = "imageblockMemoryLengthForDimensions:";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector MaxTotalThreadsPerThreadgroup = Selector.Register("maxTotalThreadsPerThreadgroup");
+    public static readonly Selector MaxTotalThreadsPerThreadgroup = "maxTotalThreadsPerThreadgroup";
 
-    public static readonly Selector NewComputePipelineState = Selector.Register("newComputePipelineStateWithAdditionalBinaryFunctions:error:");
+    public static readonly Selector NewComputePipelineState = "newComputePipelineStateWithAdditionalBinaryFunctions:error:";
 
-    public static readonly Selector NewComputePipelineStateWithBinaryFunctions = Selector.Register("newComputePipelineStateWithBinaryFunctions:error:");
+    public static readonly Selector NewComputePipelineStateWithBinaryFunctions = "newComputePipelineStateWithBinaryFunctions:error:";
 
-    public static readonly Selector NewIntersectionFunctionTable = Selector.Register("newIntersectionFunctionTableWithDescriptor:");
+    public static readonly Selector NewIntersectionFunctionTable = "newIntersectionFunctionTableWithDescriptor:";
 
-    public static readonly Selector NewVisibleFunctionTable = Selector.Register("newVisibleFunctionTableWithDescriptor:");
+    public static readonly Selector NewVisibleFunctionTable = "newVisibleFunctionTableWithDescriptor:";
 
-    public static readonly Selector Reflection = Selector.Register("reflection");
+    public static readonly Selector Reflection = "reflection";
 
-    public static readonly Selector RequiredThreadsPerThreadgroup = Selector.Register("requiredThreadsPerThreadgroup");
+    public static readonly Selector RequiredThreadsPerThreadgroup = "requiredThreadsPerThreadgroup";
 
-    public static readonly Selector ShaderValidation = Selector.Register("shaderValidation");
+    public static readonly Selector ShaderValidation = "shaderValidation";
 
-    public static readonly Selector StaticThreadgroupMemoryLength = Selector.Register("staticThreadgroupMemoryLength");
+    public static readonly Selector StaticThreadgroupMemoryLength = "staticThreadgroupMemoryLength";
 
-    public static readonly Selector SupportIndirectCommandBuffers = Selector.Register("supportIndirectCommandBuffers");
+    public static readonly Selector SupportIndirectCommandBuffers = "supportIndirectCommandBuffers";
 
-    public static readonly Selector ThreadExecutionWidth = Selector.Register("threadExecutionWidth");
+    public static readonly Selector ThreadExecutionWidth = "threadExecutionWidth";
 }

@@ -8,22 +8,7 @@ public class MTLResourceStatePassDescriptor(nint nativePtr) : NativeObject(nativ
 
     public MTLResourceStatePassSampleBufferAttachmentDescriptorArray? SampleBufferAttachments
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceStatePassDescriptorBindings.SampleBufferAttachments);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLResourceStatePassSampleBufferAttachmentDescriptorArray(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLResourceStatePassSampleBufferAttachmentDescriptorArray>(ref field, MTLResourceStatePassDescriptorBindings.SampleBufferAttachments);
     }
 
     public static MTLResourceStatePassDescriptor? ResourceStatePassDescriptor()
@@ -37,7 +22,7 @@ file static class MTLResourceStatePassDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResourceStatePassDescriptor");
 
-    public static readonly Selector ResourceStatePassDescriptor = Selector.Register("resourceStatePassDescriptor");
+    public static readonly Selector ResourceStatePassDescriptor = "resourceStatePassDescriptor";
 
-    public static readonly Selector SampleBufferAttachments = Selector.Register("sampleBufferAttachments");
+    public static readonly Selector SampleBufferAttachments = "sampleBufferAttachments";
 }

@@ -22,7 +22,7 @@ file static class MTLComputePassSampleBufferAttachmentDescriptorArrayBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePassSampleBufferAttachmentDescriptorArray");
 
-    public static readonly Selector Object = Selector.Register("objectAtIndexedSubscript:");
+    public static readonly Selector Object = "objectAtIndexedSubscript:";
 
-    public static readonly Selector SetObject = Selector.Register("setObject:atIndexedSubscript:");
+    public static readonly Selector SetObject = "setObject:atIndexedSubscript:";
 }

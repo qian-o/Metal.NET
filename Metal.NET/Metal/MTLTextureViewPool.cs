@@ -20,7 +20,7 @@ public class MTLTextureViewPool(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLTextureViewPoolBindings
 {
-    public static readonly Selector SetTextureView = Selector.Register("setTextureView:atIndex:");
+    public static readonly Selector SetTextureView = "setTextureView:atIndex:";
 
-    public static readonly Selector SetTextureViewFromBuffer = Selector.Register("setTextureViewFromBuffer:descriptor:offset:bytesPerRow:atIndex:");
+    public static readonly Selector SetTextureViewFromBuffer = "setTextureViewFromBuffer:descriptor:offset:bytesPerRow:atIndex:";
 }

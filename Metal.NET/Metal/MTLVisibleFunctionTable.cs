@@ -15,7 +15,7 @@ public class MTLVisibleFunctionTable(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLVisibleFunctionTableBindings
 {
-    public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
+    public static readonly Selector GpuResourceID = "gpuResourceID";
 
-    public static readonly Selector SetFunction = Selector.Register("setFunction:atIndex:");
+    public static readonly Selector SetFunction = "setFunction:atIndex:";
 }

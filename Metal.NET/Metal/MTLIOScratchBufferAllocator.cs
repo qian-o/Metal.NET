@@ -11,5 +11,5 @@ public class MTLIOScratchBufferAllocator(nint nativePtr) : NativeObject(nativePt
 
 file static class MTLIOScratchBufferAllocatorBindings
 {
-    public static readonly Selector NewScratchBuffer = Selector.Register("newScratchBufferWithMinimumSize:");
+    public static readonly Selector NewScratchBuffer = "newScratchBufferWithMinimumSize:";
 }

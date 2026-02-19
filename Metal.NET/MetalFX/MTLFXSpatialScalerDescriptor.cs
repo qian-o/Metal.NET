@@ -75,37 +75,37 @@ file static class MTLFXSpatialScalerDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFXSpatialScalerDescriptor");
 
-    public static readonly Selector ColorProcessingMode = Selector.Register("colorProcessingMode");
+    public static readonly Selector ColorProcessingMode = "colorProcessingMode";
 
-    public static readonly Selector ColorTextureFormat = Selector.Register("colorTextureFormat");
+    public static readonly Selector ColorTextureFormat = "colorTextureFormat";
 
-    public static readonly Selector InputHeight = Selector.Register("inputHeight");
+    public static readonly Selector InputHeight = "inputHeight";
 
-    public static readonly Selector InputWidth = Selector.Register("inputWidth");
+    public static readonly Selector InputWidth = "inputWidth";
 
-    public static readonly Selector NewSpatialScaler = Selector.Register("newSpatialScalerWithDevice:");
+    public static readonly Selector NewSpatialScaler = "newSpatialScalerWithDevice:";
 
-    public static readonly Selector OutputHeight = Selector.Register("outputHeight");
+    public static readonly Selector OutputHeight = "outputHeight";
 
-    public static readonly Selector OutputTextureFormat = Selector.Register("outputTextureFormat");
+    public static readonly Selector OutputTextureFormat = "outputTextureFormat";
 
-    public static readonly Selector OutputWidth = Selector.Register("outputWidth");
+    public static readonly Selector OutputWidth = "outputWidth";
 
-    public static readonly Selector SetColorProcessingMode = Selector.Register("setColorProcessingMode:");
+    public static readonly Selector SetColorProcessingMode = "setColorProcessingMode:";
 
-    public static readonly Selector SetColorTextureFormat = Selector.Register("setColorTextureFormat:");
+    public static readonly Selector SetColorTextureFormat = "setColorTextureFormat:";
 
-    public static readonly Selector SetInputHeight = Selector.Register("setInputHeight:");
+    public static readonly Selector SetInputHeight = "setInputHeight:";
 
-    public static readonly Selector SetInputWidth = Selector.Register("setInputWidth:");
+    public static readonly Selector SetInputWidth = "setInputWidth:";
 
-    public static readonly Selector SetOutputHeight = Selector.Register("setOutputHeight:");
+    public static readonly Selector SetOutputHeight = "setOutputHeight:";
 
-    public static readonly Selector SetOutputTextureFormat = Selector.Register("setOutputTextureFormat:");
+    public static readonly Selector SetOutputTextureFormat = "setOutputTextureFormat:";
 
-    public static readonly Selector SetOutputWidth = Selector.Register("setOutputWidth:");
+    public static readonly Selector SetOutputWidth = "setOutputWidth:";
 
-    public static readonly Selector SupportsDevice = Selector.Register("supportsDevice:");
+    public static readonly Selector SupportsDevice = "supportsDevice:";
 
-    public static readonly Selector SupportsMetal4FX = Selector.Register("supportsMetal4FX:");
+    public static readonly Selector SupportsMetal4FX = "supportsMetal4FX:";
 }

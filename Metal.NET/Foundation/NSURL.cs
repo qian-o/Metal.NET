@@ -24,9 +24,9 @@ file static class NSURLBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("NSURL");
 
-    public static readonly Selector FileSystemRepresentation = Selector.Register("fileSystemRepresentation");
+    public static readonly Selector FileSystemRepresentation = "fileSystemRepresentation";
 
-    public static readonly Selector InitFileURLWithPath = Selector.Register("initFileURLWithPath:");
+    public static readonly Selector InitFileURLWithPath = "initFileURLWithPath:";
 
-    public static readonly Selector NSURL = Selector.Register("NSURL");
+    public static readonly Selector NSURL = "NSURL";
 }

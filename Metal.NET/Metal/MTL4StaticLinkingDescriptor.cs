@@ -8,52 +8,14 @@ public class MTL4StaticLinkingDescriptor(nint nativePtr) : NativeObject(nativePt
 
     public NSArray? FunctionDescriptors
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StaticLinkingDescriptorBindings.FunctionDescriptors);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSArray(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4StaticLinkingDescriptorBindings.SetFunctionDescriptors, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSArray>(ref field, MTL4StaticLinkingDescriptorBindings.FunctionDescriptors);
+        set => SetProperty(ref field, MTL4StaticLinkingDescriptorBindings.SetFunctionDescriptors, value);
     }
 
     public NSArray? PrivateFunctionDescriptors
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StaticLinkingDescriptorBindings.PrivateFunctionDescriptors);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSArray(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4StaticLinkingDescriptorBindings.SetPrivateFunctionDescriptors, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSArray>(ref field, MTL4StaticLinkingDescriptorBindings.PrivateFunctionDescriptors);
+        set => SetProperty(ref field, MTL4StaticLinkingDescriptorBindings.SetPrivateFunctionDescriptors, value);
     }
 }
 
@@ -61,11 +23,11 @@ file static class MTL4StaticLinkingDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4StaticLinkingDescriptor");
 
-    public static readonly Selector FunctionDescriptors = Selector.Register("functionDescriptors");
+    public static readonly Selector FunctionDescriptors = "functionDescriptors";
 
-    public static readonly Selector PrivateFunctionDescriptors = Selector.Register("privateFunctionDescriptors");
+    public static readonly Selector PrivateFunctionDescriptors = "privateFunctionDescriptors";
 
-    public static readonly Selector SetFunctionDescriptors = Selector.Register("setFunctionDescriptors:");
+    public static readonly Selector SetFunctionDescriptors = "setFunctionDescriptors:";
 
-    public static readonly Selector SetPrivateFunctionDescriptors = Selector.Register("setPrivateFunctionDescriptors:");
+    public static readonly Selector SetPrivateFunctionDescriptors = "setPrivateFunctionDescriptors:";
 }

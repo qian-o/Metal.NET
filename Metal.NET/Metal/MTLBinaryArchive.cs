@@ -4,47 +4,13 @@ public class MTLBinaryArchive(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveBindings.Device);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLDevice(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLDevice>(ref field, MTLBinaryArchiveBindings.Device);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLBinaryArchiveBindings.SetLabel, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSString>(ref field, MTLBinaryArchiveBindings.Label);
+        set => SetProperty(ref field, MTLBinaryArchiveBindings.SetLabel, value);
     }
 
     public bool AddComputePipelineFunctions(MTLComputePipelineDescriptor descriptor, out NSError? error)
@@ -99,23 +65,23 @@ public class MTLBinaryArchive(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLBinaryArchiveBindings
 {
-    public static readonly Selector AddComputePipelineFunctions = Selector.Register("addComputePipelineFunctionsWithDescriptor:error:");
+    public static readonly Selector AddComputePipelineFunctions = "addComputePipelineFunctionsWithDescriptor:error:";
 
-    public static readonly Selector AddFunction = Selector.Register("addFunctionWithDescriptor:library:error:");
+    public static readonly Selector AddFunction = "addFunctionWithDescriptor:library:error:";
 
-    public static readonly Selector AddLibrary = Selector.Register("addLibraryWithDescriptor:error:");
+    public static readonly Selector AddLibrary = "addLibraryWithDescriptor:error:";
 
-    public static readonly Selector AddMeshRenderPipelineFunctions = Selector.Register("addMeshRenderPipelineFunctionsWithDescriptor:error:");
+    public static readonly Selector AddMeshRenderPipelineFunctions = "addMeshRenderPipelineFunctionsWithDescriptor:error:";
 
-    public static readonly Selector AddRenderPipelineFunctions = Selector.Register("addRenderPipelineFunctionsWithDescriptor:error:");
+    public static readonly Selector AddRenderPipelineFunctions = "addRenderPipelineFunctionsWithDescriptor:error:";
 
-    public static readonly Selector AddTileRenderPipelineFunctions = Selector.Register("addTileRenderPipelineFunctionsWithDescriptor:error:");
+    public static readonly Selector AddTileRenderPipelineFunctions = "addTileRenderPipelineFunctionsWithDescriptor:error:";
 
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector SerializeToURL = Selector.Register("serializeToURL:error:");
+    public static readonly Selector SerializeToURL = "serializeToURL:error:";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLabel = "setLabel:";
 }

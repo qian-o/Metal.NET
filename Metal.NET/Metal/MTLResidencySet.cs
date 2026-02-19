@@ -4,22 +4,7 @@ public class MTLResidencySet(nint nativePtr) : NativeObject(nativePtr)
 {
     public NSArray? AllAllocations
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetBindings.AllAllocations);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSArray(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSArray>(ref field, MTLResidencySetBindings.AllAllocations);
     }
 
     public nuint AllocatedSize
@@ -34,42 +19,12 @@ public class MTLResidencySet(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetBindings.Device);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new MTLDevice(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<MTLDevice>(ref field, MTLResidencySetBindings.Device);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSString>(ref field, MTLResidencySetBindings.Label);
     }
 
     public void AddAllocation(MTLAllocation allocation)
@@ -110,27 +65,27 @@ public class MTLResidencySet(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLResidencySetBindings
 {
-    public static readonly Selector AddAllocation = Selector.Register("addAllocation:");
+    public static readonly Selector AddAllocation = "addAllocation:";
 
-    public static readonly Selector AllAllocations = Selector.Register("allAllocations");
+    public static readonly Selector AllAllocations = "allAllocations";
 
-    public static readonly Selector AllocatedSize = Selector.Register("allocatedSize");
+    public static readonly Selector AllocatedSize = "allocatedSize";
 
-    public static readonly Selector AllocationCount = Selector.Register("allocationCount");
+    public static readonly Selector AllocationCount = "allocationCount";
 
-    public static readonly Selector Commit = Selector.Register("commit");
+    public static readonly Selector Commit = "commit";
 
-    public static readonly Selector ContainsAllocation = Selector.Register("containsAllocation:");
+    public static readonly Selector ContainsAllocation = "containsAllocation:";
 
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector EndResidency = Selector.Register("endResidency");
+    public static readonly Selector EndResidency = "endResidency";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector RemoveAllAllocations = Selector.Register("removeAllAllocations");
+    public static readonly Selector RemoveAllAllocations = "removeAllAllocations";
 
-    public static readonly Selector RemoveAllocation = Selector.Register("removeAllocation:");
+    public static readonly Selector RemoveAllocation = "removeAllocation:";
 
-    public static readonly Selector RequestResidency = Selector.Register("requestResidency");
+    public static readonly Selector RequestResidency = "requestResidency";
 }

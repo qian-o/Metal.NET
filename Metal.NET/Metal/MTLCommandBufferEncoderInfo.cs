@@ -4,22 +4,7 @@ public class MTLCommandBufferEncoderInfo(nint nativePtr) : NativeObject(nativePt
 {
     public NSArray? DebugSignposts
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoBindings.DebugSignposts);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSArray(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSArray>(ref field, MTLCommandBufferEncoderInfoBindings.DebugSignposts);
     }
 
     public MTLCommandEncoderErrorState ErrorState
@@ -29,30 +14,15 @@ public class MTLCommandBufferEncoderInfo(nint nativePtr) : NativeObject(nativePt
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSString>(ref field, MTLCommandBufferEncoderInfoBindings.Label);
     }
 }
 
 file static class MTLCommandBufferEncoderInfoBindings
 {
-    public static readonly Selector DebugSignposts = Selector.Register("debugSignposts");
+    public static readonly Selector DebugSignposts = "debugSignposts";
 
-    public static readonly Selector ErrorState = Selector.Register("errorState");
+    public static readonly Selector ErrorState = "errorState";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 }

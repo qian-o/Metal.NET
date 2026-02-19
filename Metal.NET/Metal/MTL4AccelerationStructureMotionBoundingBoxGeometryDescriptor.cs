@@ -29,15 +29,15 @@ file static class MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBi
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor");
 
-    public static readonly Selector BoundingBoxBuffers = Selector.Register("boundingBoxBuffers");
+    public static readonly Selector BoundingBoxBuffers = "boundingBoxBuffers";
 
-    public static readonly Selector BoundingBoxCount = Selector.Register("boundingBoxCount");
+    public static readonly Selector BoundingBoxCount = "boundingBoxCount";
 
-    public static readonly Selector BoundingBoxStride = Selector.Register("boundingBoxStride");
+    public static readonly Selector BoundingBoxStride = "boundingBoxStride";
 
-    public static readonly Selector SetBoundingBoxBuffers = Selector.Register("setBoundingBoxBuffers:");
+    public static readonly Selector SetBoundingBoxBuffers = "setBoundingBoxBuffers:";
 
-    public static readonly Selector SetBoundingBoxCount = Selector.Register("setBoundingBoxCount:");
+    public static readonly Selector SetBoundingBoxCount = "setBoundingBoxCount:";
 
-    public static readonly Selector SetBoundingBoxStride = Selector.Register("setBoundingBoxStride:");
+    public static readonly Selector SetBoundingBoxStride = "setBoundingBoxStride:";
 }

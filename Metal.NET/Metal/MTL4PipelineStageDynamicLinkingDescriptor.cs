@@ -8,27 +8,8 @@ public class MTL4PipelineStageDynamicLinkingDescriptor(nint nativePtr) : NativeO
 
     public NSArray? BinaryLinkedFunctions
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorBindings.BinaryLinkedFunctions);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSArray(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorBindings.SetBinaryLinkedFunctions, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSArray>(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.BinaryLinkedFunctions);
+        set => SetProperty(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.SetBinaryLinkedFunctions, value);
     }
 
     public nuint MaxCallStackDepth
@@ -39,27 +20,8 @@ public class MTL4PipelineStageDynamicLinkingDescriptor(nint nativePtr) : NativeO
 
     public NSArray? PreloadedLibraries
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorBindings.PreloadedLibraries);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSArray(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorBindings.SetPreloadedLibraries, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSArray>(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.PreloadedLibraries);
+        set => SetProperty(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.SetPreloadedLibraries, value);
     }
 }
 
@@ -67,15 +29,15 @@ file static class MTL4PipelineStageDynamicLinkingDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PipelineStageDynamicLinkingDescriptor");
 
-    public static readonly Selector BinaryLinkedFunctions = Selector.Register("binaryLinkedFunctions");
+    public static readonly Selector BinaryLinkedFunctions = "binaryLinkedFunctions";
 
-    public static readonly Selector MaxCallStackDepth = Selector.Register("maxCallStackDepth");
+    public static readonly Selector MaxCallStackDepth = "maxCallStackDepth";
 
-    public static readonly Selector PreloadedLibraries = Selector.Register("preloadedLibraries");
+    public static readonly Selector PreloadedLibraries = "preloadedLibraries";
 
-    public static readonly Selector SetBinaryLinkedFunctions = Selector.Register("setBinaryLinkedFunctions:");
+    public static readonly Selector SetBinaryLinkedFunctions = "setBinaryLinkedFunctions:";
 
-    public static readonly Selector SetMaxCallStackDepth = Selector.Register("setMaxCallStackDepth:");
+    public static readonly Selector SetMaxCallStackDepth = "setMaxCallStackDepth:";
 
-    public static readonly Selector SetPreloadedLibraries = Selector.Register("setPreloadedLibraries:");
+    public static readonly Selector SetPreloadedLibraries = "setPreloadedLibraries:";
 }

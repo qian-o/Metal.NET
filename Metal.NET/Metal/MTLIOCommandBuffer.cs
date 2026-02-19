@@ -4,47 +4,13 @@ public class MTLIOCommandBuffer(nint nativePtr) : NativeObject(nativePtr)
 {
     public NSError? Error
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferBindings.Error);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSError(ptr);
-            }
-
-            return field;
-        }
+        get => GetProperty<NSError>(ref field, MTLIOCommandBufferBindings.Error);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferBindings.Label);
-
-            if (ptr == 0)
-            {
-                return field = null;
-            }
-
-            if (field is null || field.NativePtr != ptr)
-            {
-                field = new NSString(ptr);
-            }
-
-            return field;
-        }
-        set
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.SetLabel, value?.NativePtr ?? 0);
-            field = value;
-        }
+        get => GetProperty<NSString>(ref field, MTLIOCommandBufferBindings.Label);
+        set => SetProperty(ref field, MTLIOCommandBufferBindings.SetLabel, value);
     }
 
     public MTLIOStatus Status
@@ -120,37 +86,37 @@ public class MTLIOCommandBuffer(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLIOCommandBufferBindings
 {
-    public static readonly Selector AddBarrier = Selector.Register("addBarrier");
+    public static readonly Selector AddBarrier = "addBarrier";
 
-    public static readonly Selector Commit = Selector.Register("commit");
+    public static readonly Selector Commit = "commit";
 
-    public static readonly Selector CopyStatusToBuffer = Selector.Register("copyStatusToBuffer:offset:");
+    public static readonly Selector CopyStatusToBuffer = "copyStatusToBuffer:offset:";
 
-    public static readonly Selector Enqueue = Selector.Register("enqueue");
+    public static readonly Selector Enqueue = "enqueue";
 
-    public static readonly Selector Error = Selector.Register("error");
+    public static readonly Selector Error = "error";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector LoadBuffer = Selector.Register("loadBuffer:offset:size:sourceHandle:sourceHandleOffset:");
+    public static readonly Selector LoadBuffer = "loadBuffer:offset:size:sourceHandle:sourceHandleOffset:";
 
-    public static readonly Selector LoadBytes = Selector.Register("loadBytes:size:sourceHandle:sourceHandleOffset:");
+    public static readonly Selector LoadBytes = "loadBytes:size:sourceHandle:sourceHandleOffset:";
 
-    public static readonly Selector LoadTexture = Selector.Register("loadTexture:slice:level:size:sourceBytesPerRow:sourceBytesPerImage:destinationOrigin:sourceHandle:sourceHandleOffset:");
+    public static readonly Selector LoadTexture = "loadTexture:slice:level:size:sourceBytesPerRow:sourceBytesPerImage:destinationOrigin:sourceHandle:sourceHandleOffset:";
 
-    public static readonly Selector PopDebugGroup = Selector.Register("popDebugGroup");
+    public static readonly Selector PopDebugGroup = "popDebugGroup";
 
-    public static readonly Selector PushDebugGroup = Selector.Register("pushDebugGroup:");
+    public static readonly Selector PushDebugGroup = "pushDebugGroup:";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector SignalEvent = Selector.Register("signalEvent:value:");
+    public static readonly Selector SignalEvent = "signalEvent:value:";
 
-    public static readonly Selector Status = Selector.Register("status");
+    public static readonly Selector Status = "status";
 
-    public static readonly Selector TryCancel = Selector.Register("tryCancel");
+    public static readonly Selector TryCancel = "tryCancel";
 
-    public static readonly Selector Wait = Selector.Register("waitForEvent:value:");
+    public static readonly Selector Wait = "waitForEvent:value:";
 
-    public static readonly Selector WaitUntilCompleted = Selector.Register("waitUntilCompleted");
+    public static readonly Selector WaitUntilCompleted = "waitUntilCompleted";
 }

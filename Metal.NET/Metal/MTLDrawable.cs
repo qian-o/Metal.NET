@@ -30,13 +30,13 @@ public class MTLDrawable(nint nativePtr) : NativeObject(nativePtr)
 
 file static class MTLDrawableBindings
 {
-    public static readonly Selector DrawableID = Selector.Register("drawableID");
+    public static readonly Selector DrawableID = "drawableID";
 
-    public static readonly Selector Present = Selector.Register("present");
+    public static readonly Selector Present = "present";
 
-    public static readonly Selector PresentAfterMinimumDuration = Selector.Register("presentAfterMinimumDuration:");
+    public static readonly Selector PresentAfterMinimumDuration = "presentAfterMinimumDuration:";
 
-    public static readonly Selector PresentAtTime = Selector.Register("presentAtTime:");
+    public static readonly Selector PresentAtTime = "presentAtTime:";
 
-    public static readonly Selector PresentedTime = Selector.Register("presentedTime");
+    public static readonly Selector PresentedTime = "presentedTime";
 }
