@@ -10,7 +10,14 @@ public class MTLResourceStatePassSampleBufferAttachmentDescriptorArray(nint nati
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorArrayBindings.Object, attachmentIndex);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        if (nativePtr is 0)
+        {
+            return null;
+        }
+
+        ObjectiveCRuntime.Retain(nativePtr);
+
+        return new(nativePtr);
     }
 
     public void SetObject(MTLResourceStatePassSampleBufferAttachmentDescriptor attachment, nuint attachmentIndex)

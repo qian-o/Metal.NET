@@ -5,7 +5,18 @@ public class MTL4PipelineDataSetSerializer(nint nativePtr) : NativeObject(native
     public bool SerializeAsArchiveAndFlushToURL(NSURL url, out NSError? error)
     {
         var result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4PipelineDataSetSerializerBindings.SerializeAsArchiveAndFlushToURL, url.NativePtr, out nint errorPtr);
-        error = errorPtr is not 0 ? new(errorPtr) : null;
+
+        if (errorPtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(errorPtr);
+
+            error = new(errorPtr);
+        }
+        else
+        {
+            error = null;
+        }
+
         return result;
     }
 }

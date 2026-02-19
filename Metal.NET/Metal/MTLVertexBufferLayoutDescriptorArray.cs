@@ -10,7 +10,14 @@ public class MTLVertexBufferLayoutDescriptorArray(nint nativePtr) : NativeObject
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexBufferLayoutDescriptorArrayBindings.Object, index);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        if (nativePtr is 0)
+        {
+            return null;
+        }
+
+        ObjectiveCRuntime.Retain(nativePtr);
+
+        return new(nativePtr);
     }
 
     public void SetObject(MTLVertexBufferLayoutDescriptor bufferDesc, nuint index)

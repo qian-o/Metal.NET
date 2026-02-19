@@ -42,13 +42,31 @@ public class MTLCaptureManager(nint nativePtr) : NativeObject(nativePtr)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLCaptureManagerBindings.Class, MTLCaptureManagerBindings.SharedCaptureManager);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        if (nativePtr is 0)
+        {
+            return null;
+        }
+
+        ObjectiveCRuntime.Retain(nativePtr);
+
+        return new(nativePtr);
     }
 
     public bool StartCapture(MTLCaptureDescriptor descriptor, out NSError? error)
     {
         var result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerBindings.StartCapture, descriptor.NativePtr, out nint errorPtr);
-        error = errorPtr is not 0 ? new(errorPtr) : null;
+
+        if (errorPtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(errorPtr);
+
+            error = new(errorPtr);
+        }
+        else
+        {
+            error = null;
+        }
+
         return result;
     }
 

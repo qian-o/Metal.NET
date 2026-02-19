@@ -14,7 +14,7 @@ public class NSString(nint nativePtr) : NativeObject(nativePtr)
     {
         fixed (byte* utf8 = Encoding.UTF8.GetBytes(value + '\0'))
         {
-            return new(ObjectiveCRuntime.MsgSendPtr(NSStringBindings.Class, NSStringBindings.StringWithUtf8String, (nint)utf8));
+            return new(ObjectiveCRuntime.Retain(ObjectiveCRuntime.MsgSendPtr(NSStringBindings.Class, NSStringBindings.StringWithUtf8String, (nint)utf8)));
         }
     }
 

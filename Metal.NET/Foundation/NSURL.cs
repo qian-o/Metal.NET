@@ -9,14 +9,23 @@ public class NSURL(nint nativePtr) : NativeObject(nativePtr)
 
     public NSURL? InitFileURLWithPath(NSString pPath)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSURLBindings.InitFileURLWithPath, pPath.NativePtr);
-        return ptr is not 0 ? new NSURL(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSURLBindings.InitFileURLWithPath, pPath.NativePtr);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public static NSURL? FileURLWithPath(NSString pPath)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NSURLBindings.Class, NSURLBindings.NSURL, pPath.NativePtr);
-        return ptr is not 0 ? new NSURL(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NSURLBindings.Class, NSURLBindings.NSURL, pPath.NativePtr);
+
+        if (nativePtr is 0)
+        {
+            return null;
+        }
+
+        ObjectiveCRuntime.Retain(nativePtr);
+
+        return new(nativePtr);
     }
 }
 

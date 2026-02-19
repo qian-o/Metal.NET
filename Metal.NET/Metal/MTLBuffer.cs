@@ -47,7 +47,17 @@ public class MTLBuffer(nint nativePtr) : MTLResource(nativePtr)
     public MTLTensor? NewTensor(MTLTensorDescriptor descriptor, nuint offset, out NSError? error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewTensor, descriptor.NativePtr, offset, out nint errorPtr);
-        error = errorPtr is not 0 ? new(errorPtr) : null;
+
+        if (errorPtr is not 0)
+        {
+            ObjectiveCRuntime.Retain(errorPtr);
+
+            error = new(errorPtr);
+        }
+        else
+        {
+            error = null;
+        }
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }

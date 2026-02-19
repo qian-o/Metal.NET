@@ -87,11 +87,6 @@ public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindings.MipmapLevelCount);
     }
 
-    public MTLSharedTextureHandle? NewSharedTextureHandle
-    {
-        get => GetProperty(ref field, MTLTextureBindings.NewSharedTextureHandle);
-    }
-
     public nuint ParentRelativeLevel
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindings.ParentRelativeLevel);
@@ -175,6 +170,13 @@ public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
     public MTLTexture? NewRemoteTextureViewForDevice(MTLDevice device)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.NewRemoteTextureViewForDevice, device.NativePtr);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
+    }
+
+    public MTLSharedTextureHandle? NewSharedTextureHandle()
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.NewSharedTextureHandle);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }

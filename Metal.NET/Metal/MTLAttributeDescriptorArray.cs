@@ -10,7 +10,14 @@ public class MTLAttributeDescriptorArray(nint nativePtr) : NativeObject(nativePt
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeDescriptorArrayBindings.Object, index);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        if (nativePtr is 0)
+        {
+            return null;
+        }
+
+        ObjectiveCRuntime.Retain(nativePtr);
+
+        return new(nativePtr);
     }
 
     public void SetObject(MTLAttributeDescriptor attributeDesc, nuint index)

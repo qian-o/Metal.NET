@@ -2,15 +2,17 @@ namespace Metal.NET;
 
 public class MTLSharedEvent(nint nativePtr) : MTLEvent(nativePtr)
 {
-    public MTLSharedEventHandle? NewSharedEventHandle
-    {
-        get => GetProperty(ref field, MTLSharedEventBindings.NewSharedEventHandle);
-    }
-
     public ulong SignaledValue
     {
         get => ObjectiveCRuntime.MsgSendULong(NativePtr, MTLSharedEventBindings.SignaledValue);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSharedEventBindings.SetSignaledValue, value);
+    }
+
+    public MTLSharedEventHandle? NewSharedEventHandle()
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventBindings.NewSharedEventHandle);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public bool WaitUntilSignaledValue(ulong value, ulong milliseconds)

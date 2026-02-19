@@ -11,7 +11,14 @@ public class NSArray(nint nativePtr) : NativeObject(nativePtr)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSArrayBindings.ObjectAtIndex, index);
 
-        return nativePtr is not 0 ? (T)Activator.CreateInstance(typeof(T), nativePtr)! : null;
+        if (nativePtr is 0)
+        {
+            return null;
+        }
+
+        ObjectiveCRuntime.Retain(nativePtr);
+
+        return (T)Activator.CreateInstance(typeof(T), nativePtr)!;
     }
 }
 

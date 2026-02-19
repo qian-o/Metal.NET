@@ -1136,6 +1136,7 @@ class Generator
             if (m.UsesClassTarget) continue; // static methods using Class → remain methods
             if (used.Contains(m)) continue;
             if (m.CppName.StartsWith("set") && m.CppName.Length > 3 && char.IsUpper(m.CppName[3])) continue;
+            if (IsOwnershipTransferMethod(m.CppName)) continue; // new*/alloc*/copy* return +1, keep as methods
 
             MethodInfo? setter = null;
             if (setterMap.TryGetValue(m.CppName, out var s))
@@ -1338,6 +1339,7 @@ class Generator
         bool isVoid = returnType == "void";
 
         bool hasOutError = method.Parameters.Any(p => p.CppType.Contains("Error**"));
+        bool needsRetain = nullable && !IsOwnershipTransferMethod(cppName);
 
         // Build C# parameter list and call arguments
         var csParams = new List<string>();
@@ -1385,22 +1387,74 @@ class Generator
         {
             sb.AppendLine($"        ObjectiveCRuntime.MsgSend({argsStr});");
             if (hasOutError)
-                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr) : null;");
+            {
+                sb.AppendLine();
+                sb.AppendLine("        if (errorPtr is not 0)");
+                sb.AppendLine("        {");
+                sb.AppendLine("            ObjectiveCRuntime.Retain(errorPtr);");
+                sb.AppendLine();
+                sb.AppendLine("            error = new(errorPtr);");
+                sb.AppendLine("        }");
+                sb.AppendLine("        else");
+                sb.AppendLine("        {");
+                sb.AppendLine("            error = null;");
+                sb.AppendLine("        }");
+            }
         }
         else if (nullable)
         {
+            string retainLine = needsRetain ? $"ObjectiveCRuntime.Retain(nativePtr); " : "";
             if (hasOutError)
             {
                 sb.AppendLine($"        nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
-                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr) : null;");
                 sb.AppendLine();
-                sb.AppendLine($"        return nativePtr is not 0 ? new(nativePtr) : null;");
+                sb.AppendLine("        if (errorPtr is not 0)");
+                sb.AppendLine("        {");
+                sb.AppendLine("            ObjectiveCRuntime.Retain(errorPtr);");
+                sb.AppendLine();
+                sb.AppendLine("            error = new(errorPtr);");
+                sb.AppendLine("        }");
+                sb.AppendLine("        else");
+                sb.AppendLine("        {");
+                sb.AppendLine("            error = null;");
+                sb.AppendLine("        }");
+                sb.AppendLine();
+                if (needsRetain)
+                {
+                    sb.AppendLine("        if (nativePtr is 0)");
+                    sb.AppendLine("        {");
+                    sb.AppendLine("            return null;");
+                    sb.AppendLine("        }");
+                    sb.AppendLine();
+                    sb.AppendLine("        ObjectiveCRuntime.Retain(nativePtr);");
+                    sb.AppendLine();
+                    sb.AppendLine("        return new(nativePtr);");
+                }
+                else
+                {
+                    sb.AppendLine($"        return nativePtr is not 0 ? new(nativePtr) : null;");
+                }
             }
             else
             {
                 sb.AppendLine($"        nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
-                sb.AppendLine();
-                sb.AppendLine($"        return nativePtr is not 0 ? new(nativePtr) : null;");
+                if (needsRetain)
+                {
+                    sb.AppendLine();
+                    sb.AppendLine("        if (nativePtr is 0)");
+                    sb.AppendLine("        {");
+                    sb.AppendLine("            return null;");
+                    sb.AppendLine("        }");
+                    sb.AppendLine();
+                    sb.AppendLine("        ObjectiveCRuntime.Retain(nativePtr);");
+                    sb.AppendLine();
+                    sb.AppendLine("        return new(nativePtr);");
+                }
+                else
+                {
+                    sb.AppendLine();
+                    sb.AppendLine($"        return nativePtr is not 0 ? new(nativePtr) : null;");
+                }
             }
         }
         else if (isEnum)
@@ -1409,7 +1463,18 @@ class Generator
             if (hasOutError)
             {
                 sb.AppendLine($"        var result = ({returnType}){msgSend}({argsStr});");
-                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr) : null;");
+                sb.AppendLine();
+                sb.AppendLine("        if (errorPtr is not 0)");
+                sb.AppendLine("        {");
+                sb.AppendLine("            ObjectiveCRuntime.Retain(errorPtr);");
+                sb.AppendLine();
+                sb.AppendLine("            error = new(errorPtr);");
+                sb.AppendLine("        }");
+                sb.AppendLine("        else");
+                sb.AppendLine("        {");
+                sb.AppendLine("            error = null;");
+                sb.AppendLine("        }");
+                sb.AppendLine();
                 sb.AppendLine("        return result;");
             }
             else
@@ -1422,7 +1487,18 @@ class Generator
             if (hasOutError)
             {
                 sb.AppendLine($"        var result = ObjectiveCRuntime.MsgSendBool({argsStr});");
-                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr) : null;");
+                sb.AppendLine();
+                sb.AppendLine("        if (errorPtr is not 0)");
+                sb.AppendLine("        {");
+                sb.AppendLine("            ObjectiveCRuntime.Retain(errorPtr);");
+                sb.AppendLine();
+                sb.AppendLine("            error = new(errorPtr);");
+                sb.AppendLine("        }");
+                sb.AppendLine("        else");
+                sb.AppendLine("        {");
+                sb.AppendLine("            error = null;");
+                sb.AppendLine("        }");
+                sb.AppendLine();
                 sb.AppendLine("        return result;");
             }
             else
@@ -1436,7 +1512,18 @@ class Generator
             if (hasOutError)
             {
                 sb.AppendLine($"        var result = ObjectiveCRuntime.{msgSend}({argsStr});");
-                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr) : null;");
+                sb.AppendLine();
+                sb.AppendLine("        if (errorPtr is not 0)");
+                sb.AppendLine("        {");
+                sb.AppendLine("            ObjectiveCRuntime.Retain(errorPtr);");
+                sb.AppendLine();
+                sb.AppendLine("            error = new(errorPtr);");
+                sb.AppendLine("        }");
+                sb.AppendLine("        else");
+                sb.AppendLine("        {");
+                sb.AppendLine("            error = null;");
+                sb.AppendLine("        }");
+                sb.AppendLine();
                 sb.AppendLine("        return result;");
             }
             else
@@ -1451,7 +1538,18 @@ class Generator
             if (hasOutError)
             {
                 sb.AppendLine($"        var result = {retCast}ObjectiveCRuntime.{msgSend}({argsStr});");
-                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr) : null;");
+                sb.AppendLine();
+                sb.AppendLine("        if (errorPtr is not 0)");
+                sb.AppendLine("        {");
+                sb.AppendLine("            ObjectiveCRuntime.Retain(errorPtr);");
+                sb.AppendLine();
+                sb.AppendLine("            error = new(errorPtr);");
+                sb.AppendLine("        }");
+                sb.AppendLine("        else");
+                sb.AppendLine("        {");
+                sb.AppendLine("            error = null;");
+                sb.AppendLine("        }");
+                sb.AppendLine();
                 sb.AppendLine("        return result;");
             }
             else
@@ -1553,6 +1651,17 @@ class Generator
         if (StructTypes.Contains(csType)) return false;
         if (_enumBackingTypes.ContainsKey(csType)) return false;
         return true;
+    }
+
+    static bool IsOwnershipTransferMethod(string cppName)
+    {
+        // ObjC memory management: new/alloc/copy/mutableCopy return +1
+        // Must be followed by uppercase letter or end-of-string (e.g. "newCommandQueue" but not "next", "allocatedSize")
+        if (cppName.StartsWith("new") && (cppName.Length == 3 || char.IsUpper(cppName[3]))) return true;
+        if (cppName.StartsWith("alloc") && (cppName.Length == 5 || char.IsUpper(cppName[5]))) return true;
+        if (cppName.StartsWith("copy") && (cppName.Length == 4 || char.IsUpper(cppName[4]))) return true;
+        if (cppName.StartsWith("mutableCopy") && (cppName.Length == 11 || char.IsUpper(cppName[11]))) return true;
+        return false;
     }
 
     bool IsEnumType(string csType) => _enumBackingTypes.ContainsKey(csType);
