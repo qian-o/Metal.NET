@@ -2,28 +2,13 @@
 
 /// <summary>
 /// Base class for all Objective-C native object wrappers.
-/// Every wrapper holds a +1 reference and releases it on dispose.
+/// The caller must ensure <paramref name="nativePtr"/> carries a +1 reference;
+/// the wrapper releases it on dispose.
 /// </summary>
-public abstract class NativeObject : IDisposable
+/// <param name="nativePtr">The raw Objective-C pointer.</param>
+public abstract class NativeObject(nint nativePtr) : IDisposable
 {
     private bool released;
-
-    /// <summary>
-    /// <param name="nativePtr">The raw Objective-C pointer.</param>
-    /// <param name="retain">
-    /// <c>true</c> to retain a +0 reference (non-ownership returns);
-    /// <c>false</c> when the caller already owns a +1 reference (new/alloc/copy/init).
-    /// </param>
-    /// </summary>
-    protected NativeObject(nint nativePtr, bool retain)
-    {
-        NativePtr = nativePtr;
-
-        if (retain)
-        {
-            ObjectiveCRuntime.Retain(nativePtr);
-        }
-    }
 
     ~NativeObject()
     {
@@ -33,7 +18,7 @@ public abstract class NativeObject : IDisposable
     /// <summary>
     /// The underlying Objective-C pointer.
     /// </summary>
-    public nint NativePtr { get; }
+    public nint NativePtr { get; } = nativePtr;
 
     public void Dispose()
     {
@@ -56,7 +41,7 @@ public abstract class NativeObject : IDisposable
 
         if (field is null || field.NativePtr != nativePtr)
         {
-            field = (T)Activator.CreateInstance(typeof(T), nativePtr, true)!;
+            field = (T)Activator.CreateInstance(typeof(T), nativePtr)!;
         }
 
         return field;

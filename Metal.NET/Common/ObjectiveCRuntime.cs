@@ -3,7 +3,7 @@ using System.Text;
 
 namespace Metal.NET;
 
-internal static unsafe partial class ObjectiveCRuntime
+public static unsafe partial class ObjectiveCRuntime
 {
     static ObjectiveCRuntime()
     {
