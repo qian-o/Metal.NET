@@ -19,7 +19,7 @@ public class MTL4ArgumentTable(nint nativePtr) : NativeObject(nativePtr)
 
     public void SetAddress(nuint gpuAddress, nuint stride, nuint bindingIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetAddress, gpuAddress, stride, bindingIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetAddressattributeStrideatIndex, gpuAddress, stride, bindingIndex);
     }
 
     public void SetResource(MTLResourceID resourceID, nuint bindingIndex)
@@ -45,6 +45,8 @@ file static class MTL4ArgumentTableBindings
     public static readonly Selector Label = "label";
 
     public static readonly Selector SetAddress = "setAddress:atIndex:";
+
+    public static readonly Selector SetAddressattributeStrideatIndex = "setAddress:attributeStride:atIndex:";
 
     public static readonly Selector SetResource = "setResource:atBufferIndex:";
 

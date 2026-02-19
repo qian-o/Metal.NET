@@ -169,7 +169,7 @@ public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
 
     public void GetBytes(nint pixelBytes, nuint bytesPerRow, MTLRegion region, nuint level)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureBindings.GetBytes, pixelBytes, bytesPerRow, region, level);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureBindings.GetBytesbytesPerRowfromRegionmipmapLevel, pixelBytes, bytesPerRow, region, level);
     }
 
     public MTLTexture? NewRemoteTextureViewForDevice(MTLDevice device)
@@ -188,21 +188,21 @@ public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
 
     public MTLTexture? NewTextureView(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.NewTextureView, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormattextureTypelevelsslices, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public MTLTexture? NewTextureView(MTLTextureViewDescriptor descriptor)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.NewTextureView, descriptor.NativePtr);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.NewTextureViewWithDescriptor, descriptor.NativePtr);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public MTLTexture? NewTextureView(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange, MTLTextureSwizzleChannels swizzle)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.NewTextureView, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange, swizzle);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormattextureTypelevelsslicesswizzle, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange, swizzle);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }
@@ -214,7 +214,7 @@ public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
 
     public void ReplaceRegion(MTLRegion region, nuint level, nint pixelBytes, nuint bytesPerRow)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureBindings.ReplaceRegion, region, level, pixelBytes, bytesPerRow);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureBindings.ReplaceRegionmipmapLevelwithBytesbytesPerRow, region, level, pixelBytes, bytesPerRow);
     }
 }
 
@@ -240,6 +240,8 @@ file static class MTLTextureBindings
 
     public static readonly Selector GetBytes = "getBytes:bytesPerRow:bytesPerImage:fromRegion:mipmapLevel:slice:";
 
+    public static readonly Selector GetBytesbytesPerRowfromRegionmipmapLevel = "getBytes:bytesPerRow:fromRegion:mipmapLevel:";
+
     public static readonly Selector GpuResourceID = "gpuResourceID";
 
     public static readonly Selector Height = "height";
@@ -262,6 +264,12 @@ file static class MTLTextureBindings
 
     public static readonly Selector NewTextureView = "newTextureViewWithPixelFormat:";
 
+    public static readonly Selector NewTextureViewWithDescriptor = "newTextureViewWithDescriptor:";
+
+    public static readonly Selector NewTextureViewWithPixelFormattextureTypelevelsslices = "newTextureViewWithPixelFormat:textureType:levels:slices:";
+
+    public static readonly Selector NewTextureViewWithPixelFormattextureTypelevelsslicesswizzle = "newTextureViewWithPixelFormat:textureType:levels:slices:swizzle:";
+
     public static readonly Selector ParentRelativeLevel = "parentRelativeLevel";
 
     public static readonly Selector ParentRelativeSlice = "parentRelativeSlice";
@@ -273,6 +281,8 @@ file static class MTLTextureBindings
     public static readonly Selector RemoteStorageTexture = "remoteStorageTexture";
 
     public static readonly Selector ReplaceRegion = "replaceRegion:mipmapLevel:slice:withBytes:bytesPerRow:bytesPerImage:";
+
+    public static readonly Selector ReplaceRegionmipmapLevelwithBytesbytesPerRow = "replaceRegion:mipmapLevel:withBytes:bytesPerRow:";
 
     public static readonly Selector RootResource = "rootResource";
 

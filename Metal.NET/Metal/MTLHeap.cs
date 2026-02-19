@@ -67,21 +67,21 @@ public class MTLHeap(nint nativePtr) : MTLAllocation(nativePtr)
 
     public MTLAccelerationStructure? NewAccelerationStructure(MTLAccelerationStructureDescriptor descriptor)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewAccelerationStructure, descriptor.NativePtr);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewAccelerationStructureWithDescriptor, descriptor.NativePtr);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public MTLAccelerationStructure? NewAccelerationStructure(nuint size, nuint offset)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewAccelerationStructure, size, offset);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewAccelerationStructureWithSizeoffset, size, offset);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public MTLAccelerationStructure? NewAccelerationStructure(MTLAccelerationStructureDescriptor descriptor, nuint offset)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewAccelerationStructure, descriptor.NativePtr, offset);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewAccelerationStructureWithDescriptoroffset, descriptor.NativePtr, offset);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }
@@ -95,7 +95,7 @@ public class MTLHeap(nint nativePtr) : MTLAllocation(nativePtr)
 
     public MTLBuffer? NewBuffer(nuint length, MTLResourceOptions options, nuint offset)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewBuffer, length, (nuint)options, offset);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewBufferWithLengthoptionsoffset, length, (nuint)options, offset);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }
@@ -109,7 +109,7 @@ public class MTLHeap(nint nativePtr) : MTLAllocation(nativePtr)
 
     public MTLTexture? NewTexture(MTLTextureDescriptor descriptor, nuint offset)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewTexture, descriptor.NativePtr, offset);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewTextureWithDescriptoroffset, descriptor.NativePtr, offset);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }
@@ -136,9 +136,19 @@ file static class MTLHeapBindings
 
     public static readonly Selector NewAccelerationStructure = "newAccelerationStructureWithSize:";
 
+    public static readonly Selector NewAccelerationStructureWithDescriptor = "newAccelerationStructureWithDescriptor:";
+
+    public static readonly Selector NewAccelerationStructureWithDescriptoroffset = "newAccelerationStructureWithDescriptor:offset:";
+
+    public static readonly Selector NewAccelerationStructureWithSizeoffset = "newAccelerationStructureWithSize:offset:";
+
     public static readonly Selector NewBuffer = "newBufferWithLength:options:";
 
+    public static readonly Selector NewBufferWithLengthoptionsoffset = "newBufferWithLength:options:offset:";
+
     public static readonly Selector NewTexture = "newTextureWithDescriptor:";
+
+    public static readonly Selector NewTextureWithDescriptoroffset = "newTextureWithDescriptor:offset:";
 
     public static readonly Selector ResourceOptions = "resourceOptions";
 

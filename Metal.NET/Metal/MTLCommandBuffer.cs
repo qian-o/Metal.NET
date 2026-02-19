@@ -85,14 +85,14 @@ public class MTLCommandBuffer(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLAccelerationStructureCommandEncoder? AccelerationStructureCommandEncoderWithDescriptor(MTLAccelerationStructurePassDescriptor descriptor)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.AccelerationStructureCommandEncoder, descriptor.NativePtr);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.AccelerationStructureCommandEncoderWithDescriptor, descriptor.NativePtr);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public MTLBlitCommandEncoder? BlitCommandEncoderWithDescriptor(MTLBlitPassDescriptor blitPassDescriptor)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.BlitCommandEncoder, blitPassDescriptor.NativePtr);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.BlitCommandEncoderWithDescriptor, blitPassDescriptor.NativePtr);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }
@@ -104,14 +104,14 @@ public class MTLCommandBuffer(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLComputeCommandEncoder? ComputeCommandEncoderWithDescriptor(MTLComputePassDescriptor computePassDescriptor)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ComputeCommandEncoder, computePassDescriptor.NativePtr);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ComputeCommandEncoderWithDescriptor, computePassDescriptor.NativePtr);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public MTLComputeCommandEncoder? ComputeCommandEncoderWithDispatchType(MTLDispatchType dispatchType)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ComputeCommandEncoder, (nuint)dispatchType);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ComputeCommandEncoderWithDispatchType, (nuint)dispatchType);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }
@@ -172,7 +172,7 @@ public class MTLCommandBuffer(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLResourceStateCommandEncoder? ResourceStateCommandEncoderWithDescriptor(MTLResourceStatePassDescriptor resourceStatePassDescriptor)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ResourceStateCommandEncoder, resourceStatePassDescriptor.NativePtr);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ResourceStateCommandEncoderWithDescriptor, resourceStatePassDescriptor.NativePtr);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }
@@ -197,13 +197,21 @@ file static class MTLCommandBufferBindings
 {
     public static readonly Selector AccelerationStructureCommandEncoder = "accelerationStructureCommandEncoder";
 
+    public static readonly Selector AccelerationStructureCommandEncoderWithDescriptor = "accelerationStructureCommandEncoderWithDescriptor:";
+
     public static readonly Selector BlitCommandEncoder = "blitCommandEncoder";
+
+    public static readonly Selector BlitCommandEncoderWithDescriptor = "blitCommandEncoderWithDescriptor:";
 
     public static readonly Selector CommandQueue = "commandQueue";
 
     public static readonly Selector Commit = "commit";
 
     public static readonly Selector ComputeCommandEncoder = "computeCommandEncoder";
+
+    public static readonly Selector ComputeCommandEncoderWithDescriptor = "computeCommandEncoderWithDescriptor:";
+
+    public static readonly Selector ComputeCommandEncoderWithDispatchType = "computeCommandEncoderWithDispatchType:";
 
     public static readonly Selector Device = "device";
 
@@ -244,6 +252,8 @@ file static class MTLCommandBufferBindings
     public static readonly Selector RenderCommandEncoder = "renderCommandEncoderWithDescriptor:";
 
     public static readonly Selector ResourceStateCommandEncoder = "resourceStateCommandEncoder";
+
+    public static readonly Selector ResourceStateCommandEncoderWithDescriptor = "resourceStateCommandEncoderWithDescriptor:";
 
     public static readonly Selector RetainedReferences = "retainedReferences";
 

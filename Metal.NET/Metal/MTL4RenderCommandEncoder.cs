@@ -24,17 +24,17 @@ public class MTL4RenderCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativ
 
     public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, nuint indexBuffer, nuint indexBufferLength, nuint instanceCount)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawIndexedPrimitives, (nuint)primitiveType, indexCount, (nuint)indexType, indexBuffer, indexBufferLength, instanceCount);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawIndexedPrimitivesindexCountindexTypeindexBufferindexBufferLengthinstanceCount, (nuint)primitiveType, indexCount, (nuint)indexType, indexBuffer, indexBufferLength, instanceCount);
     }
 
     public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, nuint indexBuffer, nuint indexBufferLength, nuint instanceCount, nint baseVertex, nuint baseInstance)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawIndexedPrimitives, (nuint)primitiveType, indexCount, (nuint)indexType, indexBuffer, indexBufferLength, instanceCount, baseVertex, baseInstance);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawIndexedPrimitivesindexCountindexTypeindexBufferindexBufferLengthinstanceCountbaseVertexbaseInstance, (nuint)primitiveType, indexCount, (nuint)indexType, indexBuffer, indexBufferLength, instanceCount, baseVertex, baseInstance);
     }
 
     public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, MTLIndexType indexType, nuint indexBuffer, nuint indexBufferLength, nuint indirectBuffer)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawIndexedPrimitives, (nuint)primitiveType, (nuint)indexType, indexBuffer, indexBufferLength, indirectBuffer);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawIndexedPrimitivesindexTypeindexBufferindexBufferLengthindirectBuffer, (nuint)primitiveType, (nuint)indexType, indexBuffer, indexBufferLength, indirectBuffer);
     }
 
     public void DrawMeshThreadgroups(MTLSize threadgroupsPerGrid, MTLSize threadsPerObjectThreadgroup, MTLSize threadsPerMeshThreadgroup)
@@ -44,7 +44,7 @@ public class MTL4RenderCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativ
 
     public void DrawMeshThreadgroups(nuint indirectBuffer, MTLSize threadsPerObjectThreadgroup, MTLSize threadsPerMeshThreadgroup)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawMeshThreadgroups, indirectBuffer, threadsPerObjectThreadgroup, threadsPerMeshThreadgroup);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawMeshThreadgroupsWithIndirectBufferthreadsPerObjectThreadgroupthreadsPerMeshThreadgroup, indirectBuffer, threadsPerObjectThreadgroup, threadsPerMeshThreadgroup);
     }
 
     public void DrawMeshThreads(MTLSize threadsPerGrid, MTLSize threadsPerObjectThreadgroup, MTLSize threadsPerMeshThreadgroup)
@@ -59,17 +59,17 @@ public class MTL4RenderCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativ
 
     public void DrawPrimitives(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount, nuint instanceCount)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawPrimitives, (nuint)primitiveType, vertexStart, vertexCount, instanceCount);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawPrimitivesvertexStartvertexCountinstanceCount, (nuint)primitiveType, vertexStart, vertexCount, instanceCount);
     }
 
     public void DrawPrimitives(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount, nuint instanceCount, nuint baseInstance)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawPrimitives, (nuint)primitiveType, vertexStart, vertexCount, instanceCount, baseInstance);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawPrimitivesvertexStartvertexCountinstanceCountbaseInstance, (nuint)primitiveType, vertexStart, vertexCount, instanceCount, baseInstance);
     }
 
     public void DrawPrimitives(MTLPrimitiveType primitiveType, nuint indirectBuffer)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawPrimitives, (nuint)primitiveType, indirectBuffer);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.DrawPrimitivesindirectBuffer, (nuint)primitiveType, indirectBuffer);
     }
 
     public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, NSRange executionRange)
@@ -79,7 +79,7 @@ public class MTL4RenderCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativ
 
     public void ExecuteCommandsInBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, nuint indirectRangeBuffer)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.ExecuteCommandsInBuffer, indirectCommandBuffer.NativePtr, indirectRangeBuffer);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.ExecuteCommandsInBufferindirectBuffer, indirectCommandBuffer.NativePtr, indirectRangeBuffer);
     }
 
     public void SetArgumentTable(MTL4ArgumentTable argumentTable, MTLRenderStages stages)
@@ -214,13 +214,29 @@ file static class MTL4RenderCommandEncoderBindings
 
     public static readonly Selector DrawIndexedPrimitives = "drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferLength:";
 
+    public static readonly Selector DrawIndexedPrimitivesindexCountindexTypeindexBufferindexBufferLengthinstanceCount = "drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferLength:instanceCount:";
+
+    public static readonly Selector DrawIndexedPrimitivesindexCountindexTypeindexBufferindexBufferLengthinstanceCountbaseVertexbaseInstance = "drawIndexedPrimitives:indexCount:indexType:indexBuffer:indexBufferLength:instanceCount:baseVertex:baseInstance:";
+
+    public static readonly Selector DrawIndexedPrimitivesindexTypeindexBufferindexBufferLengthindirectBuffer = "drawIndexedPrimitives:indexType:indexBuffer:indexBufferLength:indirectBuffer:";
+
     public static readonly Selector DrawMeshThreadgroups = "drawMeshThreadgroups:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
+
+    public static readonly Selector DrawMeshThreadgroupsWithIndirectBufferthreadsPerObjectThreadgroupthreadsPerMeshThreadgroup = "drawMeshThreadgroupsWithIndirectBuffer:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
 
     public static readonly Selector DrawMeshThreads = "drawMeshThreads:threadsPerObjectThreadgroup:threadsPerMeshThreadgroup:";
 
     public static readonly Selector DrawPrimitives = "drawPrimitives:vertexStart:vertexCount:";
 
+    public static readonly Selector DrawPrimitivesindirectBuffer = "drawPrimitives:indirectBuffer:";
+
+    public static readonly Selector DrawPrimitivesvertexStartvertexCountinstanceCount = "drawPrimitives:vertexStart:vertexCount:instanceCount:";
+
+    public static readonly Selector DrawPrimitivesvertexStartvertexCountinstanceCountbaseInstance = "drawPrimitives:vertexStart:vertexCount:instanceCount:baseInstance:";
+
     public static readonly Selector ExecuteCommandsInBuffer = "executeCommandsInBuffer:withRange:";
+
+    public static readonly Selector ExecuteCommandsInBufferindirectBuffer = "executeCommandsInBuffer:indirectBuffer:";
 
     public static readonly Selector SetArgumentTable = "setArgumentTable:atStages:";
 

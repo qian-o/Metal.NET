@@ -72,9 +72,9 @@ public class MTLIndirectRenderCommand(nint nativePtr) : NativeObject(nativePtr)
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetFragmentBuffer, buffer.NativePtr, offset, index);
     }
 
-    public void SetFrontFacingWinding(MTLWinding frontFacingWindning)
+    public void SetFrontFacingWinding(MTLWinding frontFacingWinding)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetFrontFacingWinding, (nuint)frontFacingWindning);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetFrontFacingWinding, (nuint)frontFacingWinding);
     }
 
     public void SetMeshBuffer(MTLBuffer buffer, nuint offset, nuint index)
@@ -109,7 +109,7 @@ public class MTLIndirectRenderCommand(nint nativePtr) : NativeObject(nativePtr)
 
     public void SetVertexBuffer(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetVertexBuffer, buffer.NativePtr, offset, stride, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetVertexBufferoffsetattributeStrideatIndex, buffer.NativePtr, offset, stride, index);
     }
 }
 
@@ -156,4 +156,6 @@ file static class MTLIndirectRenderCommandBindings
     public static readonly Selector SetTriangleFillMode = "setTriangleFillMode:";
 
     public static readonly Selector SetVertexBuffer = "setVertexBuffer:offset:atIndex:";
+
+    public static readonly Selector SetVertexBufferoffsetattributeStrideatIndex = "setVertexBuffer:offset:attributeStride:atIndex:";
 }

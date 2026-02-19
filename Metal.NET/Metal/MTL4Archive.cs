@@ -26,7 +26,7 @@ public class MTL4Archive(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLComputePipelineState? NewComputePipelineState(MTL4ComputePipelineDescriptor descriptor, MTL4PipelineStageDynamicLinkingDescriptor dynamicLinkingDescriptor, out NSError? error)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewComputePipelineState, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewComputePipelineStateWithDescriptordynamicLinkingDescriptorerror, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return nativePtr is not 0 ? new(nativePtr) : null;
@@ -42,7 +42,7 @@ public class MTL4Archive(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLRenderPipelineState? NewRenderPipelineState(MTL4PipelineDescriptor descriptor, MTL4RenderPipelineDynamicLinkingDescriptor dynamicLinkingDescriptor, out NSError? error)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewRenderPipelineState, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewRenderPipelineStateWithDescriptordynamicLinkingDescriptorerror, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return nativePtr is not 0 ? new(nativePtr) : null;
@@ -57,7 +57,11 @@ file static class MTL4ArchiveBindings
 
     public static readonly Selector NewComputePipelineState = "newComputePipelineStateWithDescriptor:error:";
 
+    public static readonly Selector NewComputePipelineStateWithDescriptordynamicLinkingDescriptorerror = "newComputePipelineStateWithDescriptor:dynamicLinkingDescriptor:error:";
+
     public static readonly Selector NewRenderPipelineState = "newRenderPipelineStateWithDescriptor:error:";
+
+    public static readonly Selector NewRenderPipelineStateWithDescriptordynamicLinkingDescriptorerror = "newRenderPipelineStateWithDescriptor:dynamicLinkingDescriptor:error:";
 
     public static readonly Selector SetLabel = "setLabel:";
 }

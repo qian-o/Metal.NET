@@ -30,7 +30,7 @@ public class MTL4CommandBuffer(nint nativePtr) : NativeObject(nativePtr)
 
     public void BeginCommandBuffer(MTL4CommandAllocator allocator, MTL4CommandBufferOptions options)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferBindings.BeginCommandBuffer, allocator.NativePtr, options.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferBindings.BeginCommandBufferWithAllocatoroptions, allocator.NativePtr, options.NativePtr);
     }
 
     public void EndCommandBuffer()
@@ -57,7 +57,7 @@ public class MTL4CommandBuffer(nint nativePtr) : NativeObject(nativePtr)
 
     public MTL4RenderCommandEncoder? RenderCommandEncoder(MTL4RenderPassDescriptor descriptor, MTL4RenderEncoderOptions options)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoder, descriptor.NativePtr, (nuint)options);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoderWithDescriptoroptions, descriptor.NativePtr, (nuint)options);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }
@@ -82,6 +82,8 @@ file static class MTL4CommandBufferBindings
 {
     public static readonly Selector BeginCommandBuffer = "beginCommandBufferWithAllocator:";
 
+    public static readonly Selector BeginCommandBufferWithAllocatoroptions = "beginCommandBufferWithAllocator:options:";
+
     public static readonly Selector ComputeCommandEncoder = "computeCommandEncoder";
 
     public static readonly Selector Device = "device";
@@ -97,6 +99,8 @@ file static class MTL4CommandBufferBindings
     public static readonly Selector PushDebugGroup = "pushDebugGroup:";
 
     public static readonly Selector RenderCommandEncoder = "renderCommandEncoderWithDescriptor:";
+
+    public static readonly Selector RenderCommandEncoderWithDescriptoroptions = "renderCommandEncoderWithDescriptor:options:";
 
     public static readonly Selector ResolveCounterHeap = "resolveCounterHeap:withRange:intoBuffer:waitFence:updateFence:";
 

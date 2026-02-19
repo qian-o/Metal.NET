@@ -35,7 +35,7 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLComputePipelineState? NewComputePipelineState(MTL4ComputePipelineDescriptor descriptor, MTL4PipelineStageDynamicLinkingDescriptor dynamicLinkingDescriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError? error)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewComputePipelineState, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewComputePipelineStateWithDescriptordynamicLinkingDescriptorcompilerTaskOptionserror, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return nativePtr is not 0 ? new(nativePtr) : null;
@@ -51,7 +51,7 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLDynamicLibrary? NewDynamicLibrary(NSURL url, out NSError? error)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewDynamicLibrary, url.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewDynamicLibraryWithURLerror, url.NativePtr, out nint errorPtr);
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return nativePtr is not 0 ? new(nativePtr) : null;
@@ -83,7 +83,7 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLRenderPipelineState? NewRenderPipelineState(MTL4PipelineDescriptor descriptor, MTL4RenderPipelineDynamicLinkingDescriptor dynamicLinkingDescriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError? error)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewRenderPipelineState, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewRenderPipelineStateWithDescriptordynamicLinkingDescriptorcompilerTaskOptionserror, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return nativePtr is not 0 ? new(nativePtr) : null;
@@ -108,7 +108,11 @@ file static class MTL4CompilerBindings
 
     public static readonly Selector NewComputePipelineState = "newComputePipelineStateWithDescriptor:compilerTaskOptions:error:";
 
+    public static readonly Selector NewComputePipelineStateWithDescriptordynamicLinkingDescriptorcompilerTaskOptionserror = "newComputePipelineStateWithDescriptor:dynamicLinkingDescriptor:compilerTaskOptions:error:";
+
     public static readonly Selector NewDynamicLibrary = "newDynamicLibrary:error:";
+
+    public static readonly Selector NewDynamicLibraryWithURLerror = "newDynamicLibraryWithURL:error:";
 
     public static readonly Selector NewLibrary = "newLibraryWithDescriptor:error:";
 
@@ -117,6 +121,8 @@ file static class MTL4CompilerBindings
     public static readonly Selector NewRenderPipelineState = "newRenderPipelineStateWithDescriptor:compilerTaskOptions:error:";
 
     public static readonly Selector NewRenderPipelineStateBySpecialization = "newRenderPipelineStateBySpecializationWithDescriptor:pipeline:error:";
+
+    public static readonly Selector NewRenderPipelineStateWithDescriptordynamicLinkingDescriptorcompilerTaskOptionserror = "newRenderPipelineStateWithDescriptor:dynamicLinkingDescriptor:compilerTaskOptions:error:";
 
     public static readonly Selector PipelineDataSetSerializer = "pipelineDataSetSerializer";
 }

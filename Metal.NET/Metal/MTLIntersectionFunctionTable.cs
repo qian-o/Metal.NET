@@ -24,7 +24,7 @@ public class MTLIntersectionFunctionTable(nint nativePtr) : MTLResource(nativePt
 
     public void SetOpaqueCurveIntersectionFunction(MTLIntersectionFunctionSignature signature, NSRange range)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetOpaqueCurveIntersectionFunction, (nuint)signature, range);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetOpaqueCurveIntersectionFunctionWithSignaturewithRange, (nuint)signature, range);
     }
 
     public void SetOpaqueTriangleIntersectionFunction(MTLIntersectionFunctionSignature signature, nuint index)
@@ -34,7 +34,7 @@ public class MTLIntersectionFunctionTable(nint nativePtr) : MTLResource(nativePt
 
     public void SetOpaqueTriangleIntersectionFunction(MTLIntersectionFunctionSignature signature, NSRange range)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetOpaqueTriangleIntersectionFunction, (nuint)signature, range);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetOpaqueTriangleIntersectionFunctionWithSignaturewithRange, (nuint)signature, range);
     }
 
     public void SetVisibleFunctionTable(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
@@ -53,7 +53,11 @@ file static class MTLIntersectionFunctionTableBindings
 
     public static readonly Selector SetOpaqueCurveIntersectionFunction = "setOpaqueCurveIntersectionFunctionWithSignature:atIndex:";
 
+    public static readonly Selector SetOpaqueCurveIntersectionFunctionWithSignaturewithRange = "setOpaqueCurveIntersectionFunctionWithSignature:withRange:";
+
     public static readonly Selector SetOpaqueTriangleIntersectionFunction = "setOpaqueTriangleIntersectionFunctionWithSignature:atIndex:";
+
+    public static readonly Selector SetOpaqueTriangleIntersectionFunctionWithSignaturewithRange = "setOpaqueTriangleIntersectionFunctionWithSignature:withRange:";
 
     public static readonly Selector SetVisibleFunctionTable = "setVisibleFunctionTable:atBufferIndex:";
 }

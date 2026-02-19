@@ -79,7 +79,7 @@ public class MTLFXFrameInterpolatorDescriptor(nint nativePtr) : NativeObject(nat
 
     public MTL4FXFrameInterpolator? NewFrameInterpolator(MTLDevice pDevice, MTL4Compiler pCompiler)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.NewFrameInterpolator, pDevice.NativePtr, pCompiler.NativePtr);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.NewFrameInterpolatorWithDevicecompiler, pDevice.NativePtr, pCompiler.NativePtr);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }
@@ -110,6 +110,8 @@ file static class MTLFXFrameInterpolatorDescriptorBindings
     public static readonly Selector MotionTextureFormat = "motionTextureFormat";
 
     public static readonly Selector NewFrameInterpolator = "newFrameInterpolatorWithDevice:";
+
+    public static readonly Selector NewFrameInterpolatorWithDevicecompiler = "newFrameInterpolatorWithDevice:compiler:";
 
     public static readonly Selector OutputHeight = "outputHeight";
 

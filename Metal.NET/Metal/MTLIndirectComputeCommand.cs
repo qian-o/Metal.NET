@@ -44,7 +44,7 @@ public class MTLIndirectComputeCommand(nint nativePtr) : NativeObject(nativePtr)
 
     public void SetKernelBuffer(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetKernelBuffer, buffer.NativePtr, offset, stride, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetKernelBufferoffsetattributeStrideatIndex, buffer.NativePtr, offset, stride, index);
     }
 
     public void SetStageInRegion(MTLRegion region)
@@ -75,6 +75,8 @@ file static class MTLIndirectComputeCommandBindings
     public static readonly Selector SetImageblockWidth = "setImageblockWidth:height:";
 
     public static readonly Selector SetKernelBuffer = "setKernelBuffer:offset:atIndex:";
+
+    public static readonly Selector SetKernelBufferoffsetattributeStrideatIndex = "setKernelBuffer:offset:attributeStride:atIndex:";
 
     public static readonly Selector SetStageInRegion = "setStageInRegion:";
 

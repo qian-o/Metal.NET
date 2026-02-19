@@ -61,14 +61,14 @@ public class MTLComputePipelineState(nint nativePtr) : MTLAllocation(nativePtr)
 
     public MTLFunctionHandle? FunctionHandle(MTL4BinaryFunction function)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.FunctionHandle, function.NativePtr);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithBinaryFunction, function.NativePtr);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public MTLFunctionHandle? FunctionHandle(MTLFunction function)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.FunctionHandle, function.NativePtr);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithFunction, function.NativePtr);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }
@@ -114,6 +114,10 @@ file static class MTLComputePipelineStateBindings
     public static readonly Selector Device = "device";
 
     public static readonly Selector FunctionHandle = "functionHandleWithName:";
+
+    public static readonly Selector FunctionHandleWithBinaryFunction = "functionHandleWithBinaryFunction:";
+
+    public static readonly Selector FunctionHandleWithFunction = "functionHandleWithFunction:";
 
     public static readonly Selector GpuResourceID = "gpuResourceID";
 

@@ -30,7 +30,7 @@ public class MTLCommandQueue(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLCommandBuffer? CommandBufferWithDescriptor(MTLCommandBufferDescriptor descriptor)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBuffer, descriptor.NativePtr);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBufferWithDescriptor, descriptor.NativePtr);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }
@@ -51,6 +51,8 @@ file static class MTLCommandQueueBindings
     public static readonly Selector AddResidencySet = "addResidencySet:";
 
     public static readonly Selector CommandBuffer = "commandBuffer";
+
+    public static readonly Selector CommandBufferWithDescriptor = "commandBufferWithDescriptor:";
 
     public static readonly Selector CommandBufferWithUnretainedReferences = "commandBufferWithUnretainedReferences";
 

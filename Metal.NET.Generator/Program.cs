@@ -71,6 +71,12 @@ class Generator
     // Methods to skip
     static readonly HashSet<string> SkipMethods = ["alloc", "init", "retain", "release", "autorelease", "copy", "retainCount"];
 
+    // Known typos in metal-cpp headers (parameter name corrections)
+    static readonly Dictionary<string, string> ParamNameCorrections = new()
+    {
+        ["frontFacingWindning"] = "frontFacingWinding"
+    };
+
     // C# reserved words
     static readonly HashSet<string> CSharpReservedWords =
     [
@@ -1314,6 +1320,12 @@ class Generator
         string target = isStaticClassMethod ? $"{csClassName}Bindings.Class" : "NativePtr";
 
         string selectorKey = ToPascalCase(method.CppName);
+        // If a selector key already exists with a different ObjC selector, make the key unique
+        if (selectors.TryGetValue(selectorKey, out string? existingSelector) && existingSelector != selectorObjC)
+        {
+            // Use the full selector-based name to disambiguate
+            selectorKey = ToPascalCase(selectorObjC.Replace(":", " ").Trim()).Replace(" ", "");
+        }
         selectors.TryAdd(selectorKey, selectorObjC);
 
         string selectorRef = $"{csClassName}Bindings.{selectorKey}";
@@ -1619,6 +1631,9 @@ class Generator
     static string ToCamelCase(string name)
     {
         if (string.IsNullOrEmpty(name)) return name;
+        // Apply known typo corrections
+        if (ParamNameCorrections.TryGetValue(name, out string? corrected))
+            name = corrected;
         if (name.Length == 1) return char.ToLower(name[0]).ToString();
         return char.ToLower(name[0]) + name[1..];
     }

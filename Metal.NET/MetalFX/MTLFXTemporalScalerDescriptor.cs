@@ -117,7 +117,7 @@ public class MTLFXTemporalScalerDescriptor(nint nativePtr) : NativeObject(native
 
     public MTL4FXTemporalScaler? NewTemporalScaler(MTLDevice pDevice, MTL4Compiler pCompiler)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerDescriptorBindings.NewTemporalScaler, pDevice.NativePtr, pCompiler.NativePtr);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerDescriptorBindings.NewTemporalScalerWithDevicecompiler, pDevice.NativePtr, pCompiler.NativePtr);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }
@@ -168,6 +168,8 @@ file static class MTLFXTemporalScalerDescriptorBindings
     public static readonly Selector MotionTextureFormat = "motionTextureFormat";
 
     public static readonly Selector NewTemporalScaler = "newTemporalScalerWithDevice:";
+
+    public static readonly Selector NewTemporalScalerWithDevicecompiler = "newTemporalScalerWithDevice:compiler:";
 
     public static readonly Selector OutputHeight = "outputHeight";
 

@@ -47,7 +47,7 @@ public class MTLArgumentEncoder(nint nativePtr) : NativeObject(nativePtr)
 
     public void SetArgumentBuffer(MTLBuffer argumentBuffer, nuint startOffset, nuint arrayElement)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetArgumentBuffer, argumentBuffer.NativePtr, startOffset, arrayElement);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetArgumentBufferstartOffsetarrayElement, argumentBuffer.NativePtr, startOffset, arrayElement);
     }
 
     public void SetBuffer(MTLBuffer buffer, nuint offset, nuint index)
@@ -113,6 +113,8 @@ file static class MTLArgumentEncoderBindings
     public static readonly Selector SetAccelerationStructure = "setAccelerationStructure:atIndex:";
 
     public static readonly Selector SetArgumentBuffer = "setArgumentBuffer:offset:";
+
+    public static readonly Selector SetArgumentBufferstartOffsetarrayElement = "setArgumentBuffer:startOffset:arrayElement:";
 
     public static readonly Selector SetBuffer = "setBuffer:offset:atIndex:";
 

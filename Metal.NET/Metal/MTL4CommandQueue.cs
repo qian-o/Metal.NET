@@ -59,7 +59,7 @@ public class MTL4CommandQueue(nint nativePtr) : NativeObject(nativePtr)
 
     public void Wait(MTLDrawable drawable)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueBindings.Wait, drawable.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueBindings.WaitForDrawable, drawable.NativePtr);
     }
 }
 
@@ -86,4 +86,6 @@ file static class MTL4CommandQueueBindings
     public static readonly Selector UpdateTextureMappings = "updateTextureMappings:heap:operations:count:";
 
     public static readonly Selector Wait = "waitForEvent:value:";
+
+    public static readonly Selector WaitForDrawable = "waitForDrawable:";
 }

@@ -101,14 +101,14 @@ public class MTLRenderPipelineState(nint nativePtr) : MTLAllocation(nativePtr)
 
     public MTLFunctionHandle? FunctionHandle(MTL4BinaryFunction function, MTLRenderStages stage)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.FunctionHandle, function.NativePtr, (nuint)stage);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.FunctionHandleWithBinaryFunctionstage, function.NativePtr, (nuint)stage);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public MTLFunctionHandle? FunctionHandle(MTLFunction function, MTLRenderStages stage)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.FunctionHandle, function.NativePtr, (nuint)stage);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.FunctionHandleWithFunctionstage, function.NativePtr, (nuint)stage);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }
@@ -135,7 +135,7 @@ public class MTLRenderPipelineState(nint nativePtr) : MTLAllocation(nativePtr)
 
     public MTLRenderPipelineState? NewRenderPipelineState(MTLRenderPipelineFunctionsDescriptor additionalBinaryFunctions, out NSError? error)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewRenderPipelineState, additionalBinaryFunctions.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewRenderPipelineStateWithAdditionalBinaryFunctionserror, additionalBinaryFunctions.NativePtr, out nint errorPtr);
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return nativePtr is not 0 ? new(nativePtr) : null;
@@ -154,6 +154,10 @@ file static class MTLRenderPipelineStateBindings
     public static readonly Selector Device = "device";
 
     public static readonly Selector FunctionHandle = "functionHandleWithName:stage:";
+
+    public static readonly Selector FunctionHandleWithBinaryFunctionstage = "functionHandleWithBinaryFunction:stage:";
+
+    public static readonly Selector FunctionHandleWithFunctionstage = "functionHandleWithFunction:stage:";
 
     public static readonly Selector GpuResourceID = "gpuResourceID";
 
@@ -178,6 +182,8 @@ file static class MTLRenderPipelineStateBindings
     public static readonly Selector NewRenderPipelineDescriptor = "newRenderPipelineDescriptorForSpecialization";
 
     public static readonly Selector NewRenderPipelineState = "newRenderPipelineStateWithBinaryFunctions:error:";
+
+    public static readonly Selector NewRenderPipelineStateWithAdditionalBinaryFunctionserror = "newRenderPipelineStateWithAdditionalBinaryFunctions:error:";
 
     public static readonly Selector NewVisibleFunctionTable = "newVisibleFunctionTableWithDescriptor:stage:";
 

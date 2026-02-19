@@ -57,7 +57,7 @@ public class MTLFXSpatialScalerDescriptor(nint nativePtr) : NativeObject(nativeP
 
     public MTL4FXSpatialScaler? NewSpatialScaler(MTLDevice pDevice, MTL4Compiler pCompiler)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorBindings.NewSpatialScaler, pDevice.NativePtr, pCompiler.NativePtr);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorBindings.NewSpatialScalerWithDevicecompiler, pDevice.NativePtr, pCompiler.NativePtr);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }
@@ -86,6 +86,8 @@ file static class MTLFXSpatialScalerDescriptorBindings
     public static readonly Selector InputWidth = "inputWidth";
 
     public static readonly Selector NewSpatialScaler = "newSpatialScalerWithDevice:";
+
+    public static readonly Selector NewSpatialScalerWithDevicecompiler = "newSpatialScalerWithDevice:compiler:";
 
     public static readonly Selector OutputHeight = "outputHeight";
 
