@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensor(nint nativePtr, bool retain) : MTLResource(nativePtr, retain)
+public class MTLTensor(nint nativePtr) : MTLResource(nativePtr)
 {
     public MTLBuffer? Buffer
     {

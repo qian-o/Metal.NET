@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLCounter(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTLCounter(nint nativePtr) : NativeObject(nativePtr)
 {
     public NSString? Name
     {

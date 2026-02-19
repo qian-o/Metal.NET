@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionReflection(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTLFunctionReflection(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLFunctionReflection() : this(ObjectiveCRuntime.AllocInit(MTLFunctionReflectionBindings.Class), false)
+    public MTLFunctionReflection() : this(ObjectiveCRuntime.AllocInit(MTLFunctionReflectionBindings.Class))
     {
     }
 

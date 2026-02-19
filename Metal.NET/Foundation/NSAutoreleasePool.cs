@@ -3,9 +3,9 @@
 /// <summary>
 /// Wraps an Objective-C NSAutoreleasePool for managing autorelease pools.
 /// </summary>
-public class NSAutoreleasePool(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class NSAutoreleasePool(nint nativePtr) : NativeObject(nativePtr)
 {
-    public NSAutoreleasePool() : this(ObjectiveCRuntime.AllocInit(NSAutoreleasePoolBindings.Class), false)
+    public NSAutoreleasePool() : this(ObjectiveCRuntime.AllocInit(NSAutoreleasePoolBindings.Class))
     {
     }
 

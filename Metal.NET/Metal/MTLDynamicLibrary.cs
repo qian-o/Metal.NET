@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLDynamicLibrary(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTLDynamicLibrary(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
@@ -22,7 +22,7 @@ public class MTLDynamicLibrary(nint nativePtr, bool retain) : NativeObject(nativ
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDynamicLibraryBindings.SerializeToURL, url.NativePtr, out nint errorPtr);
 
-        error = errorPtr is not 0 ? new(errorPtr, true) : null;
+        error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return result;
     }

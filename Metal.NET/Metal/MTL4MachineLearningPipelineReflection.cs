@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTL4MachineLearningPipelineReflection(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTL4MachineLearningPipelineReflection(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTL4MachineLearningPipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTL4MachineLearningPipelineReflectionBindings.Class), false)
+    public MTL4MachineLearningPipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTL4MachineLearningPipelineReflectionBindings.Class))
     {
     }
 

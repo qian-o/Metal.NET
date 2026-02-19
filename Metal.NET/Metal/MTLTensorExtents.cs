@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensorExtents(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTLTensorExtents(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLTensorExtents() : this(ObjectiveCRuntime.AllocInit(MTLTensorExtentsBindings.Class), false)
+    public MTLTensorExtents() : this(ObjectiveCRuntime.AllocInit(MTLTensorExtentsBindings.Class))
     {
     }
 

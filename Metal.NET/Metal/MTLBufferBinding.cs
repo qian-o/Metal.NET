@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLBufferBinding(nint nativePtr, bool retain) : MTLBinding(nativePtr, retain)
+public class MTLBufferBinding(nint nativePtr) : MTLBinding(nativePtr)
 {
     public nuint BufferAlignment
     {

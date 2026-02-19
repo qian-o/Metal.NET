@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTL4BinaryFunction(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTL4BinaryFunction(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLFunctionType FunctionType
     {

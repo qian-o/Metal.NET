@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLPointerType(nint nativePtr, bool retain) : MTLType(nativePtr, retain)
+public class MTLPointerType(nint nativePtr) : MTLType(nativePtr)
 {
-    public MTLPointerType() : this(ObjectiveCRuntime.AllocInit(MTLPointerTypeBindings.Class), false)
+    public MTLPointerType() : this(ObjectiveCRuntime.AllocInit(MTLPointerTypeBindings.Class))
     {
     }
 

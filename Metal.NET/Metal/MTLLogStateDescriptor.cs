@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLLogStateDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTLLogStateDescriptor(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLLogStateDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLLogStateDescriptorBindings.Class), false)
+    public MTLLogStateDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLLogStateDescriptorBindings.Class))
     {
     }
 

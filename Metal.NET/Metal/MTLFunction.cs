@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunction(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTLFunction(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
@@ -52,7 +52,7 @@ public class MTLFunction(nint nativePtr, bool retain) : NativeObject(nativePtr, 
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionBindings.NewArgumentEncoder, bufferIndex);
 
-        return nativePtr is not 0 ? new(nativePtr, false) : null;
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 

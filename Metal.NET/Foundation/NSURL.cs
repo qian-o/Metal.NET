@@ -3,7 +3,7 @@
 /// <summary>
 /// Wraps an Objective-C NSURL for file and resource URL creation.
 /// </summary>
-public class NSURL(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class NSURL(nint nativePtr) : NativeObject(nativePtr)
 {
     public nint FileSystemRepresentation
     {
@@ -14,14 +14,14 @@ public class NSURL(nint nativePtr, bool retain) : NativeObject(nativePtr, retain
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSURLBindings.InitFileURLWithPath, pPath.NativePtr);
 
-        return nativePtr is not 0 ? new(nativePtr, false) : null;
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public static NSURL? FileURLWithPath(NSString pPath)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NSURLBindings.Class, NSURLBindings.FileURLWithPath, pPath.NativePtr);
 
-        return nativePtr is not 0 ? new(nativePtr, true) : null;
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 
