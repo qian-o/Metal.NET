@@ -9,8 +9,8 @@ public class MTLSharedEvent(nint nativePtr) : MTLEvent(nativePtr)
 
     public ulong SignaledValue
     {
-        get => (ulong)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSharedEventBindings.SignaledValue);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSharedEventBindings.SetSignaledValue, (nuint)value);
+        get => ObjectiveCRuntime.MsgSendULong(NativePtr, MTLSharedEventBindings.SignaledValue);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSharedEventBindings.SetSignaledValue, value);
     }
 
     public bool WaitUntilSignaledValue(ulong value, ulong milliseconds)

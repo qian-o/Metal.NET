@@ -1265,7 +1265,7 @@ class Generator
         else
         {
             string msgSend = GetMsgSendMethod(csType);
-            string getCast = csType is "uint" or "ulong" ? $"({csType})" : csType is "int" or "long" ? $"({csType})" : "";
+            string getCast = csType is "int" or "long" ? $"({csType})" : "";
 
             sb.AppendLine($"    public {newMod}{typeStr} {csPropName}");
             sb.AppendLine("    {");
@@ -1273,7 +1273,7 @@ class Generator
 
             if (prop.Setter != null)
             {
-                string setCast = csType switch { "uint" => "(nuint)", "ulong" => "(nuint)", "int" => "(nint)", "long" => "(nint)", _ => "" };
+                string setCast = csType switch { "int" => "(nint)", "long" => "(nint)", _ => "" };
                 sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, {setCast}value);");
             }
             sb.AppendLine("    }");
@@ -1561,9 +1561,9 @@ class Generator
     {
         "nint" => "MsgSendPtr",
         "nuint" => "MsgSendNUInt",
-        "uint" => "MsgSendNUInt",
+        "uint" => "MsgSendUInt",
         "int" => "MsgSendPtr",
-        "ulong" => "MsgSendNUInt",
+        "ulong" => "MsgSendULong",
         "long" => "MsgSendPtr",
         "float" => "MsgSendFloat",
         "double" => "MsgSendDouble",

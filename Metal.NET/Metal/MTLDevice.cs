@@ -116,7 +116,7 @@ public partial class MTLDevice(nint nativePtr) : NativeObject(nativePtr)
 
     public ulong MaxTransferRate
     {
-        get => (ulong)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceBindings.MaxTransferRate);
+        get => ObjectiveCRuntime.MsgSendULong(NativePtr, MTLDeviceBindings.MaxTransferRate);
     }
 
     public nuint MaximumConcurrentCompilationTaskCount
@@ -171,17 +171,17 @@ public partial class MTLDevice(nint nativePtr) : NativeObject(nativePtr)
 
     public uint PeerCount
     {
-        get => (uint)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceBindings.PeerCount);
+        get => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDeviceBindings.PeerCount);
     }
 
     public ulong PeerGroupID
     {
-        get => (ulong)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceBindings.PeerGroupID);
+        get => ObjectiveCRuntime.MsgSendULong(NativePtr, MTLDeviceBindings.PeerGroupID);
     }
 
     public uint PeerIndex
     {
-        get => (uint)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceBindings.PeerIndex);
+        get => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDeviceBindings.PeerIndex);
     }
 
     public bool ProgrammableSamplePositionsSupported
@@ -191,7 +191,7 @@ public partial class MTLDevice(nint nativePtr) : NativeObject(nativePtr)
 
     public ulong QueryTimestampFrequency
     {
-        get => (ulong)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceBindings.QueryTimestampFrequency);
+        get => ObjectiveCRuntime.MsgSendULong(NativePtr, MTLDeviceBindings.QueryTimestampFrequency);
     }
 
     public bool RasterOrderGroupsSupported
@@ -206,12 +206,12 @@ public partial class MTLDevice(nint nativePtr) : NativeObject(nativePtr)
 
     public ulong RecommendedMaxWorkingSetSize
     {
-        get => (ulong)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceBindings.RecommendedMaxWorkingSetSize);
+        get => ObjectiveCRuntime.MsgSendULong(NativePtr, MTLDeviceBindings.RecommendedMaxWorkingSetSize);
     }
 
     public ulong RegistryID
     {
-        get => (ulong)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceBindings.RegistryID);
+        get => ObjectiveCRuntime.MsgSendULong(NativePtr, MTLDeviceBindings.RegistryID);
     }
 
     public bool Removable

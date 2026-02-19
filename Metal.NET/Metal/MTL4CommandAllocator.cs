@@ -4,7 +4,7 @@ public class MTL4CommandAllocator(nint nativePtr) : NativeObject(nativePtr)
 {
     public ulong AllocatedSize
     {
-        get => (ulong)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CommandAllocatorBindings.AllocatedSize);
+        get => ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4CommandAllocatorBindings.AllocatedSize);
     }
 
     public MTLDevice? Device
