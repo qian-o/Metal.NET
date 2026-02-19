@@ -10,11 +10,6 @@ public abstract class NativeObject(nint nativePtr) : IDisposable
 {
     private bool released;
 
-    ~NativeObject()
-    {
-        Release();
-    }
-
     /// <summary>
     /// The underlying Objective-C pointer.
     /// </summary>
@@ -22,7 +17,17 @@ public abstract class NativeObject(nint nativePtr) : IDisposable
 
     public void Dispose()
     {
-        Release();
+        if (released)
+        {
+            return;
+        }
+
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
+
+        released = true;
 
         GC.SuppressFinalize(this);
     }
@@ -55,20 +60,5 @@ public abstract class NativeObject(nint nativePtr) : IDisposable
         ObjectiveCRuntime.MsgSend(NativePtr, selector, value?.NativePtr ?? 0);
 
         field = value;
-    }
-
-    private void Release()
-    {
-        if (released)
-        {
-            return;
-        }
-
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
-
-        released = true;
     }
 }
