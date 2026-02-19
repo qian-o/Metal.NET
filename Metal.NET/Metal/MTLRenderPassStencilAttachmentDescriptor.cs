@@ -6,9 +6,9 @@ public class MTLRenderPassStencilAttachmentDescriptor(nint nativePtr) : MTLRende
     {
     }
 
-    public uint ClearStencil
+    public nuint ClearStencil
     {
-        get => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPassStencilAttachmentDescriptorBindings.ClearStencil);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassStencilAttachmentDescriptorBindings.ClearStencil);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorBindings.SetClearStencil, value);
     }
 

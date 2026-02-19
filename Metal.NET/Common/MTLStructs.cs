@@ -3,7 +3,7 @@
 namespace Metal.NET;
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTLOrigin(uint x, uint y, uint z)
+public struct MTLOrigin(nuint x, nuint y, nuint z)
 {
     public nuint X = x;
 
@@ -13,7 +13,7 @@ public struct MTLOrigin(uint x, uint y, uint z)
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTLSize(uint width, uint height, uint depth)
+public struct MTLSize(nuint width, nuint height, nuint depth)
 {
     public nuint Width = width;
 
@@ -47,7 +47,7 @@ public struct MTLViewport(double originX, double originY, double width, double h
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTLScissorRect(uint x, uint y, uint width, uint height)
+public struct MTLScissorRect(nuint x, nuint y, nuint width, nuint height)
 {
     public nuint X = x;
 
@@ -87,7 +87,7 @@ public struct MTLSamplePosition(float x, float y)
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTLSizeAndAlign(uint size, uint align)
+public struct MTLSizeAndAlign(nuint size, nuint align)
 {
     public nuint Size = size;
 
@@ -95,7 +95,7 @@ public struct MTLSizeAndAlign(uint size, uint align)
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTLAccelerationStructureSizes(uint accelerationStructureSize, uint buildScratchBufferSize, uint refitScratchBufferSize)
+public struct MTLAccelerationStructureSizes(nuint accelerationStructureSize, nuint buildScratchBufferSize, nuint refitScratchBufferSize)
 {
     public nuint AccelerationStructureSize = accelerationStructureSize;
 
@@ -131,15 +131,15 @@ public struct MTLResourceID(ulong impl)
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTLVertexAmplificationViewMapping(uint viewportArrayIndexOffset, uint renderTargetArrayIndexOffset)
+public struct MTLVertexAmplificationViewMapping(nuint viewportArrayIndexOffset, nuint renderTargetArrayIndexOffset)
 {
-    public uint ViewportArrayIndexOffset = viewportArrayIndexOffset;
+    public nuint ViewportArrayIndexOffset = viewportArrayIndexOffset;
 
-    public uint RenderTargetArrayIndexOffset = renderTargetArrayIndexOffset;
+    public nuint RenderTargetArrayIndexOffset = renderTargetArrayIndexOffset;
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTL4Origin(uint x, uint y, uint z)
+public struct MTL4Origin(nuint x, nuint y, nuint z)
 {
     public nuint X = x;
 
@@ -149,7 +149,7 @@ public struct MTL4Origin(uint x, uint y, uint z)
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTL4Size(uint width, uint height, uint depth)
+public struct MTL4Size(nuint width, nuint height, nuint depth)
 {
     public nuint Width = width;
 
@@ -159,7 +159,7 @@ public struct MTL4Size(uint width, uint height, uint depth)
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTL4Range(uint location, uint length)
+public struct MTL4Range(nuint location, nuint length)
 {
     public nuint Location = location;
 
@@ -167,7 +167,7 @@ public struct MTL4Range(uint location, uint length)
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTL4BufferRange(uint offset, uint length)
+public struct MTL4BufferRange(nuint offset, nuint length)
 {
     public nuint Offset = offset;
 
@@ -175,7 +175,7 @@ public struct MTL4BufferRange(uint offset, uint length)
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct NSRange(uint location, uint length)
+public struct NSRange(nuint location, nuint length)
 {
     public nuint Location = location;
 
@@ -183,7 +183,7 @@ public struct NSRange(uint location, uint length)
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTL4CopySparseBufferMappingOperation(uint sourceStartPage, uint destinationStartPage, uint pageCount)
+public struct MTL4CopySparseBufferMappingOperation(nuint sourceStartPage, nuint destinationStartPage, nuint pageCount)
 {
     public nuint SourceStartPage = sourceStartPage;
 
@@ -193,7 +193,7 @@ public struct MTL4CopySparseBufferMappingOperation(uint sourceStartPage, uint de
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTL4CopySparseTextureMappingOperation(MTLRegion sourceRegion, uint sourceMipLevel, uint sourceSlice, MTL4Origin destinationOrigin, uint destinationMipLevel, uint destinationSlice)
+public struct MTL4CopySparseTextureMappingOperation(MTLRegion sourceRegion, nuint sourceMipLevel, nuint sourceSlice, MTL4Origin destinationOrigin, nuint destinationMipLevel, nuint destinationSlice)
 {
     public MTLRegion SourceRegion = sourceRegion;
 
@@ -209,7 +209,7 @@ public struct MTL4CopySparseTextureMappingOperation(MTLRegion sourceRegion, uint
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTL4UpdateSparseBufferMappingOperation(uint startPage, uint pageCount)
+public struct MTL4UpdateSparseBufferMappingOperation(nuint startPage, nuint pageCount)
 {
     public nuint StartPage = startPage;
 
@@ -217,7 +217,7 @@ public struct MTL4UpdateSparseBufferMappingOperation(uint startPage, uint pageCo
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTL4UpdateSparseTextureMappingOperation(MTLRegion region, uint mipLevel, uint slice)
+public struct MTL4UpdateSparseTextureMappingOperation(MTLRegion region, nuint mipLevel, nuint slice)
 {
     public MTLRegion Region = region;
 

@@ -18,9 +18,9 @@ public class MTLStencilDescriptor(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetDepthStencilPassOperation, (nuint)value);
     }
 
-    public uint ReadMask
+    public nuint ReadMask
     {
-        get => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLStencilDescriptorBindings.ReadMask);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStencilDescriptorBindings.ReadMask);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetReadMask, value);
     }
 
@@ -36,9 +36,9 @@ public class MTLStencilDescriptor(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetStencilFailureOperation, (nuint)value);
     }
 
-    public uint WriteMask
+    public nuint WriteMask
     {
-        get => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLStencilDescriptorBindings.WriteMask);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStencilDescriptorBindings.WriteMask);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetWriteMask, value);
     }
 }

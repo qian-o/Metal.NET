@@ -117,7 +117,7 @@ public class MTL4RenderCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativ
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetScissorRects, scissorRects, count);
     }
 
-    public void SetStencilReferenceValues(uint frontReferenceValue, uint backReferenceValue)
+    public void SetStencilReferenceValues(nuint frontReferenceValue, nuint backReferenceValue)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetStencilReferenceValues, frontReferenceValue, backReferenceValue);
     }

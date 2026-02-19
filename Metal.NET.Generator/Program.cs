@@ -1489,8 +1489,8 @@ class Generator
             "NS::Integer" when isPointer => "nint",
             "NS::UInteger" => "nuint",
             "NS::Integer" => "nint",
-            "uint32_t" => "uint",
-            "int32_t" => "int",
+            "uint32_t" => "nuint",
+            "int32_t" => "nint",
             "uint8_t" => "byte",
             "int8_t" => "sbyte",
             "uint16_t" => "ushort",
@@ -1547,7 +1547,7 @@ class Generator
 
     bool IsNullableType(string csType)
     {
-        if (csType is "void" or "bool" or "nint" or "nuint" or "uint" or "ulong" or "long" or "int" or "float" or "double"
+        if (csType is "void" or "bool" or "nint" or "nuint" or "ulong" or "long" or "float" or "double"
             or "byte" or "sbyte" or "short" or "ushort")
             return false;
         if (StructTypes.Contains(csType)) return false;
@@ -1561,7 +1561,6 @@ class Generator
     {
         "nint" => "MsgSendPtr",
         "nuint" => "MsgSendNUInt",
-        "uint" => "MsgSendUInt",
         "ulong" => "MsgSendNUInt",
         "long" => "MsgSendPtr",
         "float" => "MsgSendFloat",
@@ -1577,7 +1576,7 @@ class Generator
             {
                 "ulong" => "ObjectiveCRuntime.MsgSendNUInt",
                 "long" => "ObjectiveCRuntime.MsgSendPtr",
-                "uint" => "ObjectiveCRuntime.MsgSendUInt",
+                "uint" => "ObjectiveCRuntime.MsgSendNUInt",
                 "int" => "ObjectiveCRuntime.MsgSendPtr",
                 _ => "ObjectiveCRuntime.MsgSendNUInt"
             };
@@ -1593,8 +1592,8 @@ class Generator
             {
                 "ulong" => "(nuint)",
                 "long" => "(nint)",
-                "uint" => "(uint)",
-                "int" => "(int)",
+                "uint" => "(nuint)",
+                "int" => "(nint)",
                 _ => "(nuint)"
             };
         }
