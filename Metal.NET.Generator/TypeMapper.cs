@@ -82,11 +82,24 @@ partial class TypeMapper(GeneratorContext context)
         bool isPointer = t.EndsWith('*');
         bool isDoublePointer = t.EndsWith("**");
 
-        if (isDoublePointer) t = t[..^2].Trim();
-        else if (isPointer) t = t[..^1].Trim();
+        if (isDoublePointer)
+        {
+            t = t[..^2].Trim();
+        }
+        else if (isPointer)
+        {
+            t = t[..^1].Trim();
+        }
 
-        if (t == "void" && isPointer) return "nint";
-        if (t == "void") return "void";
+        if (t == "void" && isPointer)
+        {
+            return "nint";
+        }
+
+        if (t == "void")
+        {
+            return "void";
+        }
 
         string? simple = t switch
         {
@@ -114,7 +127,10 @@ partial class TypeMapper(GeneratorContext context)
             "CGSize" => "CGSize",
             _ => null
         };
-        if (simple != null) return simple;
+        if (simple != null)
+        {
+            return simple;
+        }
 
         // Namespaced types
         Match nsMatch = NamespaceTypeRegex().Match(t);
@@ -123,7 +139,10 @@ partial class TypeMapper(GeneratorContext context)
             string typeNs = nsMatch.Groups[1].Value;
             string typeName = nsMatch.Groups[2].Value.Trim();
 
-            if (typeName == "GPUAddress") return "nuint";
+            if (typeName == "GPUAddress")
+            {
+                return "nuint";
+            }
 
             string prefix = GetPrefix(typeNs);
             return prefix + typeName;
@@ -132,7 +151,10 @@ partial class TypeMapper(GeneratorContext context)
         // Unqualified type in same namespace
         if (!t.Contains("::"))
         {
-            if (t == "GPUAddress") return "nuint";
+            if (t == "GPUAddress")
+            {
+                return "nuint";
+            }
 
             string prefix = GetPrefix(defaultNs);
             return prefix + t;
@@ -145,9 +167,20 @@ partial class TypeMapper(GeneratorContext context)
     {
         if (csType is "void" or "bool" or "nint" or "nuint" or "uint" or "int" or "ulong" or "long" or "float" or "double"
             or "byte" or "sbyte" or "short" or "ushort")
+        {
             return false;
-        if (StructTypes.Contains(csType)) return false;
-        if (context.EnumBackingTypes.ContainsKey(csType)) return false;
+        }
+
+        if (StructTypes.Contains(csType))
+        {
+            return false;
+        }
+
+        if (context.EnumBackingTypes.ContainsKey(csType))
+        {
+            return false;
+        }
+
         return true;
     }
 
@@ -156,19 +189,52 @@ partial class TypeMapper(GeneratorContext context)
     public static bool IsUnmappableCppType(string cppType)
     {
         string t = cppType;
-        if (t.Contains('<') || t.Contains('>')) return true;
-        if (t.Contains('&')) return true;
-        if (t.Contains("* const") && !t.Contains("**")) return true;
-        if (t.Contains("Timestamp") && !t.Contains("TimestampGranularity")) return true;
-        if (t.Contains("Autoreleased")) return true;
+
+        if (t.Contains('<') || t.Contains('>'))
+        {
+            return true;
+        }
+
+        if (t.Contains('&'))
+        {
+            return true;
+        }
+
+        if (t.Contains("* const") && !t.Contains("**"))
+        {
+            return true;
+        }
+
+        if (t.Contains("Timestamp") && !t.Contains("TimestampGranularity"))
+        {
+            return true;
+        }
+
+        if (t.Contains("Autoreleased"))
+        {
+            return true;
+        }
+
         if (t.Contains("NS::Bundle") || t.Contains("NS::Process") ||
             t.Contains("NS::Notification") || t.Contains("NS::Observer") ||
             t.Contains("NS::Dictionary") || t.Contains("NS::Object") ||
             t.Contains("NS::Data") || t.Contains("NS::Number") ||
             t.Contains("NS::Set") || t.Contains("NS::Enumerator") ||
-            t.Contains("NS::Value") || t.Contains("NS::Date")) return true;
-        if (t.Contains("Coordinate2D")) return true;
-        if (t.Contains("kern_return_t") || t.Contains("task_id_token_t")) return true;
+            t.Contains("NS::Value") || t.Contains("NS::Date"))
+        {
+            return true;
+        }
+
+        if (t.Contains("Coordinate2D"))
+        {
+            return true;
+        }
+
+        if (t.Contains("kern_return_t") || t.Contains("task_id_token_t"))
+        {
+            return true;
+        }
+
         return false;
     }
 
@@ -242,11 +308,31 @@ partial class TypeMapper(GeneratorContext context)
 
     public static bool IsOwnershipTransferMethod(string cppName)
     {
-        if (cppName.StartsWith("new") && (cppName.Length == 3 || char.IsUpper(cppName[3]))) return true;
-        if (cppName.StartsWith("alloc") && (cppName.Length == 5 || char.IsUpper(cppName[5]))) return true;
-        if (cppName.StartsWith("copy") && (cppName.Length == 4 || char.IsUpper(cppName[4]))) return true;
-        if (cppName.StartsWith("mutableCopy") && (cppName.Length == 11 || char.IsUpper(cppName[11]))) return true;
-        if (cppName.StartsWith("init") && (cppName.Length == 4 || char.IsUpper(cppName[4]))) return true;
+        if (cppName.StartsWith("new") && (cppName.Length == 3 || char.IsUpper(cppName[3])))
+        {
+            return true;
+        }
+
+        if (cppName.StartsWith("alloc") && (cppName.Length == 5 || char.IsUpper(cppName[5])))
+        {
+            return true;
+        }
+
+        if (cppName.StartsWith("copy") && (cppName.Length == 4 || char.IsUpper(cppName[4])))
+        {
+            return true;
+        }
+
+        if (cppName.StartsWith("mutableCopy") && (cppName.Length == 11 || char.IsUpper(cppName[11])))
+        {
+            return true;
+        }
+
+        if (cppName.StartsWith("init") && (cppName.Length == 4 || char.IsUpper(cppName[4])))
+        {
+            return true;
+        }
+
         return false;
     }
 
@@ -256,17 +342,36 @@ partial class TypeMapper(GeneratorContext context)
 
     public static string ToPascalCase(string name)
     {
-        if (string.IsNullOrEmpty(name)) return name;
-        if (name.Length == 1) return char.ToUpper(name[0]).ToString();
+        if (string.IsNullOrEmpty(name))
+        {
+            return name;
+        }
+
+        if (name.Length == 1)
+        {
+            return char.ToUpper(name[0]).ToString();
+        }
+
         return char.ToUpper(name[0]) + name[1..];
     }
 
     public static string ToCamelCase(string name)
     {
-        if (string.IsNullOrEmpty(name)) return name;
+        if (string.IsNullOrEmpty(name))
+        {
+            return name;
+        }
+
         if (ParamNameCorrections.TryGetValue(name, out string? corrected))
+        {
             name = corrected;
-        if (name.Length == 1) return char.ToLower(name[0]).ToString();
+        }
+
+        if (name.Length == 1)
+        {
+            return char.ToLower(name[0]).ToString();
+        }
+
         return char.ToLower(name[0]) + name[1..];
     }
 
