@@ -3,25 +3,25 @@ namespace Metal.NET;
 [Flags]
 public enum MTLStages : ulong
 {
-    StageVertex = 1,
+    Vertex = 1,
 
-    StageFragment = 2,
+    Fragment = 2,
 
-    StageTile = 4,
+    Tile = 4,
 
-    StageObject = 8,
+    Object = 8,
 
-    StageMesh = 16,
+    Mesh = 16,
 
-    StageResourceState = 67108864,
+    ResourceState = 67108864,
 
-    StageDispatch = 134217728,
+    Dispatch = 134217728,
 
-    StageBlit = 268435456,
+    Blit = 268435456,
 
-    StageAccelerationStructure = 536870912,
+    AccelerationStructure = 536870912,
 
-    StageMachineLearning = 1073741824,
+    MachineLearning = 1073741824,
 
-    StageAll = 9223372036854775807
+    All = 9223372036854775807
 }

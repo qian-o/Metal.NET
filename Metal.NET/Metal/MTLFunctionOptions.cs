@@ -3,15 +3,15 @@ namespace Metal.NET;
 [Flags]
 public enum MTLFunctionOptions : ulong
 {
-    FunctionOptionNone = 0,
+    None = 0,
 
-    FunctionOptionCompileToBinary = 1,
+    CompileToBinary = 1,
 
-    FunctionOptionStoreFunctionInMetalPipelinesScript = 2,
+    StoreFunctionInMetalPipelinesScript = 2,
 
-    FunctionOptionStoreFunctionInMetalScript = 2,
+    StoreFunctionInMetalScript = 2,
 
-    FunctionOptionFailOnBinaryArchiveMiss = 4,
+    FailOnBinaryArchiveMiss = 4,
 
-    FunctionOptionPipelineIndependent = 8
+    PipelineIndependent = 8
 }

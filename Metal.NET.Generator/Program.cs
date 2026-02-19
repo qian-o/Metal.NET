@@ -287,8 +287,8 @@ class Generator
 
     static List<EnumMember> ParseEnumMembers(string body, string cppEnumName)
     {
-        var members = new List<EnumMember>();
-        // Map from C++ member name to resolved value (for cross-references in expressions)
+        // First pass: collect all C++ member names and their values
+        var rawMembers = new List<(string CppName, string Value)>();
         var cppNameToValue = new Dictionary<string, string>();
         int nextImplicitValue = 0;
 
@@ -297,7 +297,6 @@ class Generator
             var line = rawLine.Trim().TrimEnd(',');
             if (string.IsNullOrWhiteSpace(line)) continue;
 
-            // Parse: MemberName = value  OR  MemberName (implicit value)
             var memberMatch = Regex.Match(line, @"^(\w+)\s*(?:=\s*(.+))?$");
             if (!memberMatch.Success) continue;
 
@@ -308,7 +307,6 @@ class Generator
             {
                 string value = memberMatch.Groups[2].Value.Trim();
                 csValue = EvaluateEnumValue(value, cppNameToValue);
-                // Update implicit counter
                 if (long.TryParse(csValue, out long parsed))
                     nextImplicitValue = (int)(parsed + 1);
             }
@@ -319,20 +317,70 @@ class Generator
             }
 
             cppNameToValue[cppMemberName] = csValue;
+            rawMembers.Add((cppMemberName, csValue));
+        }
 
-            // Strip enum type name prefix from member name (e.g., GPUFamilyApple1 → Apple1)
-            string csName = cppMemberName.StartsWith(cppEnumName)
-                ? cppMemberName[cppEnumName.Length..]
-                : cppMemberName;
+        // Compute the common prefix to strip from all member names
+        string stripPrefix = ComputeEnumStripPrefix(cppEnumName, rawMembers.Select(m => m.CppName).ToList());
+
+        // Second pass: build C# enum members with stripped names
+        var members = new List<EnumMember>();
+        foreach (var (cppName, value) in rawMembers)
+        {
+            string csName = cppName.StartsWith(stripPrefix)
+                ? cppName[stripPrefix.Length..]
+                : cppName;
 
             // If the stripped name starts with a digit, prefix with '_'
             if (csName.Length > 0 && char.IsDigit(csName[0]))
                 csName = "_" + csName;
 
-            members.Add(new EnumMember(csName, csValue));
+            // If empty after stripping, keep original
+            if (string.IsNullOrEmpty(csName))
+                csName = cppName;
+
+            members.Add(new EnumMember(csName, value));
         }
 
         return members;
+    }
+
+    static string ComputeEnumStripPrefix(string cppEnumName, List<string> memberNames)
+    {
+        if (memberNames.Count == 0) return cppEnumName;
+
+        // If all members start with the full enum name, use it directly
+        if (memberNames.All(m => m.StartsWith(cppEnumName)))
+            return cppEnumName;
+
+        // Compute the longest common prefix of all member names
+        string lcp = memberNames[0];
+        foreach (var name in memberNames.Skip(1))
+        {
+            int i = 0;
+            while (i < lcp.Length && i < name.Length && lcp[i] == name[i])
+                i++;
+            lcp = lcp[..i];
+            if (lcp.Length == 0) break;
+        }
+
+        if (lcp.Length == 0) return cppEnumName;
+
+        // Check if the LCP ends at a word boundary (next char in members is uppercase or digit)
+        bool atWordBoundary = memberNames.All(m =>
+            m.Length <= lcp.Length || char.IsUpper(m[lcp.Length]) || char.IsDigit(m[lcp.Length]));
+
+        if (atWordBoundary)
+            return lcp;
+
+        // Trim LCP to end at the last uppercase boundary
+        for (int i = lcp.Length - 1; i > 0; i--)
+        {
+            if (char.IsUpper(lcp[i]))
+                return lcp[..i];
+        }
+
+        return lcp;
     }
 
     static string EvaluateEnumValue(string value, Dictionary<string, string> cppNameToValue)

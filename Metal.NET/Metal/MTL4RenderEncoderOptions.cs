@@ -3,9 +3,9 @@ namespace Metal.NET;
 [Flags]
 public enum MTL4RenderEncoderOptions : ulong
 {
-    RenderEncoderOptionNone = 0,
+    None = 0,
 
-    RenderEncoderOptionSuspending = 1,
+    Suspending = 1,
 
-    RenderEncoderOptionResuming = 2
+    Resuming = 2
 }

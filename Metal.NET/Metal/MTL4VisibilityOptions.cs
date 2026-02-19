@@ -3,9 +3,9 @@ namespace Metal.NET;
 [Flags]
 public enum MTL4VisibilityOptions : ulong
 {
-    VisibilityOptionNone = 0,
+    None = 0,
 
-    VisibilityOptionDevice = 1,
+    Device = 1,
 
-    VisibilityOptionResourceAlias = 2
+    ResourceAlias = 2
 }

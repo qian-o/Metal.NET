@@ -3,19 +3,19 @@ namespace Metal.NET;
 [Flags]
 public enum NSActivityOptions : ulong
 {
-    ActivityIdleDisplaySleepDisabled = 1099511627776,
+    IdleDisplaySleepDisabled = 1099511627776,
 
-    ActivityIdleSystemSleepDisabled = 1048576,
+    IdleSystemSleepDisabled = 1048576,
 
-    ActivitySuddenTerminationDisabled = 16384,
+    SuddenTerminationDisabled = 16384,
 
-    ActivityAutomaticTerminationDisabled = 32768,
+    AutomaticTerminationDisabled = 32768,
 
-    ActivityUserInitiated = 16777215,
+    UserInitiated = 16777215,
 
-    ActivityUserInitiatedAllowingIdleSystemSleep = 15728639,
+    UserInitiatedAllowingIdleSystemSleep = 15728639,
 
-    ActivityBackground = 255,
+    Background = 255,
 
-    ActivityLatencyCritical = 1095216660480
+    LatencyCritical = 1095216660480
 }

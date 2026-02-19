@@ -3,7 +3,7 @@ namespace Metal.NET;
 [Flags]
 public enum MTL4BinaryFunctionOptions : ulong
 {
-    BinaryFunctionOptionNone = 0,
+    None = 0,
 
-    BinaryFunctionOptionPipelineIndependent = 2
+    PipelineIndependent = 2
 }
