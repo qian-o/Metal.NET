@@ -13,8 +13,9 @@ public class MTLSharedEventListener(nint nativePtr) : NativeObject(nativePtr)
 
     public static MTLSharedEventListener? SharedListener()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLSharedEventListenerBindings.Class, MTLSharedEventListenerBindings.SharedListener);
-        return ptr is not 0 ? new MTLSharedEventListener(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLSharedEventListenerBindings.Class, MTLSharedEventListenerBindings.SharedListener);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 

@@ -110,8 +110,9 @@ public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr) : M
 
     public static MTLAccelerationStructureCurveGeometryDescriptor? Descriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructureCurveGeometryDescriptorBindings.Class, MTLAccelerationStructureCurveGeometryDescriptorBindings.Descriptor);
-        return ptr is not 0 ? new MTLAccelerationStructureCurveGeometryDescriptor(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructureCurveGeometryDescriptorBindings.Class, MTLAccelerationStructureCurveGeometryDescriptorBindings.Descriptor);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 

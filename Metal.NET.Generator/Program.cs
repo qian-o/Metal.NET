@@ -933,8 +933,9 @@ class Generator
         {
             sb.AppendLine($"    public static {csFullReturnType} {func.CppName}({wrapperParamStr})");
             sb.AppendLine("    {");
-            sb.AppendLine($"        nint ptr = {func.CEntryPoint}({callArgStr});");
-            sb.AppendLine($"        return ptr is not 0 ? new {csReturnType}(ptr) : null;");
+            sb.AppendLine($"        nint nativePtr = {func.CEntryPoint}({callArgStr});");
+            sb.AppendLine();
+            sb.AppendLine($"        return nativePtr is not 0 ? new(nativePtr) : null;");
             sb.AppendLine("    }");
         }
         else if (csReturnType == "void")
@@ -1264,13 +1265,17 @@ class Generator
         else
         {
             string msgSend = GetMsgSendMethod(csType);
+            string getCast = csType is "ulong" or "long" ? $"({csType})" : "";
 
             sb.AppendLine($"    public {newMod}{typeStr} {csPropName}");
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => ObjectiveCRuntime.{msgSend}({target}, {selectorRef});");
+            sb.AppendLine($"        get => {getCast}ObjectiveCRuntime.{msgSend}({target}, {selectorRef});");
 
             if (prop.Setter != null)
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value);");
+            {
+                string setCast = csType switch { "ulong" => "(nuint)", "long" => "(nint)", _ => "" };
+                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, {setCast}value);");
+            }
             sb.AppendLine("    }");
         }
     }
@@ -1360,6 +1365,10 @@ class Generator
                 callArgs.Add($"{GetEnumSetCast(csParamType)}{csParamName}");
             else if (csParamType == "bool")
                 callArgs.Add($"(Bool8){csParamName}");
+            else if (csParamType == "ulong")
+                callArgs.Add($"(nuint){csParamName}");
+            else if (csParamType == "long")
+                callArgs.Add($"(nint){csParamName}");
             else
                 callArgs.Add(csParamName);
         }
@@ -1376,20 +1385,22 @@ class Generator
         {
             sb.AppendLine($"        ObjectiveCRuntime.MsgSend({argsStr});");
             if (hasOutError)
-                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : null;");
+                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr) : null;");
         }
         else if (nullable)
         {
             if (hasOutError)
             {
-                sb.AppendLine($"        nint ptr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
-                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : null;");
-                sb.AppendLine($"        return ptr is not 0 ? new {returnType}(ptr) : null;");
+                sb.AppendLine($"        nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
+                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr) : null;");
+                sb.AppendLine();
+                sb.AppendLine($"        return nativePtr is not 0 ? new(nativePtr) : null;");
             }
             else
             {
-                sb.AppendLine($"        nint ptr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
-                sb.AppendLine($"        return ptr is not 0 ? new {returnType}(ptr) : null;");
+                sb.AppendLine($"        nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
+                sb.AppendLine();
+                sb.AppendLine($"        return nativePtr is not 0 ? new(nativePtr) : null;");
             }
         }
         else if (isEnum)
@@ -1398,7 +1409,7 @@ class Generator
             if (hasOutError)
             {
                 sb.AppendLine($"        var result = ({returnType}){msgSend}({argsStr});");
-                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : null;");
+                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr) : null;");
                 sb.AppendLine("        return result;");
             }
             else
@@ -1411,7 +1422,7 @@ class Generator
             if (hasOutError)
             {
                 sb.AppendLine($"        var result = ObjectiveCRuntime.MsgSendBool({argsStr});");
-                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : null;");
+                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr) : null;");
                 sb.AppendLine("        return result;");
             }
             else
@@ -1425,7 +1436,7 @@ class Generator
             if (hasOutError)
             {
                 sb.AppendLine($"        var result = ObjectiveCRuntime.{msgSend}({argsStr});");
-                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : null;");
+                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr) : null;");
                 sb.AppendLine("        return result;");
             }
             else
@@ -1436,15 +1447,16 @@ class Generator
         else
         {
             string msgSend = GetMsgSendMethod(returnType);
+            string retCast = returnType is "ulong" or "long" ? $"({returnType})" : "";
             if (hasOutError)
             {
-                sb.AppendLine($"        var result = ObjectiveCRuntime.{msgSend}({argsStr});");
-                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : null;");
+                sb.AppendLine($"        var result = {retCast}ObjectiveCRuntime.{msgSend}({argsStr});");
+                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr) : null;");
                 sb.AppendLine("        return result;");
             }
             else
             {
-                sb.AppendLine($"        return ObjectiveCRuntime.{msgSend}({argsStr});");
+                sb.AppendLine($"        return {retCast}ObjectiveCRuntime.{msgSend}({argsStr});");
             }
         }
 
@@ -1483,8 +1495,8 @@ class Generator
             "int8_t" => "sbyte",
             "uint16_t" => "ushort",
             "int16_t" => "short",
-            "uint64_t" or "std::uint64_t" => "nuint",
-            "int64_t" or "std::int64_t" => "nint",
+            "uint64_t" or "std::uint64_t" => "ulong",
+            "int64_t" or "std::int64_t" => "long",
             "float" => "float",
             "double" => "double",
             "bool" => "bool",

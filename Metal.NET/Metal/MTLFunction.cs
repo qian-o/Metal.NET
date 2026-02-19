@@ -50,8 +50,9 @@ public class MTLFunction(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLArgumentEncoder? NewArgumentEncoder(nuint bufferIndex)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionBindings.NewArgumentEncoder, bufferIndex);
-        return ptr is not 0 ? new MTLArgumentEncoder(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionBindings.NewArgumentEncoder, bufferIndex);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 

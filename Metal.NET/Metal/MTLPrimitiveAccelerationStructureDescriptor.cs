@@ -44,8 +44,9 @@ public class MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr) : MTLAc
 
     public static MTLPrimitiveAccelerationStructureDescriptor? Descriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLPrimitiveAccelerationStructureDescriptorBindings.Class, MTLPrimitiveAccelerationStructureDescriptorBindings.Descriptor);
-        return ptr is not 0 ? new MTLPrimitiveAccelerationStructureDescriptor(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLPrimitiveAccelerationStructureDescriptorBindings.Class, MTLPrimitiveAccelerationStructureDescriptorBindings.Descriptor);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 

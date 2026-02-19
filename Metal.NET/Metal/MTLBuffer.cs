@@ -39,21 +39,24 @@ public class MTLBuffer(nint nativePtr) : MTLResource(nativePtr)
 
     public MTLBuffer? NewRemoteBufferViewForDevice(MTLDevice device)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewRemoteBufferViewForDevice, device.NativePtr);
-        return ptr is not 0 ? new MTLBuffer(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewRemoteBufferViewForDevice, device.NativePtr);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public MTLTensor? NewTensor(MTLTensorDescriptor descriptor, nuint offset, out NSError? error)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewTensor, descriptor.NativePtr, offset, out nint errorPtr);
-        error = errorPtr is not 0 ? new NSError(errorPtr) : null;
-        return ptr is not 0 ? new MTLTensor(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewTensor, descriptor.NativePtr, offset, out nint errorPtr);
+        error = errorPtr is not 0 ? new(errorPtr) : null;
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public MTLTexture? NewTexture(MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewTexture, descriptor.NativePtr, offset, bytesPerRow);
-        return ptr is not 0 ? new MTLTexture(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewTexture, descriptor.NativePtr, offset, bytesPerRow);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public void RemoveAllDebugMarkers()

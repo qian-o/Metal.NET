@@ -13,8 +13,9 @@ public class MTLResourceStatePassDescriptor(nint nativePtr) : NativeObject(nativ
 
     public static MTLResourceStatePassDescriptor? ResourceStatePassDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLResourceStatePassDescriptorBindings.Class, MTLResourceStatePassDescriptorBindings.ResourceStatePassDescriptor);
-        return ptr is not 0 ? new MTLResourceStatePassDescriptor(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLResourceStatePassDescriptorBindings.Class, MTLResourceStatePassDescriptorBindings.ResourceStatePassDescriptor);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 

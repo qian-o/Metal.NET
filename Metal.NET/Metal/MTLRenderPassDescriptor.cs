@@ -107,8 +107,9 @@ public class MTLRenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public static MTLRenderPassDescriptor? RenderPassDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLRenderPassDescriptorBindings.Class, MTLRenderPassDescriptorBindings.RenderPassDescriptor);
-        return ptr is not 0 ? new MTLRenderPassDescriptor(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLRenderPassDescriptorBindings.Class, MTLRenderPassDescriptorBindings.RenderPassDescriptor);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public void SetSamplePositions(MTLSamplePosition positions, nuint count)

@@ -7,9 +7,9 @@ public class MTLResidencySet(nint nativePtr) : NativeObject(nativePtr)
         get => GetProperty(ref field, MTLResidencySetBindings.AllAllocations);
     }
 
-    public nuint AllocatedSize
+    public ulong AllocatedSize
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResidencySetBindings.AllocatedSize);
+        get => (ulong)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResidencySetBindings.AllocatedSize);
     }
 
     public nuint AllocationCount

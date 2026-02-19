@@ -80,8 +80,9 @@ public class MTLInstanceAccelerationStructureDescriptor(nint nativePtr) : MTLAcc
 
     public static MTLInstanceAccelerationStructureDescriptor? Descriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLInstanceAccelerationStructureDescriptorBindings.Class, MTLInstanceAccelerationStructureDescriptorBindings.Descriptor);
-        return ptr is not 0 ? new MTLInstanceAccelerationStructureDescriptor(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLInstanceAccelerationStructureDescriptorBindings.Class, MTLInstanceAccelerationStructureDescriptorBindings.Descriptor);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 

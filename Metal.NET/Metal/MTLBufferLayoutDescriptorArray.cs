@@ -8,8 +8,9 @@ public class MTLBufferLayoutDescriptorArray(nint nativePtr) : NativeObject(nativ
 
     public MTLBufferLayoutDescriptor? Object(nuint index)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArrayBindings.Object, index);
-        return ptr is not 0 ? new MTLBufferLayoutDescriptor(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArrayBindings.Object, index);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public void SetObject(MTLBufferLayoutDescriptor bufferDesc, nuint index)

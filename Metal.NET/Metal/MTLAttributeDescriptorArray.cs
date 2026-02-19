@@ -8,8 +8,9 @@ public class MTLAttributeDescriptorArray(nint nativePtr) : NativeObject(nativePt
 
     public MTLAttributeDescriptor? Object(nuint index)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeDescriptorArrayBindings.Object, index);
-        return ptr is not 0 ? new MTLAttributeDescriptor(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeDescriptorArrayBindings.Object, index);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public void SetObject(MTLAttributeDescriptor attributeDesc, nuint index)

@@ -74,8 +74,9 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr) 
 
     public static MTLAccelerationStructureTriangleGeometryDescriptor? Descriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructureTriangleGeometryDescriptorBindings.Class, MTLAccelerationStructureTriangleGeometryDescriptorBindings.Descriptor);
-        return ptr is not 0 ? new MTLAccelerationStructureTriangleGeometryDescriptor(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructureTriangleGeometryDescriptorBindings.Class, MTLAccelerationStructureTriangleGeometryDescriptorBindings.Descriptor);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 

@@ -30,8 +30,9 @@ public class MTLArgumentEncoder(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLArgumentEncoder? NewArgumentEncoder(nuint index)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderBindings.NewArgumentEncoder, index);
-        return ptr is not 0 ? new MTLArgumentEncoder(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderBindings.NewArgumentEncoder, index);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public void SetAccelerationStructure(MTLAccelerationStructure accelerationStructure, nuint index)

@@ -95,14 +95,16 @@ public class MTLFXTemporalScalerDescriptor(nint nativePtr) : NativeObject(native
 
     public MTLFXTemporalScaler? NewTemporalScaler(MTLDevice pDevice)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerDescriptorBindings.NewTemporalScaler, pDevice.NativePtr);
-        return ptr is not 0 ? new MTLFXTemporalScaler(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerDescriptorBindings.NewTemporalScaler, pDevice.NativePtr);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public MTL4FXTemporalScaler? NewTemporalScaler(MTLDevice pDevice, MTL4Compiler pCompiler)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerDescriptorBindings.NewTemporalScaler, pDevice.NativePtr, pCompiler.NativePtr);
-        return ptr is not 0 ? new MTL4FXTemporalScaler(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerDescriptorBindings.NewTemporalScaler, pDevice.NativePtr, pCompiler.NativePtr);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public static float SupportedInputContentMinScale(MTLDevice pDevice)

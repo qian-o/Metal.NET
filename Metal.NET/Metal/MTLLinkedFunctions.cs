@@ -26,8 +26,9 @@ public class MTLLinkedFunctions(nint nativePtr) : NativeObject(nativePtr)
 
     public static MTLLinkedFunctions? LinkedFunctions()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLLinkedFunctionsBindings.Class, MTLLinkedFunctionsBindings.LinkedFunctions);
-        return ptr is not 0 ? new MTLLinkedFunctions(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLLinkedFunctionsBindings.Class, MTLLinkedFunctionsBindings.LinkedFunctions);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 

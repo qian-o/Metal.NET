@@ -8,8 +8,9 @@ public class MTLVertexAttributeDescriptorArray(nint nativePtr) : NativeObject(na
 
     public MTLVertexAttributeDescriptor? Object(nuint index)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeDescriptorArrayBindings.Object, index);
-        return ptr is not 0 ? new MTLVertexAttributeDescriptor(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeDescriptorArrayBindings.Object, index);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public void SetObject(MTLVertexAttributeDescriptor attributeDesc, nuint index)

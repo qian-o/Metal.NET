@@ -38,8 +38,9 @@ public class MTLFunctionDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public static MTLFunctionDescriptor? FunctionDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLFunctionDescriptorBindings.Class, MTLFunctionDescriptorBindings.FunctionDescriptor);
-        return ptr is not 0 ? new MTLFunctionDescriptor(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLFunctionDescriptorBindings.Class, MTLFunctionDescriptorBindings.FunctionDescriptor);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 

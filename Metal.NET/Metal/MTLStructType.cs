@@ -13,8 +13,9 @@ public class MTLStructType(nint nativePtr) : MTLType(nativePtr)
 
     public MTLStructMember? MemberByName(NSString name)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeBindings.MemberByName, name.NativePtr);
-        return ptr is not 0 ? new MTLStructMember(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeBindings.MemberByName, name.NativePtr);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 

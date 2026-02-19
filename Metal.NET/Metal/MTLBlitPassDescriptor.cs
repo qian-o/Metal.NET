@@ -13,8 +13,9 @@ public class MTLBlitPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public static MTLBlitPassDescriptor? BlitPassDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLBlitPassDescriptorBindings.Class, MTLBlitPassDescriptorBindings.BlitPassDescriptor);
-        return ptr is not 0 ? new MTLBlitPassDescriptor(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLBlitPassDescriptorBindings.Class, MTLBlitPassDescriptorBindings.BlitPassDescriptor);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 

@@ -44,8 +44,9 @@ public class MTLArgumentDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public static MTLArgumentDescriptor? ArgumentDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLArgumentDescriptorBindings.Class, MTLArgumentDescriptorBindings.ArgumentDescriptor);
-        return ptr is not 0 ? new MTLArgumentDescriptor(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLArgumentDescriptorBindings.Class, MTLArgumentDescriptorBindings.ArgumentDescriptor);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 

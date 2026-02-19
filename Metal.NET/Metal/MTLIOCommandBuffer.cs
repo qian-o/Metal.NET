@@ -63,9 +63,9 @@ public class MTLIOCommandBuffer(nint nativePtr) : NativeObject(nativePtr)
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.PushDebugGroup, @string.NativePtr);
     }
 
-    public void SignalEvent(MTLSharedEvent @event, nuint value)
+    public void SignalEvent(MTLSharedEvent @event, ulong value)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.SignalEvent, @event.NativePtr, value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.SignalEvent, @event.NativePtr, (nuint)value);
     }
 
     public void TryCancel()
@@ -73,9 +73,9 @@ public class MTLIOCommandBuffer(nint nativePtr) : NativeObject(nativePtr)
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.TryCancel);
     }
 
-    public void Wait(MTLSharedEvent @event, nuint value)
+    public void Wait(MTLSharedEvent @event, ulong value)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.Wait, @event.NativePtr, value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.Wait, @event.NativePtr, (nuint)value);
     }
 
     public void WaitUntilCompleted()

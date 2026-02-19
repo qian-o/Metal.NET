@@ -7,15 +7,15 @@ public class MTLSharedEvent(nint nativePtr) : MTLEvent(nativePtr)
         get => GetProperty(ref field, MTLSharedEventBindings.NewSharedEventHandle);
     }
 
-    public nuint SignaledValue
+    public ulong SignaledValue
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSharedEventBindings.SignaledValue);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSharedEventBindings.SetSignaledValue, value);
+        get => (ulong)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSharedEventBindings.SignaledValue);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSharedEventBindings.SetSignaledValue, (nuint)value);
     }
 
-    public bool WaitUntilSignaledValue(nuint value, nuint milliseconds)
+    public bool WaitUntilSignaledValue(ulong value, ulong milliseconds)
     {
-        return ObjectiveCRuntime.MsgSendBool(NativePtr, MTLSharedEventBindings.WaitUntilSignaledValue, value, milliseconds);
+        return ObjectiveCRuntime.MsgSendBool(NativePtr, MTLSharedEventBindings.WaitUntilSignaledValue, (nuint)value, (nuint)milliseconds);
     }
 }
 

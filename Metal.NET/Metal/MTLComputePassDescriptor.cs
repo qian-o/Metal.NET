@@ -19,8 +19,9 @@ public class MTLComputePassDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public static MTLComputePassDescriptor? ComputePassDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLComputePassDescriptorBindings.Class, MTLComputePassDescriptorBindings.ComputePassDescriptor);
-        return ptr is not 0 ? new MTLComputePassDescriptor(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLComputePassDescriptorBindings.Class, MTLComputePassDescriptorBindings.ComputePassDescriptor);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 

@@ -7,16 +7,11 @@ public class NSArray(nint nativePtr) : NativeObject(nativePtr)
 {
     public nuint Count => ObjectiveCRuntime.MsgSendNUInt(NativePtr, NSArrayBindings.Count);
 
-    public T? ObjectAtIndex<T>(nint index) where T : NativeObject
+    public T? ObjectAtIndex<T>(uint index) where T : NativeObject
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSArrayBindings.ObjectAtIndex, index);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSArrayBindings.ObjectAtIndex, (nuint)index);
 
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        return (T)Activator.CreateInstance(typeof(T), nativePtr)!;
+        return nativePtr is not 0 ? (T)Activator.CreateInstance(typeof(T), nativePtr)! : null;
     }
 }
 

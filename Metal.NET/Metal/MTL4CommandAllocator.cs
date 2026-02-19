@@ -2,9 +2,9 @@ namespace Metal.NET;
 
 public class MTL4CommandAllocator(nint nativePtr) : NativeObject(nativePtr)
 {
-    public nuint AllocatedSize
+    public ulong AllocatedSize
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CommandAllocatorBindings.AllocatedSize);
+        get => (ulong)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CommandAllocatorBindings.AllocatedSize);
     }
 
     public MTLDevice? Device

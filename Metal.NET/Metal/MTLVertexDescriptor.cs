@@ -23,8 +23,9 @@ public class MTLVertexDescriptor(nint nativePtr) : NativeObject(nativePtr)
 
     public static MTLVertexDescriptor? VertexDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLVertexDescriptorBindings.Class, MTLVertexDescriptorBindings.VertexDescriptor);
-        return ptr is not 0 ? new MTLVertexDescriptor(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLVertexDescriptorBindings.Class, MTLVertexDescriptorBindings.VertexDescriptor);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 

@@ -20,8 +20,9 @@ public class MTL4MachineLearningPipelineDescriptor(nint nativePtr) : MTL4Pipelin
 
     public MTLTensorExtents? InputDimensionsAtBufferIndex(nint bufferIndex)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.InputDimensionsAtBufferIndex, bufferIndex);
-        return ptr is not 0 ? new MTLTensorExtents(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.InputDimensionsAtBufferIndex, bufferIndex);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public void Reset()

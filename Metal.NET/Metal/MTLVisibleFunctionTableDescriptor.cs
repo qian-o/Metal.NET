@@ -14,8 +14,9 @@ public class MTLVisibleFunctionTableDescriptor(nint nativePtr) : NativeObject(na
 
     public static MTLVisibleFunctionTableDescriptor? VisibleFunctionTableDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLVisibleFunctionTableDescriptorBindings.Class, MTLVisibleFunctionTableDescriptorBindings.VisibleFunctionTableDescriptor);
-        return ptr is not 0 ? new MTLVisibleFunctionTableDescriptor(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLVisibleFunctionTableDescriptorBindings.Class, MTLVisibleFunctionTableDescriptorBindings.VisibleFunctionTableDescriptor);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 

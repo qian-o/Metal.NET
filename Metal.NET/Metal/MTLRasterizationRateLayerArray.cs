@@ -8,8 +8,9 @@ public class MTLRasterizationRateLayerArray(nint nativePtr) : NativeObject(nativ
 
     public MTLRasterizationRateLayerDescriptor? Object(nuint layerIndex)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerArrayBindings.Object, layerIndex);
-        return ptr is not 0 ? new MTLRasterizationRateLayerDescriptor(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerArrayBindings.Object, layerIndex);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public void SetObject(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)

@@ -66,8 +66,9 @@ public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr)
 
     public static CAMetalLayer? Layer()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(CAMetalLayerBindings.Class, CAMetalLayerBindings.Layer);
-        return ptr is not 0 ? new CAMetalLayer(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(CAMetalLayerBindings.Class, CAMetalLayerBindings.Layer);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 

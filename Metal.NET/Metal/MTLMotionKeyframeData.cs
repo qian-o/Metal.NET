@@ -20,8 +20,9 @@ public class MTLMotionKeyframeData(nint nativePtr) : NativeObject(nativePtr)
 
     public static MTLMotionKeyframeData? Data()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLMotionKeyframeDataBindings.Class, MTLMotionKeyframeDataBindings.Data);
-        return ptr is not 0 ? new MTLMotionKeyframeData(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLMotionKeyframeDataBindings.Class, MTLMotionKeyframeDataBindings.Data);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 

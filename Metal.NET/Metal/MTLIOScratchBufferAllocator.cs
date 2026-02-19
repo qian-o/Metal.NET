@@ -4,8 +4,9 @@ public class MTLIOScratchBufferAllocator(nint nativePtr) : NativeObject(nativePt
 {
     public MTLIOScratchBuffer? NewScratchBuffer(nuint minimumSize)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOScratchBufferAllocatorBindings.NewScratchBuffer, minimumSize);
-        return ptr is not 0 ? new MTLIOScratchBuffer(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOScratchBufferAllocatorBindings.NewScratchBuffer, minimumSize);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 

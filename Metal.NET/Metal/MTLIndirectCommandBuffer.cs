@@ -14,14 +14,16 @@ public class MTLIndirectCommandBuffer(nint nativePtr) : MTLResource(nativePtr)
 
     public MTLIndirectComputeCommand? IndirectComputeCommand(nuint commandIndex)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferBindings.IndirectComputeCommand, commandIndex);
-        return ptr is not 0 ? new MTLIndirectComputeCommand(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferBindings.IndirectComputeCommand, commandIndex);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public MTLIndirectRenderCommand? IndirectRenderCommand(nuint commandIndex)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferBindings.IndirectRenderCommand, commandIndex);
-        return ptr is not 0 ? new MTLIndirectRenderCommand(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferBindings.IndirectRenderCommand, commandIndex);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public void Reset(NSRange range)

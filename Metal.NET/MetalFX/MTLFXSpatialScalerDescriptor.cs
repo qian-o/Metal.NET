@@ -50,14 +50,16 @@ public class MTLFXSpatialScalerDescriptor(nint nativePtr) : NativeObject(nativeP
 
     public MTLFXSpatialScaler? NewSpatialScaler(MTLDevice pDevice)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorBindings.NewSpatialScaler, pDevice.NativePtr);
-        return ptr is not 0 ? new MTLFXSpatialScaler(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorBindings.NewSpatialScaler, pDevice.NativePtr);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public MTL4FXSpatialScaler? NewSpatialScaler(MTLDevice pDevice, MTL4Compiler pCompiler)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorBindings.NewSpatialScaler, pDevice.NativePtr, pCompiler.NativePtr);
-        return ptr is not 0 ? new MTL4FXSpatialScaler(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorBindings.NewSpatialScaler, pDevice.NativePtr, pCompiler.NativePtr);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public static bool SupportsDevice(MTLDevice pDevice)

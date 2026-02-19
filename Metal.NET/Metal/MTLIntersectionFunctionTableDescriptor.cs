@@ -14,8 +14,9 @@ public class MTLIntersectionFunctionTableDescriptor(nint nativePtr) : NativeObje
 
     public static MTLIntersectionFunctionTableDescriptor? IntersectionFunctionTableDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLIntersectionFunctionTableDescriptorBindings.Class, MTLIntersectionFunctionTableDescriptorBindings.IntersectionFunctionTableDescriptor);
-        return ptr is not 0 ? new MTLIntersectionFunctionTableDescriptor(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLIntersectionFunctionTableDescriptorBindings.Class, MTLIntersectionFunctionTableDescriptorBindings.IntersectionFunctionTableDescriptor);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 

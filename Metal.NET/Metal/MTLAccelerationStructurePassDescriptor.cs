@@ -13,8 +13,9 @@ public class MTLAccelerationStructurePassDescriptor(nint nativePtr) : NativeObje
 
     public static MTLAccelerationStructurePassDescriptor? AccelerationStructurePassDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructurePassDescriptorBindings.Class, MTLAccelerationStructurePassDescriptorBindings.AccelerationStructurePassDescriptor);
-        return ptr is not 0 ? new MTLAccelerationStructurePassDescriptor(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructurePassDescriptorBindings.Class, MTLAccelerationStructurePassDescriptorBindings.AccelerationStructurePassDescriptor);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 

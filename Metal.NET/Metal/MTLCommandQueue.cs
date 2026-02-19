@@ -30,8 +30,9 @@ public class MTLCommandQueue(nint nativePtr) : NativeObject(nativePtr)
 
     public MTLCommandBuffer? CommandBufferWithDescriptor(MTLCommandBufferDescriptor descriptor)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBuffer, descriptor.NativePtr);
-        return ptr is not 0 ? new MTLCommandBuffer(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBuffer, descriptor.NativePtr);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public void InsertDebugCaptureBoundary()

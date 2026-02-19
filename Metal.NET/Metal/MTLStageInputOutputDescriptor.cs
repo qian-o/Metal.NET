@@ -35,8 +35,9 @@ public class MTLStageInputOutputDescriptor(nint nativePtr) : NativeObject(native
 
     public static MTLStageInputOutputDescriptor? StageInputOutputDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLStageInputOutputDescriptorBindings.Class, MTLStageInputOutputDescriptorBindings.StageInputOutputDescriptor);
-        return ptr is not 0 ? new MTLStageInputOutputDescriptor(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLStageInputOutputDescriptorBindings.Class, MTLStageInputOutputDescriptorBindings.StageInputOutputDescriptor);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 
