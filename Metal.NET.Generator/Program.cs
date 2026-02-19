@@ -1565,10 +1565,10 @@ class Generator
         {
             return backing switch
             {
-                "ulong" => "ObjectiveCRuntime.MsgSendNUInt",
-                "long" => "ObjectiveCRuntime.MsgSendPtr",
+                "int" => "ObjectiveCRuntime.MsgSendInt",
                 "uint" => "ObjectiveCRuntime.MsgSendUInt",
-                "int" => "ObjectiveCRuntime.MsgSendPtr",
+                "long" => "ObjectiveCRuntime.MsgSendPtr",
+                "ulong" => "ObjectiveCRuntime.MsgSendNUInt",
                 _ => "ObjectiveCRuntime.MsgSendNUInt"
             };
         }
@@ -1581,10 +1581,10 @@ class Generator
         {
             return backing switch
             {
-                "ulong" => "(nuint)",
+                "int" => "(int)",
+                "uint" => "(uint)",
                 "long" => "(nint)",
-                "uint" => "(nuint)",
-                "int" => "(nint)",
+                "ulong" => "(nuint)",
                 _ => "(nuint)"
             };
         }
