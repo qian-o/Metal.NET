@@ -1,5 +1,7 @@
 ﻿# Metal.NET
 
+[![NuGet Version](https://img.shields.io/nuget/v/Metal.NET)](https://nuget.org/packages/Metal.NET)
+
 C# bindings for Apple's Metal graphics API, auto-generated from [metal-cpp](https://developer.apple.com/metal/cpp/) headers.
 
 ## Project Structure
