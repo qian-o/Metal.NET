@@ -1,55 +1,43 @@
 namespace Metal.NET;
 
-public partial class MTLFunctionStitchingFunctionNode : NativeObject
+public class MTLFunctionStitchingFunctionNode(nint nativePtr, bool retain) : MTLFunctionStitchingNode(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingFunctionNode");
-
-    public MTLFunctionStitchingFunctionNode(nint nativePtr) : base(nativePtr)
+    public MTLFunctionStitchingFunctionNode() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingFunctionNodeBindings.Class), false)
     {
     }
 
     public NSArray? Arguments
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionStitchingFunctionNodeSelector.Arguments);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionStitchingFunctionNodeSelector.SetArguments, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.Arguments);
+        set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetArguments, value);
     }
 
     public NSArray? ControlDependencies
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionStitchingFunctionNodeSelector.ControlDependencies);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionStitchingFunctionNodeSelector.SetControlDependencies, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.ControlDependencies);
+        set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetControlDependencies, value);
     }
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionStitchingFunctionNodeSelector.Name);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionStitchingFunctionNodeSelector.SetName, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.Name);
+        set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetName, value);
     }
 }
 
-file static class MTLFunctionStitchingFunctionNodeSelector
+file static class MTLFunctionStitchingFunctionNodeBindings
 {
-    public static readonly Selector Arguments = Selector.Register("arguments");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingFunctionNode");
 
-    public static readonly Selector ControlDependencies = Selector.Register("controlDependencies");
+    public static readonly Selector Arguments = "arguments";
 
-    public static readonly Selector Name = Selector.Register("name");
+    public static readonly Selector ControlDependencies = "controlDependencies";
 
-    public static readonly Selector SetArguments = Selector.Register("setArguments:");
+    public static readonly Selector Name = "name";
 
-    public static readonly Selector SetControlDependencies = Selector.Register("setControlDependencies:");
+    public static readonly Selector SetArguments = "setArguments:";
 
-    public static readonly Selector SetName = Selector.Register("setName:");
+    public static readonly Selector SetControlDependencies = "setControlDependencies:";
+
+    public static readonly Selector SetName = "setName:";
 }

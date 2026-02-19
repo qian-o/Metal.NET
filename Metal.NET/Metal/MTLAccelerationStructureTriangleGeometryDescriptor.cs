@@ -1,143 +1,132 @@
 namespace Metal.NET;
 
-public partial class MTLAccelerationStructureTriangleGeometryDescriptor : NativeObject
+public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr, bool retain) : MTLAccelerationStructureGeometryDescriptor(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureTriangleGeometryDescriptor");
-
-    public MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLAccelerationStructureTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureTriangleGeometryDescriptorBindings.Class), false)
     {
     }
 
     public MTLBuffer? IndexBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.IndexBuffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetIndexBuffer, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.IndexBuffer);
+        set => SetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetIndexBuffer, value);
     }
 
     public nuint IndexBufferOffset
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.IndexBufferOffset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetIndexBufferOffset, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.IndexBufferOffset);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetIndexBufferOffset, value);
     }
 
     public MTLIndexType IndexType
     {
-        get => (MTLIndexType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.IndexType);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetIndexType, (nuint)value);
+        get => (MTLIndexType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.IndexType);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetIndexType, (nuint)value);
     }
 
     public MTLBuffer? TransformationMatrixBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.TransformationMatrixBuffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetTransformationMatrixBuffer, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.TransformationMatrixBuffer);
+        set => SetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetTransformationMatrixBuffer, value);
     }
 
     public nuint TransformationMatrixBufferOffset
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.TransformationMatrixBufferOffset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetTransformationMatrixBufferOffset, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.TransformationMatrixBufferOffset);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetTransformationMatrixBufferOffset, value);
     }
 
     public MTLMatrixLayout TransformationMatrixLayout
     {
-        get => (MTLMatrixLayout)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.TransformationMatrixLayout);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetTransformationMatrixLayout, (nint)value);
+        get => (MTLMatrixLayout)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.TransformationMatrixLayout);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetTransformationMatrixLayout, (nint)value);
     }
 
     public nuint TriangleCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.TriangleCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetTriangleCount, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.TriangleCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetTriangleCount, value);
     }
 
     public MTLBuffer? VertexBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.VertexBuffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetVertexBuffer, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.VertexBuffer);
+        set => SetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetVertexBuffer, value);
     }
 
     public nuint VertexBufferOffset
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.VertexBufferOffset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetVertexBufferOffset, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.VertexBufferOffset);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetVertexBufferOffset, value);
     }
 
     public MTLAttributeFormat VertexFormat
     {
-        get => (MTLAttributeFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.VertexFormat);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetVertexFormat, (nuint)value);
+        get => (MTLAttributeFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.VertexFormat);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetVertexFormat, (nuint)value);
     }
 
     public nuint VertexStride
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.VertexStride);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorSelector.SetVertexStride, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.VertexStride);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetVertexStride, value);
     }
 
     public static MTLAccelerationStructureTriangleGeometryDescriptor? Descriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructureTriangleGeometryDescriptorSelector.Descriptor);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructureTriangleGeometryDescriptorBindings.Class, MTLAccelerationStructureTriangleGeometryDescriptorBindings.Descriptor);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 }
 
-file static class MTLAccelerationStructureTriangleGeometryDescriptorSelector
+file static class MTLAccelerationStructureTriangleGeometryDescriptorBindings
 {
-    public static readonly Selector Descriptor = Selector.Register("descriptor");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureTriangleGeometryDescriptor");
 
-    public static readonly Selector IndexBuffer = Selector.Register("indexBuffer");
+    public static readonly Selector Descriptor = "descriptor";
 
-    public static readonly Selector IndexBufferOffset = Selector.Register("indexBufferOffset");
+    public static readonly Selector IndexBuffer = "indexBuffer";
 
-    public static readonly Selector IndexType = Selector.Register("indexType");
+    public static readonly Selector IndexBufferOffset = "indexBufferOffset";
 
-    public static readonly Selector SetIndexBuffer = Selector.Register("setIndexBuffer:");
+    public static readonly Selector IndexType = "indexType";
 
-    public static readonly Selector SetIndexBufferOffset = Selector.Register("setIndexBufferOffset:");
+    public static readonly Selector SetIndexBuffer = "setIndexBuffer:";
 
-    public static readonly Selector SetIndexType = Selector.Register("setIndexType:");
+    public static readonly Selector SetIndexBufferOffset = "setIndexBufferOffset:";
 
-    public static readonly Selector SetTransformationMatrixBuffer = Selector.Register("setTransformationMatrixBuffer:");
+    public static readonly Selector SetIndexType = "setIndexType:";
 
-    public static readonly Selector SetTransformationMatrixBufferOffset = Selector.Register("setTransformationMatrixBufferOffset:");
+    public static readonly Selector SetTransformationMatrixBuffer = "setTransformationMatrixBuffer:";
 
-    public static readonly Selector SetTransformationMatrixLayout = Selector.Register("setTransformationMatrixLayout:");
+    public static readonly Selector SetTransformationMatrixBufferOffset = "setTransformationMatrixBufferOffset:";
 
-    public static readonly Selector SetTriangleCount = Selector.Register("setTriangleCount:");
+    public static readonly Selector SetTransformationMatrixLayout = "setTransformationMatrixLayout:";
 
-    public static readonly Selector SetVertexBuffer = Selector.Register("setVertexBuffer:");
+    public static readonly Selector SetTriangleCount = "setTriangleCount:";
 
-    public static readonly Selector SetVertexBufferOffset = Selector.Register("setVertexBufferOffset:");
+    public static readonly Selector SetVertexBuffer = "setVertexBuffer:";
 
-    public static readonly Selector SetVertexFormat = Selector.Register("setVertexFormat:");
+    public static readonly Selector SetVertexBufferOffset = "setVertexBufferOffset:";
 
-    public static readonly Selector SetVertexStride = Selector.Register("setVertexStride:");
+    public static readonly Selector SetVertexFormat = "setVertexFormat:";
 
-    public static readonly Selector TransformationMatrixBuffer = Selector.Register("transformationMatrixBuffer");
+    public static readonly Selector SetVertexStride = "setVertexStride:";
 
-    public static readonly Selector TransformationMatrixBufferOffset = Selector.Register("transformationMatrixBufferOffset");
+    public static readonly Selector TransformationMatrixBuffer = "transformationMatrixBuffer";
 
-    public static readonly Selector TransformationMatrixLayout = Selector.Register("transformationMatrixLayout");
+    public static readonly Selector TransformationMatrixBufferOffset = "transformationMatrixBufferOffset";
 
-    public static readonly Selector TriangleCount = Selector.Register("triangleCount");
+    public static readonly Selector TransformationMatrixLayout = "transformationMatrixLayout";
 
-    public static readonly Selector VertexBuffer = Selector.Register("vertexBuffer");
+    public static readonly Selector TriangleCount = "triangleCount";
 
-    public static readonly Selector VertexBufferOffset = Selector.Register("vertexBufferOffset");
+    public static readonly Selector VertexBuffer = "vertexBuffer";
 
-    public static readonly Selector VertexFormat = Selector.Register("vertexFormat");
+    public static readonly Selector VertexBufferOffset = "vertexBufferOffset";
 
-    public static readonly Selector VertexStride = Selector.Register("vertexStride");
+    public static readonly Selector VertexFormat = "vertexFormat";
+
+    public static readonly Selector VertexStride = "vertexStride";
 }

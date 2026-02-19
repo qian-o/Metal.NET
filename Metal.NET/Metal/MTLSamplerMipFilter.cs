@@ -2,7 +2,9 @@ namespace Metal.NET;
 
 public enum MTLSamplerMipFilter : ulong
 {
-    MTLSamplerMipFilterNotMipmapped = 0,
-    MTLSamplerMipFilterNearest = 1,
-    MTLSamplerMipFilterLinear = 2
+    NotMipmapped = 0,
+
+    Nearest = 1,
+
+    Linear = 2
 }

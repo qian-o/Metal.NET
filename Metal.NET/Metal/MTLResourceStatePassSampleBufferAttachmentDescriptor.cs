@@ -1,47 +1,43 @@
 namespace Metal.NET;
 
-public partial class MTLResourceStatePassSampleBufferAttachmentDescriptor : NativeObject
+public class MTLResourceStatePassSampleBufferAttachmentDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResourceStatePassSampleBufferAttachmentDescriptor");
-
-    public MTLResourceStatePassSampleBufferAttachmentDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLResourceStatePassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.Class), false)
     {
     }
 
     public nuint EndOfEncoderSampleIndex
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorSelector.EndOfEncoderSampleIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorSelector.SetEndOfEncoderSampleIndex, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.EndOfEncoderSampleIndex);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SetEndOfEncoderSampleIndex, value);
     }
 
     public MTLCounterSampleBuffer? SampleBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorSelector.SampleBuffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorSelector.SetSampleBuffer, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SampleBuffer);
+        set => SetProperty(ref field, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, value);
     }
 
     public nuint StartOfEncoderSampleIndex
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorSelector.StartOfEncoderSampleIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorSelector.SetStartOfEncoderSampleIndex, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.StartOfEncoderSampleIndex);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.SetStartOfEncoderSampleIndex, value);
     }
 }
 
-file static class MTLResourceStatePassSampleBufferAttachmentDescriptorSelector
+file static class MTLResourceStatePassSampleBufferAttachmentDescriptorBindings
 {
-    public static readonly Selector EndOfEncoderSampleIndex = Selector.Register("endOfEncoderSampleIndex");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResourceStatePassSampleBufferAttachmentDescriptor");
 
-    public static readonly Selector SampleBuffer = Selector.Register("sampleBuffer");
+    public static readonly Selector EndOfEncoderSampleIndex = "endOfEncoderSampleIndex";
 
-    public static readonly Selector SetEndOfEncoderSampleIndex = Selector.Register("setEndOfEncoderSampleIndex:");
+    public static readonly Selector SampleBuffer = "sampleBuffer";
 
-    public static readonly Selector SetSampleBuffer = Selector.Register("setSampleBuffer:");
+    public static readonly Selector SetEndOfEncoderSampleIndex = "setEndOfEncoderSampleIndex:";
 
-    public static readonly Selector SetStartOfEncoderSampleIndex = Selector.Register("setStartOfEncoderSampleIndex:");
+    public static readonly Selector SetSampleBuffer = "setSampleBuffer:";
 
-    public static readonly Selector StartOfEncoderSampleIndex = Selector.Register("startOfEncoderSampleIndex");
+    public static readonly Selector SetStartOfEncoderSampleIndex = "setStartOfEncoderSampleIndex:";
+
+    public static readonly Selector StartOfEncoderSampleIndex = "startOfEncoderSampleIndex";
 }

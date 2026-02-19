@@ -1,29 +1,21 @@
 namespace Metal.NET;
 
-public partial class MTL4BinaryFunction : NativeObject
+public class MTL4BinaryFunction(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTL4BinaryFunction(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public MTLFunctionType FunctionType
     {
-        get => (MTLFunctionType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4BinaryFunctionSelector.FunctionType);
+        get => (MTLFunctionType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4BinaryFunctionBindings.FunctionType);
     }
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4BinaryFunctionSelector.Name);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTL4BinaryFunctionBindings.Name);
     }
 }
 
-file static class MTL4BinaryFunctionSelector
+file static class MTL4BinaryFunctionBindings
 {
-    public static readonly Selector FunctionType = Selector.Register("functionType");
+    public static readonly Selector FunctionType = "functionType";
 
-    public static readonly Selector Name = Selector.Register("name");
+    public static readonly Selector Name = "name";
 }

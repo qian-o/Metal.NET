@@ -1,147 +1,138 @@
 namespace Metal.NET;
 
-public partial class MTLArgumentEncoder : NativeObject
+public class MTLArgumentEncoder(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLArgumentEncoder(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public nuint Alignment
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentEncoderSelector.Alignment);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentEncoderBindings.Alignment);
     }
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLArgumentEncoderBindings.Device);
     }
 
     public nuint EncodedLength
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentEncoderSelector.EncodedLength);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentEncoderBindings.EncodedLength);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetLabel, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLArgumentEncoderBindings.Label);
+        set => SetProperty(ref field, MTLArgumentEncoderBindings.SetLabel, value);
     }
 
     public nint ConstantData(nuint index)
     {
-        return ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderSelector.ConstantData, index);
+        return ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderBindings.ConstantData, index);
     }
 
     public MTLArgumentEncoder? NewArgumentEncoder(nuint index)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderSelector.NewArgumentEncoder, index);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderBindings.NewArgumentEncoder, index);
+
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public void SetAccelerationStructure(MTLAccelerationStructure accelerationStructure, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetAccelerationStructure, accelerationStructure.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetAccelerationStructure, accelerationStructure.NativePtr, index);
     }
 
     public void SetArgumentBuffer(MTLBuffer argumentBuffer, nuint offset)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetArgumentBuffer, argumentBuffer.NativePtr, offset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetArgumentBuffer, argumentBuffer.NativePtr, offset);
     }
 
     public void SetArgumentBuffer(MTLBuffer argumentBuffer, nuint startOffset, nuint arrayElement)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetArgumentBuffer, argumentBuffer.NativePtr, startOffset, arrayElement);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetArgumentBufferstartOffsetarrayElement, argumentBuffer.NativePtr, startOffset, arrayElement);
     }
 
     public void SetBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetBuffer, buffer.NativePtr, offset, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetBuffer, buffer.NativePtr, offset, index);
     }
 
     public void SetComputePipelineState(MTLComputePipelineState pipeline, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetComputePipelineState, pipeline.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetComputePipelineState, pipeline.NativePtr, index);
     }
 
     public void SetDepthStencilState(MTLDepthStencilState depthStencilState, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetDepthStencilState, depthStencilState.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetDepthStencilState, depthStencilState.NativePtr, index);
     }
 
     public void SetIndirectCommandBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetIndirectCommandBuffer, indirectCommandBuffer.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetIndirectCommandBuffer, indirectCommandBuffer.NativePtr, index);
     }
 
     public void SetIntersectionFunctionTable(MTLIntersectionFunctionTable intersectionFunctionTable, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetIntersectionFunctionTable, intersectionFunctionTable.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetIntersectionFunctionTable, intersectionFunctionTable.NativePtr, index);
     }
 
     public void SetRenderPipelineState(MTLRenderPipelineState pipeline, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetRenderPipelineState, pipeline.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetRenderPipelineState, pipeline.NativePtr, index);
     }
 
     public void SetSamplerState(MTLSamplerState sampler, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetSamplerState, sampler.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetSamplerState, sampler.NativePtr, index);
     }
 
     public void SetTexture(MTLTexture texture, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetTexture, texture.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetTexture, texture.NativePtr, index);
     }
 
     public void SetVisibleFunctionTable(MTLVisibleFunctionTable visibleFunctionTable, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetVisibleFunctionTable, visibleFunctionTable.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetVisibleFunctionTable, visibleFunctionTable.NativePtr, index);
     }
 }
 
-file static class MTLArgumentEncoderSelector
+file static class MTLArgumentEncoderBindings
 {
-    public static readonly Selector Alignment = Selector.Register("alignment");
+    public static readonly Selector Alignment = "alignment";
 
-    public static readonly Selector ConstantData = Selector.Register("constantData:");
+    public static readonly Selector ConstantData = "constantDataAtIndex:";
 
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector EncodedLength = Selector.Register("encodedLength");
+    public static readonly Selector EncodedLength = "encodedLength";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector NewArgumentEncoder = Selector.Register("newArgumentEncoder:");
+    public static readonly Selector NewArgumentEncoder = "newArgumentEncoderForBufferAtIndex:";
 
-    public static readonly Selector SetAccelerationStructure = Selector.Register("setAccelerationStructure::");
+    public static readonly Selector SetAccelerationStructure = "setAccelerationStructure:atIndex:";
 
-    public static readonly Selector SetArgumentBuffer = Selector.Register("setArgumentBuffer::");
+    public static readonly Selector SetArgumentBuffer = "setArgumentBuffer:offset:";
 
-    public static readonly Selector SetBuffer = Selector.Register("setBuffer:::");
+    public static readonly Selector SetArgumentBufferstartOffsetarrayElement = "setArgumentBuffer:startOffset:arrayElement:";
 
-    public static readonly Selector SetComputePipelineState = Selector.Register("setComputePipelineState::");
+    public static readonly Selector SetBuffer = "setBuffer:offset:atIndex:";
 
-    public static readonly Selector SetDepthStencilState = Selector.Register("setDepthStencilState::");
+    public static readonly Selector SetComputePipelineState = "setComputePipelineState:atIndex:";
 
-    public static readonly Selector SetIndirectCommandBuffer = Selector.Register("setIndirectCommandBuffer::");
+    public static readonly Selector SetDepthStencilState = "setDepthStencilState:atIndex:";
 
-    public static readonly Selector SetIntersectionFunctionTable = Selector.Register("setIntersectionFunctionTable::");
+    public static readonly Selector SetIndirectCommandBuffer = "setIndirectCommandBuffer:atIndex:";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetIntersectionFunctionTable = "setIntersectionFunctionTable:atIndex:";
 
-    public static readonly Selector SetRenderPipelineState = Selector.Register("setRenderPipelineState::");
+    public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector SetSamplerState = Selector.Register("setSamplerState::");
+    public static readonly Selector SetRenderPipelineState = "setRenderPipelineState:atIndex:";
 
-    public static readonly Selector SetTexture = Selector.Register("setTexture::");
+    public static readonly Selector SetSamplerState = "setSamplerState:atIndex:";
 
-    public static readonly Selector SetVisibleFunctionTable = Selector.Register("setVisibleFunctionTable::");
+    public static readonly Selector SetTexture = "setTexture:atIndex:";
+
+    public static readonly Selector SetVisibleFunctionTable = "setVisibleFunctionTable:atIndex:";
 }

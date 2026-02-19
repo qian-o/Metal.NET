@@ -1,28 +1,29 @@
 namespace Metal.NET;
 
-public partial class MTLAttributeDescriptorArray : NativeObject
+public class MTLAttributeDescriptorArray(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAttributeDescriptorArray");
-
-    public MTLAttributeDescriptorArray(nint nativePtr) : base(nativePtr)
+    public MTLAttributeDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLAttributeDescriptorArrayBindings.Class), false)
     {
     }
 
-    public MTLAttributeDescriptor? @object(nuint index)
+    public MTLAttributeDescriptor? Object(nuint index)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeDescriptorArraySelector.Object, index);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeDescriptorArrayBindings.Object, index);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public void SetObject(MTLAttributeDescriptor attributeDesc, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorArraySelector.SetObject, attributeDesc.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorArrayBindings.SetObject, attributeDesc.NativePtr, index);
     }
 }
 
-file static class MTLAttributeDescriptorArraySelector
+file static class MTLAttributeDescriptorArrayBindings
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAttributeDescriptorArray");
 
-    public static readonly Selector SetObject = Selector.Register("setObject::");
+    public static readonly Selector Object = "objectAtIndexedSubscript:";
+
+    public static readonly Selector SetObject = "setObject:atIndexedSubscript:";
 }

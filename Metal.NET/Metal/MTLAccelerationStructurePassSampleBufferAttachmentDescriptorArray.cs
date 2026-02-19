@@ -1,28 +1,29 @@
 namespace Metal.NET;
 
-public partial class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray : NativeObject
+public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray");
-
-    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray(nint nativePtr) : base(nativePtr)
+    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArrayBindings.Class), false)
     {
     }
 
-    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor? @object(nuint attachmentIndex)
+    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor? Object(nuint attachmentIndex)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArraySelector.Object, attachmentIndex);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArrayBindings.Object, attachmentIndex);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public void SetObject(MTLAccelerationStructurePassSampleBufferAttachmentDescriptor attachment, nuint attachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArraySelector.SetObject, attachment.NativePtr, attachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArrayBindings.SetObject, attachment.NativePtr, attachmentIndex);
     }
 }
 
-file static class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArraySelector
+file static class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArrayBindings
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray");
 
-    public static readonly Selector SetObject = Selector.Register("setObject::");
+    public static readonly Selector Object = "objectAtIndexedSubscript:";
+
+    public static readonly Selector SetObject = "setObject:atIndexedSubscript:";
 }

@@ -3,9 +3,13 @@ namespace Metal.NET;
 [Flags]
 public enum MTLRenderStages : ulong
 {
-    MTLRenderStageVertex = 1,
-    MTLRenderStageFragment = 2,
-    MTLRenderStageTile = 4,
-    MTLRenderStageObject = 8,
-    MTLRenderStageMesh = 16
+    Vertex = 1,
+
+    Fragment = 2,
+
+    Tile = 4,
+
+    Object = 8,
+
+    Mesh = 16
 }

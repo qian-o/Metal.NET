@@ -1,23 +1,23 @@
 namespace Metal.NET;
 
-public partial class MTLAccelerationStructureDescriptor : NativeObject
+public class MTLAccelerationStructureDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureDescriptor");
-
-    public MTLAccelerationStructureDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureDescriptorBindings.Class), false)
     {
     }
 
-    public nuint Usage
+    public MTLAccelerationStructureUsage Usage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureDescriptorSelector.Usage);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureDescriptorSelector.SetUsage, value);
+        get => (MTLAccelerationStructureUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureDescriptorBindings.Usage);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureDescriptorBindings.SetUsage, (nuint)value);
     }
 }
 
-file static class MTLAccelerationStructureDescriptorSelector
+file static class MTLAccelerationStructureDescriptorBindings
 {
-    public static readonly Selector SetUsage = Selector.Register("setUsage:");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructureDescriptor");
 
-    public static readonly Selector Usage = Selector.Register("usage");
+    public static readonly Selector SetUsage = "setUsage:";
+
+    public static readonly Selector Usage = "usage";
 }

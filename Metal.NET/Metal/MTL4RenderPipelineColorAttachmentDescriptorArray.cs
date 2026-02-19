@@ -1,35 +1,36 @@
 namespace Metal.NET;
 
-public partial class MTL4RenderPipelineColorAttachmentDescriptorArray : NativeObject
+public class MTL4RenderPipelineColorAttachmentDescriptorArray(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineColorAttachmentDescriptorArray");
-
-    public MTL4RenderPipelineColorAttachmentDescriptorArray(nint nativePtr) : base(nativePtr)
+    public MTL4RenderPipelineColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineColorAttachmentDescriptorArrayBindings.Class), false)
     {
     }
 
-    public MTL4RenderPipelineColorAttachmentDescriptor? @object(nuint attachmentIndex)
+    public MTL4RenderPipelineColorAttachmentDescriptor? Object(nuint attachmentIndex)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.Object, attachmentIndex);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArrayBindings.Object, attachmentIndex);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public void Reset()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.Reset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArrayBindings.Reset);
     }
 
     public void SetObject(MTL4RenderPipelineColorAttachmentDescriptor attachment, nuint attachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.SetObject, attachment.NativePtr, attachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArrayBindings.SetObject, attachment.NativePtr, attachmentIndex);
     }
 }
 
-file static class MTL4RenderPipelineColorAttachmentDescriptorArraySelector
+file static class MTL4RenderPipelineColorAttachmentDescriptorArrayBindings
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineColorAttachmentDescriptorArray");
 
-    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector Object = "objectAtIndexedSubscript:";
 
-    public static readonly Selector SetObject = Selector.Register("setObject::");
+    public static readonly Selector Reset = "reset";
+
+    public static readonly Selector SetObject = "setObject:atIndexedSubscript:";
 }

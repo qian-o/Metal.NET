@@ -1,55 +1,43 @@
 namespace Metal.NET;
 
-public partial class MTLRenderPipelineFunctionsDescriptor : NativeObject
+public class MTLRenderPipelineFunctionsDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPipelineFunctionsDescriptor");
-
-    public MTLRenderPipelineFunctionsDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLRenderPipelineFunctionsDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineFunctionsDescriptorBindings.Class), false)
     {
     }
 
     public NSArray? FragmentAdditionalBinaryFunctions
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineFunctionsDescriptorSelector.FragmentAdditionalBinaryFunctions);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineFunctionsDescriptorSelector.SetFragmentAdditionalBinaryFunctions, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLRenderPipelineFunctionsDescriptorBindings.FragmentAdditionalBinaryFunctions);
+        set => SetProperty(ref field, MTLRenderPipelineFunctionsDescriptorBindings.SetFragmentAdditionalBinaryFunctions, value);
     }
 
     public NSArray? TileAdditionalBinaryFunctions
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineFunctionsDescriptorSelector.TileAdditionalBinaryFunctions);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineFunctionsDescriptorSelector.SetTileAdditionalBinaryFunctions, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLRenderPipelineFunctionsDescriptorBindings.TileAdditionalBinaryFunctions);
+        set => SetProperty(ref field, MTLRenderPipelineFunctionsDescriptorBindings.SetTileAdditionalBinaryFunctions, value);
     }
 
     public NSArray? VertexAdditionalBinaryFunctions
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineFunctionsDescriptorSelector.VertexAdditionalBinaryFunctions);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineFunctionsDescriptorSelector.SetVertexAdditionalBinaryFunctions, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLRenderPipelineFunctionsDescriptorBindings.VertexAdditionalBinaryFunctions);
+        set => SetProperty(ref field, MTLRenderPipelineFunctionsDescriptorBindings.SetVertexAdditionalBinaryFunctions, value);
     }
 }
 
-file static class MTLRenderPipelineFunctionsDescriptorSelector
+file static class MTLRenderPipelineFunctionsDescriptorBindings
 {
-    public static readonly Selector FragmentAdditionalBinaryFunctions = Selector.Register("fragmentAdditionalBinaryFunctions");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPipelineFunctionsDescriptor");
 
-    public static readonly Selector SetFragmentAdditionalBinaryFunctions = Selector.Register("setFragmentAdditionalBinaryFunctions:");
+    public static readonly Selector FragmentAdditionalBinaryFunctions = "fragmentAdditionalBinaryFunctions";
 
-    public static readonly Selector SetTileAdditionalBinaryFunctions = Selector.Register("setTileAdditionalBinaryFunctions:");
+    public static readonly Selector SetFragmentAdditionalBinaryFunctions = "setFragmentAdditionalBinaryFunctions:";
 
-    public static readonly Selector SetVertexAdditionalBinaryFunctions = Selector.Register("setVertexAdditionalBinaryFunctions:");
+    public static readonly Selector SetTileAdditionalBinaryFunctions = "setTileAdditionalBinaryFunctions:";
 
-    public static readonly Selector TileAdditionalBinaryFunctions = Selector.Register("tileAdditionalBinaryFunctions");
+    public static readonly Selector SetVertexAdditionalBinaryFunctions = "setVertexAdditionalBinaryFunctions:";
 
-    public static readonly Selector VertexAdditionalBinaryFunctions = Selector.Register("vertexAdditionalBinaryFunctions");
+    public static readonly Selector TileAdditionalBinaryFunctions = "tileAdditionalBinaryFunctions";
+
+    public static readonly Selector VertexAdditionalBinaryFunctions = "vertexAdditionalBinaryFunctions";
 }

@@ -2,7 +2,9 @@ namespace Metal.NET;
 
 public enum MTLMathMode : long
 {
-    MTLMathModeSafe = 0,
-    MTLMathModeRelaxed = 1,
-    MTLMathModeFast = 2
+    Safe = 0,
+
+    Relaxed = 1,
+
+    Fast = 2
 }

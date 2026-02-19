@@ -1,25 +1,21 @@
 namespace Metal.NET;
 
-public partial class MTLVisibleFunctionTable : NativeObject
+public class MTLVisibleFunctionTable(nint nativePtr, bool retain) : MTLResource(nativePtr, retain)
 {
-    public MTLVisibleFunctionTable(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public MTLResourceID GpuResourceID
     {
-        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLVisibleFunctionTableSelector.GpuResourceID);
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLVisibleFunctionTableBindings.GpuResourceID);
     }
 
     public void SetFunction(MTLFunctionHandle function, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLVisibleFunctionTableSelector.SetFunction, function.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLVisibleFunctionTableBindings.SetFunction, function.NativePtr, index);
     }
 }
 
-file static class MTLVisibleFunctionTableSelector
+file static class MTLVisibleFunctionTableBindings
 {
-    public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
+    public static readonly Selector GpuResourceID = "gpuResourceID";
 
-    public static readonly Selector SetFunction = Selector.Register("setFunction::");
+    public static readonly Selector SetFunction = "setFunction:atIndex:";
 }

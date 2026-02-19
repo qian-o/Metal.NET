@@ -1,45 +1,41 @@
 namespace Metal.NET;
 
-public partial class MTLFunctionConstant : NativeObject
+public class MTLFunctionConstant(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionConstant");
-
-    public MTLFunctionConstant(nint nativePtr) : base(nativePtr)
+    public MTLFunctionConstant() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantBindings.Class), false)
     {
     }
 
     public nuint Index
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionConstantSelector.Index);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionConstantBindings.Index);
     }
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionConstantSelector.Name);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLFunctionConstantBindings.Name);
     }
 
     public bool Required
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFunctionConstantSelector.Required);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFunctionConstantBindings.Required);
     }
 
     public MTLDataType Type
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionConstantSelector.Type);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionConstantBindings.Type);
     }
 }
 
-file static class MTLFunctionConstantSelector
+file static class MTLFunctionConstantBindings
 {
-    public static readonly Selector Index = Selector.Register("index");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionConstant");
 
-    public static readonly Selector Name = Selector.Register("name");
+    public static readonly Selector Index = "index";
 
-    public static readonly Selector Required = Selector.Register("required");
+    public static readonly Selector Name = "name";
 
-    public static readonly Selector Type = Selector.Register("type");
+    public static readonly Selector Required = "required";
+
+    public static readonly Selector Type = "type";
 }

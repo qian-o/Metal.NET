@@ -1,43 +1,43 @@
 namespace Metal.NET;
 
-public partial class MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor : NativeObject
+public class MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor(nint nativePtr, bool retain) : MTL4AccelerationStructureGeometryDescriptor(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor");
-
-    public MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor(nint nativePtr) : base(nativePtr)
+    public MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.Class), false)
     {
     }
 
     public MTL4BufferRange BoundingBoxBuffers
     {
-        get => ObjectiveCRuntime.MsgSendMTL4BufferRange(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.BoundingBoxBuffers);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.SetBoundingBoxBuffers, value);
+        get => ObjectiveCRuntime.MsgSendMTL4BufferRange(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.BoundingBoxBuffers);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBuffers, value);
     }
 
     public nuint BoundingBoxCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.BoundingBoxCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.SetBoundingBoxCount, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.BoundingBoxCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxCount, value);
     }
 
     public nuint BoundingBoxStride
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.BoundingBoxStride);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorSelector.SetBoundingBoxStride, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.BoundingBoxStride);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxStride, value);
     }
 }
 
-file static class MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorSelector
+file static class MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings
 {
-    public static readonly Selector BoundingBoxBuffers = Selector.Register("boundingBoxBuffers");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor");
 
-    public static readonly Selector BoundingBoxCount = Selector.Register("boundingBoxCount");
+    public static readonly Selector BoundingBoxBuffers = "boundingBoxBuffers";
 
-    public static readonly Selector BoundingBoxStride = Selector.Register("boundingBoxStride");
+    public static readonly Selector BoundingBoxCount = "boundingBoxCount";
 
-    public static readonly Selector SetBoundingBoxBuffers = Selector.Register("setBoundingBoxBuffers:");
+    public static readonly Selector BoundingBoxStride = "boundingBoxStride";
 
-    public static readonly Selector SetBoundingBoxCount = Selector.Register("setBoundingBoxCount:");
+    public static readonly Selector SetBoundingBoxBuffers = "setBoundingBoxBuffers:";
 
-    public static readonly Selector SetBoundingBoxStride = Selector.Register("setBoundingBoxStride:");
+    public static readonly Selector SetBoundingBoxCount = "setBoundingBoxCount:";
+
+    public static readonly Selector SetBoundingBoxStride = "setBoundingBoxStride:";
 }

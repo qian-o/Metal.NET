@@ -1,45 +1,42 @@
 namespace Metal.NET;
 
-public partial class MTLMotionKeyframeData : NativeObject
+public class MTLMotionKeyframeData(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLMotionKeyframeData");
-
-    public MTLMotionKeyframeData(nint nativePtr) : base(nativePtr)
+    public MTLMotionKeyframeData() : this(ObjectiveCRuntime.AllocInit(MTLMotionKeyframeDataBindings.Class), false)
     {
     }
 
     public MTLBuffer? Buffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMotionKeyframeDataSelector.Buffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataSelector.SetBuffer, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLMotionKeyframeDataBindings.Buffer);
+        set => SetProperty(ref field, MTLMotionKeyframeDataBindings.SetBuffer, value);
     }
 
     public nuint Offset
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLMotionKeyframeDataSelector.Offset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataSelector.SetOffset, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLMotionKeyframeDataBindings.Offset);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataBindings.SetOffset, value);
     }
 
     public static MTLMotionKeyframeData? Data()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLMotionKeyframeDataSelector.Data);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLMotionKeyframeDataBindings.Class, MTLMotionKeyframeDataBindings.Data);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 }
 
-file static class MTLMotionKeyframeDataSelector
+file static class MTLMotionKeyframeDataBindings
 {
-    public static readonly Selector Buffer = Selector.Register("buffer");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLMotionKeyframeData");
 
-    public static readonly Selector Data = Selector.Register("data");
+    public static readonly Selector Buffer = "buffer";
 
-    public static readonly Selector Offset = Selector.Register("offset");
+    public static readonly Selector Data = "data";
 
-    public static readonly Selector SetBuffer = Selector.Register("setBuffer:");
+    public static readonly Selector Offset = "offset";
 
-    public static readonly Selector SetOffset = Selector.Register("setOffset:");
+    public static readonly Selector SetBuffer = "setBuffer:";
+
+    public static readonly Selector SetOffset = "setOffset:";
 }

@@ -1,36 +1,28 @@
 namespace Metal.NET;
 
-public partial class MTLTensorBinding : NativeObject
+public class MTLTensorBinding(nint nativePtr, bool retain) : MTLBinding(nativePtr, retain)
 {
-    public MTLTensorBinding(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public MTLTensorExtents? Dimensions
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindingSelector.Dimensions);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLTensorBindingBindings.Dimensions);
     }
 
     public MTLDataType IndexType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorBindingSelector.IndexType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorBindingBindings.IndexType);
     }
 
     public MTLTensorDataType TensorDataType
     {
-        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindingSelector.TensorDataType);
+        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindingBindings.TensorDataType);
     }
 }
 
-file static class MTLTensorBindingSelector
+file static class MTLTensorBindingBindings
 {
-    public static readonly Selector Dimensions = Selector.Register("dimensions");
+    public static readonly Selector Dimensions = "dimensions";
 
-    public static readonly Selector IndexType = Selector.Register("indexType");
+    public static readonly Selector IndexType = "indexType";
 
-    public static readonly Selector TensorDataType = Selector.Register("tensorDataType");
+    public static readonly Selector TensorDataType = "tensorDataType";
 }

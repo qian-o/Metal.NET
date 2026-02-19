@@ -1,77 +1,73 @@
 namespace Metal.NET;
 
-public partial class MTL4ArgumentTableDescriptor : NativeObject
+public class MTL4ArgumentTableDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4ArgumentTableDescriptor");
-
-    public MTL4ArgumentTableDescriptor(nint nativePtr) : base(nativePtr)
+    public MTL4ArgumentTableDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4ArgumentTableDescriptorBindings.Class), false)
     {
     }
 
     public bool InitializeBindings
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4ArgumentTableDescriptorSelector.InitializeBindings);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableDescriptorSelector.SetInitializeBindings, (Bool8)value);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4ArgumentTableDescriptorBindings.InitializeBindings);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetInitializeBindings, (Bool8)value);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArgumentTableDescriptorSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTL4ArgumentTableDescriptorBindings.Label);
+        set => SetProperty(ref field, MTL4ArgumentTableDescriptorBindings.SetLabel, value);
     }
 
     public nuint MaxBufferBindCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4ArgumentTableDescriptorSelector.MaxBufferBindCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableDescriptorSelector.SetMaxBufferBindCount, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4ArgumentTableDescriptorBindings.MaxBufferBindCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetMaxBufferBindCount, value);
     }
 
     public nuint MaxSamplerStateBindCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4ArgumentTableDescriptorSelector.MaxSamplerStateBindCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableDescriptorSelector.SetMaxSamplerStateBindCount, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4ArgumentTableDescriptorBindings.MaxSamplerStateBindCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetMaxSamplerStateBindCount, value);
     }
 
     public nuint MaxTextureBindCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4ArgumentTableDescriptorSelector.MaxTextureBindCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableDescriptorSelector.SetMaxTextureBindCount, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4ArgumentTableDescriptorBindings.MaxTextureBindCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetMaxTextureBindCount, value);
     }
 
     public bool SupportAttributeStrides
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4ArgumentTableDescriptorSelector.SupportAttributeStrides);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableDescriptorSelector.SetSupportAttributeStrides, (Bool8)value);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4ArgumentTableDescriptorBindings.SupportAttributeStrides);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetSupportAttributeStrides, (Bool8)value);
     }
 }
 
-file static class MTL4ArgumentTableDescriptorSelector
+file static class MTL4ArgumentTableDescriptorBindings
 {
-    public static readonly Selector InitializeBindings = Selector.Register("initializeBindings");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4ArgumentTableDescriptor");
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector InitializeBindings = "initializeBindings";
 
-    public static readonly Selector MaxBufferBindCount = Selector.Register("maxBufferBindCount");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector MaxSamplerStateBindCount = Selector.Register("maxSamplerStateBindCount");
+    public static readonly Selector MaxBufferBindCount = "maxBufferBindCount";
 
-    public static readonly Selector MaxTextureBindCount = Selector.Register("maxTextureBindCount");
+    public static readonly Selector MaxSamplerStateBindCount = "maxSamplerStateBindCount";
 
-    public static readonly Selector SetInitializeBindings = Selector.Register("setInitializeBindings:");
+    public static readonly Selector MaxTextureBindCount = "maxTextureBindCount";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetInitializeBindings = "setInitializeBindings:";
 
-    public static readonly Selector SetMaxBufferBindCount = Selector.Register("setMaxBufferBindCount:");
+    public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector SetMaxSamplerStateBindCount = Selector.Register("setMaxSamplerStateBindCount:");
+    public static readonly Selector SetMaxBufferBindCount = "setMaxBufferBindCount:";
 
-    public static readonly Selector SetMaxTextureBindCount = Selector.Register("setMaxTextureBindCount:");
+    public static readonly Selector SetMaxSamplerStateBindCount = "setMaxSamplerStateBindCount:";
 
-    public static readonly Selector SetSupportAttributeStrides = Selector.Register("setSupportAttributeStrides:");
+    public static readonly Selector SetMaxTextureBindCount = "setMaxTextureBindCount:";
 
-    public static readonly Selector SupportAttributeStrides = Selector.Register("supportAttributeStrides");
+    public static readonly Selector SetSupportAttributeStrides = "setSupportAttributeStrides:";
+
+    public static readonly Selector SupportAttributeStrides = "supportAttributeStrides";
 }

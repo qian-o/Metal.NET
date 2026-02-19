@@ -2,8 +2,11 @@ namespace Metal.NET;
 
 public enum MTLCurveBasis : long
 {
-    MTLCurveBasisBSpline = 0,
-    MTLCurveBasisCatmullRom = 1,
-    MTLCurveBasisLinear = 2,
-    MTLCurveBasisBezier = 3
+    BSpline = 0,
+
+    CatmullRom = 1,
+
+    Linear = 2,
+
+    Bezier = 3
 }

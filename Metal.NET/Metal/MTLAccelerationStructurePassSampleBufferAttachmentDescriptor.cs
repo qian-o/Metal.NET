@@ -1,47 +1,43 @@
 namespace Metal.NET;
 
-public partial class MTLAccelerationStructurePassSampleBufferAttachmentDescriptor : NativeObject
+public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructurePassSampleBufferAttachmentDescriptor");
-
-    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.Class), false)
     {
     }
 
     public nuint EndOfEncoderSampleIndex
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorSelector.EndOfEncoderSampleIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorSelector.SetEndOfEncoderSampleIndex, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.EndOfEncoderSampleIndex);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.SetEndOfEncoderSampleIndex, value);
     }
 
     public MTLCounterSampleBuffer? SampleBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorSelector.SampleBuffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorSelector.SetSampleBuffer, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.SampleBuffer);
+        set => SetProperty(ref field, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, value);
     }
 
     public nuint StartOfEncoderSampleIndex
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorSelector.StartOfEncoderSampleIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorSelector.SetStartOfEncoderSampleIndex, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.StartOfEncoderSampleIndex);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.SetStartOfEncoderSampleIndex, value);
     }
 }
 
-file static class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorSelector
+file static class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings
 {
-    public static readonly Selector EndOfEncoderSampleIndex = Selector.Register("endOfEncoderSampleIndex");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructurePassSampleBufferAttachmentDescriptor");
 
-    public static readonly Selector SampleBuffer = Selector.Register("sampleBuffer");
+    public static readonly Selector EndOfEncoderSampleIndex = "endOfEncoderSampleIndex";
 
-    public static readonly Selector SetEndOfEncoderSampleIndex = Selector.Register("setEndOfEncoderSampleIndex:");
+    public static readonly Selector SampleBuffer = "sampleBuffer";
 
-    public static readonly Selector SetSampleBuffer = Selector.Register("setSampleBuffer:");
+    public static readonly Selector SetEndOfEncoderSampleIndex = "setEndOfEncoderSampleIndex:";
 
-    public static readonly Selector SetStartOfEncoderSampleIndex = Selector.Register("setStartOfEncoderSampleIndex:");
+    public static readonly Selector SetSampleBuffer = "setSampleBuffer:";
 
-    public static readonly Selector StartOfEncoderSampleIndex = Selector.Register("startOfEncoderSampleIndex");
+    public static readonly Selector SetStartOfEncoderSampleIndex = "setStartOfEncoderSampleIndex:";
+
+    public static readonly Selector StartOfEncoderSampleIndex = "startOfEncoderSampleIndex";
 }

@@ -1,22 +1,23 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 /// <summary>
 /// Base class for all Objective-C native object wrappers.
-/// Manages the native pointer lifetime with reference counting.
+/// Every wrapper holds a +1 reference and releases it on dispose.
 /// </summary>
 public abstract class NativeObject : IDisposable
 {
-    private bool _disposed;
+    private bool released;
 
-    protected NativeObject(nint nativePtr) : this(nativePtr, true)
-    {
-    }
-
-    protected NativeObject(nint nativePtr, bool retainOnCreate)
+    /// <param name="nativePtr">The raw Objective-C pointer.</param>
+    /// <param name="retain">
+    /// <c>true</c> to retain a +0 reference (non-ownership returns);
+    /// <c>false</c> when the caller already owns a +1 reference (new/alloc/copy/init).
+    /// </param>
+    protected NativeObject(nint nativePtr, bool retain)
     {
         NativePtr = nativePtr;
 
-        if (nativePtr is not 0 && retainOnCreate)
+        if (retain)
         {
             ObjectiveCRuntime.Retain(nativePtr);
         }
@@ -24,7 +25,7 @@ public abstract class NativeObject : IDisposable
 
     ~NativeObject()
     {
-        Dispose(false);
+        Release();
     }
 
     /// <summary>
@@ -34,21 +35,53 @@ public abstract class NativeObject : IDisposable
 
     public void Dispose()
     {
-        Dispose(true);
+        Release();
 
         GC.SuppressFinalize(this);
     }
 
-    protected virtual void Dispose(bool disposing)
+    /// <summary>
+    /// Gets a cached nullable property. Creates or updates the wrapper only when the native pointer changes.
+    /// </summary>
+    protected T? GetProperty<T>(ref T? field, Selector selector) where T : NativeObject
     {
-        if (!_disposed)
-        {
-            if (NativePtr is not 0)
-            {
-                ObjectiveCRuntime.Release(NativePtr);
-            }
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, selector);
 
-            _disposed = true;
+        if (nativePtr is 0)
+        {
+            return field = null;
         }
+
+        if (field is null || field.NativePtr != nativePtr)
+        {
+            field = (T)Activator.CreateInstance(typeof(T), nativePtr, true)!;
+        }
+
+        return field;
+    }
+
+    /// <summary>
+    /// Sets a nullable property and updates the cached wrapper.
+    /// </summary>
+    protected void SetProperty<T>(ref T? field, Selector selector, T? value) where T : NativeObject
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, selector, value?.NativePtr ?? 0);
+
+        field = value;
+    }
+
+    private void Release()
+    {
+        if (released)
+        {
+            return;
+        }
+
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
+
+        released = true;
     }
 }

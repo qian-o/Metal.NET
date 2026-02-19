@@ -2,7 +2,9 @@ namespace Metal.NET;
 
 public enum MTLReadWriteTextureTier : ulong
 {
-    MTLReadWriteTextureTierNone = 0,
-    MTLReadWriteTextureTier1 = 1,
-    MTLReadWriteTextureTier2 = 2
+    None = 0,
+
+    MTL1 = 1,
+
+    MTL2 = 2
 }

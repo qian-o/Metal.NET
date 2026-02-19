@@ -1,47 +1,35 @@
 namespace Metal.NET;
 
-public partial class MTL4CommandAllocator : NativeObject
+public class MTL4CommandAllocator(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTL4CommandAllocator(nint nativePtr) : base(nativePtr)
+    public ulong AllocatedSize
     {
-    }
-
-    public nuint AllocatedSize
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CommandAllocatorSelector.AllocatedSize);
+        get => ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4CommandAllocatorBindings.AllocatedSize);
     }
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTL4CommandAllocatorBindings.Device);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTL4CommandAllocatorBindings.Label);
     }
 
     public void Reset()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandAllocatorSelector.Reset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandAllocatorBindings.Reset);
     }
 }
 
-file static class MTL4CommandAllocatorSelector
+file static class MTL4CommandAllocatorBindings
 {
-    public static readonly Selector AllocatedSize = Selector.Register("allocatedSize");
+    public static readonly Selector AllocatedSize = "allocatedSize";
 
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector Reset = "reset";
 }

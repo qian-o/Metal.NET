@@ -1,22 +1,14 @@
 namespace Metal.NET;
 
-public partial class MTLIOScratchBuffer : NativeObject
+public class MTLIOScratchBuffer(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLIOScratchBuffer(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public MTLBuffer? Buffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOScratchBufferSelector.Buffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLIOScratchBufferBindings.Buffer);
     }
 }
 
-file static class MTLIOScratchBufferSelector
+file static class MTLIOScratchBufferBindings
 {
-    public static readonly Selector Buffer = Selector.Register("buffer");
+    public static readonly Selector Buffer = "buffer";
 }

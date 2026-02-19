@@ -3,7 +3,9 @@ namespace Metal.NET;
 [Flags]
 public enum MTLStoreActionOptions : ulong
 {
-    MTLStoreActionOptionNone = 0,
-    MTLStoreActionOptionCustomSamplePositions = 1,
-    MTLStoreActionOptionValidMask = 1
+    None = 0,
+
+    CustomSamplePositions = 1,
+
+    ValidMask = 1
 }

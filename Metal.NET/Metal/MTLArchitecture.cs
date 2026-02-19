@@ -1,24 +1,20 @@
 namespace Metal.NET;
 
-public partial class MTLArchitecture : NativeObject
+public class MTLArchitecture(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArchitecture");
-
-    public MTLArchitecture(nint nativePtr) : base(nativePtr)
+    public MTLArchitecture() : this(ObjectiveCRuntime.AllocInit(MTLArchitectureBindings.Class), false)
     {
     }
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArchitectureSelector.Name);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLArchitectureBindings.Name);
     }
 }
 
-file static class MTLArchitectureSelector
+file static class MTLArchitectureBindings
 {
-    public static readonly Selector Name = Selector.Register("name");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArchitecture");
+
+    public static readonly Selector Name = "name";
 }

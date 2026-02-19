@@ -3,23 +3,33 @@
 /// <summary>
 /// Wraps an Objective-C NSArray pointer.
 /// </summary>
-public class NSArray : NativeObject
+public class NSArray(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public NSArray(nint nativePtr) : base(nativePtr)
+    public nuint Count
     {
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, NSArrayBindings.Count);
     }
 
-    public nuint Count => ObjectiveCRuntime.MsgSendNUInt(NativePtr, NSArraySelector.Count);
-
-    public nint ObjectAtIndex(nint index)
+    /// <summary>
+    /// Returns the object at the given index, or <c>null</c> if the pointer is zero.
+    /// The returned object is retained (+1) for safe lifecycle management.
+    /// </summary>
+    public T? ObjectAtIndex<T>(nuint index) where T : NativeObject
     {
-        return ObjectiveCRuntime.MsgSendPtr(NativePtr, NSArraySelector.ObjectAtIndex, index);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSArrayBindings.ObjectAtIndex, index);
+
+        if (nativePtr is 0)
+        {
+            return null;
+        }
+
+        return (T)Activator.CreateInstance(typeof(T), nativePtr, true)!;
     }
 }
 
-file class NSArraySelector
+file static class NSArrayBindings
 {
-    public static readonly Selector Count = Selector.Register("count");
+    public static readonly Selector Count = "count";
 
-    public static readonly Selector ObjectAtIndex = Selector.Register("objectAtIndex:");
+    public static readonly Selector ObjectAtIndex = "objectAtIndex:";
 }

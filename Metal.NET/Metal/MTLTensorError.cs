@@ -2,7 +2,9 @@ namespace Metal.NET;
 
 public enum MTLTensorError : long
 {
-    MTLTensorErrorNone = 0,
-    MTLTensorErrorInternalError = 1,
-    MTLTensorErrorInvalidDescriptor = 2
+    None = 0,
+
+    InternalError = 1,
+
+    InvalidDescriptor = 2
 }

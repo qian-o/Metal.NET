@@ -1,23 +1,23 @@
 namespace Metal.NET;
 
-public partial class MTLFunctionStitchingInputNode : NativeObject
+public class MTLFunctionStitchingInputNode(nint nativePtr, bool retain) : MTLFunctionStitchingNode(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingInputNode");
-
-    public MTLFunctionStitchingInputNode(nint nativePtr) : base(nativePtr)
+    public MTLFunctionStitchingInputNode() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingInputNodeBindings.Class), false)
     {
     }
 
     public nuint ArgumentIndex
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionStitchingInputNodeSelector.ArgumentIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionStitchingInputNodeSelector.SetArgumentIndex, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionStitchingInputNodeBindings.ArgumentIndex);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionStitchingInputNodeBindings.SetArgumentIndex, value);
     }
 }
 
-file static class MTLFunctionStitchingInputNodeSelector
+file static class MTLFunctionStitchingInputNodeBindings
 {
-    public static readonly Selector ArgumentIndex = Selector.Register("argumentIndex");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingInputNode");
 
-    public static readonly Selector SetArgumentIndex = Selector.Register("setArgumentIndex:");
+    public static readonly Selector ArgumentIndex = "argumentIndex";
+
+    public static readonly Selector SetArgumentIndex = "setArgumentIndex:";
 }

@@ -3,15 +3,25 @@ namespace Metal.NET;
 [Flags]
 public enum MTLResourceOptions : ulong
 {
-    MTLResourceCPUCacheModeDefaultCache = 0,
-    MTLResourceCPUCacheModeWriteCombined = 1,
-    MTLResourceStorageModeShared = 0,
-    MTLResourceStorageModeManaged = 16,
-    MTLResourceStorageModePrivate = 32,
-    MTLResourceStorageModeMemoryless = 32,
-    MTLResourceHazardTrackingModeDefault = 0,
-    MTLResourceHazardTrackingModeUntracked = 256,
-    MTLResourceHazardTrackingModeTracked = 512,
-    MTLResourceOptionCPUCacheModeDefault = 0,
-    MTLResourceOptionCPUCacheModeWriteCombined = 1
+    CPUCacheModeDefaultCache = 0,
+
+    CPUCacheModeWriteCombined = 1,
+
+    StorageModeShared = 0,
+
+    StorageModeManaged = 16,
+
+    StorageModePrivate = 32,
+
+    StorageModeMemoryless = 32,
+
+    HazardTrackingModeDefault = 0,
+
+    HazardTrackingModeUntracked = 256,
+
+    HazardTrackingModeTracked = 512,
+
+    OptionCPUCacheModeDefault = 0,
+
+    OptionCPUCacheModeWriteCombined = 1
 }

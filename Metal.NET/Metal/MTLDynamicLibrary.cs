@@ -1,56 +1,42 @@
 namespace Metal.NET;
 
-public partial class MTLDynamicLibrary : NativeObject
+public class MTLDynamicLibrary(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLDynamicLibrary(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibrarySelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLDynamicLibraryBindings.Device);
     }
 
     public NSString? InstallName
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibrarySelector.InstallName);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLDynamicLibraryBindings.InstallName);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibrarySelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDynamicLibrarySelector.SetLabel, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLDynamicLibraryBindings.Label);
+        set => SetProperty(ref field, MTLDynamicLibraryBindings.SetLabel, value);
     }
 
     public bool SerializeToURL(NSURL url, out NSError? error)
     {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDynamicLibrarySelector.SerializeToURL, url.NativePtr, out nint errorPtr);
-        error = errorPtr is not 0 ? new(errorPtr) : null;
+        bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDynamicLibraryBindings.SerializeToURL, url.NativePtr, out nint errorPtr);
+
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
+
         return result;
     }
 }
 
-file static class MTLDynamicLibrarySelector
+file static class MTLDynamicLibraryBindings
 {
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector InstallName = Selector.Register("installName");
+    public static readonly Selector InstallName = "installName";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector SerializeToURL = Selector.Register("serializeToURL:::");
+    public static readonly Selector SerializeToURL = "serializeToURL:error:";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLabel = "setLabel:";
 }

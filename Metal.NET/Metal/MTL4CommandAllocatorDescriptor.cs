@@ -1,27 +1,23 @@
 namespace Metal.NET;
 
-public partial class MTL4CommandAllocatorDescriptor : NativeObject
+public class MTL4CommandAllocatorDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CommandAllocatorDescriptor");
-
-    public MTL4CommandAllocatorDescriptor(nint nativePtr) : base(nativePtr)
+    public MTL4CommandAllocatorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CommandAllocatorDescriptorBindings.Class), false)
     {
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorDescriptorSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandAllocatorDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTL4CommandAllocatorDescriptorBindings.Label);
+        set => SetProperty(ref field, MTL4CommandAllocatorDescriptorBindings.SetLabel, value);
     }
 }
 
-file static class MTL4CommandAllocatorDescriptorSelector
+file static class MTL4CommandAllocatorDescriptorBindings
 {
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CommandAllocatorDescriptor");
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector Label = "label";
+
+    public static readonly Selector SetLabel = "setLabel:";
 }

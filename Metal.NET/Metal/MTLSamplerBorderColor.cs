@@ -2,7 +2,9 @@ namespace Metal.NET;
 
 public enum MTLSamplerBorderColor : ulong
 {
-    MTLSamplerBorderColorTransparentBlack = 0,
-    MTLSamplerBorderColorOpaqueBlack = 1,
-    MTLSamplerBorderColorOpaqueWhite = 2
+    TransparentBlack = 0,
+
+    OpaqueBlack = 1,
+
+    OpaqueWhite = 2
 }

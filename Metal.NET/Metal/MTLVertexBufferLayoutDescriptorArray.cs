@@ -1,28 +1,29 @@
 namespace Metal.NET;
 
-public partial class MTLVertexBufferLayoutDescriptorArray : NativeObject
+public class MTLVertexBufferLayoutDescriptorArray(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexBufferLayoutDescriptorArray");
-
-    public MTLVertexBufferLayoutDescriptorArray(nint nativePtr) : base(nativePtr)
+    public MTLVertexBufferLayoutDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLVertexBufferLayoutDescriptorArrayBindings.Class), false)
     {
     }
 
-    public MTLVertexBufferLayoutDescriptor? @object(nuint index)
+    public MTLVertexBufferLayoutDescriptor? Object(nuint index)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexBufferLayoutDescriptorArraySelector.Object, index);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexBufferLayoutDescriptorArrayBindings.Object, index);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public void SetObject(MTLVertexBufferLayoutDescriptor bufferDesc, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorArraySelector.SetObject, bufferDesc.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorArrayBindings.SetObject, bufferDesc.NativePtr, index);
     }
 }
 
-file static class MTLVertexBufferLayoutDescriptorArraySelector
+file static class MTLVertexBufferLayoutDescriptorArrayBindings
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexBufferLayoutDescriptorArray");
 
-    public static readonly Selector SetObject = Selector.Register("setObject::");
+    public static readonly Selector Object = "objectAtIndexedSubscript:";
+
+    public static readonly Selector SetObject = "setObject:atIndexedSubscript:";
 }

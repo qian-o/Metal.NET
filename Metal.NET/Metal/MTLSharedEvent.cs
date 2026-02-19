@@ -1,39 +1,33 @@
 namespace Metal.NET;
 
-public partial class MTLSharedEvent : NativeObject
+public class MTLSharedEvent(nint nativePtr, bool retain) : MTLEvent(nativePtr, retain)
 {
-    public MTLSharedEvent(nint nativePtr) : base(nativePtr)
+    public ulong SignaledValue
     {
+        get => ObjectiveCRuntime.MsgSendULong(NativePtr, MTLSharedEventBindings.SignaledValue);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSharedEventBindings.SetSignaledValue, value);
     }
 
-    public MTLSharedEventHandle? NewSharedEventHandle
+    public MTLSharedEventHandle? NewSharedEventHandle()
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventSelector.NewSharedEventHandle);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventBindings.NewSharedEventHandle);
+
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
-    public nuint SignaledValue
+    public bool WaitUntilSignaledValue(ulong value, ulong milliseconds)
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSharedEventSelector.SignaledValue);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSharedEventSelector.SetSignaledValue, value);
-    }
-
-    public bool WaitUntilSignaledValue(nuint value, nuint milliseconds)
-    {
-        return ObjectiveCRuntime.MsgSendBool(NativePtr, MTLSharedEventSelector.WaitUntilSignaledValue, value, milliseconds);
+        return ObjectiveCRuntime.MsgSendBool(NativePtr, MTLSharedEventBindings.WaitUntilSignaledValue, (nuint)value, (nuint)milliseconds);
     }
 }
 
-file static class MTLSharedEventSelector
+file static class MTLSharedEventBindings
 {
-    public static readonly Selector NewSharedEventHandle = Selector.Register("newSharedEventHandle");
+    public static readonly Selector NewSharedEventHandle = "newSharedEventHandle";
 
-    public static readonly Selector SetSignaledValue = Selector.Register("setSignaledValue:");
+    public static readonly Selector SetSignaledValue = "setSignaledValue:";
 
-    public static readonly Selector SignaledValue = Selector.Register("signaledValue");
+    public static readonly Selector SignaledValue = "signaledValue";
 
-    public static readonly Selector WaitUntilSignaledValue = Selector.Register("waitUntilSignaledValue::");
+    public static readonly Selector WaitUntilSignaledValue = "waitUntilSignaledValue:timeoutMS:";
 }

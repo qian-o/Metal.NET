@@ -1,41 +1,33 @@
 namespace Metal.NET;
 
-public partial class MTL4PipelineDescriptor : NativeObject
+public class MTL4PipelineDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PipelineDescriptor");
-
-    public MTL4PipelineDescriptor(nint nativePtr) : base(nativePtr)
+    public MTL4PipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineDescriptorBindings.Class), false)
     {
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDescriptorSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTL4PipelineDescriptorBindings.Label);
+        set => SetProperty(ref field, MTL4PipelineDescriptorBindings.SetLabel, value);
     }
 
     public MTL4PipelineOptions? Options
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDescriptorSelector.Options);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDescriptorSelector.SetOptions, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTL4PipelineDescriptorBindings.Options);
+        set => SetProperty(ref field, MTL4PipelineDescriptorBindings.SetOptions, value);
     }
 }
 
-file static class MTL4PipelineDescriptorSelector
+file static class MTL4PipelineDescriptorBindings
 {
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PipelineDescriptor");
 
-    public static readonly Selector Options = Selector.Register("options");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector Options = "options";
 
-    public static readonly Selector SetOptions = Selector.Register("setOptions:");
+    public static readonly Selector SetLabel = "setLabel:";
+
+    public static readonly Selector SetOptions = "setOptions:";
 }

@@ -2,8 +2,11 @@ namespace Metal.NET;
 
 public enum MTLPrimitiveTopologyClass : ulong
 {
-    MTLPrimitiveTopologyClassUnspecified = 0,
-    MTLPrimitiveTopologyClassPoint = 1,
-    MTLPrimitiveTopologyClassLine = 2,
-    MTLPrimitiveTopologyClassTriangle = 3
+    Unspecified = 0,
+
+    Point = 1,
+
+    Line = 2,
+
+    Triangle = 3
 }

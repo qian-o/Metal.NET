@@ -1,28 +1,29 @@
 namespace Metal.NET;
 
-public partial class MTLPipelineBufferDescriptorArray : NativeObject
+public class MTLPipelineBufferDescriptorArray(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPipelineBufferDescriptorArray");
-
-    public MTLPipelineBufferDescriptorArray(nint nativePtr) : base(nativePtr)
+    public MTLPipelineBufferDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLPipelineBufferDescriptorArrayBindings.Class), false)
     {
     }
 
-    public MTLPipelineBufferDescriptor? @object(nuint bufferIndex)
+    public MTLPipelineBufferDescriptor? Object(nuint bufferIndex)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPipelineBufferDescriptorArraySelector.Object, bufferIndex);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPipelineBufferDescriptorArrayBindings.Object, bufferIndex);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public void SetObject(MTLPipelineBufferDescriptor buffer, nuint bufferIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorArraySelector.SetObject, buffer.NativePtr, bufferIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorArrayBindings.SetObject, buffer.NativePtr, bufferIndex);
     }
 }
 
-file static class MTLPipelineBufferDescriptorArraySelector
+file static class MTLPipelineBufferDescriptorArrayBindings
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPipelineBufferDescriptorArray");
 
-    public static readonly Selector SetObject = Selector.Register("setObject::");
+    public static readonly Selector Object = "objectAtIndexedSubscript:";
+
+    public static readonly Selector SetObject = "setObject:atIndexedSubscript:";
 }

@@ -1,36 +1,28 @@
 namespace Metal.NET;
 
-public partial class MTL4CompilerTask : NativeObject
+public class MTL4CompilerTask(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTL4CompilerTask(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public MTL4Compiler? Compiler
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskSelector.Compiler);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTL4CompilerTaskBindings.Compiler);
     }
 
     public MTL4CompilerTaskStatus Status
     {
-        get => (MTL4CompilerTaskStatus)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskSelector.Status);
+        get => (MTL4CompilerTaskStatus)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskBindings.Status);
     }
 
     public void WaitUntilCompleted()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerTaskSelector.WaitUntilCompleted);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerTaskBindings.WaitUntilCompleted);
     }
 }
 
-file static class MTL4CompilerTaskSelector
+file static class MTL4CompilerTaskBindings
 {
-    public static readonly Selector Compiler = Selector.Register("compiler");
+    public static readonly Selector Compiler = "compiler";
 
-    public static readonly Selector Status = Selector.Register("status");
+    public static readonly Selector Status = "status";
 
-    public static readonly Selector WaitUntilCompleted = Selector.Register("waitUntilCompleted");
+    public static readonly Selector WaitUntilCompleted = "waitUntilCompleted";
 }

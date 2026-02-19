@@ -1,182 +1,154 @@
 namespace Metal.NET;
 
-public partial class MTLTileRenderPipelineDescriptor : NativeObject
+public class MTLTileRenderPipelineDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTileRenderPipelineDescriptor");
-
-    public MTLTileRenderPipelineDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLTileRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTileRenderPipelineDescriptorBindings.Class), false)
     {
     }
 
     public NSArray? BinaryArchives
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.BinaryArchives);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetBinaryArchives, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.BinaryArchives);
+        set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetBinaryArchives, value);
     }
 
     public MTLTileRenderPipelineColorAttachmentDescriptorArray? ColorAttachments
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.ColorAttachments);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.ColorAttachments);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.Label);
+        set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetLabel, value);
     }
 
     public MTLLinkedFunctions? LinkedFunctions
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.LinkedFunctions);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetLinkedFunctions, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.LinkedFunctions);
+        set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetLinkedFunctions, value);
     }
 
     public nuint MaxCallStackDepth
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTileRenderPipelineDescriptorSelector.MaxCallStackDepth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetMaxCallStackDepth, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTileRenderPipelineDescriptorBindings.MaxCallStackDepth);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetMaxCallStackDepth, value);
     }
 
     public nuint MaxTotalThreadsPerThreadgroup
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTileRenderPipelineDescriptorSelector.MaxTotalThreadsPerThreadgroup);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetMaxTotalThreadsPerThreadgroup, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTileRenderPipelineDescriptorBindings.MaxTotalThreadsPerThreadgroup);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetMaxTotalThreadsPerThreadgroup, value);
     }
 
     public NSArray? PreloadedLibraries
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.PreloadedLibraries);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetPreloadedLibraries, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.PreloadedLibraries);
+        set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetPreloadedLibraries, value);
     }
 
     public nuint RasterSampleCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTileRenderPipelineDescriptorSelector.RasterSampleCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetRasterSampleCount, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTileRenderPipelineDescriptorBindings.RasterSampleCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetRasterSampleCount, value);
     }
 
     public MTLSize RequiredThreadsPerThreadgroup
     {
-        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLTileRenderPipelineDescriptorSelector.RequiredThreadsPerThreadgroup);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetRequiredThreadsPerThreadgroup, value);
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLTileRenderPipelineDescriptorBindings.RequiredThreadsPerThreadgroup);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetRequiredThreadsPerThreadgroup, value);
     }
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.ShaderValidation);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetShaderValidation, (nint)value);
+        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorBindings.ShaderValidation);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetShaderValidation, (nint)value);
     }
 
     public bool SupportAddingBinaryFunctions
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTileRenderPipelineDescriptorSelector.SupportAddingBinaryFunctions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetSupportAddingBinaryFunctions, (Bool8)value);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTileRenderPipelineDescriptorBindings.SupportAddingBinaryFunctions);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetSupportAddingBinaryFunctions, (Bool8)value);
     }
 
     public bool ThreadgroupSizeMatchesTileSize
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTileRenderPipelineDescriptorSelector.ThreadgroupSizeMatchesTileSize);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetThreadgroupSizeMatchesTileSize, (Bool8)value);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTileRenderPipelineDescriptorBindings.ThreadgroupSizeMatchesTileSize);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetThreadgroupSizeMatchesTileSize, (Bool8)value);
     }
 
     public MTLPipelineBufferDescriptorArray? TileBuffers
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.TileBuffers);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.TileBuffers);
     }
 
     public MTLFunction? TileFunction
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTileRenderPipelineDescriptorSelector.TileFunction);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.SetTileFunction, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.TileFunction);
+        set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetTileFunction, value);
     }
 
     public void Reset()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorSelector.Reset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.Reset);
     }
 }
 
-file static class MTLTileRenderPipelineDescriptorSelector
+file static class MTLTileRenderPipelineDescriptorBindings
 {
-    public static readonly Selector BinaryArchives = Selector.Register("binaryArchives");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTileRenderPipelineDescriptor");
 
-    public static readonly Selector ColorAttachments = Selector.Register("colorAttachments");
+    public static readonly Selector BinaryArchives = "binaryArchives";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector ColorAttachments = "colorAttachments";
 
-    public static readonly Selector LinkedFunctions = Selector.Register("linkedFunctions");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector MaxCallStackDepth = Selector.Register("maxCallStackDepth");
+    public static readonly Selector LinkedFunctions = "linkedFunctions";
 
-    public static readonly Selector MaxTotalThreadsPerThreadgroup = Selector.Register("maxTotalThreadsPerThreadgroup");
+    public static readonly Selector MaxCallStackDepth = "maxCallStackDepth";
 
-    public static readonly Selector PreloadedLibraries = Selector.Register("preloadedLibraries");
+    public static readonly Selector MaxTotalThreadsPerThreadgroup = "maxTotalThreadsPerThreadgroup";
 
-    public static readonly Selector RasterSampleCount = Selector.Register("rasterSampleCount");
+    public static readonly Selector PreloadedLibraries = "preloadedLibraries";
 
-    public static readonly Selector RequiredThreadsPerThreadgroup = Selector.Register("requiredThreadsPerThreadgroup");
+    public static readonly Selector RasterSampleCount = "rasterSampleCount";
 
-    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector RequiredThreadsPerThreadgroup = "requiredThreadsPerThreadgroup";
 
-    public static readonly Selector SetBinaryArchives = Selector.Register("setBinaryArchives:");
+    public static readonly Selector Reset = "reset";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetBinaryArchives = "setBinaryArchives:";
 
-    public static readonly Selector SetLinkedFunctions = Selector.Register("setLinkedFunctions:");
+    public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector SetMaxCallStackDepth = Selector.Register("setMaxCallStackDepth:");
+    public static readonly Selector SetLinkedFunctions = "setLinkedFunctions:";
 
-    public static readonly Selector SetMaxTotalThreadsPerThreadgroup = Selector.Register("setMaxTotalThreadsPerThreadgroup:");
+    public static readonly Selector SetMaxCallStackDepth = "setMaxCallStackDepth:";
 
-    public static readonly Selector SetPreloadedLibraries = Selector.Register("setPreloadedLibraries:");
+    public static readonly Selector SetMaxTotalThreadsPerThreadgroup = "setMaxTotalThreadsPerThreadgroup:";
 
-    public static readonly Selector SetRasterSampleCount = Selector.Register("setRasterSampleCount:");
+    public static readonly Selector SetPreloadedLibraries = "setPreloadedLibraries:";
 
-    public static readonly Selector SetRequiredThreadsPerThreadgroup = Selector.Register("setRequiredThreadsPerThreadgroup:");
+    public static readonly Selector SetRasterSampleCount = "setRasterSampleCount:";
 
-    public static readonly Selector SetShaderValidation = Selector.Register("setShaderValidation:");
+    public static readonly Selector SetRequiredThreadsPerThreadgroup = "setRequiredThreadsPerThreadgroup:";
 
-    public static readonly Selector SetSupportAddingBinaryFunctions = Selector.Register("setSupportAddingBinaryFunctions:");
+    public static readonly Selector SetShaderValidation = "setShaderValidation:";
 
-    public static readonly Selector SetThreadgroupSizeMatchesTileSize = Selector.Register("setThreadgroupSizeMatchesTileSize:");
+    public static readonly Selector SetSupportAddingBinaryFunctions = "setSupportAddingBinaryFunctions:";
 
-    public static readonly Selector SetTileFunction = Selector.Register("setTileFunction:");
+    public static readonly Selector SetThreadgroupSizeMatchesTileSize = "setThreadgroupSizeMatchesTileSize:";
 
-    public static readonly Selector ShaderValidation = Selector.Register("shaderValidation");
+    public static readonly Selector SetTileFunction = "setTileFunction:";
 
-    public static readonly Selector SupportAddingBinaryFunctions = Selector.Register("supportAddingBinaryFunctions");
+    public static readonly Selector ShaderValidation = "shaderValidation";
 
-    public static readonly Selector ThreadgroupSizeMatchesTileSize = Selector.Register("threadgroupSizeMatchesTileSize");
+    public static readonly Selector SupportAddingBinaryFunctions = "supportAddingBinaryFunctions";
 
-    public static readonly Selector TileBuffers = Selector.Register("tileBuffers");
+    public static readonly Selector ThreadgroupSizeMatchesTileSize = "threadgroupSizeMatchesTileSize";
 
-    public static readonly Selector TileFunction = Selector.Register("tileFunction");
+    public static readonly Selector TileBuffers = "tileBuffers";
+
+    public static readonly Selector TileFunction = "tileFunction";
 }

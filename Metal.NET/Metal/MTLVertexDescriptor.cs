@@ -1,50 +1,43 @@
 namespace Metal.NET;
 
-public partial class MTLVertexDescriptor : NativeObject
+public class MTLVertexDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexDescriptor");
-
-    public MTLVertexDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLVertexDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexDescriptorBindings.Class), false)
     {
     }
 
     public MTLVertexAttributeDescriptorArray? Attributes
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorSelector.Attributes);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLVertexDescriptorBindings.Attributes);
     }
 
     public MTLVertexBufferLayoutDescriptorArray? Layouts
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorSelector.Layouts);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLVertexDescriptorBindings.Layouts);
     }
 
     public void Reset()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexDescriptorSelector.Reset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexDescriptorBindings.Reset);
     }
 
     public static MTLVertexDescriptor? VertexDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLVertexDescriptorSelector.VertexDescriptor);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLVertexDescriptorBindings.Class, MTLVertexDescriptorBindings.VertexDescriptor);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 }
 
-file static class MTLVertexDescriptorSelector
+file static class MTLVertexDescriptorBindings
 {
-    public static readonly Selector Attributes = Selector.Register("attributes");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexDescriptor");
 
-    public static readonly Selector Layouts = Selector.Register("layouts");
+    public static readonly Selector Attributes = "attributes";
 
-    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector Layouts = "layouts";
 
-    public static readonly Selector VertexDescriptor = Selector.Register("vertexDescriptor");
+    public static readonly Selector Reset = "reset";
+
+    public static readonly Selector VertexDescriptor = "vertexDescriptor";
 }

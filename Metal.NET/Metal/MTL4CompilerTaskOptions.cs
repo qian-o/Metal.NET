@@ -1,27 +1,23 @@
 namespace Metal.NET;
 
-public partial class MTL4CompilerTaskOptions : NativeObject
+public class MTL4CompilerTaskOptions(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CompilerTaskOptions");
-
-    public MTL4CompilerTaskOptions(nint nativePtr) : base(nativePtr)
+    public MTL4CompilerTaskOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CompilerTaskOptionsBindings.Class), false)
     {
     }
 
     public NSArray? LookupArchives
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskOptionsSelector.LookupArchives);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerTaskOptionsSelector.SetLookupArchives, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTL4CompilerTaskOptionsBindings.LookupArchives);
+        set => SetProperty(ref field, MTL4CompilerTaskOptionsBindings.SetLookupArchives, value);
     }
 }
 
-file static class MTL4CompilerTaskOptionsSelector
+file static class MTL4CompilerTaskOptionsBindings
 {
-    public static readonly Selector LookupArchives = Selector.Register("lookupArchives");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CompilerTaskOptions");
 
-    public static readonly Selector SetLookupArchives = Selector.Register("setLookupArchives:");
+    public static readonly Selector LookupArchives = "lookupArchives";
+
+    public static readonly Selector SetLookupArchives = "setLookupArchives:";
 }

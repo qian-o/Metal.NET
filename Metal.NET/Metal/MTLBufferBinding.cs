@@ -1,54 +1,42 @@
 namespace Metal.NET;
 
-public partial class MTLBufferBinding : NativeObject
+public class MTLBufferBinding(nint nativePtr, bool retain) : MTLBinding(nativePtr, retain)
 {
-    public MTLBufferBinding(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public nuint BufferAlignment
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingSelector.BufferAlignment);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingBindings.BufferAlignment);
     }
 
     public nuint BufferDataSize
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingSelector.BufferDataSize);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingBindings.BufferDataSize);
     }
 
     public MTLDataType BufferDataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingSelector.BufferDataType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingBindings.BufferDataType);
     }
 
     public MTLPointerType? BufferPointerType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindingSelector.BufferPointerType);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLBufferBindingBindings.BufferPointerType);
     }
 
     public MTLStructType? BufferStructType
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindingSelector.BufferStructType);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLBufferBindingBindings.BufferStructType);
     }
 }
 
-file static class MTLBufferBindingSelector
+file static class MTLBufferBindingBindings
 {
-    public static readonly Selector BufferAlignment = Selector.Register("bufferAlignment");
+    public static readonly Selector BufferAlignment = "bufferAlignment";
 
-    public static readonly Selector BufferDataSize = Selector.Register("bufferDataSize");
+    public static readonly Selector BufferDataSize = "bufferDataSize";
 
-    public static readonly Selector BufferDataType = Selector.Register("bufferDataType");
+    public static readonly Selector BufferDataType = "bufferDataType";
 
-    public static readonly Selector BufferPointerType = Selector.Register("bufferPointerType");
+    public static readonly Selector BufferPointerType = "bufferPointerType";
 
-    public static readonly Selector BufferStructType = Selector.Register("bufferStructType");
+    public static readonly Selector BufferStructType = "bufferStructType";
 }

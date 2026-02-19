@@ -1,18 +1,14 @@
 namespace Metal.NET;
 
-public partial class MTL4FXFrameInterpolator : NativeObject
+public class MTL4FXFrameInterpolator(nint nativePtr, bool retain) : MTLFXFrameInterpolatorBase(nativePtr, retain)
 {
-    public MTL4FXFrameInterpolator(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public void EncodeToCommandBuffer(MTL4CommandBuffer commandBuffer)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4FXFrameInterpolatorSelector.EncodeToCommandBuffer, commandBuffer.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4FXFrameInterpolatorBindings.EncodeToCommandBuffer, commandBuffer.NativePtr);
     }
 }
 
-file static class MTL4FXFrameInterpolatorSelector
+file static class MTL4FXFrameInterpolatorBindings
 {
-    public static readonly Selector EncodeToCommandBuffer = Selector.Register("encodeToCommandBuffer:");
+    public static readonly Selector EncodeToCommandBuffer = "encodeToCommandBuffer:";
 }

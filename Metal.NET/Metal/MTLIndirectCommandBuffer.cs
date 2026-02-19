@@ -1,48 +1,46 @@
 namespace Metal.NET;
 
-public partial class MTLIndirectCommandBuffer : NativeObject
+public class MTLIndirectCommandBuffer(nint nativePtr, bool retain) : MTLResource(nativePtr, retain)
 {
-    public MTLIndirectCommandBuffer(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public MTLResourceID GpuResourceID
     {
-        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLIndirectCommandBufferSelector.GpuResourceID);
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLIndirectCommandBufferBindings.GpuResourceID);
     }
 
     public nuint Size
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferSelector.Size);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferBindings.Size);
     }
 
     public MTLIndirectComputeCommand? IndirectComputeCommand(nuint commandIndex)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectComputeCommand, commandIndex);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferBindings.IndirectComputeCommand, commandIndex);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public MTLIndirectRenderCommand? IndirectRenderCommand(nuint commandIndex)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectRenderCommand, commandIndex);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferBindings.IndirectRenderCommand, commandIndex);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public void Reset(NSRange range)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferSelector.Reset, range);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferBindings.Reset, range);
     }
 }
 
-file static class MTLIndirectCommandBufferSelector
+file static class MTLIndirectCommandBufferBindings
 {
-    public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
+    public static readonly Selector GpuResourceID = "gpuResourceID";
 
-    public static readonly Selector IndirectComputeCommand = Selector.Register("indirectComputeCommand:");
+    public static readonly Selector IndirectComputeCommand = "indirectComputeCommandAtIndex:";
 
-    public static readonly Selector IndirectRenderCommand = Selector.Register("indirectRenderCommand:");
+    public static readonly Selector IndirectRenderCommand = "indirectRenderCommandAtIndex:";
 
-    public static readonly Selector Reset = Selector.Register("reset:");
+    public static readonly Selector Reset = "resetWithRange:";
 
-    public static readonly Selector Size = Selector.Register("size");
+    public static readonly Selector Size = "size";
 }

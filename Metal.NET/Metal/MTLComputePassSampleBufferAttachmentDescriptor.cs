@@ -1,47 +1,43 @@
 namespace Metal.NET;
 
-public partial class MTLComputePassSampleBufferAttachmentDescriptor : NativeObject
+public class MTLComputePassSampleBufferAttachmentDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePassSampleBufferAttachmentDescriptor");
-
-    public MTLComputePassSampleBufferAttachmentDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLComputePassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLComputePassSampleBufferAttachmentDescriptorBindings.Class), false)
     {
     }
 
     public nuint EndOfEncoderSampleIndex
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorSelector.EndOfEncoderSampleIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorSelector.SetEndOfEncoderSampleIndex, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorBindings.EndOfEncoderSampleIndex);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorBindings.SetEndOfEncoderSampleIndex, value);
     }
 
     public MTLCounterSampleBuffer? SampleBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorSelector.SampleBuffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorSelector.SetSampleBuffer, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLComputePassSampleBufferAttachmentDescriptorBindings.SampleBuffer);
+        set => SetProperty(ref field, MTLComputePassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, value);
     }
 
     public nuint StartOfEncoderSampleIndex
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorSelector.StartOfEncoderSampleIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorSelector.SetStartOfEncoderSampleIndex, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorBindings.StartOfEncoderSampleIndex);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorBindings.SetStartOfEncoderSampleIndex, value);
     }
 }
 
-file static class MTLComputePassSampleBufferAttachmentDescriptorSelector
+file static class MTLComputePassSampleBufferAttachmentDescriptorBindings
 {
-    public static readonly Selector EndOfEncoderSampleIndex = Selector.Register("endOfEncoderSampleIndex");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePassSampleBufferAttachmentDescriptor");
 
-    public static readonly Selector SampleBuffer = Selector.Register("sampleBuffer");
+    public static readonly Selector EndOfEncoderSampleIndex = "endOfEncoderSampleIndex";
 
-    public static readonly Selector SetEndOfEncoderSampleIndex = Selector.Register("setEndOfEncoderSampleIndex:");
+    public static readonly Selector SampleBuffer = "sampleBuffer";
 
-    public static readonly Selector SetSampleBuffer = Selector.Register("setSampleBuffer:");
+    public static readonly Selector SetEndOfEncoderSampleIndex = "setEndOfEncoderSampleIndex:";
 
-    public static readonly Selector SetStartOfEncoderSampleIndex = Selector.Register("setStartOfEncoderSampleIndex:");
+    public static readonly Selector SetSampleBuffer = "setSampleBuffer:";
 
-    public static readonly Selector StartOfEncoderSampleIndex = Selector.Register("startOfEncoderSampleIndex");
+    public static readonly Selector SetStartOfEncoderSampleIndex = "setStartOfEncoderSampleIndex:";
+
+    public static readonly Selector StartOfEncoderSampleIndex = "startOfEncoderSampleIndex";
 }

@@ -1,27 +1,13 @@
 namespace Metal.NET;
 
-public partial class MTLRasterizationRateSampleArray : NativeObject
+public class MTLRasterizationRateSampleArray(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRasterizationRateSampleArray");
-
-    public MTLRasterizationRateSampleArray(nint nativePtr) : base(nativePtr)
+    public MTLRasterizationRateSampleArray() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateSampleArrayBindings.Class), false)
     {
-    }
-
-    public nint @object(nuint index)
-    {
-        return ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateSampleArraySelector.Object, index);
-    }
-
-    public void SetObject(nint value, nuint index)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateSampleArraySelector.SetObject, value, index);
     }
 }
 
-file static class MTLRasterizationRateSampleArraySelector
+file static class MTLRasterizationRateSampleArrayBindings
 {
-    public static readonly Selector Object = Selector.Register("object:");
-
-    public static readonly Selector SetObject = Selector.Register("setObject::");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRasterizationRateSampleArray");
 }

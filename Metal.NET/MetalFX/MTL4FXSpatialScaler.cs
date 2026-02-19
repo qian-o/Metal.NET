@@ -1,18 +1,14 @@
 namespace Metal.NET;
 
-public partial class MTL4FXSpatialScaler : NativeObject
+public class MTL4FXSpatialScaler(nint nativePtr, bool retain) : MTLFXSpatialScalerBase(nativePtr, retain)
 {
-    public MTL4FXSpatialScaler(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public void EncodeToCommandBuffer(MTL4CommandBuffer pCommandBuffer)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4FXSpatialScalerSelector.EncodeToCommandBuffer, pCommandBuffer.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4FXSpatialScalerBindings.EncodeToCommandBuffer, pCommandBuffer.NativePtr);
     }
 }
 
-file static class MTL4FXSpatialScalerSelector
+file static class MTL4FXSpatialScalerBindings
 {
-    public static readonly Selector EncodeToCommandBuffer = Selector.Register("encodeToCommandBuffer:");
+    public static readonly Selector EncodeToCommandBuffer = "encodeToCommandBuffer:";
 }

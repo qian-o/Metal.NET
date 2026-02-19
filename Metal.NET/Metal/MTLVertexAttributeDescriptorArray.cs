@@ -1,28 +1,29 @@
 namespace Metal.NET;
 
-public partial class MTLVertexAttributeDescriptorArray : NativeObject
+public class MTLVertexAttributeDescriptorArray(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexAttributeDescriptorArray");
-
-    public MTLVertexAttributeDescriptorArray(nint nativePtr) : base(nativePtr)
+    public MTLVertexAttributeDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeDescriptorArrayBindings.Class), false)
     {
     }
 
-    public MTLVertexAttributeDescriptor? @object(nuint index)
+    public MTLVertexAttributeDescriptor? Object(nuint index)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeDescriptorArraySelector.Object, index);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeDescriptorArrayBindings.Object, index);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public void SetObject(MTLVertexAttributeDescriptor attributeDesc, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorArraySelector.SetObject, attributeDesc.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorArrayBindings.SetObject, attributeDesc.NativePtr, index);
     }
 }
 
-file static class MTLVertexAttributeDescriptorArraySelector
+file static class MTLVertexAttributeDescriptorArrayBindings
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexAttributeDescriptorArray");
 
-    public static readonly Selector SetObject = Selector.Register("setObject::");
+    public static readonly Selector Object = "objectAtIndexedSubscript:";
+
+    public static readonly Selector SetObject = "setObject:atIndexedSubscript:";
 }

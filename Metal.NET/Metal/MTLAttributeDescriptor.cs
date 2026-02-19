@@ -1,43 +1,43 @@
 namespace Metal.NET;
 
-public partial class MTLAttributeDescriptor : NativeObject
+public class MTLAttributeDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAttributeDescriptor");
-
-    public MTLAttributeDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAttributeDescriptorBindings.Class), false)
     {
     }
 
     public nuint BufferIndex
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorSelector.BufferIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetBufferIndex, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorBindings.BufferIndex);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorBindings.SetBufferIndex, value);
     }
 
     public MTLAttributeFormat Format
     {
-        get => (MTLAttributeFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorSelector.Format);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetFormat, (nuint)value);
+        get => (MTLAttributeFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorBindings.Format);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorBindings.SetFormat, (nuint)value);
     }
 
     public nuint Offset
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorSelector.Offset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetOffset, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorBindings.Offset);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorBindings.SetOffset, value);
     }
 }
 
-file static class MTLAttributeDescriptorSelector
+file static class MTLAttributeDescriptorBindings
 {
-    public static readonly Selector BufferIndex = Selector.Register("bufferIndex");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAttributeDescriptor");
 
-    public static readonly Selector Format = Selector.Register("format");
+    public static readonly Selector BufferIndex = "bufferIndex";
 
-    public static readonly Selector Offset = Selector.Register("offset");
+    public static readonly Selector Format = "format";
 
-    public static readonly Selector SetBufferIndex = Selector.Register("setBufferIndex:");
+    public static readonly Selector Offset = "offset";
 
-    public static readonly Selector SetFormat = Selector.Register("setFormat:");
+    public static readonly Selector SetBufferIndex = "setBufferIndex:";
 
-    public static readonly Selector SetOffset = Selector.Register("setOffset:");
+    public static readonly Selector SetFormat = "setFormat:";
+
+    public static readonly Selector SetOffset = "setOffset:";
 }

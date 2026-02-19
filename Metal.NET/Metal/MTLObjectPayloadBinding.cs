@@ -1,25 +1,21 @@
 namespace Metal.NET;
 
-public partial class MTLObjectPayloadBinding : NativeObject
+public class MTLObjectPayloadBinding(nint nativePtr, bool retain) : MTLBinding(nativePtr, retain)
 {
-    public MTLObjectPayloadBinding(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public nuint ObjectPayloadAlignment
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLObjectPayloadBindingSelector.ObjectPayloadAlignment);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLObjectPayloadBindingBindings.ObjectPayloadAlignment);
     }
 
     public nuint ObjectPayloadDataSize
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLObjectPayloadBindingSelector.ObjectPayloadDataSize);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLObjectPayloadBindingBindings.ObjectPayloadDataSize);
     }
 }
 
-file static class MTLObjectPayloadBindingSelector
+file static class MTLObjectPayloadBindingBindings
 {
-    public static readonly Selector ObjectPayloadAlignment = Selector.Register("objectPayloadAlignment");
+    public static readonly Selector ObjectPayloadAlignment = "objectPayloadAlignment";
 
-    public static readonly Selector ObjectPayloadDataSize = Selector.Register("objectPayloadDataSize");
+    public static readonly Selector ObjectPayloadDataSize = "objectPayloadDataSize";
 }

@@ -1,134 +1,122 @@
 namespace Metal.NET;
 
-public partial class MTLIOCommandBuffer : NativeObject
+public class MTLIOCommandBuffer(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLIOCommandBuffer(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public NSError? Error
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferSelector.Error);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLIOCommandBufferBindings.Error);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.SetLabel, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLIOCommandBufferBindings.Label);
+        set => SetProperty(ref field, MTLIOCommandBufferBindings.SetLabel, value);
     }
 
     public MTLIOStatus Status
     {
-        get => (MTLIOStatus)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferSelector.Status);
+        get => (MTLIOStatus)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferBindings.Status);
     }
 
     public void AddBarrier()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.AddBarrier);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.AddBarrier);
     }
 
     public void Commit()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.Commit);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.Commit);
     }
 
     public void CopyStatusToBuffer(MTLBuffer buffer, nuint offset)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.CopyStatusToBuffer, buffer.NativePtr, offset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.CopyStatusToBuffer, buffer.NativePtr, offset);
     }
 
     public void Enqueue()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.Enqueue);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.Enqueue);
     }
 
     public void LoadBuffer(MTLBuffer buffer, nuint offset, nuint size, MTLIOFileHandle sourceHandle, nuint sourceHandleOffset)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.LoadBuffer, buffer.NativePtr, offset, size, sourceHandle.NativePtr, sourceHandleOffset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.LoadBuffer, buffer.NativePtr, offset, size, sourceHandle.NativePtr, sourceHandleOffset);
     }
 
     public void LoadBytes(nint pointer, nuint size, MTLIOFileHandle sourceHandle, nuint sourceHandleOffset)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.LoadBytes, pointer, size, sourceHandle.NativePtr, sourceHandleOffset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.LoadBytes, pointer, size, sourceHandle.NativePtr, sourceHandleOffset);
     }
 
     public void LoadTexture(MTLTexture texture, nuint slice, nuint level, MTLSize size, nuint sourceBytesPerRow, nuint sourceBytesPerImage, MTLOrigin destinationOrigin, MTLIOFileHandle sourceHandle, nuint sourceHandleOffset)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.LoadTexture, texture.NativePtr, slice, level, size, sourceBytesPerRow, sourceBytesPerImage, destinationOrigin, sourceHandle.NativePtr, sourceHandleOffset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.LoadTexture, texture.NativePtr, slice, level, size, sourceBytesPerRow, sourceBytesPerImage, destinationOrigin, sourceHandle.NativePtr, sourceHandleOffset);
     }
 
     public void PopDebugGroup()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.PopDebugGroup);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.PopDebugGroup);
     }
 
     public void PushDebugGroup(NSString @string)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.PushDebugGroup, @string.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.PushDebugGroup, @string.NativePtr);
     }
 
-    public void SignalEvent(MTLSharedEvent @event, nuint value)
+    public void SignalEvent(MTLSharedEvent @event, ulong value)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.SignalEvent, @event.NativePtr, value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.SignalEvent, @event.NativePtr, (nuint)value);
     }
 
     public void TryCancel()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.TryCancel);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.TryCancel);
     }
 
-    public void Wait(MTLSharedEvent @event, nuint value)
+    public void Wait(MTLSharedEvent @event, ulong value)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.Wait, @event.NativePtr, value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.Wait, @event.NativePtr, (nuint)value);
     }
 
     public void WaitUntilCompleted()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.WaitUntilCompleted);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.WaitUntilCompleted);
     }
 }
 
-file static class MTLIOCommandBufferSelector
+file static class MTLIOCommandBufferBindings
 {
-    public static readonly Selector AddBarrier = Selector.Register("addBarrier");
+    public static readonly Selector AddBarrier = "addBarrier";
 
-    public static readonly Selector Commit = Selector.Register("commit");
+    public static readonly Selector Commit = "commit";
 
-    public static readonly Selector CopyStatusToBuffer = Selector.Register("copyStatusToBuffer::");
+    public static readonly Selector CopyStatusToBuffer = "copyStatusToBuffer:offset:";
 
-    public static readonly Selector Enqueue = Selector.Register("enqueue");
+    public static readonly Selector Enqueue = "enqueue";
 
-    public static readonly Selector Error = Selector.Register("error");
+    public static readonly Selector Error = "error";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector LoadBuffer = Selector.Register("loadBuffer:::::");
+    public static readonly Selector LoadBuffer = "loadBuffer:offset:size:sourceHandle:sourceHandleOffset:";
 
-    public static readonly Selector LoadBytes = Selector.Register("loadBytes::::");
+    public static readonly Selector LoadBytes = "loadBytes:size:sourceHandle:sourceHandleOffset:";
 
-    public static readonly Selector LoadTexture = Selector.Register("loadTexture:::::::::");
+    public static readonly Selector LoadTexture = "loadTexture:slice:level:size:sourceBytesPerRow:sourceBytesPerImage:destinationOrigin:sourceHandle:sourceHandleOffset:";
 
-    public static readonly Selector PopDebugGroup = Selector.Register("popDebugGroup");
+    public static readonly Selector PopDebugGroup = "popDebugGroup";
 
-    public static readonly Selector PushDebugGroup = Selector.Register("pushDebugGroup:");
+    public static readonly Selector PushDebugGroup = "pushDebugGroup:";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector SignalEvent = Selector.Register("signalEvent::");
+    public static readonly Selector SignalEvent = "signalEvent:value:";
 
-    public static readonly Selector Status = Selector.Register("status");
+    public static readonly Selector Status = "status";
 
-    public static readonly Selector TryCancel = Selector.Register("tryCancel");
+    public static readonly Selector TryCancel = "tryCancel";
 
-    public static readonly Selector Wait = Selector.Register("wait::");
+    public static readonly Selector Wait = "waitForEvent:value:";
 
-    public static readonly Selector WaitUntilCompleted = Selector.Register("waitUntilCompleted");
+    public static readonly Selector WaitUntilCompleted = "waitUntilCompleted";
 }

@@ -1,23 +1,23 @@
 namespace Metal.NET;
 
-public partial class MTLRenderPassColorAttachmentDescriptor : NativeObject
+public class MTLRenderPassColorAttachmentDescriptor(nint nativePtr, bool retain) : MTLRenderPassAttachmentDescriptor(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassColorAttachmentDescriptor");
-
-    public MTLRenderPassColorAttachmentDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLRenderPassColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassColorAttachmentDescriptorBindings.Class), false)
     {
     }
 
     public MTLClearColor ClearColor
     {
-        get => ObjectiveCRuntime.MsgSendMTLClearColor(NativePtr, MTLRenderPassColorAttachmentDescriptorSelector.ClearColor);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorSelector.SetClearColor, value);
+        get => ObjectiveCRuntime.MsgSendMTLClearColor(NativePtr, MTLRenderPassColorAttachmentDescriptorBindings.ClearColor);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorBindings.SetClearColor, value);
     }
 }
 
-file static class MTLRenderPassColorAttachmentDescriptorSelector
+file static class MTLRenderPassColorAttachmentDescriptorBindings
 {
-    public static readonly Selector ClearColor = Selector.Register("clearColor");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassColorAttachmentDescriptor");
 
-    public static readonly Selector SetClearColor = Selector.Register("setClearColor:");
+    public static readonly Selector ClearColor = "clearColor";
+
+    public static readonly Selector SetClearColor = "setClearColor:";
 }

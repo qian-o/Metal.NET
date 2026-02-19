@@ -1,41 +1,33 @@
 namespace Metal.NET;
 
-public partial class MTL4StitchedFunctionDescriptor : NativeObject
+public class MTL4StitchedFunctionDescriptor(nint nativePtr, bool retain) : MTL4FunctionDescriptor(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4StitchedFunctionDescriptor");
-
-    public MTL4StitchedFunctionDescriptor(nint nativePtr) : base(nativePtr)
+    public MTL4StitchedFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4StitchedFunctionDescriptorBindings.Class), false)
     {
     }
 
     public NSArray? FunctionDescriptors
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StitchedFunctionDescriptorSelector.FunctionDescriptors);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorSelector.SetFunctionDescriptors, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.FunctionDescriptors);
+        set => SetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.SetFunctionDescriptors, value);
     }
 
     public MTLFunctionStitchingGraph? FunctionGraph
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StitchedFunctionDescriptorSelector.FunctionGraph);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorSelector.SetFunctionGraph, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.FunctionGraph);
+        set => SetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.SetFunctionGraph, value);
     }
 }
 
-file static class MTL4StitchedFunctionDescriptorSelector
+file static class MTL4StitchedFunctionDescriptorBindings
 {
-    public static readonly Selector FunctionDescriptors = Selector.Register("functionDescriptors");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4StitchedFunctionDescriptor");
 
-    public static readonly Selector FunctionGraph = Selector.Register("functionGraph");
+    public static readonly Selector FunctionDescriptors = "functionDescriptors";
 
-    public static readonly Selector SetFunctionDescriptors = Selector.Register("setFunctionDescriptors:");
+    public static readonly Selector FunctionGraph = "functionGraph";
 
-    public static readonly Selector SetFunctionGraph = Selector.Register("setFunctionGraph:");
+    public static readonly Selector SetFunctionDescriptors = "setFunctionDescriptors:";
+
+    public static readonly Selector SetFunctionGraph = "setFunctionGraph:";
 }

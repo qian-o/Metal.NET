@@ -1,101 +1,93 @@
 namespace Metal.NET;
 
-public partial class MTLTensorDescriptor : NativeObject
+public class MTLTensorDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorDescriptor");
-
-    public MTLTensorDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLTensorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTensorDescriptorBindings.Class), false)
     {
     }
 
     public MTLCPUCacheMode CpuCacheMode
     {
-        get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorSelector.CpuCacheMode);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetCpuCacheMode, (nuint)value);
+        get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorBindings.CpuCacheMode);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetCpuCacheMode, (nuint)value);
     }
 
     public MTLTensorDataType DataType
     {
-        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorDescriptorSelector.DataType);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetDataType, (nint)value);
+        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorDescriptorBindings.DataType);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetDataType, (nint)value);
     }
 
     public MTLTensorExtents? Dimensions
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorDescriptorSelector.Dimensions);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetDimensions, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLTensorDescriptorBindings.Dimensions);
+        set => SetProperty(ref field, MTLTensorDescriptorBindings.SetDimensions, value);
     }
 
     public MTLHazardTrackingMode HazardTrackingMode
     {
-        get => (MTLHazardTrackingMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorSelector.HazardTrackingMode);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetHazardTrackingMode, (nuint)value);
+        get => (MTLHazardTrackingMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorBindings.HazardTrackingMode);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetHazardTrackingMode, (nuint)value);
     }
 
-    public nuint ResourceOptions
+    public MTLResourceOptions ResourceOptions
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorSelector.ResourceOptions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetResourceOptions, value);
+        get => (MTLResourceOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorBindings.ResourceOptions);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetResourceOptions, (nuint)value);
     }
 
     public MTLStorageMode StorageMode
     {
-        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorSelector.StorageMode);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetStorageMode, (nuint)value);
+        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorBindings.StorageMode);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetStorageMode, (nuint)value);
     }
 
     public MTLTensorExtents? Strides
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorDescriptorSelector.Strides);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetStrides, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLTensorDescriptorBindings.Strides);
+        set => SetProperty(ref field, MTLTensorDescriptorBindings.SetStrides, value);
     }
 
-    public nuint Usage
+    public MTLTensorUsage Usage
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorSelector.Usage);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetUsage, value);
+        get => (MTLTensorUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorBindings.Usage);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetUsage, (nuint)value);
     }
 }
 
-file static class MTLTensorDescriptorSelector
+file static class MTLTensorDescriptorBindings
 {
-    public static readonly Selector CpuCacheMode = Selector.Register("cpuCacheMode");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorDescriptor");
 
-    public static readonly Selector DataType = Selector.Register("dataType");
+    public static readonly Selector CpuCacheMode = "cpuCacheMode";
 
-    public static readonly Selector Dimensions = Selector.Register("dimensions");
+    public static readonly Selector DataType = "dataType";
 
-    public static readonly Selector HazardTrackingMode = Selector.Register("hazardTrackingMode");
+    public static readonly Selector Dimensions = "dimensions";
 
-    public static readonly Selector ResourceOptions = Selector.Register("resourceOptions");
+    public static readonly Selector HazardTrackingMode = "hazardTrackingMode";
 
-    public static readonly Selector SetCpuCacheMode = Selector.Register("setCpuCacheMode:");
+    public static readonly Selector ResourceOptions = "resourceOptions";
 
-    public static readonly Selector SetDataType = Selector.Register("setDataType:");
+    public static readonly Selector SetCpuCacheMode = "setCpuCacheMode:";
 
-    public static readonly Selector SetDimensions = Selector.Register("setDimensions:");
+    public static readonly Selector SetDataType = "setDataType:";
 
-    public static readonly Selector SetHazardTrackingMode = Selector.Register("setHazardTrackingMode:");
+    public static readonly Selector SetDimensions = "setDimensions:";
 
-    public static readonly Selector SetResourceOptions = Selector.Register("setResourceOptions:");
+    public static readonly Selector SetHazardTrackingMode = "setHazardTrackingMode:";
 
-    public static readonly Selector SetStorageMode = Selector.Register("setStorageMode:");
+    public static readonly Selector SetResourceOptions = "setResourceOptions:";
 
-    public static readonly Selector SetStrides = Selector.Register("setStrides:");
+    public static readonly Selector SetStorageMode = "setStorageMode:";
 
-    public static readonly Selector SetUsage = Selector.Register("setUsage:");
+    public static readonly Selector SetStrides = "setStrides:";
 
-    public static readonly Selector StorageMode = Selector.Register("storageMode");
+    public static readonly Selector SetUsage = "setUsage:";
 
-    public static readonly Selector Strides = Selector.Register("strides");
+    public static readonly Selector StorageMode = "storageMode";
 
-    public static readonly Selector Usage = Selector.Register("usage");
+    public static readonly Selector Strides = "strides";
+
+    public static readonly Selector Usage = "usage";
 }

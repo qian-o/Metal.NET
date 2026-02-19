@@ -1,37 +1,33 @@
 namespace Metal.NET;
 
-public partial class MTL4CommandQueueDescriptor : NativeObject
+public class MTL4CommandQueueDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CommandQueueDescriptor");
-
-    public MTL4CommandQueueDescriptor(nint nativePtr) : base(nativePtr)
+    public MTL4CommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CommandQueueDescriptorBindings.Class), false)
     {
     }
 
     public nint FeedbackQueue
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueDescriptorSelector.FeedbackQueue);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueDescriptorSelector.SetFeedbackQueue, value);
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueDescriptorBindings.FeedbackQueue);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueDescriptorBindings.SetFeedbackQueue, value);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueDescriptorSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTL4CommandQueueDescriptorBindings.Label);
+        set => SetProperty(ref field, MTL4CommandQueueDescriptorBindings.SetLabel, value);
     }
 }
 
-file static class MTL4CommandQueueDescriptorSelector
+file static class MTL4CommandQueueDescriptorBindings
 {
-    public static readonly Selector FeedbackQueue = Selector.Register("feedbackQueue");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CommandQueueDescriptor");
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector FeedbackQueue = "feedbackQueue";
 
-    public static readonly Selector SetFeedbackQueue = Selector.Register("setFeedbackQueue:");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetFeedbackQueue = "setFeedbackQueue:";
+
+    public static readonly Selector SetLabel = "setLabel:";
 }

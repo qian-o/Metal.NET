@@ -1,23 +1,23 @@
 namespace Metal.NET;
 
-public partial class MTLPipelineBufferDescriptor : NativeObject
+public class MTLPipelineBufferDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPipelineBufferDescriptor");
-
-    public MTLPipelineBufferDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLPipelineBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLPipelineBufferDescriptorBindings.Class), false)
     {
     }
 
     public MTLMutability Mutability
     {
-        get => (MTLMutability)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPipelineBufferDescriptorSelector.Mutability);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorSelector.SetMutability, (nuint)value);
+        get => (MTLMutability)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPipelineBufferDescriptorBindings.Mutability);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorBindings.SetMutability, (nuint)value);
     }
 }
 
-file static class MTLPipelineBufferDescriptorSelector
+file static class MTLPipelineBufferDescriptorBindings
 {
-    public static readonly Selector Mutability = Selector.Register("mutability");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPipelineBufferDescriptor");
 
-    public static readonly Selector SetMutability = Selector.Register("setMutability:");
+    public static readonly Selector Mutability = "mutability";
+
+    public static readonly Selector SetMutability = "setMutability:";
 }

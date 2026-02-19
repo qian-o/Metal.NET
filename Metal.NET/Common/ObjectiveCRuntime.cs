@@ -1,4 +1,4 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 using System.Text;
 
 namespace Metal.NET;
@@ -28,29 +28,6 @@ internal static unsafe partial class ObjectiveCRuntime
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "sel_registerName")]
     public static partial Selector RegisterName(byte* name);
-
-    public static nint Retain(nint obj)
-    {
-        return MsgSendPtr(obj, Selector.Register("retain"));
-    }
-
-    public static void Release(nint obj)
-    {
-        MsgSend(obj, Selector.Register("release"));
-    }
-
-    public static nint GetClass(string name)
-    {
-        fixed (byte* utf8 = Encoding.UTF8.GetBytes(name + '\0'))
-        {
-            return GetClass(utf8);
-        }
-    }
-
-    public static nint AllocInit(nint @class)
-    {
-        return MsgSendPtr(MsgSendPtr(@class, Selector.Register("alloc")), Selector.Register("init"));
-    }
 
     #region MsgSend
 
@@ -340,10 +317,16 @@ internal static unsafe partial class ObjectiveCRuntime
     public static partial void MsgSend(nint receiver, Selector selector, nuint a, nuint b, nuint c, nuint d, nuint e, nuint f, nint g, nuint h);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    public static partial void MsgSend(nint receiver, Selector selector, int a);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial void MsgSend(nint receiver, Selector selector, uint a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial void MsgSend(nint receiver, Selector selector, uint a, uint b);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    public static partial void MsgSend(nint receiver, Selector selector, ulong a);
 
     #endregion
 
@@ -501,6 +484,9 @@ internal static unsafe partial class ObjectiveCRuntime
     public static partial nuint MsgSendNUInt(nint receiver, Selector selector, nint a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    public static partial nuint MsgSendNUInt(nint receiver, Selector selector, nint a, nuint b);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial nuint MsgSendNUInt(nint receiver, Selector selector, nuint a);
 
     #endregion
@@ -578,6 +564,16 @@ internal static unsafe partial class ObjectiveCRuntime
 
     #endregion
 
+    #region MsgSendInt
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    public static partial int MsgSendInt(nint receiver, Selector selector);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    public static partial int MsgSendInt(nint receiver, Selector selector, nint a);
+
+    #endregion
+
     #region MsgSendUInt
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -587,4 +583,39 @@ internal static unsafe partial class ObjectiveCRuntime
     public static partial uint MsgSendUInt(nint receiver, Selector selector, nint a);
 
     #endregion
+
+    #region MsgSendULong
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    public static partial ulong MsgSendULong(nint receiver, Selector selector);
+
+    #endregion
+
+    public static nint GetClass(string name)
+    {
+        fixed (byte* utf8 = Encoding.UTF8.GetBytes(name + '\0'))
+        {
+            return GetClass(utf8);
+        }
+    }
+
+    public static nint Retain(nint obj)
+    {
+        return MsgSendPtr(obj, (Selector)"retain");
+    }
+
+    public static nuint RetainCount(nint obj)
+    {
+        return MsgSendNUInt(obj, (Selector)"retainCount");
+    }
+
+    public static void Release(nint obj)
+    {
+        MsgSend(obj, (Selector)"release");
+    }
+
+    public static nint AllocInit(nint @class)
+    {
+        return MsgSendPtr(MsgSendPtr(@class, (Selector)"alloc"), (Selector)"init");
+    }
 }

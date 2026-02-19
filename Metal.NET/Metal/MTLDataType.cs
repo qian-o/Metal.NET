@@ -2,101 +2,197 @@ namespace Metal.NET;
 
 public enum MTLDataType : ulong
 {
-    MTLDataTypeNone = 0,
-    MTLDataTypeStruct = 1,
-    MTLDataTypeArray = 2,
-    MTLDataTypeFloat = 3,
-    MTLDataTypeFloat2 = 4,
-    MTLDataTypeFloat3 = 5,
-    MTLDataTypeFloat4 = 6,
-    MTLDataTypeFloat2x2 = 7,
-    MTLDataTypeFloat2x3 = 8,
-    MTLDataTypeFloat2x4 = 9,
-    MTLDataTypeFloat3x2 = 10,
-    MTLDataTypeFloat3x3 = 11,
-    MTLDataTypeFloat3x4 = 12,
-    MTLDataTypeFloat4x2 = 13,
-    MTLDataTypeFloat4x3 = 14,
-    MTLDataTypeFloat4x4 = 15,
-    MTLDataTypeHalf = 16,
-    MTLDataTypeHalf2 = 17,
-    MTLDataTypeHalf3 = 18,
-    MTLDataTypeHalf4 = 19,
-    MTLDataTypeHalf2x2 = 20,
-    MTLDataTypeHalf2x3 = 21,
-    MTLDataTypeHalf2x4 = 22,
-    MTLDataTypeHalf3x2 = 23,
-    MTLDataTypeHalf3x3 = 24,
-    MTLDataTypeHalf3x4 = 25,
-    MTLDataTypeHalf4x2 = 26,
-    MTLDataTypeHalf4x3 = 27,
-    MTLDataTypeHalf4x4 = 28,
-    MTLDataTypeInt = 29,
-    MTLDataTypeInt2 = 30,
-    MTLDataTypeInt3 = 31,
-    MTLDataTypeInt4 = 32,
-    MTLDataTypeUInt = 33,
-    MTLDataTypeUInt2 = 34,
-    MTLDataTypeUInt3 = 35,
-    MTLDataTypeUInt4 = 36,
-    MTLDataTypeShort = 37,
-    MTLDataTypeShort2 = 38,
-    MTLDataTypeShort3 = 39,
-    MTLDataTypeShort4 = 40,
-    MTLDataTypeUShort = 41,
-    MTLDataTypeUShort2 = 42,
-    MTLDataTypeUShort3 = 43,
-    MTLDataTypeUShort4 = 44,
-    MTLDataTypeChar = 45,
-    MTLDataTypeChar2 = 46,
-    MTLDataTypeChar3 = 47,
-    MTLDataTypeChar4 = 48,
-    MTLDataTypeUChar = 49,
-    MTLDataTypeUChar2 = 50,
-    MTLDataTypeUChar3 = 51,
-    MTLDataTypeUChar4 = 52,
-    MTLDataTypeBool = 53,
-    MTLDataTypeBool2 = 54,
-    MTLDataTypeBool3 = 55,
-    MTLDataTypeBool4 = 56,
-    MTLDataTypeTexture = 58,
-    MTLDataTypeSampler = 59,
-    MTLDataTypePointer = 60,
-    MTLDataTypeR8Unorm = 62,
-    MTLDataTypeR8Snorm = 63,
-    MTLDataTypeR16Unorm = 64,
-    MTLDataTypeR16Snorm = 65,
-    MTLDataTypeRG8Unorm = 66,
-    MTLDataTypeRG8Snorm = 67,
-    MTLDataTypeRG16Unorm = 68,
-    MTLDataTypeRG16Snorm = 69,
-    MTLDataTypeRGBA8Unorm = 70,
-    MTLDataTypeRGBA8Unorm_sRGB = 71,
-    MTLDataTypeRGBA8Snorm = 72,
-    MTLDataTypeRGBA16Unorm = 73,
-    MTLDataTypeRGBA16Snorm = 74,
-    MTLDataTypeRGB10A2Unorm = 75,
-    MTLDataTypeRG11B10Float = 76,
-    MTLDataTypeRGB9E5Float = 77,
-    MTLDataTypeRenderPipeline = 78,
-    MTLDataTypeComputePipeline = 79,
-    MTLDataTypeIndirectCommandBuffer = 80,
-    MTLDataTypeLong = 81,
-    MTLDataTypeLong2 = 82,
-    MTLDataTypeLong3 = 83,
-    MTLDataTypeLong4 = 84,
-    MTLDataTypeULong = 85,
-    MTLDataTypeULong2 = 86,
-    MTLDataTypeULong3 = 87,
-    MTLDataTypeULong4 = 88,
-    MTLDataTypeVisibleFunctionTable = 115,
-    MTLDataTypeIntersectionFunctionTable = 116,
-    MTLDataTypePrimitiveAccelerationStructure = 117,
-    MTLDataTypeInstanceAccelerationStructure = 118,
-    MTLDataTypeBFloat = 121,
-    MTLDataTypeBFloat2 = 122,
-    MTLDataTypeBFloat3 = 123,
-    MTLDataTypeBFloat4 = 124,
-    MTLDataTypeDepthStencilState = 139,
-    MTLDataTypeTensor = 140
+    None = 0,
+
+    Struct = 1,
+
+    Array = 2,
+
+    Float = 3,
+
+    Float2 = 4,
+
+    Float3 = 5,
+
+    Float4 = 6,
+
+    Float2x2 = 7,
+
+    Float2x3 = 8,
+
+    Float2x4 = 9,
+
+    Float3x2 = 10,
+
+    Float3x3 = 11,
+
+    Float3x4 = 12,
+
+    Float4x2 = 13,
+
+    Float4x3 = 14,
+
+    Float4x4 = 15,
+
+    Half = 16,
+
+    Half2 = 17,
+
+    Half3 = 18,
+
+    Half4 = 19,
+
+    Half2x2 = 20,
+
+    Half2x3 = 21,
+
+    Half2x4 = 22,
+
+    Half3x2 = 23,
+
+    Half3x3 = 24,
+
+    Half3x4 = 25,
+
+    Half4x2 = 26,
+
+    Half4x3 = 27,
+
+    Half4x4 = 28,
+
+    Int = 29,
+
+    Int2 = 30,
+
+    Int3 = 31,
+
+    Int4 = 32,
+
+    UInt = 33,
+
+    UInt2 = 34,
+
+    UInt3 = 35,
+
+    UInt4 = 36,
+
+    Short = 37,
+
+    Short2 = 38,
+
+    Short3 = 39,
+
+    Short4 = 40,
+
+    UShort = 41,
+
+    UShort2 = 42,
+
+    UShort3 = 43,
+
+    UShort4 = 44,
+
+    Char = 45,
+
+    Char2 = 46,
+
+    Char3 = 47,
+
+    Char4 = 48,
+
+    UChar = 49,
+
+    UChar2 = 50,
+
+    UChar3 = 51,
+
+    UChar4 = 52,
+
+    Bool = 53,
+
+    Bool2 = 54,
+
+    Bool3 = 55,
+
+    Bool4 = 56,
+
+    Texture = 58,
+
+    Sampler = 59,
+
+    Pointer = 60,
+
+    R8Unorm = 62,
+
+    R8Snorm = 63,
+
+    R16Unorm = 64,
+
+    R16Snorm = 65,
+
+    RG8Unorm = 66,
+
+    RG8Snorm = 67,
+
+    RG16Unorm = 68,
+
+    RG16Snorm = 69,
+
+    RGBA8Unorm = 70,
+
+    RGBA8Unorm_sRGB = 71,
+
+    RGBA8Snorm = 72,
+
+    RGBA16Unorm = 73,
+
+    RGBA16Snorm = 74,
+
+    RGB10A2Unorm = 75,
+
+    RG11B10Float = 76,
+
+    RGB9E5Float = 77,
+
+    RenderPipeline = 78,
+
+    ComputePipeline = 79,
+
+    IndirectCommandBuffer = 80,
+
+    Long = 81,
+
+    Long2 = 82,
+
+    Long3 = 83,
+
+    Long4 = 84,
+
+    ULong = 85,
+
+    ULong2 = 86,
+
+    ULong3 = 87,
+
+    ULong4 = 88,
+
+    VisibleFunctionTable = 115,
+
+    IntersectionFunctionTable = 116,
+
+    PrimitiveAccelerationStructure = 117,
+
+    InstanceAccelerationStructure = 118,
+
+    BFloat = 121,
+
+    BFloat2 = 122,
+
+    BFloat3 = 123,
+
+    BFloat4 = 124,
+
+    DepthStencilState = 139,
+
+    Tensor = 140
 }

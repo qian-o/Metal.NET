@@ -1,126 +1,125 @@
 namespace Metal.NET;
 
-public partial class MTL4CommandBuffer : NativeObject
+public class MTL4CommandBuffer(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTL4CommandBuffer(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public MTL4ComputeCommandEncoder? ComputeCommandEncoder
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.ComputeCommandEncoder);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTL4CommandBufferBindings.ComputeCommandEncoder);
     }
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTL4CommandBufferBindings.Device);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.SetLabel, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTL4CommandBufferBindings.Label);
+        set => SetProperty(ref field, MTL4CommandBufferBindings.SetLabel, value);
     }
 
     public MTL4MachineLearningCommandEncoder? MachineLearningCommandEncoder
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.MachineLearningCommandEncoder);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTL4CommandBufferBindings.MachineLearningCommandEncoder);
     }
 
     public void BeginCommandBuffer(MTL4CommandAllocator allocator)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.BeginCommandBuffer, allocator.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferBindings.BeginCommandBuffer, allocator.NativePtr);
     }
 
     public void BeginCommandBuffer(MTL4CommandAllocator allocator, MTL4CommandBufferOptions options)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.BeginCommandBuffer, allocator.NativePtr, options.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferBindings.BeginCommandBufferWithAllocatoroptions, allocator.NativePtr, options.NativePtr);
     }
 
     public void EndCommandBuffer()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.EndCommandBuffer);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferBindings.EndCommandBuffer);
     }
 
     public void PopDebugGroup()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.PopDebugGroup);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferBindings.PopDebugGroup);
     }
 
     public void PushDebugGroup(NSString @string)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.PushDebugGroup, @string.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferBindings.PushDebugGroup, @string.NativePtr);
     }
 
     public MTL4RenderCommandEncoder? RenderCommandEncoder(MTL4RenderPassDescriptor descriptor)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.RenderCommandEncoder, descriptor.NativePtr);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoder, descriptor.NativePtr);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public MTL4RenderCommandEncoder? RenderCommandEncoder(MTL4RenderPassDescriptor descriptor, MTL4RenderEncoderOptions options)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferSelector.RenderCommandEncoder, descriptor.NativePtr, (nuint)options);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoderWithDescriptoroptions, descriptor.NativePtr, (nuint)options);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public void ResolveCounterHeap(MTL4CounterHeap counterHeap, NSRange range, MTL4BufferRange bufferRange, MTLFence fenceToWait, MTLFence fenceToUpdate)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.ResolveCounterHeap, counterHeap.NativePtr, range, bufferRange, fenceToWait.NativePtr, fenceToUpdate.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferBindings.ResolveCounterHeap, counterHeap.NativePtr, range, bufferRange, fenceToWait.NativePtr, fenceToUpdate.NativePtr);
     }
 
     public void UseResidencySet(MTLResidencySet residencySet)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.UseResidencySet, residencySet.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferBindings.UseResidencySet, residencySet.NativePtr);
+    }
+
+    public unsafe void UseResidencySets(MTLResidencySet[] residencySets)
+    {
+        nint* pResidencySets = stackalloc nint[residencySets.Length];
+        for (int i = 0; i < residencySets.Length; i++)
+        {
+            pResidencySets[i] = residencySets[i].NativePtr;
+        }
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferBindings.UseResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
     }
 
     public void WriteTimestampIntoHeap(MTL4CounterHeap counterHeap, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferSelector.WriteTimestampIntoHeap, counterHeap.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferBindings.WriteTimestampIntoHeap, counterHeap.NativePtr, index);
     }
 }
 
-file static class MTL4CommandBufferSelector
+file static class MTL4CommandBufferBindings
 {
-    public static readonly Selector BeginCommandBuffer = Selector.Register("beginCommandBuffer:");
+    public static readonly Selector BeginCommandBuffer = "beginCommandBufferWithAllocator:";
 
-    public static readonly Selector ComputeCommandEncoder = Selector.Register("computeCommandEncoder");
+    public static readonly Selector BeginCommandBufferWithAllocatoroptions = "beginCommandBufferWithAllocator:options:";
 
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector ComputeCommandEncoder = "computeCommandEncoder";
 
-    public static readonly Selector EndCommandBuffer = Selector.Register("endCommandBuffer");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector EndCommandBuffer = "endCommandBuffer";
 
-    public static readonly Selector MachineLearningCommandEncoder = Selector.Register("machineLearningCommandEncoder");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector PopDebugGroup = Selector.Register("popDebugGroup");
+    public static readonly Selector MachineLearningCommandEncoder = "machineLearningCommandEncoder";
 
-    public static readonly Selector PushDebugGroup = Selector.Register("pushDebugGroup:");
+    public static readonly Selector PopDebugGroup = "popDebugGroup";
 
-    public static readonly Selector RenderCommandEncoder = Selector.Register("renderCommandEncoder:");
+    public static readonly Selector PushDebugGroup = "pushDebugGroup:";
 
-    public static readonly Selector ResolveCounterHeap = Selector.Register("resolveCounterHeap:::::");
+    public static readonly Selector RenderCommandEncoder = "renderCommandEncoderWithDescriptor:";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector RenderCommandEncoderWithDescriptoroptions = "renderCommandEncoderWithDescriptor:options:";
 
-    public static readonly Selector UseResidencySet = Selector.Register("useResidencySet:");
+    public static readonly Selector ResolveCounterHeap = "resolveCounterHeap:withRange:intoBuffer:waitFence:updateFence:";
 
-    public static readonly Selector WriteTimestampIntoHeap = Selector.Register("writeTimestampIntoHeap::");
+    public static readonly Selector SetLabel = "setLabel:";
+
+    public static readonly Selector UseResidencySet = "useResidencySet:";
+
+    public static readonly Selector UseResidencySets = "useResidencySets:count:";
+
+    public static readonly Selector WriteTimestampIntoHeap = "writeTimestampIntoHeap:atIndex:";
 }

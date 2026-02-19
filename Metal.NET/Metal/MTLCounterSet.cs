@@ -1,33 +1,21 @@
 namespace Metal.NET;
 
-public partial class MTLCounterSet : NativeObject
+public class MTLCounterSet(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLCounterSet(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public NSArray? Counters
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSetSelector.Counters);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLCounterSetBindings.Counters);
     }
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSetSelector.Name);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLCounterSetBindings.Name);
     }
 }
 
-file static class MTLCounterSetSelector
+file static class MTLCounterSetBindings
 {
-    public static readonly Selector Counters = Selector.Register("counters");
+    public static readonly Selector Counters = "counters";
 
-    public static readonly Selector Name = Selector.Register("name");
+    public static readonly Selector Name = "name";
 }

@@ -1,32 +1,29 @@
 namespace Metal.NET;
 
-public partial class MTLResourceStatePassDescriptor : NativeObject
+public class MTLResourceStatePassDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResourceStatePassDescriptor");
-
-    public MTLResourceStatePassDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLResourceStatePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceStatePassDescriptorBindings.Class), false)
     {
     }
 
     public MTLResourceStatePassSampleBufferAttachmentDescriptorArray? SampleBufferAttachments
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceStatePassDescriptorSelector.SampleBufferAttachments);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLResourceStatePassDescriptorBindings.SampleBufferAttachments);
     }
 
     public static MTLResourceStatePassDescriptor? ResourceStatePassDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLResourceStatePassDescriptorSelector.ResourceStatePassDescriptor);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLResourceStatePassDescriptorBindings.Class, MTLResourceStatePassDescriptorBindings.ResourceStatePassDescriptor);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 }
 
-file static class MTLResourceStatePassDescriptorSelector
+file static class MTLResourceStatePassDescriptorBindings
 {
-    public static readonly Selector ResourceStatePassDescriptor = Selector.Register("resourceStatePassDescriptor");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResourceStatePassDescriptor");
 
-    public static readonly Selector SampleBufferAttachments = Selector.Register("sampleBufferAttachments");
+    public static readonly Selector ResourceStatePassDescriptor = "resourceStatePassDescriptor";
+
+    public static readonly Selector SampleBufferAttachments = "sampleBufferAttachments";
 }

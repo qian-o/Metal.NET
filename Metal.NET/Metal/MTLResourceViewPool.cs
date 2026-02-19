@@ -1,54 +1,42 @@
 namespace Metal.NET;
 
-public partial class MTLResourceViewPool : NativeObject
+public class MTLResourceViewPool(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLResourceViewPool(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public MTLResourceID BaseResourceID
     {
-        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLResourceViewPoolSelector.BaseResourceID);
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLResourceViewPoolBindings.BaseResourceID);
     }
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLResourceViewPoolBindings.Device);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLResourceViewPoolBindings.Label);
     }
 
     public nuint ResourceViewCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceViewPoolSelector.ResourceViewCount);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceViewPoolBindings.ResourceViewCount);
     }
 
     public MTLResourceID CopyResourceViewsFromPool(MTLResourceViewPool sourcePool, NSRange sourceRange, nuint destinationIndex)
     {
-        return ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLResourceViewPoolSelector.CopyResourceViewsFromPool, sourcePool.NativePtr, sourceRange, destinationIndex);
+        return ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLResourceViewPoolBindings.CopyResourceViewsFromPool, sourcePool.NativePtr, sourceRange, destinationIndex);
     }
 }
 
-file static class MTLResourceViewPoolSelector
+file static class MTLResourceViewPoolBindings
 {
-    public static readonly Selector BaseResourceID = Selector.Register("baseResourceID");
+    public static readonly Selector BaseResourceID = "baseResourceID";
 
-    public static readonly Selector CopyResourceViewsFromPool = Selector.Register("copyResourceViewsFromPool:::");
+    public static readonly Selector CopyResourceViewsFromPool = "copyResourceViewsFromPool:sourceRange:destinationIndex:";
 
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector ResourceViewCount = Selector.Register("resourceViewCount");
+    public static readonly Selector ResourceViewCount = "resourceViewCount";
 }

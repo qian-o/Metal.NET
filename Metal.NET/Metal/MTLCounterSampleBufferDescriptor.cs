@@ -1,61 +1,53 @@
 namespace Metal.NET;
 
-public partial class MTLCounterSampleBufferDescriptor : NativeObject
+public class MTLCounterSampleBufferDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCounterSampleBufferDescriptor");
-
-    public MTLCounterSampleBufferDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLCounterSampleBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCounterSampleBufferDescriptorBindings.Class), false)
     {
     }
 
     public MTLCounterSet? CounterSet
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferDescriptorSelector.CounterSet);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetCounterSet, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.CounterSet);
+        set => SetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.SetCounterSet, value);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferDescriptorSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.Label);
+        set => SetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.SetLabel, value);
     }
 
     public nuint SampleCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCounterSampleBufferDescriptorSelector.SampleCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetSampleCount, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCounterSampleBufferDescriptorBindings.SampleCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorBindings.SetSampleCount, value);
     }
 
     public MTLStorageMode StorageMode
     {
-        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCounterSampleBufferDescriptorSelector.StorageMode);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorSelector.SetStorageMode, (nuint)value);
+        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCounterSampleBufferDescriptorBindings.StorageMode);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorBindings.SetStorageMode, (nuint)value);
     }
 }
 
-file static class MTLCounterSampleBufferDescriptorSelector
+file static class MTLCounterSampleBufferDescriptorBindings
 {
-    public static readonly Selector CounterSet = Selector.Register("counterSet");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCounterSampleBufferDescriptor");
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector CounterSet = "counterSet";
 
-    public static readonly Selector SampleCount = Selector.Register("sampleCount");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector SetCounterSet = Selector.Register("setCounterSet:");
+    public static readonly Selector SampleCount = "sampleCount";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetCounterSet = "setCounterSet:";
 
-    public static readonly Selector SetSampleCount = Selector.Register("setSampleCount:");
+    public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector SetStorageMode = Selector.Register("setStorageMode:");
+    public static readonly Selector SetSampleCount = "setSampleCount:";
 
-    public static readonly Selector StorageMode = Selector.Register("storageMode");
+    public static readonly Selector SetStorageMode = "setStorageMode:";
+
+    public static readonly Selector StorageMode = "storageMode";
 }

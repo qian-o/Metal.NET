@@ -1,32 +1,29 @@
 namespace Metal.NET;
 
-public partial class MTLAccelerationStructurePassDescriptor : NativeObject
+public class MTLAccelerationStructurePassDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructurePassDescriptor");
-
-    public MTLAccelerationStructurePassDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLAccelerationStructurePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassDescriptorBindings.Class), false)
     {
     }
 
     public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray? SampleBufferAttachments
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructurePassDescriptorSelector.SampleBufferAttachments);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLAccelerationStructurePassDescriptorBindings.SampleBufferAttachments);
     }
 
     public static MTLAccelerationStructurePassDescriptor? AccelerationStructurePassDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLAccelerationStructurePassDescriptorSelector.AccelerationStructurePassDescriptor);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructurePassDescriptorBindings.Class, MTLAccelerationStructurePassDescriptorBindings.AccelerationStructurePassDescriptor);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 }
 
-file static class MTLAccelerationStructurePassDescriptorSelector
+file static class MTLAccelerationStructurePassDescriptorBindings
 {
-    public static readonly Selector AccelerationStructurePassDescriptor = Selector.Register("accelerationStructurePassDescriptor");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructurePassDescriptor");
 
-    public static readonly Selector SampleBufferAttachments = Selector.Register("sampleBufferAttachments");
+    public static readonly Selector AccelerationStructurePassDescriptor = "accelerationStructurePassDescriptor";
+
+    public static readonly Selector SampleBufferAttachments = "sampleBufferAttachments";
 }

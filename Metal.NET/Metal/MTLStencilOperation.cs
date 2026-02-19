@@ -2,12 +2,19 @@ namespace Metal.NET;
 
 public enum MTLStencilOperation : ulong
 {
-    MTLStencilOperationKeep = 0,
-    MTLStencilOperationZero = 1,
-    MTLStencilOperationReplace = 2,
-    MTLStencilOperationIncrementClamp = 3,
-    MTLStencilOperationDecrementClamp = 4,
-    MTLStencilOperationInvert = 5,
-    MTLStencilOperationIncrementWrap = 6,
-    MTLStencilOperationDecrementWrap = 7
+    Keep = 0,
+
+    Zero = 1,
+
+    Replace = 2,
+
+    IncrementClamp = 3,
+
+    DecrementClamp = 4,
+
+    Invert = 5,
+
+    IncrementWrap = 6,
+
+    DecrementWrap = 7
 }

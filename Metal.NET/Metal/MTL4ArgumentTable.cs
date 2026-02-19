@@ -1,66 +1,56 @@
 namespace Metal.NET;
 
-public partial class MTL4ArgumentTable : NativeObject
+public class MTL4ArgumentTable(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTL4ArgumentTable(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArgumentTableSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTL4ArgumentTableBindings.Device);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArgumentTableSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTL4ArgumentTableBindings.Label);
     }
 
     public void SetAddress(nuint gpuAddress, nuint bindingIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetAddress, gpuAddress, bindingIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetAddress, gpuAddress, bindingIndex);
     }
 
     public void SetAddress(nuint gpuAddress, nuint stride, nuint bindingIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetAddress, gpuAddress, stride, bindingIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetAddressattributeStrideatIndex, gpuAddress, stride, bindingIndex);
     }
 
     public void SetResource(MTLResourceID resourceID, nuint bindingIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetResource, resourceID, bindingIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetResource, resourceID, bindingIndex);
     }
 
     public void SetSamplerState(MTLResourceID resourceID, nuint bindingIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetSamplerState, resourceID, bindingIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetSamplerState, resourceID, bindingIndex);
     }
 
     public void SetTexture(MTLResourceID resourceID, nuint bindingIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableSelector.SetTexture, resourceID, bindingIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableBindings.SetTexture, resourceID, bindingIndex);
     }
 }
 
-file static class MTL4ArgumentTableSelector
+file static class MTL4ArgumentTableBindings
 {
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector SetAddress = Selector.Register("setAddress::");
+    public static readonly Selector SetAddress = "setAddress:atIndex:";
 
-    public static readonly Selector SetResource = Selector.Register("setResource::");
+    public static readonly Selector SetAddressattributeStrideatIndex = "setAddress:attributeStride:atIndex:";
 
-    public static readonly Selector SetSamplerState = Selector.Register("setSamplerState::");
+    public static readonly Selector SetResource = "setResource:atBufferIndex:";
 
-    public static readonly Selector SetTexture = Selector.Register("setTexture::");
+    public static readonly Selector SetSamplerState = "setSamplerState:atIndex:";
+
+    public static readonly Selector SetTexture = "setTexture:atIndex:";
 }

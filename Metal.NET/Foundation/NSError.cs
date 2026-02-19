@@ -1,23 +1,31 @@
 ﻿namespace Metal.NET;
 
-public class NSError : NativeObject
+/// <summary>
+/// Wraps an Objective-C NSError with access to error code, domain, and localized description.
+/// </summary>
+public class NSError(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public NSError(nint nativePtr) : base(nativePtr)
+    public NSString? LocalizedDescription
     {
+        get => GetProperty(ref field, NSErrorBindings.LocalizedDescription);
     }
 
-    public string LocalizedDescription => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorSelector.LocalizedDescription));
+    public nint Code
+    {
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorBindings.Code);
+    }
 
-    public nint Code => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorSelector.Code);
-
-    public string Domain => new NSString(ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorSelector.Domain));
+    public NSString? Domain
+    {
+        get => GetProperty(ref field, NSErrorBindings.Domain);
+    }
 }
 
-file class NSErrorSelector
+file static class NSErrorBindings
 {
-    public static readonly Selector LocalizedDescription = Selector.Register("localizedDescription");
+    public static readonly Selector LocalizedDescription = "localizedDescription";
 
-    public static readonly Selector Code = Selector.Register("code");
+    public static readonly Selector Code = "code";
 
-    public static readonly Selector Domain = Selector.Register("domain");
+    public static readonly Selector Domain = "domain";
 }

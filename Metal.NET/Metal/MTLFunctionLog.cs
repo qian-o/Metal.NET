@@ -1,51 +1,35 @@
 namespace Metal.NET;
 
-public partial class MTLFunctionLog : NativeObject
+public class MTLFunctionLog(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLFunctionLog(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public MTLFunctionLogDebugLocation? DebugLocation
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.DebugLocation);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLFunctionLogBindings.DebugLocation);
     }
 
     public NSString? EncoderLabel
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.EncoderLabel);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLFunctionLogBindings.EncoderLabel);
     }
 
     public MTLFunction? Function
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.Function);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLFunctionLogBindings.Function);
     }
 
     public MTLFunctionLogType Type
     {
-        get => (MTLFunctionLogType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionLogSelector.Type);
+        get => (MTLFunctionLogType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionLogBindings.Type);
     }
 }
 
-file static class MTLFunctionLogSelector
+file static class MTLFunctionLogBindings
 {
-    public static readonly Selector DebugLocation = Selector.Register("debugLocation");
+    public static readonly Selector DebugLocation = "debugLocation";
 
-    public static readonly Selector EncoderLabel = Selector.Register("encoderLabel");
+    public static readonly Selector EncoderLabel = "encoderLabel";
 
-    public static readonly Selector Function = Selector.Register("function");
+    public static readonly Selector Function = "function";
 
-    public static readonly Selector Type = Selector.Register("type");
+    public static readonly Selector Type = "type";
 }

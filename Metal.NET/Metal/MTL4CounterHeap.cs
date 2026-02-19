@@ -1,53 +1,38 @@
 namespace Metal.NET;
 
-public partial class MTL4CounterHeap : NativeObject
+public class MTL4CounterHeap(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTL4CounterHeap(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public nuint Count
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CounterHeapSelector.Count);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CounterHeapBindings.Count);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapSelector.SetLabel, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTL4CounterHeapBindings.Label);
+        set => SetProperty(ref field, MTL4CounterHeapBindings.SetLabel, value);
     }
 
     public MTL4CounterHeapType Type
     {
-        get => (MTL4CounterHeapType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapSelector.Type);
+        get => (MTL4CounterHeapType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapBindings.Type);
     }
 
     public void InvalidateCounterRange(NSRange range)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapSelector.InvalidateCounterRange, range);
-    }
-
-    public nint ResolveCounterRange(NSRange range)
-    {
-        return ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapSelector.ResolveCounterRange, range);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapBindings.InvalidateCounterRange, range);
     }
 }
 
-file static class MTL4CounterHeapSelector
+file static class MTL4CounterHeapBindings
 {
-    public static readonly Selector Count = Selector.Register("count");
+    public static readonly Selector Count = "count";
 
-    public static readonly Selector InvalidateCounterRange = Selector.Register("invalidateCounterRange:");
+    public static readonly Selector InvalidateCounterRange = "invalidateCounterRange:";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector ResolveCounterRange = Selector.Register("resolveCounterRange:");
+    public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
-
-    public static readonly Selector Type = Selector.Register("type");
+    public static readonly Selector Type = "type";
 }

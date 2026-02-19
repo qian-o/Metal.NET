@@ -1,33 +1,33 @@
 namespace Metal.NET;
 
-public partial class MTLLogStateDescriptor : NativeObject
+public class MTLLogStateDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLLogStateDescriptor");
-
-    public MTLLogStateDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLLogStateDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLLogStateDescriptorBindings.Class), false)
     {
     }
 
     public nint BufferSize
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLogStateDescriptorSelector.BufferSize);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLogStateDescriptorSelector.SetBufferSize, value);
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLogStateDescriptorBindings.BufferSize);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLogStateDescriptorBindings.SetBufferSize, value);
     }
 
     public MTLLogLevel Level
     {
-        get => (MTLLogLevel)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLogStateDescriptorSelector.Level);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLogStateDescriptorSelector.SetLevel, (nint)value);
+        get => (MTLLogLevel)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLogStateDescriptorBindings.Level);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLogStateDescriptorBindings.SetLevel, (nint)value);
     }
 }
 
-file static class MTLLogStateDescriptorSelector
+file static class MTLLogStateDescriptorBindings
 {
-    public static readonly Selector BufferSize = Selector.Register("bufferSize");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLLogStateDescriptor");
 
-    public static readonly Selector Level = Selector.Register("level");
+    public static readonly Selector BufferSize = "bufferSize";
 
-    public static readonly Selector SetBufferSize = Selector.Register("setBufferSize:");
+    public static readonly Selector Level = "level";
 
-    public static readonly Selector SetLevel = Selector.Register("setLevel:");
+    public static readonly Selector SetBufferSize = "setBufferSize:";
+
+    public static readonly Selector SetLevel = "setLevel:";
 }

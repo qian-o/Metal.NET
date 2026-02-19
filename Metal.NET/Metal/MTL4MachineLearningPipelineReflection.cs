@@ -1,24 +1,20 @@
 namespace Metal.NET;
 
-public partial class MTL4MachineLearningPipelineReflection : NativeObject
+public class MTL4MachineLearningPipelineReflection(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4MachineLearningPipelineReflection");
-
-    public MTL4MachineLearningPipelineReflection(nint nativePtr) : base(nativePtr)
+    public MTL4MachineLearningPipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTL4MachineLearningPipelineReflectionBindings.Class), false)
     {
     }
 
     public NSArray? Bindings
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineReflectionSelector.Bindings);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTL4MachineLearningPipelineReflectionBindings.Bindings);
     }
 }
 
-file static class MTL4MachineLearningPipelineReflectionSelector
+file static class MTL4MachineLearningPipelineReflectionBindings
 {
-    public static readonly Selector Bindings = Selector.Register("bindings");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4MachineLearningPipelineReflection");
+
+    public static readonly Selector Bindings = "bindings";
 }

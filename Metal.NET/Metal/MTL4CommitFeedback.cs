@@ -1,36 +1,28 @@
 namespace Metal.NET;
 
-public partial class MTL4CommitFeedback : NativeObject
+public class MTL4CommitFeedback(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTL4CommitFeedback(nint nativePtr) : base(nativePtr)
+    public NSError? Error
     {
+        get => GetProperty(ref field, MTL4CommitFeedbackBindings.Error);
     }
 
     public double GPUEndTime
     {
-        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTL4CommitFeedbackSelector.GPUEndTime);
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTL4CommitFeedbackBindings.GPUEndTime);
     }
 
     public double GPUStartTime
     {
-        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTL4CommitFeedbackSelector.GPUStartTime);
-    }
-
-    public NSError? Error
-    {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommitFeedbackSelector.Error);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTL4CommitFeedbackBindings.GPUStartTime);
     }
 }
 
-file static class MTL4CommitFeedbackSelector
+file static class MTL4CommitFeedbackBindings
 {
-    public static readonly Selector Error = Selector.Register("error");
+    public static readonly Selector Error = "error";
 
-    public static readonly Selector GPUEndTime = Selector.Register("GPUEndTime");
+    public static readonly Selector GPUEndTime = "GPUEndTime";
 
-    public static readonly Selector GPUStartTime = Selector.Register("GPUStartTime");
+    public static readonly Selector GPUStartTime = "GPUStartTime";
 }

@@ -1,40 +1,28 @@
 namespace Metal.NET;
 
-public partial class MTLSamplerState : NativeObject
+public class MTLSamplerState(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLSamplerState(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSamplerStateSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLSamplerStateBindings.Device);
     }
 
     public MTLResourceID GpuResourceID
     {
-        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLSamplerStateSelector.GpuResourceID);
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLSamplerStateBindings.GpuResourceID);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSamplerStateSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLSamplerStateBindings.Label);
     }
 }
 
-file static class MTLSamplerStateSelector
+file static class MTLSamplerStateBindings
 {
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
+    public static readonly Selector GpuResourceID = "gpuResourceID";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 }

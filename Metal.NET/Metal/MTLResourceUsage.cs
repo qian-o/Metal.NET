@@ -3,7 +3,9 @@ namespace Metal.NET;
 [Flags]
 public enum MTLResourceUsage : ulong
 {
-    MTLResourceUsageRead = 1,
-    MTLResourceUsageWrite = 2,
-    MTLResourceUsageSample = 4
+    Read = 1,
+
+    Write = 2,
+
+    Sample = 4
 }

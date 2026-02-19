@@ -1,199 +1,167 @@
 namespace Metal.NET;
 
-public partial class MTLComputePipelineDescriptor : NativeObject
+public class MTLComputePipelineDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePipelineDescriptor");
-
-    public MTLComputePipelineDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLComputePipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLComputePipelineDescriptorBindings.Class), false)
     {
     }
 
     public NSArray? BinaryArchives
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.BinaryArchives);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetBinaryArchives, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.BinaryArchives);
+        set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetBinaryArchives, value);
     }
 
     public MTLPipelineBufferDescriptorArray? Buffers
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.Buffers);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.Buffers);
     }
 
     public MTLFunction? ComputeFunction
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.ComputeFunction);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetComputeFunction, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.ComputeFunction);
+        set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetComputeFunction, value);
     }
 
     public NSArray? InsertLibraries
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.InsertLibraries);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetInsertLibraries, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.InsertLibraries);
+        set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetInsertLibraries, value);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.Label);
+        set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetLabel, value);
     }
 
     public MTLLinkedFunctions? LinkedFunctions
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.LinkedFunctions);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetLinkedFunctions, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.LinkedFunctions);
+        set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetLinkedFunctions, value);
     }
 
     public nuint MaxCallStackDepth
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineDescriptorSelector.MaxCallStackDepth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetMaxCallStackDepth, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineDescriptorBindings.MaxCallStackDepth);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetMaxCallStackDepth, value);
     }
 
     public nuint MaxTotalThreadsPerThreadgroup
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineDescriptorSelector.MaxTotalThreadsPerThreadgroup);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetMaxTotalThreadsPerThreadgroup, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineDescriptorBindings.MaxTotalThreadsPerThreadgroup);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetMaxTotalThreadsPerThreadgroup, value);
     }
 
     public NSArray? PreloadedLibraries
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.PreloadedLibraries);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetPreloadedLibraries, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.PreloadedLibraries);
+        set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetPreloadedLibraries, value);
     }
 
     public MTLSize RequiredThreadsPerThreadgroup
     {
-        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLComputePipelineDescriptorSelector.RequiredThreadsPerThreadgroup);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetRequiredThreadsPerThreadgroup, value);
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLComputePipelineDescriptorBindings.RequiredThreadsPerThreadgroup);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetRequiredThreadsPerThreadgroup, value);
     }
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.ShaderValidation);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetShaderValidation, (nint)value);
+        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorBindings.ShaderValidation);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetShaderValidation, (nint)value);
     }
 
     public MTLStageInputOutputDescriptor? StageInputDescriptor
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.StageInputDescriptor);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetStageInputDescriptor, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.StageInputDescriptor);
+        set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetStageInputDescriptor, value);
     }
 
     public bool SupportAddingBinaryFunctions
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLComputePipelineDescriptorSelector.SupportAddingBinaryFunctions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetSupportAddingBinaryFunctions, (Bool8)value);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLComputePipelineDescriptorBindings.SupportAddingBinaryFunctions);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetSupportAddingBinaryFunctions, (Bool8)value);
     }
 
     public bool SupportIndirectCommandBuffers
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLComputePipelineDescriptorSelector.SupportIndirectCommandBuffers);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetSupportIndirectCommandBuffers, (Bool8)value);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLComputePipelineDescriptorBindings.SupportIndirectCommandBuffers);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetSupportIndirectCommandBuffers, (Bool8)value);
     }
 
     public bool ThreadGroupSizeIsMultipleOfThreadExecutionWidth
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLComputePipelineDescriptorSelector.ThreadGroupSizeIsMultipleOfThreadExecutionWidth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetThreadGroupSizeIsMultipleOfThreadExecutionWidth, (Bool8)value);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLComputePipelineDescriptorBindings.ThreadGroupSizeIsMultipleOfThreadExecutionWidth);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetThreadGroupSizeIsMultipleOfThreadExecutionWidth, (Bool8)value);
     }
 
     public void Reset()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.Reset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.Reset);
     }
 }
 
-file static class MTLComputePipelineDescriptorSelector
+file static class MTLComputePipelineDescriptorBindings
 {
-    public static readonly Selector BinaryArchives = Selector.Register("binaryArchives");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePipelineDescriptor");
 
-    public static readonly Selector Buffers = Selector.Register("buffers");
+    public static readonly Selector BinaryArchives = "binaryArchives";
 
-    public static readonly Selector ComputeFunction = Selector.Register("computeFunction");
+    public static readonly Selector Buffers = "buffers";
 
-    public static readonly Selector InsertLibraries = Selector.Register("insertLibraries");
+    public static readonly Selector ComputeFunction = "computeFunction";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector InsertLibraries = "insertLibraries";
 
-    public static readonly Selector LinkedFunctions = Selector.Register("linkedFunctions");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector MaxCallStackDepth = Selector.Register("maxCallStackDepth");
+    public static readonly Selector LinkedFunctions = "linkedFunctions";
 
-    public static readonly Selector MaxTotalThreadsPerThreadgroup = Selector.Register("maxTotalThreadsPerThreadgroup");
+    public static readonly Selector MaxCallStackDepth = "maxCallStackDepth";
 
-    public static readonly Selector PreloadedLibraries = Selector.Register("preloadedLibraries");
+    public static readonly Selector MaxTotalThreadsPerThreadgroup = "maxTotalThreadsPerThreadgroup";
 
-    public static readonly Selector RequiredThreadsPerThreadgroup = Selector.Register("requiredThreadsPerThreadgroup");
+    public static readonly Selector PreloadedLibraries = "preloadedLibraries";
 
-    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector RequiredThreadsPerThreadgroup = "requiredThreadsPerThreadgroup";
 
-    public static readonly Selector SetBinaryArchives = Selector.Register("setBinaryArchives:");
+    public static readonly Selector Reset = "reset";
 
-    public static readonly Selector SetComputeFunction = Selector.Register("setComputeFunction:");
+    public static readonly Selector SetBinaryArchives = "setBinaryArchives:";
 
-    public static readonly Selector SetInsertLibraries = Selector.Register("setInsertLibraries:");
+    public static readonly Selector SetComputeFunction = "setComputeFunction:";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetInsertLibraries = "setInsertLibraries:";
 
-    public static readonly Selector SetLinkedFunctions = Selector.Register("setLinkedFunctions:");
+    public static readonly Selector SetLabel = "setLabel:";
 
-    public static readonly Selector SetMaxCallStackDepth = Selector.Register("setMaxCallStackDepth:");
+    public static readonly Selector SetLinkedFunctions = "setLinkedFunctions:";
 
-    public static readonly Selector SetMaxTotalThreadsPerThreadgroup = Selector.Register("setMaxTotalThreadsPerThreadgroup:");
+    public static readonly Selector SetMaxCallStackDepth = "setMaxCallStackDepth:";
 
-    public static readonly Selector SetPreloadedLibraries = Selector.Register("setPreloadedLibraries:");
+    public static readonly Selector SetMaxTotalThreadsPerThreadgroup = "setMaxTotalThreadsPerThreadgroup:";
 
-    public static readonly Selector SetRequiredThreadsPerThreadgroup = Selector.Register("setRequiredThreadsPerThreadgroup:");
+    public static readonly Selector SetPreloadedLibraries = "setPreloadedLibraries:";
 
-    public static readonly Selector SetShaderValidation = Selector.Register("setShaderValidation:");
+    public static readonly Selector SetRequiredThreadsPerThreadgroup = "setRequiredThreadsPerThreadgroup:";
 
-    public static readonly Selector SetStageInputDescriptor = Selector.Register("setStageInputDescriptor:");
+    public static readonly Selector SetShaderValidation = "setShaderValidation:";
 
-    public static readonly Selector SetSupportAddingBinaryFunctions = Selector.Register("setSupportAddingBinaryFunctions:");
+    public static readonly Selector SetStageInputDescriptor = "setStageInputDescriptor:";
 
-    public static readonly Selector SetSupportIndirectCommandBuffers = Selector.Register("setSupportIndirectCommandBuffers:");
+    public static readonly Selector SetSupportAddingBinaryFunctions = "setSupportAddingBinaryFunctions:";
 
-    public static readonly Selector SetThreadGroupSizeIsMultipleOfThreadExecutionWidth = Selector.Register("setThreadGroupSizeIsMultipleOfThreadExecutionWidth:");
+    public static readonly Selector SetSupportIndirectCommandBuffers = "setSupportIndirectCommandBuffers:";
 
-    public static readonly Selector ShaderValidation = Selector.Register("shaderValidation");
+    public static readonly Selector SetThreadGroupSizeIsMultipleOfThreadExecutionWidth = "setThreadGroupSizeIsMultipleOfThreadExecutionWidth:";
 
-    public static readonly Selector StageInputDescriptor = Selector.Register("stageInputDescriptor");
+    public static readonly Selector ShaderValidation = "shaderValidation";
 
-    public static readonly Selector SupportAddingBinaryFunctions = Selector.Register("supportAddingBinaryFunctions");
+    public static readonly Selector StageInputDescriptor = "stageInputDescriptor";
 
-    public static readonly Selector SupportIndirectCommandBuffers = Selector.Register("supportIndirectCommandBuffers");
+    public static readonly Selector SupportAddingBinaryFunctions = "supportAddingBinaryFunctions";
 
-    public static readonly Selector ThreadGroupSizeIsMultipleOfThreadExecutionWidth = Selector.Register("threadGroupSizeIsMultipleOfThreadExecutionWidth");
+    public static readonly Selector SupportIndirectCommandBuffers = "supportIndirectCommandBuffers";
+
+    public static readonly Selector ThreadGroupSizeIsMultipleOfThreadExecutionWidth = "threadGroupSizeIsMultipleOfThreadExecutionWidth";
 }

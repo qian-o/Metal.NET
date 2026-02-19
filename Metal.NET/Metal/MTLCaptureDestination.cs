@@ -2,6 +2,7 @@ namespace Metal.NET;
 
 public enum MTLCaptureDestination : long
 {
-    MTLCaptureDestinationDeveloperTools = 1,
-    MTLCaptureDestinationGPUTraceDocument = 2
+    DeveloperTools = 1,
+
+    GPUTraceDocument = 2
 }

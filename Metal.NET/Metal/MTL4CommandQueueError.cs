@@ -2,11 +2,17 @@ namespace Metal.NET;
 
 public enum MTL4CommandQueueError : long
 {
-    MTL4CommandQueueErrorNone = 0,
-    MTL4CommandQueueErrorTimeout = 1,
-    MTL4CommandQueueErrorNotPermitted = 2,
-    MTL4CommandQueueErrorOutOfMemory = 3,
-    MTL4CommandQueueErrorDeviceRemoved = 4,
-    MTL4CommandQueueErrorAccessRevoked = 5,
-    MTL4CommandQueueErrorInternal = 6
+    None = 0,
+
+    Timeout = 1,
+
+    NotPermitted = 2,
+
+    OutOfMemory = 3,
+
+    DeviceRemoved = 4,
+
+    AccessRevoked = 5,
+
+    Internal = 6
 }

@@ -1,47 +1,35 @@
 namespace Metal.NET;
 
-public partial class MTLFunctionLogDebugLocation : NativeObject
+public class MTLFunctionLogDebugLocation(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLFunctionLogDebugLocation(nint nativePtr) : base(nativePtr)
-    {
-    }
-
-    public NSURL? URL
-    {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogDebugLocationSelector.URL);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-    }
-
     public nuint Column
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationSelector.Column);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationBindings.Column);
     }
 
     public NSString? FunctionName
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogDebugLocationSelector.FunctionName);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLFunctionLogDebugLocationBindings.FunctionName);
     }
 
     public nuint Line
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationSelector.Line);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationBindings.Line);
+    }
+
+    public NSURL? URL
+    {
+        get => GetProperty(ref field, MTLFunctionLogDebugLocationBindings.URL);
     }
 }
 
-file static class MTLFunctionLogDebugLocationSelector
+file static class MTLFunctionLogDebugLocationBindings
 {
-    public static readonly Selector Column = Selector.Register("column");
+    public static readonly Selector Column = "column";
 
-    public static readonly Selector FunctionName = Selector.Register("functionName");
+    public static readonly Selector FunctionName = "functionName";
 
-    public static readonly Selector Line = Selector.Register("line");
+    public static readonly Selector Line = "line";
 
-    public static readonly Selector URL = Selector.Register("URL");
+    public static readonly Selector URL = "URL";
 }

@@ -1,97 +1,96 @@
 namespace Metal.NET;
 
-public partial class MTLLibrary : NativeObject
+public class MTLLibrary(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLLibrary(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLLibraryBindings.Device);
     }
 
     public NSArray? FunctionNames
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.FunctionNames);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLLibraryBindings.FunctionNames);
     }
 
     public NSString? InstallName
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.InstallName);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLLibraryBindings.InstallName);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLibrarySelector.SetLabel, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLLibraryBindings.Label);
+        set => SetProperty(ref field, MTLLibraryBindings.SetLabel, value);
     }
 
     public MTLLibraryType Type
     {
-        get => (MTLLibraryType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.Type);
+        get => (MTLLibraryType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.Type);
     }
 
     public MTLFunction? NewFunction(NSString functionName)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.NewFunction, functionName.NativePtr);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.NewFunction, functionName.NativePtr);
+
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public MTLFunction? NewFunction(NSString name, MTLFunctionConstantValues constantValues, out NSError? error)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.NewFunction, name.NativePtr, constantValues.NativePtr, out nint errorPtr);
-        error = errorPtr is not 0 ? new(errorPtr) : null;
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.NewFunctionWithNameconstantValueserror, name.NativePtr, constantValues.NativePtr, out nint errorPtr);
+
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
+
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
+    }
+
+    public MTLFunction? NewFunction(MTLFunctionDescriptor descriptor, out NSError? error)
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.NewFunctionWithDescriptorerror, descriptor.NativePtr, out nint errorPtr);
+
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
+
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public MTLFunction? NewIntersectionFunction(MTLIntersectionFunctionDescriptor descriptor, out NSError? error)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.NewIntersectionFunction, descriptor.NativePtr, out nint errorPtr);
-        error = errorPtr is not 0 ? new(errorPtr) : null;
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.NewIntersectionFunction, descriptor.NativePtr, out nint errorPtr);
+
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
+
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public MTLFunctionReflection? ReflectionForFunction(NSString functionName)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.ReflectionForFunction, functionName.NativePtr);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.ReflectionForFunction, functionName.NativePtr);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 }
 
-file static class MTLLibrarySelector
+file static class MTLLibraryBindings
 {
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector FunctionNames = Selector.Register("functionNames");
+    public static readonly Selector FunctionNames = "functionNames";
 
-    public static readonly Selector InstallName = Selector.Register("installName");
+    public static readonly Selector InstallName = "installName";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector NewFunction = Selector.Register("newFunction:");
+    public static readonly Selector NewFunction = "newFunctionWithName:";
 
-    public static readonly Selector NewIntersectionFunction = Selector.Register("newIntersectionFunction:::");
+    public static readonly Selector NewFunctionWithDescriptorerror = "newFunctionWithDescriptor:error:";
 
-    public static readonly Selector ReflectionForFunction = Selector.Register("reflectionForFunction:");
+    public static readonly Selector NewFunctionWithNameconstantValueserror = "newFunctionWithName:constantValues:error:";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector NewIntersectionFunction = "newIntersectionFunctionWithDescriptor:error:";
 
-    public static readonly Selector Type = Selector.Register("type");
+    public static readonly Selector ReflectionForFunction = "reflectionForFunctionWithName:";
+
+    public static readonly Selector SetLabel = "setLabel:";
+
+    public static readonly Selector Type = "type";
 }

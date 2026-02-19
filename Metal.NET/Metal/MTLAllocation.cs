@@ -1,18 +1,14 @@
 namespace Metal.NET;
 
-public partial class MTLAllocation : NativeObject
+public class MTLAllocation(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLAllocation(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public nuint AllocatedSize
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAllocationSelector.AllocatedSize);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAllocationBindings.AllocatedSize);
     }
 }
 
-file static class MTLAllocationSelector
+file static class MTLAllocationBindings
 {
-    public static readonly Selector AllocatedSize = Selector.Register("allocatedSize");
+    public static readonly Selector AllocatedSize = "allocatedSize";
 }

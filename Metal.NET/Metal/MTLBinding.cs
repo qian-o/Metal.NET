@@ -1,71 +1,63 @@
 namespace Metal.NET;
 
-public partial class MTLBinding : NativeObject
+public class MTLBinding(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLBinding(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBindingSelector.Access);
+        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBindingBindings.Access);
     }
 
     public bool Argument
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingSelector.Argument);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingBindings.Argument);
     }
 
     public nuint Index
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBindingSelector.Index);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBindingBindings.Index);
     }
 
     public bool IsArgument
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingSelector.IsArgument);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingBindings.IsArgument);
     }
 
     public bool IsUsed
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingSelector.IsUsed);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingBindings.IsUsed);
     }
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBindingSelector.Name);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLBindingBindings.Name);
     }
 
     public MTLBindingType Type
     {
-        get => (MTLBindingType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBindingSelector.Type);
+        get => (MTLBindingType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBindingBindings.Type);
     }
 
     public bool Used
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingSelector.Used);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingBindings.Used);
     }
 }
 
-file static class MTLBindingSelector
+file static class MTLBindingBindings
 {
-    public static readonly Selector Access = Selector.Register("access");
+    public static readonly Selector Access = "access";
 
-    public static readonly Selector Argument = Selector.Register("argument");
+    public static readonly Selector Argument = "isArgument";
 
-    public static readonly Selector Index = Selector.Register("index");
+    public static readonly Selector Index = "index";
 
-    public static readonly Selector IsArgument = Selector.Register("isArgument");
+    public static readonly Selector IsArgument = "isArgument";
 
-    public static readonly Selector IsUsed = Selector.Register("isUsed");
+    public static readonly Selector IsUsed = "isUsed";
 
-    public static readonly Selector Name = Selector.Register("name");
+    public static readonly Selector Name = "name";
 
-    public static readonly Selector Type = Selector.Register("type");
+    public static readonly Selector Type = "type";
 
-    public static readonly Selector Used = Selector.Register("used");
+    public static readonly Selector Used = "isUsed";
 }

@@ -1,27 +1,18 @@
 namespace Metal.NET;
 
-public partial class MTL4PipelineDataSetSerializer : NativeObject
+public class MTL4PipelineDataSetSerializer(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTL4PipelineDataSetSerializer(nint nativePtr) : base(nativePtr)
-    {
-    }
-
-    public nint SerializeAsPipelinesScript
-    {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDataSetSerializerSelector.SerializeAsPipelinesScript);
-    }
-
     public bool SerializeAsArchiveAndFlushToURL(NSURL url, out NSError? error)
     {
-        Bool8 result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4PipelineDataSetSerializerSelector.SerializeAsArchiveAndFlushToURL, url.NativePtr, out nint errorPtr);
-        error = errorPtr is not 0 ? new(errorPtr) : null;
+        bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4PipelineDataSetSerializerBindings.SerializeAsArchiveAndFlushToURL, url.NativePtr, out nint errorPtr);
+
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
+
         return result;
     }
 }
 
-file static class MTL4PipelineDataSetSerializerSelector
+file static class MTL4PipelineDataSetSerializerBindings
 {
-    public static readonly Selector SerializeAsArchiveAndFlushToURL = Selector.Register("serializeAsArchiveAndFlushToURL:::");
-
-    public static readonly Selector SerializeAsPipelinesScript = Selector.Register("serializeAsPipelinesScript::");
+    public static readonly Selector SerializeAsArchiveAndFlushToURL = "serializeAsArchiveAndFlushToURL:error:";
 }

@@ -3,8 +3,11 @@ namespace Metal.NET;
 [Flags]
 public enum MTLBlitOption : ulong
 {
-    MTLBlitOptionNone = 0,
-    MTLBlitOptionDepthFromDepthStencil = 1,
-    MTLBlitOptionStencilFromDepthStencil = 2,
-    MTLBlitOptionRowLinearPVRTC = 4
+    None = 0,
+
+    DepthFromDepthStencil = 1,
+
+    StencilFromDepthStencil = 2,
+
+    RowLinearPVRTC = 4
 }

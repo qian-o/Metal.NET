@@ -1,25 +1,17 @@
 namespace Metal.NET;
 
-public partial class MTLIOFileHandle : NativeObject
+public class MTLIOFileHandle(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLIOFileHandle(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOFileHandleSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOFileHandleSelector.SetLabel, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLIOFileHandleBindings.Label);
+        set => SetProperty(ref field, MTLIOFileHandleBindings.SetLabel, value);
     }
 }
 
-file static class MTLIOFileHandleSelector
+file static class MTLIOFileHandleBindings
 {
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLabel = "setLabel:";
 }

@@ -1,35 +1,27 @@
 namespace Metal.NET;
 
-public partial class MTLComputePipelineReflection : NativeObject
+public class MTLComputePipelineReflection(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePipelineReflection");
-
-    public MTLComputePipelineReflection(nint nativePtr) : base(nativePtr)
+    public MTLComputePipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTLComputePipelineReflectionBindings.Class), false)
     {
     }
 
     public NSArray? Arguments
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineReflectionSelector.Arguments);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLComputePipelineReflectionBindings.Arguments);
     }
 
     public NSArray? Bindings
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineReflectionSelector.Bindings);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLComputePipelineReflectionBindings.Bindings);
     }
 }
 
-file static class MTLComputePipelineReflectionSelector
+file static class MTLComputePipelineReflectionBindings
 {
-    public static readonly Selector Arguments = Selector.Register("arguments");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePipelineReflection");
 
-    public static readonly Selector Bindings = Selector.Register("bindings");
+    public static readonly Selector Arguments = "arguments";
+
+    public static readonly Selector Bindings = "bindings";
 }

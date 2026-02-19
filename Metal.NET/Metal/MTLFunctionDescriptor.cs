@@ -1,87 +1,72 @@
 namespace Metal.NET;
 
-public partial class MTLFunctionDescriptor : NativeObject
+public class MTLFunctionDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionDescriptor");
-
-    public MTLFunctionDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFunctionDescriptorBindings.Class), false)
     {
     }
 
     public NSArray? BinaryArchives
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.BinaryArchives);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetBinaryArchives, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLFunctionDescriptorBindings.BinaryArchives);
+        set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetBinaryArchives, value);
     }
 
     public MTLFunctionConstantValues? ConstantValues
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.ConstantValues);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetConstantValues, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLFunctionDescriptorBindings.ConstantValues);
+        set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetConstantValues, value);
     }
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.Name);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetName, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLFunctionDescriptorBindings.Name);
+        set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetName, value);
     }
 
-    public nuint Options
+    public MTLFunctionOptions Options
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionDescriptorSelector.Options);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetOptions, value);
+        get => (MTLFunctionOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionDescriptorBindings.Options);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetOptions, (nuint)value);
     }
 
     public NSString? SpecializedName
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionDescriptorSelector.SpecializedName);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorSelector.SetSpecializedName, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLFunctionDescriptorBindings.SpecializedName);
+        set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetSpecializedName, value);
     }
 
     public static MTLFunctionDescriptor? FunctionDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLFunctionDescriptorSelector.FunctionDescriptor);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLFunctionDescriptorBindings.Class, MTLFunctionDescriptorBindings.FunctionDescriptor);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 }
 
-file static class MTLFunctionDescriptorSelector
+file static class MTLFunctionDescriptorBindings
 {
-    public static readonly Selector BinaryArchives = Selector.Register("binaryArchives");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionDescriptor");
 
-    public static readonly Selector ConstantValues = Selector.Register("constantValues");
+    public static readonly Selector BinaryArchives = "binaryArchives";
 
-    public static readonly Selector FunctionDescriptor = Selector.Register("functionDescriptor");
+    public static readonly Selector ConstantValues = "constantValues";
 
-    public static readonly Selector Name = Selector.Register("name");
+    public static readonly Selector FunctionDescriptor = "functionDescriptor";
 
-    public static readonly Selector Options = Selector.Register("options");
+    public static readonly Selector Name = "name";
 
-    public static readonly Selector SetBinaryArchives = Selector.Register("setBinaryArchives:");
+    public static readonly Selector Options = "options";
 
-    public static readonly Selector SetConstantValues = Selector.Register("setConstantValues:");
+    public static readonly Selector SetBinaryArchives = "setBinaryArchives:";
 
-    public static readonly Selector SetName = Selector.Register("setName:");
+    public static readonly Selector SetConstantValues = "setConstantValues:";
 
-    public static readonly Selector SetOptions = Selector.Register("setOptions:");
+    public static readonly Selector SetName = "setName:";
 
-    public static readonly Selector SetSpecializedName = Selector.Register("setSpecializedName:");
+    public static readonly Selector SetOptions = "setOptions:";
 
-    public static readonly Selector SpecializedName = Selector.Register("specializedName");
+    public static readonly Selector SetSpecializedName = "setSpecializedName:";
+
+    public static readonly Selector SpecializedName = "specializedName";
 }

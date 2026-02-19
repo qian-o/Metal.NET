@@ -1,28 +1,29 @@
 namespace Metal.NET;
 
-public partial class MTLSharedEventListener : NativeObject
+public class MTLSharedEventListener(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLSharedEventListener");
-
-    public MTLSharedEventListener(nint nativePtr) : base(nativePtr)
+    public MTLSharedEventListener() : this(ObjectiveCRuntime.AllocInit(MTLSharedEventListenerBindings.Class), false)
     {
     }
 
     public nint DispatchQueue
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventListenerSelector.DispatchQueue);
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventListenerBindings.DispatchQueue);
     }
 
     public static MTLSharedEventListener? SharedListener()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLSharedEventListenerSelector.SharedListener);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLSharedEventListenerBindings.Class, MTLSharedEventListenerBindings.SharedListener);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 }
 
-file static class MTLSharedEventListenerSelector
+file static class MTLSharedEventListenerBindings
 {
-    public static readonly Selector DispatchQueue = Selector.Register("dispatchQueue");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLSharedEventListener");
 
-    public static readonly Selector SharedListener = Selector.Register("sharedListener");
+    public static readonly Selector DispatchQueue = "dispatchQueue";
+
+    public static readonly Selector SharedListener = "sharedListener";
 }

@@ -1,32 +1,28 @@
 namespace Metal.NET;
 
-public partial class MTL4MachineLearningCommandEncoder : NativeObject
+public class MTL4MachineLearningCommandEncoder(nint nativePtr, bool retain) : MTL4CommandEncoder(nativePtr, retain)
 {
-    public MTL4MachineLearningCommandEncoder(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public void DispatchNetwork(MTLHeap heap)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderSelector.DispatchNetwork, heap.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderBindings.DispatchNetwork, heap.NativePtr);
     }
 
     public void SetArgumentTable(MTL4ArgumentTable argumentTable)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderSelector.SetArgumentTable, argumentTable.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderBindings.SetArgumentTable, argumentTable.NativePtr);
     }
 
     public void SetPipelineState(MTL4MachineLearningPipelineState pipelineState)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderSelector.SetPipelineState, pipelineState.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderBindings.SetPipelineState, pipelineState.NativePtr);
     }
 }
 
-file static class MTL4MachineLearningCommandEncoderSelector
+file static class MTL4MachineLearningCommandEncoderBindings
 {
-    public static readonly Selector DispatchNetwork = Selector.Register("dispatchNetwork:");
+    public static readonly Selector DispatchNetwork = "dispatchNetworkWithIntermediatesHeap:";
 
-    public static readonly Selector SetArgumentTable = Selector.Register("setArgumentTable:");
+    public static readonly Selector SetArgumentTable = "setArgumentTable:";
 
-    public static readonly Selector SetPipelineState = Selector.Register("setPipelineState:");
+    public static readonly Selector SetPipelineState = "setPipelineState:";
 }

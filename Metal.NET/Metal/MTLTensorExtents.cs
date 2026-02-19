@@ -1,27 +1,27 @@
 namespace Metal.NET;
 
-public partial class MTLTensorExtents : NativeObject
+public class MTLTensorExtents(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorExtents");
-
-    public MTLTensorExtents(nint nativePtr) : base(nativePtr)
+    public MTLTensorExtents() : this(ObjectiveCRuntime.AllocInit(MTLTensorExtentsBindings.Class), false)
     {
     }
 
     public nuint Rank
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorExtentsSelector.Rank);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorExtentsBindings.Rank);
     }
 
     public nint ExtentAtDimensionIndex(nuint dimensionIndex)
     {
-        return ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorExtentsSelector.ExtentAtDimensionIndex, dimensionIndex);
+        return ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorExtentsBindings.ExtentAtDimensionIndex, dimensionIndex);
     }
 }
 
-file static class MTLTensorExtentsSelector
+file static class MTLTensorExtentsBindings
 {
-    public static readonly Selector ExtentAtDimensionIndex = Selector.Register("extentAtDimensionIndex:");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorExtents");
 
-    public static readonly Selector Rank = Selector.Register("rank");
+    public static readonly Selector ExtentAtDimensionIndex = "extentAtDimensionIndex:";
+
+    public static readonly Selector Rank = "rank";
 }

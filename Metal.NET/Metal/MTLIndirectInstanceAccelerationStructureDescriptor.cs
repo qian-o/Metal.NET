@@ -1,187 +1,172 @@
 namespace Metal.NET;
 
-public partial class MTLIndirectInstanceAccelerationStructureDescriptor : NativeObject
+public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr, bool retain) : MTLAccelerationStructureDescriptor(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIndirectInstanceAccelerationStructureDescriptor");
-
-    public MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLIndirectInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIndirectInstanceAccelerationStructureDescriptorBindings.Class), false)
     {
     }
 
     public MTLBuffer? InstanceCountBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.InstanceCountBuffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.SetInstanceCountBuffer, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceCountBuffer);
+        set => SetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceCountBuffer, value);
     }
 
     public nuint InstanceCountBufferOffset
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.InstanceCountBufferOffset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.SetInstanceCountBufferOffset, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceCountBufferOffset);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceCountBufferOffset, value);
     }
 
     public MTLBuffer? InstanceDescriptorBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.InstanceDescriptorBuffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.SetInstanceDescriptorBuffer, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorBuffer);
+        set => SetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorBuffer, value);
     }
 
     public nuint InstanceDescriptorBufferOffset
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.InstanceDescriptorBufferOffset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.SetInstanceDescriptorBufferOffset, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorBufferOffset);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorBufferOffset, value);
     }
 
     public nuint InstanceDescriptorStride
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.InstanceDescriptorStride);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.SetInstanceDescriptorStride, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorStride);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorStride, value);
     }
 
     public MTLAccelerationStructureInstanceDescriptorType InstanceDescriptorType
     {
-        get => (MTLAccelerationStructureInstanceDescriptorType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.InstanceDescriptorType);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.SetInstanceDescriptorType, (nuint)value);
+        get => (MTLAccelerationStructureInstanceDescriptorType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorType);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorType, (nuint)value);
     }
 
     public MTLMatrixLayout InstanceTransformationMatrixLayout
     {
-        get => (MTLMatrixLayout)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.InstanceTransformationMatrixLayout);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.SetInstanceTransformationMatrixLayout, (nint)value);
+        get => (MTLMatrixLayout)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.InstanceTransformationMatrixLayout);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetInstanceTransformationMatrixLayout, (nint)value);
     }
 
     public nuint MaxInstanceCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.MaxInstanceCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.SetMaxInstanceCount, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MaxInstanceCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMaxInstanceCount, value);
     }
 
     public nuint MaxMotionTransformCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.MaxMotionTransformCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.SetMaxMotionTransformCount, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MaxMotionTransformCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMaxMotionTransformCount, value);
     }
 
     public MTLBuffer? MotionTransformBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.MotionTransformBuffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.SetMotionTransformBuffer, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformBuffer);
+        set => SetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformBuffer, value);
     }
 
     public nuint MotionTransformBufferOffset
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.MotionTransformBufferOffset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.SetMotionTransformBufferOffset, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformBufferOffset);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformBufferOffset, value);
     }
 
     public MTLBuffer? MotionTransformCountBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.MotionTransformCountBuffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.SetMotionTransformCountBuffer, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformCountBuffer);
+        set => SetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformCountBuffer, value);
     }
 
     public nuint MotionTransformCountBufferOffset
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.MotionTransformCountBufferOffset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.SetMotionTransformCountBufferOffset, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformCountBufferOffset);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformCountBufferOffset, value);
     }
 
     public nuint MotionTransformStride
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.MotionTransformStride);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.SetMotionTransformStride, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformStride);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformStride, value);
     }
 
     public MTLTransformType MotionTransformType
     {
-        get => (MTLTransformType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.MotionTransformType);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorSelector.SetMotionTransformType, (nint)value);
+        get => (MTLTransformType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformType);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformType, (nint)value);
     }
 
     public static MTLIndirectInstanceAccelerationStructureDescriptor? Descriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLIndirectInstanceAccelerationStructureDescriptorSelector.Descriptor);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLIndirectInstanceAccelerationStructureDescriptorBindings.Class, MTLIndirectInstanceAccelerationStructureDescriptorBindings.Descriptor);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 }
 
-file static class MTLIndirectInstanceAccelerationStructureDescriptorSelector
+file static class MTLIndirectInstanceAccelerationStructureDescriptorBindings
 {
-    public static readonly Selector Descriptor = Selector.Register("descriptor");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIndirectInstanceAccelerationStructureDescriptor");
 
-    public static readonly Selector InstanceCountBuffer = Selector.Register("instanceCountBuffer");
+    public static readonly Selector Descriptor = "descriptor";
 
-    public static readonly Selector InstanceCountBufferOffset = Selector.Register("instanceCountBufferOffset");
+    public static readonly Selector InstanceCountBuffer = "instanceCountBuffer";
 
-    public static readonly Selector InstanceDescriptorBuffer = Selector.Register("instanceDescriptorBuffer");
+    public static readonly Selector InstanceCountBufferOffset = "instanceCountBufferOffset";
 
-    public static readonly Selector InstanceDescriptorBufferOffset = Selector.Register("instanceDescriptorBufferOffset");
+    public static readonly Selector InstanceDescriptorBuffer = "instanceDescriptorBuffer";
 
-    public static readonly Selector InstanceDescriptorStride = Selector.Register("instanceDescriptorStride");
+    public static readonly Selector InstanceDescriptorBufferOffset = "instanceDescriptorBufferOffset";
 
-    public static readonly Selector InstanceDescriptorType = Selector.Register("instanceDescriptorType");
+    public static readonly Selector InstanceDescriptorStride = "instanceDescriptorStride";
 
-    public static readonly Selector InstanceTransformationMatrixLayout = Selector.Register("instanceTransformationMatrixLayout");
+    public static readonly Selector InstanceDescriptorType = "instanceDescriptorType";
 
-    public static readonly Selector MaxInstanceCount = Selector.Register("maxInstanceCount");
+    public static readonly Selector InstanceTransformationMatrixLayout = "instanceTransformationMatrixLayout";
 
-    public static readonly Selector MaxMotionTransformCount = Selector.Register("maxMotionTransformCount");
+    public static readonly Selector MaxInstanceCount = "maxInstanceCount";
 
-    public static readonly Selector MotionTransformBuffer = Selector.Register("motionTransformBuffer");
+    public static readonly Selector MaxMotionTransformCount = "maxMotionTransformCount";
 
-    public static readonly Selector MotionTransformBufferOffset = Selector.Register("motionTransformBufferOffset");
+    public static readonly Selector MotionTransformBuffer = "motionTransformBuffer";
 
-    public static readonly Selector MotionTransformCountBuffer = Selector.Register("motionTransformCountBuffer");
+    public static readonly Selector MotionTransformBufferOffset = "motionTransformBufferOffset";
 
-    public static readonly Selector MotionTransformCountBufferOffset = Selector.Register("motionTransformCountBufferOffset");
+    public static readonly Selector MotionTransformCountBuffer = "motionTransformCountBuffer";
 
-    public static readonly Selector MotionTransformStride = Selector.Register("motionTransformStride");
+    public static readonly Selector MotionTransformCountBufferOffset = "motionTransformCountBufferOffset";
 
-    public static readonly Selector MotionTransformType = Selector.Register("motionTransformType");
+    public static readonly Selector MotionTransformStride = "motionTransformStride";
 
-    public static readonly Selector SetInstanceCountBuffer = Selector.Register("setInstanceCountBuffer:");
+    public static readonly Selector MotionTransformType = "motionTransformType";
 
-    public static readonly Selector SetInstanceCountBufferOffset = Selector.Register("setInstanceCountBufferOffset:");
+    public static readonly Selector SetInstanceCountBuffer = "setInstanceCountBuffer:";
 
-    public static readonly Selector SetInstanceDescriptorBuffer = Selector.Register("setInstanceDescriptorBuffer:");
+    public static readonly Selector SetInstanceCountBufferOffset = "setInstanceCountBufferOffset:";
 
-    public static readonly Selector SetInstanceDescriptorBufferOffset = Selector.Register("setInstanceDescriptorBufferOffset:");
+    public static readonly Selector SetInstanceDescriptorBuffer = "setInstanceDescriptorBuffer:";
 
-    public static readonly Selector SetInstanceDescriptorStride = Selector.Register("setInstanceDescriptorStride:");
+    public static readonly Selector SetInstanceDescriptorBufferOffset = "setInstanceDescriptorBufferOffset:";
 
-    public static readonly Selector SetInstanceDescriptorType = Selector.Register("setInstanceDescriptorType:");
+    public static readonly Selector SetInstanceDescriptorStride = "setInstanceDescriptorStride:";
 
-    public static readonly Selector SetInstanceTransformationMatrixLayout = Selector.Register("setInstanceTransformationMatrixLayout:");
+    public static readonly Selector SetInstanceDescriptorType = "setInstanceDescriptorType:";
 
-    public static readonly Selector SetMaxInstanceCount = Selector.Register("setMaxInstanceCount:");
+    public static readonly Selector SetInstanceTransformationMatrixLayout = "setInstanceTransformationMatrixLayout:";
 
-    public static readonly Selector SetMaxMotionTransformCount = Selector.Register("setMaxMotionTransformCount:");
+    public static readonly Selector SetMaxInstanceCount = "setMaxInstanceCount:";
 
-    public static readonly Selector SetMotionTransformBuffer = Selector.Register("setMotionTransformBuffer:");
+    public static readonly Selector SetMaxMotionTransformCount = "setMaxMotionTransformCount:";
 
-    public static readonly Selector SetMotionTransformBufferOffset = Selector.Register("setMotionTransformBufferOffset:");
+    public static readonly Selector SetMotionTransformBuffer = "setMotionTransformBuffer:";
 
-    public static readonly Selector SetMotionTransformCountBuffer = Selector.Register("setMotionTransformCountBuffer:");
+    public static readonly Selector SetMotionTransformBufferOffset = "setMotionTransformBufferOffset:";
 
-    public static readonly Selector SetMotionTransformCountBufferOffset = Selector.Register("setMotionTransformCountBufferOffset:");
+    public static readonly Selector SetMotionTransformCountBuffer = "setMotionTransformCountBuffer:";
 
-    public static readonly Selector SetMotionTransformStride = Selector.Register("setMotionTransformStride:");
+    public static readonly Selector SetMotionTransformCountBufferOffset = "setMotionTransformCountBufferOffset:";
 
-    public static readonly Selector SetMotionTransformType = Selector.Register("setMotionTransformType:");
+    public static readonly Selector SetMotionTransformStride = "setMotionTransformStride:";
+
+    public static readonly Selector SetMotionTransformType = "setMotionTransformType:";
 }

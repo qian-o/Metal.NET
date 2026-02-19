@@ -1,27 +1,23 @@
 namespace Metal.NET;
 
-public partial class MTLBinaryArchiveDescriptor : NativeObject
+public class MTLBinaryArchiveDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLBinaryArchiveDescriptor");
-
-    public MTLBinaryArchiveDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLBinaryArchiveDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBinaryArchiveDescriptorBindings.Class), false)
     {
     }
 
     public NSURL? Url
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBinaryArchiveDescriptorSelector.Url);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBinaryArchiveDescriptorSelector.SetUrl, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLBinaryArchiveDescriptorBindings.Url);
+        set => SetProperty(ref field, MTLBinaryArchiveDescriptorBindings.SetUrl, value);
     }
 }
 
-file static class MTLBinaryArchiveDescriptorSelector
+file static class MTLBinaryArchiveDescriptorBindings
 {
-    public static readonly Selector SetUrl = Selector.Register("setUrl:");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLBinaryArchiveDescriptor");
 
-    public static readonly Selector Url = Selector.Register("url");
+    public static readonly Selector SetUrl = "setUrl:";
+
+    public static readonly Selector Url = "url";
 }

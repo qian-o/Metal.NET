@@ -1,28 +1,29 @@
 namespace Metal.NET;
 
-public partial class MTLRenderPassColorAttachmentDescriptorArray : NativeObject
+public class MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassColorAttachmentDescriptorArray");
-
-    public MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr) : base(nativePtr)
+    public MTLRenderPassColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassColorAttachmentDescriptorArrayBindings.Class), false)
     {
     }
 
-    public MTLRenderPassColorAttachmentDescriptor? @object(nuint attachmentIndex)
+    public MTLRenderPassColorAttachmentDescriptor? Object(nuint attachmentIndex)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.Object, attachmentIndex);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassColorAttachmentDescriptorArrayBindings.Object, attachmentIndex);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public void SetObject(MTLRenderPassColorAttachmentDescriptor attachment, nuint attachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorArraySelector.SetObject, attachment.NativePtr, attachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorArrayBindings.SetObject, attachment.NativePtr, attachmentIndex);
     }
 }
 
-file static class MTLRenderPassColorAttachmentDescriptorArraySelector
+file static class MTLRenderPassColorAttachmentDescriptorArrayBindings
 {
-    public static readonly Selector Object = Selector.Register("object:");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassColorAttachmentDescriptorArray");
 
-    public static readonly Selector SetObject = Selector.Register("setObject::");
+    public static readonly Selector Object = "objectAtIndexedSubscript:";
+
+    public static readonly Selector SetObject = "setObject:atIndexedSubscript:";
 }

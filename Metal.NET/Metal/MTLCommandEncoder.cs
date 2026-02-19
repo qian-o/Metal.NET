@@ -1,71 +1,59 @@
 namespace Metal.NET;
 
-public partial class MTLCommandEncoder : NativeObject
+public class MTLCommandEncoder(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLCommandEncoder(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandEncoderSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLCommandEncoderBindings.Device);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandEncoderSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.SetLabel, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLCommandEncoderBindings.Label);
+        set => SetProperty(ref field, MTLCommandEncoderBindings.SetLabel, value);
     }
 
     public void BarrierAfterQueueStages(MTLStages afterQueueStages, MTLStages beforeStages)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.BarrierAfterQueueStages, (nuint)afterQueueStages, (nuint)beforeStages);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderBindings.BarrierAfterQueueStages, (nuint)afterQueueStages, (nuint)beforeStages);
     }
 
     public void EndEncoding()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.EndEncoding);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderBindings.EndEncoding);
     }
 
     public void InsertDebugSignpost(NSString @string)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.InsertDebugSignpost, @string.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderBindings.InsertDebugSignpost, @string.NativePtr);
     }
 
     public void PopDebugGroup()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.PopDebugGroup);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderBindings.PopDebugGroup);
     }
 
     public void PushDebugGroup(NSString @string)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderSelector.PushDebugGroup, @string.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderBindings.PushDebugGroup, @string.NativePtr);
     }
 }
 
-file static class MTLCommandEncoderSelector
+file static class MTLCommandEncoderBindings
 {
-    public static readonly Selector BarrierAfterQueueStages = Selector.Register("barrierAfterQueueStages::");
+    public static readonly Selector BarrierAfterQueueStages = "barrierAfterQueueStages:beforeStages:";
 
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector EndEncoding = Selector.Register("endEncoding");
+    public static readonly Selector EndEncoding = "endEncoding";
 
-    public static readonly Selector InsertDebugSignpost = Selector.Register("insertDebugSignpost:");
+    public static readonly Selector InsertDebugSignpost = "insertDebugSignpost:";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector PopDebugGroup = Selector.Register("popDebugGroup");
+    public static readonly Selector PopDebugGroup = "popDebugGroup";
 
-    public static readonly Selector PushDebugGroup = Selector.Register("pushDebugGroup:");
+    public static readonly Selector PushDebugGroup = "pushDebugGroup:";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLabel = "setLabel:";
 }

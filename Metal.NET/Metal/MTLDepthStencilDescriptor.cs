@@ -1,82 +1,70 @@
 namespace Metal.NET;
 
-public partial class MTLDepthStencilDescriptor : NativeObject
+public class MTLDepthStencilDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLDepthStencilDescriptor");
-
-    public MTLDepthStencilDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLDepthStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLDepthStencilDescriptorBindings.Class), false)
     {
     }
 
     public MTLStencilDescriptor? BackFaceStencil
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorSelector.BackFaceStencil);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetBackFaceStencil, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLDepthStencilDescriptorBindings.BackFaceStencil);
+        set => SetProperty(ref field, MTLDepthStencilDescriptorBindings.SetBackFaceStencil, value);
     }
 
     public MTLCompareFunction DepthCompareFunction
     {
-        get => (MTLCompareFunction)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDepthStencilDescriptorSelector.DepthCompareFunction);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetDepthCompareFunction, (nuint)value);
+        get => (MTLCompareFunction)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDepthStencilDescriptorBindings.DepthCompareFunction);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetDepthCompareFunction, (nuint)value);
     }
 
     public bool DepthWriteEnabled
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDepthStencilDescriptorSelector.DepthWriteEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetDepthWriteEnabled, (Bool8)value);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDepthStencilDescriptorBindings.DepthWriteEnabled);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetDepthWriteEnabled, (Bool8)value);
     }
 
     public MTLStencilDescriptor? FrontFaceStencil
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorSelector.FrontFaceStencil);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetFrontFaceStencil, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLDepthStencilDescriptorBindings.FrontFaceStencil);
+        set => SetProperty(ref field, MTLDepthStencilDescriptorBindings.SetFrontFaceStencil, value);
     }
 
     public bool IsDepthWriteEnabled
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDepthStencilDescriptorSelector.IsDepthWriteEnabled);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDepthStencilDescriptorBindings.IsDepthWriteEnabled);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLDepthStencilDescriptorBindings.Label);
+        set => SetProperty(ref field, MTLDepthStencilDescriptorBindings.SetLabel, value);
     }
 }
 
-file static class MTLDepthStencilDescriptorSelector
+file static class MTLDepthStencilDescriptorBindings
 {
-    public static readonly Selector BackFaceStencil = Selector.Register("backFaceStencil");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLDepthStencilDescriptor");
 
-    public static readonly Selector DepthCompareFunction = Selector.Register("depthCompareFunction");
+    public static readonly Selector BackFaceStencil = "backFaceStencil";
 
-    public static readonly Selector DepthWriteEnabled = Selector.Register("depthWriteEnabled");
+    public static readonly Selector DepthCompareFunction = "depthCompareFunction";
 
-    public static readonly Selector FrontFaceStencil = Selector.Register("frontFaceStencil");
+    public static readonly Selector DepthWriteEnabled = "isDepthWriteEnabled";
 
-    public static readonly Selector IsDepthWriteEnabled = Selector.Register("isDepthWriteEnabled");
+    public static readonly Selector FrontFaceStencil = "frontFaceStencil";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector IsDepthWriteEnabled = "isDepthWriteEnabled";
 
-    public static readonly Selector SetBackFaceStencil = Selector.Register("setBackFaceStencil:");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector SetDepthCompareFunction = Selector.Register("setDepthCompareFunction:");
+    public static readonly Selector SetBackFaceStencil = "setBackFaceStencil:";
 
-    public static readonly Selector SetDepthWriteEnabled = Selector.Register("setDepthWriteEnabled:");
+    public static readonly Selector SetDepthCompareFunction = "setDepthCompareFunction:";
 
-    public static readonly Selector SetFrontFaceStencil = Selector.Register("setFrontFaceStencil:");
+    public static readonly Selector SetDepthWriteEnabled = "setDepthWriteEnabled:";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetFrontFaceStencil = "setFrontFaceStencil:";
+
+    public static readonly Selector SetLabel = "setLabel:";
 }

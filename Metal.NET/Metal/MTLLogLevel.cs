@@ -2,10 +2,15 @@ namespace Metal.NET;
 
 public enum MTLLogLevel : long
 {
-    MTLLogLevelUndefined = 0,
-    MTLLogLevelDebug = 1,
-    MTLLogLevelInfo = 2,
-    MTLLogLevelNotice = 3,
-    MTLLogLevelError = 4,
-    MTLLogLevelFault = 5
+    Undefined = 0,
+
+    Debug = 1,
+
+    Info = 2,
+
+    Notice = 3,
+
+    Error = 4,
+
+    Fault = 5
 }

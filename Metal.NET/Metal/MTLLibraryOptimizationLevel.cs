@@ -2,6 +2,7 @@ namespace Metal.NET;
 
 public enum MTLLibraryOptimizationLevel : long
 {
-    MTLLibraryOptimizationLevelDefault = 0,
-    MTLLibraryOptimizationLevelSize = 1
+    Default = 0,
+
+    Size = 1
 }

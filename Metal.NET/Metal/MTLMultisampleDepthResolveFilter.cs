@@ -2,7 +2,9 @@ namespace Metal.NET;
 
 public enum MTLMultisampleDepthResolveFilter : ulong
 {
-    MTLMultisampleDepthResolveFilterSample0 = 0,
-    MTLMultisampleDepthResolveFilterMin = 1,
-    MTLMultisampleDepthResolveFilterMax = 2
+    Sample0 = 0,
+
+    Min = 1,
+
+    Max = 2
 }

@@ -1,45 +1,41 @@
 namespace Metal.NET;
 
-public partial class MTLTensorReferenceType : NativeObject
+public class MTLTensorReferenceType(nint nativePtr, bool retain) : MTLType(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorReferenceType");
-
-    public MTLTensorReferenceType(nint nativePtr) : base(nativePtr)
+    public MTLTensorReferenceType() : this(ObjectiveCRuntime.AllocInit(MTLTensorReferenceTypeBindings.Class), false)
     {
     }
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorReferenceTypeSelector.Access);
+        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorReferenceTypeBindings.Access);
     }
 
     public MTLTensorExtents? Dimensions
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorReferenceTypeSelector.Dimensions);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLTensorReferenceTypeBindings.Dimensions);
     }
 
     public MTLDataType IndexType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorReferenceTypeSelector.IndexType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorReferenceTypeBindings.IndexType);
     }
 
     public MTLTensorDataType TensorDataType
     {
-        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorReferenceTypeSelector.TensorDataType);
+        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorReferenceTypeBindings.TensorDataType);
     }
 }
 
-file static class MTLTensorReferenceTypeSelector
+file static class MTLTensorReferenceTypeBindings
 {
-    public static readonly Selector Access = Selector.Register("access");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorReferenceType");
 
-    public static readonly Selector Dimensions = Selector.Register("dimensions");
+    public static readonly Selector Access = "access";
 
-    public static readonly Selector IndexType = Selector.Register("indexType");
+    public static readonly Selector Dimensions = "dimensions";
 
-    public static readonly Selector TensorDataType = Selector.Register("tensorDataType");
+    public static readonly Selector IndexType = "indexType";
+
+    public static readonly Selector TensorDataType = "tensorDataType";
 }

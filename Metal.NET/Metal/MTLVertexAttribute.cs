@@ -1,80 +1,76 @@
 namespace Metal.NET;
 
-public partial class MTLVertexAttribute : NativeObject
+public class MTLVertexAttribute(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexAttribute");
-
-    public MTLVertexAttribute(nint nativePtr) : base(nativePtr)
+    public MTLVertexAttribute() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeBindings.Class), false)
     {
     }
 
     public bool Active
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.Active);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.Active);
     }
 
     public nuint AttributeIndex
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeSelector.AttributeIndex);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeBindings.AttributeIndex);
     }
 
     public MTLDataType AttributeType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeSelector.AttributeType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeBindings.AttributeType);
     }
 
     public bool IsActive
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.IsActive);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsActive);
     }
 
     public bool IsPatchControlPointData
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.IsPatchControlPointData);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsPatchControlPointData);
     }
 
     public bool IsPatchData
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.IsPatchData);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsPatchData);
     }
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeSelector.Name);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLVertexAttributeBindings.Name);
     }
 
     public bool PatchControlPointData
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.PatchControlPointData);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.PatchControlPointData);
     }
 
     public bool PatchData
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.PatchData);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.PatchData);
     }
 }
 
-file static class MTLVertexAttributeSelector
+file static class MTLVertexAttributeBindings
 {
-    public static readonly Selector Active = Selector.Register("active");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexAttribute");
 
-    public static readonly Selector AttributeIndex = Selector.Register("attributeIndex");
+    public static readonly Selector Active = "isActive";
 
-    public static readonly Selector AttributeType = Selector.Register("attributeType");
+    public static readonly Selector AttributeIndex = "attributeIndex";
 
-    public static readonly Selector IsActive = Selector.Register("isActive");
+    public static readonly Selector AttributeType = "attributeType";
 
-    public static readonly Selector IsPatchControlPointData = Selector.Register("isPatchControlPointData");
+    public static readonly Selector IsActive = "isActive";
 
-    public static readonly Selector IsPatchData = Selector.Register("isPatchData");
+    public static readonly Selector IsPatchControlPointData = "isPatchControlPointData";
 
-    public static readonly Selector Name = Selector.Register("name");
+    public static readonly Selector IsPatchData = "isPatchData";
 
-    public static readonly Selector PatchControlPointData = Selector.Register("patchControlPointData");
+    public static readonly Selector Name = "name";
 
-    public static readonly Selector PatchData = Selector.Register("patchData");
+    public static readonly Selector PatchControlPointData = "isPatchControlPointData";
+
+    public static readonly Selector PatchData = "isPatchData";
 }

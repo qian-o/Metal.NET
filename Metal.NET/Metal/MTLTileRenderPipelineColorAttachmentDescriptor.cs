@@ -1,23 +1,23 @@
 namespace Metal.NET;
 
-public partial class MTLTileRenderPipelineColorAttachmentDescriptor : NativeObject
+public class MTLTileRenderPipelineColorAttachmentDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTileRenderPipelineColorAttachmentDescriptor");
-
-    public MTLTileRenderPipelineColorAttachmentDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLTileRenderPipelineColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTileRenderPipelineColorAttachmentDescriptorBindings.Class), false)
     {
     }
 
     public MTLPixelFormat PixelFormat
     {
-        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorSelector.PixelFormat);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorSelector.SetPixelFormat, (nuint)value);
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorBindings.PixelFormat);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorBindings.SetPixelFormat, (nuint)value);
     }
 }
 
-file static class MTLTileRenderPipelineColorAttachmentDescriptorSelector
+file static class MTLTileRenderPipelineColorAttachmentDescriptorBindings
 {
-    public static readonly Selector PixelFormat = Selector.Register("pixelFormat");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTileRenderPipelineColorAttachmentDescriptor");
 
-    public static readonly Selector SetPixelFormat = Selector.Register("setPixelFormat:");
+    public static readonly Selector PixelFormat = "pixelFormat";
+
+    public static readonly Selector SetPixelFormat = "setPixelFormat:";
 }

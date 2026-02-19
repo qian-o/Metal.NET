@@ -1,41 +1,33 @@
 namespace Metal.NET;
 
-public partial class MTL4LibraryFunctionDescriptor : NativeObject
+public class MTL4LibraryFunctionDescriptor(nint nativePtr, bool retain) : MTL4FunctionDescriptor(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4LibraryFunctionDescriptor");
-
-    public MTL4LibraryFunctionDescriptor(nint nativePtr) : base(nativePtr)
+    public MTL4LibraryFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4LibraryFunctionDescriptorBindings.Class), false)
     {
     }
 
     public MTLLibrary? Library
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryFunctionDescriptorSelector.Library);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorSelector.SetLibrary, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.Library);
+        set => SetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.SetLibrary, value);
     }
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryFunctionDescriptorSelector.Name);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorSelector.SetName, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.Name);
+        set => SetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.SetName, value);
     }
 }
 
-file static class MTL4LibraryFunctionDescriptorSelector
+file static class MTL4LibraryFunctionDescriptorBindings
 {
-    public static readonly Selector Library = Selector.Register("library");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4LibraryFunctionDescriptor");
 
-    public static readonly Selector Name = Selector.Register("name");
+    public static readonly Selector Library = "library";
 
-    public static readonly Selector SetLibrary = Selector.Register("setLibrary:");
+    public static readonly Selector Name = "name";
 
-    public static readonly Selector SetName = Selector.Register("setName:");
+    public static readonly Selector SetLibrary = "setLibrary:";
+
+    public static readonly Selector SetName = "setName:";
 }

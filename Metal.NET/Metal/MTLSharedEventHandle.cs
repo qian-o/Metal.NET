@@ -1,24 +1,14 @@
 namespace Metal.NET;
 
-public partial class MTLSharedEventHandle : NativeObject
+public class MTLSharedEventHandle(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLSharedEventHandle");
-
-    public MTLSharedEventHandle(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventHandleSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLSharedEventHandleBindings.Label);
     }
 }
 
-file static class MTLSharedEventHandleSelector
+file static class MTLSharedEventHandleBindings
 {
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 }

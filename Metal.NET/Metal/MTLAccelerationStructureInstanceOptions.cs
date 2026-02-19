@@ -3,9 +3,13 @@ namespace Metal.NET;
 [Flags]
 public enum MTLAccelerationStructureInstanceOptions : uint
 {
-    MTLAccelerationStructureInstanceOptionNone = 0,
-    MTLAccelerationStructureInstanceOptionDisableTriangleCulling = 1,
-    MTLAccelerationStructureInstanceOptionTriangleFrontFacingWindingCounterClockwise = 2,
-    MTLAccelerationStructureInstanceOptionOpaque = 4,
-    MTLAccelerationStructureInstanceOptionNonOpaque = 8
+    None = 0,
+
+    DisableTriangleCulling = 1,
+
+    TriangleFrontFacingWindingCounterClockwise = 2,
+
+    Opaque = 4,
+
+    NonOpaque = 8
 }

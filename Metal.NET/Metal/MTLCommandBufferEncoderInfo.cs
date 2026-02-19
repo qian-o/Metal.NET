@@ -1,40 +1,28 @@
 namespace Metal.NET;
 
-public partial class MTLCommandBufferEncoderInfo : NativeObject
+public class MTLCommandBufferEncoderInfo(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLCommandBufferEncoderInfo(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public NSArray? DebugSignposts
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoSelector.DebugSignposts);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLCommandBufferEncoderInfoBindings.DebugSignposts);
     }
 
     public MTLCommandEncoderErrorState ErrorState
     {
-        get => (MTLCommandEncoderErrorState)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoSelector.ErrorState);
+        get => (MTLCommandEncoderErrorState)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoBindings.ErrorState);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLCommandBufferEncoderInfoBindings.Label);
     }
 }
 
-file static class MTLCommandBufferEncoderInfoSelector
+file static class MTLCommandBufferEncoderInfoBindings
 {
-    public static readonly Selector DebugSignposts = Selector.Register("debugSignposts");
+    public static readonly Selector DebugSignposts = "debugSignposts";
 
-    public static readonly Selector ErrorState = Selector.Register("errorState");
+    public static readonly Selector ErrorState = "errorState";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 }

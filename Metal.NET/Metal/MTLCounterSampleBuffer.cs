@@ -1,47 +1,28 @@
 namespace Metal.NET;
 
-public partial class MTLCounterSampleBuffer : NativeObject
+public class MTLCounterSampleBuffer(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLCounterSampleBuffer(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLCounterSampleBufferBindings.Device);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLCounterSampleBufferBindings.Label);
     }
 
     public nuint SampleCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCounterSampleBufferSelector.SampleCount);
-    }
-
-    public nint ResolveCounterRange(NSRange range)
-    {
-        return ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferSelector.ResolveCounterRange, range);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCounterSampleBufferBindings.SampleCount);
     }
 }
 
-file static class MTLCounterSampleBufferSelector
+file static class MTLCounterSampleBufferBindings
 {
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector ResolveCounterRange = Selector.Register("resolveCounterRange:");
-
-    public static readonly Selector SampleCount = Selector.Register("sampleCount");
+    public static readonly Selector SampleCount = "sampleCount";
 }

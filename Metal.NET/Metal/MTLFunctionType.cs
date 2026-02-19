@@ -2,11 +2,17 @@ namespace Metal.NET;
 
 public enum MTLFunctionType : ulong
 {
-    MTLFunctionTypeVertex = 1,
-    MTLFunctionTypeFragment = 2,
-    MTLFunctionTypeKernel = 3,
-    MTLFunctionTypeVisible = 5,
-    MTLFunctionTypeIntersection = 6,
-    MTLFunctionTypeMesh = 7,
-    MTLFunctionTypeObject = 8
+    Vertex = 1,
+
+    Fragment = 2,
+
+    Kernel = 3,
+
+    Visible = 5,
+
+    Intersection = 6,
+
+    Mesh = 7,
+
+    Object = 8
 }

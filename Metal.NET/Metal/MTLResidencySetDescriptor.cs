@@ -1,37 +1,33 @@
 namespace Metal.NET;
 
-public partial class MTLResidencySetDescriptor : NativeObject
+public class MTLResidencySetDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResidencySetDescriptor");
-
-    public MTLResidencySetDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLResidencySetDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResidencySetDescriptorBindings.Class), false)
     {
     }
 
     public nuint InitialCapacity
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResidencySetDescriptorSelector.InitialCapacity);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetDescriptorSelector.SetInitialCapacity, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResidencySetDescriptorBindings.InitialCapacity);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetDescriptorBindings.SetInitialCapacity, value);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetDescriptorSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLResidencySetDescriptorBindings.Label);
+        set => SetProperty(ref field, MTLResidencySetDescriptorBindings.SetLabel, value);
     }
 }
 
-file static class MTLResidencySetDescriptorSelector
+file static class MTLResidencySetDescriptorBindings
 {
-    public static readonly Selector InitialCapacity = Selector.Register("initialCapacity");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResidencySetDescriptor");
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector InitialCapacity = "initialCapacity";
 
-    public static readonly Selector SetInitialCapacity = Selector.Register("setInitialCapacity:");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetInitialCapacity = "setInitialCapacity:";
+
+    public static readonly Selector SetLabel = "setLabel:";
 }

@@ -3,10 +3,15 @@ namespace Metal.NET;
 [Flags]
 public enum MTLTextureUsage : ulong
 {
-    MTLTextureUsageUnknown = 0,
-    MTLTextureUsageShaderRead = 1,
-    MTLTextureUsageShaderWrite = 2,
-    MTLTextureUsageRenderTarget = 4,
-    MTLTextureUsagePixelFormatView = 16,
-    MTLTextureUsageShaderAtomic = 32
+    Unknown = 0,
+
+    ShaderRead = 1,
+
+    ShaderWrite = 2,
+
+    RenderTarget = 4,
+
+    PixelFormatView = 16,
+
+    ShaderAtomic = 32
 }

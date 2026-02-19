@@ -2,10 +2,15 @@ namespace Metal.NET;
 
 public enum MTLLibraryError : ulong
 {
-    MTLLibraryErrorUnsupported = 1,
-    MTLLibraryErrorInternal = 2,
-    MTLLibraryErrorCompileFailure = 3,
-    MTLLibraryErrorCompileWarning = 4,
-    MTLLibraryErrorFunctionNotFound = 5,
-    MTLLibraryErrorFileNotFound = 6
+    Unsupported = 1,
+
+    Internal = 2,
+
+    CompileFailure = 3,
+
+    CompileWarning = 4,
+
+    FunctionNotFound = 5,
+
+    FileNotFound = 6
 }

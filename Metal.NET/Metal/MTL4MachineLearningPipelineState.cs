@@ -1,51 +1,35 @@
 namespace Metal.NET;
 
-public partial class MTL4MachineLearningPipelineState : NativeObject
+public class MTL4MachineLearningPipelineState(nint nativePtr, bool retain) : MTLAllocation(nativePtr, retain)
 {
-    public MTL4MachineLearningPipelineState(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTL4MachineLearningPipelineStateBindings.Device);
     }
 
     public nuint IntermediatesHeapSize
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4MachineLearningPipelineStateSelector.IntermediatesHeapSize);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4MachineLearningPipelineStateBindings.IntermediatesHeapSize);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTL4MachineLearningPipelineStateBindings.Label);
     }
 
     public MTL4MachineLearningPipelineReflection? Reflection
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Reflection);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTL4MachineLearningPipelineStateBindings.Reflection);
     }
 }
 
-file static class MTL4MachineLearningPipelineStateSelector
+file static class MTL4MachineLearningPipelineStateBindings
 {
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector IntermediatesHeapSize = Selector.Register("intermediatesHeapSize");
+    public static readonly Selector IntermediatesHeapSize = "intermediatesHeapSize";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector Reflection = Selector.Register("reflection");
+    public static readonly Selector Reflection = "reflection";
 }

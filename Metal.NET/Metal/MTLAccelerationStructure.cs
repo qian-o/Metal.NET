@@ -1,25 +1,21 @@
 namespace Metal.NET;
 
-public partial class MTLAccelerationStructure : NativeObject
+public class MTLAccelerationStructure(nint nativePtr, bool retain) : MTLResource(nativePtr, retain)
 {
-    public MTLAccelerationStructure(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public MTLResourceID GpuResourceID
     {
-        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLAccelerationStructureSelector.GpuResourceID);
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLAccelerationStructureBindings.GpuResourceID);
     }
 
     public nuint Size
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureSelector.Size);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureBindings.Size);
     }
 }
 
-file static class MTLAccelerationStructureSelector
+file static class MTLAccelerationStructureBindings
 {
-    public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
+    public static readonly Selector GpuResourceID = "gpuResourceID";
 
-    public static readonly Selector Size = Selector.Register("size");
+    public static readonly Selector Size = "size";
 }

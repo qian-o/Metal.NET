@@ -1,96 +1,92 @@
 namespace Metal.NET;
 
-public partial class MTLBuffer : NativeObject
+public class MTLBuffer(nint nativePtr, bool retain) : MTLResource(nativePtr, retain)
 {
-    public MTLBuffer(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public nint Contents
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.Contents);
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.Contents);
     }
 
     public nuint GpuAddress
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferSelector.GpuAddress);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindings.GpuAddress);
     }
 
     public nuint Length
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferSelector.Length);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindings.Length);
     }
 
     public MTLBuffer? RemoteStorageBuffer
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.RemoteStorageBuffer);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLBufferBindings.RemoteStorageBuffer);
     }
 
     public MTLBufferSparseTier SparseBufferTier
     {
-        get => (MTLBufferSparseTier)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.SparseBufferTier);
+        get => (MTLBufferSparseTier)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.SparseBufferTier);
     }
 
     public void AddDebugMarker(NSString marker, NSRange range)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferSelector.AddDebugMarker, marker.NativePtr, range);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferBindings.AddDebugMarker, marker.NativePtr, range);
     }
 
     public void DidModifyRange(NSRange range)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferSelector.DidModifyRange, range);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferBindings.DidModifyRange, range);
     }
 
     public MTLBuffer? NewRemoteBufferViewForDevice(MTLDevice device)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.NewRemoteBufferViewForDevice, device.NativePtr);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewRemoteBufferViewForDevice, device.NativePtr);
+
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public MTLTensor? NewTensor(MTLTensorDescriptor descriptor, nuint offset, out NSError? error)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.NewTensor, descriptor.NativePtr, offset, out nint errorPtr);
-        error = errorPtr is not 0 ? new(errorPtr) : null;
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewTensor, descriptor.NativePtr, offset, out nint errorPtr);
+
+        error = errorPtr is not 0 ? new(errorPtr, true) : null;
+
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public MTLTexture? NewTexture(MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferSelector.NewTexture, descriptor.NativePtr, offset, bytesPerRow);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewTexture, descriptor.NativePtr, offset, bytesPerRow);
+
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public void RemoveAllDebugMarkers()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferSelector.RemoveAllDebugMarkers);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferBindings.RemoveAllDebugMarkers);
     }
 }
 
-file static class MTLBufferSelector
+file static class MTLBufferBindings
 {
-    public static readonly Selector AddDebugMarker = Selector.Register("addDebugMarker::");
+    public static readonly Selector AddDebugMarker = "addDebugMarker:range:";
 
-    public static readonly Selector Contents = Selector.Register("contents");
+    public static readonly Selector Contents = "contents";
 
-    public static readonly Selector DidModifyRange = Selector.Register("didModifyRange:");
+    public static readonly Selector DidModifyRange = "didModifyRange:";
 
-    public static readonly Selector GpuAddress = Selector.Register("gpuAddress");
+    public static readonly Selector GpuAddress = "gpuAddress";
 
-    public static readonly Selector Length = Selector.Register("length");
+    public static readonly Selector Length = "length";
 
-    public static readonly Selector NewRemoteBufferViewForDevice = Selector.Register("newRemoteBufferViewForDevice:");
+    public static readonly Selector NewRemoteBufferViewForDevice = "newRemoteBufferViewForDevice:";
 
-    public static readonly Selector NewTensor = Selector.Register("newTensor::::");
+    public static readonly Selector NewTensor = "newTensorWithDescriptor:offset:error:";
 
-    public static readonly Selector NewTexture = Selector.Register("newTexture:::");
+    public static readonly Selector NewTexture = "newTextureWithDescriptor:offset:bytesPerRow:";
 
-    public static readonly Selector RemoteStorageBuffer = Selector.Register("remoteStorageBuffer");
+    public static readonly Selector RemoteStorageBuffer = "remoteStorageBuffer";
 
-    public static readonly Selector RemoveAllDebugMarkers = Selector.Register("removeAllDebugMarkers");
+    public static readonly Selector RemoveAllDebugMarkers = "removeAllDebugMarkers";
 
-    public static readonly Selector SparseBufferTier = Selector.Register("sparseBufferTier");
+    public static readonly Selector SparseBufferTier = "sparseBufferTier";
 }

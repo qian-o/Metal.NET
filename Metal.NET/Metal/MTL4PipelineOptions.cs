@@ -1,33 +1,33 @@
 namespace Metal.NET;
 
-public partial class MTL4PipelineOptions : NativeObject
+public class MTL4PipelineOptions(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PipelineOptions");
-
-    public MTL4PipelineOptions(nint nativePtr) : base(nativePtr)
+    public MTL4PipelineOptions() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineOptionsBindings.Class), false)
     {
     }
 
-    public nuint ShaderReflection
+    public MTL4ShaderReflection ShaderReflection
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4PipelineOptionsSelector.ShaderReflection);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineOptionsSelector.SetShaderReflection, value);
+        get => (MTL4ShaderReflection)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4PipelineOptionsBindings.ShaderReflection);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineOptionsBindings.SetShaderReflection, (nuint)value);
     }
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineOptionsSelector.ShaderValidation);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineOptionsSelector.SetShaderValidation, (nint)value);
+        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineOptionsBindings.ShaderValidation);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineOptionsBindings.SetShaderValidation, (nint)value);
     }
 }
 
-file static class MTL4PipelineOptionsSelector
+file static class MTL4PipelineOptionsBindings
 {
-    public static readonly Selector SetShaderReflection = Selector.Register("setShaderReflection:");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PipelineOptions");
 
-    public static readonly Selector SetShaderValidation = Selector.Register("setShaderValidation:");
+    public static readonly Selector SetShaderReflection = "setShaderReflection:";
 
-    public static readonly Selector ShaderReflection = Selector.Register("shaderReflection");
+    public static readonly Selector SetShaderValidation = "setShaderValidation:";
 
-    public static readonly Selector ShaderValidation = Selector.Register("shaderValidation");
+    public static readonly Selector ShaderReflection = "shaderReflection";
+
+    public static readonly Selector ShaderValidation = "shaderValidation";
 }

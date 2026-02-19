@@ -1,37 +1,33 @@
 namespace Metal.NET;
 
-public partial class MTLResourceViewPoolDescriptor : NativeObject
+public class MTLResourceViewPoolDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResourceViewPoolDescriptor");
-
-    public MTLResourceViewPoolDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLResourceViewPoolDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceViewPoolDescriptorBindings.Class), false)
     {
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolDescriptorSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceViewPoolDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLResourceViewPoolDescriptorBindings.Label);
+        set => SetProperty(ref field, MTLResourceViewPoolDescriptorBindings.SetLabel, value);
     }
 
     public nuint ResourceViewCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceViewPoolDescriptorSelector.ResourceViewCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceViewPoolDescriptorSelector.SetResourceViewCount, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceViewPoolDescriptorBindings.ResourceViewCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceViewPoolDescriptorBindings.SetResourceViewCount, value);
     }
 }
 
-file static class MTLResourceViewPoolDescriptorSelector
+file static class MTLResourceViewPoolDescriptorBindings
 {
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResourceViewPoolDescriptor");
 
-    public static readonly Selector ResourceViewCount = Selector.Register("resourceViewCount");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector ResourceViewCount = "resourceViewCount";
 
-    public static readonly Selector SetResourceViewCount = Selector.Register("setResourceViewCount:");
+    public static readonly Selector SetLabel = "setLabel:";
+
+    public static readonly Selector SetResourceViewCount = "setResourceViewCount:";
 }

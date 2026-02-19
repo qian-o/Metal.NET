@@ -1,34 +1,34 @@
 namespace Metal.NET;
 
-public partial class MTLLogicalToPhysicalColorAttachmentMap : NativeObject
+public class MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLLogicalToPhysicalColorAttachmentMap");
-
-    public MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr) : base(nativePtr)
+    public MTLLogicalToPhysicalColorAttachmentMap() : this(ObjectiveCRuntime.AllocInit(MTLLogicalToPhysicalColorAttachmentMapBindings.Class), false)
     {
     }
 
     public nuint GetPhysicalIndex(nuint logicalIndex)
     {
-        return ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLLogicalToPhysicalColorAttachmentMapSelector.GetPhysicalIndex, logicalIndex);
+        return ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLLogicalToPhysicalColorAttachmentMapBindings.GetPhysicalIndex, logicalIndex);
     }
 
     public void Reset()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapSelector.Reset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapBindings.Reset);
     }
 
     public void SetPhysicalIndex(nuint physicalIndex, nuint logicalIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapSelector.SetPhysicalIndex, physicalIndex, logicalIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapBindings.SetPhysicalIndex, physicalIndex, logicalIndex);
     }
 }
 
-file static class MTLLogicalToPhysicalColorAttachmentMapSelector
+file static class MTLLogicalToPhysicalColorAttachmentMapBindings
 {
-    public static readonly Selector GetPhysicalIndex = Selector.Register("getPhysicalIndex:");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLLogicalToPhysicalColorAttachmentMap");
 
-    public static readonly Selector Reset = Selector.Register("reset");
+    public static readonly Selector GetPhysicalIndex = "getPhysicalIndexForLogicalIndex:";
 
-    public static readonly Selector SetPhysicalIndex = Selector.Register("setPhysicalIndex::");
+    public static readonly Selector Reset = "reset";
+
+    public static readonly Selector SetPhysicalIndex = "setPhysicalIndex:forLogicalIndex:";
 }

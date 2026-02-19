@@ -1,33 +1,33 @@
 namespace Metal.NET;
 
-public partial class MTLRenderPassDepthAttachmentDescriptor : NativeObject
+public class MTLRenderPassDepthAttachmentDescriptor(nint nativePtr, bool retain) : MTLRenderPassAttachmentDescriptor(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassDepthAttachmentDescriptor");
-
-    public MTLRenderPassDepthAttachmentDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLRenderPassDepthAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassDepthAttachmentDescriptorBindings.Class), false)
     {
     }
 
     public double ClearDepth
     {
-        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLRenderPassDepthAttachmentDescriptorSelector.ClearDepth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorSelector.SetClearDepth, value);
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLRenderPassDepthAttachmentDescriptorBindings.ClearDepth);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorBindings.SetClearDepth, value);
     }
 
     public MTLMultisampleDepthResolveFilter DepthResolveFilter
     {
-        get => (MTLMultisampleDepthResolveFilter)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassDepthAttachmentDescriptorSelector.DepthResolveFilter);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorSelector.SetDepthResolveFilter, (nuint)value);
+        get => (MTLMultisampleDepthResolveFilter)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassDepthAttachmentDescriptorBindings.DepthResolveFilter);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorBindings.SetDepthResolveFilter, (nuint)value);
     }
 }
 
-file static class MTLRenderPassDepthAttachmentDescriptorSelector
+file static class MTLRenderPassDepthAttachmentDescriptorBindings
 {
-    public static readonly Selector ClearDepth = Selector.Register("clearDepth");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassDepthAttachmentDescriptor");
 
-    public static readonly Selector DepthResolveFilter = Selector.Register("depthResolveFilter");
+    public static readonly Selector ClearDepth = "clearDepth";
 
-    public static readonly Selector SetClearDepth = Selector.Register("setClearDepth:");
+    public static readonly Selector DepthResolveFilter = "depthResolveFilter";
 
-    public static readonly Selector SetDepthResolveFilter = Selector.Register("setDepthResolveFilter:");
+    public static readonly Selector SetClearDepth = "setClearDepth:";
+
+    public static readonly Selector SetDepthResolveFilter = "setDepthResolveFilter:";
 }

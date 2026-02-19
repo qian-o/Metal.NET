@@ -1,24 +1,20 @@
 namespace Metal.NET;
 
-public partial class MTLFunctionReflection : NativeObject
+public class MTLFunctionReflection(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionReflection");
-
-    public MTLFunctionReflection(nint nativePtr) : base(nativePtr)
+    public MTLFunctionReflection() : this(ObjectiveCRuntime.AllocInit(MTLFunctionReflectionBindings.Class), false)
     {
     }
 
     public NSArray? Bindings
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionReflectionSelector.Bindings);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLFunctionReflectionBindings.Bindings);
     }
 }
 
-file static class MTLFunctionReflectionSelector
+file static class MTLFunctionReflectionBindings
 {
-    public static readonly Selector Bindings = Selector.Register("bindings");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionReflection");
+
+    public static readonly Selector Bindings = "bindings";
 }

@@ -1,31 +1,32 @@
 namespace Metal.NET;
 
-public partial class MTLIntersectionFunctionTableDescriptor : NativeObject
+public class MTLIntersectionFunctionTableDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIntersectionFunctionTableDescriptor");
-
-    public MTLIntersectionFunctionTableDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLIntersectionFunctionTableDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIntersectionFunctionTableDescriptorBindings.Class), false)
     {
     }
 
     public nuint FunctionCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIntersectionFunctionTableDescriptorSelector.FunctionCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableDescriptorSelector.SetFunctionCount, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIntersectionFunctionTableDescriptorBindings.FunctionCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableDescriptorBindings.SetFunctionCount, value);
     }
 
     public static MTLIntersectionFunctionTableDescriptor? IntersectionFunctionTableDescriptor()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLIntersectionFunctionTableDescriptorSelector.IntersectionFunctionTableDescriptor);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLIntersectionFunctionTableDescriptorBindings.Class, MTLIntersectionFunctionTableDescriptorBindings.IntersectionFunctionTableDescriptor);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 }
 
-file static class MTLIntersectionFunctionTableDescriptorSelector
+file static class MTLIntersectionFunctionTableDescriptorBindings
 {
-    public static readonly Selector FunctionCount = Selector.Register("functionCount");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIntersectionFunctionTableDescriptor");
 
-    public static readonly Selector IntersectionFunctionTableDescriptor = Selector.Register("intersectionFunctionTableDescriptor");
+    public static readonly Selector FunctionCount = "functionCount";
 
-    public static readonly Selector SetFunctionCount = Selector.Register("setFunctionCount:");
+    public static readonly Selector IntersectionFunctionTableDescriptor = "intersectionFunctionTableDescriptor";
+
+    public static readonly Selector SetFunctionCount = "setFunctionCount:";
 }

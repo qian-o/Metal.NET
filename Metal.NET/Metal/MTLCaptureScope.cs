@@ -1,61 +1,45 @@
 namespace Metal.NET;
 
-public partial class MTLCaptureScope : NativeObject
+public class MTLCaptureScope(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLCaptureScope(nint nativePtr) : base(nativePtr)
+    public MTLCommandQueue? CommandQueue
     {
+        get => GetProperty(ref field, MTLCaptureScopeBindings.CommandQueue);
     }
 
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLCaptureScopeBindings.Device);
     }
 
     public NSString? Label
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeSelector.Label);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeSelector.SetLabel, value?.NativePtr ?? 0);
-    }
-
-    public MTLCommandQueue? CommandQueue
-    {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeSelector.CommandQueue);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLCaptureScopeBindings.Label);
+        set => SetProperty(ref field, MTLCaptureScopeBindings.SetLabel, value);
     }
 
     public void BeginScope()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeSelector.BeginScope);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeBindings.BeginScope);
     }
 
     public void EndScope()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeSelector.EndScope);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeBindings.EndScope);
     }
 }
 
-file static class MTLCaptureScopeSelector
+file static class MTLCaptureScopeBindings
 {
-    public static readonly Selector BeginScope = Selector.Register("beginScope");
+    public static readonly Selector BeginScope = "beginScope";
 
-    public static readonly Selector CommandQueue = Selector.Register("commandQueue");
+    public static readonly Selector CommandQueue = "commandQueue";
 
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector EndScope = Selector.Register("endScope");
+    public static readonly Selector EndScope = "endScope";
 
-    public static readonly Selector Label = Selector.Register("label");
+    public static readonly Selector Label = "label";
 
-    public static readonly Selector SetLabel = Selector.Register("setLabel:");
+    public static readonly Selector SetLabel = "setLabel:";
 }

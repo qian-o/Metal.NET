@@ -1,73 +1,52 @@
 namespace Metal.NET;
 
-public partial class MTLLinkedFunctions : NativeObject
+public class MTLLinkedFunctions(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLLinkedFunctions");
-
-    public MTLLinkedFunctions(nint nativePtr) : base(nativePtr)
+    public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(MTLLinkedFunctionsBindings.Class), false)
     {
     }
 
     public NSArray? BinaryFunctions
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLinkedFunctionsSelector.BinaryFunctions);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsSelector.SetBinaryFunctions, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLLinkedFunctionsBindings.BinaryFunctions);
+        set => SetProperty(ref field, MTLLinkedFunctionsBindings.SetBinaryFunctions, value);
     }
 
     public NSArray? Functions
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLinkedFunctionsSelector.Functions);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsSelector.SetFunctions, value?.NativePtr ?? 0);
-    }
-
-    public nint Groups
-    {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLinkedFunctionsSelector.Groups);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsSelector.SetGroups, value);
+        get => GetProperty(ref field, MTLLinkedFunctionsBindings.Functions);
+        set => SetProperty(ref field, MTLLinkedFunctionsBindings.SetFunctions, value);
     }
 
     public NSArray? PrivateFunctions
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLinkedFunctionsSelector.PrivateFunctions);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsSelector.SetPrivateFunctions, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLLinkedFunctionsBindings.PrivateFunctions);
+        set => SetProperty(ref field, MTLLinkedFunctionsBindings.SetPrivateFunctions, value);
     }
 
     public static MTLLinkedFunctions? LinkedFunctions()
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, MTLLinkedFunctionsSelector.LinkedFunctions);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLLinkedFunctionsBindings.Class, MTLLinkedFunctionsBindings.LinkedFunctions);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 }
 
-file static class MTLLinkedFunctionsSelector
+file static class MTLLinkedFunctionsBindings
 {
-    public static readonly Selector BinaryFunctions = Selector.Register("binaryFunctions");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLLinkedFunctions");
 
-    public static readonly Selector Functions = Selector.Register("functions");
+    public static readonly Selector BinaryFunctions = "binaryFunctions";
 
-    public static readonly Selector Groups = Selector.Register("groups");
+    public static readonly Selector Functions = "functions";
 
-    public static readonly Selector LinkedFunctions = Selector.Register("linkedFunctions");
+    public static readonly Selector LinkedFunctions = "linkedFunctions";
 
-    public static readonly Selector PrivateFunctions = Selector.Register("privateFunctions");
+    public static readonly Selector PrivateFunctions = "privateFunctions";
 
-    public static readonly Selector SetBinaryFunctions = Selector.Register("setBinaryFunctions:");
+    public static readonly Selector SetBinaryFunctions = "setBinaryFunctions:";
 
-    public static readonly Selector SetFunctions = Selector.Register("setFunctions:");
+    public static readonly Selector SetFunctions = "setFunctions:";
 
-    public static readonly Selector SetGroups = Selector.Register("setGroups:");
-
-    public static readonly Selector SetPrivateFunctions = Selector.Register("setPrivateFunctions:");
+    public static readonly Selector SetPrivateFunctions = "setPrivateFunctions:";
 }

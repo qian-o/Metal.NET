@@ -1,36 +1,37 @@
 namespace Metal.NET;
 
-public partial class NSURL : NativeObject
+/// <summary>
+/// Wraps an Objective-C NSURL for file and resource URL creation.
+/// </summary>
+public class NSURL(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("NSURL");
-
-    public NSURL(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public nint FileSystemRepresentation
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSURLSelector.FileSystemRepresentation);
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSURLBindings.FileSystemRepresentation);
     }
 
     public NSURL? InitFileURLWithPath(NSString pPath)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSURLSelector.InitFileURLWithPath, pPath.NativePtr);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSURLBindings.InitFileURLWithPath, pPath.NativePtr);
+
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public static NSURL? FileURLWithPath(NSString pPath)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(Class, NSURLSelector.NSURL, pPath.NativePtr);
-        return ptr is not 0 ? new(ptr) : null;
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NSURLBindings.Class, NSURLBindings.FileURLWithPath, pPath.NativePtr);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 }
 
-file static class NSURLSelector
+file static class NSURLBindings
 {
-    public static readonly Selector FileSystemRepresentation = Selector.Register("fileSystemRepresentation");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("NSURL");
 
-    public static readonly Selector InitFileURLWithPath = Selector.Register("initFileURLWithPath:");
+    public static readonly Selector FileSystemRepresentation = "fileSystemRepresentation";
 
-    public static readonly Selector NSURL = Selector.Register("NSURL");
+    public static readonly Selector InitFileURLWithPath = "initFileURLWithPath:";
+
+    public static readonly Selector FileURLWithPath = "fileURLWithPath:";
 }

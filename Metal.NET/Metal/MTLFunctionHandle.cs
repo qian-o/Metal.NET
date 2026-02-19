@@ -1,47 +1,35 @@
 namespace Metal.NET;
 
-public partial class MTLFunctionHandle : NativeObject
+public class MTLFunctionHandle(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLFunctionHandle(nint nativePtr) : base(nativePtr)
-    {
-    }
-
     public MTLDevice? Device
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionHandleSelector.Device);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLFunctionHandleBindings.Device);
     }
 
     public MTLFunctionType FunctionType
     {
-        get => (MTLFunctionType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionHandleSelector.FunctionType);
+        get => (MTLFunctionType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionHandleBindings.FunctionType);
     }
 
     public MTLResourceID GpuResourceID
     {
-        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLFunctionHandleSelector.GpuResourceID);
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLFunctionHandleBindings.GpuResourceID);
     }
 
     public NSString? Name
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionHandleSelector.Name);
-            return ptr is not 0 ? new(ptr) : null;
-        }
+        get => GetProperty(ref field, MTLFunctionHandleBindings.Name);
     }
 }
 
-file static class MTLFunctionHandleSelector
+file static class MTLFunctionHandleBindings
 {
-    public static readonly Selector Device = Selector.Register("device");
+    public static readonly Selector Device = "device";
 
-    public static readonly Selector FunctionType = Selector.Register("functionType");
+    public static readonly Selector FunctionType = "functionType";
 
-    public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
+    public static readonly Selector GpuResourceID = "gpuResourceID";
 
-    public static readonly Selector Name = Selector.Register("name");
+    public static readonly Selector Name = "name";
 }

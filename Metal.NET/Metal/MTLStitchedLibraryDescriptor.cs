@@ -1,65 +1,53 @@
 namespace Metal.NET;
 
-public partial class MTLStitchedLibraryDescriptor : NativeObject
+public class MTLStitchedLibraryDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    private static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStitchedLibraryDescriptor");
-
-    public MTLStitchedLibraryDescriptor(nint nativePtr) : base(nativePtr)
+    public MTLStitchedLibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStitchedLibraryDescriptorBindings.Class), false)
     {
     }
 
     public NSArray? BinaryArchives
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStitchedLibraryDescriptorSelector.BinaryArchives);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetBinaryArchives, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLStitchedLibraryDescriptorBindings.BinaryArchives);
+        set => SetProperty(ref field, MTLStitchedLibraryDescriptorBindings.SetBinaryArchives, value);
     }
 
     public NSArray? FunctionGraphs
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStitchedLibraryDescriptorSelector.FunctionGraphs);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetFunctionGraphs, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLStitchedLibraryDescriptorBindings.FunctionGraphs);
+        set => SetProperty(ref field, MTLStitchedLibraryDescriptorBindings.SetFunctionGraphs, value);
     }
 
     public NSArray? Functions
     {
-        get
-        {
-            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStitchedLibraryDescriptorSelector.Functions);
-            return ptr is not 0 ? new(ptr) : null;
-        }
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetFunctions, value?.NativePtr ?? 0);
+        get => GetProperty(ref field, MTLStitchedLibraryDescriptorBindings.Functions);
+        set => SetProperty(ref field, MTLStitchedLibraryDescriptorBindings.SetFunctions, value);
     }
 
-    public nuint Options
+    public MTLStitchedLibraryOptions Options
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStitchedLibraryDescriptorSelector.Options);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetOptions, value);
+        get => (MTLStitchedLibraryOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStitchedLibraryDescriptorBindings.Options);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorBindings.SetOptions, (nuint)value);
     }
 }
 
-file static class MTLStitchedLibraryDescriptorSelector
+file static class MTLStitchedLibraryDescriptorBindings
 {
-    public static readonly Selector BinaryArchives = Selector.Register("binaryArchives");
+    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStitchedLibraryDescriptor");
 
-    public static readonly Selector FunctionGraphs = Selector.Register("functionGraphs");
+    public static readonly Selector BinaryArchives = "binaryArchives";
 
-    public static readonly Selector Functions = Selector.Register("functions");
+    public static readonly Selector FunctionGraphs = "functionGraphs";
 
-    public static readonly Selector Options = Selector.Register("options");
+    public static readonly Selector Functions = "functions";
 
-    public static readonly Selector SetBinaryArchives = Selector.Register("setBinaryArchives:");
+    public static readonly Selector Options = "options";
 
-    public static readonly Selector SetFunctionGraphs = Selector.Register("setFunctionGraphs:");
+    public static readonly Selector SetBinaryArchives = "setBinaryArchives:";
 
-    public static readonly Selector SetFunctions = Selector.Register("setFunctions:");
+    public static readonly Selector SetFunctionGraphs = "setFunctionGraphs:";
 
-    public static readonly Selector SetOptions = Selector.Register("setOptions:");
+    public static readonly Selector SetFunctions = "setFunctions:";
+
+    public static readonly Selector SetOptions = "setOptions:";
 }
