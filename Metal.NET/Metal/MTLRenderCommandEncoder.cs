@@ -1,4 +1,4 @@
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTLRenderCommandEncoder(nint nativePtr, bool retain) : MTLCommandEncoder(nativePtr, retain)
 {
@@ -110,7 +110,10 @@ public class MTLRenderCommandEncoder(nint nativePtr, bool retain) : MTLCommandEn
     public unsafe void MemoryBarrier(MTLResource[] resources, MTLRenderStages after, MTLRenderStages before)
     {
         nint* pResources = stackalloc nint[resources.Length];
-        for (int i = 0; i < resources.Length; i++) pResources[i] = resources[i].NativePtr;
+        for (int i = 0; i < resources.Length; i++)
+        {
+            pResources[i] = resources[i].NativePtr;
+        }
 
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.MemoryBarrierWithResourcescountafterStagesbeforeStages, (nint)pResources, (nuint)resources.Length, (nuint)after, (nuint)before);
     }
