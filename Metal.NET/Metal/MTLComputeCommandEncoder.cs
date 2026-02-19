@@ -40,7 +40,10 @@ public class MTLComputeCommandEncoder(nint nativePtr, bool retain) : MTLCommandE
     public unsafe void MemoryBarrier(MTLResource[] resources)
     {
         nint* pResources = stackalloc nint[resources.Length];
-        for (int i = 0; i < resources.Length; i++) pResources[i] = resources[i].NativePtr;
+        for (int i = 0; i < resources.Length; i++)
+        {
+            pResources[i] = resources[i].NativePtr;
+        }
 
         ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.MemoryBarrierWithResourcescount, (nint)pResources, (nuint)resources.Length);
     }
@@ -148,7 +151,10 @@ public class MTLComputeCommandEncoder(nint nativePtr, bool retain) : MTLCommandE
     public unsafe void UseHeaps(MTLHeap[] heaps)
     {
         nint* pHeaps = stackalloc nint[heaps.Length];
-        for (int i = 0; i < heaps.Length; i++) pHeaps[i] = heaps[i].NativePtr;
+        for (int i = 0; i < heaps.Length; i++)
+        {
+            pHeaps[i] = heaps[i].NativePtr;
+        }
 
         ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.UseHeaps, (nint)pHeaps, (nuint)heaps.Length);
     }
@@ -161,7 +167,10 @@ public class MTLComputeCommandEncoder(nint nativePtr, bool retain) : MTLCommandE
     public unsafe void UseResources(MTLResource[] resources, MTLResourceUsage usage)
     {
         nint* pResources = stackalloc nint[resources.Length];
-        for (int i = 0; i < resources.Length; i++) pResources[i] = resources[i].NativePtr;
+        for (int i = 0; i < resources.Length; i++)
+        {
+            pResources[i] = resources[i].NativePtr;
+        }
 
         ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.UseResources, (nint)pResources, (nuint)resources.Length, (nuint)usage);
     }

@@ -152,9 +152,12 @@ public class MTL4RenderCommandEncoder(nint nativePtr, bool retain) : MTL4Command
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetScissorRect, rect);
     }
 
-    public void SetScissorRects(MTLScissorRect scissorRects, nuint count)
+    public unsafe void SetScissorRects(MTLScissorRect[] scissorRects)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetScissorRects, scissorRects, count);
+        fixed (MTLScissorRect* pScissorRects = scissorRects)
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetScissorRects, (nint)pScissorRects, (nuint)scissorRects.Length);
+        }
     }
 
     public void SetStencilReferenceValue(uint referenceValue)
@@ -192,9 +195,12 @@ public class MTL4RenderCommandEncoder(nint nativePtr, bool retain) : MTL4Command
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetViewport, viewport);
     }
 
-    public void SetViewports(MTLViewport viewports, nuint count)
+    public unsafe void SetViewports(MTLViewport[] viewports)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetViewports, viewports, count);
+        fixed (MTLViewport* pViewports = viewports)
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetViewports, (nint)pViewports, (nuint)viewports.Length);
+        }
     }
 
     public void SetVisibilityResultMode(MTLVisibilityResultMode mode, nuint offset)

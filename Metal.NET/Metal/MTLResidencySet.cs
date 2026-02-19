@@ -35,7 +35,10 @@ public class MTLResidencySet(nint nativePtr, bool retain) : NativeObject(nativeP
     public unsafe void AddAllocations(MTLAllocation[] allocations)
     {
         nint* pAllocations = stackalloc nint[allocations.Length];
-        for (int i = 0; i < allocations.Length; i++) pAllocations[i] = allocations[i].NativePtr;
+        for (int i = 0; i < allocations.Length; i++)
+        {
+            pAllocations[i] = allocations[i].NativePtr;
+        }
 
         ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetBindings.AddAllocations, (nint)pAllocations, (nuint)allocations.Length);
     }
@@ -68,7 +71,10 @@ public class MTLResidencySet(nint nativePtr, bool retain) : NativeObject(nativeP
     public unsafe void RemoveAllocations(MTLAllocation[] allocations)
     {
         nint* pAllocations = stackalloc nint[allocations.Length];
-        for (int i = 0; i < allocations.Length; i++) pAllocations[i] = allocations[i].NativePtr;
+        for (int i = 0; i < allocations.Length; i++)
+        {
+            pAllocations[i] = allocations[i].NativePtr;
+        }
 
         ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetBindings.RemoveAllocations, (nint)pAllocations, (nuint)allocations.Length);
     }

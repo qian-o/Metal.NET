@@ -484,6 +484,9 @@ internal static unsafe partial class ObjectiveCRuntime
     public static partial nuint MsgSendNUInt(nint receiver, Selector selector, nint a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    public static partial nuint MsgSendNUInt(nint receiver, Selector selector, nint a, nuint b);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial nuint MsgSendNUInt(nint receiver, Selector selector, nuint a);
 
     #endregion

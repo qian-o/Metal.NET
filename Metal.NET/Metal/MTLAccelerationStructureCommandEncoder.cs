@@ -45,7 +45,10 @@ public class MTLAccelerationStructureCommandEncoder(nint nativePtr, bool retain)
     public unsafe void UseHeaps(MTLHeap[] heaps)
     {
         nint* pHeaps = stackalloc nint[heaps.Length];
-        for (int i = 0; i < heaps.Length; i++) pHeaps[i] = heaps[i].NativePtr;
+        for (int i = 0; i < heaps.Length; i++)
+        {
+            pHeaps[i] = heaps[i].NativePtr;
+        }
 
         ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.UseHeaps, (nint)pHeaps, (nuint)heaps.Length);
     }
@@ -58,7 +61,10 @@ public class MTLAccelerationStructureCommandEncoder(nint nativePtr, bool retain)
     public unsafe void UseResources(MTLResource[] resources, MTLResourceUsage usage)
     {
         nint* pResources = stackalloc nint[resources.Length];
-        for (int i = 0; i < resources.Length; i++) pResources[i] = resources[i].NativePtr;
+        for (int i = 0; i < resources.Length; i++)
+        {
+            pResources[i] = resources[i].NativePtr;
+        }
 
         ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.UseResources, (nint)pResources, (nuint)resources.Length, (nuint)usage);
     }

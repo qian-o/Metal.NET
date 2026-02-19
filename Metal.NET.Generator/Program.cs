@@ -789,6 +789,31 @@ class Generator
             parameters.Add(new ParamDef(type.Trim(), paramName));
         }
 
+        // Post-process: detect StructType* + NS::UInteger count pairs and convert to STRUCT_ARRAY
+        for (int i = 0; i < parameters.Count - 1; i++)
+        {
+            var p = parameters[i];
+            var next = parameters[i + 1];
+
+            // Check if this is a pointer to a struct type followed by a count param
+            if (p.CppType.EndsWith("*") && next.CppType is "NS::UInteger" && next.Name is "count")
+            {
+                string baseType = p.CppType[..^1].Trim(); // Remove trailing *
+
+                // Check if the base type resolves to a known struct
+                string resolved = baseType;
+                var nsMatch = Regex.Match(baseType, @"^(MTL4FX|MTL4|MTLFX|MTL|NS|CA|CG)\s*::\s*(.+)$");
+                if (nsMatch.Success)
+                    resolved = GetPrefix(nsMatch.Groups[1].Value) + nsMatch.Groups[2].Value.Trim();
+
+                if (StructTypes.Contains(resolved))
+                {
+                    parameters[i] = new ParamDef($"STRUCT_ARRAY:{baseType}", p.Name);
+                    // Don't remove count here — it will be merged during emission (like OBJ_ARRAY)
+                }
+            }
+        }
+
         return parameters;
     }
 
@@ -1103,7 +1128,7 @@ class Generator
         foreach (var p in method.Parameters)
         {
             // Skip array types (handled separately)
-            if (p.CppType.StartsWith("OBJ_ARRAY:") || p.CppType.StartsWith("PRIM_ARRAY:") || p.CppType == "ARRAY_PARAM") continue;
+            if (p.CppType.StartsWith("OBJ_ARRAY:") || p.CppType.StartsWith("PRIM_ARRAY:") || p.CppType.StartsWith("STRUCT_ARRAY:") || p.CppType == "ARRAY_PARAM") continue;
             if (IsUnmappableCppType(p.CppType)) return true;
         }
         // Also check return type
@@ -1121,7 +1146,7 @@ class Generator
         var p = method.Parameters;
         for (int i = 0; i < p.Count; i++)
         {
-            if (p[i].CppType.StartsWith("OBJ_ARRAY:") || p[i].CppType.StartsWith("PRIM_ARRAY:"))
+            if (p[i].CppType.StartsWith("OBJ_ARRAY:") || p[i].CppType.StartsWith("PRIM_ARRAY:") || p[i].CppType.StartsWith("STRUCT_ARRAY:"))
             {
                 // Check if next param is a count that can be merged
                 bool nextIsCount = i + 1 < p.Count &&
@@ -1408,6 +1433,7 @@ class Generator
         var csParams = new List<string>();
         var callArgs = new List<string> { target, selectorRef };
         var arraySetupLines = new List<string>(); // Lines to emit before the MsgSend call for array pinning
+        var fixedStatements = new List<string>(); // fixed (...) statements that wrap the MsgSend call
         bool needsUnsafeContext = false;
 
         for (int pi = 0; pi < method.Parameters.Count; pi++)
@@ -1432,7 +1458,10 @@ class Generator
 
                 string ptrVar = $"p{ToPascalCase(param.Name)}";
                 arraySetupLines.Add($"        nint* {ptrVar} = stackalloc nint[{csParamName}.Length];");
-                arraySetupLines.Add($"        for (int i = 0; i < {csParamName}.Length; i++) {ptrVar}[i] = {csParamName}[i].NativePtr;");
+                arraySetupLines.Add($"        for (int i = 0; i < {csParamName}.Length; i++)");
+                arraySetupLines.Add($"        {{");
+                arraySetupLines.Add($"            {ptrVar}[i] = {csParamName}[i].NativePtr;");
+                arraySetupLines.Add($"        }}");
 
                 callArgs.Add($"(nint){ptrVar}");
 
@@ -1456,9 +1485,40 @@ class Generator
 
                 string ptrVar = $"p{ToPascalCase(param.Name)}";
                 arraySetupLines.Add($"        {elemType}* {ptrVar} = stackalloc {elemType}[{csParamName}.Length];");
-                arraySetupLines.Add($"        for (int i = 0; i < {csParamName}.Length; i++) {ptrVar}[i] = {csParamName}[i];");
+                arraySetupLines.Add($"        for (int i = 0; i < {csParamName}.Length; i++)");
+                arraySetupLines.Add($"        {{");
+                arraySetupLines.Add($"            {ptrVar}[i] = {csParamName}[i];");
+                arraySetupLines.Add($"        }}");
 
                 callArgs.Add($"(nint){ptrVar}");
+                continue;
+            }
+
+            // Check if this is a STRUCT_ARRAY param (struct pointer+count pair)
+            if (param.CppType.StartsWith("STRUCT_ARRAY:"))
+            {
+                needsUnsafeContext = true;
+                string elemCppType = param.CppType["STRUCT_ARRAY:".Length..];
+                string elemCsType = MapCppType(elemCppType, ns);
+                string csParamName = EscapeReservedWord(ToCamelCase(param.Name));
+
+                csParams.Add($"{elemCsType}[] {csParamName}");
+
+                // Check if next param is a count that should be merged
+                bool nextIsCount = pi + 1 < method.Parameters.Count &&
+                    method.Parameters[pi + 1].CppType is "NS::UInteger" &&
+                    method.Parameters[pi + 1].Name is "count";
+
+                string ptrVar = $"p{ToPascalCase(param.Name)}";
+                fixedStatements.Add($"fixed ({elemCsType}* {ptrVar} = {csParamName})");
+
+                callArgs.Add($"(nint){ptrVar}");
+
+                if (nextIsCount)
+                {
+                    callArgs.Add($"(nuint){csParamName}.Length");
+                    pi++; // skip the count param
+                }
                 continue;
             }
 
@@ -1503,13 +1563,22 @@ class Generator
         if (arraySetupLines.Count > 0)
             sb.AppendLine();
 
+        // Calculate indentation for fixed blocks
+        string indent = "        ";
+        foreach (var fixedStmt in fixedStatements)
+        {
+            sb.AppendLine($"{indent}{fixedStmt}");
+            sb.AppendLine($"{indent}{{");
+            indent += "    ";
+        }
+
         if (isVoid)
         {
-            sb.AppendLine($"        ObjectiveCRuntime.MsgSend({argsStr});");
+            sb.AppendLine($"{indent}ObjectiveCRuntime.MsgSend({argsStr});");
             if (hasOutError)
             {
                 sb.AppendLine();
-                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr, true) : null;");
+                sb.AppendLine($"{indent}error = errorPtr is not 0 ? new(errorPtr, true) : null;");
             }
         }
         else if (nullable)
@@ -1517,17 +1586,17 @@ class Generator
             string retainFlag = needsRetain ? "true" : "false";
             if (hasOutError)
             {
-                sb.AppendLine($"        nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
+                sb.AppendLine($"{indent}nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr, true) : null;");
+                sb.AppendLine($"{indent}error = errorPtr is not 0 ? new(errorPtr, true) : null;");
                 sb.AppendLine();
-                sb.AppendLine($"        return nativePtr is not 0 ? new(nativePtr, {retainFlag}) : null;");
+                sb.AppendLine($"{indent}return nativePtr is not 0 ? new(nativePtr, {retainFlag}) : null;");
             }
             else
             {
-                sb.AppendLine($"        nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
+                sb.AppendLine($"{indent}nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine($"        return nativePtr is not 0 ? new(nativePtr, {retainFlag}) : null;");
+                sb.AppendLine($"{indent}return nativePtr is not 0 ? new(nativePtr, {retainFlag}) : null;");
             }
         }
         else if (isEnum)
@@ -1535,30 +1604,30 @@ class Generator
             string msgSend = GetMsgSendForEnumGet(returnType);
             if (hasOutError)
             {
-                sb.AppendLine($"        var result = ({returnType}){msgSend}({argsStr});");
+                sb.AppendLine($"{indent}var result = ({returnType}){msgSend}({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr, true) : null;");
+                sb.AppendLine($"{indent}error = errorPtr is not 0 ? new(errorPtr, true) : null;");
                 sb.AppendLine();
-                sb.AppendLine("        return result;");
+                sb.AppendLine($"{indent}return result;");
             }
             else
             {
-                sb.AppendLine($"        return ({returnType}){msgSend}({argsStr});");
+                sb.AppendLine($"{indent}return ({returnType}){msgSend}({argsStr});");
             }
         }
         else if (isBool)
         {
             if (hasOutError)
             {
-                sb.AppendLine($"        var result = ObjectiveCRuntime.MsgSendBool({argsStr});");
+                sb.AppendLine($"{indent}var result = ObjectiveCRuntime.MsgSendBool({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr, true) : null;");
+                sb.AppendLine($"{indent}error = errorPtr is not 0 ? new(errorPtr, true) : null;");
                 sb.AppendLine();
-                sb.AppendLine("        return result;");
+                sb.AppendLine($"{indent}return result;");
             }
             else
             {
-                sb.AppendLine($"        return ObjectiveCRuntime.MsgSendBool({argsStr});");
+                sb.AppendLine($"{indent}return ObjectiveCRuntime.MsgSendBool({argsStr});");
             }
         }
         else if (isStruct)
@@ -1566,15 +1635,15 @@ class Generator
             string msgSend = GetMsgSendForStruct(returnType);
             if (hasOutError)
             {
-                sb.AppendLine($"        var result = ObjectiveCRuntime.{msgSend}({argsStr});");
+                sb.AppendLine($"{indent}var result = ObjectiveCRuntime.{msgSend}({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr, true) : null;");
+                sb.AppendLine($"{indent}error = errorPtr is not 0 ? new(errorPtr, true) : null;");
                 sb.AppendLine();
-                sb.AppendLine("        return result;");
+                sb.AppendLine($"{indent}return result;");
             }
             else
             {
-                sb.AppendLine($"        return ObjectiveCRuntime.{msgSend}({argsStr});");
+                sb.AppendLine($"{indent}return ObjectiveCRuntime.{msgSend}({argsStr});");
             }
         }
         else
@@ -1583,16 +1652,23 @@ class Generator
             string retCast = returnType is "uint" or "ulong" or "int" or "long" ? $"({returnType})" : "";
             if (hasOutError)
             {
-                sb.AppendLine($"        var result = {retCast}ObjectiveCRuntime.{msgSend}({argsStr});");
+                sb.AppendLine($"{indent}var result = {retCast}ObjectiveCRuntime.{msgSend}({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine("        error = errorPtr is not 0 ? new(errorPtr, true) : null;");
+                sb.AppendLine($"{indent}error = errorPtr is not 0 ? new(errorPtr, true) : null;");
                 sb.AppendLine();
-                sb.AppendLine("        return result;");
+                sb.AppendLine($"{indent}return result;");
             }
             else
             {
-                sb.AppendLine($"        return {retCast}ObjectiveCRuntime.{msgSend}({argsStr});");
+                sb.AppendLine($"{indent}return {retCast}ObjectiveCRuntime.{msgSend}({argsStr});");
             }
+        }
+
+        // Close fixed blocks in reverse order
+        for (int fi = fixedStatements.Count - 1; fi >= 0; fi--)
+        {
+            indent = "        " + new string(' ', fi * 4);
+            sb.AppendLine($"{indent}}}");
         }
 
         sb.AppendLine("    }");

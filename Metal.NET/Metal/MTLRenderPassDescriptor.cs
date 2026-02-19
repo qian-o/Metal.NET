@@ -100,9 +100,12 @@ public class MTLRenderPassDescriptor(nint nativePtr, bool retain) : NativeObject
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetVisibilityResultType, (nint)value);
     }
 
-    public nuint GetSamplePositions(MTLSamplePosition positions, nuint count)
+    public unsafe nuint GetSamplePositions(MTLSamplePosition[] positions)
     {
-        return ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.GetSamplePositions, positions, count);
+        fixed (MTLSamplePosition* pPositions = positions)
+        {
+            return ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassDescriptorBindings.GetSamplePositions, (nint)pPositions, (nuint)positions.Length);
+        }
     }
 
     public static MTLRenderPassDescriptor? RenderPassDescriptor()
@@ -112,9 +115,12 @@ public class MTLRenderPassDescriptor(nint nativePtr, bool retain) : NativeObject
         return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
-    public void SetSamplePositions(MTLSamplePosition positions, nuint count)
+    public unsafe void SetSamplePositions(MTLSamplePosition[] positions)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetSamplePositions, positions, count);
+        fixed (MTLSamplePosition* pPositions = positions)
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetSamplePositions, (nint)pPositions, (nuint)positions.Length);
+        }
     }
 }
 

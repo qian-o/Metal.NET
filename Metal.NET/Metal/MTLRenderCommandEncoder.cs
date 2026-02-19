@@ -1,4 +1,4 @@
-﻿namespace Metal.NET;
+namespace Metal.NET;
 
 public class MTLRenderCommandEncoder(nint nativePtr, bool retain) : MTLCommandEncoder(nativePtr, retain)
 {
@@ -303,9 +303,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, bool retain) : MTLCommandEn
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetScissorRect, rect);
     }
 
-    public void SetScissorRects(MTLScissorRect scissorRects, nuint count)
+    public unsafe void SetScissorRects(MTLScissorRect[] scissorRects)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetScissorRects, scissorRects, count);
+        fixed (MTLScissorRect* pScissorRects = scissorRects)
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetScissorRects, (nint)pScissorRects, (nuint)scissorRects.Length);
+        }
     }
 
     public void SetStencilReferenceValue(uint referenceValue)
@@ -463,9 +466,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, bool retain) : MTLCommandEn
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetViewport, viewport);
     }
 
-    public void SetViewports(MTLViewport viewports, nuint count)
+    public unsafe void SetViewports(MTLViewport[] viewports)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetViewports, viewports, count);
+        fixed (MTLViewport* pViewports = viewports)
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetViewports, (nint)pViewports, (nuint)viewports.Length);
+        }
     }
 
     public void SetVisibilityResultMode(MTLVisibilityResultMode mode, nuint offset)
@@ -496,7 +502,10 @@ public class MTLRenderCommandEncoder(nint nativePtr, bool retain) : MTLCommandEn
     public unsafe void UseHeaps(MTLHeap[] heaps)
     {
         nint* pHeaps = stackalloc nint[heaps.Length];
-        for (int i = 0; i < heaps.Length; i++) pHeaps[i] = heaps[i].NativePtr;
+        for (int i = 0; i < heaps.Length; i++)
+        {
+            pHeaps[i] = heaps[i].NativePtr;
+        }
 
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseHeaps, (nint)pHeaps, (nuint)heaps.Length);
     }
@@ -504,7 +513,10 @@ public class MTLRenderCommandEncoder(nint nativePtr, bool retain) : MTLCommandEn
     public unsafe void UseHeaps(MTLHeap[] heaps, MTLRenderStages stages)
     {
         nint* pHeaps = stackalloc nint[heaps.Length];
-        for (int i = 0; i < heaps.Length; i++) pHeaps[i] = heaps[i].NativePtr;
+        for (int i = 0; i < heaps.Length; i++)
+        {
+            pHeaps[i] = heaps[i].NativePtr;
+        }
 
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseHeapscountstages, (nint)pHeaps, (nuint)heaps.Length, (nuint)stages);
     }
@@ -522,7 +534,10 @@ public class MTLRenderCommandEncoder(nint nativePtr, bool retain) : MTLCommandEn
     public unsafe void UseResources(MTLResource[] resources, MTLResourceUsage usage)
     {
         nint* pResources = stackalloc nint[resources.Length];
-        for (int i = 0; i < resources.Length; i++) pResources[i] = resources[i].NativePtr;
+        for (int i = 0; i < resources.Length; i++)
+        {
+            pResources[i] = resources[i].NativePtr;
+        }
 
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseResources, (nint)pResources, (nuint)resources.Length, (nuint)usage);
     }
@@ -530,7 +545,10 @@ public class MTLRenderCommandEncoder(nint nativePtr, bool retain) : MTLCommandEn
     public unsafe void UseResources(MTLResource[] resources, MTLResourceUsage usage, MTLRenderStages stages)
     {
         nint* pResources = stackalloc nint[resources.Length];
-        for (int i = 0; i < resources.Length; i++) pResources[i] = resources[i].NativePtr;
+        for (int i = 0; i < resources.Length; i++)
+        {
+            pResources[i] = resources[i].NativePtr;
+        }
 
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseResourcescountusagestages, (nint)pResources, (nuint)resources.Length, (nuint)usage, (nuint)stages);
     }

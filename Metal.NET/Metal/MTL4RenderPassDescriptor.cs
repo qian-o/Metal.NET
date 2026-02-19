@@ -95,14 +95,20 @@ public class MTL4RenderPassDescriptor(nint nativePtr, bool retain) : NativeObjec
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetVisibilityResultType, (nint)value);
     }
 
-    public nuint GetSamplePositions(MTLSamplePosition positions, nuint count)
+    public unsafe nuint GetSamplePositions(MTLSamplePosition[] positions)
     {
-        return ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorBindings.GetSamplePositions, positions, count);
+        fixed (MTLSamplePosition* pPositions = positions)
+        {
+            return ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorBindings.GetSamplePositions, (nint)pPositions, (nuint)positions.Length);
+        }
     }
 
-    public void SetSamplePositions(MTLSamplePosition positions, nuint count)
+    public unsafe void SetSamplePositions(MTLSamplePosition[] positions)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetSamplePositions, positions, count);
+        fixed (MTLSamplePosition* pPositions = positions)
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetSamplePositions, (nint)pPositions, (nuint)positions.Length);
+        }
     }
 }
 

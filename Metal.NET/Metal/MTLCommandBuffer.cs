@@ -185,7 +185,10 @@ public class MTLCommandBuffer(nint nativePtr, bool retain) : NativeObject(native
     public unsafe void UseResidencySets(MTLResidencySet[] residencySets)
     {
         nint* pResidencySets = stackalloc nint[residencySets.Length];
-        for (int i = 0; i < residencySets.Length; i++) pResidencySets[i] = residencySets[i].NativePtr;
+        for (int i = 0; i < residencySets.Length; i++)
+        {
+            pResidencySets[i] = residencySets[i].NativePtr;
+        }
 
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.UseResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
     }

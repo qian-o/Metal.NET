@@ -284,9 +284,12 @@ public partial class MTLDevice(nint nativePtr, bool retain) : NativeObject(nativ
         return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
-    public void GetDefaultSamplePositions(MTLSamplePosition positions, nuint count)
+    public unsafe void GetDefaultSamplePositions(MTLSamplePosition[] positions)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceBindings.GetDefaultSamplePositions, positions, count);
+        fixed (MTLSamplePosition* pPositions = positions)
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceBindings.GetDefaultSamplePositions, (nint)pPositions, (nuint)positions.Length);
+        }
     }
 
     public MTLSizeAndAlign HeapAccelerationStructureSizeAndAlign(nuint size)

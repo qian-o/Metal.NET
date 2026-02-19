@@ -31,7 +31,10 @@ public class MTLCommandQueue(nint nativePtr, bool retain) : NativeObject(nativeP
     public unsafe void AddResidencySets(MTLResidencySet[] residencySets)
     {
         nint* pResidencySets = stackalloc nint[residencySets.Length];
-        for (int i = 0; i < residencySets.Length; i++) pResidencySets[i] = residencySets[i].NativePtr;
+        for (int i = 0; i < residencySets.Length; i++)
+        {
+            pResidencySets[i] = residencySets[i].NativePtr;
+        }
 
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueBindings.AddResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
     }
@@ -56,7 +59,10 @@ public class MTLCommandQueue(nint nativePtr, bool retain) : NativeObject(nativeP
     public unsafe void RemoveResidencySets(MTLResidencySet[] residencySets)
     {
         nint* pResidencySets = stackalloc nint[residencySets.Length];
-        for (int i = 0; i < residencySets.Length; i++) pResidencySets[i] = residencySets[i].NativePtr;
+        for (int i = 0; i < residencySets.Length; i++)
+        {
+            pResidencySets[i] = residencySets[i].NativePtr;
+        }
 
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueBindings.RemoveResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
     }
