@@ -120,7 +120,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
 
         sb.AppendLine("}");
-        File.WriteAllText(Path.Combine(dir, $"{csEnumName}.cs"), sb.ToString());
+        File.WriteAllText(Path.Combine(dir, $"{csEnumName}.cs"), sb.ToString(), new UTF8Encoding(true));
         Console.WriteLine($"  Generated: {subdir}/{csEnumName}.cs");
     }
 
@@ -226,7 +226,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
         sb.AppendLine("}");
 
-        File.WriteAllText(Path.Combine(dir, $"{csClassName}.cs"), sb.ToString());
+        File.WriteAllText(Path.Combine(dir, $"{csClassName}.cs"), sb.ToString(), new UTF8Encoding(true));
         Console.WriteLine($"  Generated: {subdir}/{csClassName}.cs");
     }
 
