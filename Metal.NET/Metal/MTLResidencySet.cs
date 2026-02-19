@@ -1,70 +1,83 @@
 namespace Metal.NET;
 
-public class MTLResidencySet(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLResidencySet(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public NSArray? AllAllocations
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.AllAllocations));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetBindings.AllAllocations);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
     }
 
     public nuint AllocatedSize
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResidencySetSelector.AllocatedSize);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResidencySetBindings.AllocatedSize);
     }
 
     public nuint AllocationCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResidencySetSelector.AllocationCount);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResidencySetBindings.AllocationCount);
     }
 
     public MTLDevice? Device
     {
-        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.Device));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetBindings.Device);
+            return ptr is not 0 ? new MTLDevice(ptr) : default;
+        }
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetSelector.Label));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResidencySetBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
     }
 
     public void AddAllocation(MTLAllocation allocation)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetSelector.AddAllocation, allocation.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetBindings.AddAllocation, allocation.NativePtr);
     }
 
     public void Commit()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetSelector.Commit);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetBindings.Commit);
     }
 
     public bool ContainsAllocation(MTLAllocation anAllocation)
     {
-        return ObjectiveCRuntime.MsgSendBool(NativePtr, MTLResidencySetSelector.ContainsAllocation, anAllocation.NativePtr);
+        return ObjectiveCRuntime.MsgSendBool(NativePtr, MTLResidencySetBindings.ContainsAllocation, anAllocation.NativePtr);
     }
 
     public void EndResidency()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetSelector.EndResidency);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetBindings.EndResidency);
     }
 
     public void RemoveAllAllocations()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetSelector.RemoveAllAllocations);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetBindings.RemoveAllAllocations);
     }
 
     public void RemoveAllocation(MTLAllocation allocation)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetSelector.RemoveAllocation, allocation.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetBindings.RemoveAllocation, allocation.NativePtr);
     }
 
     public void RequestResidency()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetSelector.RequestResidency);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetBindings.RequestResidency);
     }
 }
 
-file static class MTLResidencySetSelector
+file static class MTLResidencySetBindings
 {
     public static readonly Selector AddAllocation = Selector.Register("addAllocation:");
 

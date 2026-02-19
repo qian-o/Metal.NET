@@ -1,25 +1,27 @@
 namespace Metal.NET;
 
-public class MTLLogStateDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLLogStateDescriptor(nint nativePtr)
 {
-    public MTLLogStateDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLLogStateDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLLogStateDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLLogStateDescriptorBindings.Class))
     {
     }
 
     public nint BufferSize
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLogStateDescriptorSelector.BufferSize);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLogStateDescriptorSelector.SetBufferSize, value);
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLogStateDescriptorBindings.BufferSize);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLogStateDescriptorBindings.SetBufferSize, value);
     }
 
     public MTLLogLevel Level
     {
-        get => (MTLLogLevel)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLogStateDescriptorSelector.Level);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLogStateDescriptorSelector.SetLevel, (nint)value);
+        get => (MTLLogLevel)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLogStateDescriptorBindings.Level);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLogStateDescriptorBindings.SetLevel, (nint)value);
     }
 }
 
-file static class MTLLogStateDescriptorSelector
+file static class MTLLogStateDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLLogStateDescriptor");
 

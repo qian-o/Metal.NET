@@ -1,97 +1,107 @@
 namespace Metal.NET;
 
-public class MTLCompileOptions(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLCompileOptions(nint nativePtr)
 {
-    public MTLCompileOptions() : this(ObjectiveCRuntime.AllocInit(MTLCompileOptionsSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLCompileOptions() : this(ObjectiveCRuntime.AllocInit(MTLCompileOptionsBindings.Class))
     {
     }
 
     public bool AllowReferencingUndefinedSymbols
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCompileOptionsSelector.AllowReferencingUndefinedSymbols);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetAllowReferencingUndefinedSymbols, (Bool8)value);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCompileOptionsBindings.AllowReferencingUndefinedSymbols);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetAllowReferencingUndefinedSymbols, (Bool8)value);
     }
 
     public MTLCompileSymbolVisibility CompileSymbolVisibility
     {
-        get => (MTLCompileSymbolVisibility)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.CompileSymbolVisibility);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetCompileSymbolVisibility, (nint)value);
+        get => (MTLCompileSymbolVisibility)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsBindings.CompileSymbolVisibility);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetCompileSymbolVisibility, (nint)value);
     }
 
     public bool EnableLogging
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCompileOptionsSelector.EnableLogging);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetEnableLogging, (Bool8)value);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCompileOptionsBindings.EnableLogging);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetEnableLogging, (Bool8)value);
     }
 
     public bool FastMathEnabled
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCompileOptionsSelector.FastMathEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetFastMathEnabled, (Bool8)value);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCompileOptionsBindings.FastMathEnabled);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetFastMathEnabled, (Bool8)value);
     }
 
     public NSString? InstallName
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.InstallName));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetInstallName, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsBindings.InstallName);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetInstallName, value?.NativePtr ?? 0);
     }
 
     public MTLLanguageVersion LanguageVersion
     {
-        get => (MTLLanguageVersion)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCompileOptionsSelector.LanguageVersion);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetLanguageVersion, (nuint)value);
+        get => (MTLLanguageVersion)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCompileOptionsBindings.LanguageVersion);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetLanguageVersion, (nuint)value);
     }
 
     public NSArray? Libraries
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.Libraries));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetLibraries, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsBindings.Libraries);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetLibraries, value?.NativePtr ?? 0);
     }
 
     public MTLLibraryType LibraryType
     {
-        get => (MTLLibraryType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.LibraryType);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetLibraryType, (nint)value);
+        get => (MTLLibraryType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsBindings.LibraryType);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetLibraryType, (nint)value);
     }
 
     public MTLMathFloatingPointFunctions MathFloatingPointFunctions
     {
-        get => (MTLMathFloatingPointFunctions)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.MathFloatingPointFunctions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetMathFloatingPointFunctions, (nint)value);
+        get => (MTLMathFloatingPointFunctions)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsBindings.MathFloatingPointFunctions);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetMathFloatingPointFunctions, (nint)value);
     }
 
     public MTLMathMode MathMode
     {
-        get => (MTLMathMode)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.MathMode);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetMathMode, (nint)value);
+        get => (MTLMathMode)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsBindings.MathMode);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetMathMode, (nint)value);
     }
 
     public nuint MaxTotalThreadsPerThreadgroup
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCompileOptionsSelector.MaxTotalThreadsPerThreadgroup);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetMaxTotalThreadsPerThreadgroup, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCompileOptionsBindings.MaxTotalThreadsPerThreadgroup);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetMaxTotalThreadsPerThreadgroup, value);
     }
 
     public MTLLibraryOptimizationLevel OptimizationLevel
     {
-        get => (MTLLibraryOptimizationLevel)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsSelector.OptimizationLevel);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetOptimizationLevel, (nint)value);
+        get => (MTLLibraryOptimizationLevel)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsBindings.OptimizationLevel);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetOptimizationLevel, (nint)value);
     }
 
     public bool PreserveInvariance
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCompileOptionsSelector.PreserveInvariance);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetPreserveInvariance, (Bool8)value);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCompileOptionsBindings.PreserveInvariance);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetPreserveInvariance, (Bool8)value);
     }
 
     public MTLSize RequiredThreadsPerThreadgroup
     {
-        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLCompileOptionsSelector.RequiredThreadsPerThreadgroup);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsSelector.SetRequiredThreadsPerThreadgroup, value);
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLCompileOptionsBindings.RequiredThreadsPerThreadgroup);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetRequiredThreadsPerThreadgroup, value);
     }
 }
 
-file static class MTLCompileOptionsSelector
+file static class MTLCompileOptionsBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCompileOptions");
 

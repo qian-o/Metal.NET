@@ -1,37 +1,51 @@
 namespace Metal.NET;
 
-public class MTLStitchedLibraryDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLStitchedLibraryDescriptor(nint nativePtr)
 {
-    public MTLStitchedLibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStitchedLibraryDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLStitchedLibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStitchedLibraryDescriptorBindings.Class))
     {
     }
 
     public NSArray? BinaryArchives
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStitchedLibraryDescriptorSelector.BinaryArchives));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetBinaryArchives, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStitchedLibraryDescriptorBindings.BinaryArchives);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorBindings.SetBinaryArchives, value?.NativePtr ?? 0);
     }
 
     public NSArray? FunctionGraphs
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStitchedLibraryDescriptorSelector.FunctionGraphs));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetFunctionGraphs, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStitchedLibraryDescriptorBindings.FunctionGraphs);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorBindings.SetFunctionGraphs, value?.NativePtr ?? 0);
     }
 
     public NSArray? Functions
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStitchedLibraryDescriptorSelector.Functions));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetFunctions, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStitchedLibraryDescriptorBindings.Functions);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorBindings.SetFunctions, value?.NativePtr ?? 0);
     }
 
     public MTLStitchedLibraryOptions Options
     {
-        get => (MTLStitchedLibraryOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStitchedLibraryDescriptorSelector.Options);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorSelector.SetOptions, (nuint)value);
+        get => (MTLStitchedLibraryOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStitchedLibraryDescriptorBindings.Options);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorBindings.SetOptions, (nuint)value);
     }
 }
 
-file static class MTLStitchedLibraryDescriptorSelector
+file static class MTLStitchedLibraryDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStitchedLibraryDescriptor");
 

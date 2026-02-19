@@ -1,76 +1,91 @@
 namespace Metal.NET;
 
-public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct CAMetalLayer(nint nativePtr)
 {
-    public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(CAMetalLayerSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(CAMetalLayerBindings.Class))
     {
     }
 
     public bool AllowsNextDrawableTimeout
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, CAMetalLayerSelector.AllowsNextDrawableTimeout);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetAllowsNextDrawableTimeout, (Bool8)value);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, CAMetalLayerBindings.AllowsNextDrawableTimeout);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetAllowsNextDrawableTimeout, (Bool8)value);
     }
 
     public nint Colorspace
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.Colorspace);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetColorspace, value);
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerBindings.Colorspace);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetColorspace, value);
     }
 
     public MTLDevice? Device
     {
-        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.Device));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetDevice, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerBindings.Device);
+            return ptr is not 0 ? new MTLDevice(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetDevice, value?.NativePtr ?? 0);
     }
 
     public bool DisplaySyncEnabled
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, CAMetalLayerSelector.DisplaySyncEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetDisplaySyncEnabled, (Bool8)value);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, CAMetalLayerBindings.DisplaySyncEnabled);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetDisplaySyncEnabled, (Bool8)value);
     }
 
     public CGSize DrawableSize
     {
-        get => ObjectiveCRuntime.MsgSendCGSize(NativePtr, CAMetalLayerSelector.DrawableSize);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetDrawableSize, value);
+        get => ObjectiveCRuntime.MsgSendCGSize(NativePtr, CAMetalLayerBindings.DrawableSize);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetDrawableSize, value);
     }
 
     public bool FramebufferOnly
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, CAMetalLayerSelector.FramebufferOnly);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetFramebufferOnly, (Bool8)value);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, CAMetalLayerBindings.FramebufferOnly);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetFramebufferOnly, (Bool8)value);
     }
 
     public nuint MaximumDrawableCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, CAMetalLayerSelector.MaximumDrawableCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetMaximumDrawableCount, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, CAMetalLayerBindings.MaximumDrawableCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetMaximumDrawableCount, value);
     }
 
     public CAMetalDrawable? NextDrawable
     {
-        get => GetNullableObject<CAMetalDrawable>(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.NextDrawable));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerBindings.NextDrawable);
+            return ptr is not 0 ? new CAMetalDrawable(ptr) : default;
+        }
     }
 
     public MTLPixelFormat PixelFormat
     {
-        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, CAMetalLayerSelector.PixelFormat);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerSelector.SetPixelFormat, (nuint)value);
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, CAMetalLayerBindings.PixelFormat);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetPixelFormat, (nuint)value);
     }
 
     public MTLResidencySet? ResidencySet
     {
-        get => GetNullableObject<MTLResidencySet>(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerSelector.ResidencySet));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerBindings.ResidencySet);
+            return ptr is not 0 ? new MTLResidencySet(ptr) : default;
+        }
     }
 
     public static CAMetalLayer? Layer()
     {
-        return GetNullableObject<CAMetalLayer>(ObjectiveCRuntime.MsgSendPtr(CAMetalLayerSelector.Class, CAMetalLayerSelector.Layer));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(CAMetalLayerBindings.Class, CAMetalLayerBindings.Layer);
+        return ptr is not 0 ? new CAMetalLayer(ptr) : default;
     }
 }
 
-file static class CAMetalLayerSelector
+file static class CAMetalLayerBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("CAMetalLayer");
 

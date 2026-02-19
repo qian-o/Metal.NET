@@ -1,19 +1,25 @@
 namespace Metal.NET;
 
-public class MTL4CommandAllocatorDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTL4CommandAllocatorDescriptor(nint nativePtr)
 {
-    public MTL4CommandAllocatorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CommandAllocatorDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTL4CommandAllocatorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CommandAllocatorDescriptorBindings.Class))
     {
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorDescriptorSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandAllocatorDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandAllocatorDescriptorBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandAllocatorDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
     }
 }
 
-file static class MTL4CommandAllocatorDescriptorSelector
+file static class MTL4CommandAllocatorDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CommandAllocatorDescriptor");
 

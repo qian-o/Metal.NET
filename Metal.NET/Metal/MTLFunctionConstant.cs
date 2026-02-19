@@ -1,33 +1,39 @@
 namespace Metal.NET;
 
-public class MTLFunctionConstant(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLFunctionConstant(nint nativePtr)
 {
-    public MTLFunctionConstant() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLFunctionConstant() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantBindings.Class))
     {
     }
 
     public nuint Index
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionConstantSelector.Index);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionConstantBindings.Index);
     }
 
     public NSString? Name
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionConstantSelector.Name));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionConstantBindings.Name);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
     }
 
     public bool Required
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFunctionConstantSelector.Required);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFunctionConstantBindings.Required);
     }
 
     public MTLDataType Type
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionConstantSelector.Type);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionConstantBindings.Type);
     }
 }
 
-file static class MTLFunctionConstantSelector
+file static class MTLFunctionConstantBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionConstant");
 

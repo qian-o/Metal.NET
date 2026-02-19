@@ -1,48 +1,62 @@
 namespace Metal.NET;
 
-public class MTLDepthStencilDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLDepthStencilDescriptor(nint nativePtr)
 {
-    public MTLDepthStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLDepthStencilDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLDepthStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLDepthStencilDescriptorBindings.Class))
     {
     }
 
     public MTLStencilDescriptor? BackFaceStencil
     {
-        get => GetNullableObject<MTLStencilDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorSelector.BackFaceStencil));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetBackFaceStencil, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorBindings.BackFaceStencil);
+            return ptr is not 0 ? new MTLStencilDescriptor(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetBackFaceStencil, value?.NativePtr ?? 0);
     }
 
     public MTLCompareFunction DepthCompareFunction
     {
-        get => (MTLCompareFunction)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDepthStencilDescriptorSelector.DepthCompareFunction);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetDepthCompareFunction, (nuint)value);
+        get => (MTLCompareFunction)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDepthStencilDescriptorBindings.DepthCompareFunction);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetDepthCompareFunction, (nuint)value);
     }
 
     public bool DepthWriteEnabled
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDepthStencilDescriptorSelector.DepthWriteEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetDepthWriteEnabled, (Bool8)value);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDepthStencilDescriptorBindings.DepthWriteEnabled);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetDepthWriteEnabled, (Bool8)value);
     }
 
     public MTLStencilDescriptor? FrontFaceStencil
     {
-        get => GetNullableObject<MTLStencilDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorSelector.FrontFaceStencil));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetFrontFaceStencil, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorBindings.FrontFaceStencil);
+            return ptr is not 0 ? new MTLStencilDescriptor(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetFrontFaceStencil, value?.NativePtr ?? 0);
     }
 
     public bool IsDepthWriteEnabled
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDepthStencilDescriptorSelector.IsDepthWriteEnabled);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDepthStencilDescriptorBindings.IsDepthWriteEnabled);
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDepthStencilDescriptorBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
     }
 }
 
-file static class MTLDepthStencilDescriptorSelector
+file static class MTLDepthStencilDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLDepthStencilDescriptor");
 

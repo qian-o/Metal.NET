@@ -1,15 +1,16 @@
 namespace Metal.NET;
 
-public class MTL4FXTemporalScaler(nint nativePtr) : MTLFXTemporalScalerBase(nativePtr)
+public readonly struct MTL4FXTemporalScaler(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public void EncodeToCommandBuffer(MTL4CommandBuffer pCommandBuffer)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4FXTemporalScalerSelector.EncodeToCommandBuffer, pCommandBuffer.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4FXTemporalScalerBindings.EncodeToCommandBuffer, pCommandBuffer.NativePtr);
     }
 }
 
-file static class MTL4FXTemporalScalerSelector
+file static class MTL4FXTemporalScalerBindings
 {
     public static readonly Selector EncodeToCommandBuffer = Selector.Register("encodeToCommandBuffer:");
 }

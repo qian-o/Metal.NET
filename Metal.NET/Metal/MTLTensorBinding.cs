@@ -1,25 +1,30 @@
 namespace Metal.NET;
 
-public class MTLTensorBinding(nint nativePtr) : MTLBinding(nativePtr)
+public readonly struct MTLTensorBinding(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public MTLTensorExtents? Dimensions
     {
-        get => GetNullableObject<MTLTensorExtents>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindingSelector.Dimensions));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindingBindings.Dimensions);
+            return ptr is not 0 ? new MTLTensorExtents(ptr) : default;
+        }
     }
 
     public MTLDataType IndexType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorBindingSelector.IndexType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorBindingBindings.IndexType);
     }
 
     public MTLTensorDataType TensorDataType
     {
-        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindingSelector.TensorDataType);
+        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindingBindings.TensorDataType);
     }
 }
 
-file static class MTLTensorBindingSelector
+file static class MTLTensorBindingBindings
 {
     public static readonly Selector Dimensions = Selector.Register("dimensions");
 

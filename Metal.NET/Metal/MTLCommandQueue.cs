@@ -1,51 +1,69 @@
 namespace Metal.NET;
 
-public class MTLCommandQueue(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLCommandQueue(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public MTLCommandBuffer? CommandBuffer
     {
-        get => GetNullableObject<MTLCommandBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.CommandBuffer));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBuffer);
+            return ptr is not 0 ? new MTLCommandBuffer(ptr) : default;
+        }
     }
 
     public MTLCommandBuffer? CommandBufferWithUnretainedReferences
     {
-        get => GetNullableObject<MTLCommandBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.CommandBufferWithUnretainedReferences));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBufferWithUnretainedReferences);
+            return ptr is not 0 ? new MTLCommandBuffer(ptr) : default;
+        }
     }
 
     public MTLDevice? Device
     {
-        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.Device));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.Device);
+            return ptr is not 0 ? new MTLDevice(ptr) : default;
+        }
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueSelector.SetLabel, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueBindings.SetLabel, value?.NativePtr ?? 0);
     }
 
     public void AddResidencySet(MTLResidencySet residencySet)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueSelector.AddResidencySet, residencySet.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueBindings.AddResidencySet, residencySet.NativePtr);
     }
 
     public MTLCommandBuffer? CommandBufferWithDescriptor(MTLCommandBufferDescriptor descriptor)
     {
-        return GetNullableObject<MTLCommandBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueSelector.CommandBuffer, descriptor.NativePtr));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBuffer, descriptor.NativePtr);
+        return ptr is not 0 ? new MTLCommandBuffer(ptr) : default;
     }
 
     public void InsertDebugCaptureBoundary()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueSelector.InsertDebugCaptureBoundary);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueBindings.InsertDebugCaptureBoundary);
     }
 
     public void RemoveResidencySet(MTLResidencySet residencySet)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueSelector.RemoveResidencySet, residencySet.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueBindings.RemoveResidencySet, residencySet.NativePtr);
     }
 }
 
-file static class MTLCommandQueueSelector
+file static class MTLCommandQueueBindings
 {
     public static readonly Selector AddResidencySet = Selector.Register("addResidencySet:");
 

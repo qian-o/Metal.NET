@@ -1,43 +1,49 @@
 namespace Metal.NET;
 
-public class MTLIOCommandQueueDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLIOCommandQueueDescriptor(nint nativePtr)
 {
-    public MTLIOCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIOCommandQueueDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLIOCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIOCommandQueueDescriptorBindings.Class))
     {
     }
 
     public nuint MaxCommandBufferCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIOCommandQueueDescriptorSelector.MaxCommandBufferCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetMaxCommandBufferCount, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIOCommandQueueDescriptorBindings.MaxCommandBufferCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorBindings.SetMaxCommandBufferCount, value);
     }
 
     public nuint MaxCommandsInFlight
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIOCommandQueueDescriptorSelector.MaxCommandsInFlight);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetMaxCommandsInFlight, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIOCommandQueueDescriptorBindings.MaxCommandsInFlight);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorBindings.SetMaxCommandsInFlight, value);
     }
 
     public MTLIOPriority Priority
     {
-        get => (MTLIOPriority)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueDescriptorSelector.Priority);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetPriority, (nint)value);
+        get => (MTLIOPriority)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueDescriptorBindings.Priority);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorBindings.SetPriority, (nint)value);
     }
 
     public MTLIOScratchBufferAllocator? ScratchBufferAllocator
     {
-        get => GetNullableObject<MTLIOScratchBufferAllocator>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueDescriptorSelector.ScratchBufferAllocator));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetScratchBufferAllocator, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueDescriptorBindings.ScratchBufferAllocator);
+            return ptr is not 0 ? new MTLIOScratchBufferAllocator(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorBindings.SetScratchBufferAllocator, value?.NativePtr ?? 0);
     }
 
     public MTLIOCommandQueueType Type
     {
-        get => (MTLIOCommandQueueType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueDescriptorSelector.Type);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorSelector.SetType, (nint)value);
+        get => (MTLIOCommandQueueType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueDescriptorBindings.Type);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorBindings.SetType, (nint)value);
     }
 }
 
-file static class MTLIOCommandQueueDescriptorSelector
+file static class MTLIOCommandQueueDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIOCommandQueueDescriptor");
 

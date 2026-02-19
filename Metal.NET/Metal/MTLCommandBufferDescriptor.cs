@@ -1,31 +1,37 @@
 namespace Metal.NET;
 
-public class MTLCommandBufferDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLCommandBufferDescriptor(nint nativePtr)
 {
-    public MTLCommandBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCommandBufferDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLCommandBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCommandBufferDescriptorBindings.Class))
     {
     }
 
     public MTLCommandBufferErrorOption ErrorOptions
     {
-        get => (MTLCommandBufferErrorOption)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandBufferDescriptorSelector.ErrorOptions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetErrorOptions, (nuint)value);
+        get => (MTLCommandBufferErrorOption)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandBufferDescriptorBindings.ErrorOptions);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorBindings.SetErrorOptions, (nuint)value);
     }
 
     public MTLLogState? LogState
     {
-        get => GetNullableObject<MTLLogState>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferDescriptorSelector.LogState));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetLogState, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferDescriptorBindings.LogState);
+            return ptr is not 0 ? new MTLLogState(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorBindings.SetLogState, value?.NativePtr ?? 0);
     }
 
     public bool RetainedReferences
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCommandBufferDescriptorSelector.RetainedReferences);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorSelector.SetRetainedReferences, (Bool8)value);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCommandBufferDescriptorBindings.RetainedReferences);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorBindings.SetRetainedReferences, (Bool8)value);
     }
 }
 
-file static class MTLCommandBufferDescriptorSelector
+file static class MTLCommandBufferDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCommandBufferDescriptor");
 

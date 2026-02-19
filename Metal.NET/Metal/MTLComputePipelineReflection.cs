@@ -1,23 +1,33 @@
 namespace Metal.NET;
 
-public class MTLComputePipelineReflection(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLComputePipelineReflection(nint nativePtr)
 {
-    public MTLComputePipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTLComputePipelineReflectionSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLComputePipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTLComputePipelineReflectionBindings.Class))
     {
     }
 
     public NSArray? Arguments
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineReflectionSelector.Arguments));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineReflectionBindings.Arguments);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
     }
 
     public NSArray? Bindings
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineReflectionSelector.Bindings));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineReflectionBindings.Bindings);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
     }
 }
 
-file static class MTLComputePipelineReflectionSelector
+file static class MTLComputePipelineReflectionBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePipelineReflection");
 

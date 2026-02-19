@@ -1,107 +1,141 @@
 namespace Metal.NET;
 
-public class MTLComputePipelineDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLComputePipelineDescriptor(nint nativePtr)
 {
-    public MTLComputePipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLComputePipelineDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLComputePipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLComputePipelineDescriptorBindings.Class))
     {
     }
 
     public NSArray? BinaryArchives
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.BinaryArchives));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetBinaryArchives, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorBindings.BinaryArchives);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetBinaryArchives, value?.NativePtr ?? 0);
     }
 
     public MTLPipelineBufferDescriptorArray? Buffers
     {
-        get => GetNullableObject<MTLPipelineBufferDescriptorArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.Buffers));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorBindings.Buffers);
+            return ptr is not 0 ? new MTLPipelineBufferDescriptorArray(ptr) : default;
+        }
     }
 
     public MTLFunction? ComputeFunction
     {
-        get => GetNullableObject<MTLFunction>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.ComputeFunction));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetComputeFunction, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorBindings.ComputeFunction);
+            return ptr is not 0 ? new MTLFunction(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetComputeFunction, value?.NativePtr ?? 0);
     }
 
     public NSArray? InsertLibraries
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.InsertLibraries));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetInsertLibraries, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorBindings.InsertLibraries);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetInsertLibraries, value?.NativePtr ?? 0);
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
     }
 
     public MTLLinkedFunctions? LinkedFunctions
     {
-        get => GetNullableObject<MTLLinkedFunctions>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.LinkedFunctions));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetLinkedFunctions, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorBindings.LinkedFunctions);
+            return ptr is not 0 ? new MTLLinkedFunctions(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetLinkedFunctions, value?.NativePtr ?? 0);
     }
 
     public nuint MaxCallStackDepth
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineDescriptorSelector.MaxCallStackDepth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetMaxCallStackDepth, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineDescriptorBindings.MaxCallStackDepth);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetMaxCallStackDepth, value);
     }
 
     public nuint MaxTotalThreadsPerThreadgroup
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineDescriptorSelector.MaxTotalThreadsPerThreadgroup);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetMaxTotalThreadsPerThreadgroup, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineDescriptorBindings.MaxTotalThreadsPerThreadgroup);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetMaxTotalThreadsPerThreadgroup, value);
     }
 
     public NSArray? PreloadedLibraries
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.PreloadedLibraries));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetPreloadedLibraries, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorBindings.PreloadedLibraries);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetPreloadedLibraries, value?.NativePtr ?? 0);
     }
 
     public MTLSize RequiredThreadsPerThreadgroup
     {
-        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLComputePipelineDescriptorSelector.RequiredThreadsPerThreadgroup);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetRequiredThreadsPerThreadgroup, value);
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLComputePipelineDescriptorBindings.RequiredThreadsPerThreadgroup);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetRequiredThreadsPerThreadgroup, value);
     }
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.ShaderValidation);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetShaderValidation, (nint)value);
+        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorBindings.ShaderValidation);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetShaderValidation, (nint)value);
     }
 
     public MTLStageInputOutputDescriptor? StageInputDescriptor
     {
-        get => GetNullableObject<MTLStageInputOutputDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorSelector.StageInputDescriptor));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetStageInputDescriptor, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorBindings.StageInputDescriptor);
+            return ptr is not 0 ? new MTLStageInputOutputDescriptor(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetStageInputDescriptor, value?.NativePtr ?? 0);
     }
 
     public bool SupportAddingBinaryFunctions
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLComputePipelineDescriptorSelector.SupportAddingBinaryFunctions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetSupportAddingBinaryFunctions, (Bool8)value);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLComputePipelineDescriptorBindings.SupportAddingBinaryFunctions);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetSupportAddingBinaryFunctions, (Bool8)value);
     }
 
     public bool SupportIndirectCommandBuffers
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLComputePipelineDescriptorSelector.SupportIndirectCommandBuffers);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetSupportIndirectCommandBuffers, (Bool8)value);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLComputePipelineDescriptorBindings.SupportIndirectCommandBuffers);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetSupportIndirectCommandBuffers, (Bool8)value);
     }
 
     public bool ThreadGroupSizeIsMultipleOfThreadExecutionWidth
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLComputePipelineDescriptorSelector.ThreadGroupSizeIsMultipleOfThreadExecutionWidth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.SetThreadGroupSizeIsMultipleOfThreadExecutionWidth, (Bool8)value);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLComputePipelineDescriptorBindings.ThreadGroupSizeIsMultipleOfThreadExecutionWidth);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetThreadGroupSizeIsMultipleOfThreadExecutionWidth, (Bool8)value);
     }
 
     public void Reset()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorSelector.Reset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.Reset);
     }
 }
 
-file static class MTLComputePipelineDescriptorSelector
+file static class MTLComputePipelineDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePipelineDescriptor");
 

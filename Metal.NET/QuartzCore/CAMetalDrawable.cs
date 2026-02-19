@@ -1,20 +1,29 @@
 namespace Metal.NET;
 
-public class CAMetalDrawable(nint nativePtr) : MTLDrawable(nativePtr)
+public readonly struct CAMetalDrawable(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public CAMetalLayer? Layer
     {
-        get => GetNullableObject<CAMetalLayer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalDrawableSelector.Layer));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalDrawableBindings.Layer);
+            return ptr is not 0 ? new CAMetalLayer(ptr) : default;
+        }
     }
 
     public MTLTexture? Texture
     {
-        get => GetNullableObject<MTLTexture>(ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalDrawableSelector.Texture));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalDrawableBindings.Texture);
+            return ptr is not 0 ? new MTLTexture(ptr) : default;
+        }
     }
 }
 
-file static class CAMetalDrawableSelector
+file static class CAMetalDrawableBindings
 {
     public static readonly Selector Layer = Selector.Register("layer");
 

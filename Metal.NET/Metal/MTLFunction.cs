@@ -1,61 +1,83 @@
 namespace Metal.NET;
 
-public class MTLFunction(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLFunction(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public MTLDevice? Device
     {
-        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.Device));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionBindings.Device);
+            return ptr is not 0 ? new MTLDevice(ptr) : default;
+        }
     }
 
     public MTLFunctionType FunctionType
     {
-        get => (MTLFunctionType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionSelector.FunctionType);
+        get => (MTLFunctionType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionBindings.FunctionType);
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionSelector.SetLabel, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionBindings.SetLabel, value?.NativePtr ?? 0);
     }
 
     public NSString? Name
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.Name));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionBindings.Name);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
     }
 
     public MTLFunctionOptions Options
     {
-        get => (MTLFunctionOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionSelector.Options);
+        get => (MTLFunctionOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionBindings.Options);
     }
 
     public nint PatchControlPointCount
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.PatchControlPointCount);
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionBindings.PatchControlPointCount);
     }
 
     public MTLPatchType PatchType
     {
-        get => (MTLPatchType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionSelector.PatchType);
+        get => (MTLPatchType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionBindings.PatchType);
     }
 
     public NSArray? StageInputAttributes
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.StageInputAttributes));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionBindings.StageInputAttributes);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
     }
 
     public NSArray? VertexAttributes
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.VertexAttributes));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionBindings.VertexAttributes);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
     }
 
     public MTLArgumentEncoder? NewArgumentEncoder(nuint bufferIndex)
     {
-        return GetNullableObject<MTLArgumentEncoder>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionSelector.NewArgumentEncoder, bufferIndex));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionBindings.NewArgumentEncoder, bufferIndex);
+        return ptr is not 0 ? new MTLArgumentEncoder(ptr) : default;
     }
 }
 
-file static class MTLFunctionSelector
+file static class MTLFunctionBindings
 {
     public static readonly Selector Device = Selector.Register("device");
 

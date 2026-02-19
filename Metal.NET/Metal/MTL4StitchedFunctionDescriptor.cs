@@ -1,25 +1,35 @@
 namespace Metal.NET;
 
-public class MTL4StitchedFunctionDescriptor(nint nativePtr) : MTL4FunctionDescriptor(nativePtr)
+public readonly struct MTL4StitchedFunctionDescriptor(nint nativePtr)
 {
-    public MTL4StitchedFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4StitchedFunctionDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTL4StitchedFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4StitchedFunctionDescriptorBindings.Class))
     {
     }
 
     public NSArray? FunctionDescriptors
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StitchedFunctionDescriptorSelector.FunctionDescriptors));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorSelector.SetFunctionDescriptors, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StitchedFunctionDescriptorBindings.FunctionDescriptors);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorBindings.SetFunctionDescriptors, value?.NativePtr ?? 0);
     }
 
     public MTLFunctionStitchingGraph? FunctionGraph
     {
-        get => GetNullableObject<MTLFunctionStitchingGraph>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StitchedFunctionDescriptorSelector.FunctionGraph));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorSelector.SetFunctionGraph, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StitchedFunctionDescriptorBindings.FunctionGraph);
+            return ptr is not 0 ? new MTLFunctionStitchingGraph(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StitchedFunctionDescriptorBindings.SetFunctionGraph, value?.NativePtr ?? 0);
     }
 }
 
-file static class MTL4StitchedFunctionDescriptorSelector
+file static class MTL4StitchedFunctionDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4StitchedFunctionDescriptor");
 

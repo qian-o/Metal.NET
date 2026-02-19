@@ -1,90 +1,105 @@
 namespace Metal.NET;
 
-public class MTLInstanceAccelerationStructureDescriptor(nint nativePtr) : MTLAccelerationStructureDescriptor(nativePtr)
+public readonly struct MTLInstanceAccelerationStructureDescriptor(nint nativePtr)
 {
-    public MTLInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLInstanceAccelerationStructureDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLInstanceAccelerationStructureDescriptorBindings.Class))
     {
     }
 
     public nuint InstanceCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.InstanceCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.SetInstanceCount, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.InstanceCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceCount, value);
     }
 
     public MTLBuffer? InstanceDescriptorBuffer
     {
-        get => GetNullableObject<MTLBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.InstanceDescriptorBuffer));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.SetInstanceDescriptorBuffer, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorBuffer);
+            return ptr is not 0 ? new MTLBuffer(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorBuffer, value?.NativePtr ?? 0);
     }
 
     public nuint InstanceDescriptorBufferOffset
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.InstanceDescriptorBufferOffset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.SetInstanceDescriptorBufferOffset, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorBufferOffset);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorBufferOffset, value);
     }
 
     public nuint InstanceDescriptorStride
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.InstanceDescriptorStride);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.SetInstanceDescriptorStride, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorStride);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorStride, value);
     }
 
     public MTLAccelerationStructureInstanceDescriptorType InstanceDescriptorType
     {
-        get => (MTLAccelerationStructureInstanceDescriptorType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.InstanceDescriptorType);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.SetInstanceDescriptorType, (nuint)value);
+        get => (MTLAccelerationStructureInstanceDescriptorType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorType);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorType, (nuint)value);
     }
 
     public MTLMatrixLayout InstanceTransformationMatrixLayout
     {
-        get => (MTLMatrixLayout)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.InstanceTransformationMatrixLayout);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.SetInstanceTransformationMatrixLayout, (nint)value);
+        get => (MTLMatrixLayout)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.InstanceTransformationMatrixLayout);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceTransformationMatrixLayout, (nint)value);
     }
 
     public NSArray? InstancedAccelerationStructures
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.InstancedAccelerationStructures));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.SetInstancedAccelerationStructures, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.InstancedAccelerationStructures);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstancedAccelerationStructures, value?.NativePtr ?? 0);
     }
 
     public MTLBuffer? MotionTransformBuffer
     {
-        get => GetNullableObject<MTLBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.MotionTransformBuffer));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.SetMotionTransformBuffer, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.MotionTransformBuffer);
+            return ptr is not 0 ? new MTLBuffer(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetMotionTransformBuffer, value?.NativePtr ?? 0);
     }
 
     public nuint MotionTransformBufferOffset
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.MotionTransformBufferOffset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.SetMotionTransformBufferOffset, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.MotionTransformBufferOffset);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetMotionTransformBufferOffset, value);
     }
 
     public nuint MotionTransformCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.MotionTransformCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.SetMotionTransformCount, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.MotionTransformCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetMotionTransformCount, value);
     }
 
     public nuint MotionTransformStride
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.MotionTransformStride);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.SetMotionTransformStride, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.MotionTransformStride);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetMotionTransformStride, value);
     }
 
     public MTLTransformType MotionTransformType
     {
-        get => (MTLTransformType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.MotionTransformType);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorSelector.SetMotionTransformType, (nint)value);
+        get => (MTLTransformType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.MotionTransformType);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetMotionTransformType, (nint)value);
     }
 
     public static MTLInstanceAccelerationStructureDescriptor? Descriptor()
     {
-        return GetNullableObject<MTLInstanceAccelerationStructureDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLInstanceAccelerationStructureDescriptorSelector.Class, MTLInstanceAccelerationStructureDescriptorSelector.Descriptor));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLInstanceAccelerationStructureDescriptorBindings.Class, MTLInstanceAccelerationStructureDescriptorBindings.Descriptor);
+        return ptr is not 0 ? new MTLInstanceAccelerationStructureDescriptor(ptr) : default;
     }
 }
 
-file static class MTLInstanceAccelerationStructureDescriptorSelector
+file static class MTLInstanceAccelerationStructureDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLInstanceAccelerationStructureDescriptor");
 

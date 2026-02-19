@@ -1,25 +1,31 @@
 namespace Metal.NET;
 
-public class MTLCaptureDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLCaptureDescriptor(nint nativePtr)
 {
-    public MTLCaptureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCaptureDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLCaptureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCaptureDescriptorBindings.Class))
     {
     }
 
     public MTLCaptureDestination Destination
     {
-        get => (MTLCaptureDestination)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureDescriptorSelector.Destination);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorSelector.SetDestination, (nint)value);
+        get => (MTLCaptureDestination)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureDescriptorBindings.Destination);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorBindings.SetDestination, (nint)value);
     }
 
     public NSURL? OutputURL
     {
-        get => GetNullableObject<NSURL>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureDescriptorSelector.OutputURL));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorSelector.SetOutputURL, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureDescriptorBindings.OutputURL);
+            return ptr is not 0 ? new NSURL(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorBindings.SetOutputURL, value?.NativePtr ?? 0);
     }
 }
 
-file static class MTLCaptureDescriptorSelector
+file static class MTLCaptureDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCaptureDescriptor");
 

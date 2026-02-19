@@ -1,50 +1,51 @@
 namespace Metal.NET;
 
-public class MTLIntersectionFunctionTable(nint nativePtr) : MTLResource(nativePtr)
+public readonly struct MTLIntersectionFunctionTable(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public MTLResourceID GpuResourceID
     {
-        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLIntersectionFunctionTableSelector.GpuResourceID);
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLIntersectionFunctionTableBindings.GpuResourceID);
     }
 
     public void SetBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetBuffer, buffer.NativePtr, offset, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetBuffer, buffer.NativePtr, offset, index);
     }
 
     public void SetFunction(MTLFunctionHandle function, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetFunction, function.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetFunction, function.NativePtr, index);
     }
 
     public void SetOpaqueCurveIntersectionFunction(MTLIntersectionFunctionSignature signature, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueCurveIntersectionFunction, (nuint)signature, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetOpaqueCurveIntersectionFunction, (nuint)signature, index);
     }
 
     public void SetOpaqueCurveIntersectionFunction(MTLIntersectionFunctionSignature signature, NSRange range)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueCurveIntersectionFunction, (nuint)signature, range);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetOpaqueCurveIntersectionFunction, (nuint)signature, range);
     }
 
     public void SetOpaqueTriangleIntersectionFunction(MTLIntersectionFunctionSignature signature, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueTriangleIntersectionFunction, (nuint)signature, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetOpaqueTriangleIntersectionFunction, (nuint)signature, index);
     }
 
     public void SetOpaqueTriangleIntersectionFunction(MTLIntersectionFunctionSignature signature, NSRange range)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetOpaqueTriangleIntersectionFunction, (nuint)signature, range);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetOpaqueTriangleIntersectionFunction, (nuint)signature, range);
     }
 
     public void SetVisibleFunctionTable(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableSelector.SetVisibleFunctionTable, functionTable.NativePtr, bufferIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetVisibleFunctionTable, functionTable.NativePtr, bufferIndex);
     }
 }
 
-file static class MTLIntersectionFunctionTableSelector
+file static class MTLIntersectionFunctionTableBindings
 {
     public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
 

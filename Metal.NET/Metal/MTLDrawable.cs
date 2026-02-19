@@ -1,35 +1,36 @@
 namespace Metal.NET;
 
-public class MTLDrawable(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLDrawable(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public nuint DrawableID
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDrawableSelector.DrawableID);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDrawableBindings.DrawableID);
     }
 
     public double PresentedTime
     {
-        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLDrawableSelector.PresentedTime);
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLDrawableBindings.PresentedTime);
     }
 
     public void Present()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableSelector.Present);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableBindings.Present);
     }
 
     public void PresentAfterMinimumDuration(double duration)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableSelector.PresentAfterMinimumDuration, duration);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableBindings.PresentAfterMinimumDuration, duration);
     }
 
     public void PresentAtTime(double presentationTime)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableSelector.PresentAtTime, presentationTime);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableBindings.PresentAtTime, presentationTime);
     }
 }
 
-file static class MTLDrawableSelector
+file static class MTLDrawableBindings
 {
     public static readonly Selector DrawableID = Selector.Register("drawableID");
 

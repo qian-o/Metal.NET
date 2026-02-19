@@ -1,55 +1,68 @@
 namespace Metal.NET;
 
-public class MTLTensor(nint nativePtr) : MTLResource(nativePtr)
+public readonly struct MTLTensor(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public MTLBuffer? Buffer
     {
-        get => GetNullableObject<MTLBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Buffer));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindings.Buffer);
+            return ptr is not 0 ? new MTLBuffer(ptr) : default;
+        }
     }
 
     public nuint BufferOffset
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorSelector.BufferOffset);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorBindings.BufferOffset);
     }
 
     public MTLTensorDataType DataType
     {
-        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.DataType);
+        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindings.DataType);
     }
 
     public MTLTensorExtents? Dimensions
     {
-        get => GetNullableObject<MTLTensorExtents>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Dimensions));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindings.Dimensions);
+            return ptr is not 0 ? new MTLTensorExtents(ptr) : default;
+        }
     }
 
     public MTLResourceID GpuResourceID
     {
-        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTensorSelector.GpuResourceID);
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTensorBindings.GpuResourceID);
     }
 
     public MTLTensorExtents? Strides
     {
-        get => GetNullableObject<MTLTensorExtents>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorSelector.Strides));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindings.Strides);
+            return ptr is not 0 ? new MTLTensorExtents(ptr) : default;
+        }
     }
 
     public MTLTensorUsage Usage
     {
-        get => (MTLTensorUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorSelector.Usage);
+        get => (MTLTensorUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorBindings.Usage);
     }
 
     public void GetBytes(nint bytes, MTLTensorExtents strides, MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorSelector.GetBytes, bytes, strides.NativePtr, sliceOrigin.NativePtr, sliceDimensions.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorBindings.GetBytes, bytes, strides.NativePtr, sliceOrigin.NativePtr, sliceDimensions.NativePtr);
     }
 
     public void ReplaceSliceOrigin(MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions, nint bytes, MTLTensorExtents strides)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorSelector.ReplaceSliceOrigin, sliceOrigin.NativePtr, sliceDimensions.NativePtr, bytes, strides.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorBindings.ReplaceSliceOrigin, sliceOrigin.NativePtr, sliceDimensions.NativePtr, bytes, strides.NativePtr);
     }
 }
 
-file static class MTLTensorSelector
+file static class MTLTensorBindings
 {
     public static readonly Selector Buffer = Selector.Register("buffer");
 

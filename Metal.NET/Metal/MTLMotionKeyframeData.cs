@@ -1,30 +1,37 @@
 namespace Metal.NET;
 
-public class MTLMotionKeyframeData(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLMotionKeyframeData(nint nativePtr)
 {
-    public MTLMotionKeyframeData() : this(ObjectiveCRuntime.AllocInit(MTLMotionKeyframeDataSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLMotionKeyframeData() : this(ObjectiveCRuntime.AllocInit(MTLMotionKeyframeDataBindings.Class))
     {
     }
 
     public MTLBuffer? Buffer
     {
-        get => GetNullableObject<MTLBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMotionKeyframeDataSelector.Buffer));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataSelector.SetBuffer, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLMotionKeyframeDataBindings.Buffer);
+            return ptr is not 0 ? new MTLBuffer(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataBindings.SetBuffer, value?.NativePtr ?? 0);
     }
 
     public nuint Offset
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLMotionKeyframeDataSelector.Offset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataSelector.SetOffset, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLMotionKeyframeDataBindings.Offset);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataBindings.SetOffset, value);
     }
 
     public static MTLMotionKeyframeData? Data()
     {
-        return GetNullableObject<MTLMotionKeyframeData>(ObjectiveCRuntime.MsgSendPtr(MTLMotionKeyframeDataSelector.Class, MTLMotionKeyframeDataSelector.Data));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLMotionKeyframeDataBindings.Class, MTLMotionKeyframeDataBindings.Data);
+        return ptr is not 0 ? new MTLMotionKeyframeData(ptr) : default;
     }
 }
 
-file static class MTLMotionKeyframeDataSelector
+file static class MTLMotionKeyframeDataBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLMotionKeyframeData");
 

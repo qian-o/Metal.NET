@@ -1,23 +1,25 @@
 namespace Metal.NET;
 
-public class MTLTensorExtents(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLTensorExtents(nint nativePtr)
 {
-    public MTLTensorExtents() : this(ObjectiveCRuntime.AllocInit(MTLTensorExtentsSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLTensorExtents() : this(ObjectiveCRuntime.AllocInit(MTLTensorExtentsBindings.Class))
     {
     }
 
     public nuint Rank
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorExtentsSelector.Rank);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorExtentsBindings.Rank);
     }
 
     public nint ExtentAtDimensionIndex(nuint dimensionIndex)
     {
-        return ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorExtentsSelector.ExtentAtDimensionIndex, dimensionIndex);
+        return ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorExtentsBindings.ExtentAtDimensionIndex, dimensionIndex);
     }
 }
 
-file static class MTLTensorExtentsSelector
+file static class MTLTensorExtentsBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorExtents");
 

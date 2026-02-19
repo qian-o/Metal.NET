@@ -1,33 +1,39 @@
 namespace Metal.NET;
 
-public class MTLTensorReferenceType(nint nativePtr) : MTLType(nativePtr)
+public readonly struct MTLTensorReferenceType(nint nativePtr)
 {
-    public MTLTensorReferenceType() : this(ObjectiveCRuntime.AllocInit(MTLTensorReferenceTypeSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLTensorReferenceType() : this(ObjectiveCRuntime.AllocInit(MTLTensorReferenceTypeBindings.Class))
     {
     }
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorReferenceTypeSelector.Access);
+        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorReferenceTypeBindings.Access);
     }
 
     public MTLTensorExtents? Dimensions
     {
-        get => GetNullableObject<MTLTensorExtents>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorReferenceTypeSelector.Dimensions));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorReferenceTypeBindings.Dimensions);
+            return ptr is not 0 ? new MTLTensorExtents(ptr) : default;
+        }
     }
 
     public MTLDataType IndexType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorReferenceTypeSelector.IndexType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorReferenceTypeBindings.IndexType);
     }
 
     public MTLTensorDataType TensorDataType
     {
-        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorReferenceTypeSelector.TensorDataType);
+        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorReferenceTypeBindings.TensorDataType);
     }
 }
 
-file static class MTLTensorReferenceTypeSelector
+file static class MTLTensorReferenceTypeBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorReferenceType");
 

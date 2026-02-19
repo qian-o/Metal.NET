@@ -1,23 +1,26 @@
 namespace Metal.NET;
 
-public class MTLBufferLayoutDescriptorArray(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLBufferLayoutDescriptorArray(nint nativePtr)
 {
-    public MTLBufferLayoutDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLBufferLayoutDescriptorArraySelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLBufferLayoutDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLBufferLayoutDescriptorArrayBindings.Class))
     {
     }
 
     public MTLBufferLayoutDescriptor? Object(nuint index)
     {
-        return GetNullableObject<MTLBufferLayoutDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArraySelector.Object, index));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArrayBindings.Object, index);
+        return ptr is not 0 ? new MTLBufferLayoutDescriptor(ptr) : default;
     }
 
     public void SetObject(MTLBufferLayoutDescriptor bufferDesc, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorArraySelector.SetObject, bufferDesc.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorArrayBindings.SetObject, bufferDesc.NativePtr, index);
     }
 }
 
-file static class MTLBufferLayoutDescriptorArraySelector
+file static class MTLBufferLayoutDescriptorArrayBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLBufferLayoutDescriptorArray");
 

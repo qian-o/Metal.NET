@@ -1,111 +1,128 @@
 namespace Metal.NET;
 
-public class MTLHeap(nint nativePtr) : MTLAllocation(nativePtr)
+public readonly struct MTLHeap(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public MTLCPUCacheMode CpuCacheMode
     {
-        get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.CpuCacheMode);
+        get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapBindings.CpuCacheMode);
     }
 
     public nuint CurrentAllocatedSize
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.CurrentAllocatedSize);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapBindings.CurrentAllocatedSize);
     }
 
     public MTLDevice? Device
     {
-        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.Device));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.Device);
+            return ptr is not 0 ? new MTLDevice(ptr) : default;
+        }
     }
 
     public MTLHazardTrackingMode HazardTrackingMode
     {
-        get => (MTLHazardTrackingMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.HazardTrackingMode);
+        get => (MTLHazardTrackingMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapBindings.HazardTrackingMode);
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapSelector.SetLabel, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapBindings.SetLabel, value?.NativePtr ?? 0);
     }
 
     public MTLResourceOptions ResourceOptions
     {
-        get => (MTLResourceOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.ResourceOptions);
+        get => (MTLResourceOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapBindings.ResourceOptions);
     }
 
     public nuint Size
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.Size);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapBindings.Size);
     }
 
     public MTLStorageMode StorageMode
     {
-        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.StorageMode);
+        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapBindings.StorageMode);
     }
 
     public MTLHeapType Type
     {
-        get => (MTLHeapType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.Type);
+        get => (MTLHeapType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.Type);
     }
 
     public nuint UsedSize
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.UsedSize);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapBindings.UsedSize);
     }
 
     public nuint MaxAvailableSize(nuint alignment)
     {
-        return ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.MaxAvailableSize, alignment);
+        return ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapBindings.MaxAvailableSize, alignment);
     }
 
     public MTLAccelerationStructure? NewAccelerationStructure(nuint size)
     {
-        return GetNullableObject<MTLAccelerationStructure>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewAccelerationStructure, size));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewAccelerationStructure, size);
+        return ptr is not 0 ? new MTLAccelerationStructure(ptr) : default;
     }
 
     public MTLAccelerationStructure? NewAccelerationStructure(MTLAccelerationStructureDescriptor descriptor)
     {
-        return GetNullableObject<MTLAccelerationStructure>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewAccelerationStructure, descriptor.NativePtr));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewAccelerationStructure, descriptor.NativePtr);
+        return ptr is not 0 ? new MTLAccelerationStructure(ptr) : default;
     }
 
     public MTLAccelerationStructure? NewAccelerationStructure(nuint size, nuint offset)
     {
-        return GetNullableObject<MTLAccelerationStructure>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewAccelerationStructure, size, offset));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewAccelerationStructure, size, offset);
+        return ptr is not 0 ? new MTLAccelerationStructure(ptr) : default;
     }
 
     public MTLAccelerationStructure? NewAccelerationStructure(MTLAccelerationStructureDescriptor descriptor, nuint offset)
     {
-        return GetNullableObject<MTLAccelerationStructure>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewAccelerationStructure, descriptor.NativePtr, offset));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewAccelerationStructure, descriptor.NativePtr, offset);
+        return ptr is not 0 ? new MTLAccelerationStructure(ptr) : default;
     }
 
     public MTLBuffer? NewBuffer(nuint length, MTLResourceOptions options)
     {
-        return GetNullableObject<MTLBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewBuffer, length, (nuint)options));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewBuffer, length, (nuint)options);
+        return ptr is not 0 ? new MTLBuffer(ptr) : default;
     }
 
     public MTLBuffer? NewBuffer(nuint length, MTLResourceOptions options, nuint offset)
     {
-        return GetNullableObject<MTLBuffer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewBuffer, length, (nuint)options, offset));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewBuffer, length, (nuint)options, offset);
+        return ptr is not 0 ? new MTLBuffer(ptr) : default;
     }
 
     public MTLTexture? NewTexture(MTLTextureDescriptor descriptor)
     {
-        return GetNullableObject<MTLTexture>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewTexture, descriptor.NativePtr));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewTexture, descriptor.NativePtr);
+        return ptr is not 0 ? new MTLTexture(ptr) : default;
     }
 
     public MTLTexture? NewTexture(MTLTextureDescriptor descriptor, nuint offset)
     {
-        return GetNullableObject<MTLTexture>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapSelector.NewTexture, descriptor.NativePtr, offset));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewTexture, descriptor.NativePtr, offset);
+        return ptr is not 0 ? new MTLTexture(ptr) : default;
     }
 
     public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
     {
-        return (MTLPurgeableState)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapSelector.SetPurgeableState, (nuint)state);
+        return (MTLPurgeableState)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapBindings.SetPurgeableState, (nuint)state);
     }
 }
 
-file static class MTLHeapSelector
+file static class MTLHeapBindings
 {
     public static readonly Selector CpuCacheMode = Selector.Register("cpuCacheMode");
 

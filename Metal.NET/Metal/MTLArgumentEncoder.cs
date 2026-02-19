@@ -1,101 +1,111 @@
 namespace Metal.NET;
 
-public class MTLArgumentEncoder(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLArgumentEncoder(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public nuint Alignment
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentEncoderSelector.Alignment);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentEncoderBindings.Alignment);
     }
 
     public MTLDevice? Device
     {
-        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderSelector.Device));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderBindings.Device);
+            return ptr is not 0 ? new MTLDevice(ptr) : default;
+        }
     }
 
     public nuint EncodedLength
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentEncoderSelector.EncodedLength);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentEncoderBindings.EncodedLength);
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetLabel, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetLabel, value?.NativePtr ?? 0);
     }
 
     public nint ConstantData(nuint index)
     {
-        return ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderSelector.ConstantData, index);
+        return ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderBindings.ConstantData, index);
     }
 
     public MTLArgumentEncoder? NewArgumentEncoder(nuint index)
     {
-        return GetNullableObject<MTLArgumentEncoder>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderSelector.NewArgumentEncoder, index));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderBindings.NewArgumentEncoder, index);
+        return ptr is not 0 ? new MTLArgumentEncoder(ptr) : default;
     }
 
     public void SetAccelerationStructure(MTLAccelerationStructure accelerationStructure, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetAccelerationStructure, accelerationStructure.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetAccelerationStructure, accelerationStructure.NativePtr, index);
     }
 
     public void SetArgumentBuffer(MTLBuffer argumentBuffer, nuint offset)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetArgumentBuffer, argumentBuffer.NativePtr, offset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetArgumentBuffer, argumentBuffer.NativePtr, offset);
     }
 
     public void SetArgumentBuffer(MTLBuffer argumentBuffer, nuint startOffset, nuint arrayElement)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetArgumentBuffer, argumentBuffer.NativePtr, startOffset, arrayElement);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetArgumentBuffer, argumentBuffer.NativePtr, startOffset, arrayElement);
     }
 
     public void SetBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetBuffer, buffer.NativePtr, offset, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetBuffer, buffer.NativePtr, offset, index);
     }
 
     public void SetComputePipelineState(MTLComputePipelineState pipeline, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetComputePipelineState, pipeline.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetComputePipelineState, pipeline.NativePtr, index);
     }
 
     public void SetDepthStencilState(MTLDepthStencilState depthStencilState, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetDepthStencilState, depthStencilState.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetDepthStencilState, depthStencilState.NativePtr, index);
     }
 
     public void SetIndirectCommandBuffer(MTLIndirectCommandBuffer indirectCommandBuffer, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetIndirectCommandBuffer, indirectCommandBuffer.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetIndirectCommandBuffer, indirectCommandBuffer.NativePtr, index);
     }
 
     public void SetIntersectionFunctionTable(MTLIntersectionFunctionTable intersectionFunctionTable, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetIntersectionFunctionTable, intersectionFunctionTable.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetIntersectionFunctionTable, intersectionFunctionTable.NativePtr, index);
     }
 
     public void SetRenderPipelineState(MTLRenderPipelineState pipeline, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetRenderPipelineState, pipeline.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetRenderPipelineState, pipeline.NativePtr, index);
     }
 
     public void SetSamplerState(MTLSamplerState sampler, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetSamplerState, sampler.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetSamplerState, sampler.NativePtr, index);
     }
 
     public void SetTexture(MTLTexture texture, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetTexture, texture.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetTexture, texture.NativePtr, index);
     }
 
     public void SetVisibleFunctionTable(MTLVisibleFunctionTable visibleFunctionTable, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderSelector.SetVisibleFunctionTable, visibleFunctionTable.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentEncoderBindings.SetVisibleFunctionTable, visibleFunctionTable.NativePtr, index);
     }
 }
 
-file static class MTLArgumentEncoderSelector
+file static class MTLArgumentEncoderBindings
 {
     public static readonly Selector Alignment = Selector.Register("alignment");
 

@@ -1,25 +1,35 @@
 namespace Metal.NET;
 
-public class MTL4StaticLinkingDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTL4StaticLinkingDescriptor(nint nativePtr)
 {
-    public MTL4StaticLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4StaticLinkingDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTL4StaticLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4StaticLinkingDescriptorBindings.Class))
     {
     }
 
     public NSArray? FunctionDescriptors
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StaticLinkingDescriptorSelector.FunctionDescriptors));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StaticLinkingDescriptorSelector.SetFunctionDescriptors, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StaticLinkingDescriptorBindings.FunctionDescriptors);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StaticLinkingDescriptorBindings.SetFunctionDescriptors, value?.NativePtr ?? 0);
     }
 
     public NSArray? PrivateFunctionDescriptors
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StaticLinkingDescriptorSelector.PrivateFunctionDescriptors));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StaticLinkingDescriptorSelector.SetPrivateFunctionDescriptors, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4StaticLinkingDescriptorBindings.PrivateFunctionDescriptors);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4StaticLinkingDescriptorBindings.SetPrivateFunctionDescriptors, value?.NativePtr ?? 0);
     }
 }
 
-file static class MTL4StaticLinkingDescriptorSelector
+file static class MTL4StaticLinkingDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4StaticLinkingDescriptor");
 

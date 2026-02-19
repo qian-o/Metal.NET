@@ -1,33 +1,44 @@
 namespace Metal.NET;
 
-public class MTLVertexDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLVertexDescriptor(nint nativePtr)
 {
-    public MTLVertexDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLVertexDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexDescriptorBindings.Class))
     {
     }
 
     public MTLVertexAttributeDescriptorArray? Attributes
     {
-        get => GetNullableObject<MTLVertexAttributeDescriptorArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorSelector.Attributes));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorBindings.Attributes);
+            return ptr is not 0 ? new MTLVertexAttributeDescriptorArray(ptr) : default;
+        }
     }
 
     public MTLVertexBufferLayoutDescriptorArray? Layouts
     {
-        get => GetNullableObject<MTLVertexBufferLayoutDescriptorArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorSelector.Layouts));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexDescriptorBindings.Layouts);
+            return ptr is not 0 ? new MTLVertexBufferLayoutDescriptorArray(ptr) : default;
+        }
     }
 
     public void Reset()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexDescriptorSelector.Reset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexDescriptorBindings.Reset);
     }
 
     public static MTLVertexDescriptor? VertexDescriptor()
     {
-        return GetNullableObject<MTLVertexDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLVertexDescriptorSelector.Class, MTLVertexDescriptorSelector.VertexDescriptor));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLVertexDescriptorBindings.Class, MTLVertexDescriptorBindings.VertexDescriptor);
+        return ptr is not 0 ? new MTLVertexDescriptor(ptr) : default;
     }
 }
 
-file static class MTLVertexDescriptorSelector
+file static class MTLVertexDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexDescriptor");
 

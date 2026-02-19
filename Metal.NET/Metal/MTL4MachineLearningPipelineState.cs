@@ -1,30 +1,43 @@
 namespace Metal.NET;
 
-public class MTL4MachineLearningPipelineState(nint nativePtr) : MTLAllocation(nativePtr)
+public readonly struct MTL4MachineLearningPipelineState(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public MTLDevice? Device
     {
-        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Device));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateBindings.Device);
+            return ptr is not 0 ? new MTLDevice(ptr) : default;
+        }
     }
 
     public nuint IntermediatesHeapSize
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4MachineLearningPipelineStateSelector.IntermediatesHeapSize);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4MachineLearningPipelineStateBindings.IntermediatesHeapSize);
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Label));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
     }
 
     public MTL4MachineLearningPipelineReflection? Reflection
     {
-        get => GetNullableObject<MTL4MachineLearningPipelineReflection>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateSelector.Reflection));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineStateBindings.Reflection);
+            return ptr is not 0 ? new MTL4MachineLearningPipelineReflection(ptr) : default;
+        }
     }
 }
 
-file static class MTL4MachineLearningPipelineStateSelector
+file static class MTL4MachineLearningPipelineStateBindings
 {
     public static readonly Selector Device = Selector.Register("device");
 

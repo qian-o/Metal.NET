@@ -1,71 +1,84 @@
 namespace Metal.NET;
 
-public class MTLResource(nint nativePtr) : MTLAllocation(nativePtr)
+public readonly struct MTLResource(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
-    public new nuint AllocatedSize
+    public nuint AllocatedSize
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.AllocatedSize);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceBindings.AllocatedSize);
     }
 
     public MTLCPUCacheMode CpuCacheMode
     {
-        get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.CpuCacheMode);
+        get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceBindings.CpuCacheMode);
     }
 
     public MTLDevice? Device
     {
-        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceSelector.Device));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceBindings.Device);
+            return ptr is not 0 ? new MTLDevice(ptr) : default;
+        }
     }
 
     public MTLHazardTrackingMode HazardTrackingMode
     {
-        get => (MTLHazardTrackingMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.HazardTrackingMode);
+        get => (MTLHazardTrackingMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceBindings.HazardTrackingMode);
     }
 
     public MTLHeap? Heap
     {
-        get => GetNullableObject<MTLHeap>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceSelector.Heap));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceBindings.Heap);
+            return ptr is not 0 ? new MTLHeap(ptr) : default;
+        }
     }
 
     public nuint HeapOffset
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.HeapOffset);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceBindings.HeapOffset);
     }
 
     public bool IsAliasable
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLResourceSelector.IsAliasable);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLResourceBindings.IsAliasable);
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceSelector.SetLabel, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceBindings.SetLabel, value?.NativePtr ?? 0);
     }
 
     public MTLResourceOptions ResourceOptions
     {
-        get => (MTLResourceOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.ResourceOptions);
+        get => (MTLResourceOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceBindings.ResourceOptions);
     }
 
     public MTLStorageMode StorageMode
     {
-        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.StorageMode);
+        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceBindings.StorageMode);
     }
 
     public void MakeAliasable()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceSelector.MakeAliasable);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceBindings.MakeAliasable);
     }
 
     public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
     {
-        return (MTLPurgeableState)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceSelector.SetPurgeableState, (nuint)state);
+        return (MTLPurgeableState)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceBindings.SetPurgeableState, (nuint)state);
     }
 }
 
-file static class MTLResourceSelector
+file static class MTLResourceBindings
 {
     public static readonly Selector AllocatedSize = Selector.Register("allocatedSize");
 

@@ -1,18 +1,20 @@
 namespace Metal.NET;
 
-public class MTLType(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLType(nint nativePtr)
 {
-    public MTLType() : this(ObjectiveCRuntime.AllocInit(MTLTypeSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLType() : this(ObjectiveCRuntime.AllocInit(MTLTypeBindings.Class))
     {
     }
 
     public MTLDataType DataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTypeSelector.DataType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTypeBindings.DataType);
     }
 }
 
-file static class MTLTypeSelector
+file static class MTLTypeBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLType");
 

@@ -1,36 +1,49 @@
 namespace Metal.NET;
 
-public class MTLCaptureScope(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLCaptureScope(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public MTLCommandQueue? CommandQueue
     {
-        get => GetNullableObject<MTLCommandQueue>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeSelector.CommandQueue));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeBindings.CommandQueue);
+            return ptr is not 0 ? new MTLCommandQueue(ptr) : default;
+        }
     }
 
     public MTLDevice? Device
     {
-        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeSelector.Device));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeBindings.Device);
+            return ptr is not 0 ? new MTLDevice(ptr) : default;
+        }
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeSelector.SetLabel, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureScopeBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeBindings.SetLabel, value?.NativePtr ?? 0);
     }
 
     public void BeginScope()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeSelector.BeginScope);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeBindings.BeginScope);
     }
 
     public void EndScope()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeSelector.EndScope);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeBindings.EndScope);
     }
 }
 
-file static class MTLCaptureScopeSelector
+file static class MTLCaptureScopeBindings
 {
     public static readonly Selector BeginScope = Selector.Register("beginScope");
 

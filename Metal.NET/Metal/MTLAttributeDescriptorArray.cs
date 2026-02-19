@@ -1,23 +1,26 @@
 namespace Metal.NET;
 
-public class MTLAttributeDescriptorArray(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLAttributeDescriptorArray(nint nativePtr)
 {
-    public MTLAttributeDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLAttributeDescriptorArraySelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLAttributeDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLAttributeDescriptorArrayBindings.Class))
     {
     }
 
     public MTLAttributeDescriptor? Object(nuint index)
     {
-        return GetNullableObject<MTLAttributeDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeDescriptorArraySelector.Object, index));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeDescriptorArrayBindings.Object, index);
+        return ptr is not 0 ? new MTLAttributeDescriptor(ptr) : default;
     }
 
     public void SetObject(MTLAttributeDescriptor attributeDesc, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorArraySelector.SetObject, attributeDesc.NativePtr, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorArrayBindings.SetObject, attributeDesc.NativePtr, index);
     }
 }
 
-file static class MTLAttributeDescriptorArraySelector
+file static class MTLAttributeDescriptorArrayBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAttributeDescriptorArray");
 

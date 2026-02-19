@@ -1,23 +1,26 @@
 namespace Metal.NET;
 
-public class MTLRenderPipelineColorAttachmentDescriptorArray(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLRenderPipelineColorAttachmentDescriptorArray(nint nativePtr)
 {
-    public MTLRenderPipelineColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineColorAttachmentDescriptorArraySelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLRenderPipelineColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineColorAttachmentDescriptorArrayBindings.Class))
     {
     }
 
     public MTLRenderPipelineColorAttachmentDescriptor? Object(nuint attachmentIndex)
     {
-        return GetNullableObject<MTLRenderPipelineColorAttachmentDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineColorAttachmentDescriptorArraySelector.Object, attachmentIndex));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineColorAttachmentDescriptorArrayBindings.Object, attachmentIndex);
+        return ptr is not 0 ? new MTLRenderPipelineColorAttachmentDescriptor(ptr) : default;
     }
 
     public void SetObject(MTLRenderPipelineColorAttachmentDescriptor attachment, nuint attachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorArraySelector.SetObject, attachment.NativePtr, attachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorArrayBindings.SetObject, attachment.NativePtr, attachmentIndex);
     }
 }
 
-file static class MTLRenderPipelineColorAttachmentDescriptorArraySelector
+file static class MTLRenderPipelineColorAttachmentDescriptorArrayBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPipelineColorAttachmentDescriptorArray");
 

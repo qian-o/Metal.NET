@@ -1,25 +1,27 @@
 namespace Metal.NET;
 
-public class MTL4CounterHeapDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTL4CounterHeapDescriptor(nint nativePtr)
 {
-    public MTL4CounterHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CounterHeapDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTL4CounterHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CounterHeapDescriptorBindings.Class))
     {
     }
 
     public nuint Count
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CounterHeapDescriptorSelector.Count);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapDescriptorSelector.SetCount, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CounterHeapDescriptorBindings.Count);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapDescriptorBindings.SetCount, value);
     }
 
     public MTL4CounterHeapType Type
     {
-        get => (MTL4CounterHeapType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapDescriptorSelector.Type);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapDescriptorSelector.SetType, (nint)value);
+        get => (MTL4CounterHeapType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapDescriptorBindings.Type);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapDescriptorBindings.SetType, (nint)value);
     }
 }
 
-file static class MTL4CounterHeapDescriptorSelector
+file static class MTL4CounterHeapDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CounterHeapDescriptor");
 

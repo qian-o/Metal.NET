@@ -1,9 +1,10 @@
 namespace Metal.NET;
 
-public class MTLFunctionStitchingAttribute(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLFunctionStitchingAttribute(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 }
 
-file static class MTLFunctionStitchingAttributeSelector
+file static class MTLFunctionStitchingAttributeBindings
 {
 }

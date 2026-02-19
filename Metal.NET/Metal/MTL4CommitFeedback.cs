@@ -1,25 +1,30 @@
 namespace Metal.NET;
 
-public class MTL4CommitFeedback(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTL4CommitFeedback(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public NSError? Error
     {
-        get => GetNullableObject<NSError>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommitFeedbackSelector.Error));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommitFeedbackBindings.Error);
+            return ptr is not 0 ? new NSError(ptr) : default;
+        }
     }
 
     public double GPUEndTime
     {
-        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTL4CommitFeedbackSelector.GPUEndTime);
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTL4CommitFeedbackBindings.GPUEndTime);
     }
 
     public double GPUStartTime
     {
-        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTL4CommitFeedbackSelector.GPUStartTime);
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTL4CommitFeedbackBindings.GPUStartTime);
     }
 }
 
-file static class MTL4CommitFeedbackSelector
+file static class MTL4CommitFeedbackBindings
 {
     public static readonly Selector Error = Selector.Register("error");
 

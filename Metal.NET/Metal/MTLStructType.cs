@@ -1,23 +1,30 @@
 namespace Metal.NET;
 
-public class MTLStructType(nint nativePtr) : MTLType(nativePtr)
+public readonly struct MTLStructType(nint nativePtr)
 {
-    public MTLStructType() : this(ObjectiveCRuntime.AllocInit(MTLStructTypeSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLStructType() : this(ObjectiveCRuntime.AllocInit(MTLStructTypeBindings.Class))
     {
     }
 
     public NSArray? Members
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeSelector.Members));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeBindings.Members);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
     }
 
     public MTLStructMember? MemberByName(NSString name)
     {
-        return GetNullableObject<MTLStructMember>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeSelector.MemberByName, name.NativePtr));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeBindings.MemberByName, name.NativePtr);
+        return ptr is not 0 ? new MTLStructMember(ptr) : default;
     }
 }
 
-file static class MTLStructTypeSelector
+file static class MTLStructTypeBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStructType");
 

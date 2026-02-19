@@ -1,61 +1,71 @@
 namespace Metal.NET;
 
-public class MTLTensorDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLTensorDescriptor(nint nativePtr)
 {
-    public MTLTensorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTensorDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLTensorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTensorDescriptorBindings.Class))
     {
     }
 
     public MTLCPUCacheMode CpuCacheMode
     {
-        get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorSelector.CpuCacheMode);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetCpuCacheMode, (nuint)value);
+        get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorBindings.CpuCacheMode);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetCpuCacheMode, (nuint)value);
     }
 
     public MTLTensorDataType DataType
     {
-        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorDescriptorSelector.DataType);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetDataType, (nint)value);
+        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorDescriptorBindings.DataType);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetDataType, (nint)value);
     }
 
     public MTLTensorExtents? Dimensions
     {
-        get => GetNullableObject<MTLTensorExtents>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorDescriptorSelector.Dimensions));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetDimensions, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorDescriptorBindings.Dimensions);
+            return ptr is not 0 ? new MTLTensorExtents(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetDimensions, value?.NativePtr ?? 0);
     }
 
     public MTLHazardTrackingMode HazardTrackingMode
     {
-        get => (MTLHazardTrackingMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorSelector.HazardTrackingMode);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetHazardTrackingMode, (nuint)value);
+        get => (MTLHazardTrackingMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorBindings.HazardTrackingMode);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetHazardTrackingMode, (nuint)value);
     }
 
     public MTLResourceOptions ResourceOptions
     {
-        get => (MTLResourceOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorSelector.ResourceOptions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetResourceOptions, (nuint)value);
+        get => (MTLResourceOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorBindings.ResourceOptions);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetResourceOptions, (nuint)value);
     }
 
     public MTLStorageMode StorageMode
     {
-        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorSelector.StorageMode);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetStorageMode, (nuint)value);
+        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorBindings.StorageMode);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetStorageMode, (nuint)value);
     }
 
     public MTLTensorExtents? Strides
     {
-        get => GetNullableObject<MTLTensorExtents>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorDescriptorSelector.Strides));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetStrides, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorDescriptorBindings.Strides);
+            return ptr is not 0 ? new MTLTensorExtents(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetStrides, value?.NativePtr ?? 0);
     }
 
     public MTLTensorUsage Usage
     {
-        get => (MTLTensorUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorSelector.Usage);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorSelector.SetUsage, (nuint)value);
+        get => (MTLTensorUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorDescriptorBindings.Usage);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetUsage, (nuint)value);
     }
 }
 
-file static class MTLTensorDescriptorSelector
+file static class MTLTensorDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorDescriptor");
 

@@ -1,28 +1,31 @@
 namespace Metal.NET;
 
-public class MTL4RenderPipelineColorAttachmentDescriptorArray(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTL4RenderPipelineColorAttachmentDescriptorArray(nint nativePtr)
 {
-    public MTL4RenderPipelineColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineColorAttachmentDescriptorArraySelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTL4RenderPipelineColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineColorAttachmentDescriptorArrayBindings.Class))
     {
     }
 
     public MTL4RenderPipelineColorAttachmentDescriptor? Object(nuint attachmentIndex)
     {
-        return GetNullableObject<MTL4RenderPipelineColorAttachmentDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.Object, attachmentIndex));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArrayBindings.Object, attachmentIndex);
+        return ptr is not 0 ? new MTL4RenderPipelineColorAttachmentDescriptor(ptr) : default;
     }
 
     public void Reset()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.Reset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArrayBindings.Reset);
     }
 
     public void SetObject(MTL4RenderPipelineColorAttachmentDescriptor attachment, nuint attachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArraySelector.SetObject, attachment.NativePtr, attachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArrayBindings.SetObject, attachment.NativePtr, attachmentIndex);
     }
 }
 
-file static class MTL4RenderPipelineColorAttachmentDescriptorArraySelector
+file static class MTL4RenderPipelineColorAttachmentDescriptorArrayBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineColorAttachmentDescriptorArray");
 

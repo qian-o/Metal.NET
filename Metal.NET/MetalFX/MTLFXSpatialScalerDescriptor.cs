@@ -1,75 +1,79 @@
 namespace Metal.NET;
 
-public class MTLFXSpatialScalerDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLFXSpatialScalerDescriptor(nint nativePtr)
 {
-    public MTLFXSpatialScalerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXSpatialScalerDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLFXSpatialScalerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXSpatialScalerDescriptorBindings.Class))
     {
     }
 
     public MTLFXSpatialScalerColorProcessingMode ColorProcessingMode
     {
-        get => (MTLFXSpatialScalerColorProcessingMode)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorSelector.ColorProcessingMode);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetColorProcessingMode, (nint)value);
+        get => (MTLFXSpatialScalerColorProcessingMode)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorBindings.ColorProcessingMode);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetColorProcessingMode, (nint)value);
     }
 
     public MTLPixelFormat ColorTextureFormat
     {
-        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerDescriptorSelector.ColorTextureFormat);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetColorTextureFormat, (nuint)value);
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerDescriptorBindings.ColorTextureFormat);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetColorTextureFormat, (nuint)value);
     }
 
     public nuint InputHeight
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerDescriptorSelector.InputHeight);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetInputHeight, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerDescriptorBindings.InputHeight);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetInputHeight, value);
     }
 
     public nuint InputWidth
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerDescriptorSelector.InputWidth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetInputWidth, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerDescriptorBindings.InputWidth);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetInputWidth, value);
     }
 
     public nuint OutputHeight
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerDescriptorSelector.OutputHeight);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetOutputHeight, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerDescriptorBindings.OutputHeight);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetOutputHeight, value);
     }
 
     public MTLPixelFormat OutputTextureFormat
     {
-        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerDescriptorSelector.OutputTextureFormat);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetOutputTextureFormat, (nuint)value);
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerDescriptorBindings.OutputTextureFormat);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetOutputTextureFormat, (nuint)value);
     }
 
     public nuint OutputWidth
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerDescriptorSelector.OutputWidth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorSelector.SetOutputWidth, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerDescriptorBindings.OutputWidth);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetOutputWidth, value);
     }
 
     public MTLFXSpatialScaler? NewSpatialScaler(MTLDevice pDevice)
     {
-        return GetNullableObject<MTLFXSpatialScaler>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorSelector.NewSpatialScaler, pDevice.NativePtr));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorBindings.NewSpatialScaler, pDevice.NativePtr);
+        return ptr is not 0 ? new MTLFXSpatialScaler(ptr) : default;
     }
 
     public MTL4FXSpatialScaler? NewSpatialScaler(MTLDevice pDevice, MTL4Compiler pCompiler)
     {
-        return GetNullableObject<MTL4FXSpatialScaler>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorSelector.NewSpatialScaler, pDevice.NativePtr, pCompiler.NativePtr));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorBindings.NewSpatialScaler, pDevice.NativePtr, pCompiler.NativePtr);
+        return ptr is not 0 ? new MTL4FXSpatialScaler(ptr) : default;
     }
 
     public static bool SupportsDevice(MTLDevice pDevice)
     {
-        return ObjectiveCRuntime.MsgSendBool(MTLFXSpatialScalerDescriptorSelector.Class, MTLFXSpatialScalerDescriptorSelector.SupportsDevice, pDevice.NativePtr);
+        return ObjectiveCRuntime.MsgSendBool(MTLFXSpatialScalerDescriptorBindings.Class, MTLFXSpatialScalerDescriptorBindings.SupportsDevice, pDevice.NativePtr);
     }
 
     public static bool SupportsMetal4FX(MTLDevice pDevice)
     {
-        return ObjectiveCRuntime.MsgSendBool(MTLFXSpatialScalerDescriptorSelector.Class, MTLFXSpatialScalerDescriptorSelector.SupportsMetal4FX, pDevice.NativePtr);
+        return ObjectiveCRuntime.MsgSendBool(MTLFXSpatialScalerDescriptorBindings.Class, MTLFXSpatialScalerDescriptorBindings.SupportsMetal4FX, pDevice.NativePtr);
     }
 }
 
-file static class MTLFXSpatialScalerDescriptorSelector
+file static class MTLFXSpatialScalerDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFXSpatialScalerDescriptor");
 

@@ -1,23 +1,26 @@
 namespace Metal.NET;
 
-public class MTLResourceStatePassSampleBufferAttachmentDescriptorArray(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLResourceStatePassSampleBufferAttachmentDescriptorArray(nint nativePtr)
 {
-    public MTLResourceStatePassSampleBufferAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLResourceStatePassSampleBufferAttachmentDescriptorArraySelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLResourceStatePassSampleBufferAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLResourceStatePassSampleBufferAttachmentDescriptorArrayBindings.Class))
     {
     }
 
     public MTLResourceStatePassSampleBufferAttachmentDescriptor? Object(nuint attachmentIndex)
     {
-        return GetNullableObject<MTLResourceStatePassSampleBufferAttachmentDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorArraySelector.Object, attachmentIndex));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorArrayBindings.Object, attachmentIndex);
+        return ptr is not 0 ? new MTLResourceStatePassSampleBufferAttachmentDescriptor(ptr) : default;
     }
 
     public void SetObject(MTLResourceStatePassSampleBufferAttachmentDescriptor attachment, nuint attachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorArraySelector.SetObject, attachment.NativePtr, attachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorArrayBindings.SetObject, attachment.NativePtr, attachmentIndex);
     }
 }
 
-file static class MTLResourceStatePassSampleBufferAttachmentDescriptorArraySelector
+file static class MTLResourceStatePassSampleBufferAttachmentDescriptorArrayBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResourceStatePassSampleBufferAttachmentDescriptorArray");
 

@@ -1,24 +1,27 @@
 namespace Metal.NET;
 
-public class MTLVisibleFunctionTableDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLVisibleFunctionTableDescriptor(nint nativePtr)
 {
-    public MTLVisibleFunctionTableDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVisibleFunctionTableDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLVisibleFunctionTableDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVisibleFunctionTableDescriptorBindings.Class))
     {
     }
 
     public nuint FunctionCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVisibleFunctionTableDescriptorSelector.FunctionCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVisibleFunctionTableDescriptorSelector.SetFunctionCount, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVisibleFunctionTableDescriptorBindings.FunctionCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVisibleFunctionTableDescriptorBindings.SetFunctionCount, value);
     }
 
     public static MTLVisibleFunctionTableDescriptor? VisibleFunctionTableDescriptor()
     {
-        return GetNullableObject<MTLVisibleFunctionTableDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLVisibleFunctionTableDescriptorSelector.Class, MTLVisibleFunctionTableDescriptorSelector.VisibleFunctionTableDescriptor));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLVisibleFunctionTableDescriptorBindings.Class, MTLVisibleFunctionTableDescriptorBindings.VisibleFunctionTableDescriptor);
+        return ptr is not 0 ? new MTLVisibleFunctionTableDescriptor(ptr) : default;
     }
 }
 
-file static class MTLVisibleFunctionTableDescriptorSelector
+file static class MTLVisibleFunctionTableDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVisibleFunctionTableDescriptor");
 

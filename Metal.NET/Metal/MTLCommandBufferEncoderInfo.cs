@@ -1,25 +1,34 @@
 namespace Metal.NET;
 
-public class MTLCommandBufferEncoderInfo(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLCommandBufferEncoderInfo(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public NSArray? DebugSignposts
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoSelector.DebugSignposts));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoBindings.DebugSignposts);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
     }
 
     public MTLCommandEncoderErrorState ErrorState
     {
-        get => (MTLCommandEncoderErrorState)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoSelector.ErrorState);
+        get => (MTLCommandEncoderErrorState)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoBindings.ErrorState);
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoSelector.Label));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
     }
 }
 
-file static class MTLCommandBufferEncoderInfoSelector
+file static class MTLCommandBufferEncoderInfoBindings
 {
     public static readonly Selector DebugSignposts = Selector.Register("debugSignposts");
 

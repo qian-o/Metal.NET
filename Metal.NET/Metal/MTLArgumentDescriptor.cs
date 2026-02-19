@@ -1,54 +1,57 @@
 namespace Metal.NET;
 
-public class MTLArgumentDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLArgumentDescriptor(nint nativePtr)
 {
-    public MTLArgumentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLArgumentDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLArgumentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLArgumentDescriptorBindings.Class))
     {
     }
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorSelector.Access);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetAccess, (nuint)value);
+        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorBindings.Access);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetAccess, (nuint)value);
     }
 
     public nuint ArrayLength
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorSelector.ArrayLength);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetArrayLength, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorBindings.ArrayLength);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetArrayLength, value);
     }
 
     public nuint ConstantBlockAlignment
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorSelector.ConstantBlockAlignment);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetConstantBlockAlignment, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorBindings.ConstantBlockAlignment);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetConstantBlockAlignment, value);
     }
 
     public MTLDataType DataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorSelector.DataType);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetDataType, (nuint)value);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorBindings.DataType);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetDataType, (nuint)value);
     }
 
     public nuint Index
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorSelector.Index);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetIndex, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorBindings.Index);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetIndex, value);
     }
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorSelector.TextureType);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorSelector.SetTextureType, (nuint)value);
+        get => (MTLTextureType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorBindings.TextureType);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetTextureType, (nuint)value);
     }
 
     public static MTLArgumentDescriptor? ArgumentDescriptor()
     {
-        return GetNullableObject<MTLArgumentDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLArgumentDescriptorSelector.Class, MTLArgumentDescriptorSelector.ArgumentDescriptor));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLArgumentDescriptorBindings.Class, MTLArgumentDescriptorBindings.ArgumentDescriptor);
+        return ptr is not 0 ? new MTLArgumentDescriptor(ptr) : default;
     }
 }
 
-file static class MTLArgumentDescriptorSelector
+file static class MTLArgumentDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArgumentDescriptor");
 

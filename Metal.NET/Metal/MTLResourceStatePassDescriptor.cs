@@ -1,23 +1,30 @@
 namespace Metal.NET;
 
-public class MTLResourceStatePassDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLResourceStatePassDescriptor(nint nativePtr)
 {
-    public MTLResourceStatePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceStatePassDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLResourceStatePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceStatePassDescriptorBindings.Class))
     {
     }
 
     public MTLResourceStatePassSampleBufferAttachmentDescriptorArray? SampleBufferAttachments
     {
-        get => GetNullableObject<MTLResourceStatePassSampleBufferAttachmentDescriptorArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceStatePassDescriptorSelector.SampleBufferAttachments));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceStatePassDescriptorBindings.SampleBufferAttachments);
+            return ptr is not 0 ? new MTLResourceStatePassSampleBufferAttachmentDescriptorArray(ptr) : default;
+        }
     }
 
     public static MTLResourceStatePassDescriptor? ResourceStatePassDescriptor()
     {
-        return GetNullableObject<MTLResourceStatePassDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLResourceStatePassDescriptorSelector.Class, MTLResourceStatePassDescriptorSelector.ResourceStatePassDescriptor));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLResourceStatePassDescriptorBindings.Class, MTLResourceStatePassDescriptorBindings.ResourceStatePassDescriptor);
+        return ptr is not 0 ? new MTLResourceStatePassDescriptor(ptr) : default;
     }
 }
 
-file static class MTLResourceStatePassDescriptorSelector
+file static class MTLResourceStatePassDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResourceStatePassDescriptor");
 

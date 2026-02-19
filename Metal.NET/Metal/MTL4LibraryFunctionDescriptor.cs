@@ -1,25 +1,35 @@
 namespace Metal.NET;
 
-public class MTL4LibraryFunctionDescriptor(nint nativePtr) : MTL4FunctionDescriptor(nativePtr)
+public readonly struct MTL4LibraryFunctionDescriptor(nint nativePtr)
 {
-    public MTL4LibraryFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4LibraryFunctionDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTL4LibraryFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4LibraryFunctionDescriptorBindings.Class))
     {
     }
 
     public MTLLibrary? Library
     {
-        get => GetNullableObject<MTLLibrary>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryFunctionDescriptorSelector.Library));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorSelector.SetLibrary, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryFunctionDescriptorBindings.Library);
+            return ptr is not 0 ? new MTLLibrary(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorBindings.SetLibrary, value?.NativePtr ?? 0);
     }
 
     public NSString? Name
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryFunctionDescriptorSelector.Name));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorSelector.SetName, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryFunctionDescriptorBindings.Name);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryFunctionDescriptorBindings.SetName, value?.NativePtr ?? 0);
     }
 }
 
-file static class MTL4LibraryFunctionDescriptorSelector
+file static class MTL4LibraryFunctionDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4LibraryFunctionDescriptor");
 

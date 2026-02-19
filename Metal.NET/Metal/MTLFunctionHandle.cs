@@ -1,30 +1,39 @@
 namespace Metal.NET;
 
-public class MTLFunctionHandle(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLFunctionHandle(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public MTLDevice? Device
     {
-        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionHandleSelector.Device));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionHandleBindings.Device);
+            return ptr is not 0 ? new MTLDevice(ptr) : default;
+        }
     }
 
     public MTLFunctionType FunctionType
     {
-        get => (MTLFunctionType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionHandleSelector.FunctionType);
+        get => (MTLFunctionType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionHandleBindings.FunctionType);
     }
 
     public MTLResourceID GpuResourceID
     {
-        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLFunctionHandleSelector.GpuResourceID);
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLFunctionHandleBindings.GpuResourceID);
     }
 
     public NSString? Name
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionHandleSelector.Name));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionHandleBindings.Name);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
     }
 }
 
-file static class MTLFunctionHandleSelector
+file static class MTLFunctionHandleBindings
 {
     public static readonly Selector Device = Selector.Register("device");
 

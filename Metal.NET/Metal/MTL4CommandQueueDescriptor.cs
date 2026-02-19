@@ -1,25 +1,31 @@
 namespace Metal.NET;
 
-public class MTL4CommandQueueDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTL4CommandQueueDescriptor(nint nativePtr)
 {
-    public MTL4CommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CommandQueueDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTL4CommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CommandQueueDescriptorBindings.Class))
     {
     }
 
     public nint FeedbackQueue
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueDescriptorSelector.FeedbackQueue);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueDescriptorSelector.SetFeedbackQueue, value);
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueDescriptorBindings.FeedbackQueue);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueDescriptorBindings.SetFeedbackQueue, value);
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueDescriptorSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueDescriptorBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
     }
 }
 
-file static class MTL4CommandQueueDescriptorSelector
+file static class MTL4CommandQueueDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CommandQueueDescriptor");
 

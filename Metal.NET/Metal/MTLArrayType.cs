@@ -1,58 +1,80 @@
 namespace Metal.NET;
 
-public class MTLArrayType(nint nativePtr) : MTLType(nativePtr)
+public readonly struct MTLArrayType(nint nativePtr)
 {
-    public MTLArrayType() : this(ObjectiveCRuntime.AllocInit(MTLArrayTypeSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLArrayType() : this(ObjectiveCRuntime.AllocInit(MTLArrayTypeBindings.Class))
     {
     }
 
     public nuint ArgumentIndexStride
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeSelector.ArgumentIndexStride);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeBindings.ArgumentIndexStride);
     }
 
     public nuint ArrayLength
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeSelector.ArrayLength);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeBindings.ArrayLength);
     }
 
     public MTLArrayType? ElementArrayType
     {
-        get => GetNullableObject<MTLArrayType>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeSelector.ElementArrayType));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementArrayType);
+            return ptr is not 0 ? new MTLArrayType(ptr) : default;
+        }
     }
 
     public MTLPointerType? ElementPointerType
     {
-        get => GetNullableObject<MTLPointerType>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeSelector.ElementPointerType));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementPointerType);
+            return ptr is not 0 ? new MTLPointerType(ptr) : default;
+        }
     }
 
     public MTLStructType? ElementStructType
     {
-        get => GetNullableObject<MTLStructType>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeSelector.ElementStructType));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementStructType);
+            return ptr is not 0 ? new MTLStructType(ptr) : default;
+        }
     }
 
     public MTLTensorReferenceType? ElementTensorReferenceType
     {
-        get => GetNullableObject<MTLTensorReferenceType>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeSelector.ElementTensorReferenceType));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementTensorReferenceType);
+            return ptr is not 0 ? new MTLTensorReferenceType(ptr) : default;
+        }
     }
 
     public MTLTextureReferenceType? ElementTextureReferenceType
     {
-        get => GetNullableObject<MTLTextureReferenceType>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeSelector.ElementTextureReferenceType));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementTextureReferenceType);
+            return ptr is not 0 ? new MTLTextureReferenceType(ptr) : default;
+        }
     }
 
     public MTLDataType ElementType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeSelector.ElementType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeBindings.ElementType);
     }
 
     public nuint Stride
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeSelector.Stride);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeBindings.Stride);
     }
 }
 
-file static class MTLArrayTypeSelector
+file static class MTLArrayTypeBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArrayType");
 

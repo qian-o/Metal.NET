@@ -1,186 +1,230 @@
 namespace Metal.NET;
 
-public class MTLCommandBuffer(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLCommandBuffer(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public MTLAccelerationStructureCommandEncoder? AccelerationStructureCommandEncoder
     {
-        get => GetNullableObject<MTLAccelerationStructureCommandEncoder>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.AccelerationStructureCommandEncoder));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.AccelerationStructureCommandEncoder);
+            return ptr is not 0 ? new MTLAccelerationStructureCommandEncoder(ptr) : default;
+        }
     }
 
     public MTLBlitCommandEncoder? BlitCommandEncoder
     {
-        get => GetNullableObject<MTLBlitCommandEncoder>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.BlitCommandEncoder));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.BlitCommandEncoder);
+            return ptr is not 0 ? new MTLBlitCommandEncoder(ptr) : default;
+        }
     }
 
     public MTLCommandQueue? CommandQueue
     {
-        get => GetNullableObject<MTLCommandQueue>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.CommandQueue));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.CommandQueue);
+            return ptr is not 0 ? new MTLCommandQueue(ptr) : default;
+        }
     }
 
     public MTLComputeCommandEncoder? ComputeCommandEncoder
     {
-        get => GetNullableObject<MTLComputeCommandEncoder>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.ComputeCommandEncoder));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ComputeCommandEncoder);
+            return ptr is not 0 ? new MTLComputeCommandEncoder(ptr) : default;
+        }
     }
 
     public MTLDevice? Device
     {
-        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.Device));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.Device);
+            return ptr is not 0 ? new MTLDevice(ptr) : default;
+        }
     }
 
     public NSError? Error
     {
-        get => GetNullableObject<NSError>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.Error));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.Error);
+            return ptr is not 0 ? new NSError(ptr) : default;
+        }
     }
 
     public MTLCommandBufferErrorOption ErrorOptions
     {
-        get => (MTLCommandBufferErrorOption)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandBufferSelector.ErrorOptions);
+        get => (MTLCommandBufferErrorOption)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandBufferBindings.ErrorOptions);
     }
 
     public double GPUEndTime
     {
-        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferSelector.GPUEndTime);
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferBindings.GPUEndTime);
     }
 
     public double GPUStartTime
     {
-        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferSelector.GPUStartTime);
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferBindings.GPUStartTime);
     }
 
     public double KernelEndTime
     {
-        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferSelector.KernelEndTime);
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferBindings.KernelEndTime);
     }
 
     public double KernelStartTime
     {
-        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferSelector.KernelStartTime);
+        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLCommandBufferBindings.KernelStartTime);
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.SetLabel, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.SetLabel, value?.NativePtr ?? 0);
     }
 
     public MTLLogContainer? Logs
     {
-        get => GetNullableObject<MTLLogContainer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.Logs));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.Logs);
+            return ptr is not 0 ? new MTLLogContainer(ptr) : default;
+        }
     }
 
     public MTLResourceStateCommandEncoder? ResourceStateCommandEncoder
     {
-        get => GetNullableObject<MTLResourceStateCommandEncoder>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.ResourceStateCommandEncoder));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ResourceStateCommandEncoder);
+            return ptr is not 0 ? new MTLResourceStateCommandEncoder(ptr) : default;
+        }
     }
 
     public bool RetainedReferences
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCommandBufferSelector.RetainedReferences);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCommandBufferBindings.RetainedReferences);
     }
 
     public MTLCommandBufferStatus Status
     {
-        get => (MTLCommandBufferStatus)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandBufferSelector.Status);
+        get => (MTLCommandBufferStatus)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandBufferBindings.Status);
     }
 
     public MTLAccelerationStructureCommandEncoder? AccelerationStructureCommandEncoderWithDescriptor(MTLAccelerationStructurePassDescriptor descriptor)
     {
-        return GetNullableObject<MTLAccelerationStructureCommandEncoder>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.AccelerationStructureCommandEncoder, descriptor.NativePtr));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.AccelerationStructureCommandEncoder, descriptor.NativePtr);
+        return ptr is not 0 ? new MTLAccelerationStructureCommandEncoder(ptr) : default;
     }
 
     public MTLBlitCommandEncoder? BlitCommandEncoderWithDescriptor(MTLBlitPassDescriptor blitPassDescriptor)
     {
-        return GetNullableObject<MTLBlitCommandEncoder>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.BlitCommandEncoder, blitPassDescriptor.NativePtr));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.BlitCommandEncoder, blitPassDescriptor.NativePtr);
+        return ptr is not 0 ? new MTLBlitCommandEncoder(ptr) : default;
     }
 
     public void Commit()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.Commit);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.Commit);
     }
 
     public MTLComputeCommandEncoder? ComputeCommandEncoderWithDescriptor(MTLComputePassDescriptor computePassDescriptor)
     {
-        return GetNullableObject<MTLComputeCommandEncoder>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.ComputeCommandEncoder, computePassDescriptor.NativePtr));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ComputeCommandEncoder, computePassDescriptor.NativePtr);
+        return ptr is not 0 ? new MTLComputeCommandEncoder(ptr) : default;
     }
 
     public MTLComputeCommandEncoder? ComputeCommandEncoderWithDispatchType(MTLDispatchType dispatchType)
     {
-        return GetNullableObject<MTLComputeCommandEncoder>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.ComputeCommandEncoder, (nuint)dispatchType));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ComputeCommandEncoder, (nuint)dispatchType);
+        return ptr is not 0 ? new MTLComputeCommandEncoder(ptr) : default;
     }
 
     public void EncodeSignalEvent(MTLEvent @event, nuint value)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.EncodeSignalEvent, @event.NativePtr, value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.EncodeSignalEvent, @event.NativePtr, value);
     }
 
     public void EncodeWait(MTLEvent @event, nuint value)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.EncodeWait, @event.NativePtr, value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.EncodeWait, @event.NativePtr, value);
     }
 
     public void Enqueue()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.Enqueue);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.Enqueue);
     }
 
     public MTLParallelRenderCommandEncoder? ParallelRenderCommandEncoder(MTLRenderPassDescriptor renderPassDescriptor)
     {
-        return GetNullableObject<MTLParallelRenderCommandEncoder>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.ParallelRenderCommandEncoder, renderPassDescriptor.NativePtr));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ParallelRenderCommandEncoder, renderPassDescriptor.NativePtr);
+        return ptr is not 0 ? new MTLParallelRenderCommandEncoder(ptr) : default;
     }
 
     public void PopDebugGroup()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.PopDebugGroup);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.PopDebugGroup);
     }
 
     public void PresentDrawable(MTLDrawable drawable)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.PresentDrawable, drawable.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.PresentDrawable, drawable.NativePtr);
     }
 
     public void PresentDrawableAfterMinimumDuration(MTLDrawable drawable, double duration)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.PresentDrawableAfterMinimumDuration, drawable.NativePtr, duration);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.PresentDrawableAfterMinimumDuration, drawable.NativePtr, duration);
     }
 
     public void PresentDrawableAtTime(MTLDrawable drawable, double presentationTime)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.PresentDrawableAtTime, drawable.NativePtr, presentationTime);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.PresentDrawableAtTime, drawable.NativePtr, presentationTime);
     }
 
     public void PushDebugGroup(NSString @string)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.PushDebugGroup, @string.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.PushDebugGroup, @string.NativePtr);
     }
 
     public MTLRenderCommandEncoder? RenderCommandEncoder(MTLRenderPassDescriptor renderPassDescriptor)
     {
-        return GetNullableObject<MTLRenderCommandEncoder>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.RenderCommandEncoder, renderPassDescriptor.NativePtr));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.RenderCommandEncoder, renderPassDescriptor.NativePtr);
+        return ptr is not 0 ? new MTLRenderCommandEncoder(ptr) : default;
     }
 
     public MTLResourceStateCommandEncoder? ResourceStateCommandEncoderWithDescriptor(MTLResourceStatePassDescriptor resourceStatePassDescriptor)
     {
-        return GetNullableObject<MTLResourceStateCommandEncoder>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferSelector.ResourceStateCommandEncoder, resourceStatePassDescriptor.NativePtr));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ResourceStateCommandEncoder, resourceStatePassDescriptor.NativePtr);
+        return ptr is not 0 ? new MTLResourceStateCommandEncoder(ptr) : default;
     }
 
     public void UseResidencySet(MTLResidencySet residencySet)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.UseResidencySet, residencySet.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.UseResidencySet, residencySet.NativePtr);
     }
 
     public void WaitUntilCompleted()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.WaitUntilCompleted);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.WaitUntilCompleted);
     }
 
     public void WaitUntilScheduled()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferSelector.WaitUntilScheduled);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.WaitUntilScheduled);
     }
 }
 
-file static class MTLCommandBufferSelector
+file static class MTLCommandBufferBindings
 {
     public static readonly Selector AccelerationStructureCommandEncoder = Selector.Register("accelerationStructureCommandEncoder");
 

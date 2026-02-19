@@ -1,19 +1,21 @@
 namespace Metal.NET;
 
-public class MTL4PipelineDataSetSerializerDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTL4PipelineDataSetSerializerDescriptor(nint nativePtr)
 {
-    public MTL4PipelineDataSetSerializerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineDataSetSerializerDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTL4PipelineDataSetSerializerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineDataSetSerializerDescriptorBindings.Class))
     {
     }
 
     public MTL4PipelineDataSetSerializerConfiguration Configuration
     {
-        get => (MTL4PipelineDataSetSerializerConfiguration)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.Configuration);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDataSetSerializerDescriptorSelector.SetConfiguration, (nuint)value);
+        get => (MTL4PipelineDataSetSerializerConfiguration)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4PipelineDataSetSerializerDescriptorBindings.Configuration);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDataSetSerializerDescriptorBindings.SetConfiguration, (nuint)value);
     }
 }
 
-file static class MTL4PipelineDataSetSerializerDescriptorSelector
+file static class MTL4PipelineDataSetSerializerDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PipelineDataSetSerializerDescriptor");
 

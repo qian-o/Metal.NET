@@ -1,31 +1,33 @@
 namespace Metal.NET;
 
-public class MTLVertexAttributeDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLVertexAttributeDescriptor(nint nativePtr)
 {
-    public MTLVertexAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLVertexAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeDescriptorBindings.Class))
     {
     }
 
     public nuint BufferIndex
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeDescriptorSelector.BufferIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorSelector.SetBufferIndex, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeDescriptorBindings.BufferIndex);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorBindings.SetBufferIndex, value);
     }
 
     public MTLVertexFormat Format
     {
-        get => (MTLVertexFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeDescriptorSelector.Format);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorSelector.SetFormat, (nuint)value);
+        get => (MTLVertexFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeDescriptorBindings.Format);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorBindings.SetFormat, (nuint)value);
     }
 
     public nuint Offset
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeDescriptorSelector.Offset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorSelector.SetOffset, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeDescriptorBindings.Offset);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorBindings.SetOffset, value);
     }
 }
 
-file static class MTLVertexAttributeDescriptorSelector
+file static class MTLVertexAttributeDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexAttributeDescriptor");
 

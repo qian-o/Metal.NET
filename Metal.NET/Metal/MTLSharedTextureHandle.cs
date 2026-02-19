@@ -1,19 +1,29 @@
 namespace Metal.NET;
 
-public class MTLSharedTextureHandle(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLSharedTextureHandle(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
+
     public MTLDevice? Device
     {
-        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedTextureHandleSelector.Device));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedTextureHandleBindings.Device);
+            return ptr is not 0 ? new MTLDevice(ptr) : default;
+        }
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedTextureHandleSelector.Label));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedTextureHandleBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
     }
 }
 
-file static class MTLSharedTextureHandleSelector
+file static class MTLSharedTextureHandleBindings
 {
     public static readonly Selector Device = Selector.Register("device");
 

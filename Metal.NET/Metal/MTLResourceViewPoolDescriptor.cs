@@ -1,25 +1,31 @@
 namespace Metal.NET;
 
-public class MTLResourceViewPoolDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLResourceViewPoolDescriptor(nint nativePtr)
 {
-    public MTLResourceViewPoolDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceViewPoolDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLResourceViewPoolDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceViewPoolDescriptorBindings.Class))
     {
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolDescriptorSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceViewPoolDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolDescriptorBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceViewPoolDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
     }
 
     public nuint ResourceViewCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceViewPoolDescriptorSelector.ResourceViewCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceViewPoolDescriptorSelector.SetResourceViewCount, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceViewPoolDescriptorBindings.ResourceViewCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceViewPoolDescriptorBindings.SetResourceViewCount, value);
     }
 }
 
-file static class MTLResourceViewPoolDescriptorSelector
+file static class MTLResourceViewPoolDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResourceViewPoolDescriptor");
 

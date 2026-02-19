@@ -1,67 +1,86 @@
 namespace Metal.NET;
 
-public class MTLLibrary(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLLibrary(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public MTLDevice? Device
     {
-        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.Device));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.Device);
+            return ptr is not 0 ? new MTLDevice(ptr) : default;
+        }
     }
 
     public NSArray? FunctionNames
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.FunctionNames));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.FunctionNames);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
     }
 
     public NSString? InstallName
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.InstallName));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.InstallName);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLibrarySelector.SetLabel, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLibraryBindings.SetLabel, value?.NativePtr ?? 0);
     }
 
     public MTLLibraryType Type
     {
-        get => (MTLLibraryType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.Type);
+        get => (MTLLibraryType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.Type);
     }
 
     public MTLFunction? NewFunction(NSString functionName)
     {
-        return GetNullableObject<MTLFunction>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.NewFunction, functionName.NativePtr));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.NewFunction, functionName.NativePtr);
+        return ptr is not 0 ? new MTLFunction(ptr) : default;
     }
 
     public MTLFunction? NewFunction(NSString name, MTLFunctionConstantValues constantValues, out NSError? error)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.NewFunction, name.NativePtr, constantValues.NativePtr, out nint errorPtr);
-        error = GetNullableObject<NSError>(errorPtr);
-        return GetNullableObject<MTLFunction>(ptr);
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.NewFunction, name.NativePtr, constantValues.NativePtr, out nint errorPtr);
+        error = errorPtr is not 0 ? new NSError(errorPtr) : default;
+        return ptr is not 0 ? new MTLFunction(ptr) : default;
     }
 
     public MTLFunction? NewFunction(MTLFunctionDescriptor descriptor, out NSError? error)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.NewFunction, descriptor.NativePtr, out nint errorPtr);
-        error = GetNullableObject<NSError>(errorPtr);
-        return GetNullableObject<MTLFunction>(ptr);
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.NewFunction, descriptor.NativePtr, out nint errorPtr);
+        error = errorPtr is not 0 ? new NSError(errorPtr) : default;
+        return ptr is not 0 ? new MTLFunction(ptr) : default;
     }
 
     public MTLFunction? NewIntersectionFunction(MTLIntersectionFunctionDescriptor descriptor, out NSError? error)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.NewIntersectionFunction, descriptor.NativePtr, out nint errorPtr);
-        error = GetNullableObject<NSError>(errorPtr);
-        return GetNullableObject<MTLFunction>(ptr);
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.NewIntersectionFunction, descriptor.NativePtr, out nint errorPtr);
+        error = errorPtr is not 0 ? new NSError(errorPtr) : default;
+        return ptr is not 0 ? new MTLFunction(ptr) : default;
     }
 
     public MTLFunctionReflection? ReflectionForFunction(NSString functionName)
     {
-        return GetNullableObject<MTLFunctionReflection>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibrarySelector.ReflectionForFunction, functionName.NativePtr));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.ReflectionForFunction, functionName.NativePtr);
+        return ptr is not 0 ? new MTLFunctionReflection(ptr) : default;
     }
 }
 
-file static class MTLLibrarySelector
+file static class MTLLibraryBindings
 {
     public static readonly Selector Device = Selector.Register("device");
 

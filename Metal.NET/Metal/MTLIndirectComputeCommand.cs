@@ -1,55 +1,56 @@
 namespace Metal.NET;
 
-public class MTLIndirectComputeCommand(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLIndirectComputeCommand(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public void ClearBarrier()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.ClearBarrier);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.ClearBarrier);
     }
 
     public void ConcurrentDispatchThreadgroups(MTLSize threadgroupsPerGrid, MTLSize threadsPerThreadgroup)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.ConcurrentDispatchThreadgroups, threadgroupsPerGrid, threadsPerThreadgroup);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.ConcurrentDispatchThreadgroups, threadgroupsPerGrid, threadsPerThreadgroup);
     }
 
     public void ConcurrentDispatchThreads(MTLSize threadsPerGrid, MTLSize threadsPerThreadgroup)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.ConcurrentDispatchThreads, threadsPerGrid, threadsPerThreadgroup);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.ConcurrentDispatchThreads, threadsPerGrid, threadsPerThreadgroup);
     }
 
     public void Reset()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.Reset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.Reset);
     }
 
     public void SetBarrier()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetBarrier);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetBarrier);
     }
 
     public void SetImageblockWidth(nuint width, nuint height)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetImageblockWidth, width, height);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetImageblockWidth, width, height);
     }
 
     public void SetKernelBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetKernelBuffer, buffer.NativePtr, offset, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetKernelBuffer, buffer.NativePtr, offset, index);
     }
 
     public void SetKernelBuffer(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetKernelBuffer, buffer.NativePtr, offset, stride, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetKernelBuffer, buffer.NativePtr, offset, stride, index);
     }
 
     public void SetThreadgroupMemoryLength(nuint length, nuint index)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandSelector.SetThreadgroupMemoryLength, length, index);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetThreadgroupMemoryLength, length, index);
     }
 }
 
-file static class MTLIndirectComputeCommandSelector
+file static class MTLIndirectComputeCommandBindings
 {
     public static readonly Selector ClearBarrier = Selector.Register("clearBarrier");
 

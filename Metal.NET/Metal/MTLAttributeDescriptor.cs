@@ -1,31 +1,33 @@
 namespace Metal.NET;
 
-public class MTLAttributeDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLAttributeDescriptor(nint nativePtr)
 {
-    public MTLAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAttributeDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAttributeDescriptorBindings.Class))
     {
     }
 
     public nuint BufferIndex
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorSelector.BufferIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetBufferIndex, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorBindings.BufferIndex);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorBindings.SetBufferIndex, value);
     }
 
     public MTLAttributeFormat Format
     {
-        get => (MTLAttributeFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorSelector.Format);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetFormat, (nuint)value);
+        get => (MTLAttributeFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorBindings.Format);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorBindings.SetFormat, (nuint)value);
     }
 
     public nuint Offset
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorSelector.Offset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorSelector.SetOffset, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorBindings.Offset);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorBindings.SetOffset, value);
     }
 }
 
-file static class MTLAttributeDescriptorSelector
+file static class MTLAttributeDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAttributeDescriptor");
 

@@ -1,35 +1,44 @@
 namespace Metal.NET;
 
-public class MTLBufferBinding(nint nativePtr) : MTLBinding(nativePtr)
+public readonly struct MTLBufferBinding(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public nuint BufferAlignment
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingSelector.BufferAlignment);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingBindings.BufferAlignment);
     }
 
     public nuint BufferDataSize
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingSelector.BufferDataSize);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingBindings.BufferDataSize);
     }
 
     public MTLDataType BufferDataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingSelector.BufferDataType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingBindings.BufferDataType);
     }
 
     public MTLPointerType? BufferPointerType
     {
-        get => GetNullableObject<MTLPointerType>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindingSelector.BufferPointerType));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindingBindings.BufferPointerType);
+            return ptr is not 0 ? new MTLPointerType(ptr) : default;
+        }
     }
 
     public MTLStructType? BufferStructType
     {
-        get => GetNullableObject<MTLStructType>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindingSelector.BufferStructType));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindingBindings.BufferStructType);
+            return ptr is not 0 ? new MTLStructType(ptr) : default;
+        }
     }
 }
 
-file static class MTLBufferBindingSelector
+file static class MTLBufferBindingBindings
 {
     public static readonly Selector BufferAlignment = Selector.Register("bufferAlignment");
 

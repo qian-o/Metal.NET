@@ -1,19 +1,21 @@
 namespace Metal.NET;
 
-public class MTLFunctionStitchingInputNode(nint nativePtr) : MTLFunctionStitchingNode(nativePtr)
+public readonly struct MTLFunctionStitchingInputNode(nint nativePtr)
 {
-    public MTLFunctionStitchingInputNode() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingInputNodeSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLFunctionStitchingInputNode() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingInputNodeBindings.Class))
     {
     }
 
     public nuint ArgumentIndex
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionStitchingInputNodeSelector.ArgumentIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionStitchingInputNodeSelector.SetArgumentIndex, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionStitchingInputNodeBindings.ArgumentIndex);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionStitchingInputNodeBindings.SetArgumentIndex, value);
     }
 }
 
-file static class MTLFunctionStitchingInputNodeSelector
+file static class MTLFunctionStitchingInputNodeBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingInputNode");
 

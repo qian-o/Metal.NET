@@ -1,58 +1,64 @@
 namespace Metal.NET;
 
-public class MTLAttribute(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLAttribute(nint nativePtr)
 {
-    public MTLAttribute() : this(ObjectiveCRuntime.AllocInit(MTLAttributeSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLAttribute() : this(ObjectiveCRuntime.AllocInit(MTLAttributeBindings.Class))
     {
     }
 
     public bool Active
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.Active);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeBindings.Active);
     }
 
     public nuint AttributeIndex
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeSelector.AttributeIndex);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeBindings.AttributeIndex);
     }
 
     public MTLDataType AttributeType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeSelector.AttributeType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeBindings.AttributeType);
     }
 
     public bool IsActive
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.IsActive);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeBindings.IsActive);
     }
 
     public bool IsPatchControlPointData
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.IsPatchControlPointData);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeBindings.IsPatchControlPointData);
     }
 
     public bool IsPatchData
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.IsPatchData);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeBindings.IsPatchData);
     }
 
     public NSString? Name
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeSelector.Name));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeBindings.Name);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
     }
 
     public bool PatchControlPointData
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.PatchControlPointData);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeBindings.PatchControlPointData);
     }
 
     public bool PatchData
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeSelector.PatchData);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeBindings.PatchData);
     }
 }
 
-file static class MTLAttributeSelector
+file static class MTLAttributeBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAttribute");
 

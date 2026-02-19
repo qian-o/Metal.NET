@@ -1,24 +1,27 @@
 namespace Metal.NET;
 
-public class MTLIntersectionFunctionTableDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLIntersectionFunctionTableDescriptor(nint nativePtr)
 {
-    public MTLIntersectionFunctionTableDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIntersectionFunctionTableDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLIntersectionFunctionTableDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIntersectionFunctionTableDescriptorBindings.Class))
     {
     }
 
     public nuint FunctionCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIntersectionFunctionTableDescriptorSelector.FunctionCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableDescriptorSelector.SetFunctionCount, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIntersectionFunctionTableDescriptorBindings.FunctionCount);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableDescriptorBindings.SetFunctionCount, value);
     }
 
     public static MTLIntersectionFunctionTableDescriptor? IntersectionFunctionTableDescriptor()
     {
-        return GetNullableObject<MTLIntersectionFunctionTableDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLIntersectionFunctionTableDescriptorSelector.Class, MTLIntersectionFunctionTableDescriptorSelector.IntersectionFunctionTableDescriptor));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLIntersectionFunctionTableDescriptorBindings.Class, MTLIntersectionFunctionTableDescriptorBindings.IntersectionFunctionTableDescriptor);
+        return ptr is not 0 ? new MTLIntersectionFunctionTableDescriptor(ptr) : default;
     }
 }
 
-file static class MTLIntersectionFunctionTableDescriptorSelector
+file static class MTLIntersectionFunctionTableDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIntersectionFunctionTableDescriptor");
 

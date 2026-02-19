@@ -1,15 +1,20 @@
 namespace Metal.NET;
 
-public class MTLCounter(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLCounter(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public NSString? Name
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSelector.Name));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterBindings.Name);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
     }
 }
 
-file static class MTLCounterSelector
+file static class MTLCounterBindings
 {
     public static readonly Selector Name = Selector.Register("name");
 }

@@ -1,36 +1,51 @@
 namespace Metal.NET;
 
-public class MTLLinkedFunctions(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLLinkedFunctions(nint nativePtr)
 {
-    public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(MTLLinkedFunctionsSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(MTLLinkedFunctionsBindings.Class))
     {
     }
 
     public NSArray? BinaryFunctions
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLinkedFunctionsSelector.BinaryFunctions));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsSelector.SetBinaryFunctions, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLinkedFunctionsBindings.BinaryFunctions);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsBindings.SetBinaryFunctions, value?.NativePtr ?? 0);
     }
 
     public NSArray? Functions
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLinkedFunctionsSelector.Functions));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsSelector.SetFunctions, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLinkedFunctionsBindings.Functions);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsBindings.SetFunctions, value?.NativePtr ?? 0);
     }
 
     public NSArray? PrivateFunctions
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLinkedFunctionsSelector.PrivateFunctions));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsSelector.SetPrivateFunctions, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLinkedFunctionsBindings.PrivateFunctions);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLinkedFunctionsBindings.SetPrivateFunctions, value?.NativePtr ?? 0);
     }
 
     public static MTLLinkedFunctions? LinkedFunctions()
     {
-        return GetNullableObject<MTLLinkedFunctions>(ObjectiveCRuntime.MsgSendPtr(MTLLinkedFunctionsSelector.Class, MTLLinkedFunctionsSelector.LinkedFunctions));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLLinkedFunctionsBindings.Class, MTLLinkedFunctionsBindings.LinkedFunctions);
+        return ptr is not 0 ? new MTLLinkedFunctions(ptr) : default;
     }
 }
 
-file static class MTLLinkedFunctionsSelector
+file static class MTLLinkedFunctionsBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLLinkedFunctions");
 

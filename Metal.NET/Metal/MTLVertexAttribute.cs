@@ -1,58 +1,64 @@
 namespace Metal.NET;
 
-public class MTLVertexAttribute(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLVertexAttribute(nint nativePtr)
 {
-    public MTLVertexAttribute() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLVertexAttribute() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeBindings.Class))
     {
     }
 
     public bool Active
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.Active);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.Active);
     }
 
     public nuint AttributeIndex
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeSelector.AttributeIndex);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeBindings.AttributeIndex);
     }
 
     public MTLDataType AttributeType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeSelector.AttributeType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeBindings.AttributeType);
     }
 
     public bool IsActive
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.IsActive);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsActive);
     }
 
     public bool IsPatchControlPointData
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.IsPatchControlPointData);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsPatchControlPointData);
     }
 
     public bool IsPatchData
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.IsPatchData);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsPatchData);
     }
 
     public NSString? Name
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeSelector.Name));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeBindings.Name);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
     }
 
     public bool PatchControlPointData
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.PatchControlPointData);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.PatchControlPointData);
     }
 
     public bool PatchData
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeSelector.PatchData);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.PatchData);
     }
 }
 
-file static class MTLVertexAttributeSelector
+file static class MTLVertexAttributeBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexAttribute");
 

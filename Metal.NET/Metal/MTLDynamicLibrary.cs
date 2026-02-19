@@ -1,33 +1,46 @@
 namespace Metal.NET;
 
-public class MTLDynamicLibrary(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLDynamicLibrary(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public MTLDevice? Device
     {
-        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibrarySelector.Device));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibraryBindings.Device);
+            return ptr is not 0 ? new MTLDevice(ptr) : default;
+        }
     }
 
     public NSString? InstallName
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibrarySelector.InstallName));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibraryBindings.InstallName);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibrarySelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDynamicLibrarySelector.SetLabel, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDynamicLibraryBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDynamicLibraryBindings.SetLabel, value?.NativePtr ?? 0);
     }
 
     public bool SerializeToURL(NSURL url, out NSError? error)
     {
-        var result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDynamicLibrarySelector.SerializeToURL, url.NativePtr, out nint errorPtr);
-        error = GetNullableObject<NSError>(errorPtr);
+        var result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDynamicLibraryBindings.SerializeToURL, url.NativePtr, out nint errorPtr);
+        error = errorPtr is not 0 ? new NSError(errorPtr) : default;
         return result;
     }
 }
 
-file static class MTLDynamicLibrarySelector
+file static class MTLDynamicLibraryBindings
 {
     public static readonly Selector Device = Selector.Register("device");
 

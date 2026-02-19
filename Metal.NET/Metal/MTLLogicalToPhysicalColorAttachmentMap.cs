@@ -1,28 +1,30 @@
 namespace Metal.NET;
 
-public class MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr)
 {
-    public MTLLogicalToPhysicalColorAttachmentMap() : this(ObjectiveCRuntime.AllocInit(MTLLogicalToPhysicalColorAttachmentMapSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLLogicalToPhysicalColorAttachmentMap() : this(ObjectiveCRuntime.AllocInit(MTLLogicalToPhysicalColorAttachmentMapBindings.Class))
     {
     }
 
     public nuint GetPhysicalIndex(nuint logicalIndex)
     {
-        return ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLLogicalToPhysicalColorAttachmentMapSelector.GetPhysicalIndex, logicalIndex);
+        return ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLLogicalToPhysicalColorAttachmentMapBindings.GetPhysicalIndex, logicalIndex);
     }
 
     public void Reset()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapSelector.Reset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapBindings.Reset);
     }
 
     public void SetPhysicalIndex(nuint physicalIndex, nuint logicalIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapSelector.SetPhysicalIndex, physicalIndex, logicalIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLLogicalToPhysicalColorAttachmentMapBindings.SetPhysicalIndex, physicalIndex, logicalIndex);
     }
 }
 
-file static class MTLLogicalToPhysicalColorAttachmentMapSelector
+file static class MTLLogicalToPhysicalColorAttachmentMapBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLLogicalToPhysicalColorAttachmentMap");
 

@@ -1,91 +1,100 @@
 namespace Metal.NET;
 
-public class MTLIOCommandBuffer(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLIOCommandBuffer(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public NSError? Error
     {
-        get => GetNullableObject<NSError>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferSelector.Error));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferBindings.Error);
+            return ptr is not 0 ? new NSError(ptr) : default;
+        }
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.SetLabel, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.SetLabel, value?.NativePtr ?? 0);
     }
 
     public MTLIOStatus Status
     {
-        get => (MTLIOStatus)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferSelector.Status);
+        get => (MTLIOStatus)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferBindings.Status);
     }
 
     public void AddBarrier()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.AddBarrier);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.AddBarrier);
     }
 
     public void Commit()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.Commit);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.Commit);
     }
 
     public void CopyStatusToBuffer(MTLBuffer buffer, nuint offset)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.CopyStatusToBuffer, buffer.NativePtr, offset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.CopyStatusToBuffer, buffer.NativePtr, offset);
     }
 
     public void Enqueue()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.Enqueue);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.Enqueue);
     }
 
     public void LoadBuffer(MTLBuffer buffer, nuint offset, nuint size, MTLIOFileHandle sourceHandle, nuint sourceHandleOffset)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.LoadBuffer, buffer.NativePtr, offset, size, sourceHandle.NativePtr, sourceHandleOffset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.LoadBuffer, buffer.NativePtr, offset, size, sourceHandle.NativePtr, sourceHandleOffset);
     }
 
     public void LoadBytes(nint pointer, nuint size, MTLIOFileHandle sourceHandle, nuint sourceHandleOffset)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.LoadBytes, pointer, size, sourceHandle.NativePtr, sourceHandleOffset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.LoadBytes, pointer, size, sourceHandle.NativePtr, sourceHandleOffset);
     }
 
     public void LoadTexture(MTLTexture texture, nuint slice, nuint level, MTLSize size, nuint sourceBytesPerRow, nuint sourceBytesPerImage, MTLOrigin destinationOrigin, MTLIOFileHandle sourceHandle, nuint sourceHandleOffset)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.LoadTexture, texture.NativePtr, slice, level, size, sourceBytesPerRow, sourceBytesPerImage, destinationOrigin, sourceHandle.NativePtr, sourceHandleOffset);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.LoadTexture, texture.NativePtr, slice, level, size, sourceBytesPerRow, sourceBytesPerImage, destinationOrigin, sourceHandle.NativePtr, sourceHandleOffset);
     }
 
     public void PopDebugGroup()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.PopDebugGroup);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.PopDebugGroup);
     }
 
     public void PushDebugGroup(NSString @string)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.PushDebugGroup, @string.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.PushDebugGroup, @string.NativePtr);
     }
 
     public void SignalEvent(MTLSharedEvent @event, nuint value)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.SignalEvent, @event.NativePtr, value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.SignalEvent, @event.NativePtr, value);
     }
 
     public void TryCancel()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.TryCancel);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.TryCancel);
     }
 
     public void Wait(MTLSharedEvent @event, nuint value)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.Wait, @event.NativePtr, value);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.Wait, @event.NativePtr, value);
     }
 
     public void WaitUntilCompleted()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferSelector.WaitUntilCompleted);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.WaitUntilCompleted);
     }
 }
 
-file static class MTLIOCommandBufferSelector
+file static class MTLIOCommandBufferBindings
 {
     public static readonly Selector AddBarrier = Selector.Register("addBarrier");
 

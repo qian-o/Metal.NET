@@ -1,79 +1,89 @@
 namespace Metal.NET;
 
-public class MTLRenderPassAttachmentDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLRenderPassAttachmentDescriptor(nint nativePtr)
 {
-    public MTLRenderPassAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassAttachmentDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLRenderPassAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassAttachmentDescriptorBindings.Class))
     {
     }
 
     public nuint DepthPlane
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.DepthPlane);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetDepthPlane, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.DepthPlane);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetDepthPlane, value);
     }
 
     public nuint Level
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.Level);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetLevel, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.Level);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetLevel, value);
     }
 
     public MTLLoadAction LoadAction
     {
-        get => (MTLLoadAction)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.LoadAction);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetLoadAction, (nuint)value);
+        get => (MTLLoadAction)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.LoadAction);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetLoadAction, (nuint)value);
     }
 
     public nuint ResolveDepthPlane
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.ResolveDepthPlane);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetResolveDepthPlane, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.ResolveDepthPlane);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetResolveDepthPlane, value);
     }
 
     public nuint ResolveLevel
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.ResolveLevel);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetResolveLevel, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.ResolveLevel);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetResolveLevel, value);
     }
 
     public nuint ResolveSlice
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.ResolveSlice);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetResolveSlice, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.ResolveSlice);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetResolveSlice, value);
     }
 
     public MTLTexture? ResolveTexture
     {
-        get => GetNullableObject<MTLTexture>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassAttachmentDescriptorSelector.ResolveTexture));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetResolveTexture, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassAttachmentDescriptorBindings.ResolveTexture);
+            return ptr is not 0 ? new MTLTexture(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetResolveTexture, value?.NativePtr ?? 0);
     }
 
     public nuint Slice
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.Slice);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetSlice, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.Slice);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetSlice, value);
     }
 
     public MTLStoreAction StoreAction
     {
-        get => (MTLStoreAction)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.StoreAction);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetStoreAction, (nuint)value);
+        get => (MTLStoreAction)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.StoreAction);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetStoreAction, (nuint)value);
     }
 
     public MTLStoreActionOptions StoreActionOptions
     {
-        get => (MTLStoreActionOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorSelector.StoreActionOptions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetStoreActionOptions, (nuint)value);
+        get => (MTLStoreActionOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.StoreActionOptions);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetStoreActionOptions, (nuint)value);
     }
 
     public MTLTexture? Texture
     {
-        get => GetNullableObject<MTLTexture>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassAttachmentDescriptorSelector.Texture));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorSelector.SetTexture, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassAttachmentDescriptorBindings.Texture);
+            return ptr is not 0 ? new MTLTexture(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetTexture, value?.NativePtr ?? 0);
     }
 }
 
-file static class MTLRenderPassAttachmentDescriptorSelector
+file static class MTLRenderPassAttachmentDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassAttachmentDescriptor");
 

@@ -1,35 +1,44 @@
 namespace Metal.NET;
 
-public class MTLResourceViewPool(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLResourceViewPool(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public MTLResourceID BaseResourceID
     {
-        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLResourceViewPoolSelector.BaseResourceID);
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLResourceViewPoolBindings.BaseResourceID);
     }
 
     public MTLDevice? Device
     {
-        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolSelector.Device));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolBindings.Device);
+            return ptr is not 0 ? new MTLDevice(ptr) : default;
+        }
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolSelector.Label));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceViewPoolBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
     }
 
     public nuint ResourceViewCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceViewPoolSelector.ResourceViewCount);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceViewPoolBindings.ResourceViewCount);
     }
 
     public MTLResourceID CopyResourceViewsFromPool(MTLResourceViewPool sourcePool, NSRange sourceRange, nuint destinationIndex)
     {
-        return ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLResourceViewPoolSelector.CopyResourceViewsFromPool, sourcePool.NativePtr, sourceRange, destinationIndex);
+        return ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLResourceViewPoolBindings.CopyResourceViewsFromPool, sourcePool.NativePtr, sourceRange, destinationIndex);
     }
 }
 
-file static class MTLResourceViewPoolSelector
+file static class MTLResourceViewPoolBindings
 {
     public static readonly Selector BaseResourceID = Selector.Register("baseResourceID");
 

@@ -1,29 +1,36 @@
 namespace Metal.NET;
 
-public class MTLComputePassDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLComputePassDescriptor(nint nativePtr)
 {
-    public MTLComputePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLComputePassDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLComputePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLComputePassDescriptorBindings.Class))
     {
     }
 
     public MTLDispatchType DispatchType
     {
-        get => (MTLDispatchType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePassDescriptorSelector.DispatchType);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePassDescriptorSelector.SetDispatchType, (nuint)value);
+        get => (MTLDispatchType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePassDescriptorBindings.DispatchType);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePassDescriptorBindings.SetDispatchType, (nuint)value);
     }
 
     public MTLComputePassSampleBufferAttachmentDescriptorArray? SampleBufferAttachments
     {
-        get => GetNullableObject<MTLComputePassSampleBufferAttachmentDescriptorArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePassDescriptorSelector.SampleBufferAttachments));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePassDescriptorBindings.SampleBufferAttachments);
+            return ptr is not 0 ? new MTLComputePassSampleBufferAttachmentDescriptorArray(ptr) : default;
+        }
     }
 
     public static MTLComputePassDescriptor? ComputePassDescriptor()
     {
-        return GetNullableObject<MTLComputePassDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLComputePassDescriptorSelector.Class, MTLComputePassDescriptorSelector.ComputePassDescriptor));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLComputePassDescriptorBindings.Class, MTLComputePassDescriptorBindings.ComputePassDescriptor);
+        return ptr is not 0 ? new MTLComputePassDescriptor(ptr) : default;
     }
 }
 
-file static class MTLComputePassDescriptorSelector
+file static class MTLComputePassDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePassDescriptor");
 

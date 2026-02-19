@@ -1,68 +1,16 @@
-﻿namespace Metal.NET;
+﻿using System.Runtime.InteropServices;
+
+namespace Metal.NET;
 
 /// <summary>
-/// Base class for all Objective-C native object wrappers.
-/// Manages the native pointer lifetime with reference counting.
+/// Lightweight value-type wrapper for an Objective-C native pointer.
+/// No reference counting or IDisposable overhead.
 /// </summary>
-public abstract class NativeObject : IDisposable
+[StructLayout(LayoutKind.Sequential)]
+public readonly struct NativeObject(nint nativePtr)
 {
-    private bool disposed;
-
-    protected NativeObject(nint nativePtr) : this(nativePtr, true)
-    {
-    }
-
-    protected NativeObject(nint nativePtr, bool retainOnCreate)
-    {
-        NativePtr = nativePtr;
-
-        if (nativePtr is not 0 && retainOnCreate)
-        {
-            ObjectiveCRuntime.Retain(nativePtr);
-        }
-    }
-
-    ~NativeObject()
-    {
-        Dispose(false);
-    }
-
     /// <summary>
     /// The underlying Objective-C pointer.
     /// </summary>
-    public nint NativePtr { get; }
-
-    /// <summary>
-    /// Creates a nullable wrapper object from a native pointer.
-    /// Returns null if the pointer is zero (nil in Objective-C).
-    /// </summary>
-    public static T? GetNullableObject<T>(nint nativePtr) where T : NativeObject
-    {
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        return (T)Activator.CreateInstance(typeof(T), nativePtr)!;
-    }
-
-    public void Dispose()
-    {
-        Dispose(true);
-
-        GC.SuppressFinalize(this);
-    }
-
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!disposed)
-        {
-            if (NativePtr is not 0)
-            {
-                ObjectiveCRuntime.Release(NativePtr);
-            }
-
-            disposed = true;
-        }
-    }
+    public readonly nint NativePtr = nativePtr;
 }

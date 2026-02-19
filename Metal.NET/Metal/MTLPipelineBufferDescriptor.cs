@@ -1,19 +1,21 @@
 namespace Metal.NET;
 
-public class MTLPipelineBufferDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLPipelineBufferDescriptor(nint nativePtr)
 {
-    public MTLPipelineBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLPipelineBufferDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLPipelineBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLPipelineBufferDescriptorBindings.Class))
     {
     }
 
     public MTLMutability Mutability
     {
-        get => (MTLMutability)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPipelineBufferDescriptorSelector.Mutability);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorSelector.SetMutability, (nuint)value);
+        get => (MTLMutability)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPipelineBufferDescriptorBindings.Mutability);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorBindings.SetMutability, (nuint)value);
     }
 }
 
-file static class MTLPipelineBufferDescriptorSelector
+file static class MTLPipelineBufferDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPipelineBufferDescriptor");
 

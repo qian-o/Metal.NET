@@ -1,25 +1,35 @@
 namespace Metal.NET;
 
-public class MTL4PipelineDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTL4PipelineDescriptor(nint nativePtr)
 {
-    public MTL4PipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTL4PipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineDescriptorBindings.Class))
     {
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDescriptorSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDescriptorBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
     }
 
     public MTL4PipelineOptions? Options
     {
-        get => GetNullableObject<MTL4PipelineOptions>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDescriptorSelector.Options));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDescriptorSelector.SetOptions, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDescriptorBindings.Options);
+            return ptr is not 0 ? new MTL4PipelineOptions(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDescriptorBindings.SetOptions, value?.NativePtr ?? 0);
     }
 }
 
-file static class MTL4PipelineDescriptorSelector
+file static class MTL4PipelineDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PipelineDescriptor");
 

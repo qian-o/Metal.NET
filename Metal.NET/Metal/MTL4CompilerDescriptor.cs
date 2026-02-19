@@ -1,25 +1,35 @@
 namespace Metal.NET;
 
-public class MTL4CompilerDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTL4CompilerDescriptor(nint nativePtr)
 {
-    public MTL4CompilerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CompilerDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTL4CompilerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CompilerDescriptorBindings.Class))
     {
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerDescriptorSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerDescriptorSelector.SetLabel, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerDescriptorBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerDescriptorBindings.SetLabel, value?.NativePtr ?? 0);
     }
 
     public MTL4PipelineDataSetSerializer? PipelineDataSetSerializer
     {
-        get => GetNullableObject<MTL4PipelineDataSetSerializer>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerDescriptorSelector.PipelineDataSetSerializer));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerDescriptorSelector.SetPipelineDataSetSerializer, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerDescriptorBindings.PipelineDataSetSerializer);
+            return ptr is not 0 ? new MTL4PipelineDataSetSerializer(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerDescriptorBindings.SetPipelineDataSetSerializer, value?.NativePtr ?? 0);
     }
 }
 
-file static class MTL4CompilerDescriptorSelector
+file static class MTL4CompilerDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CompilerDescriptor");
 

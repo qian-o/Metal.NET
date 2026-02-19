@@ -1,30 +1,43 @@
 namespace Metal.NET;
 
-public class MTLFunctionLog(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLFunctionLog(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public MTLFunctionLogDebugLocation? DebugLocation
     {
-        get => GetNullableObject<MTLFunctionLogDebugLocation>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.DebugLocation));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogBindings.DebugLocation);
+            return ptr is not 0 ? new MTLFunctionLogDebugLocation(ptr) : default;
+        }
     }
 
     public NSString? EncoderLabel
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.EncoderLabel));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogBindings.EncoderLabel);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
     }
 
     public MTLFunction? Function
     {
-        get => GetNullableObject<MTLFunction>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogSelector.Function));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionLogBindings.Function);
+            return ptr is not 0 ? new MTLFunction(ptr) : default;
+        }
     }
 
     public MTLFunctionLogType Type
     {
-        get => (MTLFunctionLogType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionLogSelector.Type);
+        get => (MTLFunctionLogType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionLogBindings.Type);
     }
 }
 
-file static class MTLFunctionLogSelector
+file static class MTLFunctionLogBindings
 {
     public static readonly Selector DebugLocation = Selector.Register("debugLocation");
 

@@ -1,31 +1,45 @@
 namespace Metal.NET;
 
-public class MTL4LibraryDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTL4LibraryDescriptor(nint nativePtr)
 {
-    public MTL4LibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4LibraryDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTL4LibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4LibraryDescriptorBindings.Class))
     {
     }
 
     public NSString? Name
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryDescriptorSelector.Name));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorSelector.SetName, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryDescriptorBindings.Name);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorBindings.SetName, value?.NativePtr ?? 0);
     }
 
     public MTLCompileOptions? Options
     {
-        get => GetNullableObject<MTLCompileOptions>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryDescriptorSelector.Options));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorSelector.SetOptions, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryDescriptorBindings.Options);
+            return ptr is not 0 ? new MTLCompileOptions(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorBindings.SetOptions, value?.NativePtr ?? 0);
     }
 
     public NSString? Source
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryDescriptorSelector.Source));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorSelector.SetSource, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4LibraryDescriptorBindings.Source);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4LibraryDescriptorBindings.SetSource, value?.NativePtr ?? 0);
     }
 }
 
-file static class MTL4LibraryDescriptorSelector
+file static class MTL4LibraryDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4LibraryDescriptor");
 

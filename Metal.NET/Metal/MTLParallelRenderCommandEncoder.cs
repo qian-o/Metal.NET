@@ -1,25 +1,30 @@
 namespace Metal.NET;
 
-public class MTLParallelRenderCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr)
+public readonly struct MTLParallelRenderCommandEncoder(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public MTLRenderCommandEncoder? RenderCommandEncoder
     {
-        get => GetNullableObject<MTLRenderCommandEncoder>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLParallelRenderCommandEncoderSelector.RenderCommandEncoder));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLParallelRenderCommandEncoderBindings.RenderCommandEncoder);
+            return ptr is not 0 ? new MTLRenderCommandEncoder(ptr) : default;
+        }
     }
 
     public void SetColorStoreAction(MTLStoreAction storeAction, nuint colorAttachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetColorStoreAction, (nuint)storeAction, colorAttachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.SetColorStoreAction, (nuint)storeAction, colorAttachmentIndex);
     }
 
     public void SetColorStoreActionOptions(MTLStoreActionOptions storeActionOptions, nuint colorAttachmentIndex)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderSelector.SetColorStoreActionOptions, (nuint)storeActionOptions, colorAttachmentIndex);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLParallelRenderCommandEncoderBindings.SetColorStoreActionOptions, (nuint)storeActionOptions, colorAttachmentIndex);
     }
 }
 
-file static class MTLParallelRenderCommandEncoderSelector
+file static class MTLParallelRenderCommandEncoderBindings
 {
     public static readonly Selector RenderCommandEncoder = Selector.Register("renderCommandEncoder");
 

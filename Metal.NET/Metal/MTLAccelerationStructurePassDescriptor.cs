@@ -1,23 +1,30 @@
 namespace Metal.NET;
 
-public class MTLAccelerationStructurePassDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLAccelerationStructurePassDescriptor(nint nativePtr)
 {
-    public MTLAccelerationStructurePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLAccelerationStructurePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassDescriptorBindings.Class))
     {
     }
 
     public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray? SampleBufferAttachments
     {
-        get => GetNullableObject<MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructurePassDescriptorSelector.SampleBufferAttachments));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructurePassDescriptorBindings.SampleBufferAttachments);
+            return ptr is not 0 ? new MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray(ptr) : default;
+        }
     }
 
     public static MTLAccelerationStructurePassDescriptor? AccelerationStructurePassDescriptor()
     {
-        return GetNullableObject<MTLAccelerationStructurePassDescriptor>(ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructurePassDescriptorSelector.Class, MTLAccelerationStructurePassDescriptorSelector.AccelerationStructurePassDescriptor));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructurePassDescriptorBindings.Class, MTLAccelerationStructurePassDescriptorBindings.AccelerationStructurePassDescriptor);
+        return ptr is not 0 ? new MTLAccelerationStructurePassDescriptor(ptr) : default;
     }
 }
 
-file static class MTLAccelerationStructurePassDescriptorSelector
+file static class MTLAccelerationStructurePassDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructurePassDescriptor");
 

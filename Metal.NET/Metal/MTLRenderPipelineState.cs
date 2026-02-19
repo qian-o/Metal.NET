@@ -1,144 +1,166 @@
 namespace Metal.NET;
 
-public class MTLRenderPipelineState(nint nativePtr) : MTLAllocation(nativePtr)
+public readonly struct MTLRenderPipelineState(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public MTLDevice? Device
     {
-        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Device));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.Device);
+            return ptr is not 0 ? new MTLDevice(ptr) : default;
+        }
     }
 
     public MTLResourceID GpuResourceID
     {
-        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLRenderPipelineStateSelector.GpuResourceID);
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLRenderPipelineStateBindings.GpuResourceID);
     }
 
     public nuint ImageblockSampleLength
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.ImageblockSampleLength);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateBindings.ImageblockSampleLength);
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Label));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
     }
 
     public nuint MaxTotalThreadgroupsPerMeshGrid
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.MaxTotalThreadgroupsPerMeshGrid);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateBindings.MaxTotalThreadgroupsPerMeshGrid);
     }
 
     public nuint MaxTotalThreadsPerMeshThreadgroup
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.MaxTotalThreadsPerMeshThreadgroup);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateBindings.MaxTotalThreadsPerMeshThreadgroup);
     }
 
     public nuint MaxTotalThreadsPerObjectThreadgroup
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.MaxTotalThreadsPerObjectThreadgroup);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateBindings.MaxTotalThreadsPerObjectThreadgroup);
     }
 
     public nuint MaxTotalThreadsPerThreadgroup
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.MaxTotalThreadsPerThreadgroup);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateBindings.MaxTotalThreadsPerThreadgroup);
     }
 
     public nuint MeshThreadExecutionWidth
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.MeshThreadExecutionWidth);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateBindings.MeshThreadExecutionWidth);
     }
 
     public MTL4PipelineDescriptor? NewRenderPipelineDescriptor
     {
-        get => GetNullableObject<MTL4PipelineDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineDescriptor));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewRenderPipelineDescriptor);
+            return ptr is not 0 ? new MTL4PipelineDescriptor(ptr) : default;
+        }
     }
 
     public nuint ObjectThreadExecutionWidth
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.ObjectThreadExecutionWidth);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateBindings.ObjectThreadExecutionWidth);
     }
 
     public MTLRenderPipelineReflection? Reflection
     {
-        get => GetNullableObject<MTLRenderPipelineReflection>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.Reflection));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.Reflection);
+            return ptr is not 0 ? new MTLRenderPipelineReflection(ptr) : default;
+        }
     }
 
     public MTLSize RequiredThreadsPerMeshThreadgroup
     {
-        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRenderPipelineStateSelector.RequiredThreadsPerMeshThreadgroup);
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRenderPipelineStateBindings.RequiredThreadsPerMeshThreadgroup);
     }
 
     public MTLSize RequiredThreadsPerObjectThreadgroup
     {
-        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRenderPipelineStateSelector.RequiredThreadsPerObjectThreadgroup);
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRenderPipelineStateBindings.RequiredThreadsPerObjectThreadgroup);
     }
 
     public MTLSize RequiredThreadsPerTileThreadgroup
     {
-        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRenderPipelineStateSelector.RequiredThreadsPerTileThreadgroup);
+        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRenderPipelineStateBindings.RequiredThreadsPerTileThreadgroup);
     }
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.ShaderValidation);
+        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.ShaderValidation);
     }
 
     public bool SupportIndirectCommandBuffers
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineStateSelector.SupportIndirectCommandBuffers);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineStateBindings.SupportIndirectCommandBuffers);
     }
 
     public bool ThreadgroupSizeMatchesTileSize
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineStateSelector.ThreadgroupSizeMatchesTileSize);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineStateBindings.ThreadgroupSizeMatchesTileSize);
     }
 
     public MTLFunctionHandle? FunctionHandle(NSString name, MTLRenderStages stage)
     {
-        return GetNullableObject<MTLFunctionHandle>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandle, name.NativePtr, (nuint)stage));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.FunctionHandle, name.NativePtr, (nuint)stage);
+        return ptr is not 0 ? new MTLFunctionHandle(ptr) : default;
     }
 
     public MTLFunctionHandle? FunctionHandle(MTL4BinaryFunction function, MTLRenderStages stage)
     {
-        return GetNullableObject<MTLFunctionHandle>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandle, function.NativePtr, (nuint)stage));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.FunctionHandle, function.NativePtr, (nuint)stage);
+        return ptr is not 0 ? new MTLFunctionHandle(ptr) : default;
     }
 
     public MTLFunctionHandle? FunctionHandle(MTLFunction function, MTLRenderStages stage)
     {
-        return GetNullableObject<MTLFunctionHandle>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.FunctionHandle, function.NativePtr, (nuint)stage));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.FunctionHandle, function.NativePtr, (nuint)stage);
+        return ptr is not 0 ? new MTLFunctionHandle(ptr) : default;
     }
 
     public nuint ImageblockMemoryLength(MTLSize imageblockDimensions)
     {
-        return ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateSelector.ImageblockMemoryLength, imageblockDimensions);
+        return ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineStateBindings.ImageblockMemoryLength, imageblockDimensions);
     }
 
     public MTLIntersectionFunctionTable? NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor, MTLRenderStages stage)
     {
-        return GetNullableObject<MTLIntersectionFunctionTable>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewIntersectionFunctionTable, descriptor.NativePtr, (nuint)stage));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewIntersectionFunctionTable, descriptor.NativePtr, (nuint)stage);
+        return ptr is not 0 ? new MTLIntersectionFunctionTable(ptr) : default;
     }
 
     public MTLRenderPipelineState? NewRenderPipelineState(MTL4RenderPipelineBinaryFunctionsDescriptor binaryFunctionsDescriptor, out NSError? error)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineState, binaryFunctionsDescriptor.NativePtr, out nint errorPtr);
-        error = GetNullableObject<NSError>(errorPtr);
-        return GetNullableObject<MTLRenderPipelineState>(ptr);
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewRenderPipelineState, binaryFunctionsDescriptor.NativePtr, out nint errorPtr);
+        error = errorPtr is not 0 ? new NSError(errorPtr) : default;
+        return ptr is not 0 ? new MTLRenderPipelineState(ptr) : default;
     }
 
     public MTLRenderPipelineState? NewRenderPipelineState(MTLRenderPipelineFunctionsDescriptor additionalBinaryFunctions, out NSError? error)
     {
-        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewRenderPipelineState, additionalBinaryFunctions.NativePtr, out nint errorPtr);
-        error = GetNullableObject<NSError>(errorPtr);
-        return GetNullableObject<MTLRenderPipelineState>(ptr);
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewRenderPipelineState, additionalBinaryFunctions.NativePtr, out nint errorPtr);
+        error = errorPtr is not 0 ? new NSError(errorPtr) : default;
+        return ptr is not 0 ? new MTLRenderPipelineState(ptr) : default;
     }
 
     public MTLVisibleFunctionTable? NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor, MTLRenderStages stage)
     {
-        return GetNullableObject<MTLVisibleFunctionTable>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateSelector.NewVisibleFunctionTable, descriptor.NativePtr, (nuint)stage));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewVisibleFunctionTable, descriptor.NativePtr, (nuint)stage);
+        return ptr is not 0 ? new MTLVisibleFunctionTable(ptr) : default;
     }
 }
 
-file static class MTLRenderPipelineStateSelector
+file static class MTLRenderPipelineStateBindings
 {
     public static readonly Selector Device = Selector.Register("device");
 

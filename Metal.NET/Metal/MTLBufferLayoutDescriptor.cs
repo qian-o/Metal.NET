@@ -1,31 +1,33 @@
 namespace Metal.NET;
 
-public class MTLBufferLayoutDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLBufferLayoutDescriptor(nint nativePtr)
 {
-    public MTLBufferLayoutDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBufferLayoutDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLBufferLayoutDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBufferLayoutDescriptorBindings.Class))
     {
     }
 
     public MTLStepFunction StepFunction
     {
-        get => (MTLStepFunction)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferLayoutDescriptorSelector.StepFunction);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStepFunction, (nuint)value);
+        get => (MTLStepFunction)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferLayoutDescriptorBindings.StepFunction);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorBindings.SetStepFunction, (nuint)value);
     }
 
     public nuint StepRate
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferLayoutDescriptorSelector.StepRate);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStepRate, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferLayoutDescriptorBindings.StepRate);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorBindings.SetStepRate, value);
     }
 
     public nuint Stride
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferLayoutDescriptorSelector.Stride);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorSelector.SetStride, value);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferLayoutDescriptorBindings.Stride);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorBindings.SetStride, value);
     }
 }
 
-file static class MTLBufferLayoutDescriptorSelector
+file static class MTLBufferLayoutDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLBufferLayoutDescriptor");
 

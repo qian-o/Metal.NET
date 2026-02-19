@@ -1,21 +1,30 @@
 namespace Metal.NET;
 
-public class MTLEvent(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLEvent(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public MTLDevice? Device
     {
-        get => GetNullableObject<MTLDevice>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLEventSelector.Device));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLEventBindings.Device);
+            return ptr is not 0 ? new MTLDevice(ptr) : default;
+        }
     }
 
     public NSString? Label
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLEventSelector.Label));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLEventSelector.SetLabel, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLEventBindings.Label);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLEventBindings.SetLabel, value?.NativePtr ?? 0);
     }
 }
 
-file static class MTLEventSelector
+file static class MTLEventBindings
 {
     public static readonly Selector Device = Selector.Register("device");
 

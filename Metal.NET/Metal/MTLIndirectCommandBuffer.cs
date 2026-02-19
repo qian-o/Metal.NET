@@ -1,35 +1,38 @@
 namespace Metal.NET;
 
-public class MTLIndirectCommandBuffer(nint nativePtr) : MTLResource(nativePtr)
+public readonly struct MTLIndirectCommandBuffer(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public MTLResourceID GpuResourceID
     {
-        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLIndirectCommandBufferSelector.GpuResourceID);
+        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLIndirectCommandBufferBindings.GpuResourceID);
     }
 
     public nuint Size
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferSelector.Size);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferBindings.Size);
     }
 
     public MTLIndirectComputeCommand? IndirectComputeCommand(nuint commandIndex)
     {
-        return GetNullableObject<MTLIndirectComputeCommand>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectComputeCommand, commandIndex));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferBindings.IndirectComputeCommand, commandIndex);
+        return ptr is not 0 ? new MTLIndirectComputeCommand(ptr) : default;
     }
 
     public MTLIndirectRenderCommand? IndirectRenderCommand(nuint commandIndex)
     {
-        return GetNullableObject<MTLIndirectRenderCommand>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferSelector.IndirectRenderCommand, commandIndex));
+        nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferBindings.IndirectRenderCommand, commandIndex);
+        return ptr is not 0 ? new MTLIndirectRenderCommand(ptr) : default;
     }
 
     public void Reset(NSRange range)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferSelector.Reset, range);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferBindings.Reset, range);
     }
 }
 
-file static class MTLIndirectCommandBufferSelector
+file static class MTLIndirectCommandBufferBindings
 {
     public static readonly Selector GpuResourceID = Selector.Register("gpuResourceID");
 

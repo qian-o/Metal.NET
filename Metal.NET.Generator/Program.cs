@@ -67,8 +67,6 @@ class Generator
     readonly List<EnumDef> _enums = [];
     // All parsed classes
     readonly List<ClassDef> _classes = [];
-    // Map class name → set of property names (for shadow detection)
-    readonly Dictionary<string, HashSet<string>> _classPropertyNames = new();
 
     // Hand-written classes to skip
     static readonly HashSet<string> SkipClasses = ["NSString", "NSError", "NSArray", "NSURL",
@@ -677,25 +675,6 @@ class Generator
 
     void GenerateAll()
     {
-        // Build a map of class name → property/method names for shadow detection
-        _classPropertyNames.Clear();
-        foreach (var classDef in _classes)
-        {
-            string csClassName = GetPrefix(classDef.CppNamespace) + classDef.Name;
-            var validMethods = classDef.Methods
-                .Where(m => !m.Parameters.Any(p => p.CppType == "ARRAY_PARAM"))
-                .Where(m => !HasFunctionPointerParam(m))
-                .Where(m => !HasUnmappableParam(m))
-                .ToList();
-            var names = new HashSet<string>();
-            foreach (var m in validMethods)
-            {
-                if (m.Parameters.Count == 0 && m.ReturnType != "void" && !m.UsesClassTarget)
-                    names.Add(ToPascalCase(m.CppName));
-            }
-            _classPropertyNames[csClassName] = names;
-        }
-
         foreach (var enumDef in _enums)
             GenerateEnum(enumDef);
         foreach (var classDef in _classes)
@@ -769,47 +748,28 @@ class Generator
         sb.AppendLine("namespace Metal.NET;");
         sb.AppendLine();
 
-        // Issue 8: Use proper base class from C++ inheritance
-        // Only use the base class if it's a known generated or hand-written class
-        var knownClasses = _classes.Select(c => GetPrefix(c.CppNamespace) + c.Name).ToHashSet();
-        knownClasses.UnionWith(SkipClasses); // Hand-written classes are also valid bases
-        string baseClass = classDef.BaseClassName != null && knownClasses.Contains(classDef.BaseClassName)
-            ? classDef.BaseClassName
-            : "NativeObject";
-
-        // Collect parent property names for shadow detection
-        var parentPropertyNames = new HashSet<string>();
-        string? currentBase = baseClass;
-        while (currentBase != null && currentBase != "NativeObject")
-        {
-            if (_classPropertyNames.TryGetValue(currentBase, out var parentNames))
-                parentPropertyNames.UnionWith(parentNames);
-            // Walk up the chain
-            var parentDef = _classes.FirstOrDefault(c => GetPrefix(c.CppNamespace) + c.Name == currentBase);
-            currentBase = parentDef?.BaseClassName;
-        }
-
-        // Issue 1: Use primary constructor syntax
-        // Issue 5: Remove partial keyword
-        sb.AppendLine($"public class {csClassName}(nint nativePtr) : {baseClass}(nativePtr)");
+        // Value type struct with primary constructor
+        sb.AppendLine($"public readonly struct {csClassName}(nint nativePtr)");
         sb.AppendLine("{");
+        sb.AppendLine("    public readonly nint NativePtr = nativePtr;");
 
-        // Issue 3: For creatable objects, add parameterless constructor
+        // For creatable objects, add parameterless constructor
         if (hasClassField)
         {
-            sb.AppendLine($"    public {csClassName}() : this(ObjectiveCRuntime.AllocInit({csClassName}Selector.Class))");
+            sb.AppendLine();
+            sb.AppendLine($"    public {csClassName}() : this(ObjectiveCRuntime.AllocInit({csClassName}Bindings.Class))");
             sb.AppendLine("    {");
             sb.AppendLine("    }");
         }
 
-        // Properties first (sorted alphabetically)
+        // Properties (sorted alphabetically)
         foreach (var prop in properties)
         {
             sb.AppendLine();
-            EmitProperty(sb, prop, csClassName, classDef.CppNamespace, selectors, parentPropertyNames);
+            EmitProperty(sb, prop, csClassName, classDef.CppNamespace, selectors);
         }
 
-        // Then methods
+        // Methods
         foreach (var method in methods)
         {
             sb.AppendLine();
@@ -819,11 +779,10 @@ class Generator
         sb.AppendLine("}");
         sb.AppendLine();
 
-        // Selector class
-        sb.AppendLine($"file static class {csClassName}Selector");
+        // Bindings class (renamed from Selector)
+        sb.AppendLine($"file static class {csClassName}Bindings");
         sb.AppendLine("{");
 
-        // Issue 2: Move Class field to Selector class
         bool first = true;
         if (hasClassField)
         {
@@ -957,7 +916,7 @@ class Generator
     // =========================================================================
 
     void EmitProperty(StringBuilder sb, PropertyDef prop, string csClassName,
-        string ns, SortedDictionary<string, string> selectors, HashSet<string> parentPropertyNames)
+        string ns, SortedDictionary<string, string> selectors)
     {
         var getter = prop.Getter;
         string csPropName = ToPascalCase(getter.CppName);
@@ -967,10 +926,7 @@ class Generator
         bool isStruct = StructTypes.Contains(csType);
         bool isBool = csType == "bool";
 
-        // Detect shadowing of parent class properties
-        string newKw = parentPropertyNames.Contains(csPropName) ? "new " : "";
-
-        // Register getter selector - use accessor from inline impl to look up ObjC string
+        // Register getter selector
         string selectorName = csPropName;
         string selectorObjC;
         if (getter.SelectorAccessor != null && _selectorMap.TryGetValue(getter.SelectorAccessor, out string? objcSel))
@@ -979,7 +935,7 @@ class Generator
             selectorObjC = getter.CppName;
         selectors.TryAdd(selectorName, selectorObjC);
 
-        string selectorRef = $"{csClassName}Selector.{selectorName}";
+        string selectorRef = $"{csClassName}Bindings.{selectorName}";
         string target = "NativePtr";
 
         string typeStr = nullable ? $"{csType}?" : csType;
@@ -999,61 +955,66 @@ class Generator
 
         if (nullable)
         {
-            sb.AppendLine($"    public {newKw}{typeStr} {csPropName}");
+            // Value type nullable: return new T?(new T(ptr)) if ptr != 0, else null
+            sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => GetNullableObject<{csType}>(ObjectiveCRuntime.MsgSendPtr({target}, {selectorRef}));");
+            sb.AppendLine("        get");
+            sb.AppendLine("        {");
+            sb.AppendLine($"            nint ptr = ObjectiveCRuntime.MsgSendPtr({target}, {selectorRef});");
+            sb.AppendLine($"            return ptr is not 0 ? new {csType}(ptr) : default;");
+            sb.AppendLine("        }");
 
             if (prop.Setter != null)
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Selector.{setSelName}, value?.NativePtr ?? 0);");
+                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value?.NativePtr ?? 0);");
             sb.AppendLine("    }");
         }
         else if (isEnum)
         {
             string msgSend = GetMsgSendForEnumGet(csType);
 
-            sb.AppendLine($"    public {newKw}{typeStr} {csPropName}");
+            sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => ({csType}){msgSend}({target}, {selectorRef});");
 
             if (prop.Setter != null)
             {
                 string setCast = GetEnumSetCast(csType);
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Selector.{setSelName}, {setCast}value);");
+                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, {setCast}value);");
             }
             sb.AppendLine("    }");
         }
         else if (isBool)
         {
-            sb.AppendLine($"    public {newKw}bool {csPropName}");
+            sb.AppendLine($"    public bool {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => ObjectiveCRuntime.MsgSendBool({target}, {selectorRef});");
 
             if (prop.Setter != null)
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Selector.{setSelName}, (Bool8)value);");
+                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, (Bool8)value);");
             sb.AppendLine("    }");
         }
         else if (isStruct)
         {
             string msgSend = GetMsgSendForStruct(csType);
 
-            sb.AppendLine($"    public {newKw}{typeStr} {csPropName}");
+            sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => ObjectiveCRuntime.{msgSend}({target}, {selectorRef});");
 
             if (prop.Setter != null)
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Selector.{setSelName}, value);");
+                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value);");
             sb.AppendLine("    }");
         }
         else
         {
             string msgSend = GetMsgSendMethod(csType);
 
-            sb.AppendLine($"    public {newKw}{typeStr} {csPropName}");
+            sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => ObjectiveCRuntime.{msgSend}({target}, {selectorRef});");
 
             if (prop.Setter != null)
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Selector.{setSelName}, value);");
+                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value);");
             sb.AppendLine("    }");
         }
     }
@@ -1101,12 +1062,12 @@ class Generator
         }
 
         bool isStaticClassMethod = method.IsStatic && method.UsesClassTarget;
-        string target = isStaticClassMethod ? $"{csClassName}Selector.Class" : "NativePtr";
+        string target = isStaticClassMethod ? $"{csClassName}Bindings.Class" : "NativePtr";
 
         string selectorKey = ToPascalCase(method.CppName);
         selectors.TryAdd(selectorKey, selectorObjC);
 
-        string selectorRef = $"{csClassName}Selector.{selectorKey}";
+        string selectorRef = $"{csClassName}Bindings.{selectorKey}";
 
         string returnType = MapCppType(method.ReturnType, ns);
         bool nullable = IsNullableType(returnType);
@@ -1159,19 +1120,20 @@ class Generator
         {
             sb.AppendLine($"        ObjectiveCRuntime.MsgSend({argsStr});");
             if (hasOutError)
-                sb.AppendLine("        error = GetNullableObject<NSError>(errorPtr);");
+                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : default;");
         }
         else if (nullable)
         {
             if (hasOutError)
             {
                 sb.AppendLine($"        nint ptr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
-                sb.AppendLine("        error = GetNullableObject<NSError>(errorPtr);");
-                sb.AppendLine($"        return GetNullableObject<{returnType}>(ptr);");
+                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : default;");
+                sb.AppendLine($"        return ptr is not 0 ? new {returnType}(ptr) : default;");
             }
             else
             {
-                sb.AppendLine($"        return GetNullableObject<{returnType}>(ObjectiveCRuntime.MsgSendPtr({argsStr}));");
+                sb.AppendLine($"        nint ptr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
+                sb.AppendLine($"        return ptr is not 0 ? new {returnType}(ptr) : default;");
             }
         }
         else if (isEnum)
@@ -1180,7 +1142,7 @@ class Generator
             if (hasOutError)
             {
                 sb.AppendLine($"        var result = ({returnType}){msgSend}({argsStr});");
-                sb.AppendLine("        error = GetNullableObject<NSError>(errorPtr);");
+                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : default;");
                 sb.AppendLine("        return result;");
             }
             else
@@ -1193,7 +1155,7 @@ class Generator
             if (hasOutError)
             {
                 sb.AppendLine($"        var result = ObjectiveCRuntime.MsgSendBool({argsStr});");
-                sb.AppendLine("        error = GetNullableObject<NSError>(errorPtr);");
+                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : default;");
                 sb.AppendLine("        return result;");
             }
             else
@@ -1207,7 +1169,7 @@ class Generator
             if (hasOutError)
             {
                 sb.AppendLine($"        var result = ObjectiveCRuntime.{msgSend}({argsStr});");
-                sb.AppendLine("        error = GetNullableObject<NSError>(errorPtr);");
+                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : default;");
                 sb.AppendLine("        return result;");
             }
             else
@@ -1221,7 +1183,7 @@ class Generator
             if (hasOutError)
             {
                 sb.AppendLine($"        var result = ObjectiveCRuntime.{msgSend}({argsStr});");
-                sb.AppendLine("        error = GetNullableObject<NSError>(errorPtr);");
+                sb.AppendLine("        error = errorPtr is not 0 ? new NSError(errorPtr) : default;");
                 sb.AppendLine("        return result;");
             }
             else

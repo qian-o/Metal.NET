@@ -1,37 +1,55 @@
 namespace Metal.NET;
 
-public class MTLFunctionStitchingGraph(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTLFunctionStitchingGraph(nint nativePtr)
 {
-    public MTLFunctionStitchingGraph() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingGraphSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLFunctionStitchingGraph() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingGraphBindings.Class))
     {
     }
 
     public NSArray? Attributes
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionStitchingGraphSelector.Attributes));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionStitchingGraphSelector.SetAttributes, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionStitchingGraphBindings.Attributes);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionStitchingGraphBindings.SetAttributes, value?.NativePtr ?? 0);
     }
 
     public NSString? FunctionName
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionStitchingGraphSelector.FunctionName));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionStitchingGraphSelector.SetFunctionName, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionStitchingGraphBindings.FunctionName);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionStitchingGraphBindings.SetFunctionName, value?.NativePtr ?? 0);
     }
 
     public NSArray? Nodes
     {
-        get => GetNullableObject<NSArray>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionStitchingGraphSelector.Nodes));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionStitchingGraphSelector.SetNodes, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionStitchingGraphBindings.Nodes);
+            return ptr is not 0 ? new NSArray(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionStitchingGraphBindings.SetNodes, value?.NativePtr ?? 0);
     }
 
     public MTLFunctionStitchingFunctionNode? OutputNode
     {
-        get => GetNullableObject<MTLFunctionStitchingFunctionNode>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionStitchingGraphSelector.OutputNode));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionStitchingGraphSelector.SetOutputNode, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionStitchingGraphBindings.OutputNode);
+            return ptr is not 0 ? new MTLFunctionStitchingFunctionNode(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionStitchingGraphBindings.SetOutputNode, value?.NativePtr ?? 0);
     }
 }
 
-file static class MTLFunctionStitchingGraphSelector
+file static class MTLFunctionStitchingGraphBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingGraph");
 

@@ -1,25 +1,30 @@
 namespace Metal.NET;
 
-public class MTL4CompilerTask(nint nativePtr) : NativeObject(nativePtr)
+public readonly struct MTL4CompilerTask(nint nativePtr)
 {
+    public readonly nint NativePtr = nativePtr;
 
     public MTL4Compiler? Compiler
     {
-        get => GetNullableObject<MTL4Compiler>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskSelector.Compiler));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskBindings.Compiler);
+            return ptr is not 0 ? new MTL4Compiler(ptr) : default;
+        }
     }
 
     public MTL4CompilerTaskStatus Status
     {
-        get => (MTL4CompilerTaskStatus)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskSelector.Status);
+        get => (MTL4CompilerTaskStatus)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerTaskBindings.Status);
     }
 
     public void WaitUntilCompleted()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerTaskSelector.WaitUntilCompleted);
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerTaskBindings.WaitUntilCompleted);
     }
 }
 
-file static class MTL4CompilerTaskSelector
+file static class MTL4CompilerTaskBindings
 {
     public static readonly Selector Compiler = Selector.Register("compiler");
 

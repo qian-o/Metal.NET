@@ -1,48 +1,58 @@
 namespace Metal.NET;
 
-public class MTLPointerType(nint nativePtr) : MTLType(nativePtr)
+public readonly struct MTLPointerType(nint nativePtr)
 {
-    public MTLPointerType() : this(ObjectiveCRuntime.AllocInit(MTLPointerTypeSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTLPointerType() : this(ObjectiveCRuntime.AllocInit(MTLPointerTypeBindings.Class))
     {
     }
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeSelector.Access);
+        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.Access);
     }
 
     public nuint Alignment
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeSelector.Alignment);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.Alignment);
     }
 
     public nuint DataSize
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeSelector.DataSize);
+        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.DataSize);
     }
 
     public MTLArrayType? ElementArrayType
     {
-        get => GetNullableObject<MTLArrayType>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeSelector.ElementArrayType));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeBindings.ElementArrayType);
+            return ptr is not 0 ? new MTLArrayType(ptr) : default;
+        }
     }
 
     public bool ElementIsArgumentBuffer
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLPointerTypeSelector.ElementIsArgumentBuffer);
+        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLPointerTypeBindings.ElementIsArgumentBuffer);
     }
 
     public MTLStructType? ElementStructType
     {
-        get => GetNullableObject<MTLStructType>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeSelector.ElementStructType));
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeBindings.ElementStructType);
+            return ptr is not 0 ? new MTLStructType(ptr) : default;
+        }
     }
 
     public MTLDataType ElementType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeSelector.ElementType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.ElementType);
     }
 }
 
-file static class MTLPointerTypeSelector
+file static class MTLPointerTypeBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPointerType");
 

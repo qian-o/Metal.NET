@@ -1,31 +1,45 @@
 namespace Metal.NET;
 
-public class MTL4SpecializedFunctionDescriptor(nint nativePtr) : MTL4FunctionDescriptor(nativePtr)
+public readonly struct MTL4SpecializedFunctionDescriptor(nint nativePtr)
 {
-    public MTL4SpecializedFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4SpecializedFunctionDescriptorSelector.Class))
+    public readonly nint NativePtr = nativePtr;
+
+    public MTL4SpecializedFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4SpecializedFunctionDescriptorBindings.Class))
     {
     }
 
     public MTLFunctionConstantValues? ConstantValues
     {
-        get => GetNullableObject<MTLFunctionConstantValues>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4SpecializedFunctionDescriptorSelector.ConstantValues));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorSelector.SetConstantValues, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4SpecializedFunctionDescriptorBindings.ConstantValues);
+            return ptr is not 0 ? new MTLFunctionConstantValues(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorBindings.SetConstantValues, value?.NativePtr ?? 0);
     }
 
     public MTL4FunctionDescriptor? FunctionDescriptor
     {
-        get => GetNullableObject<MTL4FunctionDescriptor>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4SpecializedFunctionDescriptorSelector.FunctionDescriptor));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorSelector.SetFunctionDescriptor, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4SpecializedFunctionDescriptorBindings.FunctionDescriptor);
+            return ptr is not 0 ? new MTL4FunctionDescriptor(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorBindings.SetFunctionDescriptor, value?.NativePtr ?? 0);
     }
 
     public NSString? SpecializedName
     {
-        get => GetNullableObject<NSString>(ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4SpecializedFunctionDescriptorSelector.SpecializedName));
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorSelector.SetSpecializedName, value?.NativePtr ?? 0);
+        get
+        {
+            nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4SpecializedFunctionDescriptorBindings.SpecializedName);
+            return ptr is not 0 ? new NSString(ptr) : default;
+        }
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4SpecializedFunctionDescriptorBindings.SetSpecializedName, value?.NativePtr ?? 0);
     }
 }
 
-file static class MTL4SpecializedFunctionDescriptorSelector
+file static class MTL4SpecializedFunctionDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4SpecializedFunctionDescriptor");
 
