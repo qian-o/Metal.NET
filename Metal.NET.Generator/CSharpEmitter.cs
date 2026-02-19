@@ -215,9 +215,13 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             }
 
             if (EmitProperty(sb, prop, csClassName, classDef.CppNamespace, selectors, inheritedProperties))
+            {
                 hasPrecedingMember = true;
+            }
             else
+            {
                 sb.Length = prevLen;
+            }
         }
 
         // Methods
@@ -298,12 +302,35 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         // Find getters
         foreach (MethodInfo m in allMethods)
         {
-            if (m.ReturnType == "void") continue;
-            if (m.Parameters.Count > 0) continue;
-            if (m.UsesClassTarget) continue;
-            if (used.Contains(m)) continue;
-            if (m.CppName.StartsWith("set") && m.CppName.Length > 3 && char.IsUpper(m.CppName[3])) continue;
-            if (TypeMapper.IsOwnershipTransferMethod(m.CppName)) continue;
+            if (m.ReturnType == "void")
+            {
+                continue;
+            }
+
+            if (m.Parameters.Count > 0)
+            {
+                continue;
+            }
+
+            if (m.UsesClassTarget)
+            {
+                continue;
+            }
+
+            if (used.Contains(m))
+            {
+                continue;
+            }
+
+            if (m.CppName.StartsWith("set") && m.CppName.Length > 3 && char.IsUpper(m.CppName[3]))
+            {
+                continue;
+            }
+
+            if (TypeMapper.IsOwnershipTransferMethod(m.CppName))
+            {
+                continue;
+            }
 
             MethodInfo? setter = null;
             if (setterMap.TryGetValue(m.CppName, out MethodInfo? s))
@@ -319,7 +346,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         // Remaining become methods
         foreach (MethodInfo m in allMethods)
         {
-            if (used.Contains(m)) continue;
+            if (used.Contains(m))
+            {
+                continue;
+            }
+
             methods.Add(m);
         }
 
@@ -353,9 +384,17 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 continue;
             }
-            if (TypeMapper.IsUnmappableCppType(p.CppType)) return true;
+            if (TypeMapper.IsUnmappableCppType(p.CppType))
+            {
+                return true;
+            }
         }
-        if (TypeMapper.IsUnmappableCppType(method.ReturnType)) return true;
+
+        if (TypeMapper.IsUnmappableCppType(method.ReturnType))
+        {
+            return true;
+        }
+
         return false;
     }
 
@@ -372,7 +411,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                     p[i + 1].CppType is "NS::UInteger" &&
                     p[i + 1].Name is "count";
                 if (!nextIsCount)
+                {
                     return true;
+                }
             }
         }
         return false;
@@ -570,7 +611,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         for (int pi = 0; pi < method.Parameters.Count; pi++)
         {
             ParamDef param = method.Parameters[pi];
-            if (param.CppType == "ARRAY_PARAM") continue;
+            if (param.CppType == "ARRAY_PARAM")
+            {
+                continue;
+            }
 
             if (param.CppType.StartsWith("OBJ_ARRAY:"))
             {
@@ -660,17 +704,29 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             csParams.Add($"{csParamType} {paramName}");
 
             if (typeMapper.IsNullableType(csParamType))
+            {
                 callArgs.Add($"{paramName}.NativePtr");
+            }
             else if (typeMapper.IsEnumType(csParamType))
+            {
                 callArgs.Add($"{typeMapper.GetEnumSetCast(csParamType)}{paramName}");
+            }
             else if (csParamType == "bool")
+            {
                 callArgs.Add($"(Bool8){paramName}");
+            }
             else if (csParamType is "uint" or "ulong")
+            {
                 callArgs.Add($"(nuint){paramName}");
+            }
             else if (csParamType is "int" or "long")
+            {
                 callArgs.Add($"(nint){paramName}");
+            }
             else
+            {
                 callArgs.Add(paramName);
+            }
         }
 
         string paramStr = string.Join(", ", csParams);
@@ -816,10 +872,13 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         {
             string csType = TypeMapper.MapCppType(p.CppType, cppNamespace);
             if (typeMapper.IsNullableType(csType))
+            {
                 pinvokeParams.Add($"nint {TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(p.Name))}");
+            }
             else
+            {
                 pinvokeParams.Add($"{csType} {TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(p.Name))}");
-        }
+            }        }
 
         string pinvokeReturnType = nullable ? "nint" : csReturnType;
 
