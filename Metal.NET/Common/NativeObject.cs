@@ -2,28 +2,14 @@
 
 /// <summary>
 /// Base class for all Objective-C native object wrappers.
-/// Every wrapper holds a +1 reference and releases it on dispose.
 /// </summary>
-public abstract class NativeObject : IDisposable
+/// <param name="nativePtr">The raw Objective-C pointer.</param>
+/// <param name="owned">
+/// <c>true</c> to release on dispose; <c>false</c> for unowned views.
+/// </param>
+public abstract class NativeObject(nint nativePtr, bool owned) : IDisposable
 {
     private bool released;
-
-    /// <summary>
-    /// <param name="nativePtr">The raw Objective-C pointer.</param>
-    /// <param name="retain">
-    /// <c>true</c> to retain a +0 reference (non-ownership returns);
-    /// <c>false</c> when the caller already owns a +1 reference (new/alloc/copy/init).
-    /// </param>
-    /// </summary>
-    protected NativeObject(nint nativePtr, bool retain)
-    {
-        NativePtr = nativePtr;
-
-        if (retain)
-        {
-            ObjectiveCRuntime.Retain(nativePtr);
-        }
-    }
 
     ~NativeObject()
     {
@@ -33,7 +19,7 @@ public abstract class NativeObject : IDisposable
     /// <summary>
     /// The underlying Objective-C pointer.
     /// </summary>
-    public nint NativePtr { get; }
+    public nint NativePtr { get; } = nativePtr;
 
     public void Dispose()
     {
@@ -43,7 +29,7 @@ public abstract class NativeObject : IDisposable
     }
 
     /// <summary>
-    /// Gets a cached nullable property. Creates or updates the wrapper only when the native pointer changes.
+    /// Gets a cached nullable property as an unowned view.
     /// </summary>
     protected T? GetProperty<T>(ref T? field, Selector selector) where T : NativeObject
     {
@@ -56,7 +42,7 @@ public abstract class NativeObject : IDisposable
 
         if (field is null || field.NativePtr != nativePtr)
         {
-            field = (T)Activator.CreateInstance(typeof(T), nativePtr, true)!;
+            field = (T)Activator.CreateInstance(typeof(T), nativePtr, false)!;
         }
 
         return field;
@@ -79,7 +65,7 @@ public abstract class NativeObject : IDisposable
             return;
         }
 
-        if (NativePtr is not 0)
+        if (owned && NativePtr is not 0)
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
