@@ -601,6 +601,11 @@ internal static unsafe partial class ObjectiveCRuntime
         return MsgSendPtr(obj, (Selector)"retain");
     }
 
+    public static nuint RetainCount(nint obj)
+    {
+        return MsgSendNUInt(obj, (Selector)"retainCount");
+    }
+
     public static void Release(nint obj)
     {
         MsgSend(obj, (Selector)"release");

@@ -2,14 +2,28 @@
 
 /// <summary>
 /// Base class for all Objective-C native object wrappers.
-/// Lightweight wrapper with no reference counting overhead.
+/// Every wrapper holds a +1 reference and releases it on dispose.
 /// </summary>
-public abstract class NativeObject(nint nativePtr)
+public abstract class NativeObject(nint nativePtr) : IDisposable
 {
+    private bool released;
+
+    ~NativeObject()
+    {
+        Release();
+    }
+
     /// <summary>
     /// The underlying Objective-C pointer.
     /// </summary>
     public nint NativePtr { get; } = nativePtr;
+
+    public void Dispose()
+    {
+        Release();
+
+        GC.SuppressFinalize(this);
+    }
 
     protected T? GetProperty<T>(ref T? field, Selector selector) where T : NativeObject
     {
@@ -22,6 +36,8 @@ public abstract class NativeObject(nint nativePtr)
 
         if (field is null || field.NativePtr != nativePtr)
         {
+            ObjectiveCRuntime.Retain(nativePtr);
+
             field = (T)Activator.CreateInstance(typeof(T), nativePtr)!;
         }
 
@@ -33,5 +49,20 @@ public abstract class NativeObject(nint nativePtr)
         ObjectiveCRuntime.MsgSend(NativePtr, selector, value?.NativePtr ?? 0);
 
         field = value;
+    }
+
+    private void Release()
+    {
+        if (released)
+        {
+            return;
+        }
+
+        if (NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
+
+        released = true;
     }
 }
