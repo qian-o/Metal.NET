@@ -1408,7 +1408,7 @@ class Generator
         var csParams = new List<string>();
         var callArgs = new List<string> { target, selectorRef };
         var arraySetupLines = new List<string>(); // Lines to emit before the MsgSend call for array pinning
-        bool hasObjArrayParam = false;
+        bool needsUnsafeContext = false;
 
         for (int pi = 0; pi < method.Parameters.Count; pi++)
         {
@@ -1418,7 +1418,7 @@ class Generator
             // Check if this is an OBJ_ARRAY param (NativeObject array)
             if (param.CppType.StartsWith("OBJ_ARRAY:"))
             {
-                hasObjArrayParam = true;
+                needsUnsafeContext = true;
                 string elemCppType = param.CppType["OBJ_ARRAY:".Length..];
                 string elemCsType = MapCppType(elemCppType + "*", ns);
                 string csParamName = EscapeReservedWord(ToCamelCase(param.Name));
@@ -1448,7 +1448,7 @@ class Generator
             // Check if this is a PRIM_ARRAY param (primitive array like float[], nuint[])
             if (param.CppType.StartsWith("PRIM_ARRAY:"))
             {
-                hasObjArrayParam = true; // reuse the flag for unsafe context
+                needsUnsafeContext = true;
                 string elemType = param.CppType["PRIM_ARRAY:".Length..];
                 string csParamName = EscapeReservedWord(ToCamelCase(param.Name));
 
@@ -1491,7 +1491,7 @@ class Generator
         string paramStr = string.Join(", ", csParams);
         string argsStr = string.Join(", ", callArgs);
         string staticKw = isStaticClassMethod ? "static " : "";
-        string unsafeKw = hasObjArrayParam ? "unsafe " : "";
+        string unsafeKw = needsUnsafeContext ? "unsafe " : "";
         string csReturnType = isVoid ? "void" : nullable ? $"{returnType}?" : returnType;
 
         sb.AppendLine($"    public {staticKw}{unsafeKw}{csReturnType} {csMethodName}({paramStr})");
