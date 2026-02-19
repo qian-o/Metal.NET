@@ -10,7 +10,7 @@ C# bindings for Apple's Metal graphics API, auto-generated from [metal-cpp](http
 Metal.NET.slnx
 ├── Metal.NET/                            ← Binding library (targets .NET 10, macOS 15+)
 │   ├── Common/
-│   │   ├── NativeObject.cs               ← Base class with reference counting (IDisposable)
+│   │   ├── NativeObject.cs               ← Base class with release-on-dispose (IDisposable)
 │   │   ├── ObjectiveCRuntime.cs          ← P/Invoke to libobjc.dylib (objc_msgSend)
 │   │   ├── Selector.cs                   ← ObjC selector with implicit string conversion
 │   │   ├── Bool8.cs                      ← ObjC BOOL mapped to a single byte
@@ -39,11 +39,11 @@ Metal.NET.slnx
 
 ### Classes
 
-All ObjC wrappers inherit from `NativeObject`, which provides reference counting via `IDisposable`.
+All ObjC wrappers inherit from `NativeObject`, which sends `release` on dispose.
 Classes use C# 14.0 primary constructors and the `field` keyword for cached nullable properties:
 
 ```csharp
-public class MTLCommandQueue(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
+public class MTLCommandQueue(nint nativePtr) : NativeObject(nativePtr)
 {
     public MTLDevice? Device
     {
@@ -54,16 +54,10 @@ public class MTLCommandQueue(nint nativePtr, bool retain) : NativeObject(nativeP
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBuffer);
 
-        return nativePtr is not 0 ? new(nativePtr, true) : null;
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 ```
-
-### Reference Counting
-
-The `retain` constructor parameter controls ownership:
-- `false` — caller already owns a +1 reference (`new*`, `alloc*`, `copy*`, `init*` methods)
-- `true` — caller needs to retain a +0 reference (property getters, non-ownership methods)
 
 ### Free C Functions
 

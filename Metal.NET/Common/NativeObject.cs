@@ -2,8 +2,7 @@
 
 /// <summary>
 /// Base class for all Objective-C native object wrappers.
-/// The caller must ensure <paramref name="nativePtr"/> carries a +1 reference;
-/// the wrapper releases it on dispose.
+/// Sends <c>release</c> to the underlying pointer on dispose.
 /// </summary>
 /// <param name="nativePtr">The raw Objective-C pointer.</param>
 public abstract class NativeObject(nint nativePtr) : IDisposable
