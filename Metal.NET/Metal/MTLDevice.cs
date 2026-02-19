@@ -169,9 +169,9 @@ public partial class MTLDevice(nint nativePtr) : NativeObject(nativePtr)
         get => GetProperty(ref field, MTLDeviceBindings.NewSharedEvent);
     }
 
-    public nuint PeerCount
+    public uint PeerCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceBindings.PeerCount);
+        get => (uint)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceBindings.PeerCount);
     }
 
     public ulong PeerGroupID
@@ -179,9 +179,9 @@ public partial class MTLDevice(nint nativePtr) : NativeObject(nativePtr)
         get => (ulong)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceBindings.PeerGroupID);
     }
 
-    public nuint PeerIndex
+    public uint PeerIndex
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceBindings.PeerIndex);
+        get => (uint)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceBindings.PeerIndex);
     }
 
     public bool ProgrammableSamplePositionsSupported

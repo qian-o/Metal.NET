@@ -1265,7 +1265,7 @@ class Generator
         else
         {
             string msgSend = GetMsgSendMethod(csType);
-            string getCast = csType is "ulong" or "long" ? $"({csType})" : "";
+            string getCast = csType is "uint" or "ulong" ? $"({csType})" : csType is "int" or "long" ? $"({csType})" : "";
 
             sb.AppendLine($"    public {newMod}{typeStr} {csPropName}");
             sb.AppendLine("    {");
@@ -1273,7 +1273,7 @@ class Generator
 
             if (prop.Setter != null)
             {
-                string setCast = csType switch { "ulong" => "(nuint)", "long" => "(nint)", _ => "" };
+                string setCast = csType switch { "uint" => "(nuint)", "ulong" => "(nuint)", "int" => "(nint)", "long" => "(nint)", _ => "" };
                 sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, {setCast}value);");
             }
             sb.AppendLine("    }");
@@ -1365,9 +1365,9 @@ class Generator
                 callArgs.Add($"{GetEnumSetCast(csParamType)}{csParamName}");
             else if (csParamType == "bool")
                 callArgs.Add($"(Bool8){csParamName}");
-            else if (csParamType == "ulong")
+            else if (csParamType is "uint" or "ulong")
                 callArgs.Add($"(nuint){csParamName}");
-            else if (csParamType == "long")
+            else if (csParamType is "int" or "long")
                 callArgs.Add($"(nint){csParamName}");
             else
                 callArgs.Add(csParamName);
@@ -1447,7 +1447,7 @@ class Generator
         else
         {
             string msgSend = GetMsgSendMethod(returnType);
-            string retCast = returnType is "ulong" or "long" ? $"({returnType})" : "";
+            string retCast = returnType is "uint" or "ulong" or "int" or "long" ? $"({returnType})" : "";
             if (hasOutError)
             {
                 sb.AppendLine($"        var result = {retCast}ObjectiveCRuntime.{msgSend}({argsStr});");
@@ -1489,8 +1489,8 @@ class Generator
             "NS::Integer" when isPointer => "nint",
             "NS::UInteger" => "nuint",
             "NS::Integer" => "nint",
-            "uint32_t" => "nuint",
-            "int32_t" => "nint",
+            "uint32_t" => "uint",
+            "int32_t" => "int",
             "uint8_t" => "byte",
             "int8_t" => "sbyte",
             "uint16_t" => "ushort",
@@ -1547,7 +1547,7 @@ class Generator
 
     bool IsNullableType(string csType)
     {
-        if (csType is "void" or "bool" or "nint" or "nuint" or "ulong" or "long" or "float" or "double"
+        if (csType is "void" or "bool" or "nint" or "nuint" or "uint" or "int" or "ulong" or "long" or "float" or "double"
             or "byte" or "sbyte" or "short" or "ushort")
             return false;
         if (StructTypes.Contains(csType)) return false;
@@ -1561,6 +1561,8 @@ class Generator
     {
         "nint" => "MsgSendPtr",
         "nuint" => "MsgSendNUInt",
+        "uint" => "MsgSendNUInt",
+        "int" => "MsgSendPtr",
         "ulong" => "MsgSendNUInt",
         "long" => "MsgSendPtr",
         "float" => "MsgSendFloat",

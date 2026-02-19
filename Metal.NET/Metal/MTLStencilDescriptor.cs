@@ -18,10 +18,10 @@ public class MTLStencilDescriptor(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetDepthStencilPassOperation, (nuint)value);
     }
 
-    public nuint ReadMask
+    public uint ReadMask
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStencilDescriptorBindings.ReadMask);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetReadMask, value);
+        get => (uint)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStencilDescriptorBindings.ReadMask);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetReadMask, (nuint)value);
     }
 
     public MTLCompareFunction StencilCompareFunction
@@ -36,10 +36,10 @@ public class MTLStencilDescriptor(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetStencilFailureOperation, (nuint)value);
     }
 
-    public nuint WriteMask
+    public uint WriteMask
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStencilDescriptorBindings.WriteMask);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetWriteMask, value);
+        get => (uint)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStencilDescriptorBindings.WriteMask);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetWriteMask, (nuint)value);
     }
 }
 
