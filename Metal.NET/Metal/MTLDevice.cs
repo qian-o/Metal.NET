@@ -1,9 +1,15 @@
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace Metal.NET;
 
 public partial class MTLDevice(nint nativePtr) : NativeObject(nativePtr)
 {
+    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLCreateSystemDefaultDevice")]
+    private static partial nint MTLCreateSystemDefaultDevice();
+
+    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLCopyAllDevices")]
+    private static partial nint MTLCopyAllDevices();
+
     public MTLArchitecture? Architecture
     {
         get => GetProperty(ref field, MTLDeviceBindings.Architecture);
@@ -714,22 +720,18 @@ public partial class MTLDevice(nint nativePtr) : NativeObject(nativePtr)
         return ObjectiveCRuntime.MsgSendMTLSizeAndAlign(NativePtr, MTLDeviceBindings.TensorSizeAndAlign, descriptor.NativePtr);
     }
 
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLCreateSystemDefaultDevice")]
-    private static partial nint MTLCreateSystemDefaultDevice();
-
     public static MTLDevice? CreateSystemDefaultDevice()
     {
-        nint ptr = MTLCreateSystemDefaultDevice();
-        return ptr is not 0 ? new MTLDevice(ptr) : null;
-    }
+        nint nativePtr = MTLCreateSystemDefaultDevice();
 
-    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLCopyAllDevices")]
-    private static partial nint MTLCopyAllDevices();
+        return nativePtr is not 0 ? new(nativePtr) : null;
+    }
 
     public static NSArray? CopyAllDevices()
     {
-        nint ptr = MTLCopyAllDevices();
-        return ptr is not 0 ? new NSArray(ptr) : null;
+        nint nativePtr = MTLCopyAllDevices();
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 
