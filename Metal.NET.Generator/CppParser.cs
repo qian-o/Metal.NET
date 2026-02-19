@@ -27,7 +27,11 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
 
         foreach (string file in bridgeFiles)
         {
-            if (!File.Exists(file)) continue;
+            if (!File.Exists(file))
+            {
+                continue;
+            }
+
             string content = File.ReadAllText(file);
 
             foreach (Match m in SelectorDefRegex().Matches(content))
@@ -55,7 +59,10 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
         foreach (string subdir in subdirs)
         {
             string dir = Path.Combine(metalCppDir, subdir);
-            if (!Directory.Exists(dir)) continue;
+            if (!Directory.Exists(dir))
+            {
+                continue;
+            }
 
             foreach (string file in Directory.GetFiles(dir, "*.hpp"))
             {
@@ -64,9 +71,14 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                     fileName.Contains("Defines") || fileName.Contains("Types") ||
                     fileName.Contains("Version") || fileName.Contains("GPUAddress") ||
                     fileName.Contains("IOCompressor") || fileName.Contains("AccelerationStructureTypes"))
+                {
                     continue;
+                }
+
                 if (fileName is "Metal.hpp" or "Foundation.hpp" or "QuartzCore.hpp" or "MetalFX.hpp")
+                {
                     continue;
+                }
 
                 string content = File.ReadAllText(file);
                 ParseEnums(content);
@@ -84,7 +96,9 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
     {
         List<(string Ns, int Pos)> nsPositions = [];
         foreach (Match nm in NamespacePatternRegex().Matches(content))
+        {
             nsPositions.Add((nm.Groups[1].Value, nm.Index));
+        }
 
         foreach (Match m in EnumPatternRegex().Matches(content))
         {
@@ -142,10 +156,16 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
         foreach (string rawLine in body.Split('\n'))
         {
             string line = rawLine.Trim().TrimEnd(',');
-            if (string.IsNullOrWhiteSpace(line)) continue;
+            if (string.IsNullOrWhiteSpace(line))
+            {
+                continue;
+            }
 
             Match memberMatch = EnumMemberRegex().Match(line);
-            if (!memberMatch.Success) continue;
+            if (!memberMatch.Success)
+            {
+                continue;
+            }
 
             string cppMemberName = memberMatch.Groups[1].Value;
             string csValue;
@@ -155,7 +175,9 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                 string value = memberMatch.Groups[2].Value.Trim();
                 csValue = EvaluateEnumValue(value, cppNameToValue);
                 if (long.TryParse(csValue, out long parsed))
+                {
                     nextImplicitValue = (int)(parsed + 1);
+                }
             }
             else
             {
@@ -177,10 +199,14 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                 : cppName;
 
             if (csName.Length > 0 && char.IsDigit(csName[0]))
+            {
                 csName = nsPrefix + csName;
+            }
 
             if (string.IsNullOrEmpty(csName))
+            {
                 csName = cppName;
+            }
 
             members.Add(new EnumMember(csName, value));
         }
@@ -190,33 +216,52 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
 
     static string ComputeEnumStripPrefix(string cppEnumName, List<string> memberNames)
     {
-        if (memberNames.Count == 0) return cppEnumName;
+        if (memberNames.Count == 0)
+        {
+            return cppEnumName;
+        }
 
         if (memberNames.All(m => m.StartsWith(cppEnumName)))
+        {
             return cppEnumName;
+        }
 
         string lcp = memberNames[0];
         foreach (string name in memberNames.Skip(1))
         {
             int i = 0;
             while (i < lcp.Length && i < name.Length && lcp[i] == name[i])
+            {
                 i++;
+            }
+
             lcp = lcp[..i];
-            if (lcp.Length == 0) break;
+
+            if (lcp.Length == 0)
+            {
+                break;
+            }
         }
 
-        if (lcp.Length == 0) return cppEnumName;
+        if (lcp.Length == 0)
+        {
+            return cppEnumName;
+        }
 
         bool atWordBoundary = memberNames.All(m =>
             m.Length <= lcp.Length || char.IsUpper(m[lcp.Length]) || char.IsDigit(m[lcp.Length]));
 
         if (atWordBoundary)
+        {
             return lcp;
+        }
 
         for (int i = lcp.Length - 1; i > 0; i--)
         {
             if (char.IsUpper(lcp[i]))
+            {
                 return lcp[..i];
+            }
         }
 
         return lcp;
@@ -231,7 +276,9 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
             foreach ((string cppName, string memberValue) in cppNameToValue)
             {
                 if (resolved.Contains(cppName))
+                {
                     resolved = resolved.Replace(cppName, memberValue);
+                }
             }
 
             resolved = HexUllSuffixRegex().Replace(resolved, "$1");
@@ -243,25 +290,37 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
             resolved = LSuffixRegex().Replace(resolved, "$1");
             resolved = resolved.Trim();
             while (resolved.StartsWith('(') && resolved.EndsWith(')'))
+            {
                 resolved = resolved[1..^1].Trim();
+            }
 
             Match shiftMatch = ShiftPatternRegex().Match(resolved);
             if (shiftMatch.Success)
+            {
                 return (1L << int.Parse(shiftMatch.Groups[1].Value)).ToString();
+            }
 
             if (resolved.StartsWith("0x", StringComparison.OrdinalIgnoreCase) &&
                 ulong.TryParse(resolved[2..], System.Globalization.NumberStyles.HexNumber, null, out ulong hexVal))
+            {
                 return hexVal.ToString();
+            }
 
             if (long.TryParse(resolved, out long signedVal))
+            {
                 return signedVal.ToString();
+            }
 
             if (ulong.TryParse(resolved, out ulong numVal))
+            {
                 return numVal.ToString();
+            }
 
             ulong? evalResult = TryEvaluateExpression(resolved);
             if (evalResult.HasValue)
+            {
                 return evalResult.Value.ToString();
+            }
 
             return value.Trim().Replace("ULL", "").Replace("UL", "");
         }
@@ -283,30 +342,43 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                 foreach (string part in expr.Split('|'))
                 {
                     if (TryParseSimpleValue(part.Trim(), out ulong v))
+                    {
                         result |= v;
+                    }
                     else
+                    {
                         return null;
+                    }
                 }
                 return result;
             }
 
             Match andNotMatch = AndNotPatternRegex().Match(expr);
             if (andNotMatch.Success)
+            {
                 return ulong.Parse(andNotMatch.Groups[1].Value) & ~ulong.Parse(andNotMatch.Groups[2].Value);
+            }
 
             if (TryParseSimpleValue(expr, out ulong val))
+            {
                 return val;
+            }
 
             return null;
         }
-        catch { return null; }
+        catch
+        {
+            return null;
+        }
     }
 
     static bool TryParseSimpleValue(string s, out ulong value)
     {
         s = s.Trim();
         if (s.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
+        {
             return ulong.TryParse(s[2..], System.Globalization.NumberStyles.HexNumber, null, out value);
+        }
 
         Match shiftMatch = SimpleShiftPatternRegex().Match(s);
         if (shiftMatch.Success)
@@ -350,17 +422,30 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
             string cFuncName = m.Groups[2].Value.Trim();
             string paramsStr = m.Groups[3].Value.Trim();
 
-            if (TypeMapper.IsUnmappableCppType(returnType)) continue;
+            if (TypeMapper.IsUnmappableCppType(returnType))
+            {
+                continue;
+            }
 
             List<ParamDef> parameters = ParseParameters(paramsStr);
-            if (parameters.Any(p => TypeMapper.IsUnmappableCppType(p.CppType) || p.CppType == "ARRAY_PARAM")) continue;
+
+            if (parameters.Any(p => TypeMapper.IsUnmappableCppType(p.CppType) || p.CppType == "ARRAY_PARAM"))
+            {
+                continue;
+            }
+
             if (parameters.Any(p => p.CppType.Contains("Handler") || p.CppType.Contains("Block") ||
-                p.CppType.Contains("function") || p.CppType.Contains("Function"))) continue;
+                p.CppType.Contains("function") || p.CppType.Contains("Function")))
+            {
+                continue;
+            }
 
             string prefix = TypeMapper.GetPrefix(cppNamespace);
             string cppName = cFuncName.StartsWith(prefix) ? cFuncName[prefix.Length..] : cFuncName;
 
-            context.FreeFunctions.Add(new FreeFunctionDef(cFuncName, returnType, cppName, parameters, libraryPath, cppNamespace, targetClassName));
+            context.FreeFunctions.Add(new FreeFunctionDef(
+                cFuncName, returnType, cppName, parameters,
+                libraryPath, cppNamespace, targetClassName));
         }
     }
 
@@ -372,7 +457,9 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
     {
         List<(string Ns, int Pos)> namespacePositions = [];
         foreach (Match m in NamespacePatternRegex().Matches(content))
+        {
             namespacePositions.Add((m.Groups[1].Value, m.Index));
+        }
 
         foreach (Match cm in ClassPatternRegex().Matches(content))
         {
@@ -392,24 +479,38 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
             }
 
             int braceStart = content.IndexOf('{', cm.Index + cm.Length);
-            if (braceStart < 0) continue;
+            if (braceStart < 0)
+            {
+                continue;
+            }
+
             int braceEnd = FindMatchingBrace(content, braceStart);
-            if (braceEnd < 0) continue;
+            if (braceEnd < 0)
+            {
+                continue;
+            }
 
             string classBody = content[(braceStart + 1)..braceEnd];
-            List<(string ReturnType, string Name, bool IsStatic, bool IsConst, List<ParamDef> Params)> rawMethods = ParseMethodDeclarations(classBody);
+            List<(string ReturnType, string Name, bool IsStatic, bool IsConst, List<ParamDef> Params)> rawMethods =
+                ParseMethodDeclarations(classBody);
 
-            Dictionary<(string MethodName, int ParamCount, int OverloadIndex), ImplInfo> implInfo = ParseInlineImplementations(content, ns, className);
+            Dictionary<(string MethodName, int ParamCount, int OverloadIndex), ImplInfo> implInfo =
+                ParseInlineImplementations(content, ns, className);
 
             List<MethodInfo> methods = [];
             Dictionary<(string, int), int> overloadCounter = [];
             foreach ((string retType, string name, bool isStatic, bool isConst, List<ParamDef> parameters) in rawMethods)
             {
-                if (SkipMethods.Contains(name)) continue;
+                if (SkipMethods.Contains(name))
+                {
+                    continue;
+                }
 
                 (string, int) countKey = (name, parameters.Count);
                 if (!overloadCounter.TryGetValue(countKey, out int idx))
+                {
                     idx = 0;
+                }
                 overloadCounter[countKey] = idx + 1;
 
                 (string, int, int) key = (name, parameters.Count, idx);
@@ -458,13 +559,25 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
         int depth = 0;
         for (int i = openPos; i < content.Length; i++)
         {
-            if (content[i] == '{') depth++;
-            else if (content[i] == '}') { depth--; if (depth == 0) return i; }
+            if (content[i] == '{')
+            {
+                depth++;
+            }
+            else if (content[i] == '}')
+            {
+                depth--;
+                if (depth == 0)
+                {
+                    return i;
+                }
+            }
         }
+
         return -1;
     }
 
-    static List<(string ReturnType, string Name, bool IsStatic, bool IsConst, List<ParamDef> Params)> ParseMethodDeclarations(string classBody)
+    static List<(string ReturnType, string Name, bool IsStatic, bool IsConst, List<ParamDef> Params)>
+        ParseMethodDeclarations(string classBody)
     {
         List<(string, string, bool, bool, List<ParamDef>)> result = [];
 
@@ -481,10 +594,15 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                 (line.StartsWith("struct ") && !line.Contains('(')) ||
                 line.StartsWith("using ") ||
                 line.StartsWith("typedef ") || line.StartsWith("friend "))
+            {
                 continue;
+            }
 
             Match methodMatch = MethodDeclRegex().Match(line);
-            if (!methodMatch.Success) continue;
+            if (!methodMatch.Success)
+            {
+                continue;
+            }
 
             bool isStatic = methodMatch.Groups[1].Success;
             string returnType = methodMatch.Groups[2].Value.Trim();
@@ -492,7 +610,10 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
             string paramsStr = methodMatch.Groups[4].Value.Trim();
             bool isConst = methodMatch.Groups[5].Success;
 
-            if (returnType is "class" or "struct") continue;
+            if (returnType is "class" or "struct")
+            {
+                continue;
+            }
 
             List<ParamDef> parameters = ParseParameters(paramsStr);
             result.Add((returnType, name, isStatic, isConst, parameters));
@@ -501,7 +622,8 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
         return result;
     }
 
-    static Dictionary<(string MethodName, int ParamCount, int OverloadIndex), ImplInfo> ParseInlineImplementations(string content, string ns, string className)
+    static Dictionary<(string MethodName, int ParamCount, int OverloadIndex), ImplInfo>
+        ParseInlineImplementations(string content, string ns, string className)
     {
         Dictionary<(string, int, int), ImplInfo> result = [];
         Dictionary<(string, int), int> countTracker = [];
@@ -526,7 +648,9 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
 
             (string, int) key = (methodName, paramCount);
             if (!countTracker.TryGetValue(key, out int idx))
+            {
                 idx = 0;
+            }
             countTracker[key] = idx + 1;
 
             result[(methodName, paramCount, idx)] = new ImplInfo(accessor, usesClassTarget);
@@ -541,13 +665,19 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
 
     static List<ParamDef> ParseParameters(string paramsStr)
     {
-        if (string.IsNullOrWhiteSpace(paramsStr)) return [];
+        if (string.IsNullOrWhiteSpace(paramsStr))
+        {
+            return [];
+        }
 
         List<ParamDef> parameters = [];
         foreach (string part in SplitParams(paramsStr))
         {
             string p = part.Trim();
-            if (string.IsNullOrWhiteSpace(p)) continue;
+            if (string.IsNullOrWhiteSpace(p))
+            {
+                continue;
+            }
 
             if (p.Contains("[]"))
             {
@@ -566,7 +696,9 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                 bool hasPointerStar = cleaned[..lastSpace].Trim().Contains('*');
 
                 if (!isPrimitive && hasPointerStar)
+                {
                     parameters.Add(new ParamDef($"OBJ_ARRAY:{elemType}", name));
+                }
                 else if (isPrimitive)
                 {
                     string primType = elemType switch
@@ -578,7 +710,9 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                     parameters.Add(new ParamDef($"PRIM_ARRAY:{primType}", name));
                 }
                 else
+                {
                     parameters.Add(new ParamDef("ARRAY_PARAM", name));
+                }
                 continue;
             }
 
@@ -616,7 +750,9 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                 string resolved = baseType;
                 Match nsMatch = NamespaceTypeRegex().Match(baseType);
                 if (nsMatch.Success)
+                {
                     resolved = TypeMapper.GetPrefix(nsMatch.Groups[1].Value) + nsMatch.Groups[2].Value.Trim();
+                }
 
                 if (TypeMapper.StructTypes.Contains(resolved))
                 {
@@ -637,8 +773,14 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
         for (int i = 0; i < paramsStr.Length; i++)
         {
             char c = paramsStr[i];
-            if (c == '<' || c == '(') depth++;
-            else if (c == '>' || c == ')') depth--;
+            if (c == '<' || c == '(')
+            {
+                depth++;
+            }
+            else if (c == '>' || c == ')')
+            {
+                depth--;
+            }
             else if (c == ',' && depth == 0)
             {
                 result.Add(paramsStr[start..i]);
