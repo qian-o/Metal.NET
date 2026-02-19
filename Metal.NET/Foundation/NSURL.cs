@@ -1,5 +1,8 @@
 namespace Metal.NET;
 
+/// <summary>
+/// Wraps an Objective-C NSURL for file and resource URL creation.
+/// </summary>
 public class NSURL(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public nint FileSystemRepresentation

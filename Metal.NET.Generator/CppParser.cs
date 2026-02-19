@@ -2,6 +2,10 @@ using System.Text.RegularExpressions;
 
 namespace Metal.NET.Generator;
 
+/// <summary>
+/// Regex-based parser for metal-cpp C++ headers.
+/// Extracts enums, classes, methods, free functions, and ObjC selector mappings.
+/// </summary>
 class CppParser(string metalCppDir, GeneratorContext context)
 {
     /// <summary>

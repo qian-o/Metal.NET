@@ -8,6 +8,11 @@ public abstract class NativeObject : IDisposable
 {
     private bool released;
 
+    /// <param name="nativePtr">The raw Objective-C pointer.</param>
+    /// <param name="retain">
+    /// <c>true</c> to retain a +0 reference (non-ownership returns);
+    /// <c>false</c> when the caller already owns a +1 reference (new/alloc/copy/init).
+    /// </param>
     protected NativeObject(nint nativePtr, bool retain)
     {
         NativePtr = nativePtr;
@@ -35,6 +40,9 @@ public abstract class NativeObject : IDisposable
         GC.SuppressFinalize(this);
     }
 
+    /// <summary>
+    /// Gets a cached nullable property. Creates or updates the wrapper only when the native pointer changes.
+    /// </summary>
     protected T? GetProperty<T>(ref T? field, Selector selector) where T : NativeObject
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, selector);
@@ -52,6 +60,9 @@ public abstract class NativeObject : IDisposable
         return field;
     }
 
+    /// <summary>
+    /// Sets a nullable property and updates the cached wrapper.
+    /// </summary>
     protected void SetProperty<T>(ref T? field, Selector selector, T? value) where T : NativeObject
     {
         ObjectiveCRuntime.MsgSend(NativePtr, selector, value?.NativePtr ?? 0);

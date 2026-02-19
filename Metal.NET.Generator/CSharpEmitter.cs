@@ -2,6 +2,10 @@ using System.Text;
 
 namespace Metal.NET.Generator;
 
+/// <summary>
+/// Emits C# source files from parsed metal-cpp definitions.
+/// Generates enum types, NativeObject-based classes with properties/methods, and P/Invoke free functions.
+/// </summary>
 class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeMapper)
 {
     /// <summary>

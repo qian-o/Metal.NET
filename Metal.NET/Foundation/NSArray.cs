@@ -10,6 +10,10 @@ public class NSArray(nint nativePtr, bool retain) : NativeObject(nativePtr, reta
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, NSArrayBindings.Count);
     }
 
+    /// <summary>
+    /// Returns the object at the given index, or <c>null</c> if the pointer is zero.
+    /// The returned object is retained (+1) for safe lifecycle management.
+    /// </summary>
     public T? ObjectAtIndex<T>(nuint index) where T : NativeObject
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSArrayBindings.ObjectAtIndex, index);

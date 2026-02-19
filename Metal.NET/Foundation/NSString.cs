@@ -3,6 +3,9 @@ using System.Text;
 
 namespace Metal.NET;
 
+/// <summary>
+/// Wraps an Objective-C NSString with bidirectional <see cref="string"/> conversion.
+/// </summary>
 public class NSString(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public string Value

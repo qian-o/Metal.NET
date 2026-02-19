@@ -2,6 +2,10 @@ using System.Text.RegularExpressions;
 
 namespace Metal.NET.Generator;
 
+/// <summary>
+/// Maps C++ types to C# types, resolves MsgSend method variants,
+/// and provides naming helpers (PascalCase, camelCase, reserved word escaping).
+/// </summary>
 class TypeMapper(GeneratorContext context)
 {
     /// <summary>

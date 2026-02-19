@@ -1,113 +1,87 @@
-﻿# Metal.NET — Auto-generated Metal Bindings for .NET
+﻿# Metal.NET
 
-## Architecture
+C# bindings for Apple's Metal graphics API, auto-generated from [metal-cpp](https://developer.apple.com/metal/cpp/) headers.
+
+## Project Structure
 
 ```
 Metal.NET.slnx
-├── Metal.NET/                          ← Main binding library
-│   ├── Common/                         ← Utility types
-│   │   ├── ObjectiveCRuntime.cs        ← P/Invoke to libobjc.dylib (objc_msgSend)
-│   │   ├── Selector.cs                 ← ObjC selector wrapper
-│   │   ├── Bool8.cs                    ← ObjC BOOL type
-│   │   └── MTLStructs.cs              ← Value-type structs (MTLOrigin, MTLSize, etc.)
-│   ├── Foundation/                     ← Foundation framework types
-│   │   ├── NSString.cs                 ← Hand-written with convenience methods
-│   │   ├── NSError.cs                  ← Hand-written with convenience methods
-│   │   ├── NSArray.cs                  ← Hand-written with convenience methods
-│   │   └── NSURL.g.cs                  ← Auto-generated
-│   ├── Metal/                          ← Auto-generated Metal API bindings
-│   │   ├── MTLDevice.g.cs
-│   │   ├── MTLCommandQueue.g.cs
-│   │   ├── MTLPixelFormat.g.cs
-│   │   └── ... (322 files)
-│   ├── QuartzCore/                     ← Auto-generated QuartzCore bindings
-│   │   ├── CAMetalLayer.g.cs
-│   │   └── CAMetalDrawable.g.cs
-│   ├── MetalFX/                        ← Auto-generated MetalFX bindings
-│   │   ├── MTLFXSpatialScaler.g.cs
-│   │   └── ... (14 files)
-│   └── Metal.NET.csproj
+├── Metal.NET/                            ← Binding library (targets .NET 10, macOS 15+)
+│   ├── Common/
+│   │   ├── NativeObject.cs               ← Base class with reference counting (IDisposable)
+│   │   ├── ObjectiveCRuntime.cs          ← P/Invoke to libobjc.dylib (objc_msgSend)
+│   │   ├── Selector.cs                   ← ObjC selector with implicit string conversion
+│   │   ├── Bool8.cs                      ← ObjC BOOL mapped to a single byte
+│   │   └── MTLStructs.cs                ← Blittable structs (MTLOrigin, MTLSize, etc.)
+│   ├── Foundation/                       ← Hand-written Foundation types
+│   │   ├── NSString.cs                   ← Bidirectional string conversion
+│   │   ├── NSError.cs                    ← Error wrapper with LocalizedDescription
+│   │   ├── NSArray.cs                    ← Generic array access via ObjectAtIndex<T>
+│   │   └── NSURL.cs                      ← File URL creation
+│   ├── Metal/                            ← Auto-generated Metal API (352 files)
+│   ├── MetalFX/                          ← Auto-generated MetalFX (18 files)
+│   └── QuartzCore/                       ← Auto-generated QuartzCore (2 files)
 │
-└── Metal.NET.Generator/                ← Offline code generator (console app)
-    ├── Program.cs                      ← CLI entry point
-    ├── CppAstParser.cs                 ← Parses C++ headers via CppAst (libclang)
-    ├── MetalBindingsGenerator.cs       ← Generates C# classes from parsed definitions
-    ├── Models.cs                       ← Shared definition models
-    ├── metal-cpp/                      ← metal-cpp headers (code generation source)
-    │   ├── Metal/
-    │   ├── Foundation/
-    │   ├── MetalFX/
-    │   └── QuartzCore/
-    └── stubs/                          ← Stub headers for cross-platform parsing
+└── Metal.NET.Generator/                  ← Offline code generator
+    ├── Program.cs                        ← Entry point
+    ├── Generator.cs                      ← Orchestrator (parser → emitter pipeline)
+    ├── CppParser.cs                      ← Regex-based metal-cpp header parser
+    ├── CSharpEmitter.cs                  ← C# source code emitter
+    ├── TypeMapper.cs                     ← C++ → C# type mapping and naming
+    ├── GeneratorContext.cs               ← Shared state between parser and emitter
+    ├── Models.cs                         ← Data models (EnumDef, ClassDef, MethodInfo, etc.)
+    └── metal-cpp/                        ← metal-cpp headers (generation source)
 ```
 
-## How It Works
+## Generated Code Patterns
 
-The Generator is an offline CLI tool that parses metal-cpp C++ headers using CppAst (libclang) and produces C# class bindings:
+### Classes
 
-```
-metal-cpp headers (.hpp)  →  CppAst (libclang)  →  C# bindings (.g.cs)  →  Metal/, Foundation/, QuartzCore/, MetalFX/
-```
-
-### Generated Code Pattern
-
-All ObjC wrappers are generated as **classes with IDisposable** for automatic reference counting via the GC:
+All ObjC wrappers inherit from `NativeObject`, which provides reference counting via `IDisposable`.
+Classes use C# 14.0 primary constructors and the `field` keyword for cached nullable properties:
 
 ```csharp
-public class MTLCommandQueue : IDisposable
+public class MTLCommandQueue(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public nint NativePtr { get; }
-
-    ~MTLCommandQueue() => Release();
-
-    public void Dispose()
+    public MTLDevice? Device
     {
-        Release();
-        GC.SuppressFinalize(this);
+        get => GetProperty(ref field, MTLCommandQueueBindings.Device);
     }
 
-    // ... properties and methods
+    public MTLCommandBuffer? CommandBuffer()
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBuffer);
+
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
+    }
 }
 ```
 
+### Reference Counting
+
+The `retain` constructor parameter controls ownership:
+- `false` — caller already owns a +1 reference (`new*`, `alloc*`, `copy*`, `init*` methods)
+- `true` — caller needs to retain a +0 reference (property getters, non-ownership methods)
+
 ### Free C Functions
 
-Free C functions like `MTLCreateSystemDefaultDevice()` are wrapped as static `[LibraryImport]` methods in the corresponding class:
+C functions are placed as static methods in their corresponding class:
 
 ```csharp
-MTLDevice device = MTLDevice.CreateSystemDefaultDevice();
-NSArray allDevices = MTLDevice.CopyAllDevices();
+using MTLDevice device = MTLDevice.CreateSystemDefaultDevice();
 ```
 
-## How to Update Bindings When Metal API Changes
+## Updating Bindings
 
-### Step 1: Download latest metal-cpp
-
-Go to **https://developer.apple.com/metal/cpp/** and download the latest archive.
-
-### Step 2: Replace headers
-
-Replace the contents of `Metal.NET.Generator/metal-cpp/` with the extracted `Metal/`, `Foundation/`, `MetalFX/`, and `QuartzCore/` directories.
-
-### Step 3: Run the generator
+1. Download the latest [metal-cpp](https://developer.apple.com/metal/cpp/) archive
+2. Replace `Metal.NET.Generator/metal-cpp/` contents
+3. Run the generator:
 
 ```bash
 dotnet run --project Metal.NET.Generator
 ```
 
-Or with custom paths:
-
-```bash
-dotnet run --project Metal.NET.Generator -- <metal-cpp-dir> <output-dir> <stubs-dir>
-```
-
-The Generator will:
-1. Parse all headers via CppAst (libclang) — enums, classes, methods, free functions
-2. Map C++ types to C# types (nint, nuint, Bool8, wrapper classes, enums)
-3. Generate binding files into Metal/, Foundation/, QuartzCore/, MetalFX/ subfolders
-4. All generated wrappers use class + IDisposable for GC-based reference counting
-
-### Step 4: Build
+4. Build:
 
 ```bash
 dotnet build Metal.NET
