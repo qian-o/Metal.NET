@@ -107,6 +107,14 @@ public class MTLRenderCommandEncoder(nint nativePtr, bool retain) : MTLCommandEn
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.MemoryBarrier, (nuint)scope, (nuint)after, (nuint)before);
     }
 
+    public unsafe void MemoryBarrier(MTLResource[] resources, MTLRenderStages after, MTLRenderStages before)
+    {
+        nint* pResources = stackalloc nint[resources.Length];
+        for (int i = 0; i < resources.Length; i++) pResources[i] = resources[i].NativePtr;
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.MemoryBarrierWithResourcescountafterStagesbeforeStages, (nint)pResources, (nuint)resources.Length, (nuint)after, (nuint)before);
+    }
+
     public void SampleCountersInBuffer(MTLCounterSampleBuffer sampleBuffer, nuint sampleIndex, bool barrier)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SampleCountersInBuffer, sampleBuffer.NativePtr, sampleIndex, (Bool8)barrier);
@@ -482,6 +490,22 @@ public class MTLRenderCommandEncoder(nint nativePtr, bool retain) : MTLCommandEn
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseHeapstages, heap.NativePtr, (nuint)stages);
     }
 
+    public unsafe void UseHeaps(MTLHeap[] heaps)
+    {
+        nint* pHeaps = stackalloc nint[heaps.Length];
+        for (int i = 0; i < heaps.Length; i++) pHeaps[i] = heaps[i].NativePtr;
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseHeaps, (nint)pHeaps, (nuint)heaps.Length);
+    }
+
+    public unsafe void UseHeaps(MTLHeap[] heaps, MTLRenderStages stages)
+    {
+        nint* pHeaps = stackalloc nint[heaps.Length];
+        for (int i = 0; i < heaps.Length; i++) pHeaps[i] = heaps[i].NativePtr;
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseHeapscountstages, (nint)pHeaps, (nuint)heaps.Length, (nuint)stages);
+    }
+
     public void UseResource(MTLResource resource, MTLResourceUsage usage)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseResource, resource.NativePtr, (nuint)usage);
@@ -490,6 +514,22 @@ public class MTLRenderCommandEncoder(nint nativePtr, bool retain) : MTLCommandEn
     public void UseResource(MTLResource resource, MTLResourceUsage usage, MTLRenderStages stages)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseResourceusagestages, resource.NativePtr, (nuint)usage, (nuint)stages);
+    }
+
+    public unsafe void UseResources(MTLResource[] resources, MTLResourceUsage usage)
+    {
+        nint* pResources = stackalloc nint[resources.Length];
+        for (int i = 0; i < resources.Length; i++) pResources[i] = resources[i].NativePtr;
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseResources, (nint)pResources, (nuint)resources.Length, (nuint)usage);
+    }
+
+    public unsafe void UseResources(MTLResource[] resources, MTLResourceUsage usage, MTLRenderStages stages)
+    {
+        nint* pResources = stackalloc nint[resources.Length];
+        for (int i = 0; i < resources.Length; i++) pResources[i] = resources[i].NativePtr;
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.UseResourcescountusagestages, (nint)pResources, (nuint)resources.Length, (nuint)usage, (nuint)stages);
     }
 
     public void WaitForFence(MTLFence fence, MTLRenderStages stages)
@@ -537,6 +577,8 @@ file static class MTLRenderCommandEncoderBindings
     public static readonly Selector ExecuteCommandsInBufferindirectBufferindirectBufferOffset = "executeCommandsInBuffer:indirectBuffer:indirectBufferOffset:";
 
     public static readonly Selector MemoryBarrier = "memoryBarrierWithScope:afterStages:beforeStages:";
+
+    public static readonly Selector MemoryBarrierWithResourcescountafterStagesbeforeStages = "memoryBarrierWithResources:count:afterStages:beforeStages:";
 
     public static readonly Selector SampleCountersInBuffer = "sampleCountersInBuffer:atSampleIndex:withBarrier:";
 
@@ -690,9 +732,17 @@ file static class MTLRenderCommandEncoderBindings
 
     public static readonly Selector UseHeap = "useHeap:";
 
+    public static readonly Selector UseHeaps = "useHeaps:count:";
+
+    public static readonly Selector UseHeapscountstages = "useHeaps:count:stages:";
+
     public static readonly Selector UseHeapstages = "useHeap:stages:";
 
     public static readonly Selector UseResource = "useResource:usage:";
+
+    public static readonly Selector UseResources = "useResources:count:usage:";
+
+    public static readonly Selector UseResourcescountusagestages = "useResources:count:usage:stages:";
 
     public static readonly Selector UseResourceusagestages = "useResource:usage:stages:";
 

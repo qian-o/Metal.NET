@@ -733,30 +733,60 @@ class Generator
 
             if (p.Contains("[]"))
             {
-                parameters.Add(new ParamDef("ARRAY_PARAM", "array"));
+                // Parse array params: "const MTL::X* const items[]" or "const float items[]" or "const NS::UInteger offsets[]"
+                var cleaned = p.Replace("[]", "").Replace("const ", "").Trim();
+                var lastSpace = cleaned.LastIndexOf(' ');
+                if (lastSpace < 0)
+                {
+                    parameters.Add(new ParamDef("ARRAY_PARAM", "array"));
+                    continue;
+                }
+
+                string elemType = cleaned[..lastSpace].Trim().TrimEnd('*').Trim();
+                string name = cleaned[(lastSpace + 1)..].Trim().TrimStart('*');
+
+                // Primitive types: NS::UInteger, NS::Integer, float, double
+                bool isPrimitive = elemType is "NS::UInteger" or "NS::Integer" or "float" or "double";
+                // Check if original had pointer-to-pointer pattern (X* const items[]) — indicates object array
+                bool hasPointerStar = cleaned[..lastSpace].Trim().Contains('*');
+
+                if (!isPrimitive && hasPointerStar)
+                    parameters.Add(new ParamDef($"OBJ_ARRAY:{elemType}", name));
+                else if (isPrimitive)
+                {
+                    string primType = elemType switch
+                    {
+                        "NS::UInteger" => "nuint",
+                        "NS::Integer" => "nint",
+                        _ => elemType
+                    };
+                    parameters.Add(new ParamDef($"PRIM_ARRAY:{primType}", name));
+                }
+                else
+                    parameters.Add(new ParamDef("ARRAY_PARAM", name));
                 continue;
             }
 
             // Remove const
-            var cleaned = p.Replace("const ", "").Trim();
+            var cleanedParam = p.Replace("const ", "").Trim();
 
-            var lastSpace = cleaned.LastIndexOf(' ');
-            if (lastSpace < 0)
+            var paramLastSpace = cleanedParam.LastIndexOf(' ');
+            if (paramLastSpace < 0)
             {
-                parameters.Add(new ParamDef(cleaned, "param"));
+                parameters.Add(new ParamDef(cleanedParam, "param"));
                 continue;
             }
 
-            string type = cleaned[..lastSpace].Trim();
-            string name = cleaned[(lastSpace + 1)..].Trim();
+            string type = cleanedParam[..paramLastSpace].Trim();
+            string paramName = cleanedParam[(paramLastSpace + 1)..].Trim();
 
-            if (name.StartsWith('*'))
+            if (paramName.StartsWith('*'))
             {
                 type += "*";
-                name = name[1..];
+                paramName = paramName[1..];
             }
 
-            parameters.Add(new ParamDef(type.Trim(), name));
+            parameters.Add(new ParamDef(type.Trim(), paramName));
         }
 
         return parameters;
@@ -957,9 +987,10 @@ class Generator
         bool hasClassField = _registeredClasses.Contains(csClassName);
         bool hasFreeFunctions = freeFunctions.Count > 0;
 
-        // Filter out methods with array params, function pointer params, or unmappable types
+        // Filter out methods with unmapped array params, function pointer params, or unmappable types
         var validMethods = classDef.Methods
             .Where(m => !m.Parameters.Any(p => p.CppType == "ARRAY_PARAM"))
+            .Where(m => !HasUnmergableArrayParam(m)) // Skip array methods where arrays don't have matching count params
             .Where(m => !HasFunctionPointerParam(m))
             .Where(m => !HasUnmappableParam(m))
             .ToList();
@@ -1071,10 +1102,35 @@ class Generator
     {
         foreach (var p in method.Parameters)
         {
+            // Skip array types (handled separately)
+            if (p.CppType.StartsWith("OBJ_ARRAY:") || p.CppType.StartsWith("PRIM_ARRAY:") || p.CppType == "ARRAY_PARAM") continue;
             if (IsUnmappableCppType(p.CppType)) return true;
         }
         // Also check return type
         if (IsUnmappableCppType(method.ReturnType)) return true;
+        return false;
+    }
+
+    /// <summary>
+    /// Returns true if a method has OBJ_ARRAY or PRIM_ARRAY params where the array
+    /// is NOT followed by an NS::UInteger count param (e.g., batch-set methods with NSRange).
+    /// These methods require MsgSend overloads we don't have yet, so skip them.
+    /// </summary>
+    static bool HasUnmergableArrayParam(MethodInfo method)
+    {
+        var p = method.Parameters;
+        for (int i = 0; i < p.Count; i++)
+        {
+            if (p[i].CppType.StartsWith("OBJ_ARRAY:") || p[i].CppType.StartsWith("PRIM_ARRAY:"))
+            {
+                // Check if next param is a count that can be merged
+                bool nextIsCount = i + 1 < p.Count &&
+                    p[i + 1].CppType is "NS::UInteger" &&
+                    p[i + 1].Name is "count";
+                if (!nextIsCount)
+                    return true; // Can't merge, skip this method
+            }
+        }
         return false;
     }
 
@@ -1085,7 +1141,7 @@ class Generator
         if (t.Contains('<') || t.Contains('>')) return true;
         // C++ references (not pointers)
         if (t.Contains('&')) return true;
-        // Raw pointer array patterns
+        // Raw pointer-to-const patterns (not handled as arrays)
         if (t.Contains("* const") && !t.Contains("**")) return true;
         // MTL::Timestamp is a typedef for uint64_t used as pointer (sampleTimestamps takes Timestamp*)
         // But MTL4::TimestampGranularity is a valid enum - don't block it
@@ -1351,13 +1407,63 @@ class Generator
         // Build C# parameter list and call arguments
         var csParams = new List<string>();
         var callArgs = new List<string> { target, selectorRef };
+        var arraySetupLines = new List<string>(); // Lines to emit before the MsgSend call for array pinning
+        bool hasObjArrayParam = false;
 
-        foreach (var param in method.Parameters)
+        for (int pi = 0; pi < method.Parameters.Count; pi++)
         {
+            var param = method.Parameters[pi];
             if (param.CppType == "ARRAY_PARAM") continue;
 
+            // Check if this is an OBJ_ARRAY param (NativeObject array)
+            if (param.CppType.StartsWith("OBJ_ARRAY:"))
+            {
+                hasObjArrayParam = true;
+                string elemCppType = param.CppType["OBJ_ARRAY:".Length..];
+                string elemCsType = MapCppType(elemCppType + "*", ns);
+                string csParamName = EscapeReservedWord(ToCamelCase(param.Name));
+
+                csParams.Add($"{elemCsType}[] {csParamName}");
+
+                // Check if next param is a count that should be merged
+                bool nextIsCount = pi + 1 < method.Parameters.Count &&
+                    method.Parameters[pi + 1].CppType is "NS::UInteger" &&
+                    method.Parameters[pi + 1].Name is "count";
+
+                string ptrVar = $"p{ToPascalCase(param.Name)}";
+                arraySetupLines.Add($"        nint* {ptrVar} = stackalloc nint[{csParamName}.Length];");
+                arraySetupLines.Add($"        for (int i = 0; i < {csParamName}.Length; i++) {ptrVar}[i] = {csParamName}[i].NativePtr;");
+
+                callArgs.Add($"(nint){ptrVar}");
+
+                if (nextIsCount)
+                {
+                    // Merge: add count arg from array length, skip next param
+                    callArgs.Add($"(nuint){csParamName}.Length");
+                    pi++; // skip the count param
+                }
+                continue;
+            }
+
+            // Check if this is a PRIM_ARRAY param (primitive array like float[], nuint[])
+            if (param.CppType.StartsWith("PRIM_ARRAY:"))
+            {
+                hasObjArrayParam = true; // reuse the flag for unsafe context
+                string elemType = param.CppType["PRIM_ARRAY:".Length..];
+                string csParamName = EscapeReservedWord(ToCamelCase(param.Name));
+
+                csParams.Add($"{elemType}[] {csParamName}");
+
+                string ptrVar = $"p{ToPascalCase(param.Name)}";
+                arraySetupLines.Add($"        {elemType}* {ptrVar} = stackalloc {elemType}[{csParamName}.Length];");
+                arraySetupLines.Add($"        for (int i = 0; i < {csParamName}.Length; i++) {ptrVar}[i] = {csParamName}[i];");
+
+                callArgs.Add($"(nint){ptrVar}");
+                continue;
+            }
+
             string csParamType = MapCppType(param.CppType, ns);
-            string csParamName = EscapeReservedWord(ToCamelCase(param.Name));
+            string paramName = EscapeReservedWord(ToCamelCase(param.Name));
 
             if (param.CppType.Contains("Error**"))
             {
@@ -1366,29 +1472,36 @@ class Generator
                 continue;
             }
 
-            csParams.Add($"{csParamType} {csParamName}");
+            csParams.Add($"{csParamType} {paramName}");
 
             if (IsNullableType(csParamType))
-                callArgs.Add($"{csParamName}.NativePtr");
+                callArgs.Add($"{paramName}.NativePtr");
             else if (IsEnumType(csParamType))
-                callArgs.Add($"{GetEnumSetCast(csParamType)}{csParamName}");
+                callArgs.Add($"{GetEnumSetCast(csParamType)}{paramName}");
             else if (csParamType == "bool")
-                callArgs.Add($"(Bool8){csParamName}");
+                callArgs.Add($"(Bool8){paramName}");
             else if (csParamType is "uint" or "ulong")
-                callArgs.Add($"(nuint){csParamName}");
+                callArgs.Add($"(nuint){paramName}");
             else if (csParamType is "int" or "long")
-                callArgs.Add($"(nint){csParamName}");
+                callArgs.Add($"(nint){paramName}");
             else
-                callArgs.Add(csParamName);
+                callArgs.Add(paramName);
         }
 
         string paramStr = string.Join(", ", csParams);
         string argsStr = string.Join(", ", callArgs);
         string staticKw = isStaticClassMethod ? "static " : "";
+        string unsafeKw = hasObjArrayParam ? "unsafe " : "";
         string csReturnType = isVoid ? "void" : nullable ? $"{returnType}?" : returnType;
 
-        sb.AppendLine($"    public {staticKw}{csReturnType} {csMethodName}({paramStr})");
+        sb.AppendLine($"    public {staticKw}{unsafeKw}{csReturnType} {csMethodName}({paramStr})");
         sb.AppendLine("    {");
+
+        // Emit array setup lines (stackalloc + pointer extraction)
+        foreach (var line in arraySetupLines)
+            sb.AppendLine(line);
+        if (arraySetupLines.Count > 0)
+            sb.AppendLine();
 
         if (isVoid)
         {

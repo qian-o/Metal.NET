@@ -17,6 +17,30 @@ public class MTL4CommandQueue(nint nativePtr, bool retain) : NativeObject(native
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueBindings.AddResidencySet, residencySet.NativePtr);
     }
 
+    public unsafe void AddResidencySets(MTLResidencySet[] residencySets)
+    {
+        nint* pResidencySets = stackalloc nint[residencySets.Length];
+        for (int i = 0; i < residencySets.Length; i++) pResidencySets[i] = residencySets[i].NativePtr;
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueBindings.AddResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
+    }
+
+    public unsafe void Commit(MTL4CommandBuffer[] commandBuffers)
+    {
+        nint* pCommandBuffers = stackalloc nint[commandBuffers.Length];
+        for (int i = 0; i < commandBuffers.Length; i++) pCommandBuffers[i] = commandBuffers[i].NativePtr;
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueBindings.Commit, (nint)pCommandBuffers, (nuint)commandBuffers.Length);
+    }
+
+    public unsafe void Commit(MTL4CommandBuffer[] commandBuffers, MTL4CommitOptions options)
+    {
+        nint* pCommandBuffers = stackalloc nint[commandBuffers.Length];
+        for (int i = 0; i < commandBuffers.Length; i++) pCommandBuffers[i] = commandBuffers[i].NativePtr;
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueBindings.Commitcountoptions, (nint)pCommandBuffers, (nuint)commandBuffers.Length, options.NativePtr);
+    }
+
     public void CopyBufferMappingsFromBuffer(MTLBuffer sourceBuffer, MTLBuffer destinationBuffer, MTL4CopySparseBufferMappingOperation operations, nuint count)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueBindings.CopyBufferMappingsFromBuffer, sourceBuffer.NativePtr, destinationBuffer.NativePtr, operations, count);
@@ -30,6 +54,14 @@ public class MTL4CommandQueue(nint nativePtr, bool retain) : NativeObject(native
     public void RemoveResidencySet(MTLResidencySet residencySet)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueBindings.RemoveResidencySet, residencySet.NativePtr);
+    }
+
+    public unsafe void RemoveResidencySets(MTLResidencySet[] residencySets)
+    {
+        nint* pResidencySets = stackalloc nint[residencySets.Length];
+        for (int i = 0; i < residencySets.Length; i++) pResidencySets[i] = residencySets[i].NativePtr;
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueBindings.RemoveResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
     }
 
     public void SignalDrawable(MTLDrawable drawable)
@@ -67,6 +99,12 @@ file static class MTL4CommandQueueBindings
 {
     public static readonly Selector AddResidencySet = "addResidencySet:";
 
+    public static readonly Selector AddResidencySets = "addResidencySets:count:";
+
+    public static readonly Selector Commit = "commit:count:";
+
+    public static readonly Selector Commitcountoptions = "commit:count:options:";
+
     public static readonly Selector CopyBufferMappingsFromBuffer = "copyBufferMappingsFromBuffer:toBuffer:operations:count:";
 
     public static readonly Selector CopyTextureMappingsFromTexture = "copyTextureMappingsFromTexture:toTexture:operations:count:";
@@ -76,6 +114,8 @@ file static class MTL4CommandQueueBindings
     public static readonly Selector Label = "label";
 
     public static readonly Selector RemoveResidencySet = "removeResidencySet:";
+
+    public static readonly Selector RemoveResidencySets = "removeResidencySets:count:";
 
     public static readonly Selector SignalDrawable = "signalDrawable:";
 

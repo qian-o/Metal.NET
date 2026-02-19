@@ -28,6 +28,14 @@ public class MTLCommandQueue(nint nativePtr, bool retain) : NativeObject(nativeP
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueBindings.AddResidencySet, residencySet.NativePtr);
     }
 
+    public unsafe void AddResidencySets(MTLResidencySet[] residencySets)
+    {
+        nint* pResidencySets = stackalloc nint[residencySets.Length];
+        for (int i = 0; i < residencySets.Length; i++) pResidencySets[i] = residencySets[i].NativePtr;
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueBindings.AddResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
+    }
+
     public MTLCommandBuffer? CommandBufferWithDescriptor(MTLCommandBufferDescriptor descriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBufferWithDescriptor, descriptor.NativePtr);
@@ -44,11 +52,21 @@ public class MTLCommandQueue(nint nativePtr, bool retain) : NativeObject(nativeP
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueBindings.RemoveResidencySet, residencySet.NativePtr);
     }
+
+    public unsafe void RemoveResidencySets(MTLResidencySet[] residencySets)
+    {
+        nint* pResidencySets = stackalloc nint[residencySets.Length];
+        for (int i = 0; i < residencySets.Length; i++) pResidencySets[i] = residencySets[i].NativePtr;
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueBindings.RemoveResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
+    }
 }
 
 file static class MTLCommandQueueBindings
 {
     public static readonly Selector AddResidencySet = "addResidencySet:";
+
+    public static readonly Selector AddResidencySets = "addResidencySets:count:";
 
     public static readonly Selector CommandBuffer = "commandBuffer";
 
@@ -63,6 +81,8 @@ file static class MTLCommandQueueBindings
     public static readonly Selector Label = "label";
 
     public static readonly Selector RemoveResidencySet = "removeResidencySet:";
+
+    public static readonly Selector RemoveResidencySets = "removeResidencySets:count:";
 
     public static readonly Selector SetLabel = "setLabel:";
 }

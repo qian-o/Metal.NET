@@ -37,6 +37,14 @@ public class MTLComputeCommandEncoder(nint nativePtr, bool retain) : MTLCommandE
         ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.MemoryBarrier, (nuint)scope);
     }
 
+    public unsafe void MemoryBarrier(MTLResource[] resources)
+    {
+        nint* pResources = stackalloc nint[resources.Length];
+        for (int i = 0; i < resources.Length; i++) pResources[i] = resources[i].NativePtr;
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.MemoryBarrierWithResourcescount, (nint)pResources, (nuint)resources.Length);
+    }
+
     public void SampleCountersInBuffer(MTLCounterSampleBuffer sampleBuffer, nuint sampleIndex, bool barrier)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SampleCountersInBuffer, sampleBuffer.NativePtr, sampleIndex, (Bool8)barrier);
@@ -137,9 +145,25 @@ public class MTLComputeCommandEncoder(nint nativePtr, bool retain) : MTLCommandE
         ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.UseHeap, heap.NativePtr);
     }
 
+    public unsafe void UseHeaps(MTLHeap[] heaps)
+    {
+        nint* pHeaps = stackalloc nint[heaps.Length];
+        for (int i = 0; i < heaps.Length; i++) pHeaps[i] = heaps[i].NativePtr;
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.UseHeaps, (nint)pHeaps, (nuint)heaps.Length);
+    }
+
     public void UseResource(MTLResource resource, MTLResourceUsage usage)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.UseResource, resource.NativePtr, (nuint)usage);
+    }
+
+    public unsafe void UseResources(MTLResource[] resources, MTLResourceUsage usage)
+    {
+        nint* pResources = stackalloc nint[resources.Length];
+        for (int i = 0; i < resources.Length; i++) pResources[i] = resources[i].NativePtr;
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.UseResources, (nint)pResources, (nuint)resources.Length, (nuint)usage);
     }
 
     public void WaitForFence(MTLFence fence)
@@ -163,6 +187,8 @@ file static class MTLComputeCommandEncoderBindings
     public static readonly Selector ExecuteCommandsInBufferindirectBufferindirectBufferOffset = "executeCommandsInBuffer:indirectBuffer:indirectBufferOffset:";
 
     public static readonly Selector MemoryBarrier = "memoryBarrierWithScope:";
+
+    public static readonly Selector MemoryBarrierWithResourcescount = "memoryBarrierWithResources:count:";
 
     public static readonly Selector SampleCountersInBuffer = "sampleCountersInBuffer:atSampleIndex:withBarrier:";
 
@@ -204,7 +230,11 @@ file static class MTLComputeCommandEncoderBindings
 
     public static readonly Selector UseHeap = "useHeap:";
 
+    public static readonly Selector UseHeaps = "useHeaps:count:";
+
     public static readonly Selector UseResource = "useResource:usage:";
+
+    public static readonly Selector UseResources = "useResources:count:usage:";
 
     public static readonly Selector WaitForFence = "waitForFence:";
 }

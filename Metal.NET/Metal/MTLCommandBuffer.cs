@@ -182,6 +182,14 @@ public class MTLCommandBuffer(nint nativePtr, bool retain) : NativeObject(native
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.UseResidencySet, residencySet.NativePtr);
     }
 
+    public unsafe void UseResidencySets(MTLResidencySet[] residencySets)
+    {
+        nint* pResidencySets = stackalloc nint[residencySets.Length];
+        for (int i = 0; i < residencySets.Length; i++) pResidencySets[i] = residencySets[i].NativePtr;
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.UseResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
+    }
+
     public void WaitUntilCompleted()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.WaitUntilCompleted);
@@ -262,6 +270,8 @@ file static class MTLCommandBufferBindings
     public static readonly Selector Status = "status";
 
     public static readonly Selector UseResidencySet = "useResidencySet:";
+
+    public static readonly Selector UseResidencySets = "useResidencySets:count:";
 
     public static readonly Selector WaitUntilCompleted = "waitUntilCompleted";
 

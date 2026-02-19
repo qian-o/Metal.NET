@@ -32,6 +32,14 @@ public class MTLResidencySet(nint nativePtr, bool retain) : NativeObject(nativeP
         ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetBindings.AddAllocation, allocation.NativePtr);
     }
 
+    public unsafe void AddAllocations(MTLAllocation[] allocations)
+    {
+        nint* pAllocations = stackalloc nint[allocations.Length];
+        for (int i = 0; i < allocations.Length; i++) pAllocations[i] = allocations[i].NativePtr;
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetBindings.AddAllocations, (nint)pAllocations, (nuint)allocations.Length);
+    }
+
     public void Commit()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetBindings.Commit);
@@ -57,6 +65,14 @@ public class MTLResidencySet(nint nativePtr, bool retain) : NativeObject(nativeP
         ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetBindings.RemoveAllocation, allocation.NativePtr);
     }
 
+    public unsafe void RemoveAllocations(MTLAllocation[] allocations)
+    {
+        nint* pAllocations = stackalloc nint[allocations.Length];
+        for (int i = 0; i < allocations.Length; i++) pAllocations[i] = allocations[i].NativePtr;
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetBindings.RemoveAllocations, (nint)pAllocations, (nuint)allocations.Length);
+    }
+
     public void RequestResidency()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetBindings.RequestResidency);
@@ -66,6 +82,8 @@ public class MTLResidencySet(nint nativePtr, bool retain) : NativeObject(nativeP
 file static class MTLResidencySetBindings
 {
     public static readonly Selector AddAllocation = "addAllocation:";
+
+    public static readonly Selector AddAllocations = "addAllocations:count:";
 
     public static readonly Selector AllAllocations = "allAllocations";
 
@@ -86,6 +104,8 @@ file static class MTLResidencySetBindings
     public static readonly Selector RemoveAllAllocations = "removeAllAllocations";
 
     public static readonly Selector RemoveAllocation = "removeAllocation:";
+
+    public static readonly Selector RemoveAllocations = "removeAllocations:count:";
 
     public static readonly Selector RequestResidency = "requestResidency";
 }

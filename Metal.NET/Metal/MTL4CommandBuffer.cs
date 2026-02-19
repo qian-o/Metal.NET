@@ -72,6 +72,14 @@ public class MTL4CommandBuffer(nint nativePtr, bool retain) : NativeObject(nativ
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferBindings.UseResidencySet, residencySet.NativePtr);
     }
 
+    public unsafe void UseResidencySets(MTLResidencySet[] residencySets)
+    {
+        nint* pResidencySets = stackalloc nint[residencySets.Length];
+        for (int i = 0; i < residencySets.Length; i++) pResidencySets[i] = residencySets[i].NativePtr;
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferBindings.UseResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
+    }
+
     public void WriteTimestampIntoHeap(MTL4CounterHeap counterHeap, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferBindings.WriteTimestampIntoHeap, counterHeap.NativePtr, index);
@@ -107,6 +115,8 @@ file static class MTL4CommandBufferBindings
     public static readonly Selector SetLabel = "setLabel:";
 
     public static readonly Selector UseResidencySet = "useResidencySet:";
+
+    public static readonly Selector UseResidencySets = "useResidencySets:count:";
 
     public static readonly Selector WriteTimestampIntoHeap = "writeTimestampIntoHeap:atIndex:";
 }

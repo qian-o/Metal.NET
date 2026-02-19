@@ -42,9 +42,25 @@ public class MTLAccelerationStructureCommandEncoder(nint nativePtr, bool retain)
         ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.UseHeap, heap.NativePtr);
     }
 
+    public unsafe void UseHeaps(MTLHeap[] heaps)
+    {
+        nint* pHeaps = stackalloc nint[heaps.Length];
+        for (int i = 0; i < heaps.Length; i++) pHeaps[i] = heaps[i].NativePtr;
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.UseHeaps, (nint)pHeaps, (nuint)heaps.Length);
+    }
+
     public void UseResource(MTLResource resource, MTLResourceUsage usage)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.UseResource, resource.NativePtr, (nuint)usage);
+    }
+
+    public unsafe void UseResources(MTLResource[] resources, MTLResourceUsage usage)
+    {
+        nint* pResources = stackalloc nint[resources.Length];
+        for (int i = 0; i < resources.Length; i++) pResources[i] = resources[i].NativePtr;
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCommandEncoderBindings.UseResources, (nint)pResources, (nuint)resources.Length, (nuint)usage);
     }
 
     public void WaitForFence(MTLFence fence)
@@ -81,7 +97,11 @@ file static class MTLAccelerationStructureCommandEncoderBindings
 
     public static readonly Selector UseHeap = "useHeap:";
 
+    public static readonly Selector UseHeaps = "useHeaps:count:";
+
     public static readonly Selector UseResource = "useResource:usage:";
+
+    public static readonly Selector UseResources = "useResources:count:usage:";
 
     public static readonly Selector WaitForFence = "waitForFence:";
 
