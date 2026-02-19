@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLArgumentDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLArgumentDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLArgumentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLArgumentDescriptorBindings.Class))
+    public MTLArgumentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLArgumentDescriptorBindings.Class), false)
     {
     }
 
@@ -46,14 +46,7 @@ public class MTLArgumentDescriptor(nint nativePtr) : NativeObject(nativePtr)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLArgumentDescriptorBindings.Class, MTLArgumentDescriptorBindings.ArgumentDescriptor);
 
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        ObjectiveCRuntime.Retain(nativePtr);
-
-        return new(nativePtr);
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 }
 

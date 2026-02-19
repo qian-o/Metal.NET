@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLRasterizationRateMap(nint nativePtr) : NativeObject(nativePtr)
+public class MTLRasterizationRateMap(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public MTLDevice? Device
     {

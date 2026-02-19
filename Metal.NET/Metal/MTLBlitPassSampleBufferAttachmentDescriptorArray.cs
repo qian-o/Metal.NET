@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLBlitPassSampleBufferAttachmentDescriptorArray(nint nativePtr) : NativeObject(nativePtr)
+public class MTLBlitPassSampleBufferAttachmentDescriptorArray(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLBlitPassSampleBufferAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLBlitPassSampleBufferAttachmentDescriptorArrayBindings.Class))
+    public MTLBlitPassSampleBufferAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLBlitPassSampleBufferAttachmentDescriptorArrayBindings.Class), false)
     {
     }
 
@@ -10,14 +10,7 @@ public class MTLBlitPassSampleBufferAttachmentDescriptorArray(nint nativePtr) : 
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorArrayBindings.Object, attachmentIndex);
 
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        ObjectiveCRuntime.Retain(nativePtr);
-
-        return new(nativePtr);
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public void SetObject(MTLBlitPassSampleBufferAttachmentDescriptor attachment, nuint attachmentIndex)

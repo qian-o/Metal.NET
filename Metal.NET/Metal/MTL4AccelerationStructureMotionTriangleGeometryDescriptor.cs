@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTL4AccelerationStructureMotionTriangleGeometryDescriptor(nint nativePtr) : MTL4AccelerationStructureGeometryDescriptor(nativePtr)
+public class MTL4AccelerationStructureMotionTriangleGeometryDescriptor(nint nativePtr, bool retain) : MTL4AccelerationStructureGeometryDescriptor(nativePtr, retain)
 {
-    public MTL4AccelerationStructureMotionTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureMotionTriangleGeometryDescriptorBindings.Class))
+    public MTL4AccelerationStructureMotionTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureMotionTriangleGeometryDescriptorBindings.Class), false)
     {
     }
 

@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTL4RenderPipelineColorAttachmentDescriptorArray(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4RenderPipelineColorAttachmentDescriptorArray(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTL4RenderPipelineColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineColorAttachmentDescriptorArrayBindings.Class))
+    public MTL4RenderPipelineColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineColorAttachmentDescriptorArrayBindings.Class), false)
     {
     }
 
@@ -10,14 +10,7 @@ public class MTL4RenderPipelineColorAttachmentDescriptorArray(nint nativePtr) : 
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArrayBindings.Object, attachmentIndex);
 
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        ObjectiveCRuntime.Retain(nativePtr);
-
-        return new(nativePtr);
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public void Reset()

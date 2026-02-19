@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.Class))
+    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.Class), false)
     {
     }
 

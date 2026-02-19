@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLDynamicLibrary(nint nativePtr) : NativeObject(nativePtr)
+public class MTLDynamicLibrary(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public MTLDevice? Device
     {
@@ -24,9 +24,7 @@ public class MTLDynamicLibrary(nint nativePtr) : NativeObject(nativePtr)
 
         if (errorPtr is not 0)
         {
-            ObjectiveCRuntime.Retain(errorPtr);
-
-            error = new(errorPtr);
+            error = new(errorPtr, true);
         }
         else
         {

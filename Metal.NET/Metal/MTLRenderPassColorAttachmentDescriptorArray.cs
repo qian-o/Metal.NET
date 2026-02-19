@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr) : NativeObject(nativePtr)
+public class MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLRenderPassColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassColorAttachmentDescriptorArrayBindings.Class))
+    public MTLRenderPassColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassColorAttachmentDescriptorArrayBindings.Class), false)
     {
     }
 
@@ -10,14 +10,7 @@ public class MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr) : Nativ
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassColorAttachmentDescriptorArrayBindings.Object, attachmentIndex);
 
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        ObjectiveCRuntime.Retain(nativePtr);
-
-        return new(nativePtr);
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public void SetObject(MTLRenderPassColorAttachmentDescriptor attachment, nuint attachmentIndex)

@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTL4MachineLearningPipelineState(nint nativePtr) : MTLAllocation(nativePtr)
+public class MTL4MachineLearningPipelineState(nint nativePtr, bool retain) : MTLAllocation(nativePtr, retain)
 {
     public MTLDevice? Device
     {

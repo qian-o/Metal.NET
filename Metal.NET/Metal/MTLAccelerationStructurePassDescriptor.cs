@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLAccelerationStructurePassDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLAccelerationStructurePassDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLAccelerationStructurePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassDescriptorBindings.Class))
+    public MTLAccelerationStructurePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassDescriptorBindings.Class), false)
     {
     }
 
@@ -15,14 +15,7 @@ public class MTLAccelerationStructurePassDescriptor(nint nativePtr) : NativeObje
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructurePassDescriptorBindings.Class, MTLAccelerationStructurePassDescriptorBindings.AccelerationStructurePassDescriptor);
 
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        ObjectiveCRuntime.Retain(nativePtr);
-
-        return new(nativePtr);
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 }
 

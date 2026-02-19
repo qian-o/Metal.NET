@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
+public class MTLTexture(nint nativePtr, bool retain) : MTLResource(nativePtr, retain)
 {
     public bool AllowGPUOptimizedContents
     {
@@ -171,42 +171,42 @@ public class MTLTexture(nint nativePtr) : MTLResource(nativePtr)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.NewRemoteTextureViewForDevice, device.NativePtr);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public MTLSharedTextureHandle? NewSharedTextureHandle()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.NewSharedTextureHandle);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public MTLTexture? NewTextureView(MTLPixelFormat pixelFormat)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.NewTextureView, (nuint)pixelFormat);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public MTLTexture? NewTextureView(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormattextureTypelevelsslices, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public MTLTexture? NewTextureView(MTLTextureViewDescriptor descriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.NewTextureViewWithDescriptor, descriptor.NativePtr);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public MTLTexture? NewTextureView(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange, MTLTextureSwizzleChannels swizzle)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormattextureTypelevelsslicesswizzle, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange, swizzle);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public void ReplaceRegion(MTLRegion region, nuint level, nuint slice, nint pixelBytes, nuint bytesPerRow, nuint bytesPerImage)

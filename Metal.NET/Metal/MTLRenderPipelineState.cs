@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLRenderPipelineState(nint nativePtr) : MTLAllocation(nativePtr)
+public class MTLRenderPipelineState(nint nativePtr, bool retain) : MTLAllocation(nativePtr, retain)
 {
     public MTLDevice? Device
     {
@@ -91,42 +91,21 @@ public class MTLRenderPipelineState(nint nativePtr) : MTLAllocation(nativePtr)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.FunctionHandle, name.NativePtr, (nuint)stage);
 
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        ObjectiveCRuntime.Retain(nativePtr);
-
-        return new(nativePtr);
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public MTLFunctionHandle? FunctionHandle(MTL4BinaryFunction function, MTLRenderStages stage)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.FunctionHandleWithBinaryFunctionstage, function.NativePtr, (nuint)stage);
 
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        ObjectiveCRuntime.Retain(nativePtr);
-
-        return new(nativePtr);
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public MTLFunctionHandle? FunctionHandle(MTLFunction function, MTLRenderStages stage)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.FunctionHandleWithFunctionstage, function.NativePtr, (nuint)stage);
 
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        ObjectiveCRuntime.Retain(nativePtr);
-
-        return new(nativePtr);
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public nuint ImageblockMemoryLength(MTLSize imageblockDimensions)
@@ -138,14 +117,14 @@ public class MTLRenderPipelineState(nint nativePtr) : MTLAllocation(nativePtr)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewIntersectionFunctionTable, descriptor.NativePtr, (nuint)stage);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public MTL4PipelineDescriptor? NewRenderPipelineDescriptor()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewRenderPipelineDescriptor);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public MTLRenderPipelineState? NewRenderPipelineState(MTL4RenderPipelineBinaryFunctionsDescriptor binaryFunctionsDescriptor, out NSError? error)
@@ -154,16 +133,14 @@ public class MTLRenderPipelineState(nint nativePtr) : MTLAllocation(nativePtr)
 
         if (errorPtr is not 0)
         {
-            ObjectiveCRuntime.Retain(errorPtr);
-
-            error = new(errorPtr);
+            error = new(errorPtr, true);
         }
         else
         {
             error = null;
         }
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public MTLRenderPipelineState? NewRenderPipelineState(MTLRenderPipelineFunctionsDescriptor additionalBinaryFunctions, out NSError? error)
@@ -172,23 +149,21 @@ public class MTLRenderPipelineState(nint nativePtr) : MTLAllocation(nativePtr)
 
         if (errorPtr is not 0)
         {
-            ObjectiveCRuntime.Retain(errorPtr);
-
-            error = new(errorPtr);
+            error = new(errorPtr, true);
         }
         else
         {
             error = null;
         }
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public MTLVisibleFunctionTable? NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor, MTLRenderStages stage)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewVisibleFunctionTable, descriptor.NativePtr, (nuint)stage);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 }
 

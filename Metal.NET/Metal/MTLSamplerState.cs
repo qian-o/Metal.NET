@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLSamplerState(nint nativePtr) : NativeObject(nativePtr)
+public class MTLSamplerState(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public MTLDevice? Device
     {

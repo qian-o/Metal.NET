@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLStageInputOutputDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLStageInputOutputDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLStageInputOutputDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStageInputOutputDescriptorBindings.Class))
+    public MTLStageInputOutputDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStageInputOutputDescriptorBindings.Class), false)
     {
     }
 
@@ -37,14 +37,7 @@ public class MTLStageInputOutputDescriptor(nint nativePtr) : NativeObject(native
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLStageInputOutputDescriptorBindings.Class, MTLStageInputOutputDescriptorBindings.StageInputOutputDescriptor);
 
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        ObjectiveCRuntime.Retain(nativePtr);
-
-        return new(nativePtr);
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 }
 

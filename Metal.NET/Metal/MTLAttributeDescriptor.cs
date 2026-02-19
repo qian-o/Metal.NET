@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLAttributeDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLAttributeDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAttributeDescriptorBindings.Class))
+    public MTLAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAttributeDescriptorBindings.Class), false)
     {
     }
 

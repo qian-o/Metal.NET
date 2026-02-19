@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTL4CommandBuffer(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4CommandBuffer(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public MTL4ComputeCommandEncoder? ComputeCommandEncoder
     {
@@ -52,28 +52,14 @@ public class MTL4CommandBuffer(nint nativePtr) : NativeObject(nativePtr)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoder, descriptor.NativePtr);
 
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        ObjectiveCRuntime.Retain(nativePtr);
-
-        return new(nativePtr);
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public MTL4RenderCommandEncoder? RenderCommandEncoder(MTL4RenderPassDescriptor descriptor, MTL4RenderEncoderOptions options)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoderWithDescriptoroptions, descriptor.NativePtr, (nuint)options);
 
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        ObjectiveCRuntime.Retain(nativePtr);
-
-        return new(nativePtr);
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public void ResolveCounterHeap(MTL4CounterHeap counterHeap, NSRange range, MTL4BufferRange bufferRange, MTLFence fenceToWait, MTLFence fenceToUpdate)

@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLCommandBufferEncoderInfo(nint nativePtr) : NativeObject(nativePtr)
+public class MTLCommandBufferEncoderInfo(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public NSArray? DebugSignposts
     {

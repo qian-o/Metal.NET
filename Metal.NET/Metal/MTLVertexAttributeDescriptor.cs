@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLVertexAttributeDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLVertexAttributeDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLVertexAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeDescriptorBindings.Class))
+    public MTLVertexAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeDescriptorBindings.Class), false)
     {
     }
 

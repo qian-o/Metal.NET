@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLRenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLRenderPassDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLRenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassDescriptorBindings.Class))
+    public MTLRenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassDescriptorBindings.Class), false)
     {
     }
 
@@ -109,14 +109,7 @@ public class MTLRenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLRenderPassDescriptorBindings.Class, MTLRenderPassDescriptorBindings.RenderPassDescriptor);
 
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        ObjectiveCRuntime.Retain(nativePtr);
-
-        return new(nativePtr);
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public void SetSamplePositions(MTLSamplePosition positions, nuint count)

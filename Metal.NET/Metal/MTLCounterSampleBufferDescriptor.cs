@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLCounterSampleBufferDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLCounterSampleBufferDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLCounterSampleBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCounterSampleBufferDescriptorBindings.Class))
+    public MTLCounterSampleBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCounterSampleBufferDescriptorBindings.Class), false)
     {
     }
 

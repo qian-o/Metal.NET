@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLStructType(nint nativePtr) : MTLType(nativePtr)
+public class MTLStructType(nint nativePtr, bool retain) : MTLType(nativePtr, retain)
 {
-    public MTLStructType() : this(ObjectiveCRuntime.AllocInit(MTLStructTypeBindings.Class))
+    public MTLStructType() : this(ObjectiveCRuntime.AllocInit(MTLStructTypeBindings.Class), false)
     {
     }
 
@@ -15,14 +15,7 @@ public class MTLStructType(nint nativePtr) : MTLType(nativePtr)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeBindings.MemberByName, name.NativePtr);
 
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        ObjectiveCRuntime.Retain(nativePtr);
-
-        return new(nativePtr);
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 }
 

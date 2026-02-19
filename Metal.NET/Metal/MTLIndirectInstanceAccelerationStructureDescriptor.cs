@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr) : MTLAccelerationStructureDescriptor(nativePtr)
+public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr, bool retain) : MTLAccelerationStructureDescriptor(nativePtr, retain)
 {
-    public MTLIndirectInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIndirectInstanceAccelerationStructureDescriptorBindings.Class))
+    public MTLIndirectInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIndirectInstanceAccelerationStructureDescriptorBindings.Class), false)
     {
     }
 
@@ -100,14 +100,7 @@ public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr) 
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLIndirectInstanceAccelerationStructureDescriptorBindings.Class, MTLIndirectInstanceAccelerationStructureDescriptorBindings.Descriptor);
 
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        ObjectiveCRuntime.Retain(nativePtr);
-
-        return new(nativePtr);
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 }
 

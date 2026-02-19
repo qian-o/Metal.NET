@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTL4CommitFeedback(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4CommitFeedback(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public NSError? Error
     {

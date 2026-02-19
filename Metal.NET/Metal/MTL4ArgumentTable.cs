@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTL4ArgumentTable(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4ArgumentTable(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public MTLDevice? Device
     {

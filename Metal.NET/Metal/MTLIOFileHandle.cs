@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLIOFileHandle(nint nativePtr) : NativeObject(nativePtr)
+public class MTLIOFileHandle(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public NSString? Label
     {

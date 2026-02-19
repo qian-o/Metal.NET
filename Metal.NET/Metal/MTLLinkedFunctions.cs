@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLLinkedFunctions(nint nativePtr) : NativeObject(nativePtr)
+public class MTLLinkedFunctions(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(MTLLinkedFunctionsBindings.Class))
+    public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(MTLLinkedFunctionsBindings.Class), false)
     {
     }
 
@@ -28,14 +28,7 @@ public class MTLLinkedFunctions(nint nativePtr) : NativeObject(nativePtr)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLLinkedFunctionsBindings.Class, MTLLinkedFunctionsBindings.LinkedFunctions);
 
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        ObjectiveCRuntime.Retain(nativePtr);
-
-        return new(nativePtr);
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 }
 

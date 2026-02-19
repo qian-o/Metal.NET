@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class NSError(nint nativePtr) : NativeObject(nativePtr)
+public class NSError(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public string LocalizedDescription
     {
@@ -8,7 +8,7 @@ public class NSError(nint nativePtr) : NativeObject(nativePtr)
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorBindings.LocalizedDescription);
 
-            using NSString str = new(ObjectiveCRuntime.Retain(ptr));
+            using NSString str = new(ptr, true);
 
             return str;
         }
@@ -22,7 +22,7 @@ public class NSError(nint nativePtr) : NativeObject(nativePtr)
         {
             nint ptr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorBindings.Domain);
 
-            using NSString str = new(ObjectiveCRuntime.Retain(ptr));
+            using NSString str = new(ptr, true);
 
             return str;
         }

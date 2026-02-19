@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLCaptureDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLCaptureDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLCaptureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCaptureDescriptorBindings.Class))
+    public MTLCaptureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCaptureDescriptorBindings.Class), false)
     {
     }
 

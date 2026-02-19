@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTL4CommandAllocator(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4CommandAllocator(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public ulong AllocatedSize
     {

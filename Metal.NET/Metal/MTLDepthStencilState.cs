@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLDepthStencilState(nint nativePtr) : NativeObject(nativePtr)
+public class MTLDepthStencilState(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public MTLDevice? Device
     {

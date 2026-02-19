@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLVisibleFunctionTableDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLVisibleFunctionTableDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLVisibleFunctionTableDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVisibleFunctionTableDescriptorBindings.Class))
+    public MTLVisibleFunctionTableDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVisibleFunctionTableDescriptorBindings.Class), false)
     {
     }
 
@@ -16,14 +16,7 @@ public class MTLVisibleFunctionTableDescriptor(nint nativePtr) : NativeObject(na
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLVisibleFunctionTableDescriptorBindings.Class, MTLVisibleFunctionTableDescriptorBindings.VisibleFunctionTableDescriptor);
 
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        ObjectiveCRuntime.Retain(nativePtr);
-
-        return new(nativePtr);
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 }
 

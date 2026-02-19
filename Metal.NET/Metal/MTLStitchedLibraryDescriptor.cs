@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLStitchedLibraryDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLStitchedLibraryDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLStitchedLibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStitchedLibraryDescriptorBindings.Class))
+    public MTLStitchedLibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStitchedLibraryDescriptorBindings.Class), false)
     {
     }
 

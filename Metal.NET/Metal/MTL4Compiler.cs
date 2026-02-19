@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4Compiler(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public MTLDevice? Device
     {
@@ -23,16 +23,14 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr)
 
         if (errorPtr is not 0)
         {
-            ObjectiveCRuntime.Retain(errorPtr);
-
-            error = new(errorPtr);
+            error = new(errorPtr, true);
         }
         else
         {
             error = null;
         }
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public MTLComputePipelineState? NewComputePipelineState(MTL4ComputePipelineDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError? error)
@@ -41,16 +39,14 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr)
 
         if (errorPtr is not 0)
         {
-            ObjectiveCRuntime.Retain(errorPtr);
-
-            error = new(errorPtr);
+            error = new(errorPtr, true);
         }
         else
         {
             error = null;
         }
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public MTLComputePipelineState? NewComputePipelineState(MTL4ComputePipelineDescriptor descriptor, MTL4PipelineStageDynamicLinkingDescriptor dynamicLinkingDescriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError? error)
@@ -59,16 +55,14 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr)
 
         if (errorPtr is not 0)
         {
-            ObjectiveCRuntime.Retain(errorPtr);
-
-            error = new(errorPtr);
+            error = new(errorPtr, true);
         }
         else
         {
             error = null;
         }
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public MTLDynamicLibrary? NewDynamicLibrary(MTLLibrary library, out NSError? error)
@@ -77,16 +71,14 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr)
 
         if (errorPtr is not 0)
         {
-            ObjectiveCRuntime.Retain(errorPtr);
-
-            error = new(errorPtr);
+            error = new(errorPtr, true);
         }
         else
         {
             error = null;
         }
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public MTLDynamicLibrary? NewDynamicLibrary(NSURL url, out NSError? error)
@@ -95,16 +87,14 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr)
 
         if (errorPtr is not 0)
         {
-            ObjectiveCRuntime.Retain(errorPtr);
-
-            error = new(errorPtr);
+            error = new(errorPtr, true);
         }
         else
         {
             error = null;
         }
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public MTLLibrary? NewLibrary(MTL4LibraryDescriptor descriptor, out NSError? error)
@@ -113,16 +103,14 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr)
 
         if (errorPtr is not 0)
         {
-            ObjectiveCRuntime.Retain(errorPtr);
-
-            error = new(errorPtr);
+            error = new(errorPtr, true);
         }
         else
         {
             error = null;
         }
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public MTL4MachineLearningPipelineState? NewMachineLearningPipelineState(MTL4MachineLearningPipelineDescriptor descriptor, out NSError? error)
@@ -131,16 +119,14 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr)
 
         if (errorPtr is not 0)
         {
-            ObjectiveCRuntime.Retain(errorPtr);
-
-            error = new(errorPtr);
+            error = new(errorPtr, true);
         }
         else
         {
             error = null;
         }
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public MTLRenderPipelineState? NewRenderPipelineState(MTL4PipelineDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError? error)
@@ -149,16 +135,14 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr)
 
         if (errorPtr is not 0)
         {
-            ObjectiveCRuntime.Retain(errorPtr);
-
-            error = new(errorPtr);
+            error = new(errorPtr, true);
         }
         else
         {
             error = null;
         }
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public MTLRenderPipelineState? NewRenderPipelineState(MTL4PipelineDescriptor descriptor, MTL4RenderPipelineDynamicLinkingDescriptor dynamicLinkingDescriptor, MTL4CompilerTaskOptions compilerTaskOptions, out NSError? error)
@@ -167,16 +151,14 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr)
 
         if (errorPtr is not 0)
         {
-            ObjectiveCRuntime.Retain(errorPtr);
-
-            error = new(errorPtr);
+            error = new(errorPtr, true);
         }
         else
         {
             error = null;
         }
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public MTLRenderPipelineState? NewRenderPipelineStateBySpecialization(MTL4PipelineDescriptor descriptor, MTLRenderPipelineState pipeline, out NSError? error)
@@ -185,16 +167,14 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr)
 
         if (errorPtr is not 0)
         {
-            ObjectiveCRuntime.Retain(errorPtr);
-
-            error = new(errorPtr);
+            error = new(errorPtr, true);
         }
         else
         {
             error = null;
         }
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 }
 

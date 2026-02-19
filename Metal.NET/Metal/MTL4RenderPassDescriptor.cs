@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTL4RenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4RenderPassDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTL4RenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPassDescriptorBindings.Class))
+    public MTL4RenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPassDescriptorBindings.Class), false)
     {
     }
 

@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTL4CommandQueue(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4CommandQueue(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public MTLDevice? Device
     {

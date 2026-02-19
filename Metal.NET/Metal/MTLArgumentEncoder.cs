@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLArgumentEncoder(nint nativePtr) : NativeObject(nativePtr)
+public class MTLArgumentEncoder(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public nuint Alignment
     {
@@ -32,7 +32,7 @@ public class MTLArgumentEncoder(nint nativePtr) : NativeObject(nativePtr)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderBindings.NewArgumentEncoder, index);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return nativePtr is not 0 ? new(nativePtr, false) : null;
     }
 
     public void SetAccelerationStructure(MTLAccelerationStructure accelerationStructure, nuint index)

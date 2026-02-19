@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLFunctionConstant(nint nativePtr) : NativeObject(nativePtr)
+public class MTLFunctionConstant(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLFunctionConstant() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantBindings.Class))
+    public MTLFunctionConstant() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantBindings.Class), false)
     {
     }
 

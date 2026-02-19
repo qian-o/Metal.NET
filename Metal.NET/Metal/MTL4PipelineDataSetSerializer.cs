@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTL4PipelineDataSetSerializer(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4PipelineDataSetSerializer(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public bool SerializeAsArchiveAndFlushToURL(NSURL url, out NSError? error)
     {
@@ -8,9 +8,7 @@ public class MTL4PipelineDataSetSerializer(nint nativePtr) : NativeObject(native
 
         if (errorPtr is not 0)
         {
-            ObjectiveCRuntime.Retain(errorPtr);
-
-            error = new(errorPtr);
+            error = new(errorPtr, true);
         }
         else
         {

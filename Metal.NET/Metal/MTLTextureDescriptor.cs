@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLTextureDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLTextureDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLTextureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTextureDescriptorBindings.Class))
+    public MTLTextureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTextureDescriptorBindings.Class), false)
     {
     }
 
@@ -112,42 +112,21 @@ public class MTLTextureDescriptor(nint nativePtr) : NativeObject(nativePtr)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.Texture2DDescriptor, (nuint)pixelFormat, width, height, (Bool8)mipmapped);
 
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        ObjectiveCRuntime.Retain(nativePtr);
-
-        return new(nativePtr);
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public static MTLTextureDescriptor? TextureBufferDescriptor(MTLPixelFormat pixelFormat, nuint width, MTLResourceOptions resourceOptions, MTLTextureUsage usage)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.TextureBufferDescriptor, (nuint)pixelFormat, width, (nuint)resourceOptions, (nuint)usage);
 
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        ObjectiveCRuntime.Retain(nativePtr);
-
-        return new(nativePtr);
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 
     public static MTLTextureDescriptor? TextureCubeDescriptor(MTLPixelFormat pixelFormat, nuint size, bool mipmapped)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.TextureCubeDescriptor, (nuint)pixelFormat, size, (Bool8)mipmapped);
 
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        ObjectiveCRuntime.Retain(nativePtr);
-
-        return new(nativePtr);
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 }
 

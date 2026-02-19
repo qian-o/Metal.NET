@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLResourceStatePassSampleBufferAttachmentDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLResourceStatePassSampleBufferAttachmentDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLResourceStatePassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.Class))
+    public MTLResourceStatePassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.Class), false)
     {
     }
 

@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTL4PipelineOptions(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4PipelineOptions(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTL4PipelineOptions() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineOptionsBindings.Class))
+    public MTL4PipelineOptions() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineOptionsBindings.Class), false)
     {
     }
 

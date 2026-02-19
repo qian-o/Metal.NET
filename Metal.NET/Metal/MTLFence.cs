@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLFence(nint nativePtr) : NativeObject(nativePtr)
+public class MTLFence(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public MTLDevice? Device
     {

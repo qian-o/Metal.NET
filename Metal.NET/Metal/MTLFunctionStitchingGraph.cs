@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLFunctionStitchingGraph(nint nativePtr) : NativeObject(nativePtr)
+public class MTLFunctionStitchingGraph(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLFunctionStitchingGraph() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingGraphBindings.Class))
+    public MTLFunctionStitchingGraph() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingGraphBindings.Class), false)
     {
     }
 

@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLCounterSampleBuffer(nint nativePtr) : NativeObject(nativePtr)
+public class MTLCounterSampleBuffer(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public MTLDevice? Device
     {

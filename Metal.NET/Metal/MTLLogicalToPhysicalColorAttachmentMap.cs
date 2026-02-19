@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr) : NativeObject(nativePtr)
+public class MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLLogicalToPhysicalColorAttachmentMap() : this(ObjectiveCRuntime.AllocInit(MTLLogicalToPhysicalColorAttachmentMapBindings.Class))
+    public MTLLogicalToPhysicalColorAttachmentMap() : this(ObjectiveCRuntime.AllocInit(MTLLogicalToPhysicalColorAttachmentMapBindings.Class), false)
     {
     }
 

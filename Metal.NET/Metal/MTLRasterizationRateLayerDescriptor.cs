@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLRasterizationRateLayerDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLRasterizationRateLayerDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLRasterizationRateLayerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateLayerDescriptorBindings.Class))
+    public MTLRasterizationRateLayerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateLayerDescriptorBindings.Class), false)
     {
     }
 

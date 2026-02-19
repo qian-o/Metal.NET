@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativePtr) : MTLAccelerationStructureGeometryDescriptor(nativePtr)
+public class MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativePtr, bool retain) : MTLAccelerationStructureGeometryDescriptor(nativePtr, retain)
 {
-    public MTLAccelerationStructureMotionTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.Class))
+    public MTLAccelerationStructureMotionTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.Class), false)
     {
     }
 
@@ -70,14 +70,7 @@ public class MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativ
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.Class, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.Descriptor);
 
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        ObjectiveCRuntime.Retain(nativePtr);
-
-        return new(nativePtr);
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 }
 

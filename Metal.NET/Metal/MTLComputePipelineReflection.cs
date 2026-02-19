@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLComputePipelineReflection(nint nativePtr) : NativeObject(nativePtr)
+public class MTLComputePipelineReflection(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLComputePipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTLComputePipelineReflectionBindings.Class))
+    public MTLComputePipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTLComputePipelineReflectionBindings.Class), false)
     {
     }
 

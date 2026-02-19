@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLIOScratchBuffer(nint nativePtr) : NativeObject(nativePtr)
+public class MTLIOScratchBuffer(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public MTLBuffer? Buffer
     {

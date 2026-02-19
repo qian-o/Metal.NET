@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLIOCommandBuffer(nint nativePtr) : NativeObject(nativePtr)
+public class MTLIOCommandBuffer(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public NSError? Error
     {

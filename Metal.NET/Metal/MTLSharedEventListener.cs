@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLSharedEventListener(nint nativePtr) : NativeObject(nativePtr)
+public class MTLSharedEventListener(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLSharedEventListener() : this(ObjectiveCRuntime.AllocInit(MTLSharedEventListenerBindings.Class))
+    public MTLSharedEventListener() : this(ObjectiveCRuntime.AllocInit(MTLSharedEventListenerBindings.Class), false)
     {
     }
 
@@ -15,14 +15,7 @@ public class MTLSharedEventListener(nint nativePtr) : NativeObject(nativePtr)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLSharedEventListenerBindings.Class, MTLSharedEventListenerBindings.SharedListener);
 
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        ObjectiveCRuntime.Retain(nativePtr);
-
-        return new(nativePtr);
+        return nativePtr is not 0 ? new(nativePtr, true) : null;
     }
 }
 

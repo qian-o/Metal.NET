@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLHeapDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLHeapDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLHeapDescriptorBindings.Class))
+    public MTLHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLHeapDescriptorBindings.Class), false)
     {
     }
 

@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLBlitCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr)
+public class MTLBlitCommandEncoder(nint nativePtr, bool retain) : MTLCommandEncoder(nativePtr, retain)
 {
     public void CopyFromBuffer(MTLBuffer sourceBuffer, nuint sourceOffset, nuint sourceBytesPerRow, nuint sourceBytesPerImage, MTLSize sourceSize, MTLTexture destinationTexture, nuint destinationSlice, nuint destinationLevel, MTLOrigin destinationOrigin)
     {

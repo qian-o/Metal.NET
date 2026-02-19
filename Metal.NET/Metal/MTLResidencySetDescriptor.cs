@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLResidencySetDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLResidencySetDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLResidencySetDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResidencySetDescriptorBindings.Class))
+    public MTLResidencySetDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResidencySetDescriptorBindings.Class), false)
     {
     }
 

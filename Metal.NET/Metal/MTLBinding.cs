@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLBinding(nint nativePtr) : NativeObject(nativePtr)
+public class MTLBinding(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public MTLBindingAccess Access
     {

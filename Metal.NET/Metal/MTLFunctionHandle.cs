@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLFunctionHandle(nint nativePtr) : NativeObject(nativePtr)
+public class MTLFunctionHandle(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public MTLDevice? Device
     {

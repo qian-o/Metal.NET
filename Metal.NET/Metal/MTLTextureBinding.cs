@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLTextureBinding(nint nativePtr) : MTLBinding(nativePtr)
+public class MTLTextureBinding(nint nativePtr, bool retain) : MTLBinding(nativePtr, retain)
 {
     public nuint ArrayLength
     {

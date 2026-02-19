@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTL4BinaryFunctionDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4BinaryFunctionDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTL4BinaryFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4BinaryFunctionDescriptorBindings.Class))
+    public MTL4BinaryFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4BinaryFunctionDescriptorBindings.Class), false)
     {
     }
 

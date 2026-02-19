@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTL4CommitOptions(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4CommitOptions(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTL4CommitOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CommitOptionsBindings.Class))
+    public MTL4CommitOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CommitOptionsBindings.Class), false)
     {
     }
 }

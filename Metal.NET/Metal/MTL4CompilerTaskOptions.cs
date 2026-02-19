@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTL4CompilerTaskOptions(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4CompilerTaskOptions(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTL4CompilerTaskOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CompilerTaskOptionsBindings.Class))
+    public MTL4CompilerTaskOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CompilerTaskOptionsBindings.Class), false)
     {
     }
 

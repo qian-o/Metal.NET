@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTL4CommandAllocatorDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4CommandAllocatorDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTL4CommandAllocatorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CommandAllocatorDescriptorBindings.Class))
+    public MTL4CommandAllocatorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CommandAllocatorDescriptorBindings.Class), false)
     {
     }
 

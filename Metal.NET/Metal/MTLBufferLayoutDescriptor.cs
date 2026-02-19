@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLBufferLayoutDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLBufferLayoutDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLBufferLayoutDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBufferLayoutDescriptorBindings.Class))
+    public MTLBufferLayoutDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBufferLayoutDescriptorBindings.Class), false)
     {
     }
 

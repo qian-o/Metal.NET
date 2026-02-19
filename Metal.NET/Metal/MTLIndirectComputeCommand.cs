@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLIndirectComputeCommand(nint nativePtr) : NativeObject(nativePtr)
+public class MTLIndirectComputeCommand(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public void ClearBarrier()
     {

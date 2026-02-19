@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLParallelRenderCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr)
+public class MTLParallelRenderCommandEncoder(nint nativePtr, bool retain) : MTLCommandEncoder(nativePtr, retain)
 {
     public MTLRenderCommandEncoder? RenderCommandEncoder
     {

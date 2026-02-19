@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLResource(nint nativePtr) : MTLAllocation(nativePtr)
+public class MTLResource(nint nativePtr, bool retain) : MTLAllocation(nativePtr, retain)
 {
     public new nuint AllocatedSize
     {

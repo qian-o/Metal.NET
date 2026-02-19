@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLBinaryArchiveDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLBinaryArchiveDescriptor(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLBinaryArchiveDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBinaryArchiveDescriptorBindings.Class))
+    public MTLBinaryArchiveDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBinaryArchiveDescriptorBindings.Class), false)
     {
     }
 

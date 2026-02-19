@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLArgument(nint nativePtr) : NativeObject(nativePtr)
+public class MTLArgument(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLArgument() : this(ObjectiveCRuntime.AllocInit(MTLArgumentBindings.Class))
+    public MTLArgument() : this(ObjectiveCRuntime.AllocInit(MTLArgumentBindings.Class), false)
     {
     }
 

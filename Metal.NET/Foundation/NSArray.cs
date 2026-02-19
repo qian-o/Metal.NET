@@ -3,7 +3,7 @@
 /// <summary>
 /// Wraps an Objective-C NSArray pointer.
 /// </summary>
-public class NSArray(nint nativePtr) : NativeObject(nativePtr)
+public class NSArray(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public nuint Count => ObjectiveCRuntime.MsgSendNUInt(NativePtr, NSArrayBindings.Count);
 

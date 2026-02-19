@@ -1,6 +1,6 @@
 namespace Metal.NET;
 
-public class MTLEvent(nint nativePtr) : NativeObject(nativePtr)
+public class MTLEvent(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
     public MTLDevice? Device
     {

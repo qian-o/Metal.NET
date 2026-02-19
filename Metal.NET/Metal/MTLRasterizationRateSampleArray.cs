@@ -1,8 +1,8 @@
 namespace Metal.NET;
 
-public class MTLRasterizationRateSampleArray(nint nativePtr) : NativeObject(nativePtr)
+public class MTLRasterizationRateSampleArray(nint nativePtr, bool retain) : NativeObject(nativePtr, retain)
 {
-    public MTLRasterizationRateSampleArray() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateSampleArrayBindings.Class))
+    public MTLRasterizationRateSampleArray() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateSampleArrayBindings.Class), false)
     {
     }
 }
