@@ -1578,7 +1578,7 @@ class Generator
             {
                 "ulong" => "ObjectiveCRuntime.MsgSendNUInt",
                 "long" => "ObjectiveCRuntime.MsgSendPtr",
-                "uint" => "ObjectiveCRuntime.MsgSendNUInt",
+                "uint" => "ObjectiveCRuntime.MsgSendUInt",
                 "int" => "ObjectiveCRuntime.MsgSendPtr",
                 _ => "ObjectiveCRuntime.MsgSendNUInt"
             };
