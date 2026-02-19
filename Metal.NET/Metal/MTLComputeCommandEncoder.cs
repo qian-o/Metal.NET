@@ -77,6 +77,11 @@ public class MTLComputeCommandEncoder(nint nativePtr) : MTLCommandEncoder(native
         ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetBytes, bytes, length, stride, index);
     }
 
+    public void SetComputePipelineState(MTLComputePipelineState state)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetComputePipelineState, state.NativePtr);
+    }
+
     public void SetImageblockWidth(nuint width, nuint height)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetImageblockWidth, width, height);
@@ -95,6 +100,11 @@ public class MTLComputeCommandEncoder(nint nativePtr) : MTLCommandEncoder(native
     public void SetSamplerState(MTLSamplerState sampler, float lodMinClamp, float lodMaxClamp, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetSamplerState, sampler.NativePtr, lodMinClamp, lodMaxClamp, index);
+    }
+
+    public void SetStageInRegion(MTLRegion region)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLComputeCommandEncoderBindings.SetStageInRegion, region);
     }
 
     public void SetStageInRegion(MTLBuffer indirectBuffer, nuint indirectBufferOffset)
@@ -160,13 +170,15 @@ file static class MTLComputeCommandEncoderBindings
 
     public static readonly Selector SetBytes = "setBytes:length:atIndex:";
 
+    public static readonly Selector SetComputePipelineState = "setComputePipelineState:";
+
     public static readonly Selector SetImageblockWidth = "setImageblockWidth:height:";
 
     public static readonly Selector SetIntersectionFunctionTable = "setIntersectionFunctionTable:atBufferIndex:";
 
     public static readonly Selector SetSamplerState = "setSamplerState:atIndex:";
 
-    public static readonly Selector SetStageInRegion = "setStageInRegionWithIndirectBuffer:indirectBufferOffset:";
+    public static readonly Selector SetStageInRegion = "setStageInRegion:";
 
     public static readonly Selector SetTexture = "setTexture:atIndex:";
 

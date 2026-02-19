@@ -93,6 +93,21 @@ public class MTLFXTemporalScalerDescriptor(nint nativePtr) : NativeObject(native
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetRequiresSynchronousInitialization, (Bool8)value);
     }
 
+    public void SetAutoExposureEnabled(bool enabled)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetAutoExposureEnabled, (Bool8)enabled);
+    }
+
+    public void SetInputContentPropertiesEnabled(bool enabled)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetInputContentPropertiesEnabled, (Bool8)enabled);
+    }
+
+    public void SetReactiveMaskTextureEnabled(bool enabled)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetReactiveMaskTextureEnabled, (Bool8)enabled);
+    }
+
     public MTLFXTemporalScaler? NewTemporalScaler(MTLDevice pDevice)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalScalerDescriptorBindings.NewTemporalScaler, pDevice.NativePtr);
@@ -164,6 +179,8 @@ file static class MTLFXTemporalScalerDescriptorBindings
 
     public static readonly Selector RequiresSynchronousInitialization = "requiresSynchronousInitialization";
 
+    public static readonly Selector SetAutoExposureEnabled = "setAutoExposureEnabled:";
+
     public static readonly Selector SetColorTextureFormat = "setColorTextureFormat:";
 
     public static readonly Selector SetDepthTextureFormat = "setDepthTextureFormat:";
@@ -171,6 +188,8 @@ file static class MTLFXTemporalScalerDescriptorBindings
     public static readonly Selector SetInputContentMaxScale = "setInputContentMaxScale:";
 
     public static readonly Selector SetInputContentMinScale = "setInputContentMinScale:";
+
+    public static readonly Selector SetInputContentPropertiesEnabled = "setInputContentPropertiesEnabled:";
 
     public static readonly Selector SetInputHeight = "setInputHeight:";
 
@@ -183,6 +202,8 @@ file static class MTLFXTemporalScalerDescriptorBindings
     public static readonly Selector SetOutputTextureFormat = "setOutputTextureFormat:";
 
     public static readonly Selector SetOutputWidth = "setOutputWidth:";
+
+    public static readonly Selector SetReactiveMaskTextureEnabled = "setReactiveMaskTextureEnabled:";
 
     public static readonly Selector SetReactiveMaskTextureFormat = "setReactiveMaskTextureFormat:";
 

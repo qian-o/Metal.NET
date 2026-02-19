@@ -27,6 +27,11 @@ public class MTLIndirectComputeCommand(nint nativePtr) : NativeObject(nativePtr)
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetBarrier);
     }
 
+    public void SetComputePipelineState(MTLComputePipelineState pipelineState)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetComputePipelineState, pipelineState.NativePtr);
+    }
+
     public void SetImageblockWidth(nuint width, nuint height)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetImageblockWidth, width, height);
@@ -40,6 +45,11 @@ public class MTLIndirectComputeCommand(nint nativePtr) : NativeObject(nativePtr)
     public void SetKernelBuffer(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetKernelBuffer, buffer.NativePtr, offset, stride, index);
+    }
+
+    public void SetStageInRegion(MTLRegion region)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.SetStageInRegion, region);
     }
 
     public void SetThreadgroupMemoryLength(nuint length, nuint index)
@@ -60,9 +70,13 @@ file static class MTLIndirectComputeCommandBindings
 
     public static readonly Selector SetBarrier = "setBarrier";
 
+    public static readonly Selector SetComputePipelineState = "setComputePipelineState:";
+
     public static readonly Selector SetImageblockWidth = "setImageblockWidth:height:";
 
     public static readonly Selector SetKernelBuffer = "setKernelBuffer:offset:atIndex:";
+
+    public static readonly Selector SetStageInRegion = "setStageInRegion:";
 
     public static readonly Selector SetThreadgroupMemoryLength = "setThreadgroupMemoryLength:atIndex:";
 }

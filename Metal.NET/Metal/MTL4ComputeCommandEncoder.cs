@@ -152,6 +152,16 @@ public class MTL4ComputeCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nati
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.ResetCommandsInBuffer, buffer.NativePtr, range);
     }
 
+    public void SetArgumentTable(MTL4ArgumentTable argumentTable)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.SetArgumentTable, argumentTable.NativePtr);
+    }
+
+    public void SetComputePipelineState(MTLComputePipelineState state)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.SetComputePipelineState, state.NativePtr);
+    }
+
     public void SetImageblockWidth(nuint width, nuint height)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.SetImageblockWidth, width, height);
@@ -165,6 +175,11 @@ public class MTL4ComputeCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nati
     public void WriteCompactedAccelerationStructureSize(MTLAccelerationStructure accelerationStructure, MTL4BufferRange buffer)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.WriteCompactedAccelerationStructureSize, accelerationStructure.NativePtr, buffer);
+    }
+
+    public void WriteTimestamp(MTL4TimestampGranularity granularity, MTL4CounterHeap counterHeap, nuint index)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.WriteTimestamp, (nint)granularity, counterHeap.NativePtr, index);
     }
 }
 
@@ -204,6 +219,10 @@ file static class MTL4ComputeCommandEncoderBindings
 
     public static readonly Selector ResetCommandsInBuffer = "resetCommandsInBuffer:withRange:";
 
+    public static readonly Selector SetArgumentTable = "setArgumentTable:";
+
+    public static readonly Selector SetComputePipelineState = "setComputePipelineState:";
+
     public static readonly Selector SetImageblockWidth = "setImageblockWidth:height:";
 
     public static readonly Selector SetThreadgroupMemoryLength = "setThreadgroupMemoryLength:atIndex:";
@@ -211,4 +230,6 @@ file static class MTL4ComputeCommandEncoderBindings
     public static readonly Selector Stages = "stages";
 
     public static readonly Selector WriteCompactedAccelerationStructureSize = "writeCompactedAccelerationStructureSize:toBuffer:";
+
+    public static readonly Selector WriteTimestamp = "writeTimestampWithGranularity:intoHeap:atIndex:";
 }

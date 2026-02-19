@@ -47,14 +47,34 @@ public class MTLIndirectRenderCommand(nint nativePtr) : NativeObject(nativePtr)
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetBarrier);
     }
 
+    public void SetCullMode(MTLCullMode cullMode)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetCullMode, (nuint)cullMode);
+    }
+
     public void SetDepthBias(float depthBias, float slopeScale, float clamp)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetDepthBias, depthBias, slopeScale, clamp);
     }
 
+    public void SetDepthClipMode(MTLDepthClipMode depthClipMode)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetDepthClipMode, (nuint)depthClipMode);
+    }
+
+    public void SetDepthStencilState(MTLDepthStencilState depthStencilState)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetDepthStencilState, depthStencilState.NativePtr);
+    }
+
     public void SetFragmentBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetFragmentBuffer, buffer.NativePtr, offset, index);
+    }
+
+    public void SetFrontFacingWinding(MTLWinding frontFacingWindning)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetFrontFacingWinding, (nuint)frontFacingWindning);
     }
 
     public void SetMeshBuffer(MTLBuffer buffer, nuint offset, nuint index)
@@ -70,6 +90,16 @@ public class MTLIndirectRenderCommand(nint nativePtr) : NativeObject(nativePtr)
     public void SetObjectThreadgroupMemoryLength(nuint length, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetObjectThreadgroupMemoryLength, length, index);
+    }
+
+    public void SetRenderPipelineState(MTLRenderPipelineState pipelineState)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetRenderPipelineState, pipelineState.NativePtr);
+    }
+
+    public void SetTriangleFillMode(MTLTriangleFillMode fillMode)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetTriangleFillMode, (nuint)fillMode);
     }
 
     public void SetVertexBuffer(MTLBuffer buffer, nuint offset, nuint index)
@@ -103,15 +133,27 @@ file static class MTLIndirectRenderCommandBindings
 
     public static readonly Selector SetBarrier = "setBarrier";
 
+    public static readonly Selector SetCullMode = "setCullMode:";
+
     public static readonly Selector SetDepthBias = "setDepthBias:slopeScale:clamp:";
 
+    public static readonly Selector SetDepthClipMode = "setDepthClipMode:";
+
+    public static readonly Selector SetDepthStencilState = "setDepthStencilState:";
+
     public static readonly Selector SetFragmentBuffer = "setFragmentBuffer:offset:atIndex:";
+
+    public static readonly Selector SetFrontFacingWinding = "setFrontFacingWinding:";
 
     public static readonly Selector SetMeshBuffer = "setMeshBuffer:offset:atIndex:";
 
     public static readonly Selector SetObjectBuffer = "setObjectBuffer:offset:atIndex:";
 
     public static readonly Selector SetObjectThreadgroupMemoryLength = "setObjectThreadgroupMemoryLength:atIndex:";
+
+    public static readonly Selector SetRenderPipelineState = "setRenderPipelineState:";
+
+    public static readonly Selector SetTriangleFillMode = "setTriangleFillMode:";
 
     public static readonly Selector SetVertexBuffer = "setVertexBuffer:offset:atIndex:";
 }

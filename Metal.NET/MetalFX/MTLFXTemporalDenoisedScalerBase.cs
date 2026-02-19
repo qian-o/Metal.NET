@@ -288,6 +288,11 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : MTLFXFrameInterpo
         get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.WorldToViewMatrix);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetWorldToViewMatrix, value);
     }
+
+    public void SetDepthReversed(bool depthReversed)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetDepthReversed, (Bool8)depthReversed);
+    }
 }
 
 file static class MTLFXTemporalDenoisedScalerBaseBindings
@@ -377,6 +382,8 @@ file static class MTLFXTemporalDenoisedScalerBaseBindings
     public static readonly Selector SetColorTexture = "setColorTexture:";
 
     public static readonly Selector SetDenoiseStrengthMaskTexture = "setDenoiseStrengthMaskTexture:";
+
+    public static readonly Selector SetDepthReversed = "setDepthReversed:";
 
     public static readonly Selector SetDepthTexture = "setDepthTexture:";
 

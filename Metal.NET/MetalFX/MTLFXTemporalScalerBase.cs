@@ -176,6 +176,11 @@ public class MTLFXTemporalScalerBase(nint nativePtr) : MTLFXFrameInterpolatableS
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalScalerBaseBindings.Reset);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetReset, (Bool8)value);
     }
+
+    public void SetDepthReversed(bool depthReversed)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetDepthReversed, (Bool8)depthReversed);
+    }
 }
 
 file static class MTLFXTemporalScalerBaseBindings
@@ -245,6 +250,8 @@ file static class MTLFXTemporalScalerBaseBindings
     public static readonly Selector Reset = "reset";
 
     public static readonly Selector SetColorTexture = "setColorTexture:";
+
+    public static readonly Selector SetDepthReversed = "setDepthReversed:";
 
     public static readonly Selector SetDepthTexture = "setDepthTexture:";
 

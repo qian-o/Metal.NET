@@ -183,6 +183,16 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr
     {
         get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.UiTextureUsage);
     }
+
+    public void SetUITexture(MTLTexture uiTexture)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetUITexture, uiTexture.NativePtr);
+    }
+
+    public void SetDepthReversed(bool depthReversed)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDepthReversed, (Bool8)depthReversed);
+    }
 }
 
 file static class MTLFXFrameInterpolatorBaseBindings
@@ -251,6 +261,8 @@ file static class MTLFXFrameInterpolatorBaseBindings
 
     public static readonly Selector SetDeltaTime = "setDeltaTime:";
 
+    public static readonly Selector SetDepthReversed = "setDepthReversed:";
+
     public static readonly Selector SetDepthTexture = "setDepthTexture:";
 
     public static readonly Selector SetFarPlane = "setFarPlane:";
@@ -278,6 +290,8 @@ file static class MTLFXFrameInterpolatorBaseBindings
     public static readonly Selector SetPrevColorTexture = "setPrevColorTexture:";
 
     public static readonly Selector SetShouldResetHistory = "setShouldResetHistory:";
+
+    public static readonly Selector SetUITexture = "setUITexture:";
 
     public static readonly Selector ShouldResetHistory = "shouldResetHistory";
 

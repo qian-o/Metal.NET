@@ -117,6 +117,11 @@ public class MTLRenderCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativeP
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetBlendColor, red, green, blue, alpha);
     }
 
+    public void SetColorAttachmentMap(MTLLogicalToPhysicalColorAttachmentMap mapping)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetColorAttachmentMap, mapping.NativePtr);
+    }
+
     public void SetColorStoreAction(MTLStoreAction storeAction, nuint colorAttachmentIndex)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetColorStoreAction, (nuint)storeAction, colorAttachmentIndex);
@@ -127,9 +132,34 @@ public class MTLRenderCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativeP
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetColorStoreActionOptions, (nuint)storeActionOptions, colorAttachmentIndex);
     }
 
+    public void SetCullMode(MTLCullMode cullMode)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetCullMode, (nuint)cullMode);
+    }
+
     public void SetDepthBias(float depthBias, float slopeScale, float clamp)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetDepthBias, depthBias, slopeScale, clamp);
+    }
+
+    public void SetDepthClipMode(MTLDepthClipMode depthClipMode)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetDepthClipMode, (nuint)depthClipMode);
+    }
+
+    public void SetDepthStencilState(MTLDepthStencilState depthStencilState)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetDepthStencilState, depthStencilState.NativePtr);
+    }
+
+    public void SetDepthStoreAction(MTLStoreAction storeAction)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetDepthStoreAction, (nuint)storeAction);
+    }
+
+    public void SetDepthStoreActionOptions(MTLStoreActionOptions storeActionOptions)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetDepthStoreActionOptions, (nuint)storeActionOptions);
     }
 
     public void SetDepthTestBounds(float minBound, float maxBound)
@@ -180,6 +210,11 @@ public class MTLRenderCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativeP
     public void SetFragmentVisibleFunctionTable(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFragmentVisibleFunctionTable, functionTable.NativePtr, bufferIndex);
+    }
+
+    public void SetFrontFacingWinding(MTLWinding frontFacingWinding)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetFrontFacingWinding, (nuint)frontFacingWinding);
     }
 
     public void SetMeshBuffer(MTLBuffer buffer, nuint offset, nuint index)
@@ -247,9 +282,24 @@ public class MTLRenderCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativeP
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetObjectThreadgroupMemoryLength, length, index);
     }
 
+    public void SetRenderPipelineState(MTLRenderPipelineState pipelineState)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetRenderPipelineState, pipelineState.NativePtr);
+    }
+
+    public void SetScissorRect(MTLScissorRect rect)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetScissorRect, rect);
+    }
+
     public void SetScissorRects(MTLScissorRect scissorRects, nuint count)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetScissorRects, scissorRects, count);
+    }
+
+    public void SetStencilReferenceValue(uint referenceValue)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetStencilReferenceValue, (nuint)referenceValue);
     }
 
     public void SetStencilReferenceValues(uint frontReferenceValue, uint backReferenceValue)
@@ -257,9 +307,24 @@ public class MTLRenderCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativeP
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetStencilReferenceValues, (nuint)frontReferenceValue, (nuint)backReferenceValue);
     }
 
+    public void SetStencilStoreAction(MTLStoreAction storeAction)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetStencilStoreAction, (nuint)storeAction);
+    }
+
+    public void SetStencilStoreActionOptions(MTLStoreActionOptions storeActionOptions)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetStencilStoreActionOptions, (nuint)storeActionOptions);
+    }
+
     public void SetTessellationFactorBuffer(MTLBuffer buffer, nuint offset, nuint instanceStride)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTessellationFactorBuffer, buffer.NativePtr, offset, instanceStride);
+    }
+
+    public void SetTessellationFactorScale(float scale)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTessellationFactorScale, scale);
     }
 
     public void SetThreadgroupMemoryLength(nuint length, nuint offset, nuint index)
@@ -310,6 +375,11 @@ public class MTLRenderCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativeP
     public void SetTileVisibleFunctionTable(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTileVisibleFunctionTable, functionTable.NativePtr, bufferIndex);
+    }
+
+    public void SetTriangleFillMode(MTLTriangleFillMode fillMode)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetTriangleFillMode, (nuint)fillMode);
     }
 
     public void SetVertexAccelerationStructure(MTLAccelerationStructure accelerationStructure, nuint bufferIndex)
@@ -375,6 +445,11 @@ public class MTLRenderCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativeP
     public void SetVertexVisibleFunctionTable(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetVertexVisibleFunctionTable, functionTable.NativePtr, bufferIndex);
+    }
+
+    public void SetViewport(MTLViewport viewport)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetViewport, viewport);
     }
 
     public void SetViewports(MTLViewport viewports, nuint count)
@@ -447,11 +522,23 @@ file static class MTLRenderCommandEncoderBindings
 
     public static readonly Selector SetBlendColor = "setBlendColorRed:green:blue:alpha:";
 
+    public static readonly Selector SetColorAttachmentMap = "setColorAttachmentMap:";
+
     public static readonly Selector SetColorStoreAction = "setColorStoreAction:atIndex:";
 
     public static readonly Selector SetColorStoreActionOptions = "setColorStoreActionOptions:atIndex:";
 
+    public static readonly Selector SetCullMode = "setCullMode:";
+
     public static readonly Selector SetDepthBias = "setDepthBias:slopeScale:clamp:";
+
+    public static readonly Selector SetDepthClipMode = "setDepthClipMode:";
+
+    public static readonly Selector SetDepthStencilState = "setDepthStencilState:";
+
+    public static readonly Selector SetDepthStoreAction = "setDepthStoreAction:";
+
+    public static readonly Selector SetDepthStoreActionOptions = "setDepthStoreActionOptions:";
 
     public static readonly Selector SetDepthTestBounds = "setDepthTestMinBound:maxBound:";
 
@@ -470,6 +557,8 @@ file static class MTLRenderCommandEncoderBindings
     public static readonly Selector SetFragmentTexture = "setFragmentTexture:atIndex:";
 
     public static readonly Selector SetFragmentVisibleFunctionTable = "setFragmentVisibleFunctionTable:atBufferIndex:";
+
+    public static readonly Selector SetFrontFacingWinding = "setFrontFacingWinding:";
 
     public static readonly Selector SetMeshBuffer = "setMeshBuffer:offset:atIndex:";
 
@@ -493,11 +582,23 @@ file static class MTLRenderCommandEncoderBindings
 
     public static readonly Selector SetObjectThreadgroupMemoryLength = "setObjectThreadgroupMemoryLength:atIndex:";
 
+    public static readonly Selector SetRenderPipelineState = "setRenderPipelineState:";
+
+    public static readonly Selector SetScissorRect = "setScissorRect:";
+
     public static readonly Selector SetScissorRects = "setScissorRects:count:";
+
+    public static readonly Selector SetStencilReferenceValue = "setStencilReferenceValue:";
 
     public static readonly Selector SetStencilReferenceValues = "setStencilFrontReferenceValue:backReferenceValue:";
 
+    public static readonly Selector SetStencilStoreAction = "setStencilStoreAction:";
+
+    public static readonly Selector SetStencilStoreActionOptions = "setStencilStoreActionOptions:";
+
     public static readonly Selector SetTessellationFactorBuffer = "setTessellationFactorBuffer:offset:instanceStride:";
+
+    public static readonly Selector SetTessellationFactorScale = "setTessellationFactorScale:";
 
     public static readonly Selector SetThreadgroupMemoryLength = "setThreadgroupMemoryLength:offset:atIndex:";
 
@@ -517,6 +618,8 @@ file static class MTLRenderCommandEncoderBindings
 
     public static readonly Selector SetTileVisibleFunctionTable = "setTileVisibleFunctionTable:atBufferIndex:";
 
+    public static readonly Selector SetTriangleFillMode = "setTriangleFillMode:";
+
     public static readonly Selector SetVertexAccelerationStructure = "setVertexAccelerationStructure:atBufferIndex:";
 
     public static readonly Selector SetVertexAmplificationCount = "setVertexAmplificationCount:viewMappings:";
@@ -534,6 +637,8 @@ file static class MTLRenderCommandEncoderBindings
     public static readonly Selector SetVertexTexture = "setVertexTexture:atIndex:";
 
     public static readonly Selector SetVertexVisibleFunctionTable = "setVertexVisibleFunctionTable:atBufferIndex:";
+
+    public static readonly Selector SetViewport = "setViewport:";
 
     public static readonly Selector SetViewports = "setViewports:count:";
 

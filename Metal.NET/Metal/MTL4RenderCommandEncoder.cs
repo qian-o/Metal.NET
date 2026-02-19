@@ -92,9 +92,19 @@ public class MTL4RenderCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativ
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetBlendColor, red, green, blue, alpha);
     }
 
+    public void SetColorAttachmentMap(MTLLogicalToPhysicalColorAttachmentMap mapping)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetColorAttachmentMap, mapping.NativePtr);
+    }
+
     public void SetColorStoreAction(MTLStoreAction storeAction, nuint colorAttachmentIndex)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetColorStoreAction, (nuint)storeAction, colorAttachmentIndex);
+    }
+
+    public void SetCullMode(MTLCullMode cullMode)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetCullMode, (nuint)cullMode);
     }
 
     public void SetDepthBias(float depthBias, float slopeScale, float clamp)
@@ -102,9 +112,29 @@ public class MTL4RenderCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativ
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetDepthBias, depthBias, slopeScale, clamp);
     }
 
+    public void SetDepthClipMode(MTLDepthClipMode depthClipMode)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetDepthClipMode, (nuint)depthClipMode);
+    }
+
+    public void SetDepthStencilState(MTLDepthStencilState depthStencilState)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetDepthStencilState, depthStencilState.NativePtr);
+    }
+
+    public void SetDepthStoreAction(MTLStoreAction storeAction)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetDepthStoreAction, (nuint)storeAction);
+    }
+
     public void SetDepthTestBounds(float minBound, float maxBound)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetDepthTestBounds, minBound, maxBound);
+    }
+
+    public void SetFrontFacingWinding(MTLWinding frontFacingWinding)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetFrontFacingWinding, (nuint)frontFacingWinding);
     }
 
     public void SetObjectThreadgroupMemoryLength(nuint length, nuint index)
@@ -112,9 +142,24 @@ public class MTL4RenderCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativ
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetObjectThreadgroupMemoryLength, length, index);
     }
 
+    public void SetRenderPipelineState(MTLRenderPipelineState pipelineState)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetRenderPipelineState, pipelineState.NativePtr);
+    }
+
+    public void SetScissorRect(MTLScissorRect rect)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetScissorRect, rect);
+    }
+
     public void SetScissorRects(MTLScissorRect scissorRects, nuint count)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetScissorRects, scissorRects, count);
+    }
+
+    public void SetStencilReferenceValue(uint referenceValue)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetStencilReferenceValue, (nuint)referenceValue);
     }
 
     public void SetStencilReferenceValues(uint frontReferenceValue, uint backReferenceValue)
@@ -122,14 +167,29 @@ public class MTL4RenderCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativ
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetStencilReferenceValues, (nuint)frontReferenceValue, (nuint)backReferenceValue);
     }
 
+    public void SetStencilStoreAction(MTLStoreAction storeAction)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetStencilStoreAction, (nuint)storeAction);
+    }
+
     public void SetThreadgroupMemoryLength(nuint length, nuint offset, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetThreadgroupMemoryLength, length, offset, index);
     }
 
+    public void SetTriangleFillMode(MTLTriangleFillMode fillMode)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetTriangleFillMode, (nuint)fillMode);
+    }
+
     public void SetVertexAmplificationCount(nuint count, MTLVertexAmplificationViewMapping viewMappings)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetVertexAmplificationCount, count, viewMappings);
+    }
+
+    public void SetViewport(MTLViewport viewport)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetViewport, viewport);
     }
 
     public void SetViewports(MTLViewport viewports, nuint count)
@@ -140,6 +200,11 @@ public class MTL4RenderCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativ
     public void SetVisibilityResultMode(MTLVisibilityResultMode mode, nuint offset)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetVisibilityResultMode, (nuint)mode, offset);
+    }
+
+    public void WriteTimestamp(MTL4TimestampGranularity granularity, MTLRenderStages stage, MTL4CounterHeap counterHeap, nuint index)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.WriteTimestamp, (nint)granularity, (nuint)stage, counterHeap.NativePtr, index);
     }
 }
 
@@ -161,21 +226,45 @@ file static class MTL4RenderCommandEncoderBindings
 
     public static readonly Selector SetBlendColor = "setBlendColorRed:green:blue:alpha:";
 
+    public static readonly Selector SetColorAttachmentMap = "setColorAttachmentMap:";
+
     public static readonly Selector SetColorStoreAction = "setColorStoreAction:atIndex:";
+
+    public static readonly Selector SetCullMode = "setCullMode:";
 
     public static readonly Selector SetDepthBias = "setDepthBias:slopeScale:clamp:";
 
+    public static readonly Selector SetDepthClipMode = "setDepthClipMode:";
+
+    public static readonly Selector SetDepthStencilState = "setDepthStencilState:";
+
+    public static readonly Selector SetDepthStoreAction = "setDepthStoreAction:";
+
     public static readonly Selector SetDepthTestBounds = "setDepthTestMinBound:maxBound:";
+
+    public static readonly Selector SetFrontFacingWinding = "setFrontFacingWinding:";
 
     public static readonly Selector SetObjectThreadgroupMemoryLength = "setObjectThreadgroupMemoryLength:atIndex:";
 
+    public static readonly Selector SetRenderPipelineState = "setRenderPipelineState:";
+
+    public static readonly Selector SetScissorRect = "setScissorRect:";
+
     public static readonly Selector SetScissorRects = "setScissorRects:count:";
+
+    public static readonly Selector SetStencilReferenceValue = "setStencilReferenceValue:";
 
     public static readonly Selector SetStencilReferenceValues = "setStencilFrontReferenceValue:backReferenceValue:";
 
+    public static readonly Selector SetStencilStoreAction = "setStencilStoreAction:";
+
     public static readonly Selector SetThreadgroupMemoryLength = "setThreadgroupMemoryLength:offset:atIndex:";
 
+    public static readonly Selector SetTriangleFillMode = "setTriangleFillMode:";
+
     public static readonly Selector SetVertexAmplificationCount = "setVertexAmplificationCount:viewMappings:";
+
+    public static readonly Selector SetViewport = "setViewport:";
 
     public static readonly Selector SetViewports = "setViewports:count:";
 
@@ -184,4 +273,6 @@ file static class MTL4RenderCommandEncoderBindings
     public static readonly Selector TileHeight = "tileHeight";
 
     public static readonly Selector TileWidth = "tileWidth";
+
+    public static readonly Selector WriteTimestamp = "writeTimestampWithGranularity:afterStage:intoHeap:atIndex:";
 }

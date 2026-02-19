@@ -1078,8 +1078,9 @@ class Generator
         if (t.Contains('&')) return true;
         // Raw pointer array patterns
         if (t.Contains("* const") && !t.Contains("**")) return true;
-        // Timestamp types that are special
-        if (t.Contains("Timestamp")) return true;
+        // MTL::Timestamp is a typedef for uint64_t used as pointer (sampleTimestamps takes Timestamp*)
+        // But MTL4::TimestampGranularity is a valid enum - don't block it
+        if (t.Contains("Timestamp") && !t.Contains("TimestampGranularity")) return true;
         // Autoreleased types (special out-pointer pattern)
         if (t.Contains("Autoreleased")) return true;
         // Unsupported Foundation types
@@ -1145,9 +1146,7 @@ class Generator
         foreach (var m in allMethods)
         {
             if (used.Contains(m)) continue;
-            if (m.CppName.StartsWith("set") && m.CppName.Length > 3 && char.IsUpper(m.CppName[3]) &&
-                m.ReturnType == "void" && m.Parameters.Count == 1)
-                continue; // skip orphan setters
+            // Note: orphan setters (set methods without a matching getter) are kept as methods
             methods.Add(m);
         }
 

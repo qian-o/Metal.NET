@@ -65,6 +65,11 @@ public class MTLFXFrameInterpolatorDescriptor(nint nativePtr) : NativeObject(nat
         get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.UiTextureFormat);
     }
 
+    public void SetUITextureFormat(MTLPixelFormat uiTextureFormat)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetUITextureFormat, (nuint)uiTextureFormat);
+    }
+
     public MTLFXFrameInterpolator? NewFrameInterpolator(MTLDevice pDevice)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.NewFrameInterpolator, pDevice.NativePtr);
@@ -131,6 +136,8 @@ file static class MTLFXFrameInterpolatorDescriptorBindings
     public static readonly Selector SetOutputWidth = "setOutputWidth:";
 
     public static readonly Selector SetScaler = "setScaler:";
+
+    public static readonly Selector SetUITextureFormat = "setUITextureFormat:";
 
     public static readonly Selector SupportsDevice = "supportsDevice:";
 
