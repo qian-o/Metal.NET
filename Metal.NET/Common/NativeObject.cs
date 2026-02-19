@@ -8,8 +8,6 @@
 /// <param name="nativePtr">The raw Objective-C pointer.</param>
 public abstract class NativeObject(nint nativePtr) : IDisposable
 {
-    private bool released;
-
     /// <summary>
     /// The underlying Objective-C pointer.
     /// </summary>
@@ -17,17 +15,10 @@ public abstract class NativeObject(nint nativePtr) : IDisposable
 
     public void Dispose()
     {
-        if (released)
-        {
-            return;
-        }
-
         if (NativePtr is not 0)
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
-
-        released = true;
 
         GC.SuppressFinalize(this);
     }
