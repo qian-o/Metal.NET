@@ -1,9 +1,8 @@
 ﻿using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Metal.NET;
 
-internal static unsafe partial class ObjectiveCRuntime
+public static partial class ObjectiveCRuntime
 {
     static ObjectiveCRuntime()
     {
@@ -23,11 +22,13 @@ internal static unsafe partial class ObjectiveCRuntime
         }
     }
 
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_getClass")]
-    public static partial nint GetClass(byte* name);
+    #region Class and Selector Lookups
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_getClass", StringMarshalling = StringMarshalling.Utf8)]
+    public static partial nint GetClass(string name);
 
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "sel_registerName")]
-    public static partial Selector RegisterName(byte* name);
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "sel_registerName", StringMarshalling = StringMarshalling.Utf8)]
+    public static partial Selector RegisterName(string name);
+    #endregion
 
     #region MsgSend
 
@@ -591,16 +592,18 @@ internal static unsafe partial class ObjectiveCRuntime
 
     #endregion
 
-    public static nint GetClass(string name)
-    {
-        fixed (byte* utf8 = Encoding.UTF8.GetBytes(name + '\0'))
-        {
-            return GetClass(utf8);
-        }
-    }
-
     public static nint AllocInit(nint @class)
     {
         return MsgSendPtr(MsgSendPtr(@class, (Selector)"alloc"), (Selector)"init");
+    }
+
+    public static nint Retain(nint receiver)
+    {
+        return MsgSendPtr(receiver, (Selector)"retain");
+    }
+
+    public static void Release(nint receiver)
+    {
+        MsgSend(receiver, (Selector)"release");
     }
 }

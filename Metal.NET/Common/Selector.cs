@@ -1,5 +1,4 @@
 ﻿using System.Runtime.InteropServices;
-using System.Text;
 
 namespace Metal.NET;
 
@@ -12,11 +11,8 @@ public readonly struct Selector(nint nativePtr)
 {
     public readonly nint NativePtr = nativePtr;
 
-    public static unsafe implicit operator Selector(string name)
+    public static implicit operator Selector(string name)
     {
-        fixed (byte* utf8 = Encoding.UTF8.GetBytes(name + '\0'))
-        {
-            return ObjectiveCRuntime.RegisterName(utf8);
-        }
+        return ObjectiveCRuntime.RegisterName(name);
     }
 }
