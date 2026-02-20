@@ -12,29 +12,9 @@ public abstract class NativeObject(nint nativePtr) : IDisposable
     /// </summary>
     public nint NativePtr { get; } = nativePtr;
 
-    public nuint RetainCount
-    {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, NativeObjectBindings.RetainCount);
-    }
-
-    public void Retain()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, NativeObjectBindings.Retain);
-    }
-
-    public void Release()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, NativeObjectBindings.Release);
-    }
-
-    public void AutoRelease()
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, NativeObjectBindings.AutoRelease);
-    }
-
     public void Dispose()
     {
-        Release();
+        ObjectiveCRuntime.MsgSend(NativePtr, NativeObjectBindings.Release);
 
         GC.SuppressFinalize(this);
     }
@@ -72,11 +52,5 @@ public abstract class NativeObject(nint nativePtr) : IDisposable
 
 file static class NativeObjectBindings
 {
-    public static readonly Selector RetainCount = "retainCount";
-
-    public static readonly Selector Retain = "retain";
-
     public static readonly Selector Release = "release";
-
-    public static readonly Selector AutoRelease = "autorelease";
 }
