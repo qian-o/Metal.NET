@@ -2,7 +2,7 @@
 
 namespace Metal.NET;
 
-public static partial class ObjectiveCRuntime
+internal static partial class ObjectiveCRuntime
 {
     static ObjectiveCRuntime()
     {
@@ -595,15 +595,5 @@ public static partial class ObjectiveCRuntime
     public static nint AllocInit(nint @class)
     {
         return MsgSendPtr(MsgSendPtr(@class, (Selector)"alloc"), (Selector)"init");
-    }
-
-    public static nint Retain(nint receiver)
-    {
-        return MsgSendPtr(receiver, (Selector)"retain");
-    }
-
-    public static void Release(nint receiver)
-    {
-        MsgSend(receiver, (Selector)"release");
     }
 }
