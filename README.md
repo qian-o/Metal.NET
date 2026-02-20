@@ -10,7 +10,7 @@ C# bindings for Apple's Metal graphics API, auto-generated from [metal-cpp](http
 Metal.NET.slnx
 ├── Metal.NET/                            ← Binding library (targets .NET 10, macOS 15+)
 │   ├── Common/
-│   │   ├── NativeObject.cs               ← Base class with release-on-dispose (IDisposable)
+│   │   ├── NativeObject.cs               ← Abstract base wrapper; releases ObjC refcount on dispose
 │   │   ├── ObjectiveCRuntime.cs          ← P/Invoke to libobjc.dylib (objc_msgSend)
 │   │   ├── Selector.cs                   ← ObjC selector with implicit string conversion
 │   │   ├── Bool8.cs                      ← ObjC BOOL mapped to a single byte
@@ -39,7 +39,7 @@ Metal.NET.slnx
 
 ### Classes
 
-All ObjC wrappers inherit from `NativeObject`, which sends `release` on dispose.
+All ObjC wrappers inherit from `NativeObject`, which holds a raw Objective-C pointer and decrements its reference count (`release`) on dispose.
 Classes use C# 14.0 primary constructors and the `field` keyword for cached nullable properties:
 
 ```csharp
