@@ -37,6 +37,16 @@ public class MTLRasterizationRateMap(nint nativePtr) : NativeObject(nativePtr)
         ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateMapBindings.CopyParameterDataToBuffer, buffer.NativePtr, offset);
     }
 
+    public MTLSamplePosition MapPhysicalToScreenCoordinates(MTLSamplePosition physicalCoordinates, nuint layerIndex)
+    {
+        return ObjectiveCRuntime.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapBindings.MapPhysicalToScreenCoordinates, physicalCoordinates, layerIndex);
+    }
+
+    public MTLSamplePosition MapScreenToPhysicalCoordinates(MTLSamplePosition screenCoordinates, nuint layerIndex)
+    {
+        return ObjectiveCRuntime.MsgSendMTLSamplePosition(NativePtr, MTLRasterizationRateMapBindings.MapScreenToPhysicalCoordinates, screenCoordinates, layerIndex);
+    }
+
     public MTLSize PhysicalSize(nuint layerIndex)
     {
         return ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapBindings.PhysicalSize, layerIndex);
@@ -52,6 +62,10 @@ file static class MTLRasterizationRateMapBindings
     public static readonly Selector Label = "label";
 
     public static readonly Selector LayerCount = "layerCount";
+
+    public static readonly Selector MapPhysicalToScreenCoordinates = "mapPhysicalToScreenCoordinates:forLayer:";
+
+    public static readonly Selector MapScreenToPhysicalCoordinates = "mapScreenToPhysicalCoordinates:forLayer:";
 
     public static readonly Selector ParameterBufferSizeAndAlign = "parameterBufferSizeAndAlign";
 

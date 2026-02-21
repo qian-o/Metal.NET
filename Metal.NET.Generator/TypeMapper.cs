@@ -146,6 +146,11 @@ partial class TypeMapper(GeneratorContext context)
                 return "nuint";
             }
 
+            if (typeName == "Coordinate2D")
+            {
+                return "MTLSamplePosition";
+            }
+
             string prefix = GetPrefix(typeNs);
             return prefix + typeName;
         }
@@ -156,6 +161,11 @@ partial class TypeMapper(GeneratorContext context)
             if (t == "GPUAddress")
             {
                 return "nuint";
+            }
+
+            if (t == "Coordinate2D")
+            {
+                return "MTLSamplePosition";
             }
 
             string prefix = GetPrefix(defaultNs);
@@ -223,11 +233,6 @@ partial class TypeMapper(GeneratorContext context)
             t.Contains("NS::Data") || t.Contains("NS::Number") ||
             t.Contains("NS::Set") || t.Contains("NS::Enumerator") ||
             t.Contains("NS::Value") || t.Contains("NS::Date"))
-        {
-            return true;
-        }
-
-        if (t.Contains("Coordinate2D"))
         {
             return true;
         }
