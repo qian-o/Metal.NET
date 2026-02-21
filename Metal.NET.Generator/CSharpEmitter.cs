@@ -697,7 +697,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             if (param.CppType.Contains("Timestamp*") && !param.CppType.Contains("TimestampGranularity"))
             {
                 csParams.Add($"out ulong {paramName}");
-                callArgs.Add($"out ulong {paramName}");
+                callArgs.Add($"out {paramName}");
                 continue;
             }
 
