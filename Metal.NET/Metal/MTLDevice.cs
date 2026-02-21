@@ -752,6 +752,11 @@ public partial class MTLDevice(nint nativePtr) : NativeObject(nativePtr)
         return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
+    public void SampleTimestamps(out ulong cpuTimestamp, out ulong gpuTimestamp)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceBindings.SampleTimestamps, out cpuTimestamp, out gpuTimestamp);
+    }
+
     public nuint SizeOfCounterHeapEntry(MTL4CounterHeapType type)
     {
         return ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceBindings.SizeOfCounterHeapEntry, (nint)type);
@@ -1031,6 +1036,8 @@ file static class MTLDeviceBindings
     public static readonly Selector RegistryID = "registryID";
 
     public static readonly Selector Removable = "isRemovable";
+
+    public static readonly Selector SampleTimestamps = "sampleTimestamps:gpuTimestamp:";
 
     public static readonly Selector SetShouldMaximizeConcurrentCompilation = "setShouldMaximizeConcurrentCompilation:";
 

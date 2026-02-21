@@ -249,3 +249,51 @@ public struct SimdFloat4x4(SimdFloat4 column0, SimdFloat4 column1, SimdFloat4 co
 
     public SimdFloat4 Column3 = column3;
 }
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLCounterResultTimestamp(ulong timestamp)
+{
+    public ulong Timestamp = timestamp;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLCounterResultStageUtilization(ulong totalCycles, ulong vertexCycles, ulong tessellationCycles, ulong postTessellationVertexCycles, ulong fragmentCycles, ulong renderTargetCycles)
+{
+    public ulong TotalCycles = totalCycles;
+
+    public ulong VertexCycles = vertexCycles;
+
+    public ulong TessellationCycles = tessellationCycles;
+
+    public ulong PostTessellationVertexCycles = postTessellationVertexCycles;
+
+    public ulong FragmentCycles = fragmentCycles;
+
+    public ulong RenderTargetCycles = renderTargetCycles;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLCounterResultStatistic(ulong tessellationInputPatches, ulong vertexInvocations, ulong postTessellationVertexInvocations, ulong clipperInvocations, ulong clipperPrimitivesOut, ulong fragmentInvocations, ulong fragmentsPassed, ulong computeKernelInvocations)
+{
+    public ulong TessellationInputPatches = tessellationInputPatches;
+
+    public ulong VertexInvocations = vertexInvocations;
+
+    public ulong PostTessellationVertexInvocations = postTessellationVertexInvocations;
+
+    public ulong ClipperInvocations = clipperInvocations;
+
+    public ulong ClipperPrimitivesOut = clipperPrimitivesOut;
+
+    public ulong FragmentInvocations = fragmentInvocations;
+
+    public ulong FragmentsPassed = fragmentsPassed;
+
+    public ulong ComputeKernelInvocations = computeKernelInvocations;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTL4TimestampHeapEntry(ulong timestamp)
+{
+    public ulong Timestamp = timestamp;
+}

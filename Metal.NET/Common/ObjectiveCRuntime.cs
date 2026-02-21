@@ -36,6 +36,9 @@ public static partial class ObjectiveCRuntime
     public static partial void MsgSend(nint receiver, Selector selector);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    public static partial void MsgSend(nint receiver, Selector selector, out ulong a, out ulong b);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     public static partial void MsgSend(nint receiver, Selector selector, Bool8 a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
