@@ -277,15 +277,15 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : MTLFXFrameInterpo
         get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.TransparencyOverlayTextureUsage);
     }
 
-    public nint ViewToClipMatrix
+    public SimdFloat4x4 ViewToClipMatrix
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.ViewToClipMatrix);
+        get => ObjectiveCRuntime.MsgSendSimdFloat4x4(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.ViewToClipMatrix);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetViewToClipMatrix, value);
     }
 
-    public nint WorldToViewMatrix
+    public SimdFloat4x4 WorldToViewMatrix
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.WorldToViewMatrix);
+        get => ObjectiveCRuntime.MsgSendSimdFloat4x4(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.WorldToViewMatrix);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetWorldToViewMatrix, value);
     }
 

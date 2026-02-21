@@ -463,6 +463,16 @@ public static partial class ObjectiveCRuntime
 
     #endregion
 
+    #region MsgSendSimdFloat4x4
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    public static partial SimdFloat4x4 MsgSendSimdFloat4x4(nint receiver, Selector selector);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    public static partial void MsgSend(nint receiver, Selector selector, SimdFloat4x4 a);
+
+    #endregion
+
     #region MsgSendNSRange
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]

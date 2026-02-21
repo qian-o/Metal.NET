@@ -19,7 +19,8 @@ partial class TypeMapper(GeneratorContext context)
         "MTLVertexAmplificationViewMapping", "MTL4BufferRange", "MTL4Origin", "MTL4Size",
         "MTL4Range", "MTLRange",
         "MTL4CopySparseBufferMappingOperation", "MTL4CopySparseTextureMappingOperation",
-        "MTL4UpdateSparseBufferMappingOperation", "MTL4UpdateSparseTextureMappingOperation"
+        "MTL4UpdateSparseBufferMappingOperation", "MTL4UpdateSparseTextureMappingOperation",
+        "SimdFloat4x4"
     ];
 
     /// <summary>
@@ -125,6 +126,7 @@ partial class TypeMapper(GeneratorContext context)
             "CGColorSpaceRef" => "nint",
             "CFTimeInterval" => "double",
             "CGSize" => "CGSize",
+            "simd::float4x4" => "SimdFloat4x4",
             _ => null
         };
         if (simple != null)
@@ -299,6 +301,7 @@ partial class TypeMapper(GeneratorContext context)
         "MTL4BufferRange" => "MsgSendMTL4BufferRange",
         "NSRange" => "MsgSendNSRange",
         "CGSize" => "MsgSendCGSize",
+        "SimdFloat4x4" => "MsgSendSimdFloat4x4",
         _ => "MsgSendPtr"
     };
 
