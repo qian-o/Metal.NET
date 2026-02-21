@@ -151,6 +151,11 @@ partial class TypeMapper(GeneratorContext context)
                 return "MTLSamplePosition";
             }
 
+            if (typeName == "Timestamp")
+            {
+                return "ulong";
+            }
+
             string prefix = GetPrefix(typeNs);
             return prefix + typeName;
         }
@@ -166,6 +171,11 @@ partial class TypeMapper(GeneratorContext context)
             if (t == "Coordinate2D")
             {
                 return "MTLSamplePosition";
+            }
+
+            if (t == "Timestamp")
+            {
+                return "ulong";
             }
 
             string prefix = GetPrefix(defaultNs);
@@ -213,11 +223,6 @@ partial class TypeMapper(GeneratorContext context)
         }
 
         if (t.Contains("* const") && !t.Contains("**"))
-        {
-            return true;
-        }
-
-        if (t.Contains("Timestamp") && !t.Contains("TimestampGranularity"))
         {
             return true;
         }
