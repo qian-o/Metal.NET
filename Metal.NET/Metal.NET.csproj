@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>$(StandardTargetFramework)</TargetFramework>
-        <NoWarn>IDE0130;CA1401</NoWarn>
+        <NoWarn>IDE0130</NoWarn>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)' == 'Release'">
