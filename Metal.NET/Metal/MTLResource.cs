@@ -27,11 +27,6 @@ public class MTLResource(nint nativePtr) : MTLAllocation(nativePtr)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceBindings.HeapOffset);
     }
 
-    public bool IsAliasable
-    {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLResourceBindings.IsAliasable);
-    }
-
     public NSString? Label
     {
         get => GetProperty(ref field, MTLResourceBindings.Label);
@@ -46,6 +41,11 @@ public class MTLResource(nint nativePtr) : MTLAllocation(nativePtr)
     public MTLStorageMode StorageMode
     {
         get => (MTLStorageMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceBindings.StorageMode);
+    }
+
+    public bool IsAliasable()
+    {
+        return ObjectiveCRuntime.MsgSendBool(NativePtr, MTLResourceBindings.IsAliasable);
     }
 
     public void MakeAliasable()

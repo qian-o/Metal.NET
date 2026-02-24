@@ -21,24 +21,28 @@ public class MTLPointerType(nint nativePtr) : MTLType(nativePtr)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.DataSize);
     }
 
-    public MTLArrayType? ElementArrayType
-    {
-        get => GetProperty(ref field, MTLPointerTypeBindings.ElementArrayType);
-    }
-
     public bool ElementIsArgumentBuffer
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLPointerTypeBindings.ElementIsArgumentBuffer);
     }
 
-    public MTLStructType? ElementStructType
-    {
-        get => GetProperty(ref field, MTLPointerTypeBindings.ElementStructType);
-    }
-
     public MTLDataType ElementType
     {
         get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.ElementType);
+    }
+
+    public MTLArrayType? ElementArrayType()
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeBindings.ElementArrayType);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
+    }
+
+    public MTLStructType? ElementStructType()
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeBindings.ElementStructType);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 

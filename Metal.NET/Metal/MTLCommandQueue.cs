@@ -2,16 +2,6 @@
 
 public class MTLCommandQueue(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLCommandBuffer? CommandBuffer
-    {
-        get => GetProperty(ref field, MTLCommandQueueBindings.CommandBuffer);
-    }
-
-    public MTLCommandBuffer? CommandBufferWithUnretainedReferences
-    {
-        get => GetProperty(ref field, MTLCommandQueueBindings.CommandBufferWithUnretainedReferences);
-    }
-
     public MTLDevice? Device
     {
         get => GetProperty(ref field, MTLCommandQueueBindings.Device);
@@ -39,9 +29,23 @@ public class MTLCommandQueue(nint nativePtr) : NativeObject(nativePtr)
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueBindings.AddResidencySets, (nint)pResidencySets, (nuint)residencySets.Length);
     }
 
+    public MTLCommandBuffer? CommandBuffer()
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBuffer);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
+    }
+
     public MTLCommandBuffer? CommandBufferWithDescriptor(MTLCommandBufferDescriptor descriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBufferWithDescriptor, descriptor.NativePtr);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
+    }
+
+    public MTLCommandBuffer? CommandBufferWithUnretainedReferences()
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBufferWithUnretainedReferences);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }

@@ -2,20 +2,24 @@
 
 public class MTLIOCommandQueue(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTLIOCommandBuffer? CommandBuffer
-    {
-        get => GetProperty(ref field, MTLIOCommandQueueBindings.CommandBuffer);
-    }
-
-    public MTLIOCommandBuffer? CommandBufferWithUnretainedReferences
-    {
-        get => GetProperty(ref field, MTLIOCommandQueueBindings.CommandBufferWithUnretainedReferences);
-    }
-
     public NSString? Label
     {
         get => GetProperty(ref field, MTLIOCommandQueueBindings.Label);
         set => SetProperty(ref field, MTLIOCommandQueueBindings.SetLabel, value);
+    }
+
+    public MTLIOCommandBuffer? CommandBuffer()
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueBindings.CommandBuffer);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
+    }
+
+    public MTLIOCommandBuffer? CommandBufferWithUnretainedReferences()
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueBindings.CommandBufferWithUnretainedReferences);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public void EnqueueBarrier()

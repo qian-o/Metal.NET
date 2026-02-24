@@ -149,11 +149,6 @@ public partial class MTLDevice(nint nativePtr) : NativeObject(nativePtr)
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.ProgrammableSamplePositionsSupported);
     }
 
-    public ulong QueryTimestampFrequency
-    {
-        get => ObjectiveCRuntime.MsgSendULong(NativePtr, MTLDeviceBindings.QueryTimestampFrequency);
-    }
-
     public bool RasterOrderGroupsSupported
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.RasterOrderGroupsSupported);
@@ -750,6 +745,11 @@ public partial class MTLDevice(nint nativePtr) : NativeObject(nativePtr)
         error = errorPtr is not 0 ? new(errorPtr) : null;
 
         return nativePtr is not 0 ? new(nativePtr) : null;
+    }
+
+    public ulong QueryTimestampFrequency()
+    {
+        return (ulong)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLDeviceBindings.QueryTimestampFrequency);
     }
 
     public void SampleTimestamps(out ulong cpuTimestamp, out ulong gpuTimestamp)

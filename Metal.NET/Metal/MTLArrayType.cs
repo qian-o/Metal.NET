@@ -16,31 +16,6 @@ public class MTLArrayType(nint nativePtr) : MTLType(nativePtr)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeBindings.ArrayLength);
     }
 
-    public MTLArrayType? ElementArrayType
-    {
-        get => GetProperty(ref field, MTLArrayTypeBindings.ElementArrayType);
-    }
-
-    public MTLPointerType? ElementPointerType
-    {
-        get => GetProperty(ref field, MTLArrayTypeBindings.ElementPointerType);
-    }
-
-    public MTLStructType? ElementStructType
-    {
-        get => GetProperty(ref field, MTLArrayTypeBindings.ElementStructType);
-    }
-
-    public MTLTensorReferenceType? ElementTensorReferenceType
-    {
-        get => GetProperty(ref field, MTLArrayTypeBindings.ElementTensorReferenceType);
-    }
-
-    public MTLTextureReferenceType? ElementTextureReferenceType
-    {
-        get => GetProperty(ref field, MTLArrayTypeBindings.ElementTextureReferenceType);
-    }
-
     public MTLDataType ElementType
     {
         get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeBindings.ElementType);
@@ -49,6 +24,41 @@ public class MTLArrayType(nint nativePtr) : MTLType(nativePtr)
     public nuint Stride
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeBindings.Stride);
+    }
+
+    public MTLArrayType? ElementArrayType()
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementArrayType);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
+    }
+
+    public MTLPointerType? ElementPointerType()
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementPointerType);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
+    }
+
+    public MTLStructType? ElementStructType()
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementStructType);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
+    }
+
+    public MTLTensorReferenceType? ElementTensorReferenceType()
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementTensorReferenceType);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
+    }
+
+    public MTLTextureReferenceType? ElementTextureReferenceType()
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementTextureReferenceType);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 }
 
