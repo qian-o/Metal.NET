@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLBlitCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr)
+public class MTLBlitCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr), INativeObject<MTLBlitCommandEncoder>
 {
+    public static new MTLBlitCommandEncoder Create(nint nativePtr) => new(nativePtr);
+
     public void CopyFromBuffer(MTLBuffer sourceBuffer, nuint sourceOffset, nuint sourceBytesPerRow, nuint sourceBytesPerImage, MTLSize sourceSize, MTLTexture destinationTexture, nuint destinationSlice, nuint destinationLevel, MTLOrigin destinationOrigin)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitCommandEncoderBindings.CopyFromBuffer, sourceBuffer.NativePtr, sourceOffset, sourceBytesPerRow, sourceBytesPerImage, sourceSize, destinationTexture.NativePtr, destinationSlice, destinationLevel, destinationOrigin);

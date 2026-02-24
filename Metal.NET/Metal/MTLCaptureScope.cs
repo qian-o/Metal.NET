@@ -1,18 +1,20 @@
 ﻿namespace Metal.NET;
 
-public class MTLCaptureScope(nint nativePtr) : NativeObject(nativePtr)
+public class MTLCaptureScope(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLCaptureScope>
 {
-    public MTLCommandQueue? CommandQueue
+    public static MTLCaptureScope Create(nint nativePtr) => new(nativePtr);
+
+    public MTLCommandQueue CommandQueue
     {
         get => GetProperty(ref field, MTLCaptureScopeBindings.CommandQueue);
     }
 
-    public MTLDevice? Device
+    public MTLDevice Device
     {
         get => GetProperty(ref field, MTLCaptureScopeBindings.Device);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLCaptureScopeBindings.Label);
         set => SetProperty(ref field, MTLCaptureScopeBindings.SetLabel, value);

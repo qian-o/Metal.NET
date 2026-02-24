@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionHandle(nint nativePtr) : NativeObject(nativePtr)
+public class MTLFunctionHandle(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFunctionHandle>
 {
-    public MTLDevice? Device
+    public static MTLFunctionHandle Create(nint nativePtr) => new(nativePtr);
+
+    public MTLDevice Device
     {
         get => GetProperty(ref field, MTLFunctionHandleBindings.Device);
     }
@@ -17,7 +19,7 @@ public class MTLFunctionHandle(nint nativePtr) : NativeObject(nativePtr)
         get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLFunctionHandleBindings.GpuResourceID);
     }
 
-    public NSString? Name
+    public NSString Name
     {
         get => GetProperty(ref field, MTLFunctionHandleBindings.Name);
     }

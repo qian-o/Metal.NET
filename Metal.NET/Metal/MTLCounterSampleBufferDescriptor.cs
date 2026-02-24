@@ -1,18 +1,20 @@
 ﻿namespace Metal.NET;
 
-public class MTLCounterSampleBufferDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLCounterSampleBufferDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLCounterSampleBufferDescriptor>
 {
+    public static MTLCounterSampleBufferDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLCounterSampleBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCounterSampleBufferDescriptorBindings.Class))
     {
     }
 
-    public MTLCounterSet? CounterSet
+    public MTLCounterSet CounterSet
     {
         get => GetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.CounterSet);
         set => SetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.SetCounterSet, value);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.Label);
         set => SetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.SetLabel, value);

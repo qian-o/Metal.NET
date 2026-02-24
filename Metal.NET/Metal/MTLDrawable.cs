@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLDrawable(nint nativePtr) : NativeObject(nativePtr)
+public class MTLDrawable(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLDrawable>
 {
+    public static MTLDrawable Create(nint nativePtr) => new(nativePtr);
+
     public nuint DrawableID
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDrawableBindings.DrawableID);

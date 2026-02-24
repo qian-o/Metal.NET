@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLCompileOptions(nint nativePtr) : NativeObject(nativePtr)
+public class MTLCompileOptions(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLCompileOptions>
 {
+    public static MTLCompileOptions Create(nint nativePtr) => new(nativePtr);
+
     public MTLCompileOptions() : this(ObjectiveCRuntime.AllocInit(MTLCompileOptionsBindings.Class))
     {
     }
@@ -30,7 +32,7 @@ public class MTLCompileOptions(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetFastMathEnabled, (Bool8)value);
     }
 
-    public NSString? InstallName
+    public NSString InstallName
     {
         get => GetProperty(ref field, MTLCompileOptionsBindings.InstallName);
         set => SetProperty(ref field, MTLCompileOptionsBindings.SetInstallName, value);
@@ -42,7 +44,7 @@ public class MTLCompileOptions(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetLanguageVersion, (nuint)value);
     }
 
-    public NSArray? Libraries
+    public NSArray Libraries
     {
         get => GetProperty(ref field, MTLCompileOptionsBindings.Libraries);
         set => SetProperty(ref field, MTLCompileOptionsBindings.SetLibraries, value);

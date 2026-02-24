@@ -1,25 +1,27 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOCommandQueue(nint nativePtr) : NativeObject(nativePtr)
+public class MTLIOCommandQueue(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLIOCommandQueue>
 {
-    public NSString? Label
+    public static MTLIOCommandQueue Create(nint nativePtr) => new(nativePtr);
+
+    public NSString Label
     {
         get => GetProperty(ref field, MTLIOCommandQueueBindings.Label);
         set => SetProperty(ref field, MTLIOCommandQueueBindings.SetLabel, value);
     }
 
-    public MTLIOCommandBuffer? CommandBuffer()
+    public MTLIOCommandBuffer CommandBuffer()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueBindings.CommandBuffer);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
-    public MTLIOCommandBuffer? CommandBufferWithUnretainedReferences()
+    public MTLIOCommandBuffer CommandBufferWithUnretainedReferences()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueBindings.CommandBufferWithUnretainedReferences);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
     public void EnqueueBarrier()

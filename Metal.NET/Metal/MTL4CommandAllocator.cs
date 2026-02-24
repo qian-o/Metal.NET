@@ -1,13 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandAllocator(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4CommandAllocator(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4CommandAllocator>
 {
-    public MTLDevice? Device
+    public static MTL4CommandAllocator Create(nint nativePtr) => new(nativePtr);
+
+    public MTLDevice Device
     {
         get => GetProperty(ref field, MTL4CommandAllocatorBindings.Device);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTL4CommandAllocatorBindings.Label);
     }

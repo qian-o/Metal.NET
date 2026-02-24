@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLResidencySetDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLResidencySetDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLResidencySetDescriptor>
 {
+    public static MTLResidencySetDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLResidencySetDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResidencySetDescriptorBindings.Class))
     {
     }
@@ -12,7 +14,7 @@ public class MTLResidencySetDescriptor(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetDescriptorBindings.SetInitialCapacity, value);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLResidencySetDescriptorBindings.Label);
         set => SetProperty(ref field, MTLResidencySetDescriptorBindings.SetLabel, value);

@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructureGeometryDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLAccelerationStructureGeometryDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLAccelerationStructureGeometryDescriptor>
 {
+    public static MTLAccelerationStructureGeometryDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLAccelerationStructureGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureGeometryDescriptorBindings.Class))
     {
     }
@@ -18,7 +20,7 @@ public class MTLAccelerationStructureGeometryDescriptor(nint nativePtr) : Native
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.SetIntersectionFunctionTableOffset, value);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLAccelerationStructureGeometryDescriptorBindings.Label);
         set => SetProperty(ref field, MTLAccelerationStructureGeometryDescriptorBindings.SetLabel, value);
@@ -30,7 +32,7 @@ public class MTLAccelerationStructureGeometryDescriptor(nint nativePtr) : Native
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.SetOpaque, (Bool8)value);
     }
 
-    public MTLBuffer? PrimitiveDataBuffer
+    public MTLBuffer PrimitiveDataBuffer
     {
         get => GetProperty(ref field, MTLAccelerationStructureGeometryDescriptorBindings.PrimitiveDataBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureGeometryDescriptorBindings.SetPrimitiveDataBuffer, value);

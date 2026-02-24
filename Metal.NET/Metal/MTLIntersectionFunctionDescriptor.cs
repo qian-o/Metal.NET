@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLIntersectionFunctionDescriptor(nint nativePtr) : MTLFunctionDescriptor(nativePtr)
+public class MTLIntersectionFunctionDescriptor(nint nativePtr) : MTLFunctionDescriptor(nativePtr), INativeObject<MTLIntersectionFunctionDescriptor>
 {
+    public static new MTLIntersectionFunctionDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLIntersectionFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIntersectionFunctionDescriptorBindings.Class))
     {
     }

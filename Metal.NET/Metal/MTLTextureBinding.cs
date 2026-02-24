@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLTextureBinding(nint nativePtr) : MTLBinding(nativePtr)
+public class MTLTextureBinding(nint nativePtr) : MTLBinding(nativePtr), INativeObject<MTLTextureBinding>
 {
+    public static new MTLTextureBinding Create(nint nativePtr) => new(nativePtr);
+
     public nuint ArrayLength
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindingBindings.ArrayLength);

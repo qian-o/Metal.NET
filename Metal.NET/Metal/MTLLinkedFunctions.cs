@@ -1,34 +1,36 @@
 ﻿namespace Metal.NET;
 
-public class MTLLinkedFunctions(nint nativePtr) : NativeObject(nativePtr)
+public class MTLLinkedFunctions(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLLinkedFunctions>
 {
+    public static MTLLinkedFunctions Create(nint nativePtr) => new(nativePtr);
+
     public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(MTLLinkedFunctionsBindings.Class))
     {
     }
 
-    public NSArray? BinaryFunctions
+    public NSArray BinaryFunctions
     {
         get => GetProperty(ref field, MTLLinkedFunctionsBindings.BinaryFunctions);
         set => SetProperty(ref field, MTLLinkedFunctionsBindings.SetBinaryFunctions, value);
     }
 
-    public NSArray? Functions
+    public NSArray Functions
     {
         get => GetProperty(ref field, MTLLinkedFunctionsBindings.Functions);
         set => SetProperty(ref field, MTLLinkedFunctionsBindings.SetFunctions, value);
     }
 
-    public NSArray? PrivateFunctions
+    public NSArray PrivateFunctions
     {
         get => GetProperty(ref field, MTLLinkedFunctionsBindings.PrivateFunctions);
         set => SetProperty(ref field, MTLLinkedFunctionsBindings.SetPrivateFunctions, value);
     }
 
-    public static MTLLinkedFunctions? LinkedFunctions()
+    public static MTLLinkedFunctions LinkedFunctions()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLLinkedFunctionsBindings.Class, MTLLinkedFunctionsBindings.LinkedFunctions);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 }
 

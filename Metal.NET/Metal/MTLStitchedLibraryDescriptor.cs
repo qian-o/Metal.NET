@@ -1,24 +1,26 @@
 ﻿namespace Metal.NET;
 
-public class MTLStitchedLibraryDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLStitchedLibraryDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLStitchedLibraryDescriptor>
 {
+    public static MTLStitchedLibraryDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLStitchedLibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStitchedLibraryDescriptorBindings.Class))
     {
     }
 
-    public NSArray? BinaryArchives
+    public NSArray BinaryArchives
     {
         get => GetProperty(ref field, MTLStitchedLibraryDescriptorBindings.BinaryArchives);
         set => SetProperty(ref field, MTLStitchedLibraryDescriptorBindings.SetBinaryArchives, value);
     }
 
-    public NSArray? FunctionGraphs
+    public NSArray FunctionGraphs
     {
         get => GetProperty(ref field, MTLStitchedLibraryDescriptorBindings.FunctionGraphs);
         set => SetProperty(ref field, MTLStitchedLibraryDescriptorBindings.SetFunctionGraphs, value);
     }
 
-    public NSArray? Functions
+    public NSArray Functions
     {
         get => GetProperty(ref field, MTLStitchedLibraryDescriptorBindings.Functions);
         set => SetProperty(ref field, MTLStitchedLibraryDescriptorBindings.SetFunctions, value);

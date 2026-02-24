@@ -1,12 +1,14 @@
 ﻿namespace Metal.NET;
 
-public class MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr) : MTLAccelerationStructureDescriptor(nativePtr)
+public class MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr) : MTLAccelerationStructureDescriptor(nativePtr), INativeObject<MTLPrimitiveAccelerationStructureDescriptor>
 {
+    public static new MTLPrimitiveAccelerationStructureDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLPrimitiveAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLPrimitiveAccelerationStructureDescriptorBindings.Class))
     {
     }
 
-    public NSArray? GeometryDescriptors
+    public NSArray GeometryDescriptors
     {
         get => GetProperty(ref field, MTLPrimitiveAccelerationStructureDescriptorBindings.GeometryDescriptors);
         set => SetProperty(ref field, MTLPrimitiveAccelerationStructureDescriptorBindings.SetGeometryDescriptors, value);
@@ -42,11 +44,11 @@ public class MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr) : MTLAc
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionStartTime, value);
     }
 
-    public static MTLPrimitiveAccelerationStructureDescriptor? Descriptor()
+    public static MTLPrimitiveAccelerationStructureDescriptor Descriptor()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLPrimitiveAccelerationStructureDescriptorBindings.Class, MTLPrimitiveAccelerationStructureDescriptorBindings.Descriptor);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 }
 

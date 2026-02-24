@@ -1,12 +1,14 @@
 ﻿namespace Metal.NET;
 
-public class MTL4RenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4RenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4RenderPassDescriptor>
 {
+    public static MTL4RenderPassDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTL4RenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPassDescriptorBindings.Class))
     {
     }
 
-    public MTLRenderPassColorAttachmentDescriptorArray? ColorAttachments
+    public MTLRenderPassColorAttachmentDescriptorArray ColorAttachments
     {
         get => GetProperty(ref field, MTL4RenderPassDescriptorBindings.ColorAttachments);
     }
@@ -17,7 +19,7 @@ public class MTL4RenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetDefaultRasterSampleCount, value);
     }
 
-    public MTLRenderPassDepthAttachmentDescriptor? DepthAttachment
+    public MTLRenderPassDepthAttachmentDescriptor DepthAttachment
     {
         get => GetProperty(ref field, MTL4RenderPassDescriptorBindings.DepthAttachment);
         set => SetProperty(ref field, MTL4RenderPassDescriptorBindings.SetDepthAttachment, value);
@@ -29,7 +31,7 @@ public class MTL4RenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetImageblockSampleLength, value);
     }
 
-    public MTLRasterizationRateMap? RasterizationRateMap
+    public MTLRasterizationRateMap RasterizationRateMap
     {
         get => GetProperty(ref field, MTL4RenderPassDescriptorBindings.RasterizationRateMap);
         set => SetProperty(ref field, MTL4RenderPassDescriptorBindings.SetRasterizationRateMap, value);
@@ -53,7 +55,7 @@ public class MTL4RenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetRenderTargetWidth, value);
     }
 
-    public MTLRenderPassStencilAttachmentDescriptor? StencilAttachment
+    public MTLRenderPassStencilAttachmentDescriptor StencilAttachment
     {
         get => GetProperty(ref field, MTL4RenderPassDescriptorBindings.StencilAttachment);
         set => SetProperty(ref field, MTL4RenderPassDescriptorBindings.SetStencilAttachment, value);
@@ -83,7 +85,7 @@ public class MTL4RenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetTileWidth, value);
     }
 
-    public MTLBuffer? VisibilityResultBuffer
+    public MTLBuffer VisibilityResultBuffer
     {
         get => GetProperty(ref field, MTL4RenderPassDescriptorBindings.VisibilityResultBuffer);
         set => SetProperty(ref field, MTL4RenderPassDescriptorBindings.SetVisibilityResultBuffer, value);

@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLComputePassDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLComputePassDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLComputePassDescriptor>
 {
+    public static MTLComputePassDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLComputePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLComputePassDescriptorBindings.Class))
     {
     }
@@ -12,16 +14,16 @@ public class MTLComputePassDescriptor(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePassDescriptorBindings.SetDispatchType, (nuint)value);
     }
 
-    public MTLComputePassSampleBufferAttachmentDescriptorArray? SampleBufferAttachments
+    public MTLComputePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
     {
         get => GetProperty(ref field, MTLComputePassDescriptorBindings.SampleBufferAttachments);
     }
 
-    public static MTLComputePassDescriptor? ComputePassDescriptor()
+    public static MTLComputePassDescriptor ComputePassDescriptor()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLComputePassDescriptorBindings.Class, MTLComputePassDescriptorBindings.ComputePassDescriptor);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 }
 

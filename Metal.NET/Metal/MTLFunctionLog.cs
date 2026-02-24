@@ -1,18 +1,20 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionLog(nint nativePtr) : NativeObject(nativePtr)
+public class MTLFunctionLog(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFunctionLog>
 {
-    public MTLFunctionLogDebugLocation? DebugLocation
+    public static MTLFunctionLog Create(nint nativePtr) => new(nativePtr);
+
+    public MTLFunctionLogDebugLocation DebugLocation
     {
         get => GetProperty(ref field, MTLFunctionLogBindings.DebugLocation);
     }
 
-    public NSString? EncoderLabel
+    public NSString EncoderLabel
     {
         get => GetProperty(ref field, MTLFunctionLogBindings.EncoderLabel);
     }
 
-    public MTLFunction? Function
+    public MTLFunction Function
     {
         get => GetProperty(ref field, MTLFunctionLogBindings.Function);
     }

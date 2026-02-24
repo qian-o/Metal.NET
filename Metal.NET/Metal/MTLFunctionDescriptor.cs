@@ -1,24 +1,26 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLFunctionDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFunctionDescriptor>
 {
+    public static MTLFunctionDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFunctionDescriptorBindings.Class))
     {
     }
 
-    public NSArray? BinaryArchives
+    public NSArray BinaryArchives
     {
         get => GetProperty(ref field, MTLFunctionDescriptorBindings.BinaryArchives);
         set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetBinaryArchives, value);
     }
 
-    public MTLFunctionConstantValues? ConstantValues
+    public MTLFunctionConstantValues ConstantValues
     {
         get => GetProperty(ref field, MTLFunctionDescriptorBindings.ConstantValues);
         set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetConstantValues, value);
     }
 
-    public NSString? Name
+    public NSString Name
     {
         get => GetProperty(ref field, MTLFunctionDescriptorBindings.Name);
         set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetName, value);
@@ -30,17 +32,17 @@ public class MTLFunctionDescriptor(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetOptions, (nuint)value);
     }
 
-    public NSString? SpecializedName
+    public NSString SpecializedName
     {
         get => GetProperty(ref field, MTLFunctionDescriptorBindings.SpecializedName);
         set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetSpecializedName, value);
     }
 
-    public static MTLFunctionDescriptor? FunctionDescriptor()
+    public static MTLFunctionDescriptor FunctionDescriptor()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLFunctionDescriptorBindings.Class, MTLFunctionDescriptorBindings.FunctionDescriptor);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 }
 

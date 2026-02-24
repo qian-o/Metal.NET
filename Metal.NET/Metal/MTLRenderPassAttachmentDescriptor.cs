@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPassAttachmentDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLRenderPassAttachmentDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLRenderPassAttachmentDescriptor>
 {
+    public static MTLRenderPassAttachmentDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLRenderPassAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassAttachmentDescriptorBindings.Class))
     {
     }
@@ -42,7 +44,7 @@ public class MTLRenderPassAttachmentDescriptor(nint nativePtr) : NativeObject(na
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetResolveSlice, value);
     }
 
-    public MTLTexture? ResolveTexture
+    public MTLTexture ResolveTexture
     {
         get => GetProperty(ref field, MTLRenderPassAttachmentDescriptorBindings.ResolveTexture);
         set => SetProperty(ref field, MTLRenderPassAttachmentDescriptorBindings.SetResolveTexture, value);
@@ -66,7 +68,7 @@ public class MTLRenderPassAttachmentDescriptor(nint nativePtr) : NativeObject(na
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetStoreActionOptions, (nuint)value);
     }
 
-    public MTLTexture? Texture
+    public MTLTexture Texture
     {
         get => GetProperty(ref field, MTLRenderPassAttachmentDescriptorBindings.Texture);
         set => SetProperty(ref field, MTLRenderPassAttachmentDescriptorBindings.SetTexture, value);

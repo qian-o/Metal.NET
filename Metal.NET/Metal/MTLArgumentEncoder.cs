@@ -1,13 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLArgumentEncoder(nint nativePtr) : NativeObject(nativePtr)
+public class MTLArgumentEncoder(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLArgumentEncoder>
 {
+    public static MTLArgumentEncoder Create(nint nativePtr) => new(nativePtr);
+
     public nuint Alignment
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentEncoderBindings.Alignment);
     }
 
-    public MTLDevice? Device
+    public MTLDevice Device
     {
         get => GetProperty(ref field, MTLArgumentEncoderBindings.Device);
     }
@@ -17,7 +19,7 @@ public class MTLArgumentEncoder(nint nativePtr) : NativeObject(nativePtr)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentEncoderBindings.EncodedLength);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLArgumentEncoderBindings.Label);
         set => SetProperty(ref field, MTLArgumentEncoderBindings.SetLabel, value);
@@ -28,11 +30,11 @@ public class MTLArgumentEncoder(nint nativePtr) : NativeObject(nativePtr)
         return ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderBindings.ConstantData, index);
     }
 
-    public MTLArgumentEncoder? NewArgumentEncoder(nuint index)
+    public MTLArgumentEncoder NewArgumentEncoder(nuint index)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderBindings.NewArgumentEncoder, index);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
     public void SetAccelerationStructure(MTLAccelerationStructure accelerationStructure, nuint index)

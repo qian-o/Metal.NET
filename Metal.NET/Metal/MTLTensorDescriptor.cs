@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensorDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLTensorDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLTensorDescriptor>
 {
+    public static MTLTensorDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLTensorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTensorDescriptorBindings.Class))
     {
     }
@@ -18,7 +20,7 @@ public class MTLTensorDescriptor(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetDataType, (nint)value);
     }
 
-    public MTLTensorExtents? Dimensions
+    public MTLTensorExtents Dimensions
     {
         get => GetProperty(ref field, MTLTensorDescriptorBindings.Dimensions);
         set => SetProperty(ref field, MTLTensorDescriptorBindings.SetDimensions, value);
@@ -42,7 +44,7 @@ public class MTLTensorDescriptor(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTensorDescriptorBindings.SetStorageMode, (nuint)value);
     }
 
-    public MTLTensorExtents? Strides
+    public MTLTensorExtents Strides
     {
         get => GetProperty(ref field, MTLTensorDescriptorBindings.Strides);
         set => SetProperty(ref field, MTLTensorDescriptorBindings.SetStrides, value);

@@ -1,28 +1,30 @@
 ﻿namespace Metal.NET;
 
-public class MTLDynamicLibrary(nint nativePtr) : NativeObject(nativePtr)
+public class MTLDynamicLibrary(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLDynamicLibrary>
 {
-    public MTLDevice? Device
+    public static MTLDynamicLibrary Create(nint nativePtr) => new(nativePtr);
+
+    public MTLDevice Device
     {
         get => GetProperty(ref field, MTLDynamicLibraryBindings.Device);
     }
 
-    public NSString? InstallName
+    public NSString InstallName
     {
         get => GetProperty(ref field, MTLDynamicLibraryBindings.InstallName);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLDynamicLibraryBindings.Label);
         set => SetProperty(ref field, MTLDynamicLibraryBindings.SetLabel, value);
     }
 
-    public bool SerializeToURL(NSURL url, out NSError? error)
+    public bool SerializeToURL(NSURL url, out NSError error)
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDynamicLibraryBindings.SerializeToURL, url.NativePtr, out nint errorPtr);
 
-        error = errorPtr is not 0 ? new(errorPtr) : null;
+        error = new(errorPtr);
 
         return result;
     }

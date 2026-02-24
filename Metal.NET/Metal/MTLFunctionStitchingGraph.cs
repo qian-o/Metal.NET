@@ -1,30 +1,32 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionStitchingGraph(nint nativePtr) : NativeObject(nativePtr)
+public class MTLFunctionStitchingGraph(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFunctionStitchingGraph>
 {
+    public static MTLFunctionStitchingGraph Create(nint nativePtr) => new(nativePtr);
+
     public MTLFunctionStitchingGraph() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingGraphBindings.Class))
     {
     }
 
-    public NSArray? Attributes
+    public NSArray Attributes
     {
         get => GetProperty(ref field, MTLFunctionStitchingGraphBindings.Attributes);
         set => SetProperty(ref field, MTLFunctionStitchingGraphBindings.SetAttributes, value);
     }
 
-    public NSString? FunctionName
+    public NSString FunctionName
     {
         get => GetProperty(ref field, MTLFunctionStitchingGraphBindings.FunctionName);
         set => SetProperty(ref field, MTLFunctionStitchingGraphBindings.SetFunctionName, value);
     }
 
-    public NSArray? Nodes
+    public NSArray Nodes
     {
         get => GetProperty(ref field, MTLFunctionStitchingGraphBindings.Nodes);
         set => SetProperty(ref field, MTLFunctionStitchingGraphBindings.SetNodes, value);
     }
 
-    public MTLFunctionStitchingFunctionNode? OutputNode
+    public MTLFunctionStitchingFunctionNode OutputNode
     {
         get => GetProperty(ref field, MTLFunctionStitchingGraphBindings.OutputNode);
         set => SetProperty(ref field, MTLFunctionStitchingGraphBindings.SetOutputNode, value);

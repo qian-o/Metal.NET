@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLIndirectCommandBufferDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLIndirectCommandBufferDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLIndirectCommandBufferDescriptor>
 {
+    public static MTLIndirectCommandBufferDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLIndirectCommandBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIndirectCommandBufferDescriptorBindings.Class))
     {
     }

@@ -3,27 +3,24 @@
 /// <summary>
 /// Wraps an Objective-C NSArray pointer.
 /// </summary>
-public class NSArray(nint nativePtr) : NativeObject(nativePtr)
+public class NSArray(nint nativePtr) : NativeObject(nativePtr), INativeObject<NSArray>
 {
+    public static NSArray Create(nint nativePtr) => new(nativePtr);
+
     public nuint Count
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, NSArrayBindings.Count);
     }
 
     /// <summary>
-    /// Returns the object at the given index, or <c>null</c> if the pointer is zero.
+    /// Returns the object at the given index.
     /// The returned object is retained (+1) for safe lifecycle management.
     /// </summary>
-    public T? ObjectAtIndex<T>(nuint index) where T : NativeObject
+    public T ObjectAtIndex<T>(nuint index) where T : NativeObject, INativeObject<T>
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSArrayBindings.ObjectAtIndex, index);
 
-        if (nativePtr is 0)
-        {
-            return null;
-        }
-
-        return (T)Activator.CreateInstance(typeof(T), nativePtr, true)!;
+        return T.Create(nativePtr);
     }
 }
 

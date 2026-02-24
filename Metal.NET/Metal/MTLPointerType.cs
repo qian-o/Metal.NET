@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLPointerType(nint nativePtr) : MTLType(nativePtr)
+public class MTLPointerType(nint nativePtr) : MTLType(nativePtr), INativeObject<MTLPointerType>
 {
+    public static new MTLPointerType Create(nint nativePtr) => new(nativePtr);
+
     public MTLPointerType() : this(ObjectiveCRuntime.AllocInit(MTLPointerTypeBindings.Class))
     {
     }
@@ -31,18 +33,18 @@ public class MTLPointerType(nint nativePtr) : MTLType(nativePtr)
         get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.ElementType);
     }
 
-    public MTLArrayType? ElementArrayType()
+    public MTLArrayType ElementArrayType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeBindings.ElementArrayType);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
-    public MTLStructType? ElementStructType()
+    public MTLStructType ElementStructType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeBindings.ElementStructType);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 }
 

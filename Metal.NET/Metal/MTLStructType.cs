@@ -1,21 +1,23 @@
 ﻿namespace Metal.NET;
 
-public class MTLStructType(nint nativePtr) : MTLType(nativePtr)
+public class MTLStructType(nint nativePtr) : MTLType(nativePtr), INativeObject<MTLStructType>
 {
+    public static new MTLStructType Create(nint nativePtr) => new(nativePtr);
+
     public MTLStructType() : this(ObjectiveCRuntime.AllocInit(MTLStructTypeBindings.Class))
     {
     }
 
-    public NSArray? Members
+    public NSArray Members
     {
         get => GetProperty(ref field, MTLStructTypeBindings.Members);
     }
 
-    public MTLStructMember? MemberByName(NSString name)
+    public MTLStructMember MemberByName(NSString name)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeBindings.MemberByName, name.NativePtr);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 }
 

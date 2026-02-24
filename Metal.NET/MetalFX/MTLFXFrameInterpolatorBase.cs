@@ -1,14 +1,16 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr)
+public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFXFrameInterpolatorBase>
 {
+    public static MTLFXFrameInterpolatorBase Create(nint nativePtr) => new(nativePtr);
+
     public float AspectRatio
     {
         get => ObjectiveCRuntime.MsgSendFloat(NativePtr, MTLFXFrameInterpolatorBaseBindings.AspectRatio);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetAspectRatio, value);
     }
 
-    public MTLTexture? ColorTexture
+    public MTLTexture ColorTexture
     {
         get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.ColorTexture);
         set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetColorTexture, value);
@@ -30,7 +32,7 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDeltaTime, value);
     }
 
-    public MTLTexture? DepthTexture
+    public MTLTexture DepthTexture
     {
         get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.DepthTexture);
         set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetDepthTexture, value);
@@ -52,7 +54,7 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetFarPlane, value);
     }
 
-    public MTLFence? Fence
+    public MTLFence Fence
     {
         get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.Fence);
         set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetFence, value);
@@ -97,7 +99,7 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetJitterOffsetY, value);
     }
 
-    public MTLTexture? MotionTexture
+    public MTLTexture MotionTexture
     {
         get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.MotionTexture);
         set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetMotionTexture, value);
@@ -136,7 +138,7 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.OutputHeight);
     }
 
-    public MTLTexture? OutputTexture
+    public MTLTexture OutputTexture
     {
         get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.OutputTexture);
         set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetOutputTexture, value);
@@ -157,7 +159,7 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.OutputWidth);
     }
 
-    public MTLTexture? PrevColorTexture
+    public MTLTexture PrevColorTexture
     {
         get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.PrevColorTexture);
         set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetPrevColorTexture, value);
@@ -169,7 +171,7 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr) : NativeObject(nativePtr
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetShouldResetHistory, (Bool8)value);
     }
 
-    public MTLTexture? UiTexture
+    public MTLTexture UiTexture
     {
         get => GetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.UiTexture);
     }

@@ -1,13 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLCommandEncoder(nint nativePtr) : NativeObject(nativePtr)
+public class MTLCommandEncoder(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLCommandEncoder>
 {
-    public MTLDevice? Device
+    public static MTLCommandEncoder Create(nint nativePtr) => new(nativePtr);
+
+    public MTLDevice Device
     {
         get => GetProperty(ref field, MTLCommandEncoderBindings.Device);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLCommandEncoderBindings.Label);
         set => SetProperty(ref field, MTLCommandEncoderBindings.SetLabel, value);

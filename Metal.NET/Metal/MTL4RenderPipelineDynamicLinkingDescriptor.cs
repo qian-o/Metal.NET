@@ -1,32 +1,34 @@
 ﻿namespace Metal.NET;
 
-public class MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4RenderPipelineDynamicLinkingDescriptor>
 {
+    public static MTL4RenderPipelineDynamicLinkingDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTL4RenderPipelineDynamicLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineDynamicLinkingDescriptorBindings.Class))
     {
     }
 
-    public MTL4PipelineStageDynamicLinkingDescriptor? FragmentLinkingDescriptor
+    public MTL4PipelineStageDynamicLinkingDescriptor FragmentLinkingDescriptor
     {
         get => GetProperty(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.FragmentLinkingDescriptor);
     }
 
-    public MTL4PipelineStageDynamicLinkingDescriptor? MeshLinkingDescriptor
+    public MTL4PipelineStageDynamicLinkingDescriptor MeshLinkingDescriptor
     {
         get => GetProperty(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.MeshLinkingDescriptor);
     }
 
-    public MTL4PipelineStageDynamicLinkingDescriptor? ObjectLinkingDescriptor
+    public MTL4PipelineStageDynamicLinkingDescriptor ObjectLinkingDescriptor
     {
         get => GetProperty(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.ObjectLinkingDescriptor);
     }
 
-    public MTL4PipelineStageDynamicLinkingDescriptor? TileLinkingDescriptor
+    public MTL4PipelineStageDynamicLinkingDescriptor TileLinkingDescriptor
     {
         get => GetProperty(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.TileLinkingDescriptor);
     }
 
-    public MTL4PipelineStageDynamicLinkingDescriptor? VertexLinkingDescriptor
+    public MTL4PipelineStageDynamicLinkingDescriptor VertexLinkingDescriptor
     {
         get => GetProperty(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.VertexLinkingDescriptor);
     }

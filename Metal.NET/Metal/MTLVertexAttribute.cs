@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLVertexAttribute(nint nativePtr) : NativeObject(nativePtr)
+public class MTLVertexAttribute(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLVertexAttribute>
 {
+    public static MTLVertexAttribute Create(nint nativePtr) => new(nativePtr);
+
     public MTLVertexAttribute() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeBindings.Class))
     {
     }
@@ -36,7 +38,7 @@ public class MTLVertexAttribute(nint nativePtr) : NativeObject(nativePtr)
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsPatchData);
     }
 
-    public NSString? Name
+    public NSString Name
     {
         get => GetProperty(ref field, MTLVertexAttributeBindings.Name);
     }

@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLCounter(nint nativePtr) : NativeObject(nativePtr)
+public class MTLCounter(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLCounter>
 {
-    public NSString? Name
+    public static MTLCounter Create(nint nativePtr) => new(nativePtr);
+
+    public NSString Name
     {
         get => GetProperty(ref field, MTLCounterBindings.Name);
     }

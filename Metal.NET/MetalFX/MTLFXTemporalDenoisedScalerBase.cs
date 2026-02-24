@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : MTLFXFrameInterpolatableScaler(nativePtr)
+public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : MTLFXFrameInterpolatableScaler(nativePtr), INativeObject<MTLFXTemporalDenoisedScalerBase>
 {
-    public MTLTexture? ColorTexture
+    public static new MTLFXTemporalDenoisedScalerBase Create(nint nativePtr) => new(nativePtr);
+
+    public MTLTexture ColorTexture
     {
         get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.ColorTexture);
         set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetColorTexture, value);
@@ -18,7 +20,7 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : MTLFXFrameInterpo
         get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.ColorTextureUsage);
     }
 
-    public MTLTexture? DenoiseStrengthMaskTexture
+    public MTLTexture DenoiseStrengthMaskTexture
     {
         get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.DenoiseStrengthMaskTexture);
         set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetDenoiseStrengthMaskTexture, value);
@@ -34,7 +36,7 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : MTLFXFrameInterpo
         get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.DenoiseStrengthMaskTextureUsage);
     }
 
-    public MTLTexture? DepthTexture
+    public MTLTexture DepthTexture
     {
         get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.DepthTexture);
         set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetDepthTexture, value);
@@ -50,7 +52,7 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : MTLFXFrameInterpo
         get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.DepthTextureUsage);
     }
 
-    public MTLTexture? DiffuseAlbedoTexture
+    public MTLTexture DiffuseAlbedoTexture
     {
         get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.DiffuseAlbedoTexture);
         set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetDiffuseAlbedoTexture, value);
@@ -66,13 +68,13 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : MTLFXFrameInterpo
         get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.DiffuseAlbedoTextureUsage);
     }
 
-    public MTLTexture? ExposureTexture
+    public MTLTexture ExposureTexture
     {
         get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.ExposureTexture);
         set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetExposureTexture, value);
     }
 
-    public MTLFence? Fence
+    public MTLFence Fence
     {
         get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.Fence);
         set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetFence, value);
@@ -115,7 +117,7 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : MTLFXFrameInterpo
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetJitterOffsetY, value);
     }
 
-    public MTLTexture? MotionTexture
+    public MTLTexture MotionTexture
     {
         get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.MotionTexture);
         set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetMotionTexture, value);
@@ -143,7 +145,7 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : MTLFXFrameInterpo
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetMotionVectorScaleY, value);
     }
 
-    public MTLTexture? NormalTexture
+    public MTLTexture NormalTexture
     {
         get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.NormalTexture);
         set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetNormalTexture, value);
@@ -164,7 +166,7 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : MTLFXFrameInterpo
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.OutputHeight);
     }
 
-    public MTLTexture? OutputTexture
+    public MTLTexture OutputTexture
     {
         get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.OutputTexture);
         set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetOutputTexture, value);
@@ -191,7 +193,7 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : MTLFXFrameInterpo
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetPreExposure, value);
     }
 
-    public MTLTexture? ReactiveMaskTexture
+    public MTLTexture ReactiveMaskTexture
     {
         get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.ReactiveMaskTexture);
         set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetReactiveMaskTexture, value);
@@ -207,7 +209,7 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : MTLFXFrameInterpo
         get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.ReactiveTextureUsage);
     }
 
-    public MTLTexture? RoughnessTexture
+    public MTLTexture RoughnessTexture
     {
         get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.RoughnessTexture);
         set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetRoughnessTexture, value);
@@ -229,7 +231,7 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : MTLFXFrameInterpo
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetShouldResetHistory, (Bool8)value);
     }
 
-    public MTLTexture? SpecularAlbedoTexture
+    public MTLTexture SpecularAlbedoTexture
     {
         get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SpecularAlbedoTexture);
         set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetSpecularAlbedoTexture, value);
@@ -245,7 +247,7 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : MTLFXFrameInterpo
         get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SpecularAlbedoTextureUsage);
     }
 
-    public MTLTexture? SpecularHitDistanceTexture
+    public MTLTexture SpecularHitDistanceTexture
     {
         get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SpecularHitDistanceTexture);
         set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetSpecularHitDistanceTexture, value);
@@ -261,7 +263,7 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : MTLFXFrameInterpo
         get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SpecularHitDistanceTextureUsage);
     }
 
-    public MTLTexture? TransparencyOverlayTexture
+    public MTLTexture TransparencyOverlayTexture
     {
         get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.TransparencyOverlayTexture);
         set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetTransparencyOverlayTexture, value);

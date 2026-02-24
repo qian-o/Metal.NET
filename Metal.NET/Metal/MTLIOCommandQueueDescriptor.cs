@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOCommandQueueDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLIOCommandQueueDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLIOCommandQueueDescriptor>
 {
+    public static MTLIOCommandQueueDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLIOCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIOCommandQueueDescriptorBindings.Class))
     {
     }
@@ -24,7 +26,7 @@ public class MTLIOCommandQueueDescriptor(nint nativePtr) : NativeObject(nativePt
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorBindings.SetPriority, (nint)value);
     }
 
-    public MTLIOScratchBufferAllocator? ScratchBufferAllocator
+    public MTLIOScratchBufferAllocator ScratchBufferAllocator
     {
         get => GetProperty(ref field, MTLIOCommandQueueDescriptorBindings.ScratchBufferAllocator);
         set => SetProperty(ref field, MTLIOCommandQueueDescriptorBindings.SetScratchBufferAllocator, value);

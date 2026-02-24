@@ -1,24 +1,26 @@
 ﻿namespace Metal.NET;
 
-public class MTL4SpecializedFunctionDescriptor(nint nativePtr) : MTL4FunctionDescriptor(nativePtr)
+public class MTL4SpecializedFunctionDescriptor(nint nativePtr) : MTL4FunctionDescriptor(nativePtr), INativeObject<MTL4SpecializedFunctionDescriptor>
 {
+    public static new MTL4SpecializedFunctionDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTL4SpecializedFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4SpecializedFunctionDescriptorBindings.Class))
     {
     }
 
-    public MTLFunctionConstantValues? ConstantValues
+    public MTLFunctionConstantValues ConstantValues
     {
         get => GetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.ConstantValues);
         set => SetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.SetConstantValues, value);
     }
 
-    public MTL4FunctionDescriptor? FunctionDescriptor
+    public MTL4FunctionDescriptor FunctionDescriptor
     {
         get => GetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.FunctionDescriptor);
         set => SetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.SetFunctionDescriptor, value);
     }
 
-    public NSString? SpecializedName
+    public NSString SpecializedName
     {
         get => GetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.SpecializedName);
         set => SetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.SetSpecializedName, value);

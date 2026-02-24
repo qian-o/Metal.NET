@@ -1,18 +1,20 @@
 ﻿namespace Metal.NET;
 
-public class MTL4StaticLinkingDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4StaticLinkingDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4StaticLinkingDescriptor>
 {
+    public static MTL4StaticLinkingDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTL4StaticLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4StaticLinkingDescriptorBindings.Class))
     {
     }
 
-    public NSArray? FunctionDescriptors
+    public NSArray FunctionDescriptors
     {
         get => GetProperty(ref field, MTL4StaticLinkingDescriptorBindings.FunctionDescriptors);
         set => SetProperty(ref field, MTL4StaticLinkingDescriptorBindings.SetFunctionDescriptors, value);
     }
 
-    public NSArray? PrivateFunctionDescriptors
+    public NSArray PrivateFunctionDescriptors
     {
         get => GetProperty(ref field, MTL4StaticLinkingDescriptorBindings.PrivateFunctionDescriptors);
         set => SetProperty(ref field, MTL4StaticLinkingDescriptorBindings.SetPrivateFunctionDescriptors, value);

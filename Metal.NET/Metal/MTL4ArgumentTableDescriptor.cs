@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTL4ArgumentTableDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4ArgumentTableDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4ArgumentTableDescriptor>
 {
+    public static MTL4ArgumentTableDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTL4ArgumentTableDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4ArgumentTableDescriptorBindings.Class))
     {
     }
@@ -12,7 +14,7 @@ public class MTL4ArgumentTableDescriptor(nint nativePtr) : NativeObject(nativePt
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetInitializeBindings, (Bool8)value);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTL4ArgumentTableDescriptorBindings.Label);
         set => SetProperty(ref field, MTL4ArgumentTableDescriptorBindings.SetLabel, value);

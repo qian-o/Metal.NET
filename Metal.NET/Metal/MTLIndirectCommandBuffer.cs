@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLIndirectCommandBuffer(nint nativePtr) : MTLResource(nativePtr)
+public class MTLIndirectCommandBuffer(nint nativePtr) : MTLResource(nativePtr), INativeObject<MTLIndirectCommandBuffer>
 {
+    public static new MTLIndirectCommandBuffer Create(nint nativePtr) => new(nativePtr);
+
     public MTLResourceID GpuResourceID
     {
         get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLIndirectCommandBufferBindings.GpuResourceID);
@@ -12,18 +14,18 @@ public class MTLIndirectCommandBuffer(nint nativePtr) : MTLResource(nativePtr)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferBindings.Size);
     }
 
-    public MTLIndirectComputeCommand? IndirectComputeCommand(nuint commandIndex)
+    public MTLIndirectComputeCommand IndirectComputeCommand(nuint commandIndex)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferBindings.IndirectComputeCommand, commandIndex);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
-    public MTLIndirectRenderCommand? IndirectRenderCommand(nuint commandIndex)
+    public MTLIndirectRenderCommand IndirectRenderCommand(nuint commandIndex)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferBindings.IndirectRenderCommand, commandIndex);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
     public void Reset(NSRange range)

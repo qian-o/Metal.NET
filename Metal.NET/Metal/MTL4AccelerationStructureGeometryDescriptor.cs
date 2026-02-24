@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTL4AccelerationStructureGeometryDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4AccelerationStructureGeometryDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4AccelerationStructureGeometryDescriptor>
 {
+    public static MTL4AccelerationStructureGeometryDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTL4AccelerationStructureGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureGeometryDescriptorBindings.Class))
     {
     }
@@ -18,7 +20,7 @@ public class MTL4AccelerationStructureGeometryDescriptor(nint nativePtr) : Nativ
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetIntersectionFunctionTableOffset, value);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTL4AccelerationStructureGeometryDescriptorBindings.Label);
         set => SetProperty(ref field, MTL4AccelerationStructureGeometryDescriptorBindings.SetLabel, value);

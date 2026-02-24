@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTL4PipelineDataSetSerializerDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4PipelineDataSetSerializerDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4PipelineDataSetSerializerDescriptor>
 {
+    public static MTL4PipelineDataSetSerializerDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTL4PipelineDataSetSerializerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineDataSetSerializerDescriptorBindings.Class))
     {
     }

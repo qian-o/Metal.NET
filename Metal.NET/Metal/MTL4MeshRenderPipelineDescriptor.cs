@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTL4MeshRenderPipelineDescriptor(nint nativePtr) : MTL4PipelineDescriptor(nativePtr)
+public class MTL4MeshRenderPipelineDescriptor(nint nativePtr) : MTL4PipelineDescriptor(nativePtr), INativeObject<MTL4MeshRenderPipelineDescriptor>
 {
+    public static new MTL4MeshRenderPipelineDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTL4MeshRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4MeshRenderPipelineDescriptorBindings.Class))
     {
     }
@@ -24,18 +26,18 @@ public class MTL4MeshRenderPipelineDescriptor(nint nativePtr) : MTL4PipelineDesc
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetColorAttachmentMappingState, (nint)value);
     }
 
-    public MTL4RenderPipelineColorAttachmentDescriptorArray? ColorAttachments
+    public MTL4RenderPipelineColorAttachmentDescriptorArray ColorAttachments
     {
         get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.ColorAttachments);
     }
 
-    public MTL4FunctionDescriptor? FragmentFunctionDescriptor
+    public MTL4FunctionDescriptor FragmentFunctionDescriptor
     {
         get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.FragmentFunctionDescriptor);
         set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetFragmentFunctionDescriptor, value);
     }
 
-    public MTL4StaticLinkingDescriptor? FragmentStaticLinkingDescriptor
+    public MTL4StaticLinkingDescriptor FragmentStaticLinkingDescriptor
     {
         get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.FragmentStaticLinkingDescriptor);
         set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetFragmentStaticLinkingDescriptor, value);
@@ -70,13 +72,13 @@ public class MTL4MeshRenderPipelineDescriptor(nint nativePtr) : MTL4PipelineDesc
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetMaxVertexAmplificationCount, value);
     }
 
-    public MTL4FunctionDescriptor? MeshFunctionDescriptor
+    public MTL4FunctionDescriptor MeshFunctionDescriptor
     {
         get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.MeshFunctionDescriptor);
         set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetMeshFunctionDescriptor, value);
     }
 
-    public MTL4StaticLinkingDescriptor? MeshStaticLinkingDescriptor
+    public MTL4StaticLinkingDescriptor MeshStaticLinkingDescriptor
     {
         get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.MeshStaticLinkingDescriptor);
         set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetMeshStaticLinkingDescriptor, value);
@@ -88,13 +90,13 @@ public class MTL4MeshRenderPipelineDescriptor(nint nativePtr) : MTL4PipelineDesc
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth, (Bool8)value);
     }
 
-    public MTL4FunctionDescriptor? ObjectFunctionDescriptor
+    public MTL4FunctionDescriptor ObjectFunctionDescriptor
     {
         get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.ObjectFunctionDescriptor);
         set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetObjectFunctionDescriptor, value);
     }
 
-    public MTL4StaticLinkingDescriptor? ObjectStaticLinkingDescriptor
+    public MTL4StaticLinkingDescriptor ObjectStaticLinkingDescriptor
     {
         get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.ObjectStaticLinkingDescriptor);
         set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetObjectStaticLinkingDescriptor, value);

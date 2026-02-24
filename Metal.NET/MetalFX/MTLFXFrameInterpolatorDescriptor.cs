@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXFrameInterpolatorDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLFXFrameInterpolatorDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFXFrameInterpolatorDescriptor>
 {
+    public static MTLFXFrameInterpolatorDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLFXFrameInterpolatorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXFrameInterpolatorDescriptorBindings.Class))
     {
     }
@@ -54,7 +56,7 @@ public class MTLFXFrameInterpolatorDescriptor(nint nativePtr) : NativeObject(nat
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetOutputWidth, value);
     }
 
-    public MTLFXFrameInterpolatableScaler? Scaler
+    public MTLFXFrameInterpolatableScaler Scaler
     {
         get => GetProperty(ref field, MTLFXFrameInterpolatorDescriptorBindings.Scaler);
         set => SetProperty(ref field, MTLFXFrameInterpolatorDescriptorBindings.SetScaler, value);
@@ -70,18 +72,18 @@ public class MTLFXFrameInterpolatorDescriptor(nint nativePtr) : NativeObject(nat
         ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.SetUITextureFormat, (nuint)uiTextureFormat);
     }
 
-    public MTLFXFrameInterpolator? NewFrameInterpolator(MTLDevice pDevice)
+    public MTLFXFrameInterpolator NewFrameInterpolator(MTLDevice pDevice)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.NewFrameInterpolator, pDevice.NativePtr);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
-    public MTL4FXFrameInterpolator? NewFrameInterpolator(MTLDevice pDevice, MTL4Compiler pCompiler)
+    public MTL4FXFrameInterpolator NewFrameInterpolator(MTLDevice pDevice, MTL4Compiler pCompiler)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.NewFrameInterpolatorWithDevicecompiler, pDevice.NativePtr, pCompiler.NativePtr);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
     public static bool SupportsMetal4FX(MTLDevice device)

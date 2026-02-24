@@ -1,13 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandQueue(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4CommandQueue(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4CommandQueue>
 {
-    public MTLDevice? Device
+    public static MTL4CommandQueue Create(nint nativePtr) => new(nativePtr);
+
+    public MTLDevice Device
     {
         get => GetProperty(ref field, MTL4CommandQueueBindings.Device);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTL4CommandQueueBindings.Label);
     }

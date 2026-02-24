@@ -1,18 +1,20 @@
 ﻿namespace Metal.NET;
 
-public class MTLResourceViewPool(nint nativePtr) : NativeObject(nativePtr)
+public class MTLResourceViewPool(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLResourceViewPool>
 {
+    public static MTLResourceViewPool Create(nint nativePtr) => new(nativePtr);
+
     public MTLResourceID BaseResourceID
     {
         get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLResourceViewPoolBindings.BaseResourceID);
     }
 
-    public MTLDevice? Device
+    public MTLDevice Device
     {
         get => GetProperty(ref field, MTLResourceViewPoolBindings.Device);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLResourceViewPoolBindings.Label);
     }

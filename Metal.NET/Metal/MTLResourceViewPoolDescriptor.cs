@@ -1,12 +1,14 @@
 ﻿namespace Metal.NET;
 
-public class MTLResourceViewPoolDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLResourceViewPoolDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLResourceViewPoolDescriptor>
 {
+    public static MTLResourceViewPoolDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLResourceViewPoolDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceViewPoolDescriptorBindings.Class))
     {
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLResourceViewPoolDescriptorBindings.Label);
         set => SetProperty(ref field, MTLResourceViewPoolDescriptorBindings.SetLabel, value);

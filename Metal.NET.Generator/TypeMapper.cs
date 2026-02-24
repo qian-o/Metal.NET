@@ -185,7 +185,7 @@ partial class TypeMapper(GeneratorContext context)
         return "nint";
     }
 
-    public bool IsNullableType(string csType)
+    public bool IsNativeObjectType(string csType)
     {
         if (csType is "void" or "bool" or "nint" or "nuint" or "uint" or "int" or "ulong" or "long" or "float" or "double"
             or "byte" or "sbyte" or "short" or "ushort")

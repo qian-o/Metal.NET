@@ -6,8 +6,10 @@ namespace Metal.NET;
 /// <summary>
 /// Wraps an Objective-C NSString with bidirectional <see cref="string"/> conversion.
 /// </summary>
-public class NSString(nint nativePtr) : NativeObject(nativePtr)
+public class NSString(nint nativePtr) : NativeObject(nativePtr), INativeObject<NSString>
 {
+    public static NSString Create(nint nativePtr) => new(nativePtr);
+
     public string Value
     {
         get => Marshal.PtrToStringUTF8(ObjectiveCRuntime.MsgSendPtr(NativePtr, NSStringBindings.Utf8String)) ?? string.Empty;

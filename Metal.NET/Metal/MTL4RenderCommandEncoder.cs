@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTL4RenderCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativePtr)
+public class MTL4RenderCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativePtr), INativeObject<MTL4RenderCommandEncoder>
 {
+    public static new MTL4RenderCommandEncoder Create(nint nativePtr) => new(nativePtr);
+
     public nuint TileHeight
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderCommandEncoderBindings.TileHeight);

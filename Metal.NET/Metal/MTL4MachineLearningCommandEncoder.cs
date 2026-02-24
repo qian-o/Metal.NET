@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTL4MachineLearningCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativePtr)
+public class MTL4MachineLearningCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativePtr), INativeObject<MTL4MachineLearningCommandEncoder>
 {
+    public static new MTL4MachineLearningCommandEncoder Create(nint nativePtr) => new(nativePtr);
+
     public void DispatchNetwork(MTLHeap heap)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderBindings.DispatchNetwork, heap.NativePtr);

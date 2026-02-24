@@ -1,12 +1,14 @@
 ﻿namespace Metal.NET;
 
-public class MTL4TileRenderPipelineDescriptor(nint nativePtr) : MTL4PipelineDescriptor(nativePtr)
+public class MTL4TileRenderPipelineDescriptor(nint nativePtr) : MTL4PipelineDescriptor(nativePtr), INativeObject<MTL4TileRenderPipelineDescriptor>
 {
+    public static new MTL4TileRenderPipelineDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTL4TileRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4TileRenderPipelineDescriptorBindings.Class))
     {
     }
 
-    public MTLTileRenderPipelineColorAttachmentDescriptorArray? ColorAttachments
+    public MTLTileRenderPipelineColorAttachmentDescriptorArray ColorAttachments
     {
         get => GetProperty(ref field, MTL4TileRenderPipelineDescriptorBindings.ColorAttachments);
     }
@@ -29,7 +31,7 @@ public class MTL4TileRenderPipelineDescriptor(nint nativePtr) : MTL4PipelineDesc
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetRequiredThreadsPerThreadgroup, value);
     }
 
-    public MTL4StaticLinkingDescriptor? StaticLinkingDescriptor
+    public MTL4StaticLinkingDescriptor StaticLinkingDescriptor
     {
         get => GetProperty(ref field, MTL4TileRenderPipelineDescriptorBindings.StaticLinkingDescriptor);
         set => SetProperty(ref field, MTL4TileRenderPipelineDescriptorBindings.SetStaticLinkingDescriptor, value);
@@ -47,7 +49,7 @@ public class MTL4TileRenderPipelineDescriptor(nint nativePtr) : MTL4PipelineDesc
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetThreadgroupSizeMatchesTileSize, (Bool8)value);
     }
 
-    public MTL4FunctionDescriptor? TileFunctionDescriptor
+    public MTL4FunctionDescriptor TileFunctionDescriptor
     {
         get => GetProperty(ref field, MTL4TileRenderPipelineDescriptorBindings.TileFunctionDescriptor);
         set => SetProperty(ref field, MTL4TileRenderPipelineDescriptorBindings.SetTileFunctionDescriptor, value);

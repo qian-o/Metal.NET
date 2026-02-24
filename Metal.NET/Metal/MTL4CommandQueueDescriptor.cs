@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandQueueDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4CommandQueueDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4CommandQueueDescriptor>
 {
+    public static MTL4CommandQueueDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTL4CommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CommandQueueDescriptorBindings.Class))
     {
     }
@@ -12,7 +14,7 @@ public class MTL4CommandQueueDescriptor(nint nativePtr) : NativeObject(nativePtr
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueDescriptorBindings.SetFeedbackQueue, value);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTL4CommandQueueDescriptorBindings.Label);
         set => SetProperty(ref field, MTL4CommandQueueDescriptorBindings.SetLabel, value);
