@@ -1,24 +1,25 @@
 ﻿namespace Metal.NET;
 
-public class MTL4LibraryDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4LibraryDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4LibraryDescriptor>
 {
+    public static MTL4LibraryDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTL4LibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4LibraryDescriptorBindings.Class))
     {
     }
 
-    public NSString? Name
+    public NSString Name
     {
         get => GetProperty(ref field, MTL4LibraryDescriptorBindings.Name);
         set => SetProperty(ref field, MTL4LibraryDescriptorBindings.SetName, value);
     }
 
-    public MTLCompileOptions? Options
+    public MTLCompileOptions Options
     {
         get => GetProperty(ref field, MTL4LibraryDescriptorBindings.Options);
         set => SetProperty(ref field, MTL4LibraryDescriptorBindings.SetOptions, value);
     }
 
-    public NSString? Source
+    public NSString Source
     {
         get => GetProperty(ref field, MTL4LibraryDescriptorBindings.Source);
         set => SetProperty(ref field, MTL4LibraryDescriptorBindings.SetSource, value);

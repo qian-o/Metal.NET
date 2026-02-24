@@ -1,7 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLPipelineBufferDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLPipelineBufferDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLPipelineBufferDescriptor>
 {
+    public static MTLPipelineBufferDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTLPipelineBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLPipelineBufferDescriptorBindings.Class))
     {
     }

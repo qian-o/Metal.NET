@@ -1,7 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLInstanceAccelerationStructureDescriptor(nint nativePtr) : MTLAccelerationStructureDescriptor(nativePtr)
+public class MTLInstanceAccelerationStructureDescriptor(nint nativePtr) : MTLAccelerationStructureDescriptor(nativePtr), INativeObject<MTLInstanceAccelerationStructureDescriptor>
 {
+    public static MTLInstanceAccelerationStructureDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTLInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLInstanceAccelerationStructureDescriptorBindings.Class))
     {
     }
@@ -12,7 +13,7 @@ public class MTLInstanceAccelerationStructureDescriptor(nint nativePtr) : MTLAcc
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceCount, value);
     }
 
-    public MTLBuffer? InstanceDescriptorBuffer
+    public MTLBuffer InstanceDescriptorBuffer
     {
         get => GetProperty(ref field, MTLInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorBuffer);
         set => SetProperty(ref field, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorBuffer, value);
@@ -42,13 +43,13 @@ public class MTLInstanceAccelerationStructureDescriptor(nint nativePtr) : MTLAcc
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceTransformationMatrixLayout, (nint)value);
     }
 
-    public NSArray? InstancedAccelerationStructures
+    public NSArray InstancedAccelerationStructures
     {
         get => GetProperty(ref field, MTLInstanceAccelerationStructureDescriptorBindings.InstancedAccelerationStructures);
         set => SetProperty(ref field, MTLInstanceAccelerationStructureDescriptorBindings.SetInstancedAccelerationStructures, value);
     }
 
-    public MTLBuffer? MotionTransformBuffer
+    public MTLBuffer MotionTransformBuffer
     {
         get => GetProperty(ref field, MTLInstanceAccelerationStructureDescriptorBindings.MotionTransformBuffer);
         set => SetProperty(ref field, MTLInstanceAccelerationStructureDescriptorBindings.SetMotionTransformBuffer, value);
@@ -78,11 +79,11 @@ public class MTLInstanceAccelerationStructureDescriptor(nint nativePtr) : MTLAcc
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetMotionTransformType, (nint)value);
     }
 
-    public static MTLInstanceAccelerationStructureDescriptor? Descriptor()
+    public static MTLInstanceAccelerationStructureDescriptor Descriptor()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLInstanceAccelerationStructureDescriptorBindings.Class, MTLInstanceAccelerationStructureDescriptorBindings.Descriptor);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 }
 

@@ -1,7 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLArgument(nint nativePtr) : NativeObject(nativePtr)
+public class MTLArgument(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLArgument>
 {
+    public static MTLArgument Create(nint nativePtr) => new(nativePtr);
     public MTLArgument() : this(ObjectiveCRuntime.AllocInit(MTLArgumentBindings.Class))
     {
     }
@@ -36,12 +37,12 @@ public class MTLArgument(nint nativePtr) : NativeObject(nativePtr)
         get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentBindings.BufferDataType);
     }
 
-    public MTLPointerType? BufferPointerType
+    public MTLPointerType BufferPointerType
     {
         get => GetProperty(ref field, MTLArgumentBindings.BufferPointerType);
     }
 
-    public MTLStructType? BufferStructType
+    public MTLStructType BufferStructType
     {
         get => GetProperty(ref field, MTLArgumentBindings.BufferStructType);
     }
@@ -61,7 +62,7 @@ public class MTLArgument(nint nativePtr) : NativeObject(nativePtr)
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLArgumentBindings.IsDepthTexture);
     }
 
-    public NSString? Name
+    public NSString Name
     {
         get => GetProperty(ref field, MTLArgumentBindings.Name);
     }

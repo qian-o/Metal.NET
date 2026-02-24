@@ -1,12 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLArchitecture(nint nativePtr) : NativeObject(nativePtr)
+public class MTLArchitecture(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLArchitecture>
 {
+    public static MTLArchitecture Create(nint nativePtr) => new(nativePtr);
     public MTLArchitecture() : this(ObjectiveCRuntime.AllocInit(MTLArchitectureBindings.Class))
     {
     }
 
-    public NSString? Name
+    public NSString Name
     {
         get => GetProperty(ref field, MTLArchitectureBindings.Name);
     }

@@ -1,13 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLRasterizationRateMap(nint nativePtr) : NativeObject(nativePtr)
+public class MTLRasterizationRateMap(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLRasterizationRateMap>
 {
-    public MTLDevice? Device
+    public static MTLRasterizationRateMap Create(nint nativePtr) => new(nativePtr);
+
+    public MTLDevice Device
     {
         get => GetProperty(ref field, MTLRasterizationRateMapBindings.Device);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLRasterizationRateMapBindings.Label);
     }

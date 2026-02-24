@@ -1,12 +1,14 @@
 ﻿namespace Metal.NET;
 
-public class MTLParallelRenderCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr)
+public class MTLParallelRenderCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr), INativeObject<MTLParallelRenderCommandEncoder>
 {
-    public MTLRenderCommandEncoder? RenderCommandEncoder()
+    public static MTLParallelRenderCommandEncoder Create(nint nativePtr) => new(nativePtr);
+
+    public MTLRenderCommandEncoder RenderCommandEncoder()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLParallelRenderCommandEncoderBindings.RenderCommandEncoder);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
     public void SetColorStoreAction(MTLStoreAction storeAction, nuint colorAttachmentIndex)

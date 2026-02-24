@@ -1,12 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructureBoundingBoxGeometryDescriptor(nint nativePtr) : MTLAccelerationStructureGeometryDescriptor(nativePtr)
+public class MTLAccelerationStructureBoundingBoxGeometryDescriptor(nint nativePtr) : MTLAccelerationStructureGeometryDescriptor(nativePtr), INativeObject<MTLAccelerationStructureBoundingBoxGeometryDescriptor>
 {
+    public static MTLAccelerationStructureBoundingBoxGeometryDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTLAccelerationStructureBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.Class))
     {
     }
 
-    public MTLBuffer? BoundingBoxBuffer
+    public MTLBuffer BoundingBoxBuffer
     {
         get => GetProperty(ref field, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.BoundingBoxBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBuffer, value);
@@ -30,11 +31,11 @@ public class MTLAccelerationStructureBoundingBoxGeometryDescriptor(nint nativePt
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxStride, value);
     }
 
-    public static MTLAccelerationStructureBoundingBoxGeometryDescriptor? Descriptor()
+    public static MTLAccelerationStructureBoundingBoxGeometryDescriptor Descriptor()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.Class, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.Descriptor);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 }
 

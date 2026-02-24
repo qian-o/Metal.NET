@@ -1,7 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLAttribute(nint nativePtr) : NativeObject(nativePtr)
+public class MTLAttribute(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLAttribute>
 {
+    public static MTLAttribute Create(nint nativePtr) => new(nativePtr);
     public MTLAttribute() : this(ObjectiveCRuntime.AllocInit(MTLAttributeBindings.Class))
     {
     }
@@ -36,7 +37,7 @@ public class MTLAttribute(nint nativePtr) : NativeObject(nativePtr)
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeBindings.IsPatchData);
     }
 
-    public NSString? Name
+    public NSString Name
     {
         get => GetProperty(ref field, MTLAttributeBindings.Name);
     }

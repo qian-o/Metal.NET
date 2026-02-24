@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLBuffer(nint nativePtr) : MTLResource(nativePtr)
+public class MTLBuffer(nint nativePtr) : MTLResource(nativePtr), INativeObject<MTLBuffer>
 {
+    public static MTLBuffer Create(nint nativePtr) => new(nativePtr);
+
     public nuint GpuAddress
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindings.GpuAddress);
@@ -12,7 +14,7 @@ public class MTLBuffer(nint nativePtr) : MTLResource(nativePtr)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindings.Length);
     }
 
-    public MTLBuffer? RemoteStorageBuffer
+    public MTLBuffer RemoteStorageBuffer
     {
         get => GetProperty(ref field, MTLBufferBindings.RemoteStorageBuffer);
     }
@@ -37,27 +39,27 @@ public class MTLBuffer(nint nativePtr) : MTLResource(nativePtr)
         ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferBindings.DidModifyRange, range);
     }
 
-    public MTLBuffer? NewRemoteBufferViewForDevice(MTLDevice device)
+    public MTLBuffer NewRemoteBufferViewForDevice(MTLDevice device)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewRemoteBufferViewForDevice, device.NativePtr);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
-    public MTLTensor? NewTensor(MTLTensorDescriptor descriptor, nuint offset, out NSError? error)
+    public MTLTensor NewTensor(MTLTensorDescriptor descriptor, nuint offset, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewTensor, descriptor.NativePtr, offset, out nint errorPtr);
 
-        error = errorPtr is not 0 ? new(errorPtr) : null;
+        error = new(errorPtr);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
-    public MTLTexture? NewTexture(MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow)
+    public MTLTexture NewTexture(MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewTexture, descriptor.NativePtr, offset, bytesPerRow);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
     public void RemoveAllDebugMarkers()

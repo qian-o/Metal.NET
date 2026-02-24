@@ -1,7 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLBlitPassSampleBufferAttachmentDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLBlitPassSampleBufferAttachmentDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLBlitPassSampleBufferAttachmentDescriptor>
 {
+    public static MTLBlitPassSampleBufferAttachmentDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTLBlitPassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBlitPassSampleBufferAttachmentDescriptorBindings.Class))
     {
     }
@@ -12,7 +13,7 @@ public class MTLBlitPassSampleBufferAttachmentDescriptor(nint nativePtr) : Nativ
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorBindings.SetEndOfEncoderSampleIndex, value);
     }
 
-    public MTLCounterSampleBuffer? SampleBuffer
+    public MTLCounterSampleBuffer SampleBuffer
     {
         get => GetProperty(ref field, MTLBlitPassSampleBufferAttachmentDescriptorBindings.SampleBuffer);
         set => SetProperty(ref field, MTLBlitPassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, value);

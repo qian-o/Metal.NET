@@ -1,16 +1,17 @@
 ﻿namespace Metal.NET;
 
-public class MTLRasterizationRateLayerArray(nint nativePtr) : NativeObject(nativePtr)
+public class MTLRasterizationRateLayerArray(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLRasterizationRateLayerArray>
 {
+    public static MTLRasterizationRateLayerArray Create(nint nativePtr) => new(nativePtr);
     public MTLRasterizationRateLayerArray() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateLayerArrayBindings.Class))
     {
     }
 
-    public MTLRasterizationRateLayerDescriptor? Object(nuint layerIndex)
+    public MTLRasterizationRateLayerDescriptor Object(nuint layerIndex)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerArrayBindings.Object, layerIndex);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
     public void SetObject(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)

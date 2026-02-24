@@ -959,7 +959,7 @@ public static partial class ObjectiveCRuntime
 
     public static Bool8 MsgSendBool(nint receiver, Selector selector, nint a, nint b, out nint c)
     {
-        if (receiver is 0) return default;
+        if (receiver is 0) { c = default; return default; }
         return _MsgSendBool(receiver, selector, a, b, out c);
     }
 
@@ -968,7 +968,7 @@ public static partial class ObjectiveCRuntime
 
     public static Bool8 MsgSendBool(nint receiver, Selector selector, nint a, out nint b)
     {
-        if (receiver is 0) return default;
+        if (receiver is 0) { b = default; return default; }
         return _MsgSendBool(receiver, selector, a, out b);
     }
 
@@ -1397,7 +1397,7 @@ public static partial class ObjectiveCRuntime
 
     public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c, out nint d)
     {
-        if (receiver is 0) return default;
+        if (receiver is 0) { d = default; return default; }
         return _MsgSendPtr(receiver, selector, a, b, c, out d);
     }
 
@@ -1415,7 +1415,7 @@ public static partial class ObjectiveCRuntime
 
     public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, out nint c)
     {
-        if (receiver is 0) return default;
+        if (receiver is 0) { c = default; return default; }
         return _MsgSendPtr(receiver, selector, a, b, out c);
     }
 
@@ -1442,7 +1442,7 @@ public static partial class ObjectiveCRuntime
 
     public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nuint b, out nint c)
     {
-        if (receiver is 0) return default;
+        if (receiver is 0) { c = default; return default; }
         return _MsgSendPtr(receiver, selector, a, b, out c);
     }
 
@@ -1451,7 +1451,7 @@ public static partial class ObjectiveCRuntime
 
     public static nint MsgSendPtr(nint receiver, Selector selector, nint a, out nint b)
     {
-        if (receiver is 0) return default;
+        if (receiver is 0) { b = default; return default; }
         return _MsgSendPtr(receiver, selector, a, out b);
     }
 

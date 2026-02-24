@@ -1,12 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLCommandQueueDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLCommandQueueDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLCommandQueueDescriptor>
 {
+    public static MTLCommandQueueDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTLCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCommandQueueDescriptorBindings.Class))
     {
     }
 
-    public MTLLogState? LogState
+    public MTLLogState LogState
     {
         get => GetProperty(ref field, MTLCommandQueueDescriptorBindings.LogState);
         set => SetProperty(ref field, MTLCommandQueueDescriptorBindings.SetLogState, value);

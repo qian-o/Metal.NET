@@ -1,7 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensorReferenceType(nint nativePtr) : MTLType(nativePtr)
+public class MTLTensorReferenceType(nint nativePtr) : MTLType(nativePtr), INativeObject<MTLTensorReferenceType>
 {
+    public static MTLTensorReferenceType Create(nint nativePtr) => new(nativePtr);
     public MTLTensorReferenceType() : this(ObjectiveCRuntime.AllocInit(MTLTensorReferenceTypeBindings.Class))
     {
     }
@@ -11,7 +12,7 @@ public class MTLTensorReferenceType(nint nativePtr) : MTLType(nativePtr)
         get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorReferenceTypeBindings.Access);
     }
 
-    public MTLTensorExtents? Dimensions
+    public MTLTensorExtents Dimensions
     {
         get => GetProperty(ref field, MTLTensorReferenceTypeBindings.Dimensions);
     }

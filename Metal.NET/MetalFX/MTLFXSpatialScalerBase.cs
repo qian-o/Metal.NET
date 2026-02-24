@@ -1,13 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXSpatialScalerBase(nint nativePtr) : NativeObject(nativePtr)
+public class MTLFXSpatialScalerBase(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFXSpatialScalerBase>
 {
+    public static MTLFXSpatialScalerBase Create(nint nativePtr) => new(nativePtr);
+
     public MTLFXSpatialScalerColorProcessingMode ColorProcessingMode
     {
         get => (MTLFXSpatialScalerColorProcessingMode)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerBaseBindings.ColorProcessingMode);
     }
 
-    public MTLTexture? ColorTexture
+    public MTLTexture ColorTexture
     {
         get => GetProperty(ref field, MTLFXSpatialScalerBaseBindings.ColorTexture);
         set => SetProperty(ref field, MTLFXSpatialScalerBaseBindings.SetColorTexture, value);
@@ -23,7 +25,7 @@ public class MTLFXSpatialScalerBase(nint nativePtr) : NativeObject(nativePtr)
         get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseBindings.ColorTextureUsage);
     }
 
-    public MTLFence? Fence
+    public MTLFence Fence
     {
         get => GetProperty(ref field, MTLFXSpatialScalerBaseBindings.Fence);
         set => SetProperty(ref field, MTLFXSpatialScalerBaseBindings.SetFence, value);
@@ -56,7 +58,7 @@ public class MTLFXSpatialScalerBase(nint nativePtr) : NativeObject(nativePtr)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXSpatialScalerBaseBindings.OutputHeight);
     }
 
-    public MTLTexture? OutputTexture
+    public MTLTexture OutputTexture
     {
         get => GetProperty(ref field, MTLFXSpatialScalerBaseBindings.OutputTexture);
         set => SetProperty(ref field, MTLFXSpatialScalerBaseBindings.SetOutputTexture, value);

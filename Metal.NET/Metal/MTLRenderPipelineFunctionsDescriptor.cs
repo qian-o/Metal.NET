@@ -1,24 +1,25 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPipelineFunctionsDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLRenderPipelineFunctionsDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLRenderPipelineFunctionsDescriptor>
 {
+    public static MTLRenderPipelineFunctionsDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTLRenderPipelineFunctionsDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineFunctionsDescriptorBindings.Class))
     {
     }
 
-    public NSArray? FragmentAdditionalBinaryFunctions
+    public NSArray FragmentAdditionalBinaryFunctions
     {
         get => GetProperty(ref field, MTLRenderPipelineFunctionsDescriptorBindings.FragmentAdditionalBinaryFunctions);
         set => SetProperty(ref field, MTLRenderPipelineFunctionsDescriptorBindings.SetFragmentAdditionalBinaryFunctions, value);
     }
 
-    public NSArray? TileAdditionalBinaryFunctions
+    public NSArray TileAdditionalBinaryFunctions
     {
         get => GetProperty(ref field, MTLRenderPipelineFunctionsDescriptorBindings.TileAdditionalBinaryFunctions);
         set => SetProperty(ref field, MTLRenderPipelineFunctionsDescriptorBindings.SetTileAdditionalBinaryFunctions, value);
     }
 
-    public NSArray? VertexAdditionalBinaryFunctions
+    public NSArray VertexAdditionalBinaryFunctions
     {
         get => GetProperty(ref field, MTLRenderPipelineFunctionsDescriptorBindings.VertexAdditionalBinaryFunctions);
         set => SetProperty(ref field, MTLRenderPipelineFunctionsDescriptorBindings.SetVertexAdditionalBinaryFunctions, value);

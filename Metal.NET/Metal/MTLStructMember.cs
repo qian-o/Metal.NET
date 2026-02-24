@@ -1,7 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLStructMember(nint nativePtr) : NativeObject(nativePtr)
+public class MTLStructMember(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLStructMember>
 {
+    public static MTLStructMember Create(nint nativePtr) => new(nativePtr);
     public MTLStructMember() : this(ObjectiveCRuntime.AllocInit(MTLStructMemberBindings.Class))
     {
     }
@@ -16,7 +17,7 @@ public class MTLStructMember(nint nativePtr) : NativeObject(nativePtr)
         get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStructMemberBindings.DataType);
     }
 
-    public NSString? Name
+    public NSString Name
     {
         get => GetProperty(ref field, MTLStructMemberBindings.Name);
     }
@@ -26,39 +27,39 @@ public class MTLStructMember(nint nativePtr) : NativeObject(nativePtr)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStructMemberBindings.Offset);
     }
 
-    public MTLArrayType? ArrayType()
+    public MTLArrayType ArrayType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.ArrayType);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
-    public MTLPointerType? PointerType()
+    public MTLPointerType PointerType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.PointerType);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
-    public MTLStructType? StructType()
+    public MTLStructType StructType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.StructType);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
-    public MTLTensorReferenceType? TensorReferenceType()
+    public MTLTensorReferenceType TensorReferenceType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.TensorReferenceType);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
-    public MTLTextureReferenceType? TextureReferenceType()
+    public MTLTextureReferenceType TextureReferenceType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.TextureReferenceType);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 }
 

@@ -1,12 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLRasterizationRateLayerDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLRasterizationRateLayerDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLRasterizationRateLayerDescriptor>
 {
+    public static MTLRasterizationRateLayerDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTLRasterizationRateLayerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateLayerDescriptorBindings.Class))
     {
     }
 
-    public MTLRasterizationRateSampleArray? Horizontal
+    public MTLRasterizationRateSampleArray Horizontal
     {
         get => GetProperty(ref field, MTLRasterizationRateLayerDescriptorBindings.Horizontal);
     }
@@ -27,7 +28,7 @@ public class MTLRasterizationRateLayerDescriptor(nint nativePtr) : NativeObject(
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateLayerDescriptorBindings.SetSampleCount, value);
     }
 
-    public MTLRasterizationRateSampleArray? Vertical
+    public MTLRasterizationRateSampleArray Vertical
     {
         get => GetProperty(ref field, MTLRasterizationRateLayerDescriptorBindings.Vertical);
     }

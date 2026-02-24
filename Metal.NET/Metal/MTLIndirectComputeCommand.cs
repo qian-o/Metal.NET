@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLIndirectComputeCommand(nint nativePtr) : NativeObject(nativePtr)
+public class MTLIndirectComputeCommand(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLIndirectComputeCommand>
 {
+    public static MTLIndirectComputeCommand Create(nint nativePtr) => new(nativePtr);
+
     public void ClearBarrier()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.ClearBarrier);

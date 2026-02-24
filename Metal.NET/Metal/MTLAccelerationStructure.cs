@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructure(nint nativePtr) : MTLResource(nativePtr)
+public class MTLAccelerationStructure(nint nativePtr) : MTLResource(nativePtr), INativeObject<MTLAccelerationStructure>
 {
+    public static MTLAccelerationStructure Create(nint nativePtr) => new(nativePtr);
+
     public MTLResourceID GpuResourceID
     {
         get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLAccelerationStructureBindings.GpuResourceID);

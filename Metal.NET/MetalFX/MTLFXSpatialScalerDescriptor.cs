@@ -1,7 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXSpatialScalerDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLFXSpatialScalerDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFXSpatialScalerDescriptor>
 {
+    public static MTLFXSpatialScalerDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTLFXSpatialScalerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXSpatialScalerDescriptorBindings.Class))
     {
     }
@@ -48,18 +49,18 @@ public class MTLFXSpatialScalerDescriptor(nint nativePtr) : NativeObject(nativeP
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerDescriptorBindings.SetOutputWidth, value);
     }
 
-    public MTLFXSpatialScaler? NewSpatialScaler(MTLDevice pDevice)
+    public MTLFXSpatialScaler NewSpatialScaler(MTLDevice pDevice)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorBindings.NewSpatialScaler, pDevice.NativePtr);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
-    public MTL4FXSpatialScaler? NewSpatialScaler(MTLDevice pDevice, MTL4Compiler pCompiler)
+    public MTL4FXSpatialScaler NewSpatialScaler(MTLDevice pDevice, MTL4Compiler pCompiler)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorBindings.NewSpatialScalerWithDevicecompiler, pDevice.NativePtr, pCompiler.NativePtr);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
     public static bool SupportsDevice(MTLDevice pDevice)

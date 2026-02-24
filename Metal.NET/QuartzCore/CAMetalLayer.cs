@@ -1,7 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr)
+public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr), INativeObject<CAMetalLayer>
 {
+    public static CAMetalLayer Create(nint nativePtr) => new(nativePtr);
     public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(CAMetalLayerBindings.Class))
     {
     }
@@ -18,7 +19,7 @@ public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetColorspace, value);
     }
 
-    public MTLDevice? Device
+    public MTLDevice Device
     {
         get => GetProperty(ref field, CAMetalLayerBindings.Device);
         set => SetProperty(ref field, CAMetalLayerBindings.SetDevice, value);
@@ -54,23 +55,23 @@ public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetPixelFormat, (nuint)value);
     }
 
-    public MTLResidencySet? ResidencySet
+    public MTLResidencySet ResidencySet
     {
         get => GetProperty(ref field, CAMetalLayerBindings.ResidencySet);
     }
 
-    public static CAMetalLayer? Layer()
+    public static CAMetalLayer Layer()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(CAMetalLayerBindings.Class, CAMetalLayerBindings.Layer);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
-    public CAMetalDrawable? NextDrawable()
+    public CAMetalDrawable NextDrawable()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerBindings.NextDrawable);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 }
 

@@ -1,12 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLBinaryArchiveDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLBinaryArchiveDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLBinaryArchiveDescriptor>
 {
+    public static MTLBinaryArchiveDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTLBinaryArchiveDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBinaryArchiveDescriptorBindings.Class))
     {
     }
 
-    public NSURL? Url
+    public NSURL Url
     {
         get => GetProperty(ref field, MTLBinaryArchiveDescriptorBindings.Url);
         set => SetProperty(ref field, MTLBinaryArchiveDescriptorBindings.SetUrl, value);

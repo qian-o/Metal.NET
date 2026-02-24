@@ -1,12 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLDepthStencilDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLDepthStencilDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLDepthStencilDescriptor>
 {
+    public static MTLDepthStencilDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTLDepthStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLDepthStencilDescriptorBindings.Class))
     {
     }
 
-    public MTLStencilDescriptor? BackFaceStencil
+    public MTLStencilDescriptor BackFaceStencil
     {
         get => GetProperty(ref field, MTLDepthStencilDescriptorBindings.BackFaceStencil);
         set => SetProperty(ref field, MTLDepthStencilDescriptorBindings.SetBackFaceStencil, value);
@@ -24,7 +25,7 @@ public class MTLDepthStencilDescriptor(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetDepthWriteEnabled, (Bool8)value);
     }
 
-    public MTLStencilDescriptor? FrontFaceStencil
+    public MTLStencilDescriptor FrontFaceStencil
     {
         get => GetProperty(ref field, MTLDepthStencilDescriptorBindings.FrontFaceStencil);
         set => SetProperty(ref field, MTLDepthStencilDescriptorBindings.SetFrontFaceStencil, value);
@@ -35,7 +36,7 @@ public class MTLDepthStencilDescriptor(nint nativePtr) : NativeObject(nativePtr)
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDepthStencilDescriptorBindings.IsDepthWriteEnabled);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLDepthStencilDescriptorBindings.Label);
         set => SetProperty(ref field, MTLDepthStencilDescriptorBindings.SetLabel, value);

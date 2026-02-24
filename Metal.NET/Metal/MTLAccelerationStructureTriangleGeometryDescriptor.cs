@@ -1,12 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr) : MTLAccelerationStructureGeometryDescriptor(nativePtr)
+public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr) : MTLAccelerationStructureGeometryDescriptor(nativePtr), INativeObject<MTLAccelerationStructureTriangleGeometryDescriptor>
 {
+    public static MTLAccelerationStructureTriangleGeometryDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTLAccelerationStructureTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureTriangleGeometryDescriptorBindings.Class))
     {
     }
 
-    public MTLBuffer? IndexBuffer
+    public MTLBuffer IndexBuffer
     {
         get => GetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.IndexBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetIndexBuffer, value);
@@ -24,7 +25,7 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr) 
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetIndexType, (nuint)value);
     }
 
-    public MTLBuffer? TransformationMatrixBuffer
+    public MTLBuffer TransformationMatrixBuffer
     {
         get => GetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.TransformationMatrixBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetTransformationMatrixBuffer, value);
@@ -48,7 +49,7 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr) 
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetTriangleCount, value);
     }
 
-    public MTLBuffer? VertexBuffer
+    public MTLBuffer VertexBuffer
     {
         get => GetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.VertexBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetVertexBuffer, value);
@@ -72,11 +73,11 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr) 
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetVertexStride, value);
     }
 
-    public static MTLAccelerationStructureTriangleGeometryDescriptor? Descriptor()
+    public static MTLAccelerationStructureTriangleGeometryDescriptor Descriptor()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructureTriangleGeometryDescriptorBindings.Class, MTLAccelerationStructureTriangleGeometryDescriptorBindings.Descriptor);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 }
 

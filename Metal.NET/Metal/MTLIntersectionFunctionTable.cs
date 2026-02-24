@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLIntersectionFunctionTable(nint nativePtr) : MTLResource(nativePtr)
+public class MTLIntersectionFunctionTable(nint nativePtr) : MTLResource(nativePtr), INativeObject<MTLIntersectionFunctionTable>
 {
+    public static MTLIntersectionFunctionTable Create(nint nativePtr) => new(nativePtr);
+
     public MTLResourceID GpuResourceID
     {
         get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLIntersectionFunctionTableBindings.GpuResourceID);

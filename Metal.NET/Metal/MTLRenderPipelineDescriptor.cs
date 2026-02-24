@@ -1,7 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLRenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLRenderPipelineDescriptor>
 {
+    public static MTLRenderPipelineDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTLRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineDescriptorBindings.Class))
     {
     }
@@ -18,13 +19,13 @@ public class MTLRenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePt
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetAlphaToOneEnabled, (Bool8)value);
     }
 
-    public NSArray? BinaryArchives
+    public NSArray BinaryArchives
     {
         get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.BinaryArchives);
         set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetBinaryArchives, value);
     }
 
-    public MTLRenderPipelineColorAttachmentDescriptorArray? ColorAttachments
+    public MTLRenderPipelineColorAttachmentDescriptorArray ColorAttachments
     {
         get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.ColorAttachments);
     }
@@ -35,24 +36,24 @@ public class MTLRenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePt
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetDepthAttachmentPixelFormat, (nuint)value);
     }
 
-    public MTLPipelineBufferDescriptorArray? FragmentBuffers
+    public MTLPipelineBufferDescriptorArray FragmentBuffers
     {
         get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.FragmentBuffers);
     }
 
-    public MTLFunction? FragmentFunction
+    public MTLFunction FragmentFunction
     {
         get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.FragmentFunction);
         set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetFragmentFunction, value);
     }
 
-    public MTLLinkedFunctions? FragmentLinkedFunctions
+    public MTLLinkedFunctions FragmentLinkedFunctions
     {
         get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.FragmentLinkedFunctions);
         set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetFragmentLinkedFunctions, value);
     }
 
-    public NSArray? FragmentPreloadedLibraries
+    public NSArray FragmentPreloadedLibraries
     {
         get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.FragmentPreloadedLibraries);
         set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetFragmentPreloadedLibraries, value);
@@ -84,7 +85,7 @@ public class MTLRenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePt
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.IsTessellationFactorScaleEnabled);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.Label);
         set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetLabel, value);
@@ -198,30 +199,30 @@ public class MTLRenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePt
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationPartitionMode, (nuint)value);
     }
 
-    public MTLPipelineBufferDescriptorArray? VertexBuffers
+    public MTLPipelineBufferDescriptorArray VertexBuffers
     {
         get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.VertexBuffers);
     }
 
-    public MTLVertexDescriptor? VertexDescriptor
+    public MTLVertexDescriptor VertexDescriptor
     {
         get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.VertexDescriptor);
         set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetVertexDescriptor, value);
     }
 
-    public MTLFunction? VertexFunction
+    public MTLFunction VertexFunction
     {
         get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.VertexFunction);
         set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetVertexFunction, value);
     }
 
-    public MTLLinkedFunctions? VertexLinkedFunctions
+    public MTLLinkedFunctions VertexLinkedFunctions
     {
         get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.VertexLinkedFunctions);
         set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetVertexLinkedFunctions, value);
     }
 
-    public NSArray? VertexPreloadedLibraries
+    public NSArray VertexPreloadedLibraries
     {
         get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.VertexPreloadedLibraries);
         set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetVertexPreloadedLibraries, value);

@@ -1,12 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLCaptureManager(nint nativePtr) : NativeObject(nativePtr)
+public class MTLCaptureManager(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLCaptureManager>
 {
+    public static MTLCaptureManager Create(nint nativePtr) => new(nativePtr);
     public MTLCaptureManager() : this(ObjectiveCRuntime.AllocInit(MTLCaptureManagerBindings.Class))
     {
     }
 
-    public MTLCaptureScope? DefaultCaptureScope
+    public MTLCaptureScope DefaultCaptureScope
     {
         get => GetProperty(ref field, MTLCaptureManagerBindings.DefaultCaptureScope);
         set => SetProperty(ref field, MTLCaptureManagerBindings.SetDefaultCaptureScope, value);
@@ -17,39 +18,39 @@ public class MTLCaptureManager(nint nativePtr) : NativeObject(nativePtr)
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerBindings.IsCapturing);
     }
 
-    public MTLCaptureScope? NewCaptureScope(MTLDevice device)
+    public MTLCaptureScope NewCaptureScope(MTLDevice device)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerBindings.NewCaptureScope, device.NativePtr);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
-    public MTLCaptureScope? NewCaptureScope(MTLCommandQueue commandQueue)
+    public MTLCaptureScope NewCaptureScope(MTLCommandQueue commandQueue)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerBindings.NewCaptureScopeWithCommandQueue, commandQueue.NativePtr);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
-    public MTLCaptureScope? NewCaptureScope(MTL4CommandQueue commandQueue)
+    public MTLCaptureScope NewCaptureScope(MTL4CommandQueue commandQueue)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerBindings.NewCaptureScopeWithMTL4CommandQueue, commandQueue.NativePtr);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
-    public static MTLCaptureManager? SharedCaptureManager()
+    public static MTLCaptureManager SharedCaptureManager()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLCaptureManagerBindings.Class, MTLCaptureManagerBindings.SharedCaptureManager);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
-    public bool StartCapture(MTLCaptureDescriptor descriptor, out NSError? error)
+    public bool StartCapture(MTLCaptureDescriptor descriptor, out NSError error)
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerBindings.StartCapture, descriptor.NativePtr, out nint errorPtr);
 
-        error = errorPtr is not 0 ? new(errorPtr) : null;
+        error = new(errorPtr);
 
         return result;
     }

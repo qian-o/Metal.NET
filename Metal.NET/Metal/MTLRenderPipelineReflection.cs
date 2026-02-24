@@ -1,47 +1,48 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPipelineReflection(nint nativePtr) : NativeObject(nativePtr)
+public class MTLRenderPipelineReflection(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLRenderPipelineReflection>
 {
+    public static MTLRenderPipelineReflection Create(nint nativePtr) => new(nativePtr);
     public MTLRenderPipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineReflectionBindings.Class))
     {
     }
 
-    public NSArray? FragmentArguments
+    public NSArray FragmentArguments
     {
         get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.FragmentArguments);
     }
 
-    public NSArray? FragmentBindings
+    public NSArray FragmentBindings
     {
         get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.FragmentBindings);
     }
 
-    public NSArray? MeshBindings
+    public NSArray MeshBindings
     {
         get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.MeshBindings);
     }
 
-    public NSArray? ObjectBindings
+    public NSArray ObjectBindings
     {
         get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.ObjectBindings);
     }
 
-    public NSArray? TileArguments
+    public NSArray TileArguments
     {
         get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.TileArguments);
     }
 
-    public NSArray? TileBindings
+    public NSArray TileBindings
     {
         get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.TileBindings);
     }
 
-    public NSArray? VertexArguments
+    public NSArray VertexArguments
     {
         get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.VertexArguments);
     }
 
-    public NSArray? VertexBindings
+    public NSArray VertexBindings
     {
         get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.VertexBindings);
     }

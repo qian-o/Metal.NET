@@ -1,7 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLCaptureDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLCaptureDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLCaptureDescriptor>
 {
+    public static MTLCaptureDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTLCaptureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCaptureDescriptorBindings.Class))
     {
     }
@@ -12,7 +13,7 @@ public class MTLCaptureDescriptor(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorBindings.SetDestination, (nint)value);
     }
 
-    public NSURL? OutputURL
+    public NSURL OutputURL
     {
         get => GetProperty(ref field, MTLCaptureDescriptorBindings.OutputURL);
         set => SetProperty(ref field, MTLCaptureDescriptorBindings.SetOutputURL, value);

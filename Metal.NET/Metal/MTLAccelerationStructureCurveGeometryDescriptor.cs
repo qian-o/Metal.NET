@@ -1,12 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr) : MTLAccelerationStructureGeometryDescriptor(nativePtr)
+public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr) : MTLAccelerationStructureGeometryDescriptor(nativePtr), INativeObject<MTLAccelerationStructureCurveGeometryDescriptor>
 {
+    public static MTLAccelerationStructureCurveGeometryDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTLAccelerationStructureCurveGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureCurveGeometryDescriptorBindings.Class))
     {
     }
 
-    public MTLBuffer? ControlPointBuffer
+    public MTLBuffer ControlPointBuffer
     {
         get => GetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.ControlPointBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetControlPointBuffer, value);
@@ -54,7 +55,7 @@ public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr) : M
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetCurveType, (nint)value);
     }
 
-    public MTLBuffer? IndexBuffer
+    public MTLBuffer IndexBuffer
     {
         get => GetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.IndexBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetIndexBuffer, value);
@@ -72,7 +73,7 @@ public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr) : M
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetIndexType, (nuint)value);
     }
 
-    public MTLBuffer? RadiusBuffer
+    public MTLBuffer RadiusBuffer
     {
         get => GetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.RadiusBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetRadiusBuffer, value);
@@ -108,11 +109,11 @@ public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr) : M
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetSegmentCount, value);
     }
 
-    public static MTLAccelerationStructureCurveGeometryDescriptor? Descriptor()
+    public static MTLAccelerationStructureCurveGeometryDescriptor Descriptor()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructureCurveGeometryDescriptorBindings.Class, MTLAccelerationStructureCurveGeometryDescriptorBindings.Descriptor);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 }
 

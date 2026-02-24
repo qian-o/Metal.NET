@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOScratchBuffer(nint nativePtr) : NativeObject(nativePtr)
+public class MTLIOScratchBuffer(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLIOScratchBuffer>
 {
-    public MTLBuffer? Buffer
+    public static MTLIOScratchBuffer Create(nint nativePtr) => new(nativePtr);
+
+    public MTLBuffer Buffer
     {
         get => GetProperty(ref field, MTLIOScratchBufferBindings.Buffer);
     }

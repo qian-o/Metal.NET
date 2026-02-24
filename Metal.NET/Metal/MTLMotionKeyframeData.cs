@@ -1,12 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLMotionKeyframeData(nint nativePtr) : NativeObject(nativePtr)
+public class MTLMotionKeyframeData(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLMotionKeyframeData>
 {
+    public static MTLMotionKeyframeData Create(nint nativePtr) => new(nativePtr);
     public MTLMotionKeyframeData() : this(ObjectiveCRuntime.AllocInit(MTLMotionKeyframeDataBindings.Class))
     {
     }
 
-    public MTLBuffer? Buffer
+    public MTLBuffer Buffer
     {
         get => GetProperty(ref field, MTLMotionKeyframeDataBindings.Buffer);
         set => SetProperty(ref field, MTLMotionKeyframeDataBindings.SetBuffer, value);
@@ -18,11 +19,11 @@ public class MTLMotionKeyframeData(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataBindings.SetOffset, value);
     }
 
-    public static MTLMotionKeyframeData? Data()
+    public static MTLMotionKeyframeData Data()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLMotionKeyframeDataBindings.Class, MTLMotionKeyframeDataBindings.Data);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 }
 

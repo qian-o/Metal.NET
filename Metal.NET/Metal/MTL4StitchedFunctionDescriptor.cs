@@ -1,18 +1,19 @@
 ﻿namespace Metal.NET;
 
-public class MTL4StitchedFunctionDescriptor(nint nativePtr) : MTL4FunctionDescriptor(nativePtr)
+public class MTL4StitchedFunctionDescriptor(nint nativePtr) : MTL4FunctionDescriptor(nativePtr), INativeObject<MTL4StitchedFunctionDescriptor>
 {
+    public static MTL4StitchedFunctionDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTL4StitchedFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4StitchedFunctionDescriptorBindings.Class))
     {
     }
 
-    public NSArray? FunctionDescriptors
+    public NSArray FunctionDescriptors
     {
         get => GetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.FunctionDescriptors);
         set => SetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.SetFunctionDescriptors, value);
     }
 
-    public MTLFunctionStitchingGraph? FunctionGraph
+    public MTLFunctionStitchingGraph FunctionGraph
     {
         get => GetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.FunctionGraph);
         set => SetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.SetFunctionGraph, value);

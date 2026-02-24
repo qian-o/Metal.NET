@@ -1,13 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOCommandBuffer(nint nativePtr) : NativeObject(nativePtr)
+public class MTLIOCommandBuffer(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLIOCommandBuffer>
 {
-    public NSError? Error
+    public static MTLIOCommandBuffer Create(nint nativePtr) => new(nativePtr);
+
+    public NSError Error
     {
         get => GetProperty(ref field, MTLIOCommandBufferBindings.Error);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLIOCommandBufferBindings.Label);
         set => SetProperty(ref field, MTLIOCommandBufferBindings.SetLabel, value);

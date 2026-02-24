@@ -1,7 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLType(nint nativePtr) : NativeObject(nativePtr)
+public class MTLType(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLType>
 {
+    public static MTLType Create(nint nativePtr) => new(nativePtr);
     public MTLType() : this(ObjectiveCRuntime.AllocInit(MTLTypeBindings.Class))
     {
     }

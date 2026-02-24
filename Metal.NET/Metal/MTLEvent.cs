@@ -1,13 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLEvent(nint nativePtr) : NativeObject(nativePtr)
+public class MTLEvent(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLEvent>
 {
-    public MTLDevice? Device
+    public static MTLEvent Create(nint nativePtr) => new(nativePtr);
+
+    public MTLDevice Device
     {
         get => GetProperty(ref field, MTLEventBindings.Device);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLEventBindings.Label);
         set => SetProperty(ref field, MTLEventBindings.SetLabel, value);

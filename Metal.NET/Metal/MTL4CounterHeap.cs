@@ -1,13 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CounterHeap(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4CounterHeap(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4CounterHeap>
 {
+    public static MTL4CounterHeap Create(nint nativePtr) => new(nativePtr);
+
     public nuint Count
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CounterHeapBindings.Count);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTL4CounterHeapBindings.Label);
         set => SetProperty(ref field, MTL4CounterHeapBindings.SetLabel, value);

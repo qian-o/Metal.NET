@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommitFeedback(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4CommitFeedback(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4CommitFeedback>
 {
-    public NSError? Error
+    public static MTL4CommitFeedback Create(nint nativePtr) => new(nativePtr);
+
+    public NSError Error
     {
         get => GetProperty(ref field, MTL4CommitFeedbackBindings.Error);
     }

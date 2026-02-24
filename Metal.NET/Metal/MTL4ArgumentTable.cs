@@ -1,13 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTL4ArgumentTable(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4ArgumentTable(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4ArgumentTable>
 {
-    public MTLDevice? Device
+    public static MTL4ArgumentTable Create(nint nativePtr) => new(nativePtr);
+
+    public MTLDevice Device
     {
         get => GetProperty(ref field, MTL4ArgumentTableBindings.Device);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTL4ArgumentTableBindings.Label);
     }

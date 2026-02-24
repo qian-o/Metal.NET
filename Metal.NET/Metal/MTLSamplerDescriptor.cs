@@ -1,7 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLSamplerDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLSamplerDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLSamplerDescriptor>
 {
+    public static MTLSamplerDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTLSamplerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLSamplerDescriptorBindings.Class))
     {
     }
@@ -18,7 +19,7 @@ public class MTLSamplerDescriptor(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetCompareFunction, (nuint)value);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLSamplerDescriptorBindings.Label);
         set => SetProperty(ref field, MTLSamplerDescriptorBindings.SetLabel, value);

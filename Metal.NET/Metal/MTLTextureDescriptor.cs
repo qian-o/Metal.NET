@@ -1,7 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLTextureDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLTextureDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLTextureDescriptor>
 {
+    public static MTLTextureDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTLTextureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTextureDescriptorBindings.Class))
     {
     }
@@ -108,25 +109,25 @@ public class MTLTextureDescriptor(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorBindings.SetWidth, value);
     }
 
-    public static MTLTextureDescriptor? Texture2DDescriptor(MTLPixelFormat pixelFormat, nuint width, nuint height, bool mipmapped)
+    public static MTLTextureDescriptor Texture2DDescriptor(MTLPixelFormat pixelFormat, nuint width, nuint height, bool mipmapped)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.Texture2DDescriptor, (nuint)pixelFormat, width, height, (Bool8)mipmapped);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
-    public static MTLTextureDescriptor? TextureBufferDescriptor(MTLPixelFormat pixelFormat, nuint width, MTLResourceOptions resourceOptions, MTLTextureUsage usage)
+    public static MTLTextureDescriptor TextureBufferDescriptor(MTLPixelFormat pixelFormat, nuint width, MTLResourceOptions resourceOptions, MTLTextureUsage usage)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.TextureBufferDescriptor, (nuint)pixelFormat, width, (nuint)resourceOptions, (nuint)usage);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
-    public static MTLTextureDescriptor? TextureCubeDescriptor(MTLPixelFormat pixelFormat, nuint size, bool mipmapped)
+    public static MTLTextureDescriptor TextureCubeDescriptor(MTLPixelFormat pixelFormat, nuint size, bool mipmapped)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.TextureCubeDescriptor, (nuint)pixelFormat, size, (Bool8)mipmapped);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 }
 

@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLComputeCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr)
+public class MTLComputeCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr), INativeObject<MTLComputeCommandEncoder>
 {
+    public static MTLComputeCommandEncoder Create(nint nativePtr) => new(nativePtr);
+
     public MTLDispatchType DispatchType
     {
         get => (MTLDispatchType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputeCommandEncoderBindings.DispatchType);

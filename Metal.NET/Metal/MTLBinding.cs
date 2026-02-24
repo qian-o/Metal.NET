@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLBinding(nint nativePtr) : NativeObject(nativePtr)
+public class MTLBinding(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLBinding>
 {
+    public static MTLBinding Create(nint nativePtr) => new(nativePtr);
+
     public MTLBindingAccess Access
     {
         get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBindingBindings.Access);
@@ -27,7 +29,7 @@ public class MTLBinding(nint nativePtr) : NativeObject(nativePtr)
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingBindings.IsUsed);
     }
 
-    public NSString? Name
+    public NSString Name
     {
         get => GetProperty(ref field, MTLBindingBindings.Name);
     }

@@ -1,12 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLRenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLRenderPassDescriptor>
 {
+    public static MTLRenderPassDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTLRenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassDescriptorBindings.Class))
     {
     }
 
-    public MTLRenderPassColorAttachmentDescriptorArray? ColorAttachments
+    public MTLRenderPassColorAttachmentDescriptorArray ColorAttachments
     {
         get => GetProperty(ref field, MTLRenderPassDescriptorBindings.ColorAttachments);
     }
@@ -17,7 +18,7 @@ public class MTLRenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetDefaultRasterSampleCount, value);
     }
 
-    public MTLRenderPassDepthAttachmentDescriptor? DepthAttachment
+    public MTLRenderPassDepthAttachmentDescriptor DepthAttachment
     {
         get => GetProperty(ref field, MTLRenderPassDescriptorBindings.DepthAttachment);
         set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetDepthAttachment, value);
@@ -29,7 +30,7 @@ public class MTLRenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetImageblockSampleLength, value);
     }
 
-    public MTLRasterizationRateMap? RasterizationRateMap
+    public MTLRasterizationRateMap RasterizationRateMap
     {
         get => GetProperty(ref field, MTLRenderPassDescriptorBindings.RasterizationRateMap);
         set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetRasterizationRateMap, value);
@@ -53,12 +54,12 @@ public class MTLRenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetRenderTargetWidth, value);
     }
 
-    public MTLRenderPassSampleBufferAttachmentDescriptorArray? SampleBufferAttachments
+    public MTLRenderPassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
     {
         get => GetProperty(ref field, MTLRenderPassDescriptorBindings.SampleBufferAttachments);
     }
 
-    public MTLRenderPassStencilAttachmentDescriptor? StencilAttachment
+    public MTLRenderPassStencilAttachmentDescriptor StencilAttachment
     {
         get => GetProperty(ref field, MTLRenderPassDescriptorBindings.StencilAttachment);
         set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetStencilAttachment, value);
@@ -88,7 +89,7 @@ public class MTLRenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetTileWidth, value);
     }
 
-    public MTLBuffer? VisibilityResultBuffer
+    public MTLBuffer VisibilityResultBuffer
     {
         get => GetProperty(ref field, MTLRenderPassDescriptorBindings.VisibilityResultBuffer);
         set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetVisibilityResultBuffer, value);
@@ -108,11 +109,11 @@ public class MTLRenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr)
         }
     }
 
-    public static MTLRenderPassDescriptor? RenderPassDescriptor()
+    public static MTLRenderPassDescriptor RenderPassDescriptor()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLRenderPassDescriptorBindings.Class, MTLRenderPassDescriptorBindings.RenderPassDescriptor);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
     public unsafe void SetSamplePositions(MTLSamplePosition[] positions)

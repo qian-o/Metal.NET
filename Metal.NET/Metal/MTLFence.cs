@@ -1,13 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLFence(nint nativePtr) : NativeObject(nativePtr)
+public class MTLFence(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFence>
 {
-    public MTLDevice? Device
+    public static MTLFence Create(nint nativePtr) => new(nativePtr);
+
+    public MTLDevice Device
     {
         get => GetProperty(ref field, MTLFenceBindings.Device);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLFenceBindings.Label);
         set => SetProperty(ref field, MTLFenceBindings.SetLabel, value);

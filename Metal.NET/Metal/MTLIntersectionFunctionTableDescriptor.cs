@@ -1,7 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLIntersectionFunctionTableDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLIntersectionFunctionTableDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLIntersectionFunctionTableDescriptor>
 {
+    public static MTLIntersectionFunctionTableDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTLIntersectionFunctionTableDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIntersectionFunctionTableDescriptorBindings.Class))
     {
     }
@@ -12,11 +13,11 @@ public class MTLIntersectionFunctionTableDescriptor(nint nativePtr) : NativeObje
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIntersectionFunctionTableDescriptorBindings.SetFunctionCount, value);
     }
 
-    public static MTLIntersectionFunctionTableDescriptor? IntersectionFunctionTableDescriptor()
+    public static MTLIntersectionFunctionTableDescriptor IntersectionFunctionTableDescriptor()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLIntersectionFunctionTableDescriptorBindings.Class, MTLIntersectionFunctionTableDescriptorBindings.IntersectionFunctionTableDescriptor);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 }
 

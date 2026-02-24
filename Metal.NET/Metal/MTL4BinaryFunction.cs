@@ -1,13 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTL4BinaryFunction(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4BinaryFunction(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4BinaryFunction>
 {
+    public static MTL4BinaryFunction Create(nint nativePtr) => new(nativePtr);
+
     public MTLFunctionType FunctionType
     {
         get => (MTLFunctionType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4BinaryFunctionBindings.FunctionType);
     }
 
-    public NSString? Name
+    public NSString Name
     {
         get => GetProperty(ref field, MTL4BinaryFunctionBindings.Name);
     }

@@ -1,12 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTL4PipelineStageDynamicLinkingDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4PipelineStageDynamicLinkingDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4PipelineStageDynamicLinkingDescriptor>
 {
+    public static MTL4PipelineStageDynamicLinkingDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTL4PipelineStageDynamicLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineStageDynamicLinkingDescriptorBindings.Class))
     {
     }
 
-    public NSArray? BinaryLinkedFunctions
+    public NSArray BinaryLinkedFunctions
     {
         get => GetProperty(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.BinaryLinkedFunctions);
         set => SetProperty(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.SetBinaryLinkedFunctions, value);
@@ -18,7 +19,7 @@ public class MTL4PipelineStageDynamicLinkingDescriptor(nint nativePtr) : NativeO
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorBindings.SetMaxCallStackDepth, value);
     }
 
-    public NSArray? PreloadedLibraries
+    public NSArray PreloadedLibraries
     {
         get => GetProperty(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.PreloadedLibraries);
         set => SetProperty(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.SetPreloadedLibraries, value);

@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLIndirectRenderCommand(nint nativePtr) : NativeObject(nativePtr)
+public class MTLIndirectRenderCommand(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLIndirectRenderCommand>
 {
+    public static MTLIndirectRenderCommand Create(nint nativePtr) => new(nativePtr);
+
     public void ClearBarrier()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.ClearBarrier);

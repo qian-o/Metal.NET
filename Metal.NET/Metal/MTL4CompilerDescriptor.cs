@@ -1,18 +1,19 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CompilerDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTL4CompilerDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4CompilerDescriptor>
 {
+    public static MTL4CompilerDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTL4CompilerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CompilerDescriptorBindings.Class))
     {
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTL4CompilerDescriptorBindings.Label);
         set => SetProperty(ref field, MTL4CompilerDescriptorBindings.SetLabel, value);
     }
 
-    public MTL4PipelineDataSetSerializer? PipelineDataSetSerializer
+    public MTL4PipelineDataSetSerializer PipelineDataSetSerializer
     {
         get => GetProperty(ref field, MTL4CompilerDescriptorBindings.PipelineDataSetSerializer);
         set => SetProperty(ref field, MTL4CompilerDescriptorBindings.SetPipelineDataSetSerializer, value);

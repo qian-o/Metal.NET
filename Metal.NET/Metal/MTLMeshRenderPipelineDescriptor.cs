@@ -1,7 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLMeshRenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLMeshRenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLMeshRenderPipelineDescriptor>
 {
+    public static MTLMeshRenderPipelineDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTLMeshRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLMeshRenderPipelineDescriptorBindings.Class))
     {
     }
@@ -18,13 +19,13 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr) : NativeObject(nati
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetAlphaToOneEnabled, (Bool8)value);
     }
 
-    public NSArray? BinaryArchives
+    public NSArray BinaryArchives
     {
         get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.BinaryArchives);
         set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetBinaryArchives, value);
     }
 
-    public MTLRenderPipelineColorAttachmentDescriptorArray? ColorAttachments
+    public MTLRenderPipelineColorAttachmentDescriptorArray ColorAttachments
     {
         get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.ColorAttachments);
     }
@@ -35,18 +36,18 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr) : NativeObject(nati
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetDepthAttachmentPixelFormat, (nuint)value);
     }
 
-    public MTLPipelineBufferDescriptorArray? FragmentBuffers
+    public MTLPipelineBufferDescriptorArray FragmentBuffers
     {
         get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.FragmentBuffers);
     }
 
-    public MTLFunction? FragmentFunction
+    public MTLFunction FragmentFunction
     {
         get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.FragmentFunction);
         set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetFragmentFunction, value);
     }
 
-    public MTLLinkedFunctions? FragmentLinkedFunctions
+    public MTLLinkedFunctions FragmentLinkedFunctions
     {
         get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.FragmentLinkedFunctions);
         set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetFragmentLinkedFunctions, value);
@@ -67,7 +68,7 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr) : NativeObject(nati
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.IsRasterizationEnabled);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.Label);
         set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetLabel, value);
@@ -97,18 +98,18 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr) : NativeObject(nati
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetMaxVertexAmplificationCount, value);
     }
 
-    public MTLPipelineBufferDescriptorArray? MeshBuffers
+    public MTLPipelineBufferDescriptorArray MeshBuffers
     {
         get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.MeshBuffers);
     }
 
-    public MTLFunction? MeshFunction
+    public MTLFunction MeshFunction
     {
         get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.MeshFunction);
         set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetMeshFunction, value);
     }
 
-    public MTLLinkedFunctions? MeshLinkedFunctions
+    public MTLLinkedFunctions MeshLinkedFunctions
     {
         get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.MeshLinkedFunctions);
         set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetMeshLinkedFunctions, value);
@@ -120,18 +121,18 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr) : NativeObject(nati
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth, (Bool8)value);
     }
 
-    public MTLPipelineBufferDescriptorArray? ObjectBuffers
+    public MTLPipelineBufferDescriptorArray ObjectBuffers
     {
         get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.ObjectBuffers);
     }
 
-    public MTLFunction? ObjectFunction
+    public MTLFunction ObjectFunction
     {
         get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.ObjectFunction);
         set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetObjectFunction, value);
     }
 
-    public MTLLinkedFunctions? ObjectLinkedFunctions
+    public MTLLinkedFunctions ObjectLinkedFunctions
     {
         get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.ObjectLinkedFunctions);
         set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetObjectLinkedFunctions, value);

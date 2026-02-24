@@ -1,7 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLVertexBufferLayoutDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLVertexBufferLayoutDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLVertexBufferLayoutDescriptor>
 {
+    public static MTLVertexBufferLayoutDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTLVertexBufferLayoutDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexBufferLayoutDescriptorBindings.Class))
     {
     }

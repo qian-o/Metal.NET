@@ -1,13 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLCounterSampleBuffer(nint nativePtr) : NativeObject(nativePtr)
+public class MTLCounterSampleBuffer(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLCounterSampleBuffer>
 {
-    public MTLDevice? Device
+    public static MTLCounterSampleBuffer Create(nint nativePtr) => new(nativePtr);
+
+    public MTLDevice Device
     {
         get => GetProperty(ref field, MTLCounterSampleBufferBindings.Device);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLCounterSampleBufferBindings.Label);
     }

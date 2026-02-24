@@ -1,13 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class CAMetalDrawable(nint nativePtr) : MTLDrawable(nativePtr)
+public class CAMetalDrawable(nint nativePtr) : MTLDrawable(nativePtr), INativeObject<CAMetalDrawable>
 {
-    public CAMetalLayer? Layer
+    public static CAMetalDrawable Create(nint nativePtr) => new(nativePtr);
+
+    public CAMetalLayer Layer
     {
         get => GetProperty(ref field, CAMetalDrawableBindings.Layer);
     }
 
-    public MTLTexture? Texture
+    public MTLTexture Texture
     {
         get => GetProperty(ref field, CAMetalDrawableBindings.Texture);
     }

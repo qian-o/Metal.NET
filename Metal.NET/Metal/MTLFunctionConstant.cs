@@ -1,7 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionConstant(nint nativePtr) : NativeObject(nativePtr)
+public class MTLFunctionConstant(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFunctionConstant>
 {
+    public static MTLFunctionConstant Create(nint nativePtr) => new(nativePtr);
     public MTLFunctionConstant() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantBindings.Class))
     {
     }
@@ -11,7 +12,7 @@ public class MTLFunctionConstant(nint nativePtr) : NativeObject(nativePtr)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionConstantBindings.Index);
     }
 
-    public NSString? Name
+    public NSString Name
     {
         get => GetProperty(ref field, MTLFunctionConstantBindings.Name);
     }

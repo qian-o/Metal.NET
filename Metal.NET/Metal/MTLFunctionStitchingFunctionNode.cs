@@ -1,24 +1,25 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionStitchingFunctionNode(nint nativePtr) : MTLFunctionStitchingNode(nativePtr)
+public class MTLFunctionStitchingFunctionNode(nint nativePtr) : MTLFunctionStitchingNode(nativePtr), INativeObject<MTLFunctionStitchingFunctionNode>
 {
+    public static MTLFunctionStitchingFunctionNode Create(nint nativePtr) => new(nativePtr);
     public MTLFunctionStitchingFunctionNode() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingFunctionNodeBindings.Class))
     {
     }
 
-    public NSArray? Arguments
+    public NSArray Arguments
     {
         get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.Arguments);
         set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetArguments, value);
     }
 
-    public NSArray? ControlDependencies
+    public NSArray ControlDependencies
     {
         get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.ControlDependencies);
         set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetControlDependencies, value);
     }
 
-    public NSString? Name
+    public NSString Name
     {
         get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.Name);
         set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetName, value);

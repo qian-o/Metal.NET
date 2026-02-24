@@ -1,7 +1,9 @@
 ﻿namespace Metal.NET;
 
-public class MTLThreadgroupBinding(nint nativePtr) : MTLBinding(nativePtr)
+public class MTLThreadgroupBinding(nint nativePtr) : MTLBinding(nativePtr), INativeObject<MTLThreadgroupBinding>
 {
+    public static MTLThreadgroupBinding Create(nint nativePtr) => new(nativePtr);
+
     public nuint ThreadgroupMemoryAlignment
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLThreadgroupBindingBindings.ThreadgroupMemoryAlignment);

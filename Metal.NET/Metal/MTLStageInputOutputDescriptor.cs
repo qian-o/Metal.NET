@@ -1,12 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLStageInputOutputDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLStageInputOutputDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLStageInputOutputDescriptor>
 {
+    public static MTLStageInputOutputDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTLStageInputOutputDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStageInputOutputDescriptorBindings.Class))
     {
     }
 
-    public MTLAttributeDescriptorArray? Attributes
+    public MTLAttributeDescriptorArray Attributes
     {
         get => GetProperty(ref field, MTLStageInputOutputDescriptorBindings.Attributes);
     }
@@ -23,7 +24,7 @@ public class MTLStageInputOutputDescriptor(nint nativePtr) : NativeObject(native
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStageInputOutputDescriptorBindings.SetIndexType, (nuint)value);
     }
 
-    public MTLBufferLayoutDescriptorArray? Layouts
+    public MTLBufferLayoutDescriptorArray Layouts
     {
         get => GetProperty(ref field, MTLStageInputOutputDescriptorBindings.Layouts);
     }
@@ -33,11 +34,11 @@ public class MTLStageInputOutputDescriptor(nint nativePtr) : NativeObject(native
         ObjectiveCRuntime.MsgSend(NativePtr, MTLStageInputOutputDescriptorBindings.Reset);
     }
 
-    public static MTLStageInputOutputDescriptor? StageInputOutputDescriptor()
+    public static MTLStageInputOutputDescriptor StageInputOutputDescriptor()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLStageInputOutputDescriptorBindings.Class, MTLStageInputOutputDescriptorBindings.StageInputOutputDescriptor);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 }
 

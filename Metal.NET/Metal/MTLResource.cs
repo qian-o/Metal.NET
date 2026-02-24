@@ -1,13 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLResource(nint nativePtr) : MTLAllocation(nativePtr)
+public class MTLResource(nint nativePtr) : MTLAllocation(nativePtr), INativeObject<MTLResource>
 {
+    public static MTLResource Create(nint nativePtr) => new(nativePtr);
+
     public MTLCPUCacheMode CpuCacheMode
     {
         get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceBindings.CpuCacheMode);
     }
 
-    public MTLDevice? Device
+    public MTLDevice Device
     {
         get => GetProperty(ref field, MTLResourceBindings.Device);
     }
@@ -17,7 +19,7 @@ public class MTLResource(nint nativePtr) : MTLAllocation(nativePtr)
         get => (MTLHazardTrackingMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceBindings.HazardTrackingMode);
     }
 
-    public MTLHeap? Heap
+    public MTLHeap Heap
     {
         get => GetProperty(ref field, MTLResourceBindings.Heap);
     }
@@ -27,7 +29,7 @@ public class MTLResource(nint nativePtr) : MTLAllocation(nativePtr)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceBindings.HeapOffset);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLResourceBindings.Label);
         set => SetProperty(ref field, MTLResourceBindings.SetLabel, value);

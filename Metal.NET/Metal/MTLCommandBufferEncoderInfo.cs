@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLCommandBufferEncoderInfo(nint nativePtr) : NativeObject(nativePtr)
+public class MTLCommandBufferEncoderInfo(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLCommandBufferEncoderInfo>
 {
-    public NSArray? DebugSignposts
+    public static MTLCommandBufferEncoderInfo Create(nint nativePtr) => new(nativePtr);
+
+    public NSArray DebugSignposts
     {
         get => GetProperty(ref field, MTLCommandBufferEncoderInfoBindings.DebugSignposts);
     }
@@ -12,7 +14,7 @@ public class MTLCommandBufferEncoderInfo(nint nativePtr) : NativeObject(nativePt
         get => (MTLCommandEncoderErrorState)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferEncoderInfoBindings.ErrorState);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLCommandBufferEncoderInfoBindings.Label);
     }

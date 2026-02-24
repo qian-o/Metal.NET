@@ -1,77 +1,79 @@
 ﻿namespace Metal.NET;
 
-public class MTLBinaryArchive(nint nativePtr) : NativeObject(nativePtr)
+public class MTLBinaryArchive(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLBinaryArchive>
 {
-    public MTLDevice? Device
+    public static MTLBinaryArchive Create(nint nativePtr) => new(nativePtr);
+
+    public MTLDevice Device
     {
         get => GetProperty(ref field, MTLBinaryArchiveBindings.Device);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLBinaryArchiveBindings.Label);
         set => SetProperty(ref field, MTLBinaryArchiveBindings.SetLabel, value);
     }
 
-    public bool AddComputePipelineFunctions(MTLComputePipelineDescriptor descriptor, out NSError? error)
+    public bool AddComputePipelineFunctions(MTLComputePipelineDescriptor descriptor, out NSError error)
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddComputePipelineFunctions, descriptor.NativePtr, out nint errorPtr);
 
-        error = errorPtr is not 0 ? new(errorPtr) : null;
+        error = new(errorPtr);
 
         return result;
     }
 
-    public bool AddFunction(MTLFunctionDescriptor descriptor, MTLLibrary library, out NSError? error)
+    public bool AddFunction(MTLFunctionDescriptor descriptor, MTLLibrary library, out NSError error)
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddFunction, descriptor.NativePtr, library.NativePtr, out nint errorPtr);
 
-        error = errorPtr is not 0 ? new(errorPtr) : null;
+        error = new(errorPtr);
 
         return result;
     }
 
-    public bool AddLibrary(MTLStitchedLibraryDescriptor descriptor, out NSError? error)
+    public bool AddLibrary(MTLStitchedLibraryDescriptor descriptor, out NSError error)
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddLibrary, descriptor.NativePtr, out nint errorPtr);
 
-        error = errorPtr is not 0 ? new(errorPtr) : null;
+        error = new(errorPtr);
 
         return result;
     }
 
-    public bool AddMeshRenderPipelineFunctions(MTLMeshRenderPipelineDescriptor descriptor, out NSError? error)
+    public bool AddMeshRenderPipelineFunctions(MTLMeshRenderPipelineDescriptor descriptor, out NSError error)
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddMeshRenderPipelineFunctions, descriptor.NativePtr, out nint errorPtr);
 
-        error = errorPtr is not 0 ? new(errorPtr) : null;
+        error = new(errorPtr);
 
         return result;
     }
 
-    public bool AddRenderPipelineFunctions(MTLRenderPipelineDescriptor descriptor, out NSError? error)
+    public bool AddRenderPipelineFunctions(MTLRenderPipelineDescriptor descriptor, out NSError error)
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddRenderPipelineFunctions, descriptor.NativePtr, out nint errorPtr);
 
-        error = errorPtr is not 0 ? new(errorPtr) : null;
+        error = new(errorPtr);
 
         return result;
     }
 
-    public bool AddTileRenderPipelineFunctions(MTLTileRenderPipelineDescriptor descriptor, out NSError? error)
+    public bool AddTileRenderPipelineFunctions(MTLTileRenderPipelineDescriptor descriptor, out NSError error)
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddTileRenderPipelineFunctions, descriptor.NativePtr, out nint errorPtr);
 
-        error = errorPtr is not 0 ? new(errorPtr) : null;
+        error = new(errorPtr);
 
         return result;
     }
 
-    public bool SerializeToURL(NSURL url, out NSError? error)
+    public bool SerializeToURL(NSURL url, out NSError error)
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.SerializeToURL, url.NativePtr, out nint errorPtr);
 
-        error = errorPtr is not 0 ? new(errorPtr) : null;
+        error = new(errorPtr);
 
         return result;
     }

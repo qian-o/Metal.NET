@@ -1,29 +1,30 @@
 ﻿namespace Metal.NET;
 
-public class MTLTileRenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePtr)
+public class MTLTileRenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLTileRenderPipelineDescriptor>
 {
+    public static MTLTileRenderPipelineDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTLTileRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTileRenderPipelineDescriptorBindings.Class))
     {
     }
 
-    public NSArray? BinaryArchives
+    public NSArray BinaryArchives
     {
         get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.BinaryArchives);
         set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetBinaryArchives, value);
     }
 
-    public MTLTileRenderPipelineColorAttachmentDescriptorArray? ColorAttachments
+    public MTLTileRenderPipelineColorAttachmentDescriptorArray ColorAttachments
     {
         get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.ColorAttachments);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.Label);
         set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetLabel, value);
     }
 
-    public MTLLinkedFunctions? LinkedFunctions
+    public MTLLinkedFunctions LinkedFunctions
     {
         get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.LinkedFunctions);
         set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetLinkedFunctions, value);
@@ -41,7 +42,7 @@ public class MTLTileRenderPipelineDescriptor(nint nativePtr) : NativeObject(nati
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetMaxTotalThreadsPerThreadgroup, value);
     }
 
-    public NSArray? PreloadedLibraries
+    public NSArray PreloadedLibraries
     {
         get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.PreloadedLibraries);
         set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetPreloadedLibraries, value);
@@ -77,12 +78,12 @@ public class MTLTileRenderPipelineDescriptor(nint nativePtr) : NativeObject(nati
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetThreadgroupSizeMatchesTileSize, (Bool8)value);
     }
 
-    public MTLPipelineBufferDescriptorArray? TileBuffers
+    public MTLPipelineBufferDescriptorArray TileBuffers
     {
         get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.TileBuffers);
     }
 
-    public MTLFunction? TileFunction
+    public MTLFunction TileFunction
     {
         get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.TileFunction);
         set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetTileFunction, value);

@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLResidencySet(nint nativePtr) : NativeObject(nativePtr)
+public class MTLResidencySet(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLResidencySet>
 {
-    public NSArray? AllAllocations
+    public static MTLResidencySet Create(nint nativePtr) => new(nativePtr);
+
+    public NSArray AllAllocations
     {
         get => GetProperty(ref field, MTLResidencySetBindings.AllAllocations);
     }
@@ -17,12 +19,12 @@ public class MTLResidencySet(nint nativePtr) : NativeObject(nativePtr)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResidencySetBindings.AllocationCount);
     }
 
-    public MTLDevice? Device
+    public MTLDevice Device
     {
         get => GetProperty(ref field, MTLResidencySetBindings.Device);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLResidencySetBindings.Label);
     }

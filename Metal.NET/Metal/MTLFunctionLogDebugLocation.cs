@@ -1,13 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionLogDebugLocation(nint nativePtr) : NativeObject(nativePtr)
+public class MTLFunctionLogDebugLocation(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFunctionLogDebugLocation>
 {
+    public static MTLFunctionLogDebugLocation Create(nint nativePtr) => new(nativePtr);
+
     public nuint Column
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationBindings.Column);
     }
 
-    public NSString? FunctionName
+    public NSString FunctionName
     {
         get => GetProperty(ref field, MTLFunctionLogDebugLocationBindings.FunctionName);
     }
@@ -17,7 +19,7 @@ public class MTLFunctionLogDebugLocation(nint nativePtr) : NativeObject(nativePt
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationBindings.Line);
     }
 
-    public NSURL? URL
+    public NSURL URL
     {
         get => GetProperty(ref field, MTLFunctionLogDebugLocationBindings.URL);
     }
