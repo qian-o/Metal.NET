@@ -3,6 +3,7 @@
 public class MTLFXSpatialScalerDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFXSpatialScalerDescriptor>
 {
     public static MTLFXSpatialScalerDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLFXSpatialScalerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXSpatialScalerDescriptorBindings.Class))
     {
     }
