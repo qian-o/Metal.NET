@@ -32,10 +32,7 @@ public abstract class NativeObject(nint nativePtr) : IDisposable
     /// </summary>
     public void Dispose()
     {
-        if (NativePtr is not 0)
-        {
-            ObjectiveCRuntime.MsgSend(NativePtr, NativeObjectBindings.Release);
-        }
+        ObjectiveCRuntime.MsgSend(NativePtr, NativeObjectBindings.Release);
 
         GC.SuppressFinalize(this);
     }
