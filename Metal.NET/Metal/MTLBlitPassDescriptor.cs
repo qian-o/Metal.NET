@@ -3,6 +3,7 @@
 public class MTLBlitPassDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLBlitPassDescriptor>
 {
     public static MTLBlitPassDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLBlitPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBlitPassDescriptorBindings.Class))
     {
     }

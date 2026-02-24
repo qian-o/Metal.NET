@@ -3,6 +3,7 @@
 public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr), INativeObject<CAMetalLayer>
 {
     public static CAMetalLayer Create(nint nativePtr) => new(nativePtr);
+
     public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(CAMetalLayerBindings.Class))
     {
     }

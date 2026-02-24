@@ -3,6 +3,7 @@
 public class MTLAccelerationStructureDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLAccelerationStructureDescriptor>
 {
     public static MTLAccelerationStructureDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureDescriptorBindings.Class))
     {
     }

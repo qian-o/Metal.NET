@@ -3,6 +3,7 @@
 public class MTLCompileOptions(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLCompileOptions>
 {
     public static MTLCompileOptions Create(nint nativePtr) => new(nativePtr);
+
     public MTLCompileOptions() : this(ObjectiveCRuntime.AllocInit(MTLCompileOptionsBindings.Class))
     {
     }

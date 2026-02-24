@@ -3,6 +3,7 @@
 public class MTLSamplerDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLSamplerDescriptor>
 {
     public static MTLSamplerDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLSamplerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLSamplerDescriptorBindings.Class))
     {
     }

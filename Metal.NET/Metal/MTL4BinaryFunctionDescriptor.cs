@@ -3,6 +3,7 @@
 public class MTL4BinaryFunctionDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4BinaryFunctionDescriptor>
 {
     public static MTL4BinaryFunctionDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTL4BinaryFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4BinaryFunctionDescriptorBindings.Class))
     {
     }

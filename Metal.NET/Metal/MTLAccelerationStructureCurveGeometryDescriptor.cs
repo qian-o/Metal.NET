@@ -3,6 +3,7 @@
 public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr) : MTLAccelerationStructureGeometryDescriptor(nativePtr), INativeObject<MTLAccelerationStructureCurveGeometryDescriptor>
 {
     public static new MTLAccelerationStructureCurveGeometryDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLAccelerationStructureCurveGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureCurveGeometryDescriptorBindings.Class))
     {
     }

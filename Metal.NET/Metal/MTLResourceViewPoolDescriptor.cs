@@ -3,6 +3,7 @@
 public class MTLResourceViewPoolDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLResourceViewPoolDescriptor>
 {
     public static MTLResourceViewPoolDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLResourceViewPoolDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceViewPoolDescriptorBindings.Class))
     {
     }

@@ -3,6 +3,7 @@
 public class MTLCaptureManager(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLCaptureManager>
 {
     public static MTLCaptureManager Create(nint nativePtr) => new(nativePtr);
+
     public MTLCaptureManager() : this(ObjectiveCRuntime.AllocInit(MTLCaptureManagerBindings.Class))
     {
     }

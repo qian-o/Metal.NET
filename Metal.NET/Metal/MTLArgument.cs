@@ -3,6 +3,7 @@
 public class MTLArgument(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLArgument>
 {
     public static MTLArgument Create(nint nativePtr) => new(nativePtr);
+
     public MTLArgument() : this(ObjectiveCRuntime.AllocInit(MTLArgumentBindings.Class))
     {
     }

@@ -3,6 +3,7 @@
 public class MTL4CompilerTaskOptions(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4CompilerTaskOptions>
 {
     public static MTL4CompilerTaskOptions Create(nint nativePtr) => new(nativePtr);
+
     public MTL4CompilerTaskOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CompilerTaskOptionsBindings.Class))
     {
     }

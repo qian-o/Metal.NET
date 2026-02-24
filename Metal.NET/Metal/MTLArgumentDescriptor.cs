@@ -3,6 +3,7 @@
 public class MTLArgumentDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLArgumentDescriptor>
 {
     public static MTLArgumentDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLArgumentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLArgumentDescriptorBindings.Class))
     {
     }

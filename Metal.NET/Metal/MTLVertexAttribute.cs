@@ -3,6 +3,7 @@
 public class MTLVertexAttribute(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLVertexAttribute>
 {
     public static MTLVertexAttribute Create(nint nativePtr) => new(nativePtr);
+
     public MTLVertexAttribute() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeBindings.Class))
     {
     }

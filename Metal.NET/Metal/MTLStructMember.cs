@@ -3,6 +3,7 @@
 public class MTLStructMember(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLStructMember>
 {
     public static MTLStructMember Create(nint nativePtr) => new(nativePtr);
+
     public MTLStructMember() : this(ObjectiveCRuntime.AllocInit(MTLStructMemberBindings.Class))
     {
     }

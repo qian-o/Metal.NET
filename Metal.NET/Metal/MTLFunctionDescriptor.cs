@@ -3,6 +3,7 @@
 public class MTLFunctionDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFunctionDescriptor>
 {
     public static MTLFunctionDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFunctionDescriptorBindings.Class))
     {
     }

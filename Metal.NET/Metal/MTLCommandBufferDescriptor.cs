@@ -3,6 +3,7 @@
 public class MTLCommandBufferDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLCommandBufferDescriptor>
 {
     public static MTLCommandBufferDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLCommandBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCommandBufferDescriptorBindings.Class))
     {
     }

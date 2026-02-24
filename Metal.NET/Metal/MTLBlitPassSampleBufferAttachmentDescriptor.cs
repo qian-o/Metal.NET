@@ -3,6 +3,7 @@
 public class MTLBlitPassSampleBufferAttachmentDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLBlitPassSampleBufferAttachmentDescriptor>
 {
     public static MTLBlitPassSampleBufferAttachmentDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLBlitPassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBlitPassSampleBufferAttachmentDescriptorBindings.Class))
     {
     }

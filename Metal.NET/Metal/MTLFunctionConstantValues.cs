@@ -3,6 +3,7 @@
 public class MTLFunctionConstantValues(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFunctionConstantValues>
 {
     public static MTLFunctionConstantValues Create(nint nativePtr) => new(nativePtr);
+
     public MTLFunctionConstantValues() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantValuesBindings.Class))
     {
     }

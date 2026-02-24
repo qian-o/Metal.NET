@@ -3,6 +3,7 @@
 public class MTLResourceStatePassDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLResourceStatePassDescriptor>
 {
     public static MTLResourceStatePassDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLResourceStatePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceStatePassDescriptorBindings.Class))
     {
     }

@@ -3,6 +3,7 @@
 public class MTLRasterizationRateLayerArray(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLRasterizationRateLayerArray>
 {
     public static MTLRasterizationRateLayerArray Create(nint nativePtr) => new(nativePtr);
+
     public MTLRasterizationRateLayerArray() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateLayerArrayBindings.Class))
     {
     }

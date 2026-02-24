@@ -3,6 +3,7 @@
 public class MTLStitchedLibraryDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLStitchedLibraryDescriptor>
 {
     public static MTLStitchedLibraryDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLStitchedLibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStitchedLibraryDescriptorBindings.Class))
     {
     }

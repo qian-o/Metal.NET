@@ -3,6 +3,7 @@
 public class MTLRasterizationRateMapDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLRasterizationRateMapDescriptor>
 {
     public static MTLRasterizationRateMapDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLRasterizationRateMapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateMapDescriptorBindings.Class))
     {
     }

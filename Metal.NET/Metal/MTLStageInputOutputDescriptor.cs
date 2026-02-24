@@ -3,6 +3,7 @@
 public class MTLStageInputOutputDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLStageInputOutputDescriptor>
 {
     public static MTLStageInputOutputDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLStageInputOutputDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStageInputOutputDescriptorBindings.Class))
     {
     }

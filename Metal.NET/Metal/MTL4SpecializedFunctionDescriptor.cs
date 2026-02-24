@@ -3,6 +3,7 @@
 public class MTL4SpecializedFunctionDescriptor(nint nativePtr) : MTL4FunctionDescriptor(nativePtr), INativeObject<MTL4SpecializedFunctionDescriptor>
 {
     public static new MTL4SpecializedFunctionDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTL4SpecializedFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4SpecializedFunctionDescriptorBindings.Class))
     {
     }

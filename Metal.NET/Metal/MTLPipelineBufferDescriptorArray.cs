@@ -3,6 +3,7 @@
 public class MTLPipelineBufferDescriptorArray(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLPipelineBufferDescriptorArray>
 {
     public static MTLPipelineBufferDescriptorArray Create(nint nativePtr) => new(nativePtr);
+
     public MTLPipelineBufferDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLPipelineBufferDescriptorArrayBindings.Class))
     {
     }

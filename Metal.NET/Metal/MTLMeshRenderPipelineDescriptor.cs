@@ -3,6 +3,7 @@
 public class MTLMeshRenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLMeshRenderPipelineDescriptor>
 {
     public static MTLMeshRenderPipelineDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLMeshRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLMeshRenderPipelineDescriptorBindings.Class))
     {
     }

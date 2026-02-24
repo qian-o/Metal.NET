@@ -3,6 +3,7 @@
 public class MTL4LibraryFunctionDescriptor(nint nativePtr) : MTL4FunctionDescriptor(nativePtr), INativeObject<MTL4LibraryFunctionDescriptor>
 {
     public static new MTL4LibraryFunctionDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTL4LibraryFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4LibraryFunctionDescriptorBindings.Class))
     {
     }

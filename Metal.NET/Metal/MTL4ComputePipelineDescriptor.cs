@@ -3,6 +3,7 @@
 public class MTL4ComputePipelineDescriptor(nint nativePtr) : MTL4PipelineDescriptor(nativePtr), INativeObject<MTL4ComputePipelineDescriptor>
 {
     public static new MTL4ComputePipelineDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTL4ComputePipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4ComputePipelineDescriptorBindings.Class))
     {
     }

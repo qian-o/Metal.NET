@@ -3,6 +3,7 @@
 public class MTLBinaryArchiveDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLBinaryArchiveDescriptor>
 {
     public static MTLBinaryArchiveDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLBinaryArchiveDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBinaryArchiveDescriptorBindings.Class))
     {
     }

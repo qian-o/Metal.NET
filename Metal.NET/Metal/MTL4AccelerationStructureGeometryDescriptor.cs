@@ -3,6 +3,7 @@
 public class MTL4AccelerationStructureGeometryDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4AccelerationStructureGeometryDescriptor>
 {
     public static MTL4AccelerationStructureGeometryDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTL4AccelerationStructureGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureGeometryDescriptorBindings.Class))
     {
     }

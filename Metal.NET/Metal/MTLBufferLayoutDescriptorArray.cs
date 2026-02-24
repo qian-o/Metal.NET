@@ -3,6 +3,7 @@
 public class MTLBufferLayoutDescriptorArray(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLBufferLayoutDescriptorArray>
 {
     public static MTLBufferLayoutDescriptorArray Create(nint nativePtr) => new(nativePtr);
+
     public MTLBufferLayoutDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLBufferLayoutDescriptorArrayBindings.Class))
     {
     }

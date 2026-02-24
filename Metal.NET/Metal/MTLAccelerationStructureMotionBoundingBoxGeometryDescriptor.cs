@@ -3,6 +3,7 @@
 public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor(nint nativePtr) : MTLAccelerationStructureGeometryDescriptor(nativePtr), INativeObject<MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor>
 {
     public static new MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.Class))
     {
     }

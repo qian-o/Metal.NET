@@ -3,6 +3,7 @@
 public class MTL4RenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4RenderPassDescriptor>
 {
     public static MTL4RenderPassDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTL4RenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPassDescriptorBindings.Class))
     {
     }

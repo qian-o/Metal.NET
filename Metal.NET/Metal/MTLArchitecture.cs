@@ -3,6 +3,7 @@
 public class MTLArchitecture(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLArchitecture>
 {
     public static MTLArchitecture Create(nint nativePtr) => new(nativePtr);
+
     public MTLArchitecture() : this(ObjectiveCRuntime.AllocInit(MTLArchitectureBindings.Class))
     {
     }

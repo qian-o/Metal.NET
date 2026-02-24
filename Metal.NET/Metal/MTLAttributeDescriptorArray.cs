@@ -3,6 +3,7 @@
 public class MTLAttributeDescriptorArray(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLAttributeDescriptorArray>
 {
     public static MTLAttributeDescriptorArray Create(nint nativePtr) => new(nativePtr);
+
     public MTLAttributeDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLAttributeDescriptorArrayBindings.Class))
     {
     }

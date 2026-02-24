@@ -3,6 +3,7 @@
 public class MTLComputePipelineReflection(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLComputePipelineReflection>
 {
     public static MTLComputePipelineReflection Create(nint nativePtr) => new(nativePtr);
+
     public MTLComputePipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTLComputePipelineReflectionBindings.Class))
     {
     }

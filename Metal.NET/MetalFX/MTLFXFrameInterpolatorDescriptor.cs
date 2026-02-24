@@ -3,6 +3,7 @@
 public class MTLFXFrameInterpolatorDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFXFrameInterpolatorDescriptor>
 {
     public static MTLFXFrameInterpolatorDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLFXFrameInterpolatorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXFrameInterpolatorDescriptorBindings.Class))
     {
     }

@@ -198,6 +198,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         bool hasPrecedingMember = true;
         if (hasClassField)
         {
+            sb.AppendLine();
             sb.AppendLine($"    public {csClassName}() : this(ObjectiveCRuntime.AllocInit({csClassName}Bindings.Class))");
             sb.AppendLine("    {");
             sb.AppendLine("    }");

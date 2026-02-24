@@ -3,6 +3,7 @@
 public class MTLDepthStencilDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLDepthStencilDescriptor>
 {
     public static MTLDepthStencilDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLDepthStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLDepthStencilDescriptorBindings.Class))
     {
     }

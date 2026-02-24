@@ -3,6 +3,7 @@
 public class MTLIOCommandQueueDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLIOCommandQueueDescriptor>
 {
     public static MTLIOCommandQueueDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLIOCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIOCommandQueueDescriptorBindings.Class))
     {
     }

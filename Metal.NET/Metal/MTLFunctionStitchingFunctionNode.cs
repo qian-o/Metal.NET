@@ -3,6 +3,7 @@
 public class MTLFunctionStitchingFunctionNode(nint nativePtr) : MTLFunctionStitchingNode(nativePtr), INativeObject<MTLFunctionStitchingFunctionNode>
 {
     public static new MTLFunctionStitchingFunctionNode Create(nint nativePtr) => new(nativePtr);
+
     public MTLFunctionStitchingFunctionNode() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingFunctionNodeBindings.Class))
     {
     }

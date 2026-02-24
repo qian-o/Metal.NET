@@ -3,6 +3,7 @@
 public class MTLTileRenderPipelineColorAttachmentDescriptorArray(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLTileRenderPipelineColorAttachmentDescriptorArray>
 {
     public static MTLTileRenderPipelineColorAttachmentDescriptorArray Create(nint nativePtr) => new(nativePtr);
+
     public MTLTileRenderPipelineColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLTileRenderPipelineColorAttachmentDescriptorArrayBindings.Class))
     {
     }

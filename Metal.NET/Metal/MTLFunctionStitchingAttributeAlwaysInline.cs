@@ -3,6 +3,7 @@
 public class MTLFunctionStitchingAttributeAlwaysInline(nint nativePtr) : MTLFunctionStitchingAttribute(nativePtr), INativeObject<MTLFunctionStitchingAttributeAlwaysInline>
 {
     public static new MTLFunctionStitchingAttributeAlwaysInline Create(nint nativePtr) => new(nativePtr);
+
     public MTLFunctionStitchingAttributeAlwaysInline() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingAttributeAlwaysInlineBindings.Class))
     {
     }

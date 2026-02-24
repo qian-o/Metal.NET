@@ -3,6 +3,7 @@
 public class MTL4CommandQueueDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4CommandQueueDescriptor>
 {
     public static MTL4CommandQueueDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTL4CommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CommandQueueDescriptorBindings.Class))
     {
     }

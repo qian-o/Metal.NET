@@ -3,6 +3,7 @@
 public class MTL4StaticLinkingDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4StaticLinkingDescriptor>
 {
     public static MTL4StaticLinkingDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTL4StaticLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4StaticLinkingDescriptorBindings.Class))
     {
     }

@@ -3,6 +3,7 @@
 public class MTL4CommandBufferOptions(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4CommandBufferOptions>
 {
     public static MTL4CommandBufferOptions Create(nint nativePtr) => new(nativePtr);
+
     public MTL4CommandBufferOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CommandBufferOptionsBindings.Class))
     {
     }

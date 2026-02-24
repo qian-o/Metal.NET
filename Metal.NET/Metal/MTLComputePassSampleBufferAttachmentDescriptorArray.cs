@@ -3,6 +3,7 @@
 public class MTLComputePassSampleBufferAttachmentDescriptorArray(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLComputePassSampleBufferAttachmentDescriptorArray>
 {
     public static MTLComputePassSampleBufferAttachmentDescriptorArray Create(nint nativePtr) => new(nativePtr);
+
     public MTLComputePassSampleBufferAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLComputePassSampleBufferAttachmentDescriptorArrayBindings.Class))
     {
     }

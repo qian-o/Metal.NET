@@ -3,6 +3,7 @@
 public class MTLRenderPipelineFunctionsDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLRenderPipelineFunctionsDescriptor>
 {
     public static MTLRenderPipelineFunctionsDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLRenderPipelineFunctionsDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineFunctionsDescriptorBindings.Class))
     {
     }

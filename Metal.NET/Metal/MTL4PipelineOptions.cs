@@ -3,6 +3,7 @@
 public class MTL4PipelineOptions(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4PipelineOptions>
 {
     public static MTL4PipelineOptions Create(nint nativePtr) => new(nativePtr);
+
     public MTL4PipelineOptions() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineOptionsBindings.Class))
     {
     }

@@ -3,6 +3,7 @@
 public class MTLFunctionStitchingGraph(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFunctionStitchingGraph>
 {
     public static MTLFunctionStitchingGraph Create(nint nativePtr) => new(nativePtr);
+
     public MTLFunctionStitchingGraph() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingGraphBindings.Class))
     {
     }

@@ -3,6 +3,7 @@
 public class MTL4MachineLearningPipelineDescriptor(nint nativePtr) : MTL4PipelineDescriptor(nativePtr), INativeObject<MTL4MachineLearningPipelineDescriptor>
 {
     public static new MTL4MachineLearningPipelineDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTL4MachineLearningPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4MachineLearningPipelineDescriptorBindings.Class))
     {
     }

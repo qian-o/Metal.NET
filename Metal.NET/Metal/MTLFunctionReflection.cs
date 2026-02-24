@@ -3,6 +3,7 @@
 public class MTLFunctionReflection(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFunctionReflection>
 {
     public static MTLFunctionReflection Create(nint nativePtr) => new(nativePtr);
+
     public MTLFunctionReflection() : this(ObjectiveCRuntime.AllocInit(MTLFunctionReflectionBindings.Class))
     {
     }

@@ -3,6 +3,7 @@
 public class MTLIntersectionFunctionTableDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLIntersectionFunctionTableDescriptor>
 {
     public static MTLIntersectionFunctionTableDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLIntersectionFunctionTableDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIntersectionFunctionTableDescriptorBindings.Class))
     {
     }

@@ -3,6 +3,7 @@
 public class MTLTensorDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLTensorDescriptor>
 {
     public static MTLTensorDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLTensorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTensorDescriptorBindings.Class))
     {
     }

@@ -3,6 +3,7 @@
 public class MTLTensorExtents(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLTensorExtents>
 {
     public static MTLTensorExtents Create(nint nativePtr) => new(nativePtr);
+
     public MTLTensorExtents() : this(ObjectiveCRuntime.AllocInit(MTLTensorExtentsBindings.Class))
     {
     }

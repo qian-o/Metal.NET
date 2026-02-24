@@ -3,6 +3,7 @@
 public class MTLTextureViewDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLTextureViewDescriptor>
 {
     public static MTLTextureViewDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLTextureViewDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTextureViewDescriptorBindings.Class))
     {
     }

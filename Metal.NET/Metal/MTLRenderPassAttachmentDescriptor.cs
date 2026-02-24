@@ -3,6 +3,7 @@
 public class MTLRenderPassAttachmentDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLRenderPassAttachmentDescriptor>
 {
     public static MTLRenderPassAttachmentDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLRenderPassAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassAttachmentDescriptorBindings.Class))
     {
     }

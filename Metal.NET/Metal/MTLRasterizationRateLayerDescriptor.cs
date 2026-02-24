@@ -3,6 +3,7 @@
 public class MTLRasterizationRateLayerDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLRasterizationRateLayerDescriptor>
 {
     public static MTLRasterizationRateLayerDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLRasterizationRateLayerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateLayerDescriptorBindings.Class))
     {
     }

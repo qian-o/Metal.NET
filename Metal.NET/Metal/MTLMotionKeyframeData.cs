@@ -3,6 +3,7 @@
 public class MTLMotionKeyframeData(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLMotionKeyframeData>
 {
     public static MTLMotionKeyframeData Create(nint nativePtr) => new(nativePtr);
+
     public MTLMotionKeyframeData() : this(ObjectiveCRuntime.AllocInit(MTLMotionKeyframeDataBindings.Class))
     {
     }

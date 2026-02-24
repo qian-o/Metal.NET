@@ -3,6 +3,7 @@
 public class MTLSharedEventListener(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLSharedEventListener>
 {
     public static MTLSharedEventListener Create(nint nativePtr) => new(nativePtr);
+
     public MTLSharedEventListener() : this(ObjectiveCRuntime.AllocInit(MTLSharedEventListenerBindings.Class))
     {
     }

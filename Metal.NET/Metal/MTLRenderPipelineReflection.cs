@@ -3,6 +3,7 @@
 public class MTLRenderPipelineReflection(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLRenderPipelineReflection>
 {
     public static MTLRenderPipelineReflection Create(nint nativePtr) => new(nativePtr);
+
     public MTLRenderPipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineReflectionBindings.Class))
     {
     }

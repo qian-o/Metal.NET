@@ -3,6 +3,7 @@
 public class MTLCounterSampleBufferDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLCounterSampleBufferDescriptor>
 {
     public static MTLCounterSampleBufferDescriptor Create(nint nativePtr) => new(nativePtr);
+
     public MTLCounterSampleBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCounterSampleBufferDescriptorBindings.Class))
     {
     }
