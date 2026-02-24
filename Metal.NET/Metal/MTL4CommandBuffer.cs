@@ -2,11 +2,6 @@
 
 public class MTL4CommandBuffer(nint nativePtr) : NativeObject(nativePtr)
 {
-    public MTL4ComputeCommandEncoder? ComputeCommandEncoder
-    {
-        get => GetProperty(ref field, MTL4CommandBufferBindings.ComputeCommandEncoder);
-    }
-
     public MTLDevice? Device
     {
         get => GetProperty(ref field, MTL4CommandBufferBindings.Device);
@@ -18,9 +13,18 @@ public class MTL4CommandBuffer(nint nativePtr) : NativeObject(nativePtr)
         set => SetProperty(ref field, MTL4CommandBufferBindings.SetLabel, value);
     }
 
-    public MTL4MachineLearningCommandEncoder? MachineLearningCommandEncoder
+    public MTL4ComputeCommandEncoder? ComputeCommandEncoder()
     {
-        get => GetProperty(ref field, MTL4CommandBufferBindings.MachineLearningCommandEncoder);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.ComputeCommandEncoder);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
+    }
+
+    public MTL4MachineLearningCommandEncoder? MachineLearningCommandEncoder()
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.MachineLearningCommandEncoder);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public void BeginCommandBuffer(MTL4CommandAllocator allocator)
