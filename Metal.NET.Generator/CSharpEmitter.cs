@@ -54,13 +54,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         {
             string prefix = TypeMapper.GetPrefix(classDef.CppNamespace);
             string csClassName = prefix + classDef.Name;
-            HashSet<string> propNames =
+            classPropertyMap[csClassName] =
             [
-                .. classDef.Methods
-                    .Where(m => m.Parameters.Count == 0 && m.ReturnType != "void" && !m.UsesClassTarget && m.IsConst)
-                    .Select(m => TypeMapper.ToPascalCase(m.CppName))
+                .. classDef.Methods.Where(m => m.Parameters.Count == 0 && m.ReturnType != "void" && !m.UsesClassTarget && m.IsConst)
+                                   .Select(m => TypeMapper.ToPascalCase(m.CppName))
             ];
-            classPropertyMap[csClassName] = propNames;
         }
 
         // Build inherited property names by walking the inheritance chain
