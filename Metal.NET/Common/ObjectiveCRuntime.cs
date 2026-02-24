@@ -37,7 +37,11 @@ public static partial class ObjectiveCRuntime
 
     public static void MsgSend(nint receiver, Selector selector)
     {
-        if (receiver is 0) return;
+        if (receiver is 0)
+        {
+            return;
+        }
+
         _MsgSend(receiver, selector);
     }
 
@@ -46,7 +50,14 @@ public static partial class ObjectiveCRuntime
 
     public static void MsgSend(nint receiver, Selector selector, out ulong a, out ulong b)
     {
-        if (receiver is 0) { a = default; b = default; return; }
+        if (receiver is 0)
+        {
+            a = default;
+            b = default;
+
+            return;
+        }
+
         _MsgSend(receiver, selector, out a, out b);
     }
 
@@ -55,7 +66,11 @@ public static partial class ObjectiveCRuntime
 
     public static void MsgSend(nint receiver, Selector selector, Bool8 a)
     {
-        if (receiver is 0) return;
+        if (receiver is 0)
+        {
+            return;
+        }
+
         _MsgSend(receiver, selector, a);
     }
 
@@ -64,7 +79,11 @@ public static partial class ObjectiveCRuntime
 
     public static void MsgSend(nint receiver, Selector selector, CGSize a)
     {
-        if (receiver is 0) return;
+        if (receiver is 0)
+        {
+            return;
+        }
+
         _MsgSend(receiver, selector, a);
     }
 
@@ -73,7 +92,11 @@ public static partial class ObjectiveCRuntime
 
     public static void MsgSend(nint receiver, Selector selector, MTL4BufferRange a)
     {
-        if (receiver is 0) return;
+        if (receiver is 0)
+        {
+            return;
+        }
+
         _MsgSend(receiver, selector, a);
     }
 
