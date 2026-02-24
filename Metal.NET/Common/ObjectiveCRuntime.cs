@@ -2299,21 +2299,11 @@ public static partial class ObjectiveCRuntime
 
     public static nint Retain(nint receiver)
     {
-        if (receiver is 0)
-        {
-            return 0;
-        }
-
         return MsgSendPtr(receiver, (Selector)"retain");
     }
 
     public static void Release(nint receiver)
     {
-        if (receiver is 0)
-        {
-            return;
-        }
-
         MsgSend(receiver, (Selector)"release");
     }
 }
