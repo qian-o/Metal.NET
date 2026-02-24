@@ -3,25 +3,27 @@
 /// <summary>
 /// Wraps an Objective-C NSURL for file and resource URL creation.
 /// </summary>
-public class NSURL(nint nativePtr) : NativeObject(nativePtr)
+public class NSURL(nint nativePtr) : NativeObject(nativePtr), INativeObject<NSURL>
 {
+    public static NSURL Create(nint nativePtr) => new(nativePtr);
+
     public nint FileSystemRepresentation
     {
         get => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSURLBindings.FileSystemRepresentation);
     }
 
-    public NSURL? InitFileURLWithPath(NSString pPath)
+    public NSURL InitFileURLWithPath(NSString pPath)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSURLBindings.InitFileURLWithPath, pPath.NativePtr);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 
-    public static NSURL? FileURLWithPath(NSString pPath)
+    public static NSURL FileURLWithPath(NSString pPath)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NSURLBindings.Class, NSURLBindings.FileURLWithPath, pPath.NativePtr);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 }
 

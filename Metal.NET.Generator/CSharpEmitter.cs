@@ -190,10 +190,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             ? classDef.BaseClassName
             : "NativeObject";
         string partialKeyword = hasFreeFunctions ? "partial " : "";
-        sb.AppendLine($"public {partialKeyword}class {csClassName}(nint nativePtr) : {baseClass}(nativePtr)");
+        sb.AppendLine($"public {partialKeyword}class {csClassName}(nint nativePtr) : {baseClass}(nativePtr), INativeObject<{csClassName}>");
         sb.AppendLine("{");
+        sb.AppendLine($"    public static {csClassName} Create(nint nativePtr) => new(nativePtr);");
 
-        bool hasPrecedingMember = false;
+        bool hasPrecedingMember = true;
         if (hasClassField)
         {
             sb.AppendLine($"    public {csClassName}() : this(ObjectiveCRuntime.AllocInit({csClassName}Bindings.Class))");
@@ -430,7 +431,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
 
         string csType = TypeMapper.MapCppType(getter.ReturnType, ns);
-        bool nullable = typeMapper.IsNullableType(csType);
+        bool nullable = typeMapper.IsNativeObjectType(csType);
         bool isEnum = typeMapper.IsEnumType(csType);
         bool isStruct = TypeMapper.StructTypes.Contains(csType);
         bool isBool = csType == "bool";
@@ -451,7 +452,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         const string Target = "NativePtr";
 
         string selectorRef = $"{csClassName}Bindings.{selectorName}";
-        string typeStr = nullable ? $"{csType}?" : csType;
+        string typeStr = csType;
 
         // Resolve setter selector
         string? setSelName = null;
@@ -597,7 +598,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string selectorRef = $"{csClassName}Bindings.{selectorKey}";
 
         string returnType = TypeMapper.MapCppType(method.ReturnType, ns);
-        bool nullable = typeMapper.IsNullableType(returnType);
+        bool nullable = typeMapper.IsNativeObjectType(returnType);
         bool isEnum = typeMapper.IsEnumType(returnType);
         bool isStruct = TypeMapper.StructTypes.Contains(returnType);
         bool isBool = returnType == "bool";
@@ -700,7 +701,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
             if (param.CppType.Contains("Error**"))
             {
-                csParams.Add("out NSError? error");
+                csParams.Add("out NSError error");
                 callArgs.Add("out nint errorPtr");
                 continue;
             }
@@ -714,7 +715,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
             csParams.Add($"{csParamType} {paramName}");
 
-            if (typeMapper.IsNullableType(csParamType))
+            if (typeMapper.IsNativeObjectType(csParamType))
             {
                 callArgs.Add($"{paramName}.NativePtr");
             }
@@ -744,7 +745,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string argsStr = string.Join(", ", callArgs);
         string staticKw = isStaticClassMethod ? "static " : "";
         string unsafeKw = needsUnsafeContext ? "unsafe " : "";
-        string csReturnType = isVoid ? "void" : nullable ? $"{returnType}?" : returnType;
+        string csReturnType = isVoid ? "void" : returnType;
 
         sb.AppendLine($"    public {staticKw}{unsafeKw}{csReturnType} {csMethodName}({paramStr})");
         sb.AppendLine("    {");
@@ -773,7 +774,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             if (hasOutError)
             {
                 sb.AppendLine();
-                sb.AppendLine($"{indent}error = errorPtr is not 0 ? new(errorPtr) : null;");
+                sb.AppendLine($"{indent}error = new(errorPtr);");
             }
         }
         else if (nullable)
@@ -782,15 +783,15 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 sb.AppendLine($"{indent}nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine($"{indent}error = errorPtr is not 0 ? new(errorPtr) : null;");
+                sb.AppendLine($"{indent}error = new(errorPtr);");
                 sb.AppendLine();
-                sb.AppendLine($"{indent}return nativePtr is not 0 ? new(nativePtr) : null;");
+                sb.AppendLine($"{indent}return new(nativePtr);");
             }
             else
             {
                 sb.AppendLine($"{indent}nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine($"{indent}return nativePtr is not 0 ? new(nativePtr) : null;");
+                sb.AppendLine($"{indent}return new(nativePtr);");
             }
         }
         else if (isEnum)
@@ -800,7 +801,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 sb.AppendLine($"{indent}{returnType} result = ({returnType}){msgSend}({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine($"{indent}error = errorPtr is not 0 ? new(errorPtr) : null;");
+                sb.AppendLine($"{indent}error = new(errorPtr);");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}return result;");
             }
@@ -815,7 +816,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 sb.AppendLine($"{indent}bool result = ObjectiveCRuntime.MsgSendBool({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine($"{indent}error = errorPtr is not 0 ? new(errorPtr) : null;");
+                sb.AppendLine($"{indent}error = new(errorPtr);");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}return result;");
             }
@@ -831,7 +832,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 sb.AppendLine($"{indent}{returnType} result = ObjectiveCRuntime.{msgSend}({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine($"{indent}error = errorPtr is not 0 ? new(errorPtr) : null;");
+                sb.AppendLine($"{indent}error = new(errorPtr);");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}return result;");
             }
@@ -848,7 +849,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 sb.AppendLine($"{indent}{csReturnType} result = {retCast}ObjectiveCRuntime.{msgSend}({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine($"{indent}error = errorPtr is not 0 ? new(errorPtr) : null;");
+                sb.AppendLine($"{indent}error = new(errorPtr);");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}return result;");
             }
@@ -875,13 +876,13 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     void EmitFreeFunction(StringBuilder sb, FreeFunctionDef func, string cppNamespace)
     {
         string csReturnType = TypeMapper.MapCppType(func.ReturnType, cppNamespace);
-        bool nullable = typeMapper.IsNullableType(csReturnType);
+        bool nullable = typeMapper.IsNativeObjectType(csReturnType);
 
         List<string> pinvokeParams = [];
         foreach (ParamDef p in func.Parameters)
         {
             string csType = TypeMapper.MapCppType(p.CppType, cppNamespace);
-            if (typeMapper.IsNullableType(csType))
+            if (typeMapper.IsNativeObjectType(csType))
             {
                 pinvokeParams.Add($"nint {TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(p.Name))}");
             }
@@ -903,7 +904,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         {
             string csType = TypeMapper.MapCppType(p.CppType, cppNamespace);
             string csName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(p.Name));
-            if (typeMapper.IsNullableType(csType))
+            if (typeMapper.IsNativeObjectType(csType))
             {
                 wrapperParams.Add($"{csType} {csName}");
                 callArgs.Add($"{csName}.NativePtr");
@@ -915,7 +916,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             }
         }
 
-        string csFullReturnType = nullable ? $"{csReturnType}?" : csReturnType;
+        string csFullReturnType = csReturnType;
         string wrapperParamStr = string.Join(", ", wrapperParams);
         string callArgStr = string.Join(", ", callArgs);
 
@@ -925,7 +926,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             sb.AppendLine("    {");
             sb.AppendLine($"        nint nativePtr = {func.CEntryPoint}({callArgStr});");
             sb.AppendLine();
-            sb.AppendLine("        return nativePtr is not 0 ? new(nativePtr) : null;");
+            sb.AppendLine("        return new(nativePtr);");
             sb.AppendLine("    }");
         }
         else if (csReturnType == "void")

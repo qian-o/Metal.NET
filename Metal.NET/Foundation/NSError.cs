@@ -3,9 +3,11 @@
 /// <summary>
 /// Wraps an Objective-C NSError with access to error code, domain, and localized description.
 /// </summary>
-public class NSError(nint nativePtr) : NativeObject(nativePtr)
+public class NSError(nint nativePtr) : NativeObject(nativePtr), INativeObject<NSError>
 {
-    public NSString? LocalizedDescription
+    public static NSError Create(nint nativePtr) => new(nativePtr);
+
+    public NSString LocalizedDescription
     {
         get => GetProperty(ref field, NSErrorBindings.LocalizedDescription);
     }
@@ -15,7 +17,7 @@ public class NSError(nint nativePtr) : NativeObject(nativePtr)
         get => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSErrorBindings.Code);
     }
 
-    public NSString? Domain
+    public NSString Domain
     {
         get => GetProperty(ref field, NSErrorBindings.Domain);
     }
