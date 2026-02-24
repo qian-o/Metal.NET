@@ -57,7 +57,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             HashSet<string> propNames =
             [
                 .. classDef.Methods
-                    .Where(m => m.Parameters.Count == 0 && m.ReturnType != "void" && !m.UsesClassTarget)
+                    .Where(m => m.Parameters.Count == 0 && m.ReturnType != "void" && !m.UsesClassTarget && m.IsConst)
                     .Select(m => TypeMapper.ToPascalCase(m.CppName))
             ];
             classPropertyMap[csClassName] = propNames;
@@ -541,7 +541,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Method Emission
 
-    void EmitMethod(StringBuilder sb, MethodInfo method, string csClassName, string ns, SortedDictionary<string, string> selectors, HashSet<string> methodsWithZeroParamProperty)
+    void EmitMethod(StringBuilder sb, MethodInfo method, string csClassName, string ns, SortedDictionary<string, string> selectors, HashSet<string> hasZeroParamVersion)
     {
         string csMethodName;
         string selectorObjC;
@@ -562,7 +562,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 ? selectorObjC[..selectorObjC.IndexOf(':')]
                 : selectorObjC;
 
-            if (methodsWithZeroParamProperty.Contains(cppName) && method.Parameters.Count > 0)
+            if (hasZeroParamVersion.Contains(cppName) && method.Parameters.Count > 0)
             {
                 csMethodName = TypeMapper.ToPascalCase(selectorBaseName);
             }
@@ -582,7 +582,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string target = isStaticClassMethod ? $"{csClassName}Bindings.Class" : "NativePtr";
 
         string selectorKey;
-        if (methodsWithZeroParamProperty.Contains(method.CppName) && method.Parameters.Count > 0)
+        if (hasZeroParamVersion.Contains(method.CppName) && method.Parameters.Count > 0)
         {
             selectorKey = TypeMapper.ToPascalCase(selectorObjC.Replace(":", " ").Trim()).Replace(" ", "");
         }
