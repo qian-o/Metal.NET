@@ -2,7 +2,7 @@
 
 public class MTLObjectPayloadBinding(nint nativePtr) : MTLBinding(nativePtr), INativeObject<MTLObjectPayloadBinding>
 {
-    public static MTLObjectPayloadBinding Create(nint nativePtr) => new(nativePtr);
+    public static new MTLObjectPayloadBinding Create(nint nativePtr) => new(nativePtr);
 
     public nuint ObjectPayloadAlignment
     {

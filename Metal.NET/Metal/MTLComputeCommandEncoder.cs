@@ -2,7 +2,7 @@
 
 public class MTLComputeCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr), INativeObject<MTLComputeCommandEncoder>
 {
-    public static MTLComputeCommandEncoder Create(nint nativePtr) => new(nativePtr);
+    public static new MTLComputeCommandEncoder Create(nint nativePtr) => new(nativePtr);
 
     public MTLDispatchType DispatchType
     {

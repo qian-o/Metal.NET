@@ -2,7 +2,7 @@
 
 public class MTL4RenderPipelineDescriptor(nint nativePtr) : MTL4PipelineDescriptor(nativePtr), INativeObject<MTL4RenderPipelineDescriptor>
 {
-    public static MTL4RenderPipelineDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static new MTL4RenderPipelineDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTL4RenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineDescriptorBindings.Class))
     {
     }

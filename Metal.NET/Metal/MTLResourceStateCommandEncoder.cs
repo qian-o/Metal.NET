@@ -2,7 +2,7 @@
 
 public class MTLResourceStateCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr), INativeObject<MTLResourceStateCommandEncoder>
 {
-    public static MTLResourceStateCommandEncoder Create(nint nativePtr) => new(nativePtr);
+    public static new MTLResourceStateCommandEncoder Create(nint nativePtr) => new(nativePtr);
 
     public void MoveTextureMappingsFromTexture(MTLTexture sourceTexture, nuint sourceSlice, nuint sourceLevel, MTLOrigin sourceOrigin, MTLSize sourceSize, MTLTexture destinationTexture, nuint destinationSlice, nuint destinationLevel, MTLOrigin destinationOrigin)
     {

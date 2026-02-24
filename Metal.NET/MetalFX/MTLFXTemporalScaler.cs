@@ -2,7 +2,7 @@
 
 public class MTLFXTemporalScaler(nint nativePtr) : MTLFXTemporalScalerBase(nativePtr), INativeObject<MTLFXTemporalScaler>
 {
-    public static MTLFXTemporalScaler Create(nint nativePtr) => new(nativePtr);
+    public static new MTLFXTemporalScaler Create(nint nativePtr) => new(nativePtr);
 
     public void EncodeToCommandBuffer(MTLCommandBuffer pCommandBuffer)
     {

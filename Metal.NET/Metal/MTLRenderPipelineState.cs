@@ -2,7 +2,7 @@
 
 public class MTLRenderPipelineState(nint nativePtr) : MTLAllocation(nativePtr), INativeObject<MTLRenderPipelineState>
 {
-    public static MTLRenderPipelineState Create(nint nativePtr) => new(nativePtr);
+    public static new MTLRenderPipelineState Create(nint nativePtr) => new(nativePtr);
 
     public MTLDevice Device
     {

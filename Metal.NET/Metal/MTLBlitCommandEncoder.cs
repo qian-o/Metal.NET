@@ -2,7 +2,7 @@
 
 public class MTLBlitCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr), INativeObject<MTLBlitCommandEncoder>
 {
-    public static MTLBlitCommandEncoder Create(nint nativePtr) => new(nativePtr);
+    public static new MTLBlitCommandEncoder Create(nint nativePtr) => new(nativePtr);
 
     public void CopyFromBuffer(MTLBuffer sourceBuffer, nuint sourceOffset, nuint sourceBytesPerRow, nuint sourceBytesPerImage, MTLSize sourceSize, MTLTexture destinationTexture, nuint destinationSlice, nuint destinationLevel, MTLOrigin destinationOrigin)
     {

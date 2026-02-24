@@ -2,7 +2,7 @@
 
 public class MTLTextureBinding(nint nativePtr) : MTLBinding(nativePtr), INativeObject<MTLTextureBinding>
 {
-    public static MTLTextureBinding Create(nint nativePtr) => new(nativePtr);
+    public static new MTLTextureBinding Create(nint nativePtr) => new(nativePtr);
 
     public nuint ArrayLength
     {

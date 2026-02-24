@@ -2,7 +2,7 @@
 
 public class MTL4FXFrameInterpolator(nint nativePtr) : MTLFXFrameInterpolatorBase(nativePtr), INativeObject<MTL4FXFrameInterpolator>
 {
-    public static MTL4FXFrameInterpolator Create(nint nativePtr) => new(nativePtr);
+    public static new MTL4FXFrameInterpolator Create(nint nativePtr) => new(nativePtr);
 
     public void EncodeToCommandBuffer(MTL4CommandBuffer commandBuffer)
     {

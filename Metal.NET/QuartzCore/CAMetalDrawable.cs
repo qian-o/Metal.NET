@@ -2,7 +2,7 @@
 
 public class CAMetalDrawable(nint nativePtr) : MTLDrawable(nativePtr), INativeObject<CAMetalDrawable>
 {
-    public static CAMetalDrawable Create(nint nativePtr) => new(nativePtr);
+    public static new CAMetalDrawable Create(nint nativePtr) => new(nativePtr);
 
     public CAMetalLayer Layer
     {

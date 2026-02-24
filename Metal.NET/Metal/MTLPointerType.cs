@@ -2,7 +2,7 @@
 
 public class MTLPointerType(nint nativePtr) : MTLType(nativePtr), INativeObject<MTLPointerType>
 {
-    public static MTLPointerType Create(nint nativePtr) => new(nativePtr);
+    public static new MTLPointerType Create(nint nativePtr) => new(nativePtr);
     public MTLPointerType() : this(ObjectiveCRuntime.AllocInit(MTLPointerTypeBindings.Class))
     {
     }

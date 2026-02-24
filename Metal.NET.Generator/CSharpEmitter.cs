@@ -192,7 +192,8 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string partialKeyword = hasFreeFunctions ? "partial " : "";
         sb.AppendLine($"public {partialKeyword}class {csClassName}(nint nativePtr) : {baseClass}(nativePtr), INativeObject<{csClassName}>");
         sb.AppendLine("{");
-        sb.AppendLine($"    public static {csClassName} Create(nint nativePtr) => new(nativePtr);");
+        string newKeyword = baseClass != "NativeObject" ? "new " : "";
+        sb.AppendLine($"    public static {newKeyword}{csClassName} Create(nint nativePtr) => new(nativePtr);");
 
         bool hasPrecedingMember = true;
         if (hasClassField)

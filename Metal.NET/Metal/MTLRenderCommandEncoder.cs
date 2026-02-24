@@ -2,7 +2,7 @@
 
 public class MTLRenderCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr), INativeObject<MTLRenderCommandEncoder>
 {
-    public static MTLRenderCommandEncoder Create(nint nativePtr) => new(nativePtr);
+    public static new MTLRenderCommandEncoder Create(nint nativePtr) => new(nativePtr);
 
     public nuint TileHeight
     {

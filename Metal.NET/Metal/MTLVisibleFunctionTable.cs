@@ -2,7 +2,7 @@
 
 public class MTLVisibleFunctionTable(nint nativePtr) : MTLResource(nativePtr), INativeObject<MTLVisibleFunctionTable>
 {
-    public static MTLVisibleFunctionTable Create(nint nativePtr) => new(nativePtr);
+    public static new MTLVisibleFunctionTable Create(nint nativePtr) => new(nativePtr);
 
     public MTLResourceID GpuResourceID
     {

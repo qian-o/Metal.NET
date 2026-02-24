@@ -2,7 +2,7 @@
 
 public class MTLComputePipelineState(nint nativePtr) : MTLAllocation(nativePtr), INativeObject<MTLComputePipelineState>
 {
-    public static MTLComputePipelineState Create(nint nativePtr) => new(nativePtr);
+    public static new MTLComputePipelineState Create(nint nativePtr) => new(nativePtr);
 
     public MTLDevice Device
     {

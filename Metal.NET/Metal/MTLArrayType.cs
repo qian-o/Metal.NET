@@ -2,7 +2,7 @@
 
 public class MTLArrayType(nint nativePtr) : MTLType(nativePtr), INativeObject<MTLArrayType>
 {
-    public static MTLArrayType Create(nint nativePtr) => new(nativePtr);
+    public static new MTLArrayType Create(nint nativePtr) => new(nativePtr);
     public MTLArrayType() : this(ObjectiveCRuntime.AllocInit(MTLArrayTypeBindings.Class))
     {
     }

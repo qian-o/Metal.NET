@@ -2,7 +2,7 @@
 
 public class MTL4FXTemporalDenoisedScaler(nint nativePtr) : MTLFXTemporalDenoisedScalerBase(nativePtr), INativeObject<MTL4FXTemporalDenoisedScaler>
 {
-    public static MTL4FXTemporalDenoisedScaler Create(nint nativePtr) => new(nativePtr);
+    public static new MTL4FXTemporalDenoisedScaler Create(nint nativePtr) => new(nativePtr);
 
     public void EncodeToCommandBuffer(MTL4CommandBuffer commandBuffer)
     {

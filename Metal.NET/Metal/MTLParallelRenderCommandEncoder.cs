@@ -2,7 +2,7 @@
 
 public class MTLParallelRenderCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr), INativeObject<MTLParallelRenderCommandEncoder>
 {
-    public static MTLParallelRenderCommandEncoder Create(nint nativePtr) => new(nativePtr);
+    public static new MTLParallelRenderCommandEncoder Create(nint nativePtr) => new(nativePtr);
 
     public MTLRenderCommandEncoder RenderCommandEncoder()
     {

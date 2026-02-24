@@ -2,7 +2,7 @@
 
 public class MTL4IndirectInstanceAccelerationStructureDescriptor(nint nativePtr) : MTL4AccelerationStructureDescriptor(nativePtr), INativeObject<MTL4IndirectInstanceAccelerationStructureDescriptor>
 {
-    public static MTL4IndirectInstanceAccelerationStructureDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static new MTL4IndirectInstanceAccelerationStructureDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTL4IndirectInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4IndirectInstanceAccelerationStructureDescriptorBindings.Class))
     {
     }

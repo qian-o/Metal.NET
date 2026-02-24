@@ -2,7 +2,7 @@
 
 public class MTLSharedEvent(nint nativePtr) : MTLEvent(nativePtr), INativeObject<MTLSharedEvent>
 {
-    public static MTLSharedEvent Create(nint nativePtr) => new(nativePtr);
+    public static new MTLSharedEvent Create(nint nativePtr) => new(nativePtr);
 
     public ulong SignaledValue
     {

@@ -2,7 +2,7 @@
 
 public class MTLHeap(nint nativePtr) : MTLAllocation(nativePtr), INativeObject<MTLHeap>
 {
-    public static MTLHeap Create(nint nativePtr) => new(nativePtr);
+    public static new MTLHeap Create(nint nativePtr) => new(nativePtr);
 
     public MTLCPUCacheMode CpuCacheMode
     {

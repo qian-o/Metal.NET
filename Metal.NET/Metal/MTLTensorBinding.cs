@@ -2,7 +2,7 @@
 
 public class MTLTensorBinding(nint nativePtr) : MTLBinding(nativePtr), INativeObject<MTLTensorBinding>
 {
-    public static MTLTensorBinding Create(nint nativePtr) => new(nativePtr);
+    public static new MTLTensorBinding Create(nint nativePtr) => new(nativePtr);
 
     public MTLTensorExtents Dimensions
     {

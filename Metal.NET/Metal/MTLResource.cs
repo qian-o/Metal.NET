@@ -2,7 +2,7 @@
 
 public class MTLResource(nint nativePtr) : MTLAllocation(nativePtr), INativeObject<MTLResource>
 {
-    public static MTLResource Create(nint nativePtr) => new(nativePtr);
+    public static new MTLResource Create(nint nativePtr) => new(nativePtr);
 
     public MTLCPUCacheMode CpuCacheMode
     {

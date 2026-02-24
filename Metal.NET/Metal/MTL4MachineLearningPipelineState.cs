@@ -2,7 +2,7 @@
 
 public class MTL4MachineLearningPipelineState(nint nativePtr) : MTLAllocation(nativePtr), INativeObject<MTL4MachineLearningPipelineState>
 {
-    public static MTL4MachineLearningPipelineState Create(nint nativePtr) => new(nativePtr);
+    public static new MTL4MachineLearningPipelineState Create(nint nativePtr) => new(nativePtr);
 
     public MTLDevice Device
     {

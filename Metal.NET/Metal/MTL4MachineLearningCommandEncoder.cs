@@ -2,7 +2,7 @@
 
 public class MTL4MachineLearningCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativePtr), INativeObject<MTL4MachineLearningCommandEncoder>
 {
-    public static MTL4MachineLearningCommandEncoder Create(nint nativePtr) => new(nativePtr);
+    public static new MTL4MachineLearningCommandEncoder Create(nint nativePtr) => new(nativePtr);
 
     public void DispatchNetwork(MTLHeap heap)
     {

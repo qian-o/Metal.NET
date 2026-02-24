@@ -2,7 +2,7 @@
 
 public class MTLStructType(nint nativePtr) : MTLType(nativePtr), INativeObject<MTLStructType>
 {
-    public static MTLStructType Create(nint nativePtr) => new(nativePtr);
+    public static new MTLStructType Create(nint nativePtr) => new(nativePtr);
     public MTLStructType() : this(ObjectiveCRuntime.AllocInit(MTLStructTypeBindings.Class))
     {
     }

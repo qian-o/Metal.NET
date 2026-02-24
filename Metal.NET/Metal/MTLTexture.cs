@@ -2,7 +2,7 @@
 
 public class MTLTexture(nint nativePtr) : MTLResource(nativePtr), INativeObject<MTLTexture>
 {
-    public static MTLTexture Create(nint nativePtr) => new(nativePtr);
+    public static new MTLTexture Create(nint nativePtr) => new(nativePtr);
 
     public bool AllowGPUOptimizedContents
     {

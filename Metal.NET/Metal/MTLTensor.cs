@@ -2,7 +2,7 @@
 
 public class MTLTensor(nint nativePtr) : MTLResource(nativePtr), INativeObject<MTLTensor>
 {
-    public static MTLTensor Create(nint nativePtr) => new(nativePtr);
+    public static new MTLTensor Create(nint nativePtr) => new(nativePtr);
 
     public MTLBuffer Buffer
     {

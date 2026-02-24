@@ -2,7 +2,7 @@
 
 public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr) : MTLAccelerationStructureGeometryDescriptor(nativePtr), INativeObject<MTLAccelerationStructureTriangleGeometryDescriptor>
 {
-    public static MTLAccelerationStructureTriangleGeometryDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static new MTLAccelerationStructureTriangleGeometryDescriptor Create(nint nativePtr) => new(nativePtr);
     public MTLAccelerationStructureTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureTriangleGeometryDescriptorBindings.Class))
     {
     }

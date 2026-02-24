@@ -2,7 +2,7 @@
 
 public class MTLTextureViewPool(nint nativePtr) : MTLResourceViewPool(nativePtr), INativeObject<MTLTextureViewPool>
 {
-    public static MTLTextureViewPool Create(nint nativePtr) => new(nativePtr);
+    public static new MTLTextureViewPool Create(nint nativePtr) => new(nativePtr);
 
     public MTLResourceID SetTextureView(MTLTexture texture, nuint index)
     {
