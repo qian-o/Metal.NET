@@ -331,6 +331,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 continue;
             }
 
+            if (!m.IsConst)
+            {
+                continue;
+            }
+
             MethodInfo? setter = null;
             if (setterMap.TryGetValue(m.CppName, out MethodInfo? s))
             {
@@ -576,7 +581,15 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         bool isStaticClassMethod = method.IsStatic && method.UsesClassTarget;
         string target = isStaticClassMethod ? $"{csClassName}Bindings.Class" : "NativePtr";
 
-        string selectorKey = TypeMapper.ToPascalCase(method.CppName);
+        string selectorKey;
+        if (methodsWithZeroParamProperty.Contains(method.CppName) && method.Parameters.Count > 0)
+        {
+            selectorKey = TypeMapper.ToPascalCase(selectorObjC.Replace(":", " ").Trim()).Replace(" ", "");
+        }
+        else
+        {
+            selectorKey = TypeMapper.ToPascalCase(method.CppName);
+        }
         if (selectors.TryGetValue(selectorKey, out string? existingSelector) && existingSelector != selectorObjC)
         {
             selectorKey = TypeMapper.ToPascalCase(selectorObjC.Replace(":", " ").Trim()).Replace(" ", "");

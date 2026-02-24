@@ -2,11 +2,6 @@
 
 public class MTL4CommandAllocator(nint nativePtr) : NativeObject(nativePtr)
 {
-    public ulong AllocatedSize
-    {
-        get => ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4CommandAllocatorBindings.AllocatedSize);
-    }
-
     public MTLDevice? Device
     {
         get => GetProperty(ref field, MTL4CommandAllocatorBindings.Device);
@@ -15,6 +10,11 @@ public class MTL4CommandAllocator(nint nativePtr) : NativeObject(nativePtr)
     public NSString? Label
     {
         get => GetProperty(ref field, MTL4CommandAllocatorBindings.Label);
+    }
+
+    public ulong AllocatedSize()
+    {
+        return (ulong)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4CommandAllocatorBindings.AllocatedSize);
     }
 
     public void Reset()

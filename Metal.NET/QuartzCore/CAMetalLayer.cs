@@ -48,11 +48,6 @@ public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr)
         set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetMaximumDrawableCount, value);
     }
 
-    public CAMetalDrawable? NextDrawable
-    {
-        get => GetProperty(ref field, CAMetalLayerBindings.NextDrawable);
-    }
-
     public MTLPixelFormat PixelFormat
     {
         get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, CAMetalLayerBindings.PixelFormat);
@@ -67,6 +62,13 @@ public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr)
     public static CAMetalLayer? Layer()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(CAMetalLayerBindings.Class, CAMetalLayerBindings.Layer);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
+    }
+
+    public CAMetalDrawable? NextDrawable()
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerBindings.NextDrawable);
 
         return nativePtr is not 0 ? new(nativePtr) : null;
     }

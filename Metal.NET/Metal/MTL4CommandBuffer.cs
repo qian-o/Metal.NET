@@ -13,20 +13,6 @@ public class MTL4CommandBuffer(nint nativePtr) : NativeObject(nativePtr)
         set => SetProperty(ref field, MTL4CommandBufferBindings.SetLabel, value);
     }
 
-    public MTL4ComputeCommandEncoder? ComputeCommandEncoder()
-    {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.ComputeCommandEncoder);
-
-        return nativePtr is not 0 ? new(nativePtr) : null;
-    }
-
-    public MTL4MachineLearningCommandEncoder? MachineLearningCommandEncoder()
-    {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.MachineLearningCommandEncoder);
-
-        return nativePtr is not 0 ? new(nativePtr) : null;
-    }
-
     public void BeginCommandBuffer(MTL4CommandAllocator allocator)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferBindings.BeginCommandBuffer, allocator.NativePtr);
@@ -37,9 +23,23 @@ public class MTL4CommandBuffer(nint nativePtr) : NativeObject(nativePtr)
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferBindings.BeginCommandBufferWithAllocatoroptions, allocator.NativePtr, options.NativePtr);
     }
 
+    public MTL4ComputeCommandEncoder? ComputeCommandEncoder()
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.ComputeCommandEncoder);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
+    }
+
     public void EndCommandBuffer()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandBufferBindings.EndCommandBuffer);
+    }
+
+    public MTL4MachineLearningCommandEncoder? MachineLearningCommandEncoder()
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.MachineLearningCommandEncoder);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public void PopDebugGroup()

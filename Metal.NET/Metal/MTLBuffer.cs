@@ -2,11 +2,6 @@
 
 public class MTLBuffer(nint nativePtr) : MTLResource(nativePtr)
 {
-    public nint Contents
-    {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.Contents);
-    }
-
     public nuint GpuAddress
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindings.GpuAddress);
@@ -30,6 +25,11 @@ public class MTLBuffer(nint nativePtr) : MTLResource(nativePtr)
     public void AddDebugMarker(NSString marker, NSRange range)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferBindings.AddDebugMarker, marker.NativePtr, range);
+    }
+
+    public nint Contents()
+    {
+        return ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.Contents);
     }
 
     public void DidModifyRange(NSRange range)

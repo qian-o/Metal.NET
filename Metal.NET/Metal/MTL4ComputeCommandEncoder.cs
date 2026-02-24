@@ -2,11 +2,6 @@
 
 public class MTL4ComputeCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nativePtr)
 {
-    public MTLStages Stages
-    {
-        get => (MTLStages)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4ComputeCommandEncoderBindings.Stages);
-    }
-
     public void BuildAccelerationStructure(MTLAccelerationStructure accelerationStructure, MTL4AccelerationStructureDescriptor descriptor, MTL4BufferRange scratchBuffer)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.BuildAccelerationStructure, accelerationStructure.NativePtr, descriptor.NativePtr, scratchBuffer);
@@ -170,6 +165,11 @@ public class MTL4ComputeCommandEncoder(nint nativePtr) : MTL4CommandEncoder(nati
     public void SetThreadgroupMemoryLength(nuint length, nuint index)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.SetThreadgroupMemoryLength, length, index);
+    }
+
+    public MTLStages Stages()
+    {
+        return (MTLStages)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4ComputeCommandEncoderBindings.Stages);
     }
 
     public void WriteCompactedAccelerationStructureSize(MTLAccelerationStructure accelerationStructure, MTL4BufferRange buffer)

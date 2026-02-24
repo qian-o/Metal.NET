@@ -2,9 +2,11 @@
 
 public class MTLParallelRenderCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr)
 {
-    public MTLRenderCommandEncoder? RenderCommandEncoder
+    public MTLRenderCommandEncoder? RenderCommandEncoder()
     {
-        get => GetProperty(ref field, MTLParallelRenderCommandEncoderBindings.RenderCommandEncoder);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLParallelRenderCommandEncoderBindings.RenderCommandEncoder);
+
+        return nativePtr is not 0 ? new(nativePtr) : null;
     }
 
     public void SetColorStoreAction(MTLStoreAction storeAction, nuint colorAttachmentIndex)
