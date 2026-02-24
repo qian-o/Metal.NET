@@ -10,7 +10,7 @@ C# bindings for Apple's Metal graphics API, auto-generated from [metal-cpp](http
 Metal.NET.slnx
 ├── Metal.NET/                            ← Binding library (targets .NET 10, macOS 15+)
 │   ├── Common/
-│   │   ├── NativeObject.cs               ← Abstract base wrapper; releases ObjC refcount on dispose
+│   │   ├── NativeObject.cs               ← INativeObject<TSelf> interface + abstract base wrapper
 │   │   ├── ObjectiveCRuntime.cs          ← P/Invoke to libobjc.dylib (objc_msgSend)
 │   │   ├── Selector.cs                   ← ObjC selector with implicit string conversion
 │   │   ├── Bool8.cs                      ← ObjC BOOL mapped to a single byte
@@ -37,24 +37,39 @@ Metal.NET.slnx
 
 ## Generated Code Patterns
 
+### INativeObject\<TSelf\>
+
+All ObjC wrappers implement `INativeObject<TSelf>`, a static abstract factory interface that enables generic construction from raw pointers:
+
+```csharp
+public interface INativeObject<TSelf> where TSelf : NativeObject, INativeObject<TSelf>
+{
+    static abstract TSelf Create(nint nativePtr);
+}
+```
+
+This allows `NativeObject.GetProperty<T>` and `NSArray.ObjectAtIndex<T>` to create wrapper instances through the `T.Create(nativePtr)` factory call, eliminating nullable returns for property accessors.
+
 ### Classes
 
 All ObjC wrappers inherit from `NativeObject`, which holds a raw Objective-C pointer and decrements its reference count (`release`) on dispose.
-Classes use C# 14.0 primary constructors and the `field` keyword for cached nullable properties:
+Classes use C# 14.0 primary constructors and the `field` keyword for cached properties:
 
 ```csharp
-public class MTLCommandQueue(nint nativePtr) : NativeObject(nativePtr)
+public class MTLCommandQueue(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLCommandQueue>
 {
-    public MTLDevice? Device
+    public static MTLCommandQueue Create(nint nativePtr) => new(nativePtr);
+
+    public MTLDevice Device
     {
         get => GetProperty(ref field, MTLCommandQueueBindings.Device);
     }
 
-    public MTLCommandBuffer? CommandBuffer()
+    public MTLCommandBuffer CommandBuffer()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBuffer);
 
-        return nativePtr is not 0 ? new(nativePtr) : null;
+        return new(nativePtr);
     }
 }
 ```
