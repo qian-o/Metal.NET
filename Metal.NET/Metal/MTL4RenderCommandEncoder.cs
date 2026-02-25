@@ -2,9 +2,7 @@
 
 public class MTL4RenderCommandEncoder(nint nativePtr, bool ownsReference) : MTL4CommandEncoder(nativePtr, ownsReference), INativeObject<MTL4RenderCommandEncoder>
 {
-    public static new MTL4RenderCommandEncoder Create(nint nativePtr) => new(nativePtr, true);
-
-    public static new MTL4RenderCommandEncoder CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static new MTL4RenderCommandEncoder Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public nuint TileHeight
     {

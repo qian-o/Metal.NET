@@ -2,9 +2,7 @@
 
 public class MTL4CommandBufferOptions(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CommandBufferOptions>
 {
-    public static MTL4CommandBufferOptions Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTL4CommandBufferOptions CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTL4CommandBufferOptions Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTL4CommandBufferOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CommandBufferOptionsBindings.Class), true)
     {

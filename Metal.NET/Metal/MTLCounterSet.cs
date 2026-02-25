@@ -2,9 +2,7 @@
 
 public class MTLCounterSet(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCounterSet>
 {
-    public static MTLCounterSet Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLCounterSet CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLCounterSet Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public NSArray Counters
     {

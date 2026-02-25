@@ -2,9 +2,7 @@
 
 public class MTLBufferBinding(nint nativePtr, bool ownsReference) : MTLBinding(nativePtr, ownsReference), INativeObject<MTLBufferBinding>
 {
-    public static new MTLBufferBinding Create(nint nativePtr) => new(nativePtr, true);
-
-    public static new MTLBufferBinding CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static new MTLBufferBinding Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public nuint BufferAlignment
     {

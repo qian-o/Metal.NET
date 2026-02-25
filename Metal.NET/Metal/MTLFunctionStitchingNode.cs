@@ -2,9 +2,7 @@
 
 public class MTLFunctionStitchingNode(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFunctionStitchingNode>
 {
-    public static MTLFunctionStitchingNode Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLFunctionStitchingNode CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLFunctionStitchingNode Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 }
 
 file static class MTLFunctionStitchingNodeBindings

@@ -2,9 +2,7 @@
 
 public class MTLIOFileHandle(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLIOFileHandle>
 {
-    public static MTLIOFileHandle Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLIOFileHandle CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLIOFileHandle Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public NSString Label
     {

@@ -2,9 +2,7 @@
 
 public class MTLCommandBufferEncoderInfo(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCommandBufferEncoderInfo>
 {
-    public static MTLCommandBufferEncoderInfo Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLCommandBufferEncoderInfo CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLCommandBufferEncoderInfo Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public NSArray DebugSignposts
     {

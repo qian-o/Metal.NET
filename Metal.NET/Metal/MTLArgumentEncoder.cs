@@ -2,9 +2,7 @@
 
 public class MTLArgumentEncoder(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLArgumentEncoder>
 {
-    public static MTLArgumentEncoder Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLArgumentEncoder CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLArgumentEncoder Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public nuint Alignment
     {

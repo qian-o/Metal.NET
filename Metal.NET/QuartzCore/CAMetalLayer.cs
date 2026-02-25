@@ -2,9 +2,7 @@
 
 public class CAMetalLayer(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<CAMetalLayer>
 {
-    public static CAMetalLayer Create(nint nativePtr) => new(nativePtr, true);
-
-    public static CAMetalLayer CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static CAMetalLayer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(CAMetalLayerBindings.Class), true)
     {

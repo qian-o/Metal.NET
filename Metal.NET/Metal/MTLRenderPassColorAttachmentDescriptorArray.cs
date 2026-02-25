@@ -2,9 +2,7 @@
 
 public class MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLRenderPassColorAttachmentDescriptorArray>
 {
-    public static MTLRenderPassColorAttachmentDescriptorArray Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLRenderPassColorAttachmentDescriptorArray CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLRenderPassColorAttachmentDescriptorArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLRenderPassColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassColorAttachmentDescriptorArrayBindings.Class), true)
     {

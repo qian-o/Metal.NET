@@ -2,9 +2,7 @@
 
 public class MTLCounterSampleBufferDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCounterSampleBufferDescriptor>
 {
-    public static MTLCounterSampleBufferDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLCounterSampleBufferDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLCounterSampleBufferDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLCounterSampleBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCounterSampleBufferDescriptorBindings.Class), true)
     {

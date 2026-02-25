@@ -2,9 +2,7 @@
 
 public class MTLIOScratchBufferAllocator(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLIOScratchBufferAllocator>
 {
-    public static MTLIOScratchBufferAllocator Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLIOScratchBufferAllocator CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLIOScratchBufferAllocator Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLIOScratchBuffer NewScratchBuffer(nuint minimumSize)
     {

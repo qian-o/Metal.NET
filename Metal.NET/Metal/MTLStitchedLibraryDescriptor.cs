@@ -2,9 +2,7 @@
 
 public class MTLStitchedLibraryDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLStitchedLibraryDescriptor>
 {
-    public static MTLStitchedLibraryDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLStitchedLibraryDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLStitchedLibraryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLStitchedLibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStitchedLibraryDescriptorBindings.Class), true)
     {

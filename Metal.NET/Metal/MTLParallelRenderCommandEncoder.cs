@@ -2,9 +2,7 @@
 
 public class MTLParallelRenderCommandEncoder(nint nativePtr, bool ownsReference) : MTLCommandEncoder(nativePtr, ownsReference), INativeObject<MTLParallelRenderCommandEncoder>
 {
-    public static new MTLParallelRenderCommandEncoder Create(nint nativePtr) => new(nativePtr, true);
-
-    public static new MTLParallelRenderCommandEncoder CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static new MTLParallelRenderCommandEncoder Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLRenderCommandEncoder RenderCommandEncoder()
     {

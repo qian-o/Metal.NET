@@ -2,9 +2,7 @@
 
 public class MTL4MachineLearningPipelineReflection(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4MachineLearningPipelineReflection>
 {
-    public static MTL4MachineLearningPipelineReflection Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTL4MachineLearningPipelineReflection CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTL4MachineLearningPipelineReflection Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTL4MachineLearningPipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTL4MachineLearningPipelineReflectionBindings.Class), true)
     {

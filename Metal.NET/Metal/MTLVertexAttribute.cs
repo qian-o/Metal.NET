@@ -2,9 +2,7 @@
 
 public class MTLVertexAttribute(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLVertexAttribute>
 {
-    public static MTLVertexAttribute Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLVertexAttribute CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLVertexAttribute Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLVertexAttribute() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeBindings.Class), true)
     {

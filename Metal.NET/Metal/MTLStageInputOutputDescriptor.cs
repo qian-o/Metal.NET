@@ -2,9 +2,7 @@
 
 public class MTLStageInputOutputDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLStageInputOutputDescriptor>
 {
-    public static MTLStageInputOutputDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLStageInputOutputDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLStageInputOutputDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLStageInputOutputDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStageInputOutputDescriptorBindings.Class), true)
     {

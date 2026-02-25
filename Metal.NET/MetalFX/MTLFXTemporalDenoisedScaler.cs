@@ -2,9 +2,7 @@
 
 public class MTLFXTemporalDenoisedScaler(nint nativePtr, bool ownsReference) : MTLFXTemporalDenoisedScalerBase(nativePtr, ownsReference), INativeObject<MTLFXTemporalDenoisedScaler>
 {
-    public static new MTLFXTemporalDenoisedScaler Create(nint nativePtr) => new(nativePtr, true);
-
-    public static new MTLFXTemporalDenoisedScaler CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static new MTLFXTemporalDenoisedScaler Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public void EncodeToCommandBuffer(MTLCommandBuffer commandBuffer)
     {

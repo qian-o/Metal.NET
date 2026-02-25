@@ -2,9 +2,7 @@
 
 public class MTLCaptureDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCaptureDescriptor>
 {
-    public static MTLCaptureDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLCaptureDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLCaptureDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLCaptureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCaptureDescriptorBindings.Class), true)
     {

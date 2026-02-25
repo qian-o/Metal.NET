@@ -2,9 +2,7 @@
 
 public class MTLAttributeDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLAttributeDescriptor>
 {
-    public static MTLAttributeDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLAttributeDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLAttributeDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAttributeDescriptorBindings.Class), true)
     {

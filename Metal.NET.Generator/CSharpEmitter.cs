@@ -193,9 +193,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         sb.AppendLine($"public {partialKeyword}class {csClassName}(nint nativePtr, bool ownsReference) : {baseClass}(nativePtr, ownsReference), INativeObject<{csClassName}>");
         sb.AppendLine("{");
         string newKeyword = baseClass != "NativeObject" ? "new " : "";
-        sb.AppendLine($"    public static {newKeyword}{csClassName} Create(nint nativePtr) => new(nativePtr, true);");
-        sb.AppendLine();
-        sb.AppendLine($"    public static {newKeyword}{csClassName} CreateBorrowed(nint nativePtr) => new(nativePtr, false);");
+        sb.AppendLine($"    public static {newKeyword}{csClassName} Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);");
 
         bool hasPrecedingMember = true;
         if (hasClassField)

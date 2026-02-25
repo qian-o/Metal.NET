@@ -2,9 +2,7 @@
 
 public class MTLFXFrameInterpolatorBase(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFXFrameInterpolatorBase>
 {
-    public static MTLFXFrameInterpolatorBase Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLFXFrameInterpolatorBase CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLFXFrameInterpolatorBase Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public float AspectRatio
     {

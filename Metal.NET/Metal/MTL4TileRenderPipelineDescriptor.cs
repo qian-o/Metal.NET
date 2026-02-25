@@ -2,9 +2,7 @@
 
 public class MTL4TileRenderPipelineDescriptor(nint nativePtr, bool ownsReference) : MTL4PipelineDescriptor(nativePtr, ownsReference), INativeObject<MTL4TileRenderPipelineDescriptor>
 {
-    public static new MTL4TileRenderPipelineDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static new MTL4TileRenderPipelineDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static new MTL4TileRenderPipelineDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTL4TileRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4TileRenderPipelineDescriptorBindings.Class), true)
     {

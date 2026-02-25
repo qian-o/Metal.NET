@@ -2,9 +2,7 @@
 
 public class MTLDrawable(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLDrawable>
 {
-    public static MTLDrawable Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLDrawable CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLDrawable Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public nuint DrawableID
     {

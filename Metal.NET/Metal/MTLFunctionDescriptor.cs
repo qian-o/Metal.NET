@@ -2,9 +2,7 @@
 
 public class MTLFunctionDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFunctionDescriptor>
 {
-    public static MTLFunctionDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLFunctionDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLFunctionDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFunctionDescriptorBindings.Class), true)
     {

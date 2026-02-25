@@ -2,9 +2,7 @@
 
 public class MTLBlitPassDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLBlitPassDescriptor>
 {
-    public static MTLBlitPassDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLBlitPassDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLBlitPassDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLBlitPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBlitPassDescriptorBindings.Class), true)
     {

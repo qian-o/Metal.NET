@@ -2,9 +2,7 @@
 
 public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLAccelerationStructurePassSampleBufferAttachmentDescriptor>
 {
-    public static MTLAccelerationStructurePassSampleBufferAttachmentDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLAccelerationStructurePassSampleBufferAttachmentDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLAccelerationStructurePassSampleBufferAttachmentDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.Class), true)
     {

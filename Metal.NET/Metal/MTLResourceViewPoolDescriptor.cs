@@ -2,9 +2,7 @@
 
 public class MTLResourceViewPoolDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLResourceViewPoolDescriptor>
 {
-    public static MTLResourceViewPoolDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLResourceViewPoolDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLResourceViewPoolDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLResourceViewPoolDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceViewPoolDescriptorBindings.Class), true)
     {

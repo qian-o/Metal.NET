@@ -2,9 +2,7 @@
 
 public class MTLMotionKeyframeData(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLMotionKeyframeData>
 {
-    public static MTLMotionKeyframeData Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLMotionKeyframeData CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLMotionKeyframeData Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLMotionKeyframeData() : this(ObjectiveCRuntime.AllocInit(MTLMotionKeyframeDataBindings.Class), true)
     {

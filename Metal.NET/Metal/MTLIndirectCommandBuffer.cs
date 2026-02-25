@@ -2,9 +2,7 @@
 
 public class MTLIndirectCommandBuffer(nint nativePtr, bool ownsReference) : MTLResource(nativePtr, ownsReference), INativeObject<MTLIndirectCommandBuffer>
 {
-    public static new MTLIndirectCommandBuffer Create(nint nativePtr) => new(nativePtr, true);
-
-    public static new MTLIndirectCommandBuffer CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static new MTLIndirectCommandBuffer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLResourceID GpuResourceID
     {

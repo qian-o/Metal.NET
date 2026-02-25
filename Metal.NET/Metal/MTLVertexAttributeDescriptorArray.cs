@@ -2,9 +2,7 @@
 
 public class MTLVertexAttributeDescriptorArray(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLVertexAttributeDescriptorArray>
 {
-    public static MTLVertexAttributeDescriptorArray Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLVertexAttributeDescriptorArray CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLVertexAttributeDescriptorArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLVertexAttributeDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeDescriptorArrayBindings.Class), true)
     {

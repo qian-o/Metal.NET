@@ -2,9 +2,7 @@
 
 public class MTLResidencySet(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLResidencySet>
 {
-    public static MTLResidencySet Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLResidencySet CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLResidencySet Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public NSArray AllAllocations
     {

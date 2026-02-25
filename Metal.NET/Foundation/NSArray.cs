@@ -5,9 +5,7 @@
 /// </summary>
 public class NSArray(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<NSArray>
 {
-    public static NSArray Create(nint nativePtr) => new(nativePtr, true);
-
-    public static NSArray CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static NSArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public nuint Count
     {
@@ -22,7 +20,7 @@ public class NSArray(nint nativePtr, bool ownsReference) : NativeObject(nativePt
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSArrayBindings.ObjectAtIndex, index);
 
-        return T.Create(nativePtr);
+        return T.Create(nativePtr, true);
     }
 }
 

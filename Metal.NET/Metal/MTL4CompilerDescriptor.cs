@@ -2,9 +2,7 @@
 
 public class MTL4CompilerDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CompilerDescriptor>
 {
-    public static MTL4CompilerDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTL4CompilerDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTL4CompilerDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTL4CompilerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CompilerDescriptorBindings.Class), true)
     {

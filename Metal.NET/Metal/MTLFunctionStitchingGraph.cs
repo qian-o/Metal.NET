@@ -2,9 +2,7 @@
 
 public class MTLFunctionStitchingGraph(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFunctionStitchingGraph>
 {
-    public static MTLFunctionStitchingGraph Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLFunctionStitchingGraph CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLFunctionStitchingGraph Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLFunctionStitchingGraph() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingGraphBindings.Class), true)
     {

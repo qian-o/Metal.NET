@@ -2,9 +2,7 @@
 
 public class MTL4CommandAllocatorDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CommandAllocatorDescriptor>
 {
-    public static MTL4CommandAllocatorDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTL4CommandAllocatorDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTL4CommandAllocatorDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTL4CommandAllocatorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CommandAllocatorDescriptorBindings.Class), true)
     {

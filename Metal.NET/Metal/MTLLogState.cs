@@ -2,9 +2,7 @@
 
 public class MTLLogState(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLLogState>
 {
-    public static MTLLogState Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLLogState CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLLogState Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 }
 
 file static class MTLLogStateBindings

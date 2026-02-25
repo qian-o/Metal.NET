@@ -5,9 +5,7 @@
 /// </summary>
 public class NSURL(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<NSURL>
 {
-    public static NSURL Create(nint nativePtr) => new(nativePtr, true);
-
-    public static NSURL CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static NSURL Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public nint FileSystemRepresentation
     {

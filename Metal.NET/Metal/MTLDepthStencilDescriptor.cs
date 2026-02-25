@@ -2,9 +2,7 @@
 
 public class MTLDepthStencilDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLDepthStencilDescriptor>
 {
-    public static MTLDepthStencilDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLDepthStencilDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLDepthStencilDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLDepthStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLDepthStencilDescriptorBindings.Class), true)
     {

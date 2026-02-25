@@ -2,9 +2,7 @@
 
 public class MTLCommandBufferDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCommandBufferDescriptor>
 {
-    public static MTLCommandBufferDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLCommandBufferDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLCommandBufferDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLCommandBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCommandBufferDescriptorBindings.Class), true)
     {

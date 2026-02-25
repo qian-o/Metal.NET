@@ -2,9 +2,7 @@
 
 public class MTLLinkedFunctions(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLLinkedFunctions>
 {
-    public static MTLLinkedFunctions Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLLinkedFunctions CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLLinkedFunctions Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(MTLLinkedFunctionsBindings.Class), true)
     {

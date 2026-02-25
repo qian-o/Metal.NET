@@ -2,9 +2,7 @@
 
 public class MTLVertexBufferLayoutDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLVertexBufferLayoutDescriptor>
 {
-    public static MTLVertexBufferLayoutDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLVertexBufferLayoutDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLVertexBufferLayoutDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLVertexBufferLayoutDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexBufferLayoutDescriptorBindings.Class), true)
     {

@@ -2,9 +2,7 @@
 
 public class MTLAccelerationStructureBoundingBoxGeometryDescriptor(nint nativePtr, bool ownsReference) : MTLAccelerationStructureGeometryDescriptor(nativePtr, ownsReference), INativeObject<MTLAccelerationStructureBoundingBoxGeometryDescriptor>
 {
-    public static new MTLAccelerationStructureBoundingBoxGeometryDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static new MTLAccelerationStructureBoundingBoxGeometryDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static new MTLAccelerationStructureBoundingBoxGeometryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLAccelerationStructureBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.Class), true)
     {

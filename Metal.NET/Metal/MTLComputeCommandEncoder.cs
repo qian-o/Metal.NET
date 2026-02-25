@@ -2,9 +2,7 @@
 
 public class MTLComputeCommandEncoder(nint nativePtr, bool ownsReference) : MTLCommandEncoder(nativePtr, ownsReference), INativeObject<MTLComputeCommandEncoder>
 {
-    public static new MTLComputeCommandEncoder Create(nint nativePtr) => new(nativePtr, true);
-
-    public static new MTLComputeCommandEncoder CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static new MTLComputeCommandEncoder Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLDispatchType DispatchType
     {

@@ -2,9 +2,7 @@
 
 public class MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLLogicalToPhysicalColorAttachmentMap>
 {
-    public static MTLLogicalToPhysicalColorAttachmentMap Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLLogicalToPhysicalColorAttachmentMap CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLLogicalToPhysicalColorAttachmentMap Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLLogicalToPhysicalColorAttachmentMap() : this(ObjectiveCRuntime.AllocInit(MTLLogicalToPhysicalColorAttachmentMapBindings.Class), true)
     {

@@ -2,9 +2,7 @@
 
 public class MTLFXSpatialScaler(nint nativePtr, bool ownsReference) : MTLFXSpatialScalerBase(nativePtr, ownsReference), INativeObject<MTLFXSpatialScaler>
 {
-    public static new MTLFXSpatialScaler Create(nint nativePtr) => new(nativePtr, true);
-
-    public static new MTLFXSpatialScaler CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static new MTLFXSpatialScaler Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public void EncodeToCommandBuffer(MTLCommandBuffer pCommandBuffer)
     {

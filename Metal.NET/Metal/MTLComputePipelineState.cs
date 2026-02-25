@@ -2,9 +2,7 @@
 
 public class MTLComputePipelineState(nint nativePtr, bool ownsReference) : MTLAllocation(nativePtr, ownsReference), INativeObject<MTLComputePipelineState>
 {
-    public static new MTLComputePipelineState Create(nint nativePtr) => new(nativePtr, true);
-
-    public static new MTLComputePipelineState CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static new MTLComputePipelineState Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLDevice Device
     {

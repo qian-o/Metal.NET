@@ -2,9 +2,7 @@
 
 public class MTLCounterSampleBuffer(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCounterSampleBuffer>
 {
-    public static MTLCounterSampleBuffer Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLCounterSampleBuffer CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLCounterSampleBuffer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLDevice Device
     {

@@ -2,9 +2,7 @@
 
 public class MTLRenderPassSampleBufferAttachmentDescriptorArray(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLRenderPassSampleBufferAttachmentDescriptorArray>
 {
-    public static MTLRenderPassSampleBufferAttachmentDescriptorArray Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLRenderPassSampleBufferAttachmentDescriptorArray CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLRenderPassSampleBufferAttachmentDescriptorArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLRenderPassSampleBufferAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassSampleBufferAttachmentDescriptorArrayBindings.Class), true)
     {

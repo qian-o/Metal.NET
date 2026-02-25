@@ -2,9 +2,7 @@
 
 public class MTL4RenderPipelineBinaryFunctionsDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4RenderPipelineBinaryFunctionsDescriptor>
 {
-    public static MTL4RenderPipelineBinaryFunctionsDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTL4RenderPipelineBinaryFunctionsDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTL4RenderPipelineBinaryFunctionsDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTL4RenderPipelineBinaryFunctionsDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.Class), true)
     {

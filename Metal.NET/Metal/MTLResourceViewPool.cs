@@ -2,9 +2,7 @@
 
 public class MTLResourceViewPool(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLResourceViewPool>
 {
-    public static MTLResourceViewPool Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLResourceViewPool CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLResourceViewPool Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLResourceID BaseResourceID
     {

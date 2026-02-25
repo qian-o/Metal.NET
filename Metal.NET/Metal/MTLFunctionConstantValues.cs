@@ -2,9 +2,7 @@
 
 public class MTLFunctionConstantValues(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFunctionConstantValues>
 {
-    public static MTLFunctionConstantValues Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLFunctionConstantValues CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLFunctionConstantValues Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLFunctionConstantValues() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantValuesBindings.Class), true)
     {

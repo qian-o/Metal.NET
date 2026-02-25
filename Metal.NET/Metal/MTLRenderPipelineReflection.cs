@@ -2,9 +2,7 @@
 
 public class MTLRenderPipelineReflection(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLRenderPipelineReflection>
 {
-    public static MTLRenderPipelineReflection Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLRenderPipelineReflection CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLRenderPipelineReflection Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLRenderPipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineReflectionBindings.Class), true)
     {

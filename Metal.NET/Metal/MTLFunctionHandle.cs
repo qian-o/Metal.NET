@@ -2,9 +2,7 @@
 
 public class MTLFunctionHandle(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFunctionHandle>
 {
-    public static MTLFunctionHandle Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLFunctionHandle CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLFunctionHandle Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLDevice Device
     {

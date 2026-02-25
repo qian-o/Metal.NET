@@ -2,9 +2,7 @@
 
 public class MTLAccelerationStructureCommandEncoder(nint nativePtr, bool ownsReference) : MTLCommandEncoder(nativePtr, ownsReference), INativeObject<MTLAccelerationStructureCommandEncoder>
 {
-    public static new MTLAccelerationStructureCommandEncoder Create(nint nativePtr) => new(nativePtr, true);
-
-    public static new MTLAccelerationStructureCommandEncoder CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static new MTLAccelerationStructureCommandEncoder Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public void BuildAccelerationStructure(MTLAccelerationStructure accelerationStructure, MTLAccelerationStructureDescriptor descriptor, MTLBuffer scratchBuffer, nuint scratchBufferOffset)
     {

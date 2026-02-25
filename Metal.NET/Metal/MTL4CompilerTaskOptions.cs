@@ -2,9 +2,7 @@
 
 public class MTL4CompilerTaskOptions(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CompilerTaskOptions>
 {
-    public static MTL4CompilerTaskOptions Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTL4CompilerTaskOptions CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTL4CompilerTaskOptions Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTL4CompilerTaskOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CompilerTaskOptionsBindings.Class), true)
     {

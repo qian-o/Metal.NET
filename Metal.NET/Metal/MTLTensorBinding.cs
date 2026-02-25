@@ -2,9 +2,7 @@
 
 public class MTLTensorBinding(nint nativePtr, bool ownsReference) : MTLBinding(nativePtr, ownsReference), INativeObject<MTLTensorBinding>
 {
-    public static new MTLTensorBinding Create(nint nativePtr) => new(nativePtr, true);
-
-    public static new MTLTensorBinding CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static new MTLTensorBinding Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLTensorExtents Dimensions
     {

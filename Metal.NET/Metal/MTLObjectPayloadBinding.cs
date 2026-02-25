@@ -2,9 +2,7 @@
 
 public class MTLObjectPayloadBinding(nint nativePtr, bool ownsReference) : MTLBinding(nativePtr, ownsReference), INativeObject<MTLObjectPayloadBinding>
 {
-    public static new MTLObjectPayloadBinding Create(nint nativePtr) => new(nativePtr, true);
-
-    public static new MTLObjectPayloadBinding CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static new MTLObjectPayloadBinding Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public nuint ObjectPayloadAlignment
     {

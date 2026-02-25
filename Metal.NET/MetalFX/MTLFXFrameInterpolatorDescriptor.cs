@@ -2,9 +2,7 @@
 
 public class MTLFXFrameInterpolatorDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFXFrameInterpolatorDescriptor>
 {
-    public static MTLFXFrameInterpolatorDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLFXFrameInterpolatorDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLFXFrameInterpolatorDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLFXFrameInterpolatorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXFrameInterpolatorDescriptorBindings.Class), true)
     {

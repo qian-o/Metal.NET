@@ -2,9 +2,7 @@
 
 public class MTLRasterizationRateSampleArray(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLRasterizationRateSampleArray>
 {
-    public static MTLRasterizationRateSampleArray Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLRasterizationRateSampleArray CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLRasterizationRateSampleArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLRasterizationRateSampleArray() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateSampleArrayBindings.Class), true)
     {

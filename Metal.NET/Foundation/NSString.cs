@@ -8,9 +8,7 @@ namespace Metal.NET;
 /// </summary>
 public class NSString(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<NSString>
 {
-    public static NSString Create(nint nativePtr) => new(nativePtr, true);
-
-    public static NSString CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static NSString Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public string Value
     {

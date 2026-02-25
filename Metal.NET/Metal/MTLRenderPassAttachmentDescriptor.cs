@@ -2,9 +2,7 @@
 
 public class MTLRenderPassAttachmentDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLRenderPassAttachmentDescriptor>
 {
-    public static MTLRenderPassAttachmentDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLRenderPassAttachmentDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLRenderPassAttachmentDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLRenderPassAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassAttachmentDescriptorBindings.Class), true)
     {

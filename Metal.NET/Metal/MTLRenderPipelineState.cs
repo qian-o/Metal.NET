@@ -2,9 +2,7 @@
 
 public class MTLRenderPipelineState(nint nativePtr, bool ownsReference) : MTLAllocation(nativePtr, ownsReference), INativeObject<MTLRenderPipelineState>
 {
-    public static new MTLRenderPipelineState Create(nint nativePtr) => new(nativePtr, true);
-
-    public static new MTLRenderPipelineState CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static new MTLRenderPipelineState Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLDevice Device
     {

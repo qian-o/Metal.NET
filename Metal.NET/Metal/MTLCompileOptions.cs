@@ -2,9 +2,7 @@
 
 public class MTLCompileOptions(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCompileOptions>
 {
-    public static MTLCompileOptions Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLCompileOptions CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLCompileOptions Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLCompileOptions() : this(ObjectiveCRuntime.AllocInit(MTLCompileOptionsBindings.Class), true)
     {

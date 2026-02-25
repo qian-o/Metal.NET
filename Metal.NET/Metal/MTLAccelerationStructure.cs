@@ -2,9 +2,7 @@
 
 public class MTLAccelerationStructure(nint nativePtr, bool ownsReference) : MTLResource(nativePtr, ownsReference), INativeObject<MTLAccelerationStructure>
 {
-    public static new MTLAccelerationStructure Create(nint nativePtr) => new(nativePtr, true);
-
-    public static new MTLAccelerationStructure CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static new MTLAccelerationStructure Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLResourceID GpuResourceID
     {

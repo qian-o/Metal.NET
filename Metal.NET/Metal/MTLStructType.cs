@@ -2,9 +2,7 @@
 
 public class MTLStructType(nint nativePtr, bool ownsReference) : MTLType(nativePtr, ownsReference), INativeObject<MTLStructType>
 {
-    public static new MTLStructType Create(nint nativePtr) => new(nativePtr, true);
-
-    public static new MTLStructType CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static new MTLStructType Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLStructType() : this(ObjectiveCRuntime.AllocInit(MTLStructTypeBindings.Class), true)
     {

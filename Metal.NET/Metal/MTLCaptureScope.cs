@@ -2,9 +2,7 @@
 
 public class MTLCaptureScope(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCaptureScope>
 {
-    public static MTLCaptureScope Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLCaptureScope CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLCaptureScope Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLCommandQueue CommandQueue
     {

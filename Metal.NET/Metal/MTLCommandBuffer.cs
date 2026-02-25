@@ -2,9 +2,7 @@
 
 public class MTLCommandBuffer(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCommandBuffer>
 {
-    public static MTLCommandBuffer Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLCommandBuffer CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLCommandBuffer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLCommandQueue CommandQueue
     {

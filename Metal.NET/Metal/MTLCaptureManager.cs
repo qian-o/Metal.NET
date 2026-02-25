@@ -2,9 +2,7 @@
 
 public class MTLCaptureManager(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCaptureManager>
 {
-    public static MTLCaptureManager Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLCaptureManager CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLCaptureManager Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLCaptureManager() : this(ObjectiveCRuntime.AllocInit(MTLCaptureManagerBindings.Class), true)
     {

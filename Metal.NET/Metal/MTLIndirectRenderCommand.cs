@@ -2,9 +2,7 @@
 
 public class MTLIndirectRenderCommand(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLIndirectRenderCommand>
 {
-    public static MTLIndirectRenderCommand Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLIndirectRenderCommand CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLIndirectRenderCommand Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public void ClearBarrier()
     {

@@ -7,14 +7,9 @@
 public interface INativeObject<TSelf> where TSelf : NativeObject, INativeObject<TSelf>
 {
     /// <summary>
-    /// Creates an <em>owned</em> wrapper that will send <c>release</c> when disposed.
+    /// Creates a managed wrapper around the given native pointer.
     /// </summary>
-    static abstract TSelf Create(nint nativePtr);
-
-    /// <summary>
-    /// Creates a <em>borrowed</em> wrapper that will <b>not</b> send <c>release</c> when disposed.
-    /// </summary>
-    static abstract TSelf CreateBorrowed(nint nativePtr);
+    static abstract TSelf Create(nint nativePtr, bool ownsReference);
 }
 
 /// <summary>
@@ -75,7 +70,7 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDispos
 
         if (field is null || field.NativePtr != nativePtr)
         {
-            field = T.CreateBorrowed(nativePtr);
+            field = T.Create(nativePtr, false);
         }
 
         return field;

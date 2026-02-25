@@ -5,9 +5,7 @@
 /// </summary>
 public class NSError(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<NSError>
 {
-    public static NSError Create(nint nativePtr) => new(nativePtr, true);
-
-    public static NSError CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static NSError Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public NSString LocalizedDescription
     {

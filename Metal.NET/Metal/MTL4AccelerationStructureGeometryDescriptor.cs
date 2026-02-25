@@ -2,9 +2,7 @@
 
 public class MTL4AccelerationStructureGeometryDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4AccelerationStructureGeometryDescriptor>
 {
-    public static MTL4AccelerationStructureGeometryDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTL4AccelerationStructureGeometryDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTL4AccelerationStructureGeometryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTL4AccelerationStructureGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureGeometryDescriptorBindings.Class), true)
     {

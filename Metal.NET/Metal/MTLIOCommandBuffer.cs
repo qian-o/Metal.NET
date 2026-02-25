@@ -2,9 +2,7 @@
 
 public class MTLIOCommandBuffer(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLIOCommandBuffer>
 {
-    public static MTLIOCommandBuffer Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLIOCommandBuffer CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLIOCommandBuffer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public NSError Error
     {

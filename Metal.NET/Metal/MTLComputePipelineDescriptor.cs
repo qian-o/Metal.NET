@@ -2,9 +2,7 @@
 
 public class MTLComputePipelineDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLComputePipelineDescriptor>
 {
-    public static MTLComputePipelineDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLComputePipelineDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLComputePipelineDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLComputePipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLComputePipelineDescriptorBindings.Class), true)
     {

@@ -2,9 +2,7 @@
 
 public class MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFXTemporalDenoisedScalerDescriptor>
 {
-    public static MTLFXTemporalDenoisedScalerDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLFXTemporalDenoisedScalerDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLFXTemporalDenoisedScalerDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLFXTemporalDenoisedScalerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXTemporalDenoisedScalerDescriptorBindings.Class), true)
     {

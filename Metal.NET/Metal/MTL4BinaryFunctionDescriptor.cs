@@ -2,9 +2,7 @@
 
 public class MTL4BinaryFunctionDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4BinaryFunctionDescriptor>
 {
-    public static MTL4BinaryFunctionDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTL4BinaryFunctionDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTL4BinaryFunctionDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTL4BinaryFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4BinaryFunctionDescriptorBindings.Class), true)
     {

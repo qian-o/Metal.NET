@@ -2,9 +2,7 @@
 
 public class MTLBuffer(nint nativePtr, bool ownsReference) : MTLResource(nativePtr, ownsReference), INativeObject<MTLBuffer>
 {
-    public static new MTLBuffer Create(nint nativePtr) => new(nativePtr, true);
-
-    public static new MTLBuffer CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static new MTLBuffer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public nuint GpuAddress
     {

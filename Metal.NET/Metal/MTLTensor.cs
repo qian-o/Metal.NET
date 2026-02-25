@@ -2,9 +2,7 @@
 
 public class MTLTensor(nint nativePtr, bool ownsReference) : MTLResource(nativePtr, ownsReference), INativeObject<MTLTensor>
 {
-    public static new MTLTensor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static new MTLTensor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static new MTLTensor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLBuffer Buffer
     {

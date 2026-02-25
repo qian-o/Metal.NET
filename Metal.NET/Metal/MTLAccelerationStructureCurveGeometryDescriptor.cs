@@ -2,9 +2,7 @@
 
 public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr, bool ownsReference) : MTLAccelerationStructureGeometryDescriptor(nativePtr, ownsReference), INativeObject<MTLAccelerationStructureCurveGeometryDescriptor>
 {
-    public static new MTLAccelerationStructureCurveGeometryDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static new MTLAccelerationStructureCurveGeometryDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static new MTLAccelerationStructureCurveGeometryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLAccelerationStructureCurveGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureCurveGeometryDescriptorBindings.Class), true)
     {

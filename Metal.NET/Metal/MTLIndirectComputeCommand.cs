@@ -2,9 +2,7 @@
 
 public class MTLIndirectComputeCommand(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLIndirectComputeCommand>
 {
-    public static MTLIndirectComputeCommand Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLIndirectComputeCommand CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLIndirectComputeCommand Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public void ClearBarrier()
     {

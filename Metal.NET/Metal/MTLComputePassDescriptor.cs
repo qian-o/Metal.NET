@@ -2,9 +2,7 @@
 
 public class MTLComputePassDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLComputePassDescriptor>
 {
-    public static MTLComputePassDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLComputePassDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLComputePassDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLComputePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLComputePassDescriptorBindings.Class), true)
     {

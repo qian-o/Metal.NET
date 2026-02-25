@@ -2,9 +2,7 @@
 
 public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr, bool ownsReference) : MTLAccelerationStructureGeometryDescriptor(nativePtr, ownsReference), INativeObject<MTLAccelerationStructureTriangleGeometryDescriptor>
 {
-    public static new MTLAccelerationStructureTriangleGeometryDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static new MTLAccelerationStructureTriangleGeometryDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static new MTLAccelerationStructureTriangleGeometryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLAccelerationStructureTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureTriangleGeometryDescriptorBindings.Class), true)
     {

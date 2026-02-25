@@ -2,9 +2,7 @@
 
 public class MTLIOCommandQueueDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLIOCommandQueueDescriptor>
 {
-    public static MTLIOCommandQueueDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLIOCommandQueueDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLIOCommandQueueDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLIOCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIOCommandQueueDescriptorBindings.Class), true)
     {

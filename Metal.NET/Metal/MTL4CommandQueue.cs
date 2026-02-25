@@ -2,9 +2,7 @@
 
 public class MTL4CommandQueue(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CommandQueue>
 {
-    public static MTL4CommandQueue Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTL4CommandQueue CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTL4CommandQueue Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLDevice Device
     {

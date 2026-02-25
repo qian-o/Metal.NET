@@ -2,9 +2,7 @@
 
 public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr, bool ownsReference) : MTLAccelerationStructureDescriptor(nativePtr, ownsReference), INativeObject<MTLIndirectInstanceAccelerationStructureDescriptor>
 {
-    public static new MTLIndirectInstanceAccelerationStructureDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static new MTLIndirectInstanceAccelerationStructureDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static new MTLIndirectInstanceAccelerationStructureDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLIndirectInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIndirectInstanceAccelerationStructureDescriptorBindings.Class), true)
     {

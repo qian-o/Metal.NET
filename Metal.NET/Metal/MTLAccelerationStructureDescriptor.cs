@@ -2,9 +2,7 @@
 
 public class MTLAccelerationStructureDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLAccelerationStructureDescriptor>
 {
-    public static MTLAccelerationStructureDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLAccelerationStructureDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLAccelerationStructureDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureDescriptorBindings.Class), true)
     {

@@ -2,9 +2,7 @@
 
 public class MTL4CommandEncoder(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CommandEncoder>
 {
-    public static MTL4CommandEncoder Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTL4CommandEncoder CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTL4CommandEncoder Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTL4CommandBuffer CommandBuffer
     {

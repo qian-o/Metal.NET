@@ -2,9 +2,7 @@
 
 public class MTLFXSpatialScalerBase(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFXSpatialScalerBase>
 {
-    public static MTLFXSpatialScalerBase Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLFXSpatialScalerBase CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLFXSpatialScalerBase Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLFXSpatialScalerColorProcessingMode ColorProcessingMode
     {

@@ -2,9 +2,7 @@
 
 public class MTL4BinaryFunction(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4BinaryFunction>
 {
-    public static MTL4BinaryFunction Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTL4BinaryFunction CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTL4BinaryFunction Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLFunctionType FunctionType
     {

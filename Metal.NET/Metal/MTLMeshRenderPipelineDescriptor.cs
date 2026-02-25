@@ -2,9 +2,7 @@
 
 public class MTLMeshRenderPipelineDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLMeshRenderPipelineDescriptor>
 {
-    public static MTLMeshRenderPipelineDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLMeshRenderPipelineDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLMeshRenderPipelineDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLMeshRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLMeshRenderPipelineDescriptorBindings.Class), true)
     {

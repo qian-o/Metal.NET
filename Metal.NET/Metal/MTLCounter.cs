@@ -2,9 +2,7 @@
 
 public class MTLCounter(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCounter>
 {
-    public static MTLCounter Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLCounter CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLCounter Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public NSString Name
     {

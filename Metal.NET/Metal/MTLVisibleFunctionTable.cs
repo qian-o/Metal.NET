@@ -2,9 +2,7 @@
 
 public class MTLVisibleFunctionTable(nint nativePtr, bool ownsReference) : MTLResource(nativePtr, ownsReference), INativeObject<MTLVisibleFunctionTable>
 {
-    public static new MTLVisibleFunctionTable Create(nint nativePtr) => new(nativePtr, true);
-
-    public static new MTLVisibleFunctionTable CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static new MTLVisibleFunctionTable Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLResourceID GpuResourceID
     {

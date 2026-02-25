@@ -2,9 +2,7 @@
 
 public class MTLIntersectionFunctionTableDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLIntersectionFunctionTableDescriptor>
 {
-    public static MTLIntersectionFunctionTableDescriptor Create(nint nativePtr) => new(nativePtr, true);
-
-    public static MTLIntersectionFunctionTableDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
+    public static MTLIntersectionFunctionTableDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLIntersectionFunctionTableDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIntersectionFunctionTableDescriptorBindings.Class), true)
     {
