@@ -5,6 +5,8 @@
 /// </summary>
 public class NSAutoreleasePool(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<NSAutoreleasePool>
 {
+    public static NSAutoreleasePool Null { get; } = new(0, false);
+
     public static NSAutoreleasePool Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public NSAutoreleasePool() : this(ObjectiveCRuntime.AllocInit(NSAutoreleasePoolBindings.Class), true)
