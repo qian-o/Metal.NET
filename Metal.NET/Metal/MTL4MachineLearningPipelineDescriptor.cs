@@ -31,7 +31,7 @@ public class MTL4MachineLearningPipelineDescriptor(nint nativePtr, bool ownsRefe
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.SetInputDimensions, dimensions.NativePtr, bufferIndex);
     }
 
-    public void SetInputDimensions(NSArray dimensions, NSRange range)
+    public void SetInputDimensions(NSArray<MTLTensorExtents> dimensions, NSRange range)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.SetInputDimensionswithRange, dimensions.NativePtr, range);
     }

@@ -342,7 +342,7 @@ public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObjec
         return new(nativePtr, true);
     }
 
-    public MTLArgumentEncoder NewArgumentEncoder(NSArray arguments)
+    public MTLArgumentEncoder NewArgumentEncoder(NSArray<MTLArgumentDescriptor> arguments)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewArgumentEncoder, arguments.NativePtr);
 
@@ -827,7 +827,7 @@ public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObjec
     [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLCopyAllDevices")]
     private static partial nint MTLCopyAllDevices();
 
-    public static NSArray CopyAllDevices()
+    public static NSArray<MTLDevice> CopyAllDevices()
     {
         nint nativePtr = MTLCopyAllDevices();
 

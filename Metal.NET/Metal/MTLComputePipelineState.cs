@@ -80,7 +80,7 @@ public class MTLComputePipelineState(nint nativePtr, bool ownsReference) : MTLAl
         return ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineStateBindings.ImageblockMemoryLength, imageblockDimensions);
     }
 
-    public MTLComputePipelineState NewComputePipelineStateWithBinaryFunctions(NSArray additionalBinaryFunctions, out NSError error)
+    public MTLComputePipelineState NewComputePipelineStateWithBinaryFunctions(NSArray<MTL4BinaryFunction> additionalBinaryFunctions, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineStateWithBinaryFunctions, additionalBinaryFunctions.NativePtr, out nint errorPtr);
 
@@ -89,7 +89,7 @@ public class MTLComputePipelineState(nint nativePtr, bool ownsReference) : MTLAl
         return new(nativePtr, true);
     }
 
-    public MTLComputePipelineState NewComputePipelineState(NSArray functions, out NSError error)
+    public MTLComputePipelineState NewComputePipelineState(NSArray<MTLFunction> functions, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineState, functions.NativePtr, out nint errorPtr);
 
