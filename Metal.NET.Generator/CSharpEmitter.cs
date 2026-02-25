@@ -991,7 +991,18 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                     sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
                 }
                 sb.AppendLine();
-                sb.AppendLine($"{indent}return NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
+                if (ownsReturn)
+                {
+                    sb.AppendLine($"{indent}{returnArrayElemType}[] result = NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
+                    sb.AppendLine();
+                    sb.AppendLine($"{indent}ObjectiveCRuntime.Release(nativePtr);");
+                    sb.AppendLine();
+                    sb.AppendLine($"{indent}return result;");
+                }
+                else
+                {
+                    sb.AppendLine($"{indent}return NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
+                }
             }
             else
             {
@@ -1002,7 +1013,18 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                     sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
                 }
                 sb.AppendLine();
-                sb.AppendLine($"{indent}return NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
+                if (ownsReturn)
+                {
+                    sb.AppendLine($"{indent}{returnArrayElemType}[] result = NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
+                    sb.AppendLine();
+                    sb.AppendLine($"{indent}ObjectiveCRuntime.Release(nativePtr);");
+                    sb.AppendLine();
+                    sb.AppendLine($"{indent}return result;");
+                }
+                else
+                {
+                    sb.AppendLine($"{indent}return NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
+                }
             }
         }
         else if (nullable)
@@ -1172,7 +1194,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             sb.AppendLine("    {");
             sb.AppendLine($"        nint nativePtr = {func.CEntryPoint}({callArgStr});");
             sb.AppendLine();
-            sb.AppendLine($"        return NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
+            sb.AppendLine($"        {returnArrayElemType}[] result = NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
+            sb.AppendLine();
+            sb.AppendLine("        ObjectiveCRuntime.Release(nativePtr);");
+            sb.AppendLine();
+            sb.AppendLine("        return result;");
             sb.AppendLine("    }");
         }
         else if (nullable)
