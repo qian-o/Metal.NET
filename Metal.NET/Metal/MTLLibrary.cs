@@ -9,7 +9,7 @@ public class MTLLibrary(nint nativePtr, bool ownsReference) : NativeObject(nativ
         get => GetProperty(ref field, MTLLibraryBindings.Device);
     }
 
-    public NSArray FunctionNames
+    public NSArray<NSString> FunctionNames
     {
         get => GetProperty(ref field, MTLLibraryBindings.FunctionNames);
     }

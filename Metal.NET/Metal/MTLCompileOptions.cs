@@ -44,7 +44,7 @@ public class MTLCompileOptions(nint nativePtr, bool ownsReference) : NativeObjec
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetLanguageVersion, (nuint)value);
     }
 
-    public NSArray Libraries
+    public NSArray<MTLDynamicLibrary> Libraries
     {
         get => GetProperty(ref field, MTLCompileOptionsBindings.Libraries);
         set => SetProperty(ref field, MTLCompileOptionsBindings.SetLibraries, value);

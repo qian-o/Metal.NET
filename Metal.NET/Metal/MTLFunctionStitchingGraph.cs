@@ -8,7 +8,7 @@ public class MTLFunctionStitchingGraph(nint nativePtr, bool ownsReference) : Nat
     {
     }
 
-    public NSArray Attributes
+    public NSArray<MTLFunctionStitchingAttribute> Attributes
     {
         get => GetProperty(ref field, MTLFunctionStitchingGraphBindings.Attributes);
         set => SetProperty(ref field, MTLFunctionStitchingGraphBindings.SetAttributes, value);
@@ -20,7 +20,7 @@ public class MTLFunctionStitchingGraph(nint nativePtr, bool ownsReference) : Nat
         set => SetProperty(ref field, MTLFunctionStitchingGraphBindings.SetFunctionName, value);
     }
 
-    public NSArray Nodes
+    public NSArray<MTLFunctionStitchingFunctionNode> Nodes
     {
         get => GetProperty(ref field, MTLFunctionStitchingGraphBindings.Nodes);
         set => SetProperty(ref field, MTLFunctionStitchingGraphBindings.SetNodes, value);

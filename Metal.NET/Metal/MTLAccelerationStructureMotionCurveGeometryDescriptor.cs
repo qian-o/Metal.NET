@@ -8,7 +8,7 @@ public class MTLAccelerationStructureMotionCurveGeometryDescriptor(nint nativePt
     {
     }
 
-    public NSArray ControlPointBuffers
+    public NSArray<MTLMotionKeyframeData> ControlPointBuffers
     {
         get => GetProperty(ref field, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.ControlPointBuffers);
         set => SetProperty(ref field, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetControlPointBuffers, value);
@@ -68,7 +68,7 @@ public class MTLAccelerationStructureMotionCurveGeometryDescriptor(nint nativePt
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetIndexType, (nuint)value);
     }
 
-    public NSArray RadiusBuffers
+    public NSArray<MTLMotionKeyframeData> RadiusBuffers
     {
         get => GetProperty(ref field, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.RadiusBuffers);
         set => SetProperty(ref field, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetRadiusBuffers, value);

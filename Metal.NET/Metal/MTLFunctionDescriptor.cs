@@ -8,7 +8,7 @@ public class MTLFunctionDescriptor(nint nativePtr, bool ownsReference) : NativeO
     {
     }
 
-    public NSArray BinaryArchives
+    public NSArray<MTLBinaryArchive> BinaryArchives
     {
         get => GetProperty(ref field, MTLFunctionDescriptorBindings.BinaryArchives);
         set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetBinaryArchives, value);

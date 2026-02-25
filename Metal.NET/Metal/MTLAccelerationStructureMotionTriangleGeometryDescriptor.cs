@@ -50,7 +50,7 @@ public class MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativ
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetTriangleCount, value);
     }
 
-    public NSArray VertexBuffers
+    public NSArray<MTLMotionKeyframeData> VertexBuffers
     {
         get => GetProperty(ref field, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.VertexBuffers);
         set => SetProperty(ref field, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetVertexBuffers, value);

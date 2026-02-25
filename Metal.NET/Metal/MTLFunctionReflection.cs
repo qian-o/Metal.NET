@@ -8,7 +8,7 @@ public class MTLFunctionReflection(nint nativePtr, bool ownsReference) : NativeO
     {
     }
 
-    public NSArray Bindings
+    public NSArray<MTLBinding> Bindings
     {
         get => GetProperty(ref field, MTLFunctionReflectionBindings.Bindings);
     }

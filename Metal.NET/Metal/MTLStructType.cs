@@ -8,7 +8,7 @@ public class MTLStructType(nint nativePtr, bool ownsReference) : MTLType(nativeP
     {
     }
 
-    public NSArray Members
+    public NSArray<MTLStructMember> Members
     {
         get => GetProperty(ref field, MTLStructTypeBindings.Members);
     }

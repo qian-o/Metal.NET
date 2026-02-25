@@ -8,13 +8,13 @@ public class MTLFunctionStitchingFunctionNode(nint nativePtr, bool ownsReference
     {
     }
 
-    public NSArray Arguments
+    public NSArray<MTLArgument> Arguments
     {
         get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.Arguments);
         set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetArguments, value);
     }
 
-    public NSArray ControlDependencies
+    public NSArray<MTLFunctionStitchingFunctionNode> ControlDependencies
     {
         get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.ControlDependencies);
         set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetControlDependencies, value);

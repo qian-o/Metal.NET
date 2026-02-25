@@ -8,7 +8,7 @@ public class MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr, bool ow
     {
     }
 
-    public NSArray GeometryDescriptors
+    public NSArray<MTLAccelerationStructureGeometryDescriptor> GeometryDescriptors
     {
         get => GetProperty(ref field, MTLPrimitiveAccelerationStructureDescriptorBindings.GeometryDescriptors);
         set => SetProperty(ref field, MTLPrimitiveAccelerationStructureDescriptorBindings.SetGeometryDescriptors, value);

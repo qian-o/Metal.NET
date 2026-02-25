@@ -23,6 +23,28 @@ public class NSArray(nint nativePtr, bool ownsReference) : NativeObject(nativePt
     }
 }
 
+/// <summary>
+/// Typed wrapper around an Objective-C NSArray whose elements are <typeparamref name="T"/>.
+/// </summary>
+public class NSArray<T>(nint nativePtr, bool ownsReference) : NSArray(nativePtr, ownsReference), INativeObject<NSArray<T>>
+    where T : NativeObject, INativeObject<T>
+{
+    public static new NSArray<T> Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+
+    /// <summary>
+    /// Returns the object at the given index as a borrowed reference.
+    /// </summary>
+    public T this[nuint index]
+    {
+        get
+        {
+            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSArrayBindings.ObjectAtIndex, index);
+
+            return T.Create(nativePtr, false);
+        }
+    }
+}
+
 file static class NSArrayBindings
 {
     public static readonly Selector Count = "count";

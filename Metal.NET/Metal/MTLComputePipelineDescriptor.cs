@@ -8,7 +8,7 @@ public class MTLComputePipelineDescriptor(nint nativePtr, bool ownsReference) : 
     {
     }
 
-    public NSArray BinaryArchives
+    public NSArray<MTLBinaryArchive> BinaryArchives
     {
         get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.BinaryArchives);
         set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetBinaryArchives, value);
@@ -25,7 +25,7 @@ public class MTLComputePipelineDescriptor(nint nativePtr, bool ownsReference) : 
         set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetComputeFunction, value);
     }
 
-    public NSArray InsertLibraries
+    public NSArray<MTLDynamicLibrary> InsertLibraries
     {
         get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.InsertLibraries);
         set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetInsertLibraries, value);
@@ -55,7 +55,7 @@ public class MTLComputePipelineDescriptor(nint nativePtr, bool ownsReference) : 
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetMaxTotalThreadsPerThreadgroup, value);
     }
 
-    public NSArray PreloadedLibraries
+    public NSArray<MTLDynamicLibrary> PreloadedLibraries
     {
         get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.PreloadedLibraries);
         set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetPreloadedLibraries, value);

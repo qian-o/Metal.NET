@@ -20,7 +20,7 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, bool ownsReference)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetAlphaToOneEnabled, value);
     }
 
-    public NSArray BinaryArchives
+    public NSArray<MTLBinaryArchive> BinaryArchives
     {
         get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.BinaryArchives);
         set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetBinaryArchives, value);

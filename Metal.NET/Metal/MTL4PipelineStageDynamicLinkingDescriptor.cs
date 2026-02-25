@@ -8,7 +8,7 @@ public class MTL4PipelineStageDynamicLinkingDescriptor(nint nativePtr, bool owns
     {
     }
 
-    public NSArray BinaryLinkedFunctions
+    public NSArray<MTL4BinaryFunction> BinaryLinkedFunctions
     {
         get => GetProperty(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.BinaryLinkedFunctions);
         set => SetProperty(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.SetBinaryLinkedFunctions, value);
@@ -20,7 +20,7 @@ public class MTL4PipelineStageDynamicLinkingDescriptor(nint nativePtr, bool owns
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorBindings.SetMaxCallStackDepth, value);
     }
 
-    public NSArray PreloadedLibraries
+    public NSArray<MTLDynamicLibrary> PreloadedLibraries
     {
         get => GetProperty(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.PreloadedLibraries);
         set => SetProperty(ref field, MTL4PipelineStageDynamicLinkingDescriptorBindings.SetPreloadedLibraries, value);

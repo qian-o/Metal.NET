@@ -36,7 +36,7 @@ public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObjec
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.BarycentricCoordsSupported);
     }
 
-    public NSArray CounterSets
+    public NSArray<MTLCounterSet> CounterSets
     {
         get => GetProperty(ref field, MTLDeviceBindings.CounterSets);
     }

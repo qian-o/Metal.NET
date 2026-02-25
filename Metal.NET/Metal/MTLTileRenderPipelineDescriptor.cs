@@ -8,7 +8,7 @@ public class MTLTileRenderPipelineDescriptor(nint nativePtr, bool ownsReference)
     {
     }
 
-    public NSArray BinaryArchives
+    public NSArray<MTLBinaryArchive> BinaryArchives
     {
         get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.BinaryArchives);
         set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetBinaryArchives, value);
@@ -43,7 +43,7 @@ public class MTLTileRenderPipelineDescriptor(nint nativePtr, bool ownsReference)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetMaxTotalThreadsPerThreadgroup, value);
     }
 
-    public NSArray PreloadedLibraries
+    public NSArray<MTLDynamicLibrary> PreloadedLibraries
     {
         get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.PreloadedLibraries);
         set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetPreloadedLibraries, value);

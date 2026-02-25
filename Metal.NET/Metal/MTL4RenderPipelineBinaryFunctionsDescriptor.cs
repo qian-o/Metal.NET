@@ -8,31 +8,31 @@ public class MTL4RenderPipelineBinaryFunctionsDescriptor(nint nativePtr, bool ow
     {
     }
 
-    public NSArray FragmentAdditionalBinaryFunctions
+    public NSArray<MTLFunction> FragmentAdditionalBinaryFunctions
     {
         get => GetProperty(ref field, MTL4RenderPipelineBinaryFunctionsDescriptorBindings.FragmentAdditionalBinaryFunctions);
         set => SetProperty(ref field, MTL4RenderPipelineBinaryFunctionsDescriptorBindings.SetFragmentAdditionalBinaryFunctions, value);
     }
 
-    public NSArray MeshAdditionalBinaryFunctions
+    public NSArray<MTLFunction> MeshAdditionalBinaryFunctions
     {
         get => GetProperty(ref field, MTL4RenderPipelineBinaryFunctionsDescriptorBindings.MeshAdditionalBinaryFunctions);
         set => SetProperty(ref field, MTL4RenderPipelineBinaryFunctionsDescriptorBindings.SetMeshAdditionalBinaryFunctions, value);
     }
 
-    public NSArray ObjectAdditionalBinaryFunctions
+    public NSArray<MTLFunction> ObjectAdditionalBinaryFunctions
     {
         get => GetProperty(ref field, MTL4RenderPipelineBinaryFunctionsDescriptorBindings.ObjectAdditionalBinaryFunctions);
         set => SetProperty(ref field, MTL4RenderPipelineBinaryFunctionsDescriptorBindings.SetObjectAdditionalBinaryFunctions, value);
     }
 
-    public NSArray TileAdditionalBinaryFunctions
+    public NSArray<MTLFunction> TileAdditionalBinaryFunctions
     {
         get => GetProperty(ref field, MTL4RenderPipelineBinaryFunctionsDescriptorBindings.TileAdditionalBinaryFunctions);
         set => SetProperty(ref field, MTL4RenderPipelineBinaryFunctionsDescriptorBindings.SetTileAdditionalBinaryFunctions, value);
     }
 
-    public NSArray VertexAdditionalBinaryFunctions
+    public NSArray<MTLFunction> VertexAdditionalBinaryFunctions
     {
         get => GetProperty(ref field, MTL4RenderPipelineBinaryFunctionsDescriptorBindings.VertexAdditionalBinaryFunctions);
         set => SetProperty(ref field, MTL4RenderPipelineBinaryFunctionsDescriptorBindings.SetVertexAdditionalBinaryFunctions, value);

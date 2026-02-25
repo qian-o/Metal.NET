@@ -20,7 +20,7 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, bool ownsReference) : N
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetAlphaToOneEnabled, value);
     }
 
-    public NSArray BinaryArchives
+    public NSArray<MTLBinaryArchive> BinaryArchives
     {
         get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.BinaryArchives);
         set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetBinaryArchives, value);
@@ -54,7 +54,7 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, bool ownsReference) : N
         set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetFragmentLinkedFunctions, value);
     }
 
-    public NSArray FragmentPreloadedLibraries
+    public NSArray<MTLDynamicLibrary> FragmentPreloadedLibraries
     {
         get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.FragmentPreloadedLibraries);
         set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetFragmentPreloadedLibraries, value);
@@ -223,7 +223,7 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, bool ownsReference) : N
         set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetVertexLinkedFunctions, value);
     }
 
-    public NSArray VertexPreloadedLibraries
+    public NSArray<MTLDynamicLibrary> VertexPreloadedLibraries
     {
         get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.VertexPreloadedLibraries);
         set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetVertexPreloadedLibraries, value);

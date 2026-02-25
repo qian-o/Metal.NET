@@ -44,7 +44,7 @@ public class MTLInstanceAccelerationStructureDescriptor(nint nativePtr, bool own
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceTransformationMatrixLayout, (nint)value);
     }
 
-    public NSArray InstancedAccelerationStructures
+    public NSArray<MTLAccelerationStructure> InstancedAccelerationStructures
     {
         get => GetProperty(ref field, MTLInstanceAccelerationStructureDescriptorBindings.InstancedAccelerationStructures);
         set => SetProperty(ref field, MTLInstanceAccelerationStructureDescriptorBindings.SetInstancedAccelerationStructures, value);

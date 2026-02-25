@@ -4,7 +4,7 @@ public class MTLResidencySet(nint nativePtr, bool ownsReference) : NativeObject(
 {
     public static MTLResidencySet Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public NSArray AllAllocations
+    public NSArray<MTLAllocation> AllAllocations
     {
         get => GetProperty(ref field, MTLResidencySetBindings.AllAllocations);
     }

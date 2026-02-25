@@ -31,6 +31,89 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         "NSDate"
     ];
 
+    /// <summary>
+    /// Maps (ClassName, PropertyName) → element type for NSArray properties,
+    /// inferred from the Objective-C Metal API typed arrays.
+    /// Entries with key ("*", PropertyName) apply to any class.
+    /// </summary>
+    static readonly Dictionary<(string Class, string Property), string> NSArrayElementTypes = new()
+    {
+        // MTLDevice
+        { ("MTLDevice", "CounterSets"), "MTLCounterSet" },
+        // MTLCounterSet
+        { ("MTLCounterSet", "Counters"), "MTLCounter" },
+        // MTLLibrary
+        { ("MTLLibrary", "FunctionNames"), "NSString" },
+        // MTLFunction
+        { ("MTLFunction", "StageInputAttributes"), "MTLAttribute" },
+        { ("MTLFunction", "VertexAttributes"), "MTLVertexAttribute" },
+        // MTLStructType
+        { ("MTLStructType", "Members"), "MTLStructMember" },
+        // MTLResidencySet
+        { ("MTLResidencySet", "AllAllocations"), "MTLAllocation" },
+        // MTLCommandBufferEncoderInfo
+        { ("MTLCommandBufferEncoderInfo", "DebugSignposts"), "NSString" },
+        // MTLInstanceAccelerationStructureDescriptor
+        { ("MTLInstanceAccelerationStructureDescriptor", "InstancedAccelerationStructures"), "MTLAccelerationStructure" },
+        // MTLFunctionStitchingGraph
+        { ("MTLFunctionStitchingGraph", "Attributes"), "MTLFunctionStitchingAttribute" },
+        { ("MTLFunctionStitchingGraph", "Nodes"), "MTLFunctionStitchingFunctionNode" },
+        // MTLFunctionStitchingFunctionNode
+        { ("MTLFunctionStitchingFunctionNode", "ControlDependencies"), "MTLFunctionStitchingFunctionNode" },
+        // MTLStitchedLibraryDescriptor
+        { ("MTLStitchedLibraryDescriptor", "FunctionGraphs"), "MTLFunctionStitchingGraph" },
+        // MTL4CompilerTaskOptions
+        { ("MTL4CompilerTaskOptions", "LookupArchives"), "MTL4Archive" },
+    };
+
+    /// <summary>
+    /// Maps a property name suffix to element type for NSArray properties.
+    /// Applied when no exact (Class, Property) match is found.
+    /// </summary>
+    static readonly (string Suffix, string ElementType)[] NSArraySuffixRules =
+    [
+        ("BinaryArchives", "MTLBinaryArchive"),
+        ("AdditionalBinaryFunctions", "MTLFunction"),
+        ("BinaryLinkedFunctions", "MTL4BinaryFunction"),
+        ("BinaryFunctions", "MTLFunction"),
+        ("PrivateFunctions", "MTLFunction"),
+        ("Functions", "MTLFunction"),
+        ("PreloadedLibraries", "MTLDynamicLibrary"),
+        ("InsertLibraries", "MTLDynamicLibrary"),
+        ("Libraries", "MTLDynamicLibrary"),
+        ("GeometryDescriptors", "MTLAccelerationStructureGeometryDescriptor"),
+        ("PrivateFunctionDescriptors", "MTL4FunctionDescriptor"),
+        ("FunctionDescriptors", "MTL4FunctionDescriptor"),
+        ("VertexBuffers", "MTLMotionKeyframeData"),
+        ("BoundingBoxBuffers", "MTLMotionKeyframeData"),
+        ("ControlPointBuffers", "MTLMotionKeyframeData"),
+        ("RadiusBuffers", "MTLMotionKeyframeData"),
+        ("Bindings", "MTLBinding"),
+        ("Arguments", "MTLArgument"),
+    ];
+
+    /// <summary>
+    /// Tries to resolve the element type for an NSArray property.
+    /// Returns null if no mapping is found.
+    /// </summary>
+    static string? TryResolveNSArrayElementType(string className, string propertyName)
+    {
+        if (NSArrayElementTypes.TryGetValue((className, propertyName), out string? elementType))
+        {
+            return elementType;
+        }
+
+        foreach ((string suffix, string elemType) in NSArraySuffixRules)
+        {
+            if (propertyName.EndsWith(suffix, StringComparison.Ordinal))
+            {
+                return elemType;
+            }
+        }
+
+        return null;
+    }
+
     #region Generation Entry Point
 
     public void GenerateAll()
@@ -479,6 +562,17 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
 
         string csType = TypeMapper.MapCppType(getter.ReturnType, ns);
+
+        // Resolve NSArray element type for typed arrays
+        if (csType == "NSArray")
+        {
+            string? elemType = TryResolveNSArrayElementType(csClassName, csPropName);
+            if (elemType != null)
+            {
+                csType = $"NSArray<{elemType}>";
+            }
+        }
+
         bool nullable = typeMapper.IsNativeObjectType(csType);
         bool isEnum = typeMapper.IsEnumType(csType);
         bool isStruct = TypeMapper.StructTypes.Contains(csType);

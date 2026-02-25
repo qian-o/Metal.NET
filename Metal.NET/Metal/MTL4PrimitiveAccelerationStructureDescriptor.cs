@@ -8,7 +8,7 @@ public class MTL4PrimitiveAccelerationStructureDescriptor(nint nativePtr, bool o
     {
     }
 
-    public NSArray GeometryDescriptors
+    public NSArray<MTLAccelerationStructureGeometryDescriptor> GeometryDescriptors
     {
         get => GetProperty(ref field, MTL4PrimitiveAccelerationStructureDescriptorBindings.GeometryDescriptors);
         set => SetProperty(ref field, MTL4PrimitiveAccelerationStructureDescriptorBindings.SetGeometryDescriptors, value);

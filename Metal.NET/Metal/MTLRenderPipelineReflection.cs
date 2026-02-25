@@ -8,42 +8,42 @@ public class MTLRenderPipelineReflection(nint nativePtr, bool ownsReference) : N
     {
     }
 
-    public NSArray FragmentArguments
+    public NSArray<MTLArgument> FragmentArguments
     {
         get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.FragmentArguments);
     }
 
-    public NSArray FragmentBindings
+    public NSArray<MTLBinding> FragmentBindings
     {
         get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.FragmentBindings);
     }
 
-    public NSArray MeshBindings
+    public NSArray<MTLBinding> MeshBindings
     {
         get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.MeshBindings);
     }
 
-    public NSArray ObjectBindings
+    public NSArray<MTLBinding> ObjectBindings
     {
         get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.ObjectBindings);
     }
 
-    public NSArray TileArguments
+    public NSArray<MTLArgument> TileArguments
     {
         get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.TileArguments);
     }
 
-    public NSArray TileBindings
+    public NSArray<MTLBinding> TileBindings
     {
         get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.TileBindings);
     }
 
-    public NSArray VertexArguments
+    public NSArray<MTLArgument> VertexArguments
     {
         get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.VertexArguments);
     }
 
-    public NSArray VertexBindings
+    public NSArray<MTLBinding> VertexBindings
     {
         get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.VertexBindings);
     }

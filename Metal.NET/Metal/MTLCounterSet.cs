@@ -4,7 +4,7 @@ public class MTLCounterSet(nint nativePtr, bool ownsReference) : NativeObject(na
 {
     public static MTLCounterSet Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public NSArray Counters
+    public NSArray<MTLCounter> Counters
     {
         get => GetProperty(ref field, MTLCounterSetBindings.Counters);
     }
