@@ -32,7 +32,9 @@ public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor(nint na
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.Class, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.Descriptor);
 
-        return new(nativePtr, false);
+        ObjectiveCRuntime.Retain(nativePtr);
+
+        return new(nativePtr, true);
     }
 }
 

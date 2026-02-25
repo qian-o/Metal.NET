@@ -20,7 +20,9 @@ public class MTL4MachineLearningPipelineDescriptor(nint nativePtr, bool ownsRefe
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.InputDimensionsAtBufferIndex, bufferIndex);
 
-        return new(nativePtr, false);
+        ObjectiveCRuntime.Retain(nativePtr);
+
+        return new(nativePtr, true);
     }
 
     public void Reset()

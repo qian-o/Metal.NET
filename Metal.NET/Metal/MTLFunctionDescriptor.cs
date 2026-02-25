@@ -44,7 +44,9 @@ public class MTLFunctionDescriptor(nint nativePtr, bool ownsReference) : NativeO
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLFunctionDescriptorBindings.Class, MTLFunctionDescriptorBindings.FunctionDescriptor);
 
-        return new(nativePtr, false);
+        ObjectiveCRuntime.Retain(nativePtr);
+
+        return new(nativePtr, true);
     }
 }
 

@@ -42,12 +42,13 @@ Metal.NET.slnx
 
 Every `NativeObject` wrapper tracks whether it **owns** its native reference via `bool ownsReference`:
 
-- **Owned** (`true`) — the wrapper sends `release` on `Dispose()` or GC finalization. Used for objects returned by `alloc`, `new`, `copy`, or `mutableCopy` selectors.
+- **Owned** (`true`) — the wrapper sends `release` on `Dispose()` or GC finalization. Used for all method return values (the binding retains non-owning results so the caller can safely `Dispose` them).
 - **Borrowed** (`false`) — the wrapper never sends `release`. Used for property getters, `objectAtIndex:`, and `out NSError` parameters.
 
 ```csharp
-// Owned — selector begins with "new", caller must release
+// Owned — all method return values are owned by the caller
 using MTLLibrary library = device.NewDefaultLibrary();
+using MTLCommandQueue queue = device.NewCommandQueue();
 
 // Borrowed — property getter, retained by the parent object
 MTLDevice device = commandQueue.Device;
