@@ -23,11 +23,11 @@ public interface INativeObject<TSelf> where TSelf : NativeObject, INativeObject<
 /// </param>
 public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDisposable
 {
-    private volatile int disposed;
+    private volatile uint disposed;
 
     ~NativeObject()
     {
-        Dispose(false);
+        Release();
     }
 
     /// <summary>
@@ -36,29 +36,15 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDispos
     public nint NativePtr { get; } = nativePtr;
 
     /// <summary>
-    /// Returns <see langword="true"/> when the native pointer is zero (nil).
-    /// </summary>
-    public bool IsNull => NativePtr is 0;
-
-    /// <summary>
     /// Returns <see langword="true"/> when this instance owns the native reference
     /// and will send <c>release</c> on disposal.
     /// </summary>
     public bool OwnsReference { get; } = ownsReference;
 
-    public void Retain()
-    {
-        ThrowIfDisposed();
-
-        ObjectiveCRuntime.Retain(NativePtr);
-    }
-
-    public void Release()
-    {
-        ThrowIfDisposed();
-
-        ObjectiveCRuntime.Release(NativePtr);
-    }
+    /// <summary>
+    /// Returns <see langword="true"/> when the native pointer is zero (nil).
+    /// </summary>
+    public bool IsNull => NativePtr is 0;
 
     /// <summary>
     /// Sends <c>release</c> to the underlying Objective-C object (if owned),
@@ -66,17 +52,9 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDispos
     /// </summary>
     public void Dispose()
     {
-        Dispose(true);
+        Release();
 
         GC.SuppressFinalize(this);
-    }
-
-    /// <summary>
-    /// Throws <see cref="ObjectDisposedException"/> if this instance has been disposed.
-    /// </summary>
-    protected void ThrowIfDisposed()
-    {
-        ObjectDisposedException.ThrowIf(disposed is not 0, this);
     }
 
     /// <summary>
@@ -90,8 +68,6 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDispos
     /// <returns>A cached wrapper for the native object.</returns>
     protected T GetProperty<T>(ref T? field, Selector selector) where T : NativeObject, INativeObject<T>
     {
-        ThrowIfDisposed();
-
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, selector);
 
         if (field is null || field.NativePtr != nativePtr)
@@ -110,8 +86,6 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDispos
     /// <param name="value">The new value.</param>
     protected void SetProperty<T>(ref T? field, Selector selector, T value) where T : NativeObject, INativeObject<T>
     {
-        ThrowIfDisposed();
-
         ObjectiveCRuntime.MsgSend(NativePtr, selector, value.NativePtr);
 
         GetProperty(ref field, selector);
@@ -120,14 +94,14 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDispos
     /// <summary>
     /// Core dispose logic. Guarantees single-release via <see cref="Interlocked.Exchange"/>.
     /// </summary>
-    protected virtual void Dispose(bool disposing)
+    private void Release()
     {
         if (Interlocked.Exchange(ref disposed, 1) is not 0)
         {
             return;
         }
 
-        if (OwnsReference && NativePtr is not 0)
+        if (OwnsReference)
         {
             ObjectiveCRuntime.Release(NativePtr);
         }
