@@ -2,9 +2,9 @@
 
 public class MTL4CommandBuffer(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CommandBuffer>
 {
+    public static MTL4CommandBuffer Null { get; } = new(nint.Zero, false);
+
     public static MTL4CommandBuffer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
-    public static MTL4CommandBuffer Null => Create(0, false);
-    public static MTL4CommandBuffer Empty => Null;
 
     public MTLDevice Device
     {
