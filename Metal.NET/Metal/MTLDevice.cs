@@ -755,7 +755,7 @@ public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObjec
 
     public ulong QueryTimestampFrequency()
     {
-        return (ulong)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLDeviceBindings.QueryTimestampFrequency);
+        return ObjectiveCRuntime.MsgSendULong(NativePtr, MTLDeviceBindings.QueryTimestampFrequency);
     }
 
     public void SampleTimestamps(out ulong cpuTimestamp, out ulong gpuTimestamp)
