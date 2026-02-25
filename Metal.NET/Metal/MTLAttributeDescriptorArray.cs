@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLAttributeDescriptorArray(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLAttributeDescriptorArray>
+public class MTLAttributeDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLAttributeDescriptorArray>
 {
-    public static MTLAttributeDescriptorArray Null { get; } = new(0, false);
+    public static MTLAttributeDescriptorArray Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLAttributeDescriptorArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLAttributeDescriptorArray Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLAttributeDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLAttributeDescriptorArrayBindings.Class), true)
+    public MTLAttributeDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLAttributeDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -16,7 +16,7 @@ public class MTLAttributeDescriptorArray(nint nativePtr, bool ownsReference) : N
         {
             nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeDescriptorArrayBindings.Object, index);
 
-            return new(nativePtr, false);
+            return new(nativePtr, NativeObjectOwnership.Borrowed);
         }
         set
         {

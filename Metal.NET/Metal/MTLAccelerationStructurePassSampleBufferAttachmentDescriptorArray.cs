@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray>
+public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray>
 {
-    public static MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray Null { get; } = new(0, false);
+    public static MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArrayBindings.Class), true)
+    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -16,7 +16,7 @@ public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray(n
         {
             nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArrayBindings.Object, attachmentIndex);
 
-            return new(nativePtr, false);
+            return new(nativePtr, NativeObjectOwnership.Borrowed);
         }
         set
         {

@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLResourceViewPoolDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLResourceViewPoolDescriptor>
+public class MTLResourceViewPoolDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLResourceViewPoolDescriptor>
 {
-    public static MTLResourceViewPoolDescriptor Null { get; } = new(0, false);
+    public static MTLResourceViewPoolDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLResourceViewPoolDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLResourceViewPoolDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLResourceViewPoolDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceViewPoolDescriptorBindings.Class), true)
+    public MTLResourceViewPoolDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceViewPoolDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

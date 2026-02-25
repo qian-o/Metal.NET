@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTL4MeshRenderPipelineDescriptor(nint nativePtr, bool ownsReference) : MTL4PipelineDescriptor(nativePtr, ownsReference), INativeObject<MTL4MeshRenderPipelineDescriptor>
+public class MTL4MeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4PipelineDescriptor(nativePtr, ownership), INativeObject<MTL4MeshRenderPipelineDescriptor>
 {
-    public static new MTL4MeshRenderPipelineDescriptor Null { get; } = new(0, false);
+    public static new MTL4MeshRenderPipelineDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTL4MeshRenderPipelineDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTL4MeshRenderPipelineDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTL4MeshRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4MeshRenderPipelineDescriptorBindings.Class), true)
+    public MTL4MeshRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4MeshRenderPipelineDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

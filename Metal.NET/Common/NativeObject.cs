@@ -1,6 +1,32 @@
 ﻿namespace Metal.NET;
 
 /// <summary>
+/// Describes how a <see cref="NativeObject"/> manages its native reference.
+/// </summary>
+public enum NativeObjectOwnership
+{
+    /// <summary>
+    /// The wrapper does not own the reference. <c>Dispose()</c> and the
+    /// finalizer do nothing. Used for property getters, <c>objectAtIndex:</c>,
+    /// and <c>out NSError</c> parameters.
+    /// </summary>
+    Borrowed,
+
+    /// <summary>
+    /// The wrapper owns the reference and sends <c>release</c> on explicit
+    /// <c>Dispose()</c>. The finalizer does nothing. Used for method return values.
+    /// </summary>
+    Owned,
+
+    /// <summary>
+    /// The wrapper fully manages the reference. <c>Dispose()</c> sends
+    /// <c>release</c>, and the GC finalizer acts as a safety net.
+    /// Used for objects created via <c>AllocInit</c> (parameterless constructor).
+    /// </summary>
+    Managed
+}
+
+/// <summary>
 /// Factory interface for creating managed wrappers from native Objective-C pointers.
 /// </summary>
 /// <typeparam name="TSelf">The concrete wrapper type.</typeparam>
@@ -11,30 +37,31 @@ public interface INativeObject<TSelf> where TSelf : NativeObject, INativeObject<
     /// <summary>
     /// Creates a managed wrapper around the given native pointer.
     /// </summary>
-    static abstract TSelf Create(nint nativePtr, bool ownsReference);
+    static abstract TSelf Create(nint nativePtr, NativeObjectOwnership ownership);
 }
 
 /// <summary>
 /// Abstract base class for managed wrappers around Objective-C objects.
-/// Holds a native pointer and, when the instance owns the reference,
-/// sends <c>release</c> exactly once — either via <see cref="Dispose()"/>
-/// or via the finalizer.
+/// Holds a native pointer and manages its lifetime according to the
+/// <see cref="Ownership"/> policy.
 /// </summary>
 /// <param name="nativePtr">The Objective-C object pointer (<c>id</c>).</param>
-/// <param name="ownsReference">
-/// <see langword="true"/> to send <c>release</c> on disposal;
-/// <see langword="false"/> for borrowed references that must not be released.
-/// </param>
-public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDisposable
+/// <param name="ownership">The ownership policy for the native reference.</param>
+public abstract class NativeObject(nint nativePtr, NativeObjectOwnership ownership) : IDisposable
 {
     private volatile uint disposed;
 
     /// <summary>
     /// Release the native reference if it has not been released yet.
+    /// Only runs for <see cref="NativeObjectOwnership.Managed"/> instances;
+    /// the finalizer does nothing for other ownership modes.
     /// </summary>
     ~NativeObject()
     {
-        Release();
+        if (Ownership is NativeObjectOwnership.Managed)
+        {
+            Release();
+        }
     }
 
     /// <summary>
@@ -43,9 +70,9 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDispos
     public nint NativePtr { get; } = nativePtr;
 
     /// <summary>
-    /// Indicates whether this instance owns the native reference.
+    /// The ownership policy for the native reference.
     /// </summary>
-    public bool OwnsReference { get; } = ownsReference;
+    public NativeObjectOwnership Ownership { get; } = ownership;
 
     /// <summary>
     /// Indicates whether the native pointer is zero (<c>nil</c>).
@@ -72,7 +99,7 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDispos
 
         if (field is null || field.NativePtr != nativePtr)
         {
-            field = T.Create(nativePtr, false);
+            field = T.Create(nativePtr, NativeObjectOwnership.Borrowed);
         }
 
         return field;
@@ -85,7 +112,7 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDispos
     {
         ObjectiveCRuntime.MsgSend(NativePtr, selector, value.NativePtr);
 
-        field = T.Create(value.NativePtr, false);
+        field = T.Create(value.NativePtr, NativeObjectOwnership.Borrowed);
     }
 
     /// <summary>
@@ -122,7 +149,7 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDispos
             return;
         }
 
-        if (OwnsReference)
+        if (Ownership is not NativeObjectOwnership.Borrowed)
         {
             ObjectiveCRuntime.Release(NativePtr);
         }

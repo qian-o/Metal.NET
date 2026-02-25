@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLAccelerationStructurePassSampleBufferAttachmentDescriptor>
+public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLAccelerationStructurePassSampleBufferAttachmentDescriptor>
 {
-    public static MTLAccelerationStructurePassSampleBufferAttachmentDescriptor Null { get; } = new(0, false);
+    public static MTLAccelerationStructurePassSampleBufferAttachmentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLAccelerationStructurePassSampleBufferAttachmentDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLAccelerationStructurePassSampleBufferAttachmentDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.Class), true)
+    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassSampleBufferAttachmentDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

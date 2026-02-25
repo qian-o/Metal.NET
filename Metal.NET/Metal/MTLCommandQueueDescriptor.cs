@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLCommandQueueDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCommandQueueDescriptor>
+public class MTLCommandQueueDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCommandQueueDescriptor>
 {
-    public static MTLCommandQueueDescriptor Null { get; } = new(0, false);
+    public static MTLCommandQueueDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLCommandQueueDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLCommandQueueDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCommandQueueDescriptorBindings.Class), true)
+    public MTLCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCommandQueueDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

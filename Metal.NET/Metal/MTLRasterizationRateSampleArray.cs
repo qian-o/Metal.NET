@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLRasterizationRateSampleArray(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLRasterizationRateSampleArray>
+public class MTLRasterizationRateSampleArray(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLRasterizationRateSampleArray>
 {
-    public static MTLRasterizationRateSampleArray Null { get; } = new(0, false);
+    public static MTLRasterizationRateSampleArray Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLRasterizationRateSampleArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLRasterizationRateSampleArray Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLRasterizationRateSampleArray() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateSampleArrayBindings.Class), true)
+    public MTLRasterizationRateSampleArray() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateSampleArrayBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 }

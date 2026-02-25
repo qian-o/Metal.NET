@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructurePassDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLAccelerationStructurePassDescriptor>
+public class MTLAccelerationStructurePassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLAccelerationStructurePassDescriptor>
 {
-    public static MTLAccelerationStructurePassDescriptor Null { get; } = new(0, false);
+    public static MTLAccelerationStructurePassDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLAccelerationStructurePassDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLAccelerationStructurePassDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLAccelerationStructurePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassDescriptorBindings.Class), true)
+    public MTLAccelerationStructurePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -19,7 +19,7 @@ public class MTLAccelerationStructurePassDescriptor(nint nativePtr, bool ownsRef
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructurePassDescriptorBindings.Class, MTLAccelerationStructurePassDescriptorBindings.AccelerationStructurePassDescriptor);
 
-        return new(nativePtr, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 

@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLComputePipelineReflection(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLComputePipelineReflection>
+public class MTLComputePipelineReflection(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLComputePipelineReflection>
 {
-    public static MTLComputePipelineReflection Null { get; } = new(0, false);
+    public static MTLComputePipelineReflection Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLComputePipelineReflection Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLComputePipelineReflection Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLComputePipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTLComputePipelineReflectionBindings.Class), true)
+    public MTLComputePipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTLComputePipelineReflectionBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

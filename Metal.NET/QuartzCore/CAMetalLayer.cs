@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class CAMetalLayer(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<CAMetalLayer>
+public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<CAMetalLayer>
 {
-    public static CAMetalLayer Null { get; } = new(0, false);
+    public static CAMetalLayer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static CAMetalLayer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static CAMetalLayer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(CAMetalLayerBindings.Class), true)
+    public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(CAMetalLayerBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -67,14 +67,14 @@ public class CAMetalLayer(nint nativePtr, bool ownsReference) : NativeObject(nat
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(CAMetalLayerBindings.Class, CAMetalLayerBindings.Layer);
 
-        return new(nativePtr, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public CAMetalDrawable NextDrawable()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerBindings.NextDrawable);
 
-        return new(nativePtr, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 

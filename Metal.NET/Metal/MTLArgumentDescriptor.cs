@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLArgumentDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLArgumentDescriptor>
+public class MTLArgumentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLArgumentDescriptor>
 {
-    public static MTLArgumentDescriptor Null { get; } = new(0, false);
+    public static MTLArgumentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLArgumentDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLArgumentDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLArgumentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLArgumentDescriptorBindings.Class), true)
+    public MTLArgumentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLArgumentDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -50,7 +50,7 @@ public class MTLArgumentDescriptor(nint nativePtr, bool ownsReference) : NativeO
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLArgumentDescriptorBindings.Class, MTLArgumentDescriptorBindings.ArgumentDescriptor);
 
-        return new(nativePtr, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 

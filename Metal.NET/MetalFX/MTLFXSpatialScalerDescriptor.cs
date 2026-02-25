@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXSpatialScalerDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFXSpatialScalerDescriptor>
+public class MTLFXSpatialScalerDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFXSpatialScalerDescriptor>
 {
-    public static MTLFXSpatialScalerDescriptor Null { get; } = new(0, false);
+    public static MTLFXSpatialScalerDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLFXSpatialScalerDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLFXSpatialScalerDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLFXSpatialScalerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXSpatialScalerDescriptorBindings.Class), true)
+    public MTLFXSpatialScalerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXSpatialScalerDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -56,14 +56,14 @@ public class MTLFXSpatialScalerDescriptor(nint nativePtr, bool ownsReference) : 
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorBindings.NewSpatialScaler, pDevice.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTL4FXSpatialScaler NewSpatialScaler(MTLDevice pDevice, MTL4Compiler pCompiler)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerDescriptorBindings.NewSpatialScalerWithDevicecompiler, pDevice.NativePtr, pCompiler.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public static bool SupportsDevice(MTLDevice pDevice)

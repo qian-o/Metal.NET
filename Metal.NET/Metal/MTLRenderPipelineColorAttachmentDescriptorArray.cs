@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPipelineColorAttachmentDescriptorArray(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLRenderPipelineColorAttachmentDescriptorArray>
+public class MTLRenderPipelineColorAttachmentDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLRenderPipelineColorAttachmentDescriptorArray>
 {
-    public static MTLRenderPipelineColorAttachmentDescriptorArray Null { get; } = new(0, false);
+    public static MTLRenderPipelineColorAttachmentDescriptorArray Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLRenderPipelineColorAttachmentDescriptorArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLRenderPipelineColorAttachmentDescriptorArray Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLRenderPipelineColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineColorAttachmentDescriptorArrayBindings.Class), true)
+    public MTLRenderPipelineColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineColorAttachmentDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -16,7 +16,7 @@ public class MTLRenderPipelineColorAttachmentDescriptorArray(nint nativePtr, boo
         {
             nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineColorAttachmentDescriptorArrayBindings.Object, attachmentIndex);
 
-            return new(nativePtr, false);
+            return new(nativePtr, NativeObjectOwnership.Borrowed);
         }
         set
         {

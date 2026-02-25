@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTL4RenderPipelineBinaryFunctionsDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4RenderPipelineBinaryFunctionsDescriptor>
+public class MTL4RenderPipelineBinaryFunctionsDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4RenderPipelineBinaryFunctionsDescriptor>
 {
-    public static MTL4RenderPipelineBinaryFunctionsDescriptor Null { get; } = new(0, false);
+    public static MTL4RenderPipelineBinaryFunctionsDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4RenderPipelineBinaryFunctionsDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTL4RenderPipelineBinaryFunctionsDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTL4RenderPipelineBinaryFunctionsDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.Class), true)
+    public MTL4RenderPipelineBinaryFunctionsDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

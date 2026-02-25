@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTL4AccelerationStructureGeometryDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4AccelerationStructureGeometryDescriptor>
+public class MTL4AccelerationStructureGeometryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4AccelerationStructureGeometryDescriptor>
 {
-    public static MTL4AccelerationStructureGeometryDescriptor Null { get; } = new(0, false);
+    public static MTL4AccelerationStructureGeometryDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4AccelerationStructureGeometryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTL4AccelerationStructureGeometryDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTL4AccelerationStructureGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureGeometryDescriptorBindings.Class), true)
+    public MTL4AccelerationStructureGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureGeometryDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

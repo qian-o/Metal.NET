@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandBuffer(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CommandBuffer>
+public class MTL4CommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4CommandBuffer>
 {
-    public static MTL4CommandBuffer Null { get; } = new(0, false);
+    public static MTL4CommandBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4CommandBuffer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTL4CommandBuffer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLDevice Device
     {
@@ -31,7 +31,7 @@ public class MTL4CommandBuffer(nint nativePtr, bool ownsReference) : NativeObjec
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.ComputeCommandEncoder);
 
-        return new(nativePtr, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public void EndCommandBuffer()
@@ -43,7 +43,7 @@ public class MTL4CommandBuffer(nint nativePtr, bool ownsReference) : NativeObjec
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.MachineLearningCommandEncoder);
 
-        return new(nativePtr, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public void PopDebugGroup()
@@ -60,14 +60,14 @@ public class MTL4CommandBuffer(nint nativePtr, bool ownsReference) : NativeObjec
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoder, descriptor.NativePtr);
 
-        return new(nativePtr, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTL4RenderCommandEncoder RenderCommandEncoder(MTL4RenderPassDescriptor descriptor, MTL4RenderEncoderOptions options)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoderWithDescriptoroptions, descriptor.NativePtr, (nuint)options);
 
-        return new(nativePtr, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public void ResolveCounterHeap(MTL4CounterHeap counterHeap, NSRange range, MTL4BufferRange bufferRange, MTLFence fenceToWait, MTLFence fenceToUpdate)

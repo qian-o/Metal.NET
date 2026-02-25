@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLBufferLayoutDescriptorArray(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLBufferLayoutDescriptorArray>
+public class MTLBufferLayoutDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLBufferLayoutDescriptorArray>
 {
-    public static MTLBufferLayoutDescriptorArray Null { get; } = new(0, false);
+    public static MTLBufferLayoutDescriptorArray Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLBufferLayoutDescriptorArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLBufferLayoutDescriptorArray Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLBufferLayoutDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLBufferLayoutDescriptorArrayBindings.Class), true)
+    public MTLBufferLayoutDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLBufferLayoutDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -16,7 +16,7 @@ public class MTLBufferLayoutDescriptorArray(nint nativePtr, bool ownsReference) 
         {
             nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArrayBindings.Object, index);
 
-            return new(nativePtr, false);
+            return new(nativePtr, NativeObjectOwnership.Borrowed);
         }
         set
         {

@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLBlitPassSampleBufferAttachmentDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLBlitPassSampleBufferAttachmentDescriptor>
+public class MTLBlitPassSampleBufferAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLBlitPassSampleBufferAttachmentDescriptor>
 {
-    public static MTLBlitPassSampleBufferAttachmentDescriptor Null { get; } = new(0, false);
+    public static MTLBlitPassSampleBufferAttachmentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLBlitPassSampleBufferAttachmentDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLBlitPassSampleBufferAttachmentDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLBlitPassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBlitPassSampleBufferAttachmentDescriptorBindings.Class), true)
+    public MTLBlitPassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBlitPassSampleBufferAttachmentDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

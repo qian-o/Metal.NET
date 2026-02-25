@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr, bool ownsReference) : MTLAccelerationStructureGeometryDescriptor(nativePtr, ownsReference), INativeObject<MTLAccelerationStructureCurveGeometryDescriptor>
+public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLAccelerationStructureGeometryDescriptor(nativePtr, ownership), INativeObject<MTLAccelerationStructureCurveGeometryDescriptor>
 {
-    public static new MTLAccelerationStructureCurveGeometryDescriptor Null { get; } = new(0, false);
+    public static new MTLAccelerationStructureCurveGeometryDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLAccelerationStructureCurveGeometryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLAccelerationStructureCurveGeometryDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLAccelerationStructureCurveGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureCurveGeometryDescriptorBindings.Class), true)
+    public MTLAccelerationStructureCurveGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureCurveGeometryDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -116,7 +116,7 @@ public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr, boo
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructureCurveGeometryDescriptorBindings.Class, MTLAccelerationStructureCurveGeometryDescriptorBindings.Descriptor);
 
-        return new(nativePtr, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 

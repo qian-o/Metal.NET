@@ -2,11 +2,11 @@
 
 namespace Metal.NET;
 
-public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLDevice>
+public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLDevice>
 {
-    public static MTLDevice Null { get; } = new(0, false);
+    public static MTLDevice Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLDevice Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLDevice Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLArchitecture Architecture
     {
@@ -273,14 +273,14 @@ public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObjec
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.FunctionHandle, function.NativePtr);
 
-        return new(nativePtr, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.FunctionHandleWithBinaryFunction, function.NativePtr);
 
-        return new(nativePtr, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public unsafe void GetDefaultSamplePositions(MTLSamplePosition[] positions)
@@ -325,23 +325,23 @@ public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObjec
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewAccelerationStructure, size);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLAccelerationStructure NewAccelerationStructure(MTLAccelerationStructureDescriptor descriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewAccelerationStructureWithDescriptor, descriptor.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTL4Archive NewArchive(NSURL url, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewArchive, url.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLArgumentEncoder NewArgumentEncoder(MTLArgumentDescriptor[] arguments)
@@ -352,407 +352,407 @@ public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObjec
 
         ObjectiveCRuntime.Release(pArguments);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLArgumentEncoder NewArgumentEncoder(MTLBufferBinding bufferBinding)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewArgumentEncoderWithBufferBinding, bufferBinding.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTL4ArgumentTable NewArgumentTable(MTL4ArgumentTableDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewArgumentTable, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLBinaryArchive NewBinaryArchive(MTLBinaryArchiveDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewBinaryArchive, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLBuffer NewBuffer(nuint length, MTLResourceOptions options)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewBuffer, length, (nuint)options);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLBuffer NewBuffer(nint pointer, nuint length, MTLResourceOptions options)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewBufferWithByteslengthoptions, pointer, length, (nuint)options);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLBuffer NewBuffer(nuint length, MTLResourceOptions options, MTLSparsePageSize placementSparsePageSize)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewBufferWithLengthoptionsplacementSparsePageSize, length, (nuint)options, (nint)placementSparsePageSize);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTL4CommandAllocator NewCommandAllocator()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewCommandAllocator);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTL4CommandAllocator NewCommandAllocatorWithDescriptor(MTL4CommandAllocatorDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewCommandAllocatorWithDescriptorerror, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTL4CommandBuffer NewCommandBuffer()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewCommandBuffer);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLCommandQueue NewCommandQueue()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewCommandQueue);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLCommandQueue NewCommandQueueWithMaxCommandBufferCount(nuint maxCommandBufferCount)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewCommandQueueWithMaxCommandBufferCount, maxCommandBufferCount);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLCommandQueue NewCommandQueueWithDescriptor(MTLCommandQueueDescriptor descriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewCommandQueueWithDescriptor, descriptor.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTL4Compiler NewCompiler(MTL4CompilerDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewCompiler, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLComputePipelineState NewComputePipelineState(MTLFunction computeFunction, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewComputePipelineState, computeFunction.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTL4CounterHeap NewCounterHeap(MTL4CounterHeapDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewCounterHeap, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLCounterSampleBuffer NewCounterSampleBuffer(MTLCounterSampleBufferDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewCounterSampleBuffer, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLLibrary NewDefaultLibrary()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewDefaultLibrary);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLDepthStencilState NewDepthStencilState(MTLDepthStencilDescriptor descriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewDepthStencilState, descriptor.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLDynamicLibrary NewDynamicLibrary(MTLLibrary library, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewDynamicLibrary, library.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLDynamicLibrary NewDynamicLibrary(NSURL url, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewDynamicLibraryWithURLerror, url.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLEvent NewEvent()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewEvent);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLFence NewFence()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewFence);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLHeap NewHeap(MTLHeapDescriptor descriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewHeap, descriptor.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLIOCommandQueue NewIOCommandQueue(MTLIOCommandQueueDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewIOCommandQueue, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLIOFileHandle NewIOFileHandle(NSURL url, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewIOFileHandle, url.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLIOFileHandle NewIOFileHandle(NSURL url, MTLIOCompressionMethod compressionMethod, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewIOFileHandleWithURLcompressionMethoderror, url.NativePtr, (nint)compressionMethod, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLIOFileHandle NewIOHandle(NSURL url, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewIOHandle, url.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLIOFileHandle NewIOHandle(NSURL url, MTLIOCompressionMethod compressionMethod, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewIOHandleWithURLcompressionMethoderror, url.NativePtr, (nint)compressionMethod, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLIndirectCommandBuffer NewIndirectCommandBuffer(MTLIndirectCommandBufferDescriptor descriptor, nuint maxCount, MTLResourceOptions options)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewIndirectCommandBuffer, descriptor.NativePtr, maxCount, (nuint)options);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLLibrary NewLibrary(NSString filepath, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewLibrary, filepath.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLLibrary NewLibrary(NSURL url, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewLibraryWithURLerror, url.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLLibrary NewLibrary(nint data, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewLibraryWithDataerror, data, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLLibrary NewLibrary(NSString source, MTLCompileOptions options, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewLibraryWithSourceoptionserror, source.NativePtr, options.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLLibrary NewLibrary(MTLStitchedLibraryDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewLibraryWithStitchedDescriptorerror, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLLogState NewLogState(MTLLogStateDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewLogState, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTL4CommandQueue NewMTL4CommandQueue()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewMTL4CommandQueue);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTL4CommandQueue NewMTL4CommandQueueWithDescriptor(MTL4CommandQueueDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewMTL4CommandQueueWithDescriptorerror, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTL4PipelineDataSetSerializer NewPipelineDataSetSerializer(MTL4PipelineDataSetSerializerDescriptor descriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewPipelineDataSetSerializer, descriptor.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLRasterizationRateMap NewRasterizationRateMap(MTLRasterizationRateMapDescriptor descriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewRasterizationRateMap, descriptor.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLRenderPipelineState NewRenderPipelineState(MTLRenderPipelineDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewRenderPipelineState, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLResidencySet NewResidencySet(MTLResidencySetDescriptor desc, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewResidencySet, desc.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLSamplerState NewSamplerState(MTLSamplerDescriptor descriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewSamplerState, descriptor.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLSharedEvent NewSharedEvent()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewSharedEvent);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLSharedEvent NewSharedEventWithHandle(MTLSharedEventHandle sharedEventHandle)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewSharedEventWithHandle, sharedEventHandle.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTexture NewSharedTexture(MTLTextureDescriptor descriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewSharedTexture, descriptor.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTexture NewSharedTexture(MTLSharedTextureHandle sharedHandle)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewSharedTextureWithHandle, sharedHandle.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTensor NewTensor(MTLTensorDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewTensor, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTexture NewTexture(MTLTextureDescriptor descriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewTexture, descriptor.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTexture NewTexture(MTLTextureDescriptor descriptor, nint iosurface, nuint plane)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewTextureWithDescriptoriosurfaceplane, descriptor.NativePtr, iosurface, plane);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTextureViewPool NewTextureViewPool(MTLResourceViewPoolDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewTextureViewPool, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public ulong QueryTimestampFrequency()
@@ -827,7 +827,7 @@ public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObjec
     {
         nint nativePtr = MTLCreateSystemDefaultDevice();
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLCopyAllDevices")]

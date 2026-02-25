@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLSamplerState(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLSamplerState>
+public class MTLSamplerState(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLSamplerState>
 {
-    public static MTLSamplerState Null { get; } = new(0, false);
+    public static MTLSamplerState Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLSamplerState Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLSamplerState Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLDevice Device
     {

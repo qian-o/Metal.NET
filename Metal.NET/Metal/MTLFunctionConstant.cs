@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionConstant(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFunctionConstant>
+public class MTLFunctionConstant(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFunctionConstant>
 {
-    public static MTLFunctionConstant Null { get; } = new(0, false);
+    public static MTLFunctionConstant Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLFunctionConstant Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLFunctionConstant Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLFunctionConstant() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantBindings.Class), true)
+    public MTLFunctionConstant() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

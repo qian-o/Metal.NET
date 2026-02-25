@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLLinkedFunctions(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLLinkedFunctions>
+public class MTLLinkedFunctions(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLLinkedFunctions>
 {
-    public static MTLLinkedFunctions Null { get; } = new(0, false);
+    public static MTLLinkedFunctions Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLLinkedFunctions Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLLinkedFunctions Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(MTLLinkedFunctionsBindings.Class), true)
+    public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(MTLLinkedFunctionsBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -32,7 +32,7 @@ public class MTLLinkedFunctions(nint nativePtr, bool ownsReference) : NativeObje
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLLinkedFunctionsBindings.Class, MTLLinkedFunctionsBindings.LinkedFunctions);
 
-        return new(nativePtr, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 

@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOCommandBuffer(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLIOCommandBuffer>
+public class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLIOCommandBuffer>
 {
-    public static MTLIOCommandBuffer Null { get; } = new(0, false);
+    public static MTLIOCommandBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLIOCommandBuffer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLIOCommandBuffer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public NSError Error
     {

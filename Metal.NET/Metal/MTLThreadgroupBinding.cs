@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLThreadgroupBinding(nint nativePtr, bool ownsReference) : MTLBinding(nativePtr, ownsReference), INativeObject<MTLThreadgroupBinding>
+public class MTLThreadgroupBinding(nint nativePtr, NativeObjectOwnership ownership) : MTLBinding(nativePtr, ownership), INativeObject<MTLThreadgroupBinding>
 {
-    public static new MTLThreadgroupBinding Null { get; } = new(0, false);
+    public static new MTLThreadgroupBinding Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLThreadgroupBinding Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLThreadgroupBinding Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public nuint ThreadgroupMemoryAlignment
     {

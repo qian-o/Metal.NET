@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTL4AccelerationStructureBoundingBoxGeometryDescriptor(nint nativePtr, bool ownsReference) : MTL4AccelerationStructureGeometryDescriptor(nativePtr, ownsReference), INativeObject<MTL4AccelerationStructureBoundingBoxGeometryDescriptor>
+public class MTL4AccelerationStructureBoundingBoxGeometryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4AccelerationStructureGeometryDescriptor(nativePtr, ownership), INativeObject<MTL4AccelerationStructureBoundingBoxGeometryDescriptor>
 {
-    public static new MTL4AccelerationStructureBoundingBoxGeometryDescriptor Null { get; } = new(0, false);
+    public static new MTL4AccelerationStructureBoundingBoxGeometryDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTL4AccelerationStructureBoundingBoxGeometryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTL4AccelerationStructureBoundingBoxGeometryDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTL4AccelerationStructureBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureBoundingBoxGeometryDescriptorBindings.Class), true)
+    public MTL4AccelerationStructureBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureBoundingBoxGeometryDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

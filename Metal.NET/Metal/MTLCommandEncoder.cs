@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLCommandEncoder(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCommandEncoder>
+public class MTLCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCommandEncoder>
 {
-    public static MTLCommandEncoder Null { get; } = new(0, false);
+    public static MTLCommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLCommandEncoder Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLCommandEncoder Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLDevice Device
     {

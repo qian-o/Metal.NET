@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXFrameInterpolatorDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFXFrameInterpolatorDescriptor>
+public class MTLFXFrameInterpolatorDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFXFrameInterpolatorDescriptor>
 {
-    public static MTLFXFrameInterpolatorDescriptor Null { get; } = new(0, false);
+    public static MTLFXFrameInterpolatorDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLFXFrameInterpolatorDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLFXFrameInterpolatorDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLFXFrameInterpolatorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXFrameInterpolatorDescriptorBindings.Class), true)
+    public MTLFXFrameInterpolatorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXFrameInterpolatorDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -78,14 +78,14 @@ public class MTLFXFrameInterpolatorDescriptor(nint nativePtr, bool ownsReference
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.NewFrameInterpolator, pDevice.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTL4FXFrameInterpolator NewFrameInterpolator(MTLDevice pDevice, MTL4Compiler pCompiler)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXFrameInterpolatorDescriptorBindings.NewFrameInterpolatorWithDevicecompiler, pDevice.NativePtr, pCompiler.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public static bool SupportsMetal4FX(MTLDevice device)

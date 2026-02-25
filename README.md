@@ -1,8 +1,73 @@
 ﻿# Metal.NET
 
 [![NuGet Version](https://img.shields.io/nuget/v/Metal.NET)](https://nuget.org/packages/Metal.NET)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 C# bindings for Apple's Metal graphics API, auto-generated from [metal-cpp](https://developer.apple.com/metal/cpp/) headers.
+
+## Installation
+
+```bash
+dotnet add package Metal.NET
+```
+
+> **Requirements:** .NET 10+, macOS 15+
+
+## Quick Start
+
+```csharp
+using Metal.NET;
+
+// Create a Metal device
+MTLDevice device = MTLDevice.CreateSystemDefaultDevice();
+
+// Create a command queue
+using MTLCommandQueue queue = device.NewCommandQueue();
+
+// Create a library from default.metallib
+using MTLLibrary library = device.NewDefaultLibrary();
+```
+
+## Memory Management
+
+### Ownership Model
+
+Every `NativeObject` wrapper has a [`NativeObjectOwnership`](Metal.NET/Common/NativeObject.cs) that controls its lifetime:
+
+| Ownership | `Dispose()` releases | Finalizer releases | Usage |
+|-----------|:--------------------:|:------------------:|-------|
+| `Borrowed` | ✗ | ✗ | Property getters, `objectAtIndex:` |
+| `Owned` | ✓ | ✗ | Method return values, `out NSError` |
+| `Managed` | ✓ | ✓ | Objects created via parameterless constructor (`AllocInit`) |
+
+```csharp
+// Managed — fully C#-created, GC can release as safety net
+var desc = new MTLTextureDescriptor();
+
+// Owned — method return, only explicit Dispose releases
+using MTLLibrary library = device.NewDefaultLibrary();
+
+// Borrowed — property getter, retained by parent object
+MTLDevice device = commandQueue.Device;
+```
+
+### Finalization
+
+The GC finalizer only releases `Managed` instances. `Owned` wrappers (method returns) must be explicitly disposed. `Borrowed` wrappers never release:
+
+```csharp
+public enum NativeObjectOwnership { Borrowed, Owned, Managed }
+
+public abstract class NativeObject(nint nativePtr, NativeObjectOwnership ownership) : IDisposable
+{
+    ~NativeObject()
+    {
+        if (Ownership is NativeObjectOwnership.Managed) Release();
+    }
+
+    public void Dispose() { Release(); GC.SuppressFinalize(this); }
+}
+```
 
 ## Project Structure
 
@@ -10,7 +75,7 @@ C# bindings for Apple's Metal graphics API, auto-generated from [metal-cpp](http
 Metal.NET.slnx
 ├── Metal.NET/                            ← Binding library (targets .NET 10, macOS 15+)
 │   ├── Common/
-│   │   ├── NativeObject.cs               ← INativeObject<TSelf> interface + abstract base wrapper
+│   │   ├── NativeObject.cs               ← NativeObjectOwnership enum + INativeObject<TSelf> + base class
 │   │   ├── ObjectiveCRuntime.cs          ← P/Invoke to libobjc.dylib (objc_msgSend)
 │   │   ├── Selector.cs                   ← ObjC selector with implicit string conversion
 │   │   ├── Bool8.cs                      ← ObjC BOOL mapped to a single byte
@@ -36,57 +101,21 @@ Metal.NET.slnx
     └── metal-cpp/                        ← metal-cpp headers (generation source)
 ```
 
-## Memory Management
-
-### Owned vs Borrowed References
-
-Every `NativeObject` wrapper tracks whether it **owns** its native reference via `bool ownsReference`:
-
-- **Owned** (`true`) — the wrapper sends `release` on `Dispose()` or GC finalization. Used for objects returned by `alloc`, `new`, `copy`, or `mutableCopy` selectors.
-- **Borrowed** (`false`) — the wrapper never sends `release`. Used for property getters, `objectAtIndex:`, and `out NSError` parameters.
-
-```csharp
-// Owned — selector begins with "new", caller must release
-using MTLLibrary library = device.NewDefaultLibrary();
-
-// Borrowed — property getter, retained by the parent object
-MTLDevice device = commandQueue.Device;
-```
-
-### GC-Safe Dispose
-
-`NativeObject` implements the full dispose pattern with a finalizer. `Release()` uses `Interlocked.Exchange` to guarantee exactly-once semantics, making double-`Dispose()` and GC finalization safe:
-
-```csharp
-public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDisposable
-{
-    ~NativeObject() => Release();
-
-    public void Dispose() { Release(); GC.SuppressFinalize(this); }
-
-    private void Release()
-    {
-        if (Interlocked.Exchange(ref disposed, 1) is not 0) return;
-        if (OwnsReference) ObjectiveCRuntime.Release(NativePtr);
-    }
-}
-```
-
 ## Updating Bindings
 
-1. Download the latest [metal-cpp](https://developer.apple.com/metal/cpp/) archive
-2. Replace `Metal.NET.Generator/metal-cpp/` contents
+1. Download the latest [metal-cpp](https://developer.apple.com/metal/cpp/) archive.
+2. Replace the contents of `Metal.NET.Generator/metal-cpp/`.
 3. Run the generator:
 
-```bash
-dotnet run --project Metal.NET.Generator
-```
+   ```bash
+   dotnet run --project Metal.NET.Generator
+   ```
 
-4. Build:
+4. Build and verify:
 
-```bash
-dotnet build Metal.NET
-```
+   ```bash
+   dotnet build Metal.NET
+   ```
 
 ## Disclaimer
 
@@ -98,6 +127,10 @@ If you are looking for more mature or alternative Metal bindings for .NET, consi
 
 - [SharpMetal](https://github.com/IsaacMarovitz/SharpMetal) — A community-maintained C# Metal binding library.
 - **.NET `net-macos` / `net-ios` TFM** — Apple platform targets shipped with .NET that include official Metal API bindings via [dotnet/macios](https://github.com/dotnet/macios).
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
 
 ## Trademarks
 

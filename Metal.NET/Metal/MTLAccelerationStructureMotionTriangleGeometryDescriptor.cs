@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativePtr, bool ownsReference) : MTLAccelerationStructureGeometryDescriptor(nativePtr, ownsReference), INativeObject<MTLAccelerationStructureMotionTriangleGeometryDescriptor>
+public class MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLAccelerationStructureGeometryDescriptor(nativePtr, ownership), INativeObject<MTLAccelerationStructureMotionTriangleGeometryDescriptor>
 {
-    public static new MTLAccelerationStructureMotionTriangleGeometryDescriptor Null { get; } = new(0, false);
+    public static new MTLAccelerationStructureMotionTriangleGeometryDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLAccelerationStructureMotionTriangleGeometryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLAccelerationStructureMotionTriangleGeometryDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLAccelerationStructureMotionTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.Class), true)
+    public MTLAccelerationStructureMotionTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -74,7 +74,7 @@ public class MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativ
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.Class, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.Descriptor);
 
-        return new(nativePtr, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 

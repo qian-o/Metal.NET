@@ -3,13 +3,13 @@
 /// <summary>
 /// Wraps an Objective-C NSAutoreleasePool for managing autorelease pools.
 /// </summary>
-public class NSAutoreleasePool(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<NSAutoreleasePool>
+public class NSAutoreleasePool(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<NSAutoreleasePool>
 {
-    public static NSAutoreleasePool Null { get; } = new(0, false);
+    public static NSAutoreleasePool Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static NSAutoreleasePool Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static NSAutoreleasePool Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public NSAutoreleasePool() : this(ObjectiveCRuntime.AllocInit(NSAutoreleasePoolBindings.Class), true)
+    public NSAutoreleasePool() : this(ObjectiveCRuntime.AllocInit(NSAutoreleasePoolBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

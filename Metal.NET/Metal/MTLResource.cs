@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLResource(nint nativePtr, bool ownsReference) : MTLAllocation(nativePtr, ownsReference), INativeObject<MTLResource>
+public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLAllocation(nativePtr, ownership), INativeObject<MTLResource>
 {
-    public static new MTLResource Null { get; } = new(0, false);
+    public static new MTLResource Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLResource Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLResource Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLCPUCacheMode CpuCacheMode
     {

@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4ComputeCommandEncoder(nint nativePtr, bool ownsReference) : MTL4CommandEncoder(nativePtr, ownsReference), INativeObject<MTL4ComputeCommandEncoder>
+public class MTL4ComputeCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : MTL4CommandEncoder(nativePtr, ownership), INativeObject<MTL4ComputeCommandEncoder>
 {
-    public static new MTL4ComputeCommandEncoder Null { get; } = new(0, false);
+    public static new MTL4ComputeCommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTL4ComputeCommandEncoder Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTL4ComputeCommandEncoder Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public void BuildAccelerationStructure(MTLAccelerationStructure accelerationStructure, MTL4AccelerationStructureDescriptor descriptor, MTL4BufferRange scratchBuffer)
     {

@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLDynamicLibrary(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLDynamicLibrary>
+public class MTLDynamicLibrary(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLDynamicLibrary>
 {
-    public static MTLDynamicLibrary Null { get; } = new(0, false);
+    public static MTLDynamicLibrary Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLDynamicLibrary Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLDynamicLibrary Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLDevice Device
     {
@@ -26,7 +26,7 @@ public class MTLDynamicLibrary(nint nativePtr, bool ownsReference) : NativeObjec
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDynamicLibraryBindings.SerializeToURL, url.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return result;
     }

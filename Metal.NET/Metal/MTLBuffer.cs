@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLBuffer(nint nativePtr, bool ownsReference) : MTLResource(nativePtr, ownsReference), INativeObject<MTLBuffer>
+public class MTLBuffer(nint nativePtr, NativeObjectOwnership ownership) : MTLResource(nativePtr, ownership), INativeObject<MTLBuffer>
 {
-    public static new MTLBuffer Null { get; } = new(0, false);
+    public static new MTLBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLBuffer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLBuffer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public nuint GpuAddress
     {
@@ -45,23 +45,23 @@ public class MTLBuffer(nint nativePtr, bool ownsReference) : MTLResource(nativeP
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewRemoteBufferViewForDevice, device.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTensor NewTensor(MTLTensorDescriptor descriptor, nuint offset, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewTensor, descriptor.NativePtr, offset, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTexture NewTexture(MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewTexture, descriptor.NativePtr, offset, bytesPerRow);
 
-        return new(nativePtr, true);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public void RemoveAllDebugMarkers()

@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTL4IndirectInstanceAccelerationStructureDescriptor(nint nativePtr, bool ownsReference) : MTL4AccelerationStructureDescriptor(nativePtr, ownsReference), INativeObject<MTL4IndirectInstanceAccelerationStructureDescriptor>
+public class MTL4IndirectInstanceAccelerationStructureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4AccelerationStructureDescriptor(nativePtr, ownership), INativeObject<MTL4IndirectInstanceAccelerationStructureDescriptor>
 {
-    public static new MTL4IndirectInstanceAccelerationStructureDescriptor Null { get; } = new(0, false);
+    public static new MTL4IndirectInstanceAccelerationStructureDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTL4IndirectInstanceAccelerationStructureDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTL4IndirectInstanceAccelerationStructureDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTL4IndirectInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4IndirectInstanceAccelerationStructureDescriptorBindings.Class), true)
+    public MTL4IndirectInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4IndirectInstanceAccelerationStructureDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

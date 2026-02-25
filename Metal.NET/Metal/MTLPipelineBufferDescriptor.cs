@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLPipelineBufferDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLPipelineBufferDescriptor>
+public class MTLPipelineBufferDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLPipelineBufferDescriptor>
 {
-    public static MTLPipelineBufferDescriptor Null { get; } = new(0, false);
+    public static MTLPipelineBufferDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLPipelineBufferDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLPipelineBufferDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLPipelineBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLPipelineBufferDescriptorBindings.Class), true)
+    public MTLPipelineBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLPipelineBufferDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

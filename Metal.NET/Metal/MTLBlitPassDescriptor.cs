@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLBlitPassDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLBlitPassDescriptor>
+public class MTLBlitPassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLBlitPassDescriptor>
 {
-    public static MTLBlitPassDescriptor Null { get; } = new(0, false);
+    public static MTLBlitPassDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLBlitPassDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLBlitPassDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLBlitPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBlitPassDescriptorBindings.Class), true)
+    public MTLBlitPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBlitPassDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -19,7 +19,7 @@ public class MTLBlitPassDescriptor(nint nativePtr, bool ownsReference) : NativeO
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLBlitPassDescriptorBindings.Class, MTLBlitPassDescriptorBindings.BlitPassDescriptor);
 
-        return new(nativePtr, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 

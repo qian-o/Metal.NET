@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLIndirectCommandBuffer(nint nativePtr, bool ownsReference) : MTLResource(nativePtr, ownsReference), INativeObject<MTLIndirectCommandBuffer>
+public class MTLIndirectCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : MTLResource(nativePtr, ownership), INativeObject<MTLIndirectCommandBuffer>
 {
-    public static new MTLIndirectCommandBuffer Null { get; } = new(0, false);
+    public static new MTLIndirectCommandBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLIndirectCommandBuffer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLIndirectCommandBuffer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLResourceID GpuResourceID
     {
@@ -20,14 +20,14 @@ public class MTLIndirectCommandBuffer(nint nativePtr, bool ownsReference) : MTLR
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferBindings.IndirectComputeCommand, commandIndex);
 
-        return new(nativePtr, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLIndirectRenderCommand IndirectRenderCommand(nuint commandIndex)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferBindings.IndirectRenderCommand, commandIndex);
 
-        return new(nativePtr, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public void Reset(NSRange range)

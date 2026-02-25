@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLBufferBinding(nint nativePtr, bool ownsReference) : MTLBinding(nativePtr, ownsReference), INativeObject<MTLBufferBinding>
+public class MTLBufferBinding(nint nativePtr, NativeObjectOwnership ownership) : MTLBinding(nativePtr, ownership), INativeObject<MTLBufferBinding>
 {
-    public static new MTLBufferBinding Null { get; } = new(0, false);
+    public static new MTLBufferBinding Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLBufferBinding Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLBufferBinding Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public nuint BufferAlignment
     {

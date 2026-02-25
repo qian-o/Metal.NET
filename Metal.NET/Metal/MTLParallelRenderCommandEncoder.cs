@@ -1,16 +1,16 @@
 ﻿namespace Metal.NET;
 
-public class MTLParallelRenderCommandEncoder(nint nativePtr, bool ownsReference) : MTLCommandEncoder(nativePtr, ownsReference), INativeObject<MTLParallelRenderCommandEncoder>
+public class MTLParallelRenderCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : MTLCommandEncoder(nativePtr, ownership), INativeObject<MTLParallelRenderCommandEncoder>
 {
-    public static new MTLParallelRenderCommandEncoder Null { get; } = new(0, false);
+    public static new MTLParallelRenderCommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLParallelRenderCommandEncoder Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLParallelRenderCommandEncoder Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLRenderCommandEncoder RenderCommandEncoder()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLParallelRenderCommandEncoderBindings.RenderCommandEncoder);
 
-        return new(nativePtr, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public void SetColorStoreAction(MTLStoreAction storeAction, nuint colorAttachmentIndex)

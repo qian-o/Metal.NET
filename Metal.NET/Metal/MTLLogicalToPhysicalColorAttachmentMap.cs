@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLLogicalToPhysicalColorAttachmentMap>
+public class MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLLogicalToPhysicalColorAttachmentMap>
 {
-    public static MTLLogicalToPhysicalColorAttachmentMap Null { get; } = new(0, false);
+    public static MTLLogicalToPhysicalColorAttachmentMap Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLLogicalToPhysicalColorAttachmentMap Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLLogicalToPhysicalColorAttachmentMap Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLLogicalToPhysicalColorAttachmentMap() : this(ObjectiveCRuntime.AllocInit(MTLLogicalToPhysicalColorAttachmentMapBindings.Class), true)
+    public MTLLogicalToPhysicalColorAttachmentMap() : this(ObjectiveCRuntime.AllocInit(MTLLogicalToPhysicalColorAttachmentMapBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

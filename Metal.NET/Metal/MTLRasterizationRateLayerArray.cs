@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLRasterizationRateLayerArray(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLRasterizationRateLayerArray>
+public class MTLRasterizationRateLayerArray(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLRasterizationRateLayerArray>
 {
-    public static MTLRasterizationRateLayerArray Null { get; } = new(0, false);
+    public static MTLRasterizationRateLayerArray Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLRasterizationRateLayerArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLRasterizationRateLayerArray Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLRasterizationRateLayerArray() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateLayerArrayBindings.Class), true)
+    public MTLRasterizationRateLayerArray() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateLayerArrayBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -16,7 +16,7 @@ public class MTLRasterizationRateLayerArray(nint nativePtr, bool ownsReference) 
         {
             nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerArrayBindings.Object, layerIndex);
 
-            return new(nativePtr, false);
+            return new(nativePtr, NativeObjectOwnership.Borrowed);
         }
         set
         {
