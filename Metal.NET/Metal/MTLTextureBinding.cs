@@ -2,9 +2,8 @@
 
 public class MTLTextureBinding(nint nativePtr, bool ownsReference) : MTLBinding(nativePtr, ownsReference), INativeObject<MTLTextureBinding>
 {
-    public static new MTLTextureBinding Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
     public static new MTLTextureBinding Null => Create(0, false);
-    public static new MTLTextureBinding Empty => Null;
+    public static new MTLTextureBinding Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public nuint ArrayLength
     {

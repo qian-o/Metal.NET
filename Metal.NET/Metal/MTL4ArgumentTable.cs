@@ -2,9 +2,8 @@
 
 public class MTL4ArgumentTable(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4ArgumentTable>
 {
-    public static MTL4ArgumentTable Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
     public static MTL4ArgumentTable Null => Create(0, false);
-    public static MTL4ArgumentTable Empty => Null;
+    public static MTL4ArgumentTable Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLDevice Device
     {

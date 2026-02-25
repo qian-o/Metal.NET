@@ -2,9 +2,8 @@
 
 public class MTL4AccelerationStructureTriangleGeometryDescriptor(nint nativePtr, bool ownsReference) : MTL4AccelerationStructureGeometryDescriptor(nativePtr, ownsReference), INativeObject<MTL4AccelerationStructureTriangleGeometryDescriptor>
 {
-    public static new MTL4AccelerationStructureTriangleGeometryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
     public static new MTL4AccelerationStructureTriangleGeometryDescriptor Null => Create(0, false);
-    public static new MTL4AccelerationStructureTriangleGeometryDescriptor Empty => Null;
+    public static new MTL4AccelerationStructureTriangleGeometryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTL4AccelerationStructureTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureTriangleGeometryDescriptorBindings.Class), true)
     {

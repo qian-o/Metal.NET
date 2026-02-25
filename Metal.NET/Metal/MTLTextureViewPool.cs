@@ -2,9 +2,8 @@
 
 public class MTLTextureViewPool(nint nativePtr, bool ownsReference) : MTLResourceViewPool(nativePtr, ownsReference), INativeObject<MTLTextureViewPool>
 {
-    public static new MTLTextureViewPool Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
     public static new MTLTextureViewPool Null => Create(0, false);
-    public static new MTLTextureViewPool Empty => Null;
+    public static new MTLTextureViewPool Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLResourceID SetTextureView(MTLTexture texture, nuint index)
     {

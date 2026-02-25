@@ -2,9 +2,8 @@
 
 public class MTLTensorDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLTensorDescriptor>
 {
-    public static MTLTensorDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
     public static MTLTensorDescriptor Null => Create(0, false);
-    public static MTLTensorDescriptor Empty => Null;
+    public static MTLTensorDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLTensorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTensorDescriptorBindings.Class), true)
     {

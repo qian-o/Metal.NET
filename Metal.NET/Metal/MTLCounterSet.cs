@@ -2,9 +2,8 @@
 
 public class MTLCounterSet(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCounterSet>
 {
-    public static MTLCounterSet Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
     public static MTLCounterSet Null => Create(0, false);
-    public static MTLCounterSet Empty => Null;
+    public static MTLCounterSet Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLCounter[] Counters
     {

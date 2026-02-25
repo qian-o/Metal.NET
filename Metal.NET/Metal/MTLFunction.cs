@@ -2,9 +2,8 @@
 
 public class MTLFunction(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFunction>
 {
-    public static MTLFunction Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
     public static MTLFunction Null => Create(0, false);
-    public static MTLFunction Empty => Null;
+    public static MTLFunction Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLDevice Device
     {

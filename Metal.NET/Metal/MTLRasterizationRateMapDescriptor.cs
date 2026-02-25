@@ -2,9 +2,8 @@
 
 public class MTLRasterizationRateMapDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLRasterizationRateMapDescriptor>
 {
-    public static MTLRasterizationRateMapDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
     public static MTLRasterizationRateMapDescriptor Null => Create(0, false);
-    public static MTLRasterizationRateMapDescriptor Empty => Null;
+    public static MTLRasterizationRateMapDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLRasterizationRateMapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateMapDescriptorBindings.Class), true)
     {

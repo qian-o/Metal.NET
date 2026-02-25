@@ -2,9 +2,8 @@
 
 public class MTLEvent(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLEvent>
 {
-    public static MTLEvent Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
     public static MTLEvent Null => Create(0, false);
-    public static MTLEvent Empty => Null;
+    public static MTLEvent Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLDevice Device
     {

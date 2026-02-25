@@ -2,9 +2,8 @@
 
 public class MTLHeapDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLHeapDescriptor>
 {
-    public static MTLHeapDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
     public static MTLHeapDescriptor Null => Create(0, false);
-    public static MTLHeapDescriptor Empty => Null;
+    public static MTLHeapDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLHeapDescriptorBindings.Class), true)
     {

@@ -2,9 +2,8 @@
 
 public class MTLFXTemporalScaler(nint nativePtr, bool ownsReference) : MTLFXTemporalScalerBase(nativePtr, ownsReference), INativeObject<MTLFXTemporalScaler>
 {
-    public static new MTLFXTemporalScaler Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
     public static new MTLFXTemporalScaler Null => Create(0, false);
-    public static new MTLFXTemporalScaler Empty => Null;
+    public static new MTLFXTemporalScaler Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public void EncodeToCommandBuffer(MTLCommandBuffer pCommandBuffer)
     {

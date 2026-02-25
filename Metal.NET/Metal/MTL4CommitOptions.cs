@@ -2,9 +2,8 @@
 
 public class MTL4CommitOptions(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CommitOptions>
 {
-    public static MTL4CommitOptions Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
     public static MTL4CommitOptions Null => Create(0, false);
-    public static MTL4CommitOptions Empty => Null;
+    public static MTL4CommitOptions Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTL4CommitOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CommitOptionsBindings.Class), true)
     {

@@ -2,9 +2,8 @@
 
 public class MTLAllocation(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLAllocation>
 {
-    public static MTLAllocation Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
     public static MTLAllocation Null => Create(0, false);
-    public static MTLAllocation Empty => Null;
+    public static MTLAllocation Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public nuint AllocatedSize
     {

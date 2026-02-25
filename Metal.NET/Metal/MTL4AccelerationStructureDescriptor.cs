@@ -2,9 +2,8 @@
 
 public class MTL4AccelerationStructureDescriptor(nint nativePtr, bool ownsReference) : MTLAccelerationStructureDescriptor(nativePtr, ownsReference), INativeObject<MTL4AccelerationStructureDescriptor>
 {
-    public static new MTL4AccelerationStructureDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
     public static new MTL4AccelerationStructureDescriptor Null => Create(0, false);
-    public static new MTL4AccelerationStructureDescriptor Empty => Null;
+    public static new MTL4AccelerationStructureDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTL4AccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureDescriptorBindings.Class), true)
     {
