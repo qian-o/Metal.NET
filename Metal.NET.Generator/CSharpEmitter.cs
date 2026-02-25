@@ -1104,7 +1104,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         else
         {
             string msgSend = TypeMapper.GetMsgSendMethod(returnType);
-            string retCast = returnType is "uint" or "ulong" or "int" or "long" ? $"({returnType})" : "";
+            string retCast = returnType is "int" or "long" ? $"({returnType})" : "";
             if (hasOutError)
             {
                 sb.AppendLine($"{indent}{csReturnType} result = {retCast}ObjectiveCRuntime.{msgSend}({argsStr});");

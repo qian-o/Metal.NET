@@ -16,7 +16,7 @@ public class MTL4CommandAllocator(nint nativePtr, bool ownsReference) : NativeOb
 
     public ulong AllocatedSize()
     {
-        return (ulong)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4CommandAllocatorBindings.AllocatedSize);
+        return ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4CommandAllocatorBindings.AllocatedSize);
     }
 
     public void Reset()
