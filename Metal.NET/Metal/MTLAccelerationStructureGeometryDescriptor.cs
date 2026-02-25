@@ -3,6 +3,8 @@
 public class MTLAccelerationStructureGeometryDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLAccelerationStructureGeometryDescriptor>
 {
     public static MTLAccelerationStructureGeometryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLAccelerationStructureGeometryDescriptor Null => Create(0, false);
+    public static MTLAccelerationStructureGeometryDescriptor Empty => Null;
 
     public MTLAccelerationStructureGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureGeometryDescriptorBindings.Class), true)
     {

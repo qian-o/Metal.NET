@@ -3,6 +3,8 @@
 public class MTL4ArgumentTableDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4ArgumentTableDescriptor>
 {
     public static MTL4ArgumentTableDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTL4ArgumentTableDescriptor Null => Create(0, false);
+    public static MTL4ArgumentTableDescriptor Empty => Null;
 
     public MTL4ArgumentTableDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4ArgumentTableDescriptorBindings.Class), true)
     {

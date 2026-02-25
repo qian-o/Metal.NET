@@ -3,6 +3,8 @@
 public class MTLThreadgroupBinding(nint nativePtr, bool ownsReference) : MTLBinding(nativePtr, ownsReference), INativeObject<MTLThreadgroupBinding>
 {
     public static new MTLThreadgroupBinding Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLThreadgroupBinding Null => Create(0, false);
+    public static new MTLThreadgroupBinding Empty => Null;
 
     public nuint ThreadgroupMemoryAlignment
     {

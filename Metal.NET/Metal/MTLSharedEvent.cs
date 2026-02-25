@@ -3,6 +3,8 @@
 public class MTLSharedEvent(nint nativePtr, bool ownsReference) : MTLEvent(nativePtr, ownsReference), INativeObject<MTLSharedEvent>
 {
     public static new MTLSharedEvent Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLSharedEvent Null => Create(0, false);
+    public static new MTLSharedEvent Empty => Null;
 
     public ulong SignaledValue
     {

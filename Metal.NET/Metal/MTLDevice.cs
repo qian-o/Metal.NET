@@ -5,6 +5,8 @@ namespace Metal.NET;
 public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLDevice>
 {
     public static MTLDevice Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLDevice Null => Create(0, false);
+    public static MTLDevice Empty => Null;
 
     public MTLArchitecture Architecture
     {

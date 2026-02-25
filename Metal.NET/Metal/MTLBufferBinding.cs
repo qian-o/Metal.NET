@@ -3,6 +3,8 @@
 public class MTLBufferBinding(nint nativePtr, bool ownsReference) : MTLBinding(nativePtr, ownsReference), INativeObject<MTLBufferBinding>
 {
     public static new MTLBufferBinding Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLBufferBinding Null => Create(0, false);
+    public static new MTLBufferBinding Empty => Null;
 
     public nuint BufferAlignment
     {

@@ -3,6 +3,8 @@
 public class MTLDrawable(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLDrawable>
 {
     public static MTLDrawable Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLDrawable Null => Create(0, false);
+    public static MTLDrawable Empty => Null;
 
     public nuint DrawableID
     {

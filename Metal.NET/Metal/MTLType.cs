@@ -3,6 +3,8 @@
 public class MTLType(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLType>
 {
     public static MTLType Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLType Null => Create(0, false);
+    public static MTLType Empty => Null;
 
     public MTLType() : this(ObjectiveCRuntime.AllocInit(MTLTypeBindings.Class), true)
     {

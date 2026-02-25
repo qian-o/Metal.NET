@@ -3,6 +3,8 @@
 public class MTLRasterizationRateMap(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLRasterizationRateMap>
 {
     public static MTLRasterizationRateMap Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLRasterizationRateMap Null => Create(0, false);
+    public static MTLRasterizationRateMap Empty => Null;
 
     public MTLDevice Device
     {

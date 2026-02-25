@@ -3,6 +3,8 @@
 public class MTLHeap(nint nativePtr, bool ownsReference) : MTLAllocation(nativePtr, ownsReference), INativeObject<MTLHeap>
 {
     public static new MTLHeap Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLHeap Null => Create(0, false);
+    public static new MTLHeap Empty => Null;
 
     public MTLCPUCacheMode CpuCacheMode
     {

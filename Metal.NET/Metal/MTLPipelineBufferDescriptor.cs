@@ -3,6 +3,8 @@
 public class MTLPipelineBufferDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLPipelineBufferDescriptor>
 {
     public static MTLPipelineBufferDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLPipelineBufferDescriptor Null => Create(0, false);
+    public static MTLPipelineBufferDescriptor Empty => Null;
 
     public MTLPipelineBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLPipelineBufferDescriptorBindings.Class), true)
     {

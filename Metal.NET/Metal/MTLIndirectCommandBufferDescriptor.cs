@@ -3,6 +3,8 @@
 public class MTLIndirectCommandBufferDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLIndirectCommandBufferDescriptor>
 {
     public static MTLIndirectCommandBufferDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLIndirectCommandBufferDescriptor Null => Create(0, false);
+    public static MTLIndirectCommandBufferDescriptor Empty => Null;
 
     public MTLIndirectCommandBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIndirectCommandBufferDescriptorBindings.Class), true)
     {

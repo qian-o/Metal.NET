@@ -3,6 +3,8 @@
 public class MTLRenderPassStencilAttachmentDescriptor(nint nativePtr, bool ownsReference) : MTLRenderPassAttachmentDescriptor(nativePtr, ownsReference), INativeObject<MTLRenderPassStencilAttachmentDescriptor>
 {
     public static new MTLRenderPassStencilAttachmentDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLRenderPassStencilAttachmentDescriptor Null => Create(0, false);
+    public static new MTLRenderPassStencilAttachmentDescriptor Empty => Null;
 
     public MTLRenderPassStencilAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassStencilAttachmentDescriptorBindings.Class), true)
     {

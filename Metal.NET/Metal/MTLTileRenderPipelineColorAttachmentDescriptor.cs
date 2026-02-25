@@ -3,6 +3,8 @@
 public class MTLTileRenderPipelineColorAttachmentDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLTileRenderPipelineColorAttachmentDescriptor>
 {
     public static MTLTileRenderPipelineColorAttachmentDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLTileRenderPipelineColorAttachmentDescriptor Null => Create(0, false);
+    public static MTLTileRenderPipelineColorAttachmentDescriptor Empty => Null;
 
     public MTLTileRenderPipelineColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTileRenderPipelineColorAttachmentDescriptorBindings.Class), true)
     {

@@ -3,6 +3,8 @@
 public class MTL4MachineLearningCommandEncoder(nint nativePtr, bool ownsReference) : MTL4CommandEncoder(nativePtr, ownsReference), INativeObject<MTL4MachineLearningCommandEncoder>
 {
     public static new MTL4MachineLearningCommandEncoder Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTL4MachineLearningCommandEncoder Null => Create(0, false);
+    public static new MTL4MachineLearningCommandEncoder Empty => Null;
 
     public void DispatchNetwork(MTLHeap heap)
     {

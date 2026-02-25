@@ -3,6 +3,8 @@
 public class MTLBinaryArchive(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLBinaryArchive>
 {
     public static MTLBinaryArchive Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLBinaryArchive Null => Create(0, false);
+    public static MTLBinaryArchive Empty => Null;
 
     public MTLDevice Device
     {

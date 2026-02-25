@@ -3,6 +3,8 @@
 public class MTLResidencySetDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLResidencySetDescriptor>
 {
     public static MTLResidencySetDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLResidencySetDescriptor Null => Create(0, false);
+    public static MTLResidencySetDescriptor Empty => Null;
 
     public MTLResidencySetDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResidencySetDescriptorBindings.Class), true)
     {

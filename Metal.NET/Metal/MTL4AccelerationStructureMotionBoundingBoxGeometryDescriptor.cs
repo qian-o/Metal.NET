@@ -3,6 +3,8 @@
 public class MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor(nint nativePtr, bool ownsReference) : MTL4AccelerationStructureGeometryDescriptor(nativePtr, ownsReference), INativeObject<MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor>
 {
     public static new MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor Null => Create(0, false);
+    public static new MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor Empty => Null;
 
     public MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.Class), true)
     {

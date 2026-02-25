@@ -3,6 +3,8 @@
 public class MTLLogStateDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLLogStateDescriptor>
 {
     public static MTLLogStateDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLLogStateDescriptor Null => Create(0, false);
+    public static MTLLogStateDescriptor Empty => Null;
 
     public MTLLogStateDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLLogStateDescriptorBindings.Class), true)
     {

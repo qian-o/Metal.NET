@@ -3,6 +3,8 @@
 public class MTL4StitchedFunctionDescriptor(nint nativePtr, bool ownsReference) : MTL4FunctionDescriptor(nativePtr, ownsReference), INativeObject<MTL4StitchedFunctionDescriptor>
 {
     public static new MTL4StitchedFunctionDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTL4StitchedFunctionDescriptor Null => Create(0, false);
+    public static new MTL4StitchedFunctionDescriptor Empty => Null;
 
     public MTL4StitchedFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4StitchedFunctionDescriptorBindings.Class), true)
     {

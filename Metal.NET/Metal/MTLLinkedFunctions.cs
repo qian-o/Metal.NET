@@ -3,6 +3,8 @@
 public class MTLLinkedFunctions(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLLinkedFunctions>
 {
     public static MTLLinkedFunctions Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLLinkedFunctions Null => Create(0, false);
+    public static MTLLinkedFunctions Empty => Null;
 
     public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(MTLLinkedFunctionsBindings.Class), true)
     {

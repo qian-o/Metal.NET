@@ -3,6 +3,8 @@
 public class MTLTexture(nint nativePtr, bool ownsReference) : MTLResource(nativePtr, ownsReference), INativeObject<MTLTexture>
 {
     public static new MTLTexture Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLTexture Null => Create(0, false);
+    public static new MTLTexture Empty => Null;
 
     public Bool8 AllowGPUOptimizedContents
     {

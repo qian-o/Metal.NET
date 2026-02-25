@@ -3,6 +3,8 @@
 public class MTLCommandEncoder(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCommandEncoder>
 {
     public static MTLCommandEncoder Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLCommandEncoder Null => Create(0, false);
+    public static MTLCommandEncoder Empty => Null;
 
     public MTLDevice Device
     {

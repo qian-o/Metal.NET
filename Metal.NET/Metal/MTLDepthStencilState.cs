@@ -3,6 +3,8 @@
 public class MTLDepthStencilState(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLDepthStencilState>
 {
     public static MTLDepthStencilState Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLDepthStencilState Null => Create(0, false);
+    public static MTLDepthStencilState Empty => Null;
 
     public MTLDevice Device
     {
