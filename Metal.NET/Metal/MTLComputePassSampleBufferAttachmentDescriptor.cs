@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLComputePassSampleBufferAttachmentDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLComputePassSampleBufferAttachmentDescriptor>
+public class MTLComputePassSampleBufferAttachmentDescriptor(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLComputePassSampleBufferAttachmentDescriptor>
 {
     public static MTLComputePassSampleBufferAttachmentDescriptor Create(nint nativePtr) => new(nativePtr);
+
+    public static MTLComputePassSampleBufferAttachmentDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLComputePassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLComputePassSampleBufferAttachmentDescriptorBindings.Class))
     {

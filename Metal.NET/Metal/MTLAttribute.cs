@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLAttribute(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLAttribute>
+public class MTLAttribute(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLAttribute>
 {
     public static MTLAttribute Create(nint nativePtr) => new(nativePtr);
+
+    public static MTLAttribute CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLAttribute() : this(ObjectiveCRuntime.AllocInit(MTLAttributeBindings.Class))
     {

@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLHeap(nint nativePtr) : MTLAllocation(nativePtr), INativeObject<MTLHeap>
+public class MTLHeap(nint nativePtr, bool ownsReference = true) : MTLAllocation(nativePtr, ownsReference), INativeObject<MTLHeap>
 {
     public static new MTLHeap Create(nint nativePtr) => new(nativePtr);
+
+    public static new MTLHeap CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLCPUCacheMode CpuCacheMode
     {

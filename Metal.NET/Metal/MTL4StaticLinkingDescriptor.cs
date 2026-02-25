@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4StaticLinkingDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4StaticLinkingDescriptor>
+public class MTL4StaticLinkingDescriptor(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4StaticLinkingDescriptor>
 {
     public static MTL4StaticLinkingDescriptor Create(nint nativePtr) => new(nativePtr);
+
+    public static MTL4StaticLinkingDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTL4StaticLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4StaticLinkingDescriptorBindings.Class))
     {

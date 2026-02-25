@@ -3,9 +3,11 @@
 /// <summary>
 /// Wraps an Objective-C NSURL for file and resource URL creation.
 /// </summary>
-public class NSURL(nint nativePtr) : NativeObject(nativePtr), INativeObject<NSURL>
+public class NSURL(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<NSURL>
 {
     public static NSURL Create(nint nativePtr) => new(nativePtr);
+
+    public static NSURL CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public nint FileSystemRepresentation
     {

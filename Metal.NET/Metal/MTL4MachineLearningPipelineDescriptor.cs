@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4MachineLearningPipelineDescriptor(nint nativePtr) : MTL4PipelineDescriptor(nativePtr), INativeObject<MTL4MachineLearningPipelineDescriptor>
+public class MTL4MachineLearningPipelineDescriptor(nint nativePtr, bool ownsReference = true) : MTL4PipelineDescriptor(nativePtr, ownsReference), INativeObject<MTL4MachineLearningPipelineDescriptor>
 {
     public static new MTL4MachineLearningPipelineDescriptor Create(nint nativePtr) => new(nativePtr);
+
+    public static new MTL4MachineLearningPipelineDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTL4MachineLearningPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4MachineLearningPipelineDescriptorBindings.Class))
     {

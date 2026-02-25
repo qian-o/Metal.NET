@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLResidencySet(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLResidencySet>
+public class MTLResidencySet(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLResidencySet>
 {
     public static MTLResidencySet Create(nint nativePtr) => new(nativePtr);
+
+    public static MTLResidencySet CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public NSArray AllAllocations
     {

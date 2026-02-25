@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOCommandQueue(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLIOCommandQueue>
+public class MTLIOCommandQueue(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLIOCommandQueue>
 {
     public static MTLIOCommandQueue Create(nint nativePtr) => new(nativePtr);
+
+    public static MTLIOCommandQueue CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public NSString Label
     {

@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLFence(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFence>
+public class MTLFence(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFence>
 {
     public static MTLFence Create(nint nativePtr) => new(nativePtr);
+
+    public static MTLFence CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLDevice Device
     {

@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLTextureDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLTextureDescriptor>
+public class MTLTextureDescriptor(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLTextureDescriptor>
 {
     public static MTLTextureDescriptor Create(nint nativePtr) => new(nativePtr);
+
+    public static MTLTextureDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLTextureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTextureDescriptorBindings.Class))
     {

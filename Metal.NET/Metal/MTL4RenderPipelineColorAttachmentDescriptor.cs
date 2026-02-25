@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4RenderPipelineColorAttachmentDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4RenderPipelineColorAttachmentDescriptor>
+public class MTL4RenderPipelineColorAttachmentDescriptor(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4RenderPipelineColorAttachmentDescriptor>
 {
     public static MTL4RenderPipelineColorAttachmentDescriptor Create(nint nativePtr) => new(nativePtr);
+
+    public static MTL4RenderPipelineColorAttachmentDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTL4RenderPipelineColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineColorAttachmentDescriptorBindings.Class))
     {

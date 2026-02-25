@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr), INativeObject<CAMetalLayer>
+public class CAMetalLayer(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<CAMetalLayer>
 {
     public static CAMetalLayer Create(nint nativePtr) => new(nativePtr);
+
+    public static CAMetalLayer CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(CAMetalLayerBindings.Class))
     {

@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLThreadgroupBinding(nint nativePtr) : MTLBinding(nativePtr), INativeObject<MTLThreadgroupBinding>
+public class MTLThreadgroupBinding(nint nativePtr, bool ownsReference = true) : MTLBinding(nativePtr, ownsReference), INativeObject<MTLThreadgroupBinding>
 {
     public static new MTLThreadgroupBinding Create(nint nativePtr) => new(nativePtr);
+
+    public static new MTLThreadgroupBinding CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public nuint ThreadgroupMemoryAlignment
     {

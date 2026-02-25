@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr) : MTLAccelerationStructureGeometryDescriptor(nativePtr), INativeObject<MTLAccelerationStructureTriangleGeometryDescriptor>
+public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr, bool ownsReference = true) : MTLAccelerationStructureGeometryDescriptor(nativePtr, ownsReference), INativeObject<MTLAccelerationStructureTriangleGeometryDescriptor>
 {
     public static new MTLAccelerationStructureTriangleGeometryDescriptor Create(nint nativePtr) => new(nativePtr);
+
+    public static new MTLAccelerationStructureTriangleGeometryDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLAccelerationStructureTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureTriangleGeometryDescriptorBindings.Class))
     {

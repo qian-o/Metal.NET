@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLSharedTextureHandle(nint nativePtr) : NativeObject(nativePtr)
+public class MTLSharedTextureHandle(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference)
 {
     public MTLDevice? Device
     {

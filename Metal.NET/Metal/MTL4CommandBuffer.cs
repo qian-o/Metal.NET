@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandBuffer(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4CommandBuffer>
+public class MTL4CommandBuffer(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CommandBuffer>
 {
     public static MTL4CommandBuffer Create(nint nativePtr) => new(nativePtr);
+
+    public static MTL4CommandBuffer CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLDevice Device
     {

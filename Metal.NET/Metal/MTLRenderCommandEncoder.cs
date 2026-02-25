@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr), INativeObject<MTLRenderCommandEncoder>
+public class MTLRenderCommandEncoder(nint nativePtr, bool ownsReference = true) : MTLCommandEncoder(nativePtr, ownsReference), INativeObject<MTLRenderCommandEncoder>
 {
     public static new MTLRenderCommandEncoder Create(nint nativePtr) => new(nativePtr);
+
+    public static new MTLRenderCommandEncoder CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public nuint TileHeight
     {

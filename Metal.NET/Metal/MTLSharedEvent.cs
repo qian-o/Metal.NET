@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLSharedEvent(nint nativePtr) : MTLEvent(nativePtr), INativeObject<MTLSharedEvent>
+public class MTLSharedEvent(nint nativePtr, bool ownsReference = true) : MTLEvent(nativePtr, ownsReference), INativeObject<MTLSharedEvent>
 {
     public static new MTLSharedEvent Create(nint nativePtr) => new(nativePtr);
+
+    public static new MTLSharedEvent CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public ulong SignaledValue
     {

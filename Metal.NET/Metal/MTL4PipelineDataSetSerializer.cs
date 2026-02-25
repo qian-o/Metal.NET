@@ -1,14 +1,16 @@
 ﻿namespace Metal.NET;
 
-public class MTL4PipelineDataSetSerializer(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4PipelineDataSetSerializer>
+public class MTL4PipelineDataSetSerializer(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4PipelineDataSetSerializer>
 {
     public static MTL4PipelineDataSetSerializer Create(nint nativePtr) => new(nativePtr);
+
+    public static MTL4PipelineDataSetSerializer CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public bool SerializeAsArchiveAndFlushToURL(NSURL url, out NSError error)
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4PipelineDataSetSerializerBindings.SerializeAsArchiveAndFlushToURL, url.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr);
+        error = new(errorPtr, ownsReference: false);
 
         return result;
     }

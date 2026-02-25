@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensorExtents(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLTensorExtents>
+public class MTLTensorExtents(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLTensorExtents>
 {
     public static MTLTensorExtents Create(nint nativePtr) => new(nativePtr);
+
+    public static MTLTensorExtents CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLTensorExtents() : this(ObjectiveCRuntime.AllocInit(MTLTensorExtentsBindings.Class))
     {

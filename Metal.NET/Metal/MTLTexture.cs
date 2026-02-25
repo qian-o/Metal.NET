@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLTexture(nint nativePtr) : MTLResource(nativePtr), INativeObject<MTLTexture>
+public class MTLTexture(nint nativePtr, bool ownsReference = true) : MTLResource(nativePtr, ownsReference), INativeObject<MTLTexture>
 {
     public static new MTLTexture Create(nint nativePtr) => new(nativePtr);
+
+    public static new MTLTexture CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public bool AllowGPUOptimizedContents
     {

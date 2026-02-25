@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLCompileOptions(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLCompileOptions>
+public class MTLCompileOptions(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCompileOptions>
 {
     public static MTLCompileOptions Create(nint nativePtr) => new(nativePtr);
+
+    public static MTLCompileOptions CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLCompileOptions() : this(ObjectiveCRuntime.AllocInit(MTLCompileOptionsBindings.Class))
     {

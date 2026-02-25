@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLVertexAttributeDescriptorArray(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLVertexAttributeDescriptorArray>
+public class MTLVertexAttributeDescriptorArray(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLVertexAttributeDescriptorArray>
 {
     public static MTLVertexAttributeDescriptorArray Create(nint nativePtr) => new(nativePtr);
+
+    public static MTLVertexAttributeDescriptorArray CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLVertexAttributeDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeDescriptorArrayBindings.Class))
     {

@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4Archive(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4Archive>
+public class MTL4Archive(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4Archive>
 {
     public static MTL4Archive Create(nint nativePtr) => new(nativePtr);
+
+    public static MTL4Archive CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public NSString Label
     {
@@ -14,7 +16,7 @@ public class MTL4Archive(nint nativePtr) : NativeObject(nativePtr), INativeObjec
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewBinaryFunction, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr);
+        error = new(errorPtr, ownsReference: false);
 
         return new(nativePtr);
     }
@@ -23,7 +25,7 @@ public class MTL4Archive(nint nativePtr) : NativeObject(nativePtr), INativeObjec
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewComputePipelineState, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr);
+        error = new(errorPtr, ownsReference: false);
 
         return new(nativePtr);
     }
@@ -32,7 +34,7 @@ public class MTL4Archive(nint nativePtr) : NativeObject(nativePtr), INativeObjec
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewComputePipelineStateWithDescriptordynamicLinkingDescriptorerror, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr);
+        error = new(errorPtr, ownsReference: false);
 
         return new(nativePtr);
     }
@@ -41,7 +43,7 @@ public class MTL4Archive(nint nativePtr) : NativeObject(nativePtr), INativeObjec
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewRenderPipelineState, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr);
+        error = new(errorPtr, ownsReference: false);
 
         return new(nativePtr);
     }
@@ -50,7 +52,7 @@ public class MTL4Archive(nint nativePtr) : NativeObject(nativePtr), INativeObjec
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewRenderPipelineStateWithDescriptordynamicLinkingDescriptorerror, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr);
+        error = new(errorPtr, ownsReference: false);
 
         return new(nativePtr);
     }

@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4Compiler>
+public class MTL4Compiler(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4Compiler>
 {
     public static MTL4Compiler Create(nint nativePtr) => new(nativePtr);
+
+    public static MTL4Compiler CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLDevice Device
     {
@@ -23,7 +25,7 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr), INativeObje
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewBinaryFunction, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr);
+        error = new(errorPtr, ownsReference: false);
 
         return new(nativePtr);
     }
@@ -32,7 +34,7 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr), INativeObje
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewComputePipelineState, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr);
+        error = new(errorPtr, ownsReference: false);
 
         return new(nativePtr);
     }
@@ -41,7 +43,7 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr), INativeObje
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewComputePipelineStateWithDescriptordynamicLinkingDescriptorcompilerTaskOptionserror, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr);
+        error = new(errorPtr, ownsReference: false);
 
         return new(nativePtr);
     }
@@ -50,7 +52,7 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr), INativeObje
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewDynamicLibrary, library.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr);
+        error = new(errorPtr, ownsReference: false);
 
         return new(nativePtr);
     }
@@ -59,7 +61,7 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr), INativeObje
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewDynamicLibraryWithURLerror, url.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr);
+        error = new(errorPtr, ownsReference: false);
 
         return new(nativePtr);
     }
@@ -68,7 +70,7 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr), INativeObje
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewLibrary, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr);
+        error = new(errorPtr, ownsReference: false);
 
         return new(nativePtr);
     }
@@ -77,7 +79,7 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr), INativeObje
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewMachineLearningPipelineState, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr);
+        error = new(errorPtr, ownsReference: false);
 
         return new(nativePtr);
     }
@@ -86,7 +88,7 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr), INativeObje
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewRenderPipelineState, descriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr);
+        error = new(errorPtr, ownsReference: false);
 
         return new(nativePtr);
     }
@@ -95,7 +97,7 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr), INativeObje
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewRenderPipelineStateWithDescriptordynamicLinkingDescriptorcompilerTaskOptionserror, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, compilerTaskOptions.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr);
+        error = new(errorPtr, ownsReference: false);
 
         return new(nativePtr);
     }
@@ -104,7 +106,7 @@ public class MTL4Compiler(nint nativePtr) : NativeObject(nativePtr), INativeObje
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CompilerBindings.NewRenderPipelineStateBySpecialization, descriptor.NativePtr, pipeline.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr);
+        error = new(errorPtr, ownsReference: false);
 
         return new(nativePtr);
     }

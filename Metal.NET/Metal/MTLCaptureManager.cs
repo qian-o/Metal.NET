@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLCaptureManager(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLCaptureManager>
+public class MTLCaptureManager(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCaptureManager>
 {
     public static MTLCaptureManager Create(nint nativePtr) => new(nativePtr);
+
+    public static MTLCaptureManager CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLCaptureManager() : this(ObjectiveCRuntime.AllocInit(MTLCaptureManagerBindings.Class))
     {
@@ -51,7 +53,7 @@ public class MTLCaptureManager(nint nativePtr) : NativeObject(nativePtr), INativ
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerBindings.StartCapture, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr);
+        error = new(errorPtr, ownsReference: false);
 
         return result;
     }

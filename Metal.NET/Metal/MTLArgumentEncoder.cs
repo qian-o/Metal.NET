@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLArgumentEncoder(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLArgumentEncoder>
+public class MTLArgumentEncoder(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLArgumentEncoder>
 {
     public static MTLArgumentEncoder Create(nint nativePtr) => new(nativePtr);
+
+    public static MTLArgumentEncoder CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public nuint Alignment
     {

@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionReflection(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFunctionReflection>
+public class MTLFunctionReflection(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFunctionReflection>
 {
     public static MTLFunctionReflection Create(nint nativePtr) => new(nativePtr);
+
+    public static MTLFunctionReflection CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLFunctionReflection() : this(ObjectiveCRuntime.AllocInit(MTLFunctionReflectionBindings.Class))
     {

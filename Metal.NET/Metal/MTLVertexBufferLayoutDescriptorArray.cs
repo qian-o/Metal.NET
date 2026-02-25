@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLVertexBufferLayoutDescriptorArray(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLVertexBufferLayoutDescriptorArray>
+public class MTLVertexBufferLayoutDescriptorArray(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLVertexBufferLayoutDescriptorArray>
 {
     public static MTLVertexBufferLayoutDescriptorArray Create(nint nativePtr) => new(nativePtr);
+
+    public static MTLVertexBufferLayoutDescriptorArray CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLVertexBufferLayoutDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLVertexBufferLayoutDescriptorArrayBindings.Class))
     {

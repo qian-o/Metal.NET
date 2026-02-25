@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLIntersectionFunctionTable(nint nativePtr) : MTLResource(nativePtr), INativeObject<MTLIntersectionFunctionTable>
+public class MTLIntersectionFunctionTable(nint nativePtr, bool ownsReference = true) : MTLResource(nativePtr, ownsReference), INativeObject<MTLIntersectionFunctionTable>
 {
     public static new MTLIntersectionFunctionTable Create(nint nativePtr) => new(nativePtr);
+
+    public static new MTLIntersectionFunctionTable CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLResourceID GpuResourceID
     {

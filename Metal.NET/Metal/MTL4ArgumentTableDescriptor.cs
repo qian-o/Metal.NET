@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4ArgumentTableDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4ArgumentTableDescriptor>
+public class MTL4ArgumentTableDescriptor(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4ArgumentTableDescriptor>
 {
     public static MTL4ArgumentTableDescriptor Create(nint nativePtr) => new(nativePtr);
+
+    public static MTL4ArgumentTableDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTL4ArgumentTableDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4ArgumentTableDescriptorBindings.Class))
     {

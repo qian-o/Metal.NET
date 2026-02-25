@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLEvent(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLEvent>
+public class MTLEvent(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLEvent>
 {
     public static MTLEvent Create(nint nativePtr) => new(nativePtr);
+
+    public static MTLEvent CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLDevice Device
     {

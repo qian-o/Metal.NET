@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXTemporalScalerBase(nint nativePtr) : MTLFXFrameInterpolatableScaler(nativePtr), INativeObject<MTLFXTemporalScalerBase>
+public class MTLFXTemporalScalerBase(nint nativePtr, bool ownsReference = true) : MTLFXFrameInterpolatableScaler(nativePtr, ownsReference), INativeObject<MTLFXTemporalScalerBase>
 {
     public static new MTLFXTemporalScalerBase Create(nint nativePtr) => new(nativePtr);
+
+    public static new MTLFXTemporalScalerBase CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLTexture ColorTexture
     {

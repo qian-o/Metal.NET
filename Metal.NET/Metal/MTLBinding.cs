@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLBinding(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLBinding>
+public class MTLBinding(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLBinding>
 {
     public static MTLBinding Create(nint nativePtr) => new(nativePtr);
+
+    public static MTLBinding CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLBindingAccess Access
     {

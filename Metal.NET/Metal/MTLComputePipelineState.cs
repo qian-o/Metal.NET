@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLComputePipelineState(nint nativePtr) : MTLAllocation(nativePtr), INativeObject<MTLComputePipelineState>
+public class MTLComputePipelineState(nint nativePtr, bool ownsReference = true) : MTLAllocation(nativePtr, ownsReference), INativeObject<MTLComputePipelineState>
 {
     public static new MTLComputePipelineState Create(nint nativePtr) => new(nativePtr);
+
+    public static new MTLComputePipelineState CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLDevice Device
     {
@@ -84,7 +86,7 @@ public class MTLComputePipelineState(nint nativePtr) : MTLAllocation(nativePtr),
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineStateWithBinaryFunctions, additionalBinaryFunctions.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr);
+        error = new(errorPtr, ownsReference: false);
 
         return new(nativePtr);
     }
@@ -93,7 +95,7 @@ public class MTLComputePipelineState(nint nativePtr) : MTLAllocation(nativePtr),
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineState, functions.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr);
+        error = new(errorPtr, ownsReference: false);
 
         return new(nativePtr);
     }

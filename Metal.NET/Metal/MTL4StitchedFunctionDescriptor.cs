@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4StitchedFunctionDescriptor(nint nativePtr) : MTL4FunctionDescriptor(nativePtr), INativeObject<MTL4StitchedFunctionDescriptor>
+public class MTL4StitchedFunctionDescriptor(nint nativePtr, bool ownsReference = true) : MTL4FunctionDescriptor(nativePtr, ownsReference), INativeObject<MTL4StitchedFunctionDescriptor>
 {
     public static new MTL4StitchedFunctionDescriptor Create(nint nativePtr) => new(nativePtr);
+
+    public static new MTL4StitchedFunctionDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTL4StitchedFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4StitchedFunctionDescriptorBindings.Class))
     {

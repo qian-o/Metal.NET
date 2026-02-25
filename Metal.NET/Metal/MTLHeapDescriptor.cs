@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLHeapDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLHeapDescriptor>
+public class MTLHeapDescriptor(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLHeapDescriptor>
 {
     public static MTLHeapDescriptor Create(nint nativePtr) => new(nativePtr);
+
+    public static MTLHeapDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLHeapDescriptorBindings.Class))
     {

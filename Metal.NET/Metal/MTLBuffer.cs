@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLBuffer(nint nativePtr) : MTLResource(nativePtr), INativeObject<MTLBuffer>
+public class MTLBuffer(nint nativePtr, bool ownsReference = true) : MTLResource(nativePtr, ownsReference), INativeObject<MTLBuffer>
 {
     public static new MTLBuffer Create(nint nativePtr) => new(nativePtr);
+
+    public static new MTLBuffer CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public nuint GpuAddress
     {
@@ -50,7 +52,7 @@ public class MTLBuffer(nint nativePtr) : MTLResource(nativePtr), INativeObject<M
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewTensor, descriptor.NativePtr, offset, out nint errorPtr);
 
-        error = new(errorPtr);
+        error = new(errorPtr, ownsReference: false);
 
         return new(nativePtr);
     }

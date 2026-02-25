@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLBlitPassDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLBlitPassDescriptor>
+public class MTLBlitPassDescriptor(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLBlitPassDescriptor>
 {
     public static MTLBlitPassDescriptor Create(nint nativePtr) => new(nativePtr);
+
+    public static MTLBlitPassDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLBlitPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBlitPassDescriptorBindings.Class))
     {

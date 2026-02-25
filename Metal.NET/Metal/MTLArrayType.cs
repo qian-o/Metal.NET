@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLArrayType(nint nativePtr) : MTLType(nativePtr), INativeObject<MTLArrayType>
+public class MTLArrayType(nint nativePtr, bool ownsReference = true) : MTLType(nativePtr, ownsReference), INativeObject<MTLArrayType>
 {
     public static new MTLArrayType Create(nint nativePtr) => new(nativePtr);
+
+    public static new MTLArrayType CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLArrayType() : this(ObjectiveCRuntime.AllocInit(MTLArrayTypeBindings.Class))
     {

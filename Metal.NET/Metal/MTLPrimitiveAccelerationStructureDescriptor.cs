@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr) : MTLAccelerationStructureDescriptor(nativePtr), INativeObject<MTLPrimitiveAccelerationStructureDescriptor>
+public class MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr, bool ownsReference = true) : MTLAccelerationStructureDescriptor(nativePtr, ownsReference), INativeObject<MTLPrimitiveAccelerationStructureDescriptor>
 {
     public static new MTLPrimitiveAccelerationStructureDescriptor Create(nint nativePtr) => new(nativePtr);
+
+    public static new MTLPrimitiveAccelerationStructureDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLPrimitiveAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLPrimitiveAccelerationStructureDescriptorBindings.Class))
     {

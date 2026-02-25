@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLIndirectCommandBuffer(nint nativePtr) : MTLResource(nativePtr), INativeObject<MTLIndirectCommandBuffer>
+public class MTLIndirectCommandBuffer(nint nativePtr, bool ownsReference = true) : MTLResource(nativePtr, ownsReference), INativeObject<MTLIndirectCommandBuffer>
 {
     public static new MTLIndirectCommandBuffer Create(nint nativePtr) => new(nativePtr);
+
+    public static new MTLIndirectCommandBuffer CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLResourceID GpuResourceID
     {

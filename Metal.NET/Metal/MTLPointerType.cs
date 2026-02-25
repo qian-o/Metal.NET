@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLPointerType(nint nativePtr) : MTLType(nativePtr), INativeObject<MTLPointerType>
+public class MTLPointerType(nint nativePtr, bool ownsReference = true) : MTLType(nativePtr, ownsReference), INativeObject<MTLPointerType>
 {
     public static new MTLPointerType Create(nint nativePtr) => new(nativePtr);
+
+    public static new MTLPointerType CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLPointerType() : this(ObjectiveCRuntime.AllocInit(MTLPointerTypeBindings.Class))
     {

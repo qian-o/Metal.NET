@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLParallelRenderCommandEncoder(nint nativePtr) : MTLCommandEncoder(nativePtr), INativeObject<MTLParallelRenderCommandEncoder>
+public class MTLParallelRenderCommandEncoder(nint nativePtr, bool ownsReference = true) : MTLCommandEncoder(nativePtr, ownsReference), INativeObject<MTLParallelRenderCommandEncoder>
 {
     public static new MTLParallelRenderCommandEncoder Create(nint nativePtr) => new(nativePtr);
+
+    public static new MTLParallelRenderCommandEncoder CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLRenderCommandEncoder RenderCommandEncoder()
     {

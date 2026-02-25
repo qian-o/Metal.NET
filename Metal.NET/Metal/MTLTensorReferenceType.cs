@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensorReferenceType(nint nativePtr) : MTLType(nativePtr), INativeObject<MTLTensorReferenceType>
+public class MTLTensorReferenceType(nint nativePtr, bool ownsReference = true) : MTLType(nativePtr, ownsReference), INativeObject<MTLTensorReferenceType>
 {
     public static new MTLTensorReferenceType Create(nint nativePtr) => new(nativePtr);
+
+    public static new MTLTensorReferenceType CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLTensorReferenceType() : this(ObjectiveCRuntime.AllocInit(MTLTensorReferenceTypeBindings.Class))
     {

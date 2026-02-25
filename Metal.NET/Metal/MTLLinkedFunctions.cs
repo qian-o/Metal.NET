@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLLinkedFunctions(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLLinkedFunctions>
+public class MTLLinkedFunctions(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLLinkedFunctions>
 {
     public static MTLLinkedFunctions Create(nint nativePtr) => new(nativePtr);
+
+    public static MTLLinkedFunctions CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(MTLLinkedFunctionsBindings.Class))
     {

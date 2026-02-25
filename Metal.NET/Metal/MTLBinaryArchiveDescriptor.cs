@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLBinaryArchiveDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLBinaryArchiveDescriptor>
+public class MTLBinaryArchiveDescriptor(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLBinaryArchiveDescriptor>
 {
     public static MTLBinaryArchiveDescriptor Create(nint nativePtr) => new(nativePtr);
+
+    public static MTLBinaryArchiveDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLBinaryArchiveDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBinaryArchiveDescriptorBindings.Class))
     {

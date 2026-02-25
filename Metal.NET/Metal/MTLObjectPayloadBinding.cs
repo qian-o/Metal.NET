@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLObjectPayloadBinding(nint nativePtr) : MTLBinding(nativePtr), INativeObject<MTLObjectPayloadBinding>
+public class MTLObjectPayloadBinding(nint nativePtr, bool ownsReference = true) : MTLBinding(nativePtr, ownsReference), INativeObject<MTLObjectPayloadBinding>
 {
     public static new MTLObjectPayloadBinding Create(nint nativePtr) => new(nativePtr);
+
+    public static new MTLObjectPayloadBinding CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public nuint ObjectPayloadAlignment
     {

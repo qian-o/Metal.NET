@@ -3,9 +3,11 @@
 /// <summary>
 /// Wraps an Objective-C NSArray pointer.
 /// </summary>
-public class NSArray(nint nativePtr) : NativeObject(nativePtr), INativeObject<NSArray>
+public class NSArray(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<NSArray>
 {
     public static NSArray Create(nint nativePtr) => new(nativePtr);
+
+    public static NSArray CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public nuint Count
     {

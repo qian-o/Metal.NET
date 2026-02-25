@@ -1,8 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLLibrary(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLLibrary>
+public class MTLLibrary(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLLibrary>
 {
     public static MTLLibrary Create(nint nativePtr) => new(nativePtr);
+
+    public static MTLLibrary CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
 
     public MTLDevice Device
     {
@@ -41,7 +43,7 @@ public class MTLLibrary(nint nativePtr) : NativeObject(nativePtr), INativeObject
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.NewFunctionWithNameconstantValueserror, name.NativePtr, constantValues.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr);
+        error = new(errorPtr, ownsReference: false);
 
         return new(nativePtr);
     }
@@ -50,7 +52,7 @@ public class MTLLibrary(nint nativePtr) : NativeObject(nativePtr), INativeObject
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.NewFunctionWithDescriptorerror, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr);
+        error = new(errorPtr, ownsReference: false);
 
         return new(nativePtr);
     }
@@ -59,7 +61,7 @@ public class MTLLibrary(nint nativePtr) : NativeObject(nativePtr), INativeObject
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.NewIntersectionFunction, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr);
+        error = new(errorPtr, ownsReference: false);
 
         return new(nativePtr);
     }

@@ -190,10 +190,12 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             ? classDef.BaseClassName
             : "NativeObject";
         string partialKeyword = hasFreeFunctions ? "partial " : "";
-        sb.AppendLine($"public {partialKeyword}class {csClassName}(nint nativePtr) : {baseClass}(nativePtr), INativeObject<{csClassName}>");
+        sb.AppendLine($"public {partialKeyword}class {csClassName}(nint nativePtr, bool ownsReference = true) : {baseClass}(nativePtr, ownsReference), INativeObject<{csClassName}>");
         sb.AppendLine("{");
         string newKeyword = baseClass != "NativeObject" ? "new " : "";
         sb.AppendLine($"    public static {newKeyword}{csClassName} Create(nint nativePtr) => new(nativePtr);");
+        sb.AppendLine();
+        sb.AppendLine($"    public static {newKeyword}{csClassName} CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);");
 
         bool hasPrecedingMember = true;
         if (hasClassField)
@@ -776,7 +778,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             if (hasOutError)
             {
                 sb.AppendLine();
-                sb.AppendLine($"{indent}error = new(errorPtr);");
+                sb.AppendLine($"{indent}error = new(errorPtr, ownsReference: false);");
             }
         }
         else if (nullable)
@@ -785,7 +787,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 sb.AppendLine($"{indent}nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine($"{indent}error = new(errorPtr);");
+                sb.AppendLine($"{indent}error = new(errorPtr, ownsReference: false);");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}return new(nativePtr);");
             }
@@ -803,7 +805,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 sb.AppendLine($"{indent}{returnType} result = ({returnType}){msgSend}({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine($"{indent}error = new(errorPtr);");
+                sb.AppendLine($"{indent}error = new(errorPtr, ownsReference: false);");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}return result;");
             }
@@ -818,7 +820,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 sb.AppendLine($"{indent}bool result = ObjectiveCRuntime.MsgSendBool({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine($"{indent}error = new(errorPtr);");
+                sb.AppendLine($"{indent}error = new(errorPtr, ownsReference: false);");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}return result;");
             }
@@ -834,7 +836,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 sb.AppendLine($"{indent}{returnType} result = ObjectiveCRuntime.{msgSend}({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine($"{indent}error = new(errorPtr);");
+                sb.AppendLine($"{indent}error = new(errorPtr, ownsReference: false);");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}return result;");
             }
@@ -851,7 +853,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 sb.AppendLine($"{indent}{csReturnType} result = {retCast}ObjectiveCRuntime.{msgSend}({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine($"{indent}error = new(errorPtr);");
+                sb.AppendLine($"{indent}error = new(errorPtr, ownsReference: false);");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}return result;");
             }
