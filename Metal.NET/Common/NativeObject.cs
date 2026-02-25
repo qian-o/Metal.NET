@@ -87,7 +87,8 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDispos
     }
 
     /// <summary>
-    /// Reads an Objective-C NSArray property and returns a C# array.
+    /// Reads an Objective-C NSArray property and converts it to a C# array.
+    /// Each element is a borrowed reference (not retained by the wrapper).
     /// </summary>
     protected T[] GetArrayProperty<T>(Selector selector) where T : NativeObject, INativeObject<T>
     {
@@ -97,7 +98,8 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDispos
     }
 
     /// <summary>
-    /// Writes an Objective-C NSArray property from a C# array.
+    /// Creates a temporary NSArray from a C# array, sets the Objective-C property,
+    /// and releases the temporary NSArray.
     /// </summary>
     protected void SetArrayProperty<T>(Selector selector, T[] value) where T : NativeObject
     {

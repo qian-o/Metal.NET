@@ -6,8 +6,8 @@
 public static class NSArray
 {
     /// <summary>
-    /// Converts an Objective-C NSArray pointer to a C# array.
-    /// The returned elements are borrowed references.
+    /// Reads each element from an Objective-C NSArray via <c>objectAtIndex:</c>
+    /// and wraps them as borrowed references (the array retains the elements).
     /// </summary>
     public static T[] ToArray<T>(nint nativePtr) where T : NativeObject, INativeObject<T>
     {
@@ -24,8 +24,8 @@ public static class NSArray
     }
 
     /// <summary>
-    /// Creates an Objective-C NSArray from a C# array and returns the native pointer.
-    /// The caller owns the returned NSArray.
+    /// Creates an Objective-C NSArray from a C# array via <c>initWithObjects:count:</c>.
+    /// The caller owns the returned pointer and must call <c>release</c> when done.
     /// </summary>
     public static unsafe nint FromArray<T>(T[] array) where T : NativeObject
     {
