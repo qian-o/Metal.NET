@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOCommandQueue(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLIOCommandQueue>
+public class MTLIOCommandQueue(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLIOCommandQueue>
 {
-    public static MTLIOCommandQueue Null { get; } = new(0, false);
+    public static MTLIOCommandQueue Null { get; } = new(0, false, false);
 
-    public static MTLIOCommandQueue Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLIOCommandQueue Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public NSString Label
     {
@@ -16,14 +16,14 @@ public class MTLIOCommandQueue(nint nativePtr, bool ownsReference, bool allowGCR
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueBindings.CommandBuffer);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 
     public MTLIOCommandBuffer CommandBufferWithUnretainedReferences()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueBindings.CommandBufferWithUnretainedReferences);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 
     public void EnqueueBarrier()

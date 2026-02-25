@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLResourceViewPool(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLResourceViewPool>
+public class MTLResourceViewPool(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLResourceViewPool>
 {
-    public static MTLResourceViewPool Null { get; } = new(0, false);
+    public static MTLResourceViewPool Null { get; } = new(0, false, false);
 
-    public static MTLResourceViewPool Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLResourceViewPool Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public MTLResourceID BaseResourceID
     {

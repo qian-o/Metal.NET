@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensorBinding(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLBinding(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLTensorBinding>
+public class MTLTensorBinding(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTLBinding(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLTensorBinding>
 {
-    public static new MTLTensorBinding Null { get; } = new(0, false);
+    public static new MTLTensorBinding Null { get; } = new(0, false, false);
 
-    public static new MTLTensorBinding Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLTensorBinding Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public MTLTensorExtents Dimensions
     {

@@ -11,7 +11,7 @@ public interface INativeObject<TSelf> where TSelf : NativeObject, INativeObject<
     /// <summary>
     /// Creates a managed wrapper around the given native pointer.
     /// </summary>
-    static abstract TSelf Create(nint nativePtr, bool ownsReference);
+    static abstract TSelf Create(nint nativePtr, bool ownsReference, bool allowGCRelease);
 }
 
 /// <summary>
@@ -33,10 +33,10 @@ public interface INativeObject<TSelf> where TSelf : NativeObject, INativeObject<
 /// </param>
 /// <param name="allowGCRelease">
 /// <see langword="true"/> to allow the GC finalizer to release the native
-/// reference; <see langword="false"/> (default) for objects from native that
+/// reference; <see langword="false"/> for objects from native that
 /// should only be released via explicit <see cref="Dispose()"/>.
 /// </param>
-public abstract class NativeObject(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : IDisposable
+public abstract class NativeObject(nint nativePtr, bool ownsReference, bool allowGCRelease) : IDisposable
 {
     private volatile uint disposed;
 
@@ -95,7 +95,7 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference, bool allo
 
         if (field is null || field.NativePtr != nativePtr)
         {
-            field = T.Create(nativePtr, false);
+            field = T.Create(nativePtr, false, false);
         }
 
         return field;
@@ -108,7 +108,7 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference, bool allo
     {
         ObjectiveCRuntime.MsgSend(NativePtr, selector, value.NativePtr);
 
-        field = T.Create(value.NativePtr, false);
+        field = T.Create(value.NativePtr, false, false);
     }
 
     /// <summary>

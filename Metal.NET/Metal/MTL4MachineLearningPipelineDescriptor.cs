@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4MachineLearningPipelineDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTL4PipelineDescriptor(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4MachineLearningPipelineDescriptor>
+public class MTL4MachineLearningPipelineDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTL4PipelineDescriptor(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4MachineLearningPipelineDescriptor>
 {
-    public static new MTL4MachineLearningPipelineDescriptor Null { get; } = new(0, false);
+    public static new MTL4MachineLearningPipelineDescriptor Null { get; } = new(0, false, false);
 
-    public static new MTL4MachineLearningPipelineDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTL4MachineLearningPipelineDescriptor Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public MTL4MachineLearningPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4MachineLearningPipelineDescriptorBindings.Class), true, true)
     {
@@ -20,7 +20,7 @@ public class MTL4MachineLearningPipelineDescriptor(nint nativePtr, bool ownsRefe
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.InputDimensionsAtBufferIndex, bufferIndex);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 
     public void Reset()

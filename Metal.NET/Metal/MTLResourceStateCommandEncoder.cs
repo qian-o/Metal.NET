@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLResourceStateCommandEncoder(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLCommandEncoder(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLResourceStateCommandEncoder>
+public class MTLResourceStateCommandEncoder(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTLCommandEncoder(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLResourceStateCommandEncoder>
 {
-    public static new MTLResourceStateCommandEncoder Null { get; } = new(0, false);
+    public static new MTLResourceStateCommandEncoder Null { get; } = new(0, false, false);
 
-    public static new MTLResourceStateCommandEncoder Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLResourceStateCommandEncoder Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public void MoveTextureMappingsFromTexture(MTLTexture sourceTexture, nuint sourceSlice, nuint sourceLevel, MTLOrigin sourceOrigin, MTLSize sourceSize, MTLTexture destinationTexture, nuint destinationSlice, nuint destinationLevel, MTLOrigin destinationOrigin)
     {

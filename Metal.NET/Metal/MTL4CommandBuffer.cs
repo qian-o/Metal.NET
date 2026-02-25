@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandBuffer(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4CommandBuffer>
+public class MTL4CommandBuffer(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4CommandBuffer>
 {
-    public static MTL4CommandBuffer Null { get; } = new(0, false);
+    public static MTL4CommandBuffer Null { get; } = new(0, false, false);
 
-    public static MTL4CommandBuffer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTL4CommandBuffer Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public MTLDevice Device
     {
@@ -31,7 +31,7 @@ public class MTL4CommandBuffer(nint nativePtr, bool ownsReference, bool allowGCR
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.ComputeCommandEncoder);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 
     public void EndCommandBuffer()
@@ -43,7 +43,7 @@ public class MTL4CommandBuffer(nint nativePtr, bool ownsReference, bool allowGCR
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.MachineLearningCommandEncoder);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 
     public void PopDebugGroup()
@@ -60,14 +60,14 @@ public class MTL4CommandBuffer(nint nativePtr, bool ownsReference, bool allowGCR
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoder, descriptor.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 
     public MTL4RenderCommandEncoder RenderCommandEncoder(MTL4RenderPassDescriptor descriptor, MTL4RenderEncoderOptions options)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoderWithDescriptoroptions, descriptor.NativePtr, (nuint)options);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 
     public void ResolveCounterHeap(MTL4CounterHeap counterHeap, NSRange range, MTL4BufferRange bufferRange, MTLFence fenceToWait, MTLFence fenceToUpdate)

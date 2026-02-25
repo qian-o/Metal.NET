@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLResource(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLTensor>
+public class MTLTensor(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTLResource(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLTensor>
 {
-    public static new MTLTensor Null { get; } = new(0, false);
+    public static new MTLTensor Null { get; } = new(0, false, false);
 
-    public static new MTLTensor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLTensor Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public MTLBuffer Buffer
     {

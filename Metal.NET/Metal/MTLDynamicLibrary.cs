@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLDynamicLibrary(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLDynamicLibrary>
+public class MTLDynamicLibrary(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLDynamicLibrary>
 {
-    public static MTLDynamicLibrary Null { get; } = new(0, false);
+    public static MTLDynamicLibrary Null { get; } = new(0, false, false);
 
-    public static MTLDynamicLibrary Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLDynamicLibrary Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public MTLDevice Device
     {
@@ -26,7 +26,7 @@ public class MTLDynamicLibrary(nint nativePtr, bool ownsReference, bool allowGCR
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDynamicLibraryBindings.SerializeToURL, url.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, false, false);
 
         return result;
     }

@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLStructMember(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLStructMember>
+public class MTLStructMember(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLStructMember>
 {
-    public static MTLStructMember Null { get; } = new(0, false);
+    public static MTLStructMember Null { get; } = new(0, false, false);
 
-    public static MTLStructMember Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLStructMember Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public MTLStructMember() : this(ObjectiveCRuntime.AllocInit(MTLStructMemberBindings.Class), true, true)
     {
@@ -34,35 +34,35 @@ public class MTLStructMember(nint nativePtr, bool ownsReference, bool allowGCRel
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.ArrayType);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 
     public MTLPointerType PointerType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.PointerType);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 
     public MTLStructType StructType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.StructType);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 
     public MTLTensorReferenceType TensorReferenceType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.TensorReferenceType);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 
     public MTLTextureReferenceType TextureReferenceType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.TextureReferenceType);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 }
 

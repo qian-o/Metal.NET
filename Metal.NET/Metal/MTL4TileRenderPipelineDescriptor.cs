@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4TileRenderPipelineDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTL4PipelineDescriptor(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4TileRenderPipelineDescriptor>
+public class MTL4TileRenderPipelineDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTL4PipelineDescriptor(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4TileRenderPipelineDescriptor>
 {
-    public static new MTL4TileRenderPipelineDescriptor Null { get; } = new(0, false);
+    public static new MTL4TileRenderPipelineDescriptor Null { get; } = new(0, false, false);
 
-    public static new MTL4TileRenderPipelineDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTL4TileRenderPipelineDescriptor Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public MTL4TileRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4TileRenderPipelineDescriptorBindings.Class), true, true)
     {

@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLPointerType(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLType(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLPointerType>
+public class MTLPointerType(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTLType(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLPointerType>
 {
-    public static new MTLPointerType Null { get; } = new(0, false);
+    public static new MTLPointerType Null { get; } = new(0, false, false);
 
-    public static new MTLPointerType Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLPointerType Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public MTLPointerType() : this(ObjectiveCRuntime.AllocInit(MTLPointerTypeBindings.Class), true, true)
     {
@@ -39,14 +39,14 @@ public class MTLPointerType(nint nativePtr, bool ownsReference, bool allowGCRele
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeBindings.ElementArrayType);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 
     public MTLStructType ElementStructType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeBindings.ElementStructType);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 }
 

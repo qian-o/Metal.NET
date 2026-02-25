@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLAttributeDescriptorArray(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLAttributeDescriptorArray>
+public class MTLAttributeDescriptorArray(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLAttributeDescriptorArray>
 {
-    public static MTLAttributeDescriptorArray Null { get; } = new(0, false);
+    public static MTLAttributeDescriptorArray Null { get; } = new(0, false, false);
 
-    public static MTLAttributeDescriptorArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLAttributeDescriptorArray Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public MTLAttributeDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLAttributeDescriptorArrayBindings.Class), true, true)
     {
@@ -16,7 +16,7 @@ public class MTLAttributeDescriptorArray(nint nativePtr, bool ownsReference, boo
         {
             nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeDescriptorArrayBindings.Object, index);
 
-            return new(nativePtr, false);
+            return new(nativePtr, false, false);
         }
         set
         {

@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLIndirectRenderCommand(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLIndirectRenderCommand>
+public class MTLIndirectRenderCommand(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLIndirectRenderCommand>
 {
-    public static MTLIndirectRenderCommand Null { get; } = new(0, false);
+    public static MTLIndirectRenderCommand Null { get; } = new(0, false, false);
 
-    public static MTLIndirectRenderCommand Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLIndirectRenderCommand Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public void ClearBarrier()
     {

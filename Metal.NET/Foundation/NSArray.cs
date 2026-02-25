@@ -17,7 +17,7 @@ public static class NSArray
 
         for (nuint i = 0; i < count; i++)
         {
-            result[(int)i] = T.Create(ObjectiveCRuntime.MsgSendPtr(nativePtr, NSArrayBindings.ObjectAtIndex, i), false);
+            result[(int)i] = T.Create(ObjectiveCRuntime.MsgSendPtr(nativePtr, NSArrayBindings.ObjectAtIndex, i), false, false);
         }
 
         return result;

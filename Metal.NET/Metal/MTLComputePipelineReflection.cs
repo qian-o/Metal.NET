@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLComputePipelineReflection(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLComputePipelineReflection>
+public class MTLComputePipelineReflection(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLComputePipelineReflection>
 {
-    public static MTLComputePipelineReflection Null { get; } = new(0, false);
+    public static MTLComputePipelineReflection Null { get; } = new(0, false, false);
 
-    public static MTLComputePipelineReflection Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLComputePipelineReflection Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public MTLComputePipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTLComputePipelineReflectionBindings.Class), true, true)
     {

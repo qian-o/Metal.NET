@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLCaptureScope(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLCaptureScope>
+public class MTLCaptureScope(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLCaptureScope>
 {
-    public static MTLCaptureScope Null { get; } = new(0, false);
+    public static MTLCaptureScope Null { get; } = new(0, false, false);
 
-    public static MTLCaptureScope Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLCaptureScope Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public MTLCommandQueue CommandQueue
     {

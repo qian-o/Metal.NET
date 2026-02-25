@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLAccelerationStructureDescriptor(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLPrimitiveAccelerationStructureDescriptor>
+public class MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTLAccelerationStructureDescriptor(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLPrimitiveAccelerationStructureDescriptor>
 {
-    public static new MTLPrimitiveAccelerationStructureDescriptor Null { get; } = new(0, false);
+    public static new MTLPrimitiveAccelerationStructureDescriptor Null { get; } = new(0, false, false);
 
-    public static new MTLPrimitiveAccelerationStructureDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLPrimitiveAccelerationStructureDescriptor Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public MTLPrimitiveAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLPrimitiveAccelerationStructureDescriptorBindings.Class), true, true)
     {
@@ -50,7 +50,7 @@ public class MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr, bool ow
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLPrimitiveAccelerationStructureDescriptorBindings.Class, MTLPrimitiveAccelerationStructureDescriptorBindings.Descriptor);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 }
 

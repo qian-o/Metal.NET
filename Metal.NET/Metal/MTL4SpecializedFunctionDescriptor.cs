@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4SpecializedFunctionDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTL4FunctionDescriptor(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4SpecializedFunctionDescriptor>
+public class MTL4SpecializedFunctionDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTL4FunctionDescriptor(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4SpecializedFunctionDescriptor>
 {
-    public static new MTL4SpecializedFunctionDescriptor Null { get; } = new(0, false);
+    public static new MTL4SpecializedFunctionDescriptor Null { get; } = new(0, false, false);
 
-    public static new MTL4SpecializedFunctionDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTL4SpecializedFunctionDescriptor Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public MTL4SpecializedFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4SpecializedFunctionDescriptorBindings.Class), true, true)
     {

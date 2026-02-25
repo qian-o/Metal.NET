@@ -1,16 +1,16 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOScratchBufferAllocator(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLIOScratchBufferAllocator>
+public class MTLIOScratchBufferAllocator(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLIOScratchBufferAllocator>
 {
-    public static MTLIOScratchBufferAllocator Null { get; } = new(0, false);
+    public static MTLIOScratchBufferAllocator Null { get; } = new(0, false, false);
 
-    public static MTLIOScratchBufferAllocator Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLIOScratchBufferAllocator Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public MTLIOScratchBuffer NewScratchBuffer(nuint minimumSize)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOScratchBufferAllocatorBindings.NewScratchBuffer, minimumSize);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 }
 

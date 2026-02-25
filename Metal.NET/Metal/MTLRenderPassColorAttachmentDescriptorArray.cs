@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLRenderPassColorAttachmentDescriptorArray>
+public class MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLRenderPassColorAttachmentDescriptorArray>
 {
-    public static MTLRenderPassColorAttachmentDescriptorArray Null { get; } = new(0, false);
+    public static MTLRenderPassColorAttachmentDescriptorArray Null { get; } = new(0, false, false);
 
-    public static MTLRenderPassColorAttachmentDescriptorArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLRenderPassColorAttachmentDescriptorArray Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public MTLRenderPassColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassColorAttachmentDescriptorArrayBindings.Class), true, true)
     {
@@ -16,7 +16,7 @@ public class MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr, bool ow
         {
             nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassColorAttachmentDescriptorArrayBindings.Object, attachmentIndex);
 
-            return new(nativePtr, false);
+            return new(nativePtr, false, false);
         }
         set
         {

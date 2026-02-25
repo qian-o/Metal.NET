@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPipelineState(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLAllocation(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLRenderPipelineState>
+public class MTLRenderPipelineState(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTLAllocation(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLRenderPipelineState>
 {
-    public static new MTLRenderPipelineState Null { get; } = new(0, false);
+    public static new MTLRenderPipelineState Null { get; } = new(0, false, false);
 
-    public static new MTLRenderPipelineState Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLRenderPipelineState Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public MTLDevice Device
     {
@@ -95,21 +95,21 @@ public class MTLRenderPipelineState(nint nativePtr, bool ownsReference, bool all
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.FunctionHandle, name.NativePtr, (nuint)stage);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 
     public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function, MTLRenderStages stage)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.FunctionHandleWithBinaryFunctionstage, function.NativePtr, (nuint)stage);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 
     public MTLFunctionHandle FunctionHandle(MTLFunction function, MTLRenderStages stage)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.FunctionHandleWithFunctionstage, function.NativePtr, (nuint)stage);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 
     public nuint ImageblockMemoryLength(MTLSize imageblockDimensions)
@@ -121,39 +121,39 @@ public class MTLRenderPipelineState(nint nativePtr, bool ownsReference, bool all
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewIntersectionFunctionTable, descriptor.NativePtr, (nuint)stage);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 
     public MTL4PipelineDescriptor NewRenderPipelineDescriptor()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewRenderPipelineDescriptor);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 
     public MTLRenderPipelineState NewRenderPipelineState(MTL4RenderPipelineBinaryFunctionsDescriptor binaryFunctionsDescriptor, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewRenderPipelineState, binaryFunctionsDescriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, false, false);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 
     public MTLRenderPipelineState NewRenderPipelineState(MTLRenderPipelineFunctionsDescriptor additionalBinaryFunctions, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewRenderPipelineStateWithAdditionalBinaryFunctionserror, additionalBinaryFunctions.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, false);
+        error = new(errorPtr, false, false);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 
     public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor, MTLRenderStages stage)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewVisibleFunctionTable, descriptor.NativePtr, (nuint)stage);
 
-        return new(nativePtr, true);
+        return new(nativePtr, true, false);
     }
 }
 

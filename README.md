@@ -56,10 +56,10 @@ MTLDevice device = commandQueue.Device;
 
 ### Finalization
 
-Objects fully created by C# (via the parameterless constructor / `AllocInit`) pass `allowGCRelease: true`, enabling the GC finalizer to release the native reference as a safety net. Objects created from native pointers (method returns, borrowed references) leave it `false`, so the finalizer does nothing for them:
+Objects fully created by C# (via the parameterless constructor / `AllocInit`) pass `allowGCRelease: true`, enabling the GC finalizer to release the native reference as a safety net. Objects created from native pointers (method returns, borrowed references) pass `false`, so the finalizer does nothing for them:
 
 ```csharp
-public abstract class NativeObject(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : IDisposable
+public abstract class NativeObject(nint nativePtr, bool ownsReference, bool allowGCRelease) : IDisposable
 {
     public bool AllowGCRelease { get; } = allowGCRelease;
 

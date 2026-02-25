@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLRasterizationRateLayerArray(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLRasterizationRateLayerArray>
+public class MTLRasterizationRateLayerArray(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLRasterizationRateLayerArray>
 {
-    public static MTLRasterizationRateLayerArray Null { get; } = new(0, false);
+    public static MTLRasterizationRateLayerArray Null { get; } = new(0, false, false);
 
-    public static MTLRasterizationRateLayerArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLRasterizationRateLayerArray Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public MTLRasterizationRateLayerArray() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateLayerArrayBindings.Class), true, true)
     {
@@ -16,7 +16,7 @@ public class MTLRasterizationRateLayerArray(nint nativePtr, bool ownsReference, 
         {
             nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerArrayBindings.Object, layerIndex);
 
-            return new(nativePtr, false);
+            return new(nativePtr, false, false);
         }
         set
         {

@@ -6,11 +6,11 @@ namespace Metal.NET;
 /// <summary>
 /// Wraps an Objective-C NSString with bidirectional <see cref="string"/> conversion.
 /// </summary>
-public class NSString(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<NSString>
+public class NSString(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<NSString>
 {
-    public static NSString Null { get; } = new(0, false);
+    public static NSString Null { get; } = new(0, false, false);
 
-    public static NSString Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static NSString Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public string Value
     {
@@ -23,7 +23,7 @@ public class NSString(nint nativePtr, bool ownsReference) : NativeObject(nativeP
         {
             nint nativePtr = ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.Alloc(NSStringBindings.Class), NSStringBindings.InitWithUtf8String, (nint)utf8);
 
-            return new(nativePtr, true);
+            return new(nativePtr, true, false);
         }
     }
 

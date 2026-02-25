@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLTextureBinding(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLBinding(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLTextureBinding>
+public class MTLTextureBinding(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTLBinding(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLTextureBinding>
 {
-    public static new MTLTextureBinding Null { get; } = new(0, false);
+    public static new MTLTextureBinding Null { get; } = new(0, false, false);
 
-    public static new MTLTextureBinding Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLTextureBinding Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public nuint ArrayLength
     {

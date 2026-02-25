@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4PipelineOptions(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4PipelineOptions>
+public class MTL4PipelineOptions(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4PipelineOptions>
 {
-    public static MTL4PipelineOptions Null { get; } = new(0, false);
+    public static MTL4PipelineOptions Null { get; } = new(0, false, false);
 
-    public static MTL4PipelineOptions Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTL4PipelineOptions Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public MTL4PipelineOptions() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineOptionsBindings.Class), true, true)
     {

@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLCommandBufferDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLCommandBufferDescriptor>
+public class MTLCommandBufferDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLCommandBufferDescriptor>
 {
-    public static MTLCommandBufferDescriptor Null { get; } = new(0, false);
+    public static MTLCommandBufferDescriptor Null { get; } = new(0, false, false);
 
-    public static MTLCommandBufferDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLCommandBufferDescriptor Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public MTLCommandBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCommandBufferDescriptorBindings.Class), true, true)
     {

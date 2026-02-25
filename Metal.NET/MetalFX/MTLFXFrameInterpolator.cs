@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXFrameInterpolator(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLFXFrameInterpolatorBase(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLFXFrameInterpolator>
+public class MTLFXFrameInterpolator(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTLFXFrameInterpolatorBase(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLFXFrameInterpolator>
 {
-    public static new MTLFXFrameInterpolator Null { get; } = new(0, false);
+    public static new MTLFXFrameInterpolator Null { get; } = new(0, false, false);
 
-    public static new MTLFXFrameInterpolator Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLFXFrameInterpolator Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public void EncodeToCommandBuffer(MTLCommandBuffer commandBuffer)
     {

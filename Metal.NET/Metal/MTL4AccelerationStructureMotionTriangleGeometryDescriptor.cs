@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4AccelerationStructureMotionTriangleGeometryDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTL4AccelerationStructureGeometryDescriptor(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4AccelerationStructureMotionTriangleGeometryDescriptor>
+public class MTL4AccelerationStructureMotionTriangleGeometryDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTL4AccelerationStructureGeometryDescriptor(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4AccelerationStructureMotionTriangleGeometryDescriptor>
 {
-    public static new MTL4AccelerationStructureMotionTriangleGeometryDescriptor Null { get; } = new(0, false);
+    public static new MTL4AccelerationStructureMotionTriangleGeometryDescriptor Null { get; } = new(0, false, false);
 
-    public static new MTL4AccelerationStructureMotionTriangleGeometryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTL4AccelerationStructureMotionTriangleGeometryDescriptor Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public MTL4AccelerationStructureMotionTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureMotionTriangleGeometryDescriptorBindings.Class), true, true)
     {

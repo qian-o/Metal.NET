@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLComputeCommandEncoder(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLCommandEncoder(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLComputeCommandEncoder>
+public class MTLComputeCommandEncoder(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTLCommandEncoder(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLComputeCommandEncoder>
 {
-    public static new MTLComputeCommandEncoder Null { get; } = new(0, false);
+    public static new MTLComputeCommandEncoder Null { get; } = new(0, false, false);
 
-    public static new MTLComputeCommandEncoder Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLComputeCommandEncoder Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public MTLDispatchType DispatchType
     {

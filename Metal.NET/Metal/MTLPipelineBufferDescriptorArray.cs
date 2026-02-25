@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLPipelineBufferDescriptorArray(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLPipelineBufferDescriptorArray>
+public class MTLPipelineBufferDescriptorArray(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLPipelineBufferDescriptorArray>
 {
-    public static MTLPipelineBufferDescriptorArray Null { get; } = new(0, false);
+    public static MTLPipelineBufferDescriptorArray Null { get; } = new(0, false, false);
 
-    public static MTLPipelineBufferDescriptorArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLPipelineBufferDescriptorArray Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
 
     public MTLPipelineBufferDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLPipelineBufferDescriptorArrayBindings.Class), true, true)
     {
@@ -16,7 +16,7 @@ public class MTLPipelineBufferDescriptorArray(nint nativePtr, bool ownsReference
         {
             nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPipelineBufferDescriptorArrayBindings.Object, bufferIndex);
 
-            return new(nativePtr, false);
+            return new(nativePtr, false, false);
         }
         set
         {
