@@ -4,6 +4,8 @@ public class MTL4AccelerationStructureMotionCurveGeometryDescriptor(nint nativeP
 {
     public static new MTL4AccelerationStructureMotionCurveGeometryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTL4AccelerationStructureMotionCurveGeometryDescriptor Null => new(0, false);
+
     public MTL4AccelerationStructureMotionCurveGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureMotionCurveGeometryDescriptorBindings.Class), true)
     {
     }

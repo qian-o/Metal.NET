@@ -4,6 +4,8 @@ public class MTLFunctionStitchingGraph(nint nativePtr, bool ownsReference) : Nat
 {
     public static MTLFunctionStitchingGraph Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLFunctionStitchingGraph Null => new(0, false);
+
     public MTLFunctionStitchingGraph() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingGraphBindings.Class), true)
     {
     }

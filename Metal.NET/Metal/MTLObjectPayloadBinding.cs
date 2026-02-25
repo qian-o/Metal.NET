@@ -4,6 +4,8 @@ public class MTLObjectPayloadBinding(nint nativePtr, bool ownsReference) : MTLBi
 {
     public static new MTLObjectPayloadBinding Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLObjectPayloadBinding Null => new(0, false);
+
     public nuint ObjectPayloadAlignment
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLObjectPayloadBindingBindings.ObjectPayloadAlignment);

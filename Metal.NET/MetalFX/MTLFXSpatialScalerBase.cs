@@ -4,6 +4,8 @@ public class MTLFXSpatialScalerBase(nint nativePtr, bool ownsReference) : Native
 {
     public static MTLFXSpatialScalerBase Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLFXSpatialScalerBase Null => new(0, false);
+
     public MTLFXSpatialScalerColorProcessingMode ColorProcessingMode
     {
         get => (MTLFXSpatialScalerColorProcessingMode)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFXSpatialScalerBaseBindings.ColorProcessingMode);

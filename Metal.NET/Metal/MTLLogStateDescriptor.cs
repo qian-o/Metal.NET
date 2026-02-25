@@ -4,6 +4,8 @@ public class MTLLogStateDescriptor(nint nativePtr, bool ownsReference) : NativeO
 {
     public static MTLLogStateDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLLogStateDescriptor Null => new(0, false);
+
     public MTLLogStateDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLLogStateDescriptorBindings.Class), true)
     {
     }

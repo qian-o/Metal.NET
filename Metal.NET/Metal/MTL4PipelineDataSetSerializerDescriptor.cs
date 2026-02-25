@@ -4,6 +4,8 @@ public class MTL4PipelineDataSetSerializerDescriptor(nint nativePtr, bool ownsRe
 {
     public static MTL4PipelineDataSetSerializerDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTL4PipelineDataSetSerializerDescriptor Null => new(0, false);
+
     public MTL4PipelineDataSetSerializerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineDataSetSerializerDescriptorBindings.Class), true)
     {
     }

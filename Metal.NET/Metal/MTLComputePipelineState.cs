@@ -4,6 +4,8 @@ public class MTLComputePipelineState(nint nativePtr, bool ownsReference) : MTLAl
 {
     public static new MTLComputePipelineState Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLComputePipelineState Null => new(0, false);
+
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTLComputePipelineStateBindings.Device);

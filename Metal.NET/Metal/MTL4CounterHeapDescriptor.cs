@@ -4,6 +4,8 @@ public class MTL4CounterHeapDescriptor(nint nativePtr, bool ownsReference) : Nat
 {
     public static MTL4CounterHeapDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTL4CounterHeapDescriptor Null => new(0, false);
+
     public MTL4CounterHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CounterHeapDescriptorBindings.Class), true)
     {
     }

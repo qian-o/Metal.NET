@@ -4,6 +4,8 @@ public class MTLVisibleFunctionTable(nint nativePtr, bool ownsReference) : MTLRe
 {
     public static new MTLVisibleFunctionTable Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLVisibleFunctionTable Null => new(0, false);
+
     public MTLResourceID GpuResourceID
     {
         get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLVisibleFunctionTableBindings.GpuResourceID);

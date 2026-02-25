@@ -4,6 +4,8 @@ public class MTLIntersectionFunctionDescriptor(nint nativePtr, bool ownsReferenc
 {
     public static new MTLIntersectionFunctionDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLIntersectionFunctionDescriptor Null => new(0, false);
+
     public MTLIntersectionFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIntersectionFunctionDescriptorBindings.Class), true)
     {
     }

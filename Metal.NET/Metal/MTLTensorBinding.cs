@@ -4,6 +4,8 @@ public class MTLTensorBinding(nint nativePtr, bool ownsReference) : MTLBinding(n
 {
     public static new MTLTensorBinding Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLTensorBinding Null => new(0, false);
+
     public MTLTensorExtents Dimensions
     {
         get => GetProperty(ref field, MTLTensorBindingBindings.Dimensions);

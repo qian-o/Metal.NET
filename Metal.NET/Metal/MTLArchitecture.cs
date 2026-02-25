@@ -4,6 +4,8 @@ public class MTLArchitecture(nint nativePtr, bool ownsReference) : NativeObject(
 {
     public static MTLArchitecture Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLArchitecture Null => new(0, false);
+
     public MTLArchitecture() : this(ObjectiveCRuntime.AllocInit(MTLArchitectureBindings.Class), true)
     {
     }

@@ -4,6 +4,8 @@ public class MTLResource(nint nativePtr, bool ownsReference) : MTLAllocation(nat
 {
     public static new MTLResource Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLResource Null => new(0, false);
+
     public MTLCPUCacheMode CpuCacheMode
     {
         get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceBindings.CpuCacheMode);

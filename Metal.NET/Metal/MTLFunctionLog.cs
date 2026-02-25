@@ -4,6 +4,8 @@ public class MTLFunctionLog(nint nativePtr, bool ownsReference) : NativeObject(n
 {
     public static MTLFunctionLog Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLFunctionLog Null => new(0, false);
+
     public MTLFunctionLogDebugLocation DebugLocation
     {
         get => GetProperty(ref field, MTLFunctionLogBindings.DebugLocation);

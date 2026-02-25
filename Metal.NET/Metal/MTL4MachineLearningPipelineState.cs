@@ -4,6 +4,8 @@ public class MTL4MachineLearningPipelineState(nint nativePtr, bool ownsReference
 {
     public static new MTL4MachineLearningPipelineState Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTL4MachineLearningPipelineState Null => new(0, false);
+
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTL4MachineLearningPipelineStateBindings.Device);

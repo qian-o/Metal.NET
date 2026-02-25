@@ -4,6 +4,8 @@ public class MTL4RenderPipelineColorAttachmentDescriptorArray(nint nativePtr, bo
 {
     public static MTL4RenderPipelineColorAttachmentDescriptorArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTL4RenderPipelineColorAttachmentDescriptorArray Null => new(0, false);
+
     public MTL4RenderPipelineColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineColorAttachmentDescriptorArrayBindings.Class), true)
     {
     }

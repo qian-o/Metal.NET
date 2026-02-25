@@ -4,6 +4,8 @@ public class MTLFence(nint nativePtr, bool ownsReference) : NativeObject(nativeP
 {
     public static MTLFence Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLFence Null => new(0, false);
+
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTLFenceBindings.Device);

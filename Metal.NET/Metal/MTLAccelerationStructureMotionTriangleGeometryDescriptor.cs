@@ -4,6 +4,8 @@ public class MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativ
 {
     public static new MTLAccelerationStructureMotionTriangleGeometryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLAccelerationStructureMotionTriangleGeometryDescriptor Null => new(0, false);
+
     public MTLAccelerationStructureMotionTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.Class), true)
     {
     }

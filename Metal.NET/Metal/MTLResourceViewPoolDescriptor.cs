@@ -4,6 +4,8 @@ public class MTLResourceViewPoolDescriptor(nint nativePtr, bool ownsReference) :
 {
     public static MTLResourceViewPoolDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLResourceViewPoolDescriptor Null => new(0, false);
+
     public MTLResourceViewPoolDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceViewPoolDescriptorBindings.Class), true)
     {
     }

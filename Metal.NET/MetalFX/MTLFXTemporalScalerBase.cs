@@ -4,6 +4,8 @@ public class MTLFXTemporalScalerBase(nint nativePtr, bool ownsReference) : MTLFX
 {
     public static new MTLFXTemporalScalerBase Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLFXTemporalScalerBase Null => new(0, false);
+
     public MTLTexture ColorTexture
     {
         get => GetProperty(ref field, MTLFXTemporalScalerBaseBindings.ColorTexture);

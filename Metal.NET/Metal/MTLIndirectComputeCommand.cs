@@ -4,6 +4,8 @@ public class MTLIndirectComputeCommand(nint nativePtr, bool ownsReference) : Nat
 {
     public static MTLIndirectComputeCommand Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLIndirectComputeCommand Null => new(0, false);
+
     public void ClearBarrier()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectComputeCommandBindings.ClearBarrier);

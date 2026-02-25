@@ -7,6 +7,8 @@ public class NSURL(nint nativePtr, bool ownsReference) : NativeObject(nativePtr,
 {
     public static NSURL Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static NSURL Null => new(0, false);
+
     public nint FileSystemRepresentation
     {
         get => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSURLBindings.FileSystemRepresentation);

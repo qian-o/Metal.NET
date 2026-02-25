@@ -4,6 +4,8 @@ public class MTL4InstanceAccelerationStructureDescriptor(nint nativePtr, bool ow
 {
     public static new MTL4InstanceAccelerationStructureDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTL4InstanceAccelerationStructureDescriptor Null => new(0, false);
+
     public MTL4InstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4InstanceAccelerationStructureDescriptorBindings.Class), true)
     {
     }

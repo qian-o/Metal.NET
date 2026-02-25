@@ -4,6 +4,8 @@ public class MTLResourceStatePassDescriptor(nint nativePtr, bool ownsReference) 
 {
     public static MTLResourceStatePassDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLResourceStatePassDescriptor Null => new(0, false);
+
     public MTLResourceStatePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceStatePassDescriptorBindings.Class), true)
     {
     }

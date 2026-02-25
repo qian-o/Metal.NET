@@ -4,6 +4,8 @@ public class CAMetalDrawable(nint nativePtr, bool ownsReference) : MTLDrawable(n
 {
     public static new CAMetalDrawable Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new CAMetalDrawable Null => new(0, false);
+
     public CAMetalLayer Layer
     {
         get => GetProperty(ref field, CAMetalDrawableBindings.Layer);

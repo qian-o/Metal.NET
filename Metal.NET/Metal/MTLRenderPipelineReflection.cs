@@ -4,6 +4,8 @@ public class MTLRenderPipelineReflection(nint nativePtr, bool ownsReference) : N
 {
     public static MTLRenderPipelineReflection Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLRenderPipelineReflection Null => new(0, false);
+
     public MTLRenderPipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineReflectionBindings.Class), true)
     {
     }

@@ -4,6 +4,8 @@ public class MTLFunctionLogDebugLocation(nint nativePtr, bool ownsReference) : N
 {
     public static MTLFunctionLogDebugLocation Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLFunctionLogDebugLocation Null => new(0, false);
+
     public nuint Column
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationBindings.Column);

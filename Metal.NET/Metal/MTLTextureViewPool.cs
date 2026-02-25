@@ -4,6 +4,8 @@ public class MTLTextureViewPool(nint nativePtr, bool ownsReference) : MTLResourc
 {
     public static new MTLTextureViewPool Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLTextureViewPool Null => new(0, false);
+
     public MTLResourceID SetTextureView(MTLTexture texture, nuint index)
     {
         return ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolBindings.SetTextureView, texture.NativePtr, index);

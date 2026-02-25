@@ -4,6 +4,8 @@ public class MTLSharedEventListener(nint nativePtr, bool ownsReference) : Native
 {
     public static MTLSharedEventListener Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLSharedEventListener Null => new(0, false);
+
     public MTLSharedEventListener() : this(ObjectiveCRuntime.AllocInit(MTLSharedEventListenerBindings.Class), true)
     {
     }

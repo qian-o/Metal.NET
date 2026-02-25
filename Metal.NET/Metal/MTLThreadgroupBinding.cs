@@ -4,6 +4,8 @@ public class MTLThreadgroupBinding(nint nativePtr, bool ownsReference) : MTLBind
 {
     public static new MTLThreadgroupBinding Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLThreadgroupBinding Null => new(0, false);
+
     public nuint ThreadgroupMemoryAlignment
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLThreadgroupBindingBindings.ThreadgroupMemoryAlignment);

@@ -4,6 +4,8 @@ public class MTLTexture(nint nativePtr, bool ownsReference) : MTLResource(native
 {
     public static new MTLTexture Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLTexture Null => new(0, false);
+
     public Bool8 AllowGPUOptimizedContents
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureBindings.AllowGPUOptimizedContents);

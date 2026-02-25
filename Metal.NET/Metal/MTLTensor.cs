@@ -4,6 +4,8 @@ public class MTLTensor(nint nativePtr, bool ownsReference) : MTLResource(nativeP
 {
     public static new MTLTensor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLTensor Null => new(0, false);
+
     public MTLBuffer Buffer
     {
         get => GetProperty(ref field, MTLTensorBindings.Buffer);

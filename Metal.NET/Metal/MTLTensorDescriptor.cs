@@ -4,6 +4,8 @@ public class MTLTensorDescriptor(nint nativePtr, bool ownsReference) : NativeObj
 {
     public static MTLTensorDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLTensorDescriptor Null => new(0, false);
+
     public MTLTensorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTensorDescriptorBindings.Class), true)
     {
     }

@@ -4,6 +4,8 @@ public class MTLCounter(nint nativePtr, bool ownsReference) : NativeObject(nativ
 {
     public static MTLCounter Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLCounter Null => new(0, false);
+
     public NSString Name
     {
         get => GetProperty(ref field, MTLCounterBindings.Name);

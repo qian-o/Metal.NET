@@ -4,6 +4,8 @@ public class MTLFXTemporalDenoisedScaler(nint nativePtr, bool ownsReference) : M
 {
     public static new MTLFXTemporalDenoisedScaler Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLFXTemporalDenoisedScaler Null => new(0, false);
+
     public void EncodeToCommandBuffer(MTLCommandBuffer commandBuffer)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBindings.EncodeToCommandBuffer, commandBuffer.NativePtr);

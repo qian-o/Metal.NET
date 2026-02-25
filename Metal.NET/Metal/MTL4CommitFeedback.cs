@@ -4,6 +4,8 @@ public class MTL4CommitFeedback(nint nativePtr, bool ownsReference) : NativeObje
 {
     public static MTL4CommitFeedback Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTL4CommitFeedback Null => new(0, false);
+
     public NSError Error
     {
         get => GetProperty(ref field, MTL4CommitFeedbackBindings.Error);

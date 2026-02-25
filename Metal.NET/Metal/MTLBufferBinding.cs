@@ -4,6 +4,8 @@ public class MTLBufferBinding(nint nativePtr, bool ownsReference) : MTLBinding(n
 {
     public static new MTLBufferBinding Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLBufferBinding Null => new(0, false);
+
     public nuint BufferAlignment
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingBindings.BufferAlignment);

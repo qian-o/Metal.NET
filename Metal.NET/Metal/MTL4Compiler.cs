@@ -4,6 +4,8 @@ public class MTL4Compiler(nint nativePtr, bool ownsReference) : NativeObject(nat
 {
     public static MTL4Compiler Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTL4Compiler Null => new(0, false);
+
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTL4CompilerBindings.Device);

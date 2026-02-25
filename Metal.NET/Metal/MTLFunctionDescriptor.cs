@@ -4,6 +4,8 @@ public class MTLFunctionDescriptor(nint nativePtr, bool ownsReference) : NativeO
 {
     public static MTLFunctionDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLFunctionDescriptor Null => new(0, false);
+
     public MTLFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFunctionDescriptorBindings.Class), true)
     {
     }

@@ -4,6 +4,8 @@ public class MTLTextureDescriptor(nint nativePtr, bool ownsReference) : NativeOb
 {
     public static MTLTextureDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLTextureDescriptor Null => new(0, false);
+
     public MTLTextureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTextureDescriptorBindings.Class), true)
     {
     }

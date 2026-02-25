@@ -4,6 +4,8 @@ public class MTLRenderCommandEncoder(nint nativePtr, bool ownsReference) : MTLCo
 {
     public static new MTLRenderCommandEncoder Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLRenderCommandEncoder Null => new(0, false);
+
     public nuint TileHeight
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderCommandEncoderBindings.TileHeight);

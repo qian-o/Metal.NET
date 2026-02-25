@@ -4,6 +4,8 @@ public class MTLRasterizationRateSampleArray(nint nativePtr, bool ownsReference)
 {
     public static MTLRasterizationRateSampleArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLRasterizationRateSampleArray Null => new(0, false);
+
     public MTLRasterizationRateSampleArray() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateSampleArrayBindings.Class), true)
     {
     }

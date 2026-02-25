@@ -4,6 +4,8 @@ public class MTLResourceViewPool(nint nativePtr, bool ownsReference) : NativeObj
 {
     public static MTLResourceViewPool Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLResourceViewPool Null => new(0, false);
+
     public MTLResourceID BaseResourceID
     {
         get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLResourceViewPoolBindings.BaseResourceID);

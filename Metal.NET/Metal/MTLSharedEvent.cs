@@ -4,6 +4,8 @@ public class MTLSharedEvent(nint nativePtr, bool ownsReference) : MTLEvent(nativ
 {
     public static new MTLSharedEvent Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLSharedEvent Null => new(0, false);
+
     public ulong SignaledValue
     {
         get => ObjectiveCRuntime.MsgSendULong(NativePtr, MTLSharedEventBindings.SignaledValue);

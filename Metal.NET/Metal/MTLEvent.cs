@@ -4,6 +4,8 @@ public class MTLEvent(nint nativePtr, bool ownsReference) : NativeObject(nativeP
 {
     public static MTLEvent Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLEvent Null => new(0, false);
+
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTLEventBindings.Device);

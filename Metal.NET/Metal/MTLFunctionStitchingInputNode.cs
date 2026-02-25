@@ -4,6 +4,8 @@ public class MTLFunctionStitchingInputNode(nint nativePtr, bool ownsReference) :
 {
     public static new MTLFunctionStitchingInputNode Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLFunctionStitchingInputNode Null => new(0, false);
+
     public MTLFunctionStitchingInputNode() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingInputNodeBindings.Class), true)
     {
     }

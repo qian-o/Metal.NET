@@ -4,6 +4,8 @@ public class MTLResourceStatePassSampleBufferAttachmentDescriptorArray(nint nati
 {
     public static MTLResourceStatePassSampleBufferAttachmentDescriptorArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLResourceStatePassSampleBufferAttachmentDescriptorArray Null => new(0, false);
+
     public MTLResourceStatePassSampleBufferAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLResourceStatePassSampleBufferAttachmentDescriptorArrayBindings.Class), true)
     {
     }

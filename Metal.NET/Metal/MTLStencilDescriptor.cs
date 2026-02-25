@@ -4,6 +4,8 @@ public class MTLStencilDescriptor(nint nativePtr, bool ownsReference) : NativeOb
 {
     public static MTLStencilDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLStencilDescriptor Null => new(0, false);
+
     public MTLStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStencilDescriptorBindings.Class), true)
     {
     }

@@ -4,6 +4,8 @@ public class MTL4CompilerTaskOptions(nint nativePtr, bool ownsReference) : Nativ
 {
     public static MTL4CompilerTaskOptions Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTL4CompilerTaskOptions Null => new(0, false);
+
     public MTL4CompilerTaskOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CompilerTaskOptionsBindings.Class), true)
     {
     }

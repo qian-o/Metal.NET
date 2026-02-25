@@ -4,6 +4,8 @@ public class MTLRasterizationRateMap(nint nativePtr, bool ownsReference) : Nativ
 {
     public static MTLRasterizationRateMap Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLRasterizationRateMap Null => new(0, false);
+
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTLRasterizationRateMapBindings.Device);

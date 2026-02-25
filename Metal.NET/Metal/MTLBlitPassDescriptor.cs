@@ -4,6 +4,8 @@ public class MTLBlitPassDescriptor(nint nativePtr, bool ownsReference) : NativeO
 {
     public static MTLBlitPassDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLBlitPassDescriptor Null => new(0, false);
+
     public MTLBlitPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBlitPassDescriptorBindings.Class), true)
     {
     }

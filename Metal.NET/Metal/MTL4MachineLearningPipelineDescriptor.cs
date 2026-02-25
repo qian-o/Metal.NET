@@ -4,6 +4,8 @@ public class MTL4MachineLearningPipelineDescriptor(nint nativePtr, bool ownsRefe
 {
     public static new MTL4MachineLearningPipelineDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTL4MachineLearningPipelineDescriptor Null => new(0, false);
+
     public MTL4MachineLearningPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4MachineLearningPipelineDescriptorBindings.Class), true)
     {
     }

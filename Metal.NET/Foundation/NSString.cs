@@ -10,6 +10,8 @@ public class NSString(nint nativePtr, bool ownsReference) : NativeObject(nativeP
 {
     public static NSString Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static NSString Null => new(0, false);
+
     public string Value
     {
         get => Marshal.PtrToStringUTF8(ObjectiveCRuntime.MsgSendPtr(NativePtr, NSStringBindings.Utf8String)) ?? string.Empty;

@@ -4,6 +4,8 @@ public class MTLIOScratchBufferAllocator(nint nativePtr, bool ownsReference) : N
 {
     public static MTLIOScratchBufferAllocator Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLIOScratchBufferAllocator Null => new(0, false);
+
     public MTLIOScratchBuffer NewScratchBuffer(nuint minimumSize)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOScratchBufferAllocatorBindings.NewScratchBuffer, minimumSize);

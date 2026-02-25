@@ -7,6 +7,8 @@ public class NSError(nint nativePtr, bool ownsReference) : NativeObject(nativePt
 {
     public static NSError Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static NSError Null => new(0, false);
+
     public NSString LocalizedDescription
     {
         get => GetProperty(ref field, NSErrorBindings.LocalizedDescription);

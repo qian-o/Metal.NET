@@ -4,6 +4,8 @@ public class MTLBlitPassSampleBufferAttachmentDescriptor(nint nativePtr, bool ow
 {
     public static MTLBlitPassSampleBufferAttachmentDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLBlitPassSampleBufferAttachmentDescriptor Null => new(0, false);
+
     public MTLBlitPassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBlitPassSampleBufferAttachmentDescriptorBindings.Class), true)
     {
     }

@@ -4,6 +4,8 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, bool ownsReference)
 {
     public static MTLMeshRenderPipelineDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLMeshRenderPipelineDescriptor Null => new(0, false);
+
     public MTLMeshRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLMeshRenderPipelineDescriptorBindings.Class), true)
     {
     }

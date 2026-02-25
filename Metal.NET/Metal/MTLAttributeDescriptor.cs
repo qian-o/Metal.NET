@@ -4,6 +4,8 @@ public class MTLAttributeDescriptor(nint nativePtr, bool ownsReference) : Native
 {
     public static MTLAttributeDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLAttributeDescriptor Null => new(0, false);
+
     public MTLAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAttributeDescriptorBindings.Class), true)
     {
     }

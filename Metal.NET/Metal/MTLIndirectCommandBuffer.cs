@@ -4,6 +4,8 @@ public class MTLIndirectCommandBuffer(nint nativePtr, bool ownsReference) : MTLR
 {
     public static new MTLIndirectCommandBuffer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLIndirectCommandBuffer Null => new(0, false);
+
     public MTLResourceID GpuResourceID
     {
         get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLIndirectCommandBufferBindings.GpuResourceID);

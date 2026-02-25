@@ -4,6 +4,8 @@ public class MTLIOCommandBuffer(nint nativePtr, bool ownsReference) : NativeObje
 {
     public static MTLIOCommandBuffer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLIOCommandBuffer Null => new(0, false);
+
     public NSError Error
     {
         get => GetProperty(ref field, MTLIOCommandBufferBindings.Error);

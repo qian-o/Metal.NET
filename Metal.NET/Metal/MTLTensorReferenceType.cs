@@ -4,6 +4,8 @@ public class MTLTensorReferenceType(nint nativePtr, bool ownsReference) : MTLTyp
 {
     public static new MTLTensorReferenceType Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLTensorReferenceType Null => new(0, false);
+
     public MTLTensorReferenceType() : this(ObjectiveCRuntime.AllocInit(MTLTensorReferenceTypeBindings.Class), true)
     {
     }

@@ -4,6 +4,8 @@ public class MTL4AccelerationStructureMotionTriangleGeometryDescriptor(nint nati
 {
     public static new MTL4AccelerationStructureMotionTriangleGeometryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTL4AccelerationStructureMotionTriangleGeometryDescriptor Null => new(0, false);
+
     public MTL4AccelerationStructureMotionTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureMotionTriangleGeometryDescriptorBindings.Class), true)
     {
     }

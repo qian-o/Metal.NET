@@ -4,6 +4,8 @@ public class MTLCounterSet(nint nativePtr, bool ownsReference) : NativeObject(na
 {
     public static MTLCounterSet Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLCounterSet Null => new(0, false);
+
     public MTLCounter[] Counters
     {
         get => GetArrayProperty<MTLCounter>(MTLCounterSetBindings.Counters);

@@ -4,6 +4,8 @@ public class MTLRenderPassDepthAttachmentDescriptor(nint nativePtr, bool ownsRef
 {
     public static new MTLRenderPassDepthAttachmentDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLRenderPassDepthAttachmentDescriptor Null => new(0, false);
+
     public MTLRenderPassDepthAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassDepthAttachmentDescriptorBindings.Class), true)
     {
     }

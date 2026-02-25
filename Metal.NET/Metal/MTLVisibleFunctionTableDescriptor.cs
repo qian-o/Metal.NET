@@ -4,6 +4,8 @@ public class MTLVisibleFunctionTableDescriptor(nint nativePtr, bool ownsReferenc
 {
     public static MTLVisibleFunctionTableDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLVisibleFunctionTableDescriptor Null => new(0, false);
+
     public MTLVisibleFunctionTableDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVisibleFunctionTableDescriptorBindings.Class), true)
     {
     }

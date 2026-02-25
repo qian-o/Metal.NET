@@ -4,6 +4,8 @@ public class MTLDrawable(nint nativePtr, bool ownsReference) : NativeObject(nati
 {
     public static MTLDrawable Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLDrawable Null => new(0, false);
+
     public nuint DrawableID
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDrawableBindings.DrawableID);

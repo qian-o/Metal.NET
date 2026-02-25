@@ -4,6 +4,8 @@ public class MTLFXSpatialScalerDescriptor(nint nativePtr, bool ownsReference) : 
 {
     public static MTLFXSpatialScalerDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLFXSpatialScalerDescriptor Null => new(0, false);
+
     public MTLFXSpatialScalerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXSpatialScalerDescriptorBindings.Class), true)
     {
     }

@@ -4,6 +4,8 @@ public class MTL4CounterHeap(nint nativePtr, bool ownsReference) : NativeObject(
 {
     public static MTL4CounterHeap Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTL4CounterHeap Null => new(0, false);
+
     public nuint Count
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CounterHeapBindings.Count);

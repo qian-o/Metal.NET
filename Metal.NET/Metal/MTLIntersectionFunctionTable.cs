@@ -4,6 +4,8 @@ public class MTLIntersectionFunctionTable(nint nativePtr, bool ownsReference) : 
 {
     public static new MTLIntersectionFunctionTable Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLIntersectionFunctionTable Null => new(0, false);
+
     public MTLResourceID GpuResourceID
     {
         get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLIntersectionFunctionTableBindings.GpuResourceID);

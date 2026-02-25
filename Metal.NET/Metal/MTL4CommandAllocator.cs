@@ -4,6 +4,8 @@ public class MTL4CommandAllocator(nint nativePtr, bool ownsReference) : NativeOb
 {
     public static MTL4CommandAllocator Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTL4CommandAllocator Null => new(0, false);
+
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTL4CommandAllocatorBindings.Device);

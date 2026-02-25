@@ -4,6 +4,8 @@ public class MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr, bool ownsRefe
 {
     public static MTLFXTemporalDenoisedScalerDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLFXTemporalDenoisedScalerDescriptor Null => new(0, false);
+
     public MTLFXTemporalDenoisedScalerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXTemporalDenoisedScalerDescriptorBindings.Class), true)
     {
     }

@@ -4,6 +4,8 @@ public class MTLStructType(nint nativePtr, bool ownsReference) : MTLType(nativeP
 {
     public static new MTLStructType Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLStructType Null => new(0, false);
+
     public MTLStructType() : this(ObjectiveCRuntime.AllocInit(MTLStructTypeBindings.Class), true)
     {
     }

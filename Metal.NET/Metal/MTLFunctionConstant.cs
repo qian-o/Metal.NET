@@ -4,6 +4,8 @@ public class MTLFunctionConstant(nint nativePtr, bool ownsReference) : NativeObj
 {
     public static MTLFunctionConstant Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLFunctionConstant Null => new(0, false);
+
     public MTLFunctionConstant() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantBindings.Class), true)
     {
     }

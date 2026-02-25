@@ -4,6 +4,8 @@ public class MTLBinaryArchive(nint nativePtr, bool ownsReference) : NativeObject
 {
     public static MTLBinaryArchive Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLBinaryArchive Null => new(0, false);
+
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTLBinaryArchiveBindings.Device);

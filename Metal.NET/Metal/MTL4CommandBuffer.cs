@@ -4,6 +4,8 @@ public class MTL4CommandBuffer(nint nativePtr, bool ownsReference) : NativeObjec
 {
     public static MTL4CommandBuffer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTL4CommandBuffer Null => new(0, false);
+
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTL4CommandBufferBindings.Device);

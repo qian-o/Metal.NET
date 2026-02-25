@@ -4,6 +4,8 @@ public class MTLVertexAttributeDescriptorArray(nint nativePtr, bool ownsReferenc
 {
     public static MTLVertexAttributeDescriptorArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLVertexAttributeDescriptorArray Null => new(0, false);
+
     public MTLVertexAttributeDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeDescriptorArrayBindings.Class), true)
     {
     }

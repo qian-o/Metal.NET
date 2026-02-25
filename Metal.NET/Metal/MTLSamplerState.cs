@@ -4,6 +4,8 @@ public class MTLSamplerState(nint nativePtr, bool ownsReference) : NativeObject(
 {
     public static MTLSamplerState Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLSamplerState Null => new(0, false);
+
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTLSamplerStateBindings.Device);

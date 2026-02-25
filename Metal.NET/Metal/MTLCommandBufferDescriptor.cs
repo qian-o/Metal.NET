@@ -4,6 +4,8 @@ public class MTLCommandBufferDescriptor(nint nativePtr, bool ownsReference) : Na
 {
     public static MTLCommandBufferDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLCommandBufferDescriptor Null => new(0, false);
+
     public MTLCommandBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCommandBufferDescriptorBindings.Class), true)
     {
     }

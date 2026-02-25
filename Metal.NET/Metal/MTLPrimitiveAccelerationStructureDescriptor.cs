@@ -4,6 +4,8 @@ public class MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr, bool ow
 {
     public static new MTLPrimitiveAccelerationStructureDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLPrimitiveAccelerationStructureDescriptor Null => new(0, false);
+
     public MTLPrimitiveAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLPrimitiveAccelerationStructureDescriptorBindings.Class), true)
     {
     }

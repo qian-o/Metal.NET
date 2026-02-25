@@ -4,6 +4,8 @@ public class MTLHeapDescriptor(nint nativePtr, bool ownsReference) : NativeObjec
 {
     public static MTLHeapDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLHeapDescriptor Null => new(0, false);
+
     public MTLHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLHeapDescriptorBindings.Class), true)
     {
     }

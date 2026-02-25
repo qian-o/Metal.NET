@@ -4,6 +4,8 @@ public class MTL4PipelineOptions(nint nativePtr, bool ownsReference) : NativeObj
 {
     public static MTL4PipelineOptions Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTL4PipelineOptions Null => new(0, false);
+
     public MTL4PipelineOptions() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineOptionsBindings.Class), true)
     {
     }

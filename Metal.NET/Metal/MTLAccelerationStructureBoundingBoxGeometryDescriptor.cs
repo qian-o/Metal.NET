@@ -4,6 +4,8 @@ public class MTLAccelerationStructureBoundingBoxGeometryDescriptor(nint nativePt
 {
     public static new MTLAccelerationStructureBoundingBoxGeometryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLAccelerationStructureBoundingBoxGeometryDescriptor Null => new(0, false);
+
     public MTLAccelerationStructureBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.Class), true)
     {
     }

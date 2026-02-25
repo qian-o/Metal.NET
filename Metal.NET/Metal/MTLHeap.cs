@@ -4,6 +4,8 @@ public class MTLHeap(nint nativePtr, bool ownsReference) : MTLAllocation(nativeP
 {
     public static new MTLHeap Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLHeap Null => new(0, false);
+
     public MTLCPUCacheMode CpuCacheMode
     {
         get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapBindings.CpuCacheMode);

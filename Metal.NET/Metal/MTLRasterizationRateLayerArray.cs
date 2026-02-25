@@ -4,6 +4,8 @@ public class MTLRasterizationRateLayerArray(nint nativePtr, bool ownsReference) 
 {
     public static MTLRasterizationRateLayerArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLRasterizationRateLayerArray Null => new(0, false);
+
     public MTLRasterizationRateLayerArray() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateLayerArrayBindings.Class), true)
     {
     }

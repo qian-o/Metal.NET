@@ -4,6 +4,8 @@ public class MTLDepthStencilState(nint nativePtr, bool ownsReference) : NativeOb
 {
     public static MTLDepthStencilState Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLDepthStencilState Null => new(0, false);
+
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTLDepthStencilStateBindings.Device);

@@ -4,6 +4,8 @@ public class MTL4CommandQueue(nint nativePtr, bool ownsReference) : NativeObject
 {
     public static MTL4CommandQueue Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTL4CommandQueue Null => new(0, false);
+
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTL4CommandQueueBindings.Device);

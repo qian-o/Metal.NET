@@ -4,6 +4,8 @@ public class MTLRenderPipelineState(nint nativePtr, bool ownsReference) : MTLAll
 {
     public static new MTLRenderPipelineState Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLRenderPipelineState Null => new(0, false);
+
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTLRenderPipelineStateBindings.Device);

@@ -4,6 +4,8 @@ public class MTLRasterizationRateLayerDescriptor(nint nativePtr, bool ownsRefere
 {
     public static MTLRasterizationRateLayerDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLRasterizationRateLayerDescriptor Null => new(0, false);
+
     public MTLRasterizationRateLayerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateLayerDescriptorBindings.Class), true)
     {
     }

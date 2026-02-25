@@ -4,6 +4,8 @@ public class MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr, bool ownsRef
 {
     public static MTLLogicalToPhysicalColorAttachmentMap Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLLogicalToPhysicalColorAttachmentMap Null => new(0, false);
+
     public MTLLogicalToPhysicalColorAttachmentMap() : this(ObjectiveCRuntime.AllocInit(MTLLogicalToPhysicalColorAttachmentMapBindings.Class), true)
     {
     }

@@ -4,6 +4,8 @@ public class MTLCounterSampleBuffer(nint nativePtr, bool ownsReference) : Native
 {
     public static MTLCounterSampleBuffer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLCounterSampleBuffer Null => new(0, false);
+
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTLCounterSampleBufferBindings.Device);

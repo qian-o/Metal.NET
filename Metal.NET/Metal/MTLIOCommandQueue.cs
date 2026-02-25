@@ -4,6 +4,8 @@ public class MTLIOCommandQueue(nint nativePtr, bool ownsReference) : NativeObjec
 {
     public static MTLIOCommandQueue Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLIOCommandQueue Null => new(0, false);
+
     public NSString Label
     {
         get => GetProperty(ref field, MTLIOCommandQueueBindings.Label);

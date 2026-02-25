@@ -4,6 +4,8 @@ public class MTLArgumentEncoder(nint nativePtr, bool ownsReference) : NativeObje
 {
     public static MTLArgumentEncoder Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLArgumentEncoder Null => new(0, false);
+
     public nuint Alignment
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentEncoderBindings.Alignment);

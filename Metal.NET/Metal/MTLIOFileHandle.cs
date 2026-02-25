@@ -4,6 +4,8 @@ public class MTLIOFileHandle(nint nativePtr, bool ownsReference) : NativeObject(
 {
     public static MTLIOFileHandle Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLIOFileHandle Null => new(0, false);
+
     public NSString Label
     {
         get => GetProperty(ref field, MTLIOFileHandleBindings.Label);

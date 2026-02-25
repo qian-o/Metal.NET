@@ -4,6 +4,8 @@ public class MTLBuffer(nint nativePtr, bool ownsReference) : MTLResource(nativeP
 {
     public static new MTLBuffer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLBuffer Null => new(0, false);
+
     public nuint GpuAddress
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindings.GpuAddress);

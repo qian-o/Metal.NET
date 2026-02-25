@@ -4,6 +4,8 @@ public class MTLIOScratchBuffer(nint nativePtr, bool ownsReference) : NativeObje
 {
     public static MTLIOScratchBuffer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLIOScratchBuffer Null => new(0, false);
+
     public MTLBuffer Buffer
     {
         get => GetProperty(ref field, MTLIOScratchBufferBindings.Buffer);

@@ -4,6 +4,8 @@ public class MTLComputeCommandEncoder(nint nativePtr, bool ownsReference) : MTLC
 {
     public static new MTLComputeCommandEncoder Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLComputeCommandEncoder Null => new(0, false);
+
     public MTLDispatchType DispatchType
     {
         get => (MTLDispatchType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputeCommandEncoderBindings.DispatchType);

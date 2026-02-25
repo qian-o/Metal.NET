@@ -4,6 +4,8 @@ public class MTLIndirectRenderCommand(nint nativePtr, bool ownsReference) : Nati
 {
     public static MTLIndirectRenderCommand Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLIndirectRenderCommand Null => new(0, false);
+
     public void ClearBarrier()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.ClearBarrier);

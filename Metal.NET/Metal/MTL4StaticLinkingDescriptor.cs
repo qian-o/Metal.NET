@@ -4,6 +4,8 @@ public class MTL4StaticLinkingDescriptor(nint nativePtr, bool ownsReference) : N
 {
     public static MTL4StaticLinkingDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTL4StaticLinkingDescriptor Null => new(0, false);
+
     public MTL4StaticLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4StaticLinkingDescriptorBindings.Class), true)
     {
     }

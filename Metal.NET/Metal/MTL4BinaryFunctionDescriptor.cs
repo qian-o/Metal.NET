@@ -4,6 +4,8 @@ public class MTL4BinaryFunctionDescriptor(nint nativePtr, bool ownsReference) : 
 {
     public static MTL4BinaryFunctionDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTL4BinaryFunctionDescriptor Null => new(0, false);
+
     public MTL4BinaryFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4BinaryFunctionDescriptorBindings.Class), true)
     {
     }

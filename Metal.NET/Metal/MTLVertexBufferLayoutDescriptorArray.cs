@@ -4,6 +4,8 @@ public class MTLVertexBufferLayoutDescriptorArray(nint nativePtr, bool ownsRefer
 {
     public static MTLVertexBufferLayoutDescriptorArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLVertexBufferLayoutDescriptorArray Null => new(0, false);
+
     public MTLVertexBufferLayoutDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLVertexBufferLayoutDescriptorArrayBindings.Class), true)
     {
     }

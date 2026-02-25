@@ -4,6 +4,8 @@ public class MTLCaptureManager(nint nativePtr, bool ownsReference) : NativeObjec
 {
     public static MTLCaptureManager Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLCaptureManager Null => new(0, false);
+
     public MTLCaptureManager() : this(ObjectiveCRuntime.AllocInit(MTLCaptureManagerBindings.Class), true)
     {
     }

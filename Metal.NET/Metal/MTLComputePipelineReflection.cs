@@ -4,6 +4,8 @@ public class MTLComputePipelineReflection(nint nativePtr, bool ownsReference) : 
 {
     public static MTLComputePipelineReflection Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLComputePipelineReflection Null => new(0, false);
+
     public MTLComputePipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTLComputePipelineReflectionBindings.Class), true)
     {
     }

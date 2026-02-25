@@ -4,6 +4,8 @@ public class MTL4MachineLearningCommandEncoder(nint nativePtr, bool ownsReferenc
 {
     public static new MTL4MachineLearningCommandEncoder Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTL4MachineLearningCommandEncoder Null => new(0, false);
+
     public void DispatchNetwork(MTLHeap heap)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderBindings.DispatchNetwork, heap.NativePtr);

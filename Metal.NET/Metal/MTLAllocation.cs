@@ -4,6 +4,8 @@ public class MTLAllocation(nint nativePtr, bool ownsReference) : NativeObject(na
 {
     public static MTLAllocation Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLAllocation Null => new(0, false);
+
     public nuint AllocatedSize
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAllocationBindings.AllocatedSize);

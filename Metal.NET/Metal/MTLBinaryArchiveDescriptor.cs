@@ -4,6 +4,8 @@ public class MTLBinaryArchiveDescriptor(nint nativePtr, bool ownsReference) : Na
 {
     public static MTLBinaryArchiveDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLBinaryArchiveDescriptor Null => new(0, false);
+
     public MTLBinaryArchiveDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBinaryArchiveDescriptorBindings.Class), true)
     {
     }

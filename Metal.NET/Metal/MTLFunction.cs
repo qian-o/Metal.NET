@@ -4,6 +4,8 @@ public class MTLFunction(nint nativePtr, bool ownsReference) : NativeObject(nati
 {
     public static MTLFunction Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLFunction Null => new(0, false);
+
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTLFunctionBindings.Device);

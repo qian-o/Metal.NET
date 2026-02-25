@@ -4,6 +4,8 @@ public class MTL4CommandBufferOptions(nint nativePtr, bool ownsReference) : Nati
 {
     public static MTL4CommandBufferOptions Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTL4CommandBufferOptions Null => new(0, false);
+
     public MTL4CommandBufferOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CommandBufferOptionsBindings.Class), true)
     {
     }

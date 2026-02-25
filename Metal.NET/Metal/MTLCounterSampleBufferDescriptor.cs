@@ -4,6 +4,8 @@ public class MTLCounterSampleBufferDescriptor(nint nativePtr, bool ownsReference
 {
     public static MTLCounterSampleBufferDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLCounterSampleBufferDescriptor Null => new(0, false);
+
     public MTLCounterSampleBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCounterSampleBufferDescriptorBindings.Class), true)
     {
     }

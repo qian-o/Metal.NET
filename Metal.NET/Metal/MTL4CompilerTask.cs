@@ -4,6 +4,8 @@ public class MTL4CompilerTask(nint nativePtr, bool ownsReference) : NativeObject
 {
     public static MTL4CompilerTask Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTL4CompilerTask Null => new(0, false);
+
     public MTL4Compiler Compiler
     {
         get => GetProperty(ref field, MTL4CompilerTaskBindings.Compiler);

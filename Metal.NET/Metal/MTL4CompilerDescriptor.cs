@@ -4,6 +4,8 @@ public class MTL4CompilerDescriptor(nint nativePtr, bool ownsReference) : Native
 {
     public static MTL4CompilerDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTL4CompilerDescriptor Null => new(0, false);
+
     public MTL4CompilerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CompilerDescriptorBindings.Class), true)
     {
     }

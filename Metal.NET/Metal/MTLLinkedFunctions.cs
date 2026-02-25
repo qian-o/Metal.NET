@@ -4,6 +4,8 @@ public class MTLLinkedFunctions(nint nativePtr, bool ownsReference) : NativeObje
 {
     public static MTLLinkedFunctions Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLLinkedFunctions Null => new(0, false);
+
     public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(MTLLinkedFunctionsBindings.Class), true)
     {
     }

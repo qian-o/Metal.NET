@@ -4,6 +4,8 @@ public class MTLBinding(nint nativePtr, bool ownsReference) : NativeObject(nativ
 {
     public static MTLBinding Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLBinding Null => new(0, false);
+
     public MTLBindingAccess Access
     {
         get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBindingBindings.Access);

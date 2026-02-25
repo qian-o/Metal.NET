@@ -4,6 +4,8 @@ public class MTLBufferLayoutDescriptor(nint nativePtr, bool ownsReference) : Nat
 {
     public static MTLBufferLayoutDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLBufferLayoutDescriptor Null => new(0, false);
+
     public MTLBufferLayoutDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBufferLayoutDescriptorBindings.Class), true)
     {
     }

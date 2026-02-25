@@ -4,6 +4,8 @@ public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray(n
 {
     public static MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray Null => new(0, false);
+
     public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArrayBindings.Class), true)
     {
     }

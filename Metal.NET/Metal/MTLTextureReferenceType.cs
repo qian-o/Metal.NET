@@ -4,6 +4,8 @@ public class MTLTextureReferenceType(nint nativePtr, bool ownsReference) : MTLTy
 {
     public static new MTLTextureReferenceType Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLTextureReferenceType Null => new(0, false);
+
     public MTLTextureReferenceType() : this(ObjectiveCRuntime.AllocInit(MTLTextureReferenceTypeBindings.Class), true)
     {
     }

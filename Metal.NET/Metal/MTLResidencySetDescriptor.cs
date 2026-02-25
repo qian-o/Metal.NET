@@ -4,6 +4,8 @@ public class MTLResidencySetDescriptor(nint nativePtr, bool ownsReference) : Nat
 {
     public static MTLResidencySetDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLResidencySetDescriptor Null => new(0, false);
+
     public MTLResidencySetDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResidencySetDescriptorBindings.Class), true)
     {
     }

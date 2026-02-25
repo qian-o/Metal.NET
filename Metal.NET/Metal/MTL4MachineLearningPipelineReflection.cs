@@ -4,6 +4,8 @@ public class MTL4MachineLearningPipelineReflection(nint nativePtr, bool ownsRefe
 {
     public static MTL4MachineLearningPipelineReflection Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTL4MachineLearningPipelineReflection Null => new(0, false);
+
     public MTL4MachineLearningPipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTL4MachineLearningPipelineReflectionBindings.Class), true)
     {
     }

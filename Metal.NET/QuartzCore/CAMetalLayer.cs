@@ -4,6 +4,8 @@ public class CAMetalLayer(nint nativePtr, bool ownsReference) : NativeObject(nat
 {
     public static CAMetalLayer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static CAMetalLayer Null => new(0, false);
+
     public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(CAMetalLayerBindings.Class), true)
     {
     }

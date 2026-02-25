@@ -4,6 +4,8 @@ public class MTLArgumentDescriptor(nint nativePtr, bool ownsReference) : NativeO
 {
     public static MTLArgumentDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLArgumentDescriptor Null => new(0, false);
+
     public MTLArgumentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLArgumentDescriptorBindings.Class), true)
     {
     }

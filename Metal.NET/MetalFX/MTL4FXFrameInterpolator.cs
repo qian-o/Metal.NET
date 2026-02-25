@@ -4,6 +4,8 @@ public class MTL4FXFrameInterpolator(nint nativePtr, bool ownsReference) : MTLFX
 {
     public static new MTL4FXFrameInterpolator Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTL4FXFrameInterpolator Null => new(0, false);
+
     public void EncodeToCommandBuffer(MTL4CommandBuffer commandBuffer)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4FXFrameInterpolatorBindings.EncodeToCommandBuffer, commandBuffer.NativePtr);

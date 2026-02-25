@@ -4,6 +4,8 @@ public class MTLAccelerationStructurePassDescriptor(nint nativePtr, bool ownsRef
 {
     public static MTLAccelerationStructurePassDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLAccelerationStructurePassDescriptor Null => new(0, false);
+
     public MTLAccelerationStructurePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassDescriptorBindings.Class), true)
     {
     }

@@ -4,6 +4,8 @@ public class MTLFXFrameInterpolatorDescriptor(nint nativePtr, bool ownsReference
 {
     public static MTLFXFrameInterpolatorDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static MTLFXFrameInterpolatorDescriptor Null => new(0, false);
+
     public MTLFXFrameInterpolatorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXFrameInterpolatorDescriptorBindings.Class), true)
     {
     }

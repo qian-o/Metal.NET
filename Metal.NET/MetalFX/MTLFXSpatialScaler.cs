@@ -4,6 +4,8 @@ public class MTLFXSpatialScaler(nint nativePtr, bool ownsReference) : MTLFXSpati
 {
     public static new MTLFXSpatialScaler Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTLFXSpatialScaler Null => new(0, false);
+
     public void EncodeToCommandBuffer(MTLCommandBuffer pCommandBuffer)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerBindings.EncodeToCommandBuffer, pCommandBuffer.NativePtr);

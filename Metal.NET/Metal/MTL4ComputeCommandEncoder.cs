@@ -4,6 +4,8 @@ public class MTL4ComputeCommandEncoder(nint nativePtr, bool ownsReference) : MTL
 {
     public static new MTL4ComputeCommandEncoder Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    public static new MTL4ComputeCommandEncoder Null => new(0, false);
+
     public void BuildAccelerationStructure(MTLAccelerationStructure accelerationStructure, MTL4AccelerationStructureDescriptor descriptor, MTL4BufferRange scratchBuffer)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputeCommandEncoderBindings.BuildAccelerationStructure, accelerationStructure.NativePtr, descriptor.NativePtr, scratchBuffer);
