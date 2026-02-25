@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLStencilDescriptor(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLStencilDescriptor>
+public class MTLStencilDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLStencilDescriptor>
 {
-    public static MTLStencilDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static MTLStencilDescriptor Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLStencilDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLStencilDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public MTLStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStencilDescriptorBindings.Class))
+    public MTLStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStencilDescriptorBindings.Class), true)
     {
     }
 

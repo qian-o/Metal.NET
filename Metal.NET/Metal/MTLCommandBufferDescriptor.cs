@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLCommandBufferDescriptor(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCommandBufferDescriptor>
+public class MTLCommandBufferDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCommandBufferDescriptor>
 {
-    public static MTLCommandBufferDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static MTLCommandBufferDescriptor Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLCommandBufferDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLCommandBufferDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public MTLCommandBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCommandBufferDescriptorBindings.Class))
+    public MTLCommandBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCommandBufferDescriptorBindings.Class), true)
     {
     }
 

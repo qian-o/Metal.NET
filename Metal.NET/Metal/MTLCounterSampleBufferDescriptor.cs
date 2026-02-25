@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLCounterSampleBufferDescriptor(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCounterSampleBufferDescriptor>
+public class MTLCounterSampleBufferDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCounterSampleBufferDescriptor>
 {
-    public static MTLCounterSampleBufferDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static MTLCounterSampleBufferDescriptor Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLCounterSampleBufferDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLCounterSampleBufferDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public MTLCounterSampleBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCounterSampleBufferDescriptorBindings.Class))
+    public MTLCounterSampleBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCounterSampleBufferDescriptorBindings.Class), true)
     {
     }
 

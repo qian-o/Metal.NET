@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommitOptions(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CommitOptions>
+public class MTL4CommitOptions(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CommitOptions>
 {
-    public static MTL4CommitOptions Create(nint nativePtr) => new(nativePtr);
+    public static MTL4CommitOptions Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTL4CommitOptions CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTL4CommitOptions CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public MTL4CommitOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CommitOptionsBindings.Class))
+    public MTL4CommitOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CommitOptionsBindings.Class), true)
     {
     }
 }

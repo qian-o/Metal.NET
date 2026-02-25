@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLArchitecture(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLArchitecture>
+public class MTLArchitecture(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLArchitecture>
 {
-    public static MTLArchitecture Create(nint nativePtr) => new(nativePtr);
+    public static MTLArchitecture Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLArchitecture CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLArchitecture CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public MTLArchitecture() : this(ObjectiveCRuntime.AllocInit(MTLArchitectureBindings.Class))
+    public MTLArchitecture() : this(ObjectiveCRuntime.AllocInit(MTLArchitectureBindings.Class), true)
     {
     }
 

@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLBinaryArchive(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLBinaryArchive>
+public class MTLBinaryArchive(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLBinaryArchive>
 {
-    public static MTLBinaryArchive Create(nint nativePtr) => new(nativePtr);
+    public static MTLBinaryArchive Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLBinaryArchive CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLBinaryArchive CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
     public MTLDevice Device
     {
@@ -21,7 +21,7 @@ public class MTLBinaryArchive(nint nativePtr, bool ownsReference = true) : Nativ
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddComputePipelineFunctions, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, ownsReference: false);
+        error = new(errorPtr, false);
 
         return result;
     }
@@ -30,7 +30,7 @@ public class MTLBinaryArchive(nint nativePtr, bool ownsReference = true) : Nativ
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddFunction, descriptor.NativePtr, library.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, ownsReference: false);
+        error = new(errorPtr, false);
 
         return result;
     }
@@ -39,7 +39,7 @@ public class MTLBinaryArchive(nint nativePtr, bool ownsReference = true) : Nativ
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddLibrary, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, ownsReference: false);
+        error = new(errorPtr, false);
 
         return result;
     }
@@ -48,7 +48,7 @@ public class MTLBinaryArchive(nint nativePtr, bool ownsReference = true) : Nativ
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddMeshRenderPipelineFunctions, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, ownsReference: false);
+        error = new(errorPtr, false);
 
         return result;
     }
@@ -57,7 +57,7 @@ public class MTLBinaryArchive(nint nativePtr, bool ownsReference = true) : Nativ
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddRenderPipelineFunctions, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, ownsReference: false);
+        error = new(errorPtr, false);
 
         return result;
     }
@@ -66,7 +66,7 @@ public class MTLBinaryArchive(nint nativePtr, bool ownsReference = true) : Nativ
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.AddTileRenderPipelineFunctions, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, ownsReference: false);
+        error = new(errorPtr, false);
 
         return result;
     }
@@ -75,7 +75,7 @@ public class MTLBinaryArchive(nint nativePtr, bool ownsReference = true) : Nativ
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBinaryArchiveBindings.SerializeToURL, url.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, ownsReference: false);
+        error = new(errorPtr, false);
 
         return result;
     }

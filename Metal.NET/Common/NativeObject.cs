@@ -18,10 +18,10 @@ public interface INativeObject<TSelf> where TSelf : NativeObject, INativeObject<
 /// </summary>
 /// <param name="nativePtr">A non-zero Objective-C object pointer (<c>id</c>).</param>
 /// <param name="ownsReference">
-/// When <see langword="true"/> (the default), <see cref="Dispose()"/> sends <c>release</c> to the
+/// When <see langword="true"/>, <see cref="Dispose()"/> sends <c>release</c> to the
 /// native object. When <see langword="false"/>, the pointer is treated as borrowed and will not be released.
 /// </param>
-public abstract class NativeObject(nint nativePtr, bool ownsReference = true) : IDisposable
+public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDisposable
 {
     private volatile int disposed;
 

@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLArrayType(nint nativePtr, bool ownsReference = true) : MTLType(nativePtr, ownsReference), INativeObject<MTLArrayType>
+public class MTLArrayType(nint nativePtr, bool ownsReference) : MTLType(nativePtr, ownsReference), INativeObject<MTLArrayType>
 {
-    public static new MTLArrayType Create(nint nativePtr) => new(nativePtr);
+    public static new MTLArrayType Create(nint nativePtr) => new(nativePtr, true);
 
-    public static new MTLArrayType CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static new MTLArrayType CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public MTLArrayType() : this(ObjectiveCRuntime.AllocInit(MTLArrayTypeBindings.Class))
+    public MTLArrayType() : this(ObjectiveCRuntime.AllocInit(MTLArrayTypeBindings.Class), true)
     {
     }
 
@@ -34,35 +34,35 @@ public class MTLArrayType(nint nativePtr, bool ownsReference = true) : MTLType(n
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementArrayType);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLPointerType ElementPointerType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementPointerType);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLStructType ElementStructType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementStructType);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLTensorReferenceType ElementTensorReferenceType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementTensorReferenceType);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLTextureReferenceType ElementTextureReferenceType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementTextureReferenceType);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 }
 

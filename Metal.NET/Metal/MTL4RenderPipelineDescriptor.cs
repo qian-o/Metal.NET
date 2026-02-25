@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTL4RenderPipelineDescriptor(nint nativePtr, bool ownsReference = true) : MTL4PipelineDescriptor(nativePtr, ownsReference), INativeObject<MTL4RenderPipelineDescriptor>
+public class MTL4RenderPipelineDescriptor(nint nativePtr, bool ownsReference) : MTL4PipelineDescriptor(nativePtr, ownsReference), INativeObject<MTL4RenderPipelineDescriptor>
 {
-    public static new MTL4RenderPipelineDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static new MTL4RenderPipelineDescriptor Create(nint nativePtr) => new(nativePtr, true);
 
-    public static new MTL4RenderPipelineDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static new MTL4RenderPipelineDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public MTL4RenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineDescriptorBindings.Class))
+    public MTL4RenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineDescriptorBindings.Class), true)
     {
     }
 

@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLVertexAttribute(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLVertexAttribute>
+public class MTLVertexAttribute(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLVertexAttribute>
 {
-    public static MTLVertexAttribute Create(nint nativePtr) => new(nativePtr);
+    public static MTLVertexAttribute Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLVertexAttribute CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLVertexAttribute CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public MTLVertexAttribute() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeBindings.Class))
+    public MTLVertexAttribute() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeBindings.Class), true)
     {
     }
 

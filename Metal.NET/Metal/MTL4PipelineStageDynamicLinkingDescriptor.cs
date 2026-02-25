@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTL4PipelineStageDynamicLinkingDescriptor(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4PipelineStageDynamicLinkingDescriptor>
+public class MTL4PipelineStageDynamicLinkingDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4PipelineStageDynamicLinkingDescriptor>
 {
-    public static MTL4PipelineStageDynamicLinkingDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static MTL4PipelineStageDynamicLinkingDescriptor Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTL4PipelineStageDynamicLinkingDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTL4PipelineStageDynamicLinkingDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public MTL4PipelineStageDynamicLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineStageDynamicLinkingDescriptorBindings.Class))
+    public MTL4PipelineStageDynamicLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineStageDynamicLinkingDescriptorBindings.Class), true)
     {
     }
 

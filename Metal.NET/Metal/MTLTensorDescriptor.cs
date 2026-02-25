@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensorDescriptor(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLTensorDescriptor>
+public class MTLTensorDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLTensorDescriptor>
 {
-    public static MTLTensorDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static MTLTensorDescriptor Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLTensorDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLTensorDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public MTLTensorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTensorDescriptorBindings.Class))
+    public MTLTensorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTensorDescriptorBindings.Class), true)
     {
     }
 

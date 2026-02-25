@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLArgumentEncoder(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLArgumentEncoder>
+public class MTLArgumentEncoder(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLArgumentEncoder>
 {
-    public static MTLArgumentEncoder Create(nint nativePtr) => new(nativePtr);
+    public static MTLArgumentEncoder Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLArgumentEncoder CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLArgumentEncoder CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
     public nuint Alignment
     {
@@ -36,7 +36,7 @@ public class MTLArgumentEncoder(nint nativePtr, bool ownsReference = true) : Nat
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderBindings.NewArgumentEncoder, index);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public void SetAccelerationStructure(MTLAccelerationStructure accelerationStructure, nuint index)

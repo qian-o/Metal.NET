@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionConstantValues(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFunctionConstantValues>
+public class MTLFunctionConstantValues(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFunctionConstantValues>
 {
-    public static MTLFunctionConstantValues Create(nint nativePtr) => new(nativePtr);
+    public static MTLFunctionConstantValues Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLFunctionConstantValues CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLFunctionConstantValues CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public MTLFunctionConstantValues() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantValuesBindings.Class))
+    public MTLFunctionConstantValues() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantValuesBindings.Class), true)
     {
     }
 

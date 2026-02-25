@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLStructType(nint nativePtr, bool ownsReference = true) : MTLType(nativePtr, ownsReference), INativeObject<MTLStructType>
+public class MTLStructType(nint nativePtr, bool ownsReference) : MTLType(nativePtr, ownsReference), INativeObject<MTLStructType>
 {
-    public static new MTLStructType Create(nint nativePtr) => new(nativePtr);
+    public static new MTLStructType Create(nint nativePtr) => new(nativePtr, true);
 
-    public static new MTLStructType CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static new MTLStructType CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public MTLStructType() : this(ObjectiveCRuntime.AllocInit(MTLStructTypeBindings.Class))
+    public MTLStructType() : this(ObjectiveCRuntime.AllocInit(MTLStructTypeBindings.Class), true)
     {
     }
 
@@ -19,7 +19,7 @@ public class MTLStructType(nint nativePtr, bool ownsReference = true) : MTLType(
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeBindings.MemberByName, name.NativePtr);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 }
 

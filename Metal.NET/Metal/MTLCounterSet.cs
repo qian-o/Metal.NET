@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLCounterSet(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCounterSet>
+public class MTLCounterSet(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCounterSet>
 {
-    public static MTLCounterSet Create(nint nativePtr) => new(nativePtr);
+    public static MTLCounterSet Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLCounterSet CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLCounterSet CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
     public NSArray Counters
     {

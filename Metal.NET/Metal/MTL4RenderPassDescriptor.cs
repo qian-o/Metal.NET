@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTL4RenderPassDescriptor(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4RenderPassDescriptor>
+public class MTL4RenderPassDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4RenderPassDescriptor>
 {
-    public static MTL4RenderPassDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static MTL4RenderPassDescriptor Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTL4RenderPassDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTL4RenderPassDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public MTL4RenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPassDescriptorBindings.Class))
+    public MTL4RenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPassDescriptorBindings.Class), true)
     {
     }
 

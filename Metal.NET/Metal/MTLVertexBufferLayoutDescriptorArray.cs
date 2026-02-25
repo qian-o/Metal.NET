@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLVertexBufferLayoutDescriptorArray(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLVertexBufferLayoutDescriptorArray>
+public class MTLVertexBufferLayoutDescriptorArray(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLVertexBufferLayoutDescriptorArray>
 {
-    public static MTLVertexBufferLayoutDescriptorArray Create(nint nativePtr) => new(nativePtr);
+    public static MTLVertexBufferLayoutDescriptorArray Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLVertexBufferLayoutDescriptorArray CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLVertexBufferLayoutDescriptorArray CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public MTLVertexBufferLayoutDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLVertexBufferLayoutDescriptorArrayBindings.Class))
+    public MTLVertexBufferLayoutDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLVertexBufferLayoutDescriptorArrayBindings.Class), true)
     {
     }
 
@@ -14,7 +14,7 @@ public class MTLVertexBufferLayoutDescriptorArray(nint nativePtr, bool ownsRefer
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexBufferLayoutDescriptorArrayBindings.Object, index);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public void SetObject(MTLVertexBufferLayoutDescriptor bufferDesc, nuint index)

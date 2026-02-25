@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLBlitCommandEncoder(nint nativePtr, bool ownsReference = true) : MTLCommandEncoder(nativePtr, ownsReference), INativeObject<MTLBlitCommandEncoder>
+public class MTLBlitCommandEncoder(nint nativePtr, bool ownsReference) : MTLCommandEncoder(nativePtr, ownsReference), INativeObject<MTLBlitCommandEncoder>
 {
-    public static new MTLBlitCommandEncoder Create(nint nativePtr) => new(nativePtr);
+    public static new MTLBlitCommandEncoder Create(nint nativePtr) => new(nativePtr, true);
 
-    public static new MTLBlitCommandEncoder CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static new MTLBlitCommandEncoder CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
     public void CopyFromBuffer(MTLBuffer sourceBuffer, nuint sourceOffset, nuint sourceBytesPerRow, nuint sourceBytesPerImage, MTLSize sourceSize, MTLTexture destinationTexture, nuint destinationSlice, nuint destinationLevel, MTLOrigin destinationOrigin)
     {

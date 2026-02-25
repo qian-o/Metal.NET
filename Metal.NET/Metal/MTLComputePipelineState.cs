@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLComputePipelineState(nint nativePtr, bool ownsReference = true) : MTLAllocation(nativePtr, ownsReference), INativeObject<MTLComputePipelineState>
+public class MTLComputePipelineState(nint nativePtr, bool ownsReference) : MTLAllocation(nativePtr, ownsReference), INativeObject<MTLComputePipelineState>
 {
-    public static new MTLComputePipelineState Create(nint nativePtr) => new(nativePtr);
+    public static new MTLComputePipelineState Create(nint nativePtr) => new(nativePtr, true);
 
-    public static new MTLComputePipelineState CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static new MTLComputePipelineState CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
     public MTLDevice Device
     {
@@ -60,21 +60,21 @@ public class MTLComputePipelineState(nint nativePtr, bool ownsReference = true) 
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.FunctionHandle, name.NativePtr);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithBinaryFunction, function.NativePtr);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLFunctionHandle FunctionHandle(MTLFunction function)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithFunction, function.NativePtr);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public nuint ImageblockMemoryLength(MTLSize imageblockDimensions)
@@ -86,32 +86,32 @@ public class MTLComputePipelineState(nint nativePtr, bool ownsReference = true) 
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineStateWithBinaryFunctions, additionalBinaryFunctions.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, ownsReference: false);
+        error = new(errorPtr, false);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLComputePipelineState NewComputePipelineState(NSArray functions, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineState, functions.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, ownsReference: false);
+        error = new(errorPtr, false);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLIntersectionFunctionTable NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewIntersectionFunctionTable, descriptor.NativePtr);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewVisibleFunctionTable, descriptor.NativePtr);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 }
 

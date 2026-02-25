@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandBuffer(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CommandBuffer>
+public class MTL4CommandBuffer(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CommandBuffer>
 {
-    public static MTL4CommandBuffer Create(nint nativePtr) => new(nativePtr);
+    public static MTL4CommandBuffer Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTL4CommandBuffer CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTL4CommandBuffer CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
     public MTLDevice Device
     {
@@ -31,7 +31,7 @@ public class MTL4CommandBuffer(nint nativePtr, bool ownsReference = true) : Nati
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.ComputeCommandEncoder);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public void EndCommandBuffer()
@@ -43,7 +43,7 @@ public class MTL4CommandBuffer(nint nativePtr, bool ownsReference = true) : Nati
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.MachineLearningCommandEncoder);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public void PopDebugGroup()
@@ -60,14 +60,14 @@ public class MTL4CommandBuffer(nint nativePtr, bool ownsReference = true) : Nati
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoder, descriptor.NativePtr);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTL4RenderCommandEncoder RenderCommandEncoder(MTL4RenderPassDescriptor descriptor, MTL4RenderEncoderOptions options)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoderWithDescriptoroptions, descriptor.NativePtr, (nuint)options);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public void ResolveCounterHeap(MTL4CounterHeap counterHeap, NSRange range, MTL4BufferRange bufferRange, MTLFence fenceToWait, MTLFence fenceToUpdate)

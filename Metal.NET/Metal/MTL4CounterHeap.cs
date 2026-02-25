@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CounterHeap(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CounterHeap>
+public class MTL4CounterHeap(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CounterHeap>
 {
-    public static MTL4CounterHeap Create(nint nativePtr) => new(nativePtr);
+    public static MTL4CounterHeap Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTL4CounterHeap CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTL4CounterHeap CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
     public nuint Count
     {

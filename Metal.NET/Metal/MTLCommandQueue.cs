@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLCommandQueue(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCommandQueue>
+public class MTLCommandQueue(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCommandQueue>
 {
-    public static MTLCommandQueue Create(nint nativePtr) => new(nativePtr);
+    public static MTLCommandQueue Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLCommandQueue CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLCommandQueue CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
     public MTLDevice Device
     {
@@ -37,21 +37,21 @@ public class MTLCommandQueue(nint nativePtr, bool ownsReference = true) : Native
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBuffer);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLCommandBuffer CommandBufferWithDescriptor(MTLCommandBufferDescriptor descriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBufferWithDescriptor, descriptor.NativePtr);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLCommandBuffer CommandBufferWithUnretainedReferences()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBufferWithUnretainedReferences);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public void InsertDebugCaptureBoundary()

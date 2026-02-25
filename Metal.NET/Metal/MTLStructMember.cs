@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLStructMember(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLStructMember>
+public class MTLStructMember(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLStructMember>
 {
-    public static MTLStructMember Create(nint nativePtr) => new(nativePtr);
+    public static MTLStructMember Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLStructMember CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLStructMember CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public MTLStructMember() : this(ObjectiveCRuntime.AllocInit(MTLStructMemberBindings.Class))
+    public MTLStructMember() : this(ObjectiveCRuntime.AllocInit(MTLStructMemberBindings.Class), true)
     {
     }
 
@@ -34,35 +34,35 @@ public class MTLStructMember(nint nativePtr, bool ownsReference = true) : Native
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.ArrayType);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLPointerType PointerType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.PointerType);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLStructType StructType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.StructType);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLTensorReferenceType TensorReferenceType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.TensorReferenceType);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLTextureReferenceType TextureReferenceType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.TextureReferenceType);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 }
 

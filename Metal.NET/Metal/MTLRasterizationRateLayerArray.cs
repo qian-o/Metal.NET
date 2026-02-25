@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLRasterizationRateLayerArray(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLRasterizationRateLayerArray>
+public class MTLRasterizationRateLayerArray(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLRasterizationRateLayerArray>
 {
-    public static MTLRasterizationRateLayerArray Create(nint nativePtr) => new(nativePtr);
+    public static MTLRasterizationRateLayerArray Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLRasterizationRateLayerArray CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLRasterizationRateLayerArray CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public MTLRasterizationRateLayerArray() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateLayerArrayBindings.Class))
+    public MTLRasterizationRateLayerArray() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateLayerArrayBindings.Class), true)
     {
     }
 
@@ -14,7 +14,7 @@ public class MTLRasterizationRateLayerArray(nint nativePtr, bool ownsReference =
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerArrayBindings.Object, layerIndex);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public void SetObject(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)

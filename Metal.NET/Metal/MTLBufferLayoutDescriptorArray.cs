@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLBufferLayoutDescriptorArray(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLBufferLayoutDescriptorArray>
+public class MTLBufferLayoutDescriptorArray(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLBufferLayoutDescriptorArray>
 {
-    public static MTLBufferLayoutDescriptorArray Create(nint nativePtr) => new(nativePtr);
+    public static MTLBufferLayoutDescriptorArray Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLBufferLayoutDescriptorArray CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLBufferLayoutDescriptorArray CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public MTLBufferLayoutDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLBufferLayoutDescriptorArrayBindings.Class))
+    public MTLBufferLayoutDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLBufferLayoutDescriptorArrayBindings.Class), true)
     {
     }
 
@@ -14,7 +14,7 @@ public class MTLBufferLayoutDescriptorArray(nint nativePtr, bool ownsReference =
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArrayBindings.Object, index);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public void SetObject(MTLBufferLayoutDescriptor bufferDesc, nuint index)

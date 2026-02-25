@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLLogState(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLLogState>
+public class MTLLogState(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLLogState>
 {
-    public static MTLLogState Create(nint nativePtr) => new(nativePtr);
+    public static MTLLogState Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLLogState CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLLogState CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 }
 
 file static class MTLLogStateBindings

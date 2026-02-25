@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXFrameInterpolatorBase(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFXFrameInterpolatorBase>
+public class MTLFXFrameInterpolatorBase(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFXFrameInterpolatorBase>
 {
-    public static MTLFXFrameInterpolatorBase Create(nint nativePtr) => new(nativePtr);
+    public static MTLFXFrameInterpolatorBase Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLFXFrameInterpolatorBase CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLFXFrameInterpolatorBase CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
     public float AspectRatio
     {

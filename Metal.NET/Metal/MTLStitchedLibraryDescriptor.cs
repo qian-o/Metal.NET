@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLStitchedLibraryDescriptor(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLStitchedLibraryDescriptor>
+public class MTLStitchedLibraryDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLStitchedLibraryDescriptor>
 {
-    public static MTLStitchedLibraryDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static MTLStitchedLibraryDescriptor Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLStitchedLibraryDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLStitchedLibraryDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public MTLStitchedLibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStitchedLibraryDescriptorBindings.Class))
+    public MTLStitchedLibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStitchedLibraryDescriptorBindings.Class), true)
     {
     }
 

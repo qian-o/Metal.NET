@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLTextureViewPool(nint nativePtr, bool ownsReference = true) : MTLResourceViewPool(nativePtr, ownsReference), INativeObject<MTLTextureViewPool>
+public class MTLTextureViewPool(nint nativePtr, bool ownsReference) : MTLResourceViewPool(nativePtr, ownsReference), INativeObject<MTLTextureViewPool>
 {
-    public static new MTLTextureViewPool Create(nint nativePtr) => new(nativePtr);
+    public static new MTLTextureViewPool Create(nint nativePtr) => new(nativePtr, true);
 
-    public static new MTLTextureViewPool CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static new MTLTextureViewPool CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
     public MTLResourceID SetTextureView(MTLTexture texture, nuint index)
     {

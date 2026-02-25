@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPipelineState(nint nativePtr, bool ownsReference = true) : MTLAllocation(nativePtr, ownsReference), INativeObject<MTLRenderPipelineState>
+public class MTLRenderPipelineState(nint nativePtr, bool ownsReference) : MTLAllocation(nativePtr, ownsReference), INativeObject<MTLRenderPipelineState>
 {
-    public static new MTLRenderPipelineState Create(nint nativePtr) => new(nativePtr);
+    public static new MTLRenderPipelineState Create(nint nativePtr) => new(nativePtr, true);
 
-    public static new MTLRenderPipelineState CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static new MTLRenderPipelineState CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
     public MTLDevice Device
     {
@@ -95,21 +95,21 @@ public class MTLRenderPipelineState(nint nativePtr, bool ownsReference = true) :
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.FunctionHandle, name.NativePtr, (nuint)stage);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function, MTLRenderStages stage)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.FunctionHandleWithBinaryFunctionstage, function.NativePtr, (nuint)stage);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLFunctionHandle FunctionHandle(MTLFunction function, MTLRenderStages stage)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.FunctionHandleWithFunctionstage, function.NativePtr, (nuint)stage);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public nuint ImageblockMemoryLength(MTLSize imageblockDimensions)
@@ -121,39 +121,39 @@ public class MTLRenderPipelineState(nint nativePtr, bool ownsReference = true) :
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewIntersectionFunctionTable, descriptor.NativePtr, (nuint)stage);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTL4PipelineDescriptor NewRenderPipelineDescriptor()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewRenderPipelineDescriptor);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLRenderPipelineState NewRenderPipelineState(MTL4RenderPipelineBinaryFunctionsDescriptor binaryFunctionsDescriptor, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewRenderPipelineState, binaryFunctionsDescriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, ownsReference: false);
+        error = new(errorPtr, false);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLRenderPipelineState NewRenderPipelineState(MTLRenderPipelineFunctionsDescriptor additionalBinaryFunctions, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewRenderPipelineStateWithAdditionalBinaryFunctionserror, additionalBinaryFunctions.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, ownsReference: false);
+        error = new(errorPtr, false);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor, MTLRenderStages stage)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewVisibleFunctionTable, descriptor.NativePtr, (nuint)stage);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 }
 

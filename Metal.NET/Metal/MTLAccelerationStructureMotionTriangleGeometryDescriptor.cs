@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativePtr, bool ownsReference = true) : MTLAccelerationStructureGeometryDescriptor(nativePtr, ownsReference), INativeObject<MTLAccelerationStructureMotionTriangleGeometryDescriptor>
+public class MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativePtr, bool ownsReference) : MTLAccelerationStructureGeometryDescriptor(nativePtr, ownsReference), INativeObject<MTLAccelerationStructureMotionTriangleGeometryDescriptor>
 {
-    public static new MTLAccelerationStructureMotionTriangleGeometryDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static new MTLAccelerationStructureMotionTriangleGeometryDescriptor Create(nint nativePtr) => new(nativePtr, true);
 
-    public static new MTLAccelerationStructureMotionTriangleGeometryDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static new MTLAccelerationStructureMotionTriangleGeometryDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public MTLAccelerationStructureMotionTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.Class))
+    public MTLAccelerationStructureMotionTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.Class), true)
     {
     }
 
@@ -74,7 +74,7 @@ public class MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativ
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.Class, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.Descriptor);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 }
 

@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class CAMetalLayer(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<CAMetalLayer>
+public class CAMetalLayer(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<CAMetalLayer>
 {
-    public static CAMetalLayer Create(nint nativePtr) => new(nativePtr);
+    public static CAMetalLayer Create(nint nativePtr) => new(nativePtr, true);
 
-    public static CAMetalLayer CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static CAMetalLayer CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(CAMetalLayerBindings.Class))
+    public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(CAMetalLayerBindings.Class), true)
     {
     }
 
@@ -67,14 +67,14 @@ public class CAMetalLayer(nint nativePtr, bool ownsReference = true) : NativeObj
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(CAMetalLayerBindings.Class, CAMetalLayerBindings.Layer);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public CAMetalDrawable NextDrawable()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerBindings.NextDrawable);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 }
 

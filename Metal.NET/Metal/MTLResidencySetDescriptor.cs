@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLResidencySetDescriptor(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLResidencySetDescriptor>
+public class MTLResidencySetDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLResidencySetDescriptor>
 {
-    public static MTLResidencySetDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static MTLResidencySetDescriptor Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLResidencySetDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLResidencySetDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public MTLResidencySetDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResidencySetDescriptorBindings.Class))
+    public MTLResidencySetDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResidencySetDescriptorBindings.Class), true)
     {
     }
 

@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionLog(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFunctionLog>
+public class MTLFunctionLog(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFunctionLog>
 {
-    public static MTLFunctionLog Create(nint nativePtr) => new(nativePtr);
+    public static MTLFunctionLog Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLFunctionLog CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLFunctionLog CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
     public MTLFunctionLogDebugLocation DebugLocation
     {

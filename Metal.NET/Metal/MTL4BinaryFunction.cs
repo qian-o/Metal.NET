@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4BinaryFunction(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4BinaryFunction>
+public class MTL4BinaryFunction(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4BinaryFunction>
 {
-    public static MTL4BinaryFunction Create(nint nativePtr) => new(nativePtr);
+    public static MTL4BinaryFunction Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTL4BinaryFunction CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTL4BinaryFunction CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
     public MTLFunctionType FunctionType
     {

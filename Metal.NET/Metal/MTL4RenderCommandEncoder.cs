@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4RenderCommandEncoder(nint nativePtr, bool ownsReference = true) : MTL4CommandEncoder(nativePtr, ownsReference), INativeObject<MTL4RenderCommandEncoder>
+public class MTL4RenderCommandEncoder(nint nativePtr, bool ownsReference) : MTL4CommandEncoder(nativePtr, ownsReference), INativeObject<MTL4RenderCommandEncoder>
 {
-    public static new MTL4RenderCommandEncoder Create(nint nativePtr) => new(nativePtr);
+    public static new MTL4RenderCommandEncoder Create(nint nativePtr) => new(nativePtr, true);
 
-    public static new MTL4RenderCommandEncoder CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static new MTL4RenderCommandEncoder CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
     public nuint TileHeight
     {

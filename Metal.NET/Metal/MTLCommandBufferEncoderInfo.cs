@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLCommandBufferEncoderInfo(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCommandBufferEncoderInfo>
+public class MTLCommandBufferEncoderInfo(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCommandBufferEncoderInfo>
 {
-    public static MTLCommandBufferEncoderInfo Create(nint nativePtr) => new(nativePtr);
+    public static MTLCommandBufferEncoderInfo Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLCommandBufferEncoderInfo CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLCommandBufferEncoderInfo CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
     public NSArray DebugSignposts
     {

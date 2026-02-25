@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLResourceStatePassDescriptor(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLResourceStatePassDescriptor>
+public class MTLResourceStatePassDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLResourceStatePassDescriptor>
 {
-    public static MTLResourceStatePassDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static MTLResourceStatePassDescriptor Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLResourceStatePassDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLResourceStatePassDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public MTLResourceStatePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceStatePassDescriptorBindings.Class))
+    public MTLResourceStatePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceStatePassDescriptorBindings.Class), true)
     {
     }
 
@@ -19,7 +19,7 @@ public class MTLResourceStatePassDescriptor(nint nativePtr, bool ownsReference =
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLResourceStatePassDescriptorBindings.Class, MTLResourceStatePassDescriptorBindings.ResourceStatePassDescriptor);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 }
 

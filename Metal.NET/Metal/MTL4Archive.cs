@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4Archive(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4Archive>
+public class MTL4Archive(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4Archive>
 {
-    public static MTL4Archive Create(nint nativePtr) => new(nativePtr);
+    public static MTL4Archive Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTL4Archive CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTL4Archive CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
     public NSString Label
     {
@@ -16,45 +16,45 @@ public class MTL4Archive(nint nativePtr, bool ownsReference = true) : NativeObje
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewBinaryFunction, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, ownsReference: false);
+        error = new(errorPtr, false);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLComputePipelineState NewComputePipelineState(MTL4ComputePipelineDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewComputePipelineState, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, ownsReference: false);
+        error = new(errorPtr, false);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLComputePipelineState NewComputePipelineState(MTL4ComputePipelineDescriptor descriptor, MTL4PipelineStageDynamicLinkingDescriptor dynamicLinkingDescriptor, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewComputePipelineStateWithDescriptordynamicLinkingDescriptorerror, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, ownsReference: false);
+        error = new(errorPtr, false);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLRenderPipelineState NewRenderPipelineState(MTL4PipelineDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewRenderPipelineState, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, ownsReference: false);
+        error = new(errorPtr, false);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLRenderPipelineState NewRenderPipelineState(MTL4PipelineDescriptor descriptor, MTL4RenderPipelineDynamicLinkingDescriptor dynamicLinkingDescriptor, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewRenderPipelineStateWithDescriptordynamicLinkingDescriptorerror, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, ownsReference: false);
+        error = new(errorPtr, false);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 }
 

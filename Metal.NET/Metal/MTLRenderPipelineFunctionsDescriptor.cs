@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPipelineFunctionsDescriptor(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLRenderPipelineFunctionsDescriptor>
+public class MTLRenderPipelineFunctionsDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLRenderPipelineFunctionsDescriptor>
 {
-    public static MTLRenderPipelineFunctionsDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static MTLRenderPipelineFunctionsDescriptor Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLRenderPipelineFunctionsDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLRenderPipelineFunctionsDescriptor CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public MTLRenderPipelineFunctionsDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineFunctionsDescriptorBindings.Class))
+    public MTLRenderPipelineFunctionsDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineFunctionsDescriptorBindings.Class), true)
     {
     }
 

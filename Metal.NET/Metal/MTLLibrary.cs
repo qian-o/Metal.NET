@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLLibrary(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTLLibrary>
+public class MTLLibrary(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLLibrary>
 {
-    public static MTLLibrary Create(nint nativePtr) => new(nativePtr);
+    public static MTLLibrary Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTLLibrary CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTLLibrary CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
     public MTLDevice Device
     {
@@ -36,41 +36,41 @@ public class MTLLibrary(nint nativePtr, bool ownsReference = true) : NativeObjec
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.NewFunction, functionName.NativePtr);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLFunction NewFunction(NSString name, MTLFunctionConstantValues constantValues, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.NewFunctionWithNameconstantValueserror, name.NativePtr, constantValues.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, ownsReference: false);
+        error = new(errorPtr, false);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLFunction NewFunction(MTLFunctionDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.NewFunctionWithDescriptorerror, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, ownsReference: false);
+        error = new(errorPtr, false);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLFunction NewIntersectionFunction(MTLIntersectionFunctionDescriptor descriptor, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.NewIntersectionFunction, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, ownsReference: false);
+        error = new(errorPtr, false);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 
     public MTLFunctionReflection ReflectionForFunction(NSString functionName)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.ReflectionForFunction, functionName.NativePtr);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 }
 

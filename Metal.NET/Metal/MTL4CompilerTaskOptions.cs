@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CompilerTaskOptions(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CompilerTaskOptions>
+public class MTL4CompilerTaskOptions(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CompilerTaskOptions>
 {
-    public static MTL4CompilerTaskOptions Create(nint nativePtr) => new(nativePtr);
+    public static MTL4CompilerTaskOptions Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTL4CompilerTaskOptions CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTL4CompilerTaskOptions CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public MTL4CompilerTaskOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CompilerTaskOptionsBindings.Class))
+    public MTL4CompilerTaskOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CompilerTaskOptionsBindings.Class), true)
     {
     }
 

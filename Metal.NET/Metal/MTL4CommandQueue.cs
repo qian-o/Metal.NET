@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandQueue(nint nativePtr, bool ownsReference = true) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CommandQueue>
+public class MTL4CommandQueue(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CommandQueue>
 {
-    public static MTL4CommandQueue Create(nint nativePtr) => new(nativePtr);
+    public static MTL4CommandQueue Create(nint nativePtr) => new(nativePtr, true);
 
-    public static MTL4CommandQueue CreateBorrowed(nint nativePtr) => new(nativePtr, ownsReference: false);
+    public static MTL4CommandQueue CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
     public MTLDevice Device
     {
