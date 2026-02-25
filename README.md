@@ -18,8 +18,9 @@ Metal.NET.slnx
 │   ├── Foundation/                       ← Hand-written Foundation types
 │   │   ├── NSString.cs                   ← Bidirectional string conversion
 │   │   ├── NSError.cs                    ← Error wrapper with LocalizedDescription
-│   │   ├── NSArray.cs                    ← Generic array access via ObjectAtIndex<T>
-│   │   └── NSURL.cs                      ← File URL creation
+│   │   ├── NSArray.cs                    ← NSArray ↔ T[] conversion utilities
+│   │   ├── NSURL.cs                      ← File URL creation
+│   │   └── NSAutoreleasePool.cs          ← Autorelease pool management
 │   ├── Metal/                            ← Auto-generated Metal API (352 files)
 │   ├── MetalFX/                          ← Auto-generated MetalFX (18 files)
 │   └── QuartzCore/                       ← Auto-generated QuartzCore (2 files)
@@ -35,41 +36,122 @@ Metal.NET.slnx
     └── metal-cpp/                        ← metal-cpp headers (generation source)
 ```
 
+## Memory Management
+
+### Owned vs Borrowed References
+
+Every `NativeObject` wrapper tracks whether it **owns** its native reference via `bool ownsReference`:
+
+- **Owned** (`true`) — the wrapper sends `release` on `Dispose()` or GC finalization. Used for objects returned by `alloc`, `new`, `copy`, or `mutableCopy` selectors.
+- **Borrowed** (`false`) — the wrapper never sends `release`. Used for property getters, `objectAtIndex:`, and `out NSError` parameters.
+
+```csharp
+// Owned — selector begins with "new", caller must release
+using MTLLibrary library = device.NewDefaultLibrary();
+
+// Borrowed — property getter, retained by the parent object
+MTLDevice device = commandQueue.Device;
+```
+
+### GC-Safe Dispose
+
+`NativeObject` implements the full dispose pattern with a finalizer. `Release()` uses `Interlocked.Exchange` to guarantee exactly-once semantics, making double-`Dispose()` and GC finalization safe:
+
+```csharp
+public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDisposable
+{
+    ~NativeObject() => Release();
+
+    public void Dispose() { Release(); GC.SuppressFinalize(this); }
+
+    private void Release()
+    {
+        if (Interlocked.Exchange(ref disposed, 1) is not 0) return;
+        if (OwnsReference) ObjectiveCRuntime.Release(NativePtr);
+    }
+}
+```
+
 ## Generated Code Patterns
 
 ### INativeObject\<TSelf\>
 
-All ObjC wrappers implement `INativeObject<TSelf>`, a static abstract factory interface that enables generic construction from raw pointers:
+All ObjC wrappers implement `INativeObject<TSelf>`, a static abstract factory interface:
 
 ```csharp
 public interface INativeObject<TSelf> where TSelf : NativeObject, INativeObject<TSelf>
 {
-    static abstract TSelf Create(nint nativePtr);
+    static abstract TSelf Create(nint nativePtr, bool ownsReference);
 }
 ```
 
-This allows `NativeObject.GetProperty<T>` and `NSArray.ObjectAtIndex<T>` to create wrapper instances through the `T.Create(nativePtr)` factory call, eliminating nullable returns for property accessors.
+This enables `GetProperty<T>` and `NSArray.ToArray<T>` to construct typed wrappers through `T.Create(nativePtr, false)` without reflection.
 
 ### Classes
 
-All ObjC wrappers inherit from `NativeObject`, which holds a raw Objective-C pointer and decrements its reference count (`release`) on dispose.
-Classes use C# 14.0 primary constructors and the `field` keyword for cached properties:
+All ObjC wrappers use C# 14.0 primary constructors with the `field` keyword for cached properties:
 
 ```csharp
-public class MTLCommandQueue(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLCommandQueue>
+public class MTLCommandQueue(nint nativePtr, bool ownsReference)
+    : NativeObject(nativePtr, ownsReference), INativeObject<MTLCommandQueue>
 {
-    public static MTLCommandQueue Create(nint nativePtr) => new(nativePtr);
+    public static MTLCommandQueue Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
+    // Borrowed — property getter returns a cached wrapper
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTLCommandQueueBindings.Device);
     }
 
+    // Borrowed — commandBuffer is not a new/alloc/copy selector
     public MTLCommandBuffer CommandBuffer()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBuffer);
 
-        return new(nativePtr);
+        return new(nativePtr, false);
+    }
+}
+```
+
+### Bool Properties
+
+ObjC `BOOL` properties are exposed as `Bool8` to avoid implicit conversion overhead:
+
+```csharp
+public Bool8 IsHeadless
+{
+    get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.IsHeadless);
+}
+```
+
+### Array Properties
+
+NSArray properties are marshalled as idiomatic C# arrays (`T[]`):
+
+```csharp
+public MTLBinaryArchive[] BinaryArchives
+{
+    get => GetArrayProperty<MTLBinaryArchive>(MTLComputePipelineDescriptorBindings.BinaryArchives);
+    set => SetArrayProperty(MTLComputePipelineDescriptorBindings.SetBinaryArchives, value);
+}
+```
+
+### Indexers
+
+ObjC `objectAtIndexedSubscript:` / `setObject:atIndexedSubscript:` pairs are emitted as C# indexers:
+
+```csharp
+public MTLRenderPipelineColorAttachmentDescriptor this[nuint attachmentIndex]
+{
+    get
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, Bindings.Object, attachmentIndex);
+
+        return new(nativePtr, false);
+    }
+    set
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, Bindings.SetObject, value.NativePtr, attachmentIndex);
     }
 }
 ```
@@ -80,6 +162,8 @@ C functions are placed as static methods in their corresponding class:
 
 ```csharp
 using MTLDevice device = MTLDevice.CreateSystemDefaultDevice();
+
+MTLDevice[] allDevices = MTLDevice.CopyAllDevices();
 ```
 
 ## Updating Bindings
