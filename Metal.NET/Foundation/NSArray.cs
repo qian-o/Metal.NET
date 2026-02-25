@@ -13,8 +13,7 @@ public class NSArray(nint nativePtr, bool ownsReference) : NativeObject(nativePt
     }
 
     /// <summary>
-    /// Returns the object at the given index.
-    /// The returned pointer is borrowed (not +1 retained) per Objective-C conventions.
+    /// Returns the object at the given index as a borrowed reference.
     /// </summary>
     public T ObjectAtIndex<T>(nuint index) where T : NativeObject, INativeObject<T>
     {
