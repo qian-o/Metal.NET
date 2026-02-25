@@ -26,7 +26,7 @@ public class MTLDynamicLibrary(nint nativePtr, NativeObjectOwnership ownership) 
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDynamicLibraryBindings.SerializeToURL, url.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, NativeObjectOwnership.Borrowed);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return result;
     }

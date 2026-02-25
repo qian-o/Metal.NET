@@ -52,7 +52,7 @@ public class MTLBuffer(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewTensor, descriptor.NativePtr, offset, out nint errorPtr);
 
-        error = new(errorPtr, NativeObjectOwnership.Borrowed);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

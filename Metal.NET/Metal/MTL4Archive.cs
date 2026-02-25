@@ -16,7 +16,7 @@ public class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership) : Nati
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewBinaryFunction, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, NativeObjectOwnership.Borrowed);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -25,7 +25,7 @@ public class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership) : Nati
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewComputePipelineState, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, NativeObjectOwnership.Borrowed);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -34,7 +34,7 @@ public class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership) : Nati
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewComputePipelineStateWithDescriptordynamicLinkingDescriptorerror, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, NativeObjectOwnership.Borrowed);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -43,7 +43,7 @@ public class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership) : Nati
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewRenderPipelineState, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, NativeObjectOwnership.Borrowed);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -52,7 +52,7 @@ public class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership) : Nati
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewRenderPipelineStateWithDescriptordynamicLinkingDescriptorerror, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, NativeObjectOwnership.Borrowed);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

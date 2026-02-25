@@ -36,8 +36,8 @@ Every `NativeObject` wrapper has a [`NativeObjectOwnership`](Metal.NET/Common/Na
 
 | Ownership | `Dispose()` releases | Finalizer releases | Usage |
 |-----------|:--------------------:|:------------------:|-------|
-| `Borrowed` | ✗ | ✗ | Property getters, `objectAtIndex:`, `out NSError` |
-| `Owned` | ✓ | ✗ | Method return values |
+| `Borrowed` | ✗ | ✗ | Property getters, `objectAtIndex:` |
+| `Owned` | ✓ | ✗ | Method return values, `out NSError` |
 | `Managed` | ✓ | ✓ | Objects created via parameterless constructor (`AllocInit`) |
 
 ```csharp

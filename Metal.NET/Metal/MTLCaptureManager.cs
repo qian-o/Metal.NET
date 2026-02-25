@@ -53,7 +53,7 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerBindings.StartCapture, descriptor.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, NativeObjectOwnership.Borrowed);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return result;
     }

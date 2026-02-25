@@ -88,7 +88,7 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
 
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineStateWithBinaryFunctions, pAdditionalBinaryFunctions, out nint errorPtr);
 
-        error = new(errorPtr, NativeObjectOwnership.Borrowed);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
         ObjectiveCRuntime.Release(pAdditionalBinaryFunctions);
 
@@ -101,7 +101,7 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
 
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineState, pFunctions, out nint errorPtr);
 
-        error = new(errorPtr, NativeObjectOwnership.Borrowed);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
         ObjectiveCRuntime.Release(pFunctions);
 

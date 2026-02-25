@@ -10,7 +10,7 @@ public class MTL4PipelineDataSetSerializer(nint nativePtr, NativeObjectOwnership
     {
         bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4PipelineDataSetSerializerBindings.SerializeAsArchiveAndFlushToURL, url.NativePtr, out nint errorPtr);
 
-        error = new(errorPtr, NativeObjectOwnership.Borrowed);
+        error = new(errorPtr, NativeObjectOwnership.Owned);
 
         return result;
     }

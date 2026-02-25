@@ -962,7 +962,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             if (hasOutError)
             {
                 sb.AppendLine();
-                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Borrowed);");
+                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
             }
             foreach (string rv in nsArrayReleaseVars)
             {
@@ -976,7 +976,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 sb.AppendLine($"{indent}nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Borrowed);");
+                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
                 foreach (string rv in nsArrayReleaseVars)
                 {
                     sb.AppendLine();
@@ -1003,7 +1003,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 sb.AppendLine($"{indent}nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Borrowed);");
+                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
                 foreach (string rv in nsArrayReleaseVars)
                 {
                     sb.AppendLine();
@@ -1031,7 +1031,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 sb.AppendLine($"{indent}{returnType} result = ({returnType}){msgSend}({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Borrowed);");
+                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}return result;");
             }
@@ -1046,7 +1046,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 sb.AppendLine($"{indent}bool result = ObjectiveCRuntime.MsgSendBool({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Borrowed);");
+                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}return result;");
             }
@@ -1062,7 +1062,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 sb.AppendLine($"{indent}{returnType} result = ObjectiveCRuntime.{msgSend}({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Borrowed);");
+                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}return result;");
             }
@@ -1079,7 +1079,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 sb.AppendLine($"{indent}{csReturnType} result = {retCast}ObjectiveCRuntime.{msgSend}({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Borrowed);");
+                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}return result;");
             }
