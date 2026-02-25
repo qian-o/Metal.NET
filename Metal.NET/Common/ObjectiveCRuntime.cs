@@ -2292,9 +2292,19 @@ public static partial class ObjectiveCRuntime
 
     #endregion
 
+    public static nint Alloc(nint @class)
+    {
+        return MsgSendPtr(@class, (Selector)"alloc");
+    }
+
+    public static nint Init(nint receiver)
+    {
+        return MsgSendPtr(receiver, (Selector)"init");
+    }
+
     public static nint AllocInit(nint @class)
     {
-        return MsgSendPtr(MsgSendPtr(@class, (Selector)"alloc"), (Selector)"init");
+        return Init(Alloc(@class));
     }
 
     public static nint Retain(nint receiver)

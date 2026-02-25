@@ -14,8 +14,7 @@ public class NSURL(nint nativePtr) : NativeObject(nativePtr), INativeObject<NSUR
 
     public static implicit operator NSURL(NSString value)
     {
-        nint allocPtr = ObjectiveCRuntime.MsgSendPtr(NSURLBindings.Class, NSURLBindings.Alloc);
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(allocPtr, NSURLBindings.InitFileURLWithPath, value.NativePtr);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.Alloc(NSURLBindings.Class), NSURLBindings.InitFileURLWithPath, value.NativePtr);
 
         return new(nativePtr);
     }
@@ -24,8 +23,6 @@ public class NSURL(nint nativePtr) : NativeObject(nativePtr), INativeObject<NSUR
 file static class NSURLBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("NSURL");
-
-    public static readonly Selector Alloc = "alloc";
 
     public static readonly Selector FileSystemRepresentation = "fileSystemRepresentation";
 
