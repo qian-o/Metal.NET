@@ -323,8 +323,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         if (indexerGetter != null)
         {
-            string getterSelectorObjC = "objectAtIndexedSubscript:";
-            string setterSelectorObjC = "setObject:atIndexedSubscript:";
+            const string getterSelectorObjC = "objectAtIndexedSubscript:";
+            const string setterSelectorObjC = "setObject:atIndexedSubscript:";
+
             selectors.TryAdd("Object", getterSelectorObjC);
 
             string elemType = TypeMapper.MapCppType(indexerGetter.ReturnType, classDef.CppNamespace);
