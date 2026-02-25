@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionStitchingAttributeAlwaysInline(nint nativePtr) : MTLFunctionStitchingAttribute(nativePtr), INativeObject<MTLFunctionStitchingAttributeAlwaysInline>
+public class MTLFunctionStitchingAttributeAlwaysInline(nint nativePtr, bool ownsReference) : MTLFunctionStitchingAttribute(nativePtr, ownsReference), INativeObject<MTLFunctionStitchingAttributeAlwaysInline>
 {
-    public static new MTLFunctionStitchingAttributeAlwaysInline Create(nint nativePtr) => new(nativePtr);
+    public static new MTLFunctionStitchingAttributeAlwaysInline Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLFunctionStitchingAttributeAlwaysInline() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingAttributeAlwaysInlineBindings.Class))
+    public MTLFunctionStitchingAttributeAlwaysInline() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingAttributeAlwaysInlineBindings.Class), true)
     {
     }
 }

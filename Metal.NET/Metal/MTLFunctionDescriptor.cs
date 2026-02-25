@@ -1,17 +1,17 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFunctionDescriptor>
+public class MTLFunctionDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFunctionDescriptor>
 {
-    public static MTLFunctionDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static MTLFunctionDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFunctionDescriptorBindings.Class))
+    public MTLFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFunctionDescriptorBindings.Class), true)
     {
     }
 
-    public NSArray BinaryArchives
+    public MTLBinaryArchive[] BinaryArchives
     {
-        get => GetProperty(ref field, MTLFunctionDescriptorBindings.BinaryArchives);
-        set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetBinaryArchives, value);
+        get => GetArrayProperty<MTLBinaryArchive>(MTLFunctionDescriptorBindings.BinaryArchives);
+        set => SetArrayProperty(MTLFunctionDescriptorBindings.SetBinaryArchives, value);
     }
 
     public MTLFunctionConstantValues ConstantValues
@@ -42,7 +42,7 @@ public class MTLFunctionDescriptor(nint nativePtr) : NativeObject(nativePtr), IN
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLFunctionDescriptorBindings.Class, MTLFunctionDescriptorBindings.FunctionDescriptor);
 
-        return new(nativePtr);
+        return new(nativePtr, false);
     }
 }
 

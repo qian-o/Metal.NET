@@ -1,17 +1,17 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionStitchingGraph(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFunctionStitchingGraph>
+public class MTLFunctionStitchingGraph(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFunctionStitchingGraph>
 {
-    public static MTLFunctionStitchingGraph Create(nint nativePtr) => new(nativePtr);
+    public static MTLFunctionStitchingGraph Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLFunctionStitchingGraph() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingGraphBindings.Class))
+    public MTLFunctionStitchingGraph() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingGraphBindings.Class), true)
     {
     }
 
-    public NSArray Attributes
+    public MTLFunctionStitchingAttribute[] Attributes
     {
-        get => GetProperty(ref field, MTLFunctionStitchingGraphBindings.Attributes);
-        set => SetProperty(ref field, MTLFunctionStitchingGraphBindings.SetAttributes, value);
+        get => GetArrayProperty<MTLFunctionStitchingAttribute>(MTLFunctionStitchingGraphBindings.Attributes);
+        set => SetArrayProperty(MTLFunctionStitchingGraphBindings.SetAttributes, value);
     }
 
     public NSString FunctionName
@@ -20,10 +20,10 @@ public class MTLFunctionStitchingGraph(nint nativePtr) : NativeObject(nativePtr)
         set => SetProperty(ref field, MTLFunctionStitchingGraphBindings.SetFunctionName, value);
     }
 
-    public NSArray Nodes
+    public MTLFunctionStitchingFunctionNode[] Nodes
     {
-        get => GetProperty(ref field, MTLFunctionStitchingGraphBindings.Nodes);
-        set => SetProperty(ref field, MTLFunctionStitchingGraphBindings.SetNodes, value);
+        get => GetArrayProperty<MTLFunctionStitchingFunctionNode>(MTLFunctionStitchingGraphBindings.Nodes);
+        set => SetArrayProperty(MTLFunctionStitchingGraphBindings.SetNodes, value);
     }
 
     public MTLFunctionStitchingFunctionNode OutputNode

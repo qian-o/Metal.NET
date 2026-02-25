@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionHandle(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFunctionHandle>
+public class MTLFunctionHandle(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFunctionHandle>
 {
-    public static MTLFunctionHandle Create(nint nativePtr) => new(nativePtr);
+    public static MTLFunctionHandle Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLDevice Device
     {

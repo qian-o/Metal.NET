@@ -1,14 +1,14 @@
 ﻿namespace Metal.NET;
 
-public class MTLVertexAttribute(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLVertexAttribute>
+public class MTLVertexAttribute(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLVertexAttribute>
 {
-    public static MTLVertexAttribute Create(nint nativePtr) => new(nativePtr);
+    public static MTLVertexAttribute Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLVertexAttribute() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeBindings.Class))
+    public MTLVertexAttribute() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeBindings.Class), true)
     {
     }
 
-    public bool Active
+    public Bool8 Active
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.Active);
     }
@@ -23,17 +23,17 @@ public class MTLVertexAttribute(nint nativePtr) : NativeObject(nativePtr), INati
         get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeBindings.AttributeType);
     }
 
-    public bool IsActive
+    public Bool8 IsActive
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsActive);
     }
 
-    public bool IsPatchControlPointData
+    public Bool8 IsPatchControlPointData
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsPatchControlPointData);
     }
 
-    public bool IsPatchData
+    public Bool8 IsPatchData
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsPatchData);
     }
@@ -43,12 +43,12 @@ public class MTLVertexAttribute(nint nativePtr) : NativeObject(nativePtr), INati
         get => GetProperty(ref field, MTLVertexAttributeBindings.Name);
     }
 
-    public bool PatchControlPointData
+    public Bool8 PatchControlPointData
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.PatchControlPointData);
     }
 
-    public bool PatchData
+    public Bool8 PatchData
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.PatchData);
     }

@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLResourceViewPool(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLResourceViewPool>
+public class MTLResourceViewPool(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLResourceViewPool>
 {
-    public static MTLResourceViewPool Create(nint nativePtr) => new(nativePtr);
+    public static MTLResourceViewPool Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLResourceID BaseResourceID
     {

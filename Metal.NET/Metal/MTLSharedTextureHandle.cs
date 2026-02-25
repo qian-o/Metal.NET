@@ -1,13 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLSharedTextureHandle(nint nativePtr) : NativeObject(nativePtr)
+public class MTLSharedTextureHandle(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference)
 {
-    public MTLDevice? Device
+    public MTLDevice Device
     {
         get => GetProperty(ref field, MTLSharedTextureHandleBindings.Device);
     }
 
-    public NSString? Label
+    public NSString Label
     {
         get => GetProperty(ref field, MTLSharedTextureHandleBindings.Label);
     }

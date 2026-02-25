@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLResidencySet(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLResidencySet>
+public class MTLResidencySet(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLResidencySet>
 {
-    public static MTLResidencySet Create(nint nativePtr) => new(nativePtr);
+    public static MTLResidencySet Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public NSArray AllAllocations
+    public MTLAllocation[] AllAllocations
     {
-        get => GetProperty(ref field, MTLResidencySetBindings.AllAllocations);
+        get => GetArrayProperty<MTLAllocation>(MTLResidencySetBindings.AllAllocations);
     }
 
     public ulong AllocatedSize

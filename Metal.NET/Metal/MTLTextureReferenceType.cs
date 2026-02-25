@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLTextureReferenceType(nint nativePtr) : MTLType(nativePtr), INativeObject<MTLTextureReferenceType>
+public class MTLTextureReferenceType(nint nativePtr, bool ownsReference) : MTLType(nativePtr, ownsReference), INativeObject<MTLTextureReferenceType>
 {
-    public static new MTLTextureReferenceType Create(nint nativePtr) => new(nativePtr);
+    public static new MTLTextureReferenceType Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLTextureReferenceType() : this(ObjectiveCRuntime.AllocInit(MTLTextureReferenceTypeBindings.Class))
+    public MTLTextureReferenceType() : this(ObjectiveCRuntime.AllocInit(MTLTextureReferenceTypeBindings.Class), true)
     {
     }
 
@@ -13,7 +13,7 @@ public class MTLTextureReferenceType(nint nativePtr) : MTLType(nativePtr), INati
         get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureReferenceTypeBindings.Access);
     }
 
-    public bool IsDepthTexture
+    public Bool8 IsDepthTexture
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureReferenceTypeBindings.IsDepthTexture);
     }

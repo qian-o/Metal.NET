@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructure(nint nativePtr) : MTLResource(nativePtr), INativeObject<MTLAccelerationStructure>
+public class MTLAccelerationStructure(nint nativePtr, bool ownsReference) : MTLResource(nativePtr, ownsReference), INativeObject<MTLAccelerationStructure>
 {
-    public static new MTLAccelerationStructure Create(nint nativePtr) => new(nativePtr);
+    public static new MTLAccelerationStructure Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLResourceID GpuResourceID
     {

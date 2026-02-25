@@ -1,29 +1,29 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLRenderPipelineDescriptor>
+public class MTLRenderPipelineDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLRenderPipelineDescriptor>
 {
-    public static MTLRenderPipelineDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static MTLRenderPipelineDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineDescriptorBindings.Class))
+    public MTLRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineDescriptorBindings.Class), true)
     {
     }
 
-    public bool AlphaToCoverageEnabled
+    public Bool8 AlphaToCoverageEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.AlphaToCoverageEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetAlphaToCoverageEnabled, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetAlphaToCoverageEnabled, value);
     }
 
-    public bool AlphaToOneEnabled
+    public Bool8 AlphaToOneEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.AlphaToOneEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetAlphaToOneEnabled, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetAlphaToOneEnabled, value);
     }
 
-    public NSArray BinaryArchives
+    public MTLBinaryArchive[] BinaryArchives
     {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.BinaryArchives);
-        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetBinaryArchives, value);
+        get => GetArrayProperty<MTLBinaryArchive>(MTLRenderPipelineDescriptorBindings.BinaryArchives);
+        set => SetArrayProperty(MTLRenderPipelineDescriptorBindings.SetBinaryArchives, value);
     }
 
     public MTLRenderPipelineColorAttachmentDescriptorArray ColorAttachments
@@ -54,10 +54,10 @@ public class MTLRenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePt
         set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetFragmentLinkedFunctions, value);
     }
 
-    public NSArray FragmentPreloadedLibraries
+    public MTLDynamicLibrary[] FragmentPreloadedLibraries
     {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.FragmentPreloadedLibraries);
-        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetFragmentPreloadedLibraries, value);
+        get => GetArrayProperty<MTLDynamicLibrary>(MTLRenderPipelineDescriptorBindings.FragmentPreloadedLibraries);
+        set => SetArrayProperty(MTLRenderPipelineDescriptorBindings.SetFragmentPreloadedLibraries, value);
     }
 
     public MTLPrimitiveTopologyClass InputPrimitiveTopology
@@ -66,22 +66,22 @@ public class MTLRenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePt
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetInputPrimitiveTopology, (nuint)value);
     }
 
-    public bool IsAlphaToCoverageEnabled
+    public Bool8 IsAlphaToCoverageEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.IsAlphaToCoverageEnabled);
     }
 
-    public bool IsAlphaToOneEnabled
+    public Bool8 IsAlphaToOneEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.IsAlphaToOneEnabled);
     }
 
-    public bool IsRasterizationEnabled
+    public Bool8 IsRasterizationEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.IsRasterizationEnabled);
     }
 
-    public bool IsTessellationFactorScaleEnabled
+    public Bool8 IsTessellationFactorScaleEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.IsTessellationFactorScaleEnabled);
     }
@@ -122,10 +122,10 @@ public class MTLRenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePt
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetRasterSampleCount, value);
     }
 
-    public bool RasterizationEnabled
+    public Bool8 RasterizationEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.RasterizationEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetRasterizationEnabled, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetRasterizationEnabled, value);
     }
 
     public nuint SampleCount
@@ -146,22 +146,22 @@ public class MTLRenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePt
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetStencilAttachmentPixelFormat, (nuint)value);
     }
 
-    public bool SupportAddingFragmentBinaryFunctions
+    public Bool8 SupportAddingFragmentBinaryFunctions
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.SupportAddingFragmentBinaryFunctions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetSupportAddingFragmentBinaryFunctions, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetSupportAddingFragmentBinaryFunctions, value);
     }
 
-    public bool SupportAddingVertexBinaryFunctions
+    public Bool8 SupportAddingVertexBinaryFunctions
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.SupportAddingVertexBinaryFunctions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetSupportAddingVertexBinaryFunctions, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetSupportAddingVertexBinaryFunctions, value);
     }
 
-    public bool SupportIndirectCommandBuffers
+    public Bool8 SupportIndirectCommandBuffers
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.SupportIndirectCommandBuffers);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetSupportIndirectCommandBuffers, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetSupportIndirectCommandBuffers, value);
     }
 
     public MTLTessellationControlPointIndexType TessellationControlPointIndexType
@@ -176,10 +176,10 @@ public class MTLRenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePt
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationFactorFormat, (nuint)value);
     }
 
-    public bool TessellationFactorScaleEnabled
+    public Bool8 TessellationFactorScaleEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.TessellationFactorScaleEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationFactorScaleEnabled, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationFactorScaleEnabled, value);
     }
 
     public MTLTessellationFactorStepFunction TessellationFactorStepFunction
@@ -223,10 +223,10 @@ public class MTLRenderPipelineDescriptor(nint nativePtr) : NativeObject(nativePt
         set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetVertexLinkedFunctions, value);
     }
 
-    public NSArray VertexPreloadedLibraries
+    public MTLDynamicLibrary[] VertexPreloadedLibraries
     {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.VertexPreloadedLibraries);
-        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetVertexPreloadedLibraries, value);
+        get => GetArrayProperty<MTLDynamicLibrary>(MTLRenderPipelineDescriptorBindings.VertexPreloadedLibraries);
+        set => SetArrayProperty(MTLRenderPipelineDescriptorBindings.SetVertexPreloadedLibraries, value);
     }
 
     public void Reset()

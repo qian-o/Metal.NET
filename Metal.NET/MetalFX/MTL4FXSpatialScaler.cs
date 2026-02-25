@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTL4FXSpatialScaler(nint nativePtr) : MTLFXSpatialScalerBase(nativePtr), INativeObject<MTL4FXSpatialScaler>
+public class MTL4FXSpatialScaler(nint nativePtr, bool ownsReference) : MTLFXSpatialScalerBase(nativePtr, ownsReference), INativeObject<MTL4FXSpatialScaler>
 {
-    public static new MTL4FXSpatialScaler Create(nint nativePtr) => new(nativePtr);
+    public static new MTL4FXSpatialScaler Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public void EncodeToCommandBuffer(MTL4CommandBuffer pCommandBuffer)
     {

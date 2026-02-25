@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : MTLFXFrameInterpolatableScaler(nativePtr), INativeObject<MTLFXTemporalDenoisedScalerBase>
+public class MTLFXTemporalDenoisedScalerBase(nint nativePtr, bool ownsReference) : MTLFXFrameInterpolatableScaler(nativePtr, ownsReference), INativeObject<MTLFXTemporalDenoisedScalerBase>
 {
-    public static new MTLFXTemporalDenoisedScalerBase Create(nint nativePtr) => new(nativePtr);
+    public static new MTLFXTemporalDenoisedScalerBase Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLTexture ColorTexture
     {
@@ -100,7 +100,7 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : MTLFXFrameInterpo
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.InputWidth);
     }
 
-    public bool IsDepthReversed
+    public Bool8 IsDepthReversed
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.IsDepthReversed);
     }
@@ -225,10 +225,10 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr) : MTLFXFrameInterpo
         get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.RoughnessTextureUsage);
     }
 
-    public bool ShouldResetHistory
+    public Bool8 ShouldResetHistory
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.ShouldResetHistory);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetShouldResetHistory, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetShouldResetHistory, value);
     }
 
     public MTLTexture SpecularAlbedoTexture

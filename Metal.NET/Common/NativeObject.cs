@@ -6,39 +6,52 @@
 /// <typeparam name="TSelf">The concrete wrapper type.</typeparam>
 public interface INativeObject<TSelf> where TSelf : NativeObject, INativeObject<TSelf>
 {
-    static abstract TSelf Create(nint nativePtr);
+    /// <summary>
+    /// Creates a managed wrapper around the given native pointer.
+    /// </summary>
+    static abstract TSelf Create(nint nativePtr, bool ownsReference);
 }
 
 /// <summary>
 /// Abstract base class for managed wrappers around Objective-C objects.
-/// Each instance holds a raw pointer (<see cref="NativePtr"/>) to an Objective-C object
-/// and decrements its reference count by sending <c>release</c> on <see cref="Dispose"/>.
+/// Holds a native pointer and, when the instance owns the reference,
+/// sends <c>release</c> exactly once — either via <see cref="Dispose()"/>
+/// or via the finalizer.
 /// </summary>
-/// <param name="nativePtr">A non-zero Objective-C object pointer (<c>id</c>).</param>
-public abstract class NativeObject(nint nativePtr) : IDisposable
+/// <param name="nativePtr">The Objective-C object pointer (<c>id</c>).</param>
+/// <param name="ownsReference">
+/// <see langword="true"/> to send <c>release</c> on disposal;
+/// <see langword="false"/> for borrowed references that must not be released.
+/// </param>
+public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDisposable
 {
+    private volatile uint disposed;
+
     /// <summary>
-    /// The raw pointer (<c>id</c>) to the wrapped Objective-C object.
+    /// Release the native reference if it has not been released yet.
+    /// </summary>
+    ~NativeObject()
+    {
+        Release();
+    }
+
+    /// <summary>
+    /// The raw pointer (<c>id</c>) to the underlying Objective-C object.
     /// </summary>
     public nint NativePtr { get; } = nativePtr;
 
     /// <summary>
-    /// Returns <see langword="true"/> when the native pointer is zero (nil).
+    /// Indicates whether this instance owns the native reference.
+    /// </summary>
+    public bool OwnsReference { get; } = ownsReference;
+
+    /// <summary>
+    /// Indicates whether the native pointer is zero (<c>nil</c>).
     /// </summary>
     public bool IsNull => NativePtr is 0;
 
-    public void Retain()
-    {
-        ObjectiveCRuntime.Retain(NativePtr);
-    }
-
-    public void Release()
-    {
-        ObjectiveCRuntime.Release(NativePtr);
-    }
-
     /// <summary>
-    /// Sends <c>release</c> to the underlying Objective-C object, decrementing its reference count.
+    /// Releases the native reference (if owned) and suppresses finalization.
     /// </summary>
     public void Dispose()
     {
@@ -48,35 +61,68 @@ public abstract class NativeObject(nint nativePtr) : IDisposable
     }
 
     /// <summary>
-    /// Invokes an Objective-C property getter via <c>objc_msgSend</c> and returns a managed wrapper.
-    /// The wrapper is lazily created and cached in <paramref name="field"/>;
-    /// it is re-created only when the returned native pointer differs from the cached one.
+    /// Reads an Objective-C object property and returns a cached, borrowed wrapper.
+    /// The wrapper is re-created only when the underlying pointer changes.
     /// </summary>
-    /// <param name="field">Backing field that caches the managed wrapper between calls.</param>
-    /// <param name="selector">The Objective-C getter selector to invoke.</param>
-    /// <returns>A cached wrapper for the native object.</returns>
     protected T GetProperty<T>(ref T? field, Selector selector) where T : NativeObject, INativeObject<T>
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, selector);
 
         if (field is null || field.NativePtr != nativePtr)
         {
-            field = T.Create(nativePtr);
+            field = T.Create(nativePtr, false);
         }
 
         return field;
     }
 
     /// <summary>
-    /// Invokes an Objective-C property setter via <c>objc_msgSend</c> and updates the cached wrapper.
+    /// Writes an Objective-C object property and refreshes the cached wrapper.
     /// </summary>
-    /// <param name="field">Backing field that caches the managed wrapper between calls.</param>
-    /// <param name="selector">The Objective-C setter selector to invoke.</param>
-    /// <param name="value">The new value.</param>
     protected void SetProperty<T>(ref T? field, Selector selector, T value) where T : NativeObject, INativeObject<T>
     {
         ObjectiveCRuntime.MsgSend(NativePtr, selector, value.NativePtr);
 
         GetProperty(ref field, selector);
+    }
+
+    /// <summary>
+    /// Reads an Objective-C NSArray property and converts it to a C# array.
+    /// Each element is a borrowed reference (not retained by the wrapper).
+    /// </summary>
+    protected T[] GetArrayProperty<T>(Selector selector) where T : NativeObject, INativeObject<T>
+    {
+        nint arrayPtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, selector);
+
+        return NSArray.ToArray<T>(arrayPtr);
+    }
+
+    /// <summary>
+    /// Creates a temporary NSArray from a C# array, sets the Objective-C property,
+    /// and releases the temporary NSArray.
+    /// </summary>
+    protected void SetArrayProperty<T>(Selector selector, T[] value) where T : NativeObject
+    {
+        nint arrayPtr = NSArray.FromArray(value);
+
+        ObjectiveCRuntime.MsgSend(NativePtr, selector, arrayPtr);
+
+        ObjectiveCRuntime.Release(arrayPtr);
+    }
+
+    /// <summary>
+    /// Sends <c>release</c> to the native object at most once (thread-safe).
+    /// </summary>
+    private void Release()
+    {
+        if (Interlocked.Exchange(ref disposed, 1) is not 0)
+        {
+            return;
+        }
+
+        if (OwnsReference)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 }

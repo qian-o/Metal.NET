@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLVertexDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLVertexDescriptor>
+public class MTLVertexDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLVertexDescriptor>
 {
-    public static MTLVertexDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static MTLVertexDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLVertexDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexDescriptorBindings.Class))
+    public MTLVertexDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexDescriptorBindings.Class), true)
     {
     }
 
@@ -27,7 +27,7 @@ public class MTLVertexDescriptor(nint nativePtr) : NativeObject(nativePtr), INat
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLVertexDescriptorBindings.Class, MTLVertexDescriptorBindings.VertexDescriptor);
 
-        return new(nativePtr);
+        return new(nativePtr, false);
     }
 }
 

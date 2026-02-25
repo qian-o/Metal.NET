@@ -1,16 +1,16 @@
 ﻿namespace Metal.NET;
 
-public class MTL4MachineLearningPipelineReflection(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4MachineLearningPipelineReflection>
+public class MTL4MachineLearningPipelineReflection(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4MachineLearningPipelineReflection>
 {
-    public static MTL4MachineLearningPipelineReflection Create(nint nativePtr) => new(nativePtr);
+    public static MTL4MachineLearningPipelineReflection Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTL4MachineLearningPipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTL4MachineLearningPipelineReflectionBindings.Class))
+    public MTL4MachineLearningPipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTL4MachineLearningPipelineReflectionBindings.Class), true)
     {
     }
 
-    public NSArray Bindings
+    public MTLBinding[] Bindings
     {
-        get => GetProperty(ref field, MTL4MachineLearningPipelineReflectionBindings.Bindings);
+        get => GetArrayProperty<MTLBinding>(MTL4MachineLearningPipelineReflectionBindings.Bindings);
     }
 }
 

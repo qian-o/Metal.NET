@@ -1,15 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLBinding(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLBinding>
+public class MTLBinding(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLBinding>
 {
-    public static MTLBinding Create(nint nativePtr) => new(nativePtr);
+    public static MTLBinding Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLBindingAccess Access
     {
         get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBindingBindings.Access);
     }
 
-    public bool Argument
+    public Bool8 Argument
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingBindings.Argument);
     }
@@ -19,12 +19,12 @@ public class MTLBinding(nint nativePtr) : NativeObject(nativePtr), INativeObject
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBindingBindings.Index);
     }
 
-    public bool IsArgument
+    public Bool8 IsArgument
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingBindings.IsArgument);
     }
 
-    public bool IsUsed
+    public Bool8 IsUsed
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingBindings.IsUsed);
     }
@@ -39,7 +39,7 @@ public class MTLBinding(nint nativePtr) : NativeObject(nativePtr), INativeObject
         get => (MTLBindingType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBindingBindings.Type);
     }
 
-    public bool Used
+    public Bool8 Used
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingBindings.Used);
     }

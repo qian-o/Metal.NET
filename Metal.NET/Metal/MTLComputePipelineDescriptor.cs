@@ -1,17 +1,17 @@
 ﻿namespace Metal.NET;
 
-public class MTLComputePipelineDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLComputePipelineDescriptor>
+public class MTLComputePipelineDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLComputePipelineDescriptor>
 {
-    public static MTLComputePipelineDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static MTLComputePipelineDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLComputePipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLComputePipelineDescriptorBindings.Class))
+    public MTLComputePipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLComputePipelineDescriptorBindings.Class), true)
     {
     }
 
-    public NSArray BinaryArchives
+    public MTLBinaryArchive[] BinaryArchives
     {
-        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.BinaryArchives);
-        set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetBinaryArchives, value);
+        get => GetArrayProperty<MTLBinaryArchive>(MTLComputePipelineDescriptorBindings.BinaryArchives);
+        set => SetArrayProperty(MTLComputePipelineDescriptorBindings.SetBinaryArchives, value);
     }
 
     public MTLPipelineBufferDescriptorArray Buffers
@@ -25,10 +25,10 @@ public class MTLComputePipelineDescriptor(nint nativePtr) : NativeObject(nativeP
         set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetComputeFunction, value);
     }
 
-    public NSArray InsertLibraries
+    public MTLDynamicLibrary[] InsertLibraries
     {
-        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.InsertLibraries);
-        set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetInsertLibraries, value);
+        get => GetArrayProperty<MTLDynamicLibrary>(MTLComputePipelineDescriptorBindings.InsertLibraries);
+        set => SetArrayProperty(MTLComputePipelineDescriptorBindings.SetInsertLibraries, value);
     }
 
     public NSString Label
@@ -55,10 +55,10 @@ public class MTLComputePipelineDescriptor(nint nativePtr) : NativeObject(nativeP
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetMaxTotalThreadsPerThreadgroup, value);
     }
 
-    public NSArray PreloadedLibraries
+    public MTLDynamicLibrary[] PreloadedLibraries
     {
-        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.PreloadedLibraries);
-        set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetPreloadedLibraries, value);
+        get => GetArrayProperty<MTLDynamicLibrary>(MTLComputePipelineDescriptorBindings.PreloadedLibraries);
+        set => SetArrayProperty(MTLComputePipelineDescriptorBindings.SetPreloadedLibraries, value);
     }
 
     public MTLSize RequiredThreadsPerThreadgroup
@@ -79,22 +79,22 @@ public class MTLComputePipelineDescriptor(nint nativePtr) : NativeObject(nativeP
         set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetStageInputDescriptor, value);
     }
 
-    public bool SupportAddingBinaryFunctions
+    public Bool8 SupportAddingBinaryFunctions
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLComputePipelineDescriptorBindings.SupportAddingBinaryFunctions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetSupportAddingBinaryFunctions, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetSupportAddingBinaryFunctions, value);
     }
 
-    public bool SupportIndirectCommandBuffers
+    public Bool8 SupportIndirectCommandBuffers
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLComputePipelineDescriptorBindings.SupportIndirectCommandBuffers);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetSupportIndirectCommandBuffers, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetSupportIndirectCommandBuffers, value);
     }
 
-    public bool ThreadGroupSizeIsMultipleOfThreadExecutionWidth
+    public Bool8 ThreadGroupSizeIsMultipleOfThreadExecutionWidth
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLComputePipelineDescriptorBindings.ThreadGroupSizeIsMultipleOfThreadExecutionWidth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetThreadGroupSizeIsMultipleOfThreadExecutionWidth, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetThreadGroupSizeIsMultipleOfThreadExecutionWidth, value);
     }
 
     public void Reset()

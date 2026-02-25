@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTL4ArgumentTable(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4ArgumentTable>
+public class MTL4ArgumentTable(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4ArgumentTable>
 {
-    public static MTL4ArgumentTable Create(nint nativePtr) => new(nativePtr);
+    public static MTL4ArgumentTable Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLDevice Device
     {

@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionConstant(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFunctionConstant>
+public class MTLFunctionConstant(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFunctionConstant>
 {
-    public static MTLFunctionConstant Create(nint nativePtr) => new(nativePtr);
+    public static MTLFunctionConstant Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLFunctionConstant() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantBindings.Class))
+    public MTLFunctionConstant() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantBindings.Class), true)
     {
     }
 
@@ -18,7 +18,7 @@ public class MTLFunctionConstant(nint nativePtr) : NativeObject(nativePtr), INat
         get => GetProperty(ref field, MTLFunctionConstantBindings.Name);
     }
 
-    public bool Required
+    public Bool8 Required
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFunctionConstantBindings.Required);
     }

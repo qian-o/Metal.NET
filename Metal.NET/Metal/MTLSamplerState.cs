@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLSamplerState(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLSamplerState>
+public class MTLSamplerState(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLSamplerState>
 {
-    public static MTLSamplerState Create(nint nativePtr) => new(nativePtr);
+    public static MTLSamplerState Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLDevice Device
     {

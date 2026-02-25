@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLSamplerDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLSamplerDescriptor>
+public class MTLSamplerDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLSamplerDescriptor>
 {
-    public static MTLSamplerDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static MTLSamplerDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLSamplerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLSamplerDescriptorBindings.Class))
+    public MTLSamplerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLSamplerDescriptorBindings.Class), true)
     {
     }
 
@@ -26,10 +26,10 @@ public class MTLSamplerDescriptor(nint nativePtr) : NativeObject(nativePtr), INa
         set => SetProperty(ref field, MTLSamplerDescriptorBindings.SetLabel, value);
     }
 
-    public bool LodAverage
+    public Bool8 LodAverage
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLSamplerDescriptorBindings.LodAverage);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetLodAverage, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetLodAverage, value);
     }
 
     public float LodBias
@@ -74,10 +74,10 @@ public class MTLSamplerDescriptor(nint nativePtr) : NativeObject(nativePtr), INa
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetMipFilter, (nuint)value);
     }
 
-    public bool NormalizedCoordinates
+    public Bool8 NormalizedCoordinates
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLSamplerDescriptorBindings.NormalizedCoordinates);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetNormalizedCoordinates, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetNormalizedCoordinates, value);
     }
 
     public MTLSamplerAddressMode RAddressMode
@@ -98,10 +98,10 @@ public class MTLSamplerDescriptor(nint nativePtr) : NativeObject(nativePtr), INa
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetSAddressMode, (nuint)value);
     }
 
-    public bool SupportArgumentBuffers
+    public Bool8 SupportArgumentBuffers
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLSamplerDescriptorBindings.SupportArgumentBuffers);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetSupportArgumentBuffers, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetSupportArgumentBuffers, value);
     }
 
     public MTLSamplerAddressMode TAddressMode

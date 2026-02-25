@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLIndirectComputeCommand(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLIndirectComputeCommand>
+public class MTLIndirectComputeCommand(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLIndirectComputeCommand>
 {
-    public static MTLIndirectComputeCommand Create(nint nativePtr) => new(nativePtr);
+    public static MTLIndirectComputeCommand Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public void ClearBarrier()
     {

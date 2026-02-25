@@ -3,9 +3,9 @@
 /// <summary>
 /// Wraps an Objective-C NSError with access to error code, domain, and localized description.
 /// </summary>
-public class NSError(nint nativePtr) : NativeObject(nativePtr), INativeObject<NSError>
+public class NSError(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<NSError>
 {
-    public static NSError Create(nint nativePtr) => new(nativePtr);
+    public static NSError Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public NSString LocalizedDescription
     {

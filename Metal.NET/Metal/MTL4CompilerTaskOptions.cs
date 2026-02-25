@@ -1,17 +1,17 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CompilerTaskOptions(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4CompilerTaskOptions>
+public class MTL4CompilerTaskOptions(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CompilerTaskOptions>
 {
-    public static MTL4CompilerTaskOptions Create(nint nativePtr) => new(nativePtr);
+    public static MTL4CompilerTaskOptions Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTL4CompilerTaskOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CompilerTaskOptionsBindings.Class))
+    public MTL4CompilerTaskOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CompilerTaskOptionsBindings.Class), true)
     {
     }
 
-    public NSArray LookupArchives
+    public MTL4Archive[] LookupArchives
     {
-        get => GetProperty(ref field, MTL4CompilerTaskOptionsBindings.LookupArchives);
-        set => SetProperty(ref field, MTL4CompilerTaskOptionsBindings.SetLookupArchives, value);
+        get => GetArrayProperty<MTL4Archive>(MTL4CompilerTaskOptionsBindings.LookupArchives);
+        set => SetArrayProperty(MTL4CompilerTaskOptionsBindings.SetLookupArchives, value);
     }
 }
 

@@ -1,36 +1,36 @@
 ﻿namespace Metal.NET;
 
-public class MTLLinkedFunctions(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLLinkedFunctions>
+public class MTLLinkedFunctions(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLLinkedFunctions>
 {
-    public static MTLLinkedFunctions Create(nint nativePtr) => new(nativePtr);
+    public static MTLLinkedFunctions Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(MTLLinkedFunctionsBindings.Class))
+    public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(MTLLinkedFunctionsBindings.Class), true)
     {
     }
 
-    public NSArray BinaryFunctions
+    public MTLFunction[] BinaryFunctions
     {
-        get => GetProperty(ref field, MTLLinkedFunctionsBindings.BinaryFunctions);
-        set => SetProperty(ref field, MTLLinkedFunctionsBindings.SetBinaryFunctions, value);
+        get => GetArrayProperty<MTLFunction>(MTLLinkedFunctionsBindings.BinaryFunctions);
+        set => SetArrayProperty(MTLLinkedFunctionsBindings.SetBinaryFunctions, value);
     }
 
-    public NSArray Functions
+    public MTLFunction[] Functions
     {
-        get => GetProperty(ref field, MTLLinkedFunctionsBindings.Functions);
-        set => SetProperty(ref field, MTLLinkedFunctionsBindings.SetFunctions, value);
+        get => GetArrayProperty<MTLFunction>(MTLLinkedFunctionsBindings.Functions);
+        set => SetArrayProperty(MTLLinkedFunctionsBindings.SetFunctions, value);
     }
 
-    public NSArray PrivateFunctions
+    public MTLFunction[] PrivateFunctions
     {
-        get => GetProperty(ref field, MTLLinkedFunctionsBindings.PrivateFunctions);
-        set => SetProperty(ref field, MTLLinkedFunctionsBindings.SetPrivateFunctions, value);
+        get => GetArrayProperty<MTLFunction>(MTLLinkedFunctionsBindings.PrivateFunctions);
+        set => SetArrayProperty(MTLLinkedFunctionsBindings.SetPrivateFunctions, value);
     }
 
     public static MTLLinkedFunctions LinkedFunctions()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLLinkedFunctionsBindings.Class, MTLLinkedFunctionsBindings.LinkedFunctions);
 
-        return new(nativePtr);
+        return new(nativePtr, false);
     }
 }
 

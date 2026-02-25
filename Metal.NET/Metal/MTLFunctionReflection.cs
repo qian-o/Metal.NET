@@ -1,16 +1,16 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionReflection(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFunctionReflection>
+public class MTLFunctionReflection(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFunctionReflection>
 {
-    public static MTLFunctionReflection Create(nint nativePtr) => new(nativePtr);
+    public static MTLFunctionReflection Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLFunctionReflection() : this(ObjectiveCRuntime.AllocInit(MTLFunctionReflectionBindings.Class))
+    public MTLFunctionReflection() : this(ObjectiveCRuntime.AllocInit(MTLFunctionReflectionBindings.Class), true)
     {
     }
 
-    public NSArray Bindings
+    public MTLBinding[] Bindings
     {
-        get => GetProperty(ref field, MTLFunctionReflectionBindings.Bindings);
+        get => GetArrayProperty<MTLBinding>(MTLFunctionReflectionBindings.Bindings);
     }
 }
 

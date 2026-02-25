@@ -1,17 +1,17 @@
 ﻿namespace Metal.NET;
 
-public class MTLCompileOptions(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLCompileOptions>
+public class MTLCompileOptions(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCompileOptions>
 {
-    public static MTLCompileOptions Create(nint nativePtr) => new(nativePtr);
+    public static MTLCompileOptions Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLCompileOptions() : this(ObjectiveCRuntime.AllocInit(MTLCompileOptionsBindings.Class))
+    public MTLCompileOptions() : this(ObjectiveCRuntime.AllocInit(MTLCompileOptionsBindings.Class), true)
     {
     }
 
-    public bool AllowReferencingUndefinedSymbols
+    public Bool8 AllowReferencingUndefinedSymbols
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCompileOptionsBindings.AllowReferencingUndefinedSymbols);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetAllowReferencingUndefinedSymbols, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetAllowReferencingUndefinedSymbols, value);
     }
 
     public MTLCompileSymbolVisibility CompileSymbolVisibility
@@ -20,16 +20,16 @@ public class MTLCompileOptions(nint nativePtr) : NativeObject(nativePtr), INativ
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetCompileSymbolVisibility, (nint)value);
     }
 
-    public bool EnableLogging
+    public Bool8 EnableLogging
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCompileOptionsBindings.EnableLogging);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetEnableLogging, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetEnableLogging, value);
     }
 
-    public bool FastMathEnabled
+    public Bool8 FastMathEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCompileOptionsBindings.FastMathEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetFastMathEnabled, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetFastMathEnabled, value);
     }
 
     public NSString InstallName
@@ -44,10 +44,10 @@ public class MTLCompileOptions(nint nativePtr) : NativeObject(nativePtr), INativ
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetLanguageVersion, (nuint)value);
     }
 
-    public NSArray Libraries
+    public MTLDynamicLibrary[] Libraries
     {
-        get => GetProperty(ref field, MTLCompileOptionsBindings.Libraries);
-        set => SetProperty(ref field, MTLCompileOptionsBindings.SetLibraries, value);
+        get => GetArrayProperty<MTLDynamicLibrary>(MTLCompileOptionsBindings.Libraries);
+        set => SetArrayProperty(MTLCompileOptionsBindings.SetLibraries, value);
     }
 
     public MTLLibraryType LibraryType
@@ -80,10 +80,10 @@ public class MTLCompileOptions(nint nativePtr) : NativeObject(nativePtr), INativ
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetOptimizationLevel, (nint)value);
     }
 
-    public bool PreserveInvariance
+    public Bool8 PreserveInvariance
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCompileOptionsBindings.PreserveInvariance);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetPreserveInvariance, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetPreserveInvariance, value);
     }
 
     public MTLSize RequiredThreadsPerThreadgroup

@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLPointerType(nint nativePtr) : MTLType(nativePtr), INativeObject<MTLPointerType>
+public class MTLPointerType(nint nativePtr, bool ownsReference) : MTLType(nativePtr, ownsReference), INativeObject<MTLPointerType>
 {
-    public static new MTLPointerType Create(nint nativePtr) => new(nativePtr);
+    public static new MTLPointerType Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLPointerType() : this(ObjectiveCRuntime.AllocInit(MTLPointerTypeBindings.Class))
+    public MTLPointerType() : this(ObjectiveCRuntime.AllocInit(MTLPointerTypeBindings.Class), true)
     {
     }
 
@@ -23,7 +23,7 @@ public class MTLPointerType(nint nativePtr) : MTLType(nativePtr), INativeObject<
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.DataSize);
     }
 
-    public bool ElementIsArgumentBuffer
+    public Bool8 ElementIsArgumentBuffer
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLPointerTypeBindings.ElementIsArgumentBuffer);
     }
@@ -37,14 +37,14 @@ public class MTLPointerType(nint nativePtr) : MTLType(nativePtr), INativeObject<
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeBindings.ElementArrayType);
 
-        return new(nativePtr);
+        return new(nativePtr, false);
     }
 
     public MTLStructType ElementStructType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeBindings.ElementStructType);
 
-        return new(nativePtr);
+        return new(nativePtr, false);
     }
 }
 

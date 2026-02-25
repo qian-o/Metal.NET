@@ -1,14 +1,14 @@
 ﻿namespace Metal.NET;
 
-public class MTLAttribute(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLAttribute>
+public class MTLAttribute(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLAttribute>
 {
-    public static MTLAttribute Create(nint nativePtr) => new(nativePtr);
+    public static MTLAttribute Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLAttribute() : this(ObjectiveCRuntime.AllocInit(MTLAttributeBindings.Class))
+    public MTLAttribute() : this(ObjectiveCRuntime.AllocInit(MTLAttributeBindings.Class), true)
     {
     }
 
-    public bool Active
+    public Bool8 Active
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeBindings.Active);
     }
@@ -23,17 +23,17 @@ public class MTLAttribute(nint nativePtr) : NativeObject(nativePtr), INativeObje
         get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeBindings.AttributeType);
     }
 
-    public bool IsActive
+    public Bool8 IsActive
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeBindings.IsActive);
     }
 
-    public bool IsPatchControlPointData
+    public Bool8 IsPatchControlPointData
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeBindings.IsPatchControlPointData);
     }
 
-    public bool IsPatchData
+    public Bool8 IsPatchData
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeBindings.IsPatchData);
     }
@@ -43,12 +43,12 @@ public class MTLAttribute(nint nativePtr) : NativeObject(nativePtr), INativeObje
         get => GetProperty(ref field, MTLAttributeBindings.Name);
     }
 
-    public bool PatchControlPointData
+    public Bool8 PatchControlPointData
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeBindings.PatchControlPointData);
     }
 
-    public bool PatchData
+    public Bool8 PatchData
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAttributeBindings.PatchData);
     }

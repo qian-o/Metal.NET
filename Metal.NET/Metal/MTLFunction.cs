@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunction(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLFunction>
+public class MTLFunction(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFunction>
 {
-    public static MTLFunction Create(nint nativePtr) => new(nativePtr);
+    public static MTLFunction Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLDevice Device
     {
@@ -40,21 +40,21 @@ public class MTLFunction(nint nativePtr) : NativeObject(nativePtr), INativeObjec
         get => (MTLPatchType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionBindings.PatchType);
     }
 
-    public NSArray StageInputAttributes
+    public MTLAttribute[] StageInputAttributes
     {
-        get => GetProperty(ref field, MTLFunctionBindings.StageInputAttributes);
+        get => GetArrayProperty<MTLAttribute>(MTLFunctionBindings.StageInputAttributes);
     }
 
-    public NSArray VertexAttributes
+    public MTLVertexAttribute[] VertexAttributes
     {
-        get => GetProperty(ref field, MTLFunctionBindings.VertexAttributes);
+        get => GetArrayProperty<MTLVertexAttribute>(MTLFunctionBindings.VertexAttributes);
     }
 
     public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionBindings.NewArgumentEncoder, bufferIndex);
 
-        return new(nativePtr);
+        return new(nativePtr, true);
     }
 }
 

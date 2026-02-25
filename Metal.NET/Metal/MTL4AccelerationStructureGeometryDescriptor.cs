@@ -1,17 +1,17 @@
 ﻿namespace Metal.NET;
 
-public class MTL4AccelerationStructureGeometryDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4AccelerationStructureGeometryDescriptor>
+public class MTL4AccelerationStructureGeometryDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4AccelerationStructureGeometryDescriptor>
 {
-    public static MTL4AccelerationStructureGeometryDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static MTL4AccelerationStructureGeometryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTL4AccelerationStructureGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureGeometryDescriptorBindings.Class))
+    public MTL4AccelerationStructureGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureGeometryDescriptorBindings.Class), true)
     {
     }
 
-    public bool AllowDuplicateIntersectionFunctionInvocation
+    public Bool8 AllowDuplicateIntersectionFunctionInvocation
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.AllowDuplicateIntersectionFunctionInvocation);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetAllowDuplicateIntersectionFunctionInvocation, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetAllowDuplicateIntersectionFunctionInvocation, value);
     }
 
     public nuint IntersectionFunctionTableOffset
@@ -26,10 +26,10 @@ public class MTL4AccelerationStructureGeometryDescriptor(nint nativePtr) : Nativ
         set => SetProperty(ref field, MTL4AccelerationStructureGeometryDescriptorBindings.SetLabel, value);
     }
 
-    public bool Opaque
+    public Bool8 Opaque
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.Opaque);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetOpaque, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4AccelerationStructureGeometryDescriptorBindings.SetOpaque, value);
     }
 
     public MTL4BufferRange PrimitiveDataBuffer

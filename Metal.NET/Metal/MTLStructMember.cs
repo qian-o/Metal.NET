@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLStructMember(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLStructMember>
+public class MTLStructMember(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLStructMember>
 {
-    public static MTLStructMember Create(nint nativePtr) => new(nativePtr);
+    public static MTLStructMember Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLStructMember() : this(ObjectiveCRuntime.AllocInit(MTLStructMemberBindings.Class))
+    public MTLStructMember() : this(ObjectiveCRuntime.AllocInit(MTLStructMemberBindings.Class), true)
     {
     }
 
@@ -32,35 +32,35 @@ public class MTLStructMember(nint nativePtr) : NativeObject(nativePtr), INativeO
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.ArrayType);
 
-        return new(nativePtr);
+        return new(nativePtr, false);
     }
 
     public MTLPointerType PointerType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.PointerType);
 
-        return new(nativePtr);
+        return new(nativePtr, false);
     }
 
     public MTLStructType StructType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.StructType);
 
-        return new(nativePtr);
+        return new(nativePtr, false);
     }
 
     public MTLTensorReferenceType TensorReferenceType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.TensorReferenceType);
 
-        return new(nativePtr);
+        return new(nativePtr, false);
     }
 
     public MTLTextureReferenceType TextureReferenceType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.TextureReferenceType);
 
-        return new(nativePtr);
+        return new(nativePtr, false);
     }
 }
 

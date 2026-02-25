@@ -1,29 +1,29 @@
 ﻿namespace Metal.NET;
 
-public class MTLStitchedLibraryDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLStitchedLibraryDescriptor>
+public class MTLStitchedLibraryDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLStitchedLibraryDescriptor>
 {
-    public static MTLStitchedLibraryDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static MTLStitchedLibraryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLStitchedLibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStitchedLibraryDescriptorBindings.Class))
+    public MTLStitchedLibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStitchedLibraryDescriptorBindings.Class), true)
     {
     }
 
-    public NSArray BinaryArchives
+    public MTLBinaryArchive[] BinaryArchives
     {
-        get => GetProperty(ref field, MTLStitchedLibraryDescriptorBindings.BinaryArchives);
-        set => SetProperty(ref field, MTLStitchedLibraryDescriptorBindings.SetBinaryArchives, value);
+        get => GetArrayProperty<MTLBinaryArchive>(MTLStitchedLibraryDescriptorBindings.BinaryArchives);
+        set => SetArrayProperty(MTLStitchedLibraryDescriptorBindings.SetBinaryArchives, value);
     }
 
-    public NSArray FunctionGraphs
+    public MTLFunctionStitchingGraph[] FunctionGraphs
     {
-        get => GetProperty(ref field, MTLStitchedLibraryDescriptorBindings.FunctionGraphs);
-        set => SetProperty(ref field, MTLStitchedLibraryDescriptorBindings.SetFunctionGraphs, value);
+        get => GetArrayProperty<MTLFunctionStitchingGraph>(MTLStitchedLibraryDescriptorBindings.FunctionGraphs);
+        set => SetArrayProperty(MTLStitchedLibraryDescriptorBindings.SetFunctionGraphs, value);
     }
 
-    public NSArray Functions
+    public MTLFunction[] Functions
     {
-        get => GetProperty(ref field, MTLStitchedLibraryDescriptorBindings.Functions);
-        set => SetProperty(ref field, MTLStitchedLibraryDescriptorBindings.SetFunctions, value);
+        get => GetArrayProperty<MTLFunction>(MTLStitchedLibraryDescriptorBindings.Functions);
+        set => SetArrayProperty(MTLStitchedLibraryDescriptorBindings.SetFunctions, value);
     }
 
     public MTLStitchedLibraryOptions Options

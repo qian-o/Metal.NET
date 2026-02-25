@@ -1,21 +1,21 @@
 ﻿namespace Metal.NET;
 
-public class MTLComputePipelineReflection(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLComputePipelineReflection>
+public class MTLComputePipelineReflection(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLComputePipelineReflection>
 {
-    public static MTLComputePipelineReflection Create(nint nativePtr) => new(nativePtr);
+    public static MTLComputePipelineReflection Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLComputePipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTLComputePipelineReflectionBindings.Class))
+    public MTLComputePipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTLComputePipelineReflectionBindings.Class), true)
     {
     }
 
-    public NSArray Arguments
+    public MTLArgument[] Arguments
     {
-        get => GetProperty(ref field, MTLComputePipelineReflectionBindings.Arguments);
+        get => GetArrayProperty<MTLArgument>(MTLComputePipelineReflectionBindings.Arguments);
     }
 
-    public NSArray Bindings
+    public MTLBinding[] Bindings
     {
-        get => GetProperty(ref field, MTLComputePipelineReflectionBindings.Bindings);
+        get => GetArrayProperty<MTLBinding>(MTLComputePipelineReflectionBindings.Bindings);
     }
 }
 

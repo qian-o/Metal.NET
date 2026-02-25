@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensor(nint nativePtr) : MTLResource(nativePtr), INativeObject<MTLTensor>
+public class MTLTensor(nint nativePtr, bool ownsReference) : MTLResource(nativePtr, ownsReference), INativeObject<MTLTensor>
 {
-    public static new MTLTensor Create(nint nativePtr) => new(nativePtr);
+    public static new MTLTensor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLBuffer Buffer
     {

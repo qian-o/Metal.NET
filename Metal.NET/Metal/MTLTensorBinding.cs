@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensorBinding(nint nativePtr) : MTLBinding(nativePtr), INativeObject<MTLTensorBinding>
+public class MTLTensorBinding(nint nativePtr, bool ownsReference) : MTLBinding(nativePtr, ownsReference), INativeObject<MTLTensorBinding>
 {
-    public static new MTLTensorBinding Create(nint nativePtr) => new(nativePtr);
+    public static new MTLTensorBinding Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLTensorExtents Dimensions
     {

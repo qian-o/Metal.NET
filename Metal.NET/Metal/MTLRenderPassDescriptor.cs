@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTLRenderPassDescriptor>
+public class MTLRenderPassDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLRenderPassDescriptor>
 {
-    public static MTLRenderPassDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static MTLRenderPassDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLRenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassDescriptorBindings.Class))
+    public MTLRenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassDescriptorBindings.Class), true)
     {
     }
 
@@ -66,10 +66,10 @@ public class MTLRenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr), 
         set => SetProperty(ref field, MTLRenderPassDescriptorBindings.SetStencilAttachment, value);
     }
 
-    public bool SupportColorAttachmentMapping
+    public Bool8 SupportColorAttachmentMapping
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPassDescriptorBindings.SupportColorAttachmentMapping);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetSupportColorAttachmentMapping, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDescriptorBindings.SetSupportColorAttachmentMapping, value);
     }
 
     public nuint ThreadgroupMemoryLength
@@ -114,7 +114,7 @@ public class MTLRenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr), 
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLRenderPassDescriptorBindings.Class, MTLRenderPassDescriptorBindings.RenderPassDescriptor);
 
-        return new(nativePtr);
+        return new(nativePtr, false);
     }
 
     public unsafe void SetSamplePositions(MTLSamplePosition[] positions)

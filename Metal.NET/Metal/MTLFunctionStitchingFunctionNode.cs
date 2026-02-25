@@ -1,23 +1,23 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionStitchingFunctionNode(nint nativePtr) : MTLFunctionStitchingNode(nativePtr), INativeObject<MTLFunctionStitchingFunctionNode>
+public class MTLFunctionStitchingFunctionNode(nint nativePtr, bool ownsReference) : MTLFunctionStitchingNode(nativePtr, ownsReference), INativeObject<MTLFunctionStitchingFunctionNode>
 {
-    public static new MTLFunctionStitchingFunctionNode Create(nint nativePtr) => new(nativePtr);
+    public static new MTLFunctionStitchingFunctionNode Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLFunctionStitchingFunctionNode() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingFunctionNodeBindings.Class))
+    public MTLFunctionStitchingFunctionNode() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingFunctionNodeBindings.Class), true)
     {
     }
 
-    public NSArray Arguments
+    public MTLArgument[] Arguments
     {
-        get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.Arguments);
-        set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetArguments, value);
+        get => GetArrayProperty<MTLArgument>(MTLFunctionStitchingFunctionNodeBindings.Arguments);
+        set => SetArrayProperty(MTLFunctionStitchingFunctionNodeBindings.SetArguments, value);
     }
 
-    public NSArray ControlDependencies
+    public MTLFunctionStitchingFunctionNode[] ControlDependencies
     {
-        get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.ControlDependencies);
-        set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetControlDependencies, value);
+        get => GetArrayProperty<MTLFunctionStitchingFunctionNode>(MTLFunctionStitchingFunctionNodeBindings.ControlDependencies);
+        set => SetArrayProperty(MTLFunctionStitchingFunctionNodeBindings.SetControlDependencies, value);
     }
 
     public NSString Name

@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandAllocator(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4CommandAllocator>
+public class MTL4CommandAllocator(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CommandAllocator>
 {
-    public static MTL4CommandAllocator Create(nint nativePtr) => new(nativePtr);
+    public static MTL4CommandAllocator Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLDevice Device
     {

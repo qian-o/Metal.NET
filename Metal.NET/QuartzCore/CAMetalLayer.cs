@@ -1,17 +1,17 @@
 ﻿namespace Metal.NET;
 
-public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr), INativeObject<CAMetalLayer>
+public class CAMetalLayer(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<CAMetalLayer>
 {
-    public static CAMetalLayer Create(nint nativePtr) => new(nativePtr);
+    public static CAMetalLayer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(CAMetalLayerBindings.Class))
+    public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(CAMetalLayerBindings.Class), true)
     {
     }
 
-    public bool AllowsNextDrawableTimeout
+    public Bool8 AllowsNextDrawableTimeout
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, CAMetalLayerBindings.AllowsNextDrawableTimeout);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetAllowsNextDrawableTimeout, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetAllowsNextDrawableTimeout, value);
     }
 
     public nint Colorspace
@@ -26,10 +26,10 @@ public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr), INativeObje
         set => SetProperty(ref field, CAMetalLayerBindings.SetDevice, value);
     }
 
-    public bool DisplaySyncEnabled
+    public Bool8 DisplaySyncEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, CAMetalLayerBindings.DisplaySyncEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetDisplaySyncEnabled, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetDisplaySyncEnabled, value);
     }
 
     public CGSize DrawableSize
@@ -38,10 +38,10 @@ public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr), INativeObje
         set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetDrawableSize, value);
     }
 
-    public bool FramebufferOnly
+    public Bool8 FramebufferOnly
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, CAMetalLayerBindings.FramebufferOnly);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetFramebufferOnly, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetFramebufferOnly, value);
     }
 
     public nuint MaximumDrawableCount
@@ -65,14 +65,14 @@ public class CAMetalLayer(nint nativePtr) : NativeObject(nativePtr), INativeObje
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(CAMetalLayerBindings.Class, CAMetalLayerBindings.Layer);
 
-        return new(nativePtr);
+        return new(nativePtr, false);
     }
 
     public CAMetalDrawable NextDrawable()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerBindings.NextDrawable);
 
-        return new(nativePtr);
+        return new(nativePtr, false);
     }
 }
 

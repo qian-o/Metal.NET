@@ -1,8 +1,8 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CompilerTask(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4CompilerTask>
+public class MTL4CompilerTask(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CompilerTask>
 {
-    public static MTL4CompilerTask Create(nint nativePtr) => new(nativePtr);
+    public static MTL4CompilerTask Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTL4Compiler Compiler
     {

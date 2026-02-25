@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4RenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4RenderPassDescriptor>
+public class MTL4RenderPassDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4RenderPassDescriptor>
 {
-    public static MTL4RenderPassDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static MTL4RenderPassDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTL4RenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPassDescriptorBindings.Class))
+    public MTL4RenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPassDescriptorBindings.Class), true)
     {
     }
 
@@ -61,10 +61,10 @@ public class MTL4RenderPassDescriptor(nint nativePtr) : NativeObject(nativePtr),
         set => SetProperty(ref field, MTL4RenderPassDescriptorBindings.SetStencilAttachment, value);
     }
 
-    public bool SupportColorAttachmentMapping
+    public Bool8 SupportColorAttachmentMapping
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4RenderPassDescriptorBindings.SupportColorAttachmentMapping);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetSupportColorAttachmentMapping, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetSupportColorAttachmentMapping, value);
     }
 
     public nuint ThreadgroupMemoryLength

@@ -1,23 +1,23 @@
 ﻿namespace Metal.NET;
 
-public class MTL4StaticLinkingDescriptor(nint nativePtr) : NativeObject(nativePtr), INativeObject<MTL4StaticLinkingDescriptor>
+public class MTL4StaticLinkingDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4StaticLinkingDescriptor>
 {
-    public static MTL4StaticLinkingDescriptor Create(nint nativePtr) => new(nativePtr);
+    public static MTL4StaticLinkingDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTL4StaticLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4StaticLinkingDescriptorBindings.Class))
+    public MTL4StaticLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4StaticLinkingDescriptorBindings.Class), true)
     {
     }
 
-    public NSArray FunctionDescriptors
+    public MTL4FunctionDescriptor[] FunctionDescriptors
     {
-        get => GetProperty(ref field, MTL4StaticLinkingDescriptorBindings.FunctionDescriptors);
-        set => SetProperty(ref field, MTL4StaticLinkingDescriptorBindings.SetFunctionDescriptors, value);
+        get => GetArrayProperty<MTL4FunctionDescriptor>(MTL4StaticLinkingDescriptorBindings.FunctionDescriptors);
+        set => SetArrayProperty(MTL4StaticLinkingDescriptorBindings.SetFunctionDescriptors, value);
     }
 
-    public NSArray PrivateFunctionDescriptors
+    public MTL4FunctionDescriptor[] PrivateFunctionDescriptors
     {
-        get => GetProperty(ref field, MTL4StaticLinkingDescriptorBindings.PrivateFunctionDescriptors);
-        set => SetProperty(ref field, MTL4StaticLinkingDescriptorBindings.SetPrivateFunctionDescriptors, value);
+        get => GetArrayProperty<MTL4FunctionDescriptor>(MTL4StaticLinkingDescriptorBindings.PrivateFunctionDescriptors);
+        set => SetArrayProperty(MTL4StaticLinkingDescriptorBindings.SetPrivateFunctionDescriptors, value);
     }
 }
 
