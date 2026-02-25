@@ -16,6 +16,8 @@ public class MTLSharedEvent(nint nativePtr, bool ownsReference) : MTLEvent(nativ
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventBindings.NewSharedEventHandle);
 
+        ObjectiveCRuntime.Retain(nativePtr);
+
         return new(nativePtr, true);
     }
 

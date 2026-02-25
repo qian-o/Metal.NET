@@ -775,17 +775,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         bool hasOutError = method.Parameters.Any(p => p.CppType.Contains("Error**"));
 
-        // Per Objective-C memory management conventions, only methods whose selector
-        // begins with alloc, new, copy, or mutableCopy return a +1 retained reference.
-        // All other methods return +0 (autoreleased) references.
-        // For .NET callers, method return values should always be owned so that the
-        // wrapper sends release on Dispose(). Non-owning methods therefore retain the
-        // pointer before wrapping it.
-        bool alreadyRetained = selectorObjC.StartsWith("alloc", StringComparison.Ordinal)
-            || selectorObjC.StartsWith("new", StringComparison.Ordinal)
-            || selectorObjC.StartsWith("copy", StringComparison.Ordinal)
-            || selectorObjC.StartsWith("mutableCopy", StringComparison.Ordinal);
-
         // Build C# parameter list and call arguments
         List<string> csParams = [];
         List<string> callArgs = [target, selectorRef];
@@ -994,11 +983,8 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                     sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
                 }
                 sb.AppendLine();
-                if (!alreadyRetained)
-                {
-                    sb.AppendLine($"{indent}ObjectiveCRuntime.Retain(nativePtr);");
-                    sb.AppendLine();
-                }
+                sb.AppendLine($"{indent}ObjectiveCRuntime.Retain(nativePtr);");
+                sb.AppendLine();
                 sb.AppendLine($"{indent}{returnArrayElemType}[] result = NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}ObjectiveCRuntime.Release(nativePtr);");
@@ -1014,11 +1000,8 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                     sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
                 }
                 sb.AppendLine();
-                if (!alreadyRetained)
-                {
-                    sb.AppendLine($"{indent}ObjectiveCRuntime.Retain(nativePtr);");
-                    sb.AppendLine();
-                }
+                sb.AppendLine($"{indent}ObjectiveCRuntime.Retain(nativePtr);");
+                sb.AppendLine();
                 sb.AppendLine($"{indent}{returnArrayElemType}[] result = NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}ObjectiveCRuntime.Release(nativePtr);");
@@ -1039,11 +1022,8 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                     sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
                 }
                 sb.AppendLine();
-                if (!alreadyRetained)
-                {
-                    sb.AppendLine($"{indent}ObjectiveCRuntime.Retain(nativePtr);");
-                    sb.AppendLine();
-                }
+                sb.AppendLine($"{indent}ObjectiveCRuntime.Retain(nativePtr);");
+                sb.AppendLine();
                 sb.AppendLine($"{indent}return new(nativePtr, true);");
             }
             else
@@ -1055,11 +1035,8 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                     sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
                 }
                 sb.AppendLine();
-                if (!alreadyRetained)
-                {
-                    sb.AppendLine($"{indent}ObjectiveCRuntime.Retain(nativePtr);");
-                    sb.AppendLine();
-                }
+                sb.AppendLine($"{indent}ObjectiveCRuntime.Retain(nativePtr);");
+                sb.AppendLine();
                 sb.AppendLine($"{indent}return new(nativePtr, true);");
             }
         }

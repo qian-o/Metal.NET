@@ -175,12 +175,16 @@ public class MTLTexture(nint nativePtr, bool ownsReference) : MTLResource(native
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.NewRemoteTextureViewForDevice, device.NativePtr);
 
+        ObjectiveCRuntime.Retain(nativePtr);
+
         return new(nativePtr, true);
     }
 
     public MTLSharedTextureHandle NewSharedTextureHandle()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.NewSharedTextureHandle);
+
+        ObjectiveCRuntime.Retain(nativePtr);
 
         return new(nativePtr, true);
     }
@@ -189,12 +193,16 @@ public class MTLTexture(nint nativePtr, bool ownsReference) : MTLResource(native
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.NewTextureView, (nuint)pixelFormat);
 
+        ObjectiveCRuntime.Retain(nativePtr);
+
         return new(nativePtr, true);
     }
 
     public MTLTexture NewTextureView(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormattextureTypelevelsslices, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange);
+
+        ObjectiveCRuntime.Retain(nativePtr);
 
         return new(nativePtr, true);
     }
@@ -203,12 +211,16 @@ public class MTLTexture(nint nativePtr, bool ownsReference) : MTLResource(native
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.NewTextureViewWithDescriptor, descriptor.NativePtr);
 
+        ObjectiveCRuntime.Retain(nativePtr);
+
         return new(nativePtr, true);
     }
 
     public MTLTexture NewTextureView(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange, MTLTextureSwizzleChannels swizzle)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormattextureTypelevelsslicesswizzle, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange, swizzle);
+
+        ObjectiveCRuntime.Retain(nativePtr);
 
         return new(nativePtr, true);
     }

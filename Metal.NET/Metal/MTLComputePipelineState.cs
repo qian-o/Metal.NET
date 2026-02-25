@@ -98,6 +98,8 @@ public class MTLComputePipelineState(nint nativePtr, bool ownsReference) : MTLAl
 
         ObjectiveCRuntime.Release(pAdditionalBinaryFunctions);
 
+        ObjectiveCRuntime.Retain(nativePtr);
+
         return new(nativePtr, true);
     }
 
@@ -111,6 +113,8 @@ public class MTLComputePipelineState(nint nativePtr, bool ownsReference) : MTLAl
 
         ObjectiveCRuntime.Release(pFunctions);
 
+        ObjectiveCRuntime.Retain(nativePtr);
+
         return new(nativePtr, true);
     }
 
@@ -118,12 +122,16 @@ public class MTLComputePipelineState(nint nativePtr, bool ownsReference) : MTLAl
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewIntersectionFunctionTable, descriptor.NativePtr);
 
+        ObjectiveCRuntime.Retain(nativePtr);
+
         return new(nativePtr, true);
     }
 
     public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewVisibleFunctionTable, descriptor.NativePtr);
+
+        ObjectiveCRuntime.Retain(nativePtr);
 
         return new(nativePtr, true);
     }

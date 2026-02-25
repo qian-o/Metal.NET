@@ -45,6 +45,8 @@ public class MTLBuffer(nint nativePtr, bool ownsReference) : MTLResource(nativeP
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewRemoteBufferViewForDevice, device.NativePtr);
 
+        ObjectiveCRuntime.Retain(nativePtr);
+
         return new(nativePtr, true);
     }
 
@@ -54,12 +56,16 @@ public class MTLBuffer(nint nativePtr, bool ownsReference) : MTLResource(nativeP
 
         error = new(errorPtr, false);
 
+        ObjectiveCRuntime.Retain(nativePtr);
+
         return new(nativePtr, true);
     }
 
     public MTLTexture NewTexture(MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewTexture, descriptor.NativePtr, offset, bytesPerRow);
+
+        ObjectiveCRuntime.Retain(nativePtr);
 
         return new(nativePtr, true);
     }

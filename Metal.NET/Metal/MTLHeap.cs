@@ -66,12 +66,16 @@ public class MTLHeap(nint nativePtr, bool ownsReference) : MTLAllocation(nativeP
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewAccelerationStructure, size);
 
+        ObjectiveCRuntime.Retain(nativePtr);
+
         return new(nativePtr, true);
     }
 
     public MTLAccelerationStructure NewAccelerationStructure(MTLAccelerationStructureDescriptor descriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewAccelerationStructureWithDescriptor, descriptor.NativePtr);
+
+        ObjectiveCRuntime.Retain(nativePtr);
 
         return new(nativePtr, true);
     }
@@ -80,12 +84,16 @@ public class MTLHeap(nint nativePtr, bool ownsReference) : MTLAllocation(nativeP
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewAccelerationStructureWithSizeoffset, size, offset);
 
+        ObjectiveCRuntime.Retain(nativePtr);
+
         return new(nativePtr, true);
     }
 
     public MTLAccelerationStructure NewAccelerationStructure(MTLAccelerationStructureDescriptor descriptor, nuint offset)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewAccelerationStructureWithDescriptoroffset, descriptor.NativePtr, offset);
+
+        ObjectiveCRuntime.Retain(nativePtr);
 
         return new(nativePtr, true);
     }
@@ -94,12 +102,16 @@ public class MTLHeap(nint nativePtr, bool ownsReference) : MTLAllocation(nativeP
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewBuffer, length, (nuint)options);
 
+        ObjectiveCRuntime.Retain(nativePtr);
+
         return new(nativePtr, true);
     }
 
     public MTLBuffer NewBuffer(nuint length, MTLResourceOptions options, nuint offset)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewBufferWithLengthoptionsoffset, length, (nuint)options, offset);
+
+        ObjectiveCRuntime.Retain(nativePtr);
 
         return new(nativePtr, true);
     }
@@ -108,12 +120,16 @@ public class MTLHeap(nint nativePtr, bool ownsReference) : MTLAllocation(nativeP
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewTexture, descriptor.NativePtr);
 
+        ObjectiveCRuntime.Retain(nativePtr);
+
         return new(nativePtr, true);
     }
 
     public MTLTexture NewTexture(MTLTextureDescriptor descriptor, nuint offset)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.NewTextureWithDescriptoroffset, descriptor.NativePtr, offset);
+
+        ObjectiveCRuntime.Retain(nativePtr);
 
         return new(nativePtr, true);
     }

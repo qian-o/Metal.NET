@@ -127,12 +127,16 @@ public class MTLRenderPipelineState(nint nativePtr, bool ownsReference) : MTLAll
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewIntersectionFunctionTable, descriptor.NativePtr, (nuint)stage);
 
+        ObjectiveCRuntime.Retain(nativePtr);
+
         return new(nativePtr, true);
     }
 
     public MTL4PipelineDescriptor NewRenderPipelineDescriptor()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewRenderPipelineDescriptor);
+
+        ObjectiveCRuntime.Retain(nativePtr);
 
         return new(nativePtr, true);
     }
@@ -143,6 +147,8 @@ public class MTLRenderPipelineState(nint nativePtr, bool ownsReference) : MTLAll
 
         error = new(errorPtr, false);
 
+        ObjectiveCRuntime.Retain(nativePtr);
+
         return new(nativePtr, true);
     }
 
@@ -152,12 +158,16 @@ public class MTLRenderPipelineState(nint nativePtr, bool ownsReference) : MTLAll
 
         error = new(errorPtr, false);
 
+        ObjectiveCRuntime.Retain(nativePtr);
+
         return new(nativePtr, true);
     }
 
     public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor, MTLRenderStages stage)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.NewVisibleFunctionTable, descriptor.NativePtr, (nuint)stage);
+
+        ObjectiveCRuntime.Retain(nativePtr);
 
         return new(nativePtr, true);
     }

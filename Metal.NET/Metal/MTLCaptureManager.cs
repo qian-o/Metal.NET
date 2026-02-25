@@ -25,6 +25,8 @@ public class MTLCaptureManager(nint nativePtr, bool ownsReference) : NativeObjec
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerBindings.NewCaptureScope, device.NativePtr);
 
+        ObjectiveCRuntime.Retain(nativePtr);
+
         return new(nativePtr, true);
     }
 
@@ -32,12 +34,16 @@ public class MTLCaptureManager(nint nativePtr, bool ownsReference) : NativeObjec
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerBindings.NewCaptureScopeWithCommandQueue, commandQueue.NativePtr);
 
+        ObjectiveCRuntime.Retain(nativePtr);
+
         return new(nativePtr, true);
     }
 
     public MTLCaptureScope NewCaptureScope(MTL4CommandQueue commandQueue)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerBindings.NewCaptureScopeWithMTL4CommandQueue, commandQueue.NativePtr);
+
+        ObjectiveCRuntime.Retain(nativePtr);
 
         return new(nativePtr, true);
     }
