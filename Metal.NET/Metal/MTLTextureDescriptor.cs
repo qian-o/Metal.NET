@@ -10,10 +10,10 @@ public class MTLTextureDescriptor(nint nativePtr, bool ownsReference) : NativeOb
     {
     }
 
-    public bool AllowGPUOptimizedContents
+    public Bool8 AllowGPUOptimizedContents
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureDescriptorBindings.AllowGPUOptimizedContents);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorBindings.SetAllowGPUOptimizedContents, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureDescriptorBindings.SetAllowGPUOptimizedContents, value);
     }
 
     public nuint ArrayLength

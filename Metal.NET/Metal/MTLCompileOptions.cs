@@ -10,10 +10,10 @@ public class MTLCompileOptions(nint nativePtr, bool ownsReference) : NativeObjec
     {
     }
 
-    public bool AllowReferencingUndefinedSymbols
+    public Bool8 AllowReferencingUndefinedSymbols
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCompileOptionsBindings.AllowReferencingUndefinedSymbols);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetAllowReferencingUndefinedSymbols, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetAllowReferencingUndefinedSymbols, value);
     }
 
     public MTLCompileSymbolVisibility CompileSymbolVisibility
@@ -22,16 +22,16 @@ public class MTLCompileOptions(nint nativePtr, bool ownsReference) : NativeObjec
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetCompileSymbolVisibility, (nint)value);
     }
 
-    public bool EnableLogging
+    public Bool8 EnableLogging
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCompileOptionsBindings.EnableLogging);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetEnableLogging, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetEnableLogging, value);
     }
 
-    public bool FastMathEnabled
+    public Bool8 FastMathEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCompileOptionsBindings.FastMathEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetFastMathEnabled, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetFastMathEnabled, value);
     }
 
     public NSString InstallName
@@ -82,10 +82,10 @@ public class MTLCompileOptions(nint nativePtr, bool ownsReference) : NativeObjec
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetOptimizationLevel, (nint)value);
     }
 
-    public bool PreserveInvariance
+    public Bool8 PreserveInvariance
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCompileOptionsBindings.PreserveInvariance);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetPreserveInvariance, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetPreserveInvariance, value);
     }
 
     public MTLSize RequiredThreadsPerThreadgroup

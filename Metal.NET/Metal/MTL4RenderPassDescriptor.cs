@@ -63,10 +63,10 @@ public class MTL4RenderPassDescriptor(nint nativePtr, bool ownsReference) : Nati
         set => SetProperty(ref field, MTL4RenderPassDescriptorBindings.SetStencilAttachment, value);
     }
 
-    public bool SupportColorAttachmentMapping
+    public Bool8 SupportColorAttachmentMapping
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4RenderPassDescriptorBindings.SupportColorAttachmentMapping);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetSupportColorAttachmentMapping, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetSupportColorAttachmentMapping, value);
     }
 
     public nuint ThreadgroupMemoryLength

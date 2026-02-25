@@ -46,17 +46,17 @@ public class MTLFXTemporalScalerDescriptor(nint nativePtr, bool ownsReference) :
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetInputWidth, value);
     }
 
-    public bool IsAutoExposureEnabled
+    public Bool8 IsAutoExposureEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalScalerDescriptorBindings.IsAutoExposureEnabled);
     }
 
-    public bool IsInputContentPropertiesEnabled
+    public Bool8 IsInputContentPropertiesEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalScalerDescriptorBindings.IsInputContentPropertiesEnabled);
     }
 
-    public bool IsReactiveMaskTextureEnabled
+    public Bool8 IsReactiveMaskTextureEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalScalerDescriptorBindings.IsReactiveMaskTextureEnabled);
     }
@@ -91,10 +91,10 @@ public class MTLFXTemporalScalerDescriptor(nint nativePtr, bool ownsReference) :
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetReactiveMaskTextureFormat, (nuint)value);
     }
 
-    public bool RequiresSynchronousInitialization
+    public Bool8 RequiresSynchronousInitialization
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalScalerDescriptorBindings.RequiresSynchronousInitialization);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetRequiresSynchronousInitialization, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetRequiresSynchronousInitialization, value);
     }
 
     public void SetAutoExposureEnabled(bool enabled)

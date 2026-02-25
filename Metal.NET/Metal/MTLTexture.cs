@@ -6,7 +6,7 @@ public class MTLTexture(nint nativePtr, bool ownsReference) : MTLResource(native
 
     public static new MTLTexture CreateBorrowed(nint nativePtr) => new(nativePtr, false);
 
-    public bool AllowGPUOptimizedContents
+    public Bool8 AllowGPUOptimizedContents
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureBindings.AllowGPUOptimizedContents);
     }
@@ -46,7 +46,7 @@ public class MTLTexture(nint nativePtr, bool ownsReference) : MTLResource(native
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindings.FirstMipmapInTail);
     }
 
-    public bool FramebufferOnly
+    public Bool8 FramebufferOnly
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureBindings.FramebufferOnly);
     }
@@ -71,17 +71,17 @@ public class MTLTexture(nint nativePtr, bool ownsReference) : MTLResource(native
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindings.IosurfacePlane);
     }
 
-    public bool IsFramebufferOnly
+    public Bool8 IsFramebufferOnly
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureBindings.IsFramebufferOnly);
     }
 
-    public bool IsShareable
+    public Bool8 IsShareable
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureBindings.IsShareable);
     }
 
-    public bool IsSparse
+    public Bool8 IsSparse
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureBindings.IsSparse);
     }
@@ -126,7 +126,7 @@ public class MTLTexture(nint nativePtr, bool ownsReference) : MTLResource(native
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindings.SampleCount);
     }
 
-    public bool Shareable
+    public Bool8 Shareable
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureBindings.Shareable);
     }

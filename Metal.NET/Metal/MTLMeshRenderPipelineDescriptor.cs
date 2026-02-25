@@ -10,16 +10,16 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, bool ownsReference)
     {
     }
 
-    public bool AlphaToCoverageEnabled
+    public Bool8 AlphaToCoverageEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.AlphaToCoverageEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetAlphaToCoverageEnabled, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetAlphaToCoverageEnabled, value);
     }
 
-    public bool AlphaToOneEnabled
+    public Bool8 AlphaToOneEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.AlphaToOneEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetAlphaToOneEnabled, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetAlphaToOneEnabled, value);
     }
 
     public NSArray BinaryArchives
@@ -56,17 +56,17 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, bool ownsReference)
         set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetFragmentLinkedFunctions, value);
     }
 
-    public bool IsAlphaToCoverageEnabled
+    public Bool8 IsAlphaToCoverageEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.IsAlphaToCoverageEnabled);
     }
 
-    public bool IsAlphaToOneEnabled
+    public Bool8 IsAlphaToOneEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.IsAlphaToOneEnabled);
     }
 
-    public bool IsRasterizationEnabled
+    public Bool8 IsRasterizationEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.IsRasterizationEnabled);
     }
@@ -118,10 +118,10 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, bool ownsReference)
         set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetMeshLinkedFunctions, value);
     }
 
-    public bool MeshThreadgroupSizeIsMultipleOfThreadExecutionWidth
+    public Bool8 MeshThreadgroupSizeIsMultipleOfThreadExecutionWidth
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.MeshThreadgroupSizeIsMultipleOfThreadExecutionWidth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth, value);
     }
 
     public MTLPipelineBufferDescriptorArray ObjectBuffers
@@ -141,10 +141,10 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, bool ownsReference)
         set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetObjectLinkedFunctions, value);
     }
 
-    public bool ObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth
+    public Bool8 ObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.ObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth, value);
     }
 
     public nuint PayloadMemoryLength
@@ -159,10 +159,10 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, bool ownsReference)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetRasterSampleCount, value);
     }
 
-    public bool RasterizationEnabled
+    public Bool8 RasterizationEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.RasterizationEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetRasterizationEnabled, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetRasterizationEnabled, value);
     }
 
     public MTLSize RequiredThreadsPerMeshThreadgroup
@@ -189,10 +189,10 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, bool ownsReference)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetStencilAttachmentPixelFormat, (nuint)value);
     }
 
-    public bool SupportIndirectCommandBuffers
+    public Bool8 SupportIndirectCommandBuffers
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SupportIndirectCommandBuffers);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetSupportIndirectCommandBuffers, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetSupportIndirectCommandBuffers, value);
     }
 
     public void Reset()

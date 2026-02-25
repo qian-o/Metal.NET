@@ -501,12 +501,12 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
         else if (isBool)
         {
-            sb.AppendLine($"    public bool {csPropName}");
+            sb.AppendLine($"    public Bool8 {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => ObjectiveCRuntime.MsgSendBool({Target}, {selectorRef});");
             if (prop.Setter != null)
             {
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, (Bool8)value);");
+                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value);");
             }
             sb.AppendLine("    }");
         }

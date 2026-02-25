@@ -13,17 +13,17 @@ public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObjec
         get => GetProperty(ref field, MTLDeviceBindings.Architecture);
     }
 
-    public bool AreBarycentricCoordsSupported
+    public Bool8 AreBarycentricCoordsSupported
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.AreBarycentricCoordsSupported);
     }
 
-    public bool AreProgrammableSamplePositionsSupported
+    public Bool8 AreProgrammableSamplePositionsSupported
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.AreProgrammableSamplePositionsSupported);
     }
 
-    public bool AreRasterOrderGroupsSupported
+    public Bool8 AreRasterOrderGroupsSupported
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.AreRasterOrderGroupsSupported);
     }
@@ -33,7 +33,7 @@ public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObjec
         get => (MTLArgumentBuffersTier)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceBindings.ArgumentBuffersSupport);
     }
 
-    public bool BarycentricCoordsSupported
+    public Bool8 BarycentricCoordsSupported
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.BarycentricCoordsSupported);
     }
@@ -48,37 +48,37 @@ public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObjec
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceBindings.CurrentAllocatedSize);
     }
 
-    public bool Depth24Stencil8PixelFormatSupported
+    public Bool8 Depth24Stencil8PixelFormatSupported
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.Depth24Stencil8PixelFormatSupported);
     }
 
-    public bool HasUnifiedMemory
+    public Bool8 HasUnifiedMemory
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.HasUnifiedMemory);
     }
 
-    public bool Headless
+    public Bool8 Headless
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.Headless);
     }
 
-    public bool IsDepth24Stencil8PixelFormatSupported
+    public Bool8 IsDepth24Stencil8PixelFormatSupported
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.IsDepth24Stencil8PixelFormatSupported);
     }
 
-    public bool IsHeadless
+    public Bool8 IsHeadless
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.IsHeadless);
     }
 
-    public bool IsLowPower
+    public Bool8 IsLowPower
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.IsLowPower);
     }
 
-    public bool IsRemovable
+    public Bool8 IsRemovable
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.IsRemovable);
     }
@@ -93,7 +93,7 @@ public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObjec
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceBindings.LocationNumber);
     }
 
-    public bool LowPower
+    public Bool8 LowPower
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.LowPower);
     }
@@ -148,12 +148,12 @@ public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObjec
         get => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLDeviceBindings.PeerIndex);
     }
 
-    public bool ProgrammableSamplePositionsSupported
+    public Bool8 ProgrammableSamplePositionsSupported
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.ProgrammableSamplePositionsSupported);
     }
 
-    public bool RasterOrderGroupsSupported
+    public Bool8 RasterOrderGroupsSupported
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.RasterOrderGroupsSupported);
     }
@@ -173,15 +173,15 @@ public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObjec
         get => ObjectiveCRuntime.MsgSendULong(NativePtr, MTLDeviceBindings.RegistryID);
     }
 
-    public bool Removable
+    public Bool8 Removable
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.Removable);
     }
 
-    public bool ShouldMaximizeConcurrentCompilation
+    public Bool8 ShouldMaximizeConcurrentCompilation
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.ShouldMaximizeConcurrentCompilation);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceBindings.SetShouldMaximizeConcurrentCompilation, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceBindings.SetShouldMaximizeConcurrentCompilation, value);
     }
 
     public nuint SparseTileSizeInBytes
@@ -189,67 +189,67 @@ public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObjec
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceBindings.SparseTileSizeInBytes);
     }
 
-    public bool Supports32BitFloatFiltering
+    public Bool8 Supports32BitFloatFiltering
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.Supports32BitFloatFiltering);
     }
 
-    public bool Supports32BitMSAA
+    public Bool8 Supports32BitMSAA
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.Supports32BitMSAA);
     }
 
-    public bool SupportsBCTextureCompression
+    public Bool8 SupportsBCTextureCompression
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.SupportsBCTextureCompression);
     }
 
-    public bool SupportsDynamicLibraries
+    public Bool8 SupportsDynamicLibraries
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.SupportsDynamicLibraries);
     }
 
-    public bool SupportsFunctionPointers
+    public Bool8 SupportsFunctionPointers
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.SupportsFunctionPointers);
     }
 
-    public bool SupportsFunctionPointersFromRender
+    public Bool8 SupportsFunctionPointersFromRender
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.SupportsFunctionPointersFromRender);
     }
 
-    public bool SupportsPrimitiveMotionBlur
+    public Bool8 SupportsPrimitiveMotionBlur
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.SupportsPrimitiveMotionBlur);
     }
 
-    public bool SupportsPullModelInterpolation
+    public Bool8 SupportsPullModelInterpolation
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.SupportsPullModelInterpolation);
     }
 
-    public bool SupportsQueryTextureLOD
+    public Bool8 SupportsQueryTextureLOD
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.SupportsQueryTextureLOD);
     }
 
-    public bool SupportsRaytracing
+    public Bool8 SupportsRaytracing
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.SupportsRaytracing);
     }
 
-    public bool SupportsRaytracingFromRender
+    public Bool8 SupportsRaytracingFromRender
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.SupportsRaytracingFromRender);
     }
 
-    public bool SupportsRenderDynamicLibraries
+    public Bool8 SupportsRenderDynamicLibraries
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.SupportsRenderDynamicLibraries);
     }
 
-    public bool SupportsShaderBarycentricCoordinates
+    public Bool8 SupportsShaderBarycentricCoordinates
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.SupportsShaderBarycentricCoordinates);
     }

@@ -20,7 +20,7 @@ public class MTLFunctionConstant(nint nativePtr, bool ownsReference) : NativeObj
         get => GetProperty(ref field, MTLFunctionConstantBindings.Name);
     }
 
-    public bool Required
+    public Bool8 Required
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFunctionConstantBindings.Required);
     }

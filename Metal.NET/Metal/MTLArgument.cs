@@ -15,7 +15,7 @@ public class MTLArgument(nint nativePtr, bool ownsReference) : NativeObject(nati
         get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentBindings.Access);
     }
 
-    public bool Active
+    public Bool8 Active
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLArgumentBindings.Active);
     }
@@ -55,12 +55,12 @@ public class MTLArgument(nint nativePtr, bool ownsReference) : NativeObject(nati
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentBindings.Index);
     }
 
-    public bool IsActive
+    public Bool8 IsActive
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLArgumentBindings.IsActive);
     }
 
-    public bool IsDepthTexture
+    public Bool8 IsDepthTexture
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLArgumentBindings.IsDepthTexture);
     }

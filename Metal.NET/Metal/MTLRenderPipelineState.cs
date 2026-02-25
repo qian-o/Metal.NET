@@ -81,12 +81,12 @@ public class MTLRenderPipelineState(nint nativePtr, bool ownsReference) : MTLAll
         get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.ShaderValidation);
     }
 
-    public bool SupportIndirectCommandBuffers
+    public Bool8 SupportIndirectCommandBuffers
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineStateBindings.SupportIndirectCommandBuffers);
     }
 
-    public bool ThreadgroupSizeMatchesTileSize
+    public Bool8 ThreadgroupSizeMatchesTileSize
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineStateBindings.ThreadgroupSizeMatchesTileSize);
     }

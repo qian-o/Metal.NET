@@ -10,10 +10,10 @@ public class MTLAccelerationStructureGeometryDescriptor(nint nativePtr, bool own
     {
     }
 
-    public bool AllowDuplicateIntersectionFunctionInvocation
+    public Bool8 AllowDuplicateIntersectionFunctionInvocation
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.AllowDuplicateIntersectionFunctionInvocation);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.SetAllowDuplicateIntersectionFunctionInvocation, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.SetAllowDuplicateIntersectionFunctionInvocation, value);
     }
 
     public nuint IntersectionFunctionTableOffset
@@ -28,10 +28,10 @@ public class MTLAccelerationStructureGeometryDescriptor(nint nativePtr, bool own
         set => SetProperty(ref field, MTLAccelerationStructureGeometryDescriptorBindings.SetLabel, value);
     }
 
-    public bool Opaque
+    public Bool8 Opaque
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.Opaque);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.SetOpaque, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.SetOpaque, value);
     }
 
     public MTLBuffer PrimitiveDataBuffer

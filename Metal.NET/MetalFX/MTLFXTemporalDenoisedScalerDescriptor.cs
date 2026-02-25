@@ -58,32 +58,32 @@ public class MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr, bool ownsRefe
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetInputWidth, value);
     }
 
-    public bool IsAutoExposureEnabled
+    public Bool8 IsAutoExposureEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.IsAutoExposureEnabled);
     }
 
-    public bool IsDenoiseStrengthMaskTextureEnabled
+    public Bool8 IsDenoiseStrengthMaskTextureEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.IsDenoiseStrengthMaskTextureEnabled);
     }
 
-    public bool IsInputContentPropertiesEnabled
+    public Bool8 IsInputContentPropertiesEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.IsInputContentPropertiesEnabled);
     }
 
-    public bool IsReactiveMaskTextureEnabled
+    public Bool8 IsReactiveMaskTextureEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.IsReactiveMaskTextureEnabled);
     }
 
-    public bool IsSpecularHitDistanceTextureEnabled
+    public Bool8 IsSpecularHitDistanceTextureEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.IsSpecularHitDistanceTextureEnabled);
     }
 
-    public bool IsTransparencyOverlayTextureEnabled
+    public Bool8 IsTransparencyOverlayTextureEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.IsTransparencyOverlayTextureEnabled);
     }
@@ -124,10 +124,10 @@ public class MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr, bool ownsRefe
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetReactiveMaskTextureFormat, (nuint)value);
     }
 
-    public bool RequiresSynchronousInitialization
+    public Bool8 RequiresSynchronousInitialization
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.RequiresSynchronousInitialization);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetRequiresSynchronousInitialization, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetRequiresSynchronousInitialization, value);
     }
 
     public MTLPixelFormat RoughnessTextureFormat

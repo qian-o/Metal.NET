@@ -11,12 +11,12 @@ public class MTLTextureBinding(nint nativePtr, bool ownsReference) : MTLBinding(
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindingBindings.ArrayLength);
     }
 
-    public bool DepthTexture
+    public Bool8 DepthTexture
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureBindingBindings.DepthTexture);
     }
 
-    public bool IsDepthTexture
+    public Bool8 IsDepthTexture
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureBindingBindings.IsDepthTexture);
     }

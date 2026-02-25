@@ -16,7 +16,7 @@ public class MTLCaptureManager(nint nativePtr, bool ownsReference) : NativeObjec
         set => SetProperty(ref field, MTLCaptureManagerBindings.SetDefaultCaptureScope, value);
     }
 
-    public bool IsCapturing
+    public Bool8 IsCapturing
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerBindings.IsCapturing);
     }

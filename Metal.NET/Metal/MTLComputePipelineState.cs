@@ -46,7 +46,7 @@ public class MTLComputePipelineState(nint nativePtr, bool ownsReference) : MTLAl
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePipelineStateBindings.StaticThreadgroupMemoryLength);
     }
 
-    public bool SupportIndirectCommandBuffers
+    public Bool8 SupportIndirectCommandBuffers
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLComputePipelineStateBindings.SupportIndirectCommandBuffers);
     }

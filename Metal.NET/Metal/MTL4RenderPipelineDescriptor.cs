@@ -51,7 +51,7 @@ public class MTL4RenderPipelineDescriptor(nint nativePtr, bool ownsReference) : 
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetInputPrimitiveTopology, (nuint)value);
     }
 
-    public bool IsRasterizationEnabled
+    public Bool8 IsRasterizationEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4RenderPipelineDescriptorBindings.IsRasterizationEnabled);
     }
@@ -68,16 +68,16 @@ public class MTL4RenderPipelineDescriptor(nint nativePtr, bool ownsReference) : 
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetRasterSampleCount, value);
     }
 
-    public bool RasterizationEnabled
+    public Bool8 RasterizationEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4RenderPipelineDescriptorBindings.RasterizationEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetRasterizationEnabled, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetRasterizationEnabled, value);
     }
 
-    public bool SupportFragmentBinaryLinking
+    public Bool8 SupportFragmentBinaryLinking
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4RenderPipelineDescriptorBindings.SupportFragmentBinaryLinking);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetSupportFragmentBinaryLinking, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetSupportFragmentBinaryLinking, value);
     }
 
     public MTL4IndirectCommandBufferSupportState SupportIndirectCommandBuffers
@@ -86,10 +86,10 @@ public class MTL4RenderPipelineDescriptor(nint nativePtr, bool ownsReference) : 
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetSupportIndirectCommandBuffers, (nint)value);
     }
 
-    public bool SupportVertexBinaryLinking
+    public Bool8 SupportVertexBinaryLinking
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4RenderPipelineDescriptorBindings.SupportVertexBinaryLinking);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetSupportVertexBinaryLinking, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetSupportVertexBinaryLinking, value);
     }
 
     public MTLVertexDescriptor VertexDescriptor

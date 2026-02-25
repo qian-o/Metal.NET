@@ -16,10 +16,10 @@ public class MTLRenderPipelineColorAttachmentDescriptor(nint nativePtr, bool own
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorBindings.SetAlphaBlendOperation, (nuint)value);
     }
 
-    public bool BlendingEnabled
+    public Bool8 BlendingEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineColorAttachmentDescriptorBindings.BlendingEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorBindings.SetBlendingEnabled, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorBindings.SetBlendingEnabled, value);
     }
 
     public MTLBlendFactor DestinationAlphaBlendFactor
@@ -34,7 +34,7 @@ public class MTLRenderPipelineColorAttachmentDescriptor(nint nativePtr, bool own
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorBindings.SetDestinationRGBBlendFactor, (nuint)value);
     }
 
-    public bool IsBlendingEnabled
+    public Bool8 IsBlendingEnabled
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLRenderPipelineColorAttachmentDescriptorBindings.IsBlendingEnabled);
     }

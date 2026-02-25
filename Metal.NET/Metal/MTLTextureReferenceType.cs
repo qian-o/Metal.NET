@@ -15,7 +15,7 @@ public class MTLTextureReferenceType(nint nativePtr, bool ownsReference) : MTLTy
         get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureReferenceTypeBindings.Access);
     }
 
-    public bool IsDepthTexture
+    public Bool8 IsDepthTexture
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureReferenceTypeBindings.IsDepthTexture);
     }

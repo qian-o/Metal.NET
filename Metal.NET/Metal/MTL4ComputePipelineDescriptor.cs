@@ -34,10 +34,10 @@ public class MTL4ComputePipelineDescriptor(nint nativePtr, bool ownsReference) :
         set => SetProperty(ref field, MTL4ComputePipelineDescriptorBindings.SetStaticLinkingDescriptor, value);
     }
 
-    public bool SupportBinaryLinking
+    public Bool8 SupportBinaryLinking
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4ComputePipelineDescriptorBindings.SupportBinaryLinking);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorBindings.SetSupportBinaryLinking, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorBindings.SetSupportBinaryLinking, value);
     }
 
     public MTL4IndirectCommandBufferSupportState SupportIndirectCommandBuffers
@@ -46,10 +46,10 @@ public class MTL4ComputePipelineDescriptor(nint nativePtr, bool ownsReference) :
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorBindings.SetSupportIndirectCommandBuffers, (nint)value);
     }
 
-    public bool ThreadGroupSizeIsMultipleOfThreadExecutionWidth
+    public Bool8 ThreadGroupSizeIsMultipleOfThreadExecutionWidth
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4ComputePipelineDescriptorBindings.ThreadGroupSizeIsMultipleOfThreadExecutionWidth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorBindings.SetThreadGroupSizeIsMultipleOfThreadExecutionWidth, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorBindings.SetThreadGroupSizeIsMultipleOfThreadExecutionWidth, value);
     }
 
     public void Reset()

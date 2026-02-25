@@ -25,7 +25,7 @@ public class MTLPointerType(nint nativePtr, bool ownsReference) : MTLType(native
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.DataSize);
     }
 
-    public bool ElementIsArgumentBuffer
+    public Bool8 ElementIsArgumentBuffer
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLPointerTypeBindings.ElementIsArgumentBuffer);
     }

@@ -39,16 +39,16 @@ public class MTL4TileRenderPipelineDescriptor(nint nativePtr, bool ownsReference
         set => SetProperty(ref field, MTL4TileRenderPipelineDescriptorBindings.SetStaticLinkingDescriptor, value);
     }
 
-    public bool SupportBinaryLinking
+    public Bool8 SupportBinaryLinking
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SupportBinaryLinking);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetSupportBinaryLinking, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetSupportBinaryLinking, value);
     }
 
-    public bool ThreadgroupSizeMatchesTileSize
+    public Bool8 ThreadgroupSizeMatchesTileSize
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4TileRenderPipelineDescriptorBindings.ThreadgroupSizeMatchesTileSize);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetThreadgroupSizeMatchesTileSize, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetThreadgroupSizeMatchesTileSize, value);
     }
 
     public MTL4FunctionDescriptor TileFunctionDescriptor

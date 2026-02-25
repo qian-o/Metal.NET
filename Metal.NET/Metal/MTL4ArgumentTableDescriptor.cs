@@ -10,10 +10,10 @@ public class MTL4ArgumentTableDescriptor(nint nativePtr, bool ownsReference) : N
     {
     }
 
-    public bool InitializeBindings
+    public Bool8 InitializeBindings
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4ArgumentTableDescriptorBindings.InitializeBindings);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetInitializeBindings, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetInitializeBindings, value);
     }
 
     public NSString Label
@@ -40,10 +40,10 @@ public class MTL4ArgumentTableDescriptor(nint nativePtr, bool ownsReference) : N
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetMaxTextureBindCount, value);
     }
 
-    public bool SupportAttributeStrides
+    public Bool8 SupportAttributeStrides
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4ArgumentTableDescriptorBindings.SupportAttributeStrides);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetSupportAttributeStrides, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetSupportAttributeStrides, value);
     }
 }
 

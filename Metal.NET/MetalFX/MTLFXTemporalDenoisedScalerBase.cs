@@ -102,7 +102,7 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr, bool ownsReference)
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.InputWidth);
     }
 
-    public bool IsDepthReversed
+    public Bool8 IsDepthReversed
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.IsDepthReversed);
     }
@@ -227,10 +227,10 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr, bool ownsReference)
         get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.RoughnessTextureUsage);
     }
 
-    public bool ShouldResetHistory
+    public Bool8 ShouldResetHistory
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.ShouldResetHistory);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetShouldResetHistory, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetShouldResetHistory, value);
     }
 
     public MTLTexture SpecularAlbedoTexture

@@ -22,10 +22,10 @@ public class MTLCommandBufferDescriptor(nint nativePtr, bool ownsReference) : Na
         set => SetProperty(ref field, MTLCommandBufferDescriptorBindings.SetLogState, value);
     }
 
-    public bool RetainedReferences
+    public Bool8 RetainedReferences
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCommandBufferDescriptorBindings.RetainedReferences);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorBindings.SetRetainedReferences, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorBindings.SetRetainedReferences, value);
     }
 }
 

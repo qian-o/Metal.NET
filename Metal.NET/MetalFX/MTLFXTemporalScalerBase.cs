@@ -82,7 +82,7 @@ public class MTLFXTemporalScalerBase(nint nativePtr, bool ownsReference) : MTLFX
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalScalerBaseBindings.InputWidth);
     }
 
-    public bool IsDepthReversed
+    public Bool8 IsDepthReversed
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalScalerBaseBindings.IsDepthReversed);
     }
@@ -175,10 +175,10 @@ public class MTLFXTemporalScalerBase(nint nativePtr, bool ownsReference) : MTLFX
         get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXTemporalScalerBaseBindings.ReactiveTextureUsage);
     }
 
-    public bool Reset
+    public Bool8 Reset
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXTemporalScalerBaseBindings.Reset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetReset, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetReset, value);
     }
 
     public void SetDepthReversed(bool depthReversed)

@@ -57,7 +57,7 @@ public class MTLCommandBuffer(nint nativePtr, bool ownsReference) : NativeObject
         get => GetProperty(ref field, MTLCommandBufferBindings.Logs);
     }
 
-    public bool RetainedReferences
+    public Bool8 RetainedReferences
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCommandBufferBindings.RetainedReferences);
     }

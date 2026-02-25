@@ -78,15 +78,15 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr, bool ownsReference) : Na
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFXFrameInterpolatorBaseBindings.InputWidth);
     }
 
-    public bool IsDepthReversed
+    public Bool8 IsDepthReversed
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXFrameInterpolatorBaseBindings.IsDepthReversed);
     }
 
-    public bool IsUITextureComposited
+    public Bool8 IsUITextureComposited
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXFrameInterpolatorBaseBindings.IsUITextureComposited);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetIsUITextureComposited, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetIsUITextureComposited, value);
     }
 
     public float JitterOffsetX
@@ -167,10 +167,10 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr, bool ownsReference) : Na
         set => SetProperty(ref field, MTLFXFrameInterpolatorBaseBindings.SetPrevColorTexture, value);
     }
 
-    public bool ShouldResetHistory
+    public Bool8 ShouldResetHistory
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFXFrameInterpolatorBaseBindings.ShouldResetHistory);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetShouldResetHistory, (Bool8)value);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetShouldResetHistory, value);
     }
 
     public MTLTexture UiTexture
