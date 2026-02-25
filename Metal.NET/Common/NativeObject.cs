@@ -67,7 +67,7 @@ public abstract class NativeObject(nint nativePtr) : IDisposable
     {
         ObjectiveCRuntime.MsgSend(NativePtr, selector, value.NativePtr);
 
-        field = value;
+        GetProperty(ref field, selector);
     }
 }
 

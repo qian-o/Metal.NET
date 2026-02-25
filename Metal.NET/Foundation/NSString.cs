@@ -19,7 +19,7 @@ public class NSString(nint nativePtr) : NativeObject(nativePtr), INativeObject<N
     {
         fixed (byte* utf8 = Encoding.UTF8.GetBytes(value + '\0'))
         {
-            return new(ObjectiveCRuntime.MsgSendPtr(NSStringBindings.Class, NSStringBindings.StringWithUtf8String, (nint)utf8));
+            return new(ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.MsgSendPtr(NSStringBindings.Class, NSStringBindings.Alloc), NSStringBindings.InitWithUtf8String, (nint)utf8));
         }
     }
 
@@ -40,5 +40,7 @@ file static class NSStringBindings
 
     public static readonly Selector Utf8String = "UTF8String";
 
-    public static readonly Selector StringWithUtf8String = "stringWithUTF8String:";
+    public static readonly Selector Alloc = "alloc";
+
+    public static readonly Selector InitWithUtf8String = "initWithUTF8String:";
 }
