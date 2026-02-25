@@ -26,8 +26,7 @@ public class NSArray(nint nativePtr, bool ownsReference) : NativeObject(nativePt
 /// <summary>
 /// Typed wrapper around an Objective-C NSArray whose elements are <typeparamref name="T"/>.
 /// </summary>
-public class NSArray<T>(nint nativePtr, bool ownsReference) : NSArray(nativePtr, ownsReference), INativeObject<NSArray<T>>
-    where T : NativeObject, INativeObject<T>
+public class NSArray<T>(nint nativePtr, bool ownsReference) : NSArray(nativePtr, ownsReference), INativeObject<NSArray<T>> where T : NativeObject, INativeObject<T>
 {
     public static new NSArray<T> Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
