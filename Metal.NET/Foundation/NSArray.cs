@@ -17,9 +17,7 @@ public static class NSArray
 
         for (nuint i = 0; i < count; i++)
         {
-            nint elemPtr = ObjectiveCRuntime.MsgSendPtr(nativePtr, NSArrayBindings.ObjectAtIndex, i);
-
-            result[(int)i] = T.Create(elemPtr, false);
+            result[(int)i] = T.Create(ObjectiveCRuntime.MsgSendPtr(nativePtr, NSArrayBindings.ObjectAtIndex, i), false);
         }
 
         return result;
@@ -31,16 +29,11 @@ public static class NSArray
     /// </summary>
     public static unsafe nint FromArray<T>(T[] array) where T : NativeObject
     {
-        nint[] nativePtrs = new nint[array.Length];
+        nint[] nativePtrs = [.. array.Select(x => x.NativePtr)];
 
-        for (int i = 0; i < array.Length; i++)
+        fixed (nint* pNativePtrs = nativePtrs)
         {
-            nativePtrs[i] = array[i].NativePtr;
-        }
-
-        fixed (nint* ptrs = nativePtrs)
-        {
-            return ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.Alloc(NSArrayBindings.Class), NSArrayBindings.InitWithObjectsCount, (nint)ptrs, (nuint)array.Length);
+            return ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.Alloc(NSArrayBindings.Class), NSArrayBindings.InitWithObjectsCount, (nint)pNativePtrs, (nuint)array.Length);
         }
     }
 }
