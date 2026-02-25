@@ -8,6 +8,7 @@ public class MTL4PipelineDataSetSerializerDescriptor(nint nativePtr, bool ownsRe
 
     public MTL4PipelineDataSetSerializerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineDataSetSerializerDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTL4PipelineDataSetSerializerConfiguration Configuration

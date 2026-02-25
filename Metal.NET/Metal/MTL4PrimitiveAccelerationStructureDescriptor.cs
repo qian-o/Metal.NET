@@ -8,6 +8,7 @@ public class MTL4PrimitiveAccelerationStructureDescriptor(nint nativePtr, bool o
 
     public MTL4PrimitiveAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4PrimitiveAccelerationStructureDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLAccelerationStructureGeometryDescriptor[] GeometryDescriptors

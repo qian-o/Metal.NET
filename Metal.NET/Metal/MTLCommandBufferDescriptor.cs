@@ -8,6 +8,7 @@ public class MTLCommandBufferDescriptor(nint nativePtr, bool ownsReference) : Na
 
     public MTLCommandBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCommandBufferDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLCommandBufferErrorOption ErrorOptions

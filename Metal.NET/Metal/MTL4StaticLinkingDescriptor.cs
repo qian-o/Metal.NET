@@ -8,6 +8,7 @@ public class MTL4StaticLinkingDescriptor(nint nativePtr, bool ownsReference) : N
 
     public MTL4StaticLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4StaticLinkingDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTL4FunctionDescriptor[] FunctionDescriptors

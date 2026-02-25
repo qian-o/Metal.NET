@@ -8,6 +8,7 @@ public class MTLRasterizationRateLayerArray(nint nativePtr, bool ownsReference) 
 
     public MTLRasterizationRateLayerArray() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateLayerArrayBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLRasterizationRateLayerDescriptor this[nuint layerIndex]

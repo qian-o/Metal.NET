@@ -8,6 +8,7 @@ public class MTLArrayType(nint nativePtr, bool ownsReference) : MTLType(nativePt
 
     public MTLArrayType() : this(ObjectiveCRuntime.AllocInit(MTLArrayTypeBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public nuint ArgumentIndexStride

@@ -8,6 +8,7 @@ public class MTLCounterSampleBufferDescriptor(nint nativePtr, bool ownsReference
 
     public MTLCounterSampleBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCounterSampleBufferDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLCounterSet CounterSet

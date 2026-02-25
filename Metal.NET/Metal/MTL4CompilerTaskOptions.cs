@@ -8,6 +8,7 @@ public class MTL4CompilerTaskOptions(nint nativePtr, bool ownsReference) : Nativ
 
     public MTL4CompilerTaskOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CompilerTaskOptionsBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTL4Archive[] LookupArchives

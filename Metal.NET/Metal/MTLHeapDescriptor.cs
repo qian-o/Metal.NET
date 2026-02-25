@@ -8,6 +8,7 @@ public class MTLHeapDescriptor(nint nativePtr, bool ownsReference) : NativeObjec
 
     public MTLHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLHeapDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLCPUCacheMode CpuCacheMode

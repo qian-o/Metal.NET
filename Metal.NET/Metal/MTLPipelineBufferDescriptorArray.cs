@@ -8,6 +8,7 @@ public class MTLPipelineBufferDescriptorArray(nint nativePtr, bool ownsReference
 
     public MTLPipelineBufferDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLPipelineBufferDescriptorArrayBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLPipelineBufferDescriptor this[nuint bufferIndex]

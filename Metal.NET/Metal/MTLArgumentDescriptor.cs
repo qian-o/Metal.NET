@@ -8,6 +8,7 @@ public class MTLArgumentDescriptor(nint nativePtr, bool ownsReference) : NativeO
 
     public MTLArgumentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLArgumentDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLBindingAccess Access

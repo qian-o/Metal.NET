@@ -8,6 +8,7 @@ public class MTLIndirectCommandBufferDescriptor(nint nativePtr, bool ownsReferen
 
     public MTLIndirectCommandBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIndirectCommandBufferDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLIndirectCommandType CommandTypes

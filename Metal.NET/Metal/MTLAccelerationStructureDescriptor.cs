@@ -8,6 +8,7 @@ public class MTLAccelerationStructureDescriptor(nint nativePtr, bool ownsReferen
 
     public MTLAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLAccelerationStructureUsage Usage

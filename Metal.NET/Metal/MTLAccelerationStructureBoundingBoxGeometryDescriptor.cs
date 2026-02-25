@@ -8,6 +8,7 @@ public class MTLAccelerationStructureBoundingBoxGeometryDescriptor(nint nativePt
 
     public MTLAccelerationStructureBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLBuffer BoundingBoxBuffer

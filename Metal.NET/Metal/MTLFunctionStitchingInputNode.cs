@@ -8,6 +8,7 @@ public class MTLFunctionStitchingInputNode(nint nativePtr, bool ownsReference) :
 
     public MTLFunctionStitchingInputNode() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingInputNodeBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public nuint ArgumentIndex

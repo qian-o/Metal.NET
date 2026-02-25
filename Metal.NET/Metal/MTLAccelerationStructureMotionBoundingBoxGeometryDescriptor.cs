@@ -8,6 +8,7 @@ public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor(nint na
 
     public MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLMotionKeyframeData[] BoundingBoxBuffers

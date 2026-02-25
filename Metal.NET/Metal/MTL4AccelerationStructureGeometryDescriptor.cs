@@ -8,6 +8,7 @@ public class MTL4AccelerationStructureGeometryDescriptor(nint nativePtr, bool ow
 
     public MTL4AccelerationStructureGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureGeometryDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public Bool8 AllowDuplicateIntersectionFunctionInvocation

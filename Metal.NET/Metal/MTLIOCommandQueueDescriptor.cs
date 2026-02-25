@@ -8,6 +8,7 @@ public class MTLIOCommandQueueDescriptor(nint nativePtr, bool ownsReference) : N
 
     public MTLIOCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIOCommandQueueDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public nuint MaxCommandBufferCount

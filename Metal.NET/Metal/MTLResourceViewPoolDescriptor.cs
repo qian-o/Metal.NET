@@ -8,6 +8,7 @@ public class MTLResourceViewPoolDescriptor(nint nativePtr, bool ownsReference) :
 
     public MTLResourceViewPoolDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceViewPoolDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public NSString Label

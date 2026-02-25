@@ -8,6 +8,7 @@ public class CAMetalLayer(nint nativePtr, bool ownsReference) : NativeObject(nat
 
     public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(CAMetalLayerBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public Bool8 AllowsNextDrawableTimeout

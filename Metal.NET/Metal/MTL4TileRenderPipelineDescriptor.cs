@@ -8,6 +8,7 @@ public class MTL4TileRenderPipelineDescriptor(nint nativePtr, bool ownsReference
 
     public MTL4TileRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4TileRenderPipelineDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLTileRenderPipelineColorAttachmentDescriptorArray ColorAttachments

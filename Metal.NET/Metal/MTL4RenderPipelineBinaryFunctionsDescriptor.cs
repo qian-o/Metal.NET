@@ -8,6 +8,7 @@ public class MTL4RenderPipelineBinaryFunctionsDescriptor(nint nativePtr, bool ow
 
     public MTL4RenderPipelineBinaryFunctionsDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLFunction[] FragmentAdditionalBinaryFunctions

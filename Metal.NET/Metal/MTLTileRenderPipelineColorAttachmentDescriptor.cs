@@ -8,6 +8,7 @@ public class MTLTileRenderPipelineColorAttachmentDescriptor(nint nativePtr, bool
 
     public MTLTileRenderPipelineColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTileRenderPipelineColorAttachmentDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLPixelFormat PixelFormat

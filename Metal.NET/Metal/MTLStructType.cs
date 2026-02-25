@@ -8,6 +8,7 @@ public class MTLStructType(nint nativePtr, bool ownsReference) : MTLType(nativeP
 
     public MTLStructType() : this(ObjectiveCRuntime.AllocInit(MTLStructTypeBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLStructMember[] Members

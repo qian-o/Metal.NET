@@ -8,6 +8,7 @@ public class MTLBufferLayoutDescriptor(nint nativePtr, bool ownsReference) : Nat
 
     public MTLBufferLayoutDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBufferLayoutDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLStepFunction StepFunction

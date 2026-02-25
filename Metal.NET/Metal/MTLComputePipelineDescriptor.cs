@@ -8,6 +8,7 @@ public class MTLComputePipelineDescriptor(nint nativePtr, bool ownsReference) : 
 
     public MTLComputePipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLComputePipelineDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLBinaryArchive[] BinaryArchives

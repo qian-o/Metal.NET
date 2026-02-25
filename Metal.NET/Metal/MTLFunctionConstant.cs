@@ -8,6 +8,7 @@ public class MTLFunctionConstant(nint nativePtr, bool ownsReference) : NativeObj
 
     public MTLFunctionConstant() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public nuint Index

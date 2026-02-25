@@ -8,6 +8,7 @@ public class MTLRenderPassAttachmentDescriptor(nint nativePtr, bool ownsReferenc
 
     public MTLRenderPassAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassAttachmentDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public nuint DepthPlane

@@ -8,6 +8,7 @@ public class MTLSharedEventListener(nint nativePtr, bool ownsReference) : Native
 
     public MTLSharedEventListener() : this(ObjectiveCRuntime.AllocInit(MTLSharedEventListenerBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public nint DispatchQueue

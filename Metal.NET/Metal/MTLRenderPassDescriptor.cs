@@ -8,6 +8,7 @@ public class MTLRenderPassDescriptor(nint nativePtr, bool ownsReference) : Nativ
 
     public MTLRenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLRenderPassColorAttachmentDescriptorArray ColorAttachments

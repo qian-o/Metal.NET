@@ -8,6 +8,7 @@ public class MTL4RenderPipelineDescriptor(nint nativePtr, bool ownsReference) : 
 
     public MTL4RenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTL4AlphaToCoverageState AlphaToCoverageState

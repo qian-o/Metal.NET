@@ -8,6 +8,7 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, bool ownsReference)
 
     public MTLMeshRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLMeshRenderPipelineDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public Bool8 AlphaToCoverageEnabled

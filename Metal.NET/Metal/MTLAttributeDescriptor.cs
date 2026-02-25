@@ -8,6 +8,7 @@ public class MTLAttributeDescriptor(nint nativePtr, bool ownsReference) : Native
 
     public MTLAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAttributeDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public nuint BufferIndex

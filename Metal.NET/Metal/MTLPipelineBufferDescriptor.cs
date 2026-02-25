@@ -8,6 +8,7 @@ public class MTLPipelineBufferDescriptor(nint nativePtr, bool ownsReference) : N
 
     public MTLPipelineBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLPipelineBufferDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLMutability Mutability

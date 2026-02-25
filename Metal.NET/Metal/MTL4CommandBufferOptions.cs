@@ -8,6 +8,7 @@ public class MTL4CommandBufferOptions(nint nativePtr, bool ownsReference) : Nati
 
     public MTL4CommandBufferOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CommandBufferOptionsBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLLogState LogState

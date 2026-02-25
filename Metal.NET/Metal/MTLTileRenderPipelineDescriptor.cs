@@ -8,6 +8,7 @@ public class MTLTileRenderPipelineDescriptor(nint nativePtr, bool ownsReference)
 
     public MTLTileRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTileRenderPipelineDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLBinaryArchive[] BinaryArchives

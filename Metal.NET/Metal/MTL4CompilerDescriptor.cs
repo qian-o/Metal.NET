@@ -8,6 +8,7 @@ public class MTL4CompilerDescriptor(nint nativePtr, bool ownsReference) : Native
 
     public MTL4CompilerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CompilerDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public NSString Label

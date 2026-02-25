@@ -8,6 +8,7 @@ public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr, boo
 
     public MTLAccelerationStructureCurveGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureCurveGeometryDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLBuffer ControlPointBuffer

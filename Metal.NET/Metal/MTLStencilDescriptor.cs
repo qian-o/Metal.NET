@@ -8,6 +8,7 @@ public class MTLStencilDescriptor(nint nativePtr, bool ownsReference) : NativeOb
 
     public MTLStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStencilDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLStencilOperation DepthFailureOperation

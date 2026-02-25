@@ -8,6 +8,7 @@ public class MTL4RenderPassDescriptor(nint nativePtr, bool ownsReference) : Nati
 
     public MTL4RenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPassDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLRenderPassColorAttachmentDescriptorArray ColorAttachments

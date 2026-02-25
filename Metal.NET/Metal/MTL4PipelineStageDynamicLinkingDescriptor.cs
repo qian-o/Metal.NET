@@ -8,6 +8,7 @@ public class MTL4PipelineStageDynamicLinkingDescriptor(nint nativePtr, bool owns
 
     public MTL4PipelineStageDynamicLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineStageDynamicLinkingDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTL4BinaryFunction[] BinaryLinkedFunctions

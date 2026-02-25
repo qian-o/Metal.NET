@@ -8,6 +8,7 @@ public class MTLBlitPassDescriptor(nint nativePtr, bool ownsReference) : NativeO
 
     public MTLBlitPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBlitPassDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLBlitPassSampleBufferAttachmentDescriptorArray SampleBufferAttachments

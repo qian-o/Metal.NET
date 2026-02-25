@@ -8,6 +8,7 @@ public class MTLRenderPipelineFunctionsDescriptor(nint nativePtr, bool ownsRefer
 
     public MTLRenderPipelineFunctionsDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineFunctionsDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLFunction[] FragmentAdditionalBinaryFunctions

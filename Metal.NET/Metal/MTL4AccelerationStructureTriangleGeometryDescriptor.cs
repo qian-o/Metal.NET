@@ -8,6 +8,7 @@ public class MTL4AccelerationStructureTriangleGeometryDescriptor(nint nativePtr,
 
     public MTL4AccelerationStructureTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureTriangleGeometryDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTL4BufferRange IndexBuffer

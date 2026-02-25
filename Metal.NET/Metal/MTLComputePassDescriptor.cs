@@ -8,6 +8,7 @@ public class MTLComputePassDescriptor(nint nativePtr, bool ownsReference) : Nati
 
     public MTLComputePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLComputePassDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLDispatchType DispatchType

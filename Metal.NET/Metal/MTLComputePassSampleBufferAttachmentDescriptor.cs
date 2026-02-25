@@ -8,6 +8,7 @@ public class MTLComputePassSampleBufferAttachmentDescriptor(nint nativePtr, bool
 
     public MTLComputePassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLComputePassSampleBufferAttachmentDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public nuint EndOfEncoderSampleIndex

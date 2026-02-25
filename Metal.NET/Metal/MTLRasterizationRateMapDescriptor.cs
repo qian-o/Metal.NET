@@ -8,6 +8,7 @@ public class MTLRasterizationRateMapDescriptor(nint nativePtr, bool ownsReferenc
 
     public MTLRasterizationRateMapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateMapDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public NSString Label

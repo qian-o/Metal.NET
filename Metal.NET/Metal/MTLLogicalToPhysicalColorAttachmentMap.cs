@@ -8,6 +8,7 @@ public class MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr, bool ownsRef
 
     public MTLLogicalToPhysicalColorAttachmentMap() : this(ObjectiveCRuntime.AllocInit(MTLLogicalToPhysicalColorAttachmentMapBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public nuint GetPhysicalIndex(nuint logicalIndex)

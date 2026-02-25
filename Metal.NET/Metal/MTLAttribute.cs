@@ -8,6 +8,7 @@ public class MTLAttribute(nint nativePtr, bool ownsReference) : NativeObject(nat
 
     public MTLAttribute() : this(ObjectiveCRuntime.AllocInit(MTLAttributeBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public Bool8 Active

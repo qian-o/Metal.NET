@@ -8,6 +8,7 @@ public class MTLCommandQueueDescriptor(nint nativePtr, bool ownsReference) : Nat
 
     public MTLCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCommandQueueDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLLogState LogState

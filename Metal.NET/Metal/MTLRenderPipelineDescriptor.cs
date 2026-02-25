@@ -8,6 +8,7 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, bool ownsReference) : N
 
     public MTLRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public Bool8 AlphaToCoverageEnabled

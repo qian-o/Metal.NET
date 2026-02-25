@@ -8,6 +8,7 @@ public class MTL4BinaryFunctionDescriptor(nint nativePtr, bool ownsReference) : 
 
     public MTL4BinaryFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4BinaryFunctionDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTL4FunctionDescriptor FunctionDescriptor

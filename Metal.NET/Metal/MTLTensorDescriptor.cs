@@ -8,6 +8,7 @@ public class MTLTensorDescriptor(nint nativePtr, bool ownsReference) : NativeObj
 
     public MTLTensorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTensorDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLCPUCacheMode CpuCacheMode

@@ -8,6 +8,7 @@ public class MTL4CounterHeapDescriptor(nint nativePtr, bool ownsReference) : Nat
 
     public MTL4CounterHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CounterHeapDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public nuint Count

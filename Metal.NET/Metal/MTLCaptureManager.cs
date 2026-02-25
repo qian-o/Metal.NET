@@ -8,6 +8,7 @@ public class MTLCaptureManager(nint nativePtr, bool ownsReference) : NativeObjec
 
     public MTLCaptureManager() : this(ObjectiveCRuntime.AllocInit(MTLCaptureManagerBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLCaptureScope DefaultCaptureScope

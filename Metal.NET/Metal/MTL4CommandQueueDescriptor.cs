@@ -8,6 +8,7 @@ public class MTL4CommandQueueDescriptor(nint nativePtr, bool ownsReference) : Na
 
     public MTL4CommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CommandQueueDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public nint FeedbackQueue

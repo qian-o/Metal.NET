@@ -17,20 +17,35 @@ public interface INativeObject<TSelf> where TSelf : NativeObject, INativeObject<
 /// <summary>
 /// Abstract base class for managed wrappers around Objective-C objects.
 /// Holds a native pointer and, when the instance owns the reference,
-/// sends <c>release</c> exactly once — either via <see cref="Dispose()"/>
-/// or via the finalizer.
+/// sends <c>release</c> on explicit <see cref="Dispose()"/>.
+/// <para>
+/// The finalizer is suppressed by default so that method-returned wrappers
+/// are only released via explicit <see cref="Dispose()"/>. Derived types
+/// that create fully-managed instances (via <c>AllocInit</c>) call
+/// <see cref="GC.ReRegisterForFinalize"/> so that GC can release them
+/// as a safety net.
+/// </para>
 /// </summary>
-/// <param name="nativePtr">The Objective-C object pointer (<c>id</c>).</param>
-/// <param name="ownsReference">
-/// <see langword="true"/> to send <c>release</c> on disposal;
-/// <see langword="false"/> for borrowed references that must not be released.
-/// </param>
-public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDisposable
+public abstract class NativeObject : IDisposable
 {
     private volatile uint disposed;
 
+    /// <param name="nativePtr">The Objective-C object pointer (<c>id</c>).</param>
+    /// <param name="ownsReference">
+    /// <see langword="true"/> to send <c>release</c> on disposal;
+    /// <see langword="false"/> for borrowed references that must not be released.
+    /// </param>
+    protected NativeObject(nint nativePtr, bool ownsReference)
+    {
+        NativePtr = nativePtr;
+        OwnsReference = ownsReference;
+
+        GC.SuppressFinalize(this);
+    }
+
     /// <summary>
     /// Release the native reference if it has not been released yet.
+    /// Only runs for instances that re-registered for finalization.
     /// </summary>
     ~NativeObject()
     {
@@ -40,12 +55,12 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDispos
     /// <summary>
     /// The raw pointer (<c>id</c>) to the underlying Objective-C object.
     /// </summary>
-    public nint NativePtr { get; } = nativePtr;
+    public nint NativePtr { get; }
 
     /// <summary>
     /// Indicates whether this instance owns the native reference.
     /// </summary>
-    public bool OwnsReference { get; } = ownsReference;
+    public bool OwnsReference { get; }
 
     /// <summary>
     /// Indicates whether the native pointer is zero (<c>nil</c>).

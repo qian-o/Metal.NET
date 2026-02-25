@@ -8,6 +8,7 @@ public class MTLRenderPipelineColorAttachmentDescriptor(nint nativePtr, bool own
 
     public MTLRenderPipelineColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineColorAttachmentDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLBlendOperation AlphaBlendOperation

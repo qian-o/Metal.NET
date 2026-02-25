@@ -8,6 +8,7 @@ public class MTLLogStateDescriptor(nint nativePtr, bool ownsReference) : NativeO
 
     public MTLLogStateDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLLogStateDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public nint BufferSize

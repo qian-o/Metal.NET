@@ -8,6 +8,7 @@ public class MTLCaptureDescriptor(nint nativePtr, bool ownsReference) : NativeOb
 
     public MTLCaptureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCaptureDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLCaptureDestination Destination

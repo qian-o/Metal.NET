@@ -8,6 +8,7 @@ public class MTLVertexDescriptor(nint nativePtr, bool ownsReference) : NativeObj
 
     public MTLVertexDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLVertexAttributeDescriptorArray Attributes

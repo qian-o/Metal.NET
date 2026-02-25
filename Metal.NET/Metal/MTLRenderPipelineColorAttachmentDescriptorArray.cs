@@ -8,6 +8,7 @@ public class MTLRenderPipelineColorAttachmentDescriptorArray(nint nativePtr, boo
 
     public MTLRenderPipelineColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineColorAttachmentDescriptorArrayBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLRenderPipelineColorAttachmentDescriptor this[nuint attachmentIndex]

@@ -8,6 +8,7 @@ public class MTLPointerType(nint nativePtr, bool ownsReference) : MTLType(native
 
     public MTLPointerType() : this(ObjectiveCRuntime.AllocInit(MTLPointerTypeBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLBindingAccess Access

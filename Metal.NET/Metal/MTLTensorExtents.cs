@@ -8,6 +8,7 @@ public class MTLTensorExtents(nint nativePtr, bool ownsReference) : NativeObject
 
     public MTLTensorExtents() : this(ObjectiveCRuntime.AllocInit(MTLTensorExtentsBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public nuint Rank

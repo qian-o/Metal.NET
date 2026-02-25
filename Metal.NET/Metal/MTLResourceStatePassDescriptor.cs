@@ -8,6 +8,7 @@ public class MTLResourceStatePassDescriptor(nint nativePtr, bool ownsReference) 
 
     public MTLResourceStatePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceStatePassDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLResourceStatePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments

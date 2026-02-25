@@ -8,6 +8,7 @@ public class MTLRenderPassSampleBufferAttachmentDescriptor(nint nativePtr, bool 
 
     public MTLRenderPassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassSampleBufferAttachmentDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public nuint EndOfFragmentSampleIndex

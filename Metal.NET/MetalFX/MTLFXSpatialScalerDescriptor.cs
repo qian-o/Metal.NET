@@ -8,6 +8,7 @@ public class MTLFXSpatialScalerDescriptor(nint nativePtr, bool ownsReference) : 
 
     public MTLFXSpatialScalerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXSpatialScalerDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLFXSpatialScalerColorProcessingMode ColorProcessingMode

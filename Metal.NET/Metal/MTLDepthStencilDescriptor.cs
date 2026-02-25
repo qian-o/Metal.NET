@@ -8,6 +8,7 @@ public class MTLDepthStencilDescriptor(nint nativePtr, bool ownsReference) : Nat
 
     public MTLDepthStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLDepthStencilDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLStencilDescriptor BackFaceStencil

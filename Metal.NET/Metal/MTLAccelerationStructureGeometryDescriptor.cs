@@ -8,6 +8,7 @@ public class MTLAccelerationStructureGeometryDescriptor(nint nativePtr, bool own
 
     public MTLAccelerationStructureGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureGeometryDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public Bool8 AllowDuplicateIntersectionFunctionInvocation

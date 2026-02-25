@@ -42,7 +42,7 @@ Metal.NET.slnx
 
 Every `NativeObject` wrapper tracks whether it **owns** its native reference via `bool ownsReference`:
 
-- **Owned** (`true`) — the wrapper sends `release` on `Dispose()` or GC finalization. Used for all method return values (the binding retains non-owning results so the caller can safely `Dispose` them).
+- **Owned** (`true`) — the wrapper sends `release` on `Dispose()`. Used for all method return values and instances created via the parameterless constructor.
 - **Borrowed** (`false`) — the wrapper never sends `release`. Used for property getters, `objectAtIndex:`, and `out NSError` parameters.
 
 ```csharp
@@ -54,22 +54,28 @@ using MTLCommandQueue queue = device.NewCommandQueue();
 MTLDevice device = commandQueue.Device;
 ```
 
-### GC-Safe Dispose
+### Finalization
 
-`NativeObject` implements the full dispose pattern with a finalizer. `Release()` uses `Interlocked.Exchange` to guarantee exactly-once semantics, making double-`Dispose()` and GC finalization safe:
+The finalizer is **suppressed by default** so that method-returned wrappers are only released via explicit `Dispose()`. Instances created via the parameterless constructor (`AllocInit`) re-register for finalization, so GC can release them as a safety net if the caller forgets to `Dispose()`:
 
 ```csharp
-public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDisposable
+public abstract class NativeObject : IDisposable
 {
-    ~NativeObject() => Release();
-
-    public void Dispose() { Release(); GC.SuppressFinalize(this); }
-
-    private void Release()
+    protected NativeObject(nint nativePtr, bool ownsReference)
     {
-        if (Interlocked.Exchange(ref disposed, 1) is not 0) return;
-        if (OwnsReference) ObjectiveCRuntime.Release(NativePtr);
+        NativePtr = nativePtr;
+        OwnsReference = ownsReference;
+        GC.SuppressFinalize(this); // No finalizer by default
     }
+
+    ~NativeObject() => Release();
+    public void Dispose() { Release(); GC.SuppressFinalize(this); }
+}
+
+// Generated parameterless constructor re-enables finalization:
+public MTLTextureDescriptor() : this(AllocInit(...), true)
+{
+    GC.ReRegisterForFinalize(this);
 }
 ```
 

@@ -8,6 +8,7 @@ public class MTLLinkedFunctions(nint nativePtr, bool ownsReference) : NativeObje
 
     public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(MTLLinkedFunctionsBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLFunction[] BinaryFunctions

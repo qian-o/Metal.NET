@@ -8,6 +8,7 @@ public class MTLIntersectionFunctionTableDescriptor(nint nativePtr, bool ownsRef
 
     public MTLIntersectionFunctionTableDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIntersectionFunctionTableDescriptorBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public nuint FunctionCount

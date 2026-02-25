@@ -8,6 +8,7 @@ public class MTLTileRenderPipelineColorAttachmentDescriptorArray(nint nativePtr,
 
     public MTLTileRenderPipelineColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLTileRenderPipelineColorAttachmentDescriptorArrayBindings.Class), true)
     {
+        GC.ReRegisterForFinalize(this);
     }
 
     public MTLTileRenderPipelineColorAttachmentDescriptor this[nuint attachmentIndex]
