@@ -12,16 +12,10 @@ public class NSURL(nint nativePtr) : NativeObject(nativePtr), INativeObject<NSUR
         get => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSURLBindings.FileSystemRepresentation);
     }
 
-    public NSURL InitFileURLWithPath(NSString pPath)
+    public static implicit operator NSURL(NSString value)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSURLBindings.InitFileURLWithPath, pPath.NativePtr);
-
-        return new(nativePtr);
-    }
-
-    public static NSURL FileURLWithPath(NSString pPath)
-    {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NSURLBindings.Class, NSURLBindings.FileURLWithPath, pPath.NativePtr);
+        nint allocPtr = ObjectiveCRuntime.MsgSendPtr(NSURLBindings.Class, NSURLBindings.Alloc);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(allocPtr, NSURLBindings.InitFileURLWithPath, value.NativePtr);
 
         return new(nativePtr);
     }
@@ -31,9 +25,9 @@ file static class NSURLBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("NSURL");
 
+    public static readonly Selector Alloc = "alloc";
+
     public static readonly Selector FileSystemRepresentation = "fileSystemRepresentation";
 
     public static readonly Selector InitFileURLWithPath = "initFileURLWithPath:";
-
-    public static readonly Selector FileURLWithPath = "fileURLWithPath:";
 }

@@ -27,12 +27,22 @@ public abstract class NativeObject(nint nativePtr) : IDisposable
     /// </summary>
     public bool IsNull => NativePtr is 0;
 
+    public void Retain()
+    {
+        ObjectiveCRuntime.Retain(NativePtr);
+    }
+
+    public void Release()
+    {
+        ObjectiveCRuntime.Release(NativePtr);
+    }
+
     /// <summary>
     /// Sends <c>release</c> to the underlying Objective-C object, decrementing its reference count.
     /// </summary>
     public void Dispose()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, NativeObjectBindings.Release);
+        Release();
 
         GC.SuppressFinalize(this);
     }
@@ -69,9 +79,4 @@ public abstract class NativeObject(nint nativePtr) : IDisposable
 
         GetProperty(ref field, selector);
     }
-}
-
-file static class NativeObjectBindings
-{
-    public static readonly Selector Release = "release";
 }
