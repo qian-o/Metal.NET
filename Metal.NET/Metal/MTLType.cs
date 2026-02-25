@@ -8,7 +8,7 @@ public class MTLType(nint nativePtr, bool ownsReference) : NativeObject(nativePt
 
     public MTLType() : this(ObjectiveCRuntime.AllocInit(MTLTypeBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLDataType DataType

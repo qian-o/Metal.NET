@@ -8,7 +8,7 @@ public class MTL4SpecializedFunctionDescriptor(nint nativePtr, bool ownsReferenc
 
     public MTL4SpecializedFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4SpecializedFunctionDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLFunctionConstantValues ConstantValues

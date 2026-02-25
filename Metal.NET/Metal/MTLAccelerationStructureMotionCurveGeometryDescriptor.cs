@@ -8,7 +8,7 @@ public class MTLAccelerationStructureMotionCurveGeometryDescriptor(nint nativePt
 
     public MTLAccelerationStructureMotionCurveGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLMotionKeyframeData[] ControlPointBuffers

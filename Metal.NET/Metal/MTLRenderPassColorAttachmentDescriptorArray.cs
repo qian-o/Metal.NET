@@ -8,7 +8,7 @@ public class MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr, bool ow
 
     public MTLRenderPassColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassColorAttachmentDescriptorArrayBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLRenderPassColorAttachmentDescriptor this[nuint attachmentIndex]

@@ -8,7 +8,7 @@ public class MTLIntersectionFunctionDescriptor(nint nativePtr, bool ownsReferenc
 
     public MTLIntersectionFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIntersectionFunctionDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 }
 

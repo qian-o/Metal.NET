@@ -8,7 +8,7 @@ public class MTL4ArgumentTableDescriptor(nint nativePtr, bool ownsReference) : N
 
     public MTL4ArgumentTableDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4ArgumentTableDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public Bool8 InitializeBindings

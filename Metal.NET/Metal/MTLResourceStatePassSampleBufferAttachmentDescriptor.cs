@@ -8,7 +8,7 @@ public class MTLResourceStatePassSampleBufferAttachmentDescriptor(nint nativePtr
 
     public MTLResourceStatePassSampleBufferAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceStatePassSampleBufferAttachmentDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public nuint EndOfEncoderSampleIndex

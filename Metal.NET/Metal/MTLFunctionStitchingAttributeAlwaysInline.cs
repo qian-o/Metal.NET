@@ -8,7 +8,7 @@ public class MTLFunctionStitchingAttributeAlwaysInline(nint nativePtr, bool owns
 
     public MTLFunctionStitchingAttributeAlwaysInline() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingAttributeAlwaysInlineBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 }
 

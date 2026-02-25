@@ -8,7 +8,7 @@ public class MTLMotionKeyframeData(nint nativePtr, bool ownsReference) : NativeO
 
     public MTLMotionKeyframeData() : this(ObjectiveCRuntime.AllocInit(MTLMotionKeyframeDataBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLBuffer Buffer

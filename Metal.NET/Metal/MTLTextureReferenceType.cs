@@ -8,7 +8,7 @@ public class MTLTextureReferenceType(nint nativePtr, bool ownsReference) : MTLTy
 
     public MTLTextureReferenceType() : this(ObjectiveCRuntime.AllocInit(MTLTextureReferenceTypeBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLBindingAccess Access

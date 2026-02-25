@@ -8,7 +8,7 @@ public class MTLVertexAttributeDescriptor(nint nativePtr, bool ownsReference) : 
 
     public MTLVertexAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public nuint BufferIndex

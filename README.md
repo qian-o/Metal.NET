@@ -56,26 +56,25 @@ MTLDevice device = commandQueue.Device;
 
 ### Finalization
 
-The finalizer is **suppressed by default** so that method-returned wrappers are only released via explicit `Dispose()`. Instances created via the parameterless constructor (`AllocInit`) re-register for finalization, so GC can release them as a safety net if the caller forgets to `Dispose()`:
+Objects fully created by C# (via the parameterless constructor / `AllocInit`) can be properly collected by the GC — the finalizer releases the native reference as a safety net. Objects created from native pointers (method returns, borrowed references) can only be released via explicit `Dispose()`; the finalizer does nothing for them:
 
 ```csharp
-public abstract class NativeObject : IDisposable
+public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDisposable
 {
-    protected NativeObject(nint nativePtr, bool ownsReference)
+    protected bool IsFullyManaged { get; set; }
+
+    ~NativeObject()
     {
-        NativePtr = nativePtr;
-        OwnsReference = ownsReference;
-        GC.SuppressFinalize(this); // No finalizer by default
+        if (IsFullyManaged) Release(); // Only GC-release fully C#-created objects
     }
 
-    ~NativeObject() => Release();
     public void Dispose() { Release(); GC.SuppressFinalize(this); }
 }
 
-// Generated parameterless constructor re-enables finalization:
+// Generated parameterless constructor marks the instance as fully managed:
 public MTLTextureDescriptor() : this(AllocInit(...), true)
 {
-    GC.ReRegisterForFinalize(this);
+    IsFullyManaged = true;
 }
 ```
 

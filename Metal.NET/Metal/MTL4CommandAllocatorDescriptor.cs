@@ -8,7 +8,7 @@ public class MTL4CommandAllocatorDescriptor(nint nativePtr, bool ownsReference) 
 
     public MTL4CommandAllocatorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CommandAllocatorDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public NSString Label

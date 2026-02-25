@@ -8,7 +8,7 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr, 
 
     public MTLAccelerationStructureTriangleGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureTriangleGeometryDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLBuffer IndexBuffer

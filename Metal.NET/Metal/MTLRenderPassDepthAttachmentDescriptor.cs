@@ -8,7 +8,7 @@ public class MTLRenderPassDepthAttachmentDescriptor(nint nativePtr, bool ownsRef
 
     public MTLRenderPassDepthAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassDepthAttachmentDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public double ClearDepth

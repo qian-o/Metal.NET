@@ -8,7 +8,7 @@ public class MTLBlitPassSampleBufferAttachmentDescriptorArray(nint nativePtr, bo
 
     public MTLBlitPassSampleBufferAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLBlitPassSampleBufferAttachmentDescriptorArrayBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLBlitPassSampleBufferAttachmentDescriptor this[nuint attachmentIndex]

@@ -8,7 +8,7 @@ public class MTLFunctionStitchingGraph(nint nativePtr, bool ownsReference) : Nat
 
     public MTLFunctionStitchingGraph() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingGraphBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLFunctionStitchingAttribute[] Attributes

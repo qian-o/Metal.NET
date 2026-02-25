@@ -8,7 +8,7 @@ public class MTLFXFrameInterpolatorDescriptor(nint nativePtr, bool ownsReference
 
     public MTLFXFrameInterpolatorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXFrameInterpolatorDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLPixelFormat ColorTextureFormat

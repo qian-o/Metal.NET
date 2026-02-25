@@ -8,7 +8,7 @@ public class MTLFunctionReflection(nint nativePtr, bool ownsReference) : NativeO
 
     public MTLFunctionReflection() : this(ObjectiveCRuntime.AllocInit(MTLFunctionReflectionBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLBinding[] Bindings

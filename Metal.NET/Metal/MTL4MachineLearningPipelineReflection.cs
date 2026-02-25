@@ -8,7 +8,7 @@ public class MTL4MachineLearningPipelineReflection(nint nativePtr, bool ownsRefe
 
     public MTL4MachineLearningPipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTL4MachineLearningPipelineReflectionBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLBinding[] Bindings

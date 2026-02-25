@@ -8,7 +8,7 @@ public class MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr, bool own
 
     public MTL4RenderPipelineDynamicLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineDynamicLinkingDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTL4PipelineStageDynamicLinkingDescriptor FragmentLinkingDescriptor

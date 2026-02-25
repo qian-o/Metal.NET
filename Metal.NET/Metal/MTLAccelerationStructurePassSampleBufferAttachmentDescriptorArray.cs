@@ -8,7 +8,7 @@ public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray(n
 
     public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArrayBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor this[nuint attachmentIndex]

@@ -8,7 +8,7 @@ public class MTLRenderPassColorAttachmentDescriptor(nint nativePtr, bool ownsRef
 
     public MTLRenderPassColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassColorAttachmentDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLClearColor ClearColor

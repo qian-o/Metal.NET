@@ -8,7 +8,7 @@ public class MTLVertexAttribute(nint nativePtr, bool ownsReference) : NativeObje
 
     public MTLVertexAttribute() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public Bool8 Active

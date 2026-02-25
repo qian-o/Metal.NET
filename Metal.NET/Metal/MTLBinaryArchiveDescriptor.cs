@@ -8,7 +8,7 @@ public class MTLBinaryArchiveDescriptor(nint nativePtr, bool ownsReference) : Na
 
     public MTLBinaryArchiveDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBinaryArchiveDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public NSURL Url

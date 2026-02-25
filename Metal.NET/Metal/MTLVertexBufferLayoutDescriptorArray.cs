@@ -8,7 +8,7 @@ public class MTLVertexBufferLayoutDescriptorArray(nint nativePtr, bool ownsRefer
 
     public MTLVertexBufferLayoutDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLVertexBufferLayoutDescriptorArrayBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLVertexBufferLayoutDescriptor this[nuint index]

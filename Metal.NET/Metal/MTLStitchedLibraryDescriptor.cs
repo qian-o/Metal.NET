@@ -8,7 +8,7 @@ public class MTLStitchedLibraryDescriptor(nint nativePtr, bool ownsReference) : 
 
     public MTLStitchedLibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStitchedLibraryDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLBinaryArchive[] BinaryArchives

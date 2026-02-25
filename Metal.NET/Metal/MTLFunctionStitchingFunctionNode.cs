@@ -8,7 +8,7 @@ public class MTLFunctionStitchingFunctionNode(nint nativePtr, bool ownsReference
 
     public MTLFunctionStitchingFunctionNode() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingFunctionNodeBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLArgument[] Arguments

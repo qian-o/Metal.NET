@@ -8,7 +8,7 @@ public class MTLRasterizationRateLayerDescriptor(nint nativePtr, bool ownsRefere
 
     public MTLRasterizationRateLayerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateLayerDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLRasterizationRateSampleArray Horizontal

@@ -8,7 +8,7 @@ public class MTLTensorReferenceType(nint nativePtr, bool ownsReference) : MTLTyp
 
     public MTLTensorReferenceType() : this(ObjectiveCRuntime.AllocInit(MTLTensorReferenceTypeBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLBindingAccess Access

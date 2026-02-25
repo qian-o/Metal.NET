@@ -8,7 +8,7 @@ public class MTLFunctionConstantValues(nint nativePtr, bool ownsReference) : Nat
 
     public MTLFunctionConstantValues() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantValuesBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public void Reset()

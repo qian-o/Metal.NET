@@ -8,7 +8,7 @@ public class MTLFunctionDescriptor(nint nativePtr, bool ownsReference) : NativeO
 
     public MTLFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFunctionDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLBinaryArchive[] BinaryArchives

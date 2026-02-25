@@ -292,7 +292,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             sb.AppendLine();
             sb.AppendLine($"    public {csClassName}() : this(ObjectiveCRuntime.AllocInit({csClassName}Bindings.Class), true)");
             sb.AppendLine("    {");
-            sb.AppendLine("        GC.ReRegisterForFinalize(this);");
+            sb.AppendLine("        IsFullyManaged = true;");
             sb.AppendLine("    }");
             hasPrecedingMember = true;
         }

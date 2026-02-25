@@ -8,7 +8,7 @@ public class MTL4MachineLearningPipelineDescriptor(nint nativePtr, bool ownsRefe
 
     public MTL4MachineLearningPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4MachineLearningPipelineDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTL4FunctionDescriptor MachineLearningFunctionDescriptor

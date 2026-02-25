@@ -8,7 +8,7 @@ public class MTL4CommitOptions(nint nativePtr, bool ownsReference) : NativeObjec
 
     public MTL4CommitOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CommitOptionsBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 }
 

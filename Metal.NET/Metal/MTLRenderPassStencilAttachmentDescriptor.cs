@@ -8,7 +8,7 @@ public class MTLRenderPassStencilAttachmentDescriptor(nint nativePtr, bool ownsR
 
     public MTLRenderPassStencilAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassStencilAttachmentDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public uint ClearStencil

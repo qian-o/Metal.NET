@@ -8,7 +8,7 @@ public class MTL4PipelineOptions(nint nativePtr, bool ownsReference) : NativeObj
 
     public MTL4PipelineOptions() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineOptionsBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTL4ShaderReflection ShaderReflection

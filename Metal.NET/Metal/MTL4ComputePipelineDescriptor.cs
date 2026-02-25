@@ -8,7 +8,7 @@ public class MTL4ComputePipelineDescriptor(nint nativePtr, bool ownsReference) :
 
     public MTL4ComputePipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4ComputePipelineDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTL4FunctionDescriptor ComputeFunctionDescriptor

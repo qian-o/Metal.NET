@@ -8,7 +8,7 @@ public class MTLVisibleFunctionTableDescriptor(nint nativePtr, bool ownsReferenc
 
     public MTLVisibleFunctionTableDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVisibleFunctionTableDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public nuint FunctionCount

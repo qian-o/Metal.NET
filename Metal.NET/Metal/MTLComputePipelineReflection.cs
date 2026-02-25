@@ -8,7 +8,7 @@ public class MTLComputePipelineReflection(nint nativePtr, bool ownsReference) : 
 
     public MTLComputePipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTLComputePipelineReflectionBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLArgument[] Arguments

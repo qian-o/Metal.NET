@@ -8,7 +8,7 @@ public class MTLBufferLayoutDescriptorArray(nint nativePtr, bool ownsReference) 
 
     public MTLBufferLayoutDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLBufferLayoutDescriptorArrayBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLBufferLayoutDescriptor this[nuint index]

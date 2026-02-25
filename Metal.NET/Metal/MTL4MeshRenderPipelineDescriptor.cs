@@ -8,7 +8,7 @@ public class MTL4MeshRenderPipelineDescriptor(nint nativePtr, bool ownsReference
 
     public MTL4MeshRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4MeshRenderPipelineDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTL4AlphaToCoverageState AlphaToCoverageState

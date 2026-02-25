@@ -8,7 +8,7 @@ public class MTL4AccelerationStructureMotionCurveGeometryDescriptor(nint nativeP
 
     public MTL4AccelerationStructureMotionCurveGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureMotionCurveGeometryDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTL4BufferRange ControlPointBuffers

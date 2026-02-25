@@ -8,7 +8,7 @@ public class MTL4LibraryDescriptor(nint nativePtr, bool ownsReference) : NativeO
 
     public MTL4LibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4LibraryDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public NSString Name

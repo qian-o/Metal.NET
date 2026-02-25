@@ -8,7 +8,7 @@ public class MTLResourceStatePassSampleBufferAttachmentDescriptorArray(nint nati
 
     public MTLResourceStatePassSampleBufferAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLResourceStatePassSampleBufferAttachmentDescriptorArrayBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLResourceStatePassSampleBufferAttachmentDescriptor this[nuint attachmentIndex]

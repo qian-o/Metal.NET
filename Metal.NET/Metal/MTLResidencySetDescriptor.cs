@@ -8,7 +8,7 @@ public class MTLResidencySetDescriptor(nint nativePtr, bool ownsReference) : Nat
 
     public MTLResidencySetDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResidencySetDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public nuint InitialCapacity

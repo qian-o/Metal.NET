@@ -8,7 +8,7 @@ public class MTLVertexBufferLayoutDescriptor(nint nativePtr, bool ownsReference)
 
     public MTLVertexBufferLayoutDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexBufferLayoutDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLVertexStepFunction StepFunction

@@ -8,7 +8,7 @@ public class MTL4FunctionDescriptor(nint nativePtr, bool ownsReference) : Native
 
     public MTL4FunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4FunctionDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 }
 

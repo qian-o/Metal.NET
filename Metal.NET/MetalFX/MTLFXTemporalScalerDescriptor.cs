@@ -8,7 +8,7 @@ public class MTLFXTemporalScalerDescriptor(nint nativePtr, bool ownsReference) :
 
     public MTLFXTemporalScalerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXTemporalScalerDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLPixelFormat ColorTextureFormat

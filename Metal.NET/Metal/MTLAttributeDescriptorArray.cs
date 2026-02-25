@@ -8,7 +8,7 @@ public class MTLAttributeDescriptorArray(nint nativePtr, bool ownsReference) : N
 
     public MTLAttributeDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLAttributeDescriptorArrayBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLAttributeDescriptor this[nuint index]

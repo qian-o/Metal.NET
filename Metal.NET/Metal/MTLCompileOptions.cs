@@ -8,7 +8,7 @@ public class MTLCompileOptions(nint nativePtr, bool ownsReference) : NativeObjec
 
     public MTLCompileOptions() : this(ObjectiveCRuntime.AllocInit(MTLCompileOptionsBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public Bool8 AllowReferencingUndefinedSymbols

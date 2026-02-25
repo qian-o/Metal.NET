@@ -8,7 +8,7 @@ public class MTLStageInputOutputDescriptor(nint nativePtr, bool ownsReference) :
 
     public MTLStageInputOutputDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStageInputOutputDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLAttributeDescriptorArray Attributes

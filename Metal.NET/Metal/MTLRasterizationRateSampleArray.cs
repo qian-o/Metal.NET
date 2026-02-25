@@ -8,7 +8,7 @@ public class MTLRasterizationRateSampleArray(nint nativePtr, bool ownsReference)
 
     public MTLRasterizationRateSampleArray() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateSampleArrayBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 }
 

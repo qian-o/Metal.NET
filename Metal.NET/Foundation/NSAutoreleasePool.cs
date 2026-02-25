@@ -11,7 +11,7 @@ public class NSAutoreleasePool(nint nativePtr, bool ownsReference) : NativeObjec
 
     public NSAutoreleasePool() : this(ObjectiveCRuntime.AllocInit(NSAutoreleasePoolBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public void Drain()

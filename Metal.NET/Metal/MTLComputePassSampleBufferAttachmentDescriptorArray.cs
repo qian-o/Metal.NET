@@ -8,7 +8,7 @@ public class MTLComputePassSampleBufferAttachmentDescriptorArray(nint nativePtr,
 
     public MTLComputePassSampleBufferAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLComputePassSampleBufferAttachmentDescriptorArrayBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLComputePassSampleBufferAttachmentDescriptor this[nuint attachmentIndex]

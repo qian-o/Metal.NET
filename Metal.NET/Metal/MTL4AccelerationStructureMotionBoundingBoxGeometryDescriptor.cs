@@ -8,7 +8,7 @@ public class MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor(nint n
 
     public MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTL4BufferRange BoundingBoxBuffers

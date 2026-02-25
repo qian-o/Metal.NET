@@ -8,7 +8,7 @@ public class MTL4AccelerationStructureDescriptor(nint nativePtr, bool ownsRefere
 
     public MTL4AccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 }
 

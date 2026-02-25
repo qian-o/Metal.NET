@@ -8,7 +8,7 @@ public class MTLRenderPipelineReflection(nint nativePtr, bool ownsReference) : N
 
     public MTLRenderPipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineReflectionBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLArgument[] FragmentArguments

@@ -8,7 +8,7 @@ public class MTL4RenderPipelineColorAttachmentDescriptorArray(nint nativePtr, bo
 
     public MTL4RenderPipelineColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineColorAttachmentDescriptorArrayBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTL4RenderPipelineColorAttachmentDescriptor this[nuint attachmentIndex]

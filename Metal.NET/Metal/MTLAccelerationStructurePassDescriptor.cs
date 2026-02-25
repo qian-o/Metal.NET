@@ -8,7 +8,7 @@ public class MTLAccelerationStructurePassDescriptor(nint nativePtr, bool ownsRef
 
     public MTLAccelerationStructurePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments

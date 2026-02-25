@@ -8,7 +8,7 @@ public class MTLStructMember(nint nativePtr, bool ownsReference) : NativeObject(
 
     public MTLStructMember() : this(ObjectiveCRuntime.AllocInit(MTLStructMemberBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public nuint ArgumentIndex

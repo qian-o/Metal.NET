@@ -8,7 +8,7 @@ public class MTL4PipelineDescriptor(nint nativePtr, bool ownsReference) : Native
 
     public MTL4PipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public NSString Label

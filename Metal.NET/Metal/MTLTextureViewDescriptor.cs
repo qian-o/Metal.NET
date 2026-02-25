@@ -8,7 +8,7 @@ public class MTLTextureViewDescriptor(nint nativePtr, bool ownsReference) : Nati
 
     public MTLTextureViewDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTextureViewDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public NSRange LevelRange

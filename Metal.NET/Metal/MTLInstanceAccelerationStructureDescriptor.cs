@@ -8,7 +8,7 @@ public class MTLInstanceAccelerationStructureDescriptor(nint nativePtr, bool own
 
     public MTLInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLInstanceAccelerationStructureDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public nuint InstanceCount

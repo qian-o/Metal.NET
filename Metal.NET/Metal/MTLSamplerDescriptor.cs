@@ -8,7 +8,7 @@ public class MTLSamplerDescriptor(nint nativePtr, bool ownsReference) : NativeOb
 
     public MTLSamplerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLSamplerDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTLSamplerBorderColor BorderColor

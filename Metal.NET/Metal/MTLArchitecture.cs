@@ -8,7 +8,7 @@ public class MTLArchitecture(nint nativePtr, bool ownsReference) : NativeObject(
 
     public MTLArchitecture() : this(ObjectiveCRuntime.AllocInit(MTLArchitectureBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public NSString Name

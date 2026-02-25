@@ -8,7 +8,7 @@ public class MTL4IndirectInstanceAccelerationStructureDescriptor(nint nativePtr,
 
     public MTL4IndirectInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4IndirectInstanceAccelerationStructureDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTL4BufferRange InstanceCountBuffer

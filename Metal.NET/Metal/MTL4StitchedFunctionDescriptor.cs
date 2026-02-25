@@ -8,7 +8,7 @@ public class MTL4StitchedFunctionDescriptor(nint nativePtr, bool ownsReference) 
 
     public MTL4StitchedFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4StitchedFunctionDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public MTL4FunctionDescriptor[] FunctionDescriptors

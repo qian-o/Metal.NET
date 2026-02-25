@@ -8,7 +8,7 @@ public class MTLTextureDescriptor(nint nativePtr, bool ownsReference) : NativeOb
 
     public MTLTextureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTextureDescriptorBindings.Class), true)
     {
-        GC.ReRegisterForFinalize(this);
+        IsFullyManaged = true;
     }
 
     public Bool8 AllowGPUOptimizedContents
