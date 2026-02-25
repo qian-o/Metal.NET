@@ -787,6 +787,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         List<string> callArgs = [target, selectorRef];
         List<string> arraySetupLines = [];
         List<string> fixedStatements = [];
+        List<string> nsArrayReleaseVars = [];
         bool needsUnsafeContext = false;
 
         for (int pi = 0; pi < method.Parameters.Count; pi++)
@@ -899,7 +900,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 {
                     // Replace the param we just added with T[] version
                     csParams[^1] = $"{paramArrayElemType}[] {paramName}";
-                    callArgs.Add($"NSArray.FromArray({paramName})");
+                    string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
+                    arraySetupLines.Add($"        nint {ptrVar} = NSArray.FromArray({paramName});");
+                    callArgs.Add(ptrVar);
+                    nsArrayReleaseVars.Add(ptrVar);
                 }
                 else
                 {
@@ -967,6 +971,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 sb.AppendLine();
                 sb.AppendLine($"{indent}error = new(errorPtr, false);");
             }
+            foreach (string rv in nsArrayReleaseVars)
+            {
+                sb.AppendLine();
+                sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
+            }
         }
         else if (returnsArray)
         {
@@ -975,12 +984,22 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 sb.AppendLine($"{indent}nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}error = new(errorPtr, false);");
+                foreach (string rv in nsArrayReleaseVars)
+                {
+                    sb.AppendLine();
+                    sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
+                }
                 sb.AppendLine();
                 sb.AppendLine($"{indent}return NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
             }
             else
             {
                 sb.AppendLine($"{indent}nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
+                foreach (string rv in nsArrayReleaseVars)
+                {
+                    sb.AppendLine();
+                    sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
+                }
                 sb.AppendLine();
                 sb.AppendLine($"{indent}return NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
             }
@@ -992,12 +1011,22 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 sb.AppendLine($"{indent}nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}error = new(errorPtr, false);");
+                foreach (string rv in nsArrayReleaseVars)
+                {
+                    sb.AppendLine();
+                    sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
+                }
                 sb.AppendLine();
                 sb.AppendLine($"{indent}return new(nativePtr, {ownsReturnStr});");
             }
             else
             {
                 sb.AppendLine($"{indent}nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
+                foreach (string rv in nsArrayReleaseVars)
+                {
+                    sb.AppendLine();
+                    sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
+                }
                 sb.AppendLine();
                 sb.AppendLine($"{indent}return new(nativePtr, {ownsReturnStr});");
             }

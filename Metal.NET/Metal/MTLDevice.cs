@@ -344,7 +344,11 @@ public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObjec
 
     public MTLArgumentEncoder NewArgumentEncoder(MTLArgumentDescriptor[] arguments)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewArgumentEncoder, NSArray.FromArray(arguments));
+        nint pArguments = NSArray.FromArray(arguments);
+
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewArgumentEncoder, pArguments);
+
+        ObjectiveCRuntime.Release(pArguments);
 
         return new(nativePtr, true);
     }
