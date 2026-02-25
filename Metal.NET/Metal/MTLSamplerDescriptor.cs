@@ -2,9 +2,9 @@
 
 public class MTLSamplerDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLSamplerDescriptor>
 {
-    public static MTLSamplerDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLSamplerDescriptor Null { get; } = new(0, false);
 
-    public static MTLSamplerDescriptor Null => new(0, false);
+    public static MTLSamplerDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLSamplerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLSamplerDescriptorBindings.Class), true)
     {

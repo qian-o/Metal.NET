@@ -2,9 +2,9 @@
 
 public class MTLBinding(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLBinding>
 {
-    public static MTLBinding Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLBinding Null { get; } = new(0, false);
 
-    public static MTLBinding Null => new(0, false);
+    public static MTLBinding Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLBindingAccess Access
     {

@@ -2,9 +2,9 @@
 
 public class MTL4MachineLearningPipelineState(nint nativePtr, bool ownsReference) : MTLAllocation(nativePtr, ownsReference), INativeObject<MTL4MachineLearningPipelineState>
 {
-    public static new MTL4MachineLearningPipelineState Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTL4MachineLearningPipelineState Null { get; } = new(0, false);
 
-    public static new MTL4MachineLearningPipelineState Null => new(0, false);
+    public static new MTL4MachineLearningPipelineState Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLDevice Device
     {

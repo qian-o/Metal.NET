@@ -2,9 +2,9 @@
 
 public class MTLArgument(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLArgument>
 {
-    public static MTLArgument Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLArgument Null { get; } = new(0, false);
 
-    public static MTLArgument Null => new(0, false);
+    public static MTLArgument Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLArgument() : this(ObjectiveCRuntime.AllocInit(MTLArgumentBindings.Class), true)
     {

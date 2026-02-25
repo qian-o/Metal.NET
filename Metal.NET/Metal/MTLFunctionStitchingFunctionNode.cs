@@ -2,9 +2,9 @@
 
 public class MTLFunctionStitchingFunctionNode(nint nativePtr, bool ownsReference) : MTLFunctionStitchingNode(nativePtr, ownsReference), INativeObject<MTLFunctionStitchingFunctionNode>
 {
-    public static new MTLFunctionStitchingFunctionNode Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLFunctionStitchingFunctionNode Null { get; } = new(0, false);
 
-    public static new MTLFunctionStitchingFunctionNode Null => new(0, false);
+    public static new MTLFunctionStitchingFunctionNode Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLFunctionStitchingFunctionNode() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingFunctionNodeBindings.Class), true)
     {

@@ -2,9 +2,9 @@
 
 public class MTLComputeCommandEncoder(nint nativePtr, bool ownsReference) : MTLCommandEncoder(nativePtr, ownsReference), INativeObject<MTLComputeCommandEncoder>
 {
-    public static new MTLComputeCommandEncoder Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLComputeCommandEncoder Null { get; } = new(0, false);
 
-    public static new MTLComputeCommandEncoder Null => new(0, false);
+    public static new MTLComputeCommandEncoder Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLDispatchType DispatchType
     {

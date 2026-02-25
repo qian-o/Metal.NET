@@ -2,9 +2,9 @@
 
 public class MTL4CounterHeap(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CounterHeap>
 {
-    public static MTL4CounterHeap Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTL4CounterHeap Null { get; } = new(0, false);
 
-    public static MTL4CounterHeap Null => new(0, false);
+    public static MTL4CounterHeap Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public nuint Count
     {

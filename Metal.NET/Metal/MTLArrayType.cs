@@ -2,9 +2,9 @@
 
 public class MTLArrayType(nint nativePtr, bool ownsReference) : MTLType(nativePtr, ownsReference), INativeObject<MTLArrayType>
 {
-    public static new MTLArrayType Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLArrayType Null { get; } = new(0, false);
 
-    public static new MTLArrayType Null => new(0, false);
+    public static new MTLArrayType Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLArrayType() : this(ObjectiveCRuntime.AllocInit(MTLArrayTypeBindings.Class), true)
     {

@@ -2,9 +2,9 @@
 
 public class MTLFunctionLog(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFunctionLog>
 {
-    public static MTLFunctionLog Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLFunctionLog Null { get; } = new(0, false);
 
-    public static MTLFunctionLog Null => new(0, false);
+    public static MTLFunctionLog Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLFunctionLogDebugLocation DebugLocation
     {

@@ -2,9 +2,9 @@
 
 public class MTL4PipelineDataSetSerializer(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4PipelineDataSetSerializer>
 {
-    public static MTL4PipelineDataSetSerializer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTL4PipelineDataSetSerializer Null { get; } = new(0, false);
 
-    public static MTL4PipelineDataSetSerializer Null => new(0, false);
+    public static MTL4PipelineDataSetSerializer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public bool SerializeAsArchiveAndFlushToURL(NSURL url, out NSError error)
     {

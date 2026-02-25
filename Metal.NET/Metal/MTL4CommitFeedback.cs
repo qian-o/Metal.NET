@@ -2,9 +2,9 @@
 
 public class MTL4CommitFeedback(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CommitFeedback>
 {
-    public static MTL4CommitFeedback Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTL4CommitFeedback Null { get; } = new(0, false);
 
-    public static MTL4CommitFeedback Null => new(0, false);
+    public static MTL4CommitFeedback Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public NSError Error
     {

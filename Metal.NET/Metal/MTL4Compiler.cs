@@ -2,9 +2,9 @@
 
 public class MTL4Compiler(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4Compiler>
 {
-    public static MTL4Compiler Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTL4Compiler Null { get; } = new(0, false);
 
-    public static MTL4Compiler Null => new(0, false);
+    public static MTL4Compiler Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLDevice Device
     {

@@ -2,9 +2,9 @@
 
 public class MTLIntersectionFunctionTable(nint nativePtr, bool ownsReference) : MTLResource(nativePtr, ownsReference), INativeObject<MTLIntersectionFunctionTable>
 {
-    public static new MTLIntersectionFunctionTable Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLIntersectionFunctionTable Null { get; } = new(0, false);
 
-    public static new MTLIntersectionFunctionTable Null => new(0, false);
+    public static new MTLIntersectionFunctionTable Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLResourceID GpuResourceID
     {

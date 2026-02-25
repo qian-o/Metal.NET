@@ -2,9 +2,9 @@
 
 public class MTL4CommandAllocator(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CommandAllocator>
 {
-    public static MTL4CommandAllocator Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTL4CommandAllocator Null { get; } = new(0, false);
 
-    public static MTL4CommandAllocator Null => new(0, false);
+    public static MTL4CommandAllocator Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLDevice Device
     {

@@ -2,9 +2,9 @@
 
 public class MTL4Archive(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4Archive>
 {
-    public static MTL4Archive Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTL4Archive Null { get; } = new(0, false);
 
-    public static MTL4Archive Null => new(0, false);
+    public static MTL4Archive Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public NSString Label
     {

@@ -2,9 +2,9 @@
 
 public class MTLTextureReferenceType(nint nativePtr, bool ownsReference) : MTLType(nativePtr, ownsReference), INativeObject<MTLTextureReferenceType>
 {
-    public static new MTLTextureReferenceType Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLTextureReferenceType Null { get; } = new(0, false);
 
-    public static new MTLTextureReferenceType Null => new(0, false);
+    public static new MTLTextureReferenceType Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLTextureReferenceType() : this(ObjectiveCRuntime.AllocInit(MTLTextureReferenceTypeBindings.Class), true)
     {

@@ -2,9 +2,9 @@
 
 public class MTLIOScratchBuffer(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLIOScratchBuffer>
 {
-    public static MTLIOScratchBuffer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLIOScratchBuffer Null { get; } = new(0, false);
 
-    public static MTLIOScratchBuffer Null => new(0, false);
+    public static MTLIOScratchBuffer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLBuffer Buffer
     {

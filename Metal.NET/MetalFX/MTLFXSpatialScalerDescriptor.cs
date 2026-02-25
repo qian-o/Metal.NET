@@ -2,9 +2,9 @@
 
 public class MTLFXSpatialScalerDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFXSpatialScalerDescriptor>
 {
-    public static MTLFXSpatialScalerDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLFXSpatialScalerDescriptor Null { get; } = new(0, false);
 
-    public static MTLFXSpatialScalerDescriptor Null => new(0, false);
+    public static MTLFXSpatialScalerDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLFXSpatialScalerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXSpatialScalerDescriptorBindings.Class), true)
     {

@@ -2,9 +2,9 @@
 
 public class MTLAttribute(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLAttribute>
 {
-    public static MTLAttribute Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static MTLAttribute Null { get; } = new(0, false);
 
-    public static MTLAttribute Null => new(0, false);
+    public static MTLAttribute Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLAttribute() : this(ObjectiveCRuntime.AllocInit(MTLAttributeBindings.Class), true)
     {

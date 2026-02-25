@@ -2,9 +2,9 @@
 
 public class MTLFXTemporalScalerBase(nint nativePtr, bool ownsReference) : MTLFXFrameInterpolatableScaler(nativePtr, ownsReference), INativeObject<MTLFXTemporalScalerBase>
 {
-    public static new MTLFXTemporalScalerBase Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
+    public static new MTLFXTemporalScalerBase Null { get; } = new(0, false);
 
-    public static new MTLFXTemporalScalerBase Null => new(0, false);
+    public static new MTLFXTemporalScalerBase Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLTexture ColorTexture
     {
