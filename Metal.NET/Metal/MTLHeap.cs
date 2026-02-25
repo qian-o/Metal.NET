@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLHeap(nint nativePtr, bool ownsReference) : MTLAllocation(nativePtr, ownsReference), INativeObject<MTLHeap>
+public class MTLHeap(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLAllocation(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLHeap>
 {
     public static new MTLHeap Null { get; } = new(0, false);
 

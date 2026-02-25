@@ -2,7 +2,7 @@
 
 namespace Metal.NET;
 
-public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLDevice>
+public partial class MTLDevice(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLDevice>
 {
     public static MTLDevice Null { get; } = new(0, false);
 

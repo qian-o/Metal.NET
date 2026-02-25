@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensorExtents(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLTensorExtents>
+public class MTLTensorExtents(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLTensorExtents>
 {
     public static MTLTensorExtents Null { get; } = new(0, false);
 
     public static MTLTensorExtents Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLTensorExtents() : this(ObjectiveCRuntime.AllocInit(MTLTensorExtentsBindings.Class), true)
+    public MTLTensorExtents() : this(ObjectiveCRuntime.AllocInit(MTLTensorExtentsBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public nuint Rank

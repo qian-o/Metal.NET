@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLLogicalToPhysicalColorAttachmentMap>
+public class MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLLogicalToPhysicalColorAttachmentMap>
 {
     public static MTLLogicalToPhysicalColorAttachmentMap Null { get; } = new(0, false);
 
     public static MTLLogicalToPhysicalColorAttachmentMap Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLLogicalToPhysicalColorAttachmentMap() : this(ObjectiveCRuntime.AllocInit(MTLLogicalToPhysicalColorAttachmentMapBindings.Class), true)
+    public MTLLogicalToPhysicalColorAttachmentMap() : this(ObjectiveCRuntime.AllocInit(MTLLogicalToPhysicalColorAttachmentMapBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public nuint GetPhysicalIndex(nuint logicalIndex)

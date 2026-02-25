@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXTemporalScaler(nint nativePtr, bool ownsReference) : MTLFXTemporalScalerBase(nativePtr, ownsReference), INativeObject<MTLFXTemporalScaler>
+public class MTLFXTemporalScaler(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLFXTemporalScalerBase(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLFXTemporalScaler>
 {
     public static new MTLFXTemporalScaler Null { get; } = new(0, false);
 

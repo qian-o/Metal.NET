@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXSpatialScalerBase(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFXSpatialScalerBase>
+public class MTLFXSpatialScalerBase(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLFXSpatialScalerBase>
 {
     public static MTLFXSpatialScalerBase Null { get; } = new(0, false);
 

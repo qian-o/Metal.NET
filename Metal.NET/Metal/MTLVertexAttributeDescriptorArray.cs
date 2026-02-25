@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLVertexAttributeDescriptorArray(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLVertexAttributeDescriptorArray>
+public class MTLVertexAttributeDescriptorArray(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLVertexAttributeDescriptorArray>
 {
     public static MTLVertexAttributeDescriptorArray Null { get; } = new(0, false);
 
     public static MTLVertexAttributeDescriptorArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLVertexAttributeDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeDescriptorArrayBindings.Class), true)
+    public MTLVertexAttributeDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeDescriptorArrayBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public MTLVertexAttributeDescriptor this[nuint index]

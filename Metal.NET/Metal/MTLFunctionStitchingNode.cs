@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionStitchingNode(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFunctionStitchingNode>
+public class MTLFunctionStitchingNode(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLFunctionStitchingNode>
 {
     public static MTLFunctionStitchingNode Null { get; } = new(0, false);
 

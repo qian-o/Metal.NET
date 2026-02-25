@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CounterHeapDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CounterHeapDescriptor>
+public class MTL4CounterHeapDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4CounterHeapDescriptor>
 {
     public static MTL4CounterHeapDescriptor Null { get; } = new(0, false);
 
     public static MTL4CounterHeapDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTL4CounterHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CounterHeapDescriptorBindings.Class), true)
+    public MTL4CounterHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CounterHeapDescriptorBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public nuint Count

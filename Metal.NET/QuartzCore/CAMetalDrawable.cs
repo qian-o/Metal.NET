@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class CAMetalDrawable(nint nativePtr, bool ownsReference) : MTLDrawable(nativePtr, ownsReference), INativeObject<CAMetalDrawable>
+public class CAMetalDrawable(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLDrawable(nativePtr, ownsReference, allowGCRelease), INativeObject<CAMetalDrawable>
 {
     public static new CAMetalDrawable Null { get; } = new(0, false);
 

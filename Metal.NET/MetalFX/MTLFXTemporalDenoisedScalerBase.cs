@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXTemporalDenoisedScalerBase(nint nativePtr, bool ownsReference) : MTLFXFrameInterpolatableScaler(nativePtr, ownsReference), INativeObject<MTLFXTemporalDenoisedScalerBase>
+public class MTLFXTemporalDenoisedScalerBase(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLFXFrameInterpolatableScaler(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLFXTemporalDenoisedScalerBase>
 {
     public static new MTLFXTemporalDenoisedScalerBase Null { get; } = new(0, false);
 

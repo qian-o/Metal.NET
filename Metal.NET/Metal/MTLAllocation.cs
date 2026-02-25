@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLAllocation(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLAllocation>
+public class MTLAllocation(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLAllocation>
 {
     public static MTLAllocation Null { get; } = new(0, false);
 

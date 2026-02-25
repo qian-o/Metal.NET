@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOFileHandle(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLIOFileHandle>
+public class MTLIOFileHandle(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLIOFileHandle>
 {
     public static MTLIOFileHandle Null { get; } = new(0, false);
 

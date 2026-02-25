@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTL4AccelerationStructureBoundingBoxGeometryDescriptor(nint nativePtr, bool ownsReference) : MTL4AccelerationStructureGeometryDescriptor(nativePtr, ownsReference), INativeObject<MTL4AccelerationStructureBoundingBoxGeometryDescriptor>
+public class MTL4AccelerationStructureBoundingBoxGeometryDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTL4AccelerationStructureGeometryDescriptor(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4AccelerationStructureBoundingBoxGeometryDescriptor>
 {
     public static new MTL4AccelerationStructureBoundingBoxGeometryDescriptor Null { get; } = new(0, false);
 
     public static new MTL4AccelerationStructureBoundingBoxGeometryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTL4AccelerationStructureBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureBoundingBoxGeometryDescriptorBindings.Class), true)
+    public MTL4AccelerationStructureBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureBoundingBoxGeometryDescriptorBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public MTL4BufferRange BoundingBoxBuffer

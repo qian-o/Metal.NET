@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLBuffer(nint nativePtr, bool ownsReference) : MTLResource(nativePtr, ownsReference), INativeObject<MTLBuffer>
+public class MTLBuffer(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLResource(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLBuffer>
 {
     public static new MTLBuffer Null { get; } = new(0, false);
 

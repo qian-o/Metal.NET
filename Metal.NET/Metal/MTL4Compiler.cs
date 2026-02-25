@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTL4Compiler(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4Compiler>
+public class MTL4Compiler(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4Compiler>
 {
     public static MTL4Compiler Null { get; } = new(0, false);
 

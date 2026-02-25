@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTL4TileRenderPipelineDescriptor(nint nativePtr, bool ownsReference) : MTL4PipelineDescriptor(nativePtr, ownsReference), INativeObject<MTL4TileRenderPipelineDescriptor>
+public class MTL4TileRenderPipelineDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTL4PipelineDescriptor(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4TileRenderPipelineDescriptor>
 {
     public static new MTL4TileRenderPipelineDescriptor Null { get; } = new(0, false);
 
     public static new MTL4TileRenderPipelineDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTL4TileRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4TileRenderPipelineDescriptorBindings.Class), true)
+    public MTL4TileRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4TileRenderPipelineDescriptorBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public MTLTileRenderPipelineColorAttachmentDescriptorArray ColorAttachments

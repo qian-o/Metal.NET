@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandAllocatorDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CommandAllocatorDescriptor>
+public class MTL4CommandAllocatorDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4CommandAllocatorDescriptor>
 {
     public static MTL4CommandAllocatorDescriptor Null { get; } = new(0, false);
 
     public static MTL4CommandAllocatorDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTL4CommandAllocatorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CommandAllocatorDescriptorBindings.Class), true)
+    public MTL4CommandAllocatorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CommandAllocatorDescriptorBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public NSString Label

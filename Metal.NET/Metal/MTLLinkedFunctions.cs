@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLLinkedFunctions(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLLinkedFunctions>
+public class MTLLinkedFunctions(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLLinkedFunctions>
 {
     public static MTLLinkedFunctions Null { get; } = new(0, false);
 
     public static MTLLinkedFunctions Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(MTLLinkedFunctionsBindings.Class), true)
+    public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(MTLLinkedFunctionsBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public MTLFunction[] BinaryFunctions

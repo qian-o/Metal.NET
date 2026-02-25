@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructureBoundingBoxGeometryDescriptor(nint nativePtr, bool ownsReference) : MTLAccelerationStructureGeometryDescriptor(nativePtr, ownsReference), INativeObject<MTLAccelerationStructureBoundingBoxGeometryDescriptor>
+public class MTLAccelerationStructureBoundingBoxGeometryDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLAccelerationStructureGeometryDescriptor(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLAccelerationStructureBoundingBoxGeometryDescriptor>
 {
     public static new MTLAccelerationStructureBoundingBoxGeometryDescriptor Null { get; } = new(0, false);
 
     public static new MTLAccelerationStructureBoundingBoxGeometryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLAccelerationStructureBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.Class), true)
+    public MTLAccelerationStructureBoundingBoxGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public MTLBuffer BoundingBoxBuffer

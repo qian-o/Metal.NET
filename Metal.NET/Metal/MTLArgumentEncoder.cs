@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLArgumentEncoder(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLArgumentEncoder>
+public class MTLArgumentEncoder(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLArgumentEncoder>
 {
     public static MTLArgumentEncoder Null { get; } = new(0, false);
 

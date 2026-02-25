@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructurePassDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLAccelerationStructurePassDescriptor>
+public class MTLAccelerationStructurePassDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLAccelerationStructurePassDescriptor>
 {
     public static MTLAccelerationStructurePassDescriptor Null { get; } = new(0, false);
 
     public static MTLAccelerationStructurePassDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLAccelerationStructurePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassDescriptorBindings.Class), true)
+    public MTLAccelerationStructurePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassDescriptorBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments

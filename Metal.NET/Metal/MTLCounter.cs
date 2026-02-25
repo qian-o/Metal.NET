@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLCounter(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCounter>
+public class MTLCounter(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLCounter>
 {
     public static MTLCounter Null { get; } = new(0, false);
 

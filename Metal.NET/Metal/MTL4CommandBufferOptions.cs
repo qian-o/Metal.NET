@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandBufferOptions(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CommandBufferOptions>
+public class MTL4CommandBufferOptions(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4CommandBufferOptions>
 {
     public static MTL4CommandBufferOptions Null { get; } = new(0, false);
 
     public static MTL4CommandBufferOptions Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTL4CommandBufferOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CommandBufferOptionsBindings.Class), true)
+    public MTL4CommandBufferOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CommandBufferOptionsBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public MTLLogState LogState

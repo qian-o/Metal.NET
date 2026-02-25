@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOCommandQueueDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLIOCommandQueueDescriptor>
+public class MTLIOCommandQueueDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLIOCommandQueueDescriptor>
 {
     public static MTLIOCommandQueueDescriptor Null { get; } = new(0, false);
 
     public static MTLIOCommandQueueDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLIOCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIOCommandQueueDescriptorBindings.Class), true)
+    public MTLIOCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIOCommandQueueDescriptorBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public nuint MaxCommandBufferCount

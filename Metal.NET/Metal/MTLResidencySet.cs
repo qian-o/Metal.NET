@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLResidencySet(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLResidencySet>
+public class MTLResidencySet(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLResidencySet>
 {
     public static MTLResidencySet Null { get; } = new(0, false);
 

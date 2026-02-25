@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLDepthStencilDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLDepthStencilDescriptor>
+public class MTLDepthStencilDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLDepthStencilDescriptor>
 {
     public static MTLDepthStencilDescriptor Null { get; } = new(0, false);
 
     public static MTLDepthStencilDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLDepthStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLDepthStencilDescriptorBindings.Class), true)
+    public MTLDepthStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLDepthStencilDescriptorBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public MTLStencilDescriptor BackFaceStencil

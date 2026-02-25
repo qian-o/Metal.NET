@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTL4RenderPipelineBinaryFunctionsDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4RenderPipelineBinaryFunctionsDescriptor>
+public class MTL4RenderPipelineBinaryFunctionsDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4RenderPipelineBinaryFunctionsDescriptor>
 {
     public static MTL4RenderPipelineBinaryFunctionsDescriptor Null { get; } = new(0, false);
 
     public static MTL4RenderPipelineBinaryFunctionsDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTL4RenderPipelineBinaryFunctionsDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.Class), true)
+    public MTL4RenderPipelineBinaryFunctionsDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineBinaryFunctionsDescriptorBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public MTLFunction[] FragmentAdditionalBinaryFunctions

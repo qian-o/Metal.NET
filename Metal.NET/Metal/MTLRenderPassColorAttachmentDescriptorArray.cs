@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLRenderPassColorAttachmentDescriptorArray>
+public class MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLRenderPassColorAttachmentDescriptorArray>
 {
     public static MTLRenderPassColorAttachmentDescriptorArray Null { get; } = new(0, false);
 
     public static MTLRenderPassColorAttachmentDescriptorArray Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLRenderPassColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassColorAttachmentDescriptorArrayBindings.Class), true)
+    public MTLRenderPassColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassColorAttachmentDescriptorArrayBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public MTLRenderPassColorAttachmentDescriptor this[nuint attachmentIndex]

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLBufferBinding(nint nativePtr, bool ownsReference) : MTLBinding(nativePtr, ownsReference), INativeObject<MTLBufferBinding>
+public class MTLBufferBinding(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLBinding(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLBufferBinding>
 {
     public static new MTLBufferBinding Null { get; } = new(0, false);
 

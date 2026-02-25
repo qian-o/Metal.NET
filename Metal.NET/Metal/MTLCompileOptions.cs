@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLCompileOptions(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCompileOptions>
+public class MTLCompileOptions(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLCompileOptions>
 {
     public static MTLCompileOptions Null { get; } = new(0, false);
 
     public static MTLCompileOptions Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLCompileOptions() : this(ObjectiveCRuntime.AllocInit(MTLCompileOptionsBindings.Class), true)
+    public MTLCompileOptions() : this(ObjectiveCRuntime.AllocInit(MTLCompileOptionsBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public Bool8 AllowReferencingUndefinedSymbols

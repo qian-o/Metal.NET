@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructureGeometryDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLAccelerationStructureGeometryDescriptor>
+public class MTLAccelerationStructureGeometryDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLAccelerationStructureGeometryDescriptor>
 {
     public static MTLAccelerationStructureGeometryDescriptor Null { get; } = new(0, false);
 
     public static MTLAccelerationStructureGeometryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLAccelerationStructureGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureGeometryDescriptorBindings.Class), true)
+    public MTLAccelerationStructureGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructureGeometryDescriptorBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public Bool8 AllowDuplicateIntersectionFunctionInvocation

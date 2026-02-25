@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionConstantValues(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFunctionConstantValues>
+public class MTLFunctionConstantValues(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLFunctionConstantValues>
 {
     public static MTLFunctionConstantValues Null { get; } = new(0, false);
 
     public static MTLFunctionConstantValues Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLFunctionConstantValues() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantValuesBindings.Class), true)
+    public MTLFunctionConstantValues() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantValuesBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public void Reset()

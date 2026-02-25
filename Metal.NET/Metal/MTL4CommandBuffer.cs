@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandBuffer(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CommandBuffer>
+public class MTL4CommandBuffer(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4CommandBuffer>
 {
     public static MTL4CommandBuffer Null { get; } = new(0, false);
 

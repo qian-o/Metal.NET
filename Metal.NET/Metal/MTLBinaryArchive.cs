@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLBinaryArchive(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLBinaryArchive>
+public class MTLBinaryArchive(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLBinaryArchive>
 {
     public static MTLBinaryArchive Null { get; } = new(0, false);
 

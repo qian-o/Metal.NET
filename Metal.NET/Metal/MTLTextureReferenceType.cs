@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLTextureReferenceType(nint nativePtr, bool ownsReference) : MTLType(nativePtr, ownsReference), INativeObject<MTLTextureReferenceType>
+public class MTLTextureReferenceType(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLType(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLTextureReferenceType>
 {
     public static new MTLTextureReferenceType Null { get; } = new(0, false);
 
     public static new MTLTextureReferenceType Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLTextureReferenceType() : this(ObjectiveCRuntime.AllocInit(MTLTextureReferenceTypeBindings.Class), true)
+    public MTLTextureReferenceType() : this(ObjectiveCRuntime.AllocInit(MTLTextureReferenceTypeBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public MTLBindingAccess Access

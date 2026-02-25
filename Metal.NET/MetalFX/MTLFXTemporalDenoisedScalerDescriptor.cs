@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFXTemporalDenoisedScalerDescriptor>
+public class MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLFXTemporalDenoisedScalerDescriptor>
 {
     public static MTLFXTemporalDenoisedScalerDescriptor Null { get; } = new(0, false);
 
     public static MTLFXTemporalDenoisedScalerDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLFXTemporalDenoisedScalerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXTemporalDenoisedScalerDescriptorBindings.Class), true)
+    public MTLFXTemporalDenoisedScalerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXTemporalDenoisedScalerDescriptorBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public MTLPixelFormat ColorTextureFormat

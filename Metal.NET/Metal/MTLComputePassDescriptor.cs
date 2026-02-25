@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLComputePassDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLComputePassDescriptor>
+public class MTLComputePassDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLComputePassDescriptor>
 {
     public static MTLComputePassDescriptor Null { get; } = new(0, false);
 
     public static MTLComputePassDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLComputePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLComputePassDescriptorBindings.Class), true)
+    public MTLComputePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLComputePassDescriptorBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public MTLDispatchType DispatchType

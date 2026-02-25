@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLLibrary(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLLibrary>
+public class MTLLibrary(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLLibrary>
 {
     public static MTLLibrary Null { get; } = new(0, false);
 

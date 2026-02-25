@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunction(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFunction>
+public class MTLFunction(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLFunction>
 {
     public static MTLFunction Null { get; } = new(0, false);
 

@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLStructMember(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLStructMember>
+public class MTLStructMember(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLStructMember>
 {
     public static MTLStructMember Null { get; } = new(0, false);
 
     public static MTLStructMember Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLStructMember() : this(ObjectiveCRuntime.AllocInit(MTLStructMemberBindings.Class), true)
+    public MTLStructMember() : this(ObjectiveCRuntime.AllocInit(MTLStructMemberBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public nuint ArgumentIndex

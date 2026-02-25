@@ -3,15 +3,14 @@
 /// <summary>
 /// Wraps an Objective-C NSAutoreleasePool for managing autorelease pools.
 /// </summary>
-public class NSAutoreleasePool(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<NSAutoreleasePool>
+public class NSAutoreleasePool(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<NSAutoreleasePool>
 {
     public static NSAutoreleasePool Null { get; } = new(0, false);
 
     public static NSAutoreleasePool Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public NSAutoreleasePool() : this(ObjectiveCRuntime.AllocInit(NSAutoreleasePoolBindings.Class), true)
+    public NSAutoreleasePool() : this(ObjectiveCRuntime.AllocInit(NSAutoreleasePoolBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public void Drain()

@@ -19,9 +19,9 @@ public interface INativeObject<TSelf> where TSelf : NativeObject, INativeObject<
 /// Holds a native pointer and, when the instance owns the reference,
 /// sends <c>release</c> on explicit <see cref="Dispose()"/>.
 /// <para>
-/// Objects fully created by C# (via <c>AllocInit</c>) set
-/// <see cref="IsFullyManaged"/> to <see langword="true"/>, enabling
-/// GC finalization as a safety net. Objects created from native
+/// Objects fully created by C# (via <c>AllocInit</c>) pass
+/// <c>allowGCRelease: true</c>, enabling the GC finalizer to release
+/// the native reference as a safety net. Objects created from native
 /// pointers (method returns, borrowed references) leave it
 /// <see langword="false"/> so the finalizer does nothing.
 /// </para>
@@ -31,18 +31,23 @@ public interface INativeObject<TSelf> where TSelf : NativeObject, INativeObject<
 /// <see langword="true"/> to send <c>release</c> on disposal;
 /// <see langword="false"/> for borrowed references that must not be released.
 /// </param>
-public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDisposable
+/// <param name="allowGCRelease">
+/// <see langword="true"/> to allow the GC finalizer to release the native
+/// reference; <see langword="false"/> (default) for objects from native that
+/// should only be released via explicit <see cref="Dispose()"/>.
+/// </param>
+public abstract class NativeObject(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : IDisposable
 {
     private volatile uint disposed;
 
     /// <summary>
     /// Release the native reference if it has not been released yet.
-    /// Only releases for fully-managed instances; the finalizer does
-    /// nothing for objects created from native pointers.
+    /// Only releases for instances with <see cref="AllowGCRelease"/> set;
+    /// the finalizer does nothing for objects created from native pointers.
     /// </summary>
     ~NativeObject()
     {
-        if (IsFullyManaged)
+        if (AllowGCRelease)
         {
             Release();
         }
@@ -64,11 +69,11 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDispos
     public bool IsNull => NativePtr is 0;
 
     /// <summary>
-    /// Indicates whether this instance was fully created by C#
-    /// (via <c>AllocInit</c>). When <see langword="true"/>, the GC
-    /// finalizer will release the native reference as a safety net.
+    /// Indicates whether the GC finalizer is allowed to release the native
+    /// reference. <see langword="true"/> for objects fully created by C#
+    /// (via <c>AllocInit</c>); <see langword="false"/> for objects from native.
     /// </summary>
-    protected bool IsFullyManaged { get; set; }
+    public bool AllowGCRelease { get; } = allowGCRelease;
 
     /// <summary>
     /// Releases the native reference (if owned) and suppresses finalization.

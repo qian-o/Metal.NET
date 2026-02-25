@@ -279,7 +279,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             ? classDef.BaseClassName
             : "NativeObject";
         string partialKeyword = hasFreeFunctions ? "partial " : "";
-        sb.AppendLine($"public {partialKeyword}class {csClassName}(nint nativePtr, bool ownsReference) : {baseClass}(nativePtr, ownsReference), INativeObject<{csClassName}>");
+        sb.AppendLine($"public {partialKeyword}class {csClassName}(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : {baseClass}(nativePtr, ownsReference, allowGCRelease), INativeObject<{csClassName}>");
         sb.AppendLine("{");
         string newKeyword = baseClass != "NativeObject" ? "new " : "";
         sb.AppendLine($"    public static {newKeyword}{csClassName} Null {{ get; }} = new(0, false);");
@@ -290,9 +290,8 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         if (hasClassField)
         {
             sb.AppendLine();
-            sb.AppendLine($"    public {csClassName}() : this(ObjectiveCRuntime.AllocInit({csClassName}Bindings.Class), true)");
+            sb.AppendLine($"    public {csClassName}() : this(ObjectiveCRuntime.AllocInit({csClassName}Bindings.Class), true, true)");
             sb.AppendLine("    {");
-            sb.AppendLine("        IsFullyManaged = true;");
             sb.AppendLine("    }");
             hasPrecedingMember = true;
         }

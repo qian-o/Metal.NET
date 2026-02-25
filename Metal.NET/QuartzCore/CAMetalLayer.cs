@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class CAMetalLayer(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<CAMetalLayer>
+public class CAMetalLayer(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<CAMetalLayer>
 {
     public static CAMetalLayer Null { get; } = new(0, false);
 
     public static CAMetalLayer Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(CAMetalLayerBindings.Class), true)
+    public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(CAMetalLayerBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public Bool8 AllowsNextDrawableTimeout

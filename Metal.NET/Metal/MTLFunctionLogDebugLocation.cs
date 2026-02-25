@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionLogDebugLocation(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFunctionLogDebugLocation>
+public class MTLFunctionLogDebugLocation(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLFunctionLogDebugLocation>
 {
     public static MTLFunctionLogDebugLocation Null { get; } = new(0, false);
 

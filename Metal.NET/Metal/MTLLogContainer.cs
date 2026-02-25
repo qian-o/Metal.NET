@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLLogContainer(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLLogContainer>
+public class MTLLogContainer(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLLogContainer>
 {
     public static MTLLogContainer Null { get; } = new(0, false);
 

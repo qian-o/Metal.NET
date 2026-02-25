@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLSharedEvent(nint nativePtr, bool ownsReference) : MTLEvent(nativePtr, ownsReference), INativeObject<MTLSharedEvent>
+public class MTLSharedEvent(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLEvent(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLSharedEvent>
 {
     public static new MTLSharedEvent Null { get; } = new(0, false);
 

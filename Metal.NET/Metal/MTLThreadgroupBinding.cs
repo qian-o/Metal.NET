@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLThreadgroupBinding(nint nativePtr, bool ownsReference) : MTLBinding(nativePtr, ownsReference), INativeObject<MTLThreadgroupBinding>
+public class MTLThreadgroupBinding(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLBinding(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLThreadgroupBinding>
 {
     public static new MTLThreadgroupBinding Null { get; } = new(0, false);
 

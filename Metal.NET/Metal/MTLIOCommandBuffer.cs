@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOCommandBuffer(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLIOCommandBuffer>
+public class MTLIOCommandBuffer(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLIOCommandBuffer>
 {
     public static MTLIOCommandBuffer Null { get; } = new(0, false);
 

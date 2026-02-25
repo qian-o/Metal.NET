@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommitFeedback(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CommitFeedback>
+public class MTL4CommitFeedback(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4CommitFeedback>
 {
     public static MTL4CommitFeedback Null { get; } = new(0, false);
 

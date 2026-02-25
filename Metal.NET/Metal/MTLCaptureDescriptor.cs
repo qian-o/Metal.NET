@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLCaptureDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCaptureDescriptor>
+public class MTLCaptureDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLCaptureDescriptor>
 {
     public static MTLCaptureDescriptor Null { get; } = new(0, false);
 
     public static MTLCaptureDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLCaptureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCaptureDescriptorBindings.Class), true)
+    public MTLCaptureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCaptureDescriptorBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public MTLCaptureDestination Destination

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPipelineState(nint nativePtr, bool ownsReference) : MTLAllocation(nativePtr, ownsReference), INativeObject<MTLRenderPipelineState>
+public class MTLRenderPipelineState(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLAllocation(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLRenderPipelineState>
 {
     public static new MTLRenderPipelineState Null { get; } = new(0, false);
 

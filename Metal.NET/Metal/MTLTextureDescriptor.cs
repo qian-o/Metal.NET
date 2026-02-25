@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLTextureDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLTextureDescriptor>
+public class MTLTextureDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLTextureDescriptor>
 {
     public static MTLTextureDescriptor Null { get; } = new(0, false);
 
     public static MTLTextureDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLTextureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTextureDescriptorBindings.Class), true)
+    public MTLTextureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTextureDescriptorBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public Bool8 AllowGPUOptimizedContents

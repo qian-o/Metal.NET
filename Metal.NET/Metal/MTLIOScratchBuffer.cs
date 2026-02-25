@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOScratchBuffer(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLIOScratchBuffer>
+public class MTLIOScratchBuffer(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLIOScratchBuffer>
 {
     public static MTLIOScratchBuffer Null { get; } = new(0, false);
 

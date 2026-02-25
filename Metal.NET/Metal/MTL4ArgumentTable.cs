@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTL4ArgumentTable(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4ArgumentTable>
+public class MTL4ArgumentTable(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4ArgumentTable>
 {
     public static MTL4ArgumentTable Null { get; } = new(0, false);
 

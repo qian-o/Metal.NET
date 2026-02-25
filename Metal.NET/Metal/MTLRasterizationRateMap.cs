@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLRasterizationRateMap(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLRasterizationRateMap>
+public class MTLRasterizationRateMap(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLRasterizationRateMap>
 {
     public static MTLRasterizationRateMap Null { get; } = new(0, false);
 

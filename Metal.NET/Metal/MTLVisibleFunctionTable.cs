@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLVisibleFunctionTable(nint nativePtr, bool ownsReference) : MTLResource(nativePtr, ownsReference), INativeObject<MTLVisibleFunctionTable>
+public class MTLVisibleFunctionTable(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLResource(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLVisibleFunctionTable>
 {
     public static new MTLVisibleFunctionTable Null { get; } = new(0, false);
 

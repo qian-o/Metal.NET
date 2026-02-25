@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLDynamicLibrary(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLDynamicLibrary>
+public class MTLDynamicLibrary(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLDynamicLibrary>
 {
     public static MTLDynamicLibrary Null { get; } = new(0, false);
 

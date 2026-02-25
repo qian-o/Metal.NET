@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOCommandQueue(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLIOCommandQueue>
+public class MTLIOCommandQueue(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLIOCommandQueue>
 {
     public static MTLIOCommandQueue Null { get; } = new(0, false);
 

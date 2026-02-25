@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLCaptureManager(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCaptureManager>
+public class MTLCaptureManager(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLCaptureManager>
 {
     public static MTLCaptureManager Null { get; } = new(0, false);
 
     public static MTLCaptureManager Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLCaptureManager() : this(ObjectiveCRuntime.AllocInit(MTLCaptureManagerBindings.Class), true)
+    public MTLCaptureManager() : this(ObjectiveCRuntime.AllocInit(MTLCaptureManagerBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public MTLCaptureScope DefaultCaptureScope

@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLInstanceAccelerationStructureDescriptor(nint nativePtr, bool ownsReference) : MTLAccelerationStructureDescriptor(nativePtr, ownsReference), INativeObject<MTLInstanceAccelerationStructureDescriptor>
+public class MTLInstanceAccelerationStructureDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLAccelerationStructureDescriptor(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLInstanceAccelerationStructureDescriptor>
 {
     public static new MTLInstanceAccelerationStructureDescriptor Null { get; } = new(0, false);
 
     public static new MTLInstanceAccelerationStructureDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLInstanceAccelerationStructureDescriptorBindings.Class), true)
+    public MTLInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLInstanceAccelerationStructureDescriptorBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public nuint InstanceCount

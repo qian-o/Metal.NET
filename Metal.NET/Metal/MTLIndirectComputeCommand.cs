@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLIndirectComputeCommand(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLIndirectComputeCommand>
+public class MTLIndirectComputeCommand(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLIndirectComputeCommand>
 {
     public static MTLIndirectComputeCommand Null { get; } = new(0, false);
 

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLLogState(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLLogState>
+public class MTLLogState(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLLogState>
 {
     public static MTLLogState Null { get; } = new(0, false);
 

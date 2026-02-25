@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandQueue(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CommandQueue>
+public class MTL4CommandQueue(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4CommandQueue>
 {
     public static MTL4CommandQueue Null { get; } = new(0, false);
 

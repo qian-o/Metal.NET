@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLTextureViewDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLTextureViewDescriptor>
+public class MTLTextureViewDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLTextureViewDescriptor>
 {
     public static MTLTextureViewDescriptor Null { get; } = new(0, false);
 
     public static MTLTextureViewDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLTextureViewDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTextureViewDescriptorBindings.Class), true)
+    public MTLTextureViewDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTextureViewDescriptorBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public NSRange LevelRange

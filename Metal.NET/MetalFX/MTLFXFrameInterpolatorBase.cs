@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXFrameInterpolatorBase(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFXFrameInterpolatorBase>
+public class MTLFXFrameInterpolatorBase(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLFXFrameInterpolatorBase>
 {
     public static MTLFXFrameInterpolatorBase Null { get; } = new(0, false);
 

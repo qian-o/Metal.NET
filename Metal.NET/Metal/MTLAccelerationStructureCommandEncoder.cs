@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructureCommandEncoder(nint nativePtr, bool ownsReference) : MTLCommandEncoder(nativePtr, ownsReference), INativeObject<MTLAccelerationStructureCommandEncoder>
+public class MTLAccelerationStructureCommandEncoder(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLCommandEncoder(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLAccelerationStructureCommandEncoder>
 {
     public static new MTLAccelerationStructureCommandEncoder Null { get; } = new(0, false);
 

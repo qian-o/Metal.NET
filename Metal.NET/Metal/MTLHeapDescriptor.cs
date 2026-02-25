@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLHeapDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLHeapDescriptor>
+public class MTLHeapDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLHeapDescriptor>
 {
     public static MTLHeapDescriptor Null { get; } = new(0, false);
 
     public static MTLHeapDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLHeapDescriptorBindings.Class), true)
+    public MTLHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLHeapDescriptorBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public MTLCPUCacheMode CpuCacheMode

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTL4PipelineDataSetSerializer(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4PipelineDataSetSerializer>
+public class MTL4PipelineDataSetSerializer(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4PipelineDataSetSerializer>
 {
     public static MTL4PipelineDataSetSerializer Null { get; } = new(0, false);
 

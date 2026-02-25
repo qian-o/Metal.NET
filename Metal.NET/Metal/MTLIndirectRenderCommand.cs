@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLIndirectRenderCommand(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLIndirectRenderCommand>
+public class MTLIndirectRenderCommand(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLIndirectRenderCommand>
 {
     public static MTLIndirectRenderCommand Null { get; } = new(0, false);
 

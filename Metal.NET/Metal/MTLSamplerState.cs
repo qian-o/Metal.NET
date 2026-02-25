@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLSamplerState(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLSamplerState>
+public class MTLSamplerState(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLSamplerState>
 {
     public static MTLSamplerState Null { get; } = new(0, false);
 

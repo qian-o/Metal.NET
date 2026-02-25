@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandAllocator(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CommandAllocator>
+public class MTL4CommandAllocator(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4CommandAllocator>
 {
     public static MTL4CommandAllocator Null { get; } = new(0, false);
 

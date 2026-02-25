@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXFrameInterpolatorDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFXFrameInterpolatorDescriptor>
+public class MTLFXFrameInterpolatorDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLFXFrameInterpolatorDescriptor>
 {
     public static MTLFXFrameInterpolatorDescriptor Null { get; } = new(0, false);
 
     public static MTLFXFrameInterpolatorDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLFXFrameInterpolatorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXFrameInterpolatorDescriptorBindings.Class), true)
+    public MTLFXFrameInterpolatorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXFrameInterpolatorDescriptorBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 
     public MTLPixelFormat ColorTextureFormat

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLResourceStateCommandEncoder(nint nativePtr, bool ownsReference) : MTLCommandEncoder(nativePtr, ownsReference), INativeObject<MTLResourceStateCommandEncoder>
+public class MTLResourceStateCommandEncoder(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLCommandEncoder(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLResourceStateCommandEncoder>
 {
     public static new MTLResourceStateCommandEncoder Null { get; } = new(0, false);
 

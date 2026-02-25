@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTL4MachineLearningPipelineState(nint nativePtr, bool ownsReference) : MTLAllocation(nativePtr, ownsReference), INativeObject<MTL4MachineLearningPipelineState>
+public class MTL4MachineLearningPipelineState(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLAllocation(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4MachineLearningPipelineState>
 {
     public static new MTL4MachineLearningPipelineState Null { get; } = new(0, false);
 

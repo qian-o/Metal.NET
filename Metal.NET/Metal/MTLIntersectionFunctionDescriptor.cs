@@ -1,14 +1,13 @@
 ﻿namespace Metal.NET;
 
-public class MTLIntersectionFunctionDescriptor(nint nativePtr, bool ownsReference) : MTLFunctionDescriptor(nativePtr, ownsReference), INativeObject<MTLIntersectionFunctionDescriptor>
+public class MTLIntersectionFunctionDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : MTLFunctionDescriptor(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLIntersectionFunctionDescriptor>
 {
     public static new MTLIntersectionFunctionDescriptor Null { get; } = new(0, false);
 
     public static new MTLIntersectionFunctionDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public MTLIntersectionFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIntersectionFunctionDescriptorBindings.Class), true)
+    public MTLIntersectionFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIntersectionFunctionDescriptorBindings.Class), true, true)
     {
-        IsFullyManaged = true;
     }
 }
 

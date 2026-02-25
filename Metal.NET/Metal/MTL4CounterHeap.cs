@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CounterHeap(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4CounterHeap>
+public class MTL4CounterHeap(nint nativePtr, bool ownsReference, bool allowGCRelease = false) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4CounterHeap>
 {
     public static MTL4CounterHeap Null { get; } = new(0, false);
 
