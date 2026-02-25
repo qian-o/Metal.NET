@@ -8,16 +8,18 @@ public class MTLAttributeDescriptorArray(nint nativePtr, bool ownsReference) : N
     {
     }
 
-    public MTLAttributeDescriptor Object(nuint index)
+    public MTLAttributeDescriptor this[nuint index]
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeDescriptorArrayBindings.Object, index);
+        get
+        {
+            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeDescriptorArrayBindings.Object, index);
 
-        return new(nativePtr, false);
-    }
-
-    public void SetObject(MTLAttributeDescriptor attributeDesc, nuint index)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorArrayBindings.SetObject, attributeDesc.NativePtr, index);
+            return new(nativePtr, false);
+        }
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorArrayBindings.SetObject, value.NativePtr, index);
+        }
     }
 }
 
