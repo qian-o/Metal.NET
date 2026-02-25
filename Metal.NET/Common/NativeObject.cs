@@ -1,6 +1,4 @@
-﻿using System.Threading;
-
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 /// <summary>
 /// Factory interface for creating managed wrappers from native Objective-C pointers.
@@ -25,7 +23,12 @@ public interface INativeObject<TSelf> where TSelf : NativeObject, INativeObject<
 /// </param>
 public abstract class NativeObject(nint nativePtr, bool ownsReference = true) : IDisposable
 {
-    private int _disposed;
+    private volatile int disposed;
+
+    ~NativeObject()
+    {
+        Dispose(false);
+    }
 
     /// <summary>
     /// The raw pointer (<c>id</c>) to the wrapped Objective-C object.
@@ -57,35 +60,15 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference = true) : 
         ObjectiveCRuntime.Release(NativePtr);
     }
 
-    ~NativeObject()
-    {
-        Dispose(disposing: false);
-    }
-
     /// <summary>
     /// Sends <c>release</c> to the underlying Objective-C object (if owned),
     /// decrementing its reference count, and suppresses the finalizer.
     /// </summary>
     public void Dispose()
     {
-        Dispose(disposing: true);
+        Dispose(true);
+
         GC.SuppressFinalize(this);
-    }
-
-    /// <summary>
-    /// Core dispose logic. Guarantees single-release via <see cref="Interlocked.Exchange"/>.
-    /// </summary>
-    protected virtual void Dispose(bool disposing)
-    {
-        if (Interlocked.Exchange(ref _disposed, 1) != 0)
-        {
-            return;
-        }
-
-        if (OwnsReference && NativePtr is not 0)
-        {
-            ObjectiveCRuntime.Release(NativePtr);
-        }
     }
 
     /// <summary>
@@ -93,7 +76,7 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference = true) : 
     /// </summary>
     protected void ThrowIfDisposed()
     {
-        ObjectDisposedException.ThrowIf(_disposed != 0, this);
+        ObjectDisposedException.ThrowIf(disposed is not 0, this);
     }
 
     /// <summary>
@@ -132,5 +115,21 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference = true) : 
         ObjectiveCRuntime.MsgSend(NativePtr, selector, value.NativePtr);
 
         GetProperty(ref field, selector);
+    }
+
+    /// <summary>
+    /// Core dispose logic. Guarantees single-release via <see cref="Interlocked.Exchange"/>.
+    /// </summary>
+    protected virtual void Dispose(bool disposing)
+    {
+        if (Interlocked.Exchange(ref disposed, 1) is not 0)
+        {
+            return;
+        }
+
+        if (OwnsReference && NativePtr is not 0)
+        {
+            ObjectiveCRuntime.Release(NativePtr);
+        }
     }
 }
