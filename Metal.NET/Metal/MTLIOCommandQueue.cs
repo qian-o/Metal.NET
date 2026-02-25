@@ -16,16 +16,12 @@ public class MTLIOCommandQueue(nint nativePtr, bool ownsReference) : NativeObjec
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueBindings.CommandBuffer);
 
-        ObjectiveCRuntime.Retain(nativePtr);
-
         return new(nativePtr, true);
     }
 
     public MTLIOCommandBuffer CommandBufferWithUnretainedReferences()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueBindings.CommandBufferWithUnretainedReferences);
-
-        ObjectiveCRuntime.Retain(nativePtr);
 
         return new(nativePtr, true);
     }

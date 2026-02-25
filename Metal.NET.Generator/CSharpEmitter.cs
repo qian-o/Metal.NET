@@ -983,13 +983,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                     sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
                 }
                 sb.AppendLine();
-                sb.AppendLine($"{indent}ObjectiveCRuntime.Retain(nativePtr);");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}{returnArrayElemType}[] result = NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}ObjectiveCRuntime.Release(nativePtr);");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}return result;");
+                sb.AppendLine($"{indent}return NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
             }
             else
             {
@@ -1000,13 +994,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                     sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
                 }
                 sb.AppendLine();
-                sb.AppendLine($"{indent}ObjectiveCRuntime.Retain(nativePtr);");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}{returnArrayElemType}[] result = NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}ObjectiveCRuntime.Release(nativePtr);");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}return result;");
+                sb.AppendLine($"{indent}return NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
             }
         }
         else if (nullable)
@@ -1022,8 +1010,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                     sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
                 }
                 sb.AppendLine();
-                sb.AppendLine($"{indent}ObjectiveCRuntime.Retain(nativePtr);");
-                sb.AppendLine();
                 sb.AppendLine($"{indent}return new(nativePtr, true);");
             }
             else
@@ -1034,8 +1020,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                     sb.AppendLine();
                     sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
                 }
-                sb.AppendLine();
-                sb.AppendLine($"{indent}ObjectiveCRuntime.Retain(nativePtr);");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}return new(nativePtr, true);");
             }

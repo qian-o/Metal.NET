@@ -19,8 +19,6 @@ public class MTLBlitPassDescriptor(nint nativePtr, bool ownsReference) : NativeO
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLBlitPassDescriptorBindings.Class, MTLBlitPassDescriptorBindings.BlitPassDescriptor);
 
-        ObjectiveCRuntime.Retain(nativePtr);
-
         return new(nativePtr, true);
     }
 }

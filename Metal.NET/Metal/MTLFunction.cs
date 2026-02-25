@@ -56,8 +56,6 @@ public class MTLFunction(nint nativePtr, bool ownsReference) : NativeObject(nati
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionBindings.NewArgumentEncoder, bufferIndex);
 
-        ObjectiveCRuntime.Retain(nativePtr);
-
         return new(nativePtr, true);
     }
 }

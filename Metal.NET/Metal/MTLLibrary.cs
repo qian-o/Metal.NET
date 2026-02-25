@@ -36,8 +36,6 @@ public class MTLLibrary(nint nativePtr, bool ownsReference) : NativeObject(nativ
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.NewFunction, functionName.NativePtr);
 
-        ObjectiveCRuntime.Retain(nativePtr);
-
         return new(nativePtr, true);
     }
 
@@ -46,8 +44,6 @@ public class MTLLibrary(nint nativePtr, bool ownsReference) : NativeObject(nativ
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.NewFunctionWithNameconstantValueserror, name.NativePtr, constantValues.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, false);
-
-        ObjectiveCRuntime.Retain(nativePtr);
 
         return new(nativePtr, true);
     }
@@ -58,8 +54,6 @@ public class MTLLibrary(nint nativePtr, bool ownsReference) : NativeObject(nativ
 
         error = new(errorPtr, false);
 
-        ObjectiveCRuntime.Retain(nativePtr);
-
         return new(nativePtr, true);
     }
 
@@ -69,16 +63,12 @@ public class MTLLibrary(nint nativePtr, bool ownsReference) : NativeObject(nativ
 
         error = new(errorPtr, false);
 
-        ObjectiveCRuntime.Retain(nativePtr);
-
         return new(nativePtr, true);
     }
 
     public MTLFunctionReflection ReflectionForFunction(NSString functionName)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.ReflectionForFunction, functionName.NativePtr);
-
-        ObjectiveCRuntime.Retain(nativePtr);
 
         return new(nativePtr, true);
     }

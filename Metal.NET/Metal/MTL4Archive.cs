@@ -18,8 +18,6 @@ public class MTL4Archive(nint nativePtr, bool ownsReference) : NativeObject(nati
 
         error = new(errorPtr, false);
 
-        ObjectiveCRuntime.Retain(nativePtr);
-
         return new(nativePtr, true);
     }
 
@@ -28,8 +26,6 @@ public class MTL4Archive(nint nativePtr, bool ownsReference) : NativeObject(nati
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewComputePipelineState, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, false);
-
-        ObjectiveCRuntime.Retain(nativePtr);
 
         return new(nativePtr, true);
     }
@@ -40,8 +36,6 @@ public class MTL4Archive(nint nativePtr, bool ownsReference) : NativeObject(nati
 
         error = new(errorPtr, false);
 
-        ObjectiveCRuntime.Retain(nativePtr);
-
         return new(nativePtr, true);
     }
 
@@ -51,8 +45,6 @@ public class MTL4Archive(nint nativePtr, bool ownsReference) : NativeObject(nati
 
         error = new(errorPtr, false);
 
-        ObjectiveCRuntime.Retain(nativePtr);
-
         return new(nativePtr, true);
     }
 
@@ -61,8 +53,6 @@ public class MTL4Archive(nint nativePtr, bool ownsReference) : NativeObject(nati
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ArchiveBindings.NewRenderPipelineStateWithDescriptordynamicLinkingDescriptorerror, descriptor.NativePtr, dynamicLinkingDescriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, false);
-
-        ObjectiveCRuntime.Retain(nativePtr);
 
         return new(nativePtr, true);
     }

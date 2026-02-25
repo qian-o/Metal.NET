@@ -10,8 +10,6 @@ public class MTLParallelRenderCommandEncoder(nint nativePtr, bool ownsReference)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLParallelRenderCommandEncoderBindings.RenderCommandEncoder);
 
-        ObjectiveCRuntime.Retain(nativePtr);
-
         return new(nativePtr, true);
     }
 

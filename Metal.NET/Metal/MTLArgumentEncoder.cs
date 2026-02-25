@@ -36,8 +36,6 @@ public class MTLArgumentEncoder(nint nativePtr, bool ownsReference) : NativeObje
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArgumentEncoderBindings.NewArgumentEncoder, index);
 
-        ObjectiveCRuntime.Retain(nativePtr);
-
         return new(nativePtr, true);
     }
 
