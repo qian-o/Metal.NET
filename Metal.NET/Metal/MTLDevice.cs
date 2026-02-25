@@ -835,7 +835,11 @@ public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObjec
     {
         nint nativePtr = MTLCopyAllDevices();
 
-        return NSArray.ToArray<MTLDevice>(nativePtr);
+        MTLDevice[] result = NSArray.ToArray<MTLDevice>(nativePtr);
+
+        ObjectiveCRuntime.Release(nativePtr);
+
+        return result;
     }
 }
 
