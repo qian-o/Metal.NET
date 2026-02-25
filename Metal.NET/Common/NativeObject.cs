@@ -6,6 +6,8 @@
 /// <typeparam name="TSelf">The concrete wrapper type.</typeparam>
 public interface INativeObject<TSelf> where TSelf : NativeObject, INativeObject<TSelf>
 {
+    static abstract TSelf Null { get; }
+
     /// <summary>
     /// Creates a managed wrapper around the given native pointer.
     /// </summary>

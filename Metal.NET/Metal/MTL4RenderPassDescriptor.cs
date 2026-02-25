@@ -2,6 +2,8 @@
 
 public class MTL4RenderPassDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4RenderPassDescriptor>
 {
+    public static MTL4RenderPassDescriptor Null { get; } = new(0, false);
+
     public static MTL4RenderPassDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTL4RenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPassDescriptorBindings.Class), true)

@@ -2,6 +2,8 @@
 
 public class MTLPointerType(nint nativePtr, bool ownsReference) : MTLType(nativePtr, ownsReference), INativeObject<MTLPointerType>
 {
+    public static new MTLPointerType Null { get; } = new(0, false);
+
     public static new MTLPointerType Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLPointerType() : this(ObjectiveCRuntime.AllocInit(MTLPointerTypeBindings.Class), true)

@@ -2,6 +2,8 @@
 
 public class MTLIOCommandQueue(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLIOCommandQueue>
 {
+    public static MTLIOCommandQueue Null { get; } = new(0, false);
+
     public static MTLIOCommandQueue Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public NSString Label

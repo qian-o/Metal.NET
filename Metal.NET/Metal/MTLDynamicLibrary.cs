@@ -2,6 +2,8 @@
 
 public class MTLDynamicLibrary(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLDynamicLibrary>
 {
+    public static MTLDynamicLibrary Null { get; } = new(0, false);
+
     public static MTLDynamicLibrary Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLDevice Device

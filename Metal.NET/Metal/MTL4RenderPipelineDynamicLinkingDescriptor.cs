@@ -2,6 +2,8 @@
 
 public class MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4RenderPipelineDynamicLinkingDescriptor>
 {
+    public static MTL4RenderPipelineDynamicLinkingDescriptor Null { get; } = new(0, false);
+
     public static MTL4RenderPipelineDynamicLinkingDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTL4RenderPipelineDynamicLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineDynamicLinkingDescriptorBindings.Class), true)

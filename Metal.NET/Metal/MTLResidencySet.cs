@@ -2,6 +2,8 @@
 
 public class MTLResidencySet(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLResidencySet>
 {
+    public static MTLResidencySet Null { get; } = new(0, false);
+
     public static MTLResidencySet Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLAllocation[] AllAllocations

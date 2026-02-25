@@ -2,6 +2,8 @@
 
 public class MTLFXFrameInterpolatableScaler(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLFXFrameInterpolatableScaler>
 {
+    public static MTLFXFrameInterpolatableScaler Null { get; } = new(0, false);
+
     public static MTLFXFrameInterpolatableScaler Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 }
 

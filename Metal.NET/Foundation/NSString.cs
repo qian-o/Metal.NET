@@ -8,6 +8,8 @@ namespace Metal.NET;
 /// </summary>
 public class NSString(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<NSString>
 {
+    public static NSString Null { get; } = new(0, false);
+
     public static NSString Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public string Value

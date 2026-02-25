@@ -2,6 +2,8 @@
 
 public class MTLCompileOptions(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLCompileOptions>
 {
+    public static MTLCompileOptions Null { get; } = new(0, false);
+
     public static MTLCompileOptions Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLCompileOptions() : this(ObjectiveCRuntime.AllocInit(MTLCompileOptionsBindings.Class), true)

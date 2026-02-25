@@ -2,6 +2,8 @@
 
 public class MTLRenderPassDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLRenderPassDescriptor>
 {
+    public static MTLRenderPassDescriptor Null { get; } = new(0, false);
+
     public static MTLRenderPassDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLRenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassDescriptorBindings.Class), true)

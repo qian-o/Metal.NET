@@ -2,6 +2,8 @@
 
 public class MTL4ComputePipelineDescriptor(nint nativePtr, bool ownsReference) : MTL4PipelineDescriptor(nativePtr, ownsReference), INativeObject<MTL4ComputePipelineDescriptor>
 {
+    public static new MTL4ComputePipelineDescriptor Null { get; } = new(0, false);
+
     public static new MTL4ComputePipelineDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTL4ComputePipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4ComputePipelineDescriptorBindings.Class), true)

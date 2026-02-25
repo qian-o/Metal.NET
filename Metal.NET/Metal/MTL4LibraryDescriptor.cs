@@ -2,6 +2,8 @@
 
 public class MTL4LibraryDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTL4LibraryDescriptor>
 {
+    public static MTL4LibraryDescriptor Null { get; } = new(0, false);
+
     public static MTL4LibraryDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTL4LibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4LibraryDescriptorBindings.Class), true)

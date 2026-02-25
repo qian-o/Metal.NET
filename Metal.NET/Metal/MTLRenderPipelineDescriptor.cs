@@ -2,6 +2,8 @@
 
 public class MTLRenderPipelineDescriptor(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLRenderPipelineDescriptor>
 {
+    public static MTLRenderPipelineDescriptor Null { get; } = new(0, false);
+
     public static MTLRenderPipelineDescriptor Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineDescriptorBindings.Class), true)

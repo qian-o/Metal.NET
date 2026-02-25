@@ -2,6 +2,8 @@
 
 public class MTLStructMember(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<MTLStructMember>
 {
+    public static MTLStructMember Null { get; } = new(0, false);
+
     public static MTLStructMember Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
     public MTLStructMember() : this(ObjectiveCRuntime.AllocInit(MTLStructMemberBindings.Class), true)
