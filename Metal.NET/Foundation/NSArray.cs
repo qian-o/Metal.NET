@@ -1,33 +1,35 @@
-﻿using System.Collections;
-
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 /// <summary>
-/// Typed wrapper around an Objective-C NSArray whose elements are <typeparamref name="T"/>.
+/// Utility methods for converting between Objective-C NSArray and C# arrays.
 /// </summary>
-public class NSArray<T>(nint nativePtr, bool ownsReference) : NativeObject(nativePtr, ownsReference), INativeObject<NSArray<T>>, IEnumerable<T> where T : NativeObject, INativeObject<T>
+public static class NSArray
 {
-    public static NSArray<T> Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
-
-    public nuint Count
+    /// <summary>
+    /// Converts an Objective-C NSArray pointer to a C# array.
+    /// The returned elements are borrowed references.
+    /// </summary>
+    public static T[] ToArray<T>(nint nativePtr) where T : NativeObject, INativeObject<T>
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, NSArrayBindings.Count);
+        nuint count = ObjectiveCRuntime.MsgSendNUInt(nativePtr, NSArrayBindings.Count);
+
+        T[] result = new T[(int)count];
+
+        for (nuint i = 0; i < count; i++)
+        {
+            nint elemPtr = ObjectiveCRuntime.MsgSendPtr(nativePtr, NSArrayBindings.ObjectAtIndex, i);
+
+            result[(int)i] = T.Create(elemPtr, false);
+        }
+
+        return result;
     }
 
     /// <summary>
-    /// Returns the object at the given index as a borrowed reference.
+    /// Creates an Objective-C NSArray from a C# array and returns the native pointer.
+    /// The caller owns the returned NSArray.
     /// </summary>
-    public T this[nuint index]
-    {
-        get
-        {
-            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSArrayBindings.ObjectAtIndex, index);
-
-            return T.Create(nativePtr, false);
-        }
-    }
-
-    public static unsafe implicit operator NSArray<T>(T[] array)
+    public static unsafe nint FromArray<T>(T[] array) where T : NativeObject
     {
         nint[] nativePtrs = new nint[array.Length];
 
@@ -38,23 +40,8 @@ public class NSArray<T>(nint nativePtr, bool ownsReference) : NativeObject(nativ
 
         fixed (nint* ptrs = nativePtrs)
         {
-            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.Alloc(NSArrayBindings.Class), NSArrayBindings.InitWithObjectsCount, (nint)ptrs, (nuint)array.Length);
-
-            return new(nativePtr, true);
+            return ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.Alloc(NSArrayBindings.Class), NSArrayBindings.InitWithObjectsCount, (nint)ptrs, (nuint)array.Length);
         }
-    }
-
-    public IEnumerator<T> GetEnumerator()
-    {
-        for (nuint i = 0; i < Count; i++)
-        {
-            yield return this[i];
-        }
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
     }
 }
 

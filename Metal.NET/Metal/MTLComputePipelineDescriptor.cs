@@ -8,10 +8,10 @@ public class MTLComputePipelineDescriptor(nint nativePtr, bool ownsReference) : 
     {
     }
 
-    public NSArray<MTLBinaryArchive> BinaryArchives
+    public MTLBinaryArchive[] BinaryArchives
     {
-        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.BinaryArchives);
-        set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetBinaryArchives, value);
+        get => GetArrayProperty<MTLBinaryArchive>(MTLComputePipelineDescriptorBindings.BinaryArchives);
+        set => SetArrayProperty(MTLComputePipelineDescriptorBindings.SetBinaryArchives, value);
     }
 
     public MTLPipelineBufferDescriptorArray Buffers
@@ -25,10 +25,10 @@ public class MTLComputePipelineDescriptor(nint nativePtr, bool ownsReference) : 
         set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetComputeFunction, value);
     }
 
-    public NSArray<MTLDynamicLibrary> InsertLibraries
+    public MTLDynamicLibrary[] InsertLibraries
     {
-        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.InsertLibraries);
-        set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetInsertLibraries, value);
+        get => GetArrayProperty<MTLDynamicLibrary>(MTLComputePipelineDescriptorBindings.InsertLibraries);
+        set => SetArrayProperty(MTLComputePipelineDescriptorBindings.SetInsertLibraries, value);
     }
 
     public NSString Label
@@ -55,10 +55,10 @@ public class MTLComputePipelineDescriptor(nint nativePtr, bool ownsReference) : 
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetMaxTotalThreadsPerThreadgroup, value);
     }
 
-    public NSArray<MTLDynamicLibrary> PreloadedLibraries
+    public MTLDynamicLibrary[] PreloadedLibraries
     {
-        get => GetProperty(ref field, MTLComputePipelineDescriptorBindings.PreloadedLibraries);
-        set => SetProperty(ref field, MTLComputePipelineDescriptorBindings.SetPreloadedLibraries, value);
+        get => GetArrayProperty<MTLDynamicLibrary>(MTLComputePipelineDescriptorBindings.PreloadedLibraries);
+        set => SetArrayProperty(MTLComputePipelineDescriptorBindings.SetPreloadedLibraries, value);
     }
 
     public MTLSize RequiredThreadsPerThreadgroup

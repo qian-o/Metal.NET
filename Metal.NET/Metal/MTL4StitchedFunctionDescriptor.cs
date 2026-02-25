@@ -8,10 +8,10 @@ public class MTL4StitchedFunctionDescriptor(nint nativePtr, bool ownsReference) 
     {
     }
 
-    public NSArray<MTL4FunctionDescriptor> FunctionDescriptors
+    public MTL4FunctionDescriptor[] FunctionDescriptors
     {
-        get => GetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.FunctionDescriptors);
-        set => SetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.SetFunctionDescriptors, value);
+        get => GetArrayProperty<MTL4FunctionDescriptor>(MTL4StitchedFunctionDescriptorBindings.FunctionDescriptors);
+        set => SetArrayProperty(MTL4StitchedFunctionDescriptorBindings.SetFunctionDescriptors, value);
     }
 
     public MTLFunctionStitchingGraph FunctionGraph

@@ -20,10 +20,10 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, bool ownsReference) : N
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetAlphaToOneEnabled, value);
     }
 
-    public NSArray<MTLBinaryArchive> BinaryArchives
+    public MTLBinaryArchive[] BinaryArchives
     {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.BinaryArchives);
-        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetBinaryArchives, value);
+        get => GetArrayProperty<MTLBinaryArchive>(MTLRenderPipelineDescriptorBindings.BinaryArchives);
+        set => SetArrayProperty(MTLRenderPipelineDescriptorBindings.SetBinaryArchives, value);
     }
 
     public MTLRenderPipelineColorAttachmentDescriptorArray ColorAttachments
@@ -54,10 +54,10 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, bool ownsReference) : N
         set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetFragmentLinkedFunctions, value);
     }
 
-    public NSArray<MTLDynamicLibrary> FragmentPreloadedLibraries
+    public MTLDynamicLibrary[] FragmentPreloadedLibraries
     {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.FragmentPreloadedLibraries);
-        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetFragmentPreloadedLibraries, value);
+        get => GetArrayProperty<MTLDynamicLibrary>(MTLRenderPipelineDescriptorBindings.FragmentPreloadedLibraries);
+        set => SetArrayProperty(MTLRenderPipelineDescriptorBindings.SetFragmentPreloadedLibraries, value);
     }
 
     public MTLPrimitiveTopologyClass InputPrimitiveTopology
@@ -223,10 +223,10 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, bool ownsReference) : N
         set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetVertexLinkedFunctions, value);
     }
 
-    public NSArray<MTLDynamicLibrary> VertexPreloadedLibraries
+    public MTLDynamicLibrary[] VertexPreloadedLibraries
     {
-        get => GetProperty(ref field, MTLRenderPipelineDescriptorBindings.VertexPreloadedLibraries);
-        set => SetProperty(ref field, MTLRenderPipelineDescriptorBindings.SetVertexPreloadedLibraries, value);
+        get => GetArrayProperty<MTLDynamicLibrary>(MTLRenderPipelineDescriptorBindings.VertexPreloadedLibraries);
+        set => SetArrayProperty(MTLRenderPipelineDescriptorBindings.SetVertexPreloadedLibraries, value);
     }
 
     public void Reset()

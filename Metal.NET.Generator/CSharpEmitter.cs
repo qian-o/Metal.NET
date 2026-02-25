@@ -32,14 +32,15 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     ];
 
     /// <summary>
-    /// Maps (ClassName, PropertyName) → element type for NSArray properties,
+    /// Maps (ClassName, MemberName) → element type for NSArray properties and methods,
     /// inferred from the Objective-C Metal API typed arrays.
-    /// Entries with key ("*", PropertyName) apply to any class.
     /// </summary>
-    static readonly Dictionary<(string Class, string Property), string> NSArrayElementTypes = new()
+    static readonly Dictionary<(string Class, string Member), string> NSArrayElementTypes = new()
     {
         // MTLDevice
         { ("MTLDevice", "CounterSets"), "MTLCounterSet" },
+        { ("MTLDevice", "CopyAllDevices"), "MTLDevice" },
+        { ("MTLDevice", "NewArgumentEncoder"), "MTLArgumentDescriptor" },
         // MTLCounterSet
         { ("MTLCounterSet", "Counters"), "MTLCounter" },
         // MTLLibrary
@@ -64,6 +65,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         { ("MTLStitchedLibraryDescriptor", "FunctionGraphs"), "MTLFunctionStitchingGraph" },
         // MTL4CompilerTaskOptions
         { ("MTL4CompilerTaskOptions", "LookupArchives"), "MTL4Archive" },
+        // MTLComputePipelineState
+        { ("MTLComputePipelineState", "NewComputePipelineStateWithBinaryFunctions"), "MTL4BinaryFunction" },
+        { ("MTLComputePipelineState", "NewComputePipelineState"), "MTLFunction" },
+        // MTL4MachineLearningPipelineDescriptor
+        { ("MTL4MachineLearningPipelineDescriptor", "SetInputDimensions"), "MTLTensorExtents" },
     };
 
     /// <summary>
@@ -373,7 +379,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 sb.AppendLine();
             }
 
-            EmitFreeFunction(sb, func, classDef.CppNamespace);
+            EmitFreeFunction(sb, func, classDef.CppNamespace, csClassName);
             hasPrecedingMember = true;
         }
 
@@ -564,16 +570,14 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string csType = TypeMapper.MapCppType(getter.ReturnType, ns);
 
         // Resolve NSArray element type for typed arrays
+        string? nsArrayElemType = null;
         if (csType == "NSArray")
         {
-            string? elemType = TryResolveNSArrayElementType(csClassName, csPropName);
-            if (elemType != null)
-            {
-                csType = $"NSArray<{elemType}>";
-            }
+            nsArrayElemType = TryResolveNSArrayElementType(csClassName, csPropName);
         }
 
-        bool nullable = typeMapper.IsNativeObjectType(csType);
+        bool isNSArray = nsArrayElemType != null;
+        bool nullable = !isNSArray && typeMapper.IsNativeObjectType(csType);
         bool isEnum = typeMapper.IsEnumType(csType);
         bool isStruct = TypeMapper.StructTypes.Contains(csType);
         bool isBool = csType == "bool";
@@ -613,7 +617,18 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             selectors.TryAdd(setSelName, setSelObjC);
         }
 
-        if (nullable)
+        if (isNSArray)
+        {
+            sb.AppendLine($"    public {nsArrayElemType}[] {csPropName}");
+            sb.AppendLine("    {");
+            sb.AppendLine($"        get => GetArrayProperty<{nsArrayElemType}>({selectorRef});");
+            if (prop.Setter != null)
+            {
+                sb.AppendLine($"        set => SetArrayProperty({csClassName}Bindings.{setSelName}, value);");
+            }
+            sb.AppendLine("    }");
+        }
+        else if (nullable)
         {
             sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
@@ -740,7 +755,16 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string selectorRef = $"{csClassName}Bindings.{selectorKey}";
 
         string returnType = TypeMapper.MapCppType(method.ReturnType, ns);
-        bool nullable = typeMapper.IsNativeObjectType(returnType);
+
+        // Resolve NSArray element type for array returns
+        string? returnArrayElemType = null;
+        if (returnType == "NSArray")
+        {
+            returnArrayElemType = TryResolveNSArrayElementType(csClassName, csMethodName);
+        }
+        bool returnsArray = returnArrayElemType != null;
+
+        bool nullable = !returnsArray && typeMapper.IsNativeObjectType(returnType);
         bool isEnum = typeMapper.IsEnumType(returnType);
         bool isStruct = TypeMapper.StructTypes.Contains(returnType);
         bool isBool = returnType == "bool";
@@ -867,7 +891,22 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
             csParams.Add($"{csParamType} {paramName}");
 
-            if (typeMapper.IsNativeObjectType(csParamType))
+            if (csParamType == "NSArray")
+            {
+                // Resolve the element type for this NSArray parameter
+                string? paramArrayElemType = TryResolveNSArrayElementType(csClassName, csMethodName);
+                if (paramArrayElemType != null)
+                {
+                    // Replace the param we just added with T[] version
+                    csParams[^1] = $"{paramArrayElemType}[] {paramName}";
+                    callArgs.Add($"NSArray.FromArray({paramName})");
+                }
+                else
+                {
+                    callArgs.Add($"{paramName}");
+                }
+            }
+            else if (typeMapper.IsNativeObjectType(csParamType))
             {
                 callArgs.Add($"{paramName}.NativePtr");
             }
@@ -897,7 +936,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string argsStr = string.Join(", ", callArgs);
         string staticKw = isStaticClassMethod ? "static " : "";
         string unsafeKw = needsUnsafeContext ? "unsafe " : "";
-        string csReturnType = isVoid ? "void" : returnType;
+        string csReturnType = returnsArray ? $"{returnArrayElemType}[]" : (isVoid ? "void" : returnType);
 
         sb.AppendLine($"    public {staticKw}{unsafeKw}{csReturnType} {csMethodName}({paramStr})");
         sb.AppendLine("    {");
@@ -927,6 +966,23 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 sb.AppendLine();
                 sb.AppendLine($"{indent}error = new(errorPtr, false);");
+            }
+        }
+        else if (returnsArray)
+        {
+            if (hasOutError)
+            {
+                sb.AppendLine($"{indent}nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
+                sb.AppendLine();
+                sb.AppendLine($"{indent}error = new(errorPtr, false);");
+                sb.AppendLine();
+                sb.AppendLine($"{indent}return NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
+            }
+            else
+            {
+                sb.AppendLine($"{indent}nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
+                sb.AppendLine();
+                sb.AppendLine($"{indent}return NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
             }
         }
         else if (nullable)
@@ -1025,10 +1081,18 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Free Function Emission
 
-    void EmitFreeFunction(StringBuilder sb, FreeFunctionDef func, string cppNamespace)
+    void EmitFreeFunction(StringBuilder sb, FreeFunctionDef func, string cppNamespace, string csClassName)
     {
         string csReturnType = TypeMapper.MapCppType(func.ReturnType, cppNamespace);
-        bool nullable = typeMapper.IsNativeObjectType(csReturnType);
+
+        // Resolve NSArray element type for array returns
+        string? returnArrayElemType = null;
+        if (csReturnType == "NSArray")
+        {
+            returnArrayElemType = TryResolveNSArrayElementType(csClassName, func.CppName);
+        }
+        bool returnsArray = returnArrayElemType != null;
+        bool nullable = !returnsArray && typeMapper.IsNativeObjectType(csReturnType);
 
         List<string> pinvokeParams = [];
         foreach (ParamDef p in func.Parameters)
@@ -1044,7 +1108,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             }
         }
 
-        string pinvokeReturnType = nullable ? "nint" : csReturnType;
+        string pinvokeReturnType = (nullable || returnsArray) ? "nint" : csReturnType;
 
         sb.AppendLine($"    [LibraryImport(\"{func.LibraryPath}\", EntryPoint = \"{func.CEntryPoint}\")]");
         sb.AppendLine($"    private static partial {pinvokeReturnType} {func.CEntryPoint}({string.Join(", ", pinvokeParams)});");
@@ -1068,11 +1132,20 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             }
         }
 
-        string csFullReturnType = csReturnType;
+        string csFullReturnType = returnsArray ? $"{returnArrayElemType}[]" : csReturnType;
         string wrapperParamStr = string.Join(", ", wrapperParams);
         string callArgStr = string.Join(", ", callArgs);
 
-        if (nullable)
+        if (returnsArray)
+        {
+            sb.AppendLine($"    public static {csFullReturnType} {func.CppName}({wrapperParamStr})");
+            sb.AppendLine("    {");
+            sb.AppendLine($"        nint nativePtr = {func.CEntryPoint}({callArgStr});");
+            sb.AppendLine();
+            sb.AppendLine($"        return NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
+            sb.AppendLine("    }");
+        }
+        else if (nullable)
         {
             sb.AppendLine($"    public static {csFullReturnType} {func.CppName}({wrapperParamStr})");
             sb.AppendLine("    {");

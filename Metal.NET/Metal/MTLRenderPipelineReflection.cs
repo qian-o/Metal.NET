@@ -8,44 +8,44 @@ public class MTLRenderPipelineReflection(nint nativePtr, bool ownsReference) : N
     {
     }
 
-    public NSArray<MTLArgument> FragmentArguments
+    public MTLArgument[] FragmentArguments
     {
-        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.FragmentArguments);
+        get => GetArrayProperty<MTLArgument>(MTLRenderPipelineReflectionBindings.FragmentArguments);
     }
 
-    public NSArray<MTLBinding> FragmentBindings
+    public MTLBinding[] FragmentBindings
     {
-        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.FragmentBindings);
+        get => GetArrayProperty<MTLBinding>(MTLRenderPipelineReflectionBindings.FragmentBindings);
     }
 
-    public NSArray<MTLBinding> MeshBindings
+    public MTLBinding[] MeshBindings
     {
-        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.MeshBindings);
+        get => GetArrayProperty<MTLBinding>(MTLRenderPipelineReflectionBindings.MeshBindings);
     }
 
-    public NSArray<MTLBinding> ObjectBindings
+    public MTLBinding[] ObjectBindings
     {
-        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.ObjectBindings);
+        get => GetArrayProperty<MTLBinding>(MTLRenderPipelineReflectionBindings.ObjectBindings);
     }
 
-    public NSArray<MTLArgument> TileArguments
+    public MTLArgument[] TileArguments
     {
-        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.TileArguments);
+        get => GetArrayProperty<MTLArgument>(MTLRenderPipelineReflectionBindings.TileArguments);
     }
 
-    public NSArray<MTLBinding> TileBindings
+    public MTLBinding[] TileBindings
     {
-        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.TileBindings);
+        get => GetArrayProperty<MTLBinding>(MTLRenderPipelineReflectionBindings.TileBindings);
     }
 
-    public NSArray<MTLArgument> VertexArguments
+    public MTLArgument[] VertexArguments
     {
-        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.VertexArguments);
+        get => GetArrayProperty<MTLArgument>(MTLRenderPipelineReflectionBindings.VertexArguments);
     }
 
-    public NSArray<MTLBinding> VertexBindings
+    public MTLBinding[] VertexBindings
     {
-        get => GetProperty(ref field, MTLRenderPipelineReflectionBindings.VertexBindings);
+        get => GetArrayProperty<MTLBinding>(MTLRenderPipelineReflectionBindings.VertexBindings);
     }
 }
 

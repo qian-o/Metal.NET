@@ -40,14 +40,14 @@ public class MTLFunction(nint nativePtr, bool ownsReference) : NativeObject(nati
         get => (MTLPatchType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionBindings.PatchType);
     }
 
-    public NSArray<MTLAttribute> StageInputAttributes
+    public MTLAttribute[] StageInputAttributes
     {
-        get => GetProperty(ref field, MTLFunctionBindings.StageInputAttributes);
+        get => GetArrayProperty<MTLAttribute>(MTLFunctionBindings.StageInputAttributes);
     }
 
-    public NSArray<MTLVertexAttribute> VertexAttributes
+    public MTLVertexAttribute[] VertexAttributes
     {
-        get => GetProperty(ref field, MTLFunctionBindings.VertexAttributes);
+        get => GetArrayProperty<MTLVertexAttribute>(MTLFunctionBindings.VertexAttributes);
     }
 
     public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex)

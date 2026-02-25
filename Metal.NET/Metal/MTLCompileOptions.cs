@@ -44,10 +44,10 @@ public class MTLCompileOptions(nint nativePtr, bool ownsReference) : NativeObjec
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetLanguageVersion, (nuint)value);
     }
 
-    public NSArray<MTLDynamicLibrary> Libraries
+    public MTLDynamicLibrary[] Libraries
     {
-        get => GetProperty(ref field, MTLCompileOptionsBindings.Libraries);
-        set => SetProperty(ref field, MTLCompileOptionsBindings.SetLibraries, value);
+        get => GetArrayProperty<MTLDynamicLibrary>(MTLCompileOptionsBindings.Libraries);
+        set => SetArrayProperty(MTLCompileOptionsBindings.SetLibraries, value);
     }
 
     public MTLLibraryType LibraryType

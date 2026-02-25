@@ -8,10 +8,10 @@ public class MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr, bool ow
     {
     }
 
-    public NSArray<MTLAccelerationStructureGeometryDescriptor> GeometryDescriptors
+    public MTLAccelerationStructureGeometryDescriptor[] GeometryDescriptors
     {
-        get => GetProperty(ref field, MTLPrimitiveAccelerationStructureDescriptorBindings.GeometryDescriptors);
-        set => SetProperty(ref field, MTLPrimitiveAccelerationStructureDescriptorBindings.SetGeometryDescriptors, value);
+        get => GetArrayProperty<MTLAccelerationStructureGeometryDescriptor>(MTLPrimitiveAccelerationStructureDescriptorBindings.GeometryDescriptors);
+        set => SetArrayProperty(MTLPrimitiveAccelerationStructureDescriptorBindings.SetGeometryDescriptors, value);
     }
 
     public MTLMotionBorderMode MotionEndBorderMode

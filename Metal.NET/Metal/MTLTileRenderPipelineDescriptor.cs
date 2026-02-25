@@ -8,10 +8,10 @@ public class MTLTileRenderPipelineDescriptor(nint nativePtr, bool ownsReference)
     {
     }
 
-    public NSArray<MTLBinaryArchive> BinaryArchives
+    public MTLBinaryArchive[] BinaryArchives
     {
-        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.BinaryArchives);
-        set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetBinaryArchives, value);
+        get => GetArrayProperty<MTLBinaryArchive>(MTLTileRenderPipelineDescriptorBindings.BinaryArchives);
+        set => SetArrayProperty(MTLTileRenderPipelineDescriptorBindings.SetBinaryArchives, value);
     }
 
     public MTLTileRenderPipelineColorAttachmentDescriptorArray ColorAttachments
@@ -43,10 +43,10 @@ public class MTLTileRenderPipelineDescriptor(nint nativePtr, bool ownsReference)
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetMaxTotalThreadsPerThreadgroup, value);
     }
 
-    public NSArray<MTLDynamicLibrary> PreloadedLibraries
+    public MTLDynamicLibrary[] PreloadedLibraries
     {
-        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.PreloadedLibraries);
-        set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetPreloadedLibraries, value);
+        get => GetArrayProperty<MTLDynamicLibrary>(MTLTileRenderPipelineDescriptorBindings.PreloadedLibraries);
+        set => SetArrayProperty(MTLTileRenderPipelineDescriptorBindings.SetPreloadedLibraries, value);
     }
 
     public nuint RasterSampleCount

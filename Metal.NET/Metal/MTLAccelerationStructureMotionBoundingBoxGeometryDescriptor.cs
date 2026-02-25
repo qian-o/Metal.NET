@@ -8,10 +8,10 @@ public class MTLAccelerationStructureMotionBoundingBoxGeometryDescriptor(nint na
     {
     }
 
-    public NSArray<MTLMotionKeyframeData> BoundingBoxBuffers
+    public MTLMotionKeyframeData[] BoundingBoxBuffers
     {
-        get => GetProperty(ref field, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.BoundingBoxBuffers);
-        set => SetProperty(ref field, MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBuffers, value);
+        get => GetArrayProperty<MTLMotionKeyframeData>(MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.BoundingBoxBuffers);
+        set => SetArrayProperty(MTLAccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBuffers, value);
     }
 
     public nuint BoundingBoxCount

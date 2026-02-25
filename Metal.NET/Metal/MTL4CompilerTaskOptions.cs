@@ -8,10 +8,10 @@ public class MTL4CompilerTaskOptions(nint nativePtr, bool ownsReference) : Nativ
     {
     }
 
-    public NSArray<MTL4Archive> LookupArchives
+    public MTL4Archive[] LookupArchives
     {
-        get => GetProperty(ref field, MTL4CompilerTaskOptionsBindings.LookupArchives);
-        set => SetProperty(ref field, MTL4CompilerTaskOptionsBindings.SetLookupArchives, value);
+        get => GetArrayProperty<MTL4Archive>(MTL4CompilerTaskOptionsBindings.LookupArchives);
+        set => SetArrayProperty(MTL4CompilerTaskOptionsBindings.SetLookupArchives, value);
     }
 }
 

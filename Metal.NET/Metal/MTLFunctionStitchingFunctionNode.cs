@@ -8,16 +8,16 @@ public class MTLFunctionStitchingFunctionNode(nint nativePtr, bool ownsReference
     {
     }
 
-    public NSArray<MTLArgument> Arguments
+    public MTLArgument[] Arguments
     {
-        get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.Arguments);
-        set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetArguments, value);
+        get => GetArrayProperty<MTLArgument>(MTLFunctionStitchingFunctionNodeBindings.Arguments);
+        set => SetArrayProperty(MTLFunctionStitchingFunctionNodeBindings.SetArguments, value);
     }
 
-    public NSArray<MTLFunctionStitchingFunctionNode> ControlDependencies
+    public MTLFunctionStitchingFunctionNode[] ControlDependencies
     {
-        get => GetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.ControlDependencies);
-        set => SetProperty(ref field, MTLFunctionStitchingFunctionNodeBindings.SetControlDependencies, value);
+        get => GetArrayProperty<MTLFunctionStitchingFunctionNode>(MTLFunctionStitchingFunctionNodeBindings.ControlDependencies);
+        set => SetArrayProperty(MTLFunctionStitchingFunctionNodeBindings.SetControlDependencies, value);
     }
 
     public NSString Name

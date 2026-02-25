@@ -4,9 +4,9 @@ public class MTLCommandBufferEncoderInfo(nint nativePtr, bool ownsReference) : N
 {
     public static MTLCommandBufferEncoderInfo Create(nint nativePtr, bool ownsReference) => new(nativePtr, ownsReference);
 
-    public NSArray<NSString> DebugSignposts
+    public NSString[] DebugSignposts
     {
-        get => GetProperty(ref field, MTLCommandBufferEncoderInfoBindings.DebugSignposts);
+        get => GetArrayProperty<NSString>(MTLCommandBufferEncoderInfoBindings.DebugSignposts);
     }
 
     public MTLCommandEncoderErrorState ErrorState

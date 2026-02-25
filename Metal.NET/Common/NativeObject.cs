@@ -87,6 +87,28 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDispos
     }
 
     /// <summary>
+    /// Reads an Objective-C NSArray property and returns a C# array.
+    /// </summary>
+    protected T[] GetArrayProperty<T>(Selector selector) where T : NativeObject, INativeObject<T>
+    {
+        nint arrayPtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, selector);
+
+        return NSArray.ToArray<T>(arrayPtr);
+    }
+
+    /// <summary>
+    /// Writes an Objective-C NSArray property from a C# array.
+    /// </summary>
+    protected void SetArrayProperty<T>(Selector selector, T[] value) where T : NativeObject
+    {
+        nint arrayPtr = NSArray.FromArray(value);
+
+        ObjectiveCRuntime.MsgSend(NativePtr, selector, arrayPtr);
+
+        ObjectiveCRuntime.Release(arrayPtr);
+    }
+
+    /// <summary>
     /// Sends <c>release</c> to the native object at most once (thread-safe).
     /// </summary>
     private void Release()

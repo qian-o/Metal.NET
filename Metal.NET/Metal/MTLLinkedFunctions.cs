@@ -8,22 +8,22 @@ public class MTLLinkedFunctions(nint nativePtr, bool ownsReference) : NativeObje
     {
     }
 
-    public NSArray<MTLFunction> BinaryFunctions
+    public MTLFunction[] BinaryFunctions
     {
-        get => GetProperty(ref field, MTLLinkedFunctionsBindings.BinaryFunctions);
-        set => SetProperty(ref field, MTLLinkedFunctionsBindings.SetBinaryFunctions, value);
+        get => GetArrayProperty<MTLFunction>(MTLLinkedFunctionsBindings.BinaryFunctions);
+        set => SetArrayProperty(MTLLinkedFunctionsBindings.SetBinaryFunctions, value);
     }
 
-    public NSArray<MTLFunction> Functions
+    public MTLFunction[] Functions
     {
-        get => GetProperty(ref field, MTLLinkedFunctionsBindings.Functions);
-        set => SetProperty(ref field, MTLLinkedFunctionsBindings.SetFunctions, value);
+        get => GetArrayProperty<MTLFunction>(MTLLinkedFunctionsBindings.Functions);
+        set => SetArrayProperty(MTLLinkedFunctionsBindings.SetFunctions, value);
     }
 
-    public NSArray<MTLFunction> PrivateFunctions
+    public MTLFunction[] PrivateFunctions
     {
-        get => GetProperty(ref field, MTLLinkedFunctionsBindings.PrivateFunctions);
-        set => SetProperty(ref field, MTLLinkedFunctionsBindings.SetPrivateFunctions, value);
+        get => GetArrayProperty<MTLFunction>(MTLLinkedFunctionsBindings.PrivateFunctions);
+        set => SetArrayProperty(MTLLinkedFunctionsBindings.SetPrivateFunctions, value);
     }
 
     public static MTLLinkedFunctions LinkedFunctions()

@@ -44,10 +44,10 @@ public class MTLInstanceAccelerationStructureDescriptor(nint nativePtr, bool own
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceTransformationMatrixLayout, (nint)value);
     }
 
-    public NSArray<MTLAccelerationStructure> InstancedAccelerationStructures
+    public MTLAccelerationStructure[] InstancedAccelerationStructures
     {
-        get => GetProperty(ref field, MTLInstanceAccelerationStructureDescriptorBindings.InstancedAccelerationStructures);
-        set => SetProperty(ref field, MTLInstanceAccelerationStructureDescriptorBindings.SetInstancedAccelerationStructures, value);
+        get => GetArrayProperty<MTLAccelerationStructure>(MTLInstanceAccelerationStructureDescriptorBindings.InstancedAccelerationStructures);
+        set => SetArrayProperty(MTLInstanceAccelerationStructureDescriptorBindings.SetInstancedAccelerationStructures, value);
     }
 
     public MTLBuffer MotionTransformBuffer

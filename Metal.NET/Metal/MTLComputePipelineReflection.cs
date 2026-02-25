@@ -8,14 +8,14 @@ public class MTLComputePipelineReflection(nint nativePtr, bool ownsReference) : 
     {
     }
 
-    public NSArray<MTLArgument> Arguments
+    public MTLArgument[] Arguments
     {
-        get => GetProperty(ref field, MTLComputePipelineReflectionBindings.Arguments);
+        get => GetArrayProperty<MTLArgument>(MTLComputePipelineReflectionBindings.Arguments);
     }
 
-    public NSArray<MTLBinding> Bindings
+    public MTLBinding[] Bindings
     {
-        get => GetProperty(ref field, MTLComputePipelineReflectionBindings.Bindings);
+        get => GetArrayProperty<MTLBinding>(MTLComputePipelineReflectionBindings.Bindings);
     }
 }
 

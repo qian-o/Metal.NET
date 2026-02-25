@@ -36,9 +36,9 @@ public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObjec
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDeviceBindings.BarycentricCoordsSupported);
     }
 
-    public NSArray<MTLCounterSet> CounterSets
+    public MTLCounterSet[] CounterSets
     {
-        get => GetProperty(ref field, MTLDeviceBindings.CounterSets);
+        get => GetArrayProperty<MTLCounterSet>(MTLDeviceBindings.CounterSets);
     }
 
     public nuint CurrentAllocatedSize
@@ -342,9 +342,9 @@ public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObjec
         return new(nativePtr, true);
     }
 
-    public MTLArgumentEncoder NewArgumentEncoder(NSArray<MTLArgumentDescriptor> arguments)
+    public MTLArgumentEncoder NewArgumentEncoder(MTLArgumentDescriptor[] arguments)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewArgumentEncoder, arguments.NativePtr);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewArgumentEncoder, NSArray.FromArray(arguments));
 
         return new(nativePtr, true);
     }
@@ -827,11 +827,11 @@ public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObjec
     [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLCopyAllDevices")]
     private static partial nint MTLCopyAllDevices();
 
-    public static NSArray<MTLDevice> CopyAllDevices()
+    public static MTLDevice[] CopyAllDevices()
     {
         nint nativePtr = MTLCopyAllDevices();
 
-        return new(nativePtr, true);
+        return NSArray.ToArray<MTLDevice>(nativePtr);
     }
 }
 
