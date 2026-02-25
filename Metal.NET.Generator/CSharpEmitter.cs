@@ -224,9 +224,55 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             }
         }
 
-        // Methods
+        // Indexer (objectAtIndexedSubscript: / setObject:atIndexedSubscript:)
+        MethodInfo? indexerGetter = methods.FirstOrDefault(m =>
+            m.SelectorAccessor is "objectAtIndexedSubscript_"
+            || (m.CppName == "object" && m.Parameters.Count == 1 && m.ReturnType != "void"));
+        MethodInfo? indexerSetter = methods.FirstOrDefault(m =>
+            m.SelectorAccessor is "setObject_atIndexedSubscript_"
+            || (m.CppName == "setObject" && m.Parameters.Count == 2 && m.ReturnType == "void"));
+
+        if (indexerGetter != null)
+        {
+            string getterSelectorObjC = "objectAtIndexedSubscript:";
+            string setterSelectorObjC = "setObject:atIndexedSubscript:";
+            selectors.TryAdd("Object", getterSelectorObjC);
+
+            string elemType = TypeMapper.MapCppType(indexerGetter.ReturnType, classDef.CppNamespace);
+            string indexParam = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(indexerGetter.Parameters[0].Name));
+
+            sb.AppendLine();
+            sb.AppendLine($"    public {elemType} this[nuint {indexParam}]");
+            sb.AppendLine("    {");
+            sb.AppendLine("        get");
+            sb.AppendLine("        {");
+            sb.AppendLine($"            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, {csClassName}Bindings.Object, {indexParam});");
+            sb.AppendLine();
+            sb.AppendLine("            return new(nativePtr, false);");
+            sb.AppendLine("        }");
+
+            if (indexerSetter != null)
+            {
+                selectors.TryAdd("SetObject", setterSelectorObjC);
+
+                sb.AppendLine("        set");
+                sb.AppendLine("        {");
+                sb.AppendLine($"            ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.SetObject, value.NativePtr, {indexParam});");
+                sb.AppendLine("        }");
+            }
+
+            sb.AppendLine("    }");
+            hasPrecedingMember = true;
+        }
+
+        // Methods (skip indexer getter/setter already emitted above)
         foreach (MethodInfo method in methods)
         {
+            if (method == indexerGetter || method == indexerSetter)
+            {
+                continue;
+            }
+
             if (hasPrecedingMember)
             {
                 sb.AppendLine();

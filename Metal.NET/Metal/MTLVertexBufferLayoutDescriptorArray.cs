@@ -8,16 +8,18 @@ public class MTLVertexBufferLayoutDescriptorArray(nint nativePtr, bool ownsRefer
     {
     }
 
-    public MTLVertexBufferLayoutDescriptor Object(nuint index)
+    public MTLVertexBufferLayoutDescriptor this[nuint index]
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexBufferLayoutDescriptorArrayBindings.Object, index);
+        get
+        {
+            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexBufferLayoutDescriptorArrayBindings.Object, index);
 
-        return new(nativePtr, false);
-    }
-
-    public void SetObject(MTLVertexBufferLayoutDescriptor bufferDesc, nuint index)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorArrayBindings.SetObject, bufferDesc.NativePtr, index);
+            return new(nativePtr, false);
+        }
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorArrayBindings.SetObject, value.NativePtr, index);
+        }
     }
 }
 

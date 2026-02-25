@@ -8,16 +8,18 @@ public class MTLBufferLayoutDescriptorArray(nint nativePtr, bool ownsReference) 
     {
     }
 
-    public MTLBufferLayoutDescriptor Object(nuint index)
+    public MTLBufferLayoutDescriptor this[nuint index]
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArrayBindings.Object, index);
+        get
+        {
+            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArrayBindings.Object, index);
 
-        return new(nativePtr, false);
-    }
-
-    public void SetObject(MTLBufferLayoutDescriptor bufferDesc, nuint index)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorArrayBindings.SetObject, bufferDesc.NativePtr, index);
+            return new(nativePtr, false);
+        }
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorArrayBindings.SetObject, value.NativePtr, index);
+        }
     }
 }
 

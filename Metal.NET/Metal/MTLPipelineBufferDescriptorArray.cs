@@ -8,16 +8,18 @@ public class MTLPipelineBufferDescriptorArray(nint nativePtr, bool ownsReference
     {
     }
 
-    public MTLPipelineBufferDescriptor Object(nuint bufferIndex)
+    public MTLPipelineBufferDescriptor this[nuint bufferIndex]
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPipelineBufferDescriptorArrayBindings.Object, bufferIndex);
+        get
+        {
+            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPipelineBufferDescriptorArrayBindings.Object, bufferIndex);
 
-        return new(nativePtr, false);
-    }
-
-    public void SetObject(MTLPipelineBufferDescriptor buffer, nuint bufferIndex)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorArrayBindings.SetObject, buffer.NativePtr, bufferIndex);
+            return new(nativePtr, false);
+        }
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorArrayBindings.SetObject, value.NativePtr, bufferIndex);
+        }
     }
 }
 

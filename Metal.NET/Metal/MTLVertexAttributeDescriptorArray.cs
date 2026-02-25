@@ -8,16 +8,18 @@ public class MTLVertexAttributeDescriptorArray(nint nativePtr, bool ownsReferenc
     {
     }
 
-    public MTLVertexAttributeDescriptor Object(nuint index)
+    public MTLVertexAttributeDescriptor this[nuint index]
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeDescriptorArrayBindings.Object, index);
+        get
+        {
+            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeDescriptorArrayBindings.Object, index);
 
-        return new(nativePtr, false);
-    }
-
-    public void SetObject(MTLVertexAttributeDescriptor attributeDesc, nuint index)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorArrayBindings.SetObject, attributeDesc.NativePtr, index);
+            return new(nativePtr, false);
+        }
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorArrayBindings.SetObject, value.NativePtr, index);
+        }
     }
 }
 

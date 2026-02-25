@@ -8,16 +8,18 @@ public class MTLRasterizationRateLayerArray(nint nativePtr, bool ownsReference) 
     {
     }
 
-    public MTLRasterizationRateLayerDescriptor Object(nuint layerIndex)
+    public MTLRasterizationRateLayerDescriptor this[nuint layerIndex]
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerArrayBindings.Object, layerIndex);
+        get
+        {
+            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerArrayBindings.Object, layerIndex);
 
-        return new(nativePtr, false);
-    }
-
-    public void SetObject(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateLayerArrayBindings.SetObject, layer.NativePtr, layerIndex);
+            return new(nativePtr, false);
+        }
+        set
+        {
+            ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateLayerArrayBindings.SetObject, value.NativePtr, layerIndex);
+        }
     }
 }
 
