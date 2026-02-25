@@ -608,6 +608,16 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         bool hasOutError = method.Parameters.Any(p => p.CppType.Contains("Error**"));
 
+        // Per Objective-C memory management conventions, only methods whose selector
+        // begins with alloc, new, copy, or mutableCopy return a +1 retained reference.
+        // All other methods (including objectAtIndexedSubscript:, objectAtIndex:, etc.)
+        // return borrowed references.
+        bool ownsReturn = selectorObjC.StartsWith("alloc", StringComparison.Ordinal)
+            || selectorObjC.StartsWith("new", StringComparison.Ordinal)
+            || selectorObjC.StartsWith("copy", StringComparison.Ordinal)
+            || selectorObjC.StartsWith("mutableCopy", StringComparison.Ordinal);
+        string ownsReturnStr = ownsReturn ? "true" : "false";
+
         // Build C# parameter list and call arguments
         List<string> csParams = [];
         List<string> callArgs = [target, selectorRef];
@@ -787,13 +797,13 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 sb.AppendLine();
                 sb.AppendLine($"{indent}error = new(errorPtr, false);");
                 sb.AppendLine();
-                sb.AppendLine($"{indent}return new(nativePtr, true);");
+                sb.AppendLine($"{indent}return new(nativePtr, {ownsReturnStr});");
             }
             else
             {
                 sb.AppendLine($"{indent}nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
                 sb.AppendLine();
-                sb.AppendLine($"{indent}return new(nativePtr, true);");
+                sb.AppendLine($"{indent}return new(nativePtr, {ownsReturnStr});");
             }
         }
         else if (isEnum)

@@ -17,7 +17,7 @@ public class MTLResourceStatePassDescriptor(nint nativePtr, bool ownsReference) 
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLResourceStatePassDescriptorBindings.Class, MTLResourceStatePassDescriptorBindings.ResourceStatePassDescriptor);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 }
 

@@ -24,7 +24,7 @@ public class MTLMotionKeyframeData(nint nativePtr, bool ownsReference) : NativeO
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLMotionKeyframeDataBindings.Class, MTLMotionKeyframeDataBindings.Data);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 }
 

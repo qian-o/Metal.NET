@@ -8,7 +8,7 @@ public class MTLParallelRenderCommandEncoder(nint nativePtr, bool ownsReference)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLParallelRenderCommandEncoderBindings.RenderCommandEncoder);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public void SetColorStoreAction(MTLStoreAction storeAction, nuint colorAttachmentIndex)

@@ -48,7 +48,7 @@ public class MTLArgumentDescriptor(nint nativePtr, bool ownsReference) : NativeO
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLArgumentDescriptorBindings.Class, MTLArgumentDescriptorBindings.ArgumentDescriptor);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 }
 

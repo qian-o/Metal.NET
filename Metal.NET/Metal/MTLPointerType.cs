@@ -37,14 +37,14 @@ public class MTLPointerType(nint nativePtr, bool ownsReference) : MTLType(native
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeBindings.ElementArrayType);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public MTLStructType ElementStructType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeBindings.ElementStructType);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 }
 

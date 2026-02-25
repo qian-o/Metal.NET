@@ -12,7 +12,7 @@ public class MTLAttributeDescriptorArray(nint nativePtr, bool ownsReference) : N
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeDescriptorArrayBindings.Object, index);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public void SetObject(MTLAttributeDescriptor attributeDesc, nuint index)

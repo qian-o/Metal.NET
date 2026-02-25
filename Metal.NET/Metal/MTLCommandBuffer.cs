@@ -69,28 +69,28 @@ public class MTLCommandBuffer(nint nativePtr, bool ownsReference) : NativeObject
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.AccelerationStructureCommandEncoder);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public MTLAccelerationStructureCommandEncoder AccelerationStructureCommandEncoderWithDescriptor(MTLAccelerationStructurePassDescriptor descriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.AccelerationStructureCommandEncoderWithDescriptor, descriptor.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public MTLBlitCommandEncoder BlitCommandEncoder()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.BlitCommandEncoder);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public MTLBlitCommandEncoder BlitCommandEncoderWithDescriptor(MTLBlitPassDescriptor blitPassDescriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.BlitCommandEncoderWithDescriptor, blitPassDescriptor.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public void Commit()
@@ -102,21 +102,21 @@ public class MTLCommandBuffer(nint nativePtr, bool ownsReference) : NativeObject
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ComputeCommandEncoderWithDescriptor, computePassDescriptor.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public MTLComputeCommandEncoder ComputeCommandEncoder()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ComputeCommandEncoder);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public MTLComputeCommandEncoder ComputeCommandEncoderWithDispatchType(MTLDispatchType dispatchType)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ComputeCommandEncoderWithDispatchType, (nuint)dispatchType);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public void EncodeSignalEvent(MTLEvent @event, ulong value)
@@ -138,7 +138,7 @@ public class MTLCommandBuffer(nint nativePtr, bool ownsReference) : NativeObject
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ParallelRenderCommandEncoder, renderPassDescriptor.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public void PopDebugGroup()
@@ -170,21 +170,21 @@ public class MTLCommandBuffer(nint nativePtr, bool ownsReference) : NativeObject
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.RenderCommandEncoder, renderPassDescriptor.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public MTLResourceStateCommandEncoder ResourceStateCommandEncoder()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ResourceStateCommandEncoder);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public MTLResourceStateCommandEncoder ResourceStateCommandEncoderWithDescriptor(MTLResourceStatePassDescriptor resourceStatePassDescriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.ResourceStateCommandEncoderWithDescriptor, resourceStatePassDescriptor.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public void UseResidencySet(MTLResidencySet residencySet)

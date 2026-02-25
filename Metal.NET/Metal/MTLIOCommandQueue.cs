@@ -14,14 +14,14 @@ public class MTLIOCommandQueue(nint nativePtr, bool ownsReference) : NativeObjec
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueBindings.CommandBuffer);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public MTLIOCommandBuffer CommandBufferWithUnretainedReferences()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueBindings.CommandBufferWithUnretainedReferences);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public void EnqueueBarrier()

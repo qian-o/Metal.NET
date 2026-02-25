@@ -14,13 +14,13 @@ public class NSArray(nint nativePtr, bool ownsReference) : NativeObject(nativePt
 
     /// <summary>
     /// Returns the object at the given index.
-    /// The returned object is retained (+1) for safe lifecycle management.
+    /// The returned pointer is borrowed (not +1 retained) per Objective-C conventions.
     /// </summary>
     public T ObjectAtIndex<T>(nuint index) where T : NativeObject, INativeObject<T>
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSArrayBindings.ObjectAtIndex, index);
 
-        return T.Create(nativePtr, true);
+        return T.Create(nativePtr, false);
     }
 }
 

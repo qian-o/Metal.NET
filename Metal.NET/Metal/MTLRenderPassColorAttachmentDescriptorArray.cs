@@ -12,7 +12,7 @@ public class MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr, bool ow
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassColorAttachmentDescriptorArrayBindings.Object, attachmentIndex);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public void SetObject(MTLRenderPassColorAttachmentDescriptor attachment, nuint attachmentIndex)

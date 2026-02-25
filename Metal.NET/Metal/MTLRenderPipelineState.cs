@@ -93,21 +93,21 @@ public class MTLRenderPipelineState(nint nativePtr, bool ownsReference) : MTLAll
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.FunctionHandle, name.NativePtr, (nuint)stage);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function, MTLRenderStages stage)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.FunctionHandleWithBinaryFunctionstage, function.NativePtr, (nuint)stage);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public MTLFunctionHandle FunctionHandle(MTLFunction function, MTLRenderStages stage)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.FunctionHandleWithFunctionstage, function.NativePtr, (nuint)stage);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public nuint ImageblockMemoryLength(MTLSize imageblockDimensions)

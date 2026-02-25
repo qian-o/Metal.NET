@@ -12,7 +12,7 @@ public class MTLRenderPassSampleBufferAttachmentDescriptorArray(nint nativePtr, 
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPassSampleBufferAttachmentDescriptorArrayBindings.Object, attachmentIndex);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public void SetObject(MTLRenderPassSampleBufferAttachmentDescriptor attachment, nuint attachmentIndex)

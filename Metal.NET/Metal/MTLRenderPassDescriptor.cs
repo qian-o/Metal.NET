@@ -114,7 +114,7 @@ public class MTLRenderPassDescriptor(nint nativePtr, bool ownsReference) : Nativ
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLRenderPassDescriptorBindings.Class, MTLRenderPassDescriptorBindings.RenderPassDescriptor);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public unsafe void SetSamplePositions(MTLSamplePosition[] positions)

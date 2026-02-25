@@ -30,7 +30,7 @@ public class MTLLinkedFunctions(nint nativePtr, bool ownsReference) : NativeObje
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLLinkedFunctionsBindings.Class, MTLLinkedFunctionsBindings.LinkedFunctions);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 }
 

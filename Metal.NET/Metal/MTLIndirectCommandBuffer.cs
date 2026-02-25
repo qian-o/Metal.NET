@@ -18,14 +18,14 @@ public class MTLIndirectCommandBuffer(nint nativePtr, bool ownsReference) : MTLR
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferBindings.IndirectComputeCommand, commandIndex);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public MTLIndirectRenderCommand IndirectRenderCommand(nuint commandIndex)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferBindings.IndirectRenderCommand, commandIndex);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public void Reset(NSRange range)

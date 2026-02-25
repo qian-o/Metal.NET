@@ -35,21 +35,21 @@ public class MTLCommandQueue(nint nativePtr, bool ownsReference) : NativeObject(
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBuffer);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public MTLCommandBuffer CommandBufferWithDescriptor(MTLCommandBufferDescriptor descriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBufferWithDescriptor, descriptor.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public MTLCommandBuffer CommandBufferWithUnretainedReferences()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandQueueBindings.CommandBufferWithUnretainedReferences);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public void InsertDebugCaptureBoundary()

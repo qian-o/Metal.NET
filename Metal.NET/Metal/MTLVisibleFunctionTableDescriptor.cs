@@ -18,7 +18,7 @@ public class MTLVisibleFunctionTableDescriptor(nint nativePtr, bool ownsReferenc
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLVisibleFunctionTableDescriptorBindings.Class, MTLVisibleFunctionTableDescriptorBindings.VisibleFunctionTableDescriptor);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 }
 

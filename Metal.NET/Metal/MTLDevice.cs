@@ -271,14 +271,14 @@ public partial class MTLDevice(nint nativePtr, bool ownsReference) : NativeObjec
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.FunctionHandle, function.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.FunctionHandleWithBinaryFunction, function.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public unsafe void GetDefaultSamplePositions(MTLSamplePosition[] positions)

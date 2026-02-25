@@ -58,21 +58,21 @@ public class MTLComputePipelineState(nint nativePtr, bool ownsReference) : MTLAl
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.FunctionHandle, name.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithBinaryFunction, function.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public MTLFunctionHandle FunctionHandle(MTLFunction function)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithFunction, function.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public nuint ImageblockMemoryLength(MTLSize imageblockDimensions)

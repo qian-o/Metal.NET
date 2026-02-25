@@ -17,7 +17,7 @@ public class MTLSharedEventListener(nint nativePtr, bool ownsReference) : Native
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLSharedEventListenerBindings.Class, MTLSharedEventListenerBindings.SharedListener);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 }
 

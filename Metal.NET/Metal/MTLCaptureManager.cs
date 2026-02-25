@@ -44,7 +44,7 @@ public class MTLCaptureManager(nint nativePtr, bool ownsReference) : NativeObjec
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLCaptureManagerBindings.Class, MTLCaptureManagerBindings.SharedCaptureManager);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public bool StartCapture(MTLCaptureDescriptor descriptor, out NSError error)

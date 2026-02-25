@@ -12,7 +12,7 @@ public class MTLPipelineBufferDescriptorArray(nint nativePtr, bool ownsReference
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPipelineBufferDescriptorArrayBindings.Object, bufferIndex);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public void SetObject(MTLPipelineBufferDescriptor buffer, nuint bufferIndex)

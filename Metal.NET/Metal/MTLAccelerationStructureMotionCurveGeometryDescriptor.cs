@@ -102,7 +102,7 @@ public class MTLAccelerationStructureMotionCurveGeometryDescriptor(nint nativePt
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.Class, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.Descriptor);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 }
 

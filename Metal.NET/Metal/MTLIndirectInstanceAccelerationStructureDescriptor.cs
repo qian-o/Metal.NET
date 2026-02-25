@@ -102,7 +102,7 @@ public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr, 
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLIndirectInstanceAccelerationStructureDescriptorBindings.Class, MTLIndirectInstanceAccelerationStructureDescriptorBindings.Descriptor);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 }
 

@@ -65,14 +65,14 @@ public class CAMetalLayer(nint nativePtr, bool ownsReference) : NativeObject(nat
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(CAMetalLayerBindings.Class, CAMetalLayerBindings.Layer);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public CAMetalDrawable NextDrawable()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerBindings.NextDrawable);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 }
 

@@ -12,7 +12,7 @@ public class MTLRasterizationRateLayerArray(nint nativePtr, bool ownsReference) 
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerArrayBindings.Object, layerIndex);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public void SetObject(MTLRasterizationRateLayerDescriptor layer, nuint layerIndex)

@@ -17,7 +17,7 @@ public class MTLStructType(nint nativePtr, bool ownsReference) : MTLType(nativeP
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeBindings.MemberByName, name.NativePtr);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 }
 

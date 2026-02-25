@@ -12,7 +12,7 @@ public class MTLBufferLayoutDescriptorArray(nint nativePtr, bool ownsReference) 
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArrayBindings.Object, index);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public void SetObject(MTLBufferLayoutDescriptor bufferDesc, nuint index)

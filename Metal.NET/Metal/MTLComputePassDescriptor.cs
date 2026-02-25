@@ -23,7 +23,7 @@ public class MTLComputePassDescriptor(nint nativePtr, bool ownsReference) : Nati
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLComputePassDescriptorBindings.Class, MTLComputePassDescriptorBindings.ComputePassDescriptor);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 }
 

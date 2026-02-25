@@ -12,7 +12,7 @@ public class MTLVertexAttributeDescriptorArray(nint nativePtr, bool ownsReferenc
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeDescriptorArrayBindings.Object, index);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public void SetObject(MTLVertexAttributeDescriptor attributeDesc, nuint index)

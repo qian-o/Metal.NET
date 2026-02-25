@@ -32,35 +32,35 @@ public class MTLStructMember(nint nativePtr, bool ownsReference) : NativeObject(
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.ArrayType);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public MTLPointerType PointerType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.PointerType);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public MTLStructType StructType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.StructType);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public MTLTensorReferenceType TensorReferenceType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.TensorReferenceType);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 
     public MTLTextureReferenceType TextureReferenceType()
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.TextureReferenceType);
 
-        return new(nativePtr, true);
+        return new(nativePtr, false);
     }
 }
 
