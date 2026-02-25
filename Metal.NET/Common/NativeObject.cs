@@ -85,7 +85,7 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference) : IDispos
     {
         ObjectiveCRuntime.MsgSend(NativePtr, selector, value.NativePtr);
 
-        GetProperty(ref field, selector);
+        field = T.Create(value.NativePtr, false);
     }
 
     /// <summary>
