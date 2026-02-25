@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionLog(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLFunctionLog>
+public class MTLFunctionLog(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFunctionLog>
 {
-    public static MTLFunctionLog Null { get; } = new(0, false, false);
+    public static MTLFunctionLog Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLFunctionLog Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static MTLFunctionLog Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLFunctionLogDebugLocation DebugLocation
     {

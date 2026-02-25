@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLStitchedLibraryDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLStitchedLibraryDescriptor>
+public class MTLStitchedLibraryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLStitchedLibraryDescriptor>
 {
-    public static MTLStitchedLibraryDescriptor Null { get; } = new(0, false, false);
+    public static MTLStitchedLibraryDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLStitchedLibraryDescriptor Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static MTLStitchedLibraryDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLStitchedLibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStitchedLibraryDescriptorBindings.Class), true, true)
+    public MTLStitchedLibraryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStitchedLibraryDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLCounterSampleBuffer(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLCounterSampleBuffer>
+public class MTLCounterSampleBuffer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCounterSampleBuffer>
 {
-    public static MTLCounterSampleBuffer Null { get; } = new(0, false, false);
+    public static MTLCounterSampleBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLCounterSampleBuffer Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static MTLCounterSampleBuffer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLDevice Device
     {

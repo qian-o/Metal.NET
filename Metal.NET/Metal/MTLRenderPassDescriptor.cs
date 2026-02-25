@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPassDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLRenderPassDescriptor>
+public class MTLRenderPassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLRenderPassDescriptor>
 {
-    public static MTLRenderPassDescriptor Null { get; } = new(0, false, false);
+    public static MTLRenderPassDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLRenderPassDescriptor Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static MTLRenderPassDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLRenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassDescriptorBindings.Class), true, true)
+    public MTLRenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -116,7 +116,7 @@ public class MTLRenderPassDescriptor(nint nativePtr, bool ownsReference, bool al
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLRenderPassDescriptorBindings.Class, MTLRenderPassDescriptorBindings.RenderPassDescriptor);
 
-        return new(nativePtr, true, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public unsafe void SetSamplePositions(MTLSamplePosition[] positions)

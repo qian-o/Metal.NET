@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructureCommandEncoder(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTLCommandEncoder(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLAccelerationStructureCommandEncoder>
+public class MTLAccelerationStructureCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : MTLCommandEncoder(nativePtr, ownership), INativeObject<MTLAccelerationStructureCommandEncoder>
 {
-    public static new MTLAccelerationStructureCommandEncoder Null { get; } = new(0, false, false);
+    public static new MTLAccelerationStructureCommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLAccelerationStructureCommandEncoder Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static new MTLAccelerationStructureCommandEncoder Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public void BuildAccelerationStructure(MTLAccelerationStructure accelerationStructure, MTLAccelerationStructureDescriptor descriptor, MTLBuffer scratchBuffer, nuint scratchBufferOffset)
     {

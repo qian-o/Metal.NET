@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLArgument(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLArgument>
+public class MTLArgument(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLArgument>
 {
-    public static MTLArgument Null { get; } = new(0, false, false);
+    public static MTLArgument Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLArgument Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static MTLArgument Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLArgument() : this(ObjectiveCRuntime.AllocInit(MTLArgumentBindings.Class), true, true)
+    public MTLArgument() : this(ObjectiveCRuntime.AllocInit(MTLArgumentBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

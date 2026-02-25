@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXSpatialScaler(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTLFXSpatialScalerBase(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLFXSpatialScaler>
+public class MTLFXSpatialScaler(nint nativePtr, NativeObjectOwnership ownership) : MTLFXSpatialScalerBase(nativePtr, ownership), INativeObject<MTLFXSpatialScaler>
 {
-    public static new MTLFXSpatialScaler Null { get; } = new(0, false, false);
+    public static new MTLFXSpatialScaler Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLFXSpatialScaler Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static new MTLFXSpatialScaler Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public void EncodeToCommandBuffer(MTLCommandBuffer pCommandBuffer)
     {

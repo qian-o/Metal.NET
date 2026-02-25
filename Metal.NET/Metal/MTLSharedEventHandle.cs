@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLSharedEventHandle(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease)
+public class MTLSharedEventHandle(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership)
 {
     public NSString Label
     {

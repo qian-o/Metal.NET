@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLSamplerDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLSamplerDescriptor>
+public class MTLSamplerDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLSamplerDescriptor>
 {
-    public static MTLSamplerDescriptor Null { get; } = new(0, false, false);
+    public static MTLSamplerDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLSamplerDescriptor Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static MTLSamplerDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLSamplerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLSamplerDescriptorBindings.Class), true, true)
+    public MTLSamplerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLSamplerDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

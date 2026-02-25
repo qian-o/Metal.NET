@@ -38,43 +38,46 @@ Metal.NET.slnx
 
 ## Memory Management
 
-### Owned vs Borrowed References
+### Ownership Model
 
-Every `NativeObject` wrapper tracks whether it **owns** its native reference via `bool ownsReference`:
+Every `NativeObject` wrapper has a `NativeObjectOwnership` that controls its lifetime:
 
-- **Owned** (`true`) — the wrapper sends `release` on `Dispose()`. Used for all method return values and instances created via the parameterless constructor.
-- **Borrowed** (`false`) — the wrapper never sends `release`. Used for property getters, `objectAtIndex:`, and `out NSError` parameters.
+| Ownership | `Dispose()` releases | Finalizer releases | Usage |
+|---|:-:|:-:|---|
+| `Borrowed` | ✗ | ✗ | Property getters, `objectAtIndex:`, `out NSError` |
+| `Owned` | ✓ | ✗ | Method return values |
+| `Managed` | ✓ | ✓ | Objects created via `AllocInit` (parameterless constructor) |
 
 ```csharp
-// Owned — all method return values are owned by the caller
+// Owned — method return, only explicit Dispose releases
 using MTLLibrary library = device.NewDefaultLibrary();
-using MTLCommandQueue queue = device.NewCommandQueue();
 
-// Borrowed — property getter, retained by the parent object
+// Managed — fully C#-created, GC can release as safety net
+var desc = new MTLTextureDescriptor();
+
+// Borrowed — property getter, retained by parent
 MTLDevice device = commandQueue.Device;
 ```
 
 ### Finalization
 
-Objects fully created by C# (via the parameterless constructor / `AllocInit`) pass `allowGCRelease: true`, enabling the GC finalizer to release the native reference as a safety net. Objects created from native pointers (method returns, borrowed references) pass `false`, so the finalizer does nothing for them:
+The GC finalizer only releases `Managed` instances. `Owned` wrappers (method returns) must be explicitly disposed. `Borrowed` wrappers never release:
 
 ```csharp
-public abstract class NativeObject(nint nativePtr, bool ownsReference, bool allowGCRelease) : IDisposable
-{
-    public bool AllowGCRelease { get; } = allowGCRelease;
+public enum NativeObjectOwnership { Borrowed, Owned, Managed }
 
+public abstract class NativeObject(nint nativePtr, NativeObjectOwnership ownership) : IDisposable
+{
     ~NativeObject()
     {
-        if (AllowGCRelease) Release(); // Only GC-release fully C#-created objects
+        if (Ownership is NativeObjectOwnership.Managed) Release();
     }
 
     public void Dispose() { Release(); GC.SuppressFinalize(this); }
 }
 
-// Generated parameterless constructor passes allowGCRelease through the constructor:
-public MTLTextureDescriptor() : this(AllocInit(...), true, true)
-{
-}
+// Generated parameterless constructor:
+public MTLTextureDescriptor() : this(AllocInit(...), NativeObjectOwnership.Managed) { }
 ```
 
 ## Updating Bindings

@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLVertexDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLVertexDescriptor>
+public class MTLVertexDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLVertexDescriptor>
 {
-    public static MTLVertexDescriptor Null { get; } = new(0, false, false);
+    public static MTLVertexDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLVertexDescriptor Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static MTLVertexDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLVertexDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexDescriptorBindings.Class), true, true)
+    public MTLVertexDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -29,7 +29,7 @@ public class MTLVertexDescriptor(nint nativePtr, bool ownsReference, bool allowG
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLVertexDescriptorBindings.Class, MTLVertexDescriptorBindings.VertexDescriptor);
 
-        return new(nativePtr, true, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 

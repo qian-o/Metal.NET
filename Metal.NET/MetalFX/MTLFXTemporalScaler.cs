@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXTemporalScaler(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTLFXTemporalScalerBase(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLFXTemporalScaler>
+public class MTLFXTemporalScaler(nint nativePtr, NativeObjectOwnership ownership) : MTLFXTemporalScalerBase(nativePtr, ownership), INativeObject<MTLFXTemporalScaler>
 {
-    public static new MTLFXTemporalScaler Null { get; } = new(0, false, false);
+    public static new MTLFXTemporalScaler Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLFXTemporalScaler Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static new MTLFXTemporalScaler Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public void EncodeToCommandBuffer(MTLCommandBuffer pCommandBuffer)
     {

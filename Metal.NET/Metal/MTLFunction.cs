@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunction(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLFunction>
+public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFunction>
 {
-    public static MTLFunction Null { get; } = new(0, false, false);
+    public static MTLFunction Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLFunction Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static MTLFunction Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLDevice Device
     {
@@ -56,7 +56,7 @@ public class MTLFunction(nint nativePtr, bool ownsReference, bool allowGCRelease
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionBindings.NewArgumentEncoder, bufferIndex);
 
-        return new(nativePtr, true, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 

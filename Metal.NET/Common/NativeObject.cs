@@ -1,6 +1,32 @@
 ﻿namespace Metal.NET;
 
 /// <summary>
+/// Describes how a <see cref="NativeObject"/> manages its native reference.
+/// </summary>
+public enum NativeObjectOwnership
+{
+    /// <summary>
+    /// The wrapper does not own the reference. <c>Dispose()</c> and the
+    /// finalizer do nothing. Used for property getters, <c>objectAtIndex:</c>,
+    /// and <c>out NSError</c> parameters.
+    /// </summary>
+    Borrowed,
+
+    /// <summary>
+    /// The wrapper owns the reference and sends <c>release</c> on explicit
+    /// <c>Dispose()</c>. The finalizer does nothing. Used for method return values.
+    /// </summary>
+    Owned,
+
+    /// <summary>
+    /// The wrapper fully manages the reference. <c>Dispose()</c> sends
+    /// <c>release</c>, and the GC finalizer acts as a safety net.
+    /// Used for objects created via <c>AllocInit</c> (parameterless constructor).
+    /// </summary>
+    Managed
+}
+
+/// <summary>
 /// Factory interface for creating managed wrappers from native Objective-C pointers.
 /// </summary>
 /// <typeparam name="TSelf">The concrete wrapper type.</typeparam>
@@ -11,43 +37,28 @@ public interface INativeObject<TSelf> where TSelf : NativeObject, INativeObject<
     /// <summary>
     /// Creates a managed wrapper around the given native pointer.
     /// </summary>
-    static abstract TSelf Create(nint nativePtr, bool ownsReference, bool allowGCRelease);
+    static abstract TSelf Create(nint nativePtr, NativeObjectOwnership ownership);
 }
 
 /// <summary>
 /// Abstract base class for managed wrappers around Objective-C objects.
-/// Holds a native pointer and, when the instance owns the reference,
-/// sends <c>release</c> on explicit <see cref="Dispose()"/>.
-/// <para>
-/// Objects fully created by C# (via <c>AllocInit</c>) pass
-/// <c>allowGCRelease: true</c>, enabling the GC finalizer to release
-/// the native reference as a safety net. Objects created from native
-/// pointers (method returns, borrowed references) leave it
-/// <see langword="false"/> so the finalizer does nothing.
-/// </para>
+/// Holds a native pointer and manages its lifetime according to the
+/// <see cref="Ownership"/> policy.
 /// </summary>
 /// <param name="nativePtr">The Objective-C object pointer (<c>id</c>).</param>
-/// <param name="ownsReference">
-/// <see langword="true"/> to send <c>release</c> on disposal;
-/// <see langword="false"/> for borrowed references that must not be released.
-/// </param>
-/// <param name="allowGCRelease">
-/// <see langword="true"/> to allow the GC finalizer to release the native
-/// reference; <see langword="false"/> for objects from native that
-/// should only be released via explicit <see cref="Dispose()"/>.
-/// </param>
-public abstract class NativeObject(nint nativePtr, bool ownsReference, bool allowGCRelease) : IDisposable
+/// <param name="ownership">The ownership policy for the native reference.</param>
+public abstract class NativeObject(nint nativePtr, NativeObjectOwnership ownership) : IDisposable
 {
     private volatile uint disposed;
 
     /// <summary>
     /// Release the native reference if it has not been released yet.
-    /// Only releases for instances with <see cref="AllowGCRelease"/> set;
-    /// the finalizer does nothing for objects created from native pointers.
+    /// Only runs for <see cref="NativeObjectOwnership.Managed"/> instances;
+    /// the finalizer does nothing for other ownership modes.
     /// </summary>
     ~NativeObject()
     {
-        if (AllowGCRelease)
+        if (Ownership is NativeObjectOwnership.Managed)
         {
             Release();
         }
@@ -59,21 +70,14 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference, bool allo
     public nint NativePtr { get; } = nativePtr;
 
     /// <summary>
-    /// Indicates whether this instance owns the native reference.
+    /// The ownership policy for the native reference.
     /// </summary>
-    public bool OwnsReference { get; } = ownsReference;
+    public NativeObjectOwnership Ownership { get; } = ownership;
 
     /// <summary>
     /// Indicates whether the native pointer is zero (<c>nil</c>).
     /// </summary>
     public bool IsNull => NativePtr is 0;
-
-    /// <summary>
-    /// Indicates whether the GC finalizer is allowed to release the native
-    /// reference. <see langword="true"/> for objects fully created by C#
-    /// (via <c>AllocInit</c>); <see langword="false"/> for objects from native.
-    /// </summary>
-    public bool AllowGCRelease { get; } = allowGCRelease;
 
     /// <summary>
     /// Releases the native reference (if owned) and suppresses finalization.
@@ -95,7 +99,7 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference, bool allo
 
         if (field is null || field.NativePtr != nativePtr)
         {
-            field = T.Create(nativePtr, false, false);
+            field = T.Create(nativePtr, NativeObjectOwnership.Borrowed);
         }
 
         return field;
@@ -108,7 +112,7 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference, bool allo
     {
         ObjectiveCRuntime.MsgSend(NativePtr, selector, value.NativePtr);
 
-        field = T.Create(value.NativePtr, false, false);
+        field = T.Create(value.NativePtr, NativeObjectOwnership.Borrowed);
     }
 
     /// <summary>
@@ -145,7 +149,7 @@ public abstract class NativeObject(nint nativePtr, bool ownsReference, bool allo
             return;
         }
 
-        if (OwnsReference)
+        if (Ownership is not NativeObjectOwnership.Borrowed)
         {
             ObjectiveCRuntime.Release(NativePtr);
         }

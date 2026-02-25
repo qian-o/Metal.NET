@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLComputePipelineState(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTLAllocation(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLComputePipelineState>
+public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership ownership) : MTLAllocation(nativePtr, ownership), INativeObject<MTLComputePipelineState>
 {
-    public static new MTLComputePipelineState Null { get; } = new(0, false, false);
+    public static new MTLComputePipelineState Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLComputePipelineState Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static new MTLComputePipelineState Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLDevice Device
     {
@@ -60,21 +60,21 @@ public class MTLComputePipelineState(nint nativePtr, bool ownsReference, bool al
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.FunctionHandle, name.NativePtr);
 
-        return new(nativePtr, true, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithBinaryFunction, function.NativePtr);
 
-        return new(nativePtr, true, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLFunctionHandle FunctionHandle(MTLFunction function)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithFunction, function.NativePtr);
 
-        return new(nativePtr, true, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public nuint ImageblockMemoryLength(MTLSize imageblockDimensions)
@@ -88,11 +88,11 @@ public class MTLComputePipelineState(nint nativePtr, bool ownsReference, bool al
 
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineStateWithBinaryFunctions, pAdditionalBinaryFunctions, out nint errorPtr);
 
-        error = new(errorPtr, false, false);
+        error = new(errorPtr, NativeObjectOwnership.Borrowed);
 
         ObjectiveCRuntime.Release(pAdditionalBinaryFunctions);
 
-        return new(nativePtr, true, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLComputePipelineState NewComputePipelineState(MTLFunction[] functions, out NSError error)
@@ -101,25 +101,25 @@ public class MTLComputePipelineState(nint nativePtr, bool ownsReference, bool al
 
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineState, pFunctions, out nint errorPtr);
 
-        error = new(errorPtr, false, false);
+        error = new(errorPtr, NativeObjectOwnership.Borrowed);
 
         ObjectiveCRuntime.Release(pFunctions);
 
-        return new(nativePtr, true, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLIntersectionFunctionTable NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewIntersectionFunctionTable, descriptor.NativePtr);
 
-        return new(nativePtr, true, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewVisibleFunctionTable, descriptor.NativePtr);
 
-        return new(nativePtr, true, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 

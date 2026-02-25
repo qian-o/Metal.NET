@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLLogStateDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLLogStateDescriptor>
+public class MTLLogStateDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLLogStateDescriptor>
 {
-    public static MTLLogStateDescriptor Null { get; } = new(0, false, false);
+    public static MTLLogStateDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLLogStateDescriptor Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static MTLLogStateDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLLogStateDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLLogStateDescriptorBindings.Class), true, true)
+    public MTLLogStateDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLLogStateDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

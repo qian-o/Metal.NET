@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionStitchingFunctionNode(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTLFunctionStitchingNode(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLFunctionStitchingFunctionNode>
+public class MTLFunctionStitchingFunctionNode(nint nativePtr, NativeObjectOwnership ownership) : MTLFunctionStitchingNode(nativePtr, ownership), INativeObject<MTLFunctionStitchingFunctionNode>
 {
-    public static new MTLFunctionStitchingFunctionNode Null { get; } = new(0, false, false);
+    public static new MTLFunctionStitchingFunctionNode Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLFunctionStitchingFunctionNode Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static new MTLFunctionStitchingFunctionNode Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLFunctionStitchingFunctionNode() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingFunctionNodeBindings.Class), true, true)
+    public MTLFunctionStitchingFunctionNode() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingFunctionNodeBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLSharedEvent(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTLEvent(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLSharedEvent>
+public class MTLSharedEvent(nint nativePtr, NativeObjectOwnership ownership) : MTLEvent(nativePtr, ownership), INativeObject<MTLSharedEvent>
 {
-    public static new MTLSharedEvent Null { get; } = new(0, false, false);
+    public static new MTLSharedEvent Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLSharedEvent Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static new MTLSharedEvent Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public ulong SignaledValue
     {
@@ -16,7 +16,7 @@ public class MTLSharedEvent(nint nativePtr, bool ownsReference, bool allowGCRele
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventBindings.NewSharedEventHandle);
 
-        return new(nativePtr, true, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public bool WaitUntilSignaledValue(ulong value, ulong milliseconds)

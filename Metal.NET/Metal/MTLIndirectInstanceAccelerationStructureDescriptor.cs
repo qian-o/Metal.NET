@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTLAccelerationStructureDescriptor(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLIndirectInstanceAccelerationStructureDescriptor>
+public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLAccelerationStructureDescriptor(nativePtr, ownership), INativeObject<MTLIndirectInstanceAccelerationStructureDescriptor>
 {
-    public static new MTLIndirectInstanceAccelerationStructureDescriptor Null { get; } = new(0, false, false);
+    public static new MTLIndirectInstanceAccelerationStructureDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLIndirectInstanceAccelerationStructureDescriptor Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static new MTLIndirectInstanceAccelerationStructureDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLIndirectInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIndirectInstanceAccelerationStructureDescriptorBindings.Class), true, true)
+    public MTLIndirectInstanceAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIndirectInstanceAccelerationStructureDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -104,7 +104,7 @@ public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr, 
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLIndirectInstanceAccelerationStructureDescriptorBindings.Class, MTLIndirectInstanceAccelerationStructureDescriptorBindings.Descriptor);
 
-        return new(nativePtr, true, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLSharedTextureHandle(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease)
+public class MTLSharedTextureHandle(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership)
 {
     public MTLDevice Device
     {

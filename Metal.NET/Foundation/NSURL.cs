@@ -3,11 +3,11 @@
 /// <summary>
 /// Wraps an Objective-C NSURL for file and resource URL creation.
 /// </summary>
-public class NSURL(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<NSURL>
+public class NSURL(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<NSURL>
 {
-    public static NSURL Null { get; } = new(0, false, false);
+    public static NSURL Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static NSURL Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static NSURL Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public nint FileSystemRepresentation
     {
@@ -18,7 +18,7 @@ public class NSURL(nint nativePtr, bool ownsReference, bool allowGCRelease) : Na
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.Alloc(NSURLBindings.Class), NSURLBindings.InitFileURLWithPath, value.NativePtr);
 
-        return new(nativePtr, true, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 

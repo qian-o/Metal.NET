@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLObjectPayloadBinding(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTLBinding(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLObjectPayloadBinding>
+public class MTLObjectPayloadBinding(nint nativePtr, NativeObjectOwnership ownership) : MTLBinding(nativePtr, ownership), INativeObject<MTLObjectPayloadBinding>
 {
-    public static new MTLObjectPayloadBinding Null { get; } = new(0, false, false);
+    public static new MTLObjectPayloadBinding Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLObjectPayloadBinding Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static new MTLObjectPayloadBinding Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public nuint ObjectPayloadAlignment
     {

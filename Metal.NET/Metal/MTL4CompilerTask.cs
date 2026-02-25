@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CompilerTask(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4CompilerTask>
+public class MTL4CompilerTask(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4CompilerTask>
 {
-    public static MTL4CompilerTask Null { get; } = new(0, false, false);
+    public static MTL4CompilerTask Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4CompilerTask Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static MTL4CompilerTask Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTL4Compiler Compiler
     {

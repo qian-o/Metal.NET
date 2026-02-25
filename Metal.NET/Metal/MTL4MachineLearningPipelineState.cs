@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTL4MachineLearningPipelineState(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTLAllocation(nativePtr, ownsReference, allowGCRelease), INativeObject<MTL4MachineLearningPipelineState>
+public class MTL4MachineLearningPipelineState(nint nativePtr, NativeObjectOwnership ownership) : MTLAllocation(nativePtr, ownership), INativeObject<MTL4MachineLearningPipelineState>
 {
-    public static new MTL4MachineLearningPipelineState Null { get; } = new(0, false, false);
+    public static new MTL4MachineLearningPipelineState Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTL4MachineLearningPipelineState Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static new MTL4MachineLearningPipelineState Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLDevice Device
     {

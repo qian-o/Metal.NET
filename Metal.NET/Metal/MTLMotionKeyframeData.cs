@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLMotionKeyframeData(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLMotionKeyframeData>
+public class MTLMotionKeyframeData(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLMotionKeyframeData>
 {
-    public static MTLMotionKeyframeData Null { get; } = new(0, false, false);
+    public static MTLMotionKeyframeData Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLMotionKeyframeData Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static MTLMotionKeyframeData Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLMotionKeyframeData() : this(ObjectiveCRuntime.AllocInit(MTLMotionKeyframeDataBindings.Class), true, true)
+    public MTLMotionKeyframeData() : this(ObjectiveCRuntime.AllocInit(MTLMotionKeyframeDataBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -26,7 +26,7 @@ public class MTLMotionKeyframeData(nint nativePtr, bool ownsReference, bool allo
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLMotionKeyframeDataBindings.Class, MTLMotionKeyframeDataBindings.Data);
 
-        return new(nativePtr, true, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 

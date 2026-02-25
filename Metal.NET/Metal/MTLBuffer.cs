@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLBuffer(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTLResource(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLBuffer>
+public class MTLBuffer(nint nativePtr, NativeObjectOwnership ownership) : MTLResource(nativePtr, ownership), INativeObject<MTLBuffer>
 {
-    public static new MTLBuffer Null { get; } = new(0, false, false);
+    public static new MTLBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLBuffer Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static new MTLBuffer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public nuint GpuAddress
     {
@@ -45,23 +45,23 @@ public class MTLBuffer(nint nativePtr, bool ownsReference, bool allowGCRelease) 
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewRemoteBufferViewForDevice, device.NativePtr);
 
-        return new(nativePtr, true, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTensor NewTensor(MTLTensorDescriptor descriptor, nuint offset, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewTensor, descriptor.NativePtr, offset, out nint errorPtr);
 
-        error = new(errorPtr, false, false);
+        error = new(errorPtr, NativeObjectOwnership.Borrowed);
 
-        return new(nativePtr, true, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTexture NewTexture(MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewTexture, descriptor.NativePtr, offset, bytesPerRow);
 
-        return new(nativePtr, true, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public void RemoveAllDebugMarkers()

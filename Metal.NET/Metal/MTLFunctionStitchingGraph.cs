@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionStitchingGraph(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLFunctionStitchingGraph>
+public class MTLFunctionStitchingGraph(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFunctionStitchingGraph>
 {
-    public static MTLFunctionStitchingGraph Null { get; } = new(0, false, false);
+    public static MTLFunctionStitchingGraph Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLFunctionStitchingGraph Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static MTLFunctionStitchingGraph Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLFunctionStitchingGraph() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingGraphBindings.Class), true, true)
+    public MTLFunctionStitchingGraph() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingGraphBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

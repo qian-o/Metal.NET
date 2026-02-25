@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLStageInputOutputDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLStageInputOutputDescriptor>
+public class MTLStageInputOutputDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLStageInputOutputDescriptor>
 {
-    public static MTLStageInputOutputDescriptor Null { get; } = new(0, false, false);
+    public static MTLStageInputOutputDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLStageInputOutputDescriptor Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static MTLStageInputOutputDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLStageInputOutputDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStageInputOutputDescriptorBindings.Class), true, true)
+    public MTLStageInputOutputDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStageInputOutputDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -41,7 +41,7 @@ public class MTLStageInputOutputDescriptor(nint nativePtr, bool ownsReference, b
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLStageInputOutputDescriptorBindings.Class, MTLStageInputOutputDescriptorBindings.StageInputOutputDescriptor);
 
-        return new(nativePtr, true, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 

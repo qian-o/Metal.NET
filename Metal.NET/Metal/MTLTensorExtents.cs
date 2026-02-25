@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensorExtents(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLTensorExtents>
+public class MTLTensorExtents(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLTensorExtents>
 {
-    public static MTLTensorExtents Null { get; } = new(0, false, false);
+    public static MTLTensorExtents Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLTensorExtents Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static MTLTensorExtents Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLTensorExtents() : this(ObjectiveCRuntime.AllocInit(MTLTensorExtentsBindings.Class), true, true)
+    public MTLTensorExtents() : this(ObjectiveCRuntime.AllocInit(MTLTensorExtentsBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

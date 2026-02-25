@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLRasterizationRateMap(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLRasterizationRateMap>
+public class MTLRasterizationRateMap(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLRasterizationRateMap>
 {
-    public static MTLRasterizationRateMap Null { get; } = new(0, false, false);
+    public static MTLRasterizationRateMap Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLRasterizationRateMap Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static MTLRasterizationRateMap Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLDevice Device
     {

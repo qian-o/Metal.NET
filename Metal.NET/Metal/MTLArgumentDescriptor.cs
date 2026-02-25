@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLArgumentDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLArgumentDescriptor>
+public class MTLArgumentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLArgumentDescriptor>
 {
-    public static MTLArgumentDescriptor Null { get; } = new(0, false, false);
+    public static MTLArgumentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLArgumentDescriptor Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static MTLArgumentDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLArgumentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLArgumentDescriptorBindings.Class), true, true)
+    public MTLArgumentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLArgumentDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -50,7 +50,7 @@ public class MTLArgumentDescriptor(nint nativePtr, bool ownsReference, bool allo
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLArgumentDescriptorBindings.Class, MTLArgumentDescriptorBindings.ArgumentDescriptor);
 
-        return new(nativePtr, true, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 

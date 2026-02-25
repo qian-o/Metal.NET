@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPassDepthAttachmentDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTLRenderPassAttachmentDescriptor(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLRenderPassDepthAttachmentDescriptor>
+public class MTLRenderPassDepthAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLRenderPassAttachmentDescriptor(nativePtr, ownership), INativeObject<MTLRenderPassDepthAttachmentDescriptor>
 {
-    public static new MTLRenderPassDepthAttachmentDescriptor Null { get; } = new(0, false, false);
+    public static new MTLRenderPassDepthAttachmentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLRenderPassDepthAttachmentDescriptor Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static new MTLRenderPassDepthAttachmentDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLRenderPassDepthAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassDepthAttachmentDescriptorBindings.Class), true, true)
+    public MTLRenderPassDepthAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassDepthAttachmentDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

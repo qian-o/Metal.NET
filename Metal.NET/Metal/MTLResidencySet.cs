@@ -1,10 +1,10 @@
 ﻿namespace Metal.NET;
 
-public class MTLResidencySet(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLResidencySet>
+public class MTLResidencySet(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLResidencySet>
 {
-    public static MTLResidencySet Null { get; } = new(0, false, false);
+    public static MTLResidencySet Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLResidencySet Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static MTLResidencySet Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLAllocation[] AllAllocations
     {

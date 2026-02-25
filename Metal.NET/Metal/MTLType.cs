@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLType(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLType>
+public class MTLType(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLType>
 {
-    public static MTLType Null { get; } = new(0, false, false);
+    public static MTLType Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLType Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static MTLType Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLType() : this(ObjectiveCRuntime.AllocInit(MTLTypeBindings.Class), true, true)
+    public MTLType() : this(ObjectiveCRuntime.AllocInit(MTLTypeBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

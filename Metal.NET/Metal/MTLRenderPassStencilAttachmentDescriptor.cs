@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPassStencilAttachmentDescriptor(nint nativePtr, bool ownsReference, bool allowGCRelease) : MTLRenderPassAttachmentDescriptor(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLRenderPassStencilAttachmentDescriptor>
+public class MTLRenderPassStencilAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLRenderPassAttachmentDescriptor(nativePtr, ownership), INativeObject<MTLRenderPassStencilAttachmentDescriptor>
 {
-    public static new MTLRenderPassStencilAttachmentDescriptor Null { get; } = new(0, false, false);
+    public static new MTLRenderPassStencilAttachmentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLRenderPassStencilAttachmentDescriptor Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static new MTLRenderPassStencilAttachmentDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLRenderPassStencilAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassStencilAttachmentDescriptorBindings.Class), true, true)
+    public MTLRenderPassStencilAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassStencilAttachmentDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 

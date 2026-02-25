@@ -1,12 +1,12 @@
 ﻿namespace Metal.NET;
 
-public class MTLLinkedFunctions(nint nativePtr, bool ownsReference, bool allowGCRelease) : NativeObject(nativePtr, ownsReference, allowGCRelease), INativeObject<MTLLinkedFunctions>
+public class MTLLinkedFunctions(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLLinkedFunctions>
 {
-    public static MTLLinkedFunctions Null { get; } = new(0, false, false);
+    public static MTLLinkedFunctions Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLLinkedFunctions Create(nint nativePtr, bool ownsReference, bool allowGCRelease) => new(nativePtr, ownsReference, allowGCRelease);
+    public static MTLLinkedFunctions Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(MTLLinkedFunctionsBindings.Class), true, true)
+    public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(MTLLinkedFunctionsBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -32,7 +32,7 @@ public class MTLLinkedFunctions(nint nativePtr, bool ownsReference, bool allowGC
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLLinkedFunctionsBindings.Class, MTLLinkedFunctionsBindings.LinkedFunctions);
 
-        return new(nativePtr, true, false);
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 
