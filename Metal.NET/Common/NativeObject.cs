@@ -7,14 +7,14 @@ public enum NativeObjectOwnership
 {
     /// <summary>
     /// The wrapper does not own the reference. <c>Dispose()</c> and the
-    /// finalizer do nothing. Used for property getters, <c>objectAtIndex:</c>,
-    /// and <c>out NSError</c> parameters.
+    /// finalizer do nothing. Used for property getters, <c>objectAtIndex:</c>.
     /// </summary>
     Borrowed,
 
     /// <summary>
     /// The wrapper owns the reference and sends <c>release</c> on explicit
-    /// <c>Dispose()</c>. The finalizer does nothing. Used for method return values.
+    /// <c>Dispose()</c>. The finalizer does nothing. Used for method return values,
+    /// <c>out NSError</c> parameters.
     /// </summary>
     Owned,
 
