@@ -84,6 +84,11 @@ public abstract class NativeObject(nint nativePtr, NativeObjectOwnership ownersh
     /// </summary>
     public void Dispose()
     {
+        if (IsNull)
+        {
+            return;
+        }
+
         Release();
 
         GC.SuppressFinalize(this);
