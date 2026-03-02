@@ -18,9 +18,9 @@ public class NSAutoreleasePool(nint nativePtr, NativeObjectOwnership ownership) 
         ObjectiveCRuntime.MsgSend(NativePtr, NSAutoreleasePoolBindings.Drain);
     }
 
-    public void AddObject(NativeObject pObject)
+    public void AddObject(NativeObject nativeObject)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, NSAutoreleasePoolBindings.AddObject, pObject.NativePtr);
+        ObjectiveCRuntime.MsgSend(NativePtr, NSAutoreleasePoolBindings.AddObject, nativeObject.NativePtr);
     }
 
     public static void ShowPools()

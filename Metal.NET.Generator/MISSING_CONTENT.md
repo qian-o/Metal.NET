@@ -1,313 +1,449 @@
-﻿# Metal.NET — Missing Content & Reorganization Plan
+﻿# Metal.NET — Roadmap & Design Specification
 
-This document catalogs all known gaps in the Metal.NET C# bindings and proposes a folder reorganization to cleanly separate Apple-specific runtime plumbing from generic infrastructure.
+This document covers the remaining work items and architectural decisions for the Metal.NET binding library.
 
 ---
 
 ## Table of Contents
 
-1. [Missing Objective-C Block / Handler Methods](#1-missing-objective-c-block--handler-methods)
-2. [Missing libdispatch (GCD) P/Invokes](#2-missing-libdispatch-gcd-pinvokes)
-3. [Missing Foundation Class Implementations](#3-missing-foundation-class-implementations)
-4. [Skipped Members Due to Unmappable NS Types](#4-skipped-members-due-to-unmappable-ns-types)
-5. [Missing CoreGraphics / IOSurface P/Invokes](#5-missing-coregraphics--iosurface-pinvokes)
-6. [Folder Reorganization Plan](#6-folder-reorganization-plan)
+1. [Objective-C Block / Handler Support](#1-objective-c-block--handler-support)
+2. [Enum Consolidation](#2-enum-consolidation)
+3. [Missing Foundation Types & TypeMapper Unblocking](#3-missing-foundation-types--typemapper-unblocking)
+4. [Folder Reorganization — Match Apple Framework Structure](#4-folder-reorganization--match-apple-framework-structure)
+5. [Design Principles](#5-design-principles)
 
 ---
 
-## 1. Missing Objective-C Block / Handler Methods
+## 1. Objective-C Block / Handler Support
 
-The generator currently skips every method whose signature includes an Objective-C Block (`^`) or `std::function` handler because there is no automatic mapping from C++ block types to C# delegates. Each entry below lists the C++ header, class, method name, and the block/handler type involved.
+The generator currently skips every method whose signature includes an Objective-C Block (`^`) or `std::function` handler (~30 methods across 7 classes). This is the highest-priority missing feature.
 
-### MTLCommandBuffer
+### 1.1 Design — `[UnmanagedFunctionPointer]` Delegate Approach
 
-| Method | Block / Handler Type | Header |
-|---|---|---|
-| `addCompletedHandler(CommandBufferHandler)` | `void (^)(MTL::CommandBuffer*)` | `MTLCommandBuffer.hpp` |
-| `addCompletedHandler(CommandBufferHandlerFunction)` | `std::function<void(MTL::CommandBuffer*)>` | `MTLCommandBuffer.hpp` |
-| `addScheduledHandler(CommandBufferHandler)` | `void (^)(MTL::CommandBuffer*)` | `MTLCommandBuffer.hpp` |
-| `addScheduledHandler(CommandBufferHandlerFunction)` | `std::function<void(MTL::CommandBuffer*)>` | `MTLCommandBuffer.hpp` |
+Use the simple approach: generate `[UnmanagedFunctionPointer(CallingConvention.Cdecl)]` delegate types with **all `nint` parameters** (including the implicit `nint block` first parameter per ObjC block calling convention). The user is responsible for converting `nint` to/from Metal types (`new MTLCommandBuffer(ptr, NativeObjectOwnership.Borrowed)`, `.NativePtr`, etc.).
 
-### MTLDrawable
+Since all parameters are `nint` (blittable), `[UnmanagedFunctionPointer]` works directly with no additional infrastructure.
 
-| Method | Block / Handler Type | Header |
-|---|---|---|
-| `addPresentedHandler(DrawablePresentedHandler)` | `void (^)(MTL::Drawable*)` | `MTLDrawable.hpp` |
-| `addPresentedHandler(DrawablePresentedHandlerFunction)` | `std::function<void(MTL::Drawable*)>` | `MTLDrawable.hpp` |
+#### Generated Delegate Types
 
-### MTLSharedEvent
+The generator emits one delegate type per unique block type alias. Delegates are placed **above the `class` definition** in the same file, following the layout: `namespace` → delegate(s) → `class` → `file static class Bindings`.
 
-| Method | Block / Handler Type | Header |
-|---|---|---|
-| `notifyListener(SharedEventListener*, uint64_t, SharedEventNotificationBlock)` | `void (^)(MTL::SharedEvent*, uint64_t)` | `MTLEvent.hpp` |
+Example file layout for `MTLCommandBuffer.cs`:
 
-### MTLIOCommandBuffer
+```csharp
+namespace Metal.NET;
 
-| Method | Block / Handler Type | Header |
-|---|---|---|
-| `addCompletedHandler(IOCommandBufferHandler)` | `void (^)(MTL::IOCommandBuffer*)` | `MTLIOCommandBuffer.hpp` |
-| `addCompletedHandler(IOCommandBufferHandlerFunction)` | `std::function<void(MTL::IOCommandBuffer*)>` | `MTLIOCommandBuffer.hpp` |
+// Block delegate types — above the class
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+public delegate void MTLCommandBufferHandler(nint block, nint commandBuffer);
 
-### MTLDevice
+public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCommandBuffer>
+{
+    // ... properties, methods (including block methods) ...
 
-| Method | Block / Handler Type | Header |
-|---|---|---|
-| `newBuffer(void*, NS::UInteger, ..., DeallocFunction)` | Deallocator block | `MTLDevice.hpp` |
-| `newLibrary(NS::String*, CompletionHandler)` | `void (^)(MTL::Library*, NS::Error*)` | `MTLDevice.hpp` |
-| `newLibrary(NS::String*, CompletionHandlerFunction)` | `std::function<void(MTL::Library*, NS::Error*)>` | `MTLDevice.hpp` |
-| `newLibrary(StitchedLibraryDescriptor*, CompletionHandler)` | `void (^)(MTL::Library*, NS::Error*)` | `MTLDevice.hpp` |
-| `newLibrary(StitchedLibraryDescriptor*, CompletionHandlerFunction)` | `std::function<void(MTL::Library*, NS::Error*)>` | `MTLDevice.hpp` |
-| `newRenderPipelineState(..., CompletionHandler)` | `void (^)(MTL::RenderPipelineState*, NS::Error*)` | `MTLDevice.hpp` |
-| `newRenderPipelineState(..., CompletionHandlerFunction)` | `std::function<void(MTL::RenderPipelineState*, NS::Error*)>` | `MTLDevice.hpp` |
-| `newRenderPipelineState(..., reflection, CompletionHandler)` | `void (^)(MTL::RenderPipelineState*, MTL::RenderPipelineReflection*, NS::Error*)` | `MTLDevice.hpp` |
-| `newRenderPipelineState(..., reflection, CompletionHandlerFunction)` | `std::function<...>` | `MTLDevice.hpp` |
-| `newComputePipelineState(..., CompletionHandler)` | `void (^)(MTL::ComputePipelineState*, NS::Error*)` | `MTLDevice.hpp` |
-| `newComputePipelineState(..., CompletionHandlerFunction)` | `std::function<...>` | `MTLDevice.hpp` |
-| `newComputePipelineState(..., reflection, CompletionHandler)` | `void (^)(MTL::ComputePipelineState*, MTL::ComputePipelineReflection*, NS::Error*)` | `MTLDevice.hpp` |
-| `newComputePipelineState(..., reflection, CompletionHandlerFunction)` | `std::function<...>` | `MTLDevice.hpp` |
+    public void AddCompletedHandler(MTLCommandBufferHandler handler)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.AddCompletedHandler, handler);
+    }
 
-### MTLLibrary
+    public void AddScheduledHandler(MTLCommandBufferHandler handler)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.AddScheduledHandler, handler);
+    }
+}
 
-| Method | Block / Handler Type | Header |
-|---|---|---|
-| `newFunction(NS::String*, MTL::FunctionConstantValues*, CompletionHandler)` | `void (^)(MTL::Function*, NS::Error*)` | `MTLLibrary.hpp` |
-| `newFunction(NS::String*, MTL::FunctionConstantValues*, CompletionHandlerFunction)` | `std::function<void(MTL::Function*, NS::Error*)>` | `MTLLibrary.hpp` |
-| `newFunction(FunctionDescriptor*, CompletionHandler)` | `void (^)(MTL::Function*, NS::Error*)` | `MTLLibrary.hpp` |
-| `newFunction(FunctionDescriptor*, CompletionHandlerFunction)` | `std::function<void(MTL::Function*, NS::Error*)>` | `MTLLibrary.hpp` |
-| `newIntersectionFunction(IntersectionFunctionDescriptor*, CompletionHandler)` | `void (^)(MTL::Function*, NS::Error*)` | `MTLLibrary.hpp` |
-| `newIntersectionFunction(IntersectionFunctionDescriptor*, CompletionHandlerFunction)` | `std::function<void(MTL::Function*, NS::Error*)>` | `MTLLibrary.hpp` |
+file static class MTLCommandBufferBindings
+{
+    // ... selectors ...
+}
+```
 
-### MTL4Compiler
+All delegate types used by the class's block methods are emitted together above the class. If the same delegate type is used by multiple methods (e.g., `MTLCommandBufferHandler` for both `AddCompletedHandler` and `AddScheduledHandler`), it is emitted only once.
 
-| Method | Block / Handler Type | Header |
-|---|---|---|
-| `compileLibrary(MTL4CompileOptions*, CompletionHandler)` | `void (^)(MTL::Library*, NS::Error*)` | `MTL4Compiler.hpp` |
-| `compileLibrary(MTL4CompileOptions*, CompletionHandlerFunction)` | `std::function<...>` | `MTL4Compiler.hpp` |
-| `compilePipelineState(Render, CompletionHandler)` | various | `MTL4Compiler.hpp` |
-| `compilePipelineState(Compute, CompletionHandler)` | various | `MTL4Compiler.hpp` |
-| `compilePipelineState(Mesh, CompletionHandler)` | various | `MTL4Compiler.hpp` |
-| `compilePipelineState(Tile, CompletionHandler)` | various | `MTL4Compiler.hpp` |
-| Plus `std::function` variants for each of the above | | `MTL4Compiler.hpp` |
+#### All Delegate Types
 
-### Recommended Implementation Strategy
+```csharp
+// void (^)(MTL::CommandBuffer*)
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+public delegate void MTLCommandBufferHandler(nint block, nint commandBuffer);
 
-To support Block/Handler methods in C#, consider:
+// void (^)(MTL::Drawable*)
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+public delegate void MTLDrawableHandler(nint block, nint drawable);
 
-1. **Define C# delegate types** matching each block signature (e.g., `delegate void MTLCommandBufferHandler(MTLCommandBuffer commandBuffer)`).
-2. **Use `ObjectiveCRuntime` P/Invoke** to call `objc_msgSend` with a function pointer obtained via `Marshal.GetFunctionPointerForDelegate` or the Objective-C block ABI.
-3. **Alternatively**, use `ObjCBlockTrampolines` — build a small native helper that wraps a C function pointer into an Objective-C block, or use the well-known block struct layout (`Block_literal`) to create blocks from managed code.
-4. For the `std::function` overloads in metal-cpp, these are convenience wrappers around the block variants; only the block variant needs a P/Invoke — the `std::function` overload can be a managed convenience that wraps a C# `Action`/`Func` into the delegate.
+// void (^)(MTL::SharedEvent*, uint64_t)
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+public delegate void MTLSharedEventHandler(nint block, nint sharedEvent, ulong value);
 
----
+// void (^)(MTL::Library*, NS::Error*)
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+public delegate void MTLNewLibraryCompletionHandler(nint block, nint library, nint error);
 
-## 2. Missing libdispatch (GCD) P/Invokes
+// void (^)(MTL::RenderPipelineState*, NS::Error*)
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+public delegate void MTLNewRenderPipelineStateCompletionHandler(nint block, nint renderPipelineState, nint error);
 
-`dispatch_queue_t` and `dispatch_data_t` are currently mapped to raw `nint` with no creation or management APIs. The following P/Invokes (from `libSystem.B.dylib` or `libdispatch.dylib`) are needed:
+// void (^)(MTL::ComputePipelineState*, NS::Error*)
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+public delegate void MTLNewComputePipelineStateCompletionHandler(nint block, nint computePipelineState, nint error);
 
-| Function | Signature | Purpose |
-|---|---|---|
-| `dispatch_queue_create` | `dispatch_queue_t dispatch_queue_create(const char* label, dispatch_queue_attr_t attr)` | Create a serial or concurrent dispatch queue |
-| `dispatch_get_global_queue` | `dispatch_queue_t dispatch_get_global_queue(long identifier, unsigned long flags)` | Get a global concurrent queue by QoS class |
-| `dispatch_get_main_queue` | `dispatch_queue_t dispatch_get_main_queue(void)` | Get the main thread queue (macro, actually `_dispatch_main_q`) |
-| `dispatch_release` | `void dispatch_release(dispatch_object_t object)` | Release a dispatch object |
-| `dispatch_retain` | `void dispatch_retain(dispatch_object_t object)` | Retain a dispatch object |
-| `dispatch_data_create` | `dispatch_data_t dispatch_data_create(const void* buffer, size_t size, dispatch_queue_t queue, dispatch_block_t destructor)` | Create a dispatch data object from a buffer |
-| `dispatch_data_get_size` | `size_t dispatch_data_get_size(dispatch_data_t data)` | Get the size of a dispatch data object |
+// void (^)(MTL::RenderPipelineState*, MTL::RenderPipelineReflection*, NS::Error*)
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+public delegate void MTLNewRenderPipelineStateWithReflectionCompletionHandler(nint block, nint renderPipelineState, nint reflection, nint error);
 
-### Where These Are Needed
+// void (^)(MTL::ComputePipelineState*, MTL::ComputePipelineReflection*, NS::Error*)
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+public delegate void MTLNewComputePipelineStateWithReflectionCompletionHandler(nint block, nint computePipelineState, nint reflection, nint error);
 
-- `MTLSharedEventListener` — constructor accepts `dispatch_queue_t` to specify the notification queue.
-- `MTL4CommandQueueDescriptor.feedbackQueue` — property typed as `dispatch_queue_t`.
-- `MTLIOCommandQueueDescriptor` — may reference `dispatch_queue_t`.
-- `MTLDevice.newBuffer(…, deallocator)` — deallocator may be dispatched.
-- `dispatch_data_t` is used in `MTLDevice.newLibrary(dispatch_data_t, …)`.
+// void (^)(MTL::Function*, NS::Error*)
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+public delegate void MTLNewFunctionCompletionHandler(nint block, nint function, nint error);
 
-### Recommended Implementation
+// void (^)(MTL::IOCommandBuffer*)
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+public delegate void MTLIOCommandBufferHandler(nint block, nint ioCommandBuffer);
 
-Create a `DispatchQueue` wrapper class (or keep as a static helper class with P/Invoke methods) under a new `Dispatch/` folder or within `Common/Interop/`.
+// void (^)(MTL::DynamicLibrary*, NS::Error*)
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+public delegate void MTLNewDynamicLibraryCompletionHandler(nint block, nint dynamicLibrary, nint error);
 
----
+// void (^)(MTL4::BinaryFunction*, NS::Error*)
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+public delegate void MTL4NewBinaryFunctionCompletionHandler(nint block, nint binaryFunction, nint error);
 
-## 3. Missing Foundation Class Implementations
+// void (^)(MTL4::MachineLearningPipelineState*, NS::Error*)
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+public delegate void MTL4NewMachineLearningPipelineStateCompletionHandler(nint block, nint machineLearningPipelineState, nint error);
 
-The following classes appear in `CSharpEmitter.SkipClasses` because they need hand-written implementations, but **no hand-written C# file exists for them yet**:
+// void (^)(MTL4::CommitFeedback*)
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+public delegate void MTL4CommitFeedbackHandler(nint block, nint commitFeedback);
 
-| Class | Why It's Needed |
+// Deallocator: void (^)(void*, NSUInteger)
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+public delegate void MTLDeallocator(nint block, nint pointer, nuint length);
+```
+
+#### Delegate Naming Convention
+
+The delegate name is derived from the C++ block type alias name with an `MTL` prefix:
+
+| C++ Type Alias | C# Delegate Name |
 |---|---|
-| `NSDictionary` | Used by `MTLCompileOptions.preprocessorMacros`, `MTLFunction.functionConstantsDictionary`, and other properties. Most impactful missing type. |
-| `NSBundle` | Used by `MTLDevice.newDefaultLibrary(NS::Bundle*)` to load a Metal library from a specific bundle. |
-| `NSData` | Used in some `newLibrary` overloads and serialization paths. |
-| `NSNumber` | Used as dictionary values and in some property types. |
-| `NSSet` | Used in a few Metal API return types. |
-| `NSEnumerator` | Used for iterating `NSSet`/`NSDictionary`. |
-| `NSValue` | Base type for `NSNumber`; occasionally surfaces in API. |
-| `NSDate` | Used in some timing/scheduling APIs. |
-| `NSObject` | Base ObjC class; rarely needed directly but referenced. |
-| `NSNotification` / `NSNotificationCenter` | Used for Metal device notifications (e.g., device added/removed on macOS). |
+| `CommandBufferHandler` | `MTLCommandBufferHandler` |
+| `DrawablePresentedHandler` | `MTLDrawableHandler` |
+| `SharedEventNotificationBlock` | `MTLSharedEventHandler` |
+| `NewLibraryCompletionHandler` | `MTLNewLibraryCompletionHandler` |
+| `NewDynamicLibraryCompletionHandler` | `MTLNewDynamicLibraryCompletionHandler` |
+| `NewBinaryFunctionCompletionHandler` | `MTL4NewBinaryFunctionCompletionHandler` |
+| `NewMachineLearningPipelineStateCompletionHandler` | `MTL4NewMachineLearningPipelineStateCompletionHandler` |
+| `CommitFeedbackHandler` | `MTL4CommitFeedbackHandler` |
+| (inline deallocator block) | `MTLDeallocator` |
 
-### Priority
+#### First Parameter — `nint block`
 
-1. **`NSDictionary`** — Unblocks multiple skipped properties across `MTLCompileOptions`, `MTLFunction`, etc.
-2. **`NSBundle`** — Unblocks `newDefaultLibrary(bundle:)` on `MTLDevice`.
-3. **`NSData`** — Unblocks data-based library creation.
-4. **`NSNumber`** / **`NSValue`** — Required for `NSDictionary` value types.
-5. Remaining types are lower priority.
+Every ObjC block's invoke function receives the block pointer as its first argument. The generated delegates include this as `nint block`. Users can ignore it in their callback implementations.
+
+#### User-Side Usage
+
+```csharp
+commandBuffer.AddCompletedHandler((nint block, nint cb) =>
+{
+    MTLCommandBuffer completedBuffer = new(cb, NativeObjectOwnership.Borrowed);
+    Console.WriteLine($"Command buffer completed: {completedBuffer.Status}");
+});
+```
+
+The user is responsible for wrapping `nint` parameters into the appropriate Metal types. This is consistent with the low-level nature of the binding.
+
+#### Why This Design
+
+| Concern | Solution |
+|---|---|
+| Reference types not blittable | All delegate params are `nint` — fully blittable |
+| Simplicity | No trampolines or `GCHandle` management needed |
+| Async callbacks | Marshalling layer handles block lifecycle — no manual copy/dispose needed |
+| Different block signatures | Generator emits one delegate type per unique block type alias |
+| User flexibility | Users convert `nint` ↔ Metal types themselves — full control |
+| `std::function` overloads | Skip — these are metal-cpp convenience wrappers with no ObjC selector |
+
+#### Generator Implementation
+
+The generator pipeline must be enhanced:
+
+1. **`CppParser.cs`** — Parse `using` declarations that define block type aliases (e.g., `using CommandBufferHandler = void (^)(MTL::CommandBuffer*)`). Extract the parameter list and store as `BlockTypeAlias` records.
+
+2. **`CSharpEmitter.cs`** — For each method with a block parameter:
+   - Emit the `[UnmanagedFunctionPointer(CallingConvention.Cdecl)]` delegate type **above the class definition** (once per unique block type alias per file).
+   - Emit the public method that accepts the delegate and passes it to `objc_msgSend`.
+
+3. **Deduplication** — Multiple methods may use the same block type alias (e.g., `CommandBufferHandler` is used by both `addCompletedHandler` and `addScheduledHandler`). Emit each delegate type only once.
+
+### 1.2 Block/Handler Method Reference Table
+
+All block methods that the generator must support (Block variants only — `std::function` skipped):
+
+#### MTLCommandBuffer
+
+| Method | Block Type |
+|---|---|
+| `addCompletedHandler` | `void (^)(MTL::CommandBuffer*)` |
+| `addScheduledHandler` | `void (^)(MTL::CommandBuffer*)` |
+
+#### MTLDrawable
+
+| Method | Block Type |
+|---|---|
+| `addPresentedHandler` | `void (^)(MTL::Drawable*)` |
+
+#### MTLSharedEvent
+
+| Method | Block Type |
+|---|---|
+| `notifyListener` | `void (^)(MTL::SharedEvent*, uint64_t)` |
+
+#### MTLIOCommandBuffer
+
+| Method | Block Type |
+|---|---|
+| `addCompletedHandler` | `void (^)(MTL::IOCommandBuffer*)` |
+
+#### MTLDevice
+
+| Method | Block Type |
+|---|---|
+| `newBuffer(…, deallocator)` | `void (^)(void*, NS::UInteger)` — inline block (no type alias) |
+| `newLibrary(source, CompletionHandler)` | `void (^)(MTL::Library*, NS::Error*)` |
+| `newLibrary(stitched, CompletionHandler)` | `void (^)(MTL::Library*, NS::Error*)` |
+| `newRenderPipelineState(…, CompletionHandler)` | `void (^)(MTL::RenderPipelineState*, NS::Error*)` |
+| `newRenderPipelineState(…, reflection, CompletionHandler)` | `void (^)(MTL::RenderPipelineState*, MTL::RenderPipelineReflection*, NS::Error*)` |
+| `newComputePipelineState(…, CompletionHandler)` | `void (^)(MTL::ComputePipelineState*, NS::Error*)` |
+| `newComputePipelineState(…, reflection, CompletionHandler)` | `void (^)(MTL::ComputePipelineState*, MTL::ComputePipelineReflection*, NS::Error*)` |
+
+#### MTLLibrary
+
+| Method | Block Type |
+|---|---|
+| `newFunction(name, constants, CompletionHandler)` | `void (^)(MTL::Function*, NS::Error*)` |
+| `newFunction(descriptor, CompletionHandler)` | `void (^)(MTL::Function*, NS::Error*)` |
+| `newIntersectionFunction(descriptor, CompletionHandler)` | `void (^)(MTL::Function*, NS::Error*)` |
+
+#### MTL4Compiler
+
+| Method | Block Type |
+|---|---|
+| `newLibrary(descriptor, CompletionHandler)` | `void (^)(MTL::Library*, NS::Error*)` |
+| `newRenderPipelineState(…, CompletionHandler)` | `void (^)(MTL::RenderPipelineState*, NS::Error*)` |
+| `newRenderPipelineState(…, dynamicLinking, CompletionHandler)` | `void (^)(MTL::RenderPipelineState*, NS::Error*)` |
+| `newRenderPipelineStateBySpecialization(…, CompletionHandler)` | `void (^)(MTL::RenderPipelineState*, NS::Error*)` |
+| `newComputePipelineState(…, CompletionHandler)` | `void (^)(MTL::ComputePipelineState*, NS::Error*)` |
+| `newComputePipelineState(…, dynamicLinking, CompletionHandler)` | `void (^)(MTL::ComputePipelineState*, NS::Error*)` |
+| `newDynamicLibrary(library, CompletionHandler)` | `void (^)(MTL::DynamicLibrary*, NS::Error*)` |
+| `newDynamicLibrary(url, CompletionHandler)` | `void (^)(MTL::DynamicLibrary*, NS::Error*)` |
+| `newBinaryFunction(descriptor, CompletionHandler)` | `void (^)(MTL4::BinaryFunction*, NS::Error*)` |
+| `newMachineLearningPipelineState(descriptor, CompletionHandler)` | `void (^)(MTL4::MachineLearningPipelineState*, NS::Error*)` |
+
+#### MTL4CommitOptions
+
+| Method | Block Type |
+|---|---|
+| `addFeedbackHandler` | `void (^)(MTL4::CommitFeedback*)` |
 
 ---
 
-## 4. Skipped Members Due to Unmappable NS Types
+## 2. Enum Consolidation
 
-These properties and methods are skipped by `TypeMapper.IsUnmappableCppType()` because their parameter or return types reference Foundation classes that have no C# mapping:
+Currently the generator emits **125 separate `.cs` files** for Metal enums (one file per enum). This is excessive — each file contains only a single small enum (typically 5–20 lines).
 
-| Class | Member | Unmappable Type | Header |
+### Proposed Change
+
+Consolidate all enums from the same C++ namespace into a **single file**, following the pattern already established by `MTLStructs.cs` (which groups all Metal structs into one file):
+
+| C++ Namespace | Output File | Contents |
+|---|---|---|
+| `MTL` + `MTL4` | `Metal/MTLEnums.cs` | All MTL/MTL4 enums (~125 enums) |
+| `NS` | `Foundation/NSEnums.cs` | All NS enums (~5 enums) |
+| `MTLFX` + `MTL4FX` | `MetalFX/MTLFXEnums.cs` | All MTLFX/MTL4FX enums |
+
+### Generator Change
+
+In `CSharpEmitter.GenerateAll()`, instead of calling `GenerateEnum()` per enum (which creates a file per enum), group enums by output subdirectory and emit them all into one file:
+
+```csharp
+// Current (one file per enum):
+foreach (EnumDef enumDef in context.Enums)
+{
+    GenerateEnum(enumDef);  // Creates Metal/MTLIndexType.cs, Metal/MTLPixelFormat.cs, etc.
+}
+
+// New (one file per namespace group):
+var enumsBySubdir = context.Enums.GroupBy(e => TypeMapper.GetOutputSubdir(e.CppNamespace));
+foreach (var group in enumsBySubdir)
+{
+    GenerateEnumFile(group.Key, group.ToList());  // Creates Metal/MTLEnums.cs, Foundation/NSEnums.cs, etc.
+}
+```
+
+---
+
+## 3. Missing Foundation Types & TypeMapper Unblocking
+
+### 3.1 Foundation Types Needed
+
+Foundation types are the **only** hand-written files in the project (they are in `SkipClasses` because they require custom marshalling logic). The following types are referenced by Metal API members but have no C# implementation:
+
+| Type | Priority | Why Needed | Unblocks |
 |---|---|---|---|
-| `MTLCompileOptions` | `preprocessorMacros` (get/set) | `NS::Dictionary*` | `MTLCompileOptions.hpp` |
-| `MTLFunction` | `functionConstantsDictionary` (get) | `NS::Dictionary*` | `MTLLibrary.hpp` |
-| `MTLDevice` | `newDefaultLibrary(NS::Bundle*)` | `NS::Bundle*` | `MTLDevice.hpp` |
-| `MTLDevice` | `newLibrary(dispatch_data_t, …)` | `dispatch_data_t` (partially mapped) | `MTLDevice.hpp` |
-| `MTLRenderPipelineReflection` | Various | `NS::Array*` elements may be unmappable | `MTLRenderPipeline.hpp` |
-| `MTL4PipelineReflection` | Various | May reference unmappable types | `MTL4PipelineReflection.hpp` |
-| `MTLCaptureManager` | `startCapture(MTLCaptureDescriptor*, NS::Error**)` | `NS::Error**` (double pointer) | `MTLCaptureManager.hpp` |
+| `NSDictionary` | P0 | `MTLCompileOptions.preprocessorMacros`, `MTLFunction.functionConstantsDictionary`, `MTLLinkedFunctions.groups`, `MTL4StaticLinkingDescriptor.groups` | Multiple skipped get/set properties |
+| `NSNumber` | P1 | `MTLRasterizationRateSampleArray.object` / `setObject` | Rasterization rate API |
+| `NSData` | P1 | `MTLCounterSampleBuffer.resolveCounterRange`, `MTL4CounterHeap.resolveCounterRange`, `MTL4PipelineDataSetSerializer.serializeAsPipelinesScript` | Counter + pipeline serialization APIs |
+| `NSBundle` | P1 | `MTLDevice.newDefaultLibrary(NS::Bundle*)` | Bundle-based library loading |
+| `NSObject` | P2 | `MTLCaptureDescriptor.captureObject` (get/set) | Capture API |
+| `NSValue` | P3 | Base type for NSNumber | Occasionally surfaces |
+| `NSSet` | P3 | Some Metal API return types | Rarely needed |
+| `NSEnumerator` | P3 | Iterating NSSet/NSDictionary | Rarely needed |
+| `NSDate` | P3 | Timing/scheduling APIs | Rarely needed |
+| `NSNotification` | P3 | Device added/removed events | macOS-specific |
 
-### Resolution
+### 3.2 TypeMapper Unblocking
 
-Implement the Foundation classes listed in [Section 3](#3-missing-foundation-class-implementations), then remove them from `IsUnmappableCppType()` in `TypeMapper.cs`.
+`TypeMapper.IsUnmappableCppType()` currently blocks all the NS types listed above. When a Foundation type is implemented:
+
+1. Add the hand-written `.cs` file to `Foundation/`
+2. Remove the type from `IsUnmappableCppType()` in `TypeMapper.cs`
+3. Re-run the generator — previously skipped members using that type will now be emitted
+
+Currently blocked members:
+
+| Class | Member | Blocked By |
+|---|---|---|
+| `MTLCompileOptions` | `preprocessorMacros` (get/set) | `NS::Dictionary` |
+| `MTLFunction` | `functionConstantsDictionary` (get) | `NS::Dictionary` |
+| `MTLLinkedFunctions` | `groups` (get/set) | `NS::Dictionary` |
+| `MTL4StaticLinkingDescriptor` | `groups` (get/set) | `NS::Dictionary` |
+| `MTLRasterizationRateSampleArray` | `object` / `setObject` | `NS::Number` |
+| `MTLCounterSampleBuffer` | `resolveCounterRange` | `NS::Data` |
+| `MTL4CounterHeap` | `resolveCounterRange` | `NS::Data` |
+| `MTL4PipelineDataSetSerializer` | `serializeAsPipelinesScript` | `NS::Data` |
+| `MTLDevice` | `newDefaultLibrary(NS::Bundle*)` | `NS::Bundle` |
+| `MTLCaptureDescriptor` | `captureObject` (get/set) | `NS::Object` |
+| `MTLDevice` | `newLibrary(dispatch_data_t, …)` | `dispatch_data_t` (non-ObjC, stays `nint`) |
+| `MTLCaptureManager` | `startCapture(…, NS::Error**)` | `NS::Error**` (double pointer) |
 
 ---
 
-## 5. Missing CoreGraphics / IOSurface P/Invokes
+## 4. Folder Reorganization — Match Apple Framework Structure
 
-Some Metal APIs use CoreGraphics and IOSurface types that are mapped to raw `nint` with no helper APIs:
+### Principle
 
-| Type | Current Mapping | Used By | Needed P/Invokes |
-|---|---|---|---|
-| `CGColorSpaceRef` | `nint` | `CAMetalLayer.colorspace` | `CGColorSpaceCreateDeviceRGB()`, `CGColorSpaceCreateWithName(CFStringRef)`, `CGColorSpaceRelease(CGColorSpaceRef)`, `CGColorSpaceRetain(CGColorSpaceRef)` |
-| `IOSurfaceRef` | `nint` | `MTLTexture.iosurface`, `MTLDevice.newTexture(…, IOSurfaceRef, …)` | `IOSurfaceCreate(CFDictionaryRef)`, `IOSurfaceGetWidth/Height/BytesPerRow(IOSurfaceRef)` |
+The folder structure under `Metal.NET/` should mirror **Apple's framework names**. Each folder corresponds to an Apple framework (or system library). Infrastructure code that is not framework-specific stays in `Common/`.
 
-### Recommended Implementation
-
-- Create minimal wrapper types or static P/Invoke helper classes.
-- Place them under a `CoreGraphics/` and `IOSurface/` folder respectively, or under `Common/Interop/`.
-
----
-
-## 6. Folder Reorganization Plan
-
-### Current Structure (Problems)
-
-The `Common/` folder mixes **Apple-specific Objective-C runtime interop** with **generic infrastructure** that is framework-agnostic:
+### Current Structure
 
 ```
 Metal.NET/
 ├── Common/
-│   ├── Bool8.cs                  ← Apple-specific (ObjC BOOL → byte)
-│   ├── MTLStructs.cs             ← Metal-specific (MTLOrigin, MTLSize, MTLRegion, …)
-│   ├── NativeObject.cs           ← Generic (base class, ownership model)
-│   ├── ObjectiveCRuntime.cs      ← Apple-specific (libobjc P/Invoke, framework loading)
-│   └── Selector.cs               ← Apple-specific (ObjC selector type)
-├── Foundation/
-│   ├── NSArray.cs                ← Hand-written
-│   ├── NSAutoreleasePool.cs      ← Hand-written
-│   ├── NSComparisonResult.cs     ← Auto-generated enum
-│   ├── NSError.cs                ← Hand-written
-│   ├── NSProcessInfoThermalState.cs ← Auto-generated enum
-│   ├── NSString.cs               ← Hand-written
-│   ├── NSStringCompareOptions.cs ← Auto-generated enum
-│   ├── NSStringEncoding.cs       ← Auto-generated enum
-│   ├── NSURL.cs                  ← Hand-written
-│   └── NSActivityOptions.cs      ← Auto-generated enum
-├── Metal/
-│   └── … (~280 auto-generated files)
-├── MetalFX/
-│   └── … (~16 auto-generated files)
-└── QuartzCore/
-    └── … (2 auto-generated files)
+│   ├── Bool8.cs                  ← ObjC BOOL
+│   ├── MTLStructs.cs             ← Metal-specific structs
+│   ├── NativeObject.cs           ← Base class
+│   ├── ObjectiveCRuntime.cs      ← libobjc P/Invoke
+│   └── Selector.cs               ← ObjC selector
+├── Foundation/                   ← Foundation.framework
+├── Metal/                        ← Metal.framework (~353 files)
+├── MetalFX/                      ← MetalFX.framework
+└── QuartzCore/                   ← QuartzCore.framework
 ```
 
 ### Proposed Structure
 
 ```
 Metal.NET/
-├── Common/                          ← Generic, framework-agnostic infrastructure
-│   ├── NativeObject.cs              ← Base class, INativeObject<TSelf>, ownership model
-│   └── (future: any truly generic helpers)
+├── Common/                       ← Internal infrastructure (NOT an Apple framework)
+│   ├── NativeObject.cs           ← Base class, INativeObject<TSelf>, ownership model
+│   ├── ObjectiveCRuntime.cs      ← libobjc P/Invoke, objc_msgSend, framework loading
+│   ├── Selector.cs               ← ObjC selector type
+│   └── Bool8.cs                  ← ObjC BOOL → byte
 │
-├── ObjCRuntime/                     ← Apple Objective-C runtime interop
-│   ├── ObjectiveCRuntime.cs         ← libobjc P/Invoke, objc_msgSend, framework loading
-│   ├── Selector.cs                  ← ObjC selector type with implicit string conversion
-│   └── Bool8.cs                     ← ObjC BOOL mapped to byte
+├── Foundation/                   ← Foundation.framework
+│   ├── NSArray.cs                ← Hand-written
+│   ├── NSAutoreleasePool.cs      ← Hand-written
+│   ├── NSDictionary.cs           ← Hand-written (TO ADD)
+│   ├── NSBundle.cs               ← Hand-written (TO ADD)
+│   ├── NSData.cs                 ← Hand-written (TO ADD)
+│   ├── NSNumber.cs               ← Hand-written (TO ADD)
+│   ├── NSError.cs                ← Hand-written
+│   ├── NSString.cs               ← Hand-written
+│   ├── NSURL.cs                  ← Hand-written
+│   └── NSEnums.cs                ← Auto-generated (ALL NS enums in one file)
 │
-├── Dispatch/                        ← libdispatch (GCD) interop (NEW)
-│   ├── DispatchQueue.cs             ← dispatch_queue_t wrapper or P/Invoke helpers
-│   └── DispatchData.cs              ← dispatch_data_t wrapper or P/Invoke helpers
+├── Metal/                        ← Metal.framework (auto-generated)
+│   ├── MTLStructs.cs             ← MOVED from Common/ (Metal-specific structs)
+│   ├── MTLEnums.cs               ← Auto-generated (ALL MTL/MTL4 enums in one file)
+│   └── … (~228 auto-generated class files)
 │
-├── CoreGraphics/                    ← CoreGraphics interop (NEW)
-│   └── CGColorSpace.cs              ← CGColorSpaceRef P/Invoke helpers
+├── MetalFX/                      ← MetalFX.framework (auto-generated)
+│   ├── MTLFXEnums.cs             ← Auto-generated (ALL MTLFX/MTL4FX enums)
+│   └── … (auto-generated class files)
 │
-├── IOSurface/                       ← IOSurface interop (NEW)
-│   └── IOSurface.cs                 ← IOSurfaceRef P/Invoke helpers
-│
-├── Foundation/                      ← Apple Foundation framework types
-│   ├── NSArray.cs                   ← Hand-written
-│   ├── NSAutoreleasePool.cs         ← Hand-written
-│   ├── NSDictionary.cs              ← Hand-written (TO ADD)
-│   ├── NSBundle.cs                  ← Hand-written (TO ADD)
-│   ├── NSData.cs                    ← Hand-written (TO ADD)
-│   ├── NSNumber.cs                  ← Hand-written (TO ADD)
-│   ├── NSError.cs                   ← Hand-written
-│   ├── NSString.cs                  ← Hand-written
-│   ├── NSURL.cs                     ← Hand-written
-│   ├── NSComparisonResult.cs        ← Auto-generated enum
-│   ├── NSProcessInfoThermalState.cs ← Auto-generated enum
-│   ├── NSStringCompareOptions.cs    ← Auto-generated enum
-│   ├── NSStringEncoding.cs          ← Auto-generated enum
-│   └── NSActivityOptions.cs         ← Auto-generated enum
-│
-├── Metal/                           ← Auto-generated Metal bindings
-│   ├── MTLStructs.cs                ← MOVED from Common/ (Metal-specific structs)
-│   └── … (~280 auto-generated files)
-│
-├── MetalFX/
-│   └── … (~16 auto-generated files)
-│
-└── QuartzCore/
-    └── … (2 auto-generated files)
+└── QuartzCore/                   ← QuartzCore.framework (auto-generated)
+    └── … (auto-generated files)
 ```
 
 ### Key Changes
 
-| File | From | To | Reason |
+| Item | From | To | Reason |
 |---|---|---|---|
-| `NativeObject.cs` | `Common/` | `Common/` (stays) | Truly generic — defines ownership model, base class, factory interface |
-| `ObjectiveCRuntime.cs` | `Common/` | `ObjCRuntime/` | Apple-specific libobjc interop, not generic infrastructure |
-| `Selector.cs` | `Common/` | `ObjCRuntime/` | Apple-specific ObjC selector concept |
-| `Bool8.cs` | `Common/` | `ObjCRuntime/` | Apple-specific ObjC BOOL type |
-| `MTLStructs.cs` | `Common/` | `Metal/` | Metal-specific blittable structs (MTLOrigin, MTLSize, etc.) |
+| `MTLStructs.cs` | `Common/` | `Metal/` | Metal-specific, not generic infrastructure |
+| 125 enum files | `Metal/*.cs` (separate) | `Metal/MTLEnums.cs` (single) | Consolidation (Section 2) |
+| NS enum files | `Foundation/*.cs` (separate) | `Foundation/NSEnums.cs` (single) | Consolidation |
 
-### Namespace Considerations
+### What Stays in `Common/`
 
-- `Common/` → `Metal.NET` (root namespace, since `NativeObject` is the base for everything)
-- `ObjCRuntime/` → `Metal.NET.ObjCRuntime`
-- `Dispatch/` → `Metal.NET.Dispatch`
-- `CoreGraphics/` → `Metal.NET.CoreGraphics`
-- `IOSurface/` → `Metal.NET.IOSurface`
-- `Foundation/` → `Metal.NET.Foundation` (unchanged)
-- `Metal/` → `Metal.NET.Metal` (unchanged)
+`Common/` is for **internal infrastructure** that all Apple framework wrappers depend on — it's not an Apple framework:
 
-### Impact on Generator
+- `NativeObject.cs` — base class / ownership model
+- `ObjectiveCRuntime.cs` — libobjc P/Invoke (`objc_msgSend`, class/selector lookup)
+- `Selector.cs` — ObjC selector type
+- `Bool8.cs` — ObjC BOOL type
 
-The `CSharpEmitter` currently emits files into folders based on the metal-cpp subdirectory name. Moving `MTLStructs.cs` to `Metal/` is straightforward since the structs are Metal-specific. The generator does not produce `Common/` or `ObjCRuntime/` files, so those moves are purely manual reorganization of hand-written code. After moving files, update `namespace` declarations and `using` directives across the project.
+These are all implementation details of the Objective-C interop layer, used by every framework folder.
+
+---
+
+## 5. Design Principles
+
+### 5.1 Everything Is Generator-Driven
+
+All files in `Metal/`, `MetalFX/`, `QuartzCore/` are **auto-generated** by the generator pipeline (`CppParser` → `GeneratorContext` → `CSharpEmitter`). No hand-written `.cs` files may exist in these directories — they will be overwritten on the next generator run.
+
+This includes:
+- Class files (properties, methods)
+- Enum files (consolidated)
+- Block/handler methods and delegate types
+
+The **only hand-written files** in the project are:
+- `Common/` — infrastructure (`NativeObject`, `ObjectiveCRuntime`, `Selector`, `Bool8`)
+- `Foundation/` — Foundation types that need custom marshalling (`NSString`, `NSError`, `NSArray`, `NSURL`, `NSAutoreleasePool`, and future `NSDictionary`, `NSBundle`, etc.)
+
+### 5.2 Foundation Types Are Hand-Written
+
+Foundation types like `NSString`, `NSError`, `NSDictionary` etc. are in `CSharpEmitter.SkipClasses` because the generator cannot auto-generate them from the C++ headers — they require custom marshalling, convenience methods, and special constructors.
+
+After implementing a hand-written Foundation type:
+1. The class stays in `SkipClasses` (generator never emits it)
+2. Remove the type from `TypeMapper.IsUnmappableCppType()` and add a mapping entry
+3. Re-run the generator — methods using that type will now be emitted with typed parameters
 
 ---
 
 ## Summary of Work Items
 
-| # | Category | Estimated Effort | Priority |
+| # | Category | Effort | Priority |
 |---|---|---|---|
-| 1 | Implement ObjC Block support for C# delegates | High | P0 — Unblocks ~30 methods |
-| 2 | Implement `NSDictionary` hand-written binding | Medium | P0 — Unblocks multiple properties |
-| 3 | Implement libdispatch P/Invokes | Medium | P1 — Needed for `SharedEventListener`, `MTL4CommandQueue` |
-| 4 | Implement `NSBundle`, `NSData`, `NSNumber` bindings | Medium | P1 — Unblocks `newDefaultLibrary(bundle:)` and data-based APIs |
-| 5 | Implement CoreGraphics/IOSurface helpers | Low | P2 — Quality-of-life for `CAMetalLayer.colorspace` and texture IOSurface |
-| 6 | Folder reorganization (Common → ObjCRuntime + Metal) | Low | P2 — Code organization improvement |
-| 7 | Implement remaining Foundation types (`NSSet`, `NSEnumerator`, `NSDate`, etc.) | Low | P3 — Rarely needed |
+| 1 | **Block/handler support** — generator emits `[UnmanagedFunctionPointer]` delegate types + handler methods per block type | Medium | P0 |
+| 2 | **Enum consolidation** — change generator to emit all enums per namespace into single file | Low | P0 |
+| 3 | **Move `MTLStructs.cs`** from `Common/` to `Metal/` | Trivial | P0 |
+| 4 | **Implement `NSDictionary`** — hand-written Foundation type + unblock in TypeMapper | Medium | P0 |
+| 5 | **Implement `NSNumber`, `NSData`, `NSBundle`** — hand-written Foundation types + unblock in TypeMapper | Medium | P1 |
+| 6 | **Implement `NSObject`** — hand-written Foundation type for `CaptureDescriptor.captureObject` | Low | P2 |
+| 7 | **Implement remaining Foundation types** (`NSSet`, `NSEnumerator`, `NSDate`, etc.) | Low | P3 |
