@@ -169,6 +169,9 @@ public static partial class ObjectiveCRuntime
     private static partial void _MsgSend(nint receiver, Selector selector, nint a, nint b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void _MsgSend(nint receiver, Selector selector, nint a, ulong b, nint c);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, nint a, nint b, MTL4BufferRange c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -735,6 +738,16 @@ public static partial class ObjectiveCRuntime
         }
 
         _MsgSend(receiver, selector, a, b);
+    }
+
+    public static void MsgSend(nint receiver, Selector selector, nint a, ulong b, nint c)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        _MsgSend(receiver, selector, a, b, c);
     }
 
     public static void MsgSend(nint receiver, Selector selector, nint a, nint b, MTL4BufferRange c)

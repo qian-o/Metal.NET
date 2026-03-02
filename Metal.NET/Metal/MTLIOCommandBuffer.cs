@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLIOCommandBuffer>
+public partial class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLIOCommandBuffer>
 {
     public static MTLIOCommandBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
