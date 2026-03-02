@@ -26,20 +26,32 @@ Since all parameters are `nint` (blittable), `[UnmanagedFunctionPointer]` works 
 
 #### Generated Delegate Types
 
-The generator emits one delegate type per unique block type alias. Delegates are placed **above the `class` definition** in the same file, following the layout: `namespace` → delegate(s) → `class` → `file static class Bindings`.
+The generator emits one delegate type per unique block signature. All delegates are consolidated into a **single file** — `Metal/MTLDelegates.cs` — following the same pattern as `MTLStructs.cs` (all structs in one file) and `MTLEnums.cs` (all enums in one file). This avoids duplication when the same delegate type is used by multiple classes (e.g., `MTLNewLibraryCompletionHandler` is used by both `MTLDevice` and `MTL4Compiler`).
 
-Example file layout for `MTLCommandBuffer.cs`:
+Example consolidated file `Metal/MTLDelegates.cs`:
+
+```csharp
+using System.Runtime.InteropServices;
+
+namespace Metal.NET;
+
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+public delegate void MTLCommandBufferHandler(nint block, nint commandBuffer);
+
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+public delegate void MTLDrawableHandler(nint block, nint drawable);
+
+// ... all other delegate types ...
+```
+
+Example class file `MTLCommandBuffer.cs` (references delegates from `MTLDelegates.cs`):
 
 ```csharp
 namespace Metal.NET;
 
-// Block delegate types — above the class
-[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-public delegate void MTLCommandBufferHandler(nint block, nint commandBuffer);
-
 public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCommandBuffer>
 {
-    // ... properties, methods (including block methods) ...
+    // ... properties ...
 
     public void AddCompletedHandler(MTLCommandBufferHandler handler)
     {
@@ -58,72 +70,32 @@ file static class MTLCommandBufferBindings
 }
 ```
 
-All delegate types used by the class's block methods are emitted together above the class. If the same delegate type is used by multiple methods (e.g., `MTLCommandBufferHandler` for both `AddCompletedHandler` and `AddScheduledHandler`), it is emitted only once.
+#### Delegate Type Examples
 
-#### All Delegate Types
+Representative examples showing the different signature patterns. The generator produces all delegate types automatically from the parsed block type aliases.
 
 ```csharp
-// void (^)(MTL::CommandBuffer*)
+// 1-param handler: void (^)(MTL::CommandBuffer*)
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 public delegate void MTLCommandBufferHandler(nint block, nint commandBuffer);
 
-// void (^)(MTL::Drawable*)
-[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-public delegate void MTLDrawableHandler(nint block, nint drawable);
-
-// void (^)(MTL::SharedEvent*, uint64_t)
+// 2-param handler: void (^)(MTL::SharedEvent*, uint64_t)
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 public delegate void MTLSharedEventHandler(nint block, nint sharedEvent, ulong value);
 
-// void (^)(MTL::Library*, NS::Error*)
+// CompletionHandler (result + error): void (^)(MTL::Library*, NS::Error*)
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 public delegate void MTLNewLibraryCompletionHandler(nint block, nint library, nint error);
 
-// void (^)(MTL::RenderPipelineState*, NS::Error*)
-[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-public delegate void MTLNewRenderPipelineStateCompletionHandler(nint block, nint renderPipelineState, nint error);
-
-// void (^)(MTL::ComputePipelineState*, NS::Error*)
-[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-public delegate void MTLNewComputePipelineStateCompletionHandler(nint block, nint computePipelineState, nint error);
-
-// void (^)(MTL::RenderPipelineState*, MTL::RenderPipelineReflection*, NS::Error*)
+// CompletionHandler with reflection: void (^)(MTL::RenderPipelineState*, MTL::RenderPipelineReflection*, NS::Error*)
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 public delegate void MTLNewRenderPipelineStateWithReflectionCompletionHandler(nint block, nint renderPipelineState, nint reflection, nint error);
 
-// void (^)(MTL::ComputePipelineState*, MTL::ComputePipelineReflection*, NS::Error*)
-[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-public delegate void MTLNewComputePipelineStateWithReflectionCompletionHandler(nint block, nint computePipelineState, nint reflection, nint error);
-
-// void (^)(MTL::Function*, NS::Error*)
-[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-public delegate void MTLNewFunctionCompletionHandler(nint block, nint function, nint error);
-
-// void (^)(MTL::IOCommandBuffer*)
-[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-public delegate void MTLIOCommandBufferHandler(nint block, nint ioCommandBuffer);
-
-// void (^)(MTL::DynamicLibrary*, NS::Error*)
-[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-public delegate void MTLNewDynamicLibraryCompletionHandler(nint block, nint dynamicLibrary, nint error);
-
-// void (^)(MTL4::BinaryFunction*, NS::Error*)
-[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-public delegate void MTL4NewBinaryFunctionCompletionHandler(nint block, nint binaryFunction, nint error);
-
-// void (^)(MTL4::MachineLearningPipelineState*, NS::Error*)
-[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-public delegate void MTL4NewMachineLearningPipelineStateCompletionHandler(nint block, nint machineLearningPipelineState, nint error);
-
-// void (^)(MTL4::CommitFeedback*)
-[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-public delegate void MTL4CommitFeedbackHandler(nint block, nint commitFeedback);
-
-// void (^)(NS::String*, NS::String*, MTL::LogLevel, NS::String*)
+// Inline block (no type alias) with enum param: void (^)(NS::String*, NS::String*, MTL::LogLevel, NS::String*)
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 public delegate void MTLLogHandler(nint block, nint subsystem, nint category, long logLevel, nint message);
 
-// Deallocator: void (^)(void*, NSUInteger)
+// Inline block (no type alias) — deallocator: void (^)(void*, NSUInteger)
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 public delegate void MTLDeallocator(nint block, nint pointer, nuint length);
 ```
@@ -178,13 +150,11 @@ The generator pipeline must be enhanced:
 
 1. **`CppParser.cs`** — Parse `using` declarations that define block type aliases (e.g., `using CommandBufferHandler = void (^)(MTL::CommandBuffer*)`). Extract the parameter list and store as `BlockTypeAlias` records. Also handle **inline block types** that appear directly in method signatures without a `using` alias (e.g., `void (^)(void*, NS::UInteger)` for deallocator, `void (^)(NS::String*, NS::String*, MTL::LogLevel, NS::String*)` for log handler, and `void (^)(MTL::Function*, NS::Error*)` for MTLLibrary completion handlers).
 
-2. **`CSharpEmitter.cs`** — For each method with a block parameter:
-   - Emit the `[UnmanagedFunctionPointer(CallingConvention.Cdecl)]` delegate type **above the class definition** (once per unique block type alias per file).
-   - Emit the public method that accepts the delegate and passes it to `objc_msgSend`.
+2. **`CSharpEmitter.cs`** — Two emission steps:
+   - **Delegate file**: Collect all unique block type aliases (both `using`-aliased and inline) across all classes, then emit them all into a single `Metal/MTLDelegates.cs` file (following the `MTLStructs.cs` / `MTLEnums.cs` consolidation pattern). This naturally deduplicates delegates shared by multiple classes (e.g., `MTLNewLibraryCompletionHandler` used by both `MTLDevice` and `MTL4Compiler`).
+   - **Class files**: For each method with a block parameter, emit the public method that accepts the delegate and passes it to `objc_msgSend`. The delegate types are defined in `MTLDelegates.cs`, so no delegate emission needed in class files.
 
-3. **Deduplication** — Multiple methods may use the same block type alias (e.g., `CommandBufferHandler` is used by both `addCompletedHandler` and `addScheduledHandler`). Emit each delegate type only once.
-
-4. **Inline blocks** — Some methods use inline block types instead of `using` aliases. The generator must also parse these inline signatures and map them to the appropriate delegate type. Known inline block methods:
+3. **Inline blocks** — Some methods use inline block types instead of `using` aliases. The generator must also parse these inline signatures and map them to the appropriate delegate type. Known inline block methods:
    - `MTLDevice.newBuffer(…, void (^deallocator)(void*, NS::UInteger))` → `MTLDeallocator`
    - `MTLLogState.addLogHandler(void (^)(NS::String*, NS::String*, MTL::LogLevel, NS::String*))` → `MTLLogHandler`
    - `MTLLibrary.newFunction(…, void (^)(MTL::Function*, NS::Error*))` → `MTLNewFunctionCompletionHandler`
@@ -398,6 +368,7 @@ Metal.NET/
 ├── Metal/                        ← Metal.framework (auto-generated)
 │   ├── MTLStructs.cs             ← MOVED from Common/ (Metal-specific structs)
 │   ├── MTLEnums.cs               ← Auto-generated (ALL MTL/MTL4 enums in one file)
+│   ├── MTLDelegates.cs           ← Auto-generated (ALL block delegate types in one file)
 │   └── … (~228 auto-generated class files)
 │
 ├── MetalFX/                      ← MetalFX.framework (auto-generated)
@@ -415,6 +386,7 @@ Metal.NET/
 | `MTLStructs.cs` | `Common/` | `Metal/` | Metal-specific, not generic infrastructure |
 | 125 enum files | `Metal/*.cs` (separate) | `Metal/MTLEnums.cs` (single) | Consolidation (Section 2) |
 | NS enum files | `Foundation/*.cs` (separate) | `Foundation/NSEnums.cs` (single) | Consolidation |
+| Block delegates | (new) | `Metal/MTLDelegates.cs` (single) | Consolidation — same delegate shared across classes |
 
 ### What Stays in `Common/`
 
@@ -437,8 +409,9 @@ All files in `Metal/`, `MetalFX/`, `QuartzCore/` are **auto-generated** by the g
 
 This includes:
 - Class files (properties, methods)
-- Enum files (consolidated)
-- Block/handler methods and delegate types
+- Enum files (consolidated into `MTLEnums.cs`)
+- Delegate files (consolidated into `MTLDelegates.cs`)
+- Block/handler methods in class files (referencing delegates from `MTLDelegates.cs`)
 
 The **only hand-written files** in the project are:
 - `Common/` — infrastructure (`NativeObject`, `ObjectiveCRuntime`, `Selector`, `Bool8`)
