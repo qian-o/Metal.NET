@@ -50,4 +50,3 @@ file static class MTLCommandBufferHandlerBindings
 
     public static readonly Selector AddScheduledHandler = "addScheduledHandler:";
 }
-
