@@ -124,9 +124,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     public void GenerateAll()
     {
-        foreach (EnumDef enumDef in context.Enums)
+        // Group enums by namespace into consolidated files (e.g., MTLEnums.cs, NSEnums.cs, MTLFXEnums.cs)
+        var enumsBySubdir = context.Enums.GroupBy(e => TypeMapper.GetOutputSubdir(e.CppNamespace));
+        foreach (var group in enumsBySubdir)
         {
-            GenerateEnum(enumDef);
+            GenerateEnumFile(group.Key, group.ToList());
         }
 
         // Build known class names (both generated and hand-written)
@@ -188,40 +190,65 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Enum Generation
 
-    void GenerateEnum(EnumDef enumDef)
+    void GenerateEnumFile(string subdir, List<EnumDef> enums)
     {
-        string prefix = TypeMapper.GetPrefix(enumDef.CppNamespace);
-        string csEnumName = prefix + enumDef.Name;
-        string subdir = TypeMapper.GetOutputSubdir(enumDef.CppNamespace);
         string dir = Path.Combine(outputDir, subdir);
         Directory.CreateDirectory(dir);
 
+        // Determine the consolidated file name based on the subdirectory
+        string fileName = subdir switch
+        {
+            "Metal" => "MTLEnums.cs",
+            "Foundation" => "NSEnums.cs",
+            "MetalFX" => "MTLFXEnums.cs",
+            _ => $"{subdir}Enums.cs"
+        };
+
+        // Delete old per-enum files that will be replaced by the consolidated file
+        foreach (EnumDef enumDef in enums)
+        {
+            string prefix = TypeMapper.GetPrefix(enumDef.CppNamespace);
+            string oldFile = Path.Combine(dir, $"{prefix}{enumDef.Name}.cs");
+            if (File.Exists(oldFile))
+            {
+                File.Delete(oldFile);
+            }
+        }
+
         StringBuilder sb = new();
         sb.AppendLine("namespace Metal.NET;");
-        sb.AppendLine();
 
-        if (enumDef.IsFlags)
+        for (int ei = 0; ei < enums.Count; ei++)
         {
-            sb.AppendLine("[Flags]");
-        }
+            EnumDef enumDef = enums[ei];
+            string prefix = TypeMapper.GetPrefix(enumDef.CppNamespace);
+            string csEnumName = prefix + enumDef.Name;
 
-        sb.AppendLine($"public enum {csEnumName} : {enumDef.BackingType}");
-        sb.AppendLine("{");
-
-        for (int i = 0; i < enumDef.Members.Count; i++)
-        {
-            EnumMember member = enumDef.Members[i];
-            string comma = i < enumDef.Members.Count - 1 ? "," : "";
-            if (i > 0)
+            sb.AppendLine();
+            if (enumDef.IsFlags)
             {
-                sb.AppendLine();
+                sb.AppendLine("[Flags]");
             }
-            sb.AppendLine($"    {member.Name} = {member.Value}{comma}");
+
+            sb.AppendLine($"public enum {csEnumName} : {enumDef.BackingType}");
+            sb.AppendLine("{");
+
+            for (int i = 0; i < enumDef.Members.Count; i++)
+            {
+                EnumMember member = enumDef.Members[i];
+                string comma = i < enumDef.Members.Count - 1 ? "," : "";
+                if (i > 0)
+                {
+                    sb.AppendLine();
+                }
+                sb.AppendLine($"    {member.Name} = {member.Value}{comma}");
+            }
+
+            sb.AppendLine("}");
         }
 
-        sb.AppendLine("}");
-        File.WriteAllText(Path.Combine(dir, $"{csEnumName}.cs"), sb.ToString(), new UTF8Encoding(true));
-        Console.WriteLine($"  Generated: {subdir}/{csEnumName}.cs");
+        File.WriteAllText(Path.Combine(dir, fileName), sb.ToString(), new UTF8Encoding(true));
+        Console.WriteLine($"  Generated: {subdir}/{fileName} ({enums.Count} enums)");
     }
 
     #endregion
