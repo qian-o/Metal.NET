@@ -218,7 +218,7 @@ public partial class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership owne
     }
 
 
-    public delegate void MTLCommandBufferHandler(MTLCommandBuffer param0);
+    public delegate void MTLCommandBufferHandler(MTLCommandBuffer commandBuffer);
 
     public unsafe void AddCompletedHandler(MTLCommandBufferHandler handler)
     {

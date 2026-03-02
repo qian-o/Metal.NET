@@ -34,7 +34,7 @@ public partial class MTLDrawable(nint nativePtr, NativeObjectOwnership ownership
     }
 
 
-    public delegate void MTLDrawablePresentedHandler(MTLDrawable param0);
+    public delegate void MTLDrawablePresentedHandler(MTLDrawable drawable);
 
     public unsafe void AddPresentedHandler(MTLDrawablePresentedHandler handler)
     {

@@ -148,8 +148,9 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                 else
                 {
                     // No name, just type (e.g., "CommandBuffer*")
+                    // Derive a meaningful name from the type
                     paramType = part;
-                    paramName = $"param{paramIdx}";
+                    paramName = DeriveBlockParamName(paramType, paramIdx);
                 }
 
                 blockParams.Add(new BlockParam(paramType, paramName));
@@ -158,6 +159,31 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
 
             context.BlockTypeAliases[(ns, aliasName)] = new BlockTypeAlias(ns, aliasName, blockParams);
         }
+    }
+
+    /// <summary>
+    /// Derives a meaningful parameter name from a C++ type when no explicit name is present.
+    /// For example, "MTL::Library*" → "library", "NS::Error*" → "error".
+    /// </summary>
+    static string DeriveBlockParamName(string cppType, int index)
+    {
+        string t = cppType.Replace("const ", "").Trim().TrimEnd('*').Trim();
+
+        // Extract the type name from namespace-qualified types
+        Match nsMatch = Regex.Match(t, @"(?:MTL4FX|MTL4|MTLFX|MTL|NS|CA)\s*::\s*(\w+)$");
+        if (nsMatch.Success)
+        {
+            string typeName = nsMatch.Groups[1].Value;
+            return char.ToLower(typeName[0]) + typeName[1..];
+        }
+
+        // Unqualified type names
+        if (t.Length > 0 && char.IsUpper(t[0]))
+        {
+            return char.ToLower(t[0]) + t[1..];
+        }
+
+        return $"param{index}";
     }
 
     #endregion

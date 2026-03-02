@@ -13,7 +13,7 @@ public partial class MTL4CommitOptions(nint nativePtr, NativeObjectOwnership own
     }
 
 
-    public delegate void MTL4CommitFeedbackHandler(MTL4CommitFeedback param0);
+    public delegate void MTL4CommitFeedbackHandler(MTL4CommitFeedback commitFeedback);
 
     public unsafe void AddFeedbackHandler(MTL4CommitFeedbackHandler handler)
     {

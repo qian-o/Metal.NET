@@ -114,7 +114,7 @@ public partial class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownershi
     }
 
 
-    public delegate void MTL4NewBinaryFunctionCompletionHandler(MTL4BinaryFunction param0, NSError param1);
+    public delegate void MTL4NewBinaryFunctionCompletionHandler(MTL4BinaryFunction binaryFunction, NSError error);
 
     public unsafe void NewBinaryFunction(MTL4BinaryFunctionDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, MTL4NewBinaryFunctionCompletionHandler handler)
     {
@@ -137,7 +137,7 @@ public partial class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownershi
     }
 
 
-    public delegate void MTLNewComputePipelineStateCompletionHandler(MTLComputePipelineState param0, NSError param1);
+    public delegate void MTLNewComputePipelineStateCompletionHandler(MTLComputePipelineState computePipelineState, NSError error);
 
     public unsafe void NewComputePipelineState(MTL4ComputePipelineDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, MTLNewComputePipelineStateCompletionHandler handler)
     {
@@ -169,7 +169,7 @@ public partial class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownershi
     }
 
 
-    public delegate void MTLNewDynamicLibraryCompletionHandler(MTLDynamicLibrary param0, NSError param1);
+    public delegate void MTLNewDynamicLibraryCompletionHandler(MTLDynamicLibrary dynamicLibrary, NSError error);
 
     public unsafe void NewDynamicLibrary(MTLLibrary library, MTLNewDynamicLibraryCompletionHandler handler)
     {
@@ -201,7 +201,7 @@ public partial class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownershi
     }
 
 
-    public delegate void MTLNewLibraryCompletionHandler(MTLLibrary param0, NSError param1);
+    public delegate void MTLNewLibraryCompletionHandler(MTLLibrary library, NSError error);
 
     public unsafe void NewLibrary(MTL4LibraryDescriptor descriptor, MTLNewLibraryCompletionHandler handler)
     {
@@ -224,7 +224,7 @@ public partial class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownershi
     }
 
 
-    public delegate void MTL4NewMachineLearningPipelineStateCompletionHandler(MTL4MachineLearningPipelineState param0, NSError param1);
+    public delegate void MTL4NewMachineLearningPipelineStateCompletionHandler(MTL4MachineLearningPipelineState machineLearningPipelineState, NSError error);
 
     public unsafe void NewMachineLearningPipelineState(MTL4MachineLearningPipelineDescriptor descriptor, MTL4NewMachineLearningPipelineStateCompletionHandler handler)
     {
@@ -247,7 +247,7 @@ public partial class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownershi
     }
 
 
-    public delegate void MTLNewRenderPipelineStateCompletionHandler(MTLRenderPipelineState param0, NSError param1);
+    public delegate void MTLNewRenderPipelineStateCompletionHandler(MTLRenderPipelineState renderPipelineState, NSError error);
 
     public unsafe void NewRenderPipelineState(MTL4PipelineDescriptor descriptor, MTL4CompilerTaskOptions compilerTaskOptions, MTLNewRenderPipelineStateCompletionHandler handler)
     {

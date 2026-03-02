@@ -853,7 +853,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
     }
 
 
-    public delegate void MTLNewComputePipelineStateCompletionHandler(MTLComputePipelineState param0, NSError param1);
+    public delegate void MTLNewComputePipelineStateCompletionHandler(MTLComputePipelineState computePipelineState, NSError error);
 
     public unsafe void NewComputePipelineState(MTLFunction computeFunction, MTLNewComputePipelineStateCompletionHandler handler)
     {
@@ -876,7 +876,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
     }
 
 
-    public delegate void MTLNewComputePipelineStateWithReflectionCompletionHandler(MTLComputePipelineState param0, MTLComputePipelineReflection param1, NSError param2);
+    public delegate void MTLNewComputePipelineStateWithReflectionCompletionHandler(MTLComputePipelineState computePipelineState, MTLComputePipelineReflection computePipelineReflection, NSError error);
 
     public unsafe void NewComputePipelineState(MTLFunction computeFunction, MTLPipelineOption options, MTLNewComputePipelineStateWithReflectionCompletionHandler handler)
     {
@@ -908,7 +908,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
     }
 
 
-    public delegate void MTLNewLibraryCompletionHandler(MTLLibrary param0, NSError param1);
+    public delegate void MTLNewLibraryCompletionHandler(MTLLibrary library, NSError error);
 
     public unsafe void NewLibrary(NSString source, MTLCompileOptions options, MTLNewLibraryCompletionHandler handler)
     {
@@ -940,7 +940,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
     }
 
 
-    public delegate void MTLNewRenderPipelineStateCompletionHandler(MTLRenderPipelineState param0, NSError param1);
+    public delegate void MTLNewRenderPipelineStateCompletionHandler(MTLRenderPipelineState renderPipelineState, NSError error);
 
     public unsafe void NewRenderPipelineState(MTLRenderPipelineDescriptor descriptor, MTLNewRenderPipelineStateCompletionHandler handler)
     {
@@ -963,7 +963,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
     }
 
 
-    public delegate void MTLNewRenderPipelineStateWithReflectionCompletionHandler(MTLRenderPipelineState param0, MTLRenderPipelineReflection param1, NSError param2);
+    public delegate void MTLNewRenderPipelineStateWithReflectionCompletionHandler(MTLRenderPipelineState renderPipelineState, MTLRenderPipelineReflection renderPipelineReflection, NSError error);
 
     public unsafe void NewRenderPipelineState(MTLRenderPipelineDescriptor descriptor, MTLPipelineOption options, MTLNewRenderPipelineStateWithReflectionCompletionHandler handler)
     {

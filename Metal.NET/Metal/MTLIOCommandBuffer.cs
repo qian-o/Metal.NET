@@ -90,7 +90,7 @@ public partial class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ow
     }
 
 
-    public delegate void MTLIOCommandBufferHandler(MTLIOCommandBuffer param0);
+    public delegate void MTLIOCommandBufferHandler(MTLIOCommandBuffer iOCommandBuffer);
 
     public unsafe void AddCompletedHandler(MTLIOCommandBufferHandler handler)
     {
