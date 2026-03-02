@@ -1,34 +1,111 @@
 ﻿namespace Metal.NET;
 
-public enum MTLCounterSampleBufferError : long
+[Flags]
+public enum MTL4BinaryFunctionOptions : ulong
 {
-    OutOfMemory = 0,
+    None = 0,
 
-    Invalid = 1,
-
-    Internal = 2
+    PipelineIndependent = 2
 }
 
-public enum MTLLogLevel : long
+[Flags]
+public enum MTL4VisibilityOptions : ulong
 {
-    Undefined = 0,
+    None = 0,
 
-    Debug = 1,
+    Device = 1,
 
-    Info = 2,
-
-    Notice = 3,
-
-    Error = 4,
-
-    Fault = 5
+    ResourceAlias = 2
 }
 
-public enum MTLLogStateError : ulong
+public enum MTL4CommandQueueError : long
 {
-    InvalidSize = 1,
+    None = 0,
 
-    Invalid = 2
+    Timeout = 1,
+
+    NotPermitted = 2,
+
+    OutOfMemory = 3,
+
+    DeviceRemoved = 4,
+
+    AccessRevoked = 5,
+
+    Internal = 6
+}
+
+public enum MTL4CompilerTaskStatus : long
+{
+    None = 0,
+
+    Scheduled = 1,
+
+    Compiling = 2,
+
+    Finished = 3
+}
+
+public enum MTL4CounterHeapType : long
+{
+    Invalid = 0,
+
+    Timestamp = 1
+}
+
+public enum MTL4TimestampGranularity : long
+{
+    Relaxed = 0,
+
+    Precise = 1
+}
+
+[Flags]
+public enum MTL4PipelineDataSetSerializerConfiguration : ulong
+{
+    CaptureDescriptors = 1,
+
+    CaptureBinaries = 2
+}
+
+public enum MTL4AlphaToOneState : long
+{
+    Disabled = 0,
+
+    Enabled = 1
+}
+
+public enum MTL4AlphaToCoverageState : long
+{
+    Disabled = 0,
+
+    Enabled = 1
+}
+
+public enum MTL4BlendState : long
+{
+    Disabled = 0,
+
+    Enabled = 1,
+
+    Unspecialized = 2
+}
+
+public enum MTL4IndirectCommandBufferSupportState : long
+{
+    Disabled = 0,
+
+    Enabled = 1
+}
+
+[Flags]
+public enum MTL4ShaderReflection : ulong
+{
+    None = 0,
+
+    BindingInfo = 1,
+
+    BufferTypeInfo = 2
 }
 
 [Flags]
@@ -41,15 +118,207 @@ public enum MTL4RenderEncoderOptions : ulong
     Resuming = 2
 }
 
-public enum MTL4CompilerTaskStatus : long
+public enum MTL4LogicalToPhysicalColorAttachmentMappingState : long
+{
+    Identity = 0,
+
+    Inherited = 1
+}
+
+public enum MTLMatrixLayout : long
+{
+    ColumnMajor = 0,
+
+    RowMajor = 1
+}
+
+public enum MTLMotionBorderMode : uint
+{
+    Clamp = 0,
+
+    Vanish = 1
+}
+
+public enum MTLCurveType : long
+{
+    Round = 0,
+
+    Flat = 1
+}
+
+public enum MTLCurveBasis : long
+{
+    BSpline = 0,
+
+    CatmullRom = 1,
+
+    Linear = 2,
+
+    Bezier = 3
+}
+
+public enum MTLCurveEndCaps : long
 {
     None = 0,
 
-    Scheduled = 1,
+    Disk = 1,
 
-    Compiling = 2,
+    Sphere = 2
+}
 
-    Finished = 3
+public enum MTLAccelerationStructureInstanceDescriptorType : ulong
+{
+    Default = 0,
+
+    UserID = 1,
+
+    Motion = 2,
+
+    Indirect = 3,
+
+    IndirectMotion = 4
+}
+
+public enum MTLTransformType : long
+{
+    PackedFloat4x3 = 0,
+
+    Component = 1
+}
+
+[Flags]
+public enum MTLAccelerationStructureRefitOptions : ulong
+{
+    VertexData = 1,
+
+    PerPrimitiveData = 2
+}
+
+[Flags]
+public enum MTLAccelerationStructureUsage : ulong
+{
+    None = 0,
+
+    Refit = 1,
+
+    PreferFastBuild = 2,
+
+    ExtendedLimits = 4,
+
+    PreferFastIntersection = 16,
+
+    MinimizeMemory = 32
+}
+
+[Flags]
+public enum MTLAccelerationStructureInstanceOptions : uint
+{
+    None = 0,
+
+    DisableTriangleCulling = 1,
+
+    TriangleFrontFacingWindingCounterClockwise = 2,
+
+    Opaque = 4,
+
+    NonOpaque = 8
+}
+
+public enum MTLIndexType : ulong
+{
+    UInt16 = 0,
+
+    UInt32 = 1
+}
+
+public enum MTLBindingType : long
+{
+    Buffer = 0,
+
+    ThreadgroupMemory = 1,
+
+    Texture = 2,
+
+    Sampler = 3,
+
+    ImageblockData = 16,
+
+    Imageblock = 17,
+
+    VisibleFunctionTable = 24,
+
+    PrimitiveAccelerationStructure = 25,
+
+    InstanceAccelerationStructure = 26,
+
+    IntersectionFunctionTable = 27,
+
+    ObjectPayload = 34,
+
+    Tensor = 37
+}
+
+public enum MTLArgumentType : ulong
+{
+    Buffer = 0,
+
+    ThreadgroupMemory = 1,
+
+    Texture = 2,
+
+    Sampler = 3,
+
+    ImageblockData = 16,
+
+    Imageblock = 17,
+
+    VisibleFunctionTable = 24,
+
+    PrimitiveAccelerationStructure = 25,
+
+    InstanceAccelerationStructure = 26,
+
+    IntersectionFunctionTable = 27
+}
+
+public enum MTLBindingAccess : ulong
+{
+    ReadOnly = 0,
+
+    ReadWrite = 1,
+
+    WriteOnly = 2,
+
+    ArgumentAccessReadOnly = 0,
+
+    ArgumentAccessReadWrite = 1,
+
+    ArgumentAccessWriteOnly = 2
+}
+
+public enum MTLBinaryArchiveError : ulong
+{
+    None = 0,
+
+    InvalidFile = 1,
+
+    UnexpectedElement = 2,
+
+    CompilationFailure = 3,
+
+    InternalError = 4
+}
+
+[Flags]
+public enum MTLBlitOption : ulong
+{
+    None = 0,
+
+    DepthFromDepthStencil = 1,
+
+    StencilFromDepthStencil = 2,
+
+    RowLinearPVRTC = 4
 }
 
 public enum MTLCaptureError : long
@@ -68,65 +337,129 @@ public enum MTLCaptureDestination : long
     GPUTraceDocument = 2
 }
 
-public enum MTLTextureType : ulong
+public enum MTLCommandBufferStatus : ulong
 {
-    MTL1D = 0,
+    NotEnqueued = 0,
 
-    MTL1DArray = 1,
+    Enqueued = 1,
 
-    MTL2D = 2,
+    Committed = 2,
 
-    MTL2DArray = 3,
+    Scheduled = 3,
 
-    MTL2DMultisample = 4,
+    Completed = 4,
 
-    Cube = 5,
-
-    CubeArray = 6,
-
-    MTL3D = 7,
-
-    MTL2DMultisampleArray = 8,
-
-    TextureBuffer = 9
+    Error = 5
 }
 
-public enum MTLTextureSwizzle : byte
+public enum MTLCommandBufferError : ulong
 {
-    Zero = 0,
+    None = 0,
 
-    One = 1,
+    Internal = 1,
 
-    Red = 2,
+    Timeout = 2,
 
-    Green = 3,
+    PageFault = 3,
 
-    Blue = 4,
+    Blacklisted = 4,
 
-    Alpha = 5
+    AccessRevoked = 4,
+
+    NotPermitted = 7,
+
+    OutOfMemory = 8,
+
+    InvalidResource = 9,
+
+    Memoryless = 10,
+
+    DeviceRemoved = 11,
+
+    StackOverflow = 12
 }
 
-public enum MTLTextureCompressionType : long
-{
-    Lossless = 0,
-
-    Lossy = 1
-}
-
-[Flags]
-public enum MTLTextureUsage : ulong
+public enum MTLCommandEncoderErrorState : long
 {
     Unknown = 0,
 
-    ShaderRead = 1,
+    Completed = 1,
 
-    ShaderWrite = 2,
+    Affected = 2,
 
-    RenderTarget = 4,
+    Pending = 3,
 
-    PixelFormatView = 16,
+    Faulted = 4
+}
 
-    ShaderAtomic = 32
+public enum MTLDispatchType : ulong
+{
+    Serial = 0,
+
+    Concurrent = 1
+}
+
+[Flags]
+public enum MTLCommandBufferErrorOption : ulong
+{
+    None = 0,
+
+    EncoderExecutionStatus = 1
+}
+
+[Flags]
+public enum MTLResourceUsage : ulong
+{
+    Read = 1,
+
+    Write = 2,
+
+    Sample = 4
+}
+
+[Flags]
+public enum MTLBarrierScope : ulong
+{
+    Buffers = 1,
+
+    Textures = 2,
+
+    RenderTargets = 4
+}
+
+[Flags]
+public enum MTLStages : ulong
+{
+    Vertex = 1,
+
+    Fragment = 2,
+
+    Tile = 4,
+
+    Object = 8,
+
+    Mesh = 16,
+
+    ResourceState = 67108864,
+
+    Dispatch = 134217728,
+
+    Blit = 268435456,
+
+    AccelerationStructure = 536870912,
+
+    MachineLearning = 1073741824,
+
+    All = 9223372036854775807
+}
+
+public enum MTLCounterSampleBufferError : long
+{
+    OutOfMemory = 0,
+
+    Invalid = 1,
+
+    Internal = 2
 }
 
 public enum MTLDataType : ulong
@@ -326,18 +659,234 @@ public enum MTLDataType : ulong
     Tensor = 140
 }
 
-public enum MTL4CounterHeapType : long
+public enum MTLCompareFunction : ulong
 {
-    Invalid = 0,
+    Never = 0,
 
-    Timestamp = 1
+    Less = 1,
+
+    Equal = 2,
+
+    LessEqual = 3,
+
+    Greater = 4,
+
+    NotEqual = 5,
+
+    GreaterEqual = 6,
+
+    Always = 7
 }
 
-public enum MTL4TimestampGranularity : long
+public enum MTLStencilOperation : ulong
 {
-    Relaxed = 0,
+    Keep = 0,
 
-    Precise = 1
+    Zero = 1,
+
+    Replace = 2,
+
+    IncrementClamp = 3,
+
+    DecrementClamp = 4,
+
+    Invert = 5,
+
+    IncrementWrap = 6,
+
+    DecrementWrap = 7
+}
+
+public enum MTLIOCompressionMethod : long
+{
+    Zlib = 0,
+
+    LZFSE = 1,
+
+    LZ4 = 2,
+
+    LZMA = 3,
+
+    LZBitmap = 4
+}
+
+public enum MTLFeatureSet : ulong
+{
+    _iOS_GPUFamily1_v1 = 0,
+
+    _iOS_GPUFamily2_v1 = 1,
+
+    _iOS_GPUFamily1_v2 = 2,
+
+    _iOS_GPUFamily2_v2 = 3,
+
+    _iOS_GPUFamily3_v1 = 4,
+
+    _iOS_GPUFamily1_v3 = 5,
+
+    _iOS_GPUFamily2_v3 = 6,
+
+    _iOS_GPUFamily3_v2 = 7,
+
+    _iOS_GPUFamily1_v4 = 8,
+
+    _iOS_GPUFamily2_v4 = 9,
+
+    _iOS_GPUFamily3_v3 = 10,
+
+    _iOS_GPUFamily4_v1 = 11,
+
+    _iOS_GPUFamily1_v5 = 12,
+
+    _iOS_GPUFamily2_v5 = 13,
+
+    _iOS_GPUFamily3_v4 = 14,
+
+    _iOS_GPUFamily4_v2 = 15,
+
+    _iOS_GPUFamily5_v1 = 16,
+
+    _macOS_GPUFamily1_v1 = 10000,
+
+    _OSX_GPUFamily1_v1 = 10000,
+
+    _macOS_GPUFamily1_v2 = 10001,
+
+    _OSX_GPUFamily1_v2 = 10001,
+
+    _macOS_ReadWriteTextureTier2 = 10002,
+
+    _OSX_ReadWriteTextureTier2 = 10002,
+
+    _macOS_GPUFamily1_v3 = 10003,
+
+    _macOS_GPUFamily1_v4 = 10004,
+
+    _macOS_GPUFamily2_v1 = 10005,
+
+    _watchOS_GPUFamily1_v1 = 20000,
+
+    _WatchOS_GPUFamily1_v1 = 20000,
+
+    _watchOS_GPUFamily2_v1 = 20001,
+
+    _WatchOS_GPUFamily2_v1 = 20001,
+
+    _tvOS_GPUFamily1_v1 = 30000,
+
+    _TVOS_GPUFamily1_v1 = 30000,
+
+    _tvOS_GPUFamily1_v2 = 30001,
+
+    _tvOS_GPUFamily1_v3 = 30002,
+
+    _tvOS_GPUFamily2_v1 = 30003,
+
+    _tvOS_GPUFamily1_v4 = 30004,
+
+    _tvOS_GPUFamily2_v2 = 30005
+}
+
+public enum MTLGPUFamily : long
+{
+    Apple1 = 1001,
+
+    Apple2 = 1002,
+
+    Apple3 = 1003,
+
+    Apple4 = 1004,
+
+    Apple5 = 1005,
+
+    Apple6 = 1006,
+
+    Apple7 = 1007,
+
+    Apple8 = 1008,
+
+    Apple9 = 1009,
+
+    Apple10 = 1010,
+
+    Mac1 = 2001,
+
+    Mac2 = 2002,
+
+    Common1 = 3001,
+
+    Common2 = 3002,
+
+    Common3 = 3003,
+
+    MacCatalyst1 = 4001,
+
+    MacCatalyst2 = 4002,
+
+    Metal3 = 5001,
+
+    Metal4 = 5002
+}
+
+public enum MTLDeviceLocation : ulong
+{
+    BuiltIn = 0,
+
+    Slot = 1,
+
+    External = 2,
+
+    Unspecified = 18446744073709551615
+}
+
+public enum MTLReadWriteTextureTier : ulong
+{
+    None = 0,
+
+    MTL1 = 1,
+
+    MTL2 = 2
+}
+
+public enum MTLArgumentBuffersTier : ulong
+{
+    MTL1 = 0,
+
+    MTL2 = 1
+}
+
+public enum MTLSparseTextureRegionAlignmentMode : ulong
+{
+    Outward = 0,
+
+    Inward = 1
+}
+
+public enum MTLCounterSamplingPoint : ulong
+{
+    AtStageBoundary = 0,
+
+    AtDrawBoundary = 1,
+
+    AtDispatchBoundary = 2,
+
+    AtTileDispatchBoundary = 3,
+
+    AtBlitBoundary = 4
+}
+
+[Flags]
+public enum MTLPipelineOption : ulong
+{
+    None = 0,
+
+    ArgumentInfo = 1,
+
+    BindingInfo = 1,
+
+    BufferTypeInfo = 2,
+
+    FailOnBinaryArchiveMiss = 4
 }
 
 public enum MTLDynamicLibraryError : ulong
@@ -355,155 +904,269 @@ public enum MTLDynamicLibraryError : ulong
     Unsupported = 5
 }
 
-public enum MTLBlendFactor : ulong
-{
-    Zero = 0,
-
-    One = 1,
-
-    SourceColor = 2,
-
-    OneMinusSourceColor = 3,
-
-    SourceAlpha = 4,
-
-    OneMinusSourceAlpha = 5,
-
-    DestinationColor = 6,
-
-    OneMinusDestinationColor = 7,
-
-    DestinationAlpha = 8,
-
-    OneMinusDestinationAlpha = 9,
-
-    SourceAlphaSaturated = 10,
-
-    BlendColor = 11,
-
-    OneMinusBlendColor = 12,
-
-    BlendAlpha = 13,
-
-    OneMinusBlendAlpha = 14,
-
-    Source1Color = 15,
-
-    OneMinusSource1Color = 16,
-
-    Source1Alpha = 17,
-
-    OneMinusSource1Alpha = 18,
-
-    Unspecialized = 19
-}
-
-public enum MTLBlendOperation : ulong
-{
-    Add = 0,
-
-    Subtract = 1,
-
-    ReverseSubtract = 2,
-
-    Min = 3,
-
-    Max = 4,
-
-    Unspecialized = 5
-}
-
-public enum MTLPrimitiveTopologyClass : ulong
-{
-    Unspecified = 0,
-
-    Point = 1,
-
-    Line = 2,
-
-    Triangle = 3
-}
-
-public enum MTLTessellationPartitionMode : ulong
-{
-    Pow2 = 0,
-
-    Integer = 1,
-
-    FractionalOdd = 2,
-
-    FractionalEven = 3
-}
-
-public enum MTLTessellationFactorStepFunction : ulong
-{
-    Constant = 0,
-
-    PerPatch = 1,
-
-    PerInstance = 2,
-
-    PerPatchAndPerInstance = 3
-}
-
-public enum MTLTessellationFactorFormat : ulong
-{
-    Half = 0
-}
-
-public enum MTLTessellationControlPointIndexType : ulong
-{
-    None = 0,
-
-    UInt16 = 1,
-
-    UInt32 = 2
-}
-
 [Flags]
-public enum MTLColorWriteMask : ulong
+public enum MTLFunctionOptions : ulong
 {
     None = 0,
 
-    Red = 8,
+    CompileToBinary = 1,
 
-    Green = 4,
+    StoreFunctionInMetalPipelinesScript = 2,
 
-    Blue = 2,
+    StoreFunctionInMetalScript = 2,
 
-    Alpha = 1,
+    FailOnBinaryArchiveMiss = 4,
 
-    All = 15,
-
-    Unspecialized = 16
-}
-
-[Flags]
-public enum MTL4VisibilityOptions : ulong
-{
-    None = 0,
-
-    Device = 1,
-
-    ResourceAlias = 2
-}
-
-public enum MTLBinaryArchiveError : ulong
-{
-    None = 0,
-
-    InvalidFile = 1,
-
-    UnexpectedElement = 2,
-
-    CompilationFailure = 3,
-
-    InternalError = 4
+    PipelineIndependent = 8
 }
 
 public enum MTLFunctionLogType : ulong
 {
     Validation = 0
+}
+
+[Flags]
+public enum MTLStitchedLibraryOptions : ulong
+{
+    None = 0,
+
+    FailOnBinaryArchiveMiss = 1,
+
+    StoreLibraryInMetalPipelinesScript = 2
+}
+
+public enum MTLHeapType : long
+{
+    Automatic = 0,
+
+    Placement = 1,
+
+    Sparse = 2
+}
+
+[Flags]
+public enum MTLIndirectCommandType : ulong
+{
+    Draw = 1,
+
+    DrawIndexed = 2,
+
+    DrawPatches = 4,
+
+    DrawIndexedPatches = 8,
+
+    ConcurrentDispatch = 32,
+
+    ConcurrentDispatchThreads = 64,
+
+    DrawMeshThreadgroups = 128,
+
+    DrawMeshThreads = 256
+}
+
+[Flags]
+public enum MTLIntersectionFunctionSignature : ulong
+{
+    None = 0,
+
+    Instancing = 1,
+
+    TriangleData = 2,
+
+    WorldSpaceData = 4,
+
+    InstanceMotion = 8,
+
+    PrimitiveMotion = 16,
+
+    ExtendedLimits = 32,
+
+    MaxLevels = 64,
+
+    CurveData = 128,
+
+    IntersectionFunctionBuffer = 256,
+
+    UserData = 512
+}
+
+public enum MTLIOStatus : long
+{
+    Pending = 0,
+
+    Cancelled = 1,
+
+    Error = 2,
+
+    Complete = 3
+}
+
+public enum MTLIOPriority : long
+{
+    High = 0,
+
+    Normal = 1,
+
+    Low = 2
+}
+
+public enum MTLIOCommandQueueType : long
+{
+    Concurrent = 0,
+
+    Serial = 1
+}
+
+public enum MTLIOError : long
+{
+    URLInvalid = 1,
+
+    Internal = 2
+}
+
+public enum MTLPatchType : ulong
+{
+    None = 0,
+
+    Triangle = 1,
+
+    Quad = 2
+}
+
+public enum MTLFunctionType : ulong
+{
+    Vertex = 1,
+
+    Fragment = 2,
+
+    Kernel = 3,
+
+    Visible = 5,
+
+    Intersection = 6,
+
+    Mesh = 7,
+
+    Object = 8
+}
+
+public enum MTLLanguageVersion : ulong
+{
+    MTL1_0 = 65536,
+
+    MTL1_1 = 65537,
+
+    MTL1_2 = 65538,
+
+    MTL2_0 = 131072,
+
+    MTL2_1 = 131073,
+
+    MTL2_2 = 131074,
+
+    MTL2_3 = 131075,
+
+    MTL2_4 = 131076,
+
+    MTL3_0 = 196608,
+
+    MTL3_1 = 196609,
+
+    MTL3_2 = 196610,
+
+    MTL4_0 = 262144
+}
+
+public enum MTLLibraryType : long
+{
+    Executable = 0,
+
+    Dynamic = 1
+}
+
+public enum MTLLibraryOptimizationLevel : long
+{
+    Default = 0,
+
+    Size = 1
+}
+
+public enum MTLCompileSymbolVisibility : long
+{
+    Default = 0,
+
+    Hidden = 1
+}
+
+public enum MTLMathMode : long
+{
+    Safe = 0,
+
+    Relaxed = 1,
+
+    Fast = 2
+}
+
+public enum MTLMathFloatingPointFunctions : long
+{
+    Fast = 0,
+
+    Precise = 1
+}
+
+public enum MTLLibraryError : ulong
+{
+    Unsupported = 1,
+
+    Internal = 2,
+
+    CompileFailure = 3,
+
+    CompileWarning = 4,
+
+    FunctionNotFound = 5,
+
+    FileNotFound = 6
+}
+
+public enum MTLLogLevel : long
+{
+    Undefined = 0,
+
+    Debug = 1,
+
+    Info = 2,
+
+    Notice = 3,
+
+    Error = 4,
+
+    Fault = 5
+}
+
+public enum MTLLogStateError : ulong
+{
+    InvalidSize = 1,
+
+    Invalid = 2
+}
+
+public enum MTLMutability : ulong
+{
+    Default = 0,
+
+    Mutable = 1,
+
+    Immutable = 2
+}
+
+public enum MTLShaderValidation : long
+{
+    Default = 0,
+
+    Enabled = 1,
+
+    Disabled = 2
 }
 
 public enum MTLPixelFormat : ulong
@@ -789,28 +1452,60 @@ public enum MTLPixelFormat : ulong
     Unspecialized = 263
 }
 
-[Flags]
-public enum MTLResourceUsage : ulong
+public enum MTLPrimitiveType : ulong
 {
-    Read = 1,
+    Point = 0,
 
-    Write = 2,
+    Line = 1,
 
-    Sample = 4
+    LineStrip = 2,
+
+    Triangle = 3,
+
+    TriangleStrip = 4
+}
+
+public enum MTLVisibilityResultMode : ulong
+{
+    Disabled = 0,
+
+    Boolean = 1,
+
+    Counting = 2
+}
+
+public enum MTLCullMode : ulong
+{
+    None = 0,
+
+    Front = 1,
+
+    Back = 2
+}
+
+public enum MTLWinding : ulong
+{
+    Clockwise = 0,
+
+    CounterClockwise = 1
+}
+
+public enum MTLDepthClipMode : ulong
+{
+    Clip = 0,
+
+    Clamp = 1
+}
+
+public enum MTLTriangleFillMode : ulong
+{
+    Fill = 0,
+
+    Lines = 1
 }
 
 [Flags]
-public enum MTLBarrierScope : ulong
-{
-    Buffers = 1,
-
-    Textures = 2,
-
-    RenderTargets = 4
-}
-
-[Flags]
-public enum MTLStages : ulong
+public enum MTLRenderStages : ulong
 {
     Vertex = 1,
 
@@ -820,19 +1515,187 @@ public enum MTLStages : ulong
 
     Object = 8,
 
-    Mesh = 16,
+    Mesh = 16
+}
 
-    ResourceState = 67108864,
+public enum MTLLoadAction : ulong
+{
+    DontCare = 0,
 
-    Dispatch = 134217728,
+    Load = 1,
 
-    Blit = 268435456,
+    Clear = 2
+}
 
-    AccelerationStructure = 536870912,
+public enum MTLStoreAction : ulong
+{
+    DontCare = 0,
 
-    MachineLearning = 1073741824,
+    Store = 1,
 
-    All = 9223372036854775807
+    MultisampleResolve = 2,
+
+    StoreAndMultisampleResolve = 3,
+
+    Unknown = 4,
+
+    CustomSampleDepthStore = 5
+}
+
+public enum MTLVisibilityResultType : long
+{
+    Reset = 0,
+
+    Accumulate = 1
+}
+
+public enum MTLMultisampleDepthResolveFilter : ulong
+{
+    Sample0 = 0,
+
+    Min = 1,
+
+    Max = 2
+}
+
+public enum MTLMultisampleStencilResolveFilter : ulong
+{
+    Sample0 = 0,
+
+    DepthResolvedSample = 1
+}
+
+[Flags]
+public enum MTLStoreActionOptions : ulong
+{
+    None = 0,
+
+    CustomSamplePositions = 1,
+
+    ValidMask = 1
+}
+
+public enum MTLBlendFactor : ulong
+{
+    Zero = 0,
+
+    One = 1,
+
+    SourceColor = 2,
+
+    OneMinusSourceColor = 3,
+
+    SourceAlpha = 4,
+
+    OneMinusSourceAlpha = 5,
+
+    DestinationColor = 6,
+
+    OneMinusDestinationColor = 7,
+
+    DestinationAlpha = 8,
+
+    OneMinusDestinationAlpha = 9,
+
+    SourceAlphaSaturated = 10,
+
+    BlendColor = 11,
+
+    OneMinusBlendColor = 12,
+
+    BlendAlpha = 13,
+
+    OneMinusBlendAlpha = 14,
+
+    Source1Color = 15,
+
+    OneMinusSource1Color = 16,
+
+    Source1Alpha = 17,
+
+    OneMinusSource1Alpha = 18,
+
+    Unspecialized = 19
+}
+
+public enum MTLBlendOperation : ulong
+{
+    Add = 0,
+
+    Subtract = 1,
+
+    ReverseSubtract = 2,
+
+    Min = 3,
+
+    Max = 4,
+
+    Unspecialized = 5
+}
+
+public enum MTLPrimitiveTopologyClass : ulong
+{
+    Unspecified = 0,
+
+    Point = 1,
+
+    Line = 2,
+
+    Triangle = 3
+}
+
+public enum MTLTessellationPartitionMode : ulong
+{
+    Pow2 = 0,
+
+    Integer = 1,
+
+    FractionalOdd = 2,
+
+    FractionalEven = 3
+}
+
+public enum MTLTessellationFactorStepFunction : ulong
+{
+    Constant = 0,
+
+    PerPatch = 1,
+
+    PerInstance = 2,
+
+    PerPatchAndPerInstance = 3
+}
+
+public enum MTLTessellationFactorFormat : ulong
+{
+    Half = 0
+}
+
+public enum MTLTessellationControlPointIndexType : ulong
+{
+    None = 0,
+
+    UInt16 = 1,
+
+    UInt32 = 2
+}
+
+[Flags]
+public enum MTLColorWriteMask : ulong
+{
+    None = 0,
+
+    Red = 8,
+
+    Green = 4,
+
+    Blue = 2,
+
+    Alpha = 1,
+
+    All = 15,
+
+    Unspecialized = 16
 }
 
 public enum MTLPurgeableState : ulong
@@ -924,237 +1787,6 @@ public enum MTLResourceOptions : ulong
     OptionCPUCacheModeWriteCombined = 1
 }
 
-[Flags]
-public enum MTLFunctionOptions : ulong
-{
-    None = 0,
-
-    CompileToBinary = 1,
-
-    StoreFunctionInMetalPipelinesScript = 2,
-
-    StoreFunctionInMetalScript = 2,
-
-    FailOnBinaryArchiveMiss = 4,
-
-    PipelineIndependent = 8
-}
-
-public enum MTLCommandBufferStatus : ulong
-{
-    NotEnqueued = 0,
-
-    Enqueued = 1,
-
-    Committed = 2,
-
-    Scheduled = 3,
-
-    Completed = 4,
-
-    Error = 5
-}
-
-public enum MTLCommandBufferError : ulong
-{
-    None = 0,
-
-    Internal = 1,
-
-    Timeout = 2,
-
-    PageFault = 3,
-
-    Blacklisted = 4,
-
-    AccessRevoked = 4,
-
-    NotPermitted = 7,
-
-    OutOfMemory = 8,
-
-    InvalidResource = 9,
-
-    Memoryless = 10,
-
-    DeviceRemoved = 11,
-
-    StackOverflow = 12
-}
-
-public enum MTLCommandEncoderErrorState : long
-{
-    Unknown = 0,
-
-    Completed = 1,
-
-    Affected = 2,
-
-    Pending = 3,
-
-    Faulted = 4
-}
-
-public enum MTLDispatchType : ulong
-{
-    Serial = 0,
-
-    Concurrent = 1
-}
-
-[Flags]
-public enum MTLCommandBufferErrorOption : ulong
-{
-    None = 0,
-
-    EncoderExecutionStatus = 1
-}
-
-public enum MTLPatchType : ulong
-{
-    None = 0,
-
-    Triangle = 1,
-
-    Quad = 2
-}
-
-public enum MTLFunctionType : ulong
-{
-    Vertex = 1,
-
-    Fragment = 2,
-
-    Kernel = 3,
-
-    Visible = 5,
-
-    Intersection = 6,
-
-    Mesh = 7,
-
-    Object = 8
-}
-
-public enum MTLLanguageVersion : ulong
-{
-    MTL1_0 = 65536,
-
-    MTL1_1 = 65537,
-
-    MTL1_2 = 65538,
-
-    MTL2_0 = 131072,
-
-    MTL2_1 = 131073,
-
-    MTL2_2 = 131074,
-
-    MTL2_3 = 131075,
-
-    MTL2_4 = 131076,
-
-    MTL3_0 = 196608,
-
-    MTL3_1 = 196609,
-
-    MTL3_2 = 196610,
-
-    MTL4_0 = 262144
-}
-
-public enum MTLLibraryType : long
-{
-    Executable = 0,
-
-    Dynamic = 1
-}
-
-public enum MTLLibraryOptimizationLevel : long
-{
-    Default = 0,
-
-    Size = 1
-}
-
-public enum MTLCompileSymbolVisibility : long
-{
-    Default = 0,
-
-    Hidden = 1
-}
-
-public enum MTLMathMode : long
-{
-    Safe = 0,
-
-    Relaxed = 1,
-
-    Fast = 2
-}
-
-public enum MTLMathFloatingPointFunctions : long
-{
-    Fast = 0,
-
-    Precise = 1
-}
-
-public enum MTLLibraryError : ulong
-{
-    Unsupported = 1,
-
-    Internal = 2,
-
-    CompileFailure = 3,
-
-    CompileWarning = 4,
-
-    FunctionNotFound = 5,
-
-    FileNotFound = 6
-}
-
-public enum MTL4AlphaToOneState : long
-{
-    Disabled = 0,
-
-    Enabled = 1
-}
-
-public enum MTL4AlphaToCoverageState : long
-{
-    Disabled = 0,
-
-    Enabled = 1
-}
-
-public enum MTL4BlendState : long
-{
-    Disabled = 0,
-
-    Enabled = 1,
-
-    Unspecialized = 2
-}
-
-public enum MTL4IndirectCommandBufferSupportState : long
-{
-    Disabled = 0,
-
-    Enabled = 1
-}
-
-[Flags]
-public enum MTL4ShaderReflection : ulong
-{
-    None = 0,
-
-    BindingInfo = 1,
-
-    BufferTypeInfo = 2
-}
-
 public enum MTLSparseTextureMappingMode : ulong
 {
     Map = 0,
@@ -1162,365 +1794,53 @@ public enum MTLSparseTextureMappingMode : ulong
     Unmap = 1
 }
 
-[Flags]
-public enum MTLIntersectionFunctionSignature : ulong
+public enum MTLSamplerMinMagFilter : ulong
 {
-    None = 0,
+    Nearest = 0,
 
-    Instancing = 1,
-
-    TriangleData = 2,
-
-    WorldSpaceData = 4,
-
-    InstanceMotion = 8,
-
-    PrimitiveMotion = 16,
-
-    ExtendedLimits = 32,
-
-    MaxLevels = 64,
-
-    CurveData = 128,
-
-    IntersectionFunctionBuffer = 256,
-
-    UserData = 512
+    Linear = 1
 }
 
-[Flags]
-public enum MTL4BinaryFunctionOptions : ulong
+public enum MTLSamplerMipFilter : ulong
 {
-    None = 0,
+    NotMipmapped = 0,
 
-    PipelineIndependent = 2
+    Nearest = 1,
+
+    Linear = 2
 }
 
-public enum MTLCompareFunction : ulong
+public enum MTLSamplerAddressMode : ulong
 {
-    Never = 0,
+    ClampToEdge = 0,
 
-    Less = 1,
+    MirrorClampToEdge = 1,
 
-    Equal = 2,
+    Repeat = 2,
 
-    LessEqual = 3,
+    MirrorRepeat = 3,
 
-    Greater = 4,
+    ClampToZero = 4,
 
-    NotEqual = 5,
-
-    GreaterEqual = 6,
-
-    Always = 7
+    ClampToBorderColor = 5
 }
 
-public enum MTLStencilOperation : ulong
+public enum MTLSamplerBorderColor : ulong
 {
-    Keep = 0,
+    TransparentBlack = 0,
 
-    Zero = 1,
+    OpaqueBlack = 1,
 
-    Replace = 2,
-
-    IncrementClamp = 3,
-
-    DecrementClamp = 4,
-
-    Invert = 5,
-
-    IncrementWrap = 6,
-
-    DecrementWrap = 7
+    OpaqueWhite = 2
 }
 
-public enum MTLMutability : ulong
+public enum MTLSamplerReductionMode : ulong
 {
-    Default = 0,
+    WeightedAverage = 0,
 
-    Mutable = 1,
+    Minimum = 1,
 
-    Immutable = 2
-}
-
-public enum MTLShaderValidation : long
-{
-    Default = 0,
-
-    Enabled = 1,
-
-    Disabled = 2
-}
-
-public enum MTLLoadAction : ulong
-{
-    DontCare = 0,
-
-    Load = 1,
-
-    Clear = 2
-}
-
-public enum MTLStoreAction : ulong
-{
-    DontCare = 0,
-
-    Store = 1,
-
-    MultisampleResolve = 2,
-
-    StoreAndMultisampleResolve = 3,
-
-    Unknown = 4,
-
-    CustomSampleDepthStore = 5
-}
-
-public enum MTLVisibilityResultType : long
-{
-    Reset = 0,
-
-    Accumulate = 1
-}
-
-public enum MTLMultisampleDepthResolveFilter : ulong
-{
-    Sample0 = 0,
-
-    Min = 1,
-
-    Max = 2
-}
-
-public enum MTLMultisampleStencilResolveFilter : ulong
-{
-    Sample0 = 0,
-
-    DepthResolvedSample = 1
-}
-
-[Flags]
-public enum MTLStoreActionOptions : ulong
-{
-    None = 0,
-
-    CustomSamplePositions = 1,
-
-    ValidMask = 1
-}
-
-public enum MTLTensorDataType : long
-{
-    None = 0,
-
-    Float32 = 3,
-
-    Float16 = 16,
-
-    BFloat16 = 121,
-
-    Int8 = 45,
-
-    UInt8 = 49,
-
-    Int16 = 37,
-
-    UInt16 = 41,
-
-    Int32 = 29,
-
-    UInt32 = 33
-}
-
-public enum MTLTensorError : long
-{
-    None = 0,
-
-    InternalError = 1,
-
-    InvalidDescriptor = 2
-}
-
-[Flags]
-public enum MTLTensorUsage : ulong
-{
-    Compute = 1,
-
-    Render = 2,
-
-    MachineLearning = 4
-}
-
-[Flags]
-public enum MTL4PipelineDataSetSerializerConfiguration : ulong
-{
-    CaptureDescriptors = 1,
-
-    CaptureBinaries = 2
-}
-
-public enum MTLMatrixLayout : long
-{
-    ColumnMajor = 0,
-
-    RowMajor = 1
-}
-
-public enum MTLMotionBorderMode : uint
-{
-    Clamp = 0,
-
-    Vanish = 1
-}
-
-public enum MTLCurveType : long
-{
-    Round = 0,
-
-    Flat = 1
-}
-
-public enum MTLCurveBasis : long
-{
-    BSpline = 0,
-
-    CatmullRom = 1,
-
-    Linear = 2,
-
-    Bezier = 3
-}
-
-public enum MTLCurveEndCaps : long
-{
-    None = 0,
-
-    Disk = 1,
-
-    Sphere = 2
-}
-
-public enum MTLAccelerationStructureInstanceDescriptorType : ulong
-{
-    Default = 0,
-
-    UserID = 1,
-
-    Motion = 2,
-
-    Indirect = 3,
-
-    IndirectMotion = 4
-}
-
-public enum MTLTransformType : long
-{
-    PackedFloat4x3 = 0,
-
-    Component = 1
-}
-
-[Flags]
-public enum MTLAccelerationStructureRefitOptions : ulong
-{
-    VertexData = 1,
-
-    PerPrimitiveData = 2
-}
-
-[Flags]
-public enum MTLAccelerationStructureUsage : ulong
-{
-    None = 0,
-
-    Refit = 1,
-
-    PreferFastBuild = 2,
-
-    ExtendedLimits = 4,
-
-    PreferFastIntersection = 16,
-
-    MinimizeMemory = 32
-}
-
-[Flags]
-public enum MTLAccelerationStructureInstanceOptions : uint
-{
-    None = 0,
-
-    DisableTriangleCulling = 1,
-
-    TriangleFrontFacingWindingCounterClockwise = 2,
-
-    Opaque = 4,
-
-    NonOpaque = 8
-}
-
-[Flags]
-public enum MTLStitchedLibraryOptions : ulong
-{
-    None = 0,
-
-    FailOnBinaryArchiveMiss = 1,
-
-    StoreLibraryInMetalPipelinesScript = 2
-}
-
-[Flags]
-public enum MTLBlitOption : ulong
-{
-    None = 0,
-
-    DepthFromDepthStencil = 1,
-
-    StencilFromDepthStencil = 2,
-
-    RowLinearPVRTC = 4
-}
-
-[Flags]
-public enum MTLIndirectCommandType : ulong
-{
-    Draw = 1,
-
-    DrawIndexed = 2,
-
-    DrawPatches = 4,
-
-    DrawIndexedPatches = 8,
-
-    ConcurrentDispatch = 32,
-
-    ConcurrentDispatchThreads = 64,
-
-    DrawMeshThreadgroups = 128,
-
-    DrawMeshThreads = 256
-}
-
-public enum MTLIOPriority : long
-{
-    High = 0,
-
-    Normal = 1,
-
-    Low = 2
-}
-
-public enum MTLIOCommandQueueType : long
-{
-    Concurrent = 0,
-
-    Serial = 1
-}
-
-public enum MTLIOError : long
-{
-    URLInvalid = 1,
-
-    Internal = 2
+    Maximum = 2
 }
 
 public enum MTLAttributeFormat : ulong
@@ -1655,103 +1975,107 @@ public enum MTLStepFunction : ulong
     ThreadPositionInGridYIndexed = 8
 }
 
-public enum MTLHeapType : long
-{
-    Automatic = 0,
-
-    Placement = 1,
-
-    Sparse = 2
-}
-
-public enum MTL4LogicalToPhysicalColorAttachmentMappingState : long
-{
-    Identity = 0,
-
-    Inherited = 1
-}
-
-public enum MTLPrimitiveType : ulong
-{
-    Point = 0,
-
-    Line = 1,
-
-    LineStrip = 2,
-
-    Triangle = 3,
-
-    TriangleStrip = 4
-}
-
-public enum MTLVisibilityResultMode : ulong
-{
-    Disabled = 0,
-
-    Boolean = 1,
-
-    Counting = 2
-}
-
-public enum MTLCullMode : ulong
+public enum MTLTensorDataType : long
 {
     None = 0,
 
-    Front = 1,
+    Float32 = 3,
 
-    Back = 2
+    Float16 = 16,
+
+    BFloat16 = 121,
+
+    Int8 = 45,
+
+    UInt8 = 49,
+
+    Int16 = 37,
+
+    UInt16 = 41,
+
+    Int32 = 29,
+
+    UInt32 = 33
 }
 
-public enum MTLWinding : ulong
+public enum MTLTensorError : long
 {
-    Clockwise = 0,
+    None = 0,
 
-    CounterClockwise = 1
-}
+    InternalError = 1,
 
-public enum MTLDepthClipMode : ulong
-{
-    Clip = 0,
-
-    Clamp = 1
-}
-
-public enum MTLTriangleFillMode : ulong
-{
-    Fill = 0,
-
-    Lines = 1
+    InvalidDescriptor = 2
 }
 
 [Flags]
-public enum MTLRenderStages : ulong
+public enum MTLTensorUsage : ulong
 {
-    Vertex = 1,
+    Compute = 1,
 
-    Fragment = 2,
+    Render = 2,
 
-    Tile = 4,
-
-    Object = 8,
-
-    Mesh = 16
+    MachineLearning = 4
 }
 
-public enum MTL4CommandQueueError : long
+public enum MTLTextureType : ulong
 {
-    None = 0,
+    MTL1D = 0,
 
-    Timeout = 1,
+    MTL1DArray = 1,
 
-    NotPermitted = 2,
+    MTL2D = 2,
 
-    OutOfMemory = 3,
+    MTL2DArray = 3,
 
-    DeviceRemoved = 4,
+    MTL2DMultisample = 4,
 
-    AccessRevoked = 5,
+    Cube = 5,
 
-    Internal = 6
+    CubeArray = 6,
+
+    MTL3D = 7,
+
+    MTL2DMultisampleArray = 8,
+
+    TextureBuffer = 9
+}
+
+public enum MTLTextureSwizzle : byte
+{
+    Zero = 0,
+
+    One = 1,
+
+    Red = 2,
+
+    Green = 3,
+
+    Blue = 4,
+
+    Alpha = 5
+}
+
+public enum MTLTextureCompressionType : long
+{
+    Lossless = 0,
+
+    Lossy = 1
+}
+
+[Flags]
+public enum MTLTextureUsage : ulong
+{
+    Unknown = 0,
+
+    ShaderRead = 1,
+
+    ShaderWrite = 2,
+
+    RenderTarget = 4,
+
+    PixelFormatView = 16,
+
+    ShaderAtomic = 32
 }
 
 public enum MTLVertexFormat : ulong
@@ -1876,328 +2200,4 @@ public enum MTLVertexStepFunction : ulong
     PerPatch = 3,
 
     PerPatchControlPoint = 4
-}
-
-public enum MTLIOCompressionMethod : long
-{
-    Zlib = 0,
-
-    LZFSE = 1,
-
-    LZ4 = 2,
-
-    LZMA = 3,
-
-    LZBitmap = 4
-}
-
-public enum MTLFeatureSet : ulong
-{
-    _iOS_GPUFamily1_v1 = 0,
-
-    _iOS_GPUFamily2_v1 = 1,
-
-    _iOS_GPUFamily1_v2 = 2,
-
-    _iOS_GPUFamily2_v2 = 3,
-
-    _iOS_GPUFamily3_v1 = 4,
-
-    _iOS_GPUFamily1_v3 = 5,
-
-    _iOS_GPUFamily2_v3 = 6,
-
-    _iOS_GPUFamily3_v2 = 7,
-
-    _iOS_GPUFamily1_v4 = 8,
-
-    _iOS_GPUFamily2_v4 = 9,
-
-    _iOS_GPUFamily3_v3 = 10,
-
-    _iOS_GPUFamily4_v1 = 11,
-
-    _iOS_GPUFamily1_v5 = 12,
-
-    _iOS_GPUFamily2_v5 = 13,
-
-    _iOS_GPUFamily3_v4 = 14,
-
-    _iOS_GPUFamily4_v2 = 15,
-
-    _iOS_GPUFamily5_v1 = 16,
-
-    _macOS_GPUFamily1_v1 = 10000,
-
-    _OSX_GPUFamily1_v1 = 10000,
-
-    _macOS_GPUFamily1_v2 = 10001,
-
-    _OSX_GPUFamily1_v2 = 10001,
-
-    _macOS_ReadWriteTextureTier2 = 10002,
-
-    _OSX_ReadWriteTextureTier2 = 10002,
-
-    _macOS_GPUFamily1_v3 = 10003,
-
-    _macOS_GPUFamily1_v4 = 10004,
-
-    _macOS_GPUFamily2_v1 = 10005,
-
-    _watchOS_GPUFamily1_v1 = 20000,
-
-    _WatchOS_GPUFamily1_v1 = 20000,
-
-    _watchOS_GPUFamily2_v1 = 20001,
-
-    _WatchOS_GPUFamily2_v1 = 20001,
-
-    _tvOS_GPUFamily1_v1 = 30000,
-
-    _TVOS_GPUFamily1_v1 = 30000,
-
-    _tvOS_GPUFamily1_v2 = 30001,
-
-    _tvOS_GPUFamily1_v3 = 30002,
-
-    _tvOS_GPUFamily2_v1 = 30003,
-
-    _tvOS_GPUFamily1_v4 = 30004,
-
-    _tvOS_GPUFamily2_v2 = 30005
-}
-
-public enum MTLGPUFamily : long
-{
-    Apple1 = 1001,
-
-    Apple2 = 1002,
-
-    Apple3 = 1003,
-
-    Apple4 = 1004,
-
-    Apple5 = 1005,
-
-    Apple6 = 1006,
-
-    Apple7 = 1007,
-
-    Apple8 = 1008,
-
-    Apple9 = 1009,
-
-    Apple10 = 1010,
-
-    Mac1 = 2001,
-
-    Mac2 = 2002,
-
-    Common1 = 3001,
-
-    Common2 = 3002,
-
-    Common3 = 3003,
-
-    MacCatalyst1 = 4001,
-
-    MacCatalyst2 = 4002,
-
-    Metal3 = 5001,
-
-    Metal4 = 5002
-}
-
-public enum MTLDeviceLocation : ulong
-{
-    BuiltIn = 0,
-
-    Slot = 1,
-
-    External = 2,
-
-    Unspecified = 18446744073709551615
-}
-
-public enum MTLReadWriteTextureTier : ulong
-{
-    None = 0,
-
-    MTL1 = 1,
-
-    MTL2 = 2
-}
-
-public enum MTLArgumentBuffersTier : ulong
-{
-    MTL1 = 0,
-
-    MTL2 = 1
-}
-
-public enum MTLSparseTextureRegionAlignmentMode : ulong
-{
-    Outward = 0,
-
-    Inward = 1
-}
-
-public enum MTLCounterSamplingPoint : ulong
-{
-    AtStageBoundary = 0,
-
-    AtDrawBoundary = 1,
-
-    AtDispatchBoundary = 2,
-
-    AtTileDispatchBoundary = 3,
-
-    AtBlitBoundary = 4
-}
-
-[Flags]
-public enum MTLPipelineOption : ulong
-{
-    None = 0,
-
-    ArgumentInfo = 1,
-
-    BindingInfo = 1,
-
-    BufferTypeInfo = 2,
-
-    FailOnBinaryArchiveMiss = 4
-}
-
-public enum MTLIOStatus : long
-{
-    Pending = 0,
-
-    Cancelled = 1,
-
-    Error = 2,
-
-    Complete = 3
-}
-
-public enum MTLIndexType : ulong
-{
-    UInt16 = 0,
-
-    UInt32 = 1
-}
-
-public enum MTLBindingType : long
-{
-    Buffer = 0,
-
-    ThreadgroupMemory = 1,
-
-    Texture = 2,
-
-    Sampler = 3,
-
-    ImageblockData = 16,
-
-    Imageblock = 17,
-
-    VisibleFunctionTable = 24,
-
-    PrimitiveAccelerationStructure = 25,
-
-    InstanceAccelerationStructure = 26,
-
-    IntersectionFunctionTable = 27,
-
-    ObjectPayload = 34,
-
-    Tensor = 37
-}
-
-public enum MTLArgumentType : ulong
-{
-    Buffer = 0,
-
-    ThreadgroupMemory = 1,
-
-    Texture = 2,
-
-    Sampler = 3,
-
-    ImageblockData = 16,
-
-    Imageblock = 17,
-
-    VisibleFunctionTable = 24,
-
-    PrimitiveAccelerationStructure = 25,
-
-    InstanceAccelerationStructure = 26,
-
-    IntersectionFunctionTable = 27
-}
-
-public enum MTLBindingAccess : ulong
-{
-    ReadOnly = 0,
-
-    ReadWrite = 1,
-
-    WriteOnly = 2,
-
-    ArgumentAccessReadOnly = 0,
-
-    ArgumentAccessReadWrite = 1,
-
-    ArgumentAccessWriteOnly = 2
-}
-
-public enum MTLSamplerMinMagFilter : ulong
-{
-    Nearest = 0,
-
-    Linear = 1
-}
-
-public enum MTLSamplerMipFilter : ulong
-{
-    NotMipmapped = 0,
-
-    Nearest = 1,
-
-    Linear = 2
-}
-
-public enum MTLSamplerAddressMode : ulong
-{
-    ClampToEdge = 0,
-
-    MirrorClampToEdge = 1,
-
-    Repeat = 2,
-
-    MirrorRepeat = 3,
-
-    ClampToZero = 4,
-
-    ClampToBorderColor = 5
-}
-
-public enum MTLSamplerBorderColor : ulong
-{
-    TransparentBlack = 0,
-
-    OpaqueBlack = 1,
-
-    OpaqueWhite = 2
-}
-
-public enum MTLSamplerReductionMode : ulong
-{
-    WeightedAverage = 0,
-
-    Minimum = 1,
-
-    Maximum = 2
 }
