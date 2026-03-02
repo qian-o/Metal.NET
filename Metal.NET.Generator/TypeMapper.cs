@@ -232,10 +232,9 @@ partial class TypeMapper(GeneratorContext context)
             return true;
         }
 
-        if (t.Contains("NS::Bundle") || t.Contains("NS::Process") ||
+        if (t.Contains("NS::Process") ||
             t.Contains("NS::Notification") || t.Contains("NS::Observer") ||
-            t.Contains("NS::Dictionary") || t.Contains("NS::Object") ||
-            t.Contains("NS::Data") || t.Contains("NS::Number") ||
+            t.Contains("NS::Object") ||
             t.Contains("NS::Set") || t.Contains("NS::Enumerator") ||
             t.Contains("NS::Value") || t.Contains("NS::Date"))
         {
