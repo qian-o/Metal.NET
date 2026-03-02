@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLLinkedFunctions(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLLinkedFunctions>
+public partial class MTLLinkedFunctions(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLLinkedFunctions>
 {
     public static MTLLinkedFunctions Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
@@ -20,6 +20,12 @@ public class MTLLinkedFunctions(nint nativePtr, NativeObjectOwnership ownership)
     {
         get => GetArrayProperty<MTLFunction>(MTLLinkedFunctionsBindings.Functions);
         set => SetArrayProperty(MTLLinkedFunctionsBindings.SetFunctions, value);
+    }
+
+    public NSDictionary Groups
+    {
+        get => GetProperty(ref field, MTLLinkedFunctionsBindings.Groups);
+        set => SetProperty(ref field, MTLLinkedFunctionsBindings.SetGroups, value);
     }
 
     public MTLFunction[] PrivateFunctions
@@ -44,6 +50,8 @@ file static class MTLLinkedFunctionsBindings
 
     public static readonly Selector Functions = "functions";
 
+    public static readonly Selector Groups = "groups";
+
     public static readonly Selector LinkedFunctions = "linkedFunctions";
 
     public static readonly Selector PrivateFunctions = "privateFunctions";
@@ -51,6 +59,8 @@ file static class MTLLinkedFunctionsBindings
     public static readonly Selector SetBinaryFunctions = "setBinaryFunctions:";
 
     public static readonly Selector SetFunctions = "setFunctions:";
+
+    public static readonly Selector SetGroups = "setGroups:";
 
     public static readonly Selector SetPrivateFunctions = "setPrivateFunctions:";
 }

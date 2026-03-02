@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionReflection(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFunctionReflection>
+public partial class MTLFunctionReflection(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFunctionReflection>
 {
     public static MTLFunctionReflection Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

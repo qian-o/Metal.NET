@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTL4StaticLinkingDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4StaticLinkingDescriptor>
+public partial class MTL4StaticLinkingDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4StaticLinkingDescriptor>
 {
     public static MTL4StaticLinkingDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
@@ -16,6 +16,12 @@ public class MTL4StaticLinkingDescriptor(nint nativePtr, NativeObjectOwnership o
         set => SetArrayProperty(MTL4StaticLinkingDescriptorBindings.SetFunctionDescriptors, value);
     }
 
+    public NSDictionary Groups
+    {
+        get => GetProperty(ref field, MTL4StaticLinkingDescriptorBindings.Groups);
+        set => SetProperty(ref field, MTL4StaticLinkingDescriptorBindings.SetGroups, value);
+    }
+
     public MTL4FunctionDescriptor[] PrivateFunctionDescriptors
     {
         get => GetArrayProperty<MTL4FunctionDescriptor>(MTL4StaticLinkingDescriptorBindings.PrivateFunctionDescriptors);
@@ -29,9 +35,13 @@ file static class MTL4StaticLinkingDescriptorBindings
 
     public static readonly Selector FunctionDescriptors = "functionDescriptors";
 
+    public static readonly Selector Groups = "groups";
+
     public static readonly Selector PrivateFunctionDescriptors = "privateFunctionDescriptors";
 
     public static readonly Selector SetFunctionDescriptors = "setFunctionDescriptors:";
+
+    public static readonly Selector SetGroups = "setGroups:";
 
     public static readonly Selector SetPrivateFunctionDescriptors = "setPrivateFunctionDescriptors:";
 }

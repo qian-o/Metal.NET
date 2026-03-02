@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLAllocation(nativePtr, ownership), INativeObject<MTLResource>
+public partial class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLAllocation(nativePtr, ownership), INativeObject<MTLResource>
 {
     public static new MTLResource Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

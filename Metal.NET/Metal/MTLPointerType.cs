@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLPointerType(nint nativePtr, NativeObjectOwnership ownership) : MTLType(nativePtr, ownership), INativeObject<MTLPointerType>
+public partial class MTLPointerType(nint nativePtr, NativeObjectOwnership ownership) : MTLType(nativePtr, ownership), INativeObject<MTLPointerType>
 {
     public static new MTLPointerType Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

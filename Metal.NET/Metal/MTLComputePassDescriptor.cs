@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLComputePassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLComputePassDescriptor>
+public partial class MTLComputePassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLComputePassDescriptor>
 {
     public static MTLComputePassDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CompilerDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4CompilerDescriptor>
+public partial class MTL4CompilerDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4CompilerDescriptor>
 {
     public static MTL4CompilerDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

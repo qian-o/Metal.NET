@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCaptureManager>
+public partial class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCaptureManager>
 {
     public static MTLCaptureManager Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

@@ -1,4 +1,6 @@
-﻿namespace Metal.NET;
+﻿using System.Runtime.InteropServices;
+
+namespace Metal.NET;
 
 public partial class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLLibrary>
 {
@@ -50,7 +52,7 @@ public partial class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership)
 
     public MTLFunction NewFunction(MTLFunctionDescriptor descriptor, out NSError error)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.NewFunctionWithDescriptorerror, descriptor.NativePtr, out nint errorPtr);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.NewFunction, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -72,6 +74,47 @@ public partial class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership)
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
+
+
+    public delegate void MTL__InlineBlock_completionHandler(MTLFunction param0, NSError param1);
+
+    public unsafe void NewFunction(NSString name, MTLFunctionConstantValues constantValues, MTL__InlineBlock_completionHandler handler)
+    {
+        GCHandle gch = GCHandle.Alloc(handler);
+        BlockLiteral block = BlockLiteral.Create((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&__InlineBlock_completionHandler_Trampoline, GCHandle.ToIntPtr(gch));
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLLibraryBindings.NewFunction, name.NativePtr, constantValues.NativePtr, (nint)(&block));
+    }
+
+    [UnmanagedCallersOnly(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
+    private static unsafe void __InlineBlock_completionHandler_Trampoline(nint blockPtr, nint arg0, nint arg1)
+    {
+        BlockLiteral* block = (BlockLiteral*)blockPtr;
+        GCHandle gch = GCHandle.FromIntPtr(block->Context);
+        MTL__InlineBlock_completionHandler handler = (MTL__InlineBlock_completionHandler)gch.Target!;
+
+        handler(new MTLFunction(arg0, NativeObjectOwnership.Borrowed), new NSError(arg1, NativeObjectOwnership.Borrowed));
+
+        gch.Free();
+    }
+
+
+    public unsafe void NewFunction(MTLFunctionDescriptor descriptor, MTL__InlineBlock_completionHandler handler)
+    {
+        GCHandle gch = GCHandle.Alloc(handler);
+        BlockLiteral block = BlockLiteral.Create((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&__InlineBlock_completionHandler_Trampoline, GCHandle.ToIntPtr(gch));
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLLibraryBindings.NewFunctionWithDescriptorerror, descriptor.NativePtr, (nint)(&block));
+    }
+
+
+    public unsafe void NewIntersectionFunction(MTLIntersectionFunctionDescriptor descriptor, MTL__InlineBlock_completionHandler handler)
+    {
+        GCHandle gch = GCHandle.Alloc(handler);
+        BlockLiteral block = BlockLiteral.Create((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&__InlineBlock_completionHandler_Trampoline, GCHandle.ToIntPtr(gch));
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLLibraryBindings.NewIntersectionFunctionWithDescriptorerror, descriptor.NativePtr, (nint)(&block));
+    }
 }
 
 file static class MTLLibraryBindings
@@ -90,7 +133,9 @@ file static class MTLLibraryBindings
 
     public static readonly Selector NewFunctionWithNameconstantValueserror = "newFunctionWithName:constantValues:error:";
 
-    public static readonly Selector NewIntersectionFunction = "newIntersectionFunctionWithDescriptor:error:";
+    public static readonly Selector NewIntersectionFunction = "newIntersectionFunction::";
+
+    public static readonly Selector NewIntersectionFunctionWithDescriptorerror = "newIntersectionFunctionWithDescriptor:error:";
 
     public static readonly Selector ReflectionForFunction = "reflectionForFunctionWithName:";
 

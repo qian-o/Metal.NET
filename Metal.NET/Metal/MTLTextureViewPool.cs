@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLTextureViewPool(nint nativePtr, NativeObjectOwnership ownership) : MTLResourceViewPool(nativePtr, ownership), INativeObject<MTLTextureViewPool>
+public partial class MTLTextureViewPool(nint nativePtr, NativeObjectOwnership ownership) : MTLResourceViewPool(nativePtr, ownership), INativeObject<MTLTextureViewPool>
 {
     public static new MTLTextureViewPool Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

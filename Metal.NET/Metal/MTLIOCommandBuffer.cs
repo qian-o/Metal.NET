@@ -1,4 +1,6 @@
-﻿namespace Metal.NET;
+﻿using System.Runtime.InteropServices;
+
+namespace Metal.NET;
 
 public partial class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLIOCommandBuffer>
 {
@@ -86,11 +88,36 @@ public partial class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ow
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.WaitUntilCompleted);
     }
+
+
+    public delegate void MTLIOCommandBufferHandler(MTLIOCommandBuffer param0);
+
+    public unsafe void AddCompletedHandler(MTLIOCommandBufferHandler handler)
+    {
+        GCHandle gch = GCHandle.Alloc(handler);
+        BlockLiteral block = BlockLiteral.Create((nint)(delegate* unmanaged[Cdecl]<nint, nint, void>)&IOCommandBufferHandler_Trampoline, GCHandle.ToIntPtr(gch));
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.AddCompletedHandler, (nint)(&block));
+    }
+
+    [UnmanagedCallersOnly(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
+    private static unsafe void IOCommandBufferHandler_Trampoline(nint blockPtr, nint arg0)
+    {
+        BlockLiteral* block = (BlockLiteral*)blockPtr;
+        GCHandle gch = GCHandle.FromIntPtr(block->Context);
+        MTLIOCommandBufferHandler handler = (MTLIOCommandBufferHandler)gch.Target!;
+
+        handler(new MTLIOCommandBuffer(arg0, NativeObjectOwnership.Borrowed));
+
+        gch.Free();
+    }
 }
 
 file static class MTLIOCommandBufferBindings
 {
     public static readonly Selector AddBarrier = "addBarrier";
+
+    public static readonly Selector AddCompletedHandler = "addCompletedHandler:";
 
     public static readonly Selector Commit = "commit";
 

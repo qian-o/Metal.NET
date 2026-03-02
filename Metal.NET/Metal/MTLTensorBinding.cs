@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLTensorBinding(nint nativePtr, NativeObjectOwnership ownership) : MTLBinding(nativePtr, ownership), INativeObject<MTLTensorBinding>
+public partial class MTLTensorBinding(nint nativePtr, NativeObjectOwnership ownership) : MTLBinding(nativePtr, ownership), INativeObject<MTLTensorBinding>
 {
     public static new MTLTensorBinding Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

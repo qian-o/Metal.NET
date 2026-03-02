@@ -488,6 +488,15 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLLibrary NewDefaultLibraryWithBundle(NSBundle bundle, out NSError error)
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewDefaultLibraryWithBundleerror, bundle.NativePtr, out nint errorPtr);
+
+        error = new(errorPtr, NativeObjectOwnership.Owned);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
     public MTLDepthStencilState NewDepthStencilState(MTLDepthStencilDescriptor descriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewDepthStencilState, descriptor.NativePtr);
@@ -820,6 +829,180 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return ObjectiveCRuntime.MsgSendMTLSizeAndAlign(NativePtr, MTLDeviceBindings.TensorSizeAndAlign, descriptor.NativePtr);
     }
 
+
+    public delegate void MTL__InlineBlock_deallocator(nint param0, nuint param1);
+
+    public unsafe void NewBuffer(nint pointer, nuint length, MTLResourceOptions options, MTL__InlineBlock_deallocator handler)
+    {
+        GCHandle gch = GCHandle.Alloc(handler);
+        BlockLiteral block = BlockLiteral.Create((nint)(delegate* unmanaged[Cdecl]<nint, nint, nuint, void>)&__InlineBlock_deallocator_Trampoline, GCHandle.ToIntPtr(gch));
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceBindings.NewBuffer, pointer, length, (nuint)options, (nint)(&block));
+    }
+
+    [UnmanagedCallersOnly(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
+    private static unsafe void __InlineBlock_deallocator_Trampoline(nint blockPtr, nint arg0, nuint arg1)
+    {
+        BlockLiteral* block = (BlockLiteral*)blockPtr;
+        GCHandle gch = GCHandle.FromIntPtr(block->Context);
+        MTL__InlineBlock_deallocator handler = (MTL__InlineBlock_deallocator)gch.Target!;
+
+        handler(arg0, arg1);
+
+        gch.Free();
+    }
+
+
+    public delegate void MTLNewComputePipelineStateCompletionHandler(MTLComputePipelineState param0, NSError param1);
+
+    public unsafe void NewComputePipelineState(MTLFunction computeFunction, MTLNewComputePipelineStateCompletionHandler handler)
+    {
+        GCHandle gch = GCHandle.Alloc(handler);
+        BlockLiteral block = BlockLiteral.Create((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&NewComputePipelineStateCompletionHandler_Trampoline, GCHandle.ToIntPtr(gch));
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceBindings.NewComputePipelineStateWithFunctioncompletionHandler, computeFunction.NativePtr, (nint)(&block));
+    }
+
+    [UnmanagedCallersOnly(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
+    private static unsafe void NewComputePipelineStateCompletionHandler_Trampoline(nint blockPtr, nint arg0, nint arg1)
+    {
+        BlockLiteral* block = (BlockLiteral*)blockPtr;
+        GCHandle gch = GCHandle.FromIntPtr(block->Context);
+        MTLNewComputePipelineStateCompletionHandler handler = (MTLNewComputePipelineStateCompletionHandler)gch.Target!;
+
+        handler(new MTLComputePipelineState(arg0, NativeObjectOwnership.Borrowed), new NSError(arg1, NativeObjectOwnership.Borrowed));
+
+        gch.Free();
+    }
+
+
+    public delegate void MTLNewComputePipelineStateWithReflectionCompletionHandler(MTLComputePipelineState param0, MTLComputePipelineReflection param1, NSError param2);
+
+    public unsafe void NewComputePipelineState(MTLFunction computeFunction, MTLPipelineOption options, MTLNewComputePipelineStateWithReflectionCompletionHandler handler)
+    {
+        GCHandle gch = GCHandle.Alloc(handler);
+        BlockLiteral block = BlockLiteral.Create((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, nint, void>)&NewComputePipelineStateWithReflectionCompletionHandler_Trampoline, GCHandle.ToIntPtr(gch));
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceBindings.NewComputePipelineStateWithFunctionoptionscompletionHandler, computeFunction.NativePtr, (nuint)options, (nint)(&block));
+    }
+
+    [UnmanagedCallersOnly(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
+    private static unsafe void NewComputePipelineStateWithReflectionCompletionHandler_Trampoline(nint blockPtr, nint arg0, nint arg1, nint arg2)
+    {
+        BlockLiteral* block = (BlockLiteral*)blockPtr;
+        GCHandle gch = GCHandle.FromIntPtr(block->Context);
+        MTLNewComputePipelineStateWithReflectionCompletionHandler handler = (MTLNewComputePipelineStateWithReflectionCompletionHandler)gch.Target!;
+
+        handler(new MTLComputePipelineState(arg0, NativeObjectOwnership.Borrowed), new MTLComputePipelineReflection(arg1, NativeObjectOwnership.Borrowed), new NSError(arg2, NativeObjectOwnership.Borrowed));
+
+        gch.Free();
+    }
+
+
+    public unsafe void NewComputePipelineState(MTLComputePipelineDescriptor descriptor, MTLPipelineOption options, MTLNewComputePipelineStateWithReflectionCompletionHandler handler)
+    {
+        GCHandle gch = GCHandle.Alloc(handler);
+        BlockLiteral block = BlockLiteral.Create((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, nint, void>)&NewComputePipelineStateWithReflectionCompletionHandler_Trampoline, GCHandle.ToIntPtr(gch));
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceBindings.NewComputePipelineStateWithDescriptoroptionscompletionHandler, descriptor.NativePtr, (nuint)options, (nint)(&block));
+    }
+
+
+    public delegate void MTLNewLibraryCompletionHandler(MTLLibrary param0, NSError param1);
+
+    public unsafe void NewLibrary(NSString source, MTLCompileOptions options, MTLNewLibraryCompletionHandler handler)
+    {
+        GCHandle gch = GCHandle.Alloc(handler);
+        BlockLiteral block = BlockLiteral.Create((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&NewLibraryCompletionHandler_Trampoline, GCHandle.ToIntPtr(gch));
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceBindings.NewLibraryWithSourceoptionscompletionHandler, source.NativePtr, options.NativePtr, (nint)(&block));
+    }
+
+    [UnmanagedCallersOnly(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
+    private static unsafe void NewLibraryCompletionHandler_Trampoline(nint blockPtr, nint arg0, nint arg1)
+    {
+        BlockLiteral* block = (BlockLiteral*)blockPtr;
+        GCHandle gch = GCHandle.FromIntPtr(block->Context);
+        MTLNewLibraryCompletionHandler handler = (MTLNewLibraryCompletionHandler)gch.Target!;
+
+        handler(new MTLLibrary(arg0, NativeObjectOwnership.Borrowed), new NSError(arg1, NativeObjectOwnership.Borrowed));
+
+        gch.Free();
+    }
+
+
+    public unsafe void NewLibrary(MTLStitchedLibraryDescriptor descriptor, MTLNewLibraryCompletionHandler handler)
+    {
+        GCHandle gch = GCHandle.Alloc(handler);
+        BlockLiteral block = BlockLiteral.Create((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&NewLibraryCompletionHandler_Trampoline, GCHandle.ToIntPtr(gch));
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceBindings.NewLibraryWithStitchedDescriptorcompletionHandler, descriptor.NativePtr, (nint)(&block));
+    }
+
+
+    public delegate void MTLNewRenderPipelineStateCompletionHandler(MTLRenderPipelineState param0, NSError param1);
+
+    public unsafe void NewRenderPipelineState(MTLRenderPipelineDescriptor descriptor, MTLNewRenderPipelineStateCompletionHandler handler)
+    {
+        GCHandle gch = GCHandle.Alloc(handler);
+        BlockLiteral block = BlockLiteral.Create((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, void>)&NewRenderPipelineStateCompletionHandler_Trampoline, GCHandle.ToIntPtr(gch));
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithDescriptorcompletionHandler, descriptor.NativePtr, (nint)(&block));
+    }
+
+    [UnmanagedCallersOnly(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
+    private static unsafe void NewRenderPipelineStateCompletionHandler_Trampoline(nint blockPtr, nint arg0, nint arg1)
+    {
+        BlockLiteral* block = (BlockLiteral*)blockPtr;
+        GCHandle gch = GCHandle.FromIntPtr(block->Context);
+        MTLNewRenderPipelineStateCompletionHandler handler = (MTLNewRenderPipelineStateCompletionHandler)gch.Target!;
+
+        handler(new MTLRenderPipelineState(arg0, NativeObjectOwnership.Borrowed), new NSError(arg1, NativeObjectOwnership.Borrowed));
+
+        gch.Free();
+    }
+
+
+    public delegate void MTLNewRenderPipelineStateWithReflectionCompletionHandler(MTLRenderPipelineState param0, MTLRenderPipelineReflection param1, NSError param2);
+
+    public unsafe void NewRenderPipelineState(MTLRenderPipelineDescriptor descriptor, MTLPipelineOption options, MTLNewRenderPipelineStateWithReflectionCompletionHandler handler)
+    {
+        GCHandle gch = GCHandle.Alloc(handler);
+        BlockLiteral block = BlockLiteral.Create((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, nint, void>)&NewRenderPipelineStateWithReflectionCompletionHandler_Trampoline, GCHandle.ToIntPtr(gch));
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithDescriptoroptionscompletionHandler, descriptor.NativePtr, (nuint)options, (nint)(&block));
+    }
+
+    [UnmanagedCallersOnly(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
+    private static unsafe void NewRenderPipelineStateWithReflectionCompletionHandler_Trampoline(nint blockPtr, nint arg0, nint arg1, nint arg2)
+    {
+        BlockLiteral* block = (BlockLiteral*)blockPtr;
+        GCHandle gch = GCHandle.FromIntPtr(block->Context);
+        MTLNewRenderPipelineStateWithReflectionCompletionHandler handler = (MTLNewRenderPipelineStateWithReflectionCompletionHandler)gch.Target!;
+
+        handler(new MTLRenderPipelineState(arg0, NativeObjectOwnership.Borrowed), new MTLRenderPipelineReflection(arg1, NativeObjectOwnership.Borrowed), new NSError(arg2, NativeObjectOwnership.Borrowed));
+
+        gch.Free();
+    }
+
+
+    public unsafe void NewRenderPipelineState(MTLTileRenderPipelineDescriptor descriptor, MTLPipelineOption options, MTLNewRenderPipelineStateWithReflectionCompletionHandler handler)
+    {
+        GCHandle gch = GCHandle.Alloc(handler);
+        BlockLiteral block = BlockLiteral.Create((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, nint, void>)&NewRenderPipelineStateWithReflectionCompletionHandler_Trampoline, GCHandle.ToIntPtr(gch));
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithTileDescriptoroptionscompletionHandler, descriptor.NativePtr, (nuint)options, (nint)(&block));
+    }
+
+
+    public unsafe void NewRenderPipelineState(MTLMeshRenderPipelineDescriptor descriptor, MTLPipelineOption options, MTLNewRenderPipelineStateWithReflectionCompletionHandler handler)
+    {
+        GCHandle gch = GCHandle.Alloc(handler);
+        BlockLiteral block = BlockLiteral.Create((nint)(delegate* unmanaged[Cdecl]<nint, nint, nint, nint, void>)&NewRenderPipelineStateWithReflectionCompletionHandler_Trampoline, GCHandle.ToIntPtr(gch));
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithMeshDescriptoroptionscompletionHandler, descriptor.NativePtr, (nuint)options, (nint)(&block));
+    }
+
     [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLCreateSystemDefaultDevice")]
     private static partial nint MTLCreateSystemDefaultDevice();
 
@@ -957,11 +1140,19 @@ file static class MTLDeviceBindings
 
     public static readonly Selector NewComputePipelineState = "newComputePipelineStateWithFunction:error:";
 
+    public static readonly Selector NewComputePipelineStateWithDescriptoroptionscompletionHandler = "newComputePipelineStateWithDescriptor:options:completionHandler:";
+
+    public static readonly Selector NewComputePipelineStateWithFunctioncompletionHandler = "newComputePipelineStateWithFunction:completionHandler:";
+
+    public static readonly Selector NewComputePipelineStateWithFunctionoptionscompletionHandler = "newComputePipelineStateWithFunction:options:completionHandler:";
+
     public static readonly Selector NewCounterHeap = "newCounterHeapWithDescriptor:error:";
 
     public static readonly Selector NewCounterSampleBuffer = "newCounterSampleBufferWithDescriptor:error:";
 
     public static readonly Selector NewDefaultLibrary = "newDefaultLibrary";
+
+    public static readonly Selector NewDefaultLibraryWithBundleerror = "newDefaultLibraryWithBundle:error:";
 
     public static readonly Selector NewDepthStencilState = "newDepthStencilStateWithDescriptor:";
 
@@ -991,7 +1182,11 @@ file static class MTLDeviceBindings
 
     public static readonly Selector NewLibraryWithDataerror = "newLibraryWithData:error:";
 
+    public static readonly Selector NewLibraryWithSourceoptionscompletionHandler = "newLibraryWithSource:options:completionHandler:";
+
     public static readonly Selector NewLibraryWithSourceoptionserror = "newLibraryWithSource:options:error:";
+
+    public static readonly Selector NewLibraryWithStitchedDescriptorcompletionHandler = "newLibraryWithStitchedDescriptor:completionHandler:";
 
     public static readonly Selector NewLibraryWithStitchedDescriptorerror = "newLibraryWithStitchedDescriptor:error:";
 
@@ -1008,6 +1203,14 @@ file static class MTLDeviceBindings
     public static readonly Selector NewRasterizationRateMap = "newRasterizationRateMapWithDescriptor:";
 
     public static readonly Selector NewRenderPipelineState = "newRenderPipelineStateWithDescriptor:error:";
+
+    public static readonly Selector NewRenderPipelineStateWithDescriptorcompletionHandler = "newRenderPipelineStateWithDescriptor:completionHandler:";
+
+    public static readonly Selector NewRenderPipelineStateWithDescriptoroptionscompletionHandler = "newRenderPipelineStateWithDescriptor:options:completionHandler:";
+
+    public static readonly Selector NewRenderPipelineStateWithMeshDescriptoroptionscompletionHandler = "newRenderPipelineStateWithMeshDescriptor:options:completionHandler:";
+
+    public static readonly Selector NewRenderPipelineStateWithTileDescriptoroptionscompletionHandler = "newRenderPipelineStateWithTileDescriptor:options:completionHandler:";
 
     public static readonly Selector NewResidencySet = "newResidencySetWithDescriptor:error:";
 

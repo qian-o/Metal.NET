@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTL4BinaryFunction(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4BinaryFunction>
+public partial class MTL4BinaryFunction(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4BinaryFunction>
 {
     public static MTL4BinaryFunction Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPassColorAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLRenderPassAttachmentDescriptor(nativePtr, ownership), INativeObject<MTLRenderPassColorAttachmentDescriptor>
+public partial class MTLRenderPassColorAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLRenderPassAttachmentDescriptor(nativePtr, ownership), INativeObject<MTLRenderPassColorAttachmentDescriptor>
 {
     public static new MTLRenderPassColorAttachmentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

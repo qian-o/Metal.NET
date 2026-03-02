@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCommandQueue>
+public partial class MTLCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCommandQueue>
 {
     public static MTLCommandQueue Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

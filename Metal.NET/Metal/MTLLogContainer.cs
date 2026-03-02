@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLLogContainer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLLogContainer>
+public partial class MTLLogContainer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLLogContainer>
 {
     public static MTLLogContainer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

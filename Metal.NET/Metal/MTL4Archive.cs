@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4Archive>
+public partial class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4Archive>
 {
     public static MTL4Archive Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

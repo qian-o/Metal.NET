@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLIndirectRenderCommand(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLIndirectRenderCommand>
+public partial class MTLIndirectRenderCommand(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLIndirectRenderCommand>
 {
     public static MTLIndirectRenderCommand Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

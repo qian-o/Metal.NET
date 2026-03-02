@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLArchitecture(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLArchitecture>
+public partial class MTLArchitecture(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLArchitecture>
 {
     public static MTLArchitecture Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionStitchingNode(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFunctionStitchingNode>
+public partial class MTLFunctionStitchingNode(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFunctionStitchingNode>
 {
     public static MTLFunctionStitchingNode Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

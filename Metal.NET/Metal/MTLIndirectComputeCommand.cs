@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLIndirectComputeCommand(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLIndirectComputeCommand>
+public partial class MTLIndirectComputeCommand(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLIndirectComputeCommand>
 {
     public static MTLIndirectComputeCommand Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

@@ -1,4 +1,6 @@
-﻿namespace Metal.NET;
+﻿using System.Runtime.InteropServices;
+
+namespace Metal.NET;
 
 public partial class MTLDrawable(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLDrawable>
 {
@@ -30,10 +32,35 @@ public partial class MTLDrawable(nint nativePtr, NativeObjectOwnership ownership
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableBindings.PresentAtTime, presentationTime);
     }
+
+
+    public delegate void MTLDrawablePresentedHandler(MTLDrawable param0);
+
+    public unsafe void AddPresentedHandler(MTLDrawablePresentedHandler handler)
+    {
+        GCHandle gch = GCHandle.Alloc(handler);
+        BlockLiteral block = BlockLiteral.Create((nint)(delegate* unmanaged[Cdecl]<nint, nint, void>)&DrawablePresentedHandler_Trampoline, GCHandle.ToIntPtr(gch));
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableBindings.AddPresentedHandler, (nint)(&block));
+    }
+
+    [UnmanagedCallersOnly(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
+    private static unsafe void DrawablePresentedHandler_Trampoline(nint blockPtr, nint arg0)
+    {
+        BlockLiteral* block = (BlockLiteral*)blockPtr;
+        GCHandle gch = GCHandle.FromIntPtr(block->Context);
+        MTLDrawablePresentedHandler handler = (MTLDrawablePresentedHandler)gch.Target!;
+
+        handler(new MTLDrawable(arg0, NativeObjectOwnership.Borrowed));
+
+        gch.Free();
+    }
 }
 
 file static class MTLDrawableBindings
 {
+    public static readonly Selector AddPresentedHandler = "addPresentedHandler:";
+
     public static readonly Selector DrawableID = "drawableID";
 
     public static readonly Selector Present = "present";

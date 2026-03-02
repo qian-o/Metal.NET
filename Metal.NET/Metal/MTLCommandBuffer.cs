@@ -1,4 +1,6 @@
-﻿namespace Metal.NET;
+﻿using System.Runtime.InteropServices;
+
+namespace Metal.NET;
 
 public partial class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCommandBuffer>
 {
@@ -214,6 +216,38 @@ public partial class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership owne
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.WaitUntilScheduled);
     }
+
+
+    public delegate void MTLCommandBufferHandler(MTLCommandBuffer param0);
+
+    public unsafe void AddCompletedHandler(MTLCommandBufferHandler handler)
+    {
+        GCHandle gch = GCHandle.Alloc(handler);
+        BlockLiteral block = BlockLiteral.Create((nint)(delegate* unmanaged[Cdecl]<nint, nint, void>)&CommandBufferHandler_Trampoline, GCHandle.ToIntPtr(gch));
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.AddCompletedHandler, (nint)(&block));
+    }
+
+    [UnmanagedCallersOnly(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]
+    private static unsafe void CommandBufferHandler_Trampoline(nint blockPtr, nint arg0)
+    {
+        BlockLiteral* block = (BlockLiteral*)blockPtr;
+        GCHandle gch = GCHandle.FromIntPtr(block->Context);
+        MTLCommandBufferHandler handler = (MTLCommandBufferHandler)gch.Target!;
+
+        handler(new MTLCommandBuffer(arg0, NativeObjectOwnership.Borrowed));
+
+        gch.Free();
+    }
+
+
+    public unsafe void AddScheduledHandler(MTLCommandBufferHandler handler)
+    {
+        GCHandle gch = GCHandle.Alloc(handler);
+        BlockLiteral block = BlockLiteral.Create((nint)(delegate* unmanaged[Cdecl]<nint, nint, void>)&CommandBufferHandler_Trampoline, GCHandle.ToIntPtr(gch));
+
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.AddScheduledHandler, (nint)(&block));
+    }
 }
 
 file static class MTLCommandBufferBindings
@@ -221,6 +255,10 @@ file static class MTLCommandBufferBindings
     public static readonly Selector AccelerationStructureCommandEncoder = "accelerationStructureCommandEncoder";
 
     public static readonly Selector AccelerationStructureCommandEncoderWithDescriptor = "accelerationStructureCommandEncoderWithDescriptor:";
+
+    public static readonly Selector AddCompletedHandler = "addCompletedHandler:";
+
+    public static readonly Selector AddScheduledHandler = "addScheduledHandler:";
 
     public static readonly Selector BlitCommandEncoder = "blitCommandEncoder";
 

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFunction>
+public partial class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFunction>
 {
     public static MTLFunction Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
@@ -9,6 +9,11 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : Nati
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTLFunctionBindings.Device);
+    }
+
+    public NSDictionary FunctionConstantsDictionary
+    {
+        get => GetProperty(ref field, MTLFunctionBindings.FunctionConstantsDictionary);
     }
 
     public MTLFunctionType FunctionType
@@ -63,6 +68,8 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : Nati
 file static class MTLFunctionBindings
 {
     public static readonly Selector Device = "device";
+
+    public static readonly Selector FunctionConstantsDictionary = "functionConstantsDictionary";
 
     public static readonly Selector FunctionType = "functionType";
 

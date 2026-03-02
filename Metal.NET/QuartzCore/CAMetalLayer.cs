@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<CAMetalLayer>
+public partial class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<CAMetalLayer>
 {
     public static CAMetalLayer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

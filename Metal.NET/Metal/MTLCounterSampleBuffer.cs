@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLCounterSampleBuffer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCounterSampleBuffer>
+public partial class MTLCounterSampleBuffer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCounterSampleBuffer>
 {
     public static MTLCounterSampleBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
@@ -20,6 +20,13 @@ public class MTLCounterSampleBuffer(nint nativePtr, NativeObjectOwnership owners
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCounterSampleBufferBindings.SampleCount);
     }
+
+    public NSData ResolveCounterRange(NSRange range)
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferBindings.ResolveCounterRange, range);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
 }
 
 file static class MTLCounterSampleBufferBindings
@@ -27,6 +34,8 @@ file static class MTLCounterSampleBufferBindings
     public static readonly Selector Device = "device";
 
     public static readonly Selector Label = "label";
+
+    public static readonly Selector ResolveCounterRange = "resolveCounterRange:";
 
     public static readonly Selector SampleCount = "sampleCount";
 }

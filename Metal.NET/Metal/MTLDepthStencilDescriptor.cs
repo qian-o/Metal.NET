@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLDepthStencilDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLDepthStencilDescriptor>
+public partial class MTLDepthStencilDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLDepthStencilDescriptor>
 {
     public static MTLDepthStencilDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

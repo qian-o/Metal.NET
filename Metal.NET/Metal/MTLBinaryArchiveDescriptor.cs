@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLBinaryArchiveDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLBinaryArchiveDescriptor>
+public partial class MTLBinaryArchiveDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLBinaryArchiveDescriptor>
 {
     public static MTLBinaryArchiveDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

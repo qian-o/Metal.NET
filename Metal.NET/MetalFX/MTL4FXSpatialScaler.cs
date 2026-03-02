@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTL4FXSpatialScaler(nint nativePtr, NativeObjectOwnership ownership) : MTLFXSpatialScalerBase(nativePtr, ownership), INativeObject<MTL4FXSpatialScaler>
+public partial class MTL4FXSpatialScaler(nint nativePtr, NativeObjectOwnership ownership) : MTLFXSpatialScalerBase(nativePtr, ownership), INativeObject<MTL4FXSpatialScaler>
 {
     public static new MTL4FXSpatialScaler Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

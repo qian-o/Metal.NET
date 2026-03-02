@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLResource(nativePtr, ownership), INativeObject<MTLTexture>
+public partial class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLResource(nativePtr, ownership), INativeObject<MTLTexture>
 {
     public static new MTLTexture Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

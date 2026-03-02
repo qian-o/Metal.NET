@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLBufferLayoutDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLBufferLayoutDescriptor>
+public partial class MTLBufferLayoutDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLBufferLayoutDescriptor>
 {
     public static MTLBufferLayoutDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLArgumentEncoder(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLArgumentEncoder>
+public partial class MTLArgumentEncoder(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLArgumentEncoder>
 {
     public static MTLArgumentEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 

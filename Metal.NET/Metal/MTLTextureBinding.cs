@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLTextureBinding(nint nativePtr, NativeObjectOwnership ownership) : MTLBinding(nativePtr, ownership), INativeObject<MTLTextureBinding>
+public partial class MTLTextureBinding(nint nativePtr, NativeObjectOwnership ownership) : MTLBinding(nativePtr, ownership), INativeObject<MTLTextureBinding>
 {
     public static new MTLTextureBinding Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
