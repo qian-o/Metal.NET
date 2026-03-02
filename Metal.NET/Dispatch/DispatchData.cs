@@ -3,26 +3,73 @@
 namespace Metal.NET;
 
 /// <summary>
-/// Provides P/Invoke bindings for libdispatch (GCD) dispatch data objects.
+/// Wraps a libdispatch (GCD) dispatch data object.
 /// </summary>
-public static partial class DispatchData
+public partial class DispatchData : IDisposable
 {
+    private nint _handle;
+    private bool _ownsHandle;
+
+    private DispatchData(nint handle, bool ownsHandle)
+    {
+        _handle = handle;
+        _ownsHandle = ownsHandle;
+    }
+
+    /// <summary>
+    /// Gets the native pointer to the dispatch data object.
+    /// </summary>
+    public nint NativePtr => _handle;
+
+    /// <summary>
+    /// Gets a value indicating whether this data object is null.
+    /// </summary>
+    public bool IsNull => _handle == 0;
+
     /// <summary>
     /// Creates a dispatch data object from a buffer.
     /// </summary>
-    /// <param name="buffer">Pointer to the data buffer.</param>
-    /// <param name="size">The size of the buffer in bytes.</param>
-    /// <param name="queue">The dispatch queue for the destructor, or <see cref="nint.Zero"/>.</param>
-    /// <param name="destructor">A block to call when the data is no longer needed, or <see cref="nint.Zero"/> to copy the data.</param>
-    /// <returns>A new dispatch data object. The caller must call <see cref="DispatchQueue.Release"/> when done.</returns>
-    [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_data_create")]
-    public static partial nint Create(nint buffer, nuint size, nint queue, nint destructor);
+    public static DispatchData Create(nint buffer, nuint size, DispatchQueue? queue = null, nint destructor = 0)
+    {
+        nint queueHandle = queue?.NativePtr ?? 0;
+        nint handle = dispatch_data_create(buffer, size, queueHandle, destructor);
+        return new(handle, ownsHandle: true);
+    }
 
     /// <summary>
-    /// Gets the size of a dispatch data object.
+    /// Gets the size of this dispatch data object.
     /// </summary>
-    /// <param name="data">The dispatch data object.</param>
-    /// <returns>The number of bytes in the data object.</returns>
+    public nuint Size => dispatch_data_get_size(_handle);
+
+    /// <summary>
+    /// Creates a DispatchData wrapper from a native handle.
+    /// </summary>
+    public static DispatchData FromNativePtr(nint handle, bool ownsHandle) => new(handle, ownsHandle);
+
+    public void Dispose()
+    {
+        if (_ownsHandle && _handle != 0)
+        {
+            dispatch_release(_handle);
+            _handle = 0;
+        }
+        GC.SuppressFinalize(this);
+    }
+
+    ~DispatchData()
+    {
+        if (_ownsHandle && _handle != 0)
+        {
+            dispatch_release(_handle);
+        }
+    }
+
+    [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_data_create")]
+    private static partial nint dispatch_data_create(nint buffer, nuint size, nint queue, nint destructor);
+
     [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_data_get_size")]
-    public static partial nuint GetSize(nint data);
+    private static partial nuint dispatch_data_get_size(nint data);
+
+    [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_release")]
+    private static partial void dispatch_release(nint obj);
 }
