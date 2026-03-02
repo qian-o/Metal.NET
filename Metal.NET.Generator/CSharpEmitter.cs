@@ -131,13 +131,19 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             GenerateEnumFile(group.Key, group.ToList());
         }
 
+        // Generate consolidated delegate file for block type aliases
+        if (context.BlockTypeAliases.Count > 0)
+        {
+            GenerateDelegateFile();
+        }
+
         // Build known class names (both generated and hand-written)
         foreach (ClassDef classDef in context.Classes)
         {
             string prefix = TypeMapper.GetPrefix(classDef.CppNamespace);
             context.KnownClassNames.Add(prefix + classDef.Name);
         }
-        context.KnownClassNames.UnionWith(["NSString", "NSError", "NSArray", "NSURL", "NativeObject"]);
+        context.KnownClassNames.UnionWith(["NSString", "NSError", "NSArray", "NSURL", "NSDictionary", "NativeObject"]);
 
         // Build a map of class name → property names for inheritance detection
         Dictionary<string, HashSet<string>> classPropertyMap = [];
@@ -253,6 +259,33 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #endregion
 
+    #region Delegate Generation
+
+    void GenerateDelegateFile()
+    {
+        string dir = Path.Combine(outputDir, "Metal");
+        Directory.CreateDirectory(dir);
+
+        StringBuilder sb = new();
+        sb.AppendLine("using System.Runtime.InteropServices;");
+        sb.AppendLine();
+        sb.AppendLine("namespace Metal.NET;");
+
+        foreach (BlockTypeAlias alias in context.BlockTypeAliases)
+        {
+            sb.AppendLine();
+            sb.AppendLine("[UnmanagedFunctionPointer(CallingConvention.Cdecl)]");
+
+            string paramStr = string.Join(", ", alias.Parameters.Select(p => $"{p.CsType} {p.Name}"));
+            sb.AppendLine($"public delegate void {alias.CsDelegateName}({paramStr});");
+        }
+
+        File.WriteAllText(Path.Combine(dir, "MTLDelegates.cs"), sb.ToString(), new UTF8Encoding(true));
+        Console.WriteLine($"  Generated: Metal/MTLDelegates.cs ({context.BlockTypeAliases.Count} delegates)");
+    }
+
+    #endregion
+
     #region Class Generation
 
     void GenerateClass(ClassDef classDef, HashSet<string> inheritedProperties, List<FreeFunctionDef> freeFunctions)
@@ -281,6 +314,12 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                                            && !HasUnmappableParam(m))
         ];
 
+        // Check if any method uses block handler params (needs Marshal import)
+        bool hasBlockHandlerMethods = validMethods.Any(m =>
+            m.Parameters.Any(p =>
+                p.CppType.StartsWith("INLINE_BLOCK:") ||
+                IsBlockHandlerCppType(p.CppType)));
+
         HashSet<string> hasZeroParamVersion =
         [
             .. validMethods
@@ -293,7 +332,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         SortedDictionary<string, string> selectors = [];
         StringBuilder sb = new();
 
-        if (hasFreeFunctions)
+        if (hasFreeFunctions || hasBlockHandlerMethods)
         {
             sb.AppendLine("using System.Runtime.InteropServices;");
             sb.AppendLine();
@@ -533,13 +572,56 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Method Filtering
 
-    static bool HasFunctionPointerParam(MethodInfo method)
+    /// <summary>
+    /// Returns true if the method has std::function or unknown function pointer params that should be skipped.
+    /// Block handler params (Handler/Block types and INLINE_BLOCK: markers) are NOT considered function pointers.
+    /// </summary>
+    bool HasFunctionPointerParam(MethodInfo method)
     {
         return method.Parameters.Any(p =>
-            p.CppType.Contains("Handler") || p.CppType.Contains("Block") ||
-            p.CppType.Contains("function") || p.CppType.Contains("std::function") ||
-            p.CppType.Contains("void(") || p.CppType.Contains("Function&") ||
-            p.CppType.Contains("Function &"));
+        {
+            // INLINE_BLOCK: markers are block params — not function pointers
+            if (p.CppType.StartsWith("INLINE_BLOCK:"))
+            {
+                string delegateName = p.CppType["INLINE_BLOCK:".Length..];
+                return delegateName == "UNKNOWN_BLOCK";
+            }
+
+            // std::function params — skip
+            if (p.CppType.Contains("std::function") || p.CppType.Contains("Function&") || p.CppType.Contains("Function &"))
+            {
+                return true;
+            }
+
+            // Named block types (Handler/Block) — check if we have a delegate for them
+            if (p.CppType.Contains("Handler") || p.CppType.Contains("Block"))
+            {
+                string csType = TypeMapper.MapCppType(p.CppType, "MTL");
+                return !context.BlockTypeAliases.Any(b => b.CsDelegateName == csType);
+            }
+
+            // Other function-like types
+            if (p.CppType.Contains("function") || p.CppType.Contains("void("))
+            {
+                return true;
+            }
+
+            return false;
+        });
+    }
+
+    /// <summary>
+    /// Returns true if the C++ parameter type is a known block handler type (using-aliased).
+    /// </summary>
+    bool IsBlockHandlerCppType(string cppType)
+    {
+        if (cppType.Contains("Handler") || cppType.Contains("Block"))
+        {
+            string csType = TypeMapper.MapCppType(cppType, "MTL");
+            return context.BlockTypeAliases.Any(b => b.CsDelegateName == csType);
+        }
+
+        return false;
     }
 
     static bool HasUnmappableParam(MethodInfo method)
@@ -549,10 +631,19 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             if (p.CppType.StartsWith("OBJ_ARRAY:") ||
                 p.CppType.StartsWith("PRIM_ARRAY:") ||
                 p.CppType.StartsWith("STRUCT_ARRAY:") ||
+                p.CppType.StartsWith("INLINE_BLOCK:") ||
                 p.CppType == "ARRAY_PARAM")
             {
                 continue;
             }
+
+            if (p.CppType.Contains("Handler") || p.CppType.Contains("Block") ||
+                p.CppType.Contains("Function&") || p.CppType.Contains("Function &") ||
+                p.CppType.Contains("std::function"))
+            {
+                continue;
+            }
+
             if (TypeMapper.IsUnmappableCppType(p.CppType))
             {
                 return true;
@@ -809,6 +900,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         List<string> fixedStatements = [];
         List<string> nsArrayReleaseVars = [];
         bool needsUnsafeContext = false;
+        bool needsMarshalImport = false;
 
         for (int pi = 0; pi < method.Parameters.Count; pi++)
         {
@@ -890,6 +982,27 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                     callArgs.Add($"(nuint){csParamName}.Length");
                     pi++;
                 }
+                continue;
+            }
+
+            // Block handler parameters (using-aliased or inline)
+            if (param.CppType.StartsWith("INLINE_BLOCK:"))
+            {
+                string delegateName = param.CppType["INLINE_BLOCK:".Length..];
+                string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
+                csParams.Add($"{delegateName} {csParamName}");
+                callArgs.Add($"Marshal.GetFunctionPointerForDelegate({csParamName})");
+                needsMarshalImport = true;
+                continue;
+            }
+
+            if (IsBlockHandlerCppType(param.CppType))
+            {
+                string csType = TypeMapper.MapCppType(param.CppType, ns);
+                string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
+                csParams.Add($"{csType} {csParamName}");
+                callArgs.Add($"Marshal.GetFunctionPointerForDelegate({csParamName})");
+                needsMarshalImport = true;
                 continue;
             }
 

@@ -82,6 +82,12 @@ public class MTLCompileOptions(nint nativePtr, NativeObjectOwnership ownership) 
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetOptimizationLevel, (nint)value);
     }
 
+    public NSDictionary PreprocessorMacros
+    {
+        get => GetProperty(ref field, MTLCompileOptionsBindings.PreprocessorMacros);
+        set => SetProperty(ref field, MTLCompileOptionsBindings.SetPreprocessorMacros, value);
+    }
+
     public Bool8 PreserveInvariance
     {
         get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCompileOptionsBindings.PreserveInvariance);
@@ -123,6 +129,8 @@ file static class MTLCompileOptionsBindings
 
     public static readonly Selector OptimizationLevel = "optimizationLevel";
 
+    public static readonly Selector PreprocessorMacros = "preprocessorMacros";
+
     public static readonly Selector PreserveInvariance = "preserveInvariance";
 
     public static readonly Selector RequiredThreadsPerThreadgroup = "requiredThreadsPerThreadgroup";
@@ -150,6 +158,8 @@ file static class MTLCompileOptionsBindings
     public static readonly Selector SetMaxTotalThreadsPerThreadgroup = "setMaxTotalThreadsPerThreadgroup:";
 
     public static readonly Selector SetOptimizationLevel = "setOptimizationLevel:";
+
+    public static readonly Selector SetPreprocessorMacros = "setPreprocessorMacros:";
 
     public static readonly Selector SetPreserveInvariance = "setPreserveInvariance:";
 

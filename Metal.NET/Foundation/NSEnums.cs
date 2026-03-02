@@ -1,5 +1,45 @@
 ﻿namespace Metal.NET;
 
+public enum NSComparisonResult : long
+{
+    Ascending = -1,
+
+    Same = 0,
+
+    Descending = 1
+}
+
+public enum NSProcessInfoThermalState : long
+{
+    Nominal = 0,
+
+    Fair = 1,
+
+    Serious = 2,
+
+    Critical = 3
+}
+
+[Flags]
+public enum NSActivityOptions : ulong
+{
+    IdleDisplaySleepDisabled = 1099511627776,
+
+    IdleSystemSleepDisabled = 1048576,
+
+    SuddenTerminationDisabled = 16384,
+
+    AutomaticTerminationDisabled = 32768,
+
+    UserInitiated = 16777215,
+
+    UserInitiatedAllowingIdleSystemSleep = 15728639,
+
+    Background = 255,
+
+    LatencyCritical = 1095216660480
+}
+
 public enum NSStringEncoding : ulong
 {
     ASCIIStringEncoding = 1,
@@ -47,4 +87,26 @@ public enum NSStringEncoding : ulong
     UTF32BigEndianStringEncoding = 2550137088,
 
     UTF32LittleEndianStringEncoding = 2617245952
+}
+
+[Flags]
+public enum NSStringCompareOptions : ulong
+{
+    CaseInsensitiveSearch = 1,
+
+    LiteralSearch = 2,
+
+    BackwardsSearch = 4,
+
+    AnchoredSearch = 8,
+
+    NumericSearch = 64,
+
+    DiacriticInsensitiveSearch = 128,
+
+    WidthInsensitiveSearch = 256,
+
+    ForcedOrderingSearch = 512,
+
+    RegularExpressionSearch = 1024
 }

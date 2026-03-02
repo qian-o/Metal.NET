@@ -11,6 +11,11 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : Nati
         get => GetProperty(ref field, MTLFunctionBindings.Device);
     }
 
+    public NSDictionary FunctionConstantsDictionary
+    {
+        get => GetProperty(ref field, MTLFunctionBindings.FunctionConstantsDictionary);
+    }
+
     public MTLFunctionType FunctionType
     {
         get => (MTLFunctionType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionBindings.FunctionType);
@@ -63,6 +68,8 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : Nati
 file static class MTLFunctionBindings
 {
     public static readonly Selector Device = "device";
+
+    public static readonly Selector FunctionConstantsDictionary = "functionConstantsDictionary";
 
     public static readonly Selector FunctionType = "functionType";
 

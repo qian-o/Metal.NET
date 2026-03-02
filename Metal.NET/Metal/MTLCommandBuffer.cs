@@ -1,4 +1,6 @@
-﻿namespace Metal.NET;
+﻿using System.Runtime.InteropServices;
+
+namespace Metal.NET;
 
 public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCommandBuffer>
 {
@@ -79,6 +81,16 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCommandBufferBindings.AccelerationStructureCommandEncoderWithDescriptor, descriptor.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
+    public void AddCompletedHandler(MTLCommandBufferHandler block)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.AddCompletedHandler, Marshal.GetFunctionPointerForDelegate(block));
+    }
+
+    public void AddScheduledHandler(MTLCommandBufferHandler block)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.AddScheduledHandler, Marshal.GetFunctionPointerForDelegate(block));
     }
 
     public MTLBlitCommandEncoder BlitCommandEncoder()
@@ -221,6 +233,10 @@ file static class MTLCommandBufferBindings
     public static readonly Selector AccelerationStructureCommandEncoder = "accelerationStructureCommandEncoder";
 
     public static readonly Selector AccelerationStructureCommandEncoderWithDescriptor = "accelerationStructureCommandEncoderWithDescriptor:";
+
+    public static readonly Selector AddCompletedHandler = "addCompletedHandler:";
+
+    public static readonly Selector AddScheduledHandler = "addScheduledHandler:";
 
     public static readonly Selector BlitCommandEncoder = "blitCommandEncoder";
 

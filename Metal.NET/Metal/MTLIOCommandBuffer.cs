@@ -1,4 +1,6 @@
-﻿namespace Metal.NET;
+﻿using System.Runtime.InteropServices;
+
+namespace Metal.NET;
 
 public class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLIOCommandBuffer>
 {
@@ -25,6 +27,11 @@ public class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership)
     public void AddBarrier()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.AddBarrier);
+    }
+
+    public void AddCompletedHandler(MTLIOCommandBufferHandler block)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.AddCompletedHandler, Marshal.GetFunctionPointerForDelegate(block));
     }
 
     public void Commit()
@@ -91,6 +98,8 @@ public class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership)
 file static class MTLIOCommandBufferBindings
 {
     public static readonly Selector AddBarrier = "addBarrier";
+
+    public static readonly Selector AddCompletedHandler = "addCompletedHandler:";
 
     public static readonly Selector Commit = "commit";
 
