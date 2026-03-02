@@ -16,7 +16,7 @@ This document covers the remaining work items and architectural decisions for th
 
 ## 1. Objective-C Block / Handler Support
 
-The generator currently skips every method whose signature includes an Objective-C Block (`^`) or `std::function` handler (~30 methods across 7 classes). This is the highest-priority missing feature.
+The generator currently skips every method whose signature includes an Objective-C Block (`^`) or `std::function` handler (~30 methods across 9 classes). This is the highest-priority missing feature.
 
 ### 1.1 Design — `[UnmanagedFunctionPointer]` Delegate Approach
 
@@ -318,10 +318,12 @@ Currently blocked members:
 | `MTLDevice` | `newComputePipelineState(…, options, reflection, error)` | `Autoreleased` (2 overloads: Descriptor/Function) |
 | `MTLFunction` | `newArgumentEncoder(bufferIndex, reflection)` | `Autoreleased` |
 | `MTLResource` | `setOwner(task_id_token_t)` | `kern_return_t`, `task_id_token_t` |
+| (free function) | `CopyAllDevicesWithObserver(NS::Object**, DeviceNotificationHandlerBlock)` | `NS::Object**` + block param |
+| (free function) | `RemoveDeviceObserver(NS::Object*)` | `NS::Object` |
 
 ---
 
-## 4. Folder Reorganization — Match Apple Framework Structure
+## 4. Folder Reorganization
 
 ### Principle
 
