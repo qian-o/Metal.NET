@@ -119,6 +119,10 @@ public delegate void MTL4NewMachineLearningPipelineStateCompletionHandler(nint b
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 public delegate void MTL4CommitFeedbackHandler(nint block, nint commitFeedback);
 
+// void (^)(NS::String*, NS::String*, MTL::LogLevel, NS::String*)
+[UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+public delegate void MTLLogHandler(nint block, nint subsystem, nint category, long logLevel, nint message);
+
 // Deallocator: void (^)(void*, NSUInteger)
 [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
 public delegate void MTLDeallocator(nint block, nint pointer, nuint length);
@@ -138,6 +142,7 @@ The delegate name is derived from the C++ block type alias name with an `MTL` pr
 | `NewBinaryFunctionCompletionHandler` | `MTL4NewBinaryFunctionCompletionHandler` |
 | `NewMachineLearningPipelineStateCompletionHandler` | `MTL4NewMachineLearningPipelineStateCompletionHandler` |
 | `CommitFeedbackHandler` | `MTL4CommitFeedbackHandler` |
+| (inline log handler block) | `MTLLogHandler` |
 | (inline deallocator block) | `MTLDeallocator` |
 
 #### First Parameter — `nint block`
@@ -171,13 +176,19 @@ The user is responsible for wrapping `nint` parameters into the appropriate Meta
 
 The generator pipeline must be enhanced:
 
-1. **`CppParser.cs`** — Parse `using` declarations that define block type aliases (e.g., `using CommandBufferHandler = void (^)(MTL::CommandBuffer*)`). Extract the parameter list and store as `BlockTypeAlias` records.
+1. **`CppParser.cs`** — Parse `using` declarations that define block type aliases (e.g., `using CommandBufferHandler = void (^)(MTL::CommandBuffer*)`). Extract the parameter list and store as `BlockTypeAlias` records. Also handle **inline block types** that appear directly in method signatures without a `using` alias (e.g., `void (^)(void*, NS::UInteger)` for deallocator, `void (^)(NS::String*, NS::String*, MTL::LogLevel, NS::String*)` for log handler, and `void (^)(MTL::Function*, NS::Error*)` for MTLLibrary completion handlers).
 
 2. **`CSharpEmitter.cs`** — For each method with a block parameter:
    - Emit the `[UnmanagedFunctionPointer(CallingConvention.Cdecl)]` delegate type **above the class definition** (once per unique block type alias per file).
    - Emit the public method that accepts the delegate and passes it to `objc_msgSend`.
 
 3. **Deduplication** — Multiple methods may use the same block type alias (e.g., `CommandBufferHandler` is used by both `addCompletedHandler` and `addScheduledHandler`). Emit each delegate type only once.
+
+4. **Inline blocks** — Some methods use inline block types instead of `using` aliases. The generator must also parse these inline signatures and map them to the appropriate delegate type. Known inline block methods:
+   - `MTLDevice.newBuffer(…, void (^deallocator)(void*, NS::UInteger))` → `MTLDeallocator`
+   - `MTLLogState.addLogHandler(void (^)(NS::String*, NS::String*, MTL::LogLevel, NS::String*))` → `MTLLogHandler`
+   - `MTLLibrary.newFunction(…, void (^)(MTL::Function*, NS::Error*))` → `MTLNewFunctionCompletionHandler`
+   - `MTLLibrary.newIntersectionFunction(…, void (^)(MTL::Function*, NS::Error*))` → `MTLNewFunctionCompletionHandler`
 
 ### 1.2 Block/Handler Method Reference Table
 
@@ -248,6 +259,12 @@ All block methods that the generator must support (Block variants only — `std:
 | Method | Block Type |
 |---|---|
 | `addFeedbackHandler` | `void (^)(MTL4::CommitFeedback*)` |
+
+#### MTLLogState
+
+| Method | Block Type |
+|---|---|
+| `addLogHandler` | `void (^)(NS::String*, NS::String*, MTL::LogLevel, NS::String*)` — inline block (no type alias) |
 
 ---
 
@@ -327,8 +344,10 @@ Currently blocked members:
 | `MTL4PipelineDataSetSerializer` | `serializeAsPipelinesScript` | `NS::Data` |
 | `MTLDevice` | `newDefaultLibrary(NS::Bundle*)` | `NS::Bundle` |
 | `MTLCaptureDescriptor` | `captureObject` (get/set) | `NS::Object` |
-| `MTLDevice` | `newLibrary(dispatch_data_t, …)` | `dispatch_data_t` (non-ObjC, stays `nint`) |
-| `MTLCaptureManager` | `startCapture(…, NS::Error**)` | `NS::Error**` (double pointer) |
+| `MTLDevice` | `newRenderPipelineState(descriptor, options, reflection, error)` | `Autoreleased` (3 overloads: Render/Tile/Mesh descriptor) |
+| `MTLDevice` | `newComputePipelineState(…, options, reflection, error)` | `Autoreleased` (2 overloads: Descriptor/Function) |
+| `MTLFunction` | `newArgumentEncoder(bufferIndex, reflection)` | `Autoreleased` |
+| `MTLResource` | `setOwner(task_id_token_t)` | `kern_return_t`, `task_id_token_t` |
 
 ---
 
