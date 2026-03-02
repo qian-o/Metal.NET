@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Metal.NET.Generator;
 
@@ -135,7 +136,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             string prefix = TypeMapper.GetPrefix(classDef.CppNamespace);
             context.KnownClassNames.Add(prefix + classDef.Name);
         }
-        context.KnownClassNames.UnionWith(["NSString", "NSError", "NSArray", "NSURL", "NativeObject"]);
+        context.KnownClassNames.UnionWith(["NSString", "NSError", "NSArray", "NSURL", "NSDictionary", "NSBundle", "NSData", "NSNumber", "NativeObject"]);
 
         // Build a map of class name → property names for inheritance detection
         Dictionary<string, HashSet<string>> classPropertyMap = [];
@@ -254,19 +255,27 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                                            && !HasUnmappableParam(m))
         ];
 
+        // Separate block handler methods from regular methods
+        List<MethodInfo> blockMethods = [.. validMethods.Where(HasBlockParam)];
+        List<MethodInfo> regularMethods = [.. validMethods.Where(m => !HasBlockParam(m))];
+
         HashSet<string> hasZeroParamVersion =
         [
-            .. validMethods
+            .. regularMethods
                 .Where(m => m.Parameters.Count == 0 && m.ReturnType != "void" && !m.UsesClassTarget)
                 .Select(m => m.CppName)
         ];
 
-        (List<PropertyDef> properties, List<MethodInfo> methods) = CategorizeMembers(validMethods);
+        (List<PropertyDef> properties, List<MethodInfo> methods) = CategorizeMembers(regularMethods);
+
+        // Track emitted delegate types and trampolines for block params (to avoid duplicates)
+        HashSet<string> emittedDelegateTypes = [];
+        HashSet<string> emittedTrampolines = [];
 
         SortedDictionary<string, string> selectors = [];
         StringBuilder sb = new();
 
-        if (hasFreeFunctions)
+        if (hasFreeFunctions || blockMethods.Count > 0)
         {
             sb.AppendLine("using System.Runtime.InteropServices;");
             sb.AppendLine();
@@ -278,7 +287,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string baseClass = classDef.BaseClassName != null && context.KnownClassNames.Contains(classDef.BaseClassName)
             ? classDef.BaseClassName
             : "NativeObject";
-        string partialKeyword = hasFreeFunctions ? "partial " : "";
+        string partialKeyword = "partial ";
         sb.AppendLine($"public {partialKeyword}class {csClassName}(nint nativePtr, NativeObjectOwnership ownership) : {baseClass}(nativePtr, ownership), INativeObject<{csClassName}>");
         sb.AppendLine("{");
         string newKeyword = baseClass != "NativeObject" ? "new " : "";
@@ -371,6 +380,18 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             }
 
             EmitMethod(sb, method, csClassName, classDef.CppNamespace, selectors, hasZeroParamVersion);
+            hasPrecedingMember = true;
+        }
+
+        // Block handler methods
+        foreach (MethodInfo blockMethod in blockMethods)
+        {
+            if (hasPrecedingMember)
+            {
+                sb.AppendLine();
+            }
+
+            EmitBlockMethod(sb, blockMethod, csClassName, classDef.CppNamespace, selectors, emittedDelegateTypes, emittedTrampolines);
             hasPrecedingMember = true;
         }
 
@@ -509,10 +530,59 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     static bool HasFunctionPointerParam(MethodInfo method)
     {
         return method.Parameters.Any(p =>
-            p.CppType.Contains("Handler") || p.CppType.Contains("Block") ||
-            p.CppType.Contains("function") || p.CppType.Contains("std::function") ||
-            p.CppType.Contains("void(") || p.CppType.Contains("Function&") ||
-            p.CppType.Contains("Function &"));
+            p.CppType.Contains("std::function") ||
+            p.CppType.Contains("Function&") ||
+            p.CppType.Contains("Function &") ||
+            p.CppType.Contains("void("));
+    }
+
+    /// <summary>
+    /// Returns true if the method has at least one parameter whose type is a known ObjC block alias.
+    /// </summary>
+    bool HasBlockParam(MethodInfo method)
+    {
+        return method.Parameters.Any(IsBlockParam);
+    }
+
+    /// <summary>
+    /// Returns true if the parameter type matches a known ObjC block type alias.
+    /// </summary>
+    bool IsBlockParam(ParamDef param)
+    {
+        return ResolveBlockAlias(param.CppType) != null;
+    }
+
+    /// <summary>
+    /// Resolves a C++ parameter type to a <see cref="BlockTypeAlias"/> if it matches.
+    /// Handles both qualified (MTL::CommandBufferHandler) and unqualified (CommandBufferHandler) forms.
+    /// </summary>
+    BlockTypeAlias? ResolveBlockAlias(string cppType)
+    {
+        string t = cppType.Replace("const ", "").Trim();
+
+        // Try qualified form: MTL::CommandBufferHandler
+        Match nsMatch = Regex.Match(t, @"^(MTL4FX|MTL4|MTLFX|MTL|NS|CA)\s*::\s*(\w+)$");
+        if (nsMatch.Success)
+        {
+            string ns = nsMatch.Groups[1].Value;
+            string name = nsMatch.Groups[2].Value;
+            if (context.BlockTypeAliases.TryGetValue((ns, name), out BlockTypeAlias? alias))
+            {
+                return alias;
+            }
+        }
+
+        // Try unqualified form against all namespaces
+        string unqualified = t;
+        foreach (var kvp in context.BlockTypeAliases)
+        {
+            if (kvp.Key.Name == unqualified)
+            {
+                return kvp.Value;
+            }
+        }
+
+        return null;
     }
 
     static bool HasUnmappableParam(MethodInfo method)
@@ -1187,6 +1257,175 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         else
         {
             sb.AppendLine($"    public static {csReturnType} {func.CppName}({wrapperParamStr}) => {func.CEntryPoint}({callArgStr});");
+        }
+    }
+
+    #endregion
+
+    #region Block Method Emission
+
+    /// <summary>
+    /// Gets the C# delegate type name for a block type alias.
+    /// </summary>
+    string GetDelegateTypeName(BlockTypeAlias alias)
+    {
+        string prefix = TypeMapper.GetPrefix(alias.CppNamespace);
+        return prefix + alias.AliasName;
+    }
+
+    /// <summary>
+    /// Emits a delegate type declaration for a block type alias if not already emitted.
+    /// Returns the delegate type name.
+    /// </summary>
+    string EmitDelegateType(StringBuilder sb, BlockTypeAlias alias, string ns, HashSet<string> emittedDelegateTypes)
+    {
+        string delegateName = GetDelegateTypeName(alias);
+        if (!emittedDelegateTypes.Add(delegateName))
+        {
+            return delegateName;
+        }
+
+        List<string> csParams = [];
+        foreach (BlockParam bp in alias.Parameters)
+        {
+            string csType = TypeMapper.MapCppType(bp.CppType, ns);
+            if (typeMapper.IsNativeObjectType(csType))
+            {
+                csParams.Add($"{csType} {TypeMapper.ToCamelCase(bp.Name)}");
+            }
+            else
+            {
+                csParams.Add($"{csType} {TypeMapper.ToCamelCase(bp.Name)}");
+            }
+        }
+
+        sb.AppendLine();
+        sb.AppendLine($"    public delegate void {delegateName}({string.Join(", ", csParams)});");
+        return delegateName;
+    }
+
+    /// <summary>
+    /// Emits a handler method that takes a C# delegate and constructs an ObjC block to pass to objc_msgSend.
+    /// </summary>
+    void EmitBlockMethod(StringBuilder sb, MethodInfo method, string csClassName, string ns,
+        SortedDictionary<string, string> selectors, HashSet<string> emittedDelegateTypes,
+        HashSet<string> emittedTrampolines)
+    {
+        // Find the block parameter and its alias
+        ParamDef? blockParam = method.Parameters.FirstOrDefault(IsBlockParam);
+        if (blockParam == null) return;
+
+        BlockTypeAlias? alias = ResolveBlockAlias(blockParam.CppType);
+        if (alias == null) return;
+
+        // Resolve selector
+        string csMethodName = TypeMapper.ToPascalCase(method.CppName);
+        string selectorObjC;
+        if (method.SelectorAccessor != null && context.SelectorMap.TryGetValue(method.SelectorAccessor, out string? objcSel))
+        {
+            selectorObjC = objcSel;
+        }
+        else
+        {
+            selectorObjC = method.SelectorAccessor?.Replace('_', ':') ?? method.CppName + new string(':', method.Parameters.Count);
+        }
+
+        string selectorKey = TypeMapper.ToPascalCase(selectorObjC.Replace(":", " ").Trim()).Replace(" ", "");
+        selectors.TryAdd(selectorKey, selectorObjC);
+        string selectorRef = $"{csClassName}Bindings.{selectorKey}";
+
+        // Emit delegate type
+        string delegateName = EmitDelegateType(sb, alias, ns, emittedDelegateTypes);
+
+        // Build trampoline name (unique per alias)
+        string trampolineName = $"{alias.AliasName}_Trampoline";
+
+        // Build C# parameter list (non-block params + the delegate at the end)
+        List<string> csParams = [];
+        List<string> callArgs = ["NativePtr", selectorRef];
+
+        for (int pi = 0; pi < method.Parameters.Count; pi++)
+        {
+            ParamDef param = method.Parameters[pi];
+            if (IsBlockParam(param))
+            {
+                // The delegate parameter
+                csParams.Add($"{delegateName} handler");
+                callArgs.Add("(nint)(&block)");
+                continue;
+            }
+
+            string csType = TypeMapper.MapCppType(param.CppType, ns);
+            string paramName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
+            csParams.Add($"{csType} {paramName}");
+
+            if (typeMapper.IsNativeObjectType(csType))
+            {
+                callArgs.Add($"{paramName}.NativePtr");
+            }
+            else if (typeMapper.IsEnumType(csType))
+            {
+                callArgs.Add($"{typeMapper.GetEnumSetCast(csType)}{paramName}");
+            }
+            else
+            {
+                callArgs.Add(paramName);
+            }
+        }
+
+        // Build trampoline parameter types for the function pointer
+        List<string> trampolineParamTypes = ["nint"]; // blockPtr
+        List<string> trampolineParams = ["nint blockPtr"];
+        List<string> trampolineDelegateArgs = [];
+
+        for (int i = 0; i < alias.Parameters.Count; i++)
+        {
+            BlockParam bp = alias.Parameters[i];
+            string csType = TypeMapper.MapCppType(bp.CppType, ns);
+            string pName = $"arg{i}";
+
+            if (typeMapper.IsNativeObjectType(csType))
+            {
+                trampolineParamTypes.Add("nint");
+                trampolineParams.Add($"nint {pName}");
+                trampolineDelegateArgs.Add($"new {csType}({pName}, NativeObjectOwnership.Borrowed)");
+            }
+            else
+            {
+                trampolineParamTypes.Add(csType);
+                trampolineParams.Add($"{csType} {pName}");
+                trampolineDelegateArgs.Add(pName);
+            }
+        }
+        trampolineParamTypes.Add("void");
+
+        string funcPtrType = $"delegate* unmanaged[Cdecl]<{string.Join(", ", trampolineParamTypes)}>";
+
+        // Emit method
+        sb.AppendLine();
+        sb.AppendLine($"    public unsafe void {csMethodName}({string.Join(", ", csParams)})");
+        sb.AppendLine("    {");
+        sb.AppendLine($"        GCHandle gch = GCHandle.Alloc(handler);");
+        sb.AppendLine($"        BlockLiteral block = BlockLiteral.Create((nint)({funcPtrType})&{trampolineName}, GCHandle.ToIntPtr(gch));");
+        sb.AppendLine();
+        sb.AppendLine($"        ObjectiveCRuntime.MsgSend({string.Join(", ", callArgs)});");
+        sb.AppendLine("    }");
+
+        // Emit trampoline (only once per alias)
+        if (emittedTrampolines.Add(trampolineName))
+        {
+            sb.AppendLine();
+            sb.AppendLine("    [UnmanagedCallersOnly(CallConvs = [typeof(System.Runtime.CompilerServices.CallConvCdecl)])]");
+            sb.AppendLine($"    private static unsafe void {trampolineName}({string.Join(", ", trampolineParams)})");
+            sb.AppendLine("    {");
+            sb.AppendLine("        BlockLiteral* block = (BlockLiteral*)blockPtr;");
+            sb.AppendLine("        GCHandle gch = GCHandle.FromIntPtr(block->Context);");
+            sb.AppendLine($"        {delegateName} handler = ({delegateName})gch.Target!;");
+            sb.AppendLine();
+            sb.AppendLine($"        handler({string.Join(", ", trampolineDelegateArgs)});");
+            sb.AppendLine();
+            sb.AppendLine("        gch.Free();");
+            sb.AppendLine("    }");
         }
     }
 

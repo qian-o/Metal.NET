@@ -78,20 +78,15 @@ file unsafe struct BlockDescriptor
         NativeLibrary.Load("/usr/lib/libobjc.A.dylib"),
         "_NSConcreteStackBlock");
 
-    private static readonly BlockDescriptor s_shared = new()
-    {
-        Reserved = 0,
-        Size = (nuint)sizeof(BlockLiteral)
-    };
+    private static readonly BlockDescriptor* s_shared = AllocSharedDescriptor();
 
-    public static BlockDescriptor* SharedDescriptor
+    private static BlockDescriptor* AllocSharedDescriptor()
     {
-        get
-        {
-            fixed (BlockDescriptor* p = &s_shared)
-            {
-                return p;
-            }
-        }
+        BlockDescriptor* p = (BlockDescriptor*)NativeMemory.AllocZeroed((nuint)sizeof(BlockDescriptor));
+        p->Reserved = 0;
+        p->Size = (nuint)sizeof(BlockLiteral);
+        return p;
     }
+
+    public static BlockDescriptor* SharedDescriptor => s_shared;
 }

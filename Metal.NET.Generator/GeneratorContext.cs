@@ -39,4 +39,9 @@ class GeneratorContext
     /// All known generated class names (for validating base class references).
     /// </summary>
     public HashSet<string> KnownClassNames { get; } = [];
+
+    /// <summary>
+    /// All parsed ObjC block type aliases, keyed by (Namespace, AliasName).
+    /// </summary>
+    public Dictionary<(string Ns, string Name), BlockTypeAlias> BlockTypeAliases { get; } = [];
 }

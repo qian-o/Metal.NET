@@ -81,10 +81,82 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                 }
 
                 string content = File.ReadAllText(file);
+                ParseBlockTypeAliases(content);
                 ParseEnums(content);
                 ParseClasses(content);
                 ParseFreeFunctions(content, subdir, file);
             }
+        }
+    }
+
+    #endregion
+
+    #region Block Type Alias Parsing
+
+    void ParseBlockTypeAliases(string content)
+    {
+        List<(string Ns, int Pos)> nsPositions = [];
+        foreach (Match nm in NamespacePatternRegex().Matches(content))
+        {
+            nsPositions.Add((nm.Groups[1].Value, nm.Index));
+        }
+
+        foreach (Match m in BlockTypeAliasRegex().Matches(content))
+        {
+            string aliasName = m.Groups[1].Value;
+            string paramsStr = m.Groups[2].Value.Trim();
+
+            // Determine enclosing namespace
+            string ns = "MTL";
+            for (int i = nsPositions.Count - 1; i >= 0; i--)
+            {
+                if (nsPositions[i].Pos < m.Index)
+                {
+                    ns = nsPositions[i].Ns;
+                    break;
+                }
+            }
+
+            // Parse block parameters
+            List<BlockParam> blockParams = [];
+            int paramIdx = 0;
+            foreach (string rawPart in SplitParams(paramsStr))
+            {
+                string part = rawPart.Trim();
+                if (string.IsNullOrWhiteSpace(part))
+                {
+                    continue;
+                }
+
+                // Remove const
+                part = part.Replace("const ", "").Trim();
+
+                // Split into type and name
+                int lastSpace = part.LastIndexOf(' ');
+                string paramType;
+                string paramName;
+                if (lastSpace > 0)
+                {
+                    paramType = part[..lastSpace].Trim();
+                    paramName = part[(lastSpace + 1)..].Trim();
+                    if (paramName.StartsWith('*'))
+                    {
+                        paramType += "*";
+                        paramName = paramName[1..];
+                    }
+                }
+                else
+                {
+                    // No name, just type (e.g., "CommandBuffer*")
+                    paramType = part;
+                    paramName = $"param{paramIdx}";
+                }
+
+                blockParams.Add(new BlockParam(paramType, paramName));
+                paramIdx++;
+            }
+
+            context.BlockTypeAliases[(ns, aliasName)] = new BlockTypeAlias(ns, aliasName, blockParams);
         }
     }
 
@@ -576,7 +648,7 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
         return -1;
     }
 
-    static List<(string ReturnType, string Name, bool IsStatic, bool IsConst, List<ParamDef> Params)>
+    List<(string ReturnType, string Name, bool IsStatic, bool IsConst, List<ParamDef> Params)>
         ParseMethodDeclarations(string classBody)
     {
         List<(string, string, bool, bool, List<ParamDef>)> result = [];
@@ -598,6 +670,16 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                 continue;
             }
 
+            // Handle inline block parameters: replace void (^name)(params) with a synthetic alias
+            if (line.Contains("(^"))
+            {
+                string preprocessed = PreprocessInlineBlocks(line);
+                if (preprocessed != line)
+                {
+                    line = preprocessed;
+                }
+            }
+
             Match methodMatch = MethodDeclRegex().Match(line);
             if (!methodMatch.Success)
             {
@@ -617,6 +699,129 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
 
             List<ParamDef> parameters = ParseParameters(paramsStr);
             result.Add((returnType, name, isStatic, isConst, parameters));
+        }
+
+        return result;
+    }
+
+    /// <summary>
+    /// Replaces inline block parameters like <c>void (^name)(params)</c> with a synthetic named type,
+    /// and registers the corresponding block alias in the context.
+    /// </summary>
+    string PreprocessInlineBlocks(string line)
+    {
+        // Pattern: void (^name)(type1, type2, ...)
+        // We need to handle nested parens, so use a manual approach
+        string result = line;
+        int searchPos = 0;
+
+        while (true)
+        {
+            int caretPos = result.IndexOf("(^", searchPos);
+            if (caretPos < 0)
+            {
+                break;
+            }
+
+            // Find the matching ) for the (^name) part
+            int nameEnd = result.IndexOf(')', caretPos);
+            if (nameEnd < 0)
+            {
+                break;
+            }
+
+            // Extract block name
+            string blockName = result[(caretPos + 2)..nameEnd].Trim();
+
+            // Find the start of the params list: (type1*, type2*, ...)
+            int paramsStart = result.IndexOf('(', nameEnd + 1);
+            if (paramsStart < 0)
+            {
+                break;
+            }
+
+            // Find matching closing paren
+            int depth = 0;
+            int paramsEnd = -1;
+            for (int i = paramsStart; i < result.Length; i++)
+            {
+                if (result[i] == '(') depth++;
+                else if (result[i] == ')')
+                {
+                    depth--;
+                    if (depth == 0)
+                    {
+                        paramsEnd = i;
+                        break;
+                    }
+                }
+            }
+            if (paramsEnd < 0)
+            {
+                break;
+            }
+
+            string blockParamsStr = result[(paramsStart + 1)..paramsEnd];
+
+            // Find the "void" return type before (^
+            // Walk backwards from caretPos to find the return type
+            string beforeCaret = result[..caretPos].TrimEnd();
+            // The last token before (^ should be the return type, but in the context of a param list
+            // we need to look for "void" specifically since all ObjC blocks return void
+
+            // Build a synthetic alias name from the block params
+            List<BlockParam> blockParams = [];
+            int paramIdx = 0;
+            foreach (string rawPart in SplitParams(blockParamsStr))
+            {
+                string part = rawPart.Replace("const ", "").Trim();
+                if (string.IsNullOrWhiteSpace(part)) continue;
+
+                int lastSpace = part.LastIndexOf(' ');
+                string paramType;
+                string paramName;
+                if (lastSpace > 0)
+                {
+                    paramType = part[..lastSpace].Trim();
+                    paramName = part[(lastSpace + 1)..].Trim();
+                    if (paramName.StartsWith('*'))
+                    {
+                        paramType += "*";
+                        paramName = paramName[1..];
+                    }
+                }
+                else
+                {
+                    paramType = part;
+                    paramName = $"param{paramIdx}";
+                }
+
+                blockParams.Add(new BlockParam(paramType, paramName));
+                paramIdx++;
+            }
+
+            // Create a synthetic alias name
+            string syntheticName = $"__InlineBlock_{blockName}";
+
+            // Determine namespace (default to MTL for Metal headers)
+            string ns = "MTL";
+
+            // Register the block alias
+            context.BlockTypeAliases.TryAdd((ns, syntheticName), new BlockTypeAlias(ns, syntheticName, blockParams));
+
+            // Replace "void (^name)(params)" with "MTL::__InlineBlock_name name" in the line
+            // Find where "void" starts before (^
+            // The inline block could appear as a parameter, so we need to find the "void " before (^
+            int voidPos = beforeCaret.LastIndexOf("void", StringComparison.Ordinal);
+            if (voidPos < 0)
+            {
+                searchPos = paramsEnd + 1;
+                continue;
+            }
+
+            string replacement = $"MTL::{syntheticName} {blockName}";
+            result = result[..voidPos] + replacement + result[(paramsEnd + 1)..];
+            searchPos = voidPos + replacement.Length;
         }
 
         return result;
@@ -858,6 +1063,9 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
 
     [GeneratedRegex(@"^(MTL4FX|MTL4|MTLFX|MTL|NS|CA|CG)\s*::\s*(.+)$")]
     private static partial Regex NamespaceTypeRegex();
+
+    [GeneratedRegex(@"using\s+(\w+)\s*=\s*void\s*\(\^\)\(([^)]*)\)\s*;", RegexOptions.Multiline)]
+    private static partial Regex BlockTypeAliasRegex();
 
     #endregion
 }

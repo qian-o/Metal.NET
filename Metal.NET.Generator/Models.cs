@@ -32,6 +32,16 @@ record PropertyDef(MethodInfo Getter, MethodInfo? Setter);
 record ImplInfo(string? Accessor, bool UsesClassTarget);
 
 /// <summary>
+/// A parsed ObjC block type alias (e.g., <c>using CommandBufferHandler = void (^)(CommandBuffer*)</c>).
+/// </summary>
+record BlockTypeAlias(string CppNamespace, string AliasName, List<BlockParam> Parameters);
+
+/// <summary>
+/// A parameter in a block type alias.
+/// </summary>
+record BlockParam(string CppType, string Name);
+
+/// <summary>
 /// Parsed C++ class definition with its namespace, inheritance, and method declarations.
 /// </summary>
 class ClassDef

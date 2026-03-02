@@ -54,7 +54,7 @@ public class NSNumber(nint nativePtr, NativeObjectOwnership ownership) : NativeO
     /// </summary>
     public static NSNumber FromInteger(nint value)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NSNumberBindings.Class, NSNumberBindings.NumberWithInteger, value);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithInteger, value);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -64,7 +64,7 @@ public class NSNumber(nint nativePtr, NativeObjectOwnership ownership) : NativeO
     /// </summary>
     public static NSNumber FromUnsignedInteger(nuint value)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NSNumberBindings.Class, NSNumberBindings.NumberWithUnsignedInteger, value);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithUnsignedInteger, value);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -74,7 +74,7 @@ public class NSNumber(nint nativePtr, NativeObjectOwnership ownership) : NativeO
     /// </summary>
     public static NSNumber FromFloat(float value)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NSNumberBindings.Class, NSNumberBindings.NumberWithFloat, value);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithFloat, value);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -84,7 +84,7 @@ public class NSNumber(nint nativePtr, NativeObjectOwnership ownership) : NativeO
     /// </summary>
     public static NSNumber FromDouble(double value)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NSNumberBindings.Class, NSNumberBindings.NumberWithDouble, value);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithDouble, value);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -94,7 +94,7 @@ public class NSNumber(nint nativePtr, NativeObjectOwnership ownership) : NativeO
     /// </summary>
     public static NSNumber FromBool(bool value)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NSNumberBindings.Class, NSNumberBindings.NumberWithBool, (Bool8)value);
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.Alloc(NSNumberBindings.Class), NSNumberBindings.InitWithBool, (Bool8)value);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -114,13 +114,13 @@ file static class NSNumberBindings
 
     public static readonly Selector BoolValue = "boolValue";
 
-    public static readonly Selector NumberWithInteger = "numberWithInteger:";
+    public static readonly Selector InitWithInteger = "initWithInteger:";
 
-    public static readonly Selector NumberWithUnsignedInteger = "numberWithUnsignedInteger:";
+    public static readonly Selector InitWithUnsignedInteger = "initWithUnsignedInteger:";
 
-    public static readonly Selector NumberWithFloat = "numberWithFloat:";
+    public static readonly Selector InitWithFloat = "initWithFloat:";
 
-    public static readonly Selector NumberWithDouble = "numberWithDouble:";
+    public static readonly Selector InitWithDouble = "initWithDouble:";
 
-    public static readonly Selector NumberWithBool = "numberWithBool:";
+    public static readonly Selector InitWithBool = "initWithBool:";
 }
