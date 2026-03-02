@@ -356,8 +356,8 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
             string prefix = TypeMapper.GetPrefix(typeNs);
             string csType = prefix + typeName;
 
-            // Enum types become long (the backing type cast)
-            // For simplicity in delegates, use long for enum params
+            // Block handler enum params are passed as the signed backing type.
+            // In practice, the only enum in block signatures is MTL::LogLevel (long).
             return "long";
         }
 

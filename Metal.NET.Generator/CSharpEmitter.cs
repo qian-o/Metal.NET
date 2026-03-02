@@ -900,7 +900,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         List<string> fixedStatements = [];
         List<string> nsArrayReleaseVars = [];
         bool needsUnsafeContext = false;
-        bool needsMarshalImport = false;
 
         for (int pi = 0; pi < method.Parameters.Count; pi++)
         {
@@ -992,7 +991,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
                 csParams.Add($"{delegateName} {csParamName}");
                 callArgs.Add($"Marshal.GetFunctionPointerForDelegate({csParamName})");
-                needsMarshalImport = true;
                 continue;
             }
 
@@ -1002,7 +1000,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
                 csParams.Add($"{csType} {csParamName}");
                 callArgs.Add($"Marshal.GetFunctionPointerForDelegate({csParamName})");
-                needsMarshalImport = true;
                 continue;
             }
 
