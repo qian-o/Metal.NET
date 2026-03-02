@@ -143,7 +143,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             string prefix = TypeMapper.GetPrefix(classDef.CppNamespace);
             context.KnownClassNames.Add(prefix + classDef.Name);
         }
-        context.KnownClassNames.UnionWith(["NSString", "NSError", "NSArray", "NSURL", "NSDictionary", "NativeObject"]);
+        context.KnownClassNames.UnionWith(["NSString", "NSError", "NSArray", "NSURL", "NSDictionary", "NSNumber", "NSData", "NSBundle", "NSObject", "NSValue", "NSSet", "NSEnumerator", "NSDate", "NSNotification", "NativeObject"]);
 
         // Build a map of class name → property names for inheritance detection
         Dictionary<string, HashSet<string>> classPropertyMap = [];
