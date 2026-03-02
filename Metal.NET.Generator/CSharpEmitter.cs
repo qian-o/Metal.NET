@@ -224,9 +224,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         StringBuilder sb = new();
         sb.AppendLine("namespace Metal.NET;");
 
-        for (int ei = 0; ei < enums.Count; ei++)
+        List<EnumDef> sortedEnums = [.. enums.OrderBy(e => TypeMapper.GetPrefix(e.CppNamespace) + e.Name)];
+
+        for (int ei = 0; ei < sortedEnums.Count; ei++)
         {
-            EnumDef enumDef = enums[ei];
+            EnumDef enumDef = sortedEnums[ei];
             string prefix = TypeMapper.GetPrefix(enumDef.CppNamespace);
             string csEnumName = prefix + enumDef.Name;
 
@@ -271,7 +273,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         sb.AppendLine();
         sb.AppendLine("namespace Metal.NET;");
 
-        foreach (BlockTypeAlias alias in context.BlockTypeAliases)
+        foreach (BlockTypeAlias alias in context.BlockTypeAliases.OrderBy(a => a.CsDelegateName))
         {
             sb.AppendLine();
             sb.AppendLine("[UnmanagedFunctionPointer(CallingConvention.Cdecl)]");
@@ -314,12 +316,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                                            && !HasUnmappableParam(m))
         ];
 
-        // Check if any method uses block handler params (needs Marshal import)
-        bool hasBlockHandlerMethods = validMethods.Any(m =>
-            m.Parameters.Any(p =>
-                p.CppType.StartsWith("INLINE_BLOCK:") ||
-                IsBlockHandlerCppType(p.CppType)));
-
         HashSet<string> hasZeroParamVersion =
         [
             .. validMethods
@@ -332,7 +328,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         SortedDictionary<string, string> selectors = [];
         StringBuilder sb = new();
 
-        if (hasFreeFunctions || hasBlockHandlerMethods)
+        if (hasFreeFunctions)
         {
             sb.AppendLine("using System.Runtime.InteropServices;");
             sb.AppendLine();
@@ -990,7 +986,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 string delegateName = param.CppType["INLINE_BLOCK:".Length..];
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
                 csParams.Add($"{delegateName} {csParamName}");
-                callArgs.Add($"Marshal.GetFunctionPointerForDelegate({csParamName})");
+                callArgs.Add(csParamName);
                 continue;
             }
 
@@ -999,7 +995,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 string csType = TypeMapper.MapCppType(param.CppType, ns);
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
                 csParams.Add($"{csType} {csParamName}");
-                callArgs.Add($"Marshal.GetFunctionPointerForDelegate({csParamName})");
+                callArgs.Add(csParamName);
                 continue;
             }
 

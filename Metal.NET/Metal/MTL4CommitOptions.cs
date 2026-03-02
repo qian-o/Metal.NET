@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTL4CommitOptions(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4CommitOptions>
 {
@@ -14,7 +12,7 @@ public class MTL4CommitOptions(nint nativePtr, NativeObjectOwnership ownership) 
 
     public void AddFeedbackHandler(MTL4CommitFeedbackHandler block)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommitOptionsBindings.AddFeedbackHandler, Marshal.GetFunctionPointerForDelegate(block));
+        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommitOptionsBindings.AddFeedbackHandler, block);
     }
 }
 

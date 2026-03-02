@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLIOCommandBuffer>
 {
@@ -31,7 +29,7 @@ public class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership)
 
     public void AddCompletedHandler(MTLIOCommandBufferHandler block)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.AddCompletedHandler, Marshal.GetFunctionPointerForDelegate(block));
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.AddCompletedHandler, block);
     }
 
     public void Commit()

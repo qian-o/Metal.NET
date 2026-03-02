@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTLSharedEvent(nint nativePtr, NativeObjectOwnership ownership) : MTLEvent(nativePtr, ownership), INativeObject<MTLSharedEvent>
 {
@@ -23,7 +21,7 @@ public class MTLSharedEvent(nint nativePtr, NativeObjectOwnership ownership) : M
 
     public void NotifyListener(MTLSharedEventListener listener, ulong value, MTLSharedEventNotificationBlock block)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLSharedEventBindings.NotifyListener, listener.NativePtr, (nuint)value, Marshal.GetFunctionPointerForDelegate(block));
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLSharedEventBindings.NotifyListener, listener.NativePtr, (nuint)value, block);
     }
 
     public bool WaitUntilSignaledValue(ulong value, ulong milliseconds)

@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTLLogState(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLLogState>
 {
@@ -10,7 +8,7 @@ public class MTLLogState(nint nativePtr, NativeObjectOwnership ownership) : Nati
 
     public void AddLogHandler(MTLLogHandler block)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLLogStateBindings.AddLogHandler, Marshal.GetFunctionPointerForDelegate(block));
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLLogStateBindings.AddLogHandler, block);
     }
 }
 

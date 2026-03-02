@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLLibrary>
 {
@@ -52,12 +50,12 @@ public class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership) : Nativ
 
     public void NewFunction(NSString name, MTLFunctionConstantValues constantValues, MTLNewFunctionCompletionHandler completionHandler)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLLibraryBindings.NewFunction, name.NativePtr, constantValues.NativePtr, Marshal.GetFunctionPointerForDelegate(completionHandler));
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLLibraryBindings.NewFunction, name.NativePtr, constantValues.NativePtr, completionHandler);
     }
 
     public void NewFunction(MTLFunctionDescriptor descriptor, MTLNewFunctionCompletionHandler completionHandler)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLLibraryBindings.NewFunctionWithDescriptorerror, descriptor.NativePtr, Marshal.GetFunctionPointerForDelegate(completionHandler));
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLLibraryBindings.NewFunctionWithDescriptorerror, descriptor.NativePtr, completionHandler);
     }
 
     public MTLFunction NewFunction(MTLFunctionDescriptor descriptor, out NSError error)
@@ -71,7 +69,7 @@ public class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership) : Nativ
 
     public void NewIntersectionFunction(MTLIntersectionFunctionDescriptor descriptor, MTLNewFunctionCompletionHandler completionHandler)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLLibraryBindings.NewIntersectionFunction, descriptor.NativePtr, Marshal.GetFunctionPointerForDelegate(completionHandler));
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLLibraryBindings.NewIntersectionFunction, descriptor.NativePtr, completionHandler);
     }
 
     public MTLFunction NewIntersectionFunction(MTLIntersectionFunctionDescriptor descriptor, out NSError error)

@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCommandBuffer>
 {
@@ -85,12 +83,12 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
 
     public void AddCompletedHandler(MTLCommandBufferHandler block)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.AddCompletedHandler, Marshal.GetFunctionPointerForDelegate(block));
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.AddCompletedHandler, block);
     }
 
     public void AddScheduledHandler(MTLCommandBufferHandler block)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.AddScheduledHandler, Marshal.GetFunctionPointerForDelegate(block));
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferBindings.AddScheduledHandler, block);
     }
 
     public MTLBlitCommandEncoder BlitCommandEncoder()

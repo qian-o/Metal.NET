@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 public class MTLDrawable(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLDrawable>
 {
@@ -20,7 +18,7 @@ public class MTLDrawable(nint nativePtr, NativeObjectOwnership ownership) : Nati
 
     public void AddPresentedHandler(MTLDrawablePresentedHandler block)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableBindings.AddPresentedHandler, Marshal.GetFunctionPointerForDelegate(block));
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableBindings.AddPresentedHandler, block);
     }
 
     public void Present()
