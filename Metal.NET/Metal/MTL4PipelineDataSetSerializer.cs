@@ -14,9 +14,20 @@ public class MTL4PipelineDataSetSerializer(nint nativePtr, NativeObjectOwnership
 
         return result;
     }
+
+    public NSData SerializeAsPipelinesScript(out NSError error)
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineDataSetSerializerBindings.SerializeAsPipelinesScript, out nint errorPtr);
+
+        error = new(errorPtr, NativeObjectOwnership.Owned);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
 }
 
 file static class MTL4PipelineDataSetSerializerBindings
 {
     public static readonly Selector SerializeAsArchiveAndFlushToURL = "serializeAsArchiveAndFlushToURL:error:";
+
+    public static readonly Selector SerializeAsPipelinesScript = "serializeAsPipelinesScriptWithError:";
 }

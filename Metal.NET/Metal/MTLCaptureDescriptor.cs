@@ -10,6 +10,12 @@ public class MTLCaptureDescriptor(nint nativePtr, NativeObjectOwnership ownershi
     {
     }
 
+    public NSObject CaptureObject
+    {
+        get => GetProperty(ref field, MTLCaptureDescriptorBindings.CaptureObject);
+        set => SetProperty(ref field, MTLCaptureDescriptorBindings.SetCaptureObject, value);
+    }
+
     public MTLCaptureDestination Destination
     {
         get => (MTLCaptureDestination)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureDescriptorBindings.Destination);
@@ -27,9 +33,13 @@ file static class MTLCaptureDescriptorBindings
 {
     public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCaptureDescriptor");
 
+    public static readonly Selector CaptureObject = "captureObject";
+
     public static readonly Selector Destination = "destination";
 
     public static readonly Selector OutputURL = "outputURL";
+
+    public static readonly Selector SetCaptureObject = "setCaptureObject:";
 
     public static readonly Selector SetDestination = "setDestination:";
 

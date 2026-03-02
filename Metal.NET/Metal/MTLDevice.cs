@@ -510,6 +510,15 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLLibrary NewDefaultLibraryWithBundle(NSBundle bundle, out NSError error)
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewDefaultLibraryWithBundleerror, bundle.NativePtr, out nint errorPtr);
+
+        error = new(errorPtr, NativeObjectOwnership.Owned);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
     public MTLDepthStencilState NewDepthStencilState(MTLDepthStencilDescriptor descriptor)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewDepthStencilState, descriptor.NativePtr);
@@ -895,6 +904,11 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
 
         return result;
     }
+
+    [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLRemoveDeviceObserver")]
+    private static partial void MTLRemoveDeviceObserver(nint param);
+
+    public static void RemoveDeviceObserver(NSObject param) => MTLRemoveDeviceObserver(param.NativePtr);
 }
 
 file static class MTLDeviceBindings
@@ -1020,6 +1034,8 @@ file static class MTLDeviceBindings
     public static readonly Selector NewCounterSampleBuffer = "newCounterSampleBufferWithDescriptor:error:";
 
     public static readonly Selector NewDefaultLibrary = "newDefaultLibrary";
+
+    public static readonly Selector NewDefaultLibraryWithBundleerror = "newDefaultLibraryWithBundle:error:";
 
     public static readonly Selector NewDepthStencilState = "newDepthStencilStateWithDescriptor:";
 
