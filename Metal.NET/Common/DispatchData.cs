@@ -9,19 +9,10 @@ namespace Metal.NET;
 [StructLayout(LayoutKind.Sequential)]
 public partial struct DispatchData(nint nativePtr) : IDisposable
 {
+    [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_release")]
+    private static partial void DispatchRelease(nint @object);
+
     public nint NativePtr = nativePtr;
-
-    public readonly bool IsNull => NativePtr is 0;
-
-    public void Dispose()
-    {
-        if (NativePtr is not 0)
-        {
-            DispatchRelease(NativePtr);
-
-            NativePtr = 0;
-        }
-    }
 
     public static implicit operator nint(DispatchData value)
     {
@@ -33,6 +24,13 @@ public partial struct DispatchData(nint nativePtr) : IDisposable
         return new(value);
     }
 
-    [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_release")]
-    private static partial void DispatchRelease(nint @object);
+    public void Dispose()
+    {
+        if (NativePtr is not 0)
+        {
+            DispatchRelease(NativePtr);
+
+            NativePtr = 0;
+        }
+    }
 }
