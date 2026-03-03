@@ -41,12 +41,12 @@ public partial struct DispatchQueue(nint nativePtr) : IDisposable
         return new(DispatchGetGlobalQueue(0, 0));
     }
 
-    [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_get_global_queue")]
-    private static partial nint DispatchGetGlobalQueue(nint identifier, nuint flags);
+    [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_release")]
+    private static partial void DispatchRelease(nint @object);
 
     [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_queue_create", StringMarshalling = StringMarshalling.Utf8)]
     private static partial nint DispatchQueueCreate(string? label, nint attr);
 
-    [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_release")]
-    private static partial void DispatchRelease(nint @object);
+    [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_get_global_queue")]
+    private static partial nint DispatchGetGlobalQueue(nint identifier, nuint flags);
 }

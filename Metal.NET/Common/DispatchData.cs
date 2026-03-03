@@ -41,9 +41,9 @@ public partial struct DispatchData(nint nativePtr) : IDisposable
         }
     }
 
-    [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_data_create")]
-    private static unsafe partial nint DispatchDataCreate(void* buffer, nuint size, DispatchQueue queue, nint destructor);
-
     [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_release")]
     private static partial void DispatchRelease(nint @object);
+
+    [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_data_create")]
+    private static unsafe partial nint DispatchDataCreate(void* buffer, nuint size, DispatchQueue queue, nint destructor);
 }
