@@ -33,6 +33,8 @@ public partial struct CGColorSpace(nint nativePtr) : IDisposable
 {
     public nint NativePtr = nativePtr;
 
+    public readonly bool IsNull => NativePtr is 0;
+
     public static implicit operator nint(CGColorSpace value)
     {
         return value.NativePtr;
@@ -45,12 +47,14 @@ public partial struct CGColorSpace(nint nativePtr) : IDisposable
 
     public void Dispose()
     {
-        if (NativePtr is not 0)
+        if (IsNull)
         {
-            CGColorSpaceRelease(NativePtr);
-
-            NativePtr = 0;
+            return;
         }
+
+        CGColorSpaceRelease(NativePtr);
+
+        NativePtr = 0;
     }
 
     public static CGColorSpace Create(CGColorSpaceName name)

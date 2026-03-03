@@ -11,6 +11,8 @@ public partial struct DispatchData(nint nativePtr) : IDisposable
 {
     public nint NativePtr = nativePtr;
 
+    public readonly bool IsNull => NativePtr is 0;
+
     public static implicit operator nint(DispatchData value)
     {
         return value.NativePtr;
@@ -23,12 +25,14 @@ public partial struct DispatchData(nint nativePtr) : IDisposable
 
     public void Dispose()
     {
-        if (NativePtr is not 0)
+        if (IsNull)
         {
-            DispatchRelease(NativePtr);
-
-            NativePtr = 0;
+            return;
         }
+
+        DispatchRelease(NativePtr);
+
+        NativePtr = 0;
     }
 
     public static unsafe DispatchData Create<T>(ReadOnlySpan<T> data, DispatchQueue queue, nint destructor) where T : unmanaged

@@ -11,6 +11,8 @@ public partial struct IOSurface(nint nativePtr) : IDisposable
 {
     public nint NativePtr = nativePtr;
 
+    public readonly bool IsNull => NativePtr is 0;
+
     public readonly int Width => IOSurfaceGetWidth(NativePtr);
 
     public readonly int Height => IOSurfaceGetHeight(NativePtr);
@@ -45,12 +47,14 @@ public partial struct IOSurface(nint nativePtr) : IDisposable
 
     public void Dispose()
     {
-        if (NativePtr is not 0)
+        if (IsNull)
         {
-            CFRelease(NativePtr);
-
-            NativePtr = 0;
+            return;
         }
+
+        CFRelease(NativePtr);
+
+        NativePtr = 0;
     }
 
     [LibraryImport("/System/Library/Frameworks/IOSurface.framework/IOSurface", EntryPoint = "IOSurfaceGetWidth")]
