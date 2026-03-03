@@ -8,12 +8,19 @@ namespace Metal.NET;
 public enum CGColorSpaceName
 {
     SRGB,
+
     LinearSRGB,
+
     ExtendedSRGB,
+
     ExtendedLinearSRGB,
+
     DisplayP3,
+
     GenericGrayGamma2_2,
+
     GenericRGBLinear,
+
     AdobeRGB1998
 }
 

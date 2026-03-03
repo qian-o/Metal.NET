@@ -11,27 +11,27 @@ public partial struct IOSurface(nint nativePtr) : IDisposable
 {
     public nint NativePtr = nativePtr;
 
-    public int Width => IOSurfaceGetWidth(NativePtr);
+    public readonly int Width => IOSurfaceGetWidth(NativePtr);
 
-    public int Height => IOSurfaceGetHeight(NativePtr);
+    public readonly int Height => IOSurfaceGetHeight(NativePtr);
 
-    public int BytesPerElement => IOSurfaceGetBytesPerElement(NativePtr);
+    public readonly int BytesPerElement => IOSurfaceGetBytesPerElement(NativePtr);
 
-    public int BytesPerRow => IOSurfaceGetBytesPerRow(NativePtr);
+    public readonly int BytesPerRow => IOSurfaceGetBytesPerRow(NativePtr);
 
-    public nuint AllocSize => IOSurfaceGetAllocSize(NativePtr);
+    public readonly nuint AllocSize => IOSurfaceGetAllocSize(NativePtr);
 
-    public uint PixelFormat => IOSurfaceGetPixelFormat(NativePtr);
+    public readonly uint PixelFormat => IOSurfaceGetPixelFormat(NativePtr);
 
-    public nuint PlaneCount => IOSurfaceGetPlaneCount(NativePtr);
+    public readonly nuint PlaneCount => IOSurfaceGetPlaneCount(NativePtr);
 
-    public uint SurfaceID => IOSurfaceGetID(NativePtr);
+    public readonly uint SurfaceID => IOSurfaceGetID(NativePtr);
 
-    public nint BaseAddress => IOSurfaceGetBaseAddress(NativePtr);
+    public readonly nint BaseAddress => IOSurfaceGetBaseAddress(NativePtr);
 
-    public uint Seed => IOSurfaceGetSeed(NativePtr);
+    public readonly uint Seed => IOSurfaceGetSeed(NativePtr);
 
-    public bool IsInUse => IOSurfaceIsInUse(NativePtr);
+    public readonly bool IsInUse => IOSurfaceIsInUse(NativePtr);
 
     public static implicit operator nint(IOSurface value)
     {
