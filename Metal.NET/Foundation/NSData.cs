@@ -1,6 +1,4 @@
-﻿using System.Runtime.InteropServices;
-
-namespace Metal.NET;
+﻿namespace Metal.NET;
 
 /// <summary>
 /// Wraps an Objective-C NSData for raw byte buffer access.
@@ -11,31 +9,20 @@ public class NSData(nint nativePtr, NativeObjectOwnership ownership) : NativeObj
 
     public static NSData Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
+    public nint MutableBytes
+    {
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSDataBindings.MutableBytes);
+    }
+
     public nuint Length
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, NSDataBindings.Length);
-    }
-
-    public nint Bytes
-    {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSDataBindings.Bytes);
-    }
-
-    public byte[] ToArray()
-    {
-        int length = (int)Length;
-
-        byte[] result = new byte[length];
-
-        Marshal.Copy(Bytes, result, 0, length);
-
-        return result;
     }
 }
 
 file static class NSDataBindings
 {
-    public static readonly Selector Length = "length";
+    public static readonly Selector MutableBytes = "mutableBytes";
 
-    public static readonly Selector Bytes = "bytes";
+    public static readonly Selector Length = "length";
 }
