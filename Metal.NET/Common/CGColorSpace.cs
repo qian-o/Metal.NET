@@ -11,6 +11,22 @@ public partial struct CGColorSpace(nint nativePtr) : IDisposable
 {
     public nint NativePtr = nativePtr;
 
+    public static CGColorSpace SRGB => CreateWithName("kCGColorSpaceSRGB");
+
+    public static CGColorSpace LinearSRGB => CreateWithName("kCGColorSpaceLinearSRGB");
+
+    public static CGColorSpace ExtendedSRGB => CreateWithName("kCGColorSpaceExtendedSRGB");
+
+    public static CGColorSpace ExtendedLinearSRGB => CreateWithName("kCGColorSpaceExtendedLinearSRGB");
+
+    public static CGColorSpace DisplayP3 => CreateWithName("kCGColorSpaceDisplayP3");
+
+    public static CGColorSpace GenericGrayGamma2_2 => CreateWithName("kCGColorSpaceGenericGrayGamma2_2");
+
+    public static CGColorSpace GenericRGBLinear => CreateWithName("kCGColorSpaceGenericRGBLinear");
+
+    public static CGColorSpace AdobeRGB1998 => CreateWithName("kCGColorSpaceAdobeRGB1998");
+
     public static implicit operator nint(CGColorSpace value)
     {
         return value.NativePtr;
@@ -33,61 +49,38 @@ public partial struct CGColorSpace(nint nativePtr) : IDisposable
 
     public static CGColorSpace CreateDeviceRGB()
     {
-        return new(CGColorSpaceCreateDeviceRGB_());
+        return new(CGColorSpaceCreateDeviceRGB());
     }
 
     public static CGColorSpace CreateDeviceGray()
     {
-        return new(CGColorSpaceCreateDeviceGray_());
+        return new(CGColorSpaceCreateDeviceGray());
     }
 
     public static CGColorSpace CreateDeviceCMYK()
     {
-        return new(CGColorSpaceCreateDeviceCMYK_());
+        return new(CGColorSpaceCreateDeviceCMYK());
     }
 
-    public static CGColorSpace CreateWithName(nint name)
+    public static CGColorSpace CreateWithName(string name)
     {
-        return new(CGColorSpaceCreateWithName_(name));
-    }
+        nint cgHandle = NativeLibrary.Load("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics");
 
-    public static CGColorSpace SRGB => CreateWithName(GetConstant("kCGColorSpaceSRGB"));
-
-    public static CGColorSpace LinearSRGB => CreateWithName(GetConstant("kCGColorSpaceLinearSRGB"));
-
-    public static CGColorSpace ExtendedSRGB => CreateWithName(GetConstant("kCGColorSpaceExtendedSRGB"));
-
-    public static CGColorSpace ExtendedLinearSRGB => CreateWithName(GetConstant("kCGColorSpaceExtendedLinearSRGB"));
-
-    public static CGColorSpace DisplayP3 => CreateWithName(GetConstant("kCGColorSpaceDisplayP3"));
-
-    public static CGColorSpace GenericGrayGamma2_2 => CreateWithName(GetConstant("kCGColorSpaceGenericGrayGamma2_2"));
-
-    public static CGColorSpace GenericRGBLinear => CreateWithName(GetConstant("kCGColorSpaceGenericRGBLinear"));
-
-    public static CGColorSpace AdobeRGB1998 => CreateWithName(GetConstant("kCGColorSpaceAdobeRGB1998"));
-
-    private static readonly nint _cgHandle = NativeLibrary.Load("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics");
-
-    private static nint GetConstant(string name)
-    {
-        nint symbol = NativeLibrary.GetExport(_cgHandle, name);
-
-        return Marshal.ReadIntPtr(symbol);
+        return new(CGColorSpaceCreateWithName(Marshal.ReadIntPtr(NativeLibrary.GetExport(cgHandle, name))));
     }
 
     [LibraryImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics", EntryPoint = "CGColorSpaceRelease")]
     private static partial void CGColorSpaceRelease(nint colorSpace);
 
     [LibraryImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics", EntryPoint = "CGColorSpaceCreateDeviceRGB")]
-    private static partial nint CGColorSpaceCreateDeviceRGB_();
+    private static partial nint CGColorSpaceCreateDeviceRGB();
 
     [LibraryImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics", EntryPoint = "CGColorSpaceCreateDeviceGray")]
-    private static partial nint CGColorSpaceCreateDeviceGray_();
+    private static partial nint CGColorSpaceCreateDeviceGray();
 
     [LibraryImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics", EntryPoint = "CGColorSpaceCreateDeviceCMYK")]
-    private static partial nint CGColorSpaceCreateDeviceCMYK_();
+    private static partial nint CGColorSpaceCreateDeviceCMYK();
 
     [LibraryImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics", EntryPoint = "CGColorSpaceCreateWithName")]
-    private static partial nint CGColorSpaceCreateWithName_(nint name);
+    private static partial nint CGColorSpaceCreateWithName(nint name);
 }
