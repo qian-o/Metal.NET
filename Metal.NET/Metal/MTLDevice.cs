@@ -635,7 +635,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLLibrary NewLibrary(nint data, out NSError error)
+    public MTLLibrary NewLibrary(DispatchData data, out NSError error)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewLibraryWithDataerror, data, out nint errorPtr);
 

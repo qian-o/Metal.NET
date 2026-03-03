@@ -121,8 +121,8 @@ partial class TypeMapper(GeneratorContext context)
             "bool" => "bool",
             "char" when isPointer => "nint",
             "IOSurfaceRef" => "nint",
-            "dispatch_queue_t" => "nint",
-            "dispatch_data_t" => "nint",
+            "dispatch_queue_t" => "DispatchQueue",
+            "dispatch_data_t" => "DispatchData",
             "CGColorSpaceRef" => "nint",
             "CFTimeInterval" => "double",
             "CGSize" => "CGSize",
@@ -193,7 +193,8 @@ partial class TypeMapper(GeneratorContext context)
     public bool IsNativeObjectType(string csType)
     {
         if (csType is "void" or "bool" or "nint" or "nuint" or "uint" or "int" or "ulong" or "long" or "float" or "double"
-            or "byte" or "sbyte" or "short" or "ushort")
+            or "byte" or "sbyte" or "short" or "ushort"
+            or "DispatchQueue" or "DispatchData")
         {
             return false;
         }
