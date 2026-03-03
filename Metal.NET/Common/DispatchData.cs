@@ -19,6 +19,12 @@ public partial struct DispatchData(nint nativePtr) : IDisposable
 
     public static unsafe DispatchData Create<T>(ReadOnlySpan<T> data, DispatchQueue queue, nint destructor) where T : unmanaged
     {
+        fixed (T* ptr = data)
+        {
+            nint handle = DispatchDataCreate(ptr, (nuint)(data.Length * sizeof(T)), queue, destructor);
+
+            return new(handle);
+        }
     }
 
     public static implicit operator nint(DispatchData value)
