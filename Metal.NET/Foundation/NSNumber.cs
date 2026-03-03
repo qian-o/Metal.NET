@@ -26,7 +26,7 @@ public class NSNumber(nint nativePtr, NativeObjectOwnership ownership) : NativeO
 
     public long LongValue
     {
-        get => (long)ObjectiveCRuntime.MsgSendPtr(NativePtr, NSNumberBindings.LongLongValue);
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSNumberBindings.LongLongValue);
     }
 
     public ulong UnsignedLongValue
