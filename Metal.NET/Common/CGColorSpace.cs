@@ -3,6 +3,21 @@
 namespace Metal.NET;
 
 /// <summary>
+/// Common named color spaces for use with <see cref="CGColorSpace.Create(CGColorSpaceName)"/>.
+/// </summary>
+public enum CGColorSpaceName
+{
+    SRGB,
+    LinearSRGB,
+    ExtendedSRGB,
+    ExtendedLinearSRGB,
+    DisplayP3,
+    GenericGrayGamma2_2,
+    GenericRGBLinear,
+    AdobeRGB1998
+}
+
+/// <summary>
 /// A managed wrapper around a Core Graphics <c>CGColorSpaceRef</c> object.
 /// Implements <see cref="IDisposable"/> to call <c>CGColorSpaceRelease</c>.
 /// </summary>
@@ -10,22 +25,6 @@ namespace Metal.NET;
 public partial struct CGColorSpace(nint nativePtr) : IDisposable
 {
     public nint NativePtr = nativePtr;
-
-    public static CGColorSpace SRGB => CreateWithName("kCGColorSpaceSRGB");
-
-    public static CGColorSpace LinearSRGB => CreateWithName("kCGColorSpaceLinearSRGB");
-
-    public static CGColorSpace ExtendedSRGB => CreateWithName("kCGColorSpaceExtendedSRGB");
-
-    public static CGColorSpace ExtendedLinearSRGB => CreateWithName("kCGColorSpaceExtendedLinearSRGB");
-
-    public static CGColorSpace DisplayP3 => CreateWithName("kCGColorSpaceDisplayP3");
-
-    public static CGColorSpace GenericGrayGamma2_2 => CreateWithName("kCGColorSpaceGenericGrayGamma2_2");
-
-    public static CGColorSpace GenericRGBLinear => CreateWithName("kCGColorSpaceGenericRGBLinear");
-
-    public static CGColorSpace AdobeRGB1998 => CreateWithName("kCGColorSpaceAdobeRGB1998");
 
     public static implicit operator nint(CGColorSpace value)
     {
@@ -47,6 +46,26 @@ public partial struct CGColorSpace(nint nativePtr) : IDisposable
         }
     }
 
+    public static CGColorSpace Create(CGColorSpaceName name)
+    {
+        string symbolName = name switch
+        {
+            CGColorSpaceName.SRGB => "kCGColorSpaceSRGB",
+            CGColorSpaceName.LinearSRGB => "kCGColorSpaceLinearSRGB",
+            CGColorSpaceName.ExtendedSRGB => "kCGColorSpaceExtendedSRGB",
+            CGColorSpaceName.ExtendedLinearSRGB => "kCGColorSpaceExtendedLinearSRGB",
+            CGColorSpaceName.DisplayP3 => "kCGColorSpaceDisplayP3",
+            CGColorSpaceName.GenericGrayGamma2_2 => "kCGColorSpaceGenericGrayGamma2_2",
+            CGColorSpaceName.GenericRGBLinear => "kCGColorSpaceGenericRGBLinear",
+            CGColorSpaceName.AdobeRGB1998 => "kCGColorSpaceAdobeRGB1998",
+            _ => throw new ArgumentOutOfRangeException(nameof(name), name, null)
+        };
+
+        nint cgHandle = NativeLibrary.Load("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics");
+
+        return new(CGColorSpaceCreateWithName(Marshal.ReadIntPtr(NativeLibrary.GetExport(cgHandle, symbolName))));
+    }
+
     public static CGColorSpace CreateDeviceRGB()
     {
         return new(CGColorSpaceCreateDeviceRGB());
@@ -60,13 +79,6 @@ public partial struct CGColorSpace(nint nativePtr) : IDisposable
     public static CGColorSpace CreateDeviceCMYK()
     {
         return new(CGColorSpaceCreateDeviceCMYK());
-    }
-
-    public static CGColorSpace CreateWithName(string name)
-    {
-        nint cgHandle = NativeLibrary.Load("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics");
-
-        return new(CGColorSpaceCreateWithName(Marshal.ReadIntPtr(NativeLibrary.GetExport(cgHandle, name))));
     }
 
     [LibraryImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics", EntryPoint = "CGColorSpaceRelease")]
