@@ -5,9 +5,9 @@
 /// </summary>
 public class NSError(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<NSError>
 {
-    public static new NSError Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static NSError Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new NSError Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static NSError Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public NSString LocalizedDescription
     {

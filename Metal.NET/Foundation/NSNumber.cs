@@ -5,9 +5,9 @@
 /// </summary>
 public class NSNumber(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<NSNumber>
 {
-    public static new NSNumber Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static NSNumber Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new NSNumber Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static NSNumber Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public bool BoolValue
     {

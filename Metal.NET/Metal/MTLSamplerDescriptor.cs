@@ -2,9 +2,9 @@
 
 public class MTLSamplerDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLSamplerDescriptor>
 {
-    public static new MTLSamplerDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLSamplerDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLSamplerDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLSamplerDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLSamplerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLSamplerDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

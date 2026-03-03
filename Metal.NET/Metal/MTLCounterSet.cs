@@ -2,9 +2,9 @@
 
 public class MTLCounterSet(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCounterSet>
 {
-    public static new MTLCounterSet Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLCounterSet Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLCounterSet Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLCounterSet Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLCounter[] Counters
     {

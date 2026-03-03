@@ -2,9 +2,9 @@
 
 public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCommandBuffer>
 {
-    public static new MTLCommandBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLCommandBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLCommandBuffer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLCommandBuffer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLCommandQueue CommandQueue
     {

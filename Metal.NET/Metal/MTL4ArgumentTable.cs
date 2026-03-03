@@ -2,9 +2,9 @@
 
 public class MTL4ArgumentTable(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4ArgumentTable>
 {
-    public static new MTL4ArgumentTable Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTL4ArgumentTable Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTL4ArgumentTable Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTL4ArgumentTable Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLDevice Device
     {

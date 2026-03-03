@@ -2,9 +2,9 @@
 
 public class MTLArgumentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLArgumentDescriptor>
 {
-    public static new MTLArgumentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLArgumentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLArgumentDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLArgumentDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLArgumentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLArgumentDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

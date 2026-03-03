@@ -2,9 +2,9 @@
 
 public class MTLBufferLayoutDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLBufferLayoutDescriptor>
 {
-    public static new MTLBufferLayoutDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLBufferLayoutDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLBufferLayoutDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLBufferLayoutDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLBufferLayoutDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBufferLayoutDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

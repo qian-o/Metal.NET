@@ -2,9 +2,9 @@
 
 public class MTL4RenderPassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4RenderPassDescriptor>
 {
-    public static new MTL4RenderPassDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTL4RenderPassDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTL4RenderPassDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTL4RenderPassDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTL4RenderPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPassDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

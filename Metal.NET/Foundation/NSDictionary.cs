@@ -5,9 +5,9 @@
 /// </summary>
 public class NSDictionary(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<NSDictionary>
 {
-    public static new NSDictionary Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static NSDictionary Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new NSDictionary Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static NSDictionary Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public nuint Count
     {

@@ -41,18 +41,14 @@ public interface INativeObject<TSelf> where TSelf : NativeObject, INativeObject<
 }
 
 /// <summary>
-/// Base class for managed wrappers around Objective-C objects.
+/// Abstract base class for managed wrappers around Objective-C objects.
 /// Holds a native pointer and manages its lifetime according to the
 /// <see cref="Ownership"/> policy.
 /// </summary>
 /// <param name="nativePtr">The Objective-C object pointer (<c>id</c>).</param>
 /// <param name="ownership">The ownership policy for the native reference.</param>
-public class NativeObject(nint nativePtr, NativeObjectOwnership ownership) : IDisposable, INativeObject<NativeObject>
+public abstract class NativeObject(nint nativePtr, NativeObjectOwnership ownership) : IDisposable
 {
-    public static NativeObject Null { get; } = new(0, NativeObjectOwnership.Borrowed);
-
-    public static NativeObject Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
-
     private volatile uint disposed;
 
     /// <summary>

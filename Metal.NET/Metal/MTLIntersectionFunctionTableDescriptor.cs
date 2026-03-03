@@ -2,9 +2,9 @@
 
 public class MTLIntersectionFunctionTableDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLIntersectionFunctionTableDescriptor>
 {
-    public static new MTLIntersectionFunctionTableDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLIntersectionFunctionTableDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLIntersectionFunctionTableDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLIntersectionFunctionTableDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLIntersectionFunctionTableDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIntersectionFunctionTableDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

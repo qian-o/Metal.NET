@@ -2,9 +2,9 @@
 
 public class MTLResourceViewPool(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLResourceViewPool>
 {
-    public static new MTLResourceViewPool Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLResourceViewPool Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLResourceViewPool Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLResourceViewPool Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLResourceID BaseResourceID
     {

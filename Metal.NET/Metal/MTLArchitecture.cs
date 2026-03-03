@@ -2,9 +2,9 @@
 
 public class MTLArchitecture(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLArchitecture>
 {
-    public static new MTLArchitecture Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLArchitecture Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLArchitecture Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLArchitecture Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLArchitecture() : this(ObjectiveCRuntime.AllocInit(MTLArchitectureBindings.Class), NativeObjectOwnership.Managed)
     {

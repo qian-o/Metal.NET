@@ -2,9 +2,9 @@
 
 public class MTLResidencySet(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLResidencySet>
 {
-    public static new MTLResidencySet Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLResidencySet Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLResidencySet Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLResidencySet Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLAllocation[] AllAllocations
     {

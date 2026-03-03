@@ -2,9 +2,9 @@
 
 public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCaptureManager>
 {
-    public static new MTLCaptureManager Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLCaptureManager Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLCaptureManager Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLCaptureManager Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLCaptureManager() : this(ObjectiveCRuntime.AllocInit(MTLCaptureManagerBindings.Class), NativeObjectOwnership.Managed)
     {

@@ -2,9 +2,9 @@
 
 public class MTLSharedEventListener(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLSharedEventListener>
 {
-    public static new MTLSharedEventListener Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLSharedEventListener Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLSharedEventListener Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLSharedEventListener Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLSharedEventListener() : this(ObjectiveCRuntime.AllocInit(MTLSharedEventListenerBindings.Class), NativeObjectOwnership.Managed)
     {

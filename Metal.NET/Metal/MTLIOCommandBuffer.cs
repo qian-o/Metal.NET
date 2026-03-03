@@ -2,9 +2,9 @@
 
 public class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLIOCommandBuffer>
 {
-    public static new MTLIOCommandBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLIOCommandBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLIOCommandBuffer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLIOCommandBuffer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public NSError Error
     {

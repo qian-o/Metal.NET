@@ -2,9 +2,9 @@
 
 public class MTLRenderPipelineReflection(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLRenderPipelineReflection>
 {
-    public static new MTLRenderPipelineReflection Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLRenderPipelineReflection Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLRenderPipelineReflection Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLRenderPipelineReflection Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLRenderPipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineReflectionBindings.Class), NativeObjectOwnership.Managed)
     {

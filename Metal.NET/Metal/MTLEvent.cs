@@ -2,9 +2,9 @@
 
 public class MTLEvent(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLEvent>
 {
-    public static new MTLEvent Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLEvent Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLEvent Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLEvent Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLDevice Device
     {

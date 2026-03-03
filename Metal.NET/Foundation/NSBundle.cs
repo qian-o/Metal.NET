@@ -5,9 +5,9 @@
 /// </summary>
 public class NSBundle(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<NSBundle>
 {
-    public static new NSBundle Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static NSBundle Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new NSBundle Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static NSBundle Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public static NSBundle MainBundle
     {

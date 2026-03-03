@@ -2,9 +2,9 @@
 
 public class MTLStencilDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLStencilDescriptor>
 {
-    public static new MTLStencilDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLStencilDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLStencilDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLStencilDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStencilDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

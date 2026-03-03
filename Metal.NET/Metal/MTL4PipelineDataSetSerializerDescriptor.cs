@@ -2,9 +2,9 @@
 
 public class MTL4PipelineDataSetSerializerDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4PipelineDataSetSerializerDescriptor>
 {
-    public static new MTL4PipelineDataSetSerializerDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTL4PipelineDataSetSerializerDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTL4PipelineDataSetSerializerDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTL4PipelineDataSetSerializerDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTL4PipelineDataSetSerializerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineDataSetSerializerDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

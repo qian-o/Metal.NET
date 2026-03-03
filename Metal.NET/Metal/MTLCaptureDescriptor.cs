@@ -2,18 +2,18 @@
 
 public class MTLCaptureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCaptureDescriptor>
 {
-    public static new MTLCaptureDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLCaptureDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLCaptureDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLCaptureDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLCaptureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCaptureDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
-    public NativeObject CaptureObject
+    public nint CaptureObject
     {
-        get => GetProperty(ref field, MTLCaptureDescriptorBindings.CaptureObject);
-        set => SetProperty(ref field, MTLCaptureDescriptorBindings.SetCaptureObject, value);
+        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureDescriptorBindings.CaptureObject);
+        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorBindings.SetCaptureObject, value);
     }
 
     public MTLCaptureDestination Destination

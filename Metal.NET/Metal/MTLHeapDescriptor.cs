@@ -2,9 +2,9 @@
 
 public class MTLHeapDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLHeapDescriptor>
 {
-    public static new MTLHeapDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLHeapDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLHeapDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLHeapDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLHeapDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

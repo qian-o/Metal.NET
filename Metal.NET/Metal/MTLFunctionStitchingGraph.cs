@@ -2,9 +2,9 @@
 
 public class MTLFunctionStitchingGraph(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFunctionStitchingGraph>
 {
-    public static new MTLFunctionStitchingGraph Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLFunctionStitchingGraph Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLFunctionStitchingGraph Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLFunctionStitchingGraph Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLFunctionStitchingGraph() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingGraphBindings.Class), NativeObjectOwnership.Managed)
     {

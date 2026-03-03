@@ -2,9 +2,9 @@
 
 public class MTLDrawable(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLDrawable>
 {
-    public static new MTLDrawable Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLDrawable Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLDrawable Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLDrawable Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public nuint DrawableID
     {

@@ -2,9 +2,9 @@
 
 public class MTLRenderPassAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLRenderPassAttachmentDescriptor>
 {
-    public static new MTLRenderPassAttachmentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLRenderPassAttachmentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLRenderPassAttachmentDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLRenderPassAttachmentDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLRenderPassAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassAttachmentDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

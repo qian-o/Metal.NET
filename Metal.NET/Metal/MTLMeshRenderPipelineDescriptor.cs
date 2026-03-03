@@ -2,9 +2,9 @@
 
 public class MTLMeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLMeshRenderPipelineDescriptor>
 {
-    public static new MTLMeshRenderPipelineDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLMeshRenderPipelineDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLMeshRenderPipelineDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLMeshRenderPipelineDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLMeshRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLMeshRenderPipelineDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

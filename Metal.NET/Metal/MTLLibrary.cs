@@ -2,9 +2,9 @@
 
 public class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLLibrary>
 {
-    public static new MTLLibrary Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLLibrary Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLLibrary Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLLibrary Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLDevice Device
     {

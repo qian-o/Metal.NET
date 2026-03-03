@@ -2,9 +2,9 @@
 
 public class MTLVertexDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLVertexDescriptor>
 {
-    public static new MTLVertexDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLVertexDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLVertexDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLVertexDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLVertexDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

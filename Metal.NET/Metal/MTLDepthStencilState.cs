@@ -2,9 +2,9 @@
 
 public class MTLDepthStencilState(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLDepthStencilState>
 {
-    public static new MTLDepthStencilState Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLDepthStencilState Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLDepthStencilState Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLDepthStencilState Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLDevice Device
     {

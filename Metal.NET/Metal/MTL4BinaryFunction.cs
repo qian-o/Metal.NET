@@ -2,9 +2,9 @@
 
 public class MTL4BinaryFunction(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4BinaryFunction>
 {
-    public static new MTL4BinaryFunction Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTL4BinaryFunction Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTL4BinaryFunction Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTL4BinaryFunction Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLFunctionType FunctionType
     {

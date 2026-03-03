@@ -2,9 +2,9 @@
 
 public class MTL4CommandAllocatorDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4CommandAllocatorDescriptor>
 {
-    public static new MTL4CommandAllocatorDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTL4CommandAllocatorDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTL4CommandAllocatorDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTL4CommandAllocatorDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTL4CommandAllocatorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CommandAllocatorDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

@@ -2,9 +2,9 @@
 
 public class MTLMotionKeyframeData(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLMotionKeyframeData>
 {
-    public static new MTLMotionKeyframeData Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLMotionKeyframeData Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLMotionKeyframeData Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLMotionKeyframeData Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLMotionKeyframeData() : this(ObjectiveCRuntime.AllocInit(MTLMotionKeyframeDataBindings.Class), NativeObjectOwnership.Managed)
     {

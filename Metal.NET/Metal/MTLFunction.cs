@@ -2,9 +2,9 @@
 
 public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFunction>
 {
-    public static new MTLFunction Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLFunction Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLFunction Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLFunction Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLDevice Device
     {

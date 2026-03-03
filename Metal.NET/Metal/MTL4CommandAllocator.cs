@@ -2,9 +2,9 @@
 
 public class MTL4CommandAllocator(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4CommandAllocator>
 {
-    public static new MTL4CommandAllocator Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTL4CommandAllocator Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTL4CommandAllocator Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTL4CommandAllocator Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLDevice Device
     {

@@ -2,9 +2,9 @@
 
 public class MTLTextureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLTextureDescriptor>
 {
-    public static new MTLTextureDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLTextureDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLTextureDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLTextureDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLTextureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTextureDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

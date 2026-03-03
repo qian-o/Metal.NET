@@ -2,9 +2,9 @@
 
 public class MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFXTemporalDenoisedScalerDescriptor>
 {
-    public static new MTLFXTemporalDenoisedScalerDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLFXTemporalDenoisedScalerDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLFXTemporalDenoisedScalerDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLFXTemporalDenoisedScalerDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLFXTemporalDenoisedScalerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFXTemporalDenoisedScalerDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

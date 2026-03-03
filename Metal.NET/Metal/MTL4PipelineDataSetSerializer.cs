@@ -2,9 +2,9 @@
 
 public class MTL4PipelineDataSetSerializer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4PipelineDataSetSerializer>
 {
-    public static new MTL4PipelineDataSetSerializer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTL4PipelineDataSetSerializer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTL4PipelineDataSetSerializer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTL4PipelineDataSetSerializer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public bool SerializeAsArchiveAndFlushToURL(NSURL url, out NSError error)
     {

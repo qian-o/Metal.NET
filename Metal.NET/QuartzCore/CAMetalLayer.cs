@@ -2,9 +2,9 @@
 
 public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<CAMetalLayer>
 {
-    public static new CAMetalLayer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static CAMetalLayer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new CAMetalLayer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static CAMetalLayer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(CAMetalLayerBindings.Class), NativeObjectOwnership.Managed)
     {

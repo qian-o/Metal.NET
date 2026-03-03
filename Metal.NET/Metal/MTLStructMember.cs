@@ -2,9 +2,9 @@
 
 public class MTLStructMember(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLStructMember>
 {
-    public static new MTLStructMember Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLStructMember Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLStructMember Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLStructMember Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLStructMember() : this(ObjectiveCRuntime.AllocInit(MTLStructMemberBindings.Class), NativeObjectOwnership.Managed)
     {

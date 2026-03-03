@@ -2,9 +2,9 @@
 
 public class MTLTensorDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLTensorDescriptor>
 {
-    public static new MTLTensorDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLTensorDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLTensorDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLTensorDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLTensorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTensorDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

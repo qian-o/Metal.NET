@@ -2,9 +2,9 @@
 
 public class MTLDepthStencilDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLDepthStencilDescriptor>
 {
-    public static new MTLDepthStencilDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLDepthStencilDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLDepthStencilDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLDepthStencilDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLDepthStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLDepthStencilDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

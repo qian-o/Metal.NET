@@ -5,9 +5,9 @@
 /// </summary>
 public class NSAutoreleasePool(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<NSAutoreleasePool>
 {
-    public static new NSAutoreleasePool Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static NSAutoreleasePool Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new NSAutoreleasePool Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static NSAutoreleasePool Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public NSAutoreleasePool() : this(ObjectiveCRuntime.AllocInit(NSAutoreleasePoolBindings.Class), NativeObjectOwnership.Managed)
     {

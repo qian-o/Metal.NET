@@ -2,9 +2,9 @@
 
 public class MTLCaptureScope(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCaptureScope>
 {
-    public static new MTLCaptureScope Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLCaptureScope Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLCaptureScope Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLCaptureScope Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLCommandQueue CommandQueue
     {

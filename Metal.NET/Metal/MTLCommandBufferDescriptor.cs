@@ -2,9 +2,9 @@
 
 public class MTLCommandBufferDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCommandBufferDescriptor>
 {
-    public static new MTLCommandBufferDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLCommandBufferDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLCommandBufferDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLCommandBufferDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLCommandBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCommandBufferDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

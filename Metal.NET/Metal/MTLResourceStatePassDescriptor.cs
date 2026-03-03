@@ -2,9 +2,9 @@
 
 public class MTLResourceStatePassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLResourceStatePassDescriptor>
 {
-    public static new MTLResourceStatePassDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static MTLResourceStatePassDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLResourceStatePassDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLResourceStatePassDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLResourceStatePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceStatePassDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
