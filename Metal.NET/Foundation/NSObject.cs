@@ -73,11 +73,24 @@ public class NSObject(nint nativePtr, NativeObjectOwnership ownership) : NativeO
         return ObjectiveCRuntime.MsgSendPtr(NativePtr, NSObjectBindings.PerformSelector, selector.NativePtr);
     }
 
+    /// <summary>
+    /// Sends <c>retain</c> to the native object, incrementing its reference count.
+    /// <para>
+    /// Warning: Use with caution. Manual retain/release can conflict with the
+    /// <see cref="NativeObjectOwnership"/> lifecycle system. Prefer using
+    /// <see cref="NativeObjectOwnership.Owned"/> or <see cref="NativeObjectOwnership.Managed"/>
+    /// instead of manual retain calls.
+    /// </para>
+    /// </summary>
     public void Retain()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, NSObjectBindings.Retain);
     }
 
+    /// <summary>
+    /// Returns the number of retain references to the native object.
+    /// Useful for debugging memory management issues.
+    /// </summary>
     public nuint RetainCount
     {
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, NSObjectBindings.RetainCount);

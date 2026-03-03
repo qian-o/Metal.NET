@@ -21,14 +21,9 @@ public class NSValue(nint nativePtr, NativeObjectOwnership ownership) : NativeOb
         get => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSValueBindings.ObjCType);
     }
 
-    public NSString ObjCTypeString
+    public string ObjCTypeString
     {
-        get
-        {
-            nint typePtr = ObjCType;
-
-            return (NSString)(Marshal.PtrToStringUTF8(typePtr) ?? string.Empty);
-        }
+        get => Marshal.PtrToStringUTF8(ObjCType) ?? string.Empty;
     }
 
     public static NSValue ValueWithPointer(nint pointer)
@@ -36,11 +31,14 @@ public class NSValue(nint nativePtr, NativeObjectOwnership ownership) : NativeOb
         return new(ObjectiveCRuntime.MsgSendPtr(NSValueBindings.Class, NSValueBindings.ValueWithPointer, pointer), NativeObjectOwnership.Owned);
     }
 
+    public NSString Description
+    {
+        get => GetProperty(ref field, NSValueBindings.Description);
+    }
+
     public override string ToString()
     {
-        nint descPtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, NSValueBindings.Description);
-
-        return Marshal.PtrToStringUTF8(ObjectiveCRuntime.MsgSendPtr(descPtr, NSValueBindings.Utf8String)) ?? string.Empty;
+        return Description.Value;
     }
 }
 
@@ -55,6 +53,4 @@ file static class NSValueBindings
     public static readonly Selector ValueWithPointer = "valueWithPointer:";
 
     public static readonly Selector Description = "description";
-
-    public static readonly Selector Utf8String = "UTF8String";
 }
