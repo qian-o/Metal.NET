@@ -795,14 +795,12 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         else
         {
             string msgSend = TypeMapper.GetMsgSendMethod(csType);
-            string getCast = csType is "int" or "long" ? $"({csType})" : "";
             sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => {getCast}ObjectiveCRuntime.{msgSend}({Target}, {selectorRef});");
+            sb.AppendLine($"        get => ObjectiveCRuntime.{msgSend}({Target}, {selectorRef});");
             if (prop.Setter != null)
             {
-                string setCast = csType switch { "int" => "(nint)", "long" => "(nint)", _ => "" };
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, {setCast}value);");
+                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value);");
             }
             sb.AppendLine("    }");
         }
@@ -1207,10 +1205,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         else
         {
             string msgSend = TypeMapper.GetMsgSendMethod(returnType);
-            string retCast = returnType is "int" or "long" ? $"({returnType})" : "";
             if (hasOutError)
             {
-                sb.AppendLine($"{indent}{csReturnType} result = {retCast}ObjectiveCRuntime.{msgSend}({argsStr});");
+                sb.AppendLine($"{indent}{csReturnType} result = ObjectiveCRuntime.{msgSend}({argsStr});");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
                 sb.AppendLine();
@@ -1218,7 +1215,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             }
             else
             {
-                sb.AppendLine($"{indent}return {retCast}ObjectiveCRuntime.{msgSend}({argsStr});");
+                sb.AppendLine($"{indent}return ObjectiveCRuntime.{msgSend}({argsStr});");
             }
         }
 

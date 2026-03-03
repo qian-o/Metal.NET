@@ -24,7 +24,7 @@ public class MTLIOCommandQueueDescriptor(nint nativePtr, NativeObjectOwnership o
 
     public MTLIOPriority Priority
     {
-        get => (MTLIOPriority)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueDescriptorBindings.Priority);
+        get => (MTLIOPriority)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLIOCommandQueueDescriptorBindings.Priority);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorBindings.SetPriority, (nint)value);
     }
 
@@ -36,7 +36,7 @@ public class MTLIOCommandQueueDescriptor(nint nativePtr, NativeObjectOwnership o
 
     public MTLIOCommandQueueType Type
     {
-        get => (MTLIOCommandQueueType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandQueueDescriptorBindings.Type);
+        get => (MTLIOCommandQueueType)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLIOCommandQueueDescriptorBindings.Type);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorBindings.SetType, (nint)value);
     }
 }

@@ -13,12 +13,12 @@ public class MTLTensorBinding(nint nativePtr, NativeObjectOwnership ownership) :
 
     public MTLDataType IndexType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorBindingBindings.IndexType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorBindingBindings.IndexType);
     }
 
     public MTLTensorDataType TensorDataType
     {
-        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindingBindings.TensorDataType);
+        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLTensorBindingBindings.TensorDataType);
     }
 }
 

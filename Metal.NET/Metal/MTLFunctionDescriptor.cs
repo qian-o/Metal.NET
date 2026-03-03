@@ -30,7 +30,7 @@ public class MTLFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownersh
 
     public MTLFunctionOptions Options
     {
-        get => (MTLFunctionOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionDescriptorBindings.Options);
+        get => (MTLFunctionOptions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionDescriptorBindings.Options);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetOptions, (nuint)value);
     }
 

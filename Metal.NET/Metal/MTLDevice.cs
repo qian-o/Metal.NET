@@ -30,7 +30,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
 
     public MTLArgumentBuffersTier ArgumentBuffersSupport
     {
-        get => (MTLArgumentBuffersTier)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceBindings.ArgumentBuffersSupport);
+        get => (MTLArgumentBuffersTier)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLDeviceBindings.ArgumentBuffersSupport);
     }
 
     public Bool8 BarycentricCoordsSupported
@@ -85,7 +85,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
 
     public MTLDeviceLocation Location
     {
-        get => (MTLDeviceLocation)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceBindings.Location);
+        get => (MTLDeviceLocation)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLDeviceBindings.Location);
     }
 
     public nuint LocationNumber
@@ -160,7 +160,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
 
     public MTLReadWriteTextureTier ReadWriteTextureSupport
     {
-        get => (MTLReadWriteTextureTier)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDeviceBindings.ReadWriteTextureSupport);
+        get => (MTLReadWriteTextureTier)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLDeviceBindings.ReadWriteTextureSupport);
     }
 
     public ulong RecommendedMaxWorkingSetSize
@@ -908,7 +908,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
     [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLRemoveDeviceObserver")]
     private static partial void MTLRemoveDeviceObserver(nint param);
 
-    public static void RemoveDeviceObserver(NativeObject param) => MTLRemoveDeviceObserver(param.NativePtr);
+    public static void RemoveDeviceObserver(nint param) => MTLRemoveDeviceObserver(param);
 }
 
 file static class MTLDeviceBindings

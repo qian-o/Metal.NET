@@ -30,7 +30,7 @@ public class MTLCounterSampleBufferDescriptor(nint nativePtr, NativeObjectOwners
 
     public MTLStorageMode StorageMode
     {
-        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCounterSampleBufferDescriptorBindings.StorageMode);
+        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCounterSampleBufferDescriptorBindings.StorageMode);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorBindings.SetStorageMode, (nuint)value);
     }
 }

@@ -19,7 +19,7 @@ public class MTL4CounterHeap(nint nativePtr, NativeObjectOwnership ownership) : 
 
     public MTL4CounterHeapType Type
     {
-        get => (MTL4CounterHeapType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapBindings.Type);
+        get => (MTL4CounterHeapType)ObjectiveCRuntime.MsgSendLong(NativePtr, MTL4CounterHeapBindings.Type);
     }
 
     public void InvalidateCounterRange(NSRange range)

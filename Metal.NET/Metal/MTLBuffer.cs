@@ -23,7 +23,7 @@ public class MTLBuffer(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
 
     public MTLBufferSparseTier SparseBufferTier
     {
-        get => (MTLBufferSparseTier)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.SparseBufferTier);
+        get => (MTLBufferSparseTier)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLBufferBindings.SparseBufferTier);
     }
 
     public void AddDebugMarker(NSString marker, NSRange range)

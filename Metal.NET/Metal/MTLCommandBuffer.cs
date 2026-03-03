@@ -23,7 +23,7 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
 
     public MTLCommandBufferErrorOption ErrorOptions
     {
-        get => (MTLCommandBufferErrorOption)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandBufferBindings.ErrorOptions);
+        get => (MTLCommandBufferErrorOption)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCommandBufferBindings.ErrorOptions);
     }
 
     public double GPUEndTime
@@ -64,7 +64,7 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
 
     public MTLCommandBufferStatus Status
     {
-        get => (MTLCommandBufferStatus)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandBufferBindings.Status);
+        get => (MTLCommandBufferStatus)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCommandBufferBindings.Status);
     }
 
     public MTLAccelerationStructureCommandEncoder AccelerationStructureCommandEncoder()

@@ -156,6 +156,11 @@ partial class TypeMapper(GeneratorContext context)
                 return "ulong";
             }
 
+            if (typeNs == "NS" && typeName == "Object")
+            {
+                return "nint";
+            }
+
             string prefix = GetPrefix(typeNs);
             return prefix + typeName;
         }
@@ -255,9 +260,9 @@ partial class TypeMapper(GeneratorContext context)
         "nint" => "MsgSendPtr",
         "nuint" => "MsgSendNUInt",
         "uint" => "MsgSendUInt",
-        "int" => "MsgSendPtr",
+        "int" => "MsgSendInt",
         "ulong" => "MsgSendULong",
-        "long" => "MsgSendPtr",
+        "long" => "MsgSendLong",
         "float" => "MsgSendFloat",
         "double" => "MsgSendDouble",
         _ => "MsgSendPtr"
@@ -271,8 +276,8 @@ partial class TypeMapper(GeneratorContext context)
             {
                 "int" => "ObjectiveCRuntime.MsgSendInt",
                 "uint" => "ObjectiveCRuntime.MsgSendUInt",
-                "long" => "ObjectiveCRuntime.MsgSendPtr",
-                "ulong" => "ObjectiveCRuntime.MsgSendNUInt",
+                "long" => "ObjectiveCRuntime.MsgSendLong",
+                "ulong" => "ObjectiveCRuntime.MsgSendULong",
                 _ => "ObjectiveCRuntime.MsgSendNUInt"
             };
         }

@@ -12,13 +12,13 @@ public class MTLStencilDescriptor(nint nativePtr, NativeObjectOwnership ownershi
 
     public MTLStencilOperation DepthFailureOperation
     {
-        get => (MTLStencilOperation)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStencilDescriptorBindings.DepthFailureOperation);
+        get => (MTLStencilOperation)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorBindings.DepthFailureOperation);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetDepthFailureOperation, (nuint)value);
     }
 
     public MTLStencilOperation DepthStencilPassOperation
     {
-        get => (MTLStencilOperation)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStencilDescriptorBindings.DepthStencilPassOperation);
+        get => (MTLStencilOperation)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorBindings.DepthStencilPassOperation);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetDepthStencilPassOperation, (nuint)value);
     }
 
@@ -30,13 +30,13 @@ public class MTLStencilDescriptor(nint nativePtr, NativeObjectOwnership ownershi
 
     public MTLCompareFunction StencilCompareFunction
     {
-        get => (MTLCompareFunction)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStencilDescriptorBindings.StencilCompareFunction);
+        get => (MTLCompareFunction)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorBindings.StencilCompareFunction);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetStencilCompareFunction, (nuint)value);
     }
 
     public MTLStencilOperation StencilFailureOperation
     {
-        get => (MTLStencilOperation)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStencilDescriptorBindings.StencilFailureOperation);
+        get => (MTLStencilOperation)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorBindings.StencilFailureOperation);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetStencilFailureOperation, (nuint)value);
     }
 

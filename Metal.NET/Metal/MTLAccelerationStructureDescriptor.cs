@@ -12,7 +12,7 @@ public class MTLAccelerationStructureDescriptor(nint nativePtr, NativeObjectOwne
 
     public MTLAccelerationStructureUsage Usage
     {
-        get => (MTLAccelerationStructureUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureDescriptorBindings.Usage);
+        get => (MTLAccelerationStructureUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAccelerationStructureDescriptorBindings.Usage);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAccelerationStructureDescriptorBindings.SetUsage, (nuint)value);
     }
 }

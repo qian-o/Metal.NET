@@ -17,7 +17,7 @@ public class MTLStructMember(nint nativePtr, NativeObjectOwnership ownership) : 
 
     public MTLDataType DataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStructMemberBindings.DataType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStructMemberBindings.DataType);
     }
 
     public NSString Name

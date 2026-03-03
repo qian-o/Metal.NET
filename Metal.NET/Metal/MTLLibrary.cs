@@ -29,7 +29,7 @@ public class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership) : Nativ
 
     public MTLLibraryType Type
     {
-        get => (MTLLibraryType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLibraryBindings.Type);
+        get => (MTLLibraryType)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLLibraryBindings.Type);
     }
 
     public MTLFunction NewFunction(NSString functionName)

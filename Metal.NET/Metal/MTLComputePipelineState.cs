@@ -38,7 +38,7 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.ShaderValidation);
+        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLComputePipelineStateBindings.ShaderValidation);
     }
 
     public nuint StaticThreadgroupMemoryLength

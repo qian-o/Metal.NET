@@ -391,6 +391,9 @@ public static partial class ObjectiveCRuntime
     private static partial void _MsgSend(nint receiver, Selector selector, int a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void _MsgSend(nint receiver, Selector selector, long a);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, uint a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -1513,6 +1516,16 @@ public static partial class ObjectiveCRuntime
     }
 
     public static void MsgSend(nint receiver, Selector selector, int a)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        _MsgSend(receiver, selector, a);
+    }
+
+    public static void MsgSend(nint receiver, Selector selector, long a)
     {
         if (receiver is 0)
         {
@@ -2728,6 +2741,9 @@ public static partial class ObjectiveCRuntime
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial ulong _MsgSendULong(nint receiver, Selector selector);
 
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial ulong _MsgSendULong(nint receiver, Selector selector, nuint a);
+
     public static ulong MsgSendULong(nint receiver, Selector selector)
     {
         if (receiver is 0)
@@ -2736,6 +2752,16 @@ public static partial class ObjectiveCRuntime
         }
 
         return _MsgSendULong(receiver, selector);
+    }
+
+    public static ulong MsgSendULong(nint receiver, Selector selector, nuint a)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendULong(receiver, selector, a);
     }
 
     #endregion

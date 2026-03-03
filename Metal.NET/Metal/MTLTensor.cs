@@ -18,7 +18,7 @@ public class MTLTensor(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
 
     public MTLTensorDataType DataType
     {
-        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorBindings.DataType);
+        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLTensorBindings.DataType);
     }
 
     public MTLTensorExtents Dimensions
@@ -38,7 +38,7 @@ public class MTLTensor(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
 
     public MTLTensorUsage Usage
     {
-        get => (MTLTensorUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorBindings.Usage);
+        get => (MTLTensorUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorBindings.Usage);
     }
 
     public void GetBytes(nint bytes, MTLTensorExtents strides, MTLTensorExtents sliceOrigin, MTLTensorExtents sliceDimensions)

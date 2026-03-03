@@ -35,7 +35,7 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership o
 
     public MTLPixelFormat DepthAttachmentPixelFormat
     {
-        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorBindings.DepthAttachmentPixelFormat);
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorBindings.DepthAttachmentPixelFormat);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetDepthAttachmentPixelFormat, (nuint)value);
     }
 
@@ -64,7 +64,7 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership o
 
     public MTLPrimitiveTopologyClass InputPrimitiveTopology
     {
-        get => (MTLPrimitiveTopologyClass)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorBindings.InputPrimitiveTopology);
+        get => (MTLPrimitiveTopologyClass)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorBindings.InputPrimitiveTopology);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetInputPrimitiveTopology, (nuint)value);
     }
 
@@ -138,13 +138,13 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership o
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineDescriptorBindings.ShaderValidation);
+        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLRenderPipelineDescriptorBindings.ShaderValidation);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetShaderValidation, (nint)value);
     }
 
     public MTLPixelFormat StencilAttachmentPixelFormat
     {
-        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorBindings.StencilAttachmentPixelFormat);
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorBindings.StencilAttachmentPixelFormat);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetStencilAttachmentPixelFormat, (nuint)value);
     }
 
@@ -168,13 +168,13 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership o
 
     public MTLTessellationControlPointIndexType TessellationControlPointIndexType
     {
-        get => (MTLTessellationControlPointIndexType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorBindings.TessellationControlPointIndexType);
+        get => (MTLTessellationControlPointIndexType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorBindings.TessellationControlPointIndexType);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationControlPointIndexType, (nuint)value);
     }
 
     public MTLTessellationFactorFormat TessellationFactorFormat
     {
-        get => (MTLTessellationFactorFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorBindings.TessellationFactorFormat);
+        get => (MTLTessellationFactorFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorBindings.TessellationFactorFormat);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationFactorFormat, (nuint)value);
     }
 
@@ -186,19 +186,19 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership o
 
     public MTLTessellationFactorStepFunction TessellationFactorStepFunction
     {
-        get => (MTLTessellationFactorStepFunction)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorBindings.TessellationFactorStepFunction);
+        get => (MTLTessellationFactorStepFunction)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorBindings.TessellationFactorStepFunction);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationFactorStepFunction, (nuint)value);
     }
 
     public MTLWinding TessellationOutputWindingOrder
     {
-        get => (MTLWinding)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorBindings.TessellationOutputWindingOrder);
+        get => (MTLWinding)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorBindings.TessellationOutputWindingOrder);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationOutputWindingOrder, (nuint)value);
     }
 
     public MTLTessellationPartitionMode TessellationPartitionMode
     {
-        get => (MTLTessellationPartitionMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPipelineDescriptorBindings.TessellationPartitionMode);
+        get => (MTLTessellationPartitionMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPipelineDescriptorBindings.TessellationPartitionMode);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationPartitionMode, (nuint)value);
     }
 

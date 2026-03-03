@@ -19,7 +19,7 @@ public class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership)
 
     public MTLIOStatus Status
     {
-        get => (MTLIOStatus)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferBindings.Status);
+        get => (MTLIOStatus)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLIOCommandBufferBindings.Status);
     }
 
     public void AddBarrier()

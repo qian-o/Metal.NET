@@ -12,7 +12,7 @@ public class MTLPipelineBufferDescriptor(nint nativePtr, NativeObjectOwnership o
 
     public MTLMutability Mutability
     {
-        get => (MTLMutability)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPipelineBufferDescriptorBindings.Mutability);
+        get => (MTLMutability)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLPipelineBufferDescriptorBindings.Mutability);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorBindings.SetMutability, (nuint)value);
     }
 }

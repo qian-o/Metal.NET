@@ -18,7 +18,7 @@ public class MTLCaptureDescriptor(nint nativePtr, NativeObjectOwnership ownershi
 
     public MTLCaptureDestination Destination
     {
-        get => (MTLCaptureDestination)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureDescriptorBindings.Destination);
+        get => (MTLCaptureDestination)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLCaptureDescriptorBindings.Destination);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorBindings.SetDestination, (nint)value);
     }
 

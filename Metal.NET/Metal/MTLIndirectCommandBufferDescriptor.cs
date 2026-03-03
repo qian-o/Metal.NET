@@ -12,7 +12,7 @@ public class MTLIndirectCommandBufferDescriptor(nint nativePtr, NativeObjectOwne
 
     public MTLIndirectCommandType CommandTypes
     {
-        get => (MTLIndirectCommandType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferDescriptorBindings.CommandTypes);
+        get => (MTLIndirectCommandType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLIndirectCommandBufferDescriptorBindings.CommandTypes);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetCommandTypes, (nuint)value);
     }
 

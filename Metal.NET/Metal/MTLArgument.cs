@@ -12,7 +12,7 @@ public class MTLArgument(nint nativePtr, NativeObjectOwnership ownership) : Nati
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentBindings.Access);
+        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentBindings.Access);
     }
 
     public Bool8 Active
@@ -37,7 +37,7 @@ public class MTLArgument(nint nativePtr, NativeObjectOwnership ownership) : Nati
 
     public MTLDataType BufferDataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentBindings.BufferDataType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentBindings.BufferDataType);
     }
 
     public MTLPointerType BufferPointerType
@@ -72,12 +72,12 @@ public class MTLArgument(nint nativePtr, NativeObjectOwnership ownership) : Nati
 
     public MTLDataType TextureDataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentBindings.TextureDataType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentBindings.TextureDataType);
     }
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentBindings.TextureType);
+        get => (MTLTextureType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentBindings.TextureType);
     }
 
     public nuint ThreadgroupMemoryAlignment
@@ -92,7 +92,7 @@ public class MTLArgument(nint nativePtr, NativeObjectOwnership ownership) : Nati
 
     public MTLArgumentType Type
     {
-        get => (MTLArgumentType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentBindings.Type);
+        get => (MTLArgumentType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentBindings.Type);
     }
 }
 

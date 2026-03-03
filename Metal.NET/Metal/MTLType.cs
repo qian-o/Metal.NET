@@ -12,7 +12,7 @@ public class MTLType(nint nativePtr, NativeObjectOwnership ownership) : NativeOb
 
     public MTLDataType DataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTypeBindings.DataType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTypeBindings.DataType);
     }
 }
 

@@ -173,7 +173,7 @@ public class MTL4ComputeCommandEncoder(nint nativePtr, NativeObjectOwnership own
 
     public MTLStages Stages()
     {
-        return (MTLStages)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4ComputeCommandEncoderBindings.Stages);
+        return (MTLStages)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4ComputeCommandEncoderBindings.Stages);
     }
 
     public void WriteCompactedAccelerationStructureSize(MTLAccelerationStructure accelerationStructure, MTL4BufferRange buffer)

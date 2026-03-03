@@ -27,7 +27,7 @@ public class MTLFunctionConstant(nint nativePtr, NativeObjectOwnership ownership
 
     public MTLDataType Type
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionConstantBindings.Type);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionConstantBindings.Type);
     }
 }
 

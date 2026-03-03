@@ -12,19 +12,19 @@ public class MTL4RenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership 
 
     public MTL4AlphaToCoverageState AlphaToCoverageState
     {
-        get => (MTL4AlphaToCoverageState)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorBindings.AlphaToCoverageState);
+        get => (MTL4AlphaToCoverageState)ObjectiveCRuntime.MsgSendLong(NativePtr, MTL4RenderPipelineDescriptorBindings.AlphaToCoverageState);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetAlphaToCoverageState, (nint)value);
     }
 
     public MTL4AlphaToOneState AlphaToOneState
     {
-        get => (MTL4AlphaToOneState)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorBindings.AlphaToOneState);
+        get => (MTL4AlphaToOneState)ObjectiveCRuntime.MsgSendLong(NativePtr, MTL4RenderPipelineDescriptorBindings.AlphaToOneState);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetAlphaToOneState, (nint)value);
     }
 
     public MTL4LogicalToPhysicalColorAttachmentMappingState ColorAttachmentMappingState
     {
-        get => (MTL4LogicalToPhysicalColorAttachmentMappingState)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorBindings.ColorAttachmentMappingState);
+        get => (MTL4LogicalToPhysicalColorAttachmentMappingState)ObjectiveCRuntime.MsgSendLong(NativePtr, MTL4RenderPipelineDescriptorBindings.ColorAttachmentMappingState);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetColorAttachmentMappingState, (nint)value);
     }
 
@@ -47,7 +47,7 @@ public class MTL4RenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership 
 
     public MTLPrimitiveTopologyClass InputPrimitiveTopology
     {
-        get => (MTLPrimitiveTopologyClass)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderPipelineDescriptorBindings.InputPrimitiveTopology);
+        get => (MTLPrimitiveTopologyClass)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4RenderPipelineDescriptorBindings.InputPrimitiveTopology);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetInputPrimitiveTopology, (nuint)value);
     }
 
@@ -82,7 +82,7 @@ public class MTL4RenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership 
 
     public MTL4IndirectCommandBufferSupportState SupportIndirectCommandBuffers
     {
-        get => (MTL4IndirectCommandBufferSupportState)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineDescriptorBindings.SupportIndirectCommandBuffers);
+        get => (MTL4IndirectCommandBufferSupportState)ObjectiveCRuntime.MsgSendLong(NativePtr, MTL4RenderPipelineDescriptorBindings.SupportIndirectCommandBuffers);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetSupportIndirectCommandBuffers, (nint)value);
     }
 

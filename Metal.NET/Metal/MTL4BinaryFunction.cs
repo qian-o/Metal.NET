@@ -8,7 +8,7 @@ public class MTL4BinaryFunction(nint nativePtr, NativeObjectOwnership ownership)
 
     public MTLFunctionType FunctionType
     {
-        get => (MTLFunctionType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4BinaryFunctionBindings.FunctionType);
+        get => (MTLFunctionType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4BinaryFunctionBindings.FunctionType);
     }
 
     public NSString Name

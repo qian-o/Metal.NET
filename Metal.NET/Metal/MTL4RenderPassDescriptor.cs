@@ -95,7 +95,7 @@ public class MTL4RenderPassDescriptor(nint nativePtr, NativeObjectOwnership owne
 
     public MTLVisibilityResultType VisibilityResultType
     {
-        get => (MTLVisibilityResultType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPassDescriptorBindings.VisibilityResultType);
+        get => (MTLVisibilityResultType)ObjectiveCRuntime.MsgSendLong(NativePtr, MTL4RenderPassDescriptorBindings.VisibilityResultType);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetVisibilityResultType, (nint)value);
     }
 

@@ -12,13 +12,13 @@ public class MTLSamplerDescriptor(nint nativePtr, NativeObjectOwnership ownershi
 
     public MTLSamplerBorderColor BorderColor
     {
-        get => (MTLSamplerBorderColor)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSamplerDescriptorBindings.BorderColor);
+        get => (MTLSamplerBorderColor)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.BorderColor);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetBorderColor, (nuint)value);
     }
 
     public MTLCompareFunction CompareFunction
     {
-        get => (MTLCompareFunction)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSamplerDescriptorBindings.CompareFunction);
+        get => (MTLCompareFunction)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.CompareFunction);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetCompareFunction, (nuint)value);
     }
 
@@ -54,7 +54,7 @@ public class MTLSamplerDescriptor(nint nativePtr, NativeObjectOwnership ownershi
 
     public MTLSamplerMinMagFilter MagFilter
     {
-        get => (MTLSamplerMinMagFilter)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSamplerDescriptorBindings.MagFilter);
+        get => (MTLSamplerMinMagFilter)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.MagFilter);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetMagFilter, (nuint)value);
     }
 
@@ -66,13 +66,13 @@ public class MTLSamplerDescriptor(nint nativePtr, NativeObjectOwnership ownershi
 
     public MTLSamplerMinMagFilter MinFilter
     {
-        get => (MTLSamplerMinMagFilter)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSamplerDescriptorBindings.MinFilter);
+        get => (MTLSamplerMinMagFilter)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.MinFilter);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetMinFilter, (nuint)value);
     }
 
     public MTLSamplerMipFilter MipFilter
     {
-        get => (MTLSamplerMipFilter)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSamplerDescriptorBindings.MipFilter);
+        get => (MTLSamplerMipFilter)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.MipFilter);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetMipFilter, (nuint)value);
     }
 
@@ -84,19 +84,19 @@ public class MTLSamplerDescriptor(nint nativePtr, NativeObjectOwnership ownershi
 
     public MTLSamplerAddressMode RAddressMode
     {
-        get => (MTLSamplerAddressMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSamplerDescriptorBindings.RAddressMode);
+        get => (MTLSamplerAddressMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.RAddressMode);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetRAddressMode, (nuint)value);
     }
 
     public MTLSamplerReductionMode ReductionMode
     {
-        get => (MTLSamplerReductionMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSamplerDescriptorBindings.ReductionMode);
+        get => (MTLSamplerReductionMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.ReductionMode);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetReductionMode, (nuint)value);
     }
 
     public MTLSamplerAddressMode SAddressMode
     {
-        get => (MTLSamplerAddressMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSamplerDescriptorBindings.SAddressMode);
+        get => (MTLSamplerAddressMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.SAddressMode);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetSAddressMode, (nuint)value);
     }
 
@@ -108,7 +108,7 @@ public class MTLSamplerDescriptor(nint nativePtr, NativeObjectOwnership ownershi
 
     public MTLSamplerAddressMode TAddressMode
     {
-        get => (MTLSamplerAddressMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLSamplerDescriptorBindings.TAddressMode);
+        get => (MTLSamplerAddressMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.TAddressMode);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetTAddressMode, (nuint)value);
     }
 }

@@ -18,7 +18,7 @@ public class MTLDepthStencilDescriptor(nint nativePtr, NativeObjectOwnership own
 
     public MTLCompareFunction DepthCompareFunction
     {
-        get => (MTLCompareFunction)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDepthStencilDescriptorBindings.DepthCompareFunction);
+        get => (MTLCompareFunction)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLDepthStencilDescriptorBindings.DepthCompareFunction);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetDepthCompareFunction, (nuint)value);
     }
 

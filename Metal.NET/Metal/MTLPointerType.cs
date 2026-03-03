@@ -12,7 +12,7 @@ public class MTLPointerType(nint nativePtr, NativeObjectOwnership ownership) : M
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.Access);
+        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLPointerTypeBindings.Access);
     }
 
     public nuint Alignment
@@ -32,7 +32,7 @@ public class MTLPointerType(nint nativePtr, NativeObjectOwnership ownership) : M
 
     public MTLDataType ElementType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.ElementType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLPointerTypeBindings.ElementType);
     }
 
     public MTLArrayType ElementArrayType()

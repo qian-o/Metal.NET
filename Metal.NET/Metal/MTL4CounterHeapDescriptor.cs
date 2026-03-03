@@ -18,7 +18,7 @@ public class MTL4CounterHeapDescriptor(nint nativePtr, NativeObjectOwnership own
 
     public MTL4CounterHeapType Type
     {
-        get => (MTL4CounterHeapType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapDescriptorBindings.Type);
+        get => (MTL4CounterHeapType)ObjectiveCRuntime.MsgSendLong(NativePtr, MTL4CounterHeapDescriptorBindings.Type);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapDescriptorBindings.SetType, (nint)value);
     }
 }
