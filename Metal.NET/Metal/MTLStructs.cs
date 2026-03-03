@@ -107,6 +107,14 @@ public struct MTLAccelerationStructureSizes(nuint accelerationStructureSize, nui
 }
 
 [StructLayout(LayoutKind.Sequential)]
+public struct MTLAxisAlignedBoundingBox(MTLPackedFloat3 min, MTLPackedFloat3 max)
+{
+    public MTLPackedFloat3 Min = min;
+
+    public MTLPackedFloat3 Max = max;
+}
+
+[StructLayout(LayoutKind.Sequential)]
 public struct MTLClearColor(double red, double green, double blue, double alpha)
 {
     public double Red = red;
@@ -116,6 +124,20 @@ public struct MTLClearColor(double red, double green, double blue, double alpha)
     public double Blue = blue;
 
     public double Alpha = alpha;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLComponentTransform(MTLPackedFloat3 scale, MTLPackedFloat3 shear, MTLPackedFloat3 pivot, MTLPackedFloatQuaternion rotation, MTLPackedFloat3 translation)
+{
+    public MTLPackedFloat3 Scale = scale;
+
+    public MTLPackedFloat3 Shear = shear;
+
+    public MTLPackedFloat3 Pivot = pivot;
+
+    public MTLPackedFloatQuaternion Rotation = rotation;
+
+    public MTLPackedFloat3 Translation = translation;
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -168,6 +190,40 @@ public struct MTLOrigin(nuint x, nuint y, nuint z)
     public nuint Y = y;
 
     public nuint Z = z;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLPackedFloat3(float x, float y, float z)
+{
+    public float X = x;
+
+    public float Y = y;
+
+    public float Z = z;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLPackedFloat4x3(MTLPackedFloat3 column0, MTLPackedFloat3 column1, MTLPackedFloat3 column2, MTLPackedFloat3 column3)
+{
+    public MTLPackedFloat3 Column0 = column0;
+
+    public MTLPackedFloat3 Column1 = column1;
+
+    public MTLPackedFloat3 Column2 = column2;
+
+    public MTLPackedFloat3 Column3 = column3;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLPackedFloatQuaternion(float x, float y, float z, float w)
+{
+    public float X = x;
+
+    public float Y = y;
+
+    public float Z = z;
+
+    public float W = w;
 }
 
 [StructLayout(LayoutKind.Sequential)]

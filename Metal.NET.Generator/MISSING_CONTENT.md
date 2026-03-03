@@ -26,7 +26,7 @@ This document summarizes what the Metal.NET binding covers from metal-cpp, what 
 | C# class files generated (QuartzCore) | 2 |
 | C# class files hand-written (Foundation) | 9 |
 | Enums generated | 130 (124 Metal + 5 Foundation + 1 MetalFX) |
-| Structs defined (MTLStructs.cs) | 29 |
+| Structs defined (MTLStructs.cs) | 34 |
 | Block delegate types generated | 18 |
 | Free functions (P/Invoke) | 3 |
 | Methods in headers | ~3435 |
@@ -113,19 +113,6 @@ These Foundation types/protocols exist in metal-cpp headers but are not needed f
 ## 4. Unmapped Structs
 
 The following structs from metal-cpp headers are **not** mapped in `MTLStructs.cs`:
-
-### Acceleration Structure Types (`MTLAccelerationStructureTypes.hpp`)
-
-| Struct | Reason |
-|---|---|
-| `MTL::PackedFloat3` | GPU-specific packed layout, not used in API signatures |
-| `MTL::PackedFloat4x3` | GPU-specific packed layout, not used in API signatures |
-| `MTL::AxisAlignedBoundingBox` | GPU-specific packed layout, not used in API signatures |
-| `MTL::PackedFloatQuaternion` | GPU-specific packed layout, not used in API signatures |
-| `MTL::ComponentTransform` | GPU-specific packed layout, not used in API signatures |
-| `MTL::BufferRange` | GPU-specific packed layout, not used in API signatures |
-
-These are structs used to populate Metal acceleration structure buffers directly in GPU memory. They are not passed to/from `objc_msgSend` calls and would be used via raw buffer writes in user code.
 
 ### Foundation
 
