@@ -18,7 +18,7 @@ public class MTLRenderPassDepthAttachmentDescriptor(nint nativePtr, NativeObject
 
     public MTLMultisampleDepthResolveFilter DepthResolveFilter
     {
-        get => (MTLMultisampleDepthResolveFilter)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassDepthAttachmentDescriptorBindings.DepthResolveFilter);
+        get => (MTLMultisampleDepthResolveFilter)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPassDepthAttachmentDescriptorBindings.DepthResolveFilter);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorBindings.SetDepthResolveFilter, (nuint)value);
     }
 }

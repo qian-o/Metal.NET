@@ -12,7 +12,7 @@ public class MTL4PipelineDataSetSerializerDescriptor(nint nativePtr, NativeObjec
 
     public MTL4PipelineDataSetSerializerConfiguration Configuration
     {
-        get => (MTL4PipelineDataSetSerializerConfiguration)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4PipelineDataSetSerializerDescriptorBindings.Configuration);
+        get => (MTL4PipelineDataSetSerializerConfiguration)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4PipelineDataSetSerializerDescriptorBindings.Configuration);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineDataSetSerializerDescriptorBindings.SetConfiguration, (nuint)value);
     }
 }

@@ -66,3 +66,13 @@ class MethodInfo
 
     public string? SelectorAccessor { get; set; }
 }
+
+/// <summary>
+/// A parsed ObjC block type alias (e.g., <c>using CommandBufferHandler = void (^)(CommandBuffer*)</c>).
+/// </summary>
+record BlockTypeAlias(string CppNamespace, string CppName, string CsDelegateName, List<BlockParam> Parameters);
+
+/// <summary>
+/// A parameter in a block type alias signature.
+/// </summary>
+record BlockParam(string CppType, string CsType, string Name);

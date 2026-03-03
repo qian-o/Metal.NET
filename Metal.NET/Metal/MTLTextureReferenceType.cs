@@ -12,7 +12,7 @@ public class MTLTextureReferenceType(nint nativePtr, NativeObjectOwnership owner
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureReferenceTypeBindings.Access);
+        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeBindings.Access);
     }
 
     public Bool8 IsDepthTexture
@@ -22,12 +22,12 @@ public class MTLTextureReferenceType(nint nativePtr, NativeObjectOwnership owner
 
     public MTLDataType TextureDataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureReferenceTypeBindings.TextureDataType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeBindings.TextureDataType);
     }
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureReferenceTypeBindings.TextureType);
+        get => (MTLTextureType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeBindings.TextureType);
     }
 }
 

@@ -78,7 +78,7 @@ public class MTLRenderPipelineState(nint nativePtr, NativeObjectOwnership owners
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineStateBindings.ShaderValidation);
+        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLRenderPipelineStateBindings.ShaderValidation);
     }
 
     public Bool8 SupportIndirectCommandBuffers

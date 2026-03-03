@@ -22,7 +22,7 @@ public class MTLArrayType(nint nativePtr, NativeObjectOwnership ownership) : MTL
 
     public MTLDataType ElementType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeBindings.ElementType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArrayTypeBindings.ElementType);
     }
 
     public nuint Stride

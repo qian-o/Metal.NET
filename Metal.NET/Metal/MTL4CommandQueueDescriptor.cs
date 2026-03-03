@@ -10,7 +10,7 @@ public class MTL4CommandQueueDescriptor(nint nativePtr, NativeObjectOwnership ow
     {
     }
 
-    public nint FeedbackQueue
+    public DispatchQueue FeedbackQueue
     {
         get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueDescriptorBindings.FeedbackQueue);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueDescriptorBindings.SetFeedbackQueue, value);

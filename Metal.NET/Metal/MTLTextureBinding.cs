@@ -23,12 +23,12 @@ public class MTLTextureBinding(nint nativePtr, NativeObjectOwnership ownership) 
 
     public MTLDataType TextureDataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindingBindings.TextureDataType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureBindingBindings.TextureDataType);
     }
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindingBindings.TextureType);
+        get => (MTLTextureType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureBindingBindings.TextureType);
     }
 }
 

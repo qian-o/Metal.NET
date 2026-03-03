@@ -12,25 +12,25 @@ public class MTLHeapDescriptor(nint nativePtr, NativeObjectOwnership ownership) 
 
     public MTLCPUCacheMode CpuCacheMode
     {
-        get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapDescriptorBindings.CpuCacheMode);
+        get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapDescriptorBindings.CpuCacheMode);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorBindings.SetCpuCacheMode, (nuint)value);
     }
 
     public MTLHazardTrackingMode HazardTrackingMode
     {
-        get => (MTLHazardTrackingMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapDescriptorBindings.HazardTrackingMode);
+        get => (MTLHazardTrackingMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapDescriptorBindings.HazardTrackingMode);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorBindings.SetHazardTrackingMode, (nuint)value);
     }
 
     public MTLSparsePageSize MaxCompatiblePlacementSparsePageSize
     {
-        get => (MTLSparsePageSize)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapDescriptorBindings.MaxCompatiblePlacementSparsePageSize);
+        get => (MTLSparsePageSize)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLHeapDescriptorBindings.MaxCompatiblePlacementSparsePageSize);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorBindings.SetMaxCompatiblePlacementSparsePageSize, (nint)value);
     }
 
     public MTLResourceOptions ResourceOptions
     {
-        get => (MTLResourceOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapDescriptorBindings.ResourceOptions);
+        get => (MTLResourceOptions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapDescriptorBindings.ResourceOptions);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorBindings.SetResourceOptions, (nuint)value);
     }
 
@@ -42,19 +42,19 @@ public class MTLHeapDescriptor(nint nativePtr, NativeObjectOwnership ownership) 
 
     public MTLSparsePageSize SparsePageSize
     {
-        get => (MTLSparsePageSize)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapDescriptorBindings.SparsePageSize);
+        get => (MTLSparsePageSize)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLHeapDescriptorBindings.SparsePageSize);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorBindings.SetSparsePageSize, (nint)value);
     }
 
     public MTLStorageMode StorageMode
     {
-        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapDescriptorBindings.StorageMode);
+        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapDescriptorBindings.StorageMode);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorBindings.SetStorageMode, (nuint)value);
     }
 
     public MTLHeapType Type
     {
-        get => (MTLHeapType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapDescriptorBindings.Type);
+        get => (MTLHeapType)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLHeapDescriptorBindings.Type);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorBindings.SetType, (nint)value);
     }
 }

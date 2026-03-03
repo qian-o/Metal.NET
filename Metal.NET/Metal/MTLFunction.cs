@@ -11,9 +11,14 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : Nati
         get => GetProperty(ref field, MTLFunctionBindings.Device);
     }
 
+    public NSDictionary FunctionConstantsDictionary
+    {
+        get => GetProperty(ref field, MTLFunctionBindings.FunctionConstantsDictionary);
+    }
+
     public MTLFunctionType FunctionType
     {
-        get => (MTLFunctionType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionBindings.FunctionType);
+        get => (MTLFunctionType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionBindings.FunctionType);
     }
 
     public NSString Label
@@ -29,7 +34,7 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : Nati
 
     public MTLFunctionOptions Options
     {
-        get => (MTLFunctionOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionBindings.Options);
+        get => (MTLFunctionOptions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionBindings.Options);
     }
 
     public nint PatchControlPointCount
@@ -39,7 +44,7 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : Nati
 
     public MTLPatchType PatchType
     {
-        get => (MTLPatchType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionBindings.PatchType);
+        get => (MTLPatchType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionBindings.PatchType);
     }
 
     public MTLAttribute[] StageInputAttributes
@@ -63,6 +68,8 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : Nati
 file static class MTLFunctionBindings
 {
     public static readonly Selector Device = "device";
+
+    public static readonly Selector FunctionConstantsDictionary = "functionConstantsDictionary";
 
     public static readonly Selector FunctionType = "functionType";
 

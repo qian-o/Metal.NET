@@ -18,7 +18,7 @@ public class MTLLogStateDescriptor(nint nativePtr, NativeObjectOwnership ownersh
 
     public MTLLogLevel Level
     {
-        get => (MTLLogLevel)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLLogStateDescriptorBindings.Level);
+        get => (MTLLogLevel)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLLogStateDescriptorBindings.Level);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLLogStateDescriptorBindings.SetLevel, (nint)value);
     }
 }

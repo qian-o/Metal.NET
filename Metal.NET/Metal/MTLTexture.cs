@@ -33,7 +33,7 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
 
     public MTLTextureCompressionType CompressionType
     {
-        get => (MTLTextureCompressionType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.CompressionType);
+        get => (MTLTextureCompressionType)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLTextureBindings.CompressionType);
     }
 
     public nuint Depth
@@ -61,7 +61,7 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindings.Height);
     }
 
-    public nint Iosurface
+    public IOSurface Iosurface
     {
         get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.Iosurface);
     }
@@ -108,7 +108,7 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
 
     public MTLPixelFormat PixelFormat
     {
-        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindings.PixelFormat);
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureBindings.PixelFormat);
     }
 
     public MTLTexture RemoteStorageTexture
@@ -133,7 +133,7 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
 
     public MTLTextureSparseTier SparseTextureTier
     {
-        get => (MTLTextureSparseTier)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.SparseTextureTier);
+        get => (MTLTextureSparseTier)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLTextureBindings.SparseTextureTier);
     }
 
     public MTLTextureSwizzleChannels Swizzle
@@ -148,12 +148,12 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindings.TextureType);
+        get => (MTLTextureType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureBindings.TextureType);
     }
 
     public MTLTextureUsage Usage
     {
-        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindings.Usage);
+        get => (MTLTextureUsage)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureBindings.Usage);
     }
 
     public nuint Width

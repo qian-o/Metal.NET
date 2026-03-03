@@ -79,14 +79,22 @@ Metal.NET.slnx
 │   │   ├── ObjectiveCRuntime.cs          ← P/Invoke to libobjc.dylib (objc_msgSend)
 │   │   ├── Selector.cs                   ← ObjC selector with implicit string conversion
 │   │   ├── Bool8.cs                      ← ObjC BOOL mapped to a single byte
-│   │   └── MTLStructs.cs                ← Blittable structs (MTLOrigin, MTLSize, etc.)
+│   │   ├── CGColorSpace.cs               ← CGColorSpaceName enum + CGColorSpaceRef wrapper
+│   │   ├── IOSurface.cs                  ← IOSurfaceRef wrapper with surface properties
+│   │   ├── DispatchData.cs               ← dispatch_data_t wrapper
+│   │   └── DispatchQueue.cs              ← dispatch_queue_t wrapper
 │   ├── Foundation/                       ← Hand-written Foundation types
 │   │   ├── NSString.cs                   ← Bidirectional string conversion
 │   │   ├── NSError.cs                    ← Error wrapper with LocalizedDescription
 │   │   ├── NSArray.cs                    ← NSArray ↔ T[] conversion utilities
 │   │   ├── NSURL.cs                      ← File URL creation
-│   │   └── NSAutoreleasePool.cs          ← Autorelease pool management
-│   ├── Metal/                            ← Auto-generated Metal API (352 files)
+│   │   ├── NSDictionary.cs               ← Key-value access wrapper
+│   │   ├── NSNumber.cs                   ← Numeric value boxing/unboxing
+│   │   ├── NSData.cs                     ← Raw byte buffer access
+│   │   ├── NSBundle.cs                   ← Resource bundle access
+│   │   ├── NSAutoreleasePool.cs          ← Autorelease pool management
+│   │   └── NSEnums.cs                    ← Auto-generated Foundation enums
+│   ├── Metal/                            ← Auto-generated Metal API (231 files)
 │   ├── MetalFX/                          ← Auto-generated MetalFX (18 files)
 │   └── QuartzCore/                       ← Auto-generated QuartzCore (2 files)
 │

@@ -12,7 +12,7 @@ public class MTLTensorReferenceType(nint nativePtr, NativeObjectOwnership owners
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorReferenceTypeBindings.Access);
+        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorReferenceTypeBindings.Access);
     }
 
     public MTLTensorExtents Dimensions
@@ -22,12 +22,12 @@ public class MTLTensorReferenceType(nint nativePtr, NativeObjectOwnership owners
 
     public MTLDataType IndexType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTensorReferenceTypeBindings.IndexType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorReferenceTypeBindings.IndexType);
     }
 
     public MTLTensorDataType TensorDataType
     {
-        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTensorReferenceTypeBindings.TensorDataType);
+        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLTensorReferenceTypeBindings.TensorDataType);
     }
 }
 

@@ -16,7 +16,7 @@ public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : Nat
         set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetAllowsNextDrawableTimeout, value);
     }
 
-    public nint Colorspace
+    public CGColorSpace Colorspace
     {
         get => ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerBindings.Colorspace);
         set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetColorspace, value);
@@ -54,7 +54,7 @@ public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : Nat
 
     public MTLPixelFormat PixelFormat
     {
-        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, CAMetalLayerBindings.PixelFormat);
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, CAMetalLayerBindings.PixelFormat);
         set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetPixelFormat, (nuint)value);
     }
 

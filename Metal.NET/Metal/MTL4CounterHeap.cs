@@ -19,12 +19,19 @@ public class MTL4CounterHeap(nint nativePtr, NativeObjectOwnership ownership) : 
 
     public MTL4CounterHeapType Type
     {
-        get => (MTL4CounterHeapType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapBindings.Type);
+        get => (MTL4CounterHeapType)ObjectiveCRuntime.MsgSendLong(NativePtr, MTL4CounterHeapBindings.Type);
     }
 
     public void InvalidateCounterRange(NSRange range)
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapBindings.InvalidateCounterRange, range);
+    }
+
+    public NSData ResolveCounterRange(NSRange range)
+    {
+        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapBindings.ResolveCounterRange, range);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 }
 
@@ -35,6 +42,8 @@ file static class MTL4CounterHeapBindings
     public static readonly Selector InvalidateCounterRange = "invalidateCounterRange:";
 
     public static readonly Selector Label = "label";
+
+    public static readonly Selector ResolveCounterRange = "resolveCounterRange:";
 
     public static readonly Selector SetLabel = "setLabel:";
 

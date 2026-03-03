@@ -16,6 +16,11 @@ public class MTLDrawable(nint nativePtr, NativeObjectOwnership ownership) : Nati
         get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLDrawableBindings.PresentedTime);
     }
 
+    public void AddPresentedHandler(MTLDrawablePresentedHandler block)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableBindings.AddPresentedHandler, block);
+    }
+
     public void Present()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableBindings.Present);
@@ -34,6 +39,8 @@ public class MTLDrawable(nint nativePtr, NativeObjectOwnership ownership) : Nati
 
 file static class MTLDrawableBindings
 {
+    public static readonly Selector AddPresentedHandler = "addPresentedHandler:";
+
     public static readonly Selector DrawableID = "drawableID";
 
     public static readonly Selector Present = "present";

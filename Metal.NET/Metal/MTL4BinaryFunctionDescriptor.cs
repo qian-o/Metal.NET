@@ -24,7 +24,7 @@ public class MTL4BinaryFunctionDescriptor(nint nativePtr, NativeObjectOwnership 
 
     public MTL4BinaryFunctionOptions Options
     {
-        get => (MTL4BinaryFunctionOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4BinaryFunctionDescriptorBindings.Options);
+        get => (MTL4BinaryFunctionOptions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4BinaryFunctionDescriptorBindings.Options);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorBindings.SetOptions, (nuint)value);
     }
 }

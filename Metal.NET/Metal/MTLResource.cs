@@ -8,7 +8,7 @@ public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLA
 
     public MTLCPUCacheMode CpuCacheMode
     {
-        get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceBindings.CpuCacheMode);
+        get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceBindings.CpuCacheMode);
     }
 
     public MTLDevice Device
@@ -18,7 +18,7 @@ public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLA
 
     public MTLHazardTrackingMode HazardTrackingMode
     {
-        get => (MTLHazardTrackingMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceBindings.HazardTrackingMode);
+        get => (MTLHazardTrackingMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceBindings.HazardTrackingMode);
     }
 
     public MTLHeap Heap
@@ -39,12 +39,12 @@ public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLA
 
     public MTLResourceOptions ResourceOptions
     {
-        get => (MTLResourceOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceBindings.ResourceOptions);
+        get => (MTLResourceOptions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceBindings.ResourceOptions);
     }
 
     public MTLStorageMode StorageMode
     {
-        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceBindings.StorageMode);
+        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceBindings.StorageMode);
     }
 
     public bool IsAliasable()
@@ -59,7 +59,7 @@ public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLA
 
     public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
     {
-        return (MTLPurgeableState)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceBindings.SetPurgeableState, (nuint)state);
+        return (MTLPurgeableState)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceBindings.SetPurgeableState, (nuint)state);
     }
 }
 

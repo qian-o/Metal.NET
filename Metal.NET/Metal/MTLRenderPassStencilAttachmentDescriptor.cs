@@ -18,7 +18,7 @@ public class MTLRenderPassStencilAttachmentDescriptor(nint nativePtr, NativeObje
 
     public MTLMultisampleStencilResolveFilter StencilResolveFilter
     {
-        get => (MTLMultisampleStencilResolveFilter)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassStencilAttachmentDescriptorBindings.StencilResolveFilter);
+        get => (MTLMultisampleStencilResolveFilter)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPassStencilAttachmentDescriptorBindings.StencilResolveFilter);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorBindings.SetStencilResolveFilter, (nuint)value);
     }
 }

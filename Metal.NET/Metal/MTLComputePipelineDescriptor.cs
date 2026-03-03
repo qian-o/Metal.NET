@@ -71,7 +71,7 @@ public class MTLComputePipelineDescriptor(nint nativePtr, NativeObjectOwnership 
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLComputePipelineDescriptorBindings.ShaderValidation);
+        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLComputePipelineDescriptorBindings.ShaderValidation);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePipelineDescriptorBindings.SetShaderValidation, (nint)value);
     }
 

@@ -22,7 +22,7 @@ public class MTLAttribute(nint nativePtr, NativeObjectOwnership ownership) : Nat
 
     public MTLDataType AttributeType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeBindings.AttributeType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAttributeBindings.AttributeType);
     }
 
     public Bool8 IsActive

@@ -120,10 +120,10 @@ partial class TypeMapper(GeneratorContext context)
             "double" => "double",
             "bool" => "bool",
             "char" when isPointer => "nint",
-            "IOSurfaceRef" => "nint",
-            "dispatch_queue_t" => "nint",
-            "dispatch_data_t" => "nint",
-            "CGColorSpaceRef" => "nint",
+            "IOSurfaceRef" => "IOSurface",
+            "dispatch_queue_t" => "DispatchQueue",
+            "dispatch_data_t" => "DispatchData",
+            "CGColorSpaceRef" => "CGColorSpace",
             "CFTimeInterval" => "double",
             "CGSize" => "CGSize",
             "simd::float4x4" => "SimdFloat4x4",
@@ -154,6 +154,11 @@ partial class TypeMapper(GeneratorContext context)
             if (typeName == "Timestamp")
             {
                 return "ulong";
+            }
+
+            if (typeNs == "NS" && typeName == "Object")
+            {
+                return "nint";
             }
 
             string prefix = GetPrefix(typeNs);
@@ -188,7 +193,9 @@ partial class TypeMapper(GeneratorContext context)
     public bool IsNativeObjectType(string csType)
     {
         if (csType is "void" or "bool" or "nint" or "nuint" or "uint" or "int" or "ulong" or "long" or "float" or "double"
-            or "byte" or "sbyte" or "short" or "ushort")
+            or "byte" or "sbyte" or "short" or "ushort"
+            or "DispatchQueue" or "DispatchData"
+            or "CGColorSpace" or "IOSurface")
         {
             return false;
         }
@@ -232,12 +239,8 @@ partial class TypeMapper(GeneratorContext context)
             return true;
         }
 
-        if (t.Contains("NS::Bundle") || t.Contains("NS::Process") ||
-            t.Contains("NS::Notification") || t.Contains("NS::Observer") ||
-            t.Contains("NS::Dictionary") || t.Contains("NS::Object") ||
-            t.Contains("NS::Data") || t.Contains("NS::Number") ||
-            t.Contains("NS::Set") || t.Contains("NS::Enumerator") ||
-            t.Contains("NS::Value") || t.Contains("NS::Date"))
+        if (t.Contains("NS::Process") ||
+            t.Contains("NS::Observer"))
         {
             return true;
         }
@@ -259,9 +262,9 @@ partial class TypeMapper(GeneratorContext context)
         "nint" => "MsgSendPtr",
         "nuint" => "MsgSendNUInt",
         "uint" => "MsgSendUInt",
-        "int" => "MsgSendPtr",
+        "int" => "MsgSendInt",
         "ulong" => "MsgSendULong",
-        "long" => "MsgSendPtr",
+        "long" => "MsgSendLong",
         "float" => "MsgSendFloat",
         "double" => "MsgSendDouble",
         _ => "MsgSendPtr"
@@ -275,8 +278,8 @@ partial class TypeMapper(GeneratorContext context)
             {
                 "int" => "ObjectiveCRuntime.MsgSendInt",
                 "uint" => "ObjectiveCRuntime.MsgSendUInt",
-                "long" => "ObjectiveCRuntime.MsgSendPtr",
-                "ulong" => "ObjectiveCRuntime.MsgSendNUInt",
+                "long" => "ObjectiveCRuntime.MsgSendLong",
+                "ulong" => "ObjectiveCRuntime.MsgSendULong",
                 _ => "ObjectiveCRuntime.MsgSendNUInt"
             };
         }

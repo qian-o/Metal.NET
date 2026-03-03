@@ -124,9 +124,17 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     public void GenerateAll()
     {
-        foreach (EnumDef enumDef in context.Enums)
+        // Group enums by namespace into consolidated files (e.g., MTLEnums.cs, NSEnums.cs, MTLFXEnums.cs)
+        var enumsBySubdir = context.Enums.GroupBy(e => TypeMapper.GetOutputSubdir(e.CppNamespace));
+        foreach (var group in enumsBySubdir)
         {
-            GenerateEnum(enumDef);
+            GenerateEnumFile(group.Key, group.ToList());
+        }
+
+        // Generate consolidated delegate file for block type aliases
+        if (context.BlockTypeAliases.Count > 0)
+        {
+            GenerateDelegateFile();
         }
 
         // Build known class names (both generated and hand-written)
@@ -135,7 +143,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             string prefix = TypeMapper.GetPrefix(classDef.CppNamespace);
             context.KnownClassNames.Add(prefix + classDef.Name);
         }
-        context.KnownClassNames.UnionWith(["NSString", "NSError", "NSArray", "NSURL", "NativeObject"]);
+        context.KnownClassNames.UnionWith(["NSString", "NSError", "NSArray", "NSURL", "NSDictionary", "NSNumber", "NSData", "NSBundle", "NativeObject"]);
 
         // Build a map of class name → property names for inheritance detection
         Dictionary<string, HashSet<string>> classPropertyMap = [];
@@ -188,40 +196,94 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Enum Generation
 
-    void GenerateEnum(EnumDef enumDef)
+    void GenerateEnumFile(string subdir, List<EnumDef> enums)
     {
-        string prefix = TypeMapper.GetPrefix(enumDef.CppNamespace);
-        string csEnumName = prefix + enumDef.Name;
-        string subdir = TypeMapper.GetOutputSubdir(enumDef.CppNamespace);
         string dir = Path.Combine(outputDir, subdir);
         Directory.CreateDirectory(dir);
 
+        // Determine the consolidated file name based on the subdirectory
+        string fileName = subdir switch
+        {
+            "Metal" => "MTLEnums.cs",
+            "Foundation" => "NSEnums.cs",
+            "MetalFX" => "MTLFXEnums.cs",
+            _ => $"{subdir}Enums.cs"
+        };
+
+        // Delete old per-enum files that will be replaced by the consolidated file
+        foreach (EnumDef enumDef in enums)
+        {
+            string prefix = TypeMapper.GetPrefix(enumDef.CppNamespace);
+            string oldFile = Path.Combine(dir, $"{prefix}{enumDef.Name}.cs");
+            if (File.Exists(oldFile))
+            {
+                File.Delete(oldFile);
+            }
+        }
+
         StringBuilder sb = new();
         sb.AppendLine("namespace Metal.NET;");
-        sb.AppendLine();
 
-        if (enumDef.IsFlags)
+        List<EnumDef> sortedEnums = [.. enums.OrderBy(e => TypeMapper.GetPrefix(e.CppNamespace) + e.Name)];
+
+        for (int ei = 0; ei < sortedEnums.Count; ei++)
         {
-            sb.AppendLine("[Flags]");
-        }
+            EnumDef enumDef = sortedEnums[ei];
+            string prefix = TypeMapper.GetPrefix(enumDef.CppNamespace);
+            string csEnumName = prefix + enumDef.Name;
 
-        sb.AppendLine($"public enum {csEnumName} : {enumDef.BackingType}");
-        sb.AppendLine("{");
-
-        for (int i = 0; i < enumDef.Members.Count; i++)
-        {
-            EnumMember member = enumDef.Members[i];
-            string comma = i < enumDef.Members.Count - 1 ? "," : "";
-            if (i > 0)
+            sb.AppendLine();
+            if (enumDef.IsFlags)
             {
-                sb.AppendLine();
+                sb.AppendLine("[Flags]");
             }
-            sb.AppendLine($"    {member.Name} = {member.Value}{comma}");
+
+            sb.AppendLine($"public enum {csEnumName} : {enumDef.BackingType}");
+            sb.AppendLine("{");
+
+            for (int i = 0; i < enumDef.Members.Count; i++)
+            {
+                EnumMember member = enumDef.Members[i];
+                string comma = i < enumDef.Members.Count - 1 ? "," : "";
+                if (i > 0)
+                {
+                    sb.AppendLine();
+                }
+                sb.AppendLine($"    {member.Name} = {member.Value}{comma}");
+            }
+
+            sb.AppendLine("}");
         }
 
-        sb.AppendLine("}");
-        File.WriteAllText(Path.Combine(dir, $"{csEnumName}.cs"), sb.ToString(), new UTF8Encoding(true));
-        Console.WriteLine($"  Generated: {subdir}/{csEnumName}.cs");
+        File.WriteAllText(Path.Combine(dir, fileName), sb.ToString(), new UTF8Encoding(true));
+        Console.WriteLine($"  Generated: {subdir}/{fileName} ({enums.Count} enums)");
+    }
+
+    #endregion
+
+    #region Delegate Generation
+
+    void GenerateDelegateFile()
+    {
+        string dir = Path.Combine(outputDir, "Metal");
+        Directory.CreateDirectory(dir);
+
+        StringBuilder sb = new();
+        sb.AppendLine("using System.Runtime.InteropServices;");
+        sb.AppendLine();
+        sb.AppendLine("namespace Metal.NET;");
+
+        foreach (BlockTypeAlias alias in context.BlockTypeAliases.OrderBy(a => a.CsDelegateName))
+        {
+            sb.AppendLine();
+            sb.AppendLine("[UnmanagedFunctionPointer(CallingConvention.Cdecl)]");
+
+            string paramStr = string.Join(", ", alias.Parameters.Select(p => $"{p.CsType} {p.Name}"));
+            sb.AppendLine($"public delegate void {alias.CsDelegateName}({paramStr});");
+        }
+
+        File.WriteAllText(Path.Combine(dir, "MTLDelegates.cs"), sb.ToString(), new UTF8Encoding(true));
+        Console.WriteLine($"  Generated: Metal/MTLDelegates.cs ({context.BlockTypeAliases.Count} delegates)");
     }
 
     #endregion
@@ -506,13 +568,56 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Method Filtering
 
-    static bool HasFunctionPointerParam(MethodInfo method)
+    /// <summary>
+    /// Returns true if the method has std::function or unknown function pointer params that should be skipped.
+    /// Block handler params (Handler/Block types and INLINE_BLOCK: markers) are NOT considered function pointers.
+    /// </summary>
+    bool HasFunctionPointerParam(MethodInfo method)
     {
         return method.Parameters.Any(p =>
-            p.CppType.Contains("Handler") || p.CppType.Contains("Block") ||
-            p.CppType.Contains("function") || p.CppType.Contains("std::function") ||
-            p.CppType.Contains("void(") || p.CppType.Contains("Function&") ||
-            p.CppType.Contains("Function &"));
+        {
+            // INLINE_BLOCK: markers are block params — not function pointers
+            if (p.CppType.StartsWith("INLINE_BLOCK:"))
+            {
+                string delegateName = p.CppType["INLINE_BLOCK:".Length..];
+                return delegateName == "UNKNOWN_BLOCK";
+            }
+
+            // std::function params — skip
+            if (p.CppType.Contains("std::function") || p.CppType.Contains("Function&") || p.CppType.Contains("Function &"))
+            {
+                return true;
+            }
+
+            // Named block types (Handler/Block) — check if we have a delegate for them
+            if (p.CppType.Contains("Handler") || p.CppType.Contains("Block"))
+            {
+                string csType = TypeMapper.MapCppType(p.CppType, "MTL");
+                return !context.BlockTypeAliases.Any(b => b.CsDelegateName == csType);
+            }
+
+            // Other function-like types
+            if (p.CppType.Contains("function") || p.CppType.Contains("void("))
+            {
+                return true;
+            }
+
+            return false;
+        });
+    }
+
+    /// <summary>
+    /// Returns true if the C++ parameter type is a known block handler type (using-aliased).
+    /// </summary>
+    bool IsBlockHandlerCppType(string cppType)
+    {
+        if (cppType.Contains("Handler") || cppType.Contains("Block"))
+        {
+            string csType = TypeMapper.MapCppType(cppType, "MTL");
+            return context.BlockTypeAliases.Any(b => b.CsDelegateName == csType);
+        }
+
+        return false;
     }
 
     static bool HasUnmappableParam(MethodInfo method)
@@ -522,10 +627,19 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             if (p.CppType.StartsWith("OBJ_ARRAY:") ||
                 p.CppType.StartsWith("PRIM_ARRAY:") ||
                 p.CppType.StartsWith("STRUCT_ARRAY:") ||
+                p.CppType.StartsWith("INLINE_BLOCK:") ||
                 p.CppType == "ARRAY_PARAM")
             {
                 continue;
             }
+
+            if (p.CppType.Contains("Handler") || p.CppType.Contains("Block") ||
+                p.CppType.Contains("Function&") || p.CppType.Contains("Function &") ||
+                p.CppType.Contains("std::function"))
+            {
+                continue;
+            }
+
             if (TypeMapper.IsUnmappableCppType(p.CppType))
             {
                 return true;
@@ -681,14 +795,12 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         else
         {
             string msgSend = TypeMapper.GetMsgSendMethod(csType);
-            string getCast = csType is "int" or "long" ? $"({csType})" : "";
             sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => {getCast}ObjectiveCRuntime.{msgSend}({Target}, {selectorRef});");
+            sb.AppendLine($"        get => ObjectiveCRuntime.{msgSend}({Target}, {selectorRef});");
             if (prop.Setter != null)
             {
-                string setCast = csType switch { "int" => "(nint)", "long" => "(nint)", _ => "" };
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, {setCast}value);");
+                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value);");
             }
             sb.AppendLine("    }");
         }
@@ -863,6 +975,25 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                     callArgs.Add($"(nuint){csParamName}.Length");
                     pi++;
                 }
+                continue;
+            }
+
+            // Block handler parameters (using-aliased or inline)
+            if (param.CppType.StartsWith("INLINE_BLOCK:"))
+            {
+                string delegateName = param.CppType["INLINE_BLOCK:".Length..];
+                string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
+                csParams.Add($"{delegateName} {csParamName}");
+                callArgs.Add(csParamName);
+                continue;
+            }
+
+            if (IsBlockHandlerCppType(param.CppType))
+            {
+                string csType = TypeMapper.MapCppType(param.CppType, ns);
+                string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
+                csParams.Add($"{csType} {csParamName}");
+                callArgs.Add(csParamName);
                 continue;
             }
 
@@ -1074,10 +1205,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         else
         {
             string msgSend = TypeMapper.GetMsgSendMethod(returnType);
-            string retCast = returnType is "int" or "long" ? $"({returnType})" : "";
             if (hasOutError)
             {
-                sb.AppendLine($"{indent}{csReturnType} result = {retCast}ObjectiveCRuntime.{msgSend}({argsStr});");
+                sb.AppendLine($"{indent}{csReturnType} result = ObjectiveCRuntime.{msgSend}({argsStr});");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
                 sb.AppendLine();
@@ -1085,7 +1215,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             }
             else
             {
-                sb.AppendLine($"{indent}return {retCast}ObjectiveCRuntime.{msgSend}({argsStr});");
+                sb.AppendLine($"{indent}return ObjectiveCRuntime.{msgSend}({argsStr});");
             }
         }
 

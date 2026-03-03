@@ -18,7 +18,7 @@ public class MTLTextureViewDescriptor(nint nativePtr, NativeObjectOwnership owne
 
     public MTLPixelFormat PixelFormat
     {
-        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureViewDescriptorBindings.PixelFormat);
+        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureViewDescriptorBindings.PixelFormat);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureViewDescriptorBindings.SetPixelFormat, (nuint)value);
     }
 
@@ -36,7 +36,7 @@ public class MTLTextureViewDescriptor(nint nativePtr, NativeObjectOwnership owne
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureViewDescriptorBindings.TextureType);
+        get => (MTLTextureType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureViewDescriptorBindings.TextureType);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTextureViewDescriptorBindings.SetTextureType, (nuint)value);
     }
 }

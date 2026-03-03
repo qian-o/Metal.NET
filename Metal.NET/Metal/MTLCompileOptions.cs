@@ -18,7 +18,7 @@ public class MTLCompileOptions(nint nativePtr, NativeObjectOwnership ownership) 
 
     public MTLCompileSymbolVisibility CompileSymbolVisibility
     {
-        get => (MTLCompileSymbolVisibility)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsBindings.CompileSymbolVisibility);
+        get => (MTLCompileSymbolVisibility)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLCompileOptionsBindings.CompileSymbolVisibility);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetCompileSymbolVisibility, (nint)value);
     }
 
@@ -42,7 +42,7 @@ public class MTLCompileOptions(nint nativePtr, NativeObjectOwnership ownership) 
 
     public MTLLanguageVersion LanguageVersion
     {
-        get => (MTLLanguageVersion)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCompileOptionsBindings.LanguageVersion);
+        get => (MTLLanguageVersion)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCompileOptionsBindings.LanguageVersion);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetLanguageVersion, (nuint)value);
     }
 
@@ -54,19 +54,19 @@ public class MTLCompileOptions(nint nativePtr, NativeObjectOwnership ownership) 
 
     public MTLLibraryType LibraryType
     {
-        get => (MTLLibraryType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsBindings.LibraryType);
+        get => (MTLLibraryType)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLCompileOptionsBindings.LibraryType);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetLibraryType, (nint)value);
     }
 
     public MTLMathFloatingPointFunctions MathFloatingPointFunctions
     {
-        get => (MTLMathFloatingPointFunctions)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsBindings.MathFloatingPointFunctions);
+        get => (MTLMathFloatingPointFunctions)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLCompileOptionsBindings.MathFloatingPointFunctions);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetMathFloatingPointFunctions, (nint)value);
     }
 
     public MTLMathMode MathMode
     {
-        get => (MTLMathMode)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsBindings.MathMode);
+        get => (MTLMathMode)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLCompileOptionsBindings.MathMode);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetMathMode, (nint)value);
     }
 
@@ -78,8 +78,14 @@ public class MTLCompileOptions(nint nativePtr, NativeObjectOwnership ownership) 
 
     public MTLLibraryOptimizationLevel OptimizationLevel
     {
-        get => (MTLLibraryOptimizationLevel)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCompileOptionsBindings.OptimizationLevel);
+        get => (MTLLibraryOptimizationLevel)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLCompileOptionsBindings.OptimizationLevel);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCompileOptionsBindings.SetOptimizationLevel, (nint)value);
+    }
+
+    public NSDictionary PreprocessorMacros
+    {
+        get => GetProperty(ref field, MTLCompileOptionsBindings.PreprocessorMacros);
+        set => SetProperty(ref field, MTLCompileOptionsBindings.SetPreprocessorMacros, value);
     }
 
     public Bool8 PreserveInvariance
@@ -123,6 +129,8 @@ file static class MTLCompileOptionsBindings
 
     public static readonly Selector OptimizationLevel = "optimizationLevel";
 
+    public static readonly Selector PreprocessorMacros = "preprocessorMacros";
+
     public static readonly Selector PreserveInvariance = "preserveInvariance";
 
     public static readonly Selector RequiredThreadsPerThreadgroup = "requiredThreadsPerThreadgroup";
@@ -150,6 +158,8 @@ file static class MTLCompileOptionsBindings
     public static readonly Selector SetMaxTotalThreadsPerThreadgroup = "setMaxTotalThreadsPerThreadgroup:";
 
     public static readonly Selector SetOptimizationLevel = "setOptimizationLevel:";
+
+    public static readonly Selector SetPreprocessorMacros = "setPreprocessorMacros:";
 
     public static readonly Selector SetPreserveInvariance = "setPreserveInvariance:";
 

@@ -23,7 +23,7 @@ public class MTLStageInputOutputDescriptor(nint nativePtr, NativeObjectOwnership
 
     public MTLIndexType IndexType
     {
-        get => (MTLIndexType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStageInputOutputDescriptorBindings.IndexType);
+        get => (MTLIndexType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStageInputOutputDescriptorBindings.IndexType);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStageInputOutputDescriptorBindings.SetIndexType, (nuint)value);
     }
 

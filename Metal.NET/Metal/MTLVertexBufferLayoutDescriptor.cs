@@ -12,7 +12,7 @@ public class MTLVertexBufferLayoutDescriptor(nint nativePtr, NativeObjectOwnersh
 
     public MTLVertexStepFunction StepFunction
     {
-        get => (MTLVertexStepFunction)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexBufferLayoutDescriptorBindings.StepFunction);
+        get => (MTLVertexStepFunction)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLVertexBufferLayoutDescriptorBindings.StepFunction);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorBindings.SetStepFunction, (nuint)value);
     }
 

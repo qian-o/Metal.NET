@@ -10,7 +10,7 @@ public class MTLSharedEventListener(nint nativePtr, NativeObjectOwnership owners
     {
     }
 
-    public nint DispatchQueue
+    public DispatchQueue DispatchQueue
     {
         get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventListenerBindings.DispatchQueue);
     }

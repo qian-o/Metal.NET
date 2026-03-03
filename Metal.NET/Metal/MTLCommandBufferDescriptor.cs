@@ -12,7 +12,7 @@ public class MTLCommandBufferDescriptor(nint nativePtr, NativeObjectOwnership ow
 
     public MTLCommandBufferErrorOption ErrorOptions
     {
-        get => (MTLCommandBufferErrorOption)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandBufferDescriptorBindings.ErrorOptions);
+        get => (MTLCommandBufferErrorOption)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCommandBufferDescriptorBindings.ErrorOptions);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorBindings.SetErrorOptions, (nuint)value);
     }
 

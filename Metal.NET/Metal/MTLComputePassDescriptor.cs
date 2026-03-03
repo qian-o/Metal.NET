@@ -12,7 +12,7 @@ public class MTLComputePassDescriptor(nint nativePtr, NativeObjectOwnership owne
 
     public MTLDispatchType DispatchType
     {
-        get => (MTLDispatchType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputePassDescriptorBindings.DispatchType);
+        get => (MTLDispatchType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLComputePassDescriptorBindings.DispatchType);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePassDescriptorBindings.SetDispatchType, (nuint)value);
     }
 

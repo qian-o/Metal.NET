@@ -18,7 +18,7 @@ public class MTLBufferBinding(nint nativePtr, NativeObjectOwnership ownership) :
 
     public MTLDataType BufferDataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingBindings.BufferDataType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLBufferBindingBindings.BufferDataType);
     }
 
     public MTLPointerType BufferPointerType

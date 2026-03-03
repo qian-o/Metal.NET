@@ -12,13 +12,13 @@ public class MTL4PipelineOptions(nint nativePtr, NativeObjectOwnership ownership
 
     public MTL4ShaderReflection ShaderReflection
     {
-        get => (MTL4ShaderReflection)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4PipelineOptionsBindings.ShaderReflection);
+        get => (MTL4ShaderReflection)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4PipelineOptionsBindings.ShaderReflection);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineOptionsBindings.SetShaderReflection, (nuint)value);
     }
 
     public MTLShaderValidation ShaderValidation
     {
-        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4PipelineOptionsBindings.ShaderValidation);
+        get => (MTLShaderValidation)ObjectiveCRuntime.MsgSendLong(NativePtr, MTL4PipelineOptionsBindings.ShaderValidation);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4PipelineOptionsBindings.SetShaderValidation, (nint)value);
     }
 }

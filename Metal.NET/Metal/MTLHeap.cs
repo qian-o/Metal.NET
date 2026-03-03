@@ -8,7 +8,7 @@ public class MTLHeap(nint nativePtr, NativeObjectOwnership ownership) : MTLAlloc
 
     public MTLCPUCacheMode CpuCacheMode
     {
-        get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapBindings.CpuCacheMode);
+        get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapBindings.CpuCacheMode);
     }
 
     public nuint CurrentAllocatedSize
@@ -23,7 +23,7 @@ public class MTLHeap(nint nativePtr, NativeObjectOwnership ownership) : MTLAlloc
 
     public MTLHazardTrackingMode HazardTrackingMode
     {
-        get => (MTLHazardTrackingMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapBindings.HazardTrackingMode);
+        get => (MTLHazardTrackingMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapBindings.HazardTrackingMode);
     }
 
     public NSString Label
@@ -34,7 +34,7 @@ public class MTLHeap(nint nativePtr, NativeObjectOwnership ownership) : MTLAlloc
 
     public MTLResourceOptions ResourceOptions
     {
-        get => (MTLResourceOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapBindings.ResourceOptions);
+        get => (MTLResourceOptions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapBindings.ResourceOptions);
     }
 
     public nuint Size
@@ -44,12 +44,12 @@ public class MTLHeap(nint nativePtr, NativeObjectOwnership ownership) : MTLAlloc
 
     public MTLStorageMode StorageMode
     {
-        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapBindings.StorageMode);
+        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapBindings.StorageMode);
     }
 
     public MTLHeapType Type
     {
-        get => (MTLHeapType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLHeapBindings.Type);
+        get => (MTLHeapType)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLHeapBindings.Type);
     }
 
     public nuint UsedSize
@@ -120,7 +120,7 @@ public class MTLHeap(nint nativePtr, NativeObjectOwnership ownership) : MTLAlloc
 
     public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
     {
-        return (MTLPurgeableState)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapBindings.SetPurgeableState, (nuint)state);
+        return (MTLPurgeableState)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapBindings.SetPurgeableState, (nuint)state);
     }
 }
 

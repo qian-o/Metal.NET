@@ -12,7 +12,7 @@ public class MTLArgumentDescriptor(nint nativePtr, NativeObjectOwnership ownersh
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorBindings.Access);
+        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentDescriptorBindings.Access);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetAccess, (nuint)value);
     }
 
@@ -30,7 +30,7 @@ public class MTLArgumentDescriptor(nint nativePtr, NativeObjectOwnership ownersh
 
     public MTLDataType DataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorBindings.DataType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentDescriptorBindings.DataType);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetDataType, (nuint)value);
     }
 
@@ -42,7 +42,7 @@ public class MTLArgumentDescriptor(nint nativePtr, NativeObjectOwnership ownersh
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorBindings.TextureType);
+        get => (MTLTextureType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentDescriptorBindings.TextureType);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetTextureType, (nuint)value);
     }
 

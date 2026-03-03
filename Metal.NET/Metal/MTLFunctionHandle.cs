@@ -13,7 +13,7 @@ public class MTLFunctionHandle(nint nativePtr, NativeObjectOwnership ownership) 
 
     public MTLFunctionType FunctionType
     {
-        get => (MTLFunctionType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionHandleBindings.FunctionType);
+        get => (MTLFunctionType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionHandleBindings.FunctionType);
     }
 
     public MTLResourceID GpuResourceID

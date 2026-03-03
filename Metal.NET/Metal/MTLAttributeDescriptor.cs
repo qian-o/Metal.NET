@@ -18,7 +18,7 @@ public class MTLAttributeDescriptor(nint nativePtr, NativeObjectOwnership owners
 
     public MTLAttributeFormat Format
     {
-        get => (MTLAttributeFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorBindings.Format);
+        get => (MTLAttributeFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAttributeDescriptorBindings.Format);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorBindings.SetFormat, (nuint)value);
     }
 

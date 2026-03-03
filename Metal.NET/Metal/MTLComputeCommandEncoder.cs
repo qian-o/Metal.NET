@@ -8,7 +8,7 @@ public class MTLComputeCommandEncoder(nint nativePtr, NativeObjectOwnership owne
 
     public MTLDispatchType DispatchType
     {
-        get => (MTLDispatchType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLComputeCommandEncoderBindings.DispatchType);
+        get => (MTLDispatchType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLComputeCommandEncoderBindings.DispatchType);
     }
 
     public void DispatchThreadgroups(MTLSize threadgroupsPerGrid, MTLSize threadsPerThreadgroup)

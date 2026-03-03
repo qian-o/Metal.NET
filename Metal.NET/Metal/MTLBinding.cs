@@ -8,7 +8,7 @@ public class MTLBinding(nint nativePtr, NativeObjectOwnership ownership) : Nativ
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBindingBindings.Access);
+        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLBindingBindings.Access);
     }
 
     public Bool8 Argument
@@ -38,7 +38,7 @@ public class MTLBinding(nint nativePtr, NativeObjectOwnership ownership) : Nativ
 
     public MTLBindingType Type
     {
-        get => (MTLBindingType)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBindingBindings.Type);
+        get => (MTLBindingType)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLBindingBindings.Type);
     }
 
     public Bool8 Used

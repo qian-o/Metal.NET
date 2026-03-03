@@ -30,7 +30,7 @@ public class MTLStitchedLibraryDescriptor(nint nativePtr, NativeObjectOwnership 
 
     public MTLStitchedLibraryOptions Options
     {
-        get => (MTLStitchedLibraryOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStitchedLibraryDescriptorBindings.Options);
+        get => (MTLStitchedLibraryOptions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStitchedLibraryDescriptorBindings.Options);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStitchedLibraryDescriptorBindings.SetOptions, (nuint)value);
     }
 }

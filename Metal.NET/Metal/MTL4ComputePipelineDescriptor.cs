@@ -42,7 +42,7 @@ public class MTL4ComputePipelineDescriptor(nint nativePtr, NativeObjectOwnership
 
     public MTL4IndirectCommandBufferSupportState SupportIndirectCommandBuffers
     {
-        get => (MTL4IndirectCommandBufferSupportState)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4ComputePipelineDescriptorBindings.SupportIndirectCommandBuffers);
+        get => (MTL4IndirectCommandBufferSupportState)ObjectiveCRuntime.MsgSendLong(NativePtr, MTL4ComputePipelineDescriptorBindings.SupportIndirectCommandBuffers);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4ComputePipelineDescriptorBindings.SetSupportIndirectCommandBuffers, (nint)value);
     }
 

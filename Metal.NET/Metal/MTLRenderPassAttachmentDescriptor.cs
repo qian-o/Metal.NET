@@ -24,7 +24,7 @@ public class MTLRenderPassAttachmentDescriptor(nint nativePtr, NativeObjectOwner
 
     public MTLLoadAction LoadAction
     {
-        get => (MTLLoadAction)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.LoadAction);
+        get => (MTLLoadAction)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPassAttachmentDescriptorBindings.LoadAction);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetLoadAction, (nuint)value);
     }
 
@@ -60,13 +60,13 @@ public class MTLRenderPassAttachmentDescriptor(nint nativePtr, NativeObjectOwner
 
     public MTLStoreAction StoreAction
     {
-        get => (MTLStoreAction)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.StoreAction);
+        get => (MTLStoreAction)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPassAttachmentDescriptorBindings.StoreAction);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetStoreAction, (nuint)value);
     }
 
     public MTLStoreActionOptions StoreActionOptions
     {
-        get => (MTLStoreActionOptions)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.StoreActionOptions);
+        get => (MTLStoreActionOptions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPassAttachmentDescriptorBindings.StoreActionOptions);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetStoreActionOptions, (nuint)value);
     }
 

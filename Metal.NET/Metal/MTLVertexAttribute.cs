@@ -22,7 +22,7 @@ public class MTLVertexAttribute(nint nativePtr, NativeObjectOwnership ownership)
 
     public MTLDataType AttributeType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeBindings.AttributeType);
+        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLVertexAttributeBindings.AttributeType);
     }
 
     public Bool8 IsActive

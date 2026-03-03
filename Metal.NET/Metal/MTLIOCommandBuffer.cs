@@ -19,12 +19,17 @@ public class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership)
 
     public MTLIOStatus Status
     {
-        get => (MTLIOStatus)ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIOCommandBufferBindings.Status);
+        get => (MTLIOStatus)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLIOCommandBufferBindings.Status);
     }
 
     public void AddBarrier()
     {
         ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.AddBarrier);
+    }
+
+    public void AddCompletedHandler(MTLIOCommandBufferHandler block)
+    {
+        ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandBufferBindings.AddCompletedHandler, block);
     }
 
     public void Commit()
@@ -91,6 +96,8 @@ public class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership)
 file static class MTLIOCommandBufferBindings
 {
     public static readonly Selector AddBarrier = "addBarrier";
+
+    public static readonly Selector AddCompletedHandler = "addCompletedHandler:";
 
     public static readonly Selector Commit = "commit";
 

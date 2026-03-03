@@ -70,7 +70,22 @@ public static partial class ObjectiveCRuntime
     private static partial void _MsgSend(nint receiver, Selector selector, MTL4BufferRange a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void _MsgSend(nint receiver, Selector selector, MTL4CommitFeedbackHandler a);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, MTLClearColor a);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void _MsgSend(nint receiver, Selector selector, MTLCommandBufferHandler a);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void _MsgSend(nint receiver, Selector selector, MTLDrawablePresentedHandler a);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void _MsgSend(nint receiver, Selector selector, MTLIOCommandBufferHandler a);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void _MsgSend(nint receiver, Selector selector, MTLLogHandler a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, MTLRegion a);
@@ -142,6 +157,18 @@ public static partial class ObjectiveCRuntime
     private static partial void _MsgSend(nint receiver, Selector selector, nint a, MTL4BufferRange b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void _MsgSend(nint receiver, Selector selector, nint a, MTLNewComputePipelineStateCompletionHandler b);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void _MsgSend(nint receiver, Selector selector, nint a, MTLNewFunctionCompletionHandler b);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void _MsgSend(nint receiver, Selector selector, nint a, MTLNewLibraryCompletionHandler b);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void _MsgSend(nint receiver, Selector selector, nint a, MTLNewRenderPipelineStateCompletionHandler b);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, nint a, MTLRegion b, nuint c, nuint d);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -169,6 +196,9 @@ public static partial class ObjectiveCRuntime
     private static partial void _MsgSend(nint receiver, Selector selector, nint a, nint b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void _MsgSend(nint receiver, Selector selector, nint a, nint b, nint c);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, nint a, nint b, MTL4BufferRange c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -182,6 +212,12 @@ public static partial class ObjectiveCRuntime
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, nint a, nint b, MTL4UpdateSparseTextureMappingOperation c, nuint d);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void _MsgSend(nint receiver, Selector selector, nint a, nint b, MTLNewFunctionCompletionHandler c);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void _MsgSend(nint receiver, Selector selector, nint a, nint b, MTLNewLibraryCompletionHandler c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, nint a, nint b, nint c, MTL4BufferRange d);
@@ -217,6 +253,12 @@ public static partial class ObjectiveCRuntime
     private static partial void _MsgSend(nint receiver, Selector selector, nint a, nuint b, Bool8 c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void _MsgSend(nint receiver, Selector selector, nint a, nuint b, MTLNewComputePipelineStateWithReflectionCompletionHandler c);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void _MsgSend(nint receiver, Selector selector, nint a, nuint b, MTLNewRenderPipelineStateWithReflectionCompletionHandler c);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, nint a, nuint b, MTLRegion c, nint d, nint e, nuint f);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -224,6 +266,9 @@ public static partial class ObjectiveCRuntime
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, nint a, nuint b, MTLRegion c, nuint d, nuint e);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void _MsgSend(nint receiver, Selector selector, nint a, nuint b, MTLSharedEventNotificationBlock c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, nint a, nuint b, MTLSize c);
@@ -346,6 +391,9 @@ public static partial class ObjectiveCRuntime
     private static partial void _MsgSend(nint receiver, Selector selector, int a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void _MsgSend(nint receiver, Selector selector, long a);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, uint a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -407,7 +455,57 @@ public static partial class ObjectiveCRuntime
         _MsgSend(receiver, selector, a);
     }
 
+    public static void MsgSend(nint receiver, Selector selector, MTL4CommitFeedbackHandler a)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        _MsgSend(receiver, selector, a);
+    }
+
     public static void MsgSend(nint receiver, Selector selector, MTLClearColor a)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        _MsgSend(receiver, selector, a);
+    }
+
+    public static void MsgSend(nint receiver, Selector selector, MTLCommandBufferHandler a)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        _MsgSend(receiver, selector, a);
+    }
+
+    public static void MsgSend(nint receiver, Selector selector, MTLDrawablePresentedHandler a)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        _MsgSend(receiver, selector, a);
+    }
+
+    public static void MsgSend(nint receiver, Selector selector, MTLIOCommandBufferHandler a)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        _MsgSend(receiver, selector, a);
+    }
+
+    public static void MsgSend(nint receiver, Selector selector, MTLLogHandler a)
     {
         if (receiver is 0)
         {
@@ -647,6 +745,46 @@ public static partial class ObjectiveCRuntime
         _MsgSend(receiver, selector, a, b);
     }
 
+    public static void MsgSend(nint receiver, Selector selector, nint a, MTLNewComputePipelineStateCompletionHandler b)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        _MsgSend(receiver, selector, a, b);
+    }
+
+    public static void MsgSend(nint receiver, Selector selector, nint a, MTLNewFunctionCompletionHandler b)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        _MsgSend(receiver, selector, a, b);
+    }
+
+    public static void MsgSend(nint receiver, Selector selector, nint a, MTLNewLibraryCompletionHandler b)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        _MsgSend(receiver, selector, a, b);
+    }
+
+    public static void MsgSend(nint receiver, Selector selector, nint a, MTLNewRenderPipelineStateCompletionHandler b)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        _MsgSend(receiver, selector, a, b);
+    }
+
     public static void MsgSend(nint receiver, Selector selector, nint a, MTLRegion b, nuint c, nuint d)
     {
         if (receiver is 0)
@@ -737,6 +875,16 @@ public static partial class ObjectiveCRuntime
         _MsgSend(receiver, selector, a, b);
     }
 
+    public static void MsgSend(nint receiver, Selector selector, nint a, nint b, nint c)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        _MsgSend(receiver, selector, a, b, c);
+    }
+
     public static void MsgSend(nint receiver, Selector selector, nint a, nint b, MTL4BufferRange c)
     {
         if (receiver is 0)
@@ -785,6 +933,26 @@ public static partial class ObjectiveCRuntime
         }
 
         _MsgSend(receiver, selector, a, b, c, d);
+    }
+
+    public static void MsgSend(nint receiver, Selector selector, nint a, nint b, MTLNewFunctionCompletionHandler c)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        _MsgSend(receiver, selector, a, b, c);
+    }
+
+    public static void MsgSend(nint receiver, Selector selector, nint a, nint b, MTLNewLibraryCompletionHandler c)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        _MsgSend(receiver, selector, a, b, c);
     }
 
     public static void MsgSend(nint receiver, Selector selector, nint a, nint b, nint c, MTL4BufferRange d)
@@ -897,6 +1065,26 @@ public static partial class ObjectiveCRuntime
         _MsgSend(receiver, selector, a, b, c);
     }
 
+    public static void MsgSend(nint receiver, Selector selector, nint a, nuint b, MTLNewComputePipelineStateWithReflectionCompletionHandler c)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        _MsgSend(receiver, selector, a, b, c);
+    }
+
+    public static void MsgSend(nint receiver, Selector selector, nint a, nuint b, MTLNewRenderPipelineStateWithReflectionCompletionHandler c)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        _MsgSend(receiver, selector, a, b, c);
+    }
+
     public static void MsgSend(nint receiver, Selector selector, nint a, nuint b, MTLRegion c, nint d, nint e, nuint f)
     {
         if (receiver is 0)
@@ -925,6 +1113,16 @@ public static partial class ObjectiveCRuntime
         }
 
         _MsgSend(receiver, selector, a, b, c, d, e);
+    }
+
+    public static void MsgSend(nint receiver, Selector selector, nint a, nuint b, MTLSharedEventNotificationBlock c)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        _MsgSend(receiver, selector, a, b, c);
     }
 
     public static void MsgSend(nint receiver, Selector selector, nint a, nuint b, MTLSize c)
@@ -1318,6 +1516,16 @@ public static partial class ObjectiveCRuntime
     }
 
     public static void MsgSend(nint receiver, Selector selector, int a)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        _MsgSend(receiver, selector, a);
+    }
+
+    public static void MsgSend(nint receiver, Selector selector, long a)
     {
         if (receiver is 0)
         {
@@ -1910,6 +2118,9 @@ public static partial class ObjectiveCRuntime
     private static partial nint _MsgSendPtr(nint receiver, Selector selector);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nint _MsgSendPtr(nint receiver, Selector selector, Bool8 a);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial nint _MsgSendPtr(nint receiver, Selector selector, MTLSize a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -1922,13 +2133,52 @@ public static partial class ObjectiveCRuntime
     private static partial nint _MsgSendPtr(nint receiver, Selector selector, NSRange a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nint _MsgSendPtr(nint receiver, Selector selector, double a);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nint _MsgSendPtr(nint receiver, Selector selector, float a);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nint _MsgSendPtr(nint receiver, Selector selector, int a);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nint _MsgSendPtr(nint receiver, Selector selector, long a);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, MTL4NewMachineLearningPipelineStateCompletionHandler b);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, MTLNewDynamicLibraryCompletionHandler b);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, MTLNewLibraryCompletionHandler b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b, MTL4NewBinaryFunctionCompletionHandler c);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b, MTLNewComputePipelineStateCompletionHandler c);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b, MTLNewRenderPipelineStateCompletionHandler c);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c, out nint d);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c, MTLNewComputePipelineStateCompletionHandler d);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c, MTLNewRenderPipelineStateCompletionHandler d);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nuint c);
@@ -1943,10 +2193,16 @@ public static partial class ObjectiveCRuntime
     private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nuint b, nuint c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nuint b, nuint c, MTLDeallocator d);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nuint b, out nint c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, out nint b);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nint _MsgSendPtr(nint receiver, Selector selector, out nint a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial nint _MsgSendPtr(nint receiver, Selector selector, nuint a);
@@ -1975,6 +2231,12 @@ public static partial class ObjectiveCRuntime
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial nint _MsgSendPtr(nint receiver, Selector selector, nuint a, nuint b, nuint c, nuint d);
 
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nint _MsgSendPtr(nint receiver, Selector selector, uint a);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nint _MsgSendPtr(nint receiver, Selector selector, ulong a);
+
     public static nint MsgSendPtr(nint receiver, Selector selector)
     {
         if (receiver is 0)
@@ -1983,6 +2245,16 @@ public static partial class ObjectiveCRuntime
         }
 
         return _MsgSendPtr(receiver, selector);
+    }
+
+    public static nint MsgSendPtr(nint receiver, Selector selector, Bool8 a)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendPtr(receiver, selector, a);
     }
 
     public static nint MsgSendPtr(nint receiver, Selector selector, MTLSize a)
@@ -2025,6 +2297,46 @@ public static partial class ObjectiveCRuntime
         return _MsgSendPtr(receiver, selector, a);
     }
 
+    public static nint MsgSendPtr(nint receiver, Selector selector, double a)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendPtr(receiver, selector, a);
+    }
+
+    public static nint MsgSendPtr(nint receiver, Selector selector, float a)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendPtr(receiver, selector, a);
+    }
+
+    public static nint MsgSendPtr(nint receiver, Selector selector, int a)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendPtr(receiver, selector, a);
+    }
+
+    public static nint MsgSendPtr(nint receiver, Selector selector, long a)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendPtr(receiver, selector, a);
+    }
+
     public static nint MsgSendPtr(nint receiver, Selector selector, nint a)
     {
         if (receiver is 0)
@@ -2033,6 +2345,36 @@ public static partial class ObjectiveCRuntime
         }
 
         return _MsgSendPtr(receiver, selector, a);
+    }
+
+    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, MTL4NewMachineLearningPipelineStateCompletionHandler b)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendPtr(receiver, selector, a, b);
+    }
+
+    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, MTLNewDynamicLibraryCompletionHandler b)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendPtr(receiver, selector, a, b);
+    }
+
+    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, MTLNewLibraryCompletionHandler b)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendPtr(receiver, selector, a, b);
     }
 
     public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b)
@@ -2045,6 +2387,36 @@ public static partial class ObjectiveCRuntime
         return _MsgSendPtr(receiver, selector, a, b);
     }
 
+    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, MTL4NewBinaryFunctionCompletionHandler c)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendPtr(receiver, selector, a, b, c);
+    }
+
+    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, MTLNewComputePipelineStateCompletionHandler c)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendPtr(receiver, selector, a, b, c);
+    }
+
+    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, MTLNewRenderPipelineStateCompletionHandler c)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendPtr(receiver, selector, a, b, c);
+    }
+
     public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c, out nint d)
     {
         if (receiver is 0)
@@ -2055,6 +2427,36 @@ public static partial class ObjectiveCRuntime
         }
 
         return _MsgSendPtr(receiver, selector, a, b, c, out d);
+    }
+
+    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendPtr(receiver, selector, a, b, c);
+    }
+
+    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c, MTLNewComputePipelineStateCompletionHandler d)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendPtr(receiver, selector, a, b, c, d);
+    }
+
+    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c, MTLNewRenderPipelineStateCompletionHandler d)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendPtr(receiver, selector, a, b, c, d);
     }
 
     public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nuint c)
@@ -2099,6 +2501,16 @@ public static partial class ObjectiveCRuntime
         return _MsgSendPtr(receiver, selector, a, b, c);
     }
 
+    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nuint b, nuint c, MTLDeallocator d)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendPtr(receiver, selector, a, b, c, d);
+    }
+
     public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nuint b, out nint c)
     {
         if (receiver is 0)
@@ -2121,6 +2533,18 @@ public static partial class ObjectiveCRuntime
         }
 
         return _MsgSendPtr(receiver, selector, a, out b);
+    }
+
+    public static nint MsgSendPtr(nint receiver, Selector selector, out nint a)
+    {
+        if (receiver is 0)
+        {
+            a = default;
+
+            return default;
+        }
+
+        return _MsgSendPtr(receiver, selector, out a);
     }
 
     public static nint MsgSendPtr(nint receiver, Selector selector, nuint a)
@@ -2213,6 +2637,26 @@ public static partial class ObjectiveCRuntime
         return _MsgSendPtr(receiver, selector, a, b, c, d);
     }
 
+    public static nint MsgSendPtr(nint receiver, Selector selector, uint a)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendPtr(receiver, selector, a);
+    }
+
+    public static nint MsgSendPtr(nint receiver, Selector selector, ulong a)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendPtr(receiver, selector, a);
+    }
+
     #endregion
 
     #region MsgSendInt
@@ -2275,10 +2719,30 @@ public static partial class ObjectiveCRuntime
 
     #endregion
 
+    #region MsgSendLong
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial long _MsgSendLong(nint receiver, Selector selector);
+
+    public static long MsgSendLong(nint receiver, Selector selector)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendLong(receiver, selector);
+    }
+
+    #endregion
+
     #region MsgSendULong
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial ulong _MsgSendULong(nint receiver, Selector selector);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial ulong _MsgSendULong(nint receiver, Selector selector, nuint a);
 
     public static ulong MsgSendULong(nint receiver, Selector selector)
     {
@@ -2288,6 +2752,16 @@ public static partial class ObjectiveCRuntime
         }
 
         return _MsgSendULong(receiver, selector);
+    }
+
+    public static ulong MsgSendULong(nint receiver, Selector selector, nuint a)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendULong(receiver, selector, a);
     }
 
     #endregion

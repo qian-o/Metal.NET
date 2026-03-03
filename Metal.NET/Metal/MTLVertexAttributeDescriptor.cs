@@ -18,7 +18,7 @@ public class MTLVertexAttributeDescriptor(nint nativePtr, NativeObjectOwnership 
 
     public MTLVertexFormat Format
     {
-        get => (MTLVertexFormat)ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeDescriptorBindings.Format);
+        get => (MTLVertexFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLVertexAttributeDescriptorBindings.Format);
         set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorBindings.SetFormat, (nuint)value);
     }
 
