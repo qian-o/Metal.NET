@@ -120,10 +120,10 @@ partial class TypeMapper(GeneratorContext context)
             "double" => "double",
             "bool" => "bool",
             "char" when isPointer => "nint",
-            "IOSurfaceRef" => "nint",
+            "IOSurfaceRef" => "IOSurface",
             "dispatch_queue_t" => "DispatchQueue",
             "dispatch_data_t" => "DispatchData",
-            "CGColorSpaceRef" => "nint",
+            "CGColorSpaceRef" => "CGColorSpace",
             "CFTimeInterval" => "double",
             "CGSize" => "CGSize",
             "simd::float4x4" => "SimdFloat4x4",
@@ -194,7 +194,8 @@ partial class TypeMapper(GeneratorContext context)
     {
         if (csType is "void" or "bool" or "nint" or "nuint" or "uint" or "int" or "ulong" or "long" or "float" or "double"
             or "byte" or "sbyte" or "short" or "ushort"
-            or "DispatchQueue" or "DispatchData")
+            or "DispatchQueue" or "DispatchData"
+            or "CGColorSpace" or "IOSurface")
         {
             return false;
         }

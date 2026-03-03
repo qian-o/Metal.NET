@@ -61,7 +61,7 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
         get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindings.Height);
     }
 
-    public nint Iosurface
+    public IOSurface Iosurface
     {
         get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLTextureBindings.Iosurface);
     }

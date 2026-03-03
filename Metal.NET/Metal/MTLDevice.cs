@@ -800,7 +800,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLTexture NewTexture(MTLTextureDescriptor descriptor, nint iosurface, nuint plane)
+    public MTLTexture NewTexture(MTLTextureDescriptor descriptor, IOSurface iosurface, nuint plane)
     {
         nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLDeviceBindings.NewTextureWithDescriptoriosurfaceplane, descriptor.NativePtr, iosurface, plane);
 
