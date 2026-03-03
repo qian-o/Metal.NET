@@ -2,9 +2,9 @@
 
 public class MTLRenderPassColorAttachmentDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLRenderPassColorAttachmentDescriptorArray>
 {
-    public static MTLRenderPassColorAttachmentDescriptorArray Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLRenderPassColorAttachmentDescriptorArray Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLRenderPassColorAttachmentDescriptorArray Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLRenderPassColorAttachmentDescriptorArray Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLRenderPassColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassColorAttachmentDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
     {

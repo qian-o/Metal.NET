@@ -2,9 +2,9 @@
 
 public class MTLTileRenderPipelineColorAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLTileRenderPipelineColorAttachmentDescriptor>
 {
-    public static MTLTileRenderPipelineColorAttachmentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLTileRenderPipelineColorAttachmentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLTileRenderPipelineColorAttachmentDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLTileRenderPipelineColorAttachmentDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLTileRenderPipelineColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTileRenderPipelineColorAttachmentDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

@@ -2,9 +2,9 @@
 
 public class MTLFunctionLogDebugLocation(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFunctionLogDebugLocation>
 {
-    public static MTLFunctionLogDebugLocation Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLFunctionLogDebugLocation Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLFunctionLogDebugLocation Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLFunctionLogDebugLocation Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public nuint Column
     {

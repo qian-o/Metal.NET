@@ -2,9 +2,9 @@
 
 public class MTL4CounterHeap(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4CounterHeap>
 {
-    public static MTL4CounterHeap Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTL4CounterHeap Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4CounterHeap Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTL4CounterHeap Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public nuint Count
     {

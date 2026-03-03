@@ -2,9 +2,9 @@
 
 public class MTLCounterSampleBuffer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCounterSampleBuffer>
 {
-    public static MTLCounterSampleBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLCounterSampleBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLCounterSampleBuffer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLCounterSampleBuffer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLDevice Device
     {

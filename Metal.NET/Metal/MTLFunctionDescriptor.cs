@@ -2,9 +2,9 @@
 
 public class MTLFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFunctionDescriptor>
 {
-    public static MTLFunctionDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLFunctionDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLFunctionDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLFunctionDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFunctionDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

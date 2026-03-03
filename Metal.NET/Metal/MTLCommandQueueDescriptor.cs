@@ -2,9 +2,9 @@
 
 public class MTLCommandQueueDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCommandQueueDescriptor>
 {
-    public static MTLCommandQueueDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLCommandQueueDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLCommandQueueDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLCommandQueueDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCommandQueueDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

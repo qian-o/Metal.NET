@@ -2,9 +2,9 @@
 
 public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLBinaryArchive>
 {
-    public static MTLBinaryArchive Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLBinaryArchive Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLBinaryArchive Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLBinaryArchive Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLDevice Device
     {

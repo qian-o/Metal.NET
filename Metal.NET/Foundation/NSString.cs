@@ -8,9 +8,9 @@ namespace Metal.NET;
 /// </summary>
 public class NSString(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<NSString>
 {
-    public static NSString Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new NSString Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static NSString Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new NSString Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public string Value
     {

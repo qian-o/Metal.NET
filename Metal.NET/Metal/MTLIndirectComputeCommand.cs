@@ -2,9 +2,9 @@
 
 public class MTLIndirectComputeCommand(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLIndirectComputeCommand>
 {
-    public static MTLIndirectComputeCommand Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLIndirectComputeCommand Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLIndirectComputeCommand Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLIndirectComputeCommand Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public void ClearBarrier()
     {

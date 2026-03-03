@@ -2,9 +2,9 @@
 
 public class MTLArgumentEncoder(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLArgumentEncoder>
 {
-    public static MTLArgumentEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLArgumentEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLArgumentEncoder Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLArgumentEncoder Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public nuint Alignment
     {

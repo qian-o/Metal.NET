@@ -2,9 +2,9 @@
 
 public class MTLCompileOptions(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCompileOptions>
 {
-    public static MTLCompileOptions Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLCompileOptions Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLCompileOptions Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLCompileOptions Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLCompileOptions() : this(ObjectiveCRuntime.AllocInit(MTLCompileOptionsBindings.Class), NativeObjectOwnership.Managed)
     {

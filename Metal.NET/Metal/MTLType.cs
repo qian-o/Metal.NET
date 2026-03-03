@@ -2,9 +2,9 @@
 
 public class MTLType(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLType>
 {
-    public static MTLType Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLType Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLType Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLType Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLType() : this(ObjectiveCRuntime.AllocInit(MTLTypeBindings.Class), NativeObjectOwnership.Managed)
     {

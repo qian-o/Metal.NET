@@ -2,9 +2,9 @@
 
 public class MTL4ArgumentTableDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4ArgumentTableDescriptor>
 {
-    public static MTL4ArgumentTableDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTL4ArgumentTableDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4ArgumentTableDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTL4ArgumentTableDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTL4ArgumentTableDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4ArgumentTableDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

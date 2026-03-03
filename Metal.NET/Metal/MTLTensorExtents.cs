@@ -2,9 +2,9 @@
 
 public class MTLTensorExtents(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLTensorExtents>
 {
-    public static MTLTensorExtents Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLTensorExtents Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLTensorExtents Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLTensorExtents Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLTensorExtents() : this(ObjectiveCRuntime.AllocInit(MTLTensorExtentsBindings.Class), NativeObjectOwnership.Managed)
     {

@@ -2,9 +2,9 @@
 
 public class MTL4PipelineOptions(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4PipelineOptions>
 {
-    public static MTL4PipelineOptions Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTL4PipelineOptions Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4PipelineOptions Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTL4PipelineOptions Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTL4PipelineOptions() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineOptionsBindings.Class), NativeObjectOwnership.Managed)
     {

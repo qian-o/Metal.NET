@@ -2,9 +2,9 @@
 
 public class MTLFXFrameInterpolatorBase(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFXFrameInterpolatorBase>
 {
-    public static MTLFXFrameInterpolatorBase Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLFXFrameInterpolatorBase Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLFXFrameInterpolatorBase Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLFXFrameInterpolatorBase Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public float AspectRatio
     {

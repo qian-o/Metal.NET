@@ -2,9 +2,9 @@
 
 public class MTLRasterizationRateMap(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLRasterizationRateMap>
 {
-    public static MTLRasterizationRateMap Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLRasterizationRateMap Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLRasterizationRateMap Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLRasterizationRateMap Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLDevice Device
     {

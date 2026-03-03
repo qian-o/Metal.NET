@@ -2,9 +2,9 @@
 
 public class MTLStageInputOutputDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLStageInputOutputDescriptor>
 {
-    public static MTLStageInputOutputDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLStageInputOutputDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLStageInputOutputDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLStageInputOutputDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLStageInputOutputDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStageInputOutputDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

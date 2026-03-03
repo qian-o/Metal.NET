@@ -2,9 +2,9 @@
 
 public class MTLAttribute(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLAttribute>
 {
-    public static MTLAttribute Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLAttribute Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLAttribute Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLAttribute Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLAttribute() : this(ObjectiveCRuntime.AllocInit(MTLAttributeBindings.Class), NativeObjectOwnership.Managed)
     {

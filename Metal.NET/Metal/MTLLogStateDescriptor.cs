@@ -2,9 +2,9 @@
 
 public class MTLLogStateDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLLogStateDescriptor>
 {
-    public static MTLLogStateDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLLogStateDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLLogStateDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLLogStateDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLLogStateDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLLogStateDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

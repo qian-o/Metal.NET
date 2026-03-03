@@ -2,9 +2,9 @@
 
 public class MTL4CommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4CommandEncoder>
 {
-    public static MTL4CommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTL4CommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4CommandEncoder Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTL4CommandEncoder Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTL4CommandBuffer CommandBuffer
     {

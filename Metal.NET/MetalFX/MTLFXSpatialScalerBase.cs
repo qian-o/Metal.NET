@@ -2,9 +2,9 @@
 
 public class MTLFXSpatialScalerBase(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFXSpatialScalerBase>
 {
-    public static MTLFXSpatialScalerBase Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLFXSpatialScalerBase Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLFXSpatialScalerBase Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLFXSpatialScalerBase Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLFXSpatialScalerColorProcessingMode ColorProcessingMode
     {

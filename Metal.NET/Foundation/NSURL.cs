@@ -5,9 +5,9 @@
 /// </summary>
 public class NSURL(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<NSURL>
 {
-    public static NSURL Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new NSURL Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static NSURL Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new NSURL Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public nint FileSystemRepresentation
     {

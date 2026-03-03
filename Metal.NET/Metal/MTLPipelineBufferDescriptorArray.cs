@@ -2,9 +2,9 @@
 
 public class MTLPipelineBufferDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLPipelineBufferDescriptorArray>
 {
-    public static MTLPipelineBufferDescriptorArray Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLPipelineBufferDescriptorArray Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLPipelineBufferDescriptorArray Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLPipelineBufferDescriptorArray Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLPipelineBufferDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLPipelineBufferDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
     {

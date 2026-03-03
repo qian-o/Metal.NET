@@ -2,9 +2,9 @@
 
 public class MTLComputePassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLComputePassDescriptor>
 {
-    public static MTLComputePassDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLComputePassDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLComputePassDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLComputePassDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLComputePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLComputePassDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

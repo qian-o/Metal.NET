@@ -2,9 +2,9 @@
 
 public class MTLIOScratchBuffer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLIOScratchBuffer>
 {
-    public static MTLIOScratchBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLIOScratchBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLIOScratchBuffer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLIOScratchBuffer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLBuffer Buffer
     {

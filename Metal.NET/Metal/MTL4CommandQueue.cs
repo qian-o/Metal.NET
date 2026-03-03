@@ -2,9 +2,9 @@
 
 public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4CommandQueue>
 {
-    public static MTL4CommandQueue Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTL4CommandQueue Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4CommandQueue Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTL4CommandQueue Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLDevice Device
     {

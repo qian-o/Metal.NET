@@ -5,9 +5,9 @@
 /// </summary>
 public class NSData(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<NSData>
 {
-    public static NSData Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new NSData Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static NSData Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new NSData Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public nint MutableBytes
     {

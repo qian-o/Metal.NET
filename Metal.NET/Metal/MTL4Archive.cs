@@ -2,9 +2,9 @@
 
 public class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4Archive>
 {
-    public static MTL4Archive Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTL4Archive Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4Archive Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTL4Archive Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public NSString Label
     {

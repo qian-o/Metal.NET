@@ -2,9 +2,9 @@
 
 public class MTLCommandBufferEncoderInfo(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCommandBufferEncoderInfo>
 {
-    public static MTLCommandBufferEncoderInfo Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLCommandBufferEncoderInfo Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLCommandBufferEncoderInfo Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLCommandBufferEncoderInfo Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public NSString[] DebugSignposts
     {

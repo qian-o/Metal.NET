@@ -2,9 +2,9 @@
 
 public class MTLResidencySetDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLResidencySetDescriptor>
 {
-    public static MTLResidencySetDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLResidencySetDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLResidencySetDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLResidencySetDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLResidencySetDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResidencySetDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

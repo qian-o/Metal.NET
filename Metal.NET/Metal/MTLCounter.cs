@@ -2,9 +2,9 @@
 
 public class MTLCounter(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCounter>
 {
-    public static MTLCounter Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLCounter Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLCounter Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLCounter Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public NSString Name
     {

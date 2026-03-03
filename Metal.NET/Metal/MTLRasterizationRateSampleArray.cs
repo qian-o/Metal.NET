@@ -2,9 +2,9 @@
 
 public class MTLRasterizationRateSampleArray(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLRasterizationRateSampleArray>
 {
-    public static MTLRasterizationRateSampleArray Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLRasterizationRateSampleArray Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLRasterizationRateSampleArray Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLRasterizationRateSampleArray Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLRasterizationRateSampleArray() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateSampleArrayBindings.Class), NativeObjectOwnership.Managed)
     {

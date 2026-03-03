@@ -343,7 +343,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string partialKeyword = hasFreeFunctions ? "partial " : "";
         sb.AppendLine($"public {partialKeyword}class {csClassName}(nint nativePtr, NativeObjectOwnership ownership) : {baseClass}(nativePtr, ownership), INativeObject<{csClassName}>");
         sb.AppendLine("{");
-        string newKeyword = baseClass != "NativeObject" ? "new " : "";
+        string newKeyword = "new ";
         sb.AppendLine($"    public static {newKeyword}{csClassName} Null {{ get; }} = new(0, NativeObjectOwnership.Borrowed);");
         sb.AppendLine();
         sb.AppendLine($"    public static {newKeyword}{csClassName} Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);");

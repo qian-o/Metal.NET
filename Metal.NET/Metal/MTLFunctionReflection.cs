@@ -2,9 +2,9 @@
 
 public class MTLFunctionReflection(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFunctionReflection>
 {
-    public static MTLFunctionReflection Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLFunctionReflection Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLFunctionReflection Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLFunctionReflection Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLFunctionReflection() : this(ObjectiveCRuntime.AllocInit(MTLFunctionReflectionBindings.Class), NativeObjectOwnership.Managed)
     {

@@ -2,9 +2,9 @@
 
 public class MTLFunctionConstant(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFunctionConstant>
 {
-    public static MTLFunctionConstant Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLFunctionConstant Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLFunctionConstant Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLFunctionConstant Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLFunctionConstant() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantBindings.Class), NativeObjectOwnership.Managed)
     {

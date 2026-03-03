@@ -2,9 +2,9 @@
 
 public class MTL4CounterHeapDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4CounterHeapDescriptor>
 {
-    public static MTL4CounterHeapDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTL4CounterHeapDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4CounterHeapDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTL4CounterHeapDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTL4CounterHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CounterHeapDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

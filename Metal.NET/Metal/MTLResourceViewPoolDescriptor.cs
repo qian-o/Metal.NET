@@ -2,9 +2,9 @@
 
 public class MTLResourceViewPoolDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLResourceViewPoolDescriptor>
 {
-    public static MTLResourceViewPoolDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLResourceViewPoolDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLResourceViewPoolDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLResourceViewPoolDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLResourceViewPoolDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceViewPoolDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

@@ -2,9 +2,9 @@
 
 public class MTL4CompilerDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4CompilerDescriptor>
 {
-    public static MTL4CompilerDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTL4CompilerDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4CompilerDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTL4CompilerDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTL4CompilerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CompilerDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

@@ -158,7 +158,7 @@ partial class TypeMapper(GeneratorContext context)
 
             if (typeNs == "NS" && typeName == "Object")
             {
-                return "nint";
+                return "NativeObject";
             }
 
             string prefix = GetPrefix(typeNs);

@@ -2,9 +2,9 @@
 
 public class MTLIOFileHandle(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLIOFileHandle>
 {
-    public static MTLIOFileHandle Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLIOFileHandle Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLIOFileHandle Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLIOFileHandle Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public NSString Label
     {

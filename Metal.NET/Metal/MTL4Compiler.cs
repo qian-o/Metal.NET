@@ -2,9 +2,9 @@
 
 public class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4Compiler>
 {
-    public static MTL4Compiler Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTL4Compiler Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4Compiler Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTL4Compiler Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLDevice Device
     {

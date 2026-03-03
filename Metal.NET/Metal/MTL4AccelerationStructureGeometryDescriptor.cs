@@ -2,9 +2,9 @@
 
 public class MTL4AccelerationStructureGeometryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4AccelerationStructureGeometryDescriptor>
 {
-    public static MTL4AccelerationStructureGeometryDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTL4AccelerationStructureGeometryDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4AccelerationStructureGeometryDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTL4AccelerationStructureGeometryDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTL4AccelerationStructureGeometryDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4AccelerationStructureGeometryDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

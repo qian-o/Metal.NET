@@ -2,9 +2,9 @@
 
 public class MTLRenderPipelineFunctionsDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLRenderPipelineFunctionsDescriptor>
 {
-    public static MTLRenderPipelineFunctionsDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLRenderPipelineFunctionsDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLRenderPipelineFunctionsDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLRenderPipelineFunctionsDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLRenderPipelineFunctionsDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineFunctionsDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

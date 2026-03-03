@@ -2,9 +2,9 @@
 
 public class MTLComputePipelineReflection(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLComputePipelineReflection>
 {
-    public static MTLComputePipelineReflection Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLComputePipelineReflection Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLComputePipelineReflection Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLComputePipelineReflection Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLComputePipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTLComputePipelineReflectionBindings.Class), NativeObjectOwnership.Managed)
     {

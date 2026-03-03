@@ -4,9 +4,9 @@ namespace Metal.NET;
 
 public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLDevice>
 {
-    public static MTLDevice Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLDevice Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLDevice Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLDevice Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLArchitecture Architecture
     {
@@ -908,7 +908,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
     [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLRemoveDeviceObserver")]
     private static partial void MTLRemoveDeviceObserver(nint param);
 
-    public static void RemoveDeviceObserver(nint param) => MTLRemoveDeviceObserver(param);
+    public static void RemoveDeviceObserver(NativeObject param) => MTLRemoveDeviceObserver(param.NativePtr);
 }
 
 file static class MTLDeviceBindings

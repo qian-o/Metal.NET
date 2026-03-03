@@ -2,9 +2,9 @@
 
 public class MTLCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCommandEncoder>
 {
-    public static MTLCommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLCommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLCommandEncoder Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLCommandEncoder Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
     public MTLDevice Device
     {
