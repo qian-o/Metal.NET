@@ -14,6 +14,8 @@ public partial struct DispatchQueue(nint nativePtr) : IDisposable
 
     public nint NativePtr = nativePtr;
 
+    public readonly bool IsNull => NativePtr is 0;
+
     public static implicit operator nint(DispatchQueue value)
     {
         return value.NativePtr;

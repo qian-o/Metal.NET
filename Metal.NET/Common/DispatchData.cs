@@ -12,7 +12,26 @@ public partial struct DispatchData(nint nativePtr) : IDisposable
     [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_release")]
     private static partial void DispatchRelease(nint @object);
 
+    [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_data_create")]
+    private static unsafe partial nint DispatchDataCreate(void* buffer, nuint size, nint queue, nint destructor);
+
     public nint NativePtr = nativePtr;
+
+    public readonly bool IsNull => NativePtr is 0;
+
+    /// <summary>
+    /// Creates a new <see cref="DispatchData"/> by copying the contents of <paramref name="data"/>.
+    /// The caller owns the returned object and must dispose it.
+    /// </summary>
+    public static unsafe DispatchData Create(ReadOnlySpan<byte> data)
+    {
+        fixed (byte* ptr = data)
+        {
+            nint handle = DispatchDataCreate(ptr, (nuint)data.Length, 0, 0);
+
+            return new(handle);
+        }
+    }
 
     public static implicit operator nint(DispatchData value)
     {
