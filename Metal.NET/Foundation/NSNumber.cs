@@ -26,12 +26,12 @@ public class NSNumber(nint nativePtr, NativeObjectOwnership ownership) : NativeO
 
     public long LongValue
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSNumberBindings.LongLongValue);
+        get => ObjectiveCRuntime.MsgSendLong(NativePtr, NSNumberBindings.LongLongValue);
     }
 
     public ulong UnsignedLongValue
     {
-        get => (ulong)ObjectiveCRuntime.MsgSendPtr(NativePtr, NSNumberBindings.UnsignedLongLongValue);
+        get => ObjectiveCRuntime.MsgSendULong(NativePtr, NSNumberBindings.UnsignedLongLongValue);
     }
 
     public float FloatValue

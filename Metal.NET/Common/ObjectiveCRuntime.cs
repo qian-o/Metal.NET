@@ -2680,6 +2680,23 @@ public static partial class ObjectiveCRuntime
 
     #endregion
 
+    #region MsgSendLong
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial long _MsgSendLong(nint receiver, Selector selector);
+
+    public static long MsgSendLong(nint receiver, Selector selector)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendLong(receiver, selector);
+    }
+
+    #endregion
+
     #region MsgSendULong
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
