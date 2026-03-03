@@ -71,12 +71,12 @@ public class NSNumber(nint nativePtr, NativeObjectOwnership ownership) : NativeO
 
     public static implicit operator NSNumber(long value)
     {
-        return new(ObjectiveCRuntime.MsgSendPtr(NSNumberBindings.Class, NSNumberBindings.NumberWithLongLong, (nint)value), NativeObjectOwnership.Owned);
+        return new(ObjectiveCRuntime.MsgSendPtr(NSNumberBindings.Class, NSNumberBindings.NumberWithLongLong, value), NativeObjectOwnership.Owned);
     }
 
     public static implicit operator NSNumber(ulong value)
     {
-        return new(ObjectiveCRuntime.MsgSendPtr(NSNumberBindings.Class, NSNumberBindings.NumberWithUnsignedLongLong, unchecked((nint)value)), NativeObjectOwnership.Owned);
+        return new(ObjectiveCRuntime.MsgSendPtr(NSNumberBindings.Class, NSNumberBindings.NumberWithUnsignedLongLong, value), NativeObjectOwnership.Owned);
     }
 
     public static implicit operator NSNumber(float value)
