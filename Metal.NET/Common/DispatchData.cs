@@ -9,23 +9,7 @@ namespace Metal.NET;
 [StructLayout(LayoutKind.Sequential)]
 public partial struct DispatchData(nint nativePtr) : IDisposable
 {
-    [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_data_create")]
-    private static unsafe partial nint DispatchDataCreate(void* buffer, nuint size, DispatchQueue queue, nint destructor);
-
-    [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_release")]
-    private static partial void DispatchRelease(nint @object);
-
     public nint NativePtr = nativePtr;
-
-    public static unsafe DispatchData Create<T>(ReadOnlySpan<T> data, DispatchQueue queue, nint destructor) where T : unmanaged
-    {
-        fixed (T* ptr = data)
-        {
-            nint handle = DispatchDataCreate(ptr, (nuint)(data.Length * sizeof(T)), queue, destructor);
-
-            return new(handle);
-        }
-    }
 
     public static implicit operator nint(DispatchData value)
     {
@@ -46,4 +30,20 @@ public partial struct DispatchData(nint nativePtr) : IDisposable
             NativePtr = 0;
         }
     }
+
+    public static unsafe DispatchData Create<T>(ReadOnlySpan<T> data, DispatchQueue queue, nint destructor) where T : unmanaged
+    {
+        fixed (T* ptr = data)
+        {
+            nint handle = DispatchDataCreate(ptr, (nuint)(data.Length * sizeof(T)), queue, destructor);
+
+            return new(handle);
+        }
+    }
+
+    [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_data_create")]
+    private static unsafe partial nint DispatchDataCreate(void* buffer, nuint size, DispatchQueue queue, nint destructor);
+
+    [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_release")]
+    private static partial void DispatchRelease(nint @object);
 }
