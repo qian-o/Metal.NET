@@ -35,21 +35,21 @@ public partial struct DispatchQueue(nint nativePtr) : IDisposable
         NativePtr = 0;
     }
 
-    public static DispatchQueue Create(string? label, nint attr)
+    public static DispatchQueue Create(string label, nint attr)
     {
         return new(DispatchQueueCreate(label, attr));
     }
 
-    public static DispatchQueue GlobalQueue()
+    public static DispatchQueue GlobalQueue(nint identifier, nuint flags)
     {
-        return new(DispatchGetGlobalQueue(0, 0));
+        return new(DispatchGetGlobalQueue(identifier, flags));
     }
 
     [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_release")]
     private static partial void DispatchRelease(nint @object);
 
     [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_queue_create", StringMarshalling = StringMarshalling.Utf8)]
-    private static partial nint DispatchQueueCreate(string? label, nint attr);
+    private static partial nint DispatchQueueCreate(string label, nint attr);
 
     [LibraryImport("/usr/lib/libSystem.B.dylib", EntryPoint = "dispatch_get_global_queue")]
     private static partial nint DispatchGetGlobalQueue(nint identifier, nuint flags);
