@@ -908,7 +908,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
     [LibraryImport("/System/Library/Frameworks/Metal.framework/Metal", EntryPoint = "MTLRemoveDeviceObserver")]
     private static partial void MTLRemoveDeviceObserver(nint param);
 
-    public static void RemoveDeviceObserver(NSObject param) => MTLRemoveDeviceObserver(param.NativePtr);
+    public static void RemoveDeviceObserver(NativeObject param) => MTLRemoveDeviceObserver(param.NativePtr);
 }
 
 file static class MTLDeviceBindings
