@@ -6,20 +6,20 @@ public class MTLRenderPassColorAttachmentDescriptor(nint nativePtr, NativeObject
 
     public static new MTLRenderPassColorAttachmentDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLRenderPassColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassColorAttachmentDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLRenderPassColorAttachmentDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPassColorAttachmentDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public MTLClearColor ClearColor
     {
-        get => ObjectiveCRuntime.MsgSendMTLClearColor(NativePtr, MTLRenderPassColorAttachmentDescriptorBindings.ClearColor);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorBindings.SetClearColor, value);
+        get => ObjectiveC.MsgSendMTLClearColor(NativePtr, MTLRenderPassColorAttachmentDescriptorBindings.ClearColor);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassColorAttachmentDescriptorBindings.SetClearColor, value);
     }
 }
 
 file static class MTLRenderPassColorAttachmentDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassColorAttachmentDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLRenderPassColorAttachmentDescriptor");
 
     public static readonly Selector ClearColor = "clearColor";
 

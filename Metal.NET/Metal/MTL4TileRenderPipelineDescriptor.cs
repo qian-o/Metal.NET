@@ -6,7 +6,7 @@ public class MTL4TileRenderPipelineDescriptor(nint nativePtr, NativeObjectOwners
 
     public static new MTL4TileRenderPipelineDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTL4TileRenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4TileRenderPipelineDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4TileRenderPipelineDescriptor() : this(ObjectiveC.AllocInit(MTL4TileRenderPipelineDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -17,20 +17,20 @@ public class MTL4TileRenderPipelineDescriptor(nint nativePtr, NativeObjectOwners
 
     public nuint MaxTotalThreadsPerThreadgroup
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4TileRenderPipelineDescriptorBindings.MaxTotalThreadsPerThreadgroup);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetMaxTotalThreadsPerThreadgroup, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4TileRenderPipelineDescriptorBindings.MaxTotalThreadsPerThreadgroup);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetMaxTotalThreadsPerThreadgroup, value);
     }
 
     public nuint RasterSampleCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4TileRenderPipelineDescriptorBindings.RasterSampleCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetRasterSampleCount, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4TileRenderPipelineDescriptorBindings.RasterSampleCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetRasterSampleCount, value);
     }
 
     public MTLSize RequiredThreadsPerThreadgroup
     {
-        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTL4TileRenderPipelineDescriptorBindings.RequiredThreadsPerThreadgroup);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetRequiredThreadsPerThreadgroup, value);
+        get => ObjectiveC.MsgSendMTLSize(NativePtr, MTL4TileRenderPipelineDescriptorBindings.RequiredThreadsPerThreadgroup);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetRequiredThreadsPerThreadgroup, value);
     }
 
     public MTL4StaticLinkingDescriptor StaticLinkingDescriptor
@@ -41,14 +41,14 @@ public class MTL4TileRenderPipelineDescriptor(nint nativePtr, NativeObjectOwners
 
     public Bool8 SupportBinaryLinking
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SupportBinaryLinking);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetSupportBinaryLinking, value);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SupportBinaryLinking);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetSupportBinaryLinking, value);
     }
 
     public Bool8 ThreadgroupSizeMatchesTileSize
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4TileRenderPipelineDescriptorBindings.ThreadgroupSizeMatchesTileSize);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetThreadgroupSizeMatchesTileSize, value);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTL4TileRenderPipelineDescriptorBindings.ThreadgroupSizeMatchesTileSize);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetThreadgroupSizeMatchesTileSize, value);
     }
 
     public MTL4FunctionDescriptor TileFunctionDescriptor
@@ -59,13 +59,13 @@ public class MTL4TileRenderPipelineDescriptor(nint nativePtr, NativeObjectOwners
 
     public void Reset()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.Reset);
+        ObjectiveC.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.Reset);
     }
 }
 
 file static class MTL4TileRenderPipelineDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4TileRenderPipelineDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTL4TileRenderPipelineDescriptor");
 
     public static readonly Selector ColorAttachments = "colorAttachments";
 

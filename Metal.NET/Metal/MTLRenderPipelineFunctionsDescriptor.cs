@@ -6,7 +6,7 @@ public class MTLRenderPipelineFunctionsDescriptor(nint nativePtr, NativeObjectOw
 
     public static MTLRenderPipelineFunctionsDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLRenderPipelineFunctionsDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineFunctionsDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLRenderPipelineFunctionsDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPipelineFunctionsDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -31,7 +31,7 @@ public class MTLRenderPipelineFunctionsDescriptor(nint nativePtr, NativeObjectOw
 
 file static class MTLRenderPipelineFunctionsDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPipelineFunctionsDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLRenderPipelineFunctionsDescriptor");
 
     public static readonly Selector FragmentAdditionalBinaryFunctions = "fragmentAdditionalBinaryFunctions";
 

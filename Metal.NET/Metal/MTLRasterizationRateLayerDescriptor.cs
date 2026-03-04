@@ -6,7 +6,7 @@ public class MTLRasterizationRateLayerDescriptor(nint nativePtr, NativeObjectOwn
 
     public static MTLRasterizationRateLayerDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLRasterizationRateLayerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateLayerDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLRasterizationRateLayerDescriptor() : this(ObjectiveC.AllocInit(MTLRasterizationRateLayerDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -17,18 +17,18 @@ public class MTLRasterizationRateLayerDescriptor(nint nativePtr, NativeObjectOwn
 
     public float HorizontalSampleStorage
     {
-        get => ObjectiveCRuntime.MsgSendFloat(NativePtr, MTLRasterizationRateLayerDescriptorBindings.HorizontalSampleStorage);
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLRasterizationRateLayerDescriptorBindings.HorizontalSampleStorage);
     }
 
     public MTLSize MaxSampleCount
     {
-        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRasterizationRateLayerDescriptorBindings.MaxSampleCount);
+        get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLRasterizationRateLayerDescriptorBindings.MaxSampleCount);
     }
 
     public MTLSize SampleCount
     {
-        get => ObjectiveCRuntime.MsgSendMTLSize(NativePtr, MTLRasterizationRateLayerDescriptorBindings.SampleCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateLayerDescriptorBindings.SetSampleCount, value);
+        get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLRasterizationRateLayerDescriptorBindings.SampleCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateLayerDescriptorBindings.SetSampleCount, value);
     }
 
     public MTLRasterizationRateSampleArray Vertical
@@ -38,13 +38,13 @@ public class MTLRasterizationRateLayerDescriptor(nint nativePtr, NativeObjectOwn
 
     public float VerticalSampleStorage
     {
-        get => ObjectiveCRuntime.MsgSendFloat(NativePtr, MTLRasterizationRateLayerDescriptorBindings.VerticalSampleStorage);
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLRasterizationRateLayerDescriptorBindings.VerticalSampleStorage);
     }
 }
 
 file static class MTLRasterizationRateLayerDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRasterizationRateLayerDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLRasterizationRateLayerDescriptor");
 
     public static readonly Selector Horizontal = "horizontal";
 

@@ -6,20 +6,20 @@ public class MTLPipelineBufferDescriptor(nint nativePtr, NativeObjectOwnership o
 
     public static MTLPipelineBufferDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLPipelineBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLPipelineBufferDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLPipelineBufferDescriptor() : this(ObjectiveC.AllocInit(MTLPipelineBufferDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public MTLMutability Mutability
     {
-        get => (MTLMutability)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLPipelineBufferDescriptorBindings.Mutability);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorBindings.SetMutability, (nuint)value);
+        get => (MTLMutability)ObjectiveC.MsgSendULong(NativePtr, MTLPipelineBufferDescriptorBindings.Mutability);
+        set => ObjectiveC.MsgSend(NativePtr, MTLPipelineBufferDescriptorBindings.SetMutability, (nuint)value);
     }
 }
 
 file static class MTLPipelineBufferDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPipelineBufferDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLPipelineBufferDescriptor");
 
     public static readonly Selector Mutability = "mutability";
 

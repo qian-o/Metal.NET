@@ -6,7 +6,7 @@ public class MTLResourceViewPoolDescriptor(nint nativePtr, NativeObjectOwnership
 
     public static MTLResourceViewPoolDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLResourceViewPoolDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceViewPoolDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLResourceViewPoolDescriptor() : this(ObjectiveC.AllocInit(MTLResourceViewPoolDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -18,14 +18,14 @@ public class MTLResourceViewPoolDescriptor(nint nativePtr, NativeObjectOwnership
 
     public nuint ResourceViewCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceViewPoolDescriptorBindings.ResourceViewCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceViewPoolDescriptorBindings.SetResourceViewCount, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResourceViewPoolDescriptorBindings.ResourceViewCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLResourceViewPoolDescriptorBindings.SetResourceViewCount, value);
     }
 }
 
 file static class MTLResourceViewPoolDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResourceViewPoolDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLResourceViewPoolDescriptor");
 
     public static readonly Selector Label = "label";
 

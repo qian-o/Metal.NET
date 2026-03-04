@@ -6,7 +6,7 @@ public class MTLRenderPipelineColorAttachmentDescriptorArray(nint nativePtr, Nat
 
     public static MTLRenderPipelineColorAttachmentDescriptorArray Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLRenderPipelineColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineColorAttachmentDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
+    public MTLRenderPipelineColorAttachmentDescriptorArray() : this(ObjectiveC.AllocInit(MTLRenderPipelineColorAttachmentDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -14,20 +14,20 @@ public class MTLRenderPipelineColorAttachmentDescriptorArray(nint nativePtr, Nat
     {
         get
         {
-            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRenderPipelineColorAttachmentDescriptorArrayBindings.Object, attachmentIndex);
+            nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLRenderPipelineColorAttachmentDescriptorArrayBindings.Object, attachmentIndex);
 
             return new(nativePtr, NativeObjectOwnership.Borrowed);
         }
         set
         {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorArrayBindings.SetObject, value.NativePtr, attachmentIndex);
+            ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorArrayBindings.SetObject, value.NativePtr, attachmentIndex);
         }
     }
 }
 
 file static class MTLRenderPipelineColorAttachmentDescriptorArrayBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPipelineColorAttachmentDescriptorArray");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLRenderPipelineColorAttachmentDescriptorArray");
 
     public static readonly Selector Object = "objectAtIndexedSubscript:";
 

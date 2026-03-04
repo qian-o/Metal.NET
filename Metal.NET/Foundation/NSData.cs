@@ -3,20 +3,25 @@
 /// <summary>
 /// Wraps an Objective-C NSData for raw byte buffer access.
 /// </summary>
-public class NSData(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<NSData>
+public class NSData(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<NSData>
 {
+    #region INativeObject
     public static NSData Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static NSData Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static NSData New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public nint MutableBytes
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, NSDataBindings.MutableBytes);
+        get => ObjectiveC.MsgSendPtr(NativePtr, NSDataBindings.MutableBytes);
     }
 
     public nuint Length
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, NSDataBindings.Length);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, NSDataBindings.Length);
     }
 }
 

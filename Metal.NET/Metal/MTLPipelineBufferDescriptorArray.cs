@@ -6,7 +6,7 @@ public class MTLPipelineBufferDescriptorArray(nint nativePtr, NativeObjectOwners
 
     public static MTLPipelineBufferDescriptorArray Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLPipelineBufferDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLPipelineBufferDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
+    public MTLPipelineBufferDescriptorArray() : this(ObjectiveC.AllocInit(MTLPipelineBufferDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -14,20 +14,20 @@ public class MTLPipelineBufferDescriptorArray(nint nativePtr, NativeObjectOwners
     {
         get
         {
-            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPipelineBufferDescriptorArrayBindings.Object, bufferIndex);
+            nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLPipelineBufferDescriptorArrayBindings.Object, bufferIndex);
 
             return new(nativePtr, NativeObjectOwnership.Borrowed);
         }
         set
         {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLPipelineBufferDescriptorArrayBindings.SetObject, value.NativePtr, bufferIndex);
+            ObjectiveC.MsgSend(NativePtr, MTLPipelineBufferDescriptorArrayBindings.SetObject, value.NativePtr, bufferIndex);
         }
     }
 }
 
 file static class MTLPipelineBufferDescriptorArrayBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPipelineBufferDescriptorArray");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLPipelineBufferDescriptorArray");
 
     public static readonly Selector Object = "objectAtIndexedSubscript:";
 

@@ -8,17 +8,17 @@ public class MTLTextureViewPool(nint nativePtr, NativeObjectOwnership ownership)
 
     public MTLResourceID SetTextureView(MTLTexture texture, nuint index)
     {
-        return ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolBindings.SetTextureView, texture.NativePtr, index);
+        return ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolBindings.SetTextureView, texture.NativePtr, index);
     }
 
     public MTLResourceID SetTextureView(MTLTexture texture, MTLTextureViewDescriptor descriptor, nuint index)
     {
-        return ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolBindings.SetTextureViewdescriptoratIndex, texture.NativePtr, descriptor.NativePtr, index);
+        return ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolBindings.SetTextureViewdescriptoratIndex, texture.NativePtr, descriptor.NativePtr, index);
     }
 
     public MTLResourceID SetTextureViewFromBuffer(MTLBuffer buffer, MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow, nuint index)
     {
-        return ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolBindings.SetTextureViewFromBuffer, buffer.NativePtr, descriptor.NativePtr, offset, bytesPerRow, index);
+        return ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLTextureViewPoolBindings.SetTextureViewFromBuffer, buffer.NativePtr, descriptor.NativePtr, offset, bytesPerRow, index);
     }
 }
 

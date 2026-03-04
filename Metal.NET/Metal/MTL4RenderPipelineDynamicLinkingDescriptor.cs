@@ -6,7 +6,7 @@ public class MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr, NativeOb
 
     public static MTL4RenderPipelineDynamicLinkingDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTL4RenderPipelineDynamicLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineDynamicLinkingDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4RenderPipelineDynamicLinkingDescriptor() : this(ObjectiveC.AllocInit(MTL4RenderPipelineDynamicLinkingDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -38,7 +38,7 @@ public class MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr, NativeOb
 
 file static class MTL4RenderPipelineDynamicLinkingDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineDynamicLinkingDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTL4RenderPipelineDynamicLinkingDescriptor");
 
     public static readonly Selector FragmentLinkingDescriptor = "fragmentLinkingDescriptor";
 

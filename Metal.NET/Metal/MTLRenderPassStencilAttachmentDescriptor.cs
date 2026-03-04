@@ -6,26 +6,26 @@ public class MTLRenderPassStencilAttachmentDescriptor(nint nativePtr, NativeObje
 
     public static new MTLRenderPassStencilAttachmentDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLRenderPassStencilAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassStencilAttachmentDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLRenderPassStencilAttachmentDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPassStencilAttachmentDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public uint ClearStencil
     {
-        get => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLRenderPassStencilAttachmentDescriptorBindings.ClearStencil);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorBindings.SetClearStencil, value);
+        get => ObjectiveC.MsgSendUInt(NativePtr, MTLRenderPassStencilAttachmentDescriptorBindings.ClearStencil);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorBindings.SetClearStencil, value);
     }
 
     public MTLMultisampleStencilResolveFilter StencilResolveFilter
     {
-        get => (MTLMultisampleStencilResolveFilter)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPassStencilAttachmentDescriptorBindings.StencilResolveFilter);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorBindings.SetStencilResolveFilter, (nuint)value);
+        get => (MTLMultisampleStencilResolveFilter)ObjectiveC.MsgSendULong(NativePtr, MTLRenderPassStencilAttachmentDescriptorBindings.StencilResolveFilter);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassStencilAttachmentDescriptorBindings.SetStencilResolveFilter, (nuint)value);
     }
 }
 
 file static class MTLRenderPassStencilAttachmentDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassStencilAttachmentDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLRenderPassStencilAttachmentDescriptor");
 
     public static readonly Selector ClearStencil = "clearStencil";
 

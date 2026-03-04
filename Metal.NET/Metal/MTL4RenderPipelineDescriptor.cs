@@ -6,26 +6,26 @@ public class MTL4RenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership 
 
     public static new MTL4RenderPipelineDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTL4RenderPipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4RenderPipelineDescriptor() : this(ObjectiveC.AllocInit(MTL4RenderPipelineDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public MTL4AlphaToCoverageState AlphaToCoverageState
     {
-        get => (MTL4AlphaToCoverageState)ObjectiveCRuntime.MsgSendLong(NativePtr, MTL4RenderPipelineDescriptorBindings.AlphaToCoverageState);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetAlphaToCoverageState, (nint)value);
+        get => (MTL4AlphaToCoverageState)ObjectiveC.MsgSendLong(NativePtr, MTL4RenderPipelineDescriptorBindings.AlphaToCoverageState);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetAlphaToCoverageState, (nint)value);
     }
 
     public MTL4AlphaToOneState AlphaToOneState
     {
-        get => (MTL4AlphaToOneState)ObjectiveCRuntime.MsgSendLong(NativePtr, MTL4RenderPipelineDescriptorBindings.AlphaToOneState);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetAlphaToOneState, (nint)value);
+        get => (MTL4AlphaToOneState)ObjectiveC.MsgSendLong(NativePtr, MTL4RenderPipelineDescriptorBindings.AlphaToOneState);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetAlphaToOneState, (nint)value);
     }
 
     public MTL4LogicalToPhysicalColorAttachmentMappingState ColorAttachmentMappingState
     {
-        get => (MTL4LogicalToPhysicalColorAttachmentMappingState)ObjectiveCRuntime.MsgSendLong(NativePtr, MTL4RenderPipelineDescriptorBindings.ColorAttachmentMappingState);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetColorAttachmentMappingState, (nint)value);
+        get => (MTL4LogicalToPhysicalColorAttachmentMappingState)ObjectiveC.MsgSendLong(NativePtr, MTL4RenderPipelineDescriptorBindings.ColorAttachmentMappingState);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetColorAttachmentMappingState, (nint)value);
     }
 
     public MTL4RenderPipelineColorAttachmentDescriptorArray ColorAttachments
@@ -47,49 +47,49 @@ public class MTL4RenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership 
 
     public MTLPrimitiveTopologyClass InputPrimitiveTopology
     {
-        get => (MTLPrimitiveTopologyClass)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4RenderPipelineDescriptorBindings.InputPrimitiveTopology);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetInputPrimitiveTopology, (nuint)value);
+        get => (MTLPrimitiveTopologyClass)ObjectiveC.MsgSendULong(NativePtr, MTL4RenderPipelineDescriptorBindings.InputPrimitiveTopology);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetInputPrimitiveTopology, (nuint)value);
     }
 
     public Bool8 IsRasterizationEnabled
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4RenderPipelineDescriptorBindings.IsRasterizationEnabled);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTL4RenderPipelineDescriptorBindings.IsRasterizationEnabled);
     }
 
     public nuint MaxVertexAmplificationCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderPipelineDescriptorBindings.MaxVertexAmplificationCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetMaxVertexAmplificationCount, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4RenderPipelineDescriptorBindings.MaxVertexAmplificationCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetMaxVertexAmplificationCount, value);
     }
 
     public nuint RasterSampleCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4RenderPipelineDescriptorBindings.RasterSampleCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetRasterSampleCount, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4RenderPipelineDescriptorBindings.RasterSampleCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetRasterSampleCount, value);
     }
 
     public Bool8 RasterizationEnabled
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4RenderPipelineDescriptorBindings.RasterizationEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetRasterizationEnabled, value);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTL4RenderPipelineDescriptorBindings.RasterizationEnabled);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetRasterizationEnabled, value);
     }
 
     public Bool8 SupportFragmentBinaryLinking
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4RenderPipelineDescriptorBindings.SupportFragmentBinaryLinking);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetSupportFragmentBinaryLinking, value);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTL4RenderPipelineDescriptorBindings.SupportFragmentBinaryLinking);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetSupportFragmentBinaryLinking, value);
     }
 
     public MTL4IndirectCommandBufferSupportState SupportIndirectCommandBuffers
     {
-        get => (MTL4IndirectCommandBufferSupportState)ObjectiveCRuntime.MsgSendLong(NativePtr, MTL4RenderPipelineDescriptorBindings.SupportIndirectCommandBuffers);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetSupportIndirectCommandBuffers, (nint)value);
+        get => (MTL4IndirectCommandBufferSupportState)ObjectiveC.MsgSendLong(NativePtr, MTL4RenderPipelineDescriptorBindings.SupportIndirectCommandBuffers);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetSupportIndirectCommandBuffers, (nint)value);
     }
 
     public Bool8 SupportVertexBinaryLinking
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTL4RenderPipelineDescriptorBindings.SupportVertexBinaryLinking);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetSupportVertexBinaryLinking, value);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTL4RenderPipelineDescriptorBindings.SupportVertexBinaryLinking);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetSupportVertexBinaryLinking, value);
     }
 
     public MTLVertexDescriptor VertexDescriptor
@@ -112,13 +112,13 @@ public class MTL4RenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership 
 
     public void Reset()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.Reset);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.Reset);
     }
 }
 
 file static class MTL4RenderPipelineDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTL4RenderPipelineDescriptor");
 
     public static readonly Selector AlphaToCoverageState = "alphaToCoverageState";
 

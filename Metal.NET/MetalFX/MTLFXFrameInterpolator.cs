@@ -8,7 +8,7 @@ public class MTLFXFrameInterpolator(nint nativePtr, NativeObjectOwnership owners
 
     public void EncodeToCommandBuffer(MTLCommandBuffer commandBuffer)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXFrameInterpolatorBindings.EncodeToCommandBuffer, commandBuffer.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBindings.EncodeToCommandBuffer, commandBuffer.NativePtr);
     }
 }
 

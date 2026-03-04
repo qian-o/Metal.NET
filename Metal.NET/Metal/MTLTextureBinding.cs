@@ -8,27 +8,27 @@ public class MTLTextureBinding(nint nativePtr, NativeObjectOwnership ownership) 
 
     public nuint ArrayLength
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLTextureBindingBindings.ArrayLength);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindingBindings.ArrayLength);
     }
 
     public Bool8 DepthTexture
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureBindingBindings.DepthTexture);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindingBindings.DepthTexture);
     }
 
     public Bool8 IsDepthTexture
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureBindingBindings.IsDepthTexture);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindingBindings.IsDepthTexture);
     }
 
     public MTLDataType TextureDataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureBindingBindings.TextureDataType);
+        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLTextureBindingBindings.TextureDataType);
     }
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureBindingBindings.TextureType);
+        get => (MTLTextureType)ObjectiveC.MsgSendULong(NativePtr, MTLTextureBindingBindings.TextureType);
     }
 }
 

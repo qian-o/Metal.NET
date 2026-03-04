@@ -6,32 +6,32 @@ public class MTLVertexAttributeDescriptor(nint nativePtr, NativeObjectOwnership 
 
     public static MTLVertexAttributeDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLVertexAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLVertexAttributeDescriptor() : this(ObjectiveC.AllocInit(MTLVertexAttributeDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public nuint BufferIndex
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeDescriptorBindings.BufferIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorBindings.SetBufferIndex, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLVertexAttributeDescriptorBindings.BufferIndex);
+        set => ObjectiveC.MsgSend(NativePtr, MTLVertexAttributeDescriptorBindings.SetBufferIndex, value);
     }
 
     public MTLVertexFormat Format
     {
-        get => (MTLVertexFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLVertexAttributeDescriptorBindings.Format);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorBindings.SetFormat, (nuint)value);
+        get => (MTLVertexFormat)ObjectiveC.MsgSendULong(NativePtr, MTLVertexAttributeDescriptorBindings.Format);
+        set => ObjectiveC.MsgSend(NativePtr, MTLVertexAttributeDescriptorBindings.SetFormat, (nuint)value);
     }
 
     public nuint Offset
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeDescriptorBindings.Offset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorBindings.SetOffset, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLVertexAttributeDescriptorBindings.Offset);
+        set => ObjectiveC.MsgSend(NativePtr, MTLVertexAttributeDescriptorBindings.SetOffset, value);
     }
 }
 
 file static class MTLVertexAttributeDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexAttributeDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLVertexAttributeDescriptor");
 
     public static readonly Selector BufferIndex = "bufferIndex";
 

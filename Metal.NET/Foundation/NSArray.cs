@@ -11,13 +11,13 @@ public static class NSArray
     /// </summary>
     public static T[] ToArray<T>(nint nativePtr) where T : NativeObject, INativeObject<T>
     {
-        nuint count = ObjectiveCRuntime.MsgSendNUInt(nativePtr, NSArrayBindings.Count);
+        nuint count = ObjectiveC.MsgSendNUInt(nativePtr, NSArrayBindings.Count);
 
         T[] result = new T[(int)count];
 
         for (nuint i = 0; i < count; i++)
         {
-            result[(int)i] = T.Create(ObjectiveCRuntime.MsgSendPtr(nativePtr, NSArrayBindings.ObjectAtIndex, i), NativeObjectOwnership.Borrowed);
+            result[(int)i] = T.New(ObjectiveC.MsgSendPtr(nativePtr, NSArrayBindings.ObjectAtIndex, i), NativeObjectOwnership.Borrowed);
         }
 
         return result;
@@ -33,14 +33,14 @@ public static class NSArray
 
         fixed (nint* pNativePtrs = nativePtrs)
         {
-            return ObjectiveCRuntime.MsgSendPtr(ObjectiveCRuntime.Alloc(NSArrayBindings.Class), NSArrayBindings.InitWithObjectsCount, (nint)pNativePtrs, (nuint)array.Length);
+            return ObjectiveC.MsgSendPtr(ObjectiveC.Alloc(NSArrayBindings.Class), NSArrayBindings.InitWithObjectsCount, (nint)pNativePtrs, (nuint)array.Length);
         }
     }
 }
 
 file static class NSArrayBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("NSArray");
+    public static readonly nint Class = ObjectiveC.GetClass("NSArray");
 
     public static readonly Selector Count = "count";
 

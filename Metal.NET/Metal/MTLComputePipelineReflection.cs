@@ -6,7 +6,7 @@ public class MTLComputePipelineReflection(nint nativePtr, NativeObjectOwnership 
 
     public static MTLComputePipelineReflection Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLComputePipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTLComputePipelineReflectionBindings.Class), NativeObjectOwnership.Managed)
+    public MTLComputePipelineReflection() : this(ObjectiveC.AllocInit(MTLComputePipelineReflectionBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -23,7 +23,7 @@ public class MTLComputePipelineReflection(nint nativePtr, NativeObjectOwnership 
 
 file static class MTLComputePipelineReflectionBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePipelineReflection");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLComputePipelineReflection");
 
     public static readonly Selector Arguments = "arguments";
 

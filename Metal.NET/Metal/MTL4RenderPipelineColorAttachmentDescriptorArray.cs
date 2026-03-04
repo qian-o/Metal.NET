@@ -6,7 +6,7 @@ public class MTL4RenderPipelineColorAttachmentDescriptorArray(nint nativePtr, Na
 
     public static MTL4RenderPipelineColorAttachmentDescriptorArray Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTL4RenderPipelineColorAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTL4RenderPipelineColorAttachmentDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4RenderPipelineColorAttachmentDescriptorArray() : this(ObjectiveC.AllocInit(MTL4RenderPipelineColorAttachmentDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -14,25 +14,25 @@ public class MTL4RenderPipelineColorAttachmentDescriptorArray(nint nativePtr, Na
     {
         get
         {
-            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArrayBindings.Object, attachmentIndex);
+            nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArrayBindings.Object, attachmentIndex);
 
             return new(nativePtr, NativeObjectOwnership.Borrowed);
         }
         set
         {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArrayBindings.SetObject, value.NativePtr, attachmentIndex);
+            ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArrayBindings.SetObject, value.NativePtr, attachmentIndex);
         }
     }
 
     public void Reset()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArrayBindings.Reset);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineColorAttachmentDescriptorArrayBindings.Reset);
     }
 }
 
 file static class MTL4RenderPipelineColorAttachmentDescriptorArrayBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4RenderPipelineColorAttachmentDescriptorArray");
+    public static readonly nint Class = ObjectiveC.GetClass("MTL4RenderPipelineColorAttachmentDescriptorArray");
 
     public static readonly Selector Object = "objectAtIndexedSubscript:";
 

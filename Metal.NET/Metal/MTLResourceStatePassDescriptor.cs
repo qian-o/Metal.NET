@@ -6,7 +6,7 @@ public class MTLResourceStatePassDescriptor(nint nativePtr, NativeObjectOwnershi
 
     public static MTLResourceStatePassDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLResourceStatePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResourceStatePassDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLResourceStatePassDescriptor() : this(ObjectiveC.AllocInit(MTLResourceStatePassDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -17,7 +17,7 @@ public class MTLResourceStatePassDescriptor(nint nativePtr, NativeObjectOwnershi
 
     public static MTLResourceStatePassDescriptor ResourceStatePassDescriptor()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLResourceStatePassDescriptorBindings.Class, MTLResourceStatePassDescriptorBindings.ResourceStatePassDescriptor);
+        nint nativePtr = ObjectiveC.MsgSendPtr(MTLResourceStatePassDescriptorBindings.Class, MTLResourceStatePassDescriptorBindings.ResourceStatePassDescriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -25,7 +25,7 @@ public class MTLResourceStatePassDescriptor(nint nativePtr, NativeObjectOwnershi
 
 file static class MTLResourceStatePassDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResourceStatePassDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLResourceStatePassDescriptor");
 
     public static readonly Selector ResourceStatePassDescriptor = "resourceStatePassDescriptor";
 

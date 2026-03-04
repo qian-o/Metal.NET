@@ -6,7 +6,7 @@ public class MTLFunctionStitchingFunctionNode(nint nativePtr, NativeObjectOwners
 
     public static new MTLFunctionStitchingFunctionNode Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLFunctionStitchingFunctionNode() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingFunctionNodeBindings.Class), NativeObjectOwnership.Managed)
+    public MTLFunctionStitchingFunctionNode() : this(ObjectiveC.AllocInit(MTLFunctionStitchingFunctionNodeBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -31,7 +31,7 @@ public class MTLFunctionStitchingFunctionNode(nint nativePtr, NativeObjectOwners
 
 file static class MTLFunctionStitchingFunctionNodeBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingFunctionNode");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLFunctionStitchingFunctionNode");
 
     public static readonly Selector Arguments = "arguments";
 

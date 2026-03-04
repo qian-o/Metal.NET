@@ -6,12 +6,12 @@ public class MTL4FunctionDescriptor(nint nativePtr, NativeObjectOwnership owners
 
     public static MTL4FunctionDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTL4FunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4FunctionDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4FunctionDescriptor() : this(ObjectiveC.AllocInit(MTL4FunctionDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 }
 
 file static class MTL4FunctionDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4FunctionDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTL4FunctionDescriptor");
 }

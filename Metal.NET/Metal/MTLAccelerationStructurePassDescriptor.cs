@@ -6,7 +6,7 @@ public class MTLAccelerationStructurePassDescriptor(nint nativePtr, NativeObject
 
     public static MTLAccelerationStructurePassDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLAccelerationStructurePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAccelerationStructurePassDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLAccelerationStructurePassDescriptor() : this(ObjectiveC.AllocInit(MTLAccelerationStructurePassDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -17,7 +17,7 @@ public class MTLAccelerationStructurePassDescriptor(nint nativePtr, NativeObject
 
     public static MTLAccelerationStructurePassDescriptor AccelerationStructurePassDescriptor()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLAccelerationStructurePassDescriptorBindings.Class, MTLAccelerationStructurePassDescriptorBindings.AccelerationStructurePassDescriptor);
+        nint nativePtr = ObjectiveC.MsgSendPtr(MTLAccelerationStructurePassDescriptorBindings.Class, MTLAccelerationStructurePassDescriptorBindings.AccelerationStructurePassDescriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -25,7 +25,7 @@ public class MTLAccelerationStructurePassDescriptor(nint nativePtr, NativeObject
 
 file static class MTLAccelerationStructurePassDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAccelerationStructurePassDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLAccelerationStructurePassDescriptor");
 
     public static readonly Selector AccelerationStructurePassDescriptor = "accelerationStructurePassDescriptor";
 

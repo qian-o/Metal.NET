@@ -6,14 +6,14 @@ public class MTL4CommandQueueDescriptor(nint nativePtr, NativeObjectOwnership ow
 
     public static MTL4CommandQueueDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTL4CommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CommandQueueDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4CommandQueueDescriptor() : this(ObjectiveC.AllocInit(MTL4CommandQueueDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public DispatchQueue FeedbackQueue
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CommandQueueDescriptorBindings.FeedbackQueue);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandQueueDescriptorBindings.SetFeedbackQueue, value);
+        get => ObjectiveC.MsgSendPtr(NativePtr, MTL4CommandQueueDescriptorBindings.FeedbackQueue);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueDescriptorBindings.SetFeedbackQueue, value);
     }
 
     public NSString Label
@@ -25,7 +25,7 @@ public class MTL4CommandQueueDescriptor(nint nativePtr, NativeObjectOwnership ow
 
 file static class MTL4CommandQueueDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CommandQueueDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTL4CommandQueueDescriptor");
 
     public static readonly Selector FeedbackQueue = "feedbackQueue";
 

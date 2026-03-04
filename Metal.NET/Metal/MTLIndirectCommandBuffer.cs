@@ -8,31 +8,31 @@ public class MTLIndirectCommandBuffer(nint nativePtr, NativeObjectOwnership owne
 
     public MTLResourceID GpuResourceID
     {
-        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLIndirectCommandBufferBindings.GpuResourceID);
+        get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLIndirectCommandBufferBindings.GpuResourceID);
     }
 
     public nuint Size
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferBindings.Size);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferBindings.Size);
     }
 
     public MTLIndirectComputeCommand IndirectComputeCommand(nuint commandIndex)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferBindings.IndirectComputeCommand, commandIndex);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLIndirectCommandBufferBindings.IndirectComputeCommand, commandIndex);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLIndirectRenderCommand IndirectRenderCommand(nuint commandIndex)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLIndirectCommandBufferBindings.IndirectRenderCommand, commandIndex);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLIndirectCommandBufferBindings.IndirectRenderCommand, commandIndex);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public void Reset(NSRange range)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLIndirectCommandBufferBindings.Reset, range);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferBindings.Reset, range);
     }
 }
 

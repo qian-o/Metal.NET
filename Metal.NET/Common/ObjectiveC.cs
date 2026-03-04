@@ -2,9 +2,9 @@
 
 namespace Metal.NET;
 
-public static partial class ObjectiveCRuntime
+public static partial class ObjectiveC
 {
-    static ObjectiveCRuntime()
+    static ObjectiveC()
     {
         string[] frameworks =
         [

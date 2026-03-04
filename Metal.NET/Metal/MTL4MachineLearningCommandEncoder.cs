@@ -8,17 +8,17 @@ public class MTL4MachineLearningCommandEncoder(nint nativePtr, NativeObjectOwner
 
     public void DispatchNetwork(MTLHeap heap)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderBindings.DispatchNetwork, heap.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderBindings.DispatchNetwork, heap.NativePtr);
     }
 
     public void SetArgumentTable(MTL4ArgumentTable argumentTable)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderBindings.SetArgumentTable, argumentTable.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderBindings.SetArgumentTable, argumentTable.NativePtr);
     }
 
     public void SetPipelineState(MTL4MachineLearningPipelineState pipelineState)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderBindings.SetPipelineState, pipelineState.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTL4MachineLearningCommandEncoderBindings.SetPipelineState, pipelineState.NativePtr);
     }
 }
 

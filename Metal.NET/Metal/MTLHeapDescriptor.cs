@@ -6,62 +6,62 @@ public class MTLHeapDescriptor(nint nativePtr, NativeObjectOwnership ownership) 
 
     public static MTLHeapDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLHeapDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLHeapDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLHeapDescriptor() : this(ObjectiveC.AllocInit(MTLHeapDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public MTLCPUCacheMode CpuCacheMode
     {
-        get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapDescriptorBindings.CpuCacheMode);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorBindings.SetCpuCacheMode, (nuint)value);
+        get => (MTLCPUCacheMode)ObjectiveC.MsgSendULong(NativePtr, MTLHeapDescriptorBindings.CpuCacheMode);
+        set => ObjectiveC.MsgSend(NativePtr, MTLHeapDescriptorBindings.SetCpuCacheMode, (nuint)value);
     }
 
     public MTLHazardTrackingMode HazardTrackingMode
     {
-        get => (MTLHazardTrackingMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapDescriptorBindings.HazardTrackingMode);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorBindings.SetHazardTrackingMode, (nuint)value);
+        get => (MTLHazardTrackingMode)ObjectiveC.MsgSendULong(NativePtr, MTLHeapDescriptorBindings.HazardTrackingMode);
+        set => ObjectiveC.MsgSend(NativePtr, MTLHeapDescriptorBindings.SetHazardTrackingMode, (nuint)value);
     }
 
     public MTLSparsePageSize MaxCompatiblePlacementSparsePageSize
     {
-        get => (MTLSparsePageSize)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLHeapDescriptorBindings.MaxCompatiblePlacementSparsePageSize);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorBindings.SetMaxCompatiblePlacementSparsePageSize, (nint)value);
+        get => (MTLSparsePageSize)ObjectiveC.MsgSendLong(NativePtr, MTLHeapDescriptorBindings.MaxCompatiblePlacementSparsePageSize);
+        set => ObjectiveC.MsgSend(NativePtr, MTLHeapDescriptorBindings.SetMaxCompatiblePlacementSparsePageSize, (nint)value);
     }
 
     public MTLResourceOptions ResourceOptions
     {
-        get => (MTLResourceOptions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapDescriptorBindings.ResourceOptions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorBindings.SetResourceOptions, (nuint)value);
+        get => (MTLResourceOptions)ObjectiveC.MsgSendULong(NativePtr, MTLHeapDescriptorBindings.ResourceOptions);
+        set => ObjectiveC.MsgSend(NativePtr, MTLHeapDescriptorBindings.SetResourceOptions, (nuint)value);
     }
 
     public nuint Size
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLHeapDescriptorBindings.Size);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorBindings.SetSize, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLHeapDescriptorBindings.Size);
+        set => ObjectiveC.MsgSend(NativePtr, MTLHeapDescriptorBindings.SetSize, value);
     }
 
     public MTLSparsePageSize SparsePageSize
     {
-        get => (MTLSparsePageSize)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLHeapDescriptorBindings.SparsePageSize);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorBindings.SetSparsePageSize, (nint)value);
+        get => (MTLSparsePageSize)ObjectiveC.MsgSendLong(NativePtr, MTLHeapDescriptorBindings.SparsePageSize);
+        set => ObjectiveC.MsgSend(NativePtr, MTLHeapDescriptorBindings.SetSparsePageSize, (nint)value);
     }
 
     public MTLStorageMode StorageMode
     {
-        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLHeapDescriptorBindings.StorageMode);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorBindings.SetStorageMode, (nuint)value);
+        get => (MTLStorageMode)ObjectiveC.MsgSendULong(NativePtr, MTLHeapDescriptorBindings.StorageMode);
+        set => ObjectiveC.MsgSend(NativePtr, MTLHeapDescriptorBindings.SetStorageMode, (nuint)value);
     }
 
     public MTLHeapType Type
     {
-        get => (MTLHeapType)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLHeapDescriptorBindings.Type);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLHeapDescriptorBindings.SetType, (nint)value);
+        get => (MTLHeapType)ObjectiveC.MsgSendLong(NativePtr, MTLHeapDescriptorBindings.Type);
+        set => ObjectiveC.MsgSend(NativePtr, MTLHeapDescriptorBindings.SetType, (nint)value);
     }
 }
 
 file static class MTLHeapDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLHeapDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLHeapDescriptor");
 
     public static readonly Selector CpuCacheMode = "cpuCacheMode";
 

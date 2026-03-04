@@ -6,7 +6,7 @@ public class MTLBinaryArchiveDescriptor(nint nativePtr, NativeObjectOwnership ow
 
     public static MTLBinaryArchiveDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLBinaryArchiveDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBinaryArchiveDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLBinaryArchiveDescriptor() : this(ObjectiveC.AllocInit(MTLBinaryArchiveDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -19,7 +19,7 @@ public class MTLBinaryArchiveDescriptor(nint nativePtr, NativeObjectOwnership ow
 
 file static class MTLBinaryArchiveDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLBinaryArchiveDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLBinaryArchiveDescriptor");
 
     public static readonly Selector SetUrl = "setUrl:";
 

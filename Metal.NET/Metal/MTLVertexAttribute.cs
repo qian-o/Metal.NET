@@ -6,38 +6,38 @@ public class MTLVertexAttribute(nint nativePtr, NativeObjectOwnership ownership)
 
     public static MTLVertexAttribute Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLVertexAttribute() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeBindings.Class), NativeObjectOwnership.Managed)
+    public MTLVertexAttribute() : this(ObjectiveC.AllocInit(MTLVertexAttributeBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public Bool8 Active
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.Active);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.Active);
     }
 
     public nuint AttributeIndex
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexAttributeBindings.AttributeIndex);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLVertexAttributeBindings.AttributeIndex);
     }
 
     public MTLDataType AttributeType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLVertexAttributeBindings.AttributeType);
+        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLVertexAttributeBindings.AttributeType);
     }
 
     public Bool8 IsActive
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsActive);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsActive);
     }
 
     public Bool8 IsPatchControlPointData
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsPatchControlPointData);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsPatchControlPointData);
     }
 
     public Bool8 IsPatchData
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsPatchData);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsPatchData);
     }
 
     public NSString Name
@@ -47,18 +47,18 @@ public class MTLVertexAttribute(nint nativePtr, NativeObjectOwnership ownership)
 
     public Bool8 PatchControlPointData
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.PatchControlPointData);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.PatchControlPointData);
     }
 
     public Bool8 PatchData
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLVertexAttributeBindings.PatchData);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.PatchData);
     }
 }
 
 file static class MTLVertexAttributeBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexAttribute");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLVertexAttribute");
 
     public static readonly Selector Active = "isActive";
 

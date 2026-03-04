@@ -23,7 +23,7 @@ public class MTLFunctionLog(nint nativePtr, NativeObjectOwnership ownership) : N
 
     public MTLFunctionLogType Type
     {
-        get => (MTLFunctionLogType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionLogBindings.Type);
+        get => (MTLFunctionLogType)ObjectiveC.MsgSendULong(NativePtr, MTLFunctionLogBindings.Type);
     }
 }
 

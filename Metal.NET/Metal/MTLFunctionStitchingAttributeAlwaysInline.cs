@@ -6,12 +6,12 @@ public class MTLFunctionStitchingAttributeAlwaysInline(nint nativePtr, NativeObj
 
     public static new MTLFunctionStitchingAttributeAlwaysInline Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLFunctionStitchingAttributeAlwaysInline() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingAttributeAlwaysInlineBindings.Class), NativeObjectOwnership.Managed)
+    public MTLFunctionStitchingAttributeAlwaysInline() : this(ObjectiveC.AllocInit(MTLFunctionStitchingAttributeAlwaysInlineBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 }
 
 file static class MTLFunctionStitchingAttributeAlwaysInlineBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingAttributeAlwaysInline");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLFunctionStitchingAttributeAlwaysInline");
 }

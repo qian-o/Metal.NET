@@ -8,7 +8,7 @@ public class MTLFXSpatialScaler(nint nativePtr, NativeObjectOwnership ownership)
 
     public void EncodeToCommandBuffer(MTLCommandBuffer pCommandBuffer)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLFXSpatialScalerBindings.EncodeToCommandBuffer, pCommandBuffer.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLFXSpatialScalerBindings.EncodeToCommandBuffer, pCommandBuffer.NativePtr);
     }
 }
 

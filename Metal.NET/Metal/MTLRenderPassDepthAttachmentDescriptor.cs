@@ -6,26 +6,26 @@ public class MTLRenderPassDepthAttachmentDescriptor(nint nativePtr, NativeObject
 
     public static new MTLRenderPassDepthAttachmentDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLRenderPassDepthAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassDepthAttachmentDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLRenderPassDepthAttachmentDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPassDepthAttachmentDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public double ClearDepth
     {
-        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLRenderPassDepthAttachmentDescriptorBindings.ClearDepth);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorBindings.SetClearDepth, value);
+        get => ObjectiveC.MsgSendDouble(NativePtr, MTLRenderPassDepthAttachmentDescriptorBindings.ClearDepth);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorBindings.SetClearDepth, value);
     }
 
     public MTLMultisampleDepthResolveFilter DepthResolveFilter
     {
-        get => (MTLMultisampleDepthResolveFilter)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPassDepthAttachmentDescriptorBindings.DepthResolveFilter);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorBindings.SetDepthResolveFilter, (nuint)value);
+        get => (MTLMultisampleDepthResolveFilter)ObjectiveC.MsgSendULong(NativePtr, MTLRenderPassDepthAttachmentDescriptorBindings.DepthResolveFilter);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassDepthAttachmentDescriptorBindings.SetDepthResolveFilter, (nuint)value);
     }
 }
 
 file static class MTLRenderPassDepthAttachmentDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassDepthAttachmentDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLRenderPassDepthAttachmentDescriptor");
 
     public static readonly Selector ClearDepth = "clearDepth";
 

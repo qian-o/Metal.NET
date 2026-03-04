@@ -6,12 +6,12 @@ public class MTLIntersectionFunctionDescriptor(nint nativePtr, NativeObjectOwner
 
     public static new MTLIntersectionFunctionDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLIntersectionFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIntersectionFunctionDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLIntersectionFunctionDescriptor() : this(ObjectiveC.AllocInit(MTLIntersectionFunctionDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 }
 
 file static class MTLIntersectionFunctionDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIntersectionFunctionDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLIntersectionFunctionDescriptor");
 }

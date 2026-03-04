@@ -6,20 +6,20 @@ public class MTLTileRenderPipelineColorAttachmentDescriptor(nint nativePtr, Nati
 
     public static MTLTileRenderPipelineColorAttachmentDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLTileRenderPipelineColorAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLTileRenderPipelineColorAttachmentDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLTileRenderPipelineColorAttachmentDescriptor() : this(ObjectiveC.AllocInit(MTLTileRenderPipelineColorAttachmentDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public MTLPixelFormat PixelFormat
     {
-        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorBindings.PixelFormat);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorBindings.SetPixelFormat, (nuint)value);
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorBindings.PixelFormat);
+        set => ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineColorAttachmentDescriptorBindings.SetPixelFormat, (nuint)value);
     }
 }
 
 file static class MTLTileRenderPipelineColorAttachmentDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTileRenderPipelineColorAttachmentDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLTileRenderPipelineColorAttachmentDescriptor");
 
     public static readonly Selector PixelFormat = "pixelFormat";
 

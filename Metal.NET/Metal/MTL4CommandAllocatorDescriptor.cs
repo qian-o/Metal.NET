@@ -6,7 +6,7 @@ public class MTL4CommandAllocatorDescriptor(nint nativePtr, NativeObjectOwnershi
 
     public static MTL4CommandAllocatorDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTL4CommandAllocatorDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CommandAllocatorDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4CommandAllocatorDescriptor() : this(ObjectiveC.AllocInit(MTL4CommandAllocatorDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -19,7 +19,7 @@ public class MTL4CommandAllocatorDescriptor(nint nativePtr, NativeObjectOwnershi
 
 file static class MTL4CommandAllocatorDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CommandAllocatorDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTL4CommandAllocatorDescriptor");
 
     public static readonly Selector Label = "label";
 

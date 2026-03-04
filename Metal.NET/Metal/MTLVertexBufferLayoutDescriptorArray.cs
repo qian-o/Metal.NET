@@ -6,7 +6,7 @@ public class MTLVertexBufferLayoutDescriptorArray(nint nativePtr, NativeObjectOw
 
     public static MTLVertexBufferLayoutDescriptorArray Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLVertexBufferLayoutDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLVertexBufferLayoutDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
+    public MTLVertexBufferLayoutDescriptorArray() : this(ObjectiveC.AllocInit(MTLVertexBufferLayoutDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -14,20 +14,20 @@ public class MTLVertexBufferLayoutDescriptorArray(nint nativePtr, NativeObjectOw
     {
         get
         {
-            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexBufferLayoutDescriptorArrayBindings.Object, index);
+            nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLVertexBufferLayoutDescriptorArrayBindings.Object, index);
 
             return new(nativePtr, NativeObjectOwnership.Borrowed);
         }
         set
         {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorArrayBindings.SetObject, value.NativePtr, index);
+            ObjectiveC.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorArrayBindings.SetObject, value.NativePtr, index);
         }
     }
 }
 
 file static class MTLVertexBufferLayoutDescriptorArrayBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexBufferLayoutDescriptorArray");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLVertexBufferLayoutDescriptorArray");
 
     public static readonly Selector Object = "objectAtIndexedSubscript:";
 

@@ -6,32 +6,32 @@ public class MTLVertexBufferLayoutDescriptor(nint nativePtr, NativeObjectOwnersh
 
     public static MTLVertexBufferLayoutDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLVertexBufferLayoutDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexBufferLayoutDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLVertexBufferLayoutDescriptor() : this(ObjectiveC.AllocInit(MTLVertexBufferLayoutDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public MTLVertexStepFunction StepFunction
     {
-        get => (MTLVertexStepFunction)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLVertexBufferLayoutDescriptorBindings.StepFunction);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorBindings.SetStepFunction, (nuint)value);
+        get => (MTLVertexStepFunction)ObjectiveC.MsgSendULong(NativePtr, MTLVertexBufferLayoutDescriptorBindings.StepFunction);
+        set => ObjectiveC.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorBindings.SetStepFunction, (nuint)value);
     }
 
     public nuint StepRate
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexBufferLayoutDescriptorBindings.StepRate);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorBindings.SetStepRate, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLVertexBufferLayoutDescriptorBindings.StepRate);
+        set => ObjectiveC.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorBindings.SetStepRate, value);
     }
 
     public nuint Stride
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLVertexBufferLayoutDescriptorBindings.Stride);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorBindings.SetStride, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLVertexBufferLayoutDescriptorBindings.Stride);
+        set => ObjectiveC.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorBindings.SetStride, value);
     }
 }
 
 file static class MTLVertexBufferLayoutDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexBufferLayoutDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLVertexBufferLayoutDescriptor");
 
     public static readonly Selector SetStepFunction = "setStepFunction:";
 

@@ -6,14 +6,14 @@ public class MTLCommandBufferDescriptor(nint nativePtr, NativeObjectOwnership ow
 
     public static MTLCommandBufferDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLCommandBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCommandBufferDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLCommandBufferDescriptor() : this(ObjectiveC.AllocInit(MTLCommandBufferDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public MTLCommandBufferErrorOption ErrorOptions
     {
-        get => (MTLCommandBufferErrorOption)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCommandBufferDescriptorBindings.ErrorOptions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorBindings.SetErrorOptions, (nuint)value);
+        get => (MTLCommandBufferErrorOption)ObjectiveC.MsgSendULong(NativePtr, MTLCommandBufferDescriptorBindings.ErrorOptions);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCommandBufferDescriptorBindings.SetErrorOptions, (nuint)value);
     }
 
     public MTLLogState LogState
@@ -24,14 +24,14 @@ public class MTLCommandBufferDescriptor(nint nativePtr, NativeObjectOwnership ow
 
     public Bool8 RetainedReferences
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCommandBufferDescriptorBindings.RetainedReferences);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandBufferDescriptorBindings.SetRetainedReferences, value);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLCommandBufferDescriptorBindings.RetainedReferences);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCommandBufferDescriptorBindings.SetRetainedReferences, value);
     }
 }
 
 file static class MTLCommandBufferDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCommandBufferDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLCommandBufferDescriptor");
 
     public static readonly Selector ErrorOptions = "errorOptions";
 

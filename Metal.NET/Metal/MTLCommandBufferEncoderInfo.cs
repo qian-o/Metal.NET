@@ -13,7 +13,7 @@ public class MTLCommandBufferEncoderInfo(nint nativePtr, NativeObjectOwnership o
 
     public MTLCommandEncoderErrorState ErrorState
     {
-        get => (MTLCommandEncoderErrorState)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLCommandBufferEncoderInfoBindings.ErrorState);
+        get => (MTLCommandEncoderErrorState)ObjectiveC.MsgSendLong(NativePtr, MTLCommandBufferEncoderInfoBindings.ErrorState);
     }
 
     public NSString Label

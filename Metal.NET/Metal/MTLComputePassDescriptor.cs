@@ -6,14 +6,14 @@ public class MTLComputePassDescriptor(nint nativePtr, NativeObjectOwnership owne
 
     public static MTLComputePassDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLComputePassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLComputePassDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLComputePassDescriptor() : this(ObjectiveC.AllocInit(MTLComputePassDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public MTLDispatchType DispatchType
     {
-        get => (MTLDispatchType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLComputePassDescriptorBindings.DispatchType);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLComputePassDescriptorBindings.SetDispatchType, (nuint)value);
+        get => (MTLDispatchType)ObjectiveC.MsgSendULong(NativePtr, MTLComputePassDescriptorBindings.DispatchType);
+        set => ObjectiveC.MsgSend(NativePtr, MTLComputePassDescriptorBindings.SetDispatchType, (nuint)value);
     }
 
     public MTLComputePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
@@ -23,7 +23,7 @@ public class MTLComputePassDescriptor(nint nativePtr, NativeObjectOwnership owne
 
     public static MTLComputePassDescriptor ComputePassDescriptor()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLComputePassDescriptorBindings.Class, MTLComputePassDescriptorBindings.ComputePassDescriptor);
+        nint nativePtr = ObjectiveC.MsgSendPtr(MTLComputePassDescriptorBindings.Class, MTLComputePassDescriptorBindings.ComputePassDescriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -31,7 +31,7 @@ public class MTLComputePassDescriptor(nint nativePtr, NativeObjectOwnership owne
 
 file static class MTLComputePassDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLComputePassDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLComputePassDescriptor");
 
     public static readonly Selector ComputePassDescriptor = "computePassDescriptor";
 

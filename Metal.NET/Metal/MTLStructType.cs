@@ -6,7 +6,7 @@ public class MTLStructType(nint nativePtr, NativeObjectOwnership ownership) : MT
 
     public static new MTLStructType Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLStructType() : this(ObjectiveCRuntime.AllocInit(MTLStructTypeBindings.Class), NativeObjectOwnership.Managed)
+    public MTLStructType() : this(ObjectiveC.AllocInit(MTLStructTypeBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -17,7 +17,7 @@ public class MTLStructType(nint nativePtr, NativeObjectOwnership ownership) : MT
 
     public MTLStructMember MemberByName(NSString name)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructTypeBindings.MemberByName, name.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLStructTypeBindings.MemberByName, name.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -25,7 +25,7 @@ public class MTLStructType(nint nativePtr, NativeObjectOwnership ownership) : MT
 
 file static class MTLStructTypeBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStructType");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLStructType");
 
     public static readonly Selector MemberByName = "memberByName:";
 

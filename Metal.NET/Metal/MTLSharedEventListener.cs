@@ -6,18 +6,18 @@ public class MTLSharedEventListener(nint nativePtr, NativeObjectOwnership owners
 
     public static MTLSharedEventListener Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLSharedEventListener() : this(ObjectiveCRuntime.AllocInit(MTLSharedEventListenerBindings.Class), NativeObjectOwnership.Managed)
+    public MTLSharedEventListener() : this(ObjectiveC.AllocInit(MTLSharedEventListenerBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public DispatchQueue DispatchQueue
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventListenerBindings.DispatchQueue);
+        get => ObjectiveC.MsgSendPtr(NativePtr, MTLSharedEventListenerBindings.DispatchQueue);
     }
 
     public static MTLSharedEventListener SharedListener()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLSharedEventListenerBindings.Class, MTLSharedEventListenerBindings.SharedListener);
+        nint nativePtr = ObjectiveC.MsgSendPtr(MTLSharedEventListenerBindings.Class, MTLSharedEventListenerBindings.SharedListener);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -25,7 +25,7 @@ public class MTLSharedEventListener(nint nativePtr, NativeObjectOwnership owners
 
 file static class MTLSharedEventListenerBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLSharedEventListener");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLSharedEventListener");
 
     public static readonly Selector DispatchQueue = "dispatchQueue";
 

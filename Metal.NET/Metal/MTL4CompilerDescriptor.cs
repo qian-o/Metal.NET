@@ -6,7 +6,7 @@ public class MTL4CompilerDescriptor(nint nativePtr, NativeObjectOwnership owners
 
     public static MTL4CompilerDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTL4CompilerDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4CompilerDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4CompilerDescriptor() : this(ObjectiveC.AllocInit(MTL4CompilerDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -25,7 +25,7 @@ public class MTL4CompilerDescriptor(nint nativePtr, NativeObjectOwnership owners
 
 file static class MTL4CompilerDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CompilerDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTL4CompilerDescriptor");
 
     public static readonly Selector Label = "label";
 

@@ -6,7 +6,7 @@ public class MTLBlitPassDescriptor(nint nativePtr, NativeObjectOwnership ownersh
 
     public static MTLBlitPassDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLBlitPassDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLBlitPassDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLBlitPassDescriptor() : this(ObjectiveC.AllocInit(MTLBlitPassDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -17,7 +17,7 @@ public class MTLBlitPassDescriptor(nint nativePtr, NativeObjectOwnership ownersh
 
     public static MTLBlitPassDescriptor BlitPassDescriptor()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLBlitPassDescriptorBindings.Class, MTLBlitPassDescriptorBindings.BlitPassDescriptor);
+        nint nativePtr = ObjectiveC.MsgSendPtr(MTLBlitPassDescriptorBindings.Class, MTLBlitPassDescriptorBindings.BlitPassDescriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -25,7 +25,7 @@ public class MTLBlitPassDescriptor(nint nativePtr, NativeObjectOwnership ownersh
 
 file static class MTLBlitPassDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLBlitPassDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLBlitPassDescriptor");
 
     public static readonly Selector BlitPassDescriptor = "blitPassDescriptor";
 

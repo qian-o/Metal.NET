@@ -13,12 +13,12 @@ public class MTLFunctionHandle(nint nativePtr, NativeObjectOwnership ownership) 
 
     public MTLFunctionType FunctionType
     {
-        get => (MTLFunctionType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionHandleBindings.FunctionType);
+        get => (MTLFunctionType)ObjectiveC.MsgSendULong(NativePtr, MTLFunctionHandleBindings.FunctionType);
     }
 
     public MTLResourceID GpuResourceID
     {
-        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLFunctionHandleBindings.GpuResourceID);
+        get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLFunctionHandleBindings.GpuResourceID);
     }
 
     public NSString Name

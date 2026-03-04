@@ -6,7 +6,7 @@ public class MTLResourceStatePassSampleBufferAttachmentDescriptorArray(nint nati
 
     public static MTLResourceStatePassSampleBufferAttachmentDescriptorArray Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLResourceStatePassSampleBufferAttachmentDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLResourceStatePassSampleBufferAttachmentDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
+    public MTLResourceStatePassSampleBufferAttachmentDescriptorArray() : this(ObjectiveC.AllocInit(MTLResourceStatePassSampleBufferAttachmentDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -14,20 +14,20 @@ public class MTLResourceStatePassSampleBufferAttachmentDescriptorArray(nint nati
     {
         get
         {
-            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorArrayBindings.Object, attachmentIndex);
+            nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorArrayBindings.Object, attachmentIndex);
 
             return new(nativePtr, NativeObjectOwnership.Borrowed);
         }
         set
         {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorArrayBindings.SetObject, value.NativePtr, attachmentIndex);
+            ObjectiveC.MsgSend(NativePtr, MTLResourceStatePassSampleBufferAttachmentDescriptorArrayBindings.SetObject, value.NativePtr, attachmentIndex);
         }
     }
 }
 
 file static class MTLResourceStatePassSampleBufferAttachmentDescriptorArrayBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResourceStatePassSampleBufferAttachmentDescriptorArray");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLResourceStatePassSampleBufferAttachmentDescriptorArray");
 
     public static readonly Selector Object = "objectAtIndexedSubscript:";
 

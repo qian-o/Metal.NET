@@ -18,12 +18,12 @@ public class MTLCounterSampleBuffer(nint nativePtr, NativeObjectOwnership owners
 
     public nuint SampleCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCounterSampleBufferBindings.SampleCount);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLCounterSampleBufferBindings.SampleCount);
     }
 
     public NSData ResolveCounterRange(NSRange range)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCounterSampleBufferBindings.ResolveCounterRange, range);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLCounterSampleBufferBindings.ResolveCounterRange, range);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

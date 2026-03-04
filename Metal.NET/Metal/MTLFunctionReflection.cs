@@ -6,7 +6,7 @@ public class MTLFunctionReflection(nint nativePtr, NativeObjectOwnership ownersh
 
     public static MTLFunctionReflection Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLFunctionReflection() : this(ObjectiveCRuntime.AllocInit(MTLFunctionReflectionBindings.Class), NativeObjectOwnership.Managed)
+    public MTLFunctionReflection() : this(ObjectiveC.AllocInit(MTLFunctionReflectionBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -18,7 +18,7 @@ public class MTLFunctionReflection(nint nativePtr, NativeObjectOwnership ownersh
 
 file static class MTLFunctionReflectionBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionReflection");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLFunctionReflection");
 
     public static readonly Selector Bindings = "bindings";
 }

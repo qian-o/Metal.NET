@@ -6,7 +6,7 @@ public class MTLAttributeDescriptorArray(nint nativePtr, NativeObjectOwnership o
 
     public static MTLAttributeDescriptorArray Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLAttributeDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLAttributeDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
+    public MTLAttributeDescriptorArray() : this(ObjectiveC.AllocInit(MTLAttributeDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -14,20 +14,20 @@ public class MTLAttributeDescriptorArray(nint nativePtr, NativeObjectOwnership o
     {
         get
         {
-            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLAttributeDescriptorArrayBindings.Object, index);
+            nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLAttributeDescriptorArrayBindings.Object, index);
 
             return new(nativePtr, NativeObjectOwnership.Borrowed);
         }
         set
         {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorArrayBindings.SetObject, value.NativePtr, index);
+            ObjectiveC.MsgSend(NativePtr, MTLAttributeDescriptorArrayBindings.SetObject, value.NativePtr, index);
         }
     }
 }
 
 file static class MTLAttributeDescriptorArrayBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAttributeDescriptorArray");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLAttributeDescriptorArray");
 
     public static readonly Selector Object = "objectAtIndexedSubscript:";
 

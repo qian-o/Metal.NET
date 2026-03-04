@@ -13,7 +13,7 @@ public class MTLDepthStencilState(nint nativePtr, NativeObjectOwnership ownershi
 
     public MTLResourceID GpuResourceID
     {
-        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLDepthStencilStateBindings.GpuResourceID);
+        get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLDepthStencilStateBindings.GpuResourceID);
     }
 
     public NSString Label

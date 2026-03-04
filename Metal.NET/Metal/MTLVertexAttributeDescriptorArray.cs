@@ -6,7 +6,7 @@ public class MTLVertexAttributeDescriptorArray(nint nativePtr, NativeObjectOwner
 
     public static MTLVertexAttributeDescriptorArray Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLVertexAttributeDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLVertexAttributeDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
+    public MTLVertexAttributeDescriptorArray() : this(ObjectiveC.AllocInit(MTLVertexAttributeDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -14,20 +14,20 @@ public class MTLVertexAttributeDescriptorArray(nint nativePtr, NativeObjectOwner
     {
         get
         {
-            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLVertexAttributeDescriptorArrayBindings.Object, index);
+            nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLVertexAttributeDescriptorArrayBindings.Object, index);
 
             return new(nativePtr, NativeObjectOwnership.Borrowed);
         }
         set
         {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexAttributeDescriptorArrayBindings.SetObject, value.NativePtr, index);
+            ObjectiveC.MsgSend(NativePtr, MTLVertexAttributeDescriptorArrayBindings.SetObject, value.NativePtr, index);
         }
     }
 }
 
 file static class MTLVertexAttributeDescriptorArrayBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexAttributeDescriptorArray");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLVertexAttributeDescriptorArray");
 
     public static readonly Selector Object = "objectAtIndexedSubscript:";
 

@@ -6,7 +6,7 @@ public class MTLFunctionStitchingGraph(nint nativePtr, NativeObjectOwnership own
 
     public static MTLFunctionStitchingGraph Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLFunctionStitchingGraph() : this(ObjectiveCRuntime.AllocInit(MTLFunctionStitchingGraphBindings.Class), NativeObjectOwnership.Managed)
+    public MTLFunctionStitchingGraph() : this(ObjectiveC.AllocInit(MTLFunctionStitchingGraphBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -37,7 +37,7 @@ public class MTLFunctionStitchingGraph(nint nativePtr, NativeObjectOwnership own
 
 file static class MTLFunctionStitchingGraphBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionStitchingGraph");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLFunctionStitchingGraph");
 
     public static readonly Selector Attributes = "attributes";
 

@@ -6,18 +6,18 @@ public class MTLStructMember(nint nativePtr, NativeObjectOwnership ownership) : 
 
     public static MTLStructMember Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLStructMember() : this(ObjectiveCRuntime.AllocInit(MTLStructMemberBindings.Class), NativeObjectOwnership.Managed)
+    public MTLStructMember() : this(ObjectiveC.AllocInit(MTLStructMemberBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public nuint ArgumentIndex
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStructMemberBindings.ArgumentIndex);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLStructMemberBindings.ArgumentIndex);
     }
 
     public MTLDataType DataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStructMemberBindings.DataType);
+        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLStructMemberBindings.DataType);
     }
 
     public NSString Name
@@ -27,40 +27,40 @@ public class MTLStructMember(nint nativePtr, NativeObjectOwnership ownership) : 
 
     public nuint Offset
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLStructMemberBindings.Offset);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLStructMemberBindings.Offset);
     }
 
     public MTLArrayType ArrayType()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.ArrayType);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLStructMemberBindings.ArrayType);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLPointerType PointerType()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.PointerType);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLStructMemberBindings.PointerType);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLStructType StructType()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.StructType);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLStructMemberBindings.StructType);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTensorReferenceType TensorReferenceType()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.TensorReferenceType);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLStructMemberBindings.TensorReferenceType);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTextureReferenceType TextureReferenceType()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLStructMemberBindings.TextureReferenceType);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLStructMemberBindings.TextureReferenceType);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -68,7 +68,7 @@ public class MTLStructMember(nint nativePtr, NativeObjectOwnership ownership) : 
 
 file static class MTLStructMemberBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStructMember");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLStructMember");
 
     public static readonly Selector ArgumentIndex = "argumentIndex";
 

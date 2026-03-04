@@ -19,27 +19,27 @@ public class MTLCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) 
 
     public void BarrierAfterQueueStages(MTLStages afterQueueStages, MTLStages beforeStages)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderBindings.BarrierAfterQueueStages, (nuint)afterQueueStages, (nuint)beforeStages);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandEncoderBindings.BarrierAfterQueueStages, (nuint)afterQueueStages, (nuint)beforeStages);
     }
 
     public void EndEncoding()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderBindings.EndEncoding);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandEncoderBindings.EndEncoding);
     }
 
     public void InsertDebugSignpost(NSString @string)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderBindings.InsertDebugSignpost, @string.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandEncoderBindings.InsertDebugSignpost, @string.NativePtr);
     }
 
     public void PopDebugGroup()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderBindings.PopDebugGroup);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandEncoderBindings.PopDebugGroup);
     }
 
     public void PushDebugGroup(NSString @string)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandEncoderBindings.PushDebugGroup, @string.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandEncoderBindings.PushDebugGroup, @string.NativePtr);
     }
 }
 

@@ -6,7 +6,7 @@ public class MTL4CompilerTaskOptions(nint nativePtr, NativeObjectOwnership owner
 
     public static MTL4CompilerTaskOptions Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTL4CompilerTaskOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CompilerTaskOptionsBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4CompilerTaskOptions() : this(ObjectiveC.AllocInit(MTL4CompilerTaskOptionsBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -19,7 +19,7 @@ public class MTL4CompilerTaskOptions(nint nativePtr, NativeObjectOwnership owner
 
 file static class MTL4CompilerTaskOptionsBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CompilerTaskOptions");
+    public static readonly nint Class = ObjectiveC.GetClass("MTL4CompilerTaskOptions");
 
     public static readonly Selector LookupArchives = "lookupArchives";
 

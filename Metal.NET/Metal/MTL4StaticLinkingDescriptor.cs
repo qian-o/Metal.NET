@@ -6,7 +6,7 @@ public class MTL4StaticLinkingDescriptor(nint nativePtr, NativeObjectOwnership o
 
     public static MTL4StaticLinkingDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTL4StaticLinkingDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4StaticLinkingDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4StaticLinkingDescriptor() : this(ObjectiveC.AllocInit(MTL4StaticLinkingDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -31,7 +31,7 @@ public class MTL4StaticLinkingDescriptor(nint nativePtr, NativeObjectOwnership o
 
 file static class MTL4StaticLinkingDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4StaticLinkingDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTL4StaticLinkingDescriptor");
 
     public static readonly Selector FunctionDescriptors = "functionDescriptors";
 

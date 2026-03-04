@@ -6,7 +6,7 @@ public class MTLRasterizationRateLayerArray(nint nativePtr, NativeObjectOwnershi
 
     public static MTLRasterizationRateLayerArray Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLRasterizationRateLayerArray() : this(ObjectiveCRuntime.AllocInit(MTLRasterizationRateLayerArrayBindings.Class), NativeObjectOwnership.Managed)
+    public MTLRasterizationRateLayerArray() : this(ObjectiveC.AllocInit(MTLRasterizationRateLayerArrayBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -14,20 +14,20 @@ public class MTLRasterizationRateLayerArray(nint nativePtr, NativeObjectOwnershi
     {
         get
         {
-            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLRasterizationRateLayerArrayBindings.Object, layerIndex);
+            nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLRasterizationRateLayerArrayBindings.Object, layerIndex);
 
             return new(nativePtr, NativeObjectOwnership.Borrowed);
         }
         set
         {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLRasterizationRateLayerArrayBindings.SetObject, value.NativePtr, layerIndex);
+            ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateLayerArrayBindings.SetObject, value.NativePtr, layerIndex);
         }
     }
 }
 
 file static class MTLRasterizationRateLayerArrayBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRasterizationRateLayerArray");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLRasterizationRateLayerArray");
 
     public static readonly Selector Object = "objectAtIndexedSubscript:";
 

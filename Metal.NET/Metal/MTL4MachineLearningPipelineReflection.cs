@@ -6,7 +6,7 @@ public class MTL4MachineLearningPipelineReflection(nint nativePtr, NativeObjectO
 
     public static MTL4MachineLearningPipelineReflection Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTL4MachineLearningPipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTL4MachineLearningPipelineReflectionBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4MachineLearningPipelineReflection() : this(ObjectiveC.AllocInit(MTL4MachineLearningPipelineReflectionBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -18,7 +18,7 @@ public class MTL4MachineLearningPipelineReflection(nint nativePtr, NativeObjectO
 
 file static class MTL4MachineLearningPipelineReflectionBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4MachineLearningPipelineReflection");
+    public static readonly nint Class = ObjectiveC.GetClass("MTL4MachineLearningPipelineReflection");
 
     public static readonly Selector Bindings = "bindings";
 }

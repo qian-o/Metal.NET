@@ -13,12 +13,12 @@ public class MTL4CompilerTask(nint nativePtr, NativeObjectOwnership ownership) :
 
     public MTL4CompilerTaskStatus Status
     {
-        get => (MTL4CompilerTaskStatus)ObjectiveCRuntime.MsgSendLong(NativePtr, MTL4CompilerTaskBindings.Status);
+        get => (MTL4CompilerTaskStatus)ObjectiveC.MsgSendLong(NativePtr, MTL4CompilerTaskBindings.Status);
     }
 
     public void WaitUntilCompleted()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CompilerTaskBindings.WaitUntilCompleted);
+        ObjectiveC.MsgSend(NativePtr, MTL4CompilerTaskBindings.WaitUntilCompleted);
     }
 }
 

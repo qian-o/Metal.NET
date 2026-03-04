@@ -6,7 +6,7 @@ public class MTL4SpecializedFunctionDescriptor(nint nativePtr, NativeObjectOwner
 
     public static new MTL4SpecializedFunctionDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTL4SpecializedFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4SpecializedFunctionDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4SpecializedFunctionDescriptor() : this(ObjectiveC.AllocInit(MTL4SpecializedFunctionDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -31,7 +31,7 @@ public class MTL4SpecializedFunctionDescriptor(nint nativePtr, NativeObjectOwner
 
 file static class MTL4SpecializedFunctionDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4SpecializedFunctionDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTL4SpecializedFunctionDescriptor");
 
     public static readonly Selector ConstantValues = "constantValues";
 

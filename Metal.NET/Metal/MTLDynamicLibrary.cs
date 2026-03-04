@@ -24,7 +24,7 @@ public class MTLDynamicLibrary(nint nativePtr, NativeObjectOwnership ownership) 
 
     public bool SerializeToURL(NSURL url, out NSError error)
     {
-        bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDynamicLibraryBindings.SerializeToURL, url.NativePtr, out nint errorPtr);
+        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLDynamicLibraryBindings.SerializeToURL, url.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 

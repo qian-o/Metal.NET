@@ -8,7 +8,7 @@ public class MTLFunctionLogDebugLocation(nint nativePtr, NativeObjectOwnership o
 
     public nuint Column
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationBindings.Column);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationBindings.Column);
     }
 
     public NSString FunctionName
@@ -18,7 +18,7 @@ public class MTLFunctionLogDebugLocation(nint nativePtr, NativeObjectOwnership o
 
     public nuint Line
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationBindings.Line);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFunctionLogDebugLocationBindings.Line);
     }
 
     public NSURL URL

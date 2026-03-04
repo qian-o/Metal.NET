@@ -6,7 +6,7 @@ public class MTLLinkedFunctions(nint nativePtr, NativeObjectOwnership ownership)
 
     public static MTLLinkedFunctions Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLLinkedFunctions() : this(ObjectiveCRuntime.AllocInit(MTLLinkedFunctionsBindings.Class), NativeObjectOwnership.Managed)
+    public MTLLinkedFunctions() : this(ObjectiveC.AllocInit(MTLLinkedFunctionsBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -36,7 +36,7 @@ public class MTLLinkedFunctions(nint nativePtr, NativeObjectOwnership ownership)
 
     public static MTLLinkedFunctions LinkedFunctions()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLLinkedFunctionsBindings.Class, MTLLinkedFunctionsBindings.LinkedFunctions);
+        nint nativePtr = ObjectiveC.MsgSendPtr(MTLLinkedFunctionsBindings.Class, MTLLinkedFunctionsBindings.LinkedFunctions);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -44,7 +44,7 @@ public class MTLLinkedFunctions(nint nativePtr, NativeObjectOwnership ownership)
 
 file static class MTLLinkedFunctionsBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLLinkedFunctions");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLLinkedFunctions");
 
     public static readonly Selector BinaryFunctions = "binaryFunctions";
 

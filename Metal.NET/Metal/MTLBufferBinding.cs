@@ -8,17 +8,17 @@ public class MTLBufferBinding(nint nativePtr, NativeObjectOwnership ownership) :
 
     public nuint BufferAlignment
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingBindings.BufferAlignment);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLBufferBindingBindings.BufferAlignment);
     }
 
     public nuint BufferDataSize
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindingBindings.BufferDataSize);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLBufferBindingBindings.BufferDataSize);
     }
 
     public MTLDataType BufferDataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLBufferBindingBindings.BufferDataType);
+        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLBufferBindingBindings.BufferDataType);
     }
 
     public MTLPointerType BufferPointerType

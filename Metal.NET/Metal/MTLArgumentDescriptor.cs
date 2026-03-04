@@ -6,49 +6,49 @@ public class MTLArgumentDescriptor(nint nativePtr, NativeObjectOwnership ownersh
 
     public static MTLArgumentDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLArgumentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLArgumentDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLArgumentDescriptor() : this(ObjectiveC.AllocInit(MTLArgumentDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentDescriptorBindings.Access);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetAccess, (nuint)value);
+        get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLArgumentDescriptorBindings.Access);
+        set => ObjectiveC.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetAccess, (nuint)value);
     }
 
     public nuint ArrayLength
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorBindings.ArrayLength);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetArrayLength, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArgumentDescriptorBindings.ArrayLength);
+        set => ObjectiveC.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetArrayLength, value);
     }
 
     public nuint ConstantBlockAlignment
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorBindings.ConstantBlockAlignment);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetConstantBlockAlignment, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArgumentDescriptorBindings.ConstantBlockAlignment);
+        set => ObjectiveC.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetConstantBlockAlignment, value);
     }
 
     public MTLDataType DataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentDescriptorBindings.DataType);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetDataType, (nuint)value);
+        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLArgumentDescriptorBindings.DataType);
+        set => ObjectiveC.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetDataType, (nuint)value);
     }
 
     public nuint Index
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentDescriptorBindings.Index);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetIndex, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArgumentDescriptorBindings.Index);
+        set => ObjectiveC.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetIndex, value);
     }
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentDescriptorBindings.TextureType);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetTextureType, (nuint)value);
+        get => (MTLTextureType)ObjectiveC.MsgSendULong(NativePtr, MTLArgumentDescriptorBindings.TextureType);
+        set => ObjectiveC.MsgSend(NativePtr, MTLArgumentDescriptorBindings.SetTextureType, (nuint)value);
     }
 
     public static MTLArgumentDescriptor ArgumentDescriptor()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLArgumentDescriptorBindings.Class, MTLArgumentDescriptorBindings.ArgumentDescriptor);
+        nint nativePtr = ObjectiveC.MsgSendPtr(MTLArgumentDescriptorBindings.Class, MTLArgumentDescriptorBindings.ArgumentDescriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -56,7 +56,7 @@ public class MTLArgumentDescriptor(nint nativePtr, NativeObjectOwnership ownersh
 
 file static class MTLArgumentDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArgumentDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLArgumentDescriptor");
 
     public static readonly Selector Access = "access";
 

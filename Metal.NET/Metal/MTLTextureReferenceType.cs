@@ -6,34 +6,34 @@ public class MTLTextureReferenceType(nint nativePtr, NativeObjectOwnership owner
 
     public static new MTLTextureReferenceType Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLTextureReferenceType() : this(ObjectiveCRuntime.AllocInit(MTLTextureReferenceTypeBindings.Class), NativeObjectOwnership.Managed)
+    public MTLTextureReferenceType() : this(ObjectiveC.AllocInit(MTLTextureReferenceTypeBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeBindings.Access);
+        get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLTextureReferenceTypeBindings.Access);
     }
 
     public Bool8 IsDepthTexture
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLTextureReferenceTypeBindings.IsDepthTexture);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureReferenceTypeBindings.IsDepthTexture);
     }
 
     public MTLDataType TextureDataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeBindings.TextureDataType);
+        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLTextureReferenceTypeBindings.TextureDataType);
     }
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTextureReferenceTypeBindings.TextureType);
+        get => (MTLTextureType)ObjectiveC.MsgSendULong(NativePtr, MTLTextureReferenceTypeBindings.TextureType);
     }
 }
 
 file static class MTLTextureReferenceTypeBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTextureReferenceType");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLTextureReferenceType");
 
     public static readonly Selector Access = "access";
 

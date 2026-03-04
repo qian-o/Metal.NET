@@ -6,7 +6,7 @@ public class MTL4BinaryFunctionDescriptor(nint nativePtr, NativeObjectOwnership 
 
     public static MTL4BinaryFunctionDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTL4BinaryFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4BinaryFunctionDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4BinaryFunctionDescriptor() : this(ObjectiveC.AllocInit(MTL4BinaryFunctionDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -24,14 +24,14 @@ public class MTL4BinaryFunctionDescriptor(nint nativePtr, NativeObjectOwnership 
 
     public MTL4BinaryFunctionOptions Options
     {
-        get => (MTL4BinaryFunctionOptions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4BinaryFunctionDescriptorBindings.Options);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorBindings.SetOptions, (nuint)value);
+        get => (MTL4BinaryFunctionOptions)ObjectiveC.MsgSendULong(NativePtr, MTL4BinaryFunctionDescriptorBindings.Options);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4BinaryFunctionDescriptorBindings.SetOptions, (nuint)value);
     }
 }
 
 file static class MTL4BinaryFunctionDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4BinaryFunctionDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTL4BinaryFunctionDescriptor");
 
     public static readonly Selector FunctionDescriptor = "functionDescriptor";
 

@@ -8,7 +8,7 @@ public class MTL4CounterHeap(nint nativePtr, NativeObjectOwnership ownership) : 
 
     public nuint Count
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CounterHeapBindings.Count);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4CounterHeapBindings.Count);
     }
 
     public NSString Label
@@ -19,17 +19,17 @@ public class MTL4CounterHeap(nint nativePtr, NativeObjectOwnership ownership) : 
 
     public MTL4CounterHeapType Type
     {
-        get => (MTL4CounterHeapType)ObjectiveCRuntime.MsgSendLong(NativePtr, MTL4CounterHeapBindings.Type);
+        get => (MTL4CounterHeapType)ObjectiveC.MsgSendLong(NativePtr, MTL4CounterHeapBindings.Type);
     }
 
     public void InvalidateCounterRange(NSRange range)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapBindings.InvalidateCounterRange, range);
+        ObjectiveC.MsgSend(NativePtr, MTL4CounterHeapBindings.InvalidateCounterRange, range);
     }
 
     public NSData ResolveCounterRange(NSRange range)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapBindings.ResolveCounterRange, range);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTL4CounterHeapBindings.ResolveCounterRange, range);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

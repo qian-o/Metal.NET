@@ -8,12 +8,12 @@ public class MTLAccelerationStructure(nint nativePtr, NativeObjectOwnership owne
 
     public MTLResourceID GpuResourceID
     {
-        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLAccelerationStructureBindings.GpuResourceID);
+        get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLAccelerationStructureBindings.GpuResourceID);
     }
 
     public nuint Size
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAccelerationStructureBindings.Size);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureBindings.Size);
     }
 }
 

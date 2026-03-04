@@ -6,7 +6,7 @@ public class MTL4CommandBufferOptions(nint nativePtr, NativeObjectOwnership owne
 
     public static MTL4CommandBufferOptions Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTL4CommandBufferOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CommandBufferOptionsBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4CommandBufferOptions() : this(ObjectiveC.AllocInit(MTL4CommandBufferOptionsBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -19,7 +19,7 @@ public class MTL4CommandBufferOptions(nint nativePtr, NativeObjectOwnership owne
 
 file static class MTL4CommandBufferOptionsBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CommandBufferOptions");
+    public static readonly nint Class = ObjectiveC.GetClass("MTL4CommandBufferOptions");
 
     public static readonly Selector LogState = "logState";
 

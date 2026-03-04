@@ -6,7 +6,7 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
 
     public static MTLCaptureManager Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLCaptureManager() : this(ObjectiveCRuntime.AllocInit(MTLCaptureManagerBindings.Class), NativeObjectOwnership.Managed)
+    public MTLCaptureManager() : this(ObjectiveC.AllocInit(MTLCaptureManagerBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -18,40 +18,40 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
 
     public Bool8 IsCapturing
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerBindings.IsCapturing);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLCaptureManagerBindings.IsCapturing);
     }
 
     public MTLCaptureScope NewCaptureScope(MTLDevice device)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerBindings.NewCaptureScope, device.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLCaptureManagerBindings.NewCaptureScope, device.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLCaptureScope NewCaptureScope(MTLCommandQueue commandQueue)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerBindings.NewCaptureScopeWithCommandQueue, commandQueue.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLCaptureManagerBindings.NewCaptureScopeWithCommandQueue, commandQueue.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLCaptureScope NewCaptureScope(MTL4CommandQueue commandQueue)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureManagerBindings.NewCaptureScopeWithMTL4CommandQueue, commandQueue.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLCaptureManagerBindings.NewCaptureScopeWithMTL4CommandQueue, commandQueue.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public static MTLCaptureManager SharedCaptureManager()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLCaptureManagerBindings.Class, MTLCaptureManagerBindings.SharedCaptureManager);
+        nint nativePtr = ObjectiveC.MsgSendPtr(MTLCaptureManagerBindings.Class, MTLCaptureManagerBindings.SharedCaptureManager);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public bool StartCapture(MTLCaptureDescriptor descriptor, out NSError error)
     {
-        bool result = ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerBindings.StartCapture, descriptor.NativePtr, out nint errorPtr);
+        bool result = ObjectiveC.MsgSendBool(NativePtr, MTLCaptureManagerBindings.StartCapture, descriptor.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -60,33 +60,33 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
 
     public void StartCapture(MTLDevice device)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureManagerBindings.StartCaptureWithDevice, device.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLCaptureManagerBindings.StartCaptureWithDevice, device.NativePtr);
     }
 
     public void StartCapture(MTLCommandQueue commandQueue)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureManagerBindings.StartCaptureWithCommandQueue, commandQueue.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLCaptureManagerBindings.StartCaptureWithCommandQueue, commandQueue.NativePtr);
     }
 
     public void StartCapture(MTLCaptureScope captureScope)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureManagerBindings.StartCaptureWithScope, captureScope.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLCaptureManagerBindings.StartCaptureWithScope, captureScope.NativePtr);
     }
 
     public void StopCapture()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureManagerBindings.StopCapture);
+        ObjectiveC.MsgSend(NativePtr, MTLCaptureManagerBindings.StopCapture);
     }
 
     public bool SupportsDestination(MTLCaptureDestination destination)
     {
-        return ObjectiveCRuntime.MsgSendBool(NativePtr, MTLCaptureManagerBindings.SupportsDestination, (nint)destination);
+        return ObjectiveC.MsgSendBool(NativePtr, MTLCaptureManagerBindings.SupportsDestination, (nint)destination);
     }
 }
 
 file static class MTLCaptureManagerBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCaptureManager");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLCaptureManager");
 
     public static readonly Selector DefaultCaptureScope = "defaultCaptureScope";
 

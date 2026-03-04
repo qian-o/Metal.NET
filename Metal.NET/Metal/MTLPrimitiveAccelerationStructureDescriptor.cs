@@ -6,7 +6,7 @@ public class MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr, NativeO
 
     public static new MTLPrimitiveAccelerationStructureDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLPrimitiveAccelerationStructureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLPrimitiveAccelerationStructureDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLPrimitiveAccelerationStructureDescriptor() : this(ObjectiveC.AllocInit(MTLPrimitiveAccelerationStructureDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -18,37 +18,37 @@ public class MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr, NativeO
 
     public MTLMotionBorderMode MotionEndBorderMode
     {
-        get => (MTLMotionBorderMode)ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionEndBorderMode);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionEndBorderMode, (uint)value);
+        get => (MTLMotionBorderMode)ObjectiveC.MsgSendUInt(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionEndBorderMode);
+        set => ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionEndBorderMode, (uint)value);
     }
 
     public float MotionEndTime
     {
-        get => ObjectiveCRuntime.MsgSendFloat(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionEndTime);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionEndTime, value);
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionEndTime);
+        set => ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionEndTime, value);
     }
 
     public nuint MotionKeyframeCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionKeyframeCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionKeyframeCount, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionKeyframeCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionKeyframeCount, value);
     }
 
     public MTLMotionBorderMode MotionStartBorderMode
     {
-        get => (MTLMotionBorderMode)ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionStartBorderMode);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionStartBorderMode, (uint)value);
+        get => (MTLMotionBorderMode)ObjectiveC.MsgSendUInt(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionStartBorderMode);
+        set => ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionStartBorderMode, (uint)value);
     }
 
     public float MotionStartTime
     {
-        get => ObjectiveCRuntime.MsgSendFloat(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionStartTime);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionStartTime, value);
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.MotionStartTime);
+        set => ObjectiveC.MsgSend(NativePtr, MTLPrimitiveAccelerationStructureDescriptorBindings.SetMotionStartTime, value);
     }
 
     public static MTLPrimitiveAccelerationStructureDescriptor Descriptor()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLPrimitiveAccelerationStructureDescriptorBindings.Class, MTLPrimitiveAccelerationStructureDescriptorBindings.Descriptor);
+        nint nativePtr = ObjectiveC.MsgSendPtr(MTLPrimitiveAccelerationStructureDescriptorBindings.Class, MTLPrimitiveAccelerationStructureDescriptorBindings.Descriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -56,7 +56,7 @@ public class MTLPrimitiveAccelerationStructureDescriptor(nint nativePtr, NativeO
 
 file static class MTLPrimitiveAccelerationStructureDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPrimitiveAccelerationStructureDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLPrimitiveAccelerationStructureDescriptor");
 
     public static readonly Selector Descriptor = "descriptor";
 

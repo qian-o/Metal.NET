@@ -13,7 +13,7 @@ public class MTLSamplerState(nint nativePtr, NativeObjectOwnership ownership) : 
 
     public MTLResourceID GpuResourceID
     {
-        get => ObjectiveCRuntime.MsgSendMTLResourceID(NativePtr, MTLSamplerStateBindings.GpuResourceID);
+        get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLSamplerStateBindings.GpuResourceID);
     }
 
     public NSString Label

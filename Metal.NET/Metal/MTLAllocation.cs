@@ -8,7 +8,7 @@ public class MTLAllocation(nint nativePtr, NativeObjectOwnership ownership) : Na
 
     public nuint AllocatedSize
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAllocationBindings.AllocatedSize);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAllocationBindings.AllocatedSize);
     }
 }
 

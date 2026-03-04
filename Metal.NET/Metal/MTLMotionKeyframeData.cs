@@ -6,7 +6,7 @@ public class MTLMotionKeyframeData(nint nativePtr, NativeObjectOwnership ownersh
 
     public static MTLMotionKeyframeData Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLMotionKeyframeData() : this(ObjectiveCRuntime.AllocInit(MTLMotionKeyframeDataBindings.Class), NativeObjectOwnership.Managed)
+    public MTLMotionKeyframeData() : this(ObjectiveC.AllocInit(MTLMotionKeyframeDataBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -18,13 +18,13 @@ public class MTLMotionKeyframeData(nint nativePtr, NativeObjectOwnership ownersh
 
     public nuint Offset
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLMotionKeyframeDataBindings.Offset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLMotionKeyframeDataBindings.SetOffset, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLMotionKeyframeDataBindings.Offset);
+        set => ObjectiveC.MsgSend(NativePtr, MTLMotionKeyframeDataBindings.SetOffset, value);
     }
 
     public static MTLMotionKeyframeData Data()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLMotionKeyframeDataBindings.Class, MTLMotionKeyframeDataBindings.Data);
+        nint nativePtr = ObjectiveC.MsgSendPtr(MTLMotionKeyframeDataBindings.Class, MTLMotionKeyframeDataBindings.Data);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -32,7 +32,7 @@ public class MTLMotionKeyframeData(nint nativePtr, NativeObjectOwnership ownersh
 
 file static class MTLMotionKeyframeDataBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLMotionKeyframeData");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLMotionKeyframeData");
 
     public static readonly Selector Buffer = "buffer";
 

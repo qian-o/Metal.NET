@@ -13,7 +13,7 @@ public class MTL4MachineLearningPipelineState(nint nativePtr, NativeObjectOwners
 
     public nuint IntermediatesHeapSize
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4MachineLearningPipelineStateBindings.IntermediatesHeapSize);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4MachineLearningPipelineStateBindings.IntermediatesHeapSize);
     }
 
     public NSString Label

@@ -6,26 +6,26 @@ public class MTLIOCommandQueueDescriptor(nint nativePtr, NativeObjectOwnership o
 
     public static MTLIOCommandQueueDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLIOCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLIOCommandQueueDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLIOCommandQueueDescriptor() : this(ObjectiveC.AllocInit(MTLIOCommandQueueDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public nuint MaxCommandBufferCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIOCommandQueueDescriptorBindings.MaxCommandBufferCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorBindings.SetMaxCommandBufferCount, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIOCommandQueueDescriptorBindings.MaxCommandBufferCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIOCommandQueueDescriptorBindings.SetMaxCommandBufferCount, value);
     }
 
     public nuint MaxCommandsInFlight
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLIOCommandQueueDescriptorBindings.MaxCommandsInFlight);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorBindings.SetMaxCommandsInFlight, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIOCommandQueueDescriptorBindings.MaxCommandsInFlight);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIOCommandQueueDescriptorBindings.SetMaxCommandsInFlight, value);
     }
 
     public MTLIOPriority Priority
     {
-        get => (MTLIOPriority)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLIOCommandQueueDescriptorBindings.Priority);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorBindings.SetPriority, (nint)value);
+        get => (MTLIOPriority)ObjectiveC.MsgSendLong(NativePtr, MTLIOCommandQueueDescriptorBindings.Priority);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIOCommandQueueDescriptorBindings.SetPriority, (nint)value);
     }
 
     public MTLIOScratchBufferAllocator ScratchBufferAllocator
@@ -36,14 +36,14 @@ public class MTLIOCommandQueueDescriptor(nint nativePtr, NativeObjectOwnership o
 
     public MTLIOCommandQueueType Type
     {
-        get => (MTLIOCommandQueueType)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLIOCommandQueueDescriptorBindings.Type);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLIOCommandQueueDescriptorBindings.SetType, (nint)value);
+        get => (MTLIOCommandQueueType)ObjectiveC.MsgSendLong(NativePtr, MTLIOCommandQueueDescriptorBindings.Type);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIOCommandQueueDescriptorBindings.SetType, (nint)value);
     }
 }
 
 file static class MTLIOCommandQueueDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLIOCommandQueueDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLIOCommandQueueDescriptor");
 
     public static readonly Selector MaxCommandBufferCount = "maxCommandBufferCount";
 

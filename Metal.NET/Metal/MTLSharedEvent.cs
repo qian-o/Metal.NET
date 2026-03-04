@@ -8,25 +8,25 @@ public class MTLSharedEvent(nint nativePtr, NativeObjectOwnership ownership) : M
 
     public ulong SignaledValue
     {
-        get => ObjectiveCRuntime.MsgSendULong(NativePtr, MTLSharedEventBindings.SignaledValue);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLSharedEventBindings.SetSignaledValue, value);
+        get => ObjectiveC.MsgSendULong(NativePtr, MTLSharedEventBindings.SignaledValue);
+        set => ObjectiveC.MsgSend(NativePtr, MTLSharedEventBindings.SetSignaledValue, value);
     }
 
     public MTLSharedEventHandle NewSharedEventHandle()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventBindings.NewSharedEventHandle);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLSharedEventBindings.NewSharedEventHandle);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public void NotifyListener(MTLSharedEventListener listener, ulong value, MTLSharedEventNotificationBlock block)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLSharedEventBindings.NotifyListener, listener.NativePtr, (nuint)value, block);
+        ObjectiveC.MsgSend(NativePtr, MTLSharedEventBindings.NotifyListener, listener.NativePtr, (nuint)value, block);
     }
 
     public bool WaitUntilSignaledValue(ulong value, ulong milliseconds)
     {
-        return ObjectiveCRuntime.MsgSendBool(NativePtr, MTLSharedEventBindings.WaitUntilSignaledValue, (nuint)value, (nuint)milliseconds);
+        return ObjectiveC.MsgSendBool(NativePtr, MTLSharedEventBindings.WaitUntilSignaledValue, (nuint)value, (nuint)milliseconds);
     }
 }
 

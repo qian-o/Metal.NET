@@ -26,18 +26,11 @@ public enum NativeObjectOwnership
     Managed
 }
 
-/// <summary>
-/// Factory interface for creating managed wrappers from native Objective-C pointers.
-/// </summary>
-/// <typeparam name="TSelf">The concrete wrapper type.</typeparam>
 public interface INativeObject<TSelf> where TSelf : NativeObject, INativeObject<TSelf>
 {
     static abstract TSelf Null { get; }
 
-    /// <summary>
-    /// Creates a managed wrapper around the given native pointer.
-    /// </summary>
-    static abstract TSelf Create(nint nativePtr, NativeObjectOwnership ownership);
+    static abstract TSelf New(nint nativePtr, NativeObjectOwnership ownership);
 }
 
 /// <summary>
@@ -79,6 +72,8 @@ public abstract class NativeObject(nint nativePtr, NativeObjectOwnership ownersh
     /// </summary>
     public bool IsNull => NativePtr is 0;
 
+    protected abstract void ReleaseNative();
+
     /// <summary>
     /// Releases the native reference (if owned) and suppresses finalization.
     /// </summary>
@@ -95,56 +90,6 @@ public abstract class NativeObject(nint nativePtr, NativeObjectOwnership ownersh
     }
 
     /// <summary>
-    /// Reads an Objective-C object property and returns a cached, borrowed wrapper.
-    /// The wrapper is re-created only when the underlying pointer changes.
-    /// </summary>
-    protected T GetProperty<T>(ref T? field, Selector selector) where T : NativeObject, INativeObject<T>
-    {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, selector);
-
-        if (field is null || field.NativePtr != nativePtr)
-        {
-            field = T.Create(nativePtr, NativeObjectOwnership.Borrowed);
-        }
-
-        return field;
-    }
-
-    /// <summary>
-    /// Writes an Objective-C object property and refreshes the cached wrapper.
-    /// </summary>
-    protected void SetProperty<T>(ref T? field, Selector selector, T value) where T : NativeObject, INativeObject<T>
-    {
-        ObjectiveCRuntime.MsgSend(NativePtr, selector, value.NativePtr);
-
-        field = T.Create(value.NativePtr, NativeObjectOwnership.Borrowed);
-    }
-
-    /// <summary>
-    /// Reads an Objective-C NSArray property and converts it to a C# array.
-    /// Each element is a borrowed reference (not retained by the wrapper).
-    /// </summary>
-    protected T[] GetArrayProperty<T>(Selector selector) where T : NativeObject, INativeObject<T>
-    {
-        nint arrayPtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, selector);
-
-        return NSArray.ToArray<T>(arrayPtr);
-    }
-
-    /// <summary>
-    /// Creates a temporary NSArray from a C# array, sets the Objective-C property,
-    /// and releases the temporary NSArray.
-    /// </summary>
-    protected void SetArrayProperty<T>(Selector selector, T[] value) where T : NativeObject
-    {
-        nint arrayPtr = NSArray.FromArray(value);
-
-        ObjectiveCRuntime.MsgSend(NativePtr, selector, arrayPtr);
-
-        ObjectiveCRuntime.Release(arrayPtr);
-    }
-
-    /// <summary>
     /// Sends <c>release</c> to the native object at most once (thread-safe).
     /// </summary>
     private void Release()
@@ -156,7 +101,7 @@ public abstract class NativeObject(nint nativePtr, NativeObjectOwnership ownersh
 
         if (Ownership is not NativeObjectOwnership.Borrowed)
         {
-            ObjectiveCRuntime.Release(NativePtr);
+            ReleaseNative();
         }
     }
 }

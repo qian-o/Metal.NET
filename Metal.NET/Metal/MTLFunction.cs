@@ -18,7 +18,7 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : Nati
 
     public MTLFunctionType FunctionType
     {
-        get => (MTLFunctionType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionBindings.FunctionType);
+        get => (MTLFunctionType)ObjectiveC.MsgSendULong(NativePtr, MTLFunctionBindings.FunctionType);
     }
 
     public NSString Label
@@ -34,17 +34,17 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : Nati
 
     public MTLFunctionOptions Options
     {
-        get => (MTLFunctionOptions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionBindings.Options);
+        get => (MTLFunctionOptions)ObjectiveC.MsgSendULong(NativePtr, MTLFunctionBindings.Options);
     }
 
     public nint PatchControlPointCount
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionBindings.PatchControlPointCount);
+        get => ObjectiveC.MsgSendPtr(NativePtr, MTLFunctionBindings.PatchControlPointCount);
     }
 
     public MTLPatchType PatchType
     {
-        get => (MTLPatchType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionBindings.PatchType);
+        get => (MTLPatchType)ObjectiveC.MsgSendULong(NativePtr, MTLFunctionBindings.PatchType);
     }
 
     public MTLAttribute[] StageInputAttributes
@@ -59,7 +59,7 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : Nati
 
     public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLFunctionBindings.NewArgumentEncoder, bufferIndex);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLFunctionBindings.NewArgumentEncoder, bufferIndex);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

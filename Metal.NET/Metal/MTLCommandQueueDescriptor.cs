@@ -6,7 +6,7 @@ public class MTLCommandQueueDescriptor(nint nativePtr, NativeObjectOwnership own
 
     public static MTLCommandQueueDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLCommandQueueDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCommandQueueDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLCommandQueueDescriptor() : this(ObjectiveC.AllocInit(MTLCommandQueueDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -18,14 +18,14 @@ public class MTLCommandQueueDescriptor(nint nativePtr, NativeObjectOwnership own
 
     public nuint MaxCommandBufferCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCommandQueueDescriptorBindings.MaxCommandBufferCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCommandQueueDescriptorBindings.SetMaxCommandBufferCount, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLCommandQueueDescriptorBindings.MaxCommandBufferCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCommandQueueDescriptorBindings.SetMaxCommandBufferCount, value);
     }
 }
 
 file static class MTLCommandQueueDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCommandQueueDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLCommandQueueDescriptor");
 
     public static readonly Selector LogState = "logState";
 

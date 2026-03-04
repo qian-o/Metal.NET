@@ -24,37 +24,20 @@ public enum CGColorSpaceName
     AdobeRGB1998
 }
 
-/// <summary>
-/// A managed wrapper around a Core Graphics <c>CGColorSpaceRef</c> object.
-/// Implements <see cref="IDisposable"/> to call <c>CGColorSpaceRelease</c>.
-/// </summary>
-[StructLayout(LayoutKind.Sequential)]
-public partial struct CGColorSpace(nint nativePtr) : IDisposable
+public partial class CGColorSpace(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<CGColorSpace>
 {
-    public nint NativePtr = nativePtr;
+    #region INativeObject
+    public static CGColorSpace Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public readonly bool IsNull => NativePtr is 0;
-
-    public static implicit operator nint(CGColorSpace value)
+    public static CGColorSpace New(nint nativePtr, NativeObjectOwnership ownership)
     {
-        return value.NativePtr;
+        return new(nativePtr, ownership);
     }
+    #endregion
 
-    public static implicit operator CGColorSpace(nint value)
+    protected override void ReleaseNative()
     {
-        return new(value);
-    }
-
-    public void Dispose()
-    {
-        if (IsNull)
-        {
-            return;
-        }
-
         CGColorSpaceRelease(NativePtr);
-
-        NativePtr = 0;
     }
 
     public static CGColorSpace Create(CGColorSpaceName name)
@@ -74,22 +57,22 @@ public partial struct CGColorSpace(nint nativePtr) : IDisposable
 
         nint cgHandle = NativeLibrary.Load("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics");
 
-        return new(CGColorSpaceCreateWithName(Marshal.ReadIntPtr(NativeLibrary.GetExport(cgHandle, symbolName))));
+        return new(CGColorSpaceCreateWithName(Marshal.ReadIntPtr(NativeLibrary.GetExport(cgHandle, symbolName))), NativeObjectOwnership.Managed);
     }
 
     public static CGColorSpace CreateDeviceRGB()
     {
-        return new(CGColorSpaceCreateDeviceRGB());
+        return new(CGColorSpaceCreateDeviceRGB(), NativeObjectOwnership.Managed);
     }
 
     public static CGColorSpace CreateDeviceGray()
     {
-        return new(CGColorSpaceCreateDeviceGray());
+        return new(CGColorSpaceCreateDeviceGray(), NativeObjectOwnership.Managed);
     }
 
     public static CGColorSpace CreateDeviceCMYK()
     {
-        return new(CGColorSpaceCreateDeviceCMYK());
+        return new(CGColorSpaceCreateDeviceCMYK(), NativeObjectOwnership.Managed);
     }
 
     [LibraryImport("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics", EntryPoint = "CGColorSpaceRelease")]

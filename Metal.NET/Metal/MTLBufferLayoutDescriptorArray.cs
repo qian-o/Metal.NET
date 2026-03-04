@@ -6,7 +6,7 @@ public class MTLBufferLayoutDescriptorArray(nint nativePtr, NativeObjectOwnershi
 
     public static MTLBufferLayoutDescriptorArray Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLBufferLayoutDescriptorArray() : this(ObjectiveCRuntime.AllocInit(MTLBufferLayoutDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
+    public MTLBufferLayoutDescriptorArray() : this(ObjectiveC.AllocInit(MTLBufferLayoutDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -14,20 +14,20 @@ public class MTLBufferLayoutDescriptorArray(nint nativePtr, NativeObjectOwnershi
     {
         get
         {
-            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArrayBindings.Object, index);
+            nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArrayBindings.Object, index);
 
             return new(nativePtr, NativeObjectOwnership.Borrowed);
         }
         set
         {
-            ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferLayoutDescriptorArrayBindings.SetObject, value.NativePtr, index);
+            ObjectiveC.MsgSend(NativePtr, MTLBufferLayoutDescriptorArrayBindings.SetObject, value.NativePtr, index);
         }
     }
 }
 
 file static class MTLBufferLayoutDescriptorArrayBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLBufferLayoutDescriptorArray");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLBufferLayoutDescriptorArray");
 
     public static readonly Selector Object = "objectAtIndexedSubscript:";
 

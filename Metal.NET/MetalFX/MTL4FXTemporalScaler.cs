@@ -8,7 +8,7 @@ public class MTL4FXTemporalScaler(nint nativePtr, NativeObjectOwnership ownershi
 
     public void EncodeToCommandBuffer(MTL4CommandBuffer pCommandBuffer)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4FXTemporalScalerBindings.EncodeToCommandBuffer, pCommandBuffer.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTL4FXTemporalScalerBindings.EncodeToCommandBuffer, pCommandBuffer.NativePtr);
     }
 }
 

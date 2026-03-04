@@ -6,7 +6,7 @@ public class MTL4PipelineDescriptor(nint nativePtr, NativeObjectOwnership owners
 
     public static MTL4PipelineDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTL4PipelineDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4PipelineDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4PipelineDescriptor() : this(ObjectiveC.AllocInit(MTL4PipelineDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -25,7 +25,7 @@ public class MTL4PipelineDescriptor(nint nativePtr, NativeObjectOwnership owners
 
 file static class MTL4PipelineDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4PipelineDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTL4PipelineDescriptor");
 
     public static readonly Selector Label = "label";
 

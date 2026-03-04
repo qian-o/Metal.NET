@@ -18,12 +18,12 @@ public class MTL4CommandAllocator(nint nativePtr, NativeObjectOwnership ownershi
 
     public ulong AllocatedSize()
     {
-        return ObjectiveCRuntime.MsgSendULong(NativePtr, MTL4CommandAllocatorBindings.AllocatedSize);
+        return ObjectiveC.MsgSendULong(NativePtr, MTL4CommandAllocatorBindings.AllocatedSize);
     }
 
     public void Reset()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CommandAllocatorBindings.Reset);
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandAllocatorBindings.Reset);
     }
 }
 

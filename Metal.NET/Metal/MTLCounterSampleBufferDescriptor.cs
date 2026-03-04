@@ -6,7 +6,7 @@ public class MTLCounterSampleBufferDescriptor(nint nativePtr, NativeObjectOwners
 
     public static MTLCounterSampleBufferDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLCounterSampleBufferDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCounterSampleBufferDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLCounterSampleBufferDescriptor() : this(ObjectiveC.AllocInit(MTLCounterSampleBufferDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -24,20 +24,20 @@ public class MTLCounterSampleBufferDescriptor(nint nativePtr, NativeObjectOwners
 
     public nuint SampleCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLCounterSampleBufferDescriptorBindings.SampleCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorBindings.SetSampleCount, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLCounterSampleBufferDescriptorBindings.SampleCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorBindings.SetSampleCount, value);
     }
 
     public MTLStorageMode StorageMode
     {
-        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLCounterSampleBufferDescriptorBindings.StorageMode);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorBindings.SetStorageMode, (nuint)value);
+        get => (MTLStorageMode)ObjectiveC.MsgSendULong(NativePtr, MTLCounterSampleBufferDescriptorBindings.StorageMode);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorBindings.SetStorageMode, (nuint)value);
     }
 }
 
 file static class MTLCounterSampleBufferDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCounterSampleBufferDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLCounterSampleBufferDescriptor");
 
     public static readonly Selector CounterSet = "counterSet";
 

@@ -6,7 +6,7 @@ public class MTLArchitecture(nint nativePtr, NativeObjectOwnership ownership) : 
 
     public static MTLArchitecture Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLArchitecture() : this(ObjectiveCRuntime.AllocInit(MTLArchitectureBindings.Class), NativeObjectOwnership.Managed)
+    public MTLArchitecture() : this(ObjectiveC.AllocInit(MTLArchitectureBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -18,7 +18,7 @@ public class MTLArchitecture(nint nativePtr, NativeObjectOwnership ownership) : 
 
 file static class MTLArchitectureBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArchitecture");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLArchitecture");
 
     public static readonly Selector Name = "name";
 }

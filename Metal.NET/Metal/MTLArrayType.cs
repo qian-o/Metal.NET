@@ -6,61 +6,61 @@ public class MTLArrayType(nint nativePtr, NativeObjectOwnership ownership) : MTL
 
     public static new MTLArrayType Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLArrayType() : this(ObjectiveCRuntime.AllocInit(MTLArrayTypeBindings.Class), NativeObjectOwnership.Managed)
+    public MTLArrayType() : this(ObjectiveC.AllocInit(MTLArrayTypeBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public nuint ArgumentIndexStride
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeBindings.ArgumentIndexStride);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArrayTypeBindings.ArgumentIndexStride);
     }
 
     public nuint ArrayLength
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeBindings.ArrayLength);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArrayTypeBindings.ArrayLength);
     }
 
     public MTLDataType ElementType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArrayTypeBindings.ElementType);
+        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLArrayTypeBindings.ElementType);
     }
 
     public nuint Stride
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArrayTypeBindings.Stride);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArrayTypeBindings.Stride);
     }
 
     public MTLArrayType ElementArrayType()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementArrayType);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementArrayType);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLPointerType ElementPointerType()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementPointerType);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementPointerType);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLStructType ElementStructType()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementStructType);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementStructType);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTensorReferenceType ElementTensorReferenceType()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementTensorReferenceType);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementTensorReferenceType);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTextureReferenceType ElementTextureReferenceType()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementTextureReferenceType);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementTextureReferenceType);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -68,7 +68,7 @@ public class MTLArrayType(nint nativePtr, NativeObjectOwnership ownership) : MTL
 
 file static class MTLArrayTypeBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArrayType");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLArrayType");
 
     public static readonly Selector ArgumentIndexStride = "argumentIndexStride";
 

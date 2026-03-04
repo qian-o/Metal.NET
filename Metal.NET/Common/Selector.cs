@@ -13,6 +13,6 @@ public readonly struct Selector(nint nativePtr)
 
     public static implicit operator Selector(string name)
     {
-        return ObjectiveCRuntime.RegisterName(name);
+        return ObjectiveC.RegisterName(name);
     }
 }

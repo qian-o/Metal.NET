@@ -6,45 +6,45 @@ public class MTLPointerType(nint nativePtr, NativeObjectOwnership ownership) : M
 
     public static new MTLPointerType Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLPointerType() : this(ObjectiveCRuntime.AllocInit(MTLPointerTypeBindings.Class), NativeObjectOwnership.Managed)
+    public MTLPointerType() : this(ObjectiveC.AllocInit(MTLPointerTypeBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLPointerTypeBindings.Access);
+        get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLPointerTypeBindings.Access);
     }
 
     public nuint Alignment
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.Alignment);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.Alignment);
     }
 
     public nuint DataSize
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.DataSize);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLPointerTypeBindings.DataSize);
     }
 
     public Bool8 ElementIsArgumentBuffer
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLPointerTypeBindings.ElementIsArgumentBuffer);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLPointerTypeBindings.ElementIsArgumentBuffer);
     }
 
     public MTLDataType ElementType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLPointerTypeBindings.ElementType);
+        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLPointerTypeBindings.ElementType);
     }
 
     public MTLArrayType ElementArrayType()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeBindings.ElementArrayType);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLPointerTypeBindings.ElementArrayType);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLStructType ElementStructType()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLPointerTypeBindings.ElementStructType);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLPointerTypeBindings.ElementStructType);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -52,7 +52,7 @@ public class MTLPointerType(nint nativePtr, NativeObjectOwnership ownership) : M
 
 file static class MTLPointerTypeBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLPointerType");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLPointerType");
 
     public static readonly Selector Access = "access";
 

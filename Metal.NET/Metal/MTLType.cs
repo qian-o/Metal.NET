@@ -6,19 +6,19 @@ public class MTLType(nint nativePtr, NativeObjectOwnership ownership) : NativeOb
 
     public static MTLType Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLType() : this(ObjectiveCRuntime.AllocInit(MTLTypeBindings.Class), NativeObjectOwnership.Managed)
+    public MTLType() : this(ObjectiveC.AllocInit(MTLTypeBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public MTLDataType DataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTypeBindings.DataType);
+        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLTypeBindings.DataType);
     }
 }
 
 file static class MTLTypeBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLType");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLType");
 
     public static readonly Selector DataType = "dataType";
 }

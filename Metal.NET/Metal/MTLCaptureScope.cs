@@ -24,12 +24,12 @@ public class MTLCaptureScope(nint nativePtr, NativeObjectOwnership ownership) : 
 
     public void BeginScope()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeBindings.BeginScope);
+        ObjectiveC.MsgSend(NativePtr, MTLCaptureScopeBindings.BeginScope);
     }
 
     public void EndScope()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureScopeBindings.EndScope);
+        ObjectiveC.MsgSend(NativePtr, MTLCaptureScopeBindings.EndScope);
     }
 }
 

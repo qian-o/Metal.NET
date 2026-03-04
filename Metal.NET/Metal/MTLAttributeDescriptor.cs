@@ -6,32 +6,32 @@ public class MTLAttributeDescriptor(nint nativePtr, NativeObjectOwnership owners
 
     public static MTLAttributeDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
 
-    public MTLAttributeDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLAttributeDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLAttributeDescriptor() : this(ObjectiveC.AllocInit(MTLAttributeDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public nuint BufferIndex
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorBindings.BufferIndex);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorBindings.SetBufferIndex, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAttributeDescriptorBindings.BufferIndex);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAttributeDescriptorBindings.SetBufferIndex, value);
     }
 
     public MTLAttributeFormat Format
     {
-        get => (MTLAttributeFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLAttributeDescriptorBindings.Format);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorBindings.SetFormat, (nuint)value);
+        get => (MTLAttributeFormat)ObjectiveC.MsgSendULong(NativePtr, MTLAttributeDescriptorBindings.Format);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAttributeDescriptorBindings.SetFormat, (nuint)value);
     }
 
     public nuint Offset
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLAttributeDescriptorBindings.Offset);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLAttributeDescriptorBindings.SetOffset, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAttributeDescriptorBindings.Offset);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAttributeDescriptorBindings.SetOffset, value);
     }
 }
 
 file static class MTLAttributeDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLAttributeDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLAttributeDescriptor");
 
     public static readonly Selector BufferIndex = "bufferIndex";
 
