@@ -2,9 +2,14 @@
 
 public class MTL4StitchedFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4FunctionDescriptor(nativePtr, ownership), INativeObject<MTL4StitchedFunctionDescriptor>
 {
+    #region INativeObject
     public static new MTL4StitchedFunctionDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTL4StitchedFunctionDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTL4StitchedFunctionDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTL4StitchedFunctionDescriptor() : this(ObjectiveC.AllocInit(MTL4StitchedFunctionDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

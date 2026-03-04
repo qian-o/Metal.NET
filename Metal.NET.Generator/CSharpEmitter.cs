@@ -339,20 +339,25 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         string baseClass = classDef.BaseClassName != null && context.KnownClassNames.Contains(classDef.BaseClassName)
             ? classDef.BaseClassName
-            : "NativeObject";
+            : "ObjectiveCObject";
         string partialKeyword = hasFreeFunctions ? "partial " : "";
         sb.AppendLine($"public {partialKeyword}class {csClassName}(nint nativePtr, NativeObjectOwnership ownership) : {baseClass}(nativePtr, ownership), INativeObject<{csClassName}>");
         sb.AppendLine("{");
-        string newKeyword = baseClass != "NativeObject" ? "new " : "";
+        string newKeyword = baseClass is not "NativeObject" and not "ObjectiveCObject" ? "new " : "";
+        sb.AppendLine($"    #region INativeObject");
         sb.AppendLine($"    public static {newKeyword}{csClassName} Null {{ get; }} = new(0, NativeObjectOwnership.Borrowed);");
         sb.AppendLine();
-        sb.AppendLine($"    public static {newKeyword}{csClassName} Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);");
+        sb.AppendLine($"    public static {newKeyword}{csClassName} New(nint nativePtr, NativeObjectOwnership ownership)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        return new(nativePtr, ownership);");
+        sb.AppendLine("    }");
+        sb.AppendLine("    #endregion");
 
         bool hasPrecedingMember = true;
         if (hasClassField)
         {
             sb.AppendLine();
-            sb.AppendLine($"    public {csClassName}() : this(ObjectiveCRuntime.AllocInit({csClassName}Bindings.Class), NativeObjectOwnership.Managed)");
+            sb.AppendLine($"    public {csClassName}() : this(ObjectiveC.AllocInit({csClassName}Bindings.Class), NativeObjectOwnership.Managed)");
             sb.AppendLine("    {");
             sb.AppendLine("    }");
             hasPrecedingMember = true;
@@ -400,7 +405,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             sb.AppendLine("    {");
             sb.AppendLine("        get");
             sb.AppendLine("        {");
-            sb.AppendLine($"            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, {csClassName}Bindings.Object, {indexParam});");
+            sb.AppendLine($"            nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, {csClassName}Bindings.Object, {indexParam});");
             sb.AppendLine();
             sb.AppendLine("            return new(nativePtr, NativeObjectOwnership.Borrowed);");
             sb.AppendLine("        }");
@@ -411,7 +416,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
                 sb.AppendLine("        set");
                 sb.AppendLine("        {");
-                sb.AppendLine($"            ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.SetObject, value.NativePtr, {indexParam});");
+                sb.AppendLine($"            ObjectiveC.MsgSend(NativePtr, {csClassName}Bindings.SetObject, value.NativePtr, {indexParam});");
                 sb.AppendLine("        }");
             }
 
@@ -458,7 +463,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         bool first = true;
         if (hasClassField)
         {
-            sb.AppendLine($"    public static readonly nint Class = ObjectiveCRuntime.GetClass(\"{csClassName}\");");
+            sb.AppendLine($"    public static readonly nint Class = ObjectiveC.GetClass(\"{csClassName}\");");
             first = false;
         }
 
@@ -765,7 +770,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             if (prop.Setter != null)
             {
                 string setCast = typeMapper.GetEnumSetCast(csType);
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, {setCast}value);");
+                sb.AppendLine($"        set => ObjectiveC.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, {setCast}value);");
             }
             sb.AppendLine("    }");
         }
@@ -773,10 +778,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         {
             sb.AppendLine($"    public Bool8 {csPropName}");
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => ObjectiveCRuntime.MsgSendBool({Target}, {selectorRef});");
+            sb.AppendLine($"        get => ObjectiveC.MsgSendBool({Target}, {selectorRef});");
             if (prop.Setter != null)
             {
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value);");
+                sb.AppendLine($"        set => ObjectiveC.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value);");
             }
             sb.AppendLine("    }");
         }
@@ -785,10 +790,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             string msgSend = TypeMapper.GetMsgSendForStruct(csType);
             sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => ObjectiveCRuntime.{msgSend}({Target}, {selectorRef});");
+            sb.AppendLine($"        get => ObjectiveC.{msgSend}({Target}, {selectorRef});");
             if (prop.Setter != null)
             {
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value);");
+                sb.AppendLine($"        set => ObjectiveC.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value);");
             }
             sb.AppendLine("    }");
         }
@@ -797,10 +802,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             string msgSend = TypeMapper.GetMsgSendMethod(csType);
             sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => ObjectiveCRuntime.{msgSend}({Target}, {selectorRef});");
+            sb.AppendLine($"        get => ObjectiveC.{msgSend}({Target}, {selectorRef});");
             if (prop.Setter != null)
             {
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value);");
+                sb.AppendLine($"        set => ObjectiveC.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value);");
             }
             sb.AppendLine("    }");
         }
@@ -1089,7 +1094,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         if (isVoid)
         {
-            sb.AppendLine($"{indent}ObjectiveCRuntime.MsgSend({argsStr});");
+            sb.AppendLine($"{indent}ObjectiveC.MsgSend({argsStr});");
             if (hasOutError)
             {
                 sb.AppendLine();
@@ -1098,31 +1103,31 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             foreach (string rv in nsArrayReleaseVars)
             {
                 sb.AppendLine();
-                sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
+                sb.AppendLine($"{indent}ObjectiveC.Release({rv});");
             }
         }
         else if (returnsArray)
         {
             if (hasOutError)
             {
-                sb.AppendLine($"{indent}nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
+                sb.AppendLine($"{indent}nint nativePtr = ObjectiveC.MsgSendPtr({argsStr});");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
                 foreach (string rv in nsArrayReleaseVars)
                 {
                     sb.AppendLine();
-                    sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
+                    sb.AppendLine($"{indent}ObjectiveC.Release({rv});");
                 }
                 sb.AppendLine();
                 sb.AppendLine($"{indent}return NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
             }
             else
             {
-                sb.AppendLine($"{indent}nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
+                sb.AppendLine($"{indent}nint nativePtr = ObjectiveC.MsgSendPtr({argsStr});");
                 foreach (string rv in nsArrayReleaseVars)
                 {
                     sb.AppendLine();
-                    sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
+                    sb.AppendLine($"{indent}ObjectiveC.Release({rv});");
                 }
                 sb.AppendLine();
                 sb.AppendLine($"{indent}return NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
@@ -1132,24 +1137,24 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         {
             if (hasOutError)
             {
-                sb.AppendLine($"{indent}nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
+                sb.AppendLine($"{indent}nint nativePtr = ObjectiveC.MsgSendPtr({argsStr});");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
                 foreach (string rv in nsArrayReleaseVars)
                 {
                     sb.AppendLine();
-                    sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
+                    sb.AppendLine($"{indent}ObjectiveC.Release({rv});");
                 }
                 sb.AppendLine();
                 sb.AppendLine($"{indent}return new(nativePtr, NativeObjectOwnership.Owned);");
             }
             else
             {
-                sb.AppendLine($"{indent}nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
+                sb.AppendLine($"{indent}nint nativePtr = ObjectiveC.MsgSendPtr({argsStr});");
                 foreach (string rv in nsArrayReleaseVars)
                 {
                     sb.AppendLine();
-                    sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
+                    sb.AppendLine($"{indent}ObjectiveC.Release({rv});");
                 }
                 sb.AppendLine();
                 sb.AppendLine($"{indent}return new(nativePtr, NativeObjectOwnership.Owned);");
@@ -1175,7 +1180,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         {
             if (hasOutError)
             {
-                sb.AppendLine($"{indent}bool result = ObjectiveCRuntime.MsgSendBool({argsStr});");
+                sb.AppendLine($"{indent}bool result = ObjectiveC.MsgSendBool({argsStr});");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
                 sb.AppendLine();
@@ -1183,7 +1188,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             }
             else
             {
-                sb.AppendLine($"{indent}return ObjectiveCRuntime.MsgSendBool({argsStr});");
+                sb.AppendLine($"{indent}return ObjectiveC.MsgSendBool({argsStr});");
             }
         }
         else if (isStruct)
@@ -1191,7 +1196,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             string msgSend = TypeMapper.GetMsgSendForStruct(returnType);
             if (hasOutError)
             {
-                sb.AppendLine($"{indent}{returnType} result = ObjectiveCRuntime.{msgSend}({argsStr});");
+                sb.AppendLine($"{indent}{returnType} result = ObjectiveC.{msgSend}({argsStr});");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
                 sb.AppendLine();
@@ -1199,7 +1204,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             }
             else
             {
-                sb.AppendLine($"{indent}return ObjectiveCRuntime.{msgSend}({argsStr});");
+                sb.AppendLine($"{indent}return ObjectiveC.{msgSend}({argsStr});");
             }
         }
         else
@@ -1207,7 +1212,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             string msgSend = TypeMapper.GetMsgSendMethod(returnType);
             if (hasOutError)
             {
-                sb.AppendLine($"{indent}{csReturnType} result = ObjectiveCRuntime.{msgSend}({argsStr});");
+                sb.AppendLine($"{indent}{csReturnType} result = ObjectiveC.{msgSend}({argsStr});");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
                 sb.AppendLine();
@@ -1215,7 +1220,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             }
             else
             {
-                sb.AppendLine($"{indent}return ObjectiveCRuntime.{msgSend}({argsStr});");
+                sb.AppendLine($"{indent}return ObjectiveC.{msgSend}({argsStr});");
             }
         }
 
@@ -1296,7 +1301,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             sb.AppendLine();
             sb.AppendLine($"        {returnArrayElemType}[] result = NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
             sb.AppendLine();
-            sb.AppendLine("        ObjectiveCRuntime.Release(nativePtr);");
+            sb.AppendLine("        ObjectiveC.Release(nativePtr);");
             sb.AppendLine();
             sb.AppendLine("        return result;");
             sb.AppendLine("    }");

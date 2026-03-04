@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandAllocator(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4CommandAllocator>
+public class MTL4CommandAllocator(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTL4CommandAllocator>
 {
+    #region INativeObject
     public static MTL4CommandAllocator Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4CommandAllocator Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTL4CommandAllocator New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLDevice Device
     {

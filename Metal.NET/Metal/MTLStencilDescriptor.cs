@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLStencilDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLStencilDescriptor>
+public class MTLStencilDescriptor(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTLStencilDescriptor>
 {
+    #region INativeObject
     public static MTLStencilDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLStencilDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLStencilDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLStencilDescriptor() : this(ObjectiveC.AllocInit(MTLStencilDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

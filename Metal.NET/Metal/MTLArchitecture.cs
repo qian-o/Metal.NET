@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLArchitecture(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLArchitecture>
+public class MTLArchitecture(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTLArchitecture>
 {
+    #region INativeObject
     public static MTLArchitecture Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLArchitecture Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLArchitecture New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLArchitecture() : this(ObjectiveC.AllocInit(MTLArchitectureBindings.Class), NativeObjectOwnership.Managed)
     {

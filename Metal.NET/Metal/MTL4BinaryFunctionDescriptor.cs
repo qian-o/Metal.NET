@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTL4BinaryFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4BinaryFunctionDescriptor>
+public class MTL4BinaryFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTL4BinaryFunctionDescriptor>
 {
+    #region INativeObject
     public static MTL4BinaryFunctionDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4BinaryFunctionDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTL4BinaryFunctionDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTL4BinaryFunctionDescriptor() : this(ObjectiveC.AllocInit(MTL4BinaryFunctionDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

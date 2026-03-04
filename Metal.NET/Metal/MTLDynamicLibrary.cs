@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLDynamicLibrary(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLDynamicLibrary>
+public class MTLDynamicLibrary(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTLDynamicLibrary>
 {
+    #region INativeObject
     public static MTLDynamicLibrary Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLDynamicLibrary Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLDynamicLibrary New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLDevice Device
     {

@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionLogDebugLocation(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFunctionLogDebugLocation>
+public class MTLFunctionLogDebugLocation(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTLFunctionLogDebugLocation>
 {
+    #region INativeObject
     public static MTLFunctionLogDebugLocation Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLFunctionLogDebugLocation Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLFunctionLogDebugLocation New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public nuint Column
     {

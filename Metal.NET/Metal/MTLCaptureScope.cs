@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLCaptureScope(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCaptureScope>
+public class MTLCaptureScope(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTLCaptureScope>
 {
+    #region INativeObject
     public static MTLCaptureScope Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLCaptureScope Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLCaptureScope New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLCommandQueue CommandQueue
     {

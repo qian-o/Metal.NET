@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTL4ArgumentTable(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4ArgumentTable>
+public class MTL4ArgumentTable(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTL4ArgumentTable>
 {
+    #region INativeObject
     public static MTL4ArgumentTable Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4ArgumentTable Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTL4ArgumentTable New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLDevice Device
     {

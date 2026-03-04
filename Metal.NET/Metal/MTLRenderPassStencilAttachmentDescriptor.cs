@@ -2,9 +2,14 @@
 
 public class MTLRenderPassStencilAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLRenderPassAttachmentDescriptor(nativePtr, ownership), INativeObject<MTLRenderPassStencilAttachmentDescriptor>
 {
+    #region INativeObject
     public static new MTLRenderPassStencilAttachmentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLRenderPassStencilAttachmentDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLRenderPassStencilAttachmentDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLRenderPassStencilAttachmentDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPassStencilAttachmentDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

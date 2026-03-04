@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLArgumentEncoder(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLArgumentEncoder>
+public class MTLArgumentEncoder(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTLArgumentEncoder>
 {
+    #region INativeObject
     public static MTLArgumentEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLArgumentEncoder Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLArgumentEncoder New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public nuint Alignment
     {

@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLAttribute(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLAttribute>
+public class MTLAttribute(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTLAttribute>
 {
+    #region INativeObject
     public static MTLAttribute Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLAttribute Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLAttribute New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLAttribute() : this(ObjectiveC.AllocInit(MTLAttributeBindings.Class), NativeObjectOwnership.Managed)
     {

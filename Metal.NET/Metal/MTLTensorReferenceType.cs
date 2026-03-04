@@ -2,9 +2,14 @@
 
 public class MTLTensorReferenceType(nint nativePtr, NativeObjectOwnership ownership) : MTLType(nativePtr, ownership), INativeObject<MTLTensorReferenceType>
 {
+    #region INativeObject
     public static new MTLTensorReferenceType Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLTensorReferenceType Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLTensorReferenceType New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLTensorReferenceType() : this(ObjectiveC.AllocInit(MTLTensorReferenceTypeBindings.Class), NativeObjectOwnership.Managed)
     {

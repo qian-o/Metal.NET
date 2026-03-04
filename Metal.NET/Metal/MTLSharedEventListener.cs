@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLSharedEventListener(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLSharedEventListener>
+public class MTLSharedEventListener(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTLSharedEventListener>
 {
+    #region INativeObject
     public static MTLSharedEventListener Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLSharedEventListener Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLSharedEventListener New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLSharedEventListener() : this(ObjectiveC.AllocInit(MTLSharedEventListenerBindings.Class), NativeObjectOwnership.Managed)
     {
@@ -12,7 +17,7 @@ public class MTLSharedEventListener(nint nativePtr, NativeObjectOwnership owners
 
     public DispatchQueue DispatchQueue
     {
-        get => ObjectiveC.MsgSendPtr(NativePtr, MTLSharedEventListenerBindings.DispatchQueue);
+        get => GetProperty(ref field, MTLSharedEventListenerBindings.DispatchQueue);
     }
 
     public static MTLSharedEventListener SharedListener()

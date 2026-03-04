@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLBinaryArchive>
+public class MTLBinaryArchive(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTLBinaryArchive>
 {
+    #region INativeObject
     public static MTLBinaryArchive Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLBinaryArchive Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLBinaryArchive New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLDevice Device
     {

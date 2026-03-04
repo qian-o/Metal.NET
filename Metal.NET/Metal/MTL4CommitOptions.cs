@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommitOptions(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4CommitOptions>
+public class MTL4CommitOptions(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTL4CommitOptions>
 {
+    #region INativeObject
     public static MTL4CommitOptions Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4CommitOptions Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTL4CommitOptions New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTL4CommitOptions() : this(ObjectiveC.AllocInit(MTL4CommitOptionsBindings.Class), NativeObjectOwnership.Managed)
     {

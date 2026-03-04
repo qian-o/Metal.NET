@@ -2,9 +2,14 @@
 
 public class MTLPointerType(nint nativePtr, NativeObjectOwnership ownership) : MTLType(nativePtr, ownership), INativeObject<MTLPointerType>
 {
+    #region INativeObject
     public static new MTLPointerType Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLPointerType Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLPointerType New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLPointerType() : this(ObjectiveC.AllocInit(MTLPointerTypeBindings.Class), NativeObjectOwnership.Managed)
     {

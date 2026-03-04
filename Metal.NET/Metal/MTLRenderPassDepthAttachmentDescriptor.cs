@@ -2,9 +2,14 @@
 
 public class MTLRenderPassDepthAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLRenderPassAttachmentDescriptor(nativePtr, ownership), INativeObject<MTLRenderPassDepthAttachmentDescriptor>
 {
+    #region INativeObject
     public static new MTLRenderPassDepthAttachmentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLRenderPassDepthAttachmentDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLRenderPassDepthAttachmentDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLRenderPassDepthAttachmentDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPassDepthAttachmentDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

@@ -2,9 +2,14 @@
 
 public class MTLRenderPipelineState(nint nativePtr, NativeObjectOwnership ownership) : MTLAllocation(nativePtr, ownership), INativeObject<MTLRenderPipelineState>
 {
+    #region INativeObject
     public static new MTLRenderPipelineState Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLRenderPipelineState Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLRenderPipelineState New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLDevice Device
     {

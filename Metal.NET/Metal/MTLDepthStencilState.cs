@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLDepthStencilState(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLDepthStencilState>
+public class MTLDepthStencilState(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTLDepthStencilState>
 {
+    #region INativeObject
     public static MTLDepthStencilState Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLDepthStencilState Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLDepthStencilState New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLDevice Device
     {

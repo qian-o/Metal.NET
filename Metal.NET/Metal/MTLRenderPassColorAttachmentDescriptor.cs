@@ -2,9 +2,14 @@
 
 public class MTLRenderPassColorAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLRenderPassAttachmentDescriptor(nativePtr, ownership), INativeObject<MTLRenderPassColorAttachmentDescriptor>
 {
+    #region INativeObject
     public static new MTLRenderPassColorAttachmentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLRenderPassColorAttachmentDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLRenderPassColorAttachmentDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLRenderPassColorAttachmentDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPassColorAttachmentDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

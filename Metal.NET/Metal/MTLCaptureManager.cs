@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCaptureManager>
+public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTLCaptureManager>
 {
+    #region INativeObject
     public static MTLCaptureManager Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLCaptureManager Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLCaptureManager New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLCaptureManager() : this(ObjectiveC.AllocInit(MTLCaptureManagerBindings.Class), NativeObjectOwnership.Managed)
     {

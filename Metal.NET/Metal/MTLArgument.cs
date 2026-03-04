@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLArgument(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLArgument>
+public class MTLArgument(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTLArgument>
 {
+    #region INativeObject
     public static MTLArgument Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLArgument Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLArgument New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLArgument() : this(ObjectiveC.AllocInit(MTLArgumentBindings.Class), NativeObjectOwnership.Managed)
     {

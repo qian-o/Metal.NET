@@ -2,11 +2,16 @@
 
 namespace Metal.NET;
 
-public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLDevice>
+public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTLDevice>
 {
+    #region INativeObject
     public static MTLDevice Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLDevice Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLDevice New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLArchitecture Architecture
     {
@@ -637,7 +642,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
 
     public MTLLibrary NewLibrary(DispatchData data, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLDeviceBindings.NewLibraryWithDataerror, data, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLDeviceBindings.NewLibraryWithDataerror, data.NativePtr, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -800,7 +805,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    public MTLTexture NewTexture(MTLTextureDescriptor descriptor, IOSurface iosurface, nuint plane)
+    public MTLTexture NewTexture(MTLTextureDescriptor descriptor, nint iosurface, nuint plane)
     {
         nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLDeviceBindings.NewTextureWithDescriptoriosurfaceplane, descriptor.NativePtr, iosurface, plane);
 

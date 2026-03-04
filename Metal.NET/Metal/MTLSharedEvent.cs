@@ -2,9 +2,14 @@
 
 public class MTLSharedEvent(nint nativePtr, NativeObjectOwnership ownership) : MTLEvent(nativePtr, ownership), INativeObject<MTLSharedEvent>
 {
+    #region INativeObject
     public static new MTLSharedEvent Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLSharedEvent Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLSharedEvent New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public ulong SignaledValue
     {

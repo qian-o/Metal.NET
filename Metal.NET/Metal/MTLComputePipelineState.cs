@@ -2,9 +2,14 @@
 
 public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership ownership) : MTLAllocation(nativePtr, ownership), INativeObject<MTLComputePipelineState>
 {
+    #region INativeObject
     public static new MTLComputePipelineState Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLComputePipelineState Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLComputePipelineState New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLDevice Device
     {

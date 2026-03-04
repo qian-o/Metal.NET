@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTL4LibraryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4LibraryDescriptor>
+public class MTL4LibraryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTL4LibraryDescriptor>
 {
+    #region INativeObject
     public static MTL4LibraryDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4LibraryDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTL4LibraryDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTL4LibraryDescriptor() : this(ObjectiveC.AllocInit(MTL4LibraryDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

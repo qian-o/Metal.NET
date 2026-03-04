@@ -120,7 +120,7 @@ partial class TypeMapper(GeneratorContext context)
             "double" => "double",
             "bool" => "bool",
             "char" when isPointer => "nint",
-            "IOSurfaceRef" => "IOSurface",
+            "IOSurfaceRef" => "nint",
             "dispatch_queue_t" => "DispatchQueue",
             "dispatch_data_t" => "DispatchData",
             "CGColorSpaceRef" => "CGColorSpace",
@@ -193,9 +193,7 @@ partial class TypeMapper(GeneratorContext context)
     public bool IsNativeObjectType(string csType)
     {
         if (csType is "void" or "bool" or "nint" or "nuint" or "uint" or "int" or "ulong" or "long" or "float" or "double"
-            or "byte" or "sbyte" or "short" or "ushort"
-            or "DispatchQueue" or "DispatchData"
-            or "CGColorSpace" or "IOSurface")
+            or "byte" or "sbyte" or "short" or "ushort")
         {
             return false;
         }
@@ -276,14 +274,14 @@ partial class TypeMapper(GeneratorContext context)
         {
             return backing switch
             {
-                "int" => "ObjectiveCRuntime.MsgSendInt",
-                "uint" => "ObjectiveCRuntime.MsgSendUInt",
-                "long" => "ObjectiveCRuntime.MsgSendLong",
-                "ulong" => "ObjectiveCRuntime.MsgSendULong",
-                _ => "ObjectiveCRuntime.MsgSendNUInt"
+                "int" => "ObjectiveC.MsgSendInt",
+                "uint" => "ObjectiveC.MsgSendUInt",
+                "long" => "ObjectiveC.MsgSendLong",
+                "ulong" => "ObjectiveC.MsgSendULong",
+                _ => "ObjectiveC.MsgSendNUInt"
             };
         }
-        return "ObjectiveCRuntime.MsgSendNUInt";
+        return "ObjectiveC.MsgSendNUInt";
     }
 
     public string GetEnumSetCast(string csEnumType)

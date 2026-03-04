@@ -2,9 +2,14 @@
 
 public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLResource(nativePtr, ownership), INativeObject<MTLTexture>
 {
+    #region INativeObject
     public static new MTLTexture Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLTexture Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLTexture New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public Bool8 AllowGPUOptimizedContents
     {
@@ -61,7 +66,7 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.Height);
     }
 
-    public IOSurface Iosurface
+    public nint Iosurface
     {
         get => ObjectiveC.MsgSendPtr(NativePtr, MTLTextureBindings.Iosurface);
     }

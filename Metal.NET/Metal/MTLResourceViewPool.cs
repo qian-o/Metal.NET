@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLResourceViewPool(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLResourceViewPool>
+public class MTLResourceViewPool(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTLResourceViewPool>
 {
+    #region INativeObject
     public static MTLResourceViewPool Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLResourceViewPool Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static MTLResourceViewPool New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLResourceID BaseResourceID
     {

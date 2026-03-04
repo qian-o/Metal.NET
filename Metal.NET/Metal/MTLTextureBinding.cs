@@ -2,9 +2,14 @@
 
 public class MTLTextureBinding(nint nativePtr, NativeObjectOwnership ownership) : MTLBinding(nativePtr, ownership), INativeObject<MTLTextureBinding>
 {
+    #region INativeObject
     public static new MTLTextureBinding Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLTextureBinding Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLTextureBinding New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public nuint ArrayLength
     {

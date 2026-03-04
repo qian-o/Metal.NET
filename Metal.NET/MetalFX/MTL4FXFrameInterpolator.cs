@@ -2,9 +2,14 @@
 
 public class MTL4FXFrameInterpolator(nint nativePtr, NativeObjectOwnership ownership) : MTLFXFrameInterpolatorBase(nativePtr, ownership), INativeObject<MTL4FXFrameInterpolator>
 {
+    #region INativeObject
     public static new MTL4FXFrameInterpolator Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTL4FXFrameInterpolator Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTL4FXFrameInterpolator New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public void EncodeToCommandBuffer(MTL4CommandBuffer commandBuffer)
     {

@@ -2,9 +2,14 @@
 
 public class MTLObjectPayloadBinding(nint nativePtr, NativeObjectOwnership ownership) : MTLBinding(nativePtr, ownership), INativeObject<MTLObjectPayloadBinding>
 {
+    #region INativeObject
     public static new MTLObjectPayloadBinding Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLObjectPayloadBinding Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLObjectPayloadBinding New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public nuint ObjectPayloadAlignment
     {
