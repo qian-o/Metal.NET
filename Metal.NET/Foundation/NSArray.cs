@@ -18,7 +18,11 @@ public static class NSArray
 
     public static unsafe nint FromArray<T>(T[] array) where T : NativeObject
     {
-        nint[] nativePtrs = [.. array.Select(x => x.NativePtr)];
+        nint[] nativePtrs = new nint[array.Length];
+        for (int i = 0; i < array.Length; i++)
+        {
+            nativePtrs[i] = array[i].NativePtr;
+        }
 
         fixed (nint* pNativePtrs = nativePtrs)
         {

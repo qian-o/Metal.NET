@@ -18,7 +18,7 @@ public interface INativeObject<TSelf> where TSelf : NativeObject, INativeObject<
 
 public abstract class NativeObject(nint nativePtr, NativeObjectOwnership ownership) : IDisposable
 {
-    private volatile uint disposed;
+    private uint disposed;
 
     ~NativeObject()
     {

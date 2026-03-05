@@ -298,11 +298,6 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
 
         if (t.EndsWith('*'))
         {
-            string baseType = t[..^1].Trim();
-            if (baseType == "void")
-            {
-                return "nint";
-            }
             return "nint";
         }
 
@@ -322,16 +317,11 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
         };
     }
 
+    // Block handler parameters pass enum/value types as their raw numeric backing type.
     static string MapEnumOrValueType(string cppType, string defaultNs)
     {
-        Match nsMatch = Regex.Match(cppType, @"^(MTL4FX|MTL4|MTLFX|MTL|NS|CA)\s*::\s*(.+)$");
-        if (nsMatch.Success)
+        if (Regex.IsMatch(cppType, @"^(MTL4FX|MTL4|MTLFX|MTL|NS|CA)\s*::\s*(.+)$"))
         {
-            string typeNs = nsMatch.Groups[1].Value;
-            string typeName = nsMatch.Groups[2].Value.Trim();
-            string prefix = TypeMapper.GetPrefix(typeNs);
-            string csType = prefix + typeName;
-
             return "long";
         }
 

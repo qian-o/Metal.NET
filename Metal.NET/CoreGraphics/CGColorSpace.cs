@@ -23,6 +23,8 @@ public enum CGColorSpaceName
 
 public partial class CGColorSpace(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<CGColorSpace>
 {
+    static readonly nint CGHandle = NativeLibrary.Load("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics");
+
     #region INativeObject
     public static CGColorSpace Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
@@ -52,9 +54,7 @@ public partial class CGColorSpace(nint nativePtr, NativeObjectOwnership ownershi
             _ => throw new ArgumentOutOfRangeException(nameof(name), name, null)
         };
 
-        nint cgHandle = NativeLibrary.Load("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics");
-
-        return new(CGColorSpaceCreateWithName(Marshal.ReadIntPtr(NativeLibrary.GetExport(cgHandle, symbolName))), NativeObjectOwnership.Managed);
+        return new(CGColorSpaceCreateWithName(Marshal.ReadIntPtr(NativeLibrary.GetExport(CGHandle, symbolName))), NativeObjectOwnership.Managed);
     }
 
     public static CGColorSpace CreateDeviceRGB()
