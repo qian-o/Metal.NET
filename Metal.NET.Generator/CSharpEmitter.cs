@@ -120,6 +120,17 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         return null;
     }
 
+    void RecordMsgSend(string group, params string[] argTypes)
+    {
+        string key = string.Join(", ", argTypes);
+        if (!context.MsgSendSignatures.TryGetValue(group, out var set))
+        {
+            set = new SortedSet<string>(StringComparer.Ordinal);
+            context.MsgSendSignatures[group] = set;
+        }
+        set.Add(key);
+    }
+
     #region Generation Entry Point
 
     public void GenerateAll()
@@ -182,6 +193,34 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             .GroupBy(f => f.TargetClassName)
             .ToDictionary(g => g.Key, g => g.ToList());
 
+        // Record MsgSend signatures used by hand-written Foundation classes
+        RecordMsgSend("MsgSend", "nint");
+
+        RecordMsgSend("MsgSendPtr");
+        RecordMsgSend("MsgSendPtr", "nint");
+        RecordMsgSend("MsgSendPtr", "nint", "nint");
+        RecordMsgSend("MsgSendPtr", "Bool8");
+        RecordMsgSend("MsgSendPtr", "float");
+        RecordMsgSend("MsgSendPtr", "double");
+        RecordMsgSend("MsgSendPtr", "int");
+        RecordMsgSend("MsgSendPtr", "uint");
+        RecordMsgSend("MsgSendPtr", "long");
+        RecordMsgSend("MsgSendPtr", "ulong");
+        RecordMsgSend("MsgSendPtr", "nuint");
+
+        RecordMsgSend("MsgSendBool");
+        RecordMsgSend("MsgSendFloat");
+        RecordMsgSend("MsgSendDouble");
+        RecordMsgSend("MsgSendInt");
+        RecordMsgSend("MsgSendUInt");
+        RecordMsgSend("MsgSendLong");
+        RecordMsgSend("MsgSendULong");
+
+        RecordMsgSend("MsgSendNUInt");
+
+        // MsgSend with no args is always needed
+        RecordMsgSend("MsgSend");
+
         foreach (ClassDef classDef in context.Classes)
         {
             string prefix = TypeMapper.GetPrefix(classDef.CppNamespace);
@@ -190,6 +229,8 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             freeFuncsByClass.TryGetValue(csClassName, out List<FreeFunctionDef>? classFuncs);
             GenerateClass(classDef, inheritedProps, classFuncs ?? []);
         }
+
+        GenerateObjectiveCFile();
     }
 
     #endregion
@@ -409,6 +450,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             sb.AppendLine();
             sb.AppendLine("            return new(nativePtr, NativeObjectOwnership.Borrowed);");
             sb.AppendLine("        }");
+            RecordMsgSend("MsgSendPtr", "nuint");
 
             if (indexerSetter != null)
             {
@@ -418,6 +460,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 sb.AppendLine("        {");
                 sb.AppendLine($"            ObjectiveC.MsgSend(NativePtr, {csClassName}Bindings.SetObject, value.NativePtr, {indexParam});");
                 sb.AppendLine("        }");
+                RecordMsgSend("MsgSend", "nint", "nuint");
             }
 
             sb.AppendLine("    }");
@@ -764,23 +807,29 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         else if (isEnum)
         {
             string msgSend = typeMapper.GetMsgSendForEnumGet(csType);
+            string enumGetGroup = msgSend.Replace("ObjectiveC.", "");
+            RecordMsgSend(enumGetGroup);
             sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => ({csType}){msgSend}({Target}, {selectorRef});");
             if (prop.Setter != null)
             {
                 string setCast = typeMapper.GetEnumSetCast(csType);
+                string enumSetType = setCast.TrimStart('(').TrimEnd(')');
+                RecordMsgSend("MsgSend", enumSetType);
                 sb.AppendLine($"        set => ObjectiveC.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, {setCast}value);");
             }
             sb.AppendLine("    }");
         }
         else if (isBool)
         {
+            RecordMsgSend("MsgSendBool");
             sb.AppendLine($"    public Bool8 {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => ObjectiveC.MsgSendBool({Target}, {selectorRef});");
             if (prop.Setter != null)
             {
+                RecordMsgSend("MsgSend", "Bool8");
                 sb.AppendLine($"        set => ObjectiveC.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value);");
             }
             sb.AppendLine("    }");
@@ -788,11 +837,13 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         else if (isStruct)
         {
             string msgSend = TypeMapper.GetMsgSendForStruct(csType);
+            RecordMsgSend(msgSend);
             sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => ObjectiveC.{msgSend}({Target}, {selectorRef});");
             if (prop.Setter != null)
             {
+                RecordMsgSend("MsgSend", csType);
                 sb.AppendLine($"        set => ObjectiveC.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value);");
             }
             sb.AppendLine("    }");
@@ -800,11 +851,13 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         else
         {
             string msgSend = TypeMapper.GetMsgSendMethod(csType);
+            RecordMsgSend(msgSend);
             sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => ObjectiveC.{msgSend}({Target}, {selectorRef});");
             if (prop.Setter != null)
             {
+                RecordMsgSend("MsgSend", csType);
                 sb.AppendLine($"        set => ObjectiveC.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value);");
             }
             sb.AppendLine("    }");
@@ -895,6 +948,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         // Build C# parameter list and call arguments
         List<string> csParams = [];
         List<string> callArgs = [target, selectorRef];
+        List<string> callArgTypes = [];
         List<string> arraySetupLines = [];
         List<string> fixedStatements = [];
         List<string> nsArrayReleaseVars = [];
@@ -929,10 +983,12 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 arraySetupLines.Add("        }");
 
                 callArgs.Add($"(nint){ptrVar}");
+                callArgTypes.Add("nint");
 
                 if (nextIsCount)
                 {
                     callArgs.Add($"(nuint){csParamName}.Length");
+                    callArgTypes.Add("nuint");
                     pi++;
                 }
                 continue;
@@ -954,6 +1010,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 arraySetupLines.Add("        }");
 
                 callArgs.Add($"(nint){ptrVar}");
+                callArgTypes.Add("nint");
                 continue;
             }
 
@@ -974,10 +1031,12 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 fixedStatements.Add($"fixed ({elemCsType}* {ptrVar} = {csParamName})");
 
                 callArgs.Add($"(nint){ptrVar}");
+                callArgTypes.Add("nint");
 
                 if (nextIsCount)
                 {
                     callArgs.Add($"(nuint){csParamName}.Length");
+                    callArgTypes.Add("nuint");
                     pi++;
                 }
                 continue;
@@ -990,6 +1049,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
                 csParams.Add($"{delegateName} {csParamName}");
                 callArgs.Add(csParamName);
+                callArgTypes.Add(delegateName);
                 continue;
             }
 
@@ -999,6 +1059,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
                 csParams.Add($"{csType} {csParamName}");
                 callArgs.Add(csParamName);
+                callArgTypes.Add(csType);
                 continue;
             }
 
@@ -1009,6 +1070,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 csParams.Add("out NSError error");
                 callArgs.Add("out nint errorPtr");
+                callArgTypes.Add("out nint");
                 continue;
             }
 
@@ -1016,6 +1078,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 csParams.Add($"out ulong {paramName}");
                 callArgs.Add($"out {paramName}");
+                callArgTypes.Add("out ulong");
                 continue;
             }
 
@@ -1038,18 +1101,24 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 {
                     callArgs.Add($"{paramName}");
                 }
+                callArgTypes.Add("nint");
             }
             else if (typeMapper.IsNativeObjectType(csParamType))
             {
                 callArgs.Add($"{paramName}.NativePtr");
+                callArgTypes.Add("nint");
             }
             else if (typeMapper.IsEnumType(csParamType))
             {
                 callArgs.Add($"{typeMapper.GetEnumSetCast(csParamType)}{paramName}");
+                string castType = typeMapper.GetEnumSetCast(csParamType).TrimStart('(').TrimEnd(')');
+                callArgTypes.Add(castType);
             }
             else
             {
                 callArgs.Add(paramName);
+                // bool is not valid in LibraryImport P/Invoke signatures; use Bool8
+                callArgTypes.Add(csParamType == "bool" ? "Bool8" : csParamType);
             }
         }
 
@@ -1080,9 +1149,48 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             indent += "    ";
         }
 
+        // Record MsgSend signature and determine call expression
+        string[] argTypesArray = [.. callArgTypes];
+        string msgSendExpr;
         if (isVoid)
         {
-            sb.AppendLine($"{indent}ObjectiveC.MsgSend({argsStr});");
+            RecordMsgSend("MsgSend", argTypesArray);
+            msgSendExpr = $"ObjectiveC.MsgSend({argsStr})";
+        }
+        else if (returnsArray || nullable)
+        {
+            RecordMsgSend("MsgSendPtr", argTypesArray);
+            msgSendExpr = $"ObjectiveC.MsgSendPtr({argsStr})";
+        }
+        else if (isEnum)
+        {
+            string msgSend = typeMapper.GetMsgSendForEnumGet(returnType);
+            string enumGroup = msgSend.Replace("ObjectiveC.", "");
+            RecordMsgSend(enumGroup, argTypesArray);
+            msgSendExpr = $"({returnType}){msgSend}({argsStr})";
+        }
+        else if (isBool)
+        {
+            RecordMsgSend("MsgSendBool", argTypesArray);
+            msgSendExpr = $"ObjectiveC.MsgSendBool({argsStr})";
+        }
+        else if (isStruct)
+        {
+            string msgSend = TypeMapper.GetMsgSendForStruct(returnType);
+            RecordMsgSend(msgSend, argTypesArray);
+            msgSendExpr = $"ObjectiveC.{msgSend}({argsStr})";
+        }
+        else
+        {
+            string msgSend = TypeMapper.GetMsgSendMethod(returnType);
+            RecordMsgSend(msgSend, argTypesArray);
+            msgSendExpr = $"ObjectiveC.{msgSend}({argsStr})";
+        }
+
+        // Emit call and return handling
+        if (isVoid)
+        {
+            sb.AppendLine($"{indent}{msgSendExpr};");
             if (hasOutError)
             {
                 sb.AppendLine();
@@ -1094,122 +1202,35 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 sb.AppendLine($"{indent}ObjectiveC.Release({rv});");
             }
         }
-        else if (returnsArray)
+        else if (returnsArray || nullable)
         {
+            sb.AppendLine($"{indent}nint nativePtr = {msgSendExpr};");
             if (hasOutError)
             {
-                sb.AppendLine($"{indent}nint nativePtr = ObjectiveC.MsgSendPtr({argsStr});");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
-                foreach (string rv in nsArrayReleaseVars)
-                {
-                    sb.AppendLine();
-                    sb.AppendLine($"{indent}ObjectiveC.Release({rv});");
-                }
-                sb.AppendLine();
-                sb.AppendLine($"{indent}return NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
             }
-            else
+            foreach (string rv in nsArrayReleaseVars)
             {
-                sb.AppendLine($"{indent}nint nativePtr = ObjectiveC.MsgSendPtr({argsStr});");
-                foreach (string rv in nsArrayReleaseVars)
-                {
-                    sb.AppendLine();
-                    sb.AppendLine($"{indent}ObjectiveC.Release({rv});");
-                }
                 sb.AppendLine();
-                sb.AppendLine($"{indent}return NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
+                sb.AppendLine($"{indent}ObjectiveC.Release({rv});");
             }
+            sb.AppendLine();
+            sb.AppendLine(returnsArray
+                ? $"{indent}return NSArray.ToArray<{returnArrayElemType}>(nativePtr);"
+                : $"{indent}return new(nativePtr, NativeObjectOwnership.Owned);");
         }
-        else if (nullable)
+        else if (hasOutError)
         {
-            if (hasOutError)
-            {
-                sb.AppendLine($"{indent}nint nativePtr = ObjectiveC.MsgSendPtr({argsStr});");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
-                foreach (string rv in nsArrayReleaseVars)
-                {
-                    sb.AppendLine();
-                    sb.AppendLine($"{indent}ObjectiveC.Release({rv});");
-                }
-                sb.AppendLine();
-                sb.AppendLine($"{indent}return new(nativePtr, NativeObjectOwnership.Owned);");
-            }
-            else
-            {
-                sb.AppendLine($"{indent}nint nativePtr = ObjectiveC.MsgSendPtr({argsStr});");
-                foreach (string rv in nsArrayReleaseVars)
-                {
-                    sb.AppendLine();
-                    sb.AppendLine($"{indent}ObjectiveC.Release({rv});");
-                }
-                sb.AppendLine();
-                sb.AppendLine($"{indent}return new(nativePtr, NativeObjectOwnership.Owned);");
-            }
-        }
-        else if (isEnum)
-        {
-            string msgSend = typeMapper.GetMsgSendForEnumGet(returnType);
-            if (hasOutError)
-            {
-                sb.AppendLine($"{indent}{returnType} result = ({returnType}){msgSend}({argsStr});");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}return result;");
-            }
-            else
-            {
-                sb.AppendLine($"{indent}return ({returnType}){msgSend}({argsStr});");
-            }
-        }
-        else if (isBool)
-        {
-            if (hasOutError)
-            {
-                sb.AppendLine($"{indent}bool result = ObjectiveC.MsgSendBool({argsStr});");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}return result;");
-            }
-            else
-            {
-                sb.AppendLine($"{indent}return ObjectiveC.MsgSendBool({argsStr});");
-            }
-        }
-        else if (isStruct)
-        {
-            string msgSend = TypeMapper.GetMsgSendForStruct(returnType);
-            if (hasOutError)
-            {
-                sb.AppendLine($"{indent}{returnType} result = ObjectiveC.{msgSend}({argsStr});");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}return result;");
-            }
-            else
-            {
-                sb.AppendLine($"{indent}return ObjectiveC.{msgSend}({argsStr});");
-            }
+            sb.AppendLine($"{indent}{csReturnType} result = {msgSendExpr};");
+            sb.AppendLine();
+            sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
+            sb.AppendLine();
+            sb.AppendLine($"{indent}return result;");
         }
         else
         {
-            string msgSend = TypeMapper.GetMsgSendMethod(returnType);
-            if (hasOutError)
-            {
-                sb.AppendLine($"{indent}{csReturnType} result = ObjectiveC.{msgSend}({argsStr});");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}return result;");
-            }
-            else
-            {
-                sb.AppendLine($"{indent}return ObjectiveC.{msgSend}({argsStr});");
-            }
+            sb.AppendLine($"{indent}return {msgSendExpr};");
         }
 
         // Close fixed blocks in reverse order
@@ -1311,6 +1332,252 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         {
             sb.AppendLine($"    public static {csReturnType} {func.CppName}({wrapperParamStr}) => {func.CEntryPoint}({callArgStr});");
         }
+    }
+
+    #endregion
+
+    #region ObjectiveC.cs Generation
+
+    void GenerateObjectiveCFile()
+    {
+        string dir = Path.Combine(outputDir, "Common");
+        Directory.CreateDirectory(dir);
+
+        StringBuilder sb = new();
+        sb.AppendLine("using System.Runtime.InteropServices;");
+        sb.AppendLine();
+        sb.AppendLine("namespace Metal.NET;");
+        sb.AppendLine();
+        sb.AppendLine("public static partial class ObjectiveC");
+        sb.AppendLine("{");
+
+        // Static constructor
+        sb.AppendLine("    static ObjectiveC()");
+        sb.AppendLine("    {");
+        sb.AppendLine("        string[] frameworks =");
+        sb.AppendLine("        [");
+        sb.AppendLine("            \"CoreGraphics\",");
+        sb.AppendLine("            \"QuartzCore\",");
+        sb.AppendLine("            \"AppKit\",");
+        sb.AppendLine("            \"Metal\",");
+        sb.AppendLine("            \"MetalFX\",");
+        sb.AppendLine("            \"MetalKit\"");
+        sb.AppendLine("        ];");
+        sb.AppendLine();
+        sb.AppendLine("        foreach (string framework in frameworks)");
+        sb.AppendLine("        {");
+        sb.AppendLine("            NativeLibrary.TryLoad(framework, out _);");
+        sb.AppendLine("        }");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+
+        // Class and Selector Lookups region
+        sb.AppendLine("    #region Class and Selector Lookups");
+        sb.AppendLine();
+        sb.AppendLine("    [LibraryImport(\"/usr/lib/libobjc.A.dylib\", EntryPoint = \"objc_getClass\", StringMarshalling = StringMarshalling.Utf8)]");
+        sb.AppendLine("    private static partial nint _GetClass(string name);");
+        sb.AppendLine();
+        sb.AppendLine("    [LibraryImport(\"/usr/lib/libobjc.A.dylib\", EntryPoint = \"sel_registerName\", StringMarshalling = StringMarshalling.Utf8)]");
+        sb.AppendLine("    private static partial Selector _RegisterName(string name);");
+        sb.AppendLine();
+        sb.AppendLine("    public static nint GetClass(string name)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        if (string.IsNullOrEmpty(name))");
+        sb.AppendLine("        {");
+        sb.AppendLine("            return 0;");
+        sb.AppendLine("        }");
+        sb.AppendLine();
+        sb.AppendLine("        return _GetClass(name);");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    public static Selector RegisterName(string name)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        if (string.IsNullOrEmpty(name))");
+        sb.AppendLine("        {");
+        sb.AppendLine("            return default;");
+        sb.AppendLine("        }");
+        sb.AppendLine();
+        sb.AppendLine("        return _RegisterName(name);");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    #endregion");
+
+        // Generate MsgSend groups sorted with "MsgSend" first
+        var groups = context.MsgSendSignatures.Keys.OrderBy(k => k == "MsgSend" ? "" : k).ToList();
+
+        foreach (string group in groups)
+        {
+            sb.AppendLine();
+            sb.AppendLine($"    #region {group}");
+
+            string returnType = GetReturnTypeForGroup(group);
+            string privatePrefix = $"_{group}";
+            bool isVoid = returnType == "void";
+
+            var signatures = context.MsgSendSignatures[group];
+
+            foreach (string sig in signatures)
+            {
+                sb.AppendLine();
+                string pinvokeParams = BuildPInvokeParams(sig);
+                sb.AppendLine("    [LibraryImport(\"/usr/lib/libobjc.A.dylib\", EntryPoint = \"objc_msgSend\")]");
+                sb.AppendLine($"    private static partial {returnType} {privatePrefix}(nint receiver, Selector selector{pinvokeParams});");
+            }
+
+            foreach (string sig in signatures)
+            {
+                string publicParams = BuildPublicParams(sig);
+                string callArgStr = BuildCallArgs(sig);
+                List<string> outParams = GetOutParams(sig);
+
+                sb.AppendLine();
+                sb.AppendLine($"    public static {returnType} {group}(nint receiver, Selector selector{publicParams})");
+                sb.AppendLine("    {");
+                sb.AppendLine("        if (receiver is 0)");
+                sb.AppendLine("        {");
+
+                foreach (string outParam in outParams)
+                {
+                    sb.AppendLine($"            {outParam} = default;");
+                }
+
+                if (outParams.Count > 0 && !isVoid)
+                {
+                    sb.AppendLine();
+                }
+
+                if (isVoid)
+                {
+                    sb.AppendLine("            return;");
+                }
+                else
+                {
+                    sb.AppendLine("            return default;");
+                }
+
+                sb.AppendLine("        }");
+                sb.AppendLine();
+
+                if (isVoid)
+                {
+                    sb.AppendLine($"        {privatePrefix}(receiver, selector{callArgStr});");
+                }
+                else
+                {
+                    sb.AppendLine($"        return {privatePrefix}(receiver, selector{callArgStr});");
+                }
+
+                sb.AppendLine("    }");
+            }
+
+            sb.AppendLine();
+            sb.AppendLine("    #endregion");
+        }
+
+        // Alloc/Init/Release helpers
+        sb.AppendLine();
+        sb.AppendLine("    public static nint Alloc(nint @class)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        return MsgSendPtr(@class, \"alloc\");");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    public static nint Init(nint receiver)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        return MsgSendPtr(receiver, \"init\");");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    public static nint AllocInit(nint @class)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        return Init(Alloc(@class));");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    public static nint Retain(nint receiver)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        return MsgSendPtr(receiver, \"retain\");");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    public static void Release(nint receiver)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        MsgSend(receiver, \"release\");");
+        sb.AppendLine("    }");
+        sb.AppendLine("}");
+
+        File.WriteAllText(Path.Combine(dir, "ObjectiveC.cs"), sb.ToString(), new UTF8Encoding(true));
+
+        int totalOverloads = context.MsgSendSignatures.Values.Sum(s => s.Count);
+        Console.WriteLine($"  Generated: Common/ObjectiveC.cs ({totalOverloads} overloads across {context.MsgSendSignatures.Count} groups)");
+    }
+
+    static string GetReturnTypeForGroup(string group) => group switch
+    {
+        "MsgSend" => "void",
+        "MsgSendBool" => "Bool8",
+        "MsgSendPtr" => "nint",
+        "MsgSendInt" => "int",
+        "MsgSendUInt" => "uint",
+        "MsgSendLong" => "long",
+        "MsgSendULong" => "ulong",
+        "MsgSendFloat" => "float",
+        "MsgSendDouble" => "double",
+        "MsgSendNUInt" => "nuint",
+        _ => group.Replace("MsgSend", "")
+    };
+
+    static string BuildPInvokeParams(string sig)
+    {
+        if (string.IsNullOrEmpty(sig)) return "";
+
+        string[] types = sig.Split(", ");
+        StringBuilder sb = new();
+        char letter = 'a';
+        foreach (string type in types)
+        {
+            sb.Append($", {type} {letter}");
+            letter++;
+        }
+        return sb.ToString();
+    }
+
+    static string BuildPublicParams(string sig) => BuildPInvokeParams(sig);
+
+    static string BuildCallArgs(string sig)
+    {
+        if (string.IsNullOrEmpty(sig)) return "";
+
+        string[] types = sig.Split(", ");
+        StringBuilder sb = new();
+        char letter = 'a';
+        foreach (string type in types)
+        {
+            if (type.StartsWith("out "))
+            {
+                sb.Append($", out {letter}");
+            }
+            else
+            {
+                sb.Append($", {letter}");
+            }
+            letter++;
+        }
+        return sb.ToString();
+    }
+
+    static List<string> GetOutParams(string sig)
+    {
+        if (string.IsNullOrEmpty(sig)) return [];
+
+        string[] types = sig.Split(", ");
+        List<string> outParams = [];
+        char letter = 'a';
+        foreach (string type in types)
+        {
+            if (type.StartsWith("out "))
+            {
+                outParams.Add(letter.ToString());
+            }
+            letter++;
+        }
+        return outParams;
     }
 
     #endregion

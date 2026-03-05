@@ -44,4 +44,11 @@ class GeneratorContext
     /// All parsed block type aliases (ObjC block delegate types).
     /// </summary>
     public List<BlockTypeAlias> BlockTypeAliases { get; } = [];
+
+    /// <summary>
+    /// Collected MsgSend overload signatures.
+    /// Key: method group (e.g., "MsgSend", "MsgSendPtr", "MsgSendBool").
+    /// Value: sorted set of parameter type signatures (e.g., "nint, nuint, MTLRegion").
+    /// </summary>
+    public Dictionary<string, SortedSet<string>> MsgSendSignatures { get; } = [];
 }
