@@ -1117,7 +1117,8 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             else
             {
                 callArgs.Add(paramName);
-                // bool is not valid in LibraryImport P/Invoke signatures; use Bool8
+                // For P/Invoke signature tracking: map bool → Bool8 since bool is not
+                // blittable in LibraryImport; all other types pass through unchanged.
                 callArgTypes.Add(csParamType == "bool" ? "Bool8" : csParamType);
             }
         }
@@ -1503,6 +1504,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         Console.WriteLine($"  Generated: Common/ObjectiveC.cs ({totalOverloads} overloads across {context.MsgSendSignatures.Count} groups)");
     }
 
+    /// <summary>
+    /// Maps a MsgSend group name to its C# return type.
+    /// Group names follow the pattern "MsgSend{ReturnType}" where ReturnType is the
+    /// struct name for struct-returning variants (e.g., "MsgSendMTLSize" → "MTLSize").
+    /// </summary>
     static string GetReturnTypeForGroup(string group) => group switch
     {
         "MsgSend" => "void",
@@ -1515,6 +1521,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         "MsgSendFloat" => "float",
         "MsgSendDouble" => "double",
         "MsgSendNUInt" => "nuint",
+        // Struct-returning groups: "MsgSend{StructType}" → StructType
         _ => group.Replace("MsgSend", "")
     };
 
