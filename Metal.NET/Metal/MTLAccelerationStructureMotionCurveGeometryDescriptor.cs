@@ -2,9 +2,14 @@
 
 public class MTLAccelerationStructureMotionCurveGeometryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLAccelerationStructureGeometryDescriptor(nativePtr, ownership), INativeObject<MTLAccelerationStructureMotionCurveGeometryDescriptor>
 {
+    #region INativeObject
     public static new MTLAccelerationStructureMotionCurveGeometryDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLAccelerationStructureMotionCurveGeometryDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLAccelerationStructureMotionCurveGeometryDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLAccelerationStructureMotionCurveGeometryDescriptor() : this(ObjectiveC.AllocInit(MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

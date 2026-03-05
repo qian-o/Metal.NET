@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandBufferOptions(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4CommandBufferOptions>
+public class MTL4CommandBufferOptions(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CommandBufferOptions>
 {
-    public static MTL4CommandBufferOptions Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTL4CommandBufferOptions Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4CommandBufferOptions Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTL4CommandBufferOptions New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTL4CommandBufferOptions() : this(ObjectiveC.AllocInit(MTL4CommandBufferOptionsBindings.Class), NativeObjectOwnership.Managed)
     {

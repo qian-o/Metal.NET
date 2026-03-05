@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<CAMetalLayer>
+public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<CAMetalLayer>
 {
-    public static CAMetalLayer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new CAMetalLayer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static CAMetalLayer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new CAMetalLayer New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public CAMetalLayer() : this(ObjectiveC.AllocInit(CAMetalLayerBindings.Class), NativeObjectOwnership.Managed)
     {
@@ -18,8 +23,8 @@ public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : Nat
 
     public CGColorSpace Colorspace
     {
-        get => ObjectiveC.MsgSendPtr(NativePtr, CAMetalLayerBindings.Colorspace);
-        set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetColorspace, value);
+        get => GetProperty(ref field, CAMetalLayerBindings.Colorspace);
+        set => SetProperty(ref field, CAMetalLayerBindings.SetColorspace, value);
     }
 
     public MTLDevice Device

@@ -2,9 +2,14 @@
 
 public class MTLIndirectCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : MTLResource(nativePtr, ownership), INativeObject<MTLIndirectCommandBuffer>
 {
+    #region INativeObject
     public static new MTLIndirectCommandBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLIndirectCommandBuffer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLIndirectCommandBuffer New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLResourceID GpuResourceID
     {

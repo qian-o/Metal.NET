@@ -2,9 +2,14 @@
 
 public class MTLTextureViewPool(nint nativePtr, NativeObjectOwnership ownership) : MTLResourceViewPool(nativePtr, ownership), INativeObject<MTLTextureViewPool>
 {
+    #region INativeObject
     public static new MTLTextureViewPool Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLTextureViewPool Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLTextureViewPool New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLResourceID SetTextureView(MTLTexture texture, nuint index)
     {

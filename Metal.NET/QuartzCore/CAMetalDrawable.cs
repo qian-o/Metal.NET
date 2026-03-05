@@ -2,9 +2,14 @@
 
 public class CAMetalDrawable(nint nativePtr, NativeObjectOwnership ownership) : MTLDrawable(nativePtr, ownership), INativeObject<CAMetalDrawable>
 {
+    #region INativeObject
     public static new CAMetalDrawable Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new CAMetalDrawable Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new CAMetalDrawable New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public CAMetalLayer Layer
     {

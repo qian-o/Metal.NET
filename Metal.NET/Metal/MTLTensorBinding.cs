@@ -2,9 +2,14 @@
 
 public class MTLTensorBinding(nint nativePtr, NativeObjectOwnership ownership) : MTLBinding(nativePtr, ownership), INativeObject<MTLTensorBinding>
 {
+    #region INativeObject
     public static new MTLTensorBinding Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLTensorBinding Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLTensorBinding New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLTensorExtents Dimensions
     {

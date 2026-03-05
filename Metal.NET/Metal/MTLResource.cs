@@ -2,9 +2,14 @@
 
 public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLAllocation(nativePtr, ownership), INativeObject<MTLResource>
 {
+    #region INativeObject
     public static new MTLResource Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLResource Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLResource New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLCPUCacheMode CpuCacheMode
     {

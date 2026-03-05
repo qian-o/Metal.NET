@@ -2,9 +2,6 @@
 
 namespace Metal.NET;
 
-/// <summary>
-/// Common named color spaces for use with <see cref="CGColorSpace.Create(CGColorSpaceName)"/>.
-/// </summary>
 public enum CGColorSpaceName
 {
     SRGB,
@@ -55,9 +52,7 @@ public partial class CGColorSpace(nint nativePtr, NativeObjectOwnership ownershi
             _ => throw new ArgumentOutOfRangeException(nameof(name), name, null)
         };
 
-        nint cgHandle = NativeLibrary.Load("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics");
-
-        return new(CGColorSpaceCreateWithName(Marshal.ReadIntPtr(NativeLibrary.GetExport(cgHandle, symbolName))), NativeObjectOwnership.Managed);
+        return new(CGColorSpaceCreateWithName(Marshal.ReadIntPtr(NativeLibrary.GetExport(NativeLibrary.Load("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics"), symbolName))), NativeObjectOwnership.Managed);
     }
 
     public static CGColorSpace CreateDeviceRGB()

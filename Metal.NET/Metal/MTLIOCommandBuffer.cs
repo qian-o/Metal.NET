@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLIOCommandBuffer>
+public class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLIOCommandBuffer>
 {
-    public static MTLIOCommandBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLIOCommandBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLIOCommandBuffer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLIOCommandBuffer New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public NSError Error
     {
@@ -74,7 +79,7 @@ public class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership)
 
     public void SignalEvent(MTLSharedEvent @event, ulong value)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.SignalEvent, @event.NativePtr, (nuint)value);
+        ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.SignalEvent, @event.NativePtr, value);
     }
 
     public void TryCancel()
@@ -84,7 +89,7 @@ public class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership)
 
     public void Wait(MTLSharedEvent @event, ulong value)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.Wait, @event.NativePtr, (nuint)value);
+        ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.Wait, @event.NativePtr, value);
     }
 
     public void WaitUntilCompleted()

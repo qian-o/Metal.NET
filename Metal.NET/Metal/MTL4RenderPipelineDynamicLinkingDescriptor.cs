@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4RenderPipelineDynamicLinkingDescriptor>
+public class MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4RenderPipelineDynamicLinkingDescriptor>
 {
-    public static MTL4RenderPipelineDynamicLinkingDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTL4RenderPipelineDynamicLinkingDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4RenderPipelineDynamicLinkingDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTL4RenderPipelineDynamicLinkingDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTL4RenderPipelineDynamicLinkingDescriptor() : this(ObjectiveC.AllocInit(MTL4RenderPipelineDynamicLinkingDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

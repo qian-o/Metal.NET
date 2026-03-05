@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLTileRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLTileRenderPipelineDescriptor>
+public class MTLTileRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTileRenderPipelineDescriptor>
 {
-    public static MTLTileRenderPipelineDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLTileRenderPipelineDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLTileRenderPipelineDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLTileRenderPipelineDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLTileRenderPipelineDescriptor() : this(ObjectiveC.AllocInit(MTLTileRenderPipelineDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

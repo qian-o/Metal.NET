@@ -2,9 +2,14 @@
 
 public class MTLTextureReferenceType(nint nativePtr, NativeObjectOwnership ownership) : MTLType(nativePtr, ownership), INativeObject<MTLTextureReferenceType>
 {
+    #region INativeObject
     public static new MTLTextureReferenceType Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLTextureReferenceType Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLTextureReferenceType New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLTextureReferenceType() : this(ObjectiveC.AllocInit(MTLTextureReferenceTypeBindings.Class), NativeObjectOwnership.Managed)
     {

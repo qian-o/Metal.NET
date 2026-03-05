@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLStageInputOutputDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLStageInputOutputDescriptor>
+public class MTLStageInputOutputDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLStageInputOutputDescriptor>
 {
-    public static MTLStageInputOutputDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLStageInputOutputDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLStageInputOutputDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLStageInputOutputDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLStageInputOutputDescriptor() : this(ObjectiveC.AllocInit(MTLStageInputOutputDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXTemporalScalerDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFXTemporalScalerDescriptor>
+public class MTLFXTemporalScalerDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFXTemporalScalerDescriptor>
 {
-    public static MTLFXTemporalScalerDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLFXTemporalScalerDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLFXTemporalScalerDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLFXTemporalScalerDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLFXTemporalScalerDescriptor() : this(ObjectiveC.AllocInit(MTLFXTemporalScalerDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
@@ -99,17 +104,17 @@ public class MTLFXTemporalScalerDescriptor(nint nativePtr, NativeObjectOwnership
 
     public void SetAutoExposureEnabled(bool enabled)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetAutoExposureEnabled, (Bool8)enabled);
+        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetAutoExposureEnabled, enabled);
     }
 
     public void SetInputContentPropertiesEnabled(bool enabled)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetInputContentPropertiesEnabled, (Bool8)enabled);
+        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetInputContentPropertiesEnabled, enabled);
     }
 
     public void SetReactiveMaskTextureEnabled(bool enabled)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetReactiveMaskTextureEnabled, (Bool8)enabled);
+        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetReactiveMaskTextureEnabled, enabled);
     }
 
     public MTLFXTemporalScaler NewTemporalScaler(MTLDevice pDevice)

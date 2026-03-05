@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOCommandQueueDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLIOCommandQueueDescriptor>
+public class MTLIOCommandQueueDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLIOCommandQueueDescriptor>
 {
-    public static MTLIOCommandQueueDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLIOCommandQueueDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLIOCommandQueueDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLIOCommandQueueDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLIOCommandQueueDescriptor() : this(ObjectiveC.AllocInit(MTLIOCommandQueueDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

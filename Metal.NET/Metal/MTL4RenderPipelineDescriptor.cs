@@ -2,9 +2,14 @@
 
 public class MTL4RenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4PipelineDescriptor(nativePtr, ownership), INativeObject<MTL4RenderPipelineDescriptor>
 {
+    #region INativeObject
     public static new MTL4RenderPipelineDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTL4RenderPipelineDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTL4RenderPipelineDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTL4RenderPipelineDescriptor() : this(ObjectiveC.AllocInit(MTL4RenderPipelineDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

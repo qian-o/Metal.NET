@@ -2,9 +2,14 @@
 
 public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : MTL4CommandEncoder(nativePtr, ownership), INativeObject<MTL4RenderCommandEncoder>
 {
+    #region INativeObject
     public static new MTL4RenderCommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTL4RenderCommandEncoder Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTL4RenderCommandEncoder New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public nuint TileHeight
     {
@@ -166,12 +171,12 @@ public class MTL4RenderCommandEncoder(nint nativePtr, NativeObjectOwnership owne
 
     public void SetStencilReferenceValue(uint referenceValue)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetStencilReferenceValue, (nuint)referenceValue);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetStencilReferenceValue, referenceValue);
     }
 
     public void SetStencilReferenceValues(uint frontReferenceValue, uint backReferenceValue)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetStencilReferenceValues, (nuint)frontReferenceValue, (nuint)backReferenceValue);
+        ObjectiveC.MsgSend(NativePtr, MTL4RenderCommandEncoderBindings.SetStencilReferenceValues, frontReferenceValue, backReferenceValue);
     }
 
     public void SetStencilStoreAction(MTLStoreAction storeAction)

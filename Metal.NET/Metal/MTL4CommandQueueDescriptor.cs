@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandQueueDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4CommandQueueDescriptor>
+public class MTL4CommandQueueDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CommandQueueDescriptor>
 {
-    public static MTL4CommandQueueDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTL4CommandQueueDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4CommandQueueDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTL4CommandQueueDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTL4CommandQueueDescriptor() : this(ObjectiveC.AllocInit(MTL4CommandQueueDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
@@ -12,8 +17,8 @@ public class MTL4CommandQueueDescriptor(nint nativePtr, NativeObjectOwnership ow
 
     public DispatchQueue FeedbackQueue
     {
-        get => ObjectiveC.MsgSendPtr(NativePtr, MTL4CommandQueueDescriptorBindings.FeedbackQueue);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueDescriptorBindings.SetFeedbackQueue, value);
+        get => GetProperty(ref field, MTL4CommandQueueDescriptorBindings.FeedbackQueue);
+        set => SetProperty(ref field, MTL4CommandQueueDescriptorBindings.SetFeedbackQueue, value);
     }
 
     public NSString Label

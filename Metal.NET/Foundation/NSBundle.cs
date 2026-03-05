@@ -1,14 +1,11 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Wraps an Objective-C NSBundle for resource bundle access.
-/// </summary>
-public class NSBundle(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<NSBundle>
+public class NSBundle(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSBundle>
 {
     #region INativeObject
-    public static NSBundle Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new NSBundle Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static NSBundle New(nint nativePtr, NativeObjectOwnership ownership)
+    public static new NSBundle New(nint nativePtr, NativeObjectOwnership ownership)
     {
         return new(nativePtr, ownership);
     }

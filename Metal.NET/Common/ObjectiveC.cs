@@ -58,9 +58,6 @@ public static partial class ObjectiveC
     private static partial void _MsgSend(nint receiver, Selector selector);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial void _MsgSend(nint receiver, Selector selector, out ulong a, out ulong b);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, Bool8 a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -106,13 +103,7 @@ public static partial class ObjectiveC
     private static partial void _MsgSend(nint receiver, Selector selector, MTLResourceID a, nuint b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial void _MsgSend(nint receiver, Selector selector, MTLSamplePosition a, nuint b);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, MTLScissorRect a);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial void _MsgSend(nint receiver, Selector selector, MTLScissorRect a, nuint b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, MTLSize a);
@@ -130,10 +121,10 @@ public static partial class ObjectiveC
     private static partial void _MsgSend(nint receiver, Selector selector, MTLViewport a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial void _MsgSend(nint receiver, Selector selector, MTLViewport a, nuint b);
+    private static partial void _MsgSend(nint receiver, Selector selector, NSRange a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial void _MsgSend(nint receiver, Selector selector, NSRange a);
+    private static partial void _MsgSend(nint receiver, Selector selector, SimdFloat4x4 a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, double a);
@@ -196,22 +187,7 @@ public static partial class ObjectiveC
     private static partial void _MsgSend(nint receiver, Selector selector, nint a, nint b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial void _MsgSend(nint receiver, Selector selector, nint a, nint b, nint c);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, nint a, nint b, MTL4BufferRange c);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial void _MsgSend(nint receiver, Selector selector, nint a, nint b, MTL4CopySparseBufferMappingOperation c, nuint d);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial void _MsgSend(nint receiver, Selector selector, nint a, nint b, MTL4CopySparseTextureMappingOperation c, nuint d);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial void _MsgSend(nint receiver, Selector selector, nint a, nint b, MTL4UpdateSparseBufferMappingOperation c, nuint d);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial void _MsgSend(nint receiver, Selector selector, nint a, nint b, MTL4UpdateSparseTextureMappingOperation c, nuint d);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, nint a, nint b, MTLNewFunctionCompletionHandler c);
@@ -268,9 +244,6 @@ public static partial class ObjectiveC
     private static partial void _MsgSend(nint receiver, Selector selector, nint a, nuint b, MTLRegion c, nuint d, nuint e);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial void _MsgSend(nint receiver, Selector selector, nint a, nuint b, MTLSharedEventNotificationBlock c);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, nint a, nuint b, MTLSize c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -320,6 +293,12 @@ public static partial class ObjectiveC
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, nint a, nuint b, nuint c, nuint d, MTLSize e, nint f, nuint g, nuint h, MTLOrigin i, nuint j);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void _MsgSend(nint receiver, Selector selector, nint a, ulong b);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void _MsgSend(nint receiver, Selector selector, nint a, ulong b, MTLSharedEventNotificationBlock c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, nuint a);
@@ -388,10 +367,7 @@ public static partial class ObjectiveC
     private static partial void _MsgSend(nint receiver, Selector selector, nuint a, nuint b, nuint c, nuint d, nuint e, nuint f, nint g, nuint h);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial void _MsgSend(nint receiver, Selector selector, int a);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial void _MsgSend(nint receiver, Selector selector, long a);
+    private static partial void _MsgSend(nint receiver, Selector selector, out ulong a, out ulong b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, uint a);
@@ -410,19 +386,6 @@ public static partial class ObjectiveC
         }
 
         _MsgSend(receiver, selector);
-    }
-
-    public static void MsgSend(nint receiver, Selector selector, out ulong a, out ulong b)
-    {
-        if (receiver is 0)
-        {
-            a = default;
-            b = default;
-
-            return;
-        }
-
-        _MsgSend(receiver, selector, out a, out b);
     }
 
     public static void MsgSend(nint receiver, Selector selector, Bool8 a)
@@ -575,16 +538,6 @@ public static partial class ObjectiveC
         _MsgSend(receiver, selector, a, b);
     }
 
-    public static void MsgSend(nint receiver, Selector selector, MTLSamplePosition a, nuint b)
-    {
-        if (receiver is 0)
-        {
-            return;
-        }
-
-        _MsgSend(receiver, selector, a, b);
-    }
-
     public static void MsgSend(nint receiver, Selector selector, MTLScissorRect a)
     {
         if (receiver is 0)
@@ -593,16 +546,6 @@ public static partial class ObjectiveC
         }
 
         _MsgSend(receiver, selector, a);
-    }
-
-    public static void MsgSend(nint receiver, Selector selector, MTLScissorRect a, nuint b)
-    {
-        if (receiver is 0)
-        {
-            return;
-        }
-
-        _MsgSend(receiver, selector, a, b);
     }
 
     public static void MsgSend(nint receiver, Selector selector, MTLSize a)
@@ -655,17 +598,17 @@ public static partial class ObjectiveC
         _MsgSend(receiver, selector, a);
     }
 
-    public static void MsgSend(nint receiver, Selector selector, MTLViewport a, nuint b)
+    public static void MsgSend(nint receiver, Selector selector, NSRange a)
     {
         if (receiver is 0)
         {
             return;
         }
 
-        _MsgSend(receiver, selector, a, b);
+        _MsgSend(receiver, selector, a);
     }
 
-    public static void MsgSend(nint receiver, Selector selector, NSRange a)
+    public static void MsgSend(nint receiver, Selector selector, SimdFloat4x4 a)
     {
         if (receiver is 0)
         {
@@ -875,16 +818,6 @@ public static partial class ObjectiveC
         _MsgSend(receiver, selector, a, b);
     }
 
-    public static void MsgSend(nint receiver, Selector selector, nint a, nint b, nint c)
-    {
-        if (receiver is 0)
-        {
-            return;
-        }
-
-        _MsgSend(receiver, selector, a, b, c);
-    }
-
     public static void MsgSend(nint receiver, Selector selector, nint a, nint b, MTL4BufferRange c)
     {
         if (receiver is 0)
@@ -893,46 +826,6 @@ public static partial class ObjectiveC
         }
 
         _MsgSend(receiver, selector, a, b, c);
-    }
-
-    public static void MsgSend(nint receiver, Selector selector, nint a, nint b, MTL4CopySparseBufferMappingOperation c, nuint d)
-    {
-        if (receiver is 0)
-        {
-            return;
-        }
-
-        _MsgSend(receiver, selector, a, b, c, d);
-    }
-
-    public static void MsgSend(nint receiver, Selector selector, nint a, nint b, MTL4CopySparseTextureMappingOperation c, nuint d)
-    {
-        if (receiver is 0)
-        {
-            return;
-        }
-
-        _MsgSend(receiver, selector, a, b, c, d);
-    }
-
-    public static void MsgSend(nint receiver, Selector selector, nint a, nint b, MTL4UpdateSparseBufferMappingOperation c, nuint d)
-    {
-        if (receiver is 0)
-        {
-            return;
-        }
-
-        _MsgSend(receiver, selector, a, b, c, d);
-    }
-
-    public static void MsgSend(nint receiver, Selector selector, nint a, nint b, MTL4UpdateSparseTextureMappingOperation c, nuint d)
-    {
-        if (receiver is 0)
-        {
-            return;
-        }
-
-        _MsgSend(receiver, selector, a, b, c, d);
     }
 
     public static void MsgSend(nint receiver, Selector selector, nint a, nint b, MTLNewFunctionCompletionHandler c)
@@ -1115,16 +1008,6 @@ public static partial class ObjectiveC
         _MsgSend(receiver, selector, a, b, c, d, e);
     }
 
-    public static void MsgSend(nint receiver, Selector selector, nint a, nuint b, MTLSharedEventNotificationBlock c)
-    {
-        if (receiver is 0)
-        {
-            return;
-        }
-
-        _MsgSend(receiver, selector, a, b, c);
-    }
-
     public static void MsgSend(nint receiver, Selector selector, nint a, nuint b, MTLSize c)
     {
         if (receiver is 0)
@@ -1293,6 +1176,26 @@ public static partial class ObjectiveC
         }
 
         _MsgSend(receiver, selector, a, b, c, d, e, f, g, h, i, j);
+    }
+
+    public static void MsgSend(nint receiver, Selector selector, nint a, ulong b)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        _MsgSend(receiver, selector, a, b);
+    }
+
+    public static void MsgSend(nint receiver, Selector selector, nint a, ulong b, MTLSharedEventNotificationBlock c)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        _MsgSend(receiver, selector, a, b, c);
     }
 
     public static void MsgSend(nint receiver, Selector selector, nuint a)
@@ -1515,24 +1418,16 @@ public static partial class ObjectiveC
         _MsgSend(receiver, selector, a, b, c, d, e, f, g, h);
     }
 
-    public static void MsgSend(nint receiver, Selector selector, int a)
+    public static void MsgSend(nint receiver, Selector selector, out ulong a, out ulong b)
     {
         if (receiver is 0)
         {
+            a = default;
+            b = default;
             return;
         }
 
-        _MsgSend(receiver, selector, a);
-    }
-
-    public static void MsgSend(nint receiver, Selector selector, long a)
-    {
-        if (receiver is 0)
-        {
-            return;
-        }
-
-        _MsgSend(receiver, selector, a);
+        _MsgSend(receiver, selector, out a, out b);
     }
 
     public static void MsgSend(nint receiver, Selector selector, uint a)
@@ -1585,7 +1480,7 @@ public static partial class ObjectiveC
     private static partial Bool8 _MsgSendBool(nint receiver, Selector selector, nuint a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial Bool8 _MsgSendBool(nint receiver, Selector selector, nuint a, nuint b);
+    private static partial Bool8 _MsgSendBool(nint receiver, Selector selector, ulong a, ulong b);
 
     public static Bool8 MsgSendBool(nint receiver, Selector selector)
     {
@@ -1612,7 +1507,6 @@ public static partial class ObjectiveC
         if (receiver is 0)
         {
             c = default;
-
             return default;
         }
 
@@ -1624,7 +1518,6 @@ public static partial class ObjectiveC
         if (receiver is 0)
         {
             b = default;
-
             return default;
         }
 
@@ -1641,7 +1534,7 @@ public static partial class ObjectiveC
         return _MsgSendBool(receiver, selector, a);
     }
 
-    public static Bool8 MsgSendBool(nint receiver, Selector selector, nuint a, nuint b)
+    public static Bool8 MsgSendBool(nint receiver, Selector selector, ulong a, ulong b)
     {
         if (receiver is 0)
         {
@@ -1713,6 +1606,40 @@ public static partial class ObjectiveC
         }
 
         return _MsgSendFloat(receiver, selector, a);
+    }
+
+    #endregion
+
+    #region MsgSendInt
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial int _MsgSendInt(nint receiver, Selector selector);
+
+    public static int MsgSendInt(nint receiver, Selector selector)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendInt(receiver, selector);
+    }
+
+    #endregion
+
+    #region MsgSendLong
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial long _MsgSendLong(nint receiver, Selector selector);
+
+    public static long MsgSendLong(nint receiver, Selector selector)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendLong(receiver, selector);
     }
 
     #endregion
@@ -1983,36 +1910,6 @@ public static partial class ObjectiveC
 
     #endregion
 
-    #region MsgSendSimdFloat4x4
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial SimdFloat4x4 _MsgSendSimdFloat4x4(nint receiver, Selector selector);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial void _MsgSend(nint receiver, Selector selector, SimdFloat4x4 a);
-
-    public static SimdFloat4x4 MsgSendSimdFloat4x4(nint receiver, Selector selector)
-    {
-        if (receiver is 0)
-        {
-            return default;
-        }
-
-        return _MsgSendSimdFloat4x4(receiver, selector);
-    }
-
-    public static void MsgSend(nint receiver, Selector selector, SimdFloat4x4 a)
-    {
-        if (receiver is 0)
-        {
-            return;
-        }
-
-        _MsgSend(receiver, selector, a);
-    }
-
-    #endregion
-
     #region MsgSendNSRange
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -2036,9 +1933,6 @@ public static partial class ObjectiveC
     private static partial nuint _MsgSendNUInt(nint receiver, Selector selector);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nuint _MsgSendNUInt(nint receiver, Selector selector, MTLSamplePosition a, nuint b);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial nuint _MsgSendNUInt(nint receiver, Selector selector, MTLSize a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -2058,16 +1952,6 @@ public static partial class ObjectiveC
         }
 
         return _MsgSendNUInt(receiver, selector);
-    }
-
-    public static nuint MsgSendNUInt(nint receiver, Selector selector, MTLSamplePosition a, nuint b)
-    {
-        if (receiver is 0)
-        {
-            return default;
-        }
-
-        return _MsgSendNUInt(receiver, selector, a, b);
     }
 
     public static nuint MsgSendNUInt(nint receiver, Selector selector, MTLSize a)
@@ -2127,9 +2011,6 @@ public static partial class ObjectiveC
     private static partial nint _MsgSendPtr(nint receiver, Selector selector, MTLSize a, nint b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, MTLSize a, nuint b, nint c);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial nint _MsgSendPtr(nint receiver, Selector selector, NSRange a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -2169,16 +2050,13 @@ public static partial class ObjectiveC
     private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b, MTLNewRenderPipelineStateCompletionHandler c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c, out nint d);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c, MTLNewComputePipelineStateCompletionHandler d);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c, MTLNewRenderPipelineStateCompletionHandler d);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c, out nint d);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nuint c);
@@ -2200,9 +2078,6 @@ public static partial class ObjectiveC
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, out nint b);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, out nint a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial nint _MsgSendPtr(nint receiver, Selector selector, nuint a);
@@ -2230,6 +2105,9 @@ public static partial class ObjectiveC
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial nint _MsgSendPtr(nint receiver, Selector selector, nuint a, nuint b, nuint c, nuint d);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nint _MsgSendPtr(nint receiver, Selector selector, out nint a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial nint _MsgSendPtr(nint receiver, Selector selector, uint a);
@@ -2275,16 +2153,6 @@ public static partial class ObjectiveC
         }
 
         return _MsgSendPtr(receiver, selector, a, b);
-    }
-
-    public static nint MsgSendPtr(nint receiver, Selector selector, MTLSize a, nuint b, nint c)
-    {
-        if (receiver is 0)
-        {
-            return default;
-        }
-
-        return _MsgSendPtr(receiver, selector, a, b, c);
     }
 
     public static nint MsgSendPtr(nint receiver, Selector selector, NSRange a)
@@ -2417,28 +2285,6 @@ public static partial class ObjectiveC
         return _MsgSendPtr(receiver, selector, a, b, c);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c, out nint d)
-    {
-        if (receiver is 0)
-        {
-            d = default;
-
-            return default;
-        }
-
-        return _MsgSendPtr(receiver, selector, a, b, c, out d);
-    }
-
-    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c)
-    {
-        if (receiver is 0)
-        {
-            return default;
-        }
-
-        return _MsgSendPtr(receiver, selector, a, b, c);
-    }
-
     public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c, MTLNewComputePipelineStateCompletionHandler d)
     {
         if (receiver is 0)
@@ -2459,6 +2305,17 @@ public static partial class ObjectiveC
         return _MsgSendPtr(receiver, selector, a, b, c, d);
     }
 
+    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c, out nint d)
+    {
+        if (receiver is 0)
+        {
+            d = default;
+            return default;
+        }
+
+        return _MsgSendPtr(receiver, selector, a, b, c, out d);
+    }
+
     public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nuint c)
     {
         if (receiver is 0)
@@ -2474,7 +2331,6 @@ public static partial class ObjectiveC
         if (receiver is 0)
         {
             c = default;
-
             return default;
         }
 
@@ -2516,7 +2372,6 @@ public static partial class ObjectiveC
         if (receiver is 0)
         {
             c = default;
-
             return default;
         }
 
@@ -2528,23 +2383,10 @@ public static partial class ObjectiveC
         if (receiver is 0)
         {
             b = default;
-
             return default;
         }
 
         return _MsgSendPtr(receiver, selector, a, out b);
-    }
-
-    public static nint MsgSendPtr(nint receiver, Selector selector, out nint a)
-    {
-        if (receiver is 0)
-        {
-            a = default;
-
-            return default;
-        }
-
-        return _MsgSendPtr(receiver, selector, out a);
     }
 
     public static nint MsgSendPtr(nint receiver, Selector selector, nuint a)
@@ -2637,6 +2479,17 @@ public static partial class ObjectiveC
         return _MsgSendPtr(receiver, selector, a, b, c, d);
     }
 
+    public static nint MsgSendPtr(nint receiver, Selector selector, out nint a)
+    {
+        if (receiver is 0)
+        {
+            a = default;
+            return default;
+        }
+
+        return _MsgSendPtr(receiver, selector, out a);
+    }
+
     public static nint MsgSendPtr(nint receiver, Selector selector, uint a)
     {
         if (receiver is 0)
@@ -2659,32 +2512,19 @@ public static partial class ObjectiveC
 
     #endregion
 
-    #region MsgSendInt
+    #region MsgSendSimdFloat4x4
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial int _MsgSendInt(nint receiver, Selector selector);
+    private static partial SimdFloat4x4 _MsgSendSimdFloat4x4(nint receiver, Selector selector);
 
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial int _MsgSendInt(nint receiver, Selector selector, nint a);
-
-    public static int MsgSendInt(nint receiver, Selector selector)
+    public static SimdFloat4x4 MsgSendSimdFloat4x4(nint receiver, Selector selector)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendInt(receiver, selector);
-    }
-
-    public static int MsgSendInt(nint receiver, Selector selector, nint a)
-    {
-        if (receiver is 0)
-        {
-            return default;
-        }
-
-        return _MsgSendInt(receiver, selector, a);
+        return _MsgSendSimdFloat4x4(receiver, selector);
     }
 
     #endregion
@@ -2694,9 +2534,6 @@ public static partial class ObjectiveC
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial uint _MsgSendUInt(nint receiver, Selector selector);
 
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial uint _MsgSendUInt(nint receiver, Selector selector, nint a);
-
     public static uint MsgSendUInt(nint receiver, Selector selector)
     {
         if (receiver is 0)
@@ -2705,33 +2542,6 @@ public static partial class ObjectiveC
         }
 
         return _MsgSendUInt(receiver, selector);
-    }
-
-    public static uint MsgSendUInt(nint receiver, Selector selector, nint a)
-    {
-        if (receiver is 0)
-        {
-            return default;
-        }
-
-        return _MsgSendUInt(receiver, selector, a);
-    }
-
-    #endregion
-
-    #region MsgSendLong
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial long _MsgSendLong(nint receiver, Selector selector);
-
-    public static long MsgSendLong(nint receiver, Selector selector)
-    {
-        if (receiver is 0)
-        {
-            return default;
-        }
-
-        return _MsgSendLong(receiver, selector);
     }
 
     #endregion
@@ -2768,12 +2578,12 @@ public static partial class ObjectiveC
 
     public static nint Alloc(nint @class)
     {
-        return MsgSendPtr(@class, (Selector)"alloc");
+        return MsgSendPtr(@class, "alloc");
     }
 
     public static nint Init(nint receiver)
     {
-        return MsgSendPtr(receiver, (Selector)"init");
+        return MsgSendPtr(receiver, "init");
     }
 
     public static nint AllocInit(nint @class)
@@ -2783,11 +2593,11 @@ public static partial class ObjectiveC
 
     public static nint Retain(nint receiver)
     {
-        return MsgSendPtr(receiver, (Selector)"retain");
+        return MsgSendPtr(receiver, "retain");
     }
 
     public static void Release(nint receiver)
     {
-        MsgSend(receiver, (Selector)"release");
+        MsgSend(receiver, "release");
     }
 }

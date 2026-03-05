@@ -8,9 +8,7 @@ namespace Metal.NET.Generator;
 /// </summary>
 partial class CppParser(string metalCppDir, GeneratorContext context)
 {
-    /// <summary>
-    /// Methods to skip during parsing.
-    /// </summary>
+    /// <summary>Methods to skip during parsing (ObjC runtime methods handled by the framework).</summary>
     static readonly HashSet<string> SkipMethods = ["alloc", "init", "retain", "release", "autorelease", "copy", "retainCount"];
 
     #region Bridge Files
@@ -104,9 +102,7 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
         ["MTL::Function*, NS::Error*"] = "MTLNewFunctionCompletionHandler",
     };
 
-    /// <summary>
-    /// Override parameter names for known inline block types.
-    /// </summary>
+    /// <summary>Override parameter names for known inline block types.</summary>
     static readonly Dictionary<string, string[]> InlineBlockParamNames = new()
     {
         ["MTLDeallocator"] = ["pointer", "length"],
@@ -126,13 +122,11 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
             string aliasName = m.Groups[1].Value;
             string paramStr = m.Groups[2].Value;
 
-            // Skip Foundation observer blocks; only process Metal-related blocks
             if (aliasName == "ObserverBlock")
             {
                 continue;
             }
 
-            // Determine namespace from position
             string ns = "MTL";
             for (int i = nsPositions.Count - 1; i >= 0; i--)
             {
@@ -146,13 +140,11 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
             string prefix = TypeMapper.GetPrefix(ns);
             string csDelegateName = prefix + aliasName;
 
-            // Skip Device notification block (uses DeviceNotificationName which we don't map)
             if (aliasName == "DeviceNotificationHandlerBlock")
             {
                 continue;
             }
 
-            // Deduplicate: some aliases are defined in multiple headers (e.g., NewRenderPipelineStateCompletionHandler)
             if (context.BlockTypeAliases.Any(b => b.CsDelegateName == csDelegateName))
             {
                 continue;
@@ -162,14 +154,11 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
             context.BlockTypeAliases.Add(new BlockTypeAlias(ns, aliasName, csDelegateName, blockParams));
         }
 
-        // Parse inline block signatures that appear directly in method declarations
         foreach (Match m in InlineBlockMethodRegex().Matches(content))
         {
             string inlineParamStr = m.Groups[2].Value.Trim();
 
-            // Normalize inline param string for lookup
             string normalized = Regex.Replace(inlineParamStr, @"\s+", " ").Replace("const ", "").Trim();
-            // Remove parameter names, keep only types
             string typesOnly = ExtractTypesFromInlineBlock(normalized);
 
             if (!InlineBlockDelegateNames.TryGetValue(typesOnly, out string? delegateName))
@@ -182,7 +171,6 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                 continue;
             }
 
-            // Determine namespace from position
             string ns = "MTL";
             for (int i = nsPositions.Count - 1; i >= 0; i--)
             {
@@ -195,7 +183,6 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
 
             List<BlockParam> blockParams = ParseBlockParams(inlineParamStr, ns);
 
-            // Apply param name overrides for known inline blocks
             if (InlineBlockParamNames.TryGetValue(delegateName, out string[]? overrideNames))
             {
                 for (int pi = 0; pi < overrideNames.Length && pi + 1 < blockParams.Count; pi++)
@@ -210,7 +197,6 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
 
     static string ExtractTypesFromInlineBlock(string paramStr)
     {
-        // Split by comma, take only the type (remove param name if present)
         List<string> types = [];
         foreach (string part in paramStr.Split(','))
         {
@@ -220,12 +206,9 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                 continue;
             }
 
-            // For types like "void*", "NS::UInteger", "MTL::Function*", etc.
-            // Remove trailing parameter name if present (last word without :: and not ending with *)
             string[] tokens = p.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             if (tokens.Length >= 2 && !tokens[^1].Contains("::") && !tokens[^1].EndsWith('*'))
             {
-                // Last token is a param name
                 types.Add(string.Join(" ", tokens[..^1]));
             }
             else
@@ -250,7 +233,6 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                 continue;
             }
 
-            // Split into type and optional name
             string[] tokens = p.Split(' ', StringSplitOptions.RemoveEmptyEntries);
             string cppType;
             string paramName;
@@ -266,8 +248,6 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                 paramName = InferParamNameFromType(cppType, paramIndex);
             }
 
-            // Map the C++ type to a C# delegate parameter type
-            // For block delegates, all reference types become nint
             string csType = MapBlockParamType(cppType, defaultNs);
             paramName = SanitizeParamName(paramName, paramIndex);
 
@@ -275,7 +255,6 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
             paramIndex++;
         }
 
-        // Deduplicate parameter names
         HashSet<string> usedNames = [];
         for (int i = 0; i < result.Count; i++)
         {
@@ -303,7 +282,6 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
             return "pointer";
         }
 
-        // Extract class name from namespace::Type pattern
         Match nsMatch = Regex.Match(t, @"(?:[\w]+::)?(\w+)$");
         if (nsMatch.Success)
         {
@@ -318,14 +296,8 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
     {
         string t = cppType.Trim();
 
-        // Pointer types → nint
         if (t.EndsWith('*'))
         {
-            string baseType = t[..^1].Trim();
-            if (baseType == "void")
-            {
-                return "nint";
-            }
             return "nint";
         }
 
@@ -345,19 +317,13 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
         };
     }
 
+    /// <summary>
+    /// Block handler parameters pass enum/value types as their raw numeric backing type.
+    /// </summary>
     static string MapEnumOrValueType(string cppType, string defaultNs)
     {
-        // Check if it's a known enum type like MTL::LogLevel
-        Match nsMatch = Regex.Match(cppType, @"^(MTL4FX|MTL4|MTLFX|MTL|NS|CA)\s*::\s*(.+)$");
-        if (nsMatch.Success)
+        if (Regex.IsMatch(cppType, @"^(MTL4FX|MTL4|MTLFX|MTL|NS|CA)\s*::\s*(.+)$"))
         {
-            string typeNs = nsMatch.Groups[1].Value;
-            string typeName = nsMatch.Groups[2].Value.Trim();
-            string prefix = TypeMapper.GetPrefix(typeNs);
-            string csType = prefix + typeName;
-
-            // Block handler enum params are passed as the signed backing type.
-            // In practice, the only enum in block signatures is MTL::LogLevel (long).
             return "long";
         }
 
@@ -371,7 +337,6 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
             return $"param{index}";
         }
 
-        // Remove 'p' prefix if followed by uppercase (metal-cpp convention: pEvent → event)
         if (name.Length > 1 && name[0] == 'p' && char.IsUpper(name[1]))
         {
             name = char.ToLower(name[1]) + name[2..];
@@ -891,7 +856,6 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                 continue;
             }
 
-            // Preprocess inline blocks: replace void (^name)(params) with a synthetic type
             line = PreprocessInlineBlocks(line);
 
             Match methodMatch = MethodDeclRegex().Match(line);
@@ -925,7 +889,6 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
     /// </summary>
     static string PreprocessInlineBlocks(string line)
     {
-        // Match void (^name)(params) or void(^name)(params)
         while (true)
         {
             int idx = line.IndexOf("void (^");
@@ -939,7 +902,6 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                 break;
             }
 
-            // Find the first '(' of (^name)
             int firstParen = line.IndexOf('(', idx + 4);
             if (firstParen < 0)
             {
@@ -952,7 +914,6 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                 break;
             }
 
-            // Extract the block name from (^name)
             string blockSection = line[(firstParen + 1)..firstClose];
             string blockName = blockSection.TrimStart('^').Trim();
             if (string.IsNullOrWhiteSpace(blockName))
@@ -960,7 +921,6 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                 blockName = "handler";
             }
 
-            // Find the second pair of parens (the parameter list)
             int secondParen = line.IndexOf('(', firstClose + 1);
             if (secondParen < 0)
             {
@@ -975,18 +935,15 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
 
             string paramTypes = line[(secondParen + 1)..secondClose];
 
-            // Normalize and look up delegate name
             string normalized = Regex.Replace(paramTypes.Replace("const ", ""), @"\s+", " ").Trim();
             string typesOnly = ExtractTypesFromInlineBlock(normalized);
 
             string delegateName;
             if (!InlineBlockDelegateNames.TryGetValue(typesOnly, out delegateName!))
             {
-                // Unknown inline block — use a generic marker that will be skipped
                 delegateName = "UNKNOWN_BLOCK";
             }
 
-            // Replace the entire inline block expression with a synthetic type
             string replacement = $"INLINE_BLOCK:{delegateName} {blockName}";
             line = line[..idx] + replacement + line[(secondClose + 1)..];
         }

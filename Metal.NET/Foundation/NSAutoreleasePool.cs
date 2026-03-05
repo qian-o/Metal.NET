@@ -1,14 +1,11 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Wraps an Objective-C NSAutoreleasePool for managing autorelease pools.
-/// </summary>
-public class NSAutoreleasePool(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<NSAutoreleasePool>
+public class NSAutoreleasePool(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSAutoreleasePool>
 {
     #region INativeObject
-    public static NSAutoreleasePool Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new NSAutoreleasePool Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static NSAutoreleasePool New(nint nativePtr, NativeObjectOwnership ownership)
+    public static new NSAutoreleasePool New(nint nativePtr, NativeObjectOwnership ownership)
     {
         return new(nativePtr, ownership);
     }

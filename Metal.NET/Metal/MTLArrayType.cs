@@ -2,9 +2,14 @@
 
 public class MTLArrayType(nint nativePtr, NativeObjectOwnership ownership) : MTLType(nativePtr, ownership), INativeObject<MTLArrayType>
 {
+    #region INativeObject
     public static new MTLArrayType Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLArrayType Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLArrayType New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLArrayType() : this(ObjectiveC.AllocInit(MTLArrayTypeBindings.Class), NativeObjectOwnership.Managed)
     {

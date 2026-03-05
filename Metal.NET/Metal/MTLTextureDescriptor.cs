@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLTextureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLTextureDescriptor>
+public class MTLTextureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTextureDescriptor>
 {
-    public static MTLTextureDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLTextureDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLTextureDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLTextureDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLTextureDescriptor() : this(ObjectiveC.AllocInit(MTLTextureDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
@@ -114,7 +119,7 @@ public class MTLTextureDescriptor(nint nativePtr, NativeObjectOwnership ownershi
 
     public static MTLTextureDescriptor Texture2DDescriptor(MTLPixelFormat pixelFormat, nuint width, nuint height, bool mipmapped)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.Texture2DDescriptor, (nuint)pixelFormat, width, height, (Bool8)mipmapped);
+        nint nativePtr = ObjectiveC.MsgSendPtr(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.Texture2DDescriptor, (nuint)pixelFormat, width, height, mipmapped);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -128,7 +133,7 @@ public class MTLTextureDescriptor(nint nativePtr, NativeObjectOwnership ownershi
 
     public static MTLTextureDescriptor TextureCubeDescriptor(MTLPixelFormat pixelFormat, nuint size, bool mipmapped)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.TextureCubeDescriptor, (nuint)pixelFormat, size, (Bool8)mipmapped);
+        nint nativePtr = ObjectiveC.MsgSendPtr(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.TextureCubeDescriptor, (nuint)pixelFormat, size, mipmapped);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

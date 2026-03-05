@@ -2,9 +2,14 @@
 
 public class MTLFXTemporalScalerBase(nint nativePtr, NativeObjectOwnership ownership) : MTLFXFrameInterpolatableScaler(nativePtr, ownership), INativeObject<MTLFXTemporalScalerBase>
 {
+    #region INativeObject
     public static new MTLFXTemporalScalerBase Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLFXTemporalScalerBase Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLFXTemporalScalerBase New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLTexture ColorTexture
     {
@@ -183,7 +188,7 @@ public class MTLFXTemporalScalerBase(nint nativePtr, NativeObjectOwnership owner
 
     public void SetDepthReversed(bool depthReversed)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetDepthReversed, (Bool8)depthReversed);
+        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetDepthReversed, depthReversed);
     }
 }
 

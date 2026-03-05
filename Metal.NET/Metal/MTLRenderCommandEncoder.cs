@@ -2,9 +2,14 @@
 
 public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : MTLCommandEncoder(nativePtr, ownership), INativeObject<MTLRenderCommandEncoder>
 {
+    #region INativeObject
     public static new MTLRenderCommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLRenderCommandEncoder Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLRenderCommandEncoder New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public nuint TileHeight
     {
@@ -124,7 +129,7 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
 
     public void SampleCountersInBuffer(MTLCounterSampleBuffer sampleBuffer, nuint sampleIndex, bool barrier)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SampleCountersInBuffer, sampleBuffer.NativePtr, sampleIndex, (Bool8)barrier);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SampleCountersInBuffer, sampleBuffer.NativePtr, sampleIndex, barrier);
     }
 
     public void SetBlendColor(float red, float green, float blue, float alpha)
@@ -317,12 +322,12 @@ public class MTLRenderCommandEncoder(nint nativePtr, NativeObjectOwnership owner
 
     public void SetStencilReferenceValue(uint referenceValue)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetStencilReferenceValue, (nuint)referenceValue);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetStencilReferenceValue, referenceValue);
     }
 
     public void SetStencilReferenceValues(uint frontReferenceValue, uint backReferenceValue)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetStencilReferenceValues, (nuint)frontReferenceValue, (nuint)backReferenceValue);
+        ObjectiveC.MsgSend(NativePtr, MTLRenderCommandEncoderBindings.SetStencilReferenceValues, frontReferenceValue, backReferenceValue);
     }
 
     public void SetStencilStoreAction(MTLStoreAction storeAction)

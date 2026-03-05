@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCommandBuffer>
+public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCommandBuffer>
 {
-    public static MTLCommandBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLCommandBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLCommandBuffer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLCommandBuffer New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLCommandQueue CommandQueue
     {
@@ -133,12 +138,12 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
 
     public void EncodeSignalEvent(MTLEvent @event, ulong value)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.EncodeSignalEvent, @event.NativePtr, (nuint)value);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.EncodeSignalEvent, @event.NativePtr, value);
     }
 
     public void EncodeWait(MTLEvent @event, ulong value)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.EncodeWait, @event.NativePtr, (nuint)value);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.EncodeWait, @event.NativePtr, value);
     }
 
     public void Enqueue()

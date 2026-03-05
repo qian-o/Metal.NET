@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLRenderPassDescriptor>
+public class MTLRenderPassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRenderPassDescriptor>
 {
-    public static MTLRenderPassDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLRenderPassDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLRenderPassDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLRenderPassDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLRenderPassDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPassDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

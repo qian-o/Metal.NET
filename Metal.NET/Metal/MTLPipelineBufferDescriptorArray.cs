@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLPipelineBufferDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLPipelineBufferDescriptorArray>
+public class MTLPipelineBufferDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLPipelineBufferDescriptorArray>
 {
-    public static MTLPipelineBufferDescriptorArray Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLPipelineBufferDescriptorArray Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLPipelineBufferDescriptorArray Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLPipelineBufferDescriptorArray New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLPipelineBufferDescriptorArray() : this(ObjectiveC.AllocInit(MTLPipelineBufferDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
     {

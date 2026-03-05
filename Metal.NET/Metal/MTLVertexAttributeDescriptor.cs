@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLVertexAttributeDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLVertexAttributeDescriptor>
+public class MTLVertexAttributeDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLVertexAttributeDescriptor>
 {
-    public static MTLVertexAttributeDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLVertexAttributeDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLVertexAttributeDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLVertexAttributeDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLVertexAttributeDescriptor() : this(ObjectiveC.AllocInit(MTLVertexAttributeDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

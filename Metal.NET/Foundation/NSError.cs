@@ -1,14 +1,11 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Wraps an Objective-C NSError with access to error code, domain, and localized description.
-/// </summary>
-public class NSError(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<NSError>
+public class NSError(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSError>
 {
     #region INativeObject
-    public static NSError Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new NSError Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static NSError New(nint nativePtr, NativeObjectOwnership ownership)
+    public static new NSError New(nint nativePtr, NativeObjectOwnership ownership)
     {
         return new(nativePtr, ownership);
     }

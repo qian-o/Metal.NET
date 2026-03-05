@@ -1,14 +1,11 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Wraps an Objective-C NSURL for file and resource URL creation.
-/// </summary>
-public class NSURL(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<NSURL>
+public class NSURL(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSURL>
 {
     #region INativeObject
-    public static NSURL Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new NSURL Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static NSURL New(nint nativePtr, NativeObjectOwnership ownership)
+    public static new NSURL New(nint nativePtr, NativeObjectOwnership ownership)
     {
         return new(nativePtr, ownership);
     }
@@ -23,7 +20,7 @@ public class NSURL(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveC
     {
         nint nativePtr = ObjectiveC.MsgSendPtr(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitFileURLWithPath, value.NativePtr);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr, NativeObjectOwnership.Managed);
     }
 }
 

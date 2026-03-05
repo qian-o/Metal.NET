@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLStructMember(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLStructMember>
+public class MTLStructMember(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLStructMember>
 {
-    public static MTLStructMember Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLStructMember Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLStructMember Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLStructMember New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLStructMember() : this(ObjectiveC.AllocInit(MTLStructMemberBindings.Class), NativeObjectOwnership.Managed)
     {

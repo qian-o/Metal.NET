@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLRasterizationRateMapDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLRasterizationRateMapDescriptor>
+public class MTLRasterizationRateMapDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRasterizationRateMapDescriptor>
 {
-    public static MTLRasterizationRateMapDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLRasterizationRateMapDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLRasterizationRateMapDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLRasterizationRateMapDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLRasterizationRateMapDescriptor() : this(ObjectiveC.AllocInit(MTLRasterizationRateMapDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

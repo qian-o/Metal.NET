@@ -1,7 +1,16 @@
 ﻿namespace Metal.NET;
 
-public abstract class ObjectiveCObject(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership)
+public class NSObject(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<NSObject>
 {
+    #region INativeObject
+    public static NSObject Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+
+    public static NSObject New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
+
     protected T GetProperty<T>(ref T? field, Selector selector) where T : NativeObject, INativeObject<T>
     {
         nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, selector);

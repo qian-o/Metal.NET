@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4CommandQueue>
+public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CommandQueue>
 {
-    public static MTL4CommandQueue Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTL4CommandQueue Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4CommandQueue Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTL4CommandQueue New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLDevice Device
     {
@@ -93,7 +98,7 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
 
     public void SignalEvent(MTLEvent @event, ulong value)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.SignalEvent, @event.NativePtr, (nuint)value);
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.SignalEvent, @event.NativePtr, value);
     }
 
     public unsafe void UpdateBufferMappings(MTLBuffer buffer, MTLHeap heap, MTL4UpdateSparseBufferMappingOperation[] operations)
@@ -114,7 +119,7 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
 
     public void Wait(MTLEvent @event, ulong value)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.Wait, @event.NativePtr, (nuint)value);
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.Wait, @event.NativePtr, value);
     }
 
     public void Wait(MTLDrawable drawable)

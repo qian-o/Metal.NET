@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLIOScratchBuffer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLIOScratchBuffer>
+public class MTLIOScratchBuffer(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLIOScratchBuffer>
 {
-    public static MTLIOScratchBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLIOScratchBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLIOScratchBuffer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLIOScratchBuffer New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLBuffer Buffer
     {

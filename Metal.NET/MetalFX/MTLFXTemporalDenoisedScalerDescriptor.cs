@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFXTemporalDenoisedScalerDescriptor>
+public class MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFXTemporalDenoisedScalerDescriptor>
 {
-    public static MTLFXTemporalDenoisedScalerDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLFXTemporalDenoisedScalerDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLFXTemporalDenoisedScalerDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLFXTemporalDenoisedScalerDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLFXTemporalDenoisedScalerDescriptor() : this(ObjectiveC.AllocInit(MTLFXTemporalDenoisedScalerDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
@@ -156,32 +161,32 @@ public class MTLFXTemporalDenoisedScalerDescriptor(nint nativePtr, NativeObjectO
 
     public void SetAutoExposureEnabled(bool enabled)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetAutoExposureEnabled, (Bool8)enabled);
+        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetAutoExposureEnabled, enabled);
     }
 
     public void SetInputContentPropertiesEnabled(bool enabled)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetInputContentPropertiesEnabled, (Bool8)enabled);
+        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetInputContentPropertiesEnabled, enabled);
     }
 
     public void SetReactiveMaskTextureEnabled(bool enabled)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetReactiveMaskTextureEnabled, (Bool8)enabled);
+        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetReactiveMaskTextureEnabled, enabled);
     }
 
     public void SetSpecularHitDistanceTextureEnabled(bool enabled)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetSpecularHitDistanceTextureEnabled, (Bool8)enabled);
+        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetSpecularHitDistanceTextureEnabled, enabled);
     }
 
     public void SetDenoiseStrengthMaskTextureEnabled(bool enabled)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetDenoiseStrengthMaskTextureEnabled, (Bool8)enabled);
+        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetDenoiseStrengthMaskTextureEnabled, enabled);
     }
 
     public void SetTransparencyOverlayTextureEnabled(bool enabled)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetTransparencyOverlayTextureEnabled, (Bool8)enabled);
+        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerDescriptorBindings.SetTransparencyOverlayTextureEnabled, enabled);
     }
 
     public MTLFXTemporalDenoisedScaler NewTemporalDenoisedScaler(MTLDevice device)

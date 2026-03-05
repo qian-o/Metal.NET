@@ -2,9 +2,14 @@
 
 public class MTLStructType(nint nativePtr, NativeObjectOwnership ownership) : MTLType(nativePtr, ownership), INativeObject<MTLStructType>
 {
+    #region INativeObject
     public static new MTLStructType Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLStructType Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLStructType New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLStructType() : this(ObjectiveC.AllocInit(MTLStructTypeBindings.Class), NativeObjectOwnership.Managed)
     {

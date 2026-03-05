@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLIndirectRenderCommand(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLIndirectRenderCommand>
+public class MTLIndirectRenderCommand(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLIndirectRenderCommand>
 {
-    public static MTLIndirectRenderCommand Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLIndirectRenderCommand Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLIndirectRenderCommand Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLIndirectRenderCommand New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public void ClearBarrier()
     {

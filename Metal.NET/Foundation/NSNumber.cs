@@ -1,14 +1,11 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Wraps an Objective-C NSNumber for numeric value boxing and unboxing.
-/// </summary>
-public class NSNumber(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<NSNumber>
+public class NSNumber(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSNumber>
 {
     #region INativeObject
-    public static NSNumber Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new NSNumber Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static NSNumber New(nint nativePtr, NativeObjectOwnership ownership)
+    public static new NSNumber New(nint nativePtr, NativeObjectOwnership ownership)
     {
         return new(nativePtr, ownership);
     }
@@ -61,37 +58,37 @@ public class NSNumber(nint nativePtr, NativeObjectOwnership ownership) : Objecti
 
     public static implicit operator NSNumber(bool value)
     {
-        return new(ObjectiveC.MsgSendPtr(NSNumberBindings.Class, NSNumberBindings.NumberWithBool, value), NativeObjectOwnership.Owned);
+        return new(ObjectiveC.MsgSendPtr(NSNumberBindings.Class, NSNumberBindings.NumberWithBool, value), NativeObjectOwnership.Managed);
     }
 
     public static implicit operator NSNumber(int value)
     {
-        return new(ObjectiveC.MsgSendPtr(NSNumberBindings.Class, NSNumberBindings.NumberWithInt, value), NativeObjectOwnership.Owned);
+        return new(ObjectiveC.MsgSendPtr(NSNumberBindings.Class, NSNumberBindings.NumberWithInt, value), NativeObjectOwnership.Managed);
     }
 
     public static implicit operator NSNumber(uint value)
     {
-        return new(ObjectiveC.MsgSendPtr(NSNumberBindings.Class, NSNumberBindings.NumberWithUnsignedInt, value), NativeObjectOwnership.Owned);
+        return new(ObjectiveC.MsgSendPtr(NSNumberBindings.Class, NSNumberBindings.NumberWithUnsignedInt, value), NativeObjectOwnership.Managed);
     }
 
     public static implicit operator NSNumber(long value)
     {
-        return new(ObjectiveC.MsgSendPtr(NSNumberBindings.Class, NSNumberBindings.NumberWithLongLong, value), NativeObjectOwnership.Owned);
+        return new(ObjectiveC.MsgSendPtr(NSNumberBindings.Class, NSNumberBindings.NumberWithLongLong, value), NativeObjectOwnership.Managed);
     }
 
     public static implicit operator NSNumber(ulong value)
     {
-        return new(ObjectiveC.MsgSendPtr(NSNumberBindings.Class, NSNumberBindings.NumberWithUnsignedLongLong, value), NativeObjectOwnership.Owned);
+        return new(ObjectiveC.MsgSendPtr(NSNumberBindings.Class, NSNumberBindings.NumberWithUnsignedLongLong, value), NativeObjectOwnership.Managed);
     }
 
     public static implicit operator NSNumber(float value)
     {
-        return new(ObjectiveC.MsgSendPtr(NSNumberBindings.Class, NSNumberBindings.NumberWithFloat, value), NativeObjectOwnership.Owned);
+        return new(ObjectiveC.MsgSendPtr(NSNumberBindings.Class, NSNumberBindings.NumberWithFloat, value), NativeObjectOwnership.Managed);
     }
 
     public static implicit operator NSNumber(double value)
     {
-        return new(ObjectiveC.MsgSendPtr(NSNumberBindings.Class, NSNumberBindings.NumberWithDouble, value), NativeObjectOwnership.Owned);
+        return new(ObjectiveC.MsgSendPtr(NSNumberBindings.Class, NSNumberBindings.NumberWithDouble, value), NativeObjectOwnership.Managed);
     }
 
     public static implicit operator bool(NSNumber value) => value.BoolValue;

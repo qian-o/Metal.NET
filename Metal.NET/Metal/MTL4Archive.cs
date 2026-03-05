@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4Archive>
+public class MTL4Archive(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4Archive>
 {
-    public static MTL4Archive Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTL4Archive Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4Archive Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTL4Archive New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public NSString Label
     {

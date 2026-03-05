@@ -2,9 +2,14 @@
 
 public class MTLBlitCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : MTLCommandEncoder(nativePtr, ownership), INativeObject<MTLBlitCommandEncoder>
 {
+    #region INativeObject
     public static new MTLBlitCommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLBlitCommandEncoder Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLBlitCommandEncoder New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public void CopyFromBuffer(MTLBuffer sourceBuffer, nuint sourceOffset, nuint sourceBytesPerRow, nuint sourceBytesPerImage, MTLSize sourceSize, MTLTexture destinationTexture, nuint destinationSlice, nuint destinationLevel, MTLOrigin destinationOrigin)
     {
@@ -68,7 +73,7 @@ public class MTLBlitCommandEncoder(nint nativePtr, NativeObjectOwnership ownersh
 
     public void GetTextureAccessCounters(MTLTexture texture, MTLRegion region, nuint mipLevel, nuint slice, bool resetCounters, MTLBuffer countersBuffer, nuint countersBufferOffset)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLBlitCommandEncoderBindings.GetTextureAccessCounters, texture.NativePtr, region, mipLevel, slice, (Bool8)resetCounters, countersBuffer.NativePtr, countersBufferOffset);
+        ObjectiveC.MsgSend(NativePtr, MTLBlitCommandEncoderBindings.GetTextureAccessCounters, texture.NativePtr, region, mipLevel, slice, resetCounters, countersBuffer.NativePtr, countersBufferOffset);
     }
 
     public void OptimizeContentsForCPUAccess(MTLTexture texture)
@@ -113,7 +118,7 @@ public class MTLBlitCommandEncoder(nint nativePtr, NativeObjectOwnership ownersh
 
     public void SampleCountersInBuffer(MTLCounterSampleBuffer sampleBuffer, nuint sampleIndex, bool barrier)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLBlitCommandEncoderBindings.SampleCountersInBuffer, sampleBuffer.NativePtr, sampleIndex, (Bool8)barrier);
+        ObjectiveC.MsgSend(NativePtr, MTLBlitCommandEncoderBindings.SampleCountersInBuffer, sampleBuffer.NativePtr, sampleIndex, barrier);
     }
 
     public void SynchronizeResource(MTLResource resource)

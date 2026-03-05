@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLAccelerationStructurePassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLAccelerationStructurePassDescriptor>
+public class MTLAccelerationStructurePassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLAccelerationStructurePassDescriptor>
 {
-    public static MTLAccelerationStructurePassDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLAccelerationStructurePassDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLAccelerationStructurePassDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLAccelerationStructurePassDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLAccelerationStructurePassDescriptor() : this(ObjectiveC.AllocInit(MTLAccelerationStructurePassDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

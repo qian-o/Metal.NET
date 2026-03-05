@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLIndirectCommandBufferDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLIndirectCommandBufferDescriptor>
+public class MTLIndirectCommandBufferDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLIndirectCommandBufferDescriptor>
 {
-    public static MTLIndirectCommandBufferDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLIndirectCommandBufferDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLIndirectCommandBufferDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLIndirectCommandBufferDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLIndirectCommandBufferDescriptor() : this(ObjectiveC.AllocInit(MTLIndirectCommandBufferDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {

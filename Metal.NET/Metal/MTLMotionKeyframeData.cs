@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLMotionKeyframeData(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLMotionKeyframeData>
+public class MTLMotionKeyframeData(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLMotionKeyframeData>
 {
-    public static MTLMotionKeyframeData Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLMotionKeyframeData Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLMotionKeyframeData Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLMotionKeyframeData New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLMotionKeyframeData() : this(ObjectiveC.AllocInit(MTLMotionKeyframeDataBindings.Class), NativeObjectOwnership.Managed)
     {
