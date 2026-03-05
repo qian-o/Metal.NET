@@ -1,11 +1,11 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTL4CommandEncoder>
+public class MTL4CommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CommandEncoder>
 {
     #region INativeObject
-    public static MTL4CommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTL4CommandEncoder Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4CommandEncoder New(nint nativePtr, NativeObjectOwnership ownership)
+    public static new MTL4CommandEncoder New(nint nativePtr, NativeObjectOwnership ownership)
     {
         return new(nativePtr, ownership);
     }

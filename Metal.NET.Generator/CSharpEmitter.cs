@@ -143,7 +143,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             string prefix = TypeMapper.GetPrefix(classDef.CppNamespace);
             context.KnownClassNames.Add(prefix + classDef.Name);
         }
-        context.KnownClassNames.UnionWith(["NSString", "NSError", "NSArray", "NSURL", "NSDictionary", "NSNumber", "NSData", "NSBundle", "NativeObject"]);
+        context.KnownClassNames.UnionWith(["NSObject", "NSString", "NSError", "NSArray", "NSURL", "NSDictionary", "NSNumber", "NSData", "NSBundle", "NativeObject"]);
 
         // Build a map of class name → property names for inheritance detection
         Dictionary<string, HashSet<string>> classPropertyMap = [];
@@ -339,11 +339,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         string baseClass = classDef.BaseClassName != null && context.KnownClassNames.Contains(classDef.BaseClassName)
             ? classDef.BaseClassName
-            : "ObjectiveCObject";
+            : "NSObject";
         string partialKeyword = hasFreeFunctions ? "partial " : "";
         sb.AppendLine($"public {partialKeyword}class {csClassName}(nint nativePtr, NativeObjectOwnership ownership) : {baseClass}(nativePtr, ownership), INativeObject<{csClassName}>");
         sb.AppendLine("{");
-        string newKeyword = baseClass is not "NativeObject" and not "ObjectiveCObject" ? "new " : "";
+        string newKeyword = baseClass is not "NativeObject" ? "new " : "";
         sb.AppendLine($"    #region INativeObject");
         sb.AppendLine($"    public static {newKeyword}{csClassName} Null {{ get; }} = new(0, NativeObjectOwnership.Borrowed);");
         sb.AppendLine();

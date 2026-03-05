@@ -1,11 +1,11 @@
 ﻿namespace Metal.NET;
 
-public class MTLFence(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTLFence>
+public class MTLFence(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFence>
 {
     #region INativeObject
-    public static MTLFence Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLFence Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLFence New(nint nativePtr, NativeObjectOwnership ownership)
+    public static new MTLFence New(nint nativePtr, NativeObjectOwnership ownership)
     {
         return new(nativePtr, ownership);
     }

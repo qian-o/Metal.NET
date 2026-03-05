@@ -1,11 +1,11 @@
 ﻿namespace Metal.NET;
 
-public class MTLResidencySet(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTLResidencySet>
+public class MTLResidencySet(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLResidencySet>
 {
     #region INativeObject
-    public static MTLResidencySet Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLResidencySet Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLResidencySet New(nint nativePtr, NativeObjectOwnership ownership)
+    public static new MTLResidencySet New(nint nativePtr, NativeObjectOwnership ownership)
     {
         return new(nativePtr, ownership);
     }

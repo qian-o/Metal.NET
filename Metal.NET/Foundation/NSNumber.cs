@@ -3,12 +3,12 @@
 /// <summary>
 /// Wraps an Objective-C NSNumber for numeric value boxing and unboxing.
 /// </summary>
-public class NSNumber(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<NSNumber>
+public class NSNumber(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSNumber>
 {
     #region INativeObject
-    public static NSNumber Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new NSNumber Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static NSNumber New(nint nativePtr, NativeObjectOwnership ownership)
+    public static new NSNumber New(nint nativePtr, NativeObjectOwnership ownership)
     {
         return new(nativePtr, ownership);
     }

@@ -1,11 +1,11 @@
 ﻿namespace Metal.NET;
 
-public class MTLSamplerDescriptor(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTLSamplerDescriptor>
+public class MTLSamplerDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLSamplerDescriptor>
 {
     #region INativeObject
-    public static MTLSamplerDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLSamplerDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLSamplerDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public static new MTLSamplerDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
     {
         return new(nativePtr, ownership);
     }

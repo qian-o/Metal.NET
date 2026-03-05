@@ -1,11 +1,11 @@
 ﻿namespace Metal.NET;
 
-public class MTLLogStateDescriptor(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTLLogStateDescriptor>
+public class MTLLogStateDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLLogStateDescriptor>
 {
     #region INativeObject
-    public static MTLLogStateDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLLogStateDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLLogStateDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public static new MTLLogStateDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
     {
         return new(nativePtr, ownership);
     }

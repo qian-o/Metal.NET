@@ -6,12 +6,12 @@ namespace Metal.NET;
 /// <summary>
 /// Wraps an Objective-C NSString with bidirectional <see cref="string"/> conversion.
 /// </summary>
-public class NSString(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<NSString>
+public class NSString(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSString>
 {
     #region INativeObject
-    public static NSString Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new NSString Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static NSString New(nint nativePtr, NativeObjectOwnership ownership)
+    public static new NSString New(nint nativePtr, NativeObjectOwnership ownership)
     {
         return new(nativePtr, ownership);
     }

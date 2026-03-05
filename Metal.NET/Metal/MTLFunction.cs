@@ -1,11 +1,11 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTLFunction>
+public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunction>
 {
     #region INativeObject
-    public static MTLFunction Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLFunction Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLFunction New(nint nativePtr, NativeObjectOwnership ownership)
+    public static new MTLFunction New(nint nativePtr, NativeObjectOwnership ownership)
     {
         return new(nativePtr, ownership);
     }

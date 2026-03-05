@@ -1,11 +1,11 @@
 ﻿namespace Metal.NET;
 
-public class MTLVertexAttribute(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTLVertexAttribute>
+public class MTLVertexAttribute(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLVertexAttribute>
 {
     #region INativeObject
-    public static MTLVertexAttribute Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLVertexAttribute Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLVertexAttribute New(nint nativePtr, NativeObjectOwnership ownership)
+    public static new MTLVertexAttribute New(nint nativePtr, NativeObjectOwnership ownership)
     {
         return new(nativePtr, ownership);
     }

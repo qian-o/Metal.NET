@@ -1,11 +1,11 @@
 ﻿namespace Metal.NET;
 
-public class MTLCaptureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTLCaptureDescriptor>
+public class MTLCaptureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCaptureDescriptor>
 {
     #region INativeObject
-    public static MTLCaptureDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLCaptureDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLCaptureDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public static new MTLCaptureDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
     {
         return new(nativePtr, ownership);
     }
@@ -15,10 +15,10 @@ public class MTLCaptureDescriptor(nint nativePtr, NativeObjectOwnership ownershi
     {
     }
 
-    public nint CaptureObject
+    public NSObject CaptureObject
     {
-        get => ObjectiveC.MsgSendPtr(NativePtr, MTLCaptureDescriptorBindings.CaptureObject);
-        set => ObjectiveC.MsgSend(NativePtr, MTLCaptureDescriptorBindings.SetCaptureObject, value);
+        get => GetProperty(ref field, MTLCaptureDescriptorBindings.CaptureObject);
+        set => SetProperty(ref field, MTLCaptureDescriptorBindings.SetCaptureObject, value);
     }
 
     public MTLCaptureDestination Destination

@@ -1,11 +1,11 @@
 ﻿namespace Metal.NET;
 
-public class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTL4Compiler>
+public class MTL4Compiler(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4Compiler>
 {
     #region INativeObject
-    public static MTL4Compiler Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTL4Compiler Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4Compiler New(nint nativePtr, NativeObjectOwnership ownership)
+    public static new MTL4Compiler New(nint nativePtr, NativeObjectOwnership ownership)
     {
         return new(nativePtr, ownership);
     }

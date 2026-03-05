@@ -1,11 +1,11 @@
 ﻿namespace Metal.NET;
 
-public class MTLBinding(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTLBinding>
+public class MTLBinding(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLBinding>
 {
     #region INativeObject
-    public static MTLBinding Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLBinding Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLBinding New(nint nativePtr, NativeObjectOwnership ownership)
+    public static new MTLBinding New(nint nativePtr, NativeObjectOwnership ownership)
     {
         return new(nativePtr, ownership);
     }

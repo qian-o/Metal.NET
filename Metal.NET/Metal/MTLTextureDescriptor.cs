@@ -1,11 +1,11 @@
 ﻿namespace Metal.NET;
 
-public class MTLTextureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : ObjectiveCObject(nativePtr, ownership), INativeObject<MTLTextureDescriptor>
+public class MTLTextureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTextureDescriptor>
 {
     #region INativeObject
-    public static MTLTextureDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    public static new MTLTextureDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLTextureDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    public static new MTLTextureDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
     {
         return new(nativePtr, ownership);
     }
