@@ -2,8 +2,13 @@
 
 namespace Metal.NET.Generator;
 
+/// <summary>
+/// Maps C++ types to C# types, resolves MsgSend method variants,
+/// and provides naming helpers (PascalCase, camelCase, reserved word escaping).
+/// </summary>
 partial class TypeMapper(GeneratorContext context)
 {
+    /// <summary>Struct types returned by value (not nullable, not reference types).</summary>
     public static readonly HashSet<string> StructTypes =
     [
         "NSRange", "MTLRegion", "MTLSize", "MTLOrigin", "MTLSamplePosition", "MTLViewport",
@@ -16,11 +21,13 @@ partial class TypeMapper(GeneratorContext context)
         "SimdFloat4x4"
     ];
 
+    /// <summary>Known typos in metal-cpp headers (parameter name corrections).</summary>
     static readonly Dictionary<string, string> ParamNameCorrections = new()
     {
         ["frontFacingWindning"] = "frontFacingWinding"
     };
 
+    /// <summary>C# reserved words that need @ prefix when used as identifiers.</summary>
     static readonly HashSet<string> CSharpReservedWords =
     [
         "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked",
@@ -60,10 +67,15 @@ partial class TypeMapper(GeneratorContext context)
 
     #region Type Mapping
 
+    /// <summary>
+    /// Maps a C++ type string to a C# type name.
+    /// Handles pointers, namespaced types (e.g., MTL::Device*), and special aliases.
+    /// </summary>
     public static string MapCppType(string cppType, string defaultNs)
     {
         string t = cppType.Trim();
 
+        // Remove const and class keywords
         t = t.Replace("const ", "").Replace("class ", "").Trim();
 
         bool isPointer = t.EndsWith('*');
@@ -120,6 +132,7 @@ partial class TypeMapper(GeneratorContext context)
             return simple;
         }
 
+        // Namespaced types (e.g., MTL::Device, NS::String)
         Match nsMatch = NamespaceTypeRegex().Match(t);
         if (nsMatch.Success)
         {
@@ -150,6 +163,7 @@ partial class TypeMapper(GeneratorContext context)
             return prefix + typeName;
         }
 
+        // Unqualified type in same namespace
         if (!t.Contains("::"))
         {
             if (t == "GPUAddress")
@@ -174,6 +188,9 @@ partial class TypeMapper(GeneratorContext context)
         return "nint";
     }
 
+    /// <summary>
+    /// Returns true if the C# type represents a NativeObject subclass (not a primitive, struct, or enum).
+    /// </summary>
     public bool IsNativeObjectType(string csType)
     {
         if (csType is "void" or "bool" or "nint" or "nuint" or "uint" or "int" or "ulong" or "long" or "float" or "double"
@@ -197,6 +214,9 @@ partial class TypeMapper(GeneratorContext context)
 
     public bool IsEnumType(string csType) => context.EnumBackingTypes.ContainsKey(csType);
 
+    /// <summary>
+    /// Returns true if the C++ type cannot be mapped to a C# type (templates, references, etc.).
+    /// </summary>
     public static bool IsUnmappableCppType(string cppType)
     {
         string t = cppType;
@@ -239,6 +259,9 @@ partial class TypeMapper(GeneratorContext context)
 
     #region MsgSend Mapping
 
+    /// <summary>
+    /// Returns the MsgSend method group name for a given C# return type (e.g., "nint" → "MsgSendPtr").
+    /// </summary>
     public static string GetMsgSendMethod(string csType) => csType switch
     {
         "nint" => "MsgSendPtr",
@@ -252,6 +275,9 @@ partial class TypeMapper(GeneratorContext context)
         _ => "MsgSendPtr"
     };
 
+    /// <summary>
+    /// Returns the MsgSend call expression for reading an enum property, based on its backing type.
+    /// </summary>
     public string GetMsgSendForEnumGet(string csEnumType)
     {
         if (context.EnumBackingTypes.TryGetValue(csEnumType, out string? backing))
@@ -268,6 +294,9 @@ partial class TypeMapper(GeneratorContext context)
         return "ObjectiveC.MsgSendNUInt";
     }
 
+    /// <summary>
+    /// Returns the cast expression for setting an enum property value (e.g., "(nuint)").
+    /// </summary>
     public string GetEnumSetCast(string csEnumType)
     {
         if (context.EnumBackingTypes.TryGetValue(csEnumType, out string? backing))
@@ -284,6 +313,9 @@ partial class TypeMapper(GeneratorContext context)
         return "(nuint)";
     }
 
+    /// <summary>
+    /// Returns the specialized MsgSend method for a struct return type (e.g., "MTLSize" → "MsgSendMTLSize").
+    /// </summary>
     public static string GetMsgSendForStruct(string csType) => csType switch
     {
         "MTLSize" => "MsgSendMTLSize",
@@ -304,6 +336,10 @@ partial class TypeMapper(GeneratorContext context)
 
     #region Ownership
 
+    /// <summary>
+    /// Returns true if the method name implies an ownership transfer per ObjC naming conventions
+    /// (new*, alloc*, copy*, mutableCopy*, init*). Callers receive owned references from these methods.
+    /// </summary>
     public static bool IsOwnershipTransferMethod(string cppName)
     {
         if (cppName.StartsWith("new") && (cppName.Length == 3 || char.IsUpper(cppName[3])))

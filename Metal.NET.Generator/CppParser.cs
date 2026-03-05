@@ -2,8 +2,13 @@
 
 namespace Metal.NET.Generator;
 
+/// <summary>
+/// Regex-based parser for metal-cpp C++ headers.
+/// Extracts enums, classes, methods, free functions, and ObjC selector mappings.
+/// </summary>
 partial class CppParser(string metalCppDir, GeneratorContext context)
 {
+    /// <summary>Methods to skip during parsing (ObjC runtime methods handled by the framework).</summary>
     static readonly HashSet<string> SkipMethods = ["alloc", "init", "retain", "release", "autorelease", "copy", "retainCount"];
 
     #region Bridge Files
@@ -86,6 +91,10 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
 
     #region Block Type Alias Parsing
 
+    /// <summary>
+    /// Known inline block signatures mapped to delegate names.
+    /// These appear directly in method signatures without a <c>using</c> alias.
+    /// </summary>
     static readonly Dictionary<string, string> InlineBlockDelegateNames = new()
     {
         ["void*, NS::UInteger"] = "MTLDeallocator",
@@ -93,6 +102,7 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
         ["MTL::Function*, NS::Error*"] = "MTLNewFunctionCompletionHandler",
     };
 
+    /// <summary>Override parameter names for known inline block types.</summary>
     static readonly Dictionary<string, string[]> InlineBlockParamNames = new()
     {
         ["MTLDeallocator"] = ["pointer", "length"],
@@ -880,6 +890,11 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
         return result;
     }
 
+    /// <summary>
+    /// Replaces inline block parameters like <c>void (^deallocator)(void*, NS::UInteger)</c> with a
+    /// synthetic type marker <c>INLINE_BLOCK:delegateName deallocator</c> so the standard
+    /// parameter parser can handle them.
+    /// </summary>
     static string PreprocessInlineBlocks(string line)
     {
         while (true)
@@ -1081,6 +1096,7 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
             parameters.Add(new ParamDef(type.Trim(), paramName));
         }
 
+        // Post-process: detect StructType* + NS::UInteger count pairs and convert to STRUCT_ARRAY
         for (int i = 0; i < parameters.Count - 1; i++)
         {
             ParamDef param = parameters[i];

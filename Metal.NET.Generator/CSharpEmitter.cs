@@ -2,8 +2,14 @@
 
 namespace Metal.NET.Generator;
 
+/// <summary>
+/// Emits C# source files from parsed metal-cpp definitions.
+/// Generates enum types, NativeObject-based classes with properties/methods, and P/Invoke free functions.
+/// Also auto-generates Common/ObjectiveC.cs with all required MsgSend overloads.
+/// </summary>
 class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeMapper)
 {
+    /// <summary>Hand-written classes to skip during generation.</summary>
     static readonly HashSet<string> SkipClasses =
     [
         "NSString",
@@ -24,29 +30,51 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         "NSDate"
     ];
 
+    /// <summary>
+    /// Maps (ClassName, MemberName) → element type for NSArray properties and methods.
+    /// Used to resolve typed arrays from the Objective-C Metal API.
+    /// </summary>
     static readonly Dictionary<(string Class, string Member), string> NSArrayElementTypes = new()
     {
+        // MTLDevice
         { ("MTLDevice", "CounterSets"), "MTLCounterSet" },
         { ("MTLDevice", "CopyAllDevices"), "MTLDevice" },
         { ("MTLDevice", "NewArgumentEncoder"), "MTLArgumentDescriptor" },
+        // MTLCounterSet
         { ("MTLCounterSet", "Counters"), "MTLCounter" },
+        // MTLLibrary
         { ("MTLLibrary", "FunctionNames"), "NSString" },
+        // MTLFunction
         { ("MTLFunction", "StageInputAttributes"), "MTLAttribute" },
         { ("MTLFunction", "VertexAttributes"), "MTLVertexAttribute" },
+        // MTLStructType
         { ("MTLStructType", "Members"), "MTLStructMember" },
+        // MTLResidencySet
         { ("MTLResidencySet", "AllAllocations"), "MTLAllocation" },
+        // MTLCommandBufferEncoderInfo
         { ("MTLCommandBufferEncoderInfo", "DebugSignposts"), "NSString" },
+        // MTLInstanceAccelerationStructureDescriptor
         { ("MTLInstanceAccelerationStructureDescriptor", "InstancedAccelerationStructures"), "MTLAccelerationStructure" },
+        // MTLFunctionStitchingGraph
         { ("MTLFunctionStitchingGraph", "Attributes"), "MTLFunctionStitchingAttribute" },
         { ("MTLFunctionStitchingGraph", "Nodes"), "MTLFunctionStitchingFunctionNode" },
+        // MTLFunctionStitchingFunctionNode
         { ("MTLFunctionStitchingFunctionNode", "ControlDependencies"), "MTLFunctionStitchingFunctionNode" },
+        // MTLStitchedLibraryDescriptor
         { ("MTLStitchedLibraryDescriptor", "FunctionGraphs"), "MTLFunctionStitchingGraph" },
+        // MTL4CompilerTaskOptions
         { ("MTL4CompilerTaskOptions", "LookupArchives"), "MTL4Archive" },
+        // MTLComputePipelineState
         { ("MTLComputePipelineState", "NewComputePipelineStateWithBinaryFunctions"), "MTL4BinaryFunction" },
         { ("MTLComputePipelineState", "NewComputePipelineState"), "MTLFunction" },
+        // MTL4MachineLearningPipelineDescriptor
         { ("MTL4MachineLearningPipelineDescriptor", "SetInputDimensions"), "MTLTensorExtents" },
     };
 
+    /// <summary>
+    /// Maps a property name suffix to element type for NSArray properties.
+    /// Applied when no exact (Class, Property) match is found in NSArrayElementTypes.
+    /// </summary>
     static readonly (string Suffix, string ElementType)[] NSArraySuffixRules =
     [
         ("BinaryArchives", "MTLBinaryArchive"),
@@ -69,6 +97,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         ("Arguments", "MTLArgument"),
     ];
 
+    /// <summary>
+    /// Tries to resolve the element type for an NSArray property or method.
+    /// Returns null if no mapping is found.
+    /// </summary>
     static string? TryResolveNSArrayElementType(string className, string propertyName)
     {
         if (NSArrayElementTypes.TryGetValue((className, propertyName), out string? elementType))
@@ -87,6 +119,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         return null;
     }
 
+    /// <summary>
+    /// Records a MsgSend overload signature for later generation of ObjectiveC.cs.
+    /// </summary>
     void RecordMsgSend(string group, params string[] argTypes)
     {
         string key = string.Join(", ", argTypes);
@@ -102,17 +137,20 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     public void GenerateAll()
     {
+        // Group enums by namespace into consolidated files (e.g., MTLEnums.cs, NSEnums.cs, MTLFXEnums.cs)
         var enumsBySubdir = context.Enums.GroupBy(e => TypeMapper.GetOutputSubdir(e.CppNamespace));
         foreach (var group in enumsBySubdir)
         {
             GenerateEnumFile(group.Key, group.ToList());
         }
 
+        // Generate consolidated delegate file for block type aliases
         if (context.BlockTypeAliases.Count > 0)
         {
             GenerateDelegateFile();
         }
 
+        // Build known class names (both generated and hand-written)
         foreach (ClassDef classDef in context.Classes)
         {
             string prefix = TypeMapper.GetPrefix(classDef.CppNamespace);
@@ -120,6 +158,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
         context.KnownClassNames.UnionWith(["NSObject", "NSString", "NSError", "NSArray", "NSURL", "NSDictionary", "NSNumber", "NSData", "NSBundle", "NativeObject"]);
 
+        // Build a map of class name → property names for inheritance detection
         Dictionary<string, HashSet<string>> classPropertyMap = [];
         foreach (ClassDef classDef in context.Classes)
         {
@@ -132,6 +171,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             ];
         }
 
+        // Build inherited property names by walking the inheritance chain
         HashSet<string> GetInheritedProperties(string csClassName)
         {
             HashSet<string> result = [];
@@ -150,10 +190,12 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             return result;
         }
 
+        // Build lookup of free functions per target class
         Dictionary<string, List<FreeFunctionDef>> freeFuncsByClass = context.FreeFunctions
             .GroupBy(f => f.TargetClassName)
             .ToDictionary(g => g.Key, g => g.ToList());
 
+        // Record MsgSend signatures used by hand-written Foundation classes
         RecordMsgSend("MsgSend", "nint");
 
         RecordMsgSend("MsgSendPtr");
@@ -178,6 +220,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         RecordMsgSend("MsgSendNUInt");
 
+        // MsgSend with no args is always needed
         RecordMsgSend("MsgSend");
 
         foreach (ClassDef classDef in context.Classes)
@@ -480,6 +523,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Member Categorization
 
+    /// <summary>
+    /// Separates methods into properties (getter/setter pairs) and remaining methods.
+    /// A method is treated as a property getter if it has no parameters, returns non-void,
+    /// is const, is not static, and is not an ownership-transfer method (new/alloc/copy/init).
+    /// </summary>
     static (List<PropertyDef> Properties, List<MethodInfo> Methods) CategorizeMembers(List<MethodInfo> allMethods)
     {
         List<PropertyDef> properties = [];
@@ -564,6 +612,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Method Filtering
 
+    /// <summary>
+    /// Returns true if the method has std::function or unknown function pointer params that should be skipped.
+    /// Block handler params (Handler/Block types and INLINE_BLOCK: markers) are NOT considered function pointers.
+    /// </summary>
     bool HasFunctionPointerParam(MethodInfo method)
     {
         return method.Parameters.Any(p =>
@@ -594,6 +646,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         });
     }
 
+    /// <summary>
+    /// Returns true if the C++ parameter type is a known block handler type (using-aliased).
+    /// </summary>
     bool IsBlockHandlerCppType(string cppType)
     {
         if (cppType.Contains("Handler") || cppType.Contains("Block"))
@@ -1043,6 +1098,8 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 string castType = typeMapper.GetEnumSetCast(csParamType).TrimStart('(').TrimEnd(')');
                 callArgTypes.Add(castType);
             }
+            // For P/Invoke signature tracking: map bool → Bool8 since bool is not
+            // blittable in LibraryImport; all other types pass through unchanged.
             else
             {
                 callArgs.Add(paramName);
@@ -1262,6 +1319,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region ObjectiveC.cs Generation
 
+    /// <summary>
+    /// Generates the auto-generated Common/ObjectiveC.cs file containing all required
+    /// P/Invoke MsgSend overloads, null-guard wrappers, and Alloc/Init/Release helpers.
+    /// Signatures are collected during property/method emission via RecordMsgSend().
+    /// </summary>
     void GenerateObjectiveCFile()
     {
         string dir = Path.Combine(outputDir, "Common");
