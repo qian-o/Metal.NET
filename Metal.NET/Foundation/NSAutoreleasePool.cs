@@ -1,37 +1,39 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Wraps an Objective-C NSAutoreleasePool for managing autorelease pools.
-/// </summary>
-public class NSAutoreleasePool(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<NSAutoreleasePool>
+public class NSAutoreleasePool(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSAutoreleasePool>
 {
-    public static NSAutoreleasePool Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new NSAutoreleasePool Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static NSAutoreleasePool Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new NSAutoreleasePool New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
-    public NSAutoreleasePool() : this(ObjectiveCRuntime.AllocInit(NSAutoreleasePoolBindings.Class), NativeObjectOwnership.Managed)
+    public NSAutoreleasePool() : this(ObjectiveC.AllocInit(NSAutoreleasePoolBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public void Drain()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, NSAutoreleasePoolBindings.Drain);
+        ObjectiveC.MsgSend(NativePtr, NSAutoreleasePoolBindings.Drain);
     }
 
     public void AddObject(NativeObject nativeObject)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, NSAutoreleasePoolBindings.AddObject, nativeObject.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, NSAutoreleasePoolBindings.AddObject, nativeObject.NativePtr);
     }
 
     public static void ShowPools()
     {
-        ObjectiveCRuntime.MsgSend(NSAutoreleasePoolBindings.Class, NSAutoreleasePoolBindings.ShowPools);
+        ObjectiveC.MsgSend(NSAutoreleasePoolBindings.Class, NSAutoreleasePoolBindings.ShowPools);
     }
 }
 
 file static class NSAutoreleasePoolBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("NSAutoreleasePool");
+    public static readonly nint Class = ObjectiveC.GetClass("NSAutoreleasePool");
 
     public static readonly Selector Drain = "drain";
 

@@ -5,12 +5,11 @@ namespace Metal.NET.Generator;
 /// <summary>
 /// Emits C# source files from parsed metal-cpp definitions.
 /// Generates enum types, NativeObject-based classes with properties/methods, and P/Invoke free functions.
+/// Also auto-generates Common/ObjectiveC.cs with all required MsgSend overloads.
 /// </summary>
 class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeMapper)
 {
-    /// <summary>
-    /// Hand-written classes to skip during generation.
-    /// </summary>
+    /// <summary>Hand-written classes to skip during generation.</summary>
     static readonly HashSet<string> SkipClasses =
     [
         "NSString",
@@ -32,8 +31,8 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     ];
 
     /// <summary>
-    /// Maps (ClassName, MemberName) → element type for NSArray properties and methods,
-    /// inferred from the Objective-C Metal API typed arrays.
+    /// Maps (ClassName, MemberName) → element type for NSArray properties and methods.
+    /// Used to resolve typed arrays from the Objective-C Metal API.
     /// </summary>
     static readonly Dictionary<(string Class, string Member), string> NSArrayElementTypes = new()
     {
@@ -74,7 +73,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     /// <summary>
     /// Maps a property name suffix to element type for NSArray properties.
-    /// Applied when no exact (Class, Property) match is found.
+    /// Applied when no exact (Class, Property) match is found in NSArrayElementTypes.
     /// </summary>
     static readonly (string Suffix, string ElementType)[] NSArraySuffixRules =
     [
@@ -99,7 +98,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     ];
 
     /// <summary>
-    /// Tries to resolve the element type for an NSArray property.
+    /// Tries to resolve the element type for an NSArray property or method.
     /// Returns null if no mapping is found.
     /// </summary>
     static string? TryResolveNSArrayElementType(string className, string propertyName)
@@ -118,6 +117,20 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
 
         return null;
+    }
+
+    /// <summary>
+    /// Records a MsgSend overload signature for later generation of ObjectiveC.cs.
+    /// </summary>
+    void RecordMsgSend(string group, params string[] argTypes)
+    {
+        string key = string.Join(", ", argTypes);
+        if (!context.MsgSendSignatures.TryGetValue(group, out var set))
+        {
+            set = new SortedSet<string>(StringComparer.Ordinal);
+            context.MsgSendSignatures[group] = set;
+        }
+        set.Add(key);
     }
 
     #region Generation Entry Point
@@ -143,7 +156,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             string prefix = TypeMapper.GetPrefix(classDef.CppNamespace);
             context.KnownClassNames.Add(prefix + classDef.Name);
         }
-        context.KnownClassNames.UnionWith(["NSString", "NSError", "NSArray", "NSURL", "NSDictionary", "NSNumber", "NSData", "NSBundle", "NativeObject"]);
+        context.KnownClassNames.UnionWith(["NSObject", "NSString", "NSError", "NSArray", "NSURL", "NSDictionary", "NSNumber", "NSData", "NSBundle", "NativeObject"]);
 
         // Build a map of class name → property names for inheritance detection
         Dictionary<string, HashSet<string>> classPropertyMap = [];
@@ -182,6 +195,34 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             .GroupBy(f => f.TargetClassName)
             .ToDictionary(g => g.Key, g => g.ToList());
 
+        // Record MsgSend signatures used by hand-written Foundation classes
+        RecordMsgSend("MsgSend", "nint");
+
+        RecordMsgSend("MsgSendPtr");
+        RecordMsgSend("MsgSendPtr", "nint");
+        RecordMsgSend("MsgSendPtr", "nint", "nint");
+        RecordMsgSend("MsgSendPtr", "Bool8");
+        RecordMsgSend("MsgSendPtr", "float");
+        RecordMsgSend("MsgSendPtr", "double");
+        RecordMsgSend("MsgSendPtr", "int");
+        RecordMsgSend("MsgSendPtr", "uint");
+        RecordMsgSend("MsgSendPtr", "long");
+        RecordMsgSend("MsgSendPtr", "ulong");
+        RecordMsgSend("MsgSendPtr", "nuint");
+
+        RecordMsgSend("MsgSendBool");
+        RecordMsgSend("MsgSendFloat");
+        RecordMsgSend("MsgSendDouble");
+        RecordMsgSend("MsgSendInt");
+        RecordMsgSend("MsgSendUInt");
+        RecordMsgSend("MsgSendLong");
+        RecordMsgSend("MsgSendULong");
+
+        RecordMsgSend("MsgSendNUInt");
+
+        // MsgSend with no args is always needed
+        RecordMsgSend("MsgSend");
+
         foreach (ClassDef classDef in context.Classes)
         {
             string prefix = TypeMapper.GetPrefix(classDef.CppNamespace);
@@ -190,6 +231,8 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             freeFuncsByClass.TryGetValue(csClassName, out List<FreeFunctionDef>? classFuncs);
             GenerateClass(classDef, inheritedProps, classFuncs ?? []);
         }
+
+        GenerateObjectiveCFile();
     }
 
     #endregion
@@ -201,7 +244,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string dir = Path.Combine(outputDir, subdir);
         Directory.CreateDirectory(dir);
 
-        // Determine the consolidated file name based on the subdirectory
         string fileName = subdir switch
         {
             "Metal" => "MTLEnums.cs",
@@ -210,7 +252,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             _ => $"{subdir}Enums.cs"
         };
 
-        // Delete old per-enum files that will be replaced by the consolidated file
         foreach (EnumDef enumDef in enums)
         {
             string prefix = TypeMapper.GetPrefix(enumDef.CppNamespace);
@@ -307,7 +348,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         bool hasClassField = context.RegisteredClasses.Contains(csClassName);
         bool hasFreeFunctions = freeFunctions.Count > 0;
 
-        // Filter out methods with unmapped array params, function pointer params, or unmappable types
         List<MethodInfo> validMethods =
         [
             .. classDef.Methods.Where(m => !m.Parameters.Any(p => p.CppType == "ARRAY_PARAM")
@@ -339,26 +379,30 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         string baseClass = classDef.BaseClassName != null && context.KnownClassNames.Contains(classDef.BaseClassName)
             ? classDef.BaseClassName
-            : "NativeObject";
+            : "NSObject";
         string partialKeyword = hasFreeFunctions ? "partial " : "";
         sb.AppendLine($"public {partialKeyword}class {csClassName}(nint nativePtr, NativeObjectOwnership ownership) : {baseClass}(nativePtr, ownership), INativeObject<{csClassName}>");
         sb.AppendLine("{");
-        string newKeyword = baseClass != "NativeObject" ? "new " : "";
+        string newKeyword = baseClass is not "NativeObject" ? "new " : "";
+        sb.AppendLine($"    #region INativeObject");
         sb.AppendLine($"    public static {newKeyword}{csClassName} Null {{ get; }} = new(0, NativeObjectOwnership.Borrowed);");
         sb.AppendLine();
-        sb.AppendLine($"    public static {newKeyword}{csClassName} Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);");
+        sb.AppendLine($"    public static {newKeyword}{csClassName} New(nint nativePtr, NativeObjectOwnership ownership)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        return new(nativePtr, ownership);");
+        sb.AppendLine("    }");
+        sb.AppendLine("    #endregion");
 
         bool hasPrecedingMember = true;
         if (hasClassField)
         {
             sb.AppendLine();
-            sb.AppendLine($"    public {csClassName}() : this(ObjectiveCRuntime.AllocInit({csClassName}Bindings.Class), NativeObjectOwnership.Managed)");
+            sb.AppendLine($"    public {csClassName}() : this(ObjectiveC.AllocInit({csClassName}Bindings.Class), NativeObjectOwnership.Managed)");
             sb.AppendLine("    {");
             sb.AppendLine("    }");
             hasPrecedingMember = true;
         }
 
-        // Properties (sorted alphabetically)
         foreach (PropertyDef prop in properties)
         {
             int prevLen = sb.Length;
@@ -377,7 +421,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             }
         }
 
-        // Indexer (objectAtIndexedSubscript: / setObject:atIndexedSubscript:)
         MethodInfo? indexerGetter = methods.FirstOrDefault(m =>
             m.SelectorAccessor is "objectAtIndexedSubscript_"
             || (m.CppName == "object" && m.Parameters.Count == 1 && m.ReturnType != "void"));
@@ -400,10 +443,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             sb.AppendLine("    {");
             sb.AppendLine("        get");
             sb.AppendLine("        {");
-            sb.AppendLine($"            nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, {csClassName}Bindings.Object, {indexParam});");
+            sb.AppendLine($"            nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, {csClassName}Bindings.Object, {indexParam});");
             sb.AppendLine();
             sb.AppendLine("            return new(nativePtr, NativeObjectOwnership.Borrowed);");
             sb.AppendLine("        }");
+            RecordMsgSend("MsgSendPtr", "nuint");
 
             if (indexerSetter != null)
             {
@@ -411,15 +455,15 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
                 sb.AppendLine("        set");
                 sb.AppendLine("        {");
-                sb.AppendLine($"            ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.SetObject, value.NativePtr, {indexParam});");
+                sb.AppendLine($"            ObjectiveC.MsgSend(NativePtr, {csClassName}Bindings.SetObject, value.NativePtr, {indexParam});");
                 sb.AppendLine("        }");
+                RecordMsgSend("MsgSend", "nint", "nuint");
             }
 
             sb.AppendLine("    }");
             hasPrecedingMember = true;
         }
 
-        // Methods (skip indexer getter/setter already emitted above)
         foreach (MethodInfo method in methods)
         {
             if (method == indexerGetter || method == indexerSetter)
@@ -436,7 +480,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             hasPrecedingMember = true;
         }
 
-        // Static free functions
         foreach (FreeFunctionDef func in freeFunctions)
         {
             if (hasPrecedingMember)
@@ -451,14 +494,13 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         sb.AppendLine("}");
         sb.AppendLine();
 
-        // Bindings class
         sb.AppendLine($"file static class {csClassName}Bindings");
         sb.AppendLine("{");
 
         bool first = true;
         if (hasClassField)
         {
-            sb.AppendLine($"    public static readonly nint Class = ObjectiveCRuntime.GetClass(\"{csClassName}\");");
+            sb.AppendLine($"    public static readonly nint Class = ObjectiveC.GetClass(\"{csClassName}\");");
             first = false;
         }
 
@@ -481,13 +523,17 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Member Categorization
 
+    /// <summary>
+    /// Separates methods into properties (getter/setter pairs) and remaining methods.
+    /// A method is treated as a property getter if it has no parameters, returns non-void,
+    /// is const, is not static, and is not an ownership-transfer method (new/alloc/copy/init).
+    /// </summary>
     static (List<PropertyDef> Properties, List<MethodInfo> Methods) CategorizeMembers(List<MethodInfo> allMethods)
     {
         List<PropertyDef> properties = [];
         List<MethodInfo> methods = [];
         HashSet<MethodInfo> used = new(ReferenceEqualityComparer.Instance);
 
-        // Build setter map
         Dictionary<string, MethodInfo> setterMap = new(StringComparer.Ordinal);
         foreach (MethodInfo m in allMethods)
         {
@@ -499,7 +545,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             }
         }
 
-        // Find getters
         foreach (MethodInfo m in allMethods)
         {
             if (m.ReturnType == "void")
@@ -548,7 +593,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             used.Add(m);
         }
 
-        // Remaining become methods
         foreach (MethodInfo m in allMethods)
         {
             if (used.Contains(m))
@@ -576,27 +620,23 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     {
         return method.Parameters.Any(p =>
         {
-            // INLINE_BLOCK: markers are block params — not function pointers
             if (p.CppType.StartsWith("INLINE_BLOCK:"))
             {
                 string delegateName = p.CppType["INLINE_BLOCK:".Length..];
                 return delegateName == "UNKNOWN_BLOCK";
             }
 
-            // std::function params — skip
             if (p.CppType.Contains("std::function") || p.CppType.Contains("Function&") || p.CppType.Contains("Function &"))
             {
                 return true;
             }
 
-            // Named block types (Handler/Block) — check if we have a delegate for them
             if (p.CppType.Contains("Handler") || p.CppType.Contains("Block"))
             {
                 string csType = TypeMapper.MapCppType(p.CppType, "MTL");
                 return !context.BlockTypeAliases.Any(b => b.CsDelegateName == csType);
             }
 
-            // Other function-like types
             if (p.CppType.Contains("function") || p.CppType.Contains("void("))
             {
                 return true;
@@ -686,7 +726,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         string csType = TypeMapper.MapCppType(getter.ReturnType, ns);
 
-        // Resolve NSArray element type for typed arrays
         string? nsArrayElemType = null;
         if (csType == "NSArray")
         {
@@ -699,7 +738,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         bool isStruct = TypeMapper.StructTypes.Contains(csType);
         bool isBool = csType == "bool";
 
-        // Register getter selector
         string selectorName = csPropName;
         string selectorObjC;
         if (getter.SelectorAccessor != null && context.SelectorMap.TryGetValue(getter.SelectorAccessor, out string? objcSel))
@@ -717,7 +755,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string selectorRef = $"{csClassName}Bindings.{selectorName}";
         string typeStr = csType;
 
-        // Resolve setter selector
         string? setSelName = null;
         if (prop.Setter != null)
         {
@@ -759,48 +796,58 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         else if (isEnum)
         {
             string msgSend = typeMapper.GetMsgSendForEnumGet(csType);
+            string enumGetGroup = msgSend.Replace("ObjectiveC.", "");
+            RecordMsgSend(enumGetGroup);
             sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
             sb.AppendLine($"        get => ({csType}){msgSend}({Target}, {selectorRef});");
             if (prop.Setter != null)
             {
                 string setCast = typeMapper.GetEnumSetCast(csType);
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, {setCast}value);");
+                string enumSetType = setCast.TrimStart('(').TrimEnd(')');
+                RecordMsgSend("MsgSend", enumSetType);
+                sb.AppendLine($"        set => ObjectiveC.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, {setCast}value);");
             }
             sb.AppendLine("    }");
         }
         else if (isBool)
         {
+            RecordMsgSend("MsgSendBool");
             sb.AppendLine($"    public Bool8 {csPropName}");
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => ObjectiveCRuntime.MsgSendBool({Target}, {selectorRef});");
+            sb.AppendLine($"        get => ObjectiveC.MsgSendBool({Target}, {selectorRef});");
             if (prop.Setter != null)
             {
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value);");
+                RecordMsgSend("MsgSend", "Bool8");
+                sb.AppendLine($"        set => ObjectiveC.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value);");
             }
             sb.AppendLine("    }");
         }
         else if (isStruct)
         {
             string msgSend = TypeMapper.GetMsgSendForStruct(csType);
+            RecordMsgSend(msgSend);
             sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => ObjectiveCRuntime.{msgSend}({Target}, {selectorRef});");
+            sb.AppendLine($"        get => ObjectiveC.{msgSend}({Target}, {selectorRef});");
             if (prop.Setter != null)
             {
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value);");
+                RecordMsgSend("MsgSend", csType);
+                sb.AppendLine($"        set => ObjectiveC.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value);");
             }
             sb.AppendLine("    }");
         }
         else
         {
             string msgSend = TypeMapper.GetMsgSendMethod(csType);
+            RecordMsgSend(msgSend);
             sb.AppendLine($"    public {typeStr} {csPropName}");
             sb.AppendLine("    {");
-            sb.AppendLine($"        get => ObjectiveCRuntime.{msgSend}({Target}, {selectorRef});");
+            sb.AppendLine($"        get => ObjectiveC.{msgSend}({Target}, {selectorRef});");
             if (prop.Setter != null)
             {
-                sb.AppendLine($"        set => ObjectiveCRuntime.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value);");
+                RecordMsgSend("MsgSend", csType);
+                sb.AppendLine($"        set => ObjectiveC.MsgSend(NativePtr, {csClassName}Bindings.{setSelName}, value);");
             }
             sb.AppendLine("    }");
         }
@@ -871,7 +918,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         string returnType = TypeMapper.MapCppType(method.ReturnType, ns);
 
-        // Resolve NSArray element type for array returns
         string? returnArrayElemType = null;
         if (returnType == "NSArray")
         {
@@ -887,9 +933,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         bool hasOutError = method.Parameters.Any(p => p.CppType.Contains("Error**"));
 
-        // Build C# parameter list and call arguments
         List<string> csParams = [];
         List<string> callArgs = [target, selectorRef];
+        List<string> callArgTypes = [];
         List<string> arraySetupLines = [];
         List<string> fixedStatements = [];
         List<string> nsArrayReleaseVars = [];
@@ -924,10 +970,12 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 arraySetupLines.Add("        }");
 
                 callArgs.Add($"(nint){ptrVar}");
+                callArgTypes.Add("nint");
 
                 if (nextIsCount)
                 {
                     callArgs.Add($"(nuint){csParamName}.Length");
+                    callArgTypes.Add("nuint");
                     pi++;
                 }
                 continue;
@@ -949,6 +997,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 arraySetupLines.Add("        }");
 
                 callArgs.Add($"(nint){ptrVar}");
+                callArgTypes.Add("nint");
                 continue;
             }
 
@@ -969,22 +1018,24 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 fixedStatements.Add($"fixed ({elemCsType}* {ptrVar} = {csParamName})");
 
                 callArgs.Add($"(nint){ptrVar}");
+                callArgTypes.Add("nint");
 
                 if (nextIsCount)
                 {
                     callArgs.Add($"(nuint){csParamName}.Length");
+                    callArgTypes.Add("nuint");
                     pi++;
                 }
                 continue;
             }
 
-            // Block handler parameters (using-aliased or inline)
             if (param.CppType.StartsWith("INLINE_BLOCK:"))
             {
                 string delegateName = param.CppType["INLINE_BLOCK:".Length..];
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
                 csParams.Add($"{delegateName} {csParamName}");
                 callArgs.Add(csParamName);
+                callArgTypes.Add(delegateName);
                 continue;
             }
 
@@ -994,6 +1045,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
                 csParams.Add($"{csType} {csParamName}");
                 callArgs.Add(csParamName);
+                callArgTypes.Add(csType);
                 continue;
             }
 
@@ -1004,6 +1056,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 csParams.Add("out NSError error");
                 callArgs.Add("out nint errorPtr");
+                callArgTypes.Add("out nint");
                 continue;
             }
 
@@ -1011,6 +1064,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 csParams.Add($"out ulong {paramName}");
                 callArgs.Add($"out {paramName}");
+                callArgTypes.Add("out ulong");
                 continue;
             }
 
@@ -1018,11 +1072,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
             if (csParamType == "NSArray")
             {
-                // Resolve the element type for this NSArray parameter
                 string? paramArrayElemType = TryResolveNSArrayElementType(csClassName, csMethodName);
                 if (paramArrayElemType != null)
                 {
-                    // Replace the param we just added with T[] version
                     csParams[^1] = $"{paramArrayElemType}[] {paramName}";
                     string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
                     arraySetupLines.Add($"        nint {ptrVar} = NSArray.FromArray({paramName});");
@@ -1033,30 +1085,25 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 {
                     callArgs.Add($"{paramName}");
                 }
+                callArgTypes.Add("nint");
             }
             else if (typeMapper.IsNativeObjectType(csParamType))
             {
                 callArgs.Add($"{paramName}.NativePtr");
+                callArgTypes.Add("nint");
             }
             else if (typeMapper.IsEnumType(csParamType))
             {
                 callArgs.Add($"{typeMapper.GetEnumSetCast(csParamType)}{paramName}");
+                string castType = typeMapper.GetEnumSetCast(csParamType).TrimStart('(').TrimEnd(')');
+                callArgTypes.Add(castType);
             }
-            else if (csParamType == "bool")
-            {
-                callArgs.Add($"(Bool8){paramName}");
-            }
-            else if (csParamType is "uint" or "ulong")
-            {
-                callArgs.Add($"(nuint){paramName}");
-            }
-            else if (csParamType is "int" or "long")
-            {
-                callArgs.Add($"(nint){paramName}");
-            }
+            // For P/Invoke signature tracking: map bool → Bool8 since bool is not
+            // blittable in LibraryImport; all other types pass through unchanged.
             else
             {
                 callArgs.Add(paramName);
+                callArgTypes.Add(csParamType == "bool" ? "Bool8" : csParamType);
             }
         }
 
@@ -1087,9 +1134,46 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             indent += "    ";
         }
 
+        string[] argTypesArray = [.. callArgTypes];
+        string msgSendExpr;
         if (isVoid)
         {
-            sb.AppendLine($"{indent}ObjectiveCRuntime.MsgSend({argsStr});");
+            RecordMsgSend("MsgSend", argTypesArray);
+            msgSendExpr = $"ObjectiveC.MsgSend({argsStr})";
+        }
+        else if (returnsArray || nullable)
+        {
+            RecordMsgSend("MsgSendPtr", argTypesArray);
+            msgSendExpr = $"ObjectiveC.MsgSendPtr({argsStr})";
+        }
+        else if (isEnum)
+        {
+            string msgSend = typeMapper.GetMsgSendForEnumGet(returnType);
+            string enumGroup = msgSend.Replace("ObjectiveC.", "");
+            RecordMsgSend(enumGroup, argTypesArray);
+            msgSendExpr = $"({returnType}){msgSend}({argsStr})";
+        }
+        else if (isBool)
+        {
+            RecordMsgSend("MsgSendBool", argTypesArray);
+            msgSendExpr = $"ObjectiveC.MsgSendBool({argsStr})";
+        }
+        else if (isStruct)
+        {
+            string msgSend = TypeMapper.GetMsgSendForStruct(returnType);
+            RecordMsgSend(msgSend, argTypesArray);
+            msgSendExpr = $"ObjectiveC.{msgSend}({argsStr})";
+        }
+        else
+        {
+            string msgSend = TypeMapper.GetMsgSendMethod(returnType);
+            RecordMsgSend(msgSend, argTypesArray);
+            msgSendExpr = $"ObjectiveC.{msgSend}({argsStr})";
+        }
+
+        if (isVoid)
+        {
+            sb.AppendLine($"{indent}{msgSendExpr};");
             if (hasOutError)
             {
                 sb.AppendLine();
@@ -1098,128 +1182,40 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             foreach (string rv in nsArrayReleaseVars)
             {
                 sb.AppendLine();
-                sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
+                sb.AppendLine($"{indent}ObjectiveC.Release({rv});");
             }
         }
-        else if (returnsArray)
+        else if (returnsArray || nullable)
         {
+            sb.AppendLine($"{indent}nint nativePtr = {msgSendExpr};");
             if (hasOutError)
             {
-                sb.AppendLine($"{indent}nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
                 sb.AppendLine();
                 sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
-                foreach (string rv in nsArrayReleaseVars)
-                {
-                    sb.AppendLine();
-                    sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
-                }
-                sb.AppendLine();
-                sb.AppendLine($"{indent}return NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
             }
-            else
+            foreach (string rv in nsArrayReleaseVars)
             {
-                sb.AppendLine($"{indent}nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
-                foreach (string rv in nsArrayReleaseVars)
-                {
-                    sb.AppendLine();
-                    sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
-                }
                 sb.AppendLine();
-                sb.AppendLine($"{indent}return NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
+                sb.AppendLine($"{indent}ObjectiveC.Release({rv});");
             }
+            sb.AppendLine();
+            sb.AppendLine(returnsArray
+                ? $"{indent}return NSArray.ToArray<{returnArrayElemType}>(nativePtr);"
+                : $"{indent}return new(nativePtr, NativeObjectOwnership.Owned);");
         }
-        else if (nullable)
+        else if (hasOutError)
         {
-            if (hasOutError)
-            {
-                sb.AppendLine($"{indent}nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
-                foreach (string rv in nsArrayReleaseVars)
-                {
-                    sb.AppendLine();
-                    sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
-                }
-                sb.AppendLine();
-                sb.AppendLine($"{indent}return new(nativePtr, NativeObjectOwnership.Owned);");
-            }
-            else
-            {
-                sb.AppendLine($"{indent}nint nativePtr = ObjectiveCRuntime.MsgSendPtr({argsStr});");
-                foreach (string rv in nsArrayReleaseVars)
-                {
-                    sb.AppendLine();
-                    sb.AppendLine($"{indent}ObjectiveCRuntime.Release({rv});");
-                }
-                sb.AppendLine();
-                sb.AppendLine($"{indent}return new(nativePtr, NativeObjectOwnership.Owned);");
-            }
-        }
-        else if (isEnum)
-        {
-            string msgSend = typeMapper.GetMsgSendForEnumGet(returnType);
-            if (hasOutError)
-            {
-                sb.AppendLine($"{indent}{returnType} result = ({returnType}){msgSend}({argsStr});");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}return result;");
-            }
-            else
-            {
-                sb.AppendLine($"{indent}return ({returnType}){msgSend}({argsStr});");
-            }
-        }
-        else if (isBool)
-        {
-            if (hasOutError)
-            {
-                sb.AppendLine($"{indent}bool result = ObjectiveCRuntime.MsgSendBool({argsStr});");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}return result;");
-            }
-            else
-            {
-                sb.AppendLine($"{indent}return ObjectiveCRuntime.MsgSendBool({argsStr});");
-            }
-        }
-        else if (isStruct)
-        {
-            string msgSend = TypeMapper.GetMsgSendForStruct(returnType);
-            if (hasOutError)
-            {
-                sb.AppendLine($"{indent}{returnType} result = ObjectiveCRuntime.{msgSend}({argsStr});");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}return result;");
-            }
-            else
-            {
-                sb.AppendLine($"{indent}return ObjectiveCRuntime.{msgSend}({argsStr});");
-            }
+            sb.AppendLine($"{indent}{csReturnType} result = {msgSendExpr};");
+            sb.AppendLine();
+            sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
+            sb.AppendLine();
+            sb.AppendLine($"{indent}return result;");
         }
         else
         {
-            string msgSend = TypeMapper.GetMsgSendMethod(returnType);
-            if (hasOutError)
-            {
-                sb.AppendLine($"{indent}{csReturnType} result = ObjectiveCRuntime.{msgSend}({argsStr});");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
-                sb.AppendLine();
-                sb.AppendLine($"{indent}return result;");
-            }
-            else
-            {
-                sb.AppendLine($"{indent}return ObjectiveCRuntime.{msgSend}({argsStr});");
-            }
+            sb.AppendLine($"{indent}return {msgSendExpr};");
         }
 
-        // Close fixed blocks in reverse order
         for (int fi = fixedStatements.Count - 1; fi >= 0; fi--)
         {
             indent = "        " + new string(' ', fi * 4);
@@ -1237,7 +1233,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     {
         string csReturnType = TypeMapper.MapCppType(func.ReturnType, cppNamespace);
 
-        // Resolve NSArray element type for array returns
         string? returnArrayElemType = null;
         if (csReturnType == "NSArray")
         {
@@ -1296,7 +1291,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             sb.AppendLine();
             sb.AppendLine($"        {returnArrayElemType}[] result = NSArray.ToArray<{returnArrayElemType}>(nativePtr);");
             sb.AppendLine();
-            sb.AppendLine("        ObjectiveCRuntime.Release(nativePtr);");
+            sb.AppendLine("        ObjectiveC.Release(nativePtr);");
             sb.AppendLine();
             sb.AppendLine("        return result;");
             sb.AppendLine("    }");
@@ -1318,6 +1313,248 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         {
             sb.AppendLine($"    public static {csReturnType} {func.CppName}({wrapperParamStr}) => {func.CEntryPoint}({callArgStr});");
         }
+    }
+
+    #endregion
+
+    #region ObjectiveC.cs Generation
+
+    /// <summary>
+    /// Generates the auto-generated Common/ObjectiveC.cs file containing all required
+    /// P/Invoke MsgSend overloads, null-guard wrappers, and Alloc/Init/Release helpers.
+    /// Signatures are collected during property/method emission via RecordMsgSend().
+    /// </summary>
+    void GenerateObjectiveCFile()
+    {
+        string dir = Path.Combine(outputDir, "Common");
+        Directory.CreateDirectory(dir);
+
+        StringBuilder sb = new();
+        sb.AppendLine("using System.Runtime.InteropServices;");
+        sb.AppendLine();
+        sb.AppendLine("namespace Metal.NET;");
+        sb.AppendLine();
+        sb.AppendLine("public static partial class ObjectiveC");
+        sb.AppendLine("{");
+
+        sb.AppendLine("    static ObjectiveC()");
+        sb.AppendLine("    {");
+        sb.AppendLine("        string[] frameworks =");
+        sb.AppendLine("        [");
+        sb.AppendLine("            \"CoreGraphics\",");
+        sb.AppendLine("            \"QuartzCore\",");
+        sb.AppendLine("            \"AppKit\",");
+        sb.AppendLine("            \"Metal\",");
+        sb.AppendLine("            \"MetalFX\",");
+        sb.AppendLine("            \"MetalKit\"");
+        sb.AppendLine("        ];");
+        sb.AppendLine();
+        sb.AppendLine("        foreach (string framework in frameworks)");
+        sb.AppendLine("        {");
+        sb.AppendLine("            NativeLibrary.TryLoad(framework, out _);");
+        sb.AppendLine("        }");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+
+        sb.AppendLine("    #region Class and Selector Lookups");
+        sb.AppendLine();
+        sb.AppendLine("    [LibraryImport(\"/usr/lib/libobjc.A.dylib\", EntryPoint = \"objc_getClass\", StringMarshalling = StringMarshalling.Utf8)]");
+        sb.AppendLine("    private static partial nint _GetClass(string name);");
+        sb.AppendLine();
+        sb.AppendLine("    [LibraryImport(\"/usr/lib/libobjc.A.dylib\", EntryPoint = \"sel_registerName\", StringMarshalling = StringMarshalling.Utf8)]");
+        sb.AppendLine("    private static partial Selector _RegisterName(string name);");
+        sb.AppendLine();
+        sb.AppendLine("    public static nint GetClass(string name)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        if (string.IsNullOrEmpty(name))");
+        sb.AppendLine("        {");
+        sb.AppendLine("            return 0;");
+        sb.AppendLine("        }");
+        sb.AppendLine();
+        sb.AppendLine("        return _GetClass(name);");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    public static Selector RegisterName(string name)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        if (string.IsNullOrEmpty(name))");
+        sb.AppendLine("        {");
+        sb.AppendLine("            return default;");
+        sb.AppendLine("        }");
+        sb.AppendLine();
+        sb.AppendLine("        return _RegisterName(name);");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    #endregion");
+
+        var groups = context.MsgSendSignatures.Keys.OrderBy(k => k == "MsgSend" ? "" : k).ToList();
+
+        foreach (string group in groups)
+        {
+            sb.AppendLine();
+            sb.AppendLine($"    #region {group}");
+
+            string returnType = GetReturnTypeForGroup(group);
+            string privatePrefix = $"_{group}";
+            bool isVoid = returnType == "void";
+
+            var signatures = context.MsgSendSignatures[group];
+
+            foreach (string sig in signatures)
+            {
+                sb.AppendLine();
+                string pinvokeParams = BuildPInvokeParams(sig);
+                sb.AppendLine("    [LibraryImport(\"/usr/lib/libobjc.A.dylib\", EntryPoint = \"objc_msgSend\")]");
+                sb.AppendLine($"    private static partial {returnType} {privatePrefix}(nint receiver, Selector selector{pinvokeParams});");
+            }
+
+            foreach (string sig in signatures)
+            {
+                string publicParams = BuildPublicParams(sig);
+                string callArgStr = BuildCallArgs(sig);
+                List<string> outParams = GetOutParams(sig);
+
+                sb.AppendLine();
+                sb.AppendLine($"    public static {returnType} {group}(nint receiver, Selector selector{publicParams})");
+                sb.AppendLine("    {");
+                sb.AppendLine("        if (receiver is 0)");
+                sb.AppendLine("        {");
+
+                foreach (string outParam in outParams)
+                {
+                    sb.AppendLine($"            {outParam} = default;");
+                }
+
+                if (isVoid)
+                {
+                    sb.AppendLine("            return;");
+                }
+                else
+                {
+                    sb.AppendLine("            return default;");
+                }
+
+                sb.AppendLine("        }");
+                sb.AppendLine();
+
+                if (isVoid)
+                {
+                    sb.AppendLine($"        {privatePrefix}(receiver, selector{callArgStr});");
+                }
+                else
+                {
+                    sb.AppendLine($"        return {privatePrefix}(receiver, selector{callArgStr});");
+                }
+
+                sb.AppendLine("    }");
+            }
+
+            sb.AppendLine();
+            sb.AppendLine("    #endregion");
+        }
+
+        sb.AppendLine();
+        sb.AppendLine("    public static nint Alloc(nint @class)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        return MsgSendPtr(@class, \"alloc\");");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    public static nint Init(nint receiver)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        return MsgSendPtr(receiver, \"init\");");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    public static nint AllocInit(nint @class)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        return Init(Alloc(@class));");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    public static nint Retain(nint receiver)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        return MsgSendPtr(receiver, \"retain\");");
+        sb.AppendLine("    }");
+        sb.AppendLine();
+        sb.AppendLine("    public static void Release(nint receiver)");
+        sb.AppendLine("    {");
+        sb.AppendLine("        MsgSend(receiver, \"release\");");
+        sb.AppendLine("    }");
+        sb.AppendLine("}");
+
+        File.WriteAllText(Path.Combine(dir, "ObjectiveC.cs"), sb.ToString(), new UTF8Encoding(true));
+
+        int totalOverloads = context.MsgSendSignatures.Values.Sum(s => s.Count);
+        Console.WriteLine($"  Generated: Common/ObjectiveC.cs ({totalOverloads} overloads across {context.MsgSendSignatures.Count} groups)");
+    }
+
+    static string GetReturnTypeForGroup(string group) => group switch
+    {
+        "MsgSend" => "void",
+        "MsgSendBool" => "Bool8",
+        "MsgSendPtr" => "nint",
+        "MsgSendInt" => "int",
+        "MsgSendUInt" => "uint",
+        "MsgSendLong" => "long",
+        "MsgSendULong" => "ulong",
+        "MsgSendFloat" => "float",
+        "MsgSendDouble" => "double",
+        "MsgSendNUInt" => "nuint",
+        _ => group.Replace("MsgSend", "")
+    };
+
+    static string BuildPInvokeParams(string sig)
+    {
+        if (string.IsNullOrEmpty(sig)) return "";
+
+        string[] types = sig.Split(", ");
+        StringBuilder sb = new();
+        char letter = 'a';
+        foreach (string type in types)
+        {
+            sb.Append($", {type} {letter}");
+            letter++;
+        }
+        return sb.ToString();
+    }
+
+    static string BuildPublicParams(string sig) => BuildPInvokeParams(sig);
+
+    static string BuildCallArgs(string sig)
+    {
+        if (string.IsNullOrEmpty(sig)) return "";
+
+        string[] types = sig.Split(", ");
+        StringBuilder sb = new();
+        char letter = 'a';
+        foreach (string type in types)
+        {
+            if (type.StartsWith("out "))
+            {
+                sb.Append($", out {letter}");
+            }
+            else
+            {
+                sb.Append($", {letter}");
+            }
+            letter++;
+        }
+        return sb.ToString();
+    }
+
+    static List<string> GetOutParams(string sig)
+    {
+        if (string.IsNullOrEmpty(sig)) return [];
+
+        string[] types = sig.Split(", ");
+        List<string> outParams = [];
+        char letter = 'a';
+        foreach (string type in types)
+        {
+            if (type.StartsWith("out "))
+            {
+                outParams.Add(letter.ToString());
+            }
+            letter++;
+        }
+        return outParams;
     }
 
     #endregion

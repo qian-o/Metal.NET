@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLResidencySet(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLResidencySet>
+public class MTLResidencySet(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLResidencySet>
 {
-    public static MTLResidencySet Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLResidencySet Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLResidencySet Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLResidencySet New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLAllocation[] AllAllocations
     {
@@ -13,12 +18,12 @@ public class MTLResidencySet(nint nativePtr, NativeObjectOwnership ownership) : 
 
     public ulong AllocatedSize
     {
-        get => ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResidencySetBindings.AllocatedSize);
+        get => ObjectiveC.MsgSendULong(NativePtr, MTLResidencySetBindings.AllocatedSize);
     }
 
     public nuint AllocationCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResidencySetBindings.AllocationCount);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResidencySetBindings.AllocationCount);
     }
 
     public MTLDevice Device
@@ -33,7 +38,7 @@ public class MTLResidencySet(nint nativePtr, NativeObjectOwnership ownership) : 
 
     public void AddAllocation(MTLAllocation allocation)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetBindings.AddAllocation, allocation.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLResidencySetBindings.AddAllocation, allocation.NativePtr);
     }
 
     public unsafe void AddAllocations(MTLAllocation[] allocations)
@@ -44,32 +49,32 @@ public class MTLResidencySet(nint nativePtr, NativeObjectOwnership ownership) : 
             pAllocations[i] = allocations[i].NativePtr;
         }
 
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetBindings.AddAllocations, (nint)pAllocations, (nuint)allocations.Length);
+        ObjectiveC.MsgSend(NativePtr, MTLResidencySetBindings.AddAllocations, (nint)pAllocations, (nuint)allocations.Length);
     }
 
     public void Commit()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetBindings.Commit);
+        ObjectiveC.MsgSend(NativePtr, MTLResidencySetBindings.Commit);
     }
 
     public bool ContainsAllocation(MTLAllocation anAllocation)
     {
-        return ObjectiveCRuntime.MsgSendBool(NativePtr, MTLResidencySetBindings.ContainsAllocation, anAllocation.NativePtr);
+        return ObjectiveC.MsgSendBool(NativePtr, MTLResidencySetBindings.ContainsAllocation, anAllocation.NativePtr);
     }
 
     public void EndResidency()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetBindings.EndResidency);
+        ObjectiveC.MsgSend(NativePtr, MTLResidencySetBindings.EndResidency);
     }
 
     public void RemoveAllAllocations()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetBindings.RemoveAllAllocations);
+        ObjectiveC.MsgSend(NativePtr, MTLResidencySetBindings.RemoveAllAllocations);
     }
 
     public void RemoveAllocation(MTLAllocation allocation)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetBindings.RemoveAllocation, allocation.NativePtr);
+        ObjectiveC.MsgSend(NativePtr, MTLResidencySetBindings.RemoveAllocation, allocation.NativePtr);
     }
 
     public unsafe void RemoveAllocations(MTLAllocation[] allocations)
@@ -80,12 +85,12 @@ public class MTLResidencySet(nint nativePtr, NativeObjectOwnership ownership) : 
             pAllocations[i] = allocations[i].NativePtr;
         }
 
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetBindings.RemoveAllocations, (nint)pAllocations, (nuint)allocations.Length);
+        ObjectiveC.MsgSend(NativePtr, MTLResidencySetBindings.RemoveAllocations, (nint)pAllocations, (nuint)allocations.Length);
     }
 
     public void RequestResidency()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetBindings.RequestResidency);
+        ObjectiveC.MsgSend(NativePtr, MTLResidencySetBindings.RequestResidency);
     }
 }
 

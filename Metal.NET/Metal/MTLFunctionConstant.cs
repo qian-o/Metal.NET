@@ -1,18 +1,23 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionConstant(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFunctionConstant>
+public class MTLFunctionConstant(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionConstant>
 {
-    public static MTLFunctionConstant Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLFunctionConstant Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLFunctionConstant Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLFunctionConstant New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
-    public MTLFunctionConstant() : this(ObjectiveCRuntime.AllocInit(MTLFunctionConstantBindings.Class), NativeObjectOwnership.Managed)
+    public MTLFunctionConstant() : this(ObjectiveC.AllocInit(MTLFunctionConstantBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public nuint Index
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLFunctionConstantBindings.Index);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFunctionConstantBindings.Index);
     }
 
     public NSString Name
@@ -22,18 +27,18 @@ public class MTLFunctionConstant(nint nativePtr, NativeObjectOwnership ownership
 
     public Bool8 Required
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLFunctionConstantBindings.Required);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLFunctionConstantBindings.Required);
     }
 
     public MTLDataType Type
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionConstantBindings.Type);
+        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLFunctionConstantBindings.Type);
     }
 }
 
 file static class MTLFunctionConstantBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionConstant");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLFunctionConstant");
 
     public static readonly Selector Index = "index";
 

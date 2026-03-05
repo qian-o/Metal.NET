@@ -1,49 +1,54 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPassAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLRenderPassAttachmentDescriptor>
+public class MTLRenderPassAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRenderPassAttachmentDescriptor>
 {
-    public static MTLRenderPassAttachmentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLRenderPassAttachmentDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLRenderPassAttachmentDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLRenderPassAttachmentDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
-    public MTLRenderPassAttachmentDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLRenderPassAttachmentDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLRenderPassAttachmentDescriptor() : this(ObjectiveC.AllocInit(MTLRenderPassAttachmentDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public nuint DepthPlane
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.DepthPlane);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetDepthPlane, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.DepthPlane);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetDepthPlane, value);
     }
 
     public nuint Level
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.Level);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetLevel, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.Level);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetLevel, value);
     }
 
     public MTLLoadAction LoadAction
     {
-        get => (MTLLoadAction)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPassAttachmentDescriptorBindings.LoadAction);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetLoadAction, (nuint)value);
+        get => (MTLLoadAction)ObjectiveC.MsgSendULong(NativePtr, MTLRenderPassAttachmentDescriptorBindings.LoadAction);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetLoadAction, (nuint)value);
     }
 
     public nuint ResolveDepthPlane
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.ResolveDepthPlane);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetResolveDepthPlane, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.ResolveDepthPlane);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetResolveDepthPlane, value);
     }
 
     public nuint ResolveLevel
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.ResolveLevel);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetResolveLevel, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.ResolveLevel);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetResolveLevel, value);
     }
 
     public nuint ResolveSlice
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.ResolveSlice);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetResolveSlice, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.ResolveSlice);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetResolveSlice, value);
     }
 
     public MTLTexture ResolveTexture
@@ -54,20 +59,20 @@ public class MTLRenderPassAttachmentDescriptor(nint nativePtr, NativeObjectOwner
 
     public nuint Slice
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.Slice);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetSlice, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRenderPassAttachmentDescriptorBindings.Slice);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetSlice, value);
     }
 
     public MTLStoreAction StoreAction
     {
-        get => (MTLStoreAction)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPassAttachmentDescriptorBindings.StoreAction);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetStoreAction, (nuint)value);
+        get => (MTLStoreAction)ObjectiveC.MsgSendULong(NativePtr, MTLRenderPassAttachmentDescriptorBindings.StoreAction);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetStoreAction, (nuint)value);
     }
 
     public MTLStoreActionOptions StoreActionOptions
     {
-        get => (MTLStoreActionOptions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLRenderPassAttachmentDescriptorBindings.StoreActionOptions);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetStoreActionOptions, (nuint)value);
+        get => (MTLStoreActionOptions)ObjectiveC.MsgSendULong(NativePtr, MTLRenderPassAttachmentDescriptorBindings.StoreActionOptions);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPassAttachmentDescriptorBindings.SetStoreActionOptions, (nuint)value);
     }
 
     public MTLTexture Texture
@@ -79,7 +84,7 @@ public class MTLRenderPassAttachmentDescriptor(nint nativePtr, NativeObjectOwner
 
 file static class MTLRenderPassAttachmentDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPassAttachmentDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLRenderPassAttachmentDescriptor");
 
     public static readonly Selector DepthPlane = "depthPlane";
 

@@ -18,21 +18,16 @@ dotnet add package Metal.NET
 ```csharp
 using Metal.NET;
 
-// Create a Metal device
 MTLDevice device = MTLDevice.CreateSystemDefaultDevice();
 
-// Create a command queue
 using MTLCommandQueue queue = device.NewCommandQueue();
 
-// Create a library from default.metallib
 using MTLLibrary library = device.NewDefaultLibrary();
 ```
 
 ## Memory Management
 
-### Ownership Model
-
-Every `NativeObject` wrapper has a [`NativeObjectOwnership`](Metal.NET/Common/NativeObject.cs) that controls its lifetime:
+Every `NativeObject` wrapper has a `NativeObjectOwnership` that controls its lifetime:
 
 | Ownership | `Dispose()` releases | Finalizer releases | Usage |
 |-----------|:--------------------:|:------------------:|-------|
@@ -41,72 +36,57 @@ Every `NativeObject` wrapper has a [`NativeObjectOwnership`](Metal.NET/Common/Na
 | `Managed` | ✓ | ✓ | Objects created via parameterless constructor (`AllocInit`) |
 
 ```csharp
-// Managed — fully C#-created, GC can release as safety net
+// Managed
 var desc = new MTLTextureDescriptor();
 
-// Owned — method return, only explicit Dispose releases
+// Owned
 using MTLLibrary library = device.NewDefaultLibrary();
 
-// Borrowed — property getter, retained by parent object
+// Borrowed
 MTLDevice device = commandQueue.Device;
-```
-
-### Finalization
-
-The GC finalizer only releases `Managed` instances. `Owned` wrappers (method returns) must be explicitly disposed. `Borrowed` wrappers never release:
-
-```csharp
-public enum NativeObjectOwnership { Borrowed, Owned, Managed }
-
-public abstract class NativeObject(nint nativePtr, NativeObjectOwnership ownership) : IDisposable
-{
-    ~NativeObject()
-    {
-        if (Ownership is NativeObjectOwnership.Managed) Release();
-    }
-
-    public void Dispose() { Release(); GC.SuppressFinalize(this); }
-}
 ```
 
 ## Project Structure
 
 ```
 Metal.NET.slnx
-├── Metal.NET/                            ← Binding library (targets .NET 10, macOS 15+)
+├── Metal.NET/
 │   ├── Common/
-│   │   ├── NativeObject.cs               ← NativeObjectOwnership enum + INativeObject<TSelf> + base class
-│   │   ├── ObjectiveCRuntime.cs          ← P/Invoke to libobjc.dylib (objc_msgSend)
-│   │   ├── Selector.cs                   ← ObjC selector with implicit string conversion
-│   │   ├── Bool8.cs                      ← ObjC BOOL mapped to a single byte
-│   │   ├── CGColorSpace.cs               ← CGColorSpaceName enum + CGColorSpaceRef wrapper
-│   │   ├── IOSurface.cs                  ← IOSurfaceRef wrapper with surface properties
-│   │   ├── DispatchData.cs               ← dispatch_data_t wrapper
-│   │   └── DispatchQueue.cs              ← dispatch_queue_t wrapper
-│   ├── Foundation/                       ← Hand-written Foundation types
-│   │   ├── NSString.cs                   ← Bidirectional string conversion
-│   │   ├── NSError.cs                    ← Error wrapper with LocalizedDescription
-│   │   ├── NSArray.cs                    ← NSArray ↔ T[] conversion utilities
-│   │   ├── NSURL.cs                      ← File URL creation
-│   │   ├── NSDictionary.cs               ← Key-value access wrapper
-│   │   ├── NSNumber.cs                   ← Numeric value boxing/unboxing
-│   │   ├── NSData.cs                     ← Raw byte buffer access
-│   │   ├── NSBundle.cs                   ← Resource bundle access
-│   │   ├── NSAutoreleasePool.cs          ← Autorelease pool management
-│   │   └── NSEnums.cs                    ← Auto-generated Foundation enums
-│   ├── Metal/                            ← Auto-generated Metal API (231 files)
-│   ├── MetalFX/                          ← Auto-generated MetalFX (18 files)
-│   └── QuartzCore/                       ← Auto-generated QuartzCore (2 files)
+│   │   ├── NativeObject.cs
+│   │   ├── ObjectiveC.cs              ← Auto-generated P/Invoke to libobjc (objc_msgSend)
+│   │   ├── Selector.cs
+│   │   └── Bool8.cs
+│   ├── CoreGraphics/
+│   │   └── CGColorSpace.cs
+│   ├── Foundation/
+│   │   ├── NSObject.cs
+│   │   ├── NSString.cs
+│   │   ├── NSError.cs
+│   │   ├── NSArray.cs
+│   │   ├── NSURL.cs
+│   │   ├── NSDictionary.cs
+│   │   ├── NSNumber.cs
+│   │   ├── NSData.cs
+│   │   ├── NSBundle.cs
+│   │   ├── NSAutoreleasePool.cs
+│   │   └── NSEnums.cs                 ← Auto-generated
+│   ├── GCD/
+│   │   ├── DispatchObject.cs
+│   │   ├── DispatchData.cs
+│   │   └── DispatchQueue.cs
+│   ├── Metal/                          ← Auto-generated (231 files)
+│   ├── MetalFX/                        ← Auto-generated (18 files)
+│   └── QuartzCore/                     ← Auto-generated (2 files)
 │
-└── Metal.NET.Generator/                  ← Offline code generator
-    ├── Program.cs                        ← Entry point
-    ├── Generator.cs                      ← Orchestrator (parser → emitter pipeline)
-    ├── CppParser.cs                      ← Regex-based metal-cpp header parser
-    ├── CSharpEmitter.cs                  ← C# source code emitter
-    ├── TypeMapper.cs                     ← C++ → C# type mapping and naming
-    ├── GeneratorContext.cs               ← Shared state between parser and emitter
-    ├── Models.cs                         ← Data models (EnumDef, ClassDef, MethodInfo, etc.)
-    └── metal-cpp/                        ← metal-cpp headers (generation source)
+└── Metal.NET.Generator/
+    ├── Program.cs
+    ├── Generator.cs
+    ├── CppParser.cs
+    ├── CSharpEmitter.cs
+    ├── TypeMapper.cs
+    ├── GeneratorContext.cs
+    ├── Models.cs
+    └── metal-cpp/
 ```
 
 ## Updating Bindings
@@ -131,10 +111,8 @@ Metal.NET.slnx
 
 ## Alternatives
 
-If you are looking for more mature or alternative Metal bindings for .NET, consider:
-
-- [SharpMetal](https://github.com/IsaacMarovitz/SharpMetal) — A community-maintained C# Metal binding library.
-- **.NET `net-macos` / `net-ios` TFM** — Apple platform targets shipped with .NET that include official Metal API bindings via [dotnet/macios](https://github.com/dotnet/macios).
+- [SharpMetal](https://github.com/IsaacMarovitz/SharpMetal)
+- [dotnet/macios](https://github.com/dotnet/macios)
 
 ## License
 
@@ -146,4 +124,4 @@ This project is licensed under the [MIT License](LICENSE).
 
 ## Third-Party Notices
 
-See [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) for details on third-party components used in this project.
+See [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).

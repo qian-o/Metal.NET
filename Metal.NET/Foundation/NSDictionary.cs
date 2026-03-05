@@ -1,22 +1,24 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Wraps an Objective-C NSDictionary for key-value access.
-/// </summary>
-public class NSDictionary(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<NSDictionary>
+public class NSDictionary(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSDictionary>
 {
-    public static NSDictionary Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new NSDictionary Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static NSDictionary Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new NSDictionary New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public nuint Count
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, NSDictionaryBindings.Count);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, NSDictionaryBindings.Count);
     }
 
     public nint ObjectForKey(nint key)
     {
-        return ObjectiveCRuntime.MsgSendPtr(NativePtr, NSDictionaryBindings.ObjectForKey, key);
+        return ObjectiveC.MsgSendPtr(NativePtr, NSDictionaryBindings.ObjectForKey, key);
     }
 }
 

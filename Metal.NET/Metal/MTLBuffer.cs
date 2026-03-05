@@ -2,18 +2,23 @@
 
 public class MTLBuffer(nint nativePtr, NativeObjectOwnership ownership) : MTLResource(nativePtr, ownership), INativeObject<MTLBuffer>
 {
+    #region INativeObject
     public static new MTLBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLBuffer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLBuffer New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public nuint GpuAddress
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindings.GpuAddress);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLBufferBindings.GpuAddress);
     }
 
     public nuint Length
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBufferBindings.Length);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLBufferBindings.Length);
     }
 
     public MTLBuffer RemoteStorageBuffer
@@ -23,34 +28,34 @@ public class MTLBuffer(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
 
     public MTLBufferSparseTier SparseBufferTier
     {
-        get => (MTLBufferSparseTier)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLBufferBindings.SparseBufferTier);
+        get => (MTLBufferSparseTier)ObjectiveC.MsgSendLong(NativePtr, MTLBufferBindings.SparseBufferTier);
     }
 
     public void AddDebugMarker(NSString marker, NSRange range)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferBindings.AddDebugMarker, marker.NativePtr, range);
+        ObjectiveC.MsgSend(NativePtr, MTLBufferBindings.AddDebugMarker, marker.NativePtr, range);
     }
 
     public nint Contents()
     {
-        return ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.Contents);
+        return ObjectiveC.MsgSendPtr(NativePtr, MTLBufferBindings.Contents);
     }
 
     public void DidModifyRange(NSRange range)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferBindings.DidModifyRange, range);
+        ObjectiveC.MsgSend(NativePtr, MTLBufferBindings.DidModifyRange, range);
     }
 
     public MTLBuffer NewRemoteBufferViewForDevice(MTLDevice device)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewRemoteBufferViewForDevice, device.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLBufferBindings.NewRemoteBufferViewForDevice, device.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTensor NewTensor(MTLTensorDescriptor descriptor, nuint offset, out NSError error)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewTensor, descriptor.NativePtr, offset, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLBufferBindings.NewTensor, descriptor.NativePtr, offset, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -59,14 +64,14 @@ public class MTLBuffer(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
 
     public MTLTexture NewTexture(MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLBufferBindings.NewTexture, descriptor.NativePtr, offset, bytesPerRow);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLBufferBindings.NewTexture, descriptor.NativePtr, offset, bytesPerRow);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public void RemoveAllDebugMarkers()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLBufferBindings.RemoveAllDebugMarkers);
+        ObjectiveC.MsgSend(NativePtr, MTLBufferBindings.RemoveAllDebugMarkers);
     }
 }
 

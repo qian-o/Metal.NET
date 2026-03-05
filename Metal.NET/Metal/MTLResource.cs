@@ -2,13 +2,18 @@
 
 public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLAllocation(nativePtr, ownership), INativeObject<MTLResource>
 {
+    #region INativeObject
     public static new MTLResource Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLResource Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLResource New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLCPUCacheMode CpuCacheMode
     {
-        get => (MTLCPUCacheMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceBindings.CpuCacheMode);
+        get => (MTLCPUCacheMode)ObjectiveC.MsgSendULong(NativePtr, MTLResourceBindings.CpuCacheMode);
     }
 
     public MTLDevice Device
@@ -18,7 +23,7 @@ public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLA
 
     public MTLHazardTrackingMode HazardTrackingMode
     {
-        get => (MTLHazardTrackingMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceBindings.HazardTrackingMode);
+        get => (MTLHazardTrackingMode)ObjectiveC.MsgSendULong(NativePtr, MTLResourceBindings.HazardTrackingMode);
     }
 
     public MTLHeap Heap
@@ -28,7 +33,7 @@ public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLA
 
     public nuint HeapOffset
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResourceBindings.HeapOffset);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResourceBindings.HeapOffset);
     }
 
     public NSString Label
@@ -39,27 +44,27 @@ public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLA
 
     public MTLResourceOptions ResourceOptions
     {
-        get => (MTLResourceOptions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceBindings.ResourceOptions);
+        get => (MTLResourceOptions)ObjectiveC.MsgSendULong(NativePtr, MTLResourceBindings.ResourceOptions);
     }
 
     public MTLStorageMode StorageMode
     {
-        get => (MTLStorageMode)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceBindings.StorageMode);
+        get => (MTLStorageMode)ObjectiveC.MsgSendULong(NativePtr, MTLResourceBindings.StorageMode);
     }
 
     public bool IsAliasable()
     {
-        return ObjectiveCRuntime.MsgSendBool(NativePtr, MTLResourceBindings.IsAliasable);
+        return ObjectiveC.MsgSendBool(NativePtr, MTLResourceBindings.IsAliasable);
     }
 
     public void MakeAliasable()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLResourceBindings.MakeAliasable);
+        ObjectiveC.MsgSend(NativePtr, MTLResourceBindings.MakeAliasable);
     }
 
     public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
     {
-        return (MTLPurgeableState)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLResourceBindings.SetPurgeableState, (nuint)state);
+        return (MTLPurgeableState)ObjectiveC.MsgSendULong(NativePtr, MTLResourceBindings.SetPurgeableState, (nuint)state);
     }
 }
 

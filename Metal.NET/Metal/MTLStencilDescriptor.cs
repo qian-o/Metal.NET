@@ -1,55 +1,60 @@
 ﻿namespace Metal.NET;
 
-public class MTLStencilDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLStencilDescriptor>
+public class MTLStencilDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLStencilDescriptor>
 {
-    public static MTLStencilDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLStencilDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLStencilDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLStencilDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
-    public MTLStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLStencilDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLStencilDescriptor() : this(ObjectiveC.AllocInit(MTLStencilDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public MTLStencilOperation DepthFailureOperation
     {
-        get => (MTLStencilOperation)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorBindings.DepthFailureOperation);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetDepthFailureOperation, (nuint)value);
+        get => (MTLStencilOperation)ObjectiveC.MsgSendULong(NativePtr, MTLStencilDescriptorBindings.DepthFailureOperation);
+        set => ObjectiveC.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetDepthFailureOperation, (nuint)value);
     }
 
     public MTLStencilOperation DepthStencilPassOperation
     {
-        get => (MTLStencilOperation)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorBindings.DepthStencilPassOperation);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetDepthStencilPassOperation, (nuint)value);
+        get => (MTLStencilOperation)ObjectiveC.MsgSendULong(NativePtr, MTLStencilDescriptorBindings.DepthStencilPassOperation);
+        set => ObjectiveC.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetDepthStencilPassOperation, (nuint)value);
     }
 
     public uint ReadMask
     {
-        get => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLStencilDescriptorBindings.ReadMask);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetReadMask, value);
+        get => ObjectiveC.MsgSendUInt(NativePtr, MTLStencilDescriptorBindings.ReadMask);
+        set => ObjectiveC.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetReadMask, value);
     }
 
     public MTLCompareFunction StencilCompareFunction
     {
-        get => (MTLCompareFunction)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorBindings.StencilCompareFunction);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetStencilCompareFunction, (nuint)value);
+        get => (MTLCompareFunction)ObjectiveC.MsgSendULong(NativePtr, MTLStencilDescriptorBindings.StencilCompareFunction);
+        set => ObjectiveC.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetStencilCompareFunction, (nuint)value);
     }
 
     public MTLStencilOperation StencilFailureOperation
     {
-        get => (MTLStencilOperation)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLStencilDescriptorBindings.StencilFailureOperation);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetStencilFailureOperation, (nuint)value);
+        get => (MTLStencilOperation)ObjectiveC.MsgSendULong(NativePtr, MTLStencilDescriptorBindings.StencilFailureOperation);
+        set => ObjectiveC.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetStencilFailureOperation, (nuint)value);
     }
 
     public uint WriteMask
     {
-        get => ObjectiveCRuntime.MsgSendUInt(NativePtr, MTLStencilDescriptorBindings.WriteMask);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetWriteMask, value);
+        get => ObjectiveC.MsgSendUInt(NativePtr, MTLStencilDescriptorBindings.WriteMask);
+        set => ObjectiveC.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetWriteMask, value);
     }
 }
 
 file static class MTLStencilDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLStencilDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLStencilDescriptor");
 
     public static readonly Selector DepthFailureOperation = "depthFailureOperation";
 

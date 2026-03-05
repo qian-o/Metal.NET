@@ -1,25 +1,30 @@
 ﻿namespace Metal.NET;
 
-public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<CAMetalLayer>
+public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<CAMetalLayer>
 {
-    public static CAMetalLayer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new CAMetalLayer Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static CAMetalLayer Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new CAMetalLayer New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
-    public CAMetalLayer() : this(ObjectiveCRuntime.AllocInit(CAMetalLayerBindings.Class), NativeObjectOwnership.Managed)
+    public CAMetalLayer() : this(ObjectiveC.AllocInit(CAMetalLayerBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public Bool8 AllowsNextDrawableTimeout
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, CAMetalLayerBindings.AllowsNextDrawableTimeout);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetAllowsNextDrawableTimeout, value);
+        get => ObjectiveC.MsgSendBool(NativePtr, CAMetalLayerBindings.AllowsNextDrawableTimeout);
+        set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetAllowsNextDrawableTimeout, value);
     }
 
     public CGColorSpace Colorspace
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerBindings.Colorspace);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetColorspace, value);
+        get => GetProperty(ref field, CAMetalLayerBindings.Colorspace);
+        set => SetProperty(ref field, CAMetalLayerBindings.SetColorspace, value);
     }
 
     public MTLDevice Device
@@ -30,32 +35,32 @@ public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : Nat
 
     public Bool8 DisplaySyncEnabled
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, CAMetalLayerBindings.DisplaySyncEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetDisplaySyncEnabled, value);
+        get => ObjectiveC.MsgSendBool(NativePtr, CAMetalLayerBindings.DisplaySyncEnabled);
+        set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetDisplaySyncEnabled, value);
     }
 
     public CGSize DrawableSize
     {
-        get => ObjectiveCRuntime.MsgSendCGSize(NativePtr, CAMetalLayerBindings.DrawableSize);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetDrawableSize, value);
+        get => ObjectiveC.MsgSendCGSize(NativePtr, CAMetalLayerBindings.DrawableSize);
+        set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetDrawableSize, value);
     }
 
     public Bool8 FramebufferOnly
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, CAMetalLayerBindings.FramebufferOnly);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetFramebufferOnly, value);
+        get => ObjectiveC.MsgSendBool(NativePtr, CAMetalLayerBindings.FramebufferOnly);
+        set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetFramebufferOnly, value);
     }
 
     public nuint MaximumDrawableCount
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, CAMetalLayerBindings.MaximumDrawableCount);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetMaximumDrawableCount, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, CAMetalLayerBindings.MaximumDrawableCount);
+        set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetMaximumDrawableCount, value);
     }
 
     public MTLPixelFormat PixelFormat
     {
-        get => (MTLPixelFormat)ObjectiveCRuntime.MsgSendULong(NativePtr, CAMetalLayerBindings.PixelFormat);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, CAMetalLayerBindings.SetPixelFormat, (nuint)value);
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, CAMetalLayerBindings.PixelFormat);
+        set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetPixelFormat, (nuint)value);
     }
 
     public MTLResidencySet ResidencySet
@@ -65,14 +70,14 @@ public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : Nat
 
     public static CAMetalLayer Layer()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(CAMetalLayerBindings.Class, CAMetalLayerBindings.Layer);
+        nint nativePtr = ObjectiveC.MsgSendPtr(CAMetalLayerBindings.Class, CAMetalLayerBindings.Layer);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public CAMetalDrawable NextDrawable()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, CAMetalLayerBindings.NextDrawable);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, CAMetalLayerBindings.NextDrawable);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -80,7 +85,7 @@ public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : Nat
 
 file static class CAMetalLayerBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("CAMetalLayer");
+    public static readonly nint Class = ObjectiveC.GetClass("CAMetalLayer");
 
     public static readonly Selector AllowsNextDrawableTimeout = "allowsNextDrawableTimeout";
 

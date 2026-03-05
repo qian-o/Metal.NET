@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionLog(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFunctionLog>
+public class MTLFunctionLog(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionLog>
 {
-    public static MTLFunctionLog Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLFunctionLog Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLFunctionLog Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLFunctionLog New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLFunctionLogDebugLocation DebugLocation
     {
@@ -23,7 +28,7 @@ public class MTLFunctionLog(nint nativePtr, NativeObjectOwnership ownership) : N
 
     public MTLFunctionLogType Type
     {
-        get => (MTLFunctionLogType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionLogBindings.Type);
+        get => (MTLFunctionLogType)ObjectiveC.MsgSendULong(NativePtr, MTLFunctionLogBindings.Type);
     }
 }
 

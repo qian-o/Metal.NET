@@ -1,12 +1,17 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CommandBufferOptions(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4CommandBufferOptions>
+public class MTL4CommandBufferOptions(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CommandBufferOptions>
 {
-    public static MTL4CommandBufferOptions Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTL4CommandBufferOptions Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4CommandBufferOptions Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTL4CommandBufferOptions New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
-    public MTL4CommandBufferOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CommandBufferOptionsBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4CommandBufferOptions() : this(ObjectiveC.AllocInit(MTL4CommandBufferOptionsBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -19,7 +24,7 @@ public class MTL4CommandBufferOptions(nint nativePtr, NativeObjectOwnership owne
 
 file static class MTL4CommandBufferOptionsBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CommandBufferOptions");
+    public static readonly nint Class = ObjectiveC.GetClass("MTL4CommandBufferOptions");
 
     public static readonly Selector LogState = "logState";
 

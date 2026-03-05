@@ -1,10 +1,15 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionStitchingAttribute(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFunctionStitchingAttribute>
+public class MTLFunctionStitchingAttribute(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionStitchingAttribute>
 {
-    public static MTLFunctionStitchingAttribute Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLFunctionStitchingAttribute Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLFunctionStitchingAttribute Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLFunctionStitchingAttribute New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 }
 
 file static class MTLFunctionStitchingAttributeBindings

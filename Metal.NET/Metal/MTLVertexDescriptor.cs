@@ -1,12 +1,17 @@
 ﻿namespace Metal.NET;
 
-public class MTLVertexDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLVertexDescriptor>
+public class MTLVertexDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLVertexDescriptor>
 {
-    public static MTLVertexDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLVertexDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLVertexDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLVertexDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
-    public MTLVertexDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLVertexDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLVertexDescriptor() : this(ObjectiveC.AllocInit(MTLVertexDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -22,12 +27,12 @@ public class MTLVertexDescriptor(nint nativePtr, NativeObjectOwnership ownership
 
     public void Reset()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLVertexDescriptorBindings.Reset);
+        ObjectiveC.MsgSend(NativePtr, MTLVertexDescriptorBindings.Reset);
     }
 
     public static MTLVertexDescriptor VertexDescriptor()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLVertexDescriptorBindings.Class, MTLVertexDescriptorBindings.VertexDescriptor);
+        nint nativePtr = ObjectiveC.MsgSendPtr(MTLVertexDescriptorBindings.Class, MTLVertexDescriptorBindings.VertexDescriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -35,7 +40,7 @@ public class MTLVertexDescriptor(nint nativePtr, NativeObjectOwnership ownership
 
 file static class MTLVertexDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLVertexDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLVertexDescriptor");
 
     public static readonly Selector Attributes = "attributes";
 

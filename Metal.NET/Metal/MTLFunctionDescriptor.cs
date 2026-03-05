@@ -1,12 +1,17 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFunctionDescriptor>
+public class MTLFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionDescriptor>
 {
-    public static MTLFunctionDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLFunctionDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLFunctionDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLFunctionDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
-    public MTLFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLFunctionDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLFunctionDescriptor() : this(ObjectiveC.AllocInit(MTLFunctionDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -30,8 +35,8 @@ public class MTLFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownersh
 
     public MTLFunctionOptions Options
     {
-        get => (MTLFunctionOptions)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLFunctionDescriptorBindings.Options);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetOptions, (nuint)value);
+        get => (MTLFunctionOptions)ObjectiveC.MsgSendULong(NativePtr, MTLFunctionDescriptorBindings.Options);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetOptions, (nuint)value);
     }
 
     public NSString SpecializedName
@@ -42,7 +47,7 @@ public class MTLFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownersh
 
     public static MTLFunctionDescriptor FunctionDescriptor()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLFunctionDescriptorBindings.Class, MTLFunctionDescriptorBindings.FunctionDescriptor);
+        nint nativePtr = ObjectiveC.MsgSendPtr(MTLFunctionDescriptorBindings.Class, MTLFunctionDescriptorBindings.FunctionDescriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -50,7 +55,7 @@ public class MTLFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownersh
 
 file static class MTLFunctionDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLFunctionDescriptor");
 
     public static readonly Selector BinaryArchives = "binaryArchives";
 

@@ -1,12 +1,17 @@
 ﻿namespace Metal.NET;
 
-public class MTLArchitecture(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLArchitecture>
+public class MTLArchitecture(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLArchitecture>
 {
-    public static MTLArchitecture Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLArchitecture Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLArchitecture Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLArchitecture New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
-    public MTLArchitecture() : this(ObjectiveCRuntime.AllocInit(MTLArchitectureBindings.Class), NativeObjectOwnership.Managed)
+    public MTLArchitecture() : this(ObjectiveC.AllocInit(MTLArchitectureBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -18,7 +23,7 @@ public class MTLArchitecture(nint nativePtr, NativeObjectOwnership ownership) : 
 
 file static class MTLArchitectureBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArchitecture");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLArchitecture");
 
     public static readonly Selector Name = "name";
 }

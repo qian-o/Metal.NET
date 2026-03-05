@@ -1,12 +1,17 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CompilerTaskOptions(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4CompilerTaskOptions>
+public class MTL4CompilerTaskOptions(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CompilerTaskOptions>
 {
-    public static MTL4CompilerTaskOptions Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTL4CompilerTaskOptions Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4CompilerTaskOptions Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTL4CompilerTaskOptions New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
-    public MTL4CompilerTaskOptions() : this(ObjectiveCRuntime.AllocInit(MTL4CompilerTaskOptionsBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4CompilerTaskOptions() : this(ObjectiveC.AllocInit(MTL4CompilerTaskOptionsBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -19,7 +24,7 @@ public class MTL4CompilerTaskOptions(nint nativePtr, NativeObjectOwnership owner
 
 file static class MTL4CompilerTaskOptionsBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4CompilerTaskOptions");
+    public static readonly nint Class = ObjectiveC.GetClass("MTL4CompilerTaskOptions");
 
     public static readonly Selector LookupArchives = "lookupArchives";
 

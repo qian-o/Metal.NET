@@ -1,12 +1,17 @@
 ﻿namespace Metal.NET;
 
-public class MTLRenderPipelineReflection(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLRenderPipelineReflection>
+public class MTLRenderPipelineReflection(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRenderPipelineReflection>
 {
-    public static MTLRenderPipelineReflection Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLRenderPipelineReflection Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLRenderPipelineReflection Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLRenderPipelineReflection New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
-    public MTLRenderPipelineReflection() : this(ObjectiveCRuntime.AllocInit(MTLRenderPipelineReflectionBindings.Class), NativeObjectOwnership.Managed)
+    public MTLRenderPipelineReflection() : this(ObjectiveC.AllocInit(MTLRenderPipelineReflectionBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -53,7 +58,7 @@ public class MTLRenderPipelineReflection(nint nativePtr, NativeObjectOwnership o
 
 file static class MTLRenderPipelineReflectionBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLRenderPipelineReflection");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLRenderPipelineReflection");
 
     public static readonly Selector FragmentArguments = "fragmentArguments";
 

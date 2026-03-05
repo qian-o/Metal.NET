@@ -1,39 +1,44 @@
 ﻿namespace Metal.NET;
 
-public class MTLDrawable(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLDrawable>
+public class MTLDrawable(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLDrawable>
 {
-    public static MTLDrawable Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLDrawable Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLDrawable Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLDrawable New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public nuint DrawableID
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLDrawableBindings.DrawableID);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLDrawableBindings.DrawableID);
     }
 
     public double PresentedTime
     {
-        get => ObjectiveCRuntime.MsgSendDouble(NativePtr, MTLDrawableBindings.PresentedTime);
+        get => ObjectiveC.MsgSendDouble(NativePtr, MTLDrawableBindings.PresentedTime);
     }
 
     public void AddPresentedHandler(MTLDrawablePresentedHandler block)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableBindings.AddPresentedHandler, block);
+        ObjectiveC.MsgSend(NativePtr, MTLDrawableBindings.AddPresentedHandler, block);
     }
 
     public void Present()
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableBindings.Present);
+        ObjectiveC.MsgSend(NativePtr, MTLDrawableBindings.Present);
     }
 
     public void PresentAfterMinimumDuration(double duration)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableBindings.PresentAfterMinimumDuration, duration);
+        ObjectiveC.MsgSend(NativePtr, MTLDrawableBindings.PresentAfterMinimumDuration, duration);
     }
 
     public void PresentAtTime(double presentationTime)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTLDrawableBindings.PresentAtTime, presentationTime);
+        ObjectiveC.MsgSend(NativePtr, MTLDrawableBindings.PresentAtTime, presentationTime);
     }
 }
 

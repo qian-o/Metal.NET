@@ -2,17 +2,22 @@
 
 public class MTLTensorReferenceType(nint nativePtr, NativeObjectOwnership ownership) : MTLType(nativePtr, ownership), INativeObject<MTLTensorReferenceType>
 {
+    #region INativeObject
     public static new MTLTensorReferenceType Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTLTensorReferenceType Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLTensorReferenceType New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
-    public MTLTensorReferenceType() : this(ObjectiveCRuntime.AllocInit(MTLTensorReferenceTypeBindings.Class), NativeObjectOwnership.Managed)
+    public MTLTensorReferenceType() : this(ObjectiveC.AllocInit(MTLTensorReferenceTypeBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorReferenceTypeBindings.Access);
+        get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLTensorReferenceTypeBindings.Access);
     }
 
     public MTLTensorExtents Dimensions
@@ -22,18 +27,18 @@ public class MTLTensorReferenceType(nint nativePtr, NativeObjectOwnership owners
 
     public MTLDataType IndexType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLTensorReferenceTypeBindings.IndexType);
+        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLTensorReferenceTypeBindings.IndexType);
     }
 
     public MTLTensorDataType TensorDataType
     {
-        get => (MTLTensorDataType)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLTensorReferenceTypeBindings.TensorDataType);
+        get => (MTLTensorDataType)ObjectiveC.MsgSendLong(NativePtr, MTLTensorReferenceTypeBindings.TensorDataType);
     }
 }
 
 file static class MTLTensorReferenceTypeBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLTensorReferenceType");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLTensorReferenceType");
 
     public static readonly Selector Access = "access";
 

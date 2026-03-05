@@ -1,12 +1,17 @@
 ﻿namespace Metal.NET;
 
-public class MTLFunctionReflection(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLFunctionReflection>
+public class MTLFunctionReflection(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionReflection>
 {
-    public static MTLFunctionReflection Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLFunctionReflection Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLFunctionReflection Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLFunctionReflection New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
-    public MTLFunctionReflection() : this(ObjectiveCRuntime.AllocInit(MTLFunctionReflectionBindings.Class), NativeObjectOwnership.Managed)
+    public MTLFunctionReflection() : this(ObjectiveC.AllocInit(MTLFunctionReflectionBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -18,7 +23,7 @@ public class MTLFunctionReflection(nint nativePtr, NativeObjectOwnership ownersh
 
 file static class MTLFunctionReflectionBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLFunctionReflection");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLFunctionReflection");
 
     public static readonly Selector Bindings = "bindings";
 }

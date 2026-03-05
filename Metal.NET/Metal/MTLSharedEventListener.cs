@@ -1,23 +1,28 @@
 ﻿namespace Metal.NET;
 
-public class MTLSharedEventListener(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLSharedEventListener>
+public class MTLSharedEventListener(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLSharedEventListener>
 {
-    public static MTLSharedEventListener Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLSharedEventListener Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLSharedEventListener Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLSharedEventListener New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
-    public MTLSharedEventListener() : this(ObjectiveCRuntime.AllocInit(MTLSharedEventListenerBindings.Class), NativeObjectOwnership.Managed)
+    public MTLSharedEventListener() : this(ObjectiveC.AllocInit(MTLSharedEventListenerBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public DispatchQueue DispatchQueue
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLSharedEventListenerBindings.DispatchQueue);
+        get => GetProperty(ref field, MTLSharedEventListenerBindings.DispatchQueue);
     }
 
     public static MTLSharedEventListener SharedListener()
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(MTLSharedEventListenerBindings.Class, MTLSharedEventListenerBindings.SharedListener);
+        nint nativePtr = ObjectiveC.MsgSendPtr(MTLSharedEventListenerBindings.Class, MTLSharedEventListenerBindings.SharedListener);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -25,7 +30,7 @@ public class MTLSharedEventListener(nint nativePtr, NativeObjectOwnership owners
 
 file static class MTLSharedEventListenerBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLSharedEventListener");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLSharedEventListener");
 
     public static readonly Selector DispatchQueue = "dispatchQueue";
 

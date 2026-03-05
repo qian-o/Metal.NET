@@ -2,11 +2,16 @@
 
 public class MTL4LibraryFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4FunctionDescriptor(nativePtr, ownership), INativeObject<MTL4LibraryFunctionDescriptor>
 {
+    #region INativeObject
     public static new MTL4LibraryFunctionDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static new MTL4LibraryFunctionDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTL4LibraryFunctionDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
-    public MTL4LibraryFunctionDescriptor() : this(ObjectiveCRuntime.AllocInit(MTL4LibraryFunctionDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTL4LibraryFunctionDescriptor() : this(ObjectiveC.AllocInit(MTL4LibraryFunctionDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -25,7 +30,7 @@ public class MTL4LibraryFunctionDescriptor(nint nativePtr, NativeObjectOwnership
 
 file static class MTL4LibraryFunctionDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTL4LibraryFunctionDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTL4LibraryFunctionDescriptor");
 
     public static readonly Selector Library = "library";
 

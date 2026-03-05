@@ -1,14 +1,19 @@
 ﻿namespace Metal.NET;
 
-public class MTL4CounterHeap(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTL4CounterHeap>
+public class MTL4CounterHeap(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CounterHeap>
 {
-    public static MTL4CounterHeap Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTL4CounterHeap Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTL4CounterHeap Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTL4CounterHeap New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public nuint Count
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTL4CounterHeapBindings.Count);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4CounterHeapBindings.Count);
     }
 
     public NSString Label
@@ -19,17 +24,17 @@ public class MTL4CounterHeap(nint nativePtr, NativeObjectOwnership ownership) : 
 
     public MTL4CounterHeapType Type
     {
-        get => (MTL4CounterHeapType)ObjectiveCRuntime.MsgSendLong(NativePtr, MTL4CounterHeapBindings.Type);
+        get => (MTL4CounterHeapType)ObjectiveC.MsgSendLong(NativePtr, MTL4CounterHeapBindings.Type);
     }
 
     public void InvalidateCounterRange(NSRange range)
     {
-        ObjectiveCRuntime.MsgSend(NativePtr, MTL4CounterHeapBindings.InvalidateCounterRange, range);
+        ObjectiveC.MsgSend(NativePtr, MTL4CounterHeapBindings.InvalidateCounterRange, range);
     }
 
     public NSData ResolveCounterRange(NSRange range)
     {
-        nint nativePtr = ObjectiveCRuntime.MsgSendPtr(NativePtr, MTL4CounterHeapBindings.ResolveCounterRange, range);
+        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTL4CounterHeapBindings.ResolveCounterRange, range);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

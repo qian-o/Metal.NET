@@ -1,25 +1,30 @@
 ﻿namespace Metal.NET;
 
-public class MTLCaptureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLCaptureDescriptor>
+public class MTLCaptureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCaptureDescriptor>
 {
-    public static MTLCaptureDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLCaptureDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLCaptureDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLCaptureDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
-    public MTLCaptureDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLCaptureDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLCaptureDescriptor() : this(ObjectiveC.AllocInit(MTLCaptureDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
-    public nint CaptureObject
+    public NSObject CaptureObject
     {
-        get => ObjectiveCRuntime.MsgSendPtr(NativePtr, MTLCaptureDescriptorBindings.CaptureObject);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorBindings.SetCaptureObject, value);
+        get => GetProperty(ref field, MTLCaptureDescriptorBindings.CaptureObject);
+        set => SetProperty(ref field, MTLCaptureDescriptorBindings.SetCaptureObject, value);
     }
 
     public MTLCaptureDestination Destination
     {
-        get => (MTLCaptureDestination)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLCaptureDescriptorBindings.Destination);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLCaptureDescriptorBindings.SetDestination, (nint)value);
+        get => (MTLCaptureDestination)ObjectiveC.MsgSendLong(NativePtr, MTLCaptureDescriptorBindings.Destination);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCaptureDescriptorBindings.SetDestination, (nint)value);
     }
 
     public NSURL OutputURL
@@ -31,7 +36,7 @@ public class MTLCaptureDescriptor(nint nativePtr, NativeObjectOwnership ownershi
 
 file static class MTLCaptureDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLCaptureDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLCaptureDescriptor");
 
     public static readonly Selector CaptureObject = "captureObject";
 

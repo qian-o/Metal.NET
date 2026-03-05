@@ -1,19 +1,24 @@
 ﻿namespace Metal.NET;
 
-public class MTLResidencySetDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLResidencySetDescriptor>
+public class MTLResidencySetDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLResidencySetDescriptor>
 {
-    public static MTLResidencySetDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLResidencySetDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLResidencySetDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLResidencySetDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
-    public MTLResidencySetDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLResidencySetDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLResidencySetDescriptor() : this(ObjectiveC.AllocInit(MTLResidencySetDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public nuint InitialCapacity
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLResidencySetDescriptorBindings.InitialCapacity);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLResidencySetDescriptorBindings.SetInitialCapacity, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResidencySetDescriptorBindings.InitialCapacity);
+        set => ObjectiveC.MsgSend(NativePtr, MTLResidencySetDescriptorBindings.SetInitialCapacity, value);
     }
 
     public NSString Label
@@ -25,7 +30,7 @@ public class MTLResidencySetDescriptor(nint nativePtr, NativeObjectOwnership own
 
 file static class MTLResidencySetDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLResidencySetDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLResidencySetDescriptor");
 
     public static readonly Selector InitialCapacity = "initialCapacity";
 

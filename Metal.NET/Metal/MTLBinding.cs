@@ -1,34 +1,39 @@
 ﻿namespace Metal.NET;
 
-public class MTLBinding(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLBinding>
+public class MTLBinding(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLBinding>
 {
-    public static MTLBinding Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLBinding Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLBinding Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLBinding New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLBindingBindings.Access);
+        get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLBindingBindings.Access);
     }
 
     public Bool8 Argument
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingBindings.Argument);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLBindingBindings.Argument);
     }
 
     public nuint Index
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLBindingBindings.Index);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLBindingBindings.Index);
     }
 
     public Bool8 IsArgument
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingBindings.IsArgument);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLBindingBindings.IsArgument);
     }
 
     public Bool8 IsUsed
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingBindings.IsUsed);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLBindingBindings.IsUsed);
     }
 
     public NSString Name
@@ -38,12 +43,12 @@ public class MTLBinding(nint nativePtr, NativeObjectOwnership ownership) : Nativ
 
     public MTLBindingType Type
     {
-        get => (MTLBindingType)ObjectiveCRuntime.MsgSendLong(NativePtr, MTLBindingBindings.Type);
+        get => (MTLBindingType)ObjectiveC.MsgSendLong(NativePtr, MTLBindingBindings.Type);
     }
 
     public Bool8 Used
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLBindingBindings.Used);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLBindingBindings.Used);
     }
 }
 

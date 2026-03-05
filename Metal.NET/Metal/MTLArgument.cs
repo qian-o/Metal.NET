@@ -1,43 +1,48 @@
 ﻿namespace Metal.NET;
 
-public class MTLArgument(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLArgument>
+public class MTLArgument(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLArgument>
 {
-    public static MTLArgument Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLArgument Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLArgument Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLArgument New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
-    public MTLArgument() : this(ObjectiveCRuntime.AllocInit(MTLArgumentBindings.Class), NativeObjectOwnership.Managed)
+    public MTLArgument() : this(ObjectiveC.AllocInit(MTLArgumentBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
     public MTLBindingAccess Access
     {
-        get => (MTLBindingAccess)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentBindings.Access);
+        get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLArgumentBindings.Access);
     }
 
     public Bool8 Active
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLArgumentBindings.Active);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLArgumentBindings.Active);
     }
 
     public nuint ArrayLength
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentBindings.ArrayLength);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArgumentBindings.ArrayLength);
     }
 
     public nuint BufferAlignment
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentBindings.BufferAlignment);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArgumentBindings.BufferAlignment);
     }
 
     public nuint BufferDataSize
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentBindings.BufferDataSize);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArgumentBindings.BufferDataSize);
     }
 
     public MTLDataType BufferDataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentBindings.BufferDataType);
+        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLArgumentBindings.BufferDataType);
     }
 
     public MTLPointerType BufferPointerType
@@ -52,17 +57,17 @@ public class MTLArgument(nint nativePtr, NativeObjectOwnership ownership) : Nati
 
     public nuint Index
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentBindings.Index);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArgumentBindings.Index);
     }
 
     public Bool8 IsActive
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLArgumentBindings.IsActive);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLArgumentBindings.IsActive);
     }
 
     public Bool8 IsDepthTexture
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLArgumentBindings.IsDepthTexture);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLArgumentBindings.IsDepthTexture);
     }
 
     public NSString Name
@@ -72,33 +77,33 @@ public class MTLArgument(nint nativePtr, NativeObjectOwnership ownership) : Nati
 
     public MTLDataType TextureDataType
     {
-        get => (MTLDataType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentBindings.TextureDataType);
+        get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLArgumentBindings.TextureDataType);
     }
 
     public MTLTextureType TextureType
     {
-        get => (MTLTextureType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentBindings.TextureType);
+        get => (MTLTextureType)ObjectiveC.MsgSendULong(NativePtr, MTLArgumentBindings.TextureType);
     }
 
     public nuint ThreadgroupMemoryAlignment
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentBindings.ThreadgroupMemoryAlignment);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArgumentBindings.ThreadgroupMemoryAlignment);
     }
 
     public nuint ThreadgroupMemoryDataSize
     {
-        get => ObjectiveCRuntime.MsgSendNUInt(NativePtr, MTLArgumentBindings.ThreadgroupMemoryDataSize);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArgumentBindings.ThreadgroupMemoryDataSize);
     }
 
     public MTLArgumentType Type
     {
-        get => (MTLArgumentType)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLArgumentBindings.Type);
+        get => (MTLArgumentType)ObjectiveC.MsgSendULong(NativePtr, MTLArgumentBindings.Type);
     }
 }
 
 file static class MTLArgumentBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLArgument");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLArgument");
 
     public static readonly Selector Access = "access";
 

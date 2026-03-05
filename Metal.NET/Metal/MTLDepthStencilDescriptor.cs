@@ -1,12 +1,17 @@
 ﻿namespace Metal.NET;
 
-public class MTLDepthStencilDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<MTLDepthStencilDescriptor>
+public class MTLDepthStencilDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLDepthStencilDescriptor>
 {
-    public static MTLDepthStencilDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
+    #region INativeObject
+    public static new MTLDepthStencilDescriptor Null { get; } = new(0, NativeObjectOwnership.Borrowed);
 
-    public static MTLDepthStencilDescriptor Create(nint nativePtr, NativeObjectOwnership ownership) => new(nativePtr, ownership);
+    public static new MTLDepthStencilDescriptor New(nint nativePtr, NativeObjectOwnership ownership)
+    {
+        return new(nativePtr, ownership);
+    }
+    #endregion
 
-    public MTLDepthStencilDescriptor() : this(ObjectiveCRuntime.AllocInit(MTLDepthStencilDescriptorBindings.Class), NativeObjectOwnership.Managed)
+    public MTLDepthStencilDescriptor() : this(ObjectiveC.AllocInit(MTLDepthStencilDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
 
@@ -18,14 +23,14 @@ public class MTLDepthStencilDescriptor(nint nativePtr, NativeObjectOwnership own
 
     public MTLCompareFunction DepthCompareFunction
     {
-        get => (MTLCompareFunction)ObjectiveCRuntime.MsgSendULong(NativePtr, MTLDepthStencilDescriptorBindings.DepthCompareFunction);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetDepthCompareFunction, (nuint)value);
+        get => (MTLCompareFunction)ObjectiveC.MsgSendULong(NativePtr, MTLDepthStencilDescriptorBindings.DepthCompareFunction);
+        set => ObjectiveC.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetDepthCompareFunction, (nuint)value);
     }
 
     public Bool8 DepthWriteEnabled
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDepthStencilDescriptorBindings.DepthWriteEnabled);
-        set => ObjectiveCRuntime.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetDepthWriteEnabled, value);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLDepthStencilDescriptorBindings.DepthWriteEnabled);
+        set => ObjectiveC.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetDepthWriteEnabled, value);
     }
 
     public MTLStencilDescriptor FrontFaceStencil
@@ -36,7 +41,7 @@ public class MTLDepthStencilDescriptor(nint nativePtr, NativeObjectOwnership own
 
     public Bool8 IsDepthWriteEnabled
     {
-        get => ObjectiveCRuntime.MsgSendBool(NativePtr, MTLDepthStencilDescriptorBindings.IsDepthWriteEnabled);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLDepthStencilDescriptorBindings.IsDepthWriteEnabled);
     }
 
     public NSString Label
@@ -48,7 +53,7 @@ public class MTLDepthStencilDescriptor(nint nativePtr, NativeObjectOwnership own
 
 file static class MTLDepthStencilDescriptorBindings
 {
-    public static readonly nint Class = ObjectiveCRuntime.GetClass("MTLDepthStencilDescriptor");
+    public static readonly nint Class = ObjectiveC.GetClass("MTLDepthStencilDescriptor");
 
     public static readonly Selector BackFaceStencil = "backFaceStencil";
 
