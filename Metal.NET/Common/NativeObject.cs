@@ -51,8 +51,6 @@ public abstract class NativeObject(nint nativePtr, NativeObjectOwnership ownersh
         GC.SuppressFinalize(this);
     }
 
-    protected abstract void ReleaseNative();
-
     private void Release()
     {
         if (Interlocked.Exchange(ref disposed, 1) is not 0)
@@ -65,4 +63,6 @@ public abstract class NativeObject(nint nativePtr, NativeObjectOwnership ownersh
             ReleaseNative();
         }
     }
+
+    protected abstract void ReleaseNative();
 }
