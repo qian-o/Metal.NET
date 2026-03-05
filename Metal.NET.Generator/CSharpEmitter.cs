@@ -1441,11 +1441,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                     sb.AppendLine($"            {outParam} = default;");
                 }
 
-                if (outParams.Count > 0 && !isVoid)
-                {
-                    sb.AppendLine();
-                }
-
                 if (isVoid)
                 {
                     sb.AppendLine("            return;");

@@ -1507,7 +1507,6 @@ public static partial class ObjectiveC
         if (receiver is 0)
         {
             c = default;
-
             return default;
         }
 
@@ -1519,7 +1518,6 @@ public static partial class ObjectiveC
         if (receiver is 0)
         {
             b = default;
-
             return default;
         }
 
@@ -2312,7 +2310,6 @@ public static partial class ObjectiveC
         if (receiver is 0)
         {
             d = default;
-
             return default;
         }
 
@@ -2334,7 +2331,6 @@ public static partial class ObjectiveC
         if (receiver is 0)
         {
             c = default;
-
             return default;
         }
 
@@ -2376,7 +2372,6 @@ public static partial class ObjectiveC
         if (receiver is 0)
         {
             c = default;
-
             return default;
         }
 
@@ -2388,7 +2383,6 @@ public static partial class ObjectiveC
         if (receiver is 0)
         {
             b = default;
-
             return default;
         }
 
@@ -2490,7 +2484,6 @@ public static partial class ObjectiveC
         if (receiver is 0)
         {
             a = default;
-
             return default;
         }
 
