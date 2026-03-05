@@ -2807,12 +2807,12 @@ public static partial class ObjectiveC
 
     public static nint Alloc(nint @class)
     {
-        return MsgSendPtr(@class, (Selector)"alloc");
+        return MsgSendPtr(@class, "alloc");
     }
 
     public static nint Init(nint receiver)
     {
-        return MsgSendPtr(receiver, (Selector)"init");
+        return MsgSendPtr(receiver, "init");
     }
 
     public static nint AllocInit(nint @class)
@@ -2822,11 +2822,11 @@ public static partial class ObjectiveC
 
     public static nint Retain(nint receiver)
     {
-        return MsgSendPtr(receiver, (Selector)"retain");
+        return MsgSendPtr(receiver, "retain");
     }
 
     public static void Release(nint receiver)
     {
-        MsgSend(receiver, (Selector)"release");
+        MsgSend(receiver, "release");
     }
 }
