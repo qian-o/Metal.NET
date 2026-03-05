@@ -317,7 +317,9 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
         };
     }
 
-    // Block handler parameters pass enum/value types as their raw numeric backing type.
+    /// <summary>
+    /// Block handler parameters pass enum/value types as their raw numeric backing type.
+    /// </summary>
     static string MapEnumOrValueType(string cppType, string defaultNs)
     {
         if (Regex.IsMatch(cppType, @"^(MTL4FX|MTL4|MTLFX|MTL|NS|CA)\s*::\s*(.+)$"))
