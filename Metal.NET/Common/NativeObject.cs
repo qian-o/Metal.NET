@@ -34,7 +34,10 @@ public abstract class NativeObject(nint nativePtr, NativeObjectOwnership ownersh
 
     public bool IsNull => NativePtr is 0;
 
-    protected abstract void ReleaseNative();
+    public T Cast<T>() where T : NativeObject, INativeObject<T>
+    {
+        return T.New(NativePtr, Ownership);
+    }
 
     public void Dispose()
     {
@@ -47,6 +50,8 @@ public abstract class NativeObject(nint nativePtr, NativeObjectOwnership ownersh
 
         GC.SuppressFinalize(this);
     }
+
+    protected abstract void ReleaseNative();
 
     private void Release()
     {
