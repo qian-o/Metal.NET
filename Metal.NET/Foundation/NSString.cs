@@ -3,9 +3,6 @@ using System.Text;
 
 namespace Metal.NET;
 
-/// <summary>
-/// Wraps an Objective-C NSString with bidirectional <see cref="string"/> conversion.
-/// </summary>
 public class NSString(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSString>
 {
     #region INativeObject

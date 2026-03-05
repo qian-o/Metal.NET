@@ -2,15 +2,8 @@
 
 namespace Metal.NET.Generator;
 
-/// <summary>
-/// Emits C# source files from parsed metal-cpp definitions.
-/// Generates enum types, NativeObject-based classes with properties/methods, and P/Invoke free functions.
-/// </summary>
 class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeMapper)
 {
-    /// <summary>
-    /// Hand-written classes to skip during generation.
-    /// </summary>
     static readonly HashSet<string> SkipClasses =
     [
         "NSString",
@@ -31,51 +24,29 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         "NSDate"
     ];
 
-    /// <summary>
-    /// Maps (ClassName, MemberName) → element type for NSArray properties and methods,
-    /// inferred from the Objective-C Metal API typed arrays.
-    /// </summary>
     static readonly Dictionary<(string Class, string Member), string> NSArrayElementTypes = new()
     {
-        // MTLDevice
         { ("MTLDevice", "CounterSets"), "MTLCounterSet" },
         { ("MTLDevice", "CopyAllDevices"), "MTLDevice" },
         { ("MTLDevice", "NewArgumentEncoder"), "MTLArgumentDescriptor" },
-        // MTLCounterSet
         { ("MTLCounterSet", "Counters"), "MTLCounter" },
-        // MTLLibrary
         { ("MTLLibrary", "FunctionNames"), "NSString" },
-        // MTLFunction
         { ("MTLFunction", "StageInputAttributes"), "MTLAttribute" },
         { ("MTLFunction", "VertexAttributes"), "MTLVertexAttribute" },
-        // MTLStructType
         { ("MTLStructType", "Members"), "MTLStructMember" },
-        // MTLResidencySet
         { ("MTLResidencySet", "AllAllocations"), "MTLAllocation" },
-        // MTLCommandBufferEncoderInfo
         { ("MTLCommandBufferEncoderInfo", "DebugSignposts"), "NSString" },
-        // MTLInstanceAccelerationStructureDescriptor
         { ("MTLInstanceAccelerationStructureDescriptor", "InstancedAccelerationStructures"), "MTLAccelerationStructure" },
-        // MTLFunctionStitchingGraph
         { ("MTLFunctionStitchingGraph", "Attributes"), "MTLFunctionStitchingAttribute" },
         { ("MTLFunctionStitchingGraph", "Nodes"), "MTLFunctionStitchingFunctionNode" },
-        // MTLFunctionStitchingFunctionNode
         { ("MTLFunctionStitchingFunctionNode", "ControlDependencies"), "MTLFunctionStitchingFunctionNode" },
-        // MTLStitchedLibraryDescriptor
         { ("MTLStitchedLibraryDescriptor", "FunctionGraphs"), "MTLFunctionStitchingGraph" },
-        // MTL4CompilerTaskOptions
         { ("MTL4CompilerTaskOptions", "LookupArchives"), "MTL4Archive" },
-        // MTLComputePipelineState
         { ("MTLComputePipelineState", "NewComputePipelineStateWithBinaryFunctions"), "MTL4BinaryFunction" },
         { ("MTLComputePipelineState", "NewComputePipelineState"), "MTLFunction" },
-        // MTL4MachineLearningPipelineDescriptor
         { ("MTL4MachineLearningPipelineDescriptor", "SetInputDimensions"), "MTLTensorExtents" },
     };
 
-    /// <summary>
-    /// Maps a property name suffix to element type for NSArray properties.
-    /// Applied when no exact (Class, Property) match is found.
-    /// </summary>
     static readonly (string Suffix, string ElementType)[] NSArraySuffixRules =
     [
         ("BinaryArchives", "MTLBinaryArchive"),
@@ -98,10 +69,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         ("Arguments", "MTLArgument"),
     ];
 
-    /// <summary>
-    /// Tries to resolve the element type for an NSArray property.
-    /// Returns null if no mapping is found.
-    /// </summary>
     static string? TryResolveNSArrayElementType(string className, string propertyName)
     {
         if (NSArrayElementTypes.TryGetValue((className, propertyName), out string? elementType))
@@ -135,20 +102,17 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     public void GenerateAll()
     {
-        // Group enums by namespace into consolidated files (e.g., MTLEnums.cs, NSEnums.cs, MTLFXEnums.cs)
         var enumsBySubdir = context.Enums.GroupBy(e => TypeMapper.GetOutputSubdir(e.CppNamespace));
         foreach (var group in enumsBySubdir)
         {
             GenerateEnumFile(group.Key, group.ToList());
         }
 
-        // Generate consolidated delegate file for block type aliases
         if (context.BlockTypeAliases.Count > 0)
         {
             GenerateDelegateFile();
         }
 
-        // Build known class names (both generated and hand-written)
         foreach (ClassDef classDef in context.Classes)
         {
             string prefix = TypeMapper.GetPrefix(classDef.CppNamespace);
@@ -156,7 +120,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
         context.KnownClassNames.UnionWith(["NSObject", "NSString", "NSError", "NSArray", "NSURL", "NSDictionary", "NSNumber", "NSData", "NSBundle", "NativeObject"]);
 
-        // Build a map of class name → property names for inheritance detection
         Dictionary<string, HashSet<string>> classPropertyMap = [];
         foreach (ClassDef classDef in context.Classes)
         {
@@ -169,7 +132,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             ];
         }
 
-        // Build inherited property names by walking the inheritance chain
         HashSet<string> GetInheritedProperties(string csClassName)
         {
             HashSet<string> result = [];
@@ -188,12 +150,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             return result;
         }
 
-        // Build lookup of free functions per target class
         Dictionary<string, List<FreeFunctionDef>> freeFuncsByClass = context.FreeFunctions
             .GroupBy(f => f.TargetClassName)
             .ToDictionary(g => g.Key, g => g.ToList());
 
-        // Record MsgSend signatures used by hand-written Foundation classes
         RecordMsgSend("MsgSend", "nint");
 
         RecordMsgSend("MsgSendPtr");
@@ -218,7 +178,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         RecordMsgSend("MsgSendNUInt");
 
-        // MsgSend with no args is always needed
         RecordMsgSend("MsgSend");
 
         foreach (ClassDef classDef in context.Classes)
@@ -242,7 +201,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string dir = Path.Combine(outputDir, subdir);
         Directory.CreateDirectory(dir);
 
-        // Determine the consolidated file name based on the subdirectory
         string fileName = subdir switch
         {
             "Metal" => "MTLEnums.cs",
@@ -251,7 +209,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             _ => $"{subdir}Enums.cs"
         };
 
-        // Delete old per-enum files that will be replaced by the consolidated file
         foreach (EnumDef enumDef in enums)
         {
             string prefix = TypeMapper.GetPrefix(enumDef.CppNamespace);
@@ -348,7 +305,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         bool hasClassField = context.RegisteredClasses.Contains(csClassName);
         bool hasFreeFunctions = freeFunctions.Count > 0;
 
-        // Filter out methods with unmapped array params, function pointer params, or unmappable types
         List<MethodInfo> validMethods =
         [
             .. classDef.Methods.Where(m => !m.Parameters.Any(p => p.CppType == "ARRAY_PARAM")
@@ -404,7 +360,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             hasPrecedingMember = true;
         }
 
-        // Properties (sorted alphabetically)
         foreach (PropertyDef prop in properties)
         {
             int prevLen = sb.Length;
@@ -423,7 +378,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             }
         }
 
-        // Indexer (objectAtIndexedSubscript: / setObject:atIndexedSubscript:)
         MethodInfo? indexerGetter = methods.FirstOrDefault(m =>
             m.SelectorAccessor is "objectAtIndexedSubscript_"
             || (m.CppName == "object" && m.Parameters.Count == 1 && m.ReturnType != "void"));
@@ -467,7 +421,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             hasPrecedingMember = true;
         }
 
-        // Methods (skip indexer getter/setter already emitted above)
         foreach (MethodInfo method in methods)
         {
             if (method == indexerGetter || method == indexerSetter)
@@ -484,7 +437,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             hasPrecedingMember = true;
         }
 
-        // Static free functions
         foreach (FreeFunctionDef func in freeFunctions)
         {
             if (hasPrecedingMember)
@@ -499,7 +451,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         sb.AppendLine("}");
         sb.AppendLine();
 
-        // Bindings class
         sb.AppendLine($"file static class {csClassName}Bindings");
         sb.AppendLine("{");
 
@@ -535,7 +486,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         List<MethodInfo> methods = [];
         HashSet<MethodInfo> used = new(ReferenceEqualityComparer.Instance);
 
-        // Build setter map
         Dictionary<string, MethodInfo> setterMap = new(StringComparer.Ordinal);
         foreach (MethodInfo m in allMethods)
         {
@@ -547,7 +497,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             }
         }
 
-        // Find getters
         foreach (MethodInfo m in allMethods)
         {
             if (m.ReturnType == "void")
@@ -596,7 +545,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             used.Add(m);
         }
 
-        // Remaining become methods
         foreach (MethodInfo m in allMethods)
         {
             if (used.Contains(m))
@@ -616,35 +564,27 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Method Filtering
 
-    /// <summary>
-    /// Returns true if the method has std::function or unknown function pointer params that should be skipped.
-    /// Block handler params (Handler/Block types and INLINE_BLOCK: markers) are NOT considered function pointers.
-    /// </summary>
     bool HasFunctionPointerParam(MethodInfo method)
     {
         return method.Parameters.Any(p =>
         {
-            // INLINE_BLOCK: markers are block params — not function pointers
             if (p.CppType.StartsWith("INLINE_BLOCK:"))
             {
                 string delegateName = p.CppType["INLINE_BLOCK:".Length..];
                 return delegateName == "UNKNOWN_BLOCK";
             }
 
-            // std::function params — skip
             if (p.CppType.Contains("std::function") || p.CppType.Contains("Function&") || p.CppType.Contains("Function &"))
             {
                 return true;
             }
 
-            // Named block types (Handler/Block) — check if we have a delegate for them
             if (p.CppType.Contains("Handler") || p.CppType.Contains("Block"))
             {
                 string csType = TypeMapper.MapCppType(p.CppType, "MTL");
                 return !context.BlockTypeAliases.Any(b => b.CsDelegateName == csType);
             }
 
-            // Other function-like types
             if (p.CppType.Contains("function") || p.CppType.Contains("void("))
             {
                 return true;
@@ -654,9 +594,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         });
     }
 
-    /// <summary>
-    /// Returns true if the C++ parameter type is a known block handler type (using-aliased).
-    /// </summary>
     bool IsBlockHandlerCppType(string cppType)
     {
         if (cppType.Contains("Handler") || cppType.Contains("Block"))
@@ -734,7 +671,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         string csType = TypeMapper.MapCppType(getter.ReturnType, ns);
 
-        // Resolve NSArray element type for typed arrays
         string? nsArrayElemType = null;
         if (csType == "NSArray")
         {
@@ -747,7 +683,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         bool isStruct = TypeMapper.StructTypes.Contains(csType);
         bool isBool = csType == "bool";
 
-        // Register getter selector
         string selectorName = csPropName;
         string selectorObjC;
         if (getter.SelectorAccessor != null && context.SelectorMap.TryGetValue(getter.SelectorAccessor, out string? objcSel))
@@ -765,7 +700,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string selectorRef = $"{csClassName}Bindings.{selectorName}";
         string typeStr = csType;
 
-        // Resolve setter selector
         string? setSelName = null;
         if (prop.Setter != null)
         {
@@ -929,7 +863,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         string returnType = TypeMapper.MapCppType(method.ReturnType, ns);
 
-        // Resolve NSArray element type for array returns
         string? returnArrayElemType = null;
         if (returnType == "NSArray")
         {
@@ -945,7 +878,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         bool hasOutError = method.Parameters.Any(p => p.CppType.Contains("Error**"));
 
-        // Build C# parameter list and call arguments
         List<string> csParams = [];
         List<string> callArgs = [target, selectorRef];
         List<string> callArgTypes = [];
@@ -1042,7 +974,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 continue;
             }
 
-            // Block handler parameters (using-aliased or inline)
             if (param.CppType.StartsWith("INLINE_BLOCK:"))
             {
                 string delegateName = param.CppType["INLINE_BLOCK:".Length..];
@@ -1086,11 +1017,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
             if (csParamType == "NSArray")
             {
-                // Resolve the element type for this NSArray parameter
                 string? paramArrayElemType = TryResolveNSArrayElementType(csClassName, csMethodName);
                 if (paramArrayElemType != null)
                 {
-                    // Replace the param we just added with T[] version
                     csParams[^1] = $"{paramArrayElemType}[] {paramName}";
                     string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
                     arraySetupLines.Add($"        nint {ptrVar} = NSArray.FromArray({paramName});");
@@ -1117,8 +1046,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             else
             {
                 callArgs.Add(paramName);
-                // For P/Invoke signature tracking: map bool → Bool8 since bool is not
-                // blittable in LibraryImport; all other types pass through unchanged.
                 callArgTypes.Add(csParamType == "bool" ? "Bool8" : csParamType);
             }
         }
@@ -1150,7 +1077,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             indent += "    ";
         }
 
-        // Record MsgSend signature and determine call expression
         string[] argTypesArray = [.. callArgTypes];
         string msgSendExpr;
         if (isVoid)
@@ -1188,7 +1114,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             msgSendExpr = $"ObjectiveC.{msgSend}({argsStr})";
         }
 
-        // Emit call and return handling
         if (isVoid)
         {
             sb.AppendLine($"{indent}{msgSendExpr};");
@@ -1234,7 +1159,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             sb.AppendLine($"{indent}return {msgSendExpr};");
         }
 
-        // Close fixed blocks in reverse order
         for (int fi = fixedStatements.Count - 1; fi >= 0; fi--)
         {
             indent = "        " + new string(' ', fi * 4);
@@ -1252,7 +1176,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     {
         string csReturnType = TypeMapper.MapCppType(func.ReturnType, cppNamespace);
 
-        // Resolve NSArray element type for array returns
         string? returnArrayElemType = null;
         if (csReturnType == "NSArray")
         {
@@ -1352,7 +1275,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         sb.AppendLine("public static partial class ObjectiveC");
         sb.AppendLine("{");
 
-        // Static constructor
         sb.AppendLine("    static ObjectiveC()");
         sb.AppendLine("    {");
         sb.AppendLine("        string[] frameworks =");
@@ -1372,7 +1294,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         sb.AppendLine("    }");
         sb.AppendLine();
 
-        // Class and Selector Lookups region
         sb.AppendLine("    #region Class and Selector Lookups");
         sb.AppendLine();
         sb.AppendLine("    [LibraryImport(\"/usr/lib/libobjc.A.dylib\", EntryPoint = \"objc_getClass\", StringMarshalling = StringMarshalling.Utf8)]");
@@ -1403,7 +1324,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         sb.AppendLine();
         sb.AppendLine("    #endregion");
 
-        // Generate MsgSend groups sorted with "MsgSend" first
         var groups = context.MsgSendSignatures.Keys.OrderBy(k => k == "MsgSend" ? "" : k).ToList();
 
         foreach (string group in groups)
@@ -1470,7 +1390,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             sb.AppendLine("    #endregion");
         }
 
-        // Alloc/Init/Release helpers
         sb.AppendLine();
         sb.AppendLine("    public static nint Alloc(nint @class)");
         sb.AppendLine("    {");
@@ -1504,11 +1423,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         Console.WriteLine($"  Generated: Common/ObjectiveC.cs ({totalOverloads} overloads across {context.MsgSendSignatures.Count} groups)");
     }
 
-    /// <summary>
-    /// Maps a MsgSend group name to its C# return type.
-    /// Group names follow the pattern "MsgSend{ReturnType}" where ReturnType is the
-    /// struct name for struct-returning variants (e.g., "MsgSendMTLSize" → "MTLSize").
-    /// </summary>
     static string GetReturnTypeForGroup(string group) => group switch
     {
         "MsgSend" => "void",
@@ -1521,7 +1435,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         "MsgSendFloat" => "float",
         "MsgSendDouble" => "double",
         "MsgSendNUInt" => "nuint",
-        // Struct-returning groups: "MsgSend{StructType}" → StructType
         _ => group.Replace("MsgSend", "")
     };
 

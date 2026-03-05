@@ -2,9 +2,6 @@
 
 namespace Metal.NET;
 
-/// <summary>
-/// Objective-C BOOL mapped to a single byte.
-/// </summary>
 [StructLayout(LayoutKind.Sequential)]
 public readonly struct Bool8(bool value)
 {

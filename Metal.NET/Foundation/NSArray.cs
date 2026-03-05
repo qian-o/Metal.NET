@@ -1,14 +1,7 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Utility methods for converting between Objective-C NSArray and C# arrays.
-/// </summary>
 public static class NSArray
 {
-    /// <summary>
-    /// Reads each element from an Objective-C NSArray via <c>objectAtIndex:</c>
-    /// and wraps them as borrowed references (the array retains the elements).
-    /// </summary>
     public static T[] ToArray<T>(nint nativePtr) where T : NativeObject, INativeObject<T>
     {
         nuint count = ObjectiveC.MsgSendNUInt(nativePtr, NSArrayBindings.Count);
@@ -23,10 +16,6 @@ public static class NSArray
         return result;
     }
 
-    /// <summary>
-    /// Creates an Objective-C NSArray from a C# array via <c>initWithObjects:count:</c>.
-    /// The caller owns the returned pointer and must call <c>release</c> when done.
-    /// </summary>
     public static unsafe nint FromArray<T>(T[] array) where T : NativeObject
     {
         nint[] nativePtrs = [.. array.Select(x => x.NativePtr)];

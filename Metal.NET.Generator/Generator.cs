@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET.Generator;
 
-/// <summary>
-/// Orchestrates the code generation pipeline: parse metal-cpp headers, then emit C# bindings.
-/// </summary>
 class Generator(string metalCppDir, string outputDir)
 {
     public void Run()

@@ -2,9 +2,6 @@
 
 namespace Metal.NET;
 
-/// <summary>
-/// Common named color spaces for use with <see cref="CGColorSpace.Create(CGColorSpaceName)"/>.
-/// </summary>
 public enum CGColorSpaceName
 {
     SRGB,

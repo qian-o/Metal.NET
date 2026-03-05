@@ -2,15 +2,8 @@
 
 namespace Metal.NET.Generator;
 
-/// <summary>
-/// Maps C++ types to C# types, resolves MsgSend method variants,
-/// and provides naming helpers (PascalCase, camelCase, reserved word escaping).
-/// </summary>
 partial class TypeMapper(GeneratorContext context)
 {
-    /// <summary>
-    /// Struct types (returned by value, not nullable).
-    /// </summary>
     public static readonly HashSet<string> StructTypes =
     [
         "NSRange", "MTLRegion", "MTLSize", "MTLOrigin", "MTLSamplePosition", "MTLViewport",
@@ -23,17 +16,11 @@ partial class TypeMapper(GeneratorContext context)
         "SimdFloat4x4"
     ];
 
-    /// <summary>
-    /// Known typos in metal-cpp headers (parameter name corrections).
-    /// </summary>
     static readonly Dictionary<string, string> ParamNameCorrections = new()
     {
         ["frontFacingWindning"] = "frontFacingWinding"
     };
 
-    /// <summary>
-    /// C# reserved words.
-    /// </summary>
     static readonly HashSet<string> CSharpReservedWords =
     [
         "abstract", "as", "base", "bool", "break", "byte", "case", "catch", "char", "checked",
@@ -77,7 +64,6 @@ partial class TypeMapper(GeneratorContext context)
     {
         string t = cppType.Trim();
 
-        // Remove const and class keywords
         t = t.Replace("const ", "").Replace("class ", "").Trim();
 
         bool isPointer = t.EndsWith('*');
@@ -134,7 +120,6 @@ partial class TypeMapper(GeneratorContext context)
             return simple;
         }
 
-        // Namespaced types
         Match nsMatch = NamespaceTypeRegex().Match(t);
         if (nsMatch.Success)
         {
@@ -165,7 +150,6 @@ partial class TypeMapper(GeneratorContext context)
             return prefix + typeName;
         }
 
-        // Unqualified type in same namespace
         if (!t.Contains("::"))
         {
             if (t == "GPUAddress")
