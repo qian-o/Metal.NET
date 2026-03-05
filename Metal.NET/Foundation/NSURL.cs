@@ -20,7 +20,7 @@ public class NSURL(nint nativePtr, NativeObjectOwnership ownership) : NSObject(n
     {
         nint nativePtr = ObjectiveC.MsgSendPtr(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitFileURLWithPath, value.NativePtr);
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return new(nativePtr, NativeObjectOwnership.Managed);
     }
 }
 

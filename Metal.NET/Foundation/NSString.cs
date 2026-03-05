@@ -25,7 +25,7 @@ public class NSString(nint nativePtr, NativeObjectOwnership ownership) : NSObjec
         {
             nint nativePtr = ObjectiveC.MsgSendPtr(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithUtf8String, (nint)utf8);
 
-            return new(nativePtr, NativeObjectOwnership.Owned);
+            return new(nativePtr, NativeObjectOwnership.Managed);
         }
     }
 
