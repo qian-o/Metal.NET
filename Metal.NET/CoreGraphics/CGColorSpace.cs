@@ -39,7 +39,9 @@ public partial class CGColorSpace(nint nativePtr, NativeObjectOwnership ownershi
 
     public static CGColorSpace Create(CGColorSpaceName name)
     {
-        string symbolName = name switch
+        nint handle = NativeLibrary.Load("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics");
+
+        return new(CGColorSpaceCreateWithName(Marshal.ReadIntPtr(NativeLibrary.GetExport(handle, name switch
         {
             CGColorSpaceName.SRGB => "kCGColorSpaceSRGB",
             CGColorSpaceName.LinearSRGB => "kCGColorSpaceLinearSRGB",
@@ -50,9 +52,7 @@ public partial class CGColorSpace(nint nativePtr, NativeObjectOwnership ownershi
             CGColorSpaceName.GenericRGBLinear => "kCGColorSpaceGenericRGBLinear",
             CGColorSpaceName.AdobeRGB1998 => "kCGColorSpaceAdobeRGB1998",
             _ => throw new ArgumentOutOfRangeException(nameof(name), name, null)
-        };
-
-        return new(CGColorSpaceCreateWithName(Marshal.ReadIntPtr(NativeLibrary.GetExport(NativeLibrary.Load("/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics"), symbolName))), NativeObjectOwnership.Managed);
+        }))), NativeObjectOwnership.Managed);
     }
 
     public static CGColorSpace CreateDeviceRGB()
