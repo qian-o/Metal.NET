@@ -1049,7 +1049,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             }
             else if (csParamType == "bool")
             {
-                callArgs.Add($"(Bool8){paramName}");
+                callArgs.Add(paramName);
             }
             else if (csParamType is "uint" or "ulong")
             {

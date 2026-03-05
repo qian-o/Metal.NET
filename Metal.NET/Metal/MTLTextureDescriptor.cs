@@ -119,7 +119,7 @@ public class MTLTextureDescriptor(nint nativePtr, NativeObjectOwnership ownershi
 
     public static MTLTextureDescriptor Texture2DDescriptor(MTLPixelFormat pixelFormat, nuint width, nuint height, bool mipmapped)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.Texture2DDescriptor, (nuint)pixelFormat, width, height, (Bool8)mipmapped);
+        nint nativePtr = ObjectiveC.MsgSendPtr(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.Texture2DDescriptor, (nuint)pixelFormat, width, height, mipmapped);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -133,7 +133,7 @@ public class MTLTextureDescriptor(nint nativePtr, NativeObjectOwnership ownershi
 
     public static MTLTextureDescriptor TextureCubeDescriptor(MTLPixelFormat pixelFormat, nuint size, bool mipmapped)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.TextureCubeDescriptor, (nuint)pixelFormat, size, (Bool8)mipmapped);
+        nint nativePtr = ObjectiveC.MsgSendPtr(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.TextureCubeDescriptor, (nuint)pixelFormat, size, mipmapped);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

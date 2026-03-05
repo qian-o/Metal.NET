@@ -104,17 +104,17 @@ public class MTLFXTemporalScalerDescriptor(nint nativePtr, NativeObjectOwnership
 
     public void SetAutoExposureEnabled(bool enabled)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetAutoExposureEnabled, (Bool8)enabled);
+        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetAutoExposureEnabled, enabled);
     }
 
     public void SetInputContentPropertiesEnabled(bool enabled)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetInputContentPropertiesEnabled, (Bool8)enabled);
+        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetInputContentPropertiesEnabled, enabled);
     }
 
     public void SetReactiveMaskTextureEnabled(bool enabled)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetReactiveMaskTextureEnabled, (Bool8)enabled);
+        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetReactiveMaskTextureEnabled, enabled);
     }
 
     public MTLFXTemporalScaler NewTemporalScaler(MTLDevice pDevice)

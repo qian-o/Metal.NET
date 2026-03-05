@@ -200,7 +200,7 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr, NativeObjectOwnership ow
 
     public void SetDepthReversed(bool depthReversed)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDepthReversed, (Bool8)depthReversed);
+        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDepthReversed, depthReversed);
     }
 }
 

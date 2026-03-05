@@ -188,7 +188,7 @@ public class MTLFXTemporalScalerBase(nint nativePtr, NativeObjectOwnership owner
 
     public void SetDepthReversed(bool depthReversed)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetDepthReversed, (Bool8)depthReversed);
+        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetDepthReversed, depthReversed);
     }
 }
 

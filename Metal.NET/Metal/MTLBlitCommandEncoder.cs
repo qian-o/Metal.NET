@@ -73,7 +73,7 @@ public class MTLBlitCommandEncoder(nint nativePtr, NativeObjectOwnership ownersh
 
     public void GetTextureAccessCounters(MTLTexture texture, MTLRegion region, nuint mipLevel, nuint slice, bool resetCounters, MTLBuffer countersBuffer, nuint countersBufferOffset)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLBlitCommandEncoderBindings.GetTextureAccessCounters, texture.NativePtr, region, mipLevel, slice, (Bool8)resetCounters, countersBuffer.NativePtr, countersBufferOffset);
+        ObjectiveC.MsgSend(NativePtr, MTLBlitCommandEncoderBindings.GetTextureAccessCounters, texture.NativePtr, region, mipLevel, slice, resetCounters, countersBuffer.NativePtr, countersBufferOffset);
     }
 
     public void OptimizeContentsForCPUAccess(MTLTexture texture)
@@ -118,7 +118,7 @@ public class MTLBlitCommandEncoder(nint nativePtr, NativeObjectOwnership ownersh
 
     public void SampleCountersInBuffer(MTLCounterSampleBuffer sampleBuffer, nuint sampleIndex, bool barrier)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLBlitCommandEncoderBindings.SampleCountersInBuffer, sampleBuffer.NativePtr, sampleIndex, (Bool8)barrier);
+        ObjectiveC.MsgSend(NativePtr, MTLBlitCommandEncoderBindings.SampleCountersInBuffer, sampleBuffer.NativePtr, sampleIndex, barrier);
     }
 
     public void SynchronizeResource(MTLResource resource)

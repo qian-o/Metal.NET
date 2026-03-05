@@ -300,7 +300,7 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr, NativeObjectOwnersh
 
     public void SetDepthReversed(bool depthReversed)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetDepthReversed, (Bool8)depthReversed);
+        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetDepthReversed, depthReversed);
     }
 }
 
