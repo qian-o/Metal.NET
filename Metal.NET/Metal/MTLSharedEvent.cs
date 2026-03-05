@@ -26,12 +26,12 @@ public class MTLSharedEvent(nint nativePtr, NativeObjectOwnership ownership) : M
 
     public void NotifyListener(MTLSharedEventListener listener, ulong value, MTLSharedEventNotificationBlock block)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLSharedEventBindings.NotifyListener, listener.NativePtr, (nuint)value, block);
+        ObjectiveC.MsgSend(NativePtr, MTLSharedEventBindings.NotifyListener, listener.NativePtr, value, block);
     }
 
     public bool WaitUntilSignaledValue(ulong value, ulong milliseconds)
     {
-        return ObjectiveC.MsgSendBool(NativePtr, MTLSharedEventBindings.WaitUntilSignaledValue, (nuint)value, (nuint)milliseconds);
+        return ObjectiveC.MsgSendBool(NativePtr, MTLSharedEventBindings.WaitUntilSignaledValue, value, milliseconds);
     }
 }
 

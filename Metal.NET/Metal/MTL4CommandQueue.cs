@@ -98,7 +98,7 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
 
     public void SignalEvent(MTLEvent @event, ulong value)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.SignalEvent, @event.NativePtr, (nuint)value);
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.SignalEvent, @event.NativePtr, value);
     }
 
     public unsafe void UpdateBufferMappings(MTLBuffer buffer, MTLHeap heap, MTL4UpdateSparseBufferMappingOperation[] operations)
@@ -119,7 +119,7 @@ public class MTL4CommandQueue(nint nativePtr, NativeObjectOwnership ownership) :
 
     public void Wait(MTLEvent @event, ulong value)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.Wait, @event.NativePtr, (nuint)value);
+        ObjectiveC.MsgSend(NativePtr, MTL4CommandQueueBindings.Wait, @event.NativePtr, value);
     }
 
     public void Wait(MTLDrawable drawable)

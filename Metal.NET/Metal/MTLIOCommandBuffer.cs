@@ -79,7 +79,7 @@ public class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership)
 
     public void SignalEvent(MTLSharedEvent @event, ulong value)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.SignalEvent, @event.NativePtr, (nuint)value);
+        ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.SignalEvent, @event.NativePtr, value);
     }
 
     public void TryCancel()
@@ -89,7 +89,7 @@ public class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership)
 
     public void Wait(MTLSharedEvent @event, ulong value)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.Wait, @event.NativePtr, (nuint)value);
+        ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.Wait, @event.NativePtr, value);
     }
 
     public void WaitUntilCompleted()

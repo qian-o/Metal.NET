@@ -138,12 +138,12 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
 
     public void EncodeSignalEvent(MTLEvent @event, ulong value)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.EncodeSignalEvent, @event.NativePtr, (nuint)value);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.EncodeSignalEvent, @event.NativePtr, value);
     }
 
     public void EncodeWait(MTLEvent @event, ulong value)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.EncodeWait, @event.NativePtr, (nuint)value);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.EncodeWait, @event.NativePtr, value);
     }
 
     public void Enqueue()

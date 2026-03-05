@@ -1047,18 +1047,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 callArgs.Add($"{typeMapper.GetEnumSetCast(csParamType)}{paramName}");
             }
-            else if (csParamType == "bool")
-            {
-                callArgs.Add(paramName);
-            }
-            else if (csParamType is "uint" or "ulong")
-            {
-                callArgs.Add($"(nuint){paramName}");
-            }
-            else if (csParamType is "int" or "long")
-            {
-                callArgs.Add($"(nint){paramName}");
-            }
             else
             {
                 callArgs.Add(paramName);

@@ -250,6 +250,9 @@ public static partial class ObjectiveC
     private static partial void _MsgSend(nint receiver, Selector selector, nint a, nuint b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void _MsgSend(nint receiver, Selector selector, nint a, ulong b);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, nint a, nuint b, Bool8 c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -269,6 +272,9 @@ public static partial class ObjectiveC
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, nint a, nuint b, MTLSharedEventNotificationBlock c);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial void _MsgSend(nint receiver, Selector selector, nint a, ulong b, MTLSharedEventNotificationBlock c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial void _MsgSend(nint receiver, Selector selector, nint a, nuint b, MTLSize c);
@@ -1055,6 +1061,16 @@ public static partial class ObjectiveC
         _MsgSend(receiver, selector, a, b);
     }
 
+    public static void MsgSend(nint receiver, Selector selector, nint a, ulong b)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        _MsgSend(receiver, selector, a, b);
+    }
+
     public static void MsgSend(nint receiver, Selector selector, nint a, nuint b, Bool8 c)
     {
         if (receiver is 0)
@@ -1116,6 +1132,16 @@ public static partial class ObjectiveC
     }
 
     public static void MsgSend(nint receiver, Selector selector, nint a, nuint b, MTLSharedEventNotificationBlock c)
+    {
+        if (receiver is 0)
+        {
+            return;
+        }
+
+        _MsgSend(receiver, selector, a, b, c);
+    }
+
+    public static void MsgSend(nint receiver, Selector selector, nint a, ulong b, MTLSharedEventNotificationBlock c)
     {
         if (receiver is 0)
         {
@@ -1587,6 +1613,9 @@ public static partial class ObjectiveC
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
     private static partial Bool8 _MsgSendBool(nint receiver, Selector selector, nuint a, nuint b);
 
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial Bool8 _MsgSendBool(nint receiver, Selector selector, ulong a, ulong b);
+
     public static Bool8 MsgSendBool(nint receiver, Selector selector)
     {
         if (receiver is 0)
@@ -1642,6 +1671,16 @@ public static partial class ObjectiveC
     }
 
     public static Bool8 MsgSendBool(nint receiver, Selector selector, nuint a, nuint b)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendBool(receiver, selector, a, b);
+    }
+
+    public static Bool8 MsgSendBool(nint receiver, Selector selector, ulong a, ulong b)
     {
         if (receiver is 0)
         {
