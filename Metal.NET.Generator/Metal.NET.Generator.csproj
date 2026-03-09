@@ -1,9 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-    
+
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>$(StandardTargetFramework)</TargetFramework>
-        <NoWarn>IDE0130</NoWarn>
     </PropertyGroup>
 
 </Project>
