@@ -81,6 +81,7 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                 string content = File.ReadAllText(file);
                 ParseBlockTypeAliases(content);
                 ParseEnums(content);
+                ParseStructs(content);
                 ParseClasses(content);
                 ParseFreeFunctions(content, subdir, file);
             }
@@ -709,6 +710,66 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
 
     #endregion
 
+    #region Struct Parsing
+
+    void ParseStructs(string content)
+    {
+        List<(string Ns, int Pos)> nsPositions = [];
+        foreach (Match nm in NamespacePatternRegex().Matches(content))
+        {
+            nsPositions.Add((nm.Groups[1].Value, nm.Index));
+        }
+
+        foreach (Match m in PackedStructRegex().Matches(content))
+        {
+            string structName = m.Groups[1].Value;
+            string body = m.Groups[2].Value;
+
+            string ns = "MTL";
+            for (int i = nsPositions.Count - 1; i >= 0; i--)
+            {
+                if (nsPositions[i].Pos < m.Index)
+                {
+                    ns = nsPositions[i].Ns;
+                    break;
+                }
+            }
+
+            List<StructFieldDef> fields = [];
+            foreach (string rawLine in body.Split('\n'))
+            {
+                string line = rawLine.Trim().TrimEnd(';');
+                if (string.IsNullOrWhiteSpace(line))
+                {
+                    continue;
+                }
+
+                // Skip constructor/method declarations and lines with parentheses or '='
+                if (line.Contains('(') || line.Contains(')') || line.Contains('='))
+                {
+                    continue;
+                }
+
+                Match fieldMatch = StructFieldRegex().Match(line);
+                if (!fieldMatch.Success)
+                {
+                    continue;
+                }
+
+                string cppType = fieldMatch.Groups[1].Value.Trim();
+                string fieldName = fieldMatch.Groups[2].Value.Trim();
+                fields.Add(new StructFieldDef(cppType, fieldName));
+            }
+
+            if (fields.Count > 0)
+            {
+                context.Structs.Add(new StructDef(ns, structName, fields));
+            }
+        }
+    }
+
+    #endregion
+
     #region Class Parsing
 
     void ParseClasses(string content)
@@ -1215,6 +1276,12 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
 
     [GeneratedRegex(@"void\s+\(\^(\w*)\)\s*\(([^)]+)\)")]
     private static partial Regex InlineBlockMethodRegex();
+
+    [GeneratedRegex(@"struct\s+(\w+)\s*\{([^}]*)\}\s*_MTL_PACKED\s*;", RegexOptions.Singleline)]
+    private static partial Regex PackedStructRegex();
+
+    [GeneratedRegex(@"^(.+?)\s+(\w+)$")]
+    private static partial Regex StructFieldRegex();
 
     #endregion
 }

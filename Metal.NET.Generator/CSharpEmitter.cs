@@ -30,6 +30,45 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         "NSDate"
     ];
 
+    /// <summary>Hand-written structs to skip during generation (already defined in MTLStructs.cs).</summary>
+    static readonly HashSet<string> SkipStructs =
+    [
+        "CGSize",
+        "MTL4BufferRange",
+        "MTL4CopySparseBufferMappingOperation",
+        "MTL4CopySparseTextureMappingOperation",
+        "MTL4Origin",
+        "MTL4Range",
+        "MTL4Size",
+        "MTL4TimestampHeapEntry",
+        "MTL4UpdateSparseBufferMappingOperation",
+        "MTL4UpdateSparseTextureMappingOperation",
+        "MTLAccelerationStructureSizes",
+        "MTLAxisAlignedBoundingBox",
+        "MTLClearColor",
+        "MTLComponentTransform",
+        "MTLCounterResultStageUtilization",
+        "MTLCounterResultStatistic",
+        "MTLCounterResultTimestamp",
+        "MTLOrigin",
+        "MTLPackedFloat3",
+        "MTLPackedFloat4x3",
+        "MTLPackedFloatQuaternion",
+        "MTLRange",
+        "MTLRegion",
+        "MTLResourceID",
+        "MTLSamplePosition",
+        "MTLScissorRect",
+        "MTLSize",
+        "MTLSizeAndAlign",
+        "MTLTextureSwizzleChannels",
+        "MTLVertexAmplificationViewMapping",
+        "MTLViewport",
+        "NSRange",
+        "SimdFloat4",
+        "SimdFloat4x4"
+    ];
+
     /// <summary>
     /// Maps (ClassName, MemberName) → element type for NSArray properties and methods.
     /// Used to resolve typed arrays from the Objective-C Metal API.
@@ -142,6 +181,13 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         foreach (var group in enumsBySubdir)
         {
             GenerateEnumFile(group.Key, group.ToList());
+        }
+
+        // Group structs by namespace into consolidated files (e.g., MTLStructs.cs)
+        var structsBySubdir = context.Structs.GroupBy(s => TypeMapper.GetOutputSubdir(s.CppNamespace));
+        foreach (var group in structsBySubdir)
+        {
+            GenerateStructFile(group.Key, group.ToList());
         }
 
         // Generate consolidated delegate file for block type aliases
@@ -298,6 +344,79 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         File.WriteAllText(Path.Combine(dir, fileName), sb.ToString(), new UTF8Encoding(true));
         Console.WriteLine($"  Generated: {subdir}/{fileName} ({enums.Count} enums)");
+    }
+
+    #endregion
+
+    #region Struct Generation
+
+    void GenerateStructFile(string subdir, List<StructDef> structs)
+    {
+        // Filter out hand-written structs
+        List<StructDef> generatable = structs
+            .Where(s => !SkipStructs.Contains(TypeMapper.GetPrefix(s.CppNamespace) + s.Name))
+            .ToList();
+
+        if (generatable.Count == 0)
+        {
+            return;
+        }
+
+        string dir = Path.Combine(outputDir, subdir);
+        Directory.CreateDirectory(dir);
+
+        string fileName = subdir switch
+        {
+            "Metal" => "MTLPackedStructs.cs",
+            "Foundation" => "NSPackedStructs.cs",
+            "MetalFX" => "MTLFXPackedStructs.cs",
+            _ => $"{subdir}PackedStructs.cs"
+        };
+
+        StringBuilder sb = new();
+        sb.AppendLine("using System.Runtime.InteropServices;");
+        sb.AppendLine();
+        sb.AppendLine("namespace Metal.NET;");
+
+        List<StructDef> sortedStructs = [.. generatable.OrderBy(s => TypeMapper.GetPrefix(s.CppNamespace) + s.Name)];
+
+        foreach (StructDef structDef in sortedStructs)
+        {
+            string prefix = TypeMapper.GetPrefix(structDef.CppNamespace);
+            string csStructName = prefix + structDef.Name;
+
+            sb.AppendLine();
+            sb.AppendLine("[StructLayout(LayoutKind.Sequential)]");
+
+            List<string> ctorParams = [];
+            List<string> fieldLines = [];
+            foreach (StructFieldDef field in structDef.Fields)
+            {
+                string csType = TypeMapper.MapCppType(field.CppType, structDef.CppNamespace);
+                string csFieldName = TypeMapper.ToPascalCase(field.Name);
+                string csParamName = TypeMapper.ToCamelCase(field.Name);
+
+                ctorParams.Add($"{csType} {csParamName}");
+                fieldLines.Add($"    public {csType} {csFieldName} = {csParamName};");
+            }
+
+            sb.AppendLine($"public struct {csStructName}({string.Join(", ", ctorParams)})");
+            sb.AppendLine("{");
+
+            for (int i = 0; i < fieldLines.Count; i++)
+            {
+                if (i > 0)
+                {
+                    sb.AppendLine();
+                }
+                sb.AppendLine(fieldLines[i]);
+            }
+
+            sb.AppendLine("}");
+        }
+
+        File.WriteAllText(Path.Combine(dir, fileName), sb.ToString(), new UTF8Encoding(true));
+        Console.WriteLine($"  Generated: {subdir}/{fileName} ({generatable.Count} structs)");
     }
 
     #endregion
