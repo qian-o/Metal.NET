@@ -14,7 +14,7 @@ partial class TypeMapper(GeneratorContext context)
         "NSRange", "MTLRegion", "MTLSize", "MTLOrigin", "MTLSamplePosition", "MTLViewport",
         "MTLScissorRect", "MTLClearColor", "CGSize", "MTLResourceID", "MTLSizeAndAlign",
         "MTLAccelerationStructureSizes", "MTLTextureSwizzleChannels",
-        "MTLVertexAmplificationViewMapping", "MTL4BufferRange", "MTLRange",
+        "MTLVertexAmplificationViewMapping", "MTL4BufferRange",
         "MTL4CopySparseBufferMappingOperation", "MTL4CopySparseTextureMappingOperation",
         "MTL4UpdateSparseBufferMappingOperation", "MTL4UpdateSparseTextureMappingOperation",
         "SimdFloat4x4"
