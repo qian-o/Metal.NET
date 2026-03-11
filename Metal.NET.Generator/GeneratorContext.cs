@@ -17,6 +17,9 @@ class GeneratorContext
     /// <summary>All parsed classes.</summary>
     public List<ClassDef> Classes { get; } = [];
 
+    /// <summary>All parsed packed structs.</summary>
+    public List<StructDef> Structs { get; } = [];
+
     /// <summary>All parsed free functions (extern "C").</summary>
     public List<FreeFunctionDef> FreeFunctions { get; } = [];
 

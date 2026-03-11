@@ -58,3 +58,9 @@ record BlockTypeAlias(string CppNamespace, string CppName, string CsDelegateName
 
 /// <summary>A parameter in a block type alias signature.</summary>
 record BlockParam(string CppType, string CsType, string Name);
+
+/// <summary>Parsed C++ packed struct definition (marked with <c>_MTL_PACKED</c>).</summary>
+record StructDef(string CppNamespace, string Name, List<StructFieldDef> Fields);
+
+/// <summary>A single field in a packed struct definition.</summary>
+record StructFieldDef(string CppType, string Name);

@@ -19,7 +19,7 @@ class Generator(string metalCppDir, string outputDir)
         Console.WriteLine("Parsing header files...");
         parser.ParseAllHeaders();
 
-        Console.WriteLine($"Found {context.Enums.Count} enums, {context.Classes.Count} classes, {context.FreeFunctions.Count} free functions");
+        Console.WriteLine($"Found {context.Enums.Count} enums, {context.Structs.Count} structs, {context.Classes.Count} classes, {context.FreeFunctions.Count} free functions");
 
         Console.WriteLine("Generating C# files...");
         new CSharpEmitter(outputDir, context, typeMapper).GenerateAll();

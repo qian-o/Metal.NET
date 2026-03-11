@@ -55,7 +55,8 @@ Metal.NET.slnx
 │   │   ├── NativeObject.cs
 │   │   ├── ObjectiveC.cs              ← Auto-generated P/Invoke to libobjc (objc_msgSend)
 │   │   ├── Selector.cs
-│   │   └── Bool8.cs
+│   │   ├── Bool8.cs
+│   │   └── Structs.cs                 ← Hand-written structs (CGSize, SimdFloat4, SimdFloat4x4)
 │   ├── CoreGraphics/
 │   │   └── CGColorSpace.cs
 │   ├── Foundation/

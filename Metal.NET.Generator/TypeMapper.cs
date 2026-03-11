@@ -14,8 +14,7 @@ partial class TypeMapper(GeneratorContext context)
         "NSRange", "MTLRegion", "MTLSize", "MTLOrigin", "MTLSamplePosition", "MTLViewport",
         "MTLScissorRect", "MTLClearColor", "CGSize", "MTLResourceID", "MTLSizeAndAlign",
         "MTLAccelerationStructureSizes", "MTLTextureSwizzleChannels",
-        "MTLVertexAmplificationViewMapping", "MTL4BufferRange", "MTL4Origin", "MTL4Size",
-        "MTL4Range", "MTLRange",
+        "MTLVertexAmplificationViewMapping", "MTL4BufferRange",
         "MTL4CopySparseBufferMappingOperation", "MTL4CopySparseTextureMappingOperation",
         "MTL4UpdateSparseBufferMappingOperation", "MTL4UpdateSparseTextureMappingOperation",
         "SimdFloat4x4"
@@ -179,6 +178,17 @@ partial class TypeMapper(GeneratorContext context)
             if (t == "Timestamp")
             {
                 return "ulong";
+            }
+
+            // NS basic types used without namespace qualifier inside NS namespace
+            if (t == "UInteger")
+            {
+                return isPointer ? "nint" : "nuint";
+            }
+
+            if (t == "Integer")
+            {
+                return "nint";
             }
 
             string prefix = GetPrefix(defaultNs);

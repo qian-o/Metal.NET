@@ -3,73 +3,35 @@
 namespace Metal.NET;
 
 [StructLayout(LayoutKind.Sequential)]
-public struct CGSize(double width, double height)
+public struct MTL4BufferRange(ulong bufferAddress, ulong length)
 {
-    public double Width = width;
+    public ulong BufferAddress = bufferAddress;
 
-    public double Height = height;
+    public ulong Length = length;
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTL4BufferRange(nuint offset, nuint length)
+public struct MTL4CopySparseBufferMappingOperation(NSRange sourceRange, nuint destinationOffset)
 {
-    public nuint Offset = offset;
+    public NSRange SourceRange = sourceRange;
 
-    public nuint Length = length;
+    public nuint DestinationOffset = destinationOffset;
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTL4CopySparseBufferMappingOperation(nuint sourceStartPage, nuint destinationStartPage, nuint pageCount)
-{
-    public nuint SourceStartPage = sourceStartPage;
-
-    public nuint DestinationStartPage = destinationStartPage;
-
-    public nuint PageCount = pageCount;
-}
-
-[StructLayout(LayoutKind.Sequential)]
-public struct MTL4CopySparseTextureMappingOperation(MTLRegion sourceRegion, nuint sourceMipLevel, nuint sourceSlice, MTL4Origin destinationOrigin, nuint destinationMipLevel, nuint destinationSlice)
+public struct MTL4CopySparseTextureMappingOperation(MTLRegion sourceRegion, nuint sourceLevel, nuint sourceSlice, MTLOrigin destinationOrigin, nuint destinationLevel, nuint destinationSlice)
 {
     public MTLRegion SourceRegion = sourceRegion;
 
-    public nuint SourceMipLevel = sourceMipLevel;
+    public nuint SourceLevel = sourceLevel;
 
     public nuint SourceSlice = sourceSlice;
 
-    public MTL4Origin DestinationOrigin = destinationOrigin;
+    public MTLOrigin DestinationOrigin = destinationOrigin;
 
-    public nuint DestinationMipLevel = destinationMipLevel;
+    public nuint DestinationLevel = destinationLevel;
 
     public nuint DestinationSlice = destinationSlice;
-}
-
-[StructLayout(LayoutKind.Sequential)]
-public struct MTL4Origin(nuint x, nuint y, nuint z)
-{
-    public nuint X = x;
-
-    public nuint Y = y;
-
-    public nuint Z = z;
-}
-
-[StructLayout(LayoutKind.Sequential)]
-public struct MTL4Range(nuint location, nuint length)
-{
-    public nuint Location = location;
-
-    public nuint Length = length;
-}
-
-[StructLayout(LayoutKind.Sequential)]
-public struct MTL4Size(nuint width, nuint height, nuint depth)
-{
-    public nuint Width = width;
-
-    public nuint Height = height;
-
-    public nuint Depth = depth;
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -79,21 +41,67 @@ public struct MTL4TimestampHeapEntry(ulong timestamp)
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTL4UpdateSparseBufferMappingOperation(nuint startPage, nuint pageCount)
+public struct MTL4UpdateSparseBufferMappingOperation(MTLSparseTextureMappingMode mode, NSRange bufferRange, nuint heapOffset)
 {
-    public nuint StartPage = startPage;
+    public MTLSparseTextureMappingMode Mode = mode;
 
-    public nuint PageCount = pageCount;
+    public NSRange BufferRange = bufferRange;
+
+    public nuint HeapOffset = heapOffset;
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTL4UpdateSparseTextureMappingOperation(MTLRegion region, nuint mipLevel, nuint slice)
+public struct MTL4UpdateSparseTextureMappingOperation(MTLSparseTextureMappingMode mode, MTLRegion textureRegion, nuint textureLevel, nuint textureSlice, nuint heapOffset)
 {
-    public MTLRegion Region = region;
+    public MTLSparseTextureMappingMode Mode = mode;
 
-    public nuint MipLevel = mipLevel;
+    public MTLRegion TextureRegion = textureRegion;
 
-    public nuint Slice = slice;
+    public nuint TextureLevel = textureLevel;
+
+    public nuint TextureSlice = textureSlice;
+
+    public nuint HeapOffset = heapOffset;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLAccelerationStructureInstanceDescriptor(MTLPackedFloat4x3 transformationMatrix, MTLAccelerationStructureInstanceOptions options, uint mask, uint intersectionFunctionTableOffset, uint accelerationStructureIndex)
+{
+    public MTLPackedFloat4x3 TransformationMatrix = transformationMatrix;
+
+    public MTLAccelerationStructureInstanceOptions Options = options;
+
+    public uint Mask = mask;
+
+    public uint IntersectionFunctionTableOffset = intersectionFunctionTableOffset;
+
+    public uint AccelerationStructureIndex = accelerationStructureIndex;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLAccelerationStructureMotionInstanceDescriptor(MTLAccelerationStructureInstanceOptions options, uint mask, uint intersectionFunctionTableOffset, uint accelerationStructureIndex, uint userID, uint motionTransformsStartIndex, uint motionTransformsCount, MTLMotionBorderMode motionStartBorderMode, MTLMotionBorderMode motionEndBorderMode, float motionStartTime, float motionEndTime)
+{
+    public MTLAccelerationStructureInstanceOptions Options = options;
+
+    public uint Mask = mask;
+
+    public uint IntersectionFunctionTableOffset = intersectionFunctionTableOffset;
+
+    public uint AccelerationStructureIndex = accelerationStructureIndex;
+
+    public uint UserID = userID;
+
+    public uint MotionTransformsStartIndex = motionTransformsStartIndex;
+
+    public uint MotionTransformsCount = motionTransformsCount;
+
+    public MTLMotionBorderMode MotionStartBorderMode = motionStartBorderMode;
+
+    public MTLMotionBorderMode MotionEndBorderMode = motionEndBorderMode;
+
+    public float MotionStartTime = motionStartTime;
+
+    public float MotionEndTime = motionEndTime;
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -104,6 +112,22 @@ public struct MTLAccelerationStructureSizes(nuint accelerationStructureSize, nui
     public nuint BuildScratchBufferSize = buildScratchBufferSize;
 
     public nuint RefitScratchBufferSize = refitScratchBufferSize;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLAccelerationStructureUserIDInstanceDescriptor(MTLPackedFloat4x3 transformationMatrix, MTLAccelerationStructureInstanceOptions options, uint mask, uint intersectionFunctionTableOffset, uint accelerationStructureIndex, uint userID)
+{
+    public MTLPackedFloat4x3 TransformationMatrix = transformationMatrix;
+
+    public MTLAccelerationStructureInstanceOptions Options = options;
+
+    public uint Mask = mask;
+
+    public uint IntersectionFunctionTableOffset = intersectionFunctionTableOffset;
+
+    public uint AccelerationStructureIndex = accelerationStructureIndex;
+
+    public uint UserID = userID;
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -183,6 +207,150 @@ public struct MTLCounterResultTimestamp(ulong timestamp)
 }
 
 [StructLayout(LayoutKind.Sequential)]
+public struct MTLDispatchThreadgroupsIndirectArguments(uint threadgroupsPerGrid0, uint threadgroupsPerGrid1, uint threadgroupsPerGrid2)
+{
+    public uint ThreadgroupsPerGrid0 = threadgroupsPerGrid0;
+
+    public uint ThreadgroupsPerGrid1 = threadgroupsPerGrid1;
+
+    public uint ThreadgroupsPerGrid2 = threadgroupsPerGrid2;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLDispatchThreadsIndirectArguments(uint threadsPerGrid0, uint threadsPerGrid1, uint threadsPerGrid2, uint threadsPerThreadgroup0, uint threadsPerThreadgroup1, uint threadsPerThreadgroup2)
+{
+    public uint ThreadsPerGrid0 = threadsPerGrid0;
+
+    public uint ThreadsPerGrid1 = threadsPerGrid1;
+
+    public uint ThreadsPerGrid2 = threadsPerGrid2;
+
+    public uint ThreadsPerThreadgroup0 = threadsPerThreadgroup0;
+
+    public uint ThreadsPerThreadgroup1 = threadsPerThreadgroup1;
+
+    public uint ThreadsPerThreadgroup2 = threadsPerThreadgroup2;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLDrawIndexedPrimitivesIndirectArguments(uint indexCount, uint instanceCount, uint indexStart, int baseVertex, uint baseInstance)
+{
+    public uint IndexCount = indexCount;
+
+    public uint InstanceCount = instanceCount;
+
+    public uint IndexStart = indexStart;
+
+    public int BaseVertex = baseVertex;
+
+    public uint BaseInstance = baseInstance;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLDrawPatchIndirectArguments(uint patchCount, uint instanceCount, uint patchStart, uint baseInstance)
+{
+    public uint PatchCount = patchCount;
+
+    public uint InstanceCount = instanceCount;
+
+    public uint PatchStart = patchStart;
+
+    public uint BaseInstance = baseInstance;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLDrawPrimitivesIndirectArguments(uint vertexCount, uint instanceCount, uint vertexStart, uint baseInstance)
+{
+    public uint VertexCount = vertexCount;
+
+    public uint InstanceCount = instanceCount;
+
+    public uint VertexStart = vertexStart;
+
+    public uint BaseInstance = baseInstance;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLIndirectAccelerationStructureInstanceDescriptor(MTLPackedFloat4x3 transformationMatrix, MTLAccelerationStructureInstanceOptions options, uint mask, uint intersectionFunctionTableOffset, uint userID, MTLResourceID accelerationStructureID)
+{
+    public MTLPackedFloat4x3 TransformationMatrix = transformationMatrix;
+
+    public MTLAccelerationStructureInstanceOptions Options = options;
+
+    public uint Mask = mask;
+
+    public uint IntersectionFunctionTableOffset = intersectionFunctionTableOffset;
+
+    public uint UserID = userID;
+
+    public MTLResourceID AccelerationStructureID = accelerationStructureID;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLIndirectAccelerationStructureMotionInstanceDescriptor(MTLAccelerationStructureInstanceOptions options, uint mask, uint intersectionFunctionTableOffset, uint userID, MTLResourceID accelerationStructureID, uint motionTransformsStartIndex, uint motionTransformsCount, MTLMotionBorderMode motionStartBorderMode, MTLMotionBorderMode motionEndBorderMode, float motionStartTime, float motionEndTime)
+{
+    public MTLAccelerationStructureInstanceOptions Options = options;
+
+    public uint Mask = mask;
+
+    public uint IntersectionFunctionTableOffset = intersectionFunctionTableOffset;
+
+    public uint UserID = userID;
+
+    public MTLResourceID AccelerationStructureID = accelerationStructureID;
+
+    public uint MotionTransformsStartIndex = motionTransformsStartIndex;
+
+    public uint MotionTransformsCount = motionTransformsCount;
+
+    public MTLMotionBorderMode MotionStartBorderMode = motionStartBorderMode;
+
+    public MTLMotionBorderMode MotionEndBorderMode = motionEndBorderMode;
+
+    public float MotionStartTime = motionStartTime;
+
+    public float MotionEndTime = motionEndTime;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLIndirectCommandBufferExecutionRange(uint location, uint length)
+{
+    public uint Location = location;
+
+    public uint Length = length;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLIntersectionFunctionBufferArguments(ulong intersectionFunctionBuffer, ulong intersectionFunctionBufferSize, ulong intersectionFunctionStride)
+{
+    public ulong IntersectionFunctionBuffer = intersectionFunctionBuffer;
+
+    public ulong IntersectionFunctionBufferSize = intersectionFunctionBufferSize;
+
+    public ulong IntersectionFunctionStride = intersectionFunctionStride;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLMapIndirectArguments(uint regionOriginX, uint regionOriginY, uint regionOriginZ, uint regionSizeWidth, uint regionSizeHeight, uint regionSizeDepth, uint mipMapLevel, uint sliceId)
+{
+    public uint RegionOriginX = regionOriginX;
+
+    public uint RegionOriginY = regionOriginY;
+
+    public uint RegionOriginZ = regionOriginZ;
+
+    public uint RegionSizeWidth = regionSizeWidth;
+
+    public uint RegionSizeHeight = regionSizeHeight;
+
+    public uint RegionSizeDepth = regionSizeDepth;
+
+    public uint MipMapLevel = mipMapLevel;
+
+    public uint SliceId = sliceId;
+}
+
+[StructLayout(LayoutKind.Sequential)]
 public struct MTLOrigin(nuint x, nuint y, nuint z)
 {
     public nuint X = x;
@@ -203,15 +371,15 @@ public struct MTLPackedFloat3(float x, float y, float z)
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTLPackedFloat4x3(MTLPackedFloat3 column0, MTLPackedFloat3 column1, MTLPackedFloat3 column2, MTLPackedFloat3 column3)
+public struct MTLPackedFloat4x3(MTLPackedFloat3 columns0, MTLPackedFloat3 columns1, MTLPackedFloat3 columns2, MTLPackedFloat3 columns3)
 {
-    public MTLPackedFloat3 Column0 = column0;
+    public MTLPackedFloat3 Columns0 = columns0;
 
-    public MTLPackedFloat3 Column1 = column1;
+    public MTLPackedFloat3 Columns1 = columns1;
 
-    public MTLPackedFloat3 Column2 = column2;
+    public MTLPackedFloat3 Columns2 = columns2;
 
-    public MTLPackedFloat3 Column3 = column3;
+    public MTLPackedFloat3 Columns3 = columns3;
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -227,11 +395,19 @@ public struct MTLPackedFloatQuaternion(float x, float y, float z, float w)
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTLRange(nuint location, nuint length)
+public struct MTLQuadTessellationFactorsHalf(ushort edgeTessellationFactor0, ushort edgeTessellationFactor1, ushort edgeTessellationFactor2, ushort edgeTessellationFactor3, ushort insideTessellationFactor0, ushort insideTessellationFactor1)
 {
-    public nuint Location = location;
+    public ushort EdgeTessellationFactor0 = edgeTessellationFactor0;
 
-    public nuint Length = length;
+    public ushort EdgeTessellationFactor1 = edgeTessellationFactor1;
+
+    public ushort EdgeTessellationFactor2 = edgeTessellationFactor2;
+
+    public ushort EdgeTessellationFactor3 = edgeTessellationFactor3;
+
+    public ushort InsideTessellationFactor0 = insideTessellationFactor0;
+
+    public ushort InsideTessellationFactor1 = insideTessellationFactor1;
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -287,6 +463,22 @@ public struct MTLSizeAndAlign(nuint size, nuint align)
 }
 
 [StructLayout(LayoutKind.Sequential)]
+public struct MTLStageInRegionIndirectArguments(uint stageInOrigin0, uint stageInOrigin1, uint stageInOrigin2, uint stageInSize0, uint stageInSize1, uint stageInSize2)
+{
+    public uint StageInOrigin0 = stageInOrigin0;
+
+    public uint StageInOrigin1 = stageInOrigin1;
+
+    public uint StageInOrigin2 = stageInOrigin2;
+
+    public uint StageInSize0 = stageInSize0;
+
+    public uint StageInSize1 = stageInSize1;
+
+    public uint StageInSize2 = stageInSize2;
+}
+
+[StructLayout(LayoutKind.Sequential)]
 public struct MTLTextureSwizzleChannels(MTLTextureSwizzle red, MTLTextureSwizzle green, MTLTextureSwizzle blue, MTLTextureSwizzle alpha)
 {
     public MTLTextureSwizzle Red = red;
@@ -299,11 +491,23 @@ public struct MTLTextureSwizzleChannels(MTLTextureSwizzle red, MTLTextureSwizzle
 }
 
 [StructLayout(LayoutKind.Sequential)]
-public struct MTLVertexAmplificationViewMapping(nuint viewportArrayIndexOffset, nuint renderTargetArrayIndexOffset)
+public struct MTLTriangleTessellationFactorsHalf(ushort edgeTessellationFactor0, ushort edgeTessellationFactor1, ushort edgeTessellationFactor2, ushort insideTessellationFactor)
 {
-    public nuint ViewportArrayIndexOffset = viewportArrayIndexOffset;
+    public ushort EdgeTessellationFactor0 = edgeTessellationFactor0;
 
-    public nuint RenderTargetArrayIndexOffset = renderTargetArrayIndexOffset;
+    public ushort EdgeTessellationFactor1 = edgeTessellationFactor1;
+
+    public ushort EdgeTessellationFactor2 = edgeTessellationFactor2;
+
+    public ushort InsideTessellationFactor = insideTessellationFactor;
+}
+
+[StructLayout(LayoutKind.Sequential)]
+public struct MTLVertexAmplificationViewMapping(uint viewportArrayIndexOffset, uint renderTargetArrayIndexOffset)
+{
+    public uint ViewportArrayIndexOffset = viewportArrayIndexOffset;
+
+    public uint RenderTargetArrayIndexOffset = renderTargetArrayIndexOffset;
 }
 
 [StructLayout(LayoutKind.Sequential)]
@@ -320,36 +524,4 @@ public struct MTLViewport(double originX, double originY, double width, double h
     public double Znear = znear;
 
     public double Zfar = zfar;
-}
-
-[StructLayout(LayoutKind.Sequential)]
-public struct NSRange(nuint location, nuint length)
-{
-    public nuint Location = location;
-
-    public nuint Length = length;
-}
-
-[StructLayout(LayoutKind.Sequential)]
-public struct SimdFloat4(float x, float y, float z, float w)
-{
-    public float X = x;
-
-    public float Y = y;
-
-    public float Z = z;
-
-    public float W = w;
-}
-
-[StructLayout(LayoutKind.Sequential)]
-public struct SimdFloat4x4(SimdFloat4 column0, SimdFloat4 column1, SimdFloat4 column2, SimdFloat4 column3)
-{
-    public SimdFloat4 Column0 = column0;
-
-    public SimdFloat4 Column1 = column1;
-
-    public SimdFloat4 Column2 = column2;
-
-    public SimdFloat4 Column3 = column3;
 }
