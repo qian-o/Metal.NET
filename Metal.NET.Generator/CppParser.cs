@@ -744,7 +744,10 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                     continue;
                 }
 
-                // Skip constructor/method declarations and lines with parentheses or '='
+                // Skip constructor declarations (e.g., ClearColor(double, ...)),
+                // default constructors (e.g., ClearColor() = default),
+                // and static factory methods (e.g., static ClearColor Make(...)).
+                // Packed struct fields in metal-cpp never use initializers or parentheses.
                 if (line.Contains('(') || line.Contains(')') || line.Contains('='))
                 {
                     continue;

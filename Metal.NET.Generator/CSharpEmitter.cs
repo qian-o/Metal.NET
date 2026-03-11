@@ -352,9 +352,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     void GenerateStructFile(string subdir, List<StructDef> structs)
     {
+        static string GetCsStructName(StructDef s) => TypeMapper.GetPrefix(s.CppNamespace) + s.Name;
+
         // Filter out hand-written structs
         List<StructDef> generatable = structs
-            .Where(s => !SkipStructs.Contains(TypeMapper.GetPrefix(s.CppNamespace) + s.Name))
+            .Where(s => !SkipStructs.Contains(GetCsStructName(s)))
             .ToList();
 
         if (generatable.Count == 0)
@@ -378,12 +380,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         sb.AppendLine();
         sb.AppendLine("namespace Metal.NET;");
 
-        List<StructDef> sortedStructs = [.. generatable.OrderBy(s => TypeMapper.GetPrefix(s.CppNamespace) + s.Name)];
+        List<StructDef> sortedStructs = [.. generatable.OrderBy(s => GetCsStructName(s))];
 
         foreach (StructDef structDef in sortedStructs)
         {
-            string prefix = TypeMapper.GetPrefix(structDef.CppNamespace);
-            string csStructName = prefix + structDef.Name;
+            string csStructName = GetCsStructName(structDef);
 
             sb.AppendLine();
             sb.AppendLine("[StructLayout(LayoutKind.Sequential)]");
