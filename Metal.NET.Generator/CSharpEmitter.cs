@@ -30,41 +30,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         "NSDate"
     ];
 
-    /// <summary>Hand-written structs to skip during generation (already defined in MTLStructs.cs).</summary>
+    /// <summary>Hand-written structs to skip during generation (not included in metal-cpp).</summary>
     static readonly HashSet<string> SkipStructs =
     [
         "CGSize",
-        "MTL4BufferRange",
-        "MTL4CopySparseBufferMappingOperation",
-        "MTL4CopySparseTextureMappingOperation",
-        "MTL4Origin",
-        "MTL4Range",
-        "MTL4Size",
-        "MTL4TimestampHeapEntry",
-        "MTL4UpdateSparseBufferMappingOperation",
-        "MTL4UpdateSparseTextureMappingOperation",
-        "MTLAccelerationStructureSizes",
-        "MTLAxisAlignedBoundingBox",
-        "MTLClearColor",
-        "MTLComponentTransform",
-        "MTLCounterResultStageUtilization",
-        "MTLCounterResultStatistic",
-        "MTLCounterResultTimestamp",
-        "MTLOrigin",
-        "MTLPackedFloat3",
-        "MTLPackedFloat4x3",
-        "MTLPackedFloatQuaternion",
-        "MTLRange",
-        "MTLRegion",
-        "MTLResourceID",
-        "MTLSamplePosition",
-        "MTLScissorRect",
-        "MTLSize",
-        "MTLSizeAndAlign",
-        "MTLTextureSwizzleChannels",
-        "MTLVertexAmplificationViewMapping",
-        "MTLViewport",
-        "NSRange",
         "SimdFloat4",
         "SimdFloat4x4"
     ];
@@ -369,10 +338,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         string fileName = subdir switch
         {
-            "Metal" => "MTLPackedStructs.cs",
-            "Foundation" => "NSPackedStructs.cs",
-            "MetalFX" => "MTLFXPackedStructs.cs",
-            _ => $"{subdir}PackedStructs.cs"
+            "Metal" => "MTLStructs.cs",
+            "Foundation" => "NSStructs.cs",
+            "MetalFX" => "MTLFXStructs.cs",
+            _ => $"{subdir}Structs.cs"
         };
 
         StringBuilder sb = new();

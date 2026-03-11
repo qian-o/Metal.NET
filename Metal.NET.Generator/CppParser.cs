@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Text;
+using System.Text.RegularExpressions;
 
 namespace Metal.NET.Generator;
 
@@ -65,10 +66,10 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
             foreach (string file in Directory.GetFiles(dir, "*.hpp"))
             {
                 string fileName = Path.GetFileName(file);
+
                 if (fileName.Contains("Private") || fileName.Contains("HeaderBridge") ||
-                    fileName.Contains("Defines") || fileName.Contains("Types") ||
-                    fileName.Contains("Version") || fileName.Contains("GPUAddress") ||
-                    fileName.Contains("IOCompressor") || fileName.Contains("AccelerationStructureTypes"))
+                    fileName.Contains("Defines") || fileName.Contains("Version") ||
+                    fileName.Contains("GPUAddress") || fileName.Contains("IOCompressor"))
                 {
                     continue;
                 }
@@ -79,9 +80,18 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                 }
 
                 string content = File.ReadAllText(file);
+
+                // Always parse structs from all non-excluded files (including Types files)
+                ParseStructs(content);
+
+                // Skip Types files for enum/class/function parsing
+                if (fileName.Contains("Types"))
+                {
+                    continue;
+                }
+
                 ParseBlockTypeAliases(content);
                 ParseEnums(content);
-                ParseStructs(content);
                 ParseClasses(content);
                 ParseFreeFunctions(content, subdir, file);
             }
@@ -712,6 +722,9 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
 
     #region Struct Parsing
 
+    /// <summary>Structs to skip during parsing (not relevant for C# interop).</summary>
+    static readonly HashSet<string> SkipStructs = ["FastEnumerationState"];
+
     void ParseStructs(string content)
     {
         List<(string Ns, int Pos)> nsPositions = [];
@@ -720,11 +733,35 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
             nsPositions.Add((nm.Groups[1].Value, nm.Index));
         }
 
-        foreach (Match m in PackedStructRegex().Matches(content))
+        // Find struct declarations followed by _*_PACKED using brace matching
+        foreach (Match m in StructDeclRegex().Matches(content))
         {
             string structName = m.Groups[1].Value;
-            string body = m.Groups[2].Value;
+            if (SkipStructs.Contains(structName))
+            {
+                continue;
+            }
 
+            int braceStart = content.IndexOf('{', m.Index);
+            if (braceStart < 0)
+            {
+                continue;
+            }
+
+            int braceEnd = FindMatchingBrace(content, braceStart);
+            if (braceEnd < 0)
+            {
+                continue;
+            }
+
+            // Check for _*_PACKED marker after the closing brace
+            string afterBrace = content[(braceEnd + 1)..Math.Min(braceEnd + 30, content.Length)].TrimStart();
+            if (!PackedMarkerRegex().IsMatch(afterBrace))
+            {
+                continue;
+            }
+
+            // Avoid duplicates
             string ns = "MTL";
             for (int i = nsPositions.Count - 1; i >= 0; i--)
             {
@@ -735,40 +772,154 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                 }
             }
 
-            List<StructFieldDef> fields = [];
-            foreach (string rawLine in body.Split('\n'))
+            string prefix = TypeMapper.GetPrefix(ns);
+            if (context.Structs.Any(s => TypeMapper.GetPrefix(s.CppNamespace) + s.Name == prefix + structName))
             {
-                string line = rawLine.Trim().TrimEnd(';');
-                if (string.IsNullOrWhiteSpace(line))
-                {
-                    continue;
-                }
-
-                // Skip constructor declarations (e.g., ClearColor(double, ...)),
-                // default constructors (e.g., ClearColor() = default),
-                // and static factory methods (e.g., static ClearColor Make(...)).
-                // Packed struct fields in metal-cpp never use initializers or parentheses.
-                if (line.Contains('(') || line.Contains(')') || line.Contains('='))
-                {
-                    continue;
-                }
-
-                Match fieldMatch = StructFieldRegex().Match(line);
-                if (!fieldMatch.Success)
-                {
-                    continue;
-                }
-
-                string cppType = fieldMatch.Groups[1].Value.Trim();
-                string fieldName = fieldMatch.Groups[2].Value.Trim();
-                fields.Add(new StructFieldDef(cppType, fieldName));
+                continue;
             }
+
+            string body = content[(braceStart + 1)..braceEnd];
+            List<StructFieldDef> fields = ParseStructFields(body, ns);
 
             if (fields.Count > 0)
             {
                 context.Structs.Add(new StructDef(ns, structName, fields));
             }
         }
+    }
+
+    /// <summary>
+    /// Parses fields from a struct body, handling union/struct nesting and array fields.
+    /// </summary>
+    static List<StructFieldDef> ParseStructFields(string body, string defaultNs)
+    {
+        // First, flatten any union { struct { fields } ... } patterns
+        // by extracting the fields from the inner struct
+        string flattened = FlattenUnions(body);
+
+        List<StructFieldDef> fields = [];
+        foreach (string rawLine in flattened.Split('\n'))
+        {
+            string line = rawLine.Trim().TrimEnd(';');
+            if (string.IsNullOrWhiteSpace(line))
+            {
+                continue;
+            }
+
+            // Skip constructor declarations, default constructors, static methods,
+            // operator overloads, preprocessor directives, and access specifiers.
+            if (line.Contains('(') || line.Contains(')') || line.Contains('=') ||
+                line.StartsWith('#') || line.StartsWith("//") ||
+                line is "public:" or "private:" or "protected:" ||
+                line.StartsWith("static ") || line.StartsWith("union") ||
+                line.StartsWith("struct") || line is "{" or "}")
+            {
+                continue;
+            }
+
+            // Handle array fields: "Type name[N]" → expand to N individual fields
+            Match arrayMatch = StructArrayFieldRegex().Match(line);
+            if (arrayMatch.Success)
+            {
+                string cppType = arrayMatch.Groups[1].Value.Trim();
+                string baseName = arrayMatch.Groups[2].Value.Trim();
+                if (int.TryParse(arrayMatch.Groups[3].Value, out int count))
+                {
+                    for (int i = 0; i < count; i++)
+                    {
+                        fields.Add(new StructFieldDef(cppType, $"{baseName}{i}"));
+                    }
+                }
+                continue;
+            }
+
+            Match fieldMatch = StructFieldRegex().Match(line);
+            if (!fieldMatch.Success)
+            {
+                continue;
+            }
+
+            string fieldType = fieldMatch.Groups[1].Value.Trim();
+            string fieldName = fieldMatch.Groups[2].Value.Trim();
+
+            // Strip leading underscores from field names (e.g., _impl → impl)
+            fieldName = fieldName.TrimStart('_');
+            if (string.IsNullOrEmpty(fieldName))
+            {
+                continue;
+            }
+
+            fields.Add(new StructFieldDef(fieldType, fieldName));
+        }
+
+        return fields;
+    }
+
+    /// <summary>
+    /// Replaces union { struct { fields } ... } blocks with just the inner struct fields.
+    /// This handles the PackedFloat3/PackedFloatQuaternion pattern in metal-cpp.
+    /// </summary>
+    static string FlattenUnions(string body)
+    {
+        StringBuilder result = new();
+        int i = 0;
+
+        while (i < body.Length)
+        {
+            // Look for "union" keyword at a word boundary
+            int unionIdx = body.IndexOf("union", i, StringComparison.Ordinal);
+            if (unionIdx < 0)
+            {
+                result.Append(body[i..]);
+                break;
+            }
+
+            // Add everything before the union
+            result.Append(body[i..unionIdx]);
+
+            // Find the union's opening brace
+            int unionBraceStart = body.IndexOf('{', unionIdx);
+            if (unionBraceStart < 0)
+            {
+                result.Append(body[unionIdx..]);
+                break;
+            }
+
+            int unionBraceEnd = FindMatchingBrace(body, unionBraceStart);
+            if (unionBraceEnd < 0)
+            {
+                result.Append(body[unionIdx..]);
+                break;
+            }
+
+            string unionBody = body[(unionBraceStart + 1)..unionBraceEnd];
+
+            // Look for "struct {" inside the union body and extract its fields
+            int structIdx = unionBody.IndexOf("struct", StringComparison.Ordinal);
+            if (structIdx >= 0)
+            {
+                int structBraceStart = unionBody.IndexOf('{', structIdx);
+                if (structBraceStart >= 0)
+                {
+                    int structBraceEnd = FindMatchingBrace(unionBody, structBraceStart);
+                    if (structBraceEnd >= 0)
+                    {
+                        // Extract the inner struct fields
+                        string innerFields = unionBody[(structBraceStart + 1)..structBraceEnd];
+                        result.Append(innerFields);
+                    }
+                }
+            }
+
+            // Skip past the union closing brace and any trailing semicolons
+            i = unionBraceEnd + 1;
+            while (i < body.Length && (body[i] == ';' || body[i] == '\n' || body[i] == '\r' || body[i] == ' '))
+            {
+                i++;
+            }
+        }
+
+        return result.ToString();
     }
 
     #endregion
@@ -1282,6 +1433,15 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
 
     [GeneratedRegex(@"struct\s+(\w+)\s*\{([^}]*)\}\s*_MTL_PACKED\s*;", RegexOptions.Singleline)]
     private static partial Regex PackedStructRegex();
+
+    [GeneratedRegex(@"(?:^|\n)\s*struct\s+(\w+)\s*\{", RegexOptions.Multiline)]
+    private static partial Regex StructDeclRegex();
+
+    [GeneratedRegex(@"^_\w+_PACKED\b")]
+    private static partial Regex PackedMarkerRegex();
+
+    [GeneratedRegex(@"^(.+?)\s+(\w+)\[(\d+)\]$")]
+    private static partial Regex StructArrayFieldRegex();
 
     [GeneratedRegex(@"^(.+?)\s+(\w+)$")]
     private static partial Regex StructFieldRegex();
