@@ -30,7 +30,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         "NSDate"
     ];
 
-    /// <summary>Hand-written structs to skip during generation (not included in metal-cpp).</summary>
+    /// <summary>Hand-written structs to skip during generation (located in Common/Structs.cs).</summary>
     static readonly HashSet<string> SkipStructs =
     [
         "CGSize",
