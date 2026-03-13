@@ -1491,121 +1491,31 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             string returnType = GetReturnTypeForGroup(group);
             bool isVoid = returnType == "void";
 
-            var signatures = context.MsgSendSignatures[group];
-
-            foreach (string sig in signatures)
+            foreach (string sig in context.MsgSendSignatures[group])
             {
-                string publicParams = BuildPublicParams(sig);
-                List<string> outParams = GetOutParams(sig);
-                string delegateTypeStr = BuildDelegateUnmanagedType(sig, returnType, delegateTypeNames);
-                bool hasOutParams = outParams.Count > 0;
-                bool hasDelegateParams = HasDelegateParams(sig, delegateTypeNames);
-                List<string> delegateParamNames = GetDelegateParamNames(sig, delegateTypeNames);
+                ParsedParam[] parameters = ParseSignature(sig, delegateTypeNames);
 
                 sb.AppendLine();
-                sb.AppendLine($"    public static {returnType} {group}(nint receiver, Selector selector{publicParams})");
+                sb.AppendLine($"    public static {returnType} {group}(nint receiver, Selector selector{BuildPublicParams(parameters)})");
                 sb.AppendLine("    {");
+
+                // Null guard
                 sb.AppendLine("        if (receiver is 0)");
                 sb.AppendLine("        {");
-
-                foreach (string outParam in outParams)
+                foreach (var p in parameters.Where(p => p.Kind == ParamKind.Out))
                 {
-                    sb.AppendLine($"            {outParam} = default;");
+                    sb.AppendLine($"            {p.Letter} = default;");
                 }
-
-                if (isVoid)
-                {
-                    sb.AppendLine("            return;");
-                }
-                else
-                {
-                    sb.AppendLine("            return default;");
-                }
-
+                sb.AppendLine(isVoid ? "            return;" : "            return default;");
                 sb.AppendLine("        }");
                 sb.AppendLine();
 
-                string callArgs = BuildFunctionPointerCallArgs(sig, delegateTypeNames);
-                string castExpr = $"(({delegateTypeStr})msgSend)";
-                string callExpr = $"{castExpr}(receiver, selector{callArgs})";
+                // Build and emit call expression
+                string delegateType = BuildDelegateUnmanagedType(parameters, returnType);
+                string callArgs = BuildCallArgs(parameters);
+                string callExpr = $"(({delegateType})msgSend)(receiver, selector{callArgs})";
 
-                // When we have delegate params with non-void return, we need a local variable
-                // to store the result so GC.KeepAlive can be called before returning.
-                bool needsResultVar = hasDelegateParams && !isVoid;
-
-                if (hasOutParams)
-                {
-                    // Emit fixed blocks for out parameters
-                    List<(string letter, string baseType)> fixedParams = GetFixedParams(sig);
-                    foreach (var (letter, baseType) in fixedParams)
-                    {
-                        sb.AppendLine($"        fixed ({baseType}* {letter}Ptr = &{letter})");
-                    }
-
-                    sb.AppendLine("        {");
-
-                    if (needsResultVar)
-                    {
-                        sb.AppendLine($"            {returnType} result = {callExpr};");
-                        sb.AppendLine();
-                        foreach (string name in delegateParamNames)
-                        {
-                            sb.AppendLine($"            GC.KeepAlive({name});");
-                        }
-                        sb.AppendLine();
-                        sb.AppendLine("            return result;");
-                    }
-                    else if (isVoid)
-                    {
-                        sb.AppendLine($"            {callExpr};");
-                    }
-                    else
-                    {
-                        sb.AppendLine($"            return {callExpr};");
-                    }
-
-                    sb.AppendLine("        }");
-
-                    if (hasDelegateParams && isVoid)
-                    {
-                        sb.AppendLine();
-                        foreach (string name in delegateParamNames)
-                        {
-                            sb.AppendLine($"        GC.KeepAlive({name});");
-                        }
-                    }
-                }
-                else if (needsResultVar)
-                {
-                    sb.AppendLine($"        {returnType} result = {callExpr};");
-                    sb.AppendLine();
-                    foreach (string name in delegateParamNames)
-                    {
-                        sb.AppendLine($"        GC.KeepAlive({name});");
-                    }
-                    sb.AppendLine();
-                    sb.AppendLine("        return result;");
-                }
-                else
-                {
-                    if (isVoid)
-                    {
-                        sb.AppendLine($"        {callExpr};");
-                    }
-                    else
-                    {
-                        sb.AppendLine($"        return {callExpr};");
-                    }
-
-                    if (hasDelegateParams)
-                    {
-                        sb.AppendLine();
-                        foreach (string name in delegateParamNames)
-                        {
-                            sb.AppendLine($"        GC.KeepAlive({name});");
-                        }
-                    }
-                }
+                EmitCallBody(sb, callExpr, returnType, isVoid, parameters);
 
                 sb.AppendLine("    }");
             }
@@ -1647,6 +1557,16 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         Console.WriteLine($"  Generated: Common/ObjectiveC.cs ({totalOverloads} overloads across {context.MsgSendSignatures.Count} groups)");
     }
 
+    /// <summary>Classification of a parameter in a MsgSend signature.</summary>
+    enum ParamKind { Regular, Out, Delegate }
+
+    /// <summary>A parsed parameter from a MsgSend signature string.</summary>
+    readonly record struct ParsedParam(char Letter, string Type, ParamKind Kind)
+    {
+        /// <summary>The base type for out parameters (strips "out " prefix), or the original type.</summary>
+        public string BaseType => Kind == ParamKind.Out ? Type[4..] : Type;
+    }
+
     static string GetReturnTypeForGroup(string group) => group switch
     {
         "MsgSend" => "void",
@@ -1663,33 +1583,62 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     };
 
     /// <summary>
+    /// Parses a comma-separated signature string into structured parameter info.
+    /// Each parameter is classified as Regular, Out, or Delegate, and assigned a sequential letter.
+    /// </summary>
+    static ParsedParam[] ParseSignature(string sig, HashSet<string> delegateTypeNames)
+    {
+        if (string.IsNullOrEmpty(sig)) return [];
+
+        string[] types = sig.Split(", ");
+        ParsedParam[] result = new ParsedParam[types.Length];
+        char letter = 'a';
+
+        for (int i = 0; i < types.Length; i++)
+        {
+            string type = types[i];
+            ParamKind kind = type.StartsWith("out ")
+                ? ParamKind.Out
+                : delegateTypeNames.Contains(type)
+                    ? ParamKind.Delegate
+                    : ParamKind.Regular;
+            result[i] = new ParsedParam(letter, type, kind);
+            letter++;
+        }
+
+        return result;
+    }
+
+    /// <summary>Builds the public parameter list string (e.g., ", nint a, nint b").</summary>
+    static string BuildPublicParams(ParsedParam[] parameters)
+    {
+        if (parameters.Length == 0) return "";
+
+        StringBuilder sb = new();
+        foreach (var p in parameters)
+        {
+            sb.Append($", {p.Type} {p.Letter}");
+        }
+        return sb.ToString();
+    }
+
+    /// <summary>
     /// Builds the delegate* unmanaged type string for a given signature.
     /// E.g., "delegate* unmanaged&lt;nint, Selector, nint, nint, void&gt;"
     /// Delegate parameters become nint (function pointer), out parameters become pointers.
     /// </summary>
-    static string BuildDelegateUnmanagedType(string sig, string returnType, HashSet<string> delegateTypeNames)
+    static string BuildDelegateUnmanagedType(ParsedParam[] parameters, string returnType)
     {
         List<string> typeArgs = ["nint", "Selector"];
 
-        if (!string.IsNullOrEmpty(sig))
+        foreach (var p in parameters)
         {
-            string[] types = sig.Split(", ");
-            foreach (string type in types)
+            typeArgs.Add(p.Kind switch
             {
-                if (type.StartsWith("out "))
-                {
-                    string baseType = type[4..];
-                    typeArgs.Add($"{baseType}*");
-                }
-                else if (delegateTypeNames.Contains(type))
-                {
-                    typeArgs.Add("nint");
-                }
-                else
-                {
-                    typeArgs.Add(type);
-                }
-            }
+                ParamKind.Out => $"{p.BaseType}*",
+                ParamKind.Delegate => "nint",
+                _ => p.Type
+            });
         }
 
         typeArgs.Add(returnType);
@@ -1701,114 +1650,74 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     /// Delegate parameters are wrapped with Marshal.GetFunctionPointerForDelegate.
     /// Out parameters use pointer variables (e.g., aPtr).
     /// </summary>
-    static string BuildFunctionPointerCallArgs(string sig, HashSet<string> delegateTypeNames)
+    static string BuildCallArgs(ParsedParam[] parameters)
     {
-        if (string.IsNullOrEmpty(sig)) return "";
+        if (parameters.Length == 0) return "";
 
-        string[] types = sig.Split(", ");
         StringBuilder sb = new();
-        char letter = 'a';
-        foreach (string type in types)
+        foreach (var p in parameters)
         {
-            if (type.StartsWith("out "))
+            sb.Append(p.Kind switch
             {
-                sb.Append($", {letter}Ptr");
-            }
-            else if (delegateTypeNames.Contains(type))
-            {
-                sb.Append($", Marshal.GetFunctionPointerForDelegate({letter})");
-            }
-            else
-            {
-                sb.Append($", {letter}");
-            }
-            letter++;
+                ParamKind.Out => $", {p.Letter}Ptr",
+                ParamKind.Delegate => $", Marshal.GetFunctionPointerForDelegate({p.Letter})",
+                _ => $", {p.Letter}"
+            });
         }
         return sb.ToString();
     }
 
     /// <summary>
-    /// Returns true if the signature contains any managed delegate parameter types.
+    /// Emits the method body after the null guard: fixed blocks, call expression,
+    /// return statement, and GC.KeepAlive for delegate parameters.
     /// </summary>
-    static bool HasDelegateParams(string sig, HashSet<string> delegateTypeNames)
+    static void EmitCallBody(StringBuilder sb, string callExpr, string returnType, bool isVoid, ParsedParam[] parameters)
     {
-        if (string.IsNullOrEmpty(sig)) return false;
-        return sig.Split(", ").Any(delegateTypeNames.Contains);
-    }
+        var outParams = parameters.Where(p => p.Kind == ParamKind.Out).ToList();
+        var delegateParams = parameters.Where(p => p.Kind == ParamKind.Delegate).ToList();
+        bool hasOutParams = outParams.Count > 0;
+        bool hasDelegateParams = delegateParams.Count > 0;
+        bool needsResultVar = hasDelegateParams && !isVoid;
+        string indent = hasOutParams ? "            " : "        ";
 
-    /// <summary>
-    /// Returns the parameter variable names for delegate parameters (for GC.KeepAlive).
-    /// </summary>
-    static List<string> GetDelegateParamNames(string sig, HashSet<string> delegateTypeNames)
-    {
-        if (string.IsNullOrEmpty(sig)) return [];
-
-        string[] types = sig.Split(", ");
-        List<string> names = [];
-        char letter = 'a';
-        foreach (string type in types)
+        if (hasOutParams)
         {
-            if (delegateTypeNames.Contains(type))
+            foreach (var p in outParams)
             {
-                names.Add(letter.ToString());
+                sb.AppendLine($"        fixed ({p.BaseType}* {p.Letter}Ptr = &{p.Letter})");
             }
-            letter++;
+            sb.AppendLine("        {");
         }
-        return names;
-    }
 
-    /// <summary>
-    /// Returns fixed parameter info (variable name, base type) for out parameters.
-    /// </summary>
-    static List<(string letter, string baseType)> GetFixedParams(string sig)
-    {
-        if (string.IsNullOrEmpty(sig)) return [];
-
-        string[] types = sig.Split(", ");
-        List<(string, string)> result = [];
-        char letter = 'a';
-        foreach (string type in types)
+        if (needsResultVar)
         {
-            if (type.StartsWith("out "))
+            sb.AppendLine($"{indent}{returnType} result = {callExpr};");
+            sb.AppendLine();
+            foreach (var p in delegateParams)
             {
-                result.Add((letter.ToString(), type[4..]));
+                sb.AppendLine($"{indent}GC.KeepAlive({p.Letter});");
             }
-            letter++;
+            sb.AppendLine();
+            sb.AppendLine($"{indent}return result;");
         }
-        return result;
-    }
-
-    static string BuildPublicParams(string sig)
-    {
-        if (string.IsNullOrEmpty(sig)) return "";
-
-        string[] types = sig.Split(", ");
-        StringBuilder sb = new();
-        char letter = 'a';
-        foreach (string type in types)
+        else
         {
-            sb.Append($", {type} {letter}");
-            letter++;
+            sb.AppendLine(isVoid ? $"{indent}{callExpr};" : $"{indent}return {callExpr};");
         }
-        return sb.ToString();
-    }
 
-    static List<string> GetOutParams(string sig)
-    {
-        if (string.IsNullOrEmpty(sig)) return [];
-
-        string[] types = sig.Split(", ");
-        List<string> outParams = [];
-        char letter = 'a';
-        foreach (string type in types)
+        if (hasOutParams)
         {
-            if (type.StartsWith("out "))
+            sb.AppendLine("        }");
+        }
+
+        if (hasDelegateParams && !needsResultVar)
+        {
+            sb.AppendLine();
+            foreach (var p in delegateParams)
             {
-                outParams.Add(letter.ToString());
+                sb.AppendLine($"        GC.KeepAlive({p.Letter});");
             }
-            letter++;
         }
-        return outParams;
     }
 
     #endregion
