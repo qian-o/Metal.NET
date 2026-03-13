@@ -1683,6 +1683,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         public string BaseType => Kind == ParamKind.Out ? Type[4..] : Type;
     }
 
+    /// <summary>Maps a MsgSend group name to its C# return type.</summary>
     static string GetReturnTypeForGroup(string group) => group switch
     {
         "MsgSend" => "void",
