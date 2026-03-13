@@ -1429,7 +1429,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         sb.AppendLine("internal static unsafe partial class ObjectiveC");
         sb.AppendLine("{");
 
-        sb.AppendLine("    private static readonly nint _objc_msgSend;");
+        sb.AppendLine("    private static readonly nint msgSend;");
         sb.AppendLine();
         sb.AppendLine("    static ObjectiveC()");
         sb.AppendLine("    {");
@@ -1448,11 +1448,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         sb.AppendLine("            NativeLibrary.TryLoad(framework, out _);");
         sb.AppendLine("        }");
         sb.AppendLine();
-        sb.AppendLine("        nint lib = NativeLibrary.Load(\"/usr/lib/libobjc.A.dylib\");");
-        sb.AppendLine("        _objc_msgSend = NativeLibrary.GetExport(lib, \"objc_msgSend\");");
+        sb.AppendLine("        msgSend = NativeLibrary.GetExport(NativeLibrary.Load(\"/usr/lib/libobjc.A.dylib\"), \"objc_msgSend\");");
         sb.AppendLine("    }");
         sb.AppendLine();
-
         sb.AppendLine("    #region Class and Selector Lookups");
         sb.AppendLine();
         sb.AppendLine("    [LibraryImport(\"/usr/lib/libobjc.A.dylib\", EntryPoint = \"objc_getClass\", StringMarshalling = StringMarshalling.Utf8)]");
@@ -1528,7 +1526,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 sb.AppendLine();
 
                 string callArgs = BuildFunctionPointerCallArgs(sig, delegateTypeNames);
-                string castExpr = $"(({delegateTypeStr})_objc_msgSend)";
+                string castExpr = $"(({delegateTypeStr})msgSend)";
                 string callExpr = $"{castExpr}(receiver, selector{callArgs})";
 
                 // When we have delegate params with non-void return, we need a local variable
