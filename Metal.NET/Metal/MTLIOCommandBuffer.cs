@@ -34,7 +34,7 @@ public class MTLIOCommandBuffer(nint nativePtr, NativeObjectOwnership ownership)
 
     public void AddCompletedHandler(MTLIOCommandBufferHandler block)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.AddCompletedHandler, block);
+        ObjectiveC.MsgSend(NativePtr, MTLIOCommandBufferBindings.AddCompletedHandler, block.NativePtr);
     }
 
     public void Commit()

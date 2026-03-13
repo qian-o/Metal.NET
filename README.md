@@ -36,13 +36,13 @@ Every `NativeObject` wrapper has a `NativeObjectOwnership` that controls its lif
 | `Managed` | ✓ | ✓ | Objects created via parameterless constructor (`AllocInit`) |
 
 ```csharp
-// Managed
+// Managed – finalizer will release if not disposed
 var desc = new MTLTextureDescriptor();
 
-// Owned
+// Owned – caller is responsible for disposal
 using MTLLibrary library = device.NewDefaultLibrary();
 
-// Borrowed
+// Borrowed – do not dispose
 MTLDevice device = commandQueue.Device;
 ```
 
@@ -50,65 +50,39 @@ MTLDevice device = commandQueue.Device;
 
 ```
 Metal.NET.slnx
-├── Metal.NET/
-│   ├── Common/
-│   │   ├── NativeObject.cs
-│   │   ├── ObjectiveC.cs              ← Auto-generated P/Invoke to libobjc (objc_msgSend)
-│   │   ├── Selector.cs
-│   │   ├── Bool8.cs
-│   │   └── Structs.cs                 ← Hand-written structs (CGSize, SimdFloat4, SimdFloat4x4)
-│   ├── CoreGraphics/
-│   │   └── CGColorSpace.cs
-│   ├── Foundation/
-│   │   ├── NSObject.cs
-│   │   ├── NSString.cs
-│   │   ├── NSError.cs
-│   │   ├── NSArray.cs
-│   │   ├── NSURL.cs
-│   │   ├── NSDictionary.cs
-│   │   ├── NSNumber.cs
-│   │   ├── NSData.cs
-│   │   ├── NSBundle.cs
-│   │   ├── NSAutoreleasePool.cs
-│   │   └── NSEnums.cs                 ← Auto-generated
-│   ├── GCD/
-│   │   ├── DispatchObject.cs
-│   │   ├── DispatchData.cs
-│   │   └── DispatchQueue.cs
-│   ├── Metal/                          ← Auto-generated (231 files)
-│   ├── MetalFX/                        ← Auto-generated (18 files)
-│   └── QuartzCore/                     ← Auto-generated (2 files)
+├── Metal.NET/                          ← Runtime library
+│   ├── Common/                         ← Hand-written interop core
+│   │   ├── NativeObject.cs             ← Base class for all ObjC wrappers
+│   │   ├── NativeBlock.cs              ← Base class for ObjC block wrappers
+│   │   ├── ObjectiveC.cs               ← Auto-generated objc_msgSend overloads
+│   │   └── ...
+│   ├── Foundation/                     ← Hand-written NS* wrappers
+│   ├── Metal/                          ← Auto-generated Metal API (231 files)
+│   │   ├── MTLDelegates.cs             ← Auto-generated block handler classes
+│   │   └── ...
+│   ├── MetalFX/                        ← Auto-generated MetalFX API (18 files)
+│   └── QuartzCore/                     ← Auto-generated QuartzCore API (2 files)
 │
-└── Metal.NET.Generator/
-    ├── Program.cs
-    ├── Generator.cs
-    ├── CppParser.cs
-    ├── CSharpEmitter.cs
-    ├── TypeMapper.cs
-    ├── GeneratorContext.cs
-    ├── Models.cs
-    └── metal-cpp/
+└── Metal.NET.Generator/                ← Code generator
+    ├── CppParser.cs                    ← Parses metal-cpp headers
+    ├── CSharpEmitter.cs                ← Emits C# source files
+    ├── TypeMapper.cs                   ← C++ → C# type mapping
+    └── metal-cpp/                      ← Upstream metal-cpp headers
 ```
 
 ## Updating Bindings
 
-1. Download the latest [metal-cpp](https://developer.apple.com/metal/cpp/) archive.
-2. Replace the contents of `Metal.NET.Generator/metal-cpp/`.
-3. Run the generator:
+1. Replace `Metal.NET.Generator/metal-cpp/` with the latest [metal-cpp](https://developer.apple.com/metal/cpp/) archive.
+2. Run the generator and verify:
 
    ```bash
    dotnet run --project Metal.NET.Generator
-   ```
-
-4. Build and verify:
-
-   ```bash
    dotnet build Metal.NET
    ```
 
 ## Disclaimer
 
-> **This library was built with AI assistance.** It has undergone preliminary testing to verify basic usability, but has **not** been exhaustively validated in production scenarios. If you plan to use it in a real project, please ensure it meets your requirements through thorough testing.
+> **This library was built with AI assistance.** It has undergone preliminary testing but has **not** been exhaustively validated in production scenarios. Please test thoroughly before production use.
 
 ## Alternatives
 
@@ -117,12 +91,4 @@ Metal.NET.slnx
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
-
-## Trademarks
-
-"Metal" is a trademark of Apple Inc. This project is not affiliated with or endorsed by Apple Inc.
-
-## Third-Party Notices
-
-See [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).
+[MIT License](LICENSE) · "Metal" is a trademark of Apple Inc. · See [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).

@@ -88,12 +88,12 @@ public class MTLCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) :
 
     public void AddCompletedHandler(MTLCommandBufferHandler block)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.AddCompletedHandler, block);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.AddCompletedHandler, block.NativePtr);
     }
 
     public void AddScheduledHandler(MTLCommandBufferHandler block)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.AddScheduledHandler, block);
+        ObjectiveC.MsgSend(NativePtr, MTLCommandBufferBindings.AddScheduledHandler, block.NativePtr);
     }
 
     public MTLBlitCommandEncoder BlitCommandEncoder()

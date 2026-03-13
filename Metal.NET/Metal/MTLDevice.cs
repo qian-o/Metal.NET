@@ -401,7 +401,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
 
     public MTLBuffer NewBuffer(nint pointer, nuint length, MTLResourceOptions options, MTLDeallocator deallocator)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewBuffer, pointer, length, (nuint)options, deallocator);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewBuffer, pointer, length, (nuint)options, deallocator.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -475,19 +475,41 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLComputePipelineState NewComputePipelineState(MTLFunction computeFunction, MTLPipelineOption options, out MTLComputePipelineReflection reflection, out NSError error)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewComputePipelineStateWithFunctionoptionsreflectionerror, computeFunction.NativePtr, (nuint)options, out nint reflectionPtr, out nint errorPtr);
+
+        reflection = new(reflectionPtr, NativeObjectOwnership.Owned);
+
+        error = new(errorPtr, NativeObjectOwnership.Owned);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
     public void NewComputePipelineState(MTLFunction computeFunction, MTLNewComputePipelineStateCompletionHandler completionHandler)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewComputePipelineStateWithFunctioncompletionHandler, computeFunction.NativePtr, completionHandler);
+        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewComputePipelineStateWithFunctioncompletionHandler, computeFunction.NativePtr, completionHandler.NativePtr);
     }
 
     public void NewComputePipelineState(MTLFunction computeFunction, MTLPipelineOption options, MTLNewComputePipelineStateWithReflectionCompletionHandler completionHandler)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewComputePipelineStateWithFunctionoptionscompletionHandler, computeFunction.NativePtr, (nuint)options, completionHandler);
+        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewComputePipelineStateWithFunctionoptionscompletionHandler, computeFunction.NativePtr, (nuint)options, completionHandler.NativePtr);
+    }
+
+    public MTLComputePipelineState NewComputePipelineState(MTLComputePipelineDescriptor descriptor, MTLPipelineOption options, out MTLComputePipelineReflection reflection, out NSError error)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewComputePipelineStateWithDescriptoroptionsreflectionerror, descriptor.NativePtr, (nuint)options, out nint reflectionPtr, out nint errorPtr);
+
+        reflection = new(reflectionPtr, NativeObjectOwnership.Owned);
+
+        error = new(errorPtr, NativeObjectOwnership.Owned);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public void NewComputePipelineState(MTLComputePipelineDescriptor descriptor, MTLPipelineOption options, MTLNewComputePipelineStateWithReflectionCompletionHandler completionHandler)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewComputePipelineStateWithDescriptoroptionscompletionHandler, descriptor.NativePtr, (nuint)options, completionHandler);
+        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewComputePipelineStateWithDescriptoroptionscompletionHandler, descriptor.NativePtr, (nuint)options, completionHandler.NativePtr);
     }
 
     public MTL4CounterHeap NewCounterHeap(MTL4CounterHeapDescriptor descriptor, out NSError error)
@@ -660,7 +682,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
 
     public void NewLibrary(NSString source, MTLCompileOptions options, MTLNewLibraryCompletionHandler completionHandler)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewLibraryWithSourceoptionscompletionHandler, source.NativePtr, options.NativePtr, completionHandler);
+        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewLibraryWithSourceoptionscompletionHandler, source.NativePtr, options.NativePtr, completionHandler.NativePtr);
     }
 
     public MTLLibrary NewLibrary(MTLStitchedLibraryDescriptor descriptor, out NSError error)
@@ -674,7 +696,7 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
 
     public void NewLibrary(MTLStitchedLibraryDescriptor descriptor, MTLNewLibraryCompletionHandler completionHandler)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewLibraryWithStitchedDescriptorcompletionHandler, descriptor.NativePtr, completionHandler);
+        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewLibraryWithStitchedDescriptorcompletionHandler, descriptor.NativePtr, completionHandler.NativePtr);
     }
 
     public MTLLogState NewLogState(MTLLogStateDescriptor descriptor, out NSError error)
@@ -725,24 +747,57 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
+    public MTLRenderPipelineState NewRenderPipelineState(MTLRenderPipelineDescriptor descriptor, MTLPipelineOption options, out MTLRenderPipelineReflection reflection, out NSError error)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithDescriptoroptionsreflectionerror, descriptor.NativePtr, (nuint)options, out nint reflectionPtr, out nint errorPtr);
+
+        reflection = new(reflectionPtr, NativeObjectOwnership.Owned);
+
+        error = new(errorPtr, NativeObjectOwnership.Owned);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
+
     public void NewRenderPipelineState(MTLRenderPipelineDescriptor descriptor, MTLNewRenderPipelineStateCompletionHandler completionHandler)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithDescriptorcompletionHandler, descriptor.NativePtr, completionHandler);
+        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithDescriptorcompletionHandler, descriptor.NativePtr, completionHandler.NativePtr);
     }
 
     public void NewRenderPipelineState(MTLRenderPipelineDescriptor descriptor, MTLPipelineOption options, MTLNewRenderPipelineStateWithReflectionCompletionHandler completionHandler)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithDescriptoroptionscompletionHandler, descriptor.NativePtr, (nuint)options, completionHandler);
+        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithDescriptoroptionscompletionHandler, descriptor.NativePtr, (nuint)options, completionHandler.NativePtr);
+    }
+
+    public MTLRenderPipelineState NewRenderPipelineState(MTLTileRenderPipelineDescriptor descriptor, MTLPipelineOption options, out MTLRenderPipelineReflection reflection, out NSError error)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithTileDescriptoroptionsreflectionerror, descriptor.NativePtr, (nuint)options, out nint reflectionPtr, out nint errorPtr);
+
+        reflection = new(reflectionPtr, NativeObjectOwnership.Owned);
+
+        error = new(errorPtr, NativeObjectOwnership.Owned);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public void NewRenderPipelineState(MTLTileRenderPipelineDescriptor descriptor, MTLPipelineOption options, MTLNewRenderPipelineStateWithReflectionCompletionHandler completionHandler)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithTileDescriptoroptionscompletionHandler, descriptor.NativePtr, (nuint)options, completionHandler);
+        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithTileDescriptoroptionscompletionHandler, descriptor.NativePtr, (nuint)options, completionHandler.NativePtr);
+    }
+
+    public MTLRenderPipelineState NewRenderPipelineState(MTLMeshRenderPipelineDescriptor descriptor, MTLPipelineOption options, out MTLRenderPipelineReflection reflection, out NSError error)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithMeshDescriptoroptionsreflectionerror, descriptor.NativePtr, (nuint)options, out nint reflectionPtr, out nint errorPtr);
+
+        reflection = new(reflectionPtr, NativeObjectOwnership.Owned);
+
+        error = new(errorPtr, NativeObjectOwnership.Owned);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public void NewRenderPipelineState(MTLMeshRenderPipelineDescriptor descriptor, MTLPipelineOption options, MTLNewRenderPipelineStateWithReflectionCompletionHandler completionHandler)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithMeshDescriptoroptionscompletionHandler, descriptor.NativePtr, (nuint)options, completionHandler);
+        ObjectiveC.MsgSend(NativePtr, MTLDeviceBindings.NewRenderPipelineStateWithMeshDescriptoroptionscompletionHandler, descriptor.NativePtr, (nuint)options, completionHandler.NativePtr);
     }
 
     public MTLResidencySet NewResidencySet(MTLResidencySetDescriptor desc, out NSError error)
@@ -1030,9 +1085,13 @@ file static class MTLDeviceBindings
 
     public static readonly Selector NewComputePipelineStateWithDescriptoroptionscompletionHandler = "newComputePipelineStateWithDescriptor:options:completionHandler:";
 
+    public static readonly Selector NewComputePipelineStateWithDescriptoroptionsreflectionerror = "newComputePipelineStateWithDescriptor:options:reflection:error:";
+
     public static readonly Selector NewComputePipelineStateWithFunctioncompletionHandler = "newComputePipelineStateWithFunction:completionHandler:";
 
     public static readonly Selector NewComputePipelineStateWithFunctionoptionscompletionHandler = "newComputePipelineStateWithFunction:options:completionHandler:";
+
+    public static readonly Selector NewComputePipelineStateWithFunctionoptionsreflectionerror = "newComputePipelineStateWithFunction:options:reflection:error:";
 
     public static readonly Selector NewCounterHeap = "newCounterHeapWithDescriptor:error:";
 
@@ -1096,9 +1155,15 @@ file static class MTLDeviceBindings
 
     public static readonly Selector NewRenderPipelineStateWithDescriptoroptionscompletionHandler = "newRenderPipelineStateWithDescriptor:options:completionHandler:";
 
+    public static readonly Selector NewRenderPipelineStateWithDescriptoroptionsreflectionerror = "newRenderPipelineStateWithDescriptor:options:reflection:error:";
+
     public static readonly Selector NewRenderPipelineStateWithMeshDescriptoroptionscompletionHandler = "newRenderPipelineStateWithMeshDescriptor:options:completionHandler:";
 
+    public static readonly Selector NewRenderPipelineStateWithMeshDescriptoroptionsreflectionerror = "newRenderPipelineStateWithMeshDescriptor:options:reflection:error:";
+
     public static readonly Selector NewRenderPipelineStateWithTileDescriptoroptionscompletionHandler = "newRenderPipelineStateWithTileDescriptor:options:completionHandler:";
+
+    public static readonly Selector NewRenderPipelineStateWithTileDescriptoroptionsreflectionerror = "newRenderPipelineStateWithTileDescriptor:options:reflection:error:";
 
     public static readonly Selector NewResidencySet = "newResidencySetWithDescriptor:error:";
 

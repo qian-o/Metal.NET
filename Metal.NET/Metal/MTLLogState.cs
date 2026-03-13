@@ -13,7 +13,7 @@ public class MTLLogState(nint nativePtr, NativeObjectOwnership ownership) : NSOb
 
     public void AddLogHandler(MTLLogHandler block)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLLogStateBindings.AddLogHandler, block);
+        ObjectiveC.MsgSend(NativePtr, MTLLogStateBindings.AddLogHandler, block.NativePtr);
     }
 }
 
