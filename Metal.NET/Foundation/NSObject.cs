@@ -1,5 +1,16 @@
 ﻿namespace Metal.NET;
 
+public static class NSObjectExtensions
+{
+    extension<T>(T @this) where T : NSObject, INativeObject<T>
+    {
+        public T Retain()
+        {
+            return T.New(ObjectiveC.Retain(@this.NativePtr), NativeObjectOwnership.Managed);
+        }
+    }
+}
+
 public class NSObject(nint nativePtr, NativeObjectOwnership ownership) : NativeObject(nativePtr, ownership), INativeObject<NSObject>
 {
     #region INativeObject
@@ -10,11 +21,6 @@ public class NSObject(nint nativePtr, NativeObjectOwnership ownership) : NativeO
         return new(nativePtr, ownership);
     }
     #endregion
-
-    public NSObject Retain()
-    {
-        return new(ObjectiveC.Retain(NativePtr), NativeObjectOwnership.Managed);
-    }
 
     protected T GetProperty<T>(ref T? field, Selector selector) where T : NativeObject, INativeObject<T>
     {
