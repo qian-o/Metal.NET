@@ -19,7 +19,7 @@ public class MTLAttributeDescriptorArray(nint nativePtr, NativeObjectOwnership o
     {
         get
         {
-            nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLAttributeDescriptorArrayBindings.Object, index);
+            nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLAttributeDescriptorArrayBindings.Object, index);
 
             return new(nativePtr, NativeObjectOwnership.Borrowed);
         }

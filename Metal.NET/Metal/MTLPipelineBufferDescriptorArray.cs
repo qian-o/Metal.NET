@@ -19,7 +19,7 @@ public class MTLPipelineBufferDescriptorArray(nint nativePtr, NativeObjectOwners
     {
         get
         {
-            nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLPipelineBufferDescriptorArrayBindings.Object, bufferIndex);
+            nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLPipelineBufferDescriptorArrayBindings.Object, bufferIndex);
 
             return new(nativePtr, NativeObjectOwnership.Borrowed);
         }

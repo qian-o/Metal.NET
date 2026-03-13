@@ -22,7 +22,7 @@ public class MTLBlitPassDescriptor(nint nativePtr, NativeObjectOwnership ownersh
 
     public static MTLBlitPassDescriptor BlitPassDescriptor()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(MTLBlitPassDescriptorBindings.Class, MTLBlitPassDescriptorBindings.BlitPassDescriptor);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLBlitPassDescriptorBindings.Class, MTLBlitPassDescriptorBindings.BlitPassDescriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

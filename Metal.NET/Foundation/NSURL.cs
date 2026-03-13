@@ -13,12 +13,12 @@ public class NSURL(nint nativePtr, NativeObjectOwnership ownership) : NSObject(n
 
     public nint FileSystemRepresentation
     {
-        get => ObjectiveC.MsgSendPtr(NativePtr, NSURLBindings.FileSystemRepresentation);
+        get => ObjectiveC.MsgSendNInt(NativePtr, NSURLBindings.FileSystemRepresentation);
     }
 
     public static implicit operator NSURL(NSString value)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitFileURLWithPath, value.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSURLBindings.Class), NSURLBindings.InitFileURLWithPath, value.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Managed);
     }

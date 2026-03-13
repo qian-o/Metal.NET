@@ -53,7 +53,7 @@ public class MTLArgumentDescriptor(nint nativePtr, NativeObjectOwnership ownersh
 
     public static MTLArgumentDescriptor ArgumentDescriptor()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(MTLArgumentDescriptorBindings.Class, MTLArgumentDescriptorBindings.ArgumentDescriptor);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLArgumentDescriptorBindings.Class, MTLArgumentDescriptorBindings.ArgumentDescriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

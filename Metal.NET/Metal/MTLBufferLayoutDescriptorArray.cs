@@ -19,7 +19,7 @@ public class MTLBufferLayoutDescriptorArray(nint nativePtr, NativeObjectOwnershi
     {
         get
         {
-            nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLBufferLayoutDescriptorArrayBindings.Object, index);
+            nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLBufferLayoutDescriptorArrayBindings.Object, index);
 
             return new(nativePtr, NativeObjectOwnership.Borrowed);
         }

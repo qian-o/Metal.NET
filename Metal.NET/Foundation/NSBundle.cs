@@ -13,7 +13,7 @@ public class NSBundle(nint nativePtr, NativeObjectOwnership ownership) : NSObjec
 
     public static NSBundle MainBundle
     {
-        get => new(ObjectiveC.MsgSendPtr(NSBundleBindings.Class, NSBundleBindings.MainBundle), NativeObjectOwnership.Borrowed);
+        get => new(ObjectiveC.MsgSendNInt(NSBundleBindings.Class, NSBundleBindings.MainBundle), NativeObjectOwnership.Borrowed);
     }
 }
 

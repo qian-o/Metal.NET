@@ -16,14 +16,14 @@ public class NSString(nint nativePtr, NativeObjectOwnership ownership) : NSObjec
 
     public string Value
     {
-        get => Marshal.PtrToStringUTF8(ObjectiveC.MsgSendPtr(NativePtr, NSStringBindings.Utf8String)) ?? string.Empty;
+        get => Marshal.PtrToStringUTF8(ObjectiveC.MsgSendNInt(NativePtr, NSStringBindings.Utf8String)) ?? string.Empty;
     }
 
     public static unsafe implicit operator NSString(string value)
     {
         fixed (byte* utf8 = Encoding.UTF8.GetBytes(value + '\0'))
         {
-            nint nativePtr = ObjectiveC.MsgSendPtr(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithUtf8String, (nint)utf8);
+            nint nativePtr = ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSStringBindings.Class), NSStringBindings.InitWithUtf8String, (nint)utf8);
 
             return new(nativePtr, NativeObjectOwnership.Managed);
         }

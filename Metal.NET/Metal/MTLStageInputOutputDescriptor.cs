@@ -44,7 +44,7 @@ public class MTLStageInputOutputDescriptor(nint nativePtr, NativeObjectOwnership
 
     public static MTLStageInputOutputDescriptor StageInputOutputDescriptor()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(MTLStageInputOutputDescriptorBindings.Class, MTLStageInputOutputDescriptorBindings.StageInputOutputDescriptor);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLStageInputOutputDescriptorBindings.Class, MTLStageInputOutputDescriptorBindings.StageInputOutputDescriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

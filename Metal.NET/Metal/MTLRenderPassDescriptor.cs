@@ -119,7 +119,7 @@ public class MTLRenderPassDescriptor(nint nativePtr, NativeObjectOwnership owner
 
     public static MTLRenderPassDescriptor RenderPassDescriptor()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(MTLRenderPassDescriptorBindings.Class, MTLRenderPassDescriptorBindings.RenderPassDescriptor);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLRenderPassDescriptorBindings.Class, MTLRenderPassDescriptorBindings.RenderPassDescriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

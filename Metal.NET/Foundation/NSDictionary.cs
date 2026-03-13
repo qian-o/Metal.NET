@@ -18,7 +18,7 @@ public class NSDictionary(nint nativePtr, NativeObjectOwnership ownership) : NSO
 
     public nint ObjectForKey(nint key)
     {
-        return ObjectiveC.MsgSendPtr(NativePtr, NSDictionaryBindings.ObjectForKey, key);
+        return ObjectiveC.MsgSendNInt(NativePtr, NSDictionaryBindings.ObjectForKey, key);
     }
 }
 

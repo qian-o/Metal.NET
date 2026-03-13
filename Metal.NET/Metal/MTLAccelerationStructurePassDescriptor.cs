@@ -22,7 +22,7 @@ public class MTLAccelerationStructurePassDescriptor(nint nativePtr, NativeObject
 
     public static MTLAccelerationStructurePassDescriptor AccelerationStructurePassDescriptor()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(MTLAccelerationStructurePassDescriptorBindings.Class, MTLAccelerationStructurePassDescriptorBindings.AccelerationStructurePassDescriptor);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLAccelerationStructurePassDescriptorBindings.Class, MTLAccelerationStructurePassDescriptorBindings.AccelerationStructurePassDescriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

@@ -70,14 +70,14 @@ public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NSO
 
     public static CAMetalLayer Layer()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(CAMetalLayerBindings.Class, CAMetalLayerBindings.Layer);
+        nint nativePtr = ObjectiveC.MsgSendNInt(CAMetalLayerBindings.Class, CAMetalLayerBindings.Layer);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public CAMetalDrawable NextDrawable()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, CAMetalLayerBindings.NextDrawable);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, CAMetalLayerBindings.NextDrawable);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

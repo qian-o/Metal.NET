@@ -28,28 +28,28 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
 
     public MTLCaptureScope NewCaptureScope(MTLDevice device)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLCaptureManagerBindings.NewCaptureScope, device.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCaptureManagerBindings.NewCaptureScope, device.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLCaptureScope NewCaptureScope(MTLCommandQueue commandQueue)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLCaptureManagerBindings.NewCaptureScopeWithCommandQueue, commandQueue.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCaptureManagerBindings.NewCaptureScopeWithCommandQueue, commandQueue.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLCaptureScope NewCaptureScope(MTL4CommandQueue commandQueue)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLCaptureManagerBindings.NewCaptureScopeWithMTL4CommandQueue, commandQueue.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCaptureManagerBindings.NewCaptureScopeWithMTL4CommandQueue, commandQueue.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public static MTLCaptureManager SharedCaptureManager()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(MTLCaptureManagerBindings.Class, MTLCaptureManagerBindings.SharedCaptureManager);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLCaptureManagerBindings.Class, MTLCaptureManagerBindings.SharedCaptureManager);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

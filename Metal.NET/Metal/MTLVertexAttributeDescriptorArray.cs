@@ -19,7 +19,7 @@ public class MTLVertexAttributeDescriptorArray(nint nativePtr, NativeObjectOwner
     {
         get
         {
-            nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLVertexAttributeDescriptorArrayBindings.Object, index);
+            nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLVertexAttributeDescriptorArrayBindings.Object, index);
 
             return new(nativePtr, NativeObjectOwnership.Borrowed);
         }

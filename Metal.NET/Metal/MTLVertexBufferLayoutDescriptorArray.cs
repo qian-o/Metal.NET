@@ -19,7 +19,7 @@ public class MTLVertexBufferLayoutDescriptorArray(nint nativePtr, NativeObjectOw
     {
         get
         {
-            nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLVertexBufferLayoutDescriptorArrayBindings.Object, index);
+            nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLVertexBufferLayoutDescriptorArrayBindings.Object, index);
 
             return new(nativePtr, NativeObjectOwnership.Borrowed);
         }

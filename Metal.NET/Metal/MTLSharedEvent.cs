@@ -19,7 +19,7 @@ public class MTLSharedEvent(nint nativePtr, NativeObjectOwnership ownership) : M
 
     public MTLSharedEventHandle NewSharedEventHandle()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLSharedEventBindings.NewSharedEventHandle);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLSharedEventBindings.NewSharedEventHandle);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

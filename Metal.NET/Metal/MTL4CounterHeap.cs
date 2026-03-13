@@ -34,7 +34,7 @@ public class MTL4CounterHeap(nint nativePtr, NativeObjectOwnership ownership) : 
 
     public NSData ResolveCounterRange(NSRange range)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTL4CounterHeapBindings.ResolveCounterRange, range);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CounterHeapBindings.ResolveCounterRange, range);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

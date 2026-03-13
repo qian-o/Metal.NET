@@ -10,7 +10,7 @@ public static class NSArray
 
         for (nuint i = 0; i < count; i++)
         {
-            result[(int)i] = T.New(ObjectiveC.MsgSendPtr(nativePtr, NSArrayBindings.ObjectAtIndex, i), NativeObjectOwnership.Borrowed);
+            result[(int)i] = T.New(ObjectiveC.MsgSendNInt(nativePtr, NSArrayBindings.ObjectAtIndex, i), NativeObjectOwnership.Borrowed);
         }
 
         return result;
@@ -22,7 +22,7 @@ public static class NSArray
 
         fixed (nint* pNativePtrs = nativePtrs)
         {
-            return ObjectiveC.MsgSendPtr(ObjectiveC.Alloc(NSArrayBindings.Class), NSArrayBindings.InitWithObjectsCount, (nint)pNativePtrs, (nuint)array.Length);
+            return ObjectiveC.MsgSendNInt(ObjectiveC.Alloc(NSArrayBindings.Class), NSArrayBindings.InitWithObjectsCount, (nint)pNativePtrs, (nuint)array.Length);
         }
     }
 }

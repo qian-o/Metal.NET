@@ -19,14 +19,14 @@ public class MTLIOCommandQueue(nint nativePtr, NativeObjectOwnership ownership) 
 
     public MTLIOCommandBuffer CommandBuffer()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLIOCommandQueueBindings.CommandBuffer);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIOCommandQueueBindings.CommandBuffer);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLIOCommandBuffer CommandBufferWithUnretainedReferences()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLIOCommandQueueBindings.CommandBufferWithUnretainedReferences);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIOCommandQueueBindings.CommandBufferWithUnretainedReferences);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

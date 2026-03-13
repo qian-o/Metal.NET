@@ -18,7 +18,7 @@ public class NSError(nint nativePtr, NativeObjectOwnership ownership) : NSObject
 
     public nint Code
     {
-        get => ObjectiveC.MsgSendPtr(NativePtr, NSErrorBindings.Code);
+        get => ObjectiveC.MsgSendNInt(NativePtr, NSErrorBindings.Code);
     }
 
     public NSString Domain

@@ -41,7 +41,7 @@ public class MTLLinkedFunctions(nint nativePtr, NativeObjectOwnership ownership)
 
     public static MTLLinkedFunctions LinkedFunctions()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(MTLLinkedFunctionsBindings.Class, MTLLinkedFunctionsBindings.LinkedFunctions);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLLinkedFunctionsBindings.Class, MTLLinkedFunctionsBindings.LinkedFunctions);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

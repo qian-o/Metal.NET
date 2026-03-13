@@ -17,7 +17,7 @@ public class MTLLogStateDescriptor(nint nativePtr, NativeObjectOwnership ownersh
 
     public nint BufferSize
     {
-        get => ObjectiveC.MsgSendPtr(NativePtr, MTLLogStateDescriptorBindings.BufferSize);
+        get => ObjectiveC.MsgSendNInt(NativePtr, MTLLogStateDescriptorBindings.BufferSize);
         set => ObjectiveC.MsgSend(NativePtr, MTLLogStateDescriptorBindings.SetBufferSize, value);
     }
 

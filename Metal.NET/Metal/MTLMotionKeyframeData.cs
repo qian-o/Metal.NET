@@ -29,7 +29,7 @@ public class MTLMotionKeyframeData(nint nativePtr, NativeObjectOwnership ownersh
 
     public static MTLMotionKeyframeData Data()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(MTLMotionKeyframeDataBindings.Class, MTLMotionKeyframeDataBindings.Data);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLMotionKeyframeDataBindings.Class, MTLMotionKeyframeDataBindings.Data);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

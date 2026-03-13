@@ -34,7 +34,7 @@ class GeneratorContext
 
     /// <summary>
     /// Collected MsgSend overload signatures.
-    /// Key: method group (e.g., "MsgSend", "MsgSendPtr", "MsgSendBool").
+    /// Key: method group (e.g., "MsgSend", "MsgSendNInt", "MsgSendBool").
     /// Value: sorted set of parameter type signatures (e.g., "nint, nuint, MTLRegion").
     /// </summary>
     public Dictionary<string, SortedSet<string>> MsgSendSignatures { get; } = [];

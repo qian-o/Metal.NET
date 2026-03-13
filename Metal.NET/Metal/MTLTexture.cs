@@ -68,7 +68,7 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
 
     public nint Iosurface
     {
-        get => ObjectiveC.MsgSendPtr(NativePtr, MTLTextureBindings.Iosurface);
+        get => ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.Iosurface);
     }
 
     public nuint IosurfacePlane
@@ -178,42 +178,42 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
 
     public MTLTexture NewRemoteTextureViewForDevice(MTLDevice device)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLTextureBindings.NewRemoteTextureViewForDevice, device.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewRemoteTextureViewForDevice, device.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLSharedTextureHandle NewSharedTextureHandle()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLTextureBindings.NewSharedTextureHandle);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewSharedTextureHandle);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTexture NewTextureView(MTLPixelFormat pixelFormat)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLTextureBindings.NewTextureView, (nuint)pixelFormat);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewTextureView, (nuint)pixelFormat);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTexture NewTextureView(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormattextureTypelevelsslices, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormattextureTypelevelsslices, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTexture NewTextureView(MTLTextureViewDescriptor descriptor)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLTextureBindings.NewTextureViewWithDescriptor, descriptor.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewTextureViewWithDescriptor, descriptor.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTexture NewTextureView(MTLPixelFormat pixelFormat, MTLTextureType textureType, NSRange levelRange, NSRange sliceRange, MTLTextureSwizzleChannels swizzle)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormattextureTypelevelsslicesswizzle, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange, swizzle);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLTextureBindings.NewTextureViewWithPixelFormattextureTypelevelsslicesswizzle, (nuint)pixelFormat, (nuint)textureType, levelRange, sliceRange, swizzle);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

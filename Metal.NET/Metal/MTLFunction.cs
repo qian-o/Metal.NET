@@ -44,7 +44,7 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : NSOb
 
     public nint PatchControlPointCount
     {
-        get => ObjectiveC.MsgSendPtr(NativePtr, MTLFunctionBindings.PatchControlPointCount);
+        get => ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionBindings.PatchControlPointCount);
     }
 
     public MTLPatchType PatchType
@@ -64,7 +64,7 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : NSOb
 
     public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLFunctionBindings.NewArgumentEncoder, bufferIndex);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionBindings.NewArgumentEncoder, bufferIndex);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

@@ -34,7 +34,7 @@ public class MTL4CommandBuffer(nint nativePtr, NativeObjectOwnership ownership) 
 
     public MTL4ComputeCommandEncoder ComputeCommandEncoder()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.ComputeCommandEncoder);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandBufferBindings.ComputeCommandEncoder);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -46,7 +46,7 @@ public class MTL4CommandBuffer(nint nativePtr, NativeObjectOwnership ownership) 
 
     public MTL4MachineLearningCommandEncoder MachineLearningCommandEncoder()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.MachineLearningCommandEncoder);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandBufferBindings.MachineLearningCommandEncoder);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -63,14 +63,14 @@ public class MTL4CommandBuffer(nint nativePtr, NativeObjectOwnership ownership) 
 
     public MTL4RenderCommandEncoder RenderCommandEncoder(MTL4RenderPassDescriptor descriptor)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoder, descriptor.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoder, descriptor.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTL4RenderCommandEncoder RenderCommandEncoder(MTL4RenderPassDescriptor descriptor, MTL4RenderEncoderOptions options)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoderWithDescriptoroptions, descriptor.NativePtr, (nuint)options);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4CommandBufferBindings.RenderCommandEncoderWithDescriptoroptions, descriptor.NativePtr, (nuint)options);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

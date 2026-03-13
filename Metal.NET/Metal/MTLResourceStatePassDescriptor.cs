@@ -22,7 +22,7 @@ public class MTLResourceStatePassDescriptor(nint nativePtr, NativeObjectOwnershi
 
     public static MTLResourceStatePassDescriptor ResourceStatePassDescriptor()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(MTLResourceStatePassDescriptorBindings.Class, MTLResourceStatePassDescriptorBindings.ResourceStatePassDescriptor);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLResourceStatePassDescriptorBindings.Class, MTLResourceStatePassDescriptorBindings.ResourceStatePassDescriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

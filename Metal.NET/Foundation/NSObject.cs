@@ -11,9 +11,14 @@ public class NSObject(nint nativePtr, NativeObjectOwnership ownership) : NativeO
     }
     #endregion
 
+    public NSObject Retain()
+    {
+        return new(ObjectiveC.Retain(NativePtr), NativeObjectOwnership.Managed);
+    }
+
     protected T GetProperty<T>(ref T? field, Selector selector) where T : NativeObject, INativeObject<T>
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, selector);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, selector);
 
         if (field is null || field.NativePtr != nativePtr)
         {
@@ -32,7 +37,7 @@ public class NSObject(nint nativePtr, NativeObjectOwnership ownership) : NativeO
 
     protected T[] GetArrayProperty<T>(Selector selector) where T : NativeObject, INativeObject<T>
     {
-        nint arrayPtr = ObjectiveC.MsgSendPtr(NativePtr, selector);
+        nint arrayPtr = ObjectiveC.MsgSendNInt(NativePtr, selector);
 
         return NSArray.ToArray<T>(arrayPtr);
     }
