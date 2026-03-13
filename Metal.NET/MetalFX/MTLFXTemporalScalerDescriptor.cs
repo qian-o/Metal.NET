@@ -119,14 +119,14 @@ public class MTLFXTemporalScalerDescriptor(nint nativePtr, NativeObjectOwnership
 
     public MTLFXTemporalScaler NewTemporalScaler(MTLDevice pDevice)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLFXTemporalScalerDescriptorBindings.NewTemporalScaler, pDevice.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalScalerDescriptorBindings.NewTemporalScaler, pDevice.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTL4FXTemporalScaler NewTemporalScaler(MTLDevice pDevice, MTL4Compiler pCompiler)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLFXTemporalScalerDescriptorBindings.NewTemporalScalerWithDevicecompiler, pDevice.NativePtr, pCompiler.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFXTemporalScalerDescriptorBindings.NewTemporalScalerWithDevicecompiler, pDevice.NativePtr, pCompiler.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

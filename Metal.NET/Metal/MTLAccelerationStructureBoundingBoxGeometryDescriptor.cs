@@ -41,7 +41,7 @@ public class MTLAccelerationStructureBoundingBoxGeometryDescriptor(nint nativePt
 
     public static MTLAccelerationStructureBoundingBoxGeometryDescriptor Descriptor()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.Class, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.Descriptor);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.Class, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.Descriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

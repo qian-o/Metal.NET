@@ -23,7 +23,7 @@ public class MTLIntersectionFunctionTableDescriptor(nint nativePtr, NativeObject
 
     public static MTLIntersectionFunctionTableDescriptor IntersectionFunctionTableDescriptor()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(MTLIntersectionFunctionTableDescriptorBindings.Class, MTLIntersectionFunctionTableDescriptorBindings.IntersectionFunctionTableDescriptor);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLIntersectionFunctionTableDescriptorBindings.Class, MTLIntersectionFunctionTableDescriptorBindings.IntersectionFunctionTableDescriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

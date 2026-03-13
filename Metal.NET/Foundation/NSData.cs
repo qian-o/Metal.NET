@@ -13,7 +13,7 @@ public class NSData(nint nativePtr, NativeObjectOwnership ownership) : NSObject(
 
     public nint MutableBytes
     {
-        get => ObjectiveC.MsgSendPtr(NativePtr, NSDataBindings.MutableBytes);
+        get => ObjectiveC.MsgSendNInt(NativePtr, NSDataBindings.MutableBytes);
     }
 
     public nuint Length

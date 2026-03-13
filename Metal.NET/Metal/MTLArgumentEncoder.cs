@@ -34,12 +34,12 @@ public class MTLArgumentEncoder(nint nativePtr, NativeObjectOwnership ownership)
 
     public nint ConstantData(nuint index)
     {
-        return ObjectiveC.MsgSendPtr(NativePtr, MTLArgumentEncoderBindings.ConstantData, index);
+        return ObjectiveC.MsgSendNInt(NativePtr, MTLArgumentEncoderBindings.ConstantData, index);
     }
 
     public MTLArgumentEncoder NewArgumentEncoder(nuint index)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLArgumentEncoderBindings.NewArgumentEncoder, index);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLArgumentEncoderBindings.NewArgumentEncoder, index);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

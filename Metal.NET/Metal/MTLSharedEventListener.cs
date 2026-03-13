@@ -22,7 +22,7 @@ public class MTLSharedEventListener(nint nativePtr, NativeObjectOwnership owners
 
     public static MTLSharedEventListener SharedListener()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(MTLSharedEventListenerBindings.Class, MTLSharedEventListenerBindings.SharedListener);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLSharedEventListenerBindings.Class, MTLSharedEventListenerBindings.SharedListener);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

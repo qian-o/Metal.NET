@@ -38,7 +38,7 @@ public class MTLBuffer(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
 
     public nint Contents()
     {
-        return ObjectiveC.MsgSendPtr(NativePtr, MTLBufferBindings.Contents);
+        return ObjectiveC.MsgSendNInt(NativePtr, MTLBufferBindings.Contents);
     }
 
     public void DidModifyRange(NSRange range)
@@ -48,14 +48,14 @@ public class MTLBuffer(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
 
     public MTLBuffer NewRemoteBufferViewForDevice(MTLDevice device)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLBufferBindings.NewRemoteBufferViewForDevice, device.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLBufferBindings.NewRemoteBufferViewForDevice, device.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTensor NewTensor(MTLTensorDescriptor descriptor, nuint offset, out NSError error)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLBufferBindings.NewTensor, descriptor.NativePtr, offset, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLBufferBindings.NewTensor, descriptor.NativePtr, offset, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -64,7 +64,7 @@ public class MTLBuffer(nint nativePtr, NativeObjectOwnership ownership) : MTLRes
 
     public MTLTexture NewTexture(MTLTextureDescriptor descriptor, nuint offset, nuint bytesPerRow)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLBufferBindings.NewTexture, descriptor.NativePtr, offset, bytesPerRow);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLBufferBindings.NewTexture, descriptor.NativePtr, offset, bytesPerRow);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

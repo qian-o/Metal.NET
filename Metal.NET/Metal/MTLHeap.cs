@@ -69,56 +69,56 @@ public class MTLHeap(nint nativePtr, NativeObjectOwnership ownership) : MTLAlloc
 
     public MTLAccelerationStructure NewAccelerationStructure(nuint size)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLHeapBindings.NewAccelerationStructure, size);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewAccelerationStructure, size);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLAccelerationStructure NewAccelerationStructure(MTLAccelerationStructureDescriptor descriptor)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLHeapBindings.NewAccelerationStructureWithDescriptor, descriptor.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewAccelerationStructureWithDescriptor, descriptor.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLAccelerationStructure NewAccelerationStructure(nuint size, nuint offset)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLHeapBindings.NewAccelerationStructureWithSizeoffset, size, offset);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewAccelerationStructureWithSizeoffset, size, offset);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLAccelerationStructure NewAccelerationStructure(MTLAccelerationStructureDescriptor descriptor, nuint offset)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLHeapBindings.NewAccelerationStructureWithDescriptoroffset, descriptor.NativePtr, offset);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewAccelerationStructureWithDescriptoroffset, descriptor.NativePtr, offset);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLBuffer NewBuffer(nuint length, MTLResourceOptions options)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLHeapBindings.NewBuffer, length, (nuint)options);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewBuffer, length, (nuint)options);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLBuffer NewBuffer(nuint length, MTLResourceOptions options, nuint offset)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLHeapBindings.NewBufferWithLengthoptionsoffset, length, (nuint)options, offset);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewBufferWithLengthoptionsoffset, length, (nuint)options, offset);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTexture NewTexture(MTLTextureDescriptor descriptor)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLHeapBindings.NewTexture, descriptor.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewTexture, descriptor.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTexture NewTexture(MTLTextureDescriptor descriptor, nuint offset)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLHeapBindings.NewTextureWithDescriptoroffset, descriptor.NativePtr, offset);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLHeapBindings.NewTextureWithDescriptoroffset, descriptor.NativePtr, offset);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

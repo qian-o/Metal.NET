@@ -19,7 +19,7 @@ public class MTLRenderPipelineColorAttachmentDescriptorArray(nint nativePtr, Nat
     {
         get
         {
-            nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLRenderPipelineColorAttachmentDescriptorArrayBindings.Object, attachmentIndex);
+            nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRenderPipelineColorAttachmentDescriptorArrayBindings.Object, attachmentIndex);
 
             return new(nativePtr, NativeObjectOwnership.Borrowed);
         }

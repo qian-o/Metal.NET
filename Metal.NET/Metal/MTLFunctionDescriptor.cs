@@ -47,7 +47,7 @@ public class MTLFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownersh
 
     public static MTLFunctionDescriptor FunctionDescriptor()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(MTLFunctionDescriptorBindings.Class, MTLFunctionDescriptorBindings.FunctionDescriptor);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLFunctionDescriptorBindings.Class, MTLFunctionDescriptorBindings.FunctionDescriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

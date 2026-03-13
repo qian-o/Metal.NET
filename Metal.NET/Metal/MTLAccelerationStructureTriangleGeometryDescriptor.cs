@@ -83,7 +83,7 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr, 
 
     public static MTLAccelerationStructureTriangleGeometryDescriptor Descriptor()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(MTLAccelerationStructureTriangleGeometryDescriptorBindings.Class, MTLAccelerationStructureTriangleGeometryDescriptorBindings.Descriptor);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLAccelerationStructureTriangleGeometryDescriptorBindings.Class, MTLAccelerationStructureTriangleGeometryDescriptorBindings.Descriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

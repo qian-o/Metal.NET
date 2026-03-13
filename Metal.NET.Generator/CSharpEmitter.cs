@@ -213,17 +213,17 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         // Record MsgSend signatures used by hand-written Foundation classes
         RecordMsgSend("MsgSend", "nint");
 
-        RecordMsgSend("MsgSendPtr");
-        RecordMsgSend("MsgSendPtr", "nint");
-        RecordMsgSend("MsgSendPtr", "nint", "nint");
-        RecordMsgSend("MsgSendPtr", "Bool8");
-        RecordMsgSend("MsgSendPtr", "float");
-        RecordMsgSend("MsgSendPtr", "double");
-        RecordMsgSend("MsgSendPtr", "int");
-        RecordMsgSend("MsgSendPtr", "uint");
-        RecordMsgSend("MsgSendPtr", "long");
-        RecordMsgSend("MsgSendPtr", "ulong");
-        RecordMsgSend("MsgSendPtr", "nuint");
+        RecordMsgSend("MsgSendNInt");
+        RecordMsgSend("MsgSendNInt", "nint");
+        RecordMsgSend("MsgSendNInt", "nint", "nint");
+        RecordMsgSend("MsgSendNInt", "Bool8");
+        RecordMsgSend("MsgSendNInt", "float");
+        RecordMsgSend("MsgSendNInt", "double");
+        RecordMsgSend("MsgSendNInt", "int");
+        RecordMsgSend("MsgSendNInt", "uint");
+        RecordMsgSend("MsgSendNInt", "long");
+        RecordMsgSend("MsgSendNInt", "ulong");
+        RecordMsgSend("MsgSendNInt", "nuint");
 
         RecordMsgSend("MsgSendBool");
         RecordMsgSend("MsgSendFloat");
@@ -532,11 +532,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             sb.AppendLine("    {");
             sb.AppendLine("        get");
             sb.AppendLine("        {");
-            sb.AppendLine($"            nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, {csClassName}Bindings.Object, {indexParam});");
+            sb.AppendLine($"            nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, {csClassName}Bindings.Object, {indexParam});");
             sb.AppendLine();
             sb.AppendLine("            return new(nativePtr, NativeObjectOwnership.Borrowed);");
             sb.AppendLine("        }");
-            RecordMsgSend("MsgSendPtr", "nuint");
+            RecordMsgSend("MsgSendNInt", "nuint");
 
             if (indexerSetter != null)
             {
@@ -1232,8 +1232,8 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
         else if (returnsArray || nullable)
         {
-            RecordMsgSend("MsgSendPtr", argTypesArray);
-            msgSendExpr = $"ObjectiveC.MsgSendPtr({argsStr})";
+            RecordMsgSend("MsgSendNInt", argTypesArray);
+            msgSendExpr = $"ObjectiveC.MsgSendNInt({argsStr})";
         }
         else if (isEnum)
         {
@@ -1544,12 +1544,12 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         sb.AppendLine();
         sb.AppendLine("    public static nint Alloc(nint @class)");
         sb.AppendLine("    {");
-        sb.AppendLine("        return MsgSendPtr(@class, \"alloc\");");
+        sb.AppendLine("        return MsgSendNInt(@class, \"alloc\");");
         sb.AppendLine("    }");
         sb.AppendLine();
         sb.AppendLine("    public static nint Init(nint receiver)");
         sb.AppendLine("    {");
-        sb.AppendLine("        return MsgSendPtr(receiver, \"init\");");
+        sb.AppendLine("        return MsgSendNInt(receiver, \"init\");");
         sb.AppendLine("    }");
         sb.AppendLine();
         sb.AppendLine("    public static nint AllocInit(nint @class)");
@@ -1559,7 +1559,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         sb.AppendLine();
         sb.AppendLine("    public static nint Retain(nint receiver)");
         sb.AppendLine("    {");
-        sb.AppendLine("        return MsgSendPtr(receiver, \"retain\");");
+        sb.AppendLine("        return MsgSendNInt(receiver, \"retain\");");
         sb.AppendLine("    }");
         sb.AppendLine();
         sb.AppendLine("    public static void Release(nint receiver)");
@@ -1578,7 +1578,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     {
         "MsgSend" => "void",
         "MsgSendBool" => "Bool8",
-        "MsgSendPtr" => "nint",
+        "MsgSendNInt" => "nint",
         "MsgSendInt" => "int",
         "MsgSendUInt" => "uint",
         "MsgSendLong" => "long",

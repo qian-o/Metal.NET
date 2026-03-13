@@ -23,7 +23,7 @@ public class MTL4MachineLearningPipelineDescriptor(nint nativePtr, NativeObjectO
 
     public MTLTensorExtents InputDimensionsAtBufferIndex(nint bufferIndex)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.InputDimensionsAtBufferIndex, bufferIndex);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTL4MachineLearningPipelineDescriptorBindings.InputDimensionsAtBufferIndex, bufferIndex);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

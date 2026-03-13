@@ -63,21 +63,21 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
 
     public MTLFunctionHandle FunctionHandle(NSString name)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.FunctionHandle, name.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.FunctionHandle, name.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithBinaryFunction, function.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithBinaryFunction, function.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLFunctionHandle FunctionHandle(MTLFunction function)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithFunction, function.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithFunction, function.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -91,7 +91,7 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
     {
         nint pAdditionalBinaryFunctions = NSArray.FromArray(additionalBinaryFunctions);
 
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineStateWithBinaryFunctions, pAdditionalBinaryFunctions, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineStateWithBinaryFunctions, pAdditionalBinaryFunctions, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -104,7 +104,7 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
     {
         nint pFunctions = NSArray.FromArray(functions);
 
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineState, pFunctions, out nint errorPtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.NewComputePipelineState, pFunctions, out nint errorPtr);
 
         error = new(errorPtr, NativeObjectOwnership.Owned);
 
@@ -115,14 +115,14 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
 
     public MTLIntersectionFunctionTable NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewIntersectionFunctionTable, descriptor.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.NewIntersectionFunctionTable, descriptor.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLComputePipelineStateBindings.NewVisibleFunctionTable, descriptor.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.NewVisibleFunctionTable, descriptor.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

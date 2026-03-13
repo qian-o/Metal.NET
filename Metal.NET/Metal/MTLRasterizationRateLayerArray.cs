@@ -19,7 +19,7 @@ public class MTLRasterizationRateLayerArray(nint nativePtr, NativeObjectOwnershi
     {
         get
         {
-            nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLRasterizationRateLayerArrayBindings.Object, layerIndex);
+            nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLRasterizationRateLayerArrayBindings.Object, layerIndex);
 
             return new(nativePtr, NativeObjectOwnership.Borrowed);
         }

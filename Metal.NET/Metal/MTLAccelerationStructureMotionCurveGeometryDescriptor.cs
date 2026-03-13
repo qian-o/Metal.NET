@@ -107,7 +107,7 @@ public class MTLAccelerationStructureMotionCurveGeometryDescriptor(nint nativePt
 
     public static MTLAccelerationStructureMotionCurveGeometryDescriptor Descriptor()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.Class, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.Descriptor);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.Class, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.Descriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

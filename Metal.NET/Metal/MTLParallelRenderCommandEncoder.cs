@@ -13,7 +13,7 @@ public class MTLParallelRenderCommandEncoder(nint nativePtr, NativeObjectOwnersh
 
     public MTLRenderCommandEncoder RenderCommandEncoder()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLParallelRenderCommandEncoderBindings.RenderCommandEncoder);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLParallelRenderCommandEncoderBindings.RenderCommandEncoder);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

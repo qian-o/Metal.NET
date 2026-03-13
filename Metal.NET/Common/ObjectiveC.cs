@@ -1996,316 +1996,316 @@ public static partial class ObjectiveC
 
     #endregion
 
-    #region MsgSendPtr
+    #region MsgSendNInt
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, Bool8 a);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, Bool8 a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, MTLSize a);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, MTLSize a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, MTLSize a, nint b);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, MTLSize a, nint b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, NSRange a);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, NSRange a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, double a);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, double a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, float a);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, float a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, int a);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, int a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, long a);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, long a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nint a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, MTL4NewMachineLearningPipelineStateCompletionHandler b);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nint a, MTL4NewMachineLearningPipelineStateCompletionHandler b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, MTLNewDynamicLibraryCompletionHandler b);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nint a, MTLNewDynamicLibraryCompletionHandler b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, MTLNewLibraryCompletionHandler b);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nint a, MTLNewLibraryCompletionHandler b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nint a, nint b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b, MTL4NewBinaryFunctionCompletionHandler c);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nint a, nint b, MTL4NewBinaryFunctionCompletionHandler c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b, MTLNewComputePipelineStateCompletionHandler c);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nint a, nint b, MTLNewComputePipelineStateCompletionHandler c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b, MTLNewRenderPipelineStateCompletionHandler c);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nint a, nint b, MTLNewRenderPipelineStateCompletionHandler c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c, MTLNewComputePipelineStateCompletionHandler d);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nint a, nint b, nint c, MTLNewComputePipelineStateCompletionHandler d);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c, MTLNewRenderPipelineStateCompletionHandler d);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nint a, nint b, nint c, MTLNewRenderPipelineStateCompletionHandler d);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c, out nint d);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nint a, nint b, nint c, out nint d);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nuint c);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nint a, nint b, nuint c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nint b, out nint c);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nint a, nint b, out nint c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nuint b);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nint a, nuint b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nuint b, nuint c);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nint a, nuint b, nuint c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nuint b, nuint c, MTLDeallocator d);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nint a, nuint b, nuint c, MTLDeallocator d);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, nuint b, out nint c);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nint a, nuint b, out nint c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nint a, out nint b);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nint a, out nint b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nuint a);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nuint a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nuint a, nuint b);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nuint a, nuint b);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nuint a, nuint b, Bool8 c);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nuint a, nuint b, Bool8 c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nuint a, nuint b, NSRange c, NSRange d);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nuint a, nuint b, NSRange c, NSRange d);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nuint a, nuint b, NSRange c, NSRange d, MTLTextureSwizzleChannels e);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nuint a, nuint b, NSRange c, NSRange d, MTLTextureSwizzleChannels e);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nuint a, nuint b, nint c);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nuint a, nuint b, nint c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nuint a, nuint b, nuint c);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nuint a, nuint b, nuint c);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nuint a, nuint b, nuint c, Bool8 d);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nuint a, nuint b, nuint c, Bool8 d);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, nuint a, nuint b, nuint c, nuint d);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, nuint a, nuint b, nuint c, nuint d);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, out nint a);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, out nint a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, uint a);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, uint a);
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nint _MsgSendPtr(nint receiver, Selector selector, ulong a);
+    private static partial nint _MsgSendNInt(nint receiver, Selector selector, ulong a);
 
-    public static nint MsgSendPtr(nint receiver, Selector selector)
+    public static nint MsgSendNInt(nint receiver, Selector selector)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector);
+        return _MsgSendNInt(receiver, selector);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, Bool8 a)
+    public static nint MsgSendNInt(nint receiver, Selector selector, Bool8 a)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a);
+        return _MsgSendNInt(receiver, selector, a);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, MTLSize a)
+    public static nint MsgSendNInt(nint receiver, Selector selector, MTLSize a)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a);
+        return _MsgSendNInt(receiver, selector, a);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, MTLSize a, nint b)
+    public static nint MsgSendNInt(nint receiver, Selector selector, MTLSize a, nint b)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a, b);
+        return _MsgSendNInt(receiver, selector, a, b);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, NSRange a)
+    public static nint MsgSendNInt(nint receiver, Selector selector, NSRange a)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a);
+        return _MsgSendNInt(receiver, selector, a);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, double a)
+    public static nint MsgSendNInt(nint receiver, Selector selector, double a)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a);
+        return _MsgSendNInt(receiver, selector, a);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, float a)
+    public static nint MsgSendNInt(nint receiver, Selector selector, float a)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a);
+        return _MsgSendNInt(receiver, selector, a);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, int a)
+    public static nint MsgSendNInt(nint receiver, Selector selector, int a)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a);
+        return _MsgSendNInt(receiver, selector, a);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, long a)
+    public static nint MsgSendNInt(nint receiver, Selector selector, long a)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a);
+        return _MsgSendNInt(receiver, selector, a);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nint a)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nint a)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a);
+        return _MsgSendNInt(receiver, selector, a);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, MTL4NewMachineLearningPipelineStateCompletionHandler b)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, MTL4NewMachineLearningPipelineStateCompletionHandler b)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a, b);
+        return _MsgSendNInt(receiver, selector, a, b);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, MTLNewDynamicLibraryCompletionHandler b)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, MTLNewDynamicLibraryCompletionHandler b)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a, b);
+        return _MsgSendNInt(receiver, selector, a, b);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, MTLNewLibraryCompletionHandler b)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, MTLNewLibraryCompletionHandler b)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a, b);
+        return _MsgSendNInt(receiver, selector, a, b);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nint b)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a, b);
+        return _MsgSendNInt(receiver, selector, a, b);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, MTL4NewBinaryFunctionCompletionHandler c)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nint b, MTL4NewBinaryFunctionCompletionHandler c)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a, b, c);
+        return _MsgSendNInt(receiver, selector, a, b, c);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, MTLNewComputePipelineStateCompletionHandler c)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nint b, MTLNewComputePipelineStateCompletionHandler c)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a, b, c);
+        return _MsgSendNInt(receiver, selector, a, b, c);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, MTLNewRenderPipelineStateCompletionHandler c)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nint b, MTLNewRenderPipelineStateCompletionHandler c)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a, b, c);
+        return _MsgSendNInt(receiver, selector, a, b, c);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c, MTLNewComputePipelineStateCompletionHandler d)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nint b, nint c, MTLNewComputePipelineStateCompletionHandler d)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a, b, c, d);
+        return _MsgSendNInt(receiver, selector, a, b, c, d);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c, MTLNewRenderPipelineStateCompletionHandler d)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nint b, nint c, MTLNewRenderPipelineStateCompletionHandler d)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a, b, c, d);
+        return _MsgSendNInt(receiver, selector, a, b, c, d);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nint c, out nint d)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nint b, nint c, out nint d)
     {
         if (receiver is 0)
         {
@@ -2313,61 +2313,20 @@ public static partial class ObjectiveC
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a, b, c, out d);
+        return _MsgSendNInt(receiver, selector, a, b, c, out d);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, nuint c)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nint b, nuint c)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a, b, c);
+        return _MsgSendNInt(receiver, selector, a, b, c);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nint b, out nint c)
-    {
-        if (receiver is 0)
-        {
-            c = default;
-            return default;
-        }
-
-        return _MsgSendPtr(receiver, selector, a, b, out c);
-    }
-
-    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nuint b)
-    {
-        if (receiver is 0)
-        {
-            return default;
-        }
-
-        return _MsgSendPtr(receiver, selector, a, b);
-    }
-
-    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nuint b, nuint c)
-    {
-        if (receiver is 0)
-        {
-            return default;
-        }
-
-        return _MsgSendPtr(receiver, selector, a, b, c);
-    }
-
-    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nuint b, nuint c, MTLDeallocator d)
-    {
-        if (receiver is 0)
-        {
-            return default;
-        }
-
-        return _MsgSendPtr(receiver, selector, a, b, c, d);
-    }
-
-    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, nuint b, out nint c)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nint b, out nint c)
     {
         if (receiver is 0)
         {
@@ -2375,10 +2334,51 @@ public static partial class ObjectiveC
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a, b, out c);
+        return _MsgSendNInt(receiver, selector, a, b, out c);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nint a, out nint b)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nuint b)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendNInt(receiver, selector, a, b);
+    }
+
+    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nuint b, nuint c)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendNInt(receiver, selector, a, b, c);
+    }
+
+    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nuint b, nuint c, MTLDeallocator d)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendNInt(receiver, selector, a, b, c, d);
+    }
+
+    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nuint b, out nint c)
+    {
+        if (receiver is 0)
+        {
+            c = default;
+            return default;
+        }
+
+        return _MsgSendNInt(receiver, selector, a, b, out c);
+    }
+
+    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, out nint b)
     {
         if (receiver is 0)
         {
@@ -2386,100 +2386,100 @@ public static partial class ObjectiveC
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a, out b);
+        return _MsgSendNInt(receiver, selector, a, out b);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nuint a)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nuint a)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a);
+        return _MsgSendNInt(receiver, selector, a);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nuint a, nuint b)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nuint a, nuint b)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a, b);
+        return _MsgSendNInt(receiver, selector, a, b);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nuint a, nuint b, Bool8 c)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nuint a, nuint b, Bool8 c)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a, b, c);
+        return _MsgSendNInt(receiver, selector, a, b, c);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nuint a, nuint b, NSRange c, NSRange d)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nuint a, nuint b, NSRange c, NSRange d)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a, b, c, d);
+        return _MsgSendNInt(receiver, selector, a, b, c, d);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nuint a, nuint b, NSRange c, NSRange d, MTLTextureSwizzleChannels e)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nuint a, nuint b, NSRange c, NSRange d, MTLTextureSwizzleChannels e)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a, b, c, d, e);
+        return _MsgSendNInt(receiver, selector, a, b, c, d, e);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nuint a, nuint b, nint c)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nuint a, nuint b, nint c)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a, b, c);
+        return _MsgSendNInt(receiver, selector, a, b, c);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nuint a, nuint b, nuint c)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nuint a, nuint b, nuint c)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a, b, c);
+        return _MsgSendNInt(receiver, selector, a, b, c);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nuint a, nuint b, nuint c, Bool8 d)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nuint a, nuint b, nuint c, Bool8 d)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a, b, c, d);
+        return _MsgSendNInt(receiver, selector, a, b, c, d);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, nuint a, nuint b, nuint c, nuint d)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nuint a, nuint b, nuint c, nuint d)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a, b, c, d);
+        return _MsgSendNInt(receiver, selector, a, b, c, d);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, out nint a)
+    public static nint MsgSendNInt(nint receiver, Selector selector, out nint a)
     {
         if (receiver is 0)
         {
@@ -2487,27 +2487,27 @@ public static partial class ObjectiveC
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, out a);
+        return _MsgSendNInt(receiver, selector, out a);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, uint a)
+    public static nint MsgSendNInt(nint receiver, Selector selector, uint a)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a);
+        return _MsgSendNInt(receiver, selector, a);
     }
 
-    public static nint MsgSendPtr(nint receiver, Selector selector, ulong a)
+    public static nint MsgSendNInt(nint receiver, Selector selector, ulong a)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        return _MsgSendPtr(receiver, selector, a);
+        return _MsgSendNInt(receiver, selector, a);
     }
 
     #endregion
@@ -2578,12 +2578,12 @@ public static partial class ObjectiveC
 
     public static nint Alloc(nint @class)
     {
-        return MsgSendPtr(@class, "alloc");
+        return MsgSendNInt(@class, "alloc");
     }
 
     public static nint Init(nint receiver)
     {
-        return MsgSendPtr(receiver, "init");
+        return MsgSendNInt(receiver, "init");
     }
 
     public static nint AllocInit(nint @class)
@@ -2593,7 +2593,7 @@ public static partial class ObjectiveC
 
     public static nint Retain(nint receiver)
     {
-        return MsgSendPtr(receiver, "retain");
+        return MsgSendNInt(receiver, "retain");
     }
 
     public static void Release(nint receiver)

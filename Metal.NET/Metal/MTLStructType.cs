@@ -22,7 +22,7 @@ public class MTLStructType(nint nativePtr, NativeObjectOwnership ownership) : MT
 
     public MTLStructMember MemberByName(NSString name)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLStructTypeBindings.MemberByName, name.NativePtr);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLStructTypeBindings.MemberByName, name.NativePtr);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

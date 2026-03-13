@@ -37,35 +37,35 @@ public class MTLArrayType(nint nativePtr, NativeObjectOwnership ownership) : MTL
 
     public MTLArrayType ElementArrayType()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementArrayType);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLArrayTypeBindings.ElementArrayType);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLPointerType ElementPointerType()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementPointerType);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLArrayTypeBindings.ElementPointerType);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLStructType ElementStructType()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementStructType);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLArrayTypeBindings.ElementStructType);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTensorReferenceType ElementTensorReferenceType()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementTensorReferenceType);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLArrayTypeBindings.ElementTensorReferenceType);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLTextureReferenceType ElementTextureReferenceType()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLArrayTypeBindings.ElementTextureReferenceType);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLArrayTypeBindings.ElementTextureReferenceType);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

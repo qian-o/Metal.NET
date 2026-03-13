@@ -19,7 +19,7 @@ public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray(n
     {
         get
         {
-            nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArrayBindings.Object, attachmentIndex);
+            nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArrayBindings.Object, attachmentIndex);
 
             return new(nativePtr, NativeObjectOwnership.Borrowed);
         }

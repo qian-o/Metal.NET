@@ -19,7 +19,7 @@ public class MTLComputePassSampleBufferAttachmentDescriptorArray(nint nativePtr,
     {
         get
         {
-            nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorArrayBindings.Object, attachmentIndex);
+            nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePassSampleBufferAttachmentDescriptorArrayBindings.Object, attachmentIndex);
 
             return new(nativePtr, NativeObjectOwnership.Borrowed);
         }

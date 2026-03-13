@@ -28,7 +28,7 @@ public class MTLComputePassDescriptor(nint nativePtr, NativeObjectOwnership owne
 
     public static MTLComputePassDescriptor ComputePassDescriptor()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(MTLComputePassDescriptorBindings.Class, MTLComputePassDescriptorBindings.ComputePassDescriptor);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLComputePassDescriptorBindings.Class, MTLComputePassDescriptorBindings.ComputePassDescriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

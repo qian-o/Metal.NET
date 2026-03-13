@@ -42,14 +42,14 @@ public class MTLPointerType(nint nativePtr, NativeObjectOwnership ownership) : M
 
     public MTLArrayType ElementArrayType()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLPointerTypeBindings.ElementArrayType);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLPointerTypeBindings.ElementArrayType);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLStructType ElementStructType()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLPointerTypeBindings.ElementStructType);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLPointerTypeBindings.ElementStructType);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

@@ -32,7 +32,7 @@ public class MTLVertexDescriptor(nint nativePtr, NativeObjectOwnership ownership
 
     public static MTLVertexDescriptor VertexDescriptor()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(MTLVertexDescriptorBindings.Class, MTLVertexDescriptorBindings.VertexDescriptor);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLVertexDescriptorBindings.Class, MTLVertexDescriptorBindings.VertexDescriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

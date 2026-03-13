@@ -28,7 +28,7 @@ public class MTLCounterSampleBuffer(nint nativePtr, NativeObjectOwnership owners
 
     public NSData ResolveCounterRange(NSRange range)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLCounterSampleBufferBindings.ResolveCounterRange, range);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCounterSampleBufferBindings.ResolveCounterRange, range);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

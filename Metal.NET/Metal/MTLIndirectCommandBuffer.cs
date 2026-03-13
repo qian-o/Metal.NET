@@ -23,14 +23,14 @@ public class MTLIndirectCommandBuffer(nint nativePtr, NativeObjectOwnership owne
 
     public MTLIndirectComputeCommand IndirectComputeCommand(nuint commandIndex)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLIndirectCommandBufferBindings.IndirectComputeCommand, commandIndex);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIndirectCommandBufferBindings.IndirectComputeCommand, commandIndex);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
     public MTLIndirectRenderCommand IndirectRenderCommand(nuint commandIndex)
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(NativePtr, MTLIndirectCommandBufferBindings.IndirectRenderCommand, commandIndex);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIndirectCommandBufferBindings.IndirectRenderCommand, commandIndex);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }

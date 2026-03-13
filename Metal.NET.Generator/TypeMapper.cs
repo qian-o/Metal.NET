@@ -270,11 +270,11 @@ partial class TypeMapper(GeneratorContext context)
     #region MsgSend Mapping
 
     /// <summary>
-    /// Returns the MsgSend method group name for a given C# return type (e.g., "nint" → "MsgSendPtr").
+    /// Returns the MsgSend method group name for a given C# return type (e.g., "nint" → "MsgSendNInt").
     /// </summary>
     public static string GetMsgSendMethod(string csType) => csType switch
     {
-        "nint" => "MsgSendPtr",
+        "nint" => "MsgSendNInt",
         "nuint" => "MsgSendNUInt",
         "uint" => "MsgSendUInt",
         "int" => "MsgSendInt",
@@ -282,7 +282,7 @@ partial class TypeMapper(GeneratorContext context)
         "long" => "MsgSendLong",
         "float" => "MsgSendFloat",
         "double" => "MsgSendDouble",
-        _ => "MsgSendPtr"
+        _ => "MsgSendNInt"
     };
 
     /// <summary>
@@ -339,7 +339,7 @@ partial class TypeMapper(GeneratorContext context)
         "NSRange" => "MsgSendNSRange",
         "CGSize" => "MsgSendCGSize",
         "SimdFloat4x4" => "MsgSendSimdFloat4x4",
-        _ => "MsgSendPtr"
+        _ => "MsgSendNInt"
     };
 
     #endregion

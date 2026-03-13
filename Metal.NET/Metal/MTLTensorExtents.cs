@@ -22,7 +22,7 @@ public class MTLTensorExtents(nint nativePtr, NativeObjectOwnership ownership) :
 
     public nint ExtentAtDimensionIndex(nuint dimensionIndex)
     {
-        return ObjectiveC.MsgSendPtr(NativePtr, MTLTensorExtentsBindings.ExtentAtDimensionIndex, dimensionIndex);
+        return ObjectiveC.MsgSendNInt(NativePtr, MTLTensorExtentsBindings.ExtentAtDimensionIndex, dimensionIndex);
     }
 }
 

@@ -23,7 +23,7 @@ public class MTLVisibleFunctionTableDescriptor(nint nativePtr, NativeObjectOwner
 
     public static MTLVisibleFunctionTableDescriptor VisibleFunctionTableDescriptor()
     {
-        nint nativePtr = ObjectiveC.MsgSendPtr(MTLVisibleFunctionTableDescriptorBindings.Class, MTLVisibleFunctionTableDescriptorBindings.VisibleFunctionTableDescriptor);
+        nint nativePtr = ObjectiveC.MsgSendNInt(MTLVisibleFunctionTableDescriptorBindings.Class, MTLVisibleFunctionTableDescriptorBindings.VisibleFunctionTableDescriptor);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
