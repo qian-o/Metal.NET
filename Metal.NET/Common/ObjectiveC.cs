@@ -1132,13 +1132,16 @@ internal static unsafe partial class ObjectiveC
         {
             a = default;
             b = default;
+
             return;
         }
 
         fixed (ulong* aPtr = &a)
-        fixed (ulong* bPtr = &b)
         {
-            ((delegate* unmanaged<nint, Selector, ulong*, ulong*, void>)msgSend)(receiver, selector, aPtr, bPtr);
+            fixed (ulong* bPtr = &b)
+            {
+                ((delegate* unmanaged<nint, Selector, ulong*, ulong*, void>)msgSend)(receiver, selector, aPtr, bPtr);
+            }
         }
     }
 
