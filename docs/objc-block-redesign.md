@@ -3,63 +3,107 @@
 ## Problem
 
 Metal APIs expect **Objective-C block structs**, not raw C function pointers.
-The current implementation passes `Marshal.GetFunctionPointerForDelegate(delegate)` directly
-to `objc_msgSend`, which is incorrect — the Objective-C runtime will interpret the pointer
-as a block and try to read its `isa`, `flags`, `invoke` fields, causing undefined behavior.
+Passing `Marshal.GetFunctionPointerForDelegate(delegate)` directly to `objc_msgSend`
+is incorrect — the runtime interprets the pointer as a block and tries to read
+its `isa`, `flags`, `invoke` fields, causing undefined behavior.
 
 ## Solution
 
-Introduce a base class `NativeBlock` that allocates a proper native block struct on the
-unmanaged heap, and convert each existing `[UnmanagedFunctionPointer] delegate` in
-`MTLDelegates.cs` into a `sealed class` inheriting from it.
+A base class `NativeBlock` allocates a proper native block struct on the unmanaged
+heap. Each block handler in `MTLDelegates.cs` is a `sealed class` inheriting from it.
 
 ---
 
-## New File: `Common/NativeBlock.cs`
+## Block ABI Layout
 
-### Native Structs
-
-Two sequential structs that mirror the Objective-C block ABI:
+The native block struct mirrors the Objective-C block ABI:
 
 ```
-BlockDescriptor { nuint Reserved, nuint Size }
-
-BlockLiteral {
-    nint  Isa             // &_NSConcreteGlobalBlock (resolved from libobjc)
+Block {
+    nint  Isa             // &_NSConcreteGlobalBlock
     int   Flags           // BLOCK_IS_GLOBAL (1 << 29)
     int   Reserved        // 0
     nint  Invoke          // unmanaged function pointer (the trampoline)
-    BlockDescriptor* Desc
+    nint  Descriptor      // → { nuint Reserved = 0, nuint Size = sizeof(Block) }
     nint  Context         // GCHandle → managed callback
 }
 ```
 
-The `Context` field is a captured variable appended after the standard 5 fields.
-This is valid per the block ABI — `Descriptor.Size` tells the runtime the real struct size.
+The `Context` field is appended after the standard 5 fields.
+`Descriptor.Size` tells the runtime the real struct size, so this is valid per the block ABI.
 
-### Base Class Pseudocode
+---
 
-Follow the same inheritance style as `DispatchObject` → `NativeObject`.
+## Base Class: `NativeBlock`
+
 `NativeBlock` inherits from `NativeObject` with `NativeObjectOwnership.Managed`,
-so the existing `Dispose` / finalizer / `ReleaseNative` lifecycle is reused as-is.
+reusing the existing `Dispose` / finalizer / `ReleaseNative` lifecycle.
 
 ```csharp
 // Common/NativeBlock.cs
-using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Metal.NET;
 
-[StructLayout(LayoutKind.Sequential)]
-internal struct BlockDescriptor
+/// <summary>
+/// Base class for Objective-C block wrappers. Allocates a native block struct
+/// on the unmanaged heap that conforms to the Objective-C block ABI.
+/// </summary>
+public abstract unsafe class NativeBlock : NativeObject
 {
-    public nuint Reserved;
+    private static readonly nint isa;
+    private static readonly nint descriptor;
 
-    public nuint Size;
+    static NativeBlock()
+    {
+        isa = NativeLibrary.GetExport(NativeLibrary.Load("/usr/lib/libobjc.A.dylib"), "_NSConcreteGlobalBlock");
+
+        // Block descriptor: { nuint Reserved = 0, nuint Size = sizeof(Block) }
+        descriptor = (nint)NativeMemory.Alloc((uint)(sizeof(nuint) * 2));
+        new nuint[] { 0, (nuint)sizeof(Block) }.CopyTo(new Span<nuint>((void*)descriptor, 2));
+    }
+
+    private readonly GCHandle handle;
+
+    protected NativeBlock(nint invoke, object context) : base(AllocBlock(invoke, context, out GCHandle handle), NativeObjectOwnership.Managed)
+    {
+        this.handle = handle;
+    }
+
+    protected override void ReleaseNative()
+    {
+        NativeMemory.Free((void*)NativePtr);
+
+        handle.Free();
+    }
+
+    /// <summary>
+    /// Retrieves the managed callback from a block's context field.
+    /// </summary>
+    protected static T GetContext<T>(nint block) where T : class
+    {
+        return (T)GCHandle.FromIntPtr(((Block*)block)->Context).Target!;
+    }
+
+    private static nint AllocBlock(nint invoke, object context, out GCHandle handle)
+    {
+        Block* block = (Block*)NativeMemory.Alloc((nuint)sizeof(Block));
+        block->Isa = isa;
+        block->Flags = 1 << 29; // BLOCK_IS_GLOBAL
+        block->Reserved = 0;
+        block->Invoke = invoke;
+        block->Descriptor = descriptor;
+        block->Context = GCHandle.ToIntPtr(handle = GCHandle.Alloc(context));
+
+        return (nint)block;
+    }
 }
 
+/// <summary>
+/// Native layout of an Objective-C block with an appended context field.
+/// </summary>
 [StructLayout(LayoutKind.Sequential)]
-internal unsafe struct BlockLiteral
+file struct Block
 {
     public nint Isa;
 
@@ -69,87 +113,31 @@ internal unsafe struct BlockLiteral
 
     public nint Invoke;
 
-    public BlockDescriptor* Descriptor;
+    public nint Descriptor;
 
     public nint Context;
-}
-
-public abstract unsafe partial class NativeBlock : NativeObject
-{
-    private static readonly nint isa;
-
-    private static readonly unsafe BlockDescriptor* descriptor;
-
-    static NativeBlock()
-    {
-        nint libobjc = NativeLibrary.Load("/usr/lib/libobjc.A.dylib");
-
-        isa = NativeLibrary.GetExport(libobjc, "_NSConcreteGlobalBlock");
-
-        descriptor = (BlockDescriptor*)NativeMemory.Alloc((nuint)sizeof(BlockDescriptor));
-        descriptor->Reserved = 0;
-        descriptor->Size = (nuint)sizeof(BlockLiteral);
-    }
-
-    private readonly GCHandle contextHandle;
-
-    protected NativeBlock(nint invoke, object context) : base(AllocBlock(invoke, context, out GCHandle handle), NativeObjectOwnership.Managed)
-    {
-        contextHandle = handle;
-    }
-
-    protected override void ReleaseNative()
-    {
-        NativeMemory.Free((void*)NativePtr);
-
-        if (contextHandle.IsAllocated)
-        {
-            contextHandle.Free();
-        }
-    }
-
-    protected static T GetContext<T>(nint blockPtr) where T : class
-    {
-        BlockLiteral* block = (BlockLiteral*)blockPtr;
-        GCHandle handle = GCHandle.FromIntPtr(block->Context);
-
-        return (T)handle.Target!;
-    }
-
-    private static nint AllocBlock(nint invoke, object context, out GCHandle handle)
-    {
-        handle = GCHandle.Alloc(context);
-
-        BlockLiteral* block = (BlockLiteral*)NativeMemory.AllocZeroed((nuint)sizeof(BlockLiteral));
-        block->Isa = isa;
-        block->Flags = 1 << 29; // BLOCK_IS_GLOBAL
-        block->Invoke = invoke;
-        block->Descriptor = descriptor;
-        block->Context = GCHandle.ToIntPtr(handle);
-
-        return (nint)block;
-    }
 }
 ```
 
 Key design notes:
 
 - `AllocBlock` is a static helper so the result can be passed to `base(...)` in the
-  constructor — matching the primary-constructor-chain style used throughout the project.
+  constructor — matching the constructor-chain style used throughout the project.
 - `ReleaseNative()` is the single cleanup point, called by the existing `NativeObject`
   `Dispose()` and finalizer logic. No custom `IDisposable` needed.
-- `NativePtr` (inherited from `NativeObject`) is the pointer to the native `BlockLiteral`.
+- `NativePtr` (inherited from `NativeObject`) points to the native block.
 
 ---
 
-## Handler Class Template
+## Handler Pattern
 
-Each handler in `MTLDelegates.cs` is converted from a delegate to a sealed class.
-The pattern is identical for every handler — only the `Action<>` signature and trampoline
-parameter list differ:
+Each handler in `MTLDelegates.cs` is a sealed class inheriting `NativeBlock`.
+The pattern is identical for every handler — only the `Action<>` signature and
+trampoline parameter list differ:
 
 ```csharp
-public sealed unsafe class XxxHandler(Action<StrongTypedArgs...> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, /* arg types */, void>)&Trampoline, callback)
+public sealed unsafe class XxxHandler(Action<StrongTypedArgs...> callback)
+    : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, /* arg types */, void>)&Trampoline, callback)
 {
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     private static void Trampoline(nint block, /* nint arg1, ... */)
@@ -161,10 +149,11 @@ public sealed unsafe class XxxHandler(Action<StrongTypedArgs...> callback) : Nat
 }
 ```
 
-### Example — `MTLCommandBufferHandler`
+### Example: `MTLCommandBufferHandler`
 
 ```csharp
-public sealed unsafe class MTLCommandBufferHandler(Action<MTLCommandBuffer> callback) : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, void>)&Trampoline, callback)
+public sealed unsafe class MTLCommandBufferHandler(Action<MTLCommandBuffer> callback)
+    : NativeBlock((nint)(delegate* unmanaged[Cdecl]<nint, nint, void>)&Trampoline, callback)
 {
     [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]
     private static void Trampoline(nint block, nint commandBuffer)
@@ -178,7 +167,7 @@ public sealed unsafe class MTLCommandBufferHandler(Action<MTLCommandBuffer> call
 
 ---
 
-## Expected Calling Convention
+## Usage
 
 ### Before (broken)
 
@@ -190,7 +179,7 @@ public delegate void MTLCommandBufferHandler(nint block, nint commandBuffer);
 // ObjectiveC.cs — sends raw fptr, not a block
 MsgSend(receiver, sel, Marshal.GetFunctionPointerForDelegate(handler));
 
-// Usage — user must deal with raw nint, no Dispose
+// User code — raw nint, no Dispose
 MTLCommandBufferHandler handler = (nint block, nint buffer) => { ... };
 commandBuffer.AddCompletedHandler(handler);
 ```
@@ -204,7 +193,7 @@ public sealed unsafe class MTLCommandBufferHandler : NativeBlock { ... }
 // ObjectiveC.cs — handler.NativePtr is a proper block struct pointer
 MsgSend(receiver, sel, handler.NativePtr);
 
-// Usage — strongly typed, IDisposable via NativeObject
+// User code — strongly typed, IDisposable via NativeObject
 using MTLCommandBufferHandler handler = new((MTLCommandBuffer buffer) =>
 {
     // strongly typed, no raw nint
@@ -216,23 +205,26 @@ commandBuffer.AddCompletedHandler(handler);
 
 ## Impact on Generated Code
 
-Since `MTLDelegates.cs`, `ObjectiveC.cs` overloads, and the call-site wrapper classes
-are **all produced by the code generator**, the generator needs these changes:
+`MTLDelegates.cs`, `ObjectiveC.cs` overloads, and call-site wrapper classes are all
+produced by the code generator. The generator changes:
 
-emit `sealed class : NativeBlock` (using the primary
-   constructor pattern) instead of `[UnmanagedFunctionPointer] delegate`. Each class
-   follows the template above.
+1. **`MTLDelegates.cs`** — emit `sealed class : NativeBlock` (using the primary
+   constructor pattern) instead of `[UnmanagedFunctionPointer] delegate`.
 
-2. **`ObjectiveC.cs` MsgSend overloads** — delete all overloads that accept a delegate
-   type and call `Marshal.GetFunctionPointerForDelegate`. The handler's `NativePtr`
-   (inherited from `NativeObject`) allows it to be passed as `nint` at call sites.
+2. **`ObjectiveC.cs` MsgSend overloads** — remove all overloads that accept a delegate
+   type. The handler's `NativePtr` (inherited from `NativeObject`) is passed as `nint`.
 
 3. **Call-site methods** — parameter types keep the same name (e.g. `MTLCommandBufferHandler`),
-   so method signatures remain unchanged. The only difference is that the type is now a class
-   instead of a delegate. At the `MsgSend` call, use `handler.NativePtr` instead of the
-   delegate instance directly.
+   so method signatures are unchanged. At the `MsgSend` call, use `handler.NativePtr`
+   instead of the delegate instance.
 
-## Manually Authored File
+---
 
-Only `Common/NativeBlock.cs` (the base class + native structs) is hand-written.
-Everything else is generated.
+## File Ownership
+
+| File | Authored |
+|------|----------|
+| `Common/NativeBlock.cs` | Hand-written |
+| `Metal/MTLDelegates.cs` | Generated |
+| `Common/ObjectiveC.cs` | Generated |
+| Call-site wrapper classes | Generated |
