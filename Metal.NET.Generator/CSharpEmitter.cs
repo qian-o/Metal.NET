@@ -1502,9 +1502,14 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 // Null guard
                 sb.AppendLine("        if (receiver is 0)");
                 sb.AppendLine("        {");
-                foreach (var p in parameters.Where(p => p.Kind == ParamKind.Out))
+                var outGuardParams = parameters.Where(p => p.Kind == ParamKind.Out).ToList();
+                foreach (var p in outGuardParams)
                 {
                     sb.AppendLine($"            {p.Letter} = default;");
+                }
+                if (outGuardParams.Count > 1)
+                {
+                    sb.AppendLine();
                 }
                 sb.AppendLine(isVoid ? "            return;" : "            return default;");
                 sb.AppendLine("        }");
@@ -1678,36 +1683,41 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         bool hasOutParams = outParams.Count > 0;
         bool hasDelegateParams = delegateParams.Count > 0;
         bool needsResultVar = hasDelegateParams && !isVoid;
-        string indent = hasOutParams ? "            " : "        ";
 
-        if (hasOutParams)
+        // Each fixed block nests inside the previous, increasing indent by 4 spaces
+        string baseIndent = "        ";
+        string innerIndent = hasOutParams ? baseIndent + new string(' ', 4 * outParams.Count) : baseIndent;
+
+        // Emit nested fixed blocks
+        for (int i = 0; i < outParams.Count; i++)
         {
-            foreach (var p in outParams)
-            {
-                sb.AppendLine($"        fixed ({p.BaseType}* {p.Letter}Ptr = &{p.Letter})");
-            }
-            sb.AppendLine("        {");
+            string fixedIndent = baseIndent + new string(' ', 4 * i);
+            var p = outParams[i];
+            sb.AppendLine($"{fixedIndent}fixed ({p.BaseType}* {p.Letter}Ptr = &{p.Letter})");
+            sb.AppendLine($"{fixedIndent}{{");
         }
 
         if (needsResultVar)
         {
-            sb.AppendLine($"{indent}{returnType} result = {callExpr};");
+            sb.AppendLine($"{innerIndent}{returnType} result = {callExpr};");
             sb.AppendLine();
             foreach (var p in delegateParams)
             {
-                sb.AppendLine($"{indent}GC.KeepAlive({p.Letter});");
+                sb.AppendLine($"{innerIndent}GC.KeepAlive({p.Letter});");
             }
             sb.AppendLine();
-            sb.AppendLine($"{indent}return result;");
+            sb.AppendLine($"{innerIndent}return result;");
         }
         else
         {
-            sb.AppendLine(isVoid ? $"{indent}{callExpr};" : $"{indent}return {callExpr};");
+            sb.AppendLine(isVoid ? $"{innerIndent}{callExpr};" : $"{innerIndent}return {callExpr};");
         }
 
-        if (hasOutParams)
+        // Close nested fixed blocks in reverse order
+        for (int i = outParams.Count - 1; i >= 0; i--)
         {
-            sb.AppendLine("        }");
+            string fixedIndent = baseIndent + new string(' ', 4 * i);
+            sb.AppendLine($"{fixedIndent}}}");
         }
 
         if (hasDelegateParams && !needsResultVar)
