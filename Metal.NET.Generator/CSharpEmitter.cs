@@ -393,6 +393,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Delegate Generation
 
+    /// <summary>
+    /// Generates Metal/MTLDelegates.cs containing sealed handler classes that inherit
+    /// NativeBlock. Each class wraps a managed Action callback and bridges it to native
+    /// code via an [UnmanagedCallersOnly] trampoline.
+    /// </summary>
     void GenerateDelegateFile()
     {
         string dir = Path.Combine(outputDir, "Metal");
@@ -489,10 +494,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
 
         // Use TypeMapper to resolve the strong type
-        string strongType = TypeMapper.MapCppType(param.CppType, cppNamespace);
-
-        // If TypeMapper resolved it to nint (generic pointer), keep as nint
-        return strongType;
+        return TypeMapper.MapCppType(param.CppType, cppNamespace);
     }
 
     #endregion
@@ -1221,6 +1223,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             string csParamType = TypeMapper.MapCppType(param.CppType, ns);
             string paramName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
+            // Autoreleased* types → out parameters (strip "Autoreleased" prefix to resolve underlying type)
             if (param.CppType.Contains("Autoreleased"))
             {
                 string resolvedCppType = param.CppType.Replace("Autoreleased", "");
