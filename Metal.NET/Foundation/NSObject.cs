@@ -11,6 +11,11 @@ public class NSObject(nint nativePtr, NativeObjectOwnership ownership) : NativeO
     }
     #endregion
 
+    public NSObject Retain()
+    {
+        return new(ObjectiveC.Retain(NativePtr), NativeObjectOwnership.Managed);
+    }
+
     protected T GetProperty<T>(ref T? field, Selector selector) where T : NativeObject, INativeObject<T>
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, selector);

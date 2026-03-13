@@ -2,7 +2,7 @@
 
 namespace Metal.NET;
 
-public static partial class ObjectiveC
+internal static partial class ObjectiveC
 {
     static ObjectiveC()
     {
