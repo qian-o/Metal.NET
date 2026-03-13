@@ -1,6 +1,4 @@
-// Common/NativeBlock.cs
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace Metal.NET;
 
@@ -13,7 +11,7 @@ internal struct BlockDescriptor
 }
 
 [StructLayout(LayoutKind.Sequential)]
-internal unsafe struct BlockLiteral
+internal unsafe struct Block
 {
     public nint Isa;
 
@@ -28,58 +26,47 @@ internal unsafe struct BlockLiteral
     public nint Context;
 }
 
-public abstract unsafe partial class NativeBlock : NativeObject
+public abstract unsafe class NativeBlock : NativeObject
 {
     private static readonly nint isa;
-
-    private static readonly unsafe BlockDescriptor* descriptor;
+    private static readonly BlockDescriptor* descriptor;
 
     static NativeBlock()
     {
-        nint libobjc = NativeLibrary.Load("/usr/lib/libobjc.A.dylib");
-
-        isa = NativeLibrary.GetExport(libobjc, "_NSConcreteGlobalBlock");
+        isa = NativeLibrary.GetExport(NativeLibrary.Load("/usr/lib/libobjc.A.dylib"), "_NSConcreteGlobalBlock");
 
         descriptor = (BlockDescriptor*)NativeMemory.Alloc((nuint)sizeof(BlockDescriptor));
         descriptor->Reserved = 0;
-        descriptor->Size = (nuint)sizeof(BlockLiteral);
+        descriptor->Size = (nuint)sizeof(Block);
     }
 
-    private readonly GCHandle contextHandle;
+    private readonly GCHandle handle;
 
     protected NativeBlock(nint invoke, object context) : base(AllocBlock(invoke, context, out GCHandle handle), NativeObjectOwnership.Managed)
     {
-        contextHandle = handle;
+        this.handle = handle;
     }
 
     protected override void ReleaseNative()
     {
         NativeMemory.Free((void*)NativePtr);
 
-        if (contextHandle.IsAllocated)
-        {
-            contextHandle.Free();
-        }
+        handle.Free();
     }
 
-    protected static T GetContext<T>(nint blockPtr) where T : class
+    protected static T GetContext<T>(nint block) where T : class
     {
-        BlockLiteral* block = (BlockLiteral*)blockPtr;
-        GCHandle handle = GCHandle.FromIntPtr(block->Context);
-
-        return (T)handle.Target!;
+        return (T)GCHandle.FromIntPtr(((Block*)block)->Context).Target!;
     }
 
     private static nint AllocBlock(nint invoke, object context, out GCHandle handle)
     {
-        handle = GCHandle.Alloc(context);
-
-        BlockLiteral* block = (BlockLiteral*)NativeMemory.AllocZeroed((nuint)sizeof(BlockLiteral));
+        Block* block = (Block*)NativeMemory.Alloc((nuint)sizeof(Block));
         block->Isa = isa;
-        block->Flags = 1 << 29; // BLOCK_IS_GLOBAL
+        block->Flags = 1 << 29;
         block->Invoke = invoke;
         block->Descriptor = descriptor;
-        block->Context = GCHandle.ToIntPtr(handle);
+        block->Context = GCHandle.ToIntPtr(handle = GCHandle.Alloc(context));
 
         return (nint)block;
     }
