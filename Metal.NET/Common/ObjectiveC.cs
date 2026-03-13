@@ -1910,92 +1910,6 @@ public static partial class ObjectiveC
 
     #endregion
 
-    #region MsgSendNSRange
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial NSRange _MsgSendNSRange(nint receiver, Selector selector);
-
-    public static NSRange MsgSendNSRange(nint receiver, Selector selector)
-    {
-        if (receiver is 0)
-        {
-            return default;
-        }
-
-        return _MsgSendNSRange(receiver, selector);
-    }
-
-    #endregion
-
-    #region MsgSendNUInt
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nuint _MsgSendNUInt(nint receiver, Selector selector);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nuint _MsgSendNUInt(nint receiver, Selector selector, MTLSize a);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nuint _MsgSendNUInt(nint receiver, Selector selector, nint a);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nuint _MsgSendNUInt(nint receiver, Selector selector, nint a, nuint b);
-
-    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
-    private static partial nuint _MsgSendNUInt(nint receiver, Selector selector, nuint a);
-
-    public static nuint MsgSendNUInt(nint receiver, Selector selector)
-    {
-        if (receiver is 0)
-        {
-            return default;
-        }
-
-        return _MsgSendNUInt(receiver, selector);
-    }
-
-    public static nuint MsgSendNUInt(nint receiver, Selector selector, MTLSize a)
-    {
-        if (receiver is 0)
-        {
-            return default;
-        }
-
-        return _MsgSendNUInt(receiver, selector, a);
-    }
-
-    public static nuint MsgSendNUInt(nint receiver, Selector selector, nint a)
-    {
-        if (receiver is 0)
-        {
-            return default;
-        }
-
-        return _MsgSendNUInt(receiver, selector, a);
-    }
-
-    public static nuint MsgSendNUInt(nint receiver, Selector selector, nint a, nuint b)
-    {
-        if (receiver is 0)
-        {
-            return default;
-        }
-
-        return _MsgSendNUInt(receiver, selector, a, b);
-    }
-
-    public static nuint MsgSendNUInt(nint receiver, Selector selector, nuint a)
-    {
-        if (receiver is 0)
-        {
-            return default;
-        }
-
-        return _MsgSendNUInt(receiver, selector, a);
-    }
-
-    #endregion
-
     #region MsgSendNInt
 
     [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
@@ -2508,6 +2422,92 @@ public static partial class ObjectiveC
         }
 
         return _MsgSendNInt(receiver, selector, a);
+    }
+
+    #endregion
+
+    #region MsgSendNSRange
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial NSRange _MsgSendNSRange(nint receiver, Selector selector);
+
+    public static NSRange MsgSendNSRange(nint receiver, Selector selector)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendNSRange(receiver, selector);
+    }
+
+    #endregion
+
+    #region MsgSendNUInt
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nuint _MsgSendNUInt(nint receiver, Selector selector);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nuint _MsgSendNUInt(nint receiver, Selector selector, MTLSize a);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nuint _MsgSendNUInt(nint receiver, Selector selector, nint a);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nuint _MsgSendNUInt(nint receiver, Selector selector, nint a, nuint b);
+
+    [LibraryImport("/usr/lib/libobjc.A.dylib", EntryPoint = "objc_msgSend")]
+    private static partial nuint _MsgSendNUInt(nint receiver, Selector selector, nuint a);
+
+    public static nuint MsgSendNUInt(nint receiver, Selector selector)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendNUInt(receiver, selector);
+    }
+
+    public static nuint MsgSendNUInt(nint receiver, Selector selector, MTLSize a)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendNUInt(receiver, selector, a);
+    }
+
+    public static nuint MsgSendNUInt(nint receiver, Selector selector, nint a)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendNUInt(receiver, selector, a);
+    }
+
+    public static nuint MsgSendNUInt(nint receiver, Selector selector, nint a, nuint b)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendNUInt(receiver, selector, a, b);
+    }
+
+    public static nuint MsgSendNUInt(nint receiver, Selector selector, nuint a)
+    {
+        if (receiver is 0)
+        {
+            return default;
+        }
+
+        return _MsgSendNUInt(receiver, selector, a);
     }
 
     #endregion
