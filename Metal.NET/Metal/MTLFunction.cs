@@ -68,6 +68,15 @@ public class MTLFunction(nint nativePtr, NativeObjectOwnership ownership) : NSOb
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
+
+    public MTLArgumentEncoder NewArgumentEncoder(nuint bufferIndex, out MTLArgument reflection)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLFunctionBindings.NewArgumentEncoderWithBufferIndexreflection, bufferIndex, out nint reflectionPtr);
+
+        reflection = new(reflectionPtr, NativeObjectOwnership.Owned);
+
+        return new(nativePtr, NativeObjectOwnership.Owned);
+    }
 }
 
 file static class MTLFunctionBindings
@@ -83,6 +92,8 @@ file static class MTLFunctionBindings
     public static readonly Selector Name = "name";
 
     public static readonly Selector NewArgumentEncoder = "newArgumentEncoderWithBufferIndex:";
+
+    public static readonly Selector NewArgumentEncoderWithBufferIndexreflection = "newArgumentEncoderWithBufferIndex:reflection:";
 
     public static readonly Selector Options = "options";
 

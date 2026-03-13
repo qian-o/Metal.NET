@@ -246,11 +246,6 @@ partial class TypeMapper(GeneratorContext context)
             return true;
         }
 
-        if (t.Contains("Autoreleased"))
-        {
-            return true;
-        }
-
         if (t.Contains("NS::Process") ||
             t.Contains("NS::Observer"))
         {

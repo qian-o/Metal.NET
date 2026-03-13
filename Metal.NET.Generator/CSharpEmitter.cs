@@ -1028,6 +1028,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         List<string> arraySetupLines = [];
         List<string> fixedStatements = [];
         List<string> nsArrayReleaseVars = [];
+        List<(string CsType, string CsParamName, string PtrVarName)> autoreleasedOutParams = [];
         bool needsUnsafeContext = false;
 
         for (int pi = 0; pi < method.Parameters.Count; pi++)
@@ -1140,6 +1141,18 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
             string csParamType = TypeMapper.MapCppType(param.CppType, ns);
             string paramName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
+
+            if (param.CppType.Contains("Autoreleased"))
+            {
+                string resolvedCppType = param.CppType.Replace("Autoreleased", "");
+                string csType = TypeMapper.MapCppType(resolvedCppType, ns);
+                string ptrVarName = $"{paramName}Ptr";
+                csParams.Add($"out {csType} {paramName}");
+                callArgs.Add($"out nint {ptrVarName}");
+                callArgTypes.Add("out nint");
+                autoreleasedOutParams.Add((csType, paramName, ptrVarName));
+                continue;
+            }
 
             if (param.CppType.Contains("Error**"))
             {
@@ -1263,6 +1276,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         if (isVoid)
         {
             sb.AppendLine($"{indent}{msgSendExpr};");
+            foreach ((string csType, string csParamName, string ptrVar) in autoreleasedOutParams)
+            {
+                sb.AppendLine();
+                sb.AppendLine($"{indent}{csParamName} = new({ptrVar}, NativeObjectOwnership.Owned);");
+            }
             if (hasOutError)
             {
                 sb.AppendLine();
@@ -1277,6 +1295,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         else if (returnsArray || nullable)
         {
             sb.AppendLine($"{indent}nint nativePtr = {msgSendExpr};");
+            foreach ((string csType, string csParamName, string ptrVar) in autoreleasedOutParams)
+            {
+                sb.AppendLine();
+                sb.AppendLine($"{indent}{csParamName} = new({ptrVar}, NativeObjectOwnership.Owned);");
+            }
             if (hasOutError)
             {
                 sb.AppendLine();
@@ -1292,11 +1315,19 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 ? $"{indent}return NSArray.ToArray<{returnArrayElemType}>(nativePtr);"
                 : $"{indent}return new(nativePtr, NativeObjectOwnership.Owned);");
         }
-        else if (hasOutError)
+        else if (hasOutError || autoreleasedOutParams.Count > 0)
         {
             sb.AppendLine($"{indent}{csReturnType} result = {msgSendExpr};");
-            sb.AppendLine();
-            sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
+            foreach ((string csType, string csParamName, string ptrVar) in autoreleasedOutParams)
+            {
+                sb.AppendLine();
+                sb.AppendLine($"{indent}{csParamName} = new({ptrVar}, NativeObjectOwnership.Owned);");
+            }
+            if (hasOutError)
+            {
+                sb.AppendLine();
+                sb.AppendLine($"{indent}error = new(errorPtr, NativeObjectOwnership.Owned);");
+            }
             sb.AppendLine();
             sb.AppendLine($"{indent}return result;");
         }
