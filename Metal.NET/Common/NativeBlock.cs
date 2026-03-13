@@ -14,9 +14,8 @@ public abstract unsafe class NativeBlock : NativeObject
     static NativeBlock()
     {
         isa = NativeLibrary.GetExport(NativeLibrary.Load("/usr/lib/libobjc.A.dylib"), "_NSConcreteGlobalBlock");
-
-        // Block descriptor: { nuint Reserved = 0, nuint Size = sizeof(Block) }
         descriptor = (nint)NativeMemory.Alloc((uint)(sizeof(nuint) * 2));
+
         new nuint[] { 0, (nuint)sizeof(Block) }.CopyTo(new Span<nuint>((void*)descriptor, 2));
     }
 
@@ -34,9 +33,6 @@ public abstract unsafe class NativeBlock : NativeObject
         handle.Free();
     }
 
-    /// <summary>
-    /// Retrieves the managed callback from a block's context field.
-    /// </summary>
     protected static T GetContext<T>(nint block) where T : class
     {
         return (T)GCHandle.FromIntPtr(((Block*)block)->Context).Target!;
@@ -46,7 +42,7 @@ public abstract unsafe class NativeBlock : NativeObject
     {
         Block* block = (Block*)NativeMemory.Alloc((nuint)sizeof(Block));
         block->Isa = isa;
-        block->Flags = 1 << 29; // BLOCK_IS_GLOBAL
+        block->Flags = 1 << 29;
         block->Reserved = 0;
         block->Invoke = invoke;
         block->Descriptor = descriptor;
