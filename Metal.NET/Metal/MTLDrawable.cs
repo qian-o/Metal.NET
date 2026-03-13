@@ -23,7 +23,7 @@ public class MTLDrawable(nint nativePtr, NativeObjectOwnership ownership) : NSOb
 
     public void AddPresentedHandler(MTLDrawablePresentedHandler block)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLDrawableBindings.AddPresentedHandler, block);
+        ObjectiveC.MsgSend(NativePtr, MTLDrawableBindings.AddPresentedHandler, block.NativePtr);
     }
 
     public void Present()

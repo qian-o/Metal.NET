@@ -399,21 +399,100 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         Directory.CreateDirectory(dir);
 
         StringBuilder sb = new();
+        sb.AppendLine("using System.Runtime.CompilerServices;");
         sb.AppendLine("using System.Runtime.InteropServices;");
         sb.AppendLine();
         sb.AppendLine("namespace Metal.NET;");
 
         foreach (BlockTypeAlias alias in context.BlockTypeAliases.OrderBy(a => a.CsDelegateName))
         {
-            sb.AppendLine();
-            sb.AppendLine("[UnmanagedFunctionPointer(CallingConvention.Cdecl)]");
+            // Skip the first parameter (block pointer) – it's always nint block
+            List<BlockParam> callbackParams = alias.Parameters.Skip(1).ToList();
 
-            string paramStr = string.Join(", ", alias.Parameters.Select(p => $"{p.CsType} {p.Name}"));
-            sb.AppendLine($"public delegate void {alias.CsDelegateName}({paramStr});");
+            // Build the strong-typed Action<> argument types and trampoline body
+            List<string> actionTypeArgs = [];
+            List<string> trampolineArgs = [];
+            List<string> callbackArgs = [];
+
+            foreach (BlockParam p in callbackParams)
+            {
+                string strongType = ResolveStrongType(p, alias.CppNamespace);
+                actionTypeArgs.Add(strongType);
+
+                // Trampoline receives the low-level type
+                trampolineArgs.Add($"{p.CsType} {p.Name}");
+
+                // If the strong type is a NativeObject, wrap it; otherwise pass through
+                if (strongType != p.CsType)
+                {
+                    callbackArgs.Add($"new {strongType}({p.Name}, NativeObjectOwnership.Borrowed)");
+                }
+                else
+                {
+                    callbackArgs.Add(p.Name);
+                }
+            }
+
+            string actionType = actionTypeArgs.Count > 0
+                ? $"Action<{string.Join(", ", actionTypeArgs)}>"
+                : "Action";
+
+            // Build the delegate* unmanaged type for the constructor: <nint, param types..., void>
+            List<string> fPtrTypeArgs = ["nint"]; // block pointer
+            foreach (BlockParam p in callbackParams)
+            {
+                fPtrTypeArgs.Add(p.CsType);
+            }
+            fPtrTypeArgs.Add("void");
+            string fPtrType = $"delegate* unmanaged[Cdecl]<{string.Join(", ", fPtrTypeArgs)}>";
+
+            // Trampoline parameter list (includes nint block as first)
+            string trampolineParamStr = callbackParams.Count > 0
+                ? $"nint block, {string.Join(", ", trampolineArgs)}"
+                : "nint block";
+
+            sb.AppendLine();
+            sb.AppendLine($"public sealed unsafe class {alias.CsDelegateName}({actionType} callback) : NativeBlock((nint)({fPtrType})&Trampoline, callback)");
+            sb.AppendLine("{");
+            sb.AppendLine("    [UnmanagedCallersOnly(CallConvs = [typeof(CallConvCdecl)])]");
+            sb.AppendLine($"    private static void Trampoline({trampolineParamStr})");
+            sb.AppendLine("    {");
+            sb.AppendLine($"        {actionType} callback = GetContext<{actionType}>(block);");
+            sb.AppendLine();
+            sb.AppendLine($"        callback({string.Join(", ", callbackArgs)});");
+            sb.AppendLine("    }");
+            sb.AppendLine("}");
         }
 
         File.WriteAllText(Path.Combine(dir, "MTLDelegates.cs"), sb.ToString(), new UTF8Encoding(true));
-        Console.WriteLine($"  Generated: Metal/MTLDelegates.cs ({context.BlockTypeAliases.Count} delegates)");
+        Console.WriteLine($"  Generated: Metal/MTLDelegates.cs ({context.BlockTypeAliases.Count} handler classes)");
+    }
+
+    /// <summary>
+    /// Resolves the strong C# type for a block parameter.
+    /// Pointer types that map to known NativeObject classes get their class name;
+    /// value types (ulong, long, nuint, nint from void*) pass through unchanged.
+    /// </summary>
+    static string ResolveStrongType(BlockParam param, string cppNamespace)
+    {
+        // Value types pass through directly
+        if (!param.CppType.TrimEnd().EndsWith('*'))
+        {
+            return param.CsType;
+        }
+
+        // void* stays as nint (e.g., MTLDeallocator's pointer param)
+        string stripped = param.CppType.TrimEnd().TrimEnd('*').Trim();
+        if (stripped is "void" or "")
+        {
+            return "nint";
+        }
+
+        // Use TypeMapper to resolve the strong type
+        string strongType = TypeMapper.MapCppType(param.CppType, cppNamespace);
+
+        // If TypeMapper resolved it to nint (generic pointer), keep as nint
+        return strongType;
     }
 
     #endregion
@@ -1124,8 +1203,8 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 string delegateName = param.CppType["INLINE_BLOCK:".Length..];
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
                 csParams.Add($"{delegateName} {csParamName}");
-                callArgs.Add(csParamName);
-                callArgTypes.Add(delegateName);
+                callArgs.Add($"{csParamName}.NativePtr");
+                callArgTypes.Add("nint");
                 continue;
             }
 
@@ -1134,8 +1213,8 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 string csType = TypeMapper.MapCppType(param.CppType, ns);
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
                 csParams.Add($"{csType} {csParamName}");
-                callArgs.Add(csParamName);
-                callArgTypes.Add(csType);
+                callArgs.Add($"{csParamName}.NativePtr");
+                callArgTypes.Add("nint");
                 continue;
             }
 
@@ -1450,8 +1529,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string dir = Path.Combine(outputDir, "Common");
         Directory.CreateDirectory(dir);
 
-        HashSet<string> delegateTypeNames = new(context.BlockTypeAliases.Select(b => b.CsDelegateName));
-
         StringBuilder sb = new();
         sb.AppendLine("using System.Runtime.InteropServices;");
         sb.AppendLine();
@@ -1524,7 +1601,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
             foreach (string sig in context.MsgSendSignatures[group])
             {
-                ParsedParam[] parameters = ParseSignature(sig, delegateTypeNames);
+                ParsedParam[] parameters = ParseSignature(sig);
 
                 sb.AppendLine();
                 sb.AppendLine($"    public static {returnType} {group}(nint receiver, Selector selector{BuildPublicParams(parameters)})");
@@ -1594,7 +1671,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     }
 
     /// <summary>Classification of a parameter in a MsgSend signature.</summary>
-    enum ParamKind { Regular, Out, Delegate }
+    enum ParamKind { Regular, Out }
 
     /// <summary>A parsed parameter from a MsgSend signature string.</summary>
     readonly record struct ParsedParam(char Letter, string Type, ParamKind Kind)
@@ -1620,9 +1697,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     /// <summary>
     /// Parses a comma-separated signature string into structured parameter info.
-    /// Each parameter is classified as Regular, Out, or Delegate, and assigned a sequential letter.
+    /// Each parameter is classified as Regular or Out, and assigned a sequential letter.
     /// </summary>
-    static ParsedParam[] ParseSignature(string sig, HashSet<string> delegateTypeNames)
+    static ParsedParam[] ParseSignature(string sig)
     {
         if (string.IsNullOrEmpty(sig)) return [];
 
@@ -1635,9 +1712,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             string type = types[i];
             ParamKind kind = type.StartsWith("out ")
                 ? ParamKind.Out
-                : delegateTypeNames.Contains(type)
-                    ? ParamKind.Delegate
-                    : ParamKind.Regular;
+                : ParamKind.Regular;
             result[i] = new ParsedParam(letter, type, kind);
             letter++;
         }
@@ -1661,7 +1736,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     /// <summary>
     /// Builds the delegate* unmanaged type string for a given signature.
     /// E.g., "delegate* unmanaged&lt;nint, Selector, nint, nint, void&gt;"
-    /// Delegate parameters become nint (function pointer), out parameters become pointers.
+    /// Out parameters become pointers.
     /// </summary>
     static string BuildDelegateUnmanagedType(ParsedParam[] parameters, string returnType)
     {
@@ -1672,7 +1747,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             typeArgs.Add(p.Kind switch
             {
                 ParamKind.Out => $"{p.BaseType}*",
-                ParamKind.Delegate => "nint",
                 _ => p.Type
             });
         }
@@ -1683,7 +1757,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     /// <summary>
     /// Builds the call argument string for the function pointer call.
-    /// Delegate parameters are wrapped with Marshal.GetFunctionPointerForDelegate.
     /// Out parameters use pointer variables (e.g., aPtr).
     /// </summary>
     static string BuildCallArgs(ParsedParam[] parameters)
@@ -1696,7 +1769,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             sb.Append(p.Kind switch
             {
                 ParamKind.Out => $", {p.Letter}Ptr",
-                ParamKind.Delegate => $", Marshal.GetFunctionPointerForDelegate({p.Letter})",
                 _ => $", {p.Letter}"
             });
         }
@@ -1705,15 +1777,12 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     /// <summary>
     /// Emits the method body after the null guard: fixed blocks, call expression,
-    /// return statement, and GC.KeepAlive for delegate parameters.
+    /// and return statement.
     /// </summary>
     static void EmitCallBody(StringBuilder sb, string callExpr, string returnType, bool isVoid, ParsedParam[] parameters)
     {
         var outParams = parameters.Where(p => p.Kind == ParamKind.Out).ToList();
-        var delegateParams = parameters.Where(p => p.Kind == ParamKind.Delegate).ToList();
         bool hasOutParams = outParams.Count > 0;
-        bool hasDelegateParams = delegateParams.Count > 0;
-        bool needsResultVar = hasDelegateParams && !isVoid;
 
         // Each fixed block nests inside the previous, increasing indent by 4 spaces
         string baseIndent = "        ";
@@ -1728,36 +1797,13 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             sb.AppendLine($"{fixedIndent}{{");
         }
 
-        if (needsResultVar)
-        {
-            sb.AppendLine($"{innerIndent}{returnType} result = {callExpr};");
-            sb.AppendLine();
-            foreach (var p in delegateParams)
-            {
-                sb.AppendLine($"{innerIndent}GC.KeepAlive({p.Letter});");
-            }
-            sb.AppendLine();
-            sb.AppendLine($"{innerIndent}return result;");
-        }
-        else
-        {
-            sb.AppendLine(isVoid ? $"{innerIndent}{callExpr};" : $"{innerIndent}return {callExpr};");
-        }
+        sb.AppendLine(isVoid ? $"{innerIndent}{callExpr};" : $"{innerIndent}return {callExpr};");
 
         // Close nested fixed blocks in reverse order
         for (int i = outParams.Count - 1; i >= 0; i--)
         {
             string fixedIndent = baseIndent + new string(' ', 4 * i);
             sb.AppendLine($"{fixedIndent}}}");
-        }
-
-        if (hasDelegateParams && !needsResultVar)
-        {
-            sb.AppendLine();
-            foreach (var p in delegateParams)
-            {
-                sb.AppendLine($"        GC.KeepAlive({p.Letter});");
-            }
         }
     }
 

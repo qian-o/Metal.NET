@@ -55,12 +55,12 @@ public class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership) : NSObj
 
     public void NewFunction(NSString name, MTLFunctionConstantValues constantValues, MTLNewFunctionCompletionHandler completionHandler)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLLibraryBindings.NewFunction, name.NativePtr, constantValues.NativePtr, completionHandler);
+        ObjectiveC.MsgSend(NativePtr, MTLLibraryBindings.NewFunction, name.NativePtr, constantValues.NativePtr, completionHandler.NativePtr);
     }
 
     public void NewFunction(MTLFunctionDescriptor descriptor, MTLNewFunctionCompletionHandler completionHandler)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLLibraryBindings.NewFunctionWithDescriptorerror, descriptor.NativePtr, completionHandler);
+        ObjectiveC.MsgSend(NativePtr, MTLLibraryBindings.NewFunctionWithDescriptorerror, descriptor.NativePtr, completionHandler.NativePtr);
     }
 
     public MTLFunction NewFunction(MTLFunctionDescriptor descriptor, out NSError error)
@@ -74,7 +74,7 @@ public class MTLLibrary(nint nativePtr, NativeObjectOwnership ownership) : NSObj
 
     public void NewIntersectionFunction(MTLIntersectionFunctionDescriptor descriptor, MTLNewFunctionCompletionHandler completionHandler)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLLibraryBindings.NewIntersectionFunction, descriptor.NativePtr, completionHandler);
+        ObjectiveC.MsgSend(NativePtr, MTLLibraryBindings.NewIntersectionFunction, descriptor.NativePtr, completionHandler.NativePtr);
     }
 
     public MTLFunction NewIntersectionFunction(MTLIntersectionFunctionDescriptor descriptor, out NSError error)

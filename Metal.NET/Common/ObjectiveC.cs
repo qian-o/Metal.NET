@@ -98,18 +98,6 @@ internal static unsafe partial class ObjectiveC
         ((delegate* unmanaged<nint, Selector, MTL4BufferRange, void>)msgSend)(receiver, selector, a);
     }
 
-    public static void MsgSend(nint receiver, Selector selector, MTL4CommitFeedbackHandler a)
-    {
-        if (receiver is 0)
-        {
-            return;
-        }
-
-        ((delegate* unmanaged<nint, Selector, nint, void>)msgSend)(receiver, selector, Marshal.GetFunctionPointerForDelegate(a));
-
-        GC.KeepAlive(a);
-    }
-
     public static void MsgSend(nint receiver, Selector selector, MTLClearColor a)
     {
         if (receiver is 0)
@@ -118,54 +106,6 @@ internal static unsafe partial class ObjectiveC
         }
 
         ((delegate* unmanaged<nint, Selector, MTLClearColor, void>)msgSend)(receiver, selector, a);
-    }
-
-    public static void MsgSend(nint receiver, Selector selector, MTLCommandBufferHandler a)
-    {
-        if (receiver is 0)
-        {
-            return;
-        }
-
-        ((delegate* unmanaged<nint, Selector, nint, void>)msgSend)(receiver, selector, Marshal.GetFunctionPointerForDelegate(a));
-
-        GC.KeepAlive(a);
-    }
-
-    public static void MsgSend(nint receiver, Selector selector, MTLDrawablePresentedHandler a)
-    {
-        if (receiver is 0)
-        {
-            return;
-        }
-
-        ((delegate* unmanaged<nint, Selector, nint, void>)msgSend)(receiver, selector, Marshal.GetFunctionPointerForDelegate(a));
-
-        GC.KeepAlive(a);
-    }
-
-    public static void MsgSend(nint receiver, Selector selector, MTLIOCommandBufferHandler a)
-    {
-        if (receiver is 0)
-        {
-            return;
-        }
-
-        ((delegate* unmanaged<nint, Selector, nint, void>)msgSend)(receiver, selector, Marshal.GetFunctionPointerForDelegate(a));
-
-        GC.KeepAlive(a);
-    }
-
-    public static void MsgSend(nint receiver, Selector selector, MTLLogHandler a)
-    {
-        if (receiver is 0)
-        {
-            return;
-        }
-
-        ((delegate* unmanaged<nint, Selector, nint, void>)msgSend)(receiver, selector, Marshal.GetFunctionPointerForDelegate(a));
-
-        GC.KeepAlive(a);
     }
 
     public static void MsgSend(nint receiver, Selector selector, MTLRegion a)
@@ -378,54 +318,6 @@ internal static unsafe partial class ObjectiveC
         ((delegate* unmanaged<nint, Selector, nint, MTL4BufferRange, void>)msgSend)(receiver, selector, a, b);
     }
 
-    public static void MsgSend(nint receiver, Selector selector, nint a, MTLNewComputePipelineStateCompletionHandler b)
-    {
-        if (receiver is 0)
-        {
-            return;
-        }
-
-        ((delegate* unmanaged<nint, Selector, nint, nint, void>)msgSend)(receiver, selector, a, Marshal.GetFunctionPointerForDelegate(b));
-
-        GC.KeepAlive(b);
-    }
-
-    public static void MsgSend(nint receiver, Selector selector, nint a, MTLNewFunctionCompletionHandler b)
-    {
-        if (receiver is 0)
-        {
-            return;
-        }
-
-        ((delegate* unmanaged<nint, Selector, nint, nint, void>)msgSend)(receiver, selector, a, Marshal.GetFunctionPointerForDelegate(b));
-
-        GC.KeepAlive(b);
-    }
-
-    public static void MsgSend(nint receiver, Selector selector, nint a, MTLNewLibraryCompletionHandler b)
-    {
-        if (receiver is 0)
-        {
-            return;
-        }
-
-        ((delegate* unmanaged<nint, Selector, nint, nint, void>)msgSend)(receiver, selector, a, Marshal.GetFunctionPointerForDelegate(b));
-
-        GC.KeepAlive(b);
-    }
-
-    public static void MsgSend(nint receiver, Selector selector, nint a, MTLNewRenderPipelineStateCompletionHandler b)
-    {
-        if (receiver is 0)
-        {
-            return;
-        }
-
-        ((delegate* unmanaged<nint, Selector, nint, nint, void>)msgSend)(receiver, selector, a, Marshal.GetFunctionPointerForDelegate(b));
-
-        GC.KeepAlive(b);
-    }
-
     public static void MsgSend(nint receiver, Selector selector, nint a, MTLRegion b, nuint c, nuint d)
     {
         if (receiver is 0)
@@ -526,28 +418,14 @@ internal static unsafe partial class ObjectiveC
         ((delegate* unmanaged<nint, Selector, nint, nint, MTL4BufferRange, void>)msgSend)(receiver, selector, a, b, c);
     }
 
-    public static void MsgSend(nint receiver, Selector selector, nint a, nint b, MTLNewFunctionCompletionHandler c)
+    public static void MsgSend(nint receiver, Selector selector, nint a, nint b, nint c)
     {
         if (receiver is 0)
         {
             return;
         }
 
-        ((delegate* unmanaged<nint, Selector, nint, nint, nint, void>)msgSend)(receiver, selector, a, b, Marshal.GetFunctionPointerForDelegate(c));
-
-        GC.KeepAlive(c);
-    }
-
-    public static void MsgSend(nint receiver, Selector selector, nint a, nint b, MTLNewLibraryCompletionHandler c)
-    {
-        if (receiver is 0)
-        {
-            return;
-        }
-
-        ((delegate* unmanaged<nint, Selector, nint, nint, nint, void>)msgSend)(receiver, selector, a, b, Marshal.GetFunctionPointerForDelegate(c));
-
-        GC.KeepAlive(c);
+        ((delegate* unmanaged<nint, Selector, nint, nint, nint, void>)msgSend)(receiver, selector, a, b, c);
     }
 
     public static void MsgSend(nint receiver, Selector selector, nint a, nint b, nint c, MTL4BufferRange d)
@@ -658,30 +536,6 @@ internal static unsafe partial class ObjectiveC
         }
 
         ((delegate* unmanaged<nint, Selector, nint, nuint, Bool8, void>)msgSend)(receiver, selector, a, b, c);
-    }
-
-    public static void MsgSend(nint receiver, Selector selector, nint a, nuint b, MTLNewComputePipelineStateWithReflectionCompletionHandler c)
-    {
-        if (receiver is 0)
-        {
-            return;
-        }
-
-        ((delegate* unmanaged<nint, Selector, nint, nuint, nint, void>)msgSend)(receiver, selector, a, b, Marshal.GetFunctionPointerForDelegate(c));
-
-        GC.KeepAlive(c);
-    }
-
-    public static void MsgSend(nint receiver, Selector selector, nint a, nuint b, MTLNewRenderPipelineStateWithReflectionCompletionHandler c)
-    {
-        if (receiver is 0)
-        {
-            return;
-        }
-
-        ((delegate* unmanaged<nint, Selector, nint, nuint, nint, void>)msgSend)(receiver, selector, a, b, Marshal.GetFunctionPointerForDelegate(c));
-
-        GC.KeepAlive(c);
     }
 
     public static void MsgSend(nint receiver, Selector selector, nint a, nuint b, MTLRegion c, nint d, nint e, nuint f)
@@ -894,16 +748,14 @@ internal static unsafe partial class ObjectiveC
         ((delegate* unmanaged<nint, Selector, nint, ulong, void>)msgSend)(receiver, selector, a, b);
     }
 
-    public static void MsgSend(nint receiver, Selector selector, nint a, ulong b, MTLSharedEventNotificationBlock c)
+    public static void MsgSend(nint receiver, Selector selector, nint a, ulong b, nint c)
     {
         if (receiver is 0)
         {
             return;
         }
 
-        ((delegate* unmanaged<nint, Selector, nint, ulong, nint, void>)msgSend)(receiver, selector, a, b, Marshal.GetFunctionPointerForDelegate(c));
-
-        GC.KeepAlive(c);
+        ((delegate* unmanaged<nint, Selector, nint, ulong, nint, void>)msgSend)(receiver, selector, a, b, c);
     }
 
     public static void MsgSend(nint receiver, Selector selector, nuint a)
@@ -1643,48 +1495,6 @@ internal static unsafe partial class ObjectiveC
         return ((delegate* unmanaged<nint, Selector, nint, nint>)msgSend)(receiver, selector, a);
     }
 
-    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, MTL4NewMachineLearningPipelineStateCompletionHandler b)
-    {
-        if (receiver is 0)
-        {
-            return default;
-        }
-
-        nint result = ((delegate* unmanaged<nint, Selector, nint, nint, nint>)msgSend)(receiver, selector, a, Marshal.GetFunctionPointerForDelegate(b));
-
-        GC.KeepAlive(b);
-
-        return result;
-    }
-
-    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, MTLNewDynamicLibraryCompletionHandler b)
-    {
-        if (receiver is 0)
-        {
-            return default;
-        }
-
-        nint result = ((delegate* unmanaged<nint, Selector, nint, nint, nint>)msgSend)(receiver, selector, a, Marshal.GetFunctionPointerForDelegate(b));
-
-        GC.KeepAlive(b);
-
-        return result;
-    }
-
-    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, MTLNewLibraryCompletionHandler b)
-    {
-        if (receiver is 0)
-        {
-            return default;
-        }
-
-        nint result = ((delegate* unmanaged<nint, Selector, nint, nint, nint>)msgSend)(receiver, selector, a, Marshal.GetFunctionPointerForDelegate(b));
-
-        GC.KeepAlive(b);
-
-        return result;
-    }
-
     public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nint b)
     {
         if (receiver is 0)
@@ -1695,74 +1505,24 @@ internal static unsafe partial class ObjectiveC
         return ((delegate* unmanaged<nint, Selector, nint, nint, nint>)msgSend)(receiver, selector, a, b);
     }
 
-    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nint b, MTL4NewBinaryFunctionCompletionHandler c)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nint b, nint c)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        nint result = ((delegate* unmanaged<nint, Selector, nint, nint, nint, nint>)msgSend)(receiver, selector, a, b, Marshal.GetFunctionPointerForDelegate(c));
-
-        GC.KeepAlive(c);
-
-        return result;
+        return ((delegate* unmanaged<nint, Selector, nint, nint, nint, nint>)msgSend)(receiver, selector, a, b, c);
     }
 
-    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nint b, MTLNewComputePipelineStateCompletionHandler c)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nint b, nint c, nint d)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        nint result = ((delegate* unmanaged<nint, Selector, nint, nint, nint, nint>)msgSend)(receiver, selector, a, b, Marshal.GetFunctionPointerForDelegate(c));
-
-        GC.KeepAlive(c);
-
-        return result;
-    }
-
-    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nint b, MTLNewRenderPipelineStateCompletionHandler c)
-    {
-        if (receiver is 0)
-        {
-            return default;
-        }
-
-        nint result = ((delegate* unmanaged<nint, Selector, nint, nint, nint, nint>)msgSend)(receiver, selector, a, b, Marshal.GetFunctionPointerForDelegate(c));
-
-        GC.KeepAlive(c);
-
-        return result;
-    }
-
-    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nint b, nint c, MTLNewComputePipelineStateCompletionHandler d)
-    {
-        if (receiver is 0)
-        {
-            return default;
-        }
-
-        nint result = ((delegate* unmanaged<nint, Selector, nint, nint, nint, nint, nint>)msgSend)(receiver, selector, a, b, c, Marshal.GetFunctionPointerForDelegate(d));
-
-        GC.KeepAlive(d);
-
-        return result;
-    }
-
-    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nint b, nint c, MTLNewRenderPipelineStateCompletionHandler d)
-    {
-        if (receiver is 0)
-        {
-            return default;
-        }
-
-        nint result = ((delegate* unmanaged<nint, Selector, nint, nint, nint, nint, nint>)msgSend)(receiver, selector, a, b, c, Marshal.GetFunctionPointerForDelegate(d));
-
-        GC.KeepAlive(d);
-
-        return result;
+        return ((delegate* unmanaged<nint, Selector, nint, nint, nint, nint, nint>)msgSend)(receiver, selector, a, b, c, d);
     }
 
     public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nint b, nint c, out nint d)
@@ -1823,18 +1583,14 @@ internal static unsafe partial class ObjectiveC
         return ((delegate* unmanaged<nint, Selector, nint, nuint, nuint, nint>)msgSend)(receiver, selector, a, b, c);
     }
 
-    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nuint b, nuint c, MTLDeallocator d)
+    public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nuint b, nuint c, nint d)
     {
         if (receiver is 0)
         {
             return default;
         }
 
-        nint result = ((delegate* unmanaged<nint, Selector, nint, nuint, nuint, nint, nint>)msgSend)(receiver, selector, a, b, c, Marshal.GetFunctionPointerForDelegate(d));
-
-        GC.KeepAlive(d);
-
-        return result;
+        return ((delegate* unmanaged<nint, Selector, nint, nuint, nuint, nint, nint>)msgSend)(receiver, selector, a, b, c, d);
     }
 
     public static nint MsgSendNInt(nint receiver, Selector selector, nint a, nuint b, out nint c)

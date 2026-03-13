@@ -17,7 +17,7 @@ public class MTL4CommitOptions(nint nativePtr, NativeObjectOwnership ownership) 
 
     public void AddFeedbackHandler(MTL4CommitFeedbackHandler block)
     {
-        ObjectiveC.MsgSend(NativePtr, MTL4CommitOptionsBindings.AddFeedbackHandler, block);
+        ObjectiveC.MsgSend(NativePtr, MTL4CommitOptionsBindings.AddFeedbackHandler, block.NativePtr);
     }
 }
 
