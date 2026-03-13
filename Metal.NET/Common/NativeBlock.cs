@@ -36,9 +36,10 @@ public abstract unsafe class NativeBlock : NativeObject
 
     private static nint AllocBlock(nint invoke, object context, out GCHandle handle)
     {
-        Block* block = (Block*)NativeMemory.AllocZeroed((nuint)sizeof(Block));
+        Block* block = (Block*)NativeMemory.Alloc((nuint)sizeof(Block));
         block->Isa = isa;
         block->Flags = 1 << 29;
+        block->Reserved = 0;
         block->Invoke = invoke;
         block->Descriptor = descriptor;
         block->Context = GCHandle.ToIntPtr(handle = GCHandle.Alloc(context));
