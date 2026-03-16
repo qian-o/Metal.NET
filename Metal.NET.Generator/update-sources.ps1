@@ -410,6 +410,14 @@ function Extract-MemberOrder {
             # These have at least 2 segments after the framework name
             if ($id -match '/documentation/[^/]+/[^/]+/([^/]+)$') {
                 $memberName = $Matches[1]
+
+                # Skip Swift protocol default implementation entries (no C++ equivalent)
+                if ($memberName -match '-Implementations$') { continue }
+
+                # Strip Apple disambiguation suffixes:
+                #   Hash suffixes for overloads:  init(dictionary:)-9fw1u
+                #   Language/kind suffixes:       name-swift.property, addObject:-c.type.method
+                $memberName = $memberName -replace '-(?:(?:swift|c)(?:\.\w+)+|[a-z0-9]*\d[a-z0-9]*)$', ''
                 $summary = if ($refSummaries.ContainsKey($id)) { $refSummaries[$id] } else { $null }
                 $isDeprecated = $refDeprecated.Contains($id)
 
@@ -556,7 +564,7 @@ function Update-ApiOrder {
     # Write the distilled metal-docs.json
     $compactJson = $apiOrder | ConvertTo-Json -Depth 6 -Compress
     $formattedJson = Format-Json $compactJson
-    [System.IO.File]::WriteAllText($apiOrderFile, $formattedJson, [System.Text.UTF8Encoding]::new($false))
+    [System.IO.File]::WriteAllText($apiOrderFile, $formattedJson, [System.Text.UTF8Encoding]::new($true))
 
     # Cleanup temp docs
     Remove-Item $tempDocsDir -Recurse -Force -ErrorAction SilentlyContinue

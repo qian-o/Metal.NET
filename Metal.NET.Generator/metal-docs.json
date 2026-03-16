@@ -10,7 +10,7 @@
             "summary": "Creates and returns an array containing a given object."
           },
           {
-            "name": "init(objects:count:)-7dct1",
+            "name": "init(objects:count:)",
             "summary": "Creates and returns an array that includes a given number of objects from a given C array."
           }
         ]
@@ -23,7 +23,7 @@
             "summary": "Initializes a newly allocated array."
           },
           {
-            "name": "init(array:)-o72h",
+            "name": "init(array:)",
             "summary": "Initializes a newly allocated array by placing in it the objects contained in a given array."
           },
           {
@@ -35,7 +35,7 @@
             "summary": "Initializes a newly allocated array with the contents of the file specified by a given path."
           },
           {
-            "name": "init(objects:count:)-5odxv",
+            "name": "init(objects:count:)",
             "summary": "Initializes a newly allocated array to include a given number of objects from a given C array."
           }
         ]
@@ -197,11 +197,11 @@
             "summary": "Returns a new array that lists the receiving array’s elements in ascending order as defined by the comparison function comparator."
           },
           {
-            "name": "sortedArray(using:)-82wi1",
+            "name": "sortedArray(using:)",
             "summary": "Returns a copy of the receiving array sorted as specified by a given array of sort descriptors."
           },
           {
-            "name": "sortedArray(using:)-9nhh9",
+            "name": "sortedArray(using:)",
             "summary": "Returns an array that lists the receiving array’s elements in ascending order, as determined by the comparison method specified by a given selector."
           },
           {
@@ -329,7 +329,7 @@
         "title": "Initializers",
         "members": [
           {
-            "name": "init(array:)-9rh7",
+            "name": "init(array:)",
             "summary": "Initializes a newly allocated array by placing in it the objects contained in a given array."
           },
           {
@@ -348,20 +348,6 @@
         "members": [
           {
             "name": "write(to:)"
-          }
-        ]
-      },
-      {
-        "title": "Default Implementations",
-        "members": [
-          {
-            "name": "ExpressibleByArrayLiteral-Implementations"
-          },
-          {
-            "name": "NSArray-Implementations"
-          },
-          {
-            "name": "Sequence-Implementations"
           }
         ]
       }
@@ -383,11 +369,11 @@
         "title": "Adding an Object to a Pool",
         "members": [
           {
-            "name": "addObject:-c.type.method",
+            "name": "addObject:",
             "summary": "Adds a given object to the active autorelease pool in the current thread."
           },
           {
-            "name": "addObject:-c.method",
+            "name": "addObject:",
             "summary": "Adds a given object to the receiver"
           }
         ]
@@ -493,7 +479,7 @@
             "summary": "Returns the full pathname for the resource identified by the specified name and file extension."
           },
           {
-            "name": "path(forResource:ofType:inDirectory:)-swift.method",
+            "name": "path(forResource:ofType:inDirectory:)",
             "summary": "Returns the full pathname for the resource identified by the specified name and file extension and located in the specified bundle subdirectory."
           },
           {
@@ -501,7 +487,7 @@
             "summary": "Returns the full pathname for the resource identified by the specified name and file extension, located in the specified bundle subdirectory, and limited to global resources and those associated with the specified localization."
           },
           {
-            "name": "paths(forResourcesOfType:inDirectory:)-swift.method",
+            "name": "paths(forResourcesOfType:inDirectory:)",
             "summary": "Returns an array containing the pathnames for all bundle resources having the specified filename extension and residing in the resource subdirectory."
           },
           {
@@ -509,11 +495,11 @@
             "summary": "Returns an array containing the file for all bundle resources having the specified filename extension, residing in the specified resource subdirectory, and limited to global resources and those associated with the specified localization."
           },
           {
-            "name": "path(forResource:ofType:inDirectory:)-swift.type.method",
+            "name": "path(forResource:ofType:inDirectory:)",
             "summary": "Returns the full pathname for the resource file identified by the specified name and extension and residing in a given bundle directory."
           },
           {
-            "name": "paths(forResourcesOfType:inDirectory:)-swift.type.method",
+            "name": "paths(forResourcesOfType:inDirectory:)",
             "summary": "Returns an array containing the pathnames for all bundle resources having the specified extension and residing in the bundle directory at the specified path."
           }
         ]
@@ -847,7 +833,7 @@
             "summary": "The interval between the date object and the current date and time."
           },
           {
-            "name": "timeIntervalSinceReferenceDate-swift.property",
+            "name": "timeIntervalSinceReferenceDate",
             "summary": "The interval between the date object and 00:00:00 UTC on 1 January 2001."
           },
           {
@@ -855,7 +841,7 @@
             "summary": "The interval between the date object and 00:00:00 UTC on 1 January 1970."
           },
           {
-            "name": "timeIntervalSinceReferenceDate-swift.type.property",
+            "name": "timeIntervalSinceReferenceDate",
             "summary": "The interval between 00:00:00 UTC on 1 January 2001 and the current date and time."
           }
         ]
@@ -932,10 +918,10 @@
         "title": "Initializers",
         "members": [
           {
-            "name": "init(SRAbsoluteTime:)-886t8"
+            "name": "init(SRAbsoluteTime:)"
           },
           {
-            "name": "init(SRAbsoluteTime:)-9wpl1"
+            "name": "init(SRAbsoluteTime:)"
           },
           {
             "name": "init(timeInterval:since:)"
@@ -947,14 +933,6 @@
         "members": [
           {
             "name": "srAbsoluteTime"
-          }
-        ]
-      },
-      {
-        "title": "Default Implementations",
-        "members": [
-          {
-            "name": "NSDate-Implementations"
           }
         ]
       }
@@ -993,7 +971,7 @@
         "title": "Creating a Dictionary from Another Dictionary",
         "members": [
           {
-            "name": "init(dictionary:)-9fw1u",
+            "name": "init(dictionary:)",
             "summary": "Initializes a newly allocated dictionary by placing in it the keys and values contained in another given dictionary."
           },
           {
@@ -1079,11 +1057,11 @@
             "summary": "Returns the value associated with a given key."
           },
           {
-            "name": "subscript(_:)-52n56",
+            "name": "subscript(_:)",
             "summary": "Returns the value associated with a given key."
           },
           {
-            "name": "subscript(_:)-1bt1b",
+            "name": "subscript(_:)",
             "summary": "Accesses the value associated with a given key."
           }
         ]
@@ -1262,19 +1240,8 @@
             "name": "init(contentsOf:error:)"
           },
           {
-            "name": "init(dictionary:)-4gc13",
+            "name": "init(dictionary:)",
             "summary": "Initializes a newly allocated dictionary and adds to it objects from another given dictionary."
-          }
-        ]
-      },
-      {
-        "title": "Default Implementations",
-        "members": [
-          {
-            "name": "NSDictionary-Implementations"
-          },
-          {
-            "name": "Sequence-Implementations"
           }
         ]
       }
@@ -1293,14 +1260,6 @@
           {
             "name": "nextObject()",
             "summary": "Returns the next object from the collection being enumerated."
-          }
-        ]
-      },
-      {
-        "title": "Default Implementations",
-        "members": [
-          {
-            "name": "Sequence-Implementations"
           }
         ]
       }
@@ -1462,7 +1421,7 @@
             "summary": "Initializes a notification with a specified name, object, and user information."
           },
           {
-            "name": "Name-swift.struct",
+            "name": "Name",
             "summary": "A structure that defines the name of a notification."
           }
         ]
@@ -1471,7 +1430,7 @@
         "title": "Getting Notification Information",
         "members": [
           {
-            "name": "name-swift.property",
+            "name": "name",
             "summary": "The name of the notification."
           },
           {
@@ -1514,7 +1473,7 @@
             "summary": "Removes matching entries from the notification center’s dispatch table."
           },
           {
-            "name": "removeObserver(_:)-2yciv",
+            "name": "removeObserver(_:)",
             "summary": "Removes all entries specifying an observer from the notification center’s dispatch table."
           }
         ]
@@ -1523,7 +1482,7 @@
         "title": "Posting notifications",
         "members": [
           {
-            "name": "post(_:)-3x2st",
+            "name": "post(_:)",
             "summary": "Posts a given notification to the notification center."
           },
           {
@@ -1592,31 +1551,31 @@
         "title": "Observing concurrency-safe notifications",
         "members": [
           {
-            "name": "addObserver(of:for:using:)-4d19x",
+            "name": "addObserver(of:for:using:)",
             "summary": "Adds an observer to a center for messages delivered on the main actor with a given subject and identifier."
           },
           {
-            "name": "addObserver(of:for:using:)-90os",
+            "name": "addObserver(of:for:using:)",
             "summary": "Adds an observer to a center for messages delivered on the main actor with a given subject and identifier."
           },
           {
-            "name": "addObserver(of:for:using:)-56bn4",
+            "name": "addObserver(of:for:using:)",
             "summary": "Adds an observer to a center for messages delivered on the main actor with a given subject and message type."
           },
           {
-            "name": "addObserver(of:for:using:)-twm3",
+            "name": "addObserver(of:for:using:)",
             "summary": "Adds an observer to a center for messages delivered asynchronously with a given subject and identifier."
           },
           {
-            "name": "addObserver(of:for:using:)-t1wr",
+            "name": "addObserver(of:for:using:)",
             "summary": "Adds an observer to a center for messages delivered asynchronously with a given subject and message type."
           },
           {
-            "name": "addObserver(of:for:using:)-64uw3",
+            "name": "addObserver(of:for:using:)",
             "summary": "Adds an observer to a center for messages delivered asynchronously with a given subject and message type."
           },
           {
-            "name": "removeObserver(_:)-2gmm0",
+            "name": "removeObserver(_:)",
             "summary": "Stops the observation represented by the given observation token."
           },
           {
@@ -1629,15 +1588,15 @@
         "title": "Receiving notifications as asynchronous sequences",
         "members": [
           {
-            "name": "messages(of:for:bufferSize:)-4tof0",
+            "name": "messages(of:for:bufferSize:)",
             "summary": "Returns an asynchronous sequence of messages produced by this center for a given subject and identifier."
           },
           {
-            "name": "messages(of:for:bufferSize:)-1ub69",
+            "name": "messages(of:for:bufferSize:)",
             "summary": "Returns an asynchronous sequence of messages produced by this center for a given subject type and identifier."
           },
           {
-            "name": "messages(of:for:bufferSize:)-623kg",
+            "name": "messages(of:for:bufferSize:)",
             "summary": "Returns an asynchronous sequence of messages produced by this center for a given subject and message type."
           }
         ]
@@ -1646,19 +1605,19 @@
         "title": "Posting notification messages",
         "members": [
           {
-            "name": "post(_:subject:)-87dbk",
+            "name": "post(_:subject:)",
             "summary": "Posts a given main actor message to the notification center."
           },
           {
-            "name": "post(_:)-19s7b",
+            "name": "post(_:)",
             "summary": "Posts a given main actor message to the notification center."
           },
           {
-            "name": "post(_:subject:)-5271w",
+            "name": "post(_:subject:)",
             "summary": "Posts a given asynchronous message to the notification center."
           },
           {
-            "name": "post(_:)-7ia4j",
+            "name": "post(_:)",
             "summary": "Posts a given asynchronous message to the notification center."
           }
         ]
@@ -1672,55 +1631,55 @@
         "title": "Initializing an NSNumber Object",
         "members": [
           {
-            "name": "init(value:)-1ojz2",
+            "name": "init(value:)",
             "summary": "Returns an NSNumber object initialized to contain a given value, treated as a BOOL."
           },
           {
-            "name": "init(value:)-8krjs",
+            "name": "init(value:)",
             "summary": "Returns an NSNumber object initialized to contain a given value, treated as a signed char."
           },
           {
-            "name": "init(value:)-15chk",
+            "name": "init(value:)",
             "summary": "Returns an NSNumber object initialized to contain value, treated as a double."
           },
           {
-            "name": "init(value:)-2vlwk",
+            "name": "init(value:)",
             "summary": "Returns an NSNumber object initialized to contain a given value, treated as a float."
           },
           {
-            "name": "init(value:)-7jvmg",
+            "name": "init(value:)",
             "summary": "Returns an NSNumber object initialized to contain a given value, treated as a signed int."
           },
           {
-            "name": "init(value:)-5jcjl",
+            "name": "init(value:)",
             "summary": "Returns an NSNumber object initialized to contain a given value, treated as an NSInteger."
           },
           {
-            "name": "init(value:)-40ad0",
+            "name": "init(value:)",
             "summary": "Returns an NSNumber object initialized to contain value, treated as a signed long long."
           },
           {
-            "name": "init(value:)-16drx",
+            "name": "init(value:)",
             "summary": "Returns an NSNumber object initialized to contain a given value, treated as a signed short."
           },
           {
-            "name": "init(value:)-8se67",
+            "name": "init(value:)",
             "summary": "Returns an NSNumber object initialized to contain a given value, treated as an unsigned char."
           },
           {
-            "name": "init(value:)-47coa",
+            "name": "init(value:)",
             "summary": "Returns an NSNumber object initialized to contain a given value, treated as an unsigned int."
           },
           {
-            "name": "init(value:)-3l4ek",
+            "name": "init(value:)",
             "summary": "Returns an NSNumber object initialized to contain a given value, treated as an NSUInteger."
           },
           {
-            "name": "init(value:)-43lc7",
+            "name": "init(value:)",
             "summary": "Returns an NSNumber object initialized to contain a given value, treated as an unsigned long long."
           },
           {
-            "name": "init(value:)-87y9m",
+            "name": "init(value:)",
             "summary": "Returns an NSNumber object initialized to contain a given value, treated as an unsigned short."
           }
         ]
@@ -1753,7 +1712,7 @@
             "summary": "The number object’s value expressed as an int, converted as necessary."
           },
           {
-            "name": "intValue-95zzp",
+            "name": "intValue",
             "summary": "The number object’s value expressed as an NSInteger object, converted as necessary."
           },
           {
@@ -1817,20 +1776,6 @@
         "members": [
           {
             "name": "init(coder:)"
-          }
-        ]
-      },
-      {
-        "title": "Default Implementations",
-        "members": [
-          {
-            "name": "ExpressibleByBooleanLiteral-Implementations"
-          },
-          {
-            "name": "ExpressibleByFloatLiteral-Implementations"
-          },
-          {
-            "name": "ExpressibleByIntegerLiteral-Implementations"
           }
         ]
       }
@@ -2019,11 +1964,11 @@
         "title": "Getting the Thermal State",
         "members": [
           {
-            "name": "thermalState-swift.property",
+            "name": "thermalState",
             "summary": "The current thermal state of the system."
           },
           {
-            "name": "ThermalState-swift.enum",
+            "name": "ThermalState",
             "summary": "Values used to indicate the system’s thermal state."
           }
         ]
@@ -2089,7 +2034,7 @@
             "summary": "Creates and returns a set that contains a single given object."
           },
           {
-            "name": "init(objects:count:)-65ni4",
+            "name": "init(objects:count:)",
             "summary": "Creates and returns a set containing a specified number of objects from a given C array of objects."
           },
           {
@@ -2097,11 +2042,11 @@
             "summary": "Returns a new set formed by adding a given object to the receiving set."
           },
           {
-            "name": "addingObjects(from:)-2i31h",
+            "name": "addingObjects(from:)",
             "summary": "Returns a new set formed by adding the objects in a given set to the receiving set."
           },
           {
-            "name": "addingObjects(from:)-544m9",
+            "name": "addingObjects(from:)",
             "summary": "Returns a new set formed by adding the objects in a given array to the receiving set."
           }
         ]
@@ -2114,11 +2059,11 @@
             "summary": "Initializes a newly allocated set with the objects that are contained in a given array."
           },
           {
-            "name": "init(objects:count:)-7kift",
+            "name": "init(objects:count:)",
             "summary": "Initializes a newly allocated set with a specified number of objects from a given C array of objects."
           },
           {
-            "name": "init(set:)-1xovx",
+            "name": "init(set:)",
             "summary": "Initializes a newly allocated set and adds to it objects from another given set."
           },
           {
@@ -2265,7 +2210,7 @@
             "name": "init(objects:)"
           },
           {
-            "name": "init(set:)-7a7ws",
+            "name": "init(set:)",
             "summary": "Initializes a newly allocated set and adds to it objects from another given set."
           }
         ]
@@ -2275,14 +2220,6 @@
         "members": [
           {
             "name": "enumerateIndexPaths(options:using:)"
-          }
-        ]
-      },
-      {
-        "title": "Default Implementations",
-        "members": [
-          {
-            "name": "Sequence-Implementations"
           }
         ]
       }
@@ -2315,7 +2252,7 @@
             "summary": "Returns an initialized NSString object that contains a given number of characters from a given C array of UTF-16 code units."
           },
           {
-            "name": "init(string:)-210xa",
+            "name": "init(string:)",
             "summary": "Returns an NSString object initialized by copying the characters from another given string."
           },
           {
@@ -2525,11 +2462,11 @@
         "title": "Dividing Strings",
         "members": [
           {
-            "name": "components(separatedBy:)-238fy",
+            "name": "components(separatedBy:)",
             "summary": "Returns an array containing substrings from the receiver that have been divided by a given separator."
           },
           {
-            "name": "components(separatedBy:)-27x9g",
+            "name": "components(separatedBy:)",
             "summary": "Returns an array containing substrings from the receiver that have been divided by characters in a given set."
           },
           {
@@ -2958,12 +2895,12 @@
             "deprecated": true
           },
           {
-            "name": "init(CString:length:)-5ure3",
+            "name": "init(CString:length:)",
             "summary": "Initializes the receiver, a newly allocated NSString object, by converting the data in a given C-string from the default C-string encoding into the Unicode character encoding.",
             "deprecated": true
           },
           {
-            "name": "init(CStringNoCopy:length:freeWhenDone:)-86dm2",
+            "name": "init(CStringNoCopy:length:freeWhenDone:)",
             "summary": "Initializes the receiver, a newly allocated NSString object, by converting the data in a given C-string from the default C-string encoding into the Unicode character encoding.",
             "deprecated": true
           },
@@ -3107,7 +3044,7 @@
             "name": "init(format:locale:_:)"
           },
           {
-            "name": "init(string:)-7xgq7",
+            "name": "init(string:)",
             "summary": "Returns an NSString object initialized by copying the characters from another given string."
           },
           {
@@ -3151,17 +3088,6 @@
           },
           {
             "name": "deferredLocalizedIntentsString(with:table:arguments:)"
-          }
-        ]
-      },
-      {
-        "title": "Default Implementations",
-        "members": [
-          {
-            "name": "ExpressibleByStringLiteral-Implementations"
-          },
-          {
-            "name": "NSString-Implementations"
           }
         ]
       },
@@ -4568,19 +4494,19 @@
         "title": "Instance Methods",
         "members": [
           {
-            "name": "makeBinaryFunction(descriptor:compilerTaskOptions:)-5o46e",
+            "name": "makeBinaryFunction(descriptor:compilerTaskOptions:)",
             "summary": "Creates a new binary visible or intersection function synchronously."
           },
           {
-            "name": "makeBinaryFunction(descriptor:compilerTaskOptions:)-hkc4",
+            "name": "makeBinaryFunction(descriptor:compilerTaskOptions:)",
             "summary": "Creates a new binary visible or intersection function asynchronously."
           },
           {
-            "name": "makeComputePipelineState(descriptor:dynamicLinkingDescriptor:compilerTaskOptions:)-19x",
+            "name": "makeComputePipelineState(descriptor:dynamicLinkingDescriptor:compilerTaskOptions:)",
             "summary": "Creates a new compute pipeline state asynchronously."
           },
           {
-            "name": "makeComputePipelineState(descriptor:dynamicLinkingDescriptor:compilerTaskOptions:)-7dqdm",
+            "name": "makeComputePipelineState(descriptor:dynamicLinkingDescriptor:compilerTaskOptions:)",
             "summary": "Creates a new compute pipeline state object synchronously."
           },
           {
@@ -4596,27 +4522,27 @@
             "summary": "Creates a new Metal library synchronously."
           },
           {
-            "name": "makeMachineLearningPipelineState(descriptor:)-36hxx",
+            "name": "makeMachineLearningPipelineState(descriptor:)",
             "summary": "Creates a new machine learning pipeline state asynchronously."
           },
           {
-            "name": "makeMachineLearningPipelineState(descriptor:)-909v1",
+            "name": "makeMachineLearningPipelineState(descriptor:)",
             "summary": "Creates a new ML pipeline state with descriptor."
           },
           {
-            "name": "makeRenderPipelineState(descriptor:dynamicLinkingDescriptor:compilerTaskOptions:)-66wsk",
+            "name": "makeRenderPipelineState(descriptor:dynamicLinkingDescriptor:compilerTaskOptions:)",
             "summary": "Creates a new render pipeline state asynchronously."
           },
           {
-            "name": "makeRenderPipelineState(descriptor:dynamicLinkingDescriptor:compilerTaskOptions:)-84kox",
+            "name": "makeRenderPipelineState(descriptor:dynamicLinkingDescriptor:compilerTaskOptions:)",
             "summary": "Creates a new render pipeline state synchronously."
           },
           {
-            "name": "makeRenderPipelineStateBySpecialization(descriptor:pipeline:)-2636j",
+            "name": "makeRenderPipelineStateBySpecialization(descriptor:pipeline:)",
             "summary": "Creates a new render pipeline state from another, previously unspecialized, pipeline state."
           },
           {
-            "name": "makeRenderPipelineStateBySpecialization(descriptor:pipeline:)-7s2wp",
+            "name": "makeRenderPipelineStateBySpecialization(descriptor:pipeline:)",
             "summary": "Creates a new render pipeline state from another, previously unspecialized, pipeline state"
           }
         ]
@@ -5230,11 +5156,11 @@
             "summary": "Resets the descriptor to its default values."
           },
           {
-            "name": "setInputDimensions(_:bufferIndex:)-34gir",
+            "name": "setInputDimensions(_:bufferIndex:)",
             "summary": "Sets the dimension of an input tensor at a buffer index."
           },
           {
-            "name": "setInputDimensions(_:bufferIndex:)-8fnq7",
+            "name": "setInputDimensions(_:bufferIndex:)",
             "summary": "Sets the dimensions of multiple input tensors on a range of buffer bindings."
           }
         ]
@@ -5750,11 +5676,11 @@
         "title": "Configuring vertex amplification",
         "members": [
           {
-            "name": "setVertexAmplificationCount(_:)-85tu1",
+            "name": "setVertexAmplificationCount(_:)",
             "summary": "Sets the vertex amplification count and its view mapping for each amplification ID."
           },
           {
-            "name": "setVertexAmplificationCount(_:)-911ja",
+            "name": "setVertexAmplificationCount(_:)",
             "summary": "Sets the vertex amplification count and its view mapping for each amplification ID."
           }
         ]
@@ -8656,7 +8582,7 @@
             "summary": "Creates a capture scope for commands submitted to a specific device object."
           },
           {
-            "name": "makeCaptureScope(commandQueue:)-1rozd",
+            "name": "makeCaptureScope(commandQueue:)",
             "summary": "Creates a capture scope for commands submitted to a specific command queue."
           },
           {
@@ -8711,7 +8637,7 @@
         "title": "Instance Methods",
         "members": [
           {
-            "name": "makeCaptureScope(commandQueue:)-9wie3"
+            "name": "makeCaptureScope(commandQueue:)"
           }
         ]
       }
@@ -9087,7 +9013,7 @@
         "title": "Reading the runtime message logs",
         "members": [
           {
-            "name": "logs-518l2",
+            "name": "logs",
             "summary": "The messages the command buffer records as the GPU runs its commands."
           }
         ]
@@ -10132,7 +10058,7 @@
         "title": "Creating function handles",
         "members": [
           {
-            "name": "functionHandle(function:)-7d523",
+            "name": "functionHandle(function:)",
             "summary": "Creates a function handle for a visible function."
           }
         ]
@@ -10174,7 +10100,7 @@
         "title": "Instance Methods",
         "members": [
           {
-            "name": "functionHandle(function:)-8spaa",
+            "name": "functionHandle(function:)",
             "summary": "Gets the function handle for a function this pipeline links at the binary level."
           },
           {
@@ -11087,10 +11013,10 @@
         "title": "Instance Methods",
         "members": [
           {
-            "name": "functionHandle(function:)-4bw39"
+            "name": "functionHandle(function:)"
           },
           {
-            "name": "functionHandle(function:)-w9ia",
+            "name": "functionHandle(function:)",
             "summary": "Get the function handle for the specified binary-linked function from the pipeline state."
           },
           {
@@ -11450,7 +11376,7 @@
             "summary": "Asynchronously creates a render pipeline state."
           },
           {
-            "name": "makeRenderPipelineState(descriptor:options:)-89vxc",
+            "name": "makeRenderPipelineState(descriptor:options:)",
             "summary": "Synchronously creates a render pipeline state and reflection information in a tuple."
           },
           {
@@ -11458,7 +11384,7 @@
             "summary": "Synchronously creates a render pipeline state and reflection information."
           },
           {
-            "name": "makeRenderPipelineState(descriptor:options:completionHandler:)-5gdww",
+            "name": "makeRenderPipelineState(descriptor:options:completionHandler:)",
             "summary": "Asynchronously creates a render pipeline state and reflection information."
           }
         ]
@@ -11471,7 +11397,7 @@
             "summary": "Synchronously creates a mesh render pipeline state and reflection information in a tuple."
           },
           {
-            "name": "makeRenderPipelineState(descriptor:options:completionHandler:)-1wvya",
+            "name": "makeRenderPipelineState(descriptor:options:completionHandler:)",
             "summary": "Asynchronously creates a mesh render pipeline state and reflection information."
           }
         ]
@@ -11756,7 +11682,7 @@
             "summary": "Asynchronously creates a Metal library from the function stitching graphs in a descriptor."
           },
           {
-            "name": "makeLibrary(data:)-7khmh",
+            "name": "makeLibrary(data:)",
             "summary": "Creates a Metal library instance that contains the functions in a precompiled Metal library."
           },
           {
@@ -11997,7 +11923,7 @@
             "deprecated": true
           },
           {
-            "name": "tvOS_GPUFamily1_v1-swift.enum.case",
+            "name": "tvOS_GPUFamily1_v1",
             "summary": "The GPU family 1, version 1 feature set for tvOS.",
             "deprecated": true
           }
@@ -12073,7 +11999,7 @@
             "deprecated": true
           },
           {
-            "name": "tvos_GPUFamily1_v1-swift.type.property",
+            "name": "tvos_GPUFamily1_v1",
             "deprecated": true
           }
         ]
@@ -17791,7 +17717,7 @@
         "title": "Creating function handles and tables",
         "members": [
           {
-            "name": "functionHandle(function:stage:)-7uvul",
+            "name": "functionHandle(function:stage:)",
             "summary": "Creates a function handle for a shader."
           },
           {
@@ -17808,7 +17734,7 @@
         "title": "Creating modified clones of the render pipeline",
         "members": [
           {
-            "name": "makeRenderPipelineState(additionalBinaryFunctions:)-84te1",
+            "name": "makeRenderPipelineState(additionalBinaryFunctions:)",
             "summary": "Creates a new pipeline state that’s a copy of the current pipeline state with additional shaders."
           }
         ]
@@ -17834,7 +17760,7 @@
         "title": "Instance Methods",
         "members": [
           {
-            "name": "functionHandle(function:stage:)-1pgxo",
+            "name": "functionHandle(function:stage:)",
             "summary": "Obtains the function handle for a specific function this pipeline state links at the binary level."
           },
           {
@@ -17846,7 +17772,7 @@
             "summary": "Creates a render pipeline descriptor from this pipeline that you can use for pipeline specialization."
           },
           {
-            "name": "makeRenderPipelineState(additionalBinaryFunctions:)-49r1w",
+            "name": "makeRenderPipelineState(additionalBinaryFunctions:)",
             "summary": "Creates a new render pipeline state by adding binary functions to each stage of this pipeline state."
           }
         ]
@@ -20138,14 +20064,14 @@
         "title": "Instance Properties",
         "members": [
           {
-            "name": "levelRange-55q8m",
+            "name": "levelRange",
             "summary": "A desired range of mip levels of a texture view."
           },
           {
             "name": "pixelFormat"
           },
           {
-            "name": "sliceRange-6nq6v",
+            "name": "sliceRange",
             "summary": "A desired range of slices of a texture view."
           },
           {
