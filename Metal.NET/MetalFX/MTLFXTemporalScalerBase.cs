@@ -90,7 +90,7 @@ public class MTLFXTemporalScalerBase(nint nativePtr, NativeObjectOwnership owner
     public Bool8 IsDepthReversed
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalScalerBaseBindings.IsDepthReversed);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetIsDepthReversed, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerBaseBindings.SetDepthReversed, value);
     }
 
     public float JitterOffsetX
@@ -256,6 +256,8 @@ file static class MTLFXTemporalScalerBaseBindings
 
     public static readonly Selector SetColorTexture = "setColorTexture:";
 
+    public static readonly Selector SetDepthReversed = "setDepthReversed:";
+
     public static readonly Selector SetDepthTexture = "setDepthTexture:";
 
     public static readonly Selector SetExposureTexture = "setExposureTexture:";
@@ -265,8 +267,6 @@ file static class MTLFXTemporalScalerBaseBindings
     public static readonly Selector SetInputContentHeight = "setInputContentHeight:";
 
     public static readonly Selector SetInputContentWidth = "setInputContentWidth:";
-
-    public static readonly Selector SetIsDepthReversed = "setDepthReversed:";
 
     public static readonly Selector SetJitterOffsetX = "setJitterOffsetX:";
 

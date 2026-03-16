@@ -694,9 +694,48 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     #region Member Categorization
 
     /// <summary>
+    /// Derives the ObjC property name from a method's selector accessor (or C++ name).
+    /// Strips <c>set</c> then <c>is</c> prefixes sequentially so that setters and boolean
+    /// getters always resolve to the same canonical name:
+    /// <list type="bullet">
+    ///   <item><c>setXxx</c> → <c>xxx</c> (regular setter)</item>
+    ///   <item><c>isXxx</c>  → <c>xxx</c> (boolean getter)</item>
+    ///   <item><c>setIsXxx</c> → <c>isXxx</c> → <c>xxx</c> (boolean setter, chained)</item>
+    ///   <item>everything else → returned as-is</item>
+    /// </list>
+    /// </summary>
+    static string GetPropertyName(MethodInfo m)
+    {
+        string name = m.SelectorAccessor ?? m.CppName;
+
+        // Selector accessors use trailing _ for ObjC colons (e.g., setFoo_ → setFoo:).
+        if (name.EndsWith('_'))
+        {
+            name = name[..^1];
+        }
+
+        // Setter: setXxx → xxx
+        if (name.Length > 3 && name.StartsWith("set") && char.IsUpper(name[3]))
+        {
+            name = char.ToLower(name[3]) + name[4..];
+        }
+
+        // Boolean getter: isXxx → xxx
+        if (name.Length > 2 && name.StartsWith("is") && char.IsUpper(name[2]))
+        {
+            name = char.ToLower(name[2]) + name[3..];
+        }
+
+        return name;
+    }
+
+    /// <summary>
     /// Separates methods into properties (getter/setter pairs) and remaining methods.
     /// A method is treated as a property getter if it has no parameters, returns non-void,
     /// is const, is not static, and is not an ownership-transfer method (new/alloc/copy/init).
+    /// Getter-setter pairing uses <see cref="GetPropertyName"/> to derive the ObjC property
+    /// name from each method's selector accessor, so all naming conventions (including
+    /// boolean <c>isXxx</c> getters paired with <c>setXxx:</c> setters) are handled uniformly.
     /// </summary>
     static (List<PropertyDef> Properties, List<MethodInfo> Methods) CategorizeMembers(List<MethodInfo> allMethods)
     {
@@ -710,8 +749,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             if (m.CppName.StartsWith("set") && m.CppName.Length > 3 && char.IsUpper(m.CppName[3]) &&
                 m.ReturnType == "void" && m.Parameters.Count == 1)
             {
-                string propName = char.ToLower(m.CppName[3]) + (m.CppName.Length > 4 ? m.CppName[4..] : "");
-                setterMap[propName] = m;
+                setterMap[GetPropertyName(m)] = m;
             }
         }
 
@@ -753,27 +791,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             }
 
             MethodInfo? setter = null;
-            if (setterMap.TryGetValue(m.CppName, out MethodInfo? s))
+            if (setterMap.TryGetValue(GetPropertyName(m), out MethodInfo? s))
             {
                 setter = s;
                 used.Add(s);
-            }
-            else
-            {
-                // Use the ObjC selector to derive the property name for matching.
-                // In ObjC, boolean properties use "isXxx" as the getter selector and
-                // "setXxx:" as the setter selector, so the property name is "xxx".
-                // The selector accessor is more reliable than the C++ method name.
-                string accessor = m.SelectorAccessor ?? m.CppName;
-                if (accessor.StartsWith("is") && accessor.Length > 2 && char.IsUpper(accessor[2]))
-                {
-                    string altPropName = char.ToLower(accessor[2]) + accessor[3..];
-                    if (setterMap.TryGetValue(altPropName, out MethodInfo? altSetter))
-                    {
-                        setter = altSetter;
-                        used.Add(altSetter);
-                    }
-                }
             }
 
             properties.Add(new PropertyDef(m, setter));
@@ -945,7 +966,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string? setSelName = null;
         if (prop.Setter != null)
         {
-            setSelName = "Set" + csPropName;
+            setSelName = TypeMapper.ToPascalCase(prop.Setter.CppName);
             string setSelObjC;
             if (prop.Setter.SelectorAccessor != null && context.SelectorMap.TryGetValue(prop.Setter.SelectorAccessor, out string? setObjC))
             {

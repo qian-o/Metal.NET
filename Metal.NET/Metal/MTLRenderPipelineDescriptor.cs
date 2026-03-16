@@ -80,25 +80,25 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership o
     public Bool8 IsAlphaToCoverageEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.IsAlphaToCoverageEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetIsAlphaToCoverageEnabled, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetAlphaToCoverageEnabled, value);
     }
 
     public Bool8 IsAlphaToOneEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.IsAlphaToOneEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetIsAlphaToOneEnabled, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetAlphaToOneEnabled, value);
     }
 
     public Bool8 IsRasterizationEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.IsRasterizationEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetIsRasterizationEnabled, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetRasterizationEnabled, value);
     }
 
     public Bool8 IsTessellationFactorScaleEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.IsTessellationFactorScaleEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetIsTessellationFactorScaleEnabled, value);
+        set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationFactorScaleEnabled, value);
     }
 
     public NSString Label
@@ -319,14 +319,6 @@ file static class MTLRenderPipelineDescriptorBindings
     public static readonly Selector SetFragmentPreloadedLibraries = "setFragmentPreloadedLibraries:";
 
     public static readonly Selector SetInputPrimitiveTopology = "setInputPrimitiveTopology:";
-
-    public static readonly Selector SetIsAlphaToCoverageEnabled = "setAlphaToCoverageEnabled:";
-
-    public static readonly Selector SetIsAlphaToOneEnabled = "setAlphaToOneEnabled:";
-
-    public static readonly Selector SetIsRasterizationEnabled = "setRasterizationEnabled:";
-
-    public static readonly Selector SetIsTessellationFactorScaleEnabled = "setTessellationFactorScaleEnabled:";
 
     public static readonly Selector SetLabel = "setLabel:";
 
