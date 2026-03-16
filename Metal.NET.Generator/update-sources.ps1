@@ -5,13 +5,17 @@
 .DESCRIPTION
     1. Fetches the latest metal-cpp archive from developer.apple.com and replaces the local metal-cpp/ directory.
     2. Scans the downloaded headers to derive class names for each framework.
-    3. Downloads the corresponding Apple documentation JSON for every class into apple-docs/.
-    4. Recursively downloads sub-page JSON when a class's topicSections contains non-member identifiers.
+    3. Downloads the corresponding Apple documentation JSON into a temporary directory.
+    4. Distills the JSON into a single api-order.json containing only member ordering and grouping.
     5. Writes a version.json with metadata about the download.
+
+    The api-order.json file contains only factual API names and their logical grouping order,
+    suitable for committing to the repository. The full Apple documentation JSON files are
+    downloaded to a temporary directory and cleaned up after distillation.
 
 .EXAMPLE
     pwsh -File update-sources.ps1
-    pwsh -File update-sources.ps1 -SkipMetalCpp   # only refresh documentation JSON
+    pwsh -File update-sources.ps1 -SkipMetalCpp   # only refresh documentation
 #>
 
 param(
@@ -24,7 +28,7 @@ $ErrorActionPreference = 'Stop'
 
 $scriptDir = $PSScriptRoot
 $metalCppDir = Join-Path $scriptDir 'metal-cpp'
-$appleDocsDir = Join-Path $scriptDir 'apple-docs'
+$apiOrderFile = Join-Path $scriptDir 'api-order.json'
 
 # Framework subdirectory -> Apple documentation module name
 $frameworkMap = @{
@@ -92,10 +96,27 @@ function Update-MetalCpp {
 
 #endregion
 
-#region Apple docs download
+#region Apple docs download & distillation
+
+# Regex matching the C++ class declaration pattern used in metal-cpp headers:
+#   class ClassName : public NS::Referencing<ClassName> or NS::Copying<ClassName>
+$classPattern = [regex]'class\s+(\w+)\s*:\s*public\s+NS::(?:Referencing|Copying)\s*<'
+# Regex to find namespace declarations: namespace MTL { ... }
+$nsPattern = [regex]'namespace\s+(\w+)\s*\{'
+
+# Namespace -> ObjC prefix mapping (e.g., MTL::Device -> MTLDevice, CA::MetalLayer -> CAMetalLayer)
+$nsPrefixMap = @{
+    'MTL'    = 'MTL'
+    'MTL4'   = 'MTL4'
+    'MTLFX'  = 'MTLFX'
+    'MTL4FX' = 'MTL4FX'
+    'CA'     = 'CA'
+    'NS'     = 'NS'
+}
 
 function Get-ClassNamesFromHeaders {
     $classes = [System.Collections.Generic.List[PSCustomObject]]::new()
+    $seen = [System.Collections.Generic.HashSet[string]]::new()
 
     foreach ($subdir in $frameworkMap.Keys) {
         $hdrDir = Join-Path $metalCppDir $subdir
@@ -115,13 +136,54 @@ function Get-ClassNamesFromHeaders {
             }
             if ($skip) { continue }
 
-            # Derive the class name: MTLDevice.hpp -> mtldevice
-            $className = [System.IO.Path]::GetFileNameWithoutExtension($name).ToLowerInvariant()
-            $classes.Add([PSCustomObject]@{
-                Module    = $docModule
-                ClassName = $className
-                FileName  = $name
-            })
+            $content = Get-Content $file.FullName -Raw
+
+            # Build namespace position map for this file
+            $nsPositions = [System.Collections.Generic.List[PSCustomObject]]::new()
+            foreach ($nm in $nsPattern.Matches($content)) {
+                $nsPositions.Add([PSCustomObject]@{ Ns = $nm.Groups[1].Value; Pos = $nm.Index })
+            }
+
+            # Extract actual class names from the header content
+            $classMatches = $classPattern.Matches($content)
+
+            if ($classMatches.Count -eq 0) {
+                # Fallback: use file name as slug (for non-class headers like MTLDataType.hpp)
+                $slug = [System.IO.Path]::GetFileNameWithoutExtension($name).ToLowerInvariant()
+                if ($seen.Add($slug)) {
+                    $classes.Add([PSCustomObject]@{
+                        Module    = $docModule
+                        ClassName = $slug
+                        FileName  = $name
+                    })
+                }
+            }
+            else {
+                foreach ($cm in $classMatches) {
+                    $rawClassName = $cm.Groups[1].Value
+
+                    # Find the enclosing namespace for this class declaration
+                    $ns = ''
+                    for ($i = $nsPositions.Count - 1; $i -ge 0; $i--) {
+                        if ($nsPositions[$i].Pos -lt $cm.Index) {
+                            $ns = $nsPositions[$i].Ns
+                            break
+                        }
+                    }
+
+                    # Build the full ObjC-style class name: MTL + Device = MTLDevice
+                    $prefix = if ($nsPrefixMap.ContainsKey($ns)) { $nsPrefixMap[$ns] } else { $ns }
+                    $slug = ($prefix + $rawClassName).ToLowerInvariant()
+
+                    if ($seen.Add($slug)) {
+                        $classes.Add([PSCustomObject]@{
+                            Module    = $docModule
+                            ClassName = $slug
+                            FileName  = $name
+                        })
+                    }
+                }
+            }
         }
     }
 
@@ -150,48 +212,154 @@ function Download-DocJson {
     }
 }
 
-function Get-SubPageSlugs {
-    param([string]$JsonPath, [string]$ClassName)
+function Format-Json {
+    param([string]$Json)
 
-    $json = Get-Content $JsonPath -Raw | ConvertFrom-Json
-    $slugs = [System.Collections.Generic.List[string]]::new()
+    $sb = [System.Text.StringBuilder]::new()
+    $indent = 0
+    $inString = $false
+    $escaped = $false
+    $chars = $Json.ToCharArray()
+
+    for ($i = 0; $i -lt $chars.Length; $i++) {
+        $c = $chars[$i]
+
+        if ($escaped) { [void]$sb.Append($c); $escaped = $false; continue }
+        if ($c -eq '\' -and $inString) { [void]$sb.Append($c); $escaped = $true; continue }
+        if ($c -eq '"') { [void]$sb.Append($c); $inString = !$inString; continue }
+        if ($inString) { [void]$sb.Append($c); continue }
+
+        switch ($c) {
+            '{' { [void]$sb.Append($c).Append("`n"); $indent++; [void]$sb.Append(' ' * ($indent * 2)) }
+            '[' { [void]$sb.Append($c).Append("`n"); $indent++; [void]$sb.Append(' ' * ($indent * 2)) }
+            '}' { [void]$sb.Append("`n"); $indent--; [void]$sb.Append(' ' * ($indent * 2)).Append($c) }
+            ']' { [void]$sb.Append("`n"); $indent--; [void]$sb.Append(' ' * ($indent * 2)).Append($c) }
+            ',' { [void]$sb.Append($c).Append("`n").Append(' ' * ($indent * 2)) }
+            ':' { [void]$sb.Append(': ') }
+            default { if (-not [char]::IsWhiteSpace($c)) { [void]$sb.Append($c) } }
+        }
+    }
+
+    return $sb.ToString()
+}
+
+function Get-SubPageIdentifiers {
+    param([string]$JsonPath)
+
+    $json = [System.IO.File]::ReadAllText($JsonPath, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
+    $result = [System.Collections.Generic.List[PSCustomObject]]::new()
 
     $sections = $json.PSObject.Properties['topicSections']
-    if (-not $sections -or -not $sections.Value) { return $slugs }
+    if (-not $sections -or -not $sections.Value) { return $result }
 
     foreach ($section in $sections.Value) {
         foreach ($id in $section.identifiers) {
-            # Identifiers that belong to the class look like:
-            #   doc://com.apple.metal/documentation/Metal/MTLDevice/name
-            # Sub-page identifiers look like:
-            #   doc://com.apple.metal/documentation/Metal/device-inspection
-            # We want the latter (no class name segment).
-
+            # Sub-page identifiers are like: doc://com.apple.metal/documentation/Metal/device-inspection
+            # They have only one path segment after the framework name, and use kebab-case.
             if ($id -match '/documentation/[^/]+/([^/]+)$') {
-                $slug = $Matches[1].ToLowerInvariant()
-
-                # Skip if it looks like a member of the current class
-                if ($id -match "/$ClassName/") { continue }
-
-                # Skip if it looks like a related type (contains uppercase = type name, not a sub-page slug)
-                # Sub-page slugs use kebab-case (e.g., device-inspection, work-submission)
-                if ($slug -match '-') {
-                    $slugs.Add($slug)
+                $slug = $Matches[1]
+                # Sub-page slugs use kebab-case; member or type identifiers use PascalCase
+                if ($slug -cmatch '-') {
+                    $result.Add([PSCustomObject]@{ Slug = $slug.ToLowerInvariant(); Title = $section.title })
                 }
             }
         }
     }
 
-    return $slugs
+    return $result
 }
 
-function Update-AppleDocs {
+function Render-Abstract {
+    param([object[]]$AbstractNodes)
+
+    if (-not $AbstractNodes) { return $null }
+
+    $parts = [System.Collections.Generic.List[string]]::new()
+    foreach ($node in $AbstractNodes) {
+        switch ($node.type) {
+            'text'      { $parts.Add($node.text) }
+            'codeVoice' { $parts.Add($node.code) }
+            'reference' { if ($node.PSObject.Properties['title']) { $parts.Add($node.title) } }
+            'emphasis'  { if ($node.PSObject.Properties['inlineContent']) { foreach ($ic in $node.inlineContent) { if ($ic.type -eq 'text') { $parts.Add($ic.text) } } } }
+        }
+    }
+
+    $text = ($parts -join '').Trim()
+    if ($text.Length -eq 0) { return $null }
+    return $text
+}
+
+function Extract-MemberOrder {
+    param([string]$JsonPath)
+
+    $json = [System.IO.File]::ReadAllText($JsonPath, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
+    $groups = [System.Collections.Generic.List[PSCustomObject]]::new()
+
+    $sections = $json.PSObject.Properties['topicSections']
+    if (-not $sections -or -not $sections.Value) { return $groups }
+
+    # Build a lookup from identifier -> summary text using the references section
+    $refSummaries = @{}
+    $refsProp = $json.PSObject.Properties['references']
+    if ($refsProp -and $refsProp.Value) {
+        foreach ($rp in $refsProp.Value.PSObject.Properties) {
+            $absProp = $rp.Value.PSObject.Properties['abstract']
+            if ($absProp -and $absProp.Value) {
+                $summary = Render-Abstract $absProp.Value
+                if ($summary) {
+                    $refSummaries[$rp.Name] = $summary
+                }
+            }
+        }
+    }
+
+    foreach ($section in $sections.Value) {
+        $members = [System.Collections.Generic.List[PSCustomObject]]::new()
+
+        foreach ($id in $section.identifiers) {
+            # Match member identifiers: .../ClassName/memberName or .../ClassName/memberName(_:)
+            # These have at least 2 segments after the framework name
+            if ($id -match '/documentation/[^/]+/[^/]+/([^/]+)$') {
+                $memberName = $Matches[1]
+                $summary = if ($refSummaries.ContainsKey($id)) { $refSummaries[$id] } else { $null }
+
+                $memberObj = [ordered]@{ name = $memberName }
+                if ($summary) { $memberObj['summary'] = $summary }
+                $members.Add([PSCustomObject]$memberObj)
+            }
+        }
+
+        if ($members.Count -gt 0) {
+            $groups.Add([PSCustomObject]@{
+                title   = $section.title
+                members = @($members)
+            })
+        }
+    }
+
+    return $groups
+}
+
+function Extract-ClassSummary {
+    param([string]$JsonPath)
+
+    $json = [System.IO.File]::ReadAllText($JsonPath, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
+    $absProp = $json.PSObject.Properties['abstract']
+    if (-not $absProp -or -not $absProp.Value) { return $null }
+    return Render-Abstract $absProp.Value
+}
+
+function Update-ApiOrder {
+    $tempDocsDir = Join-Path ([System.IO.Path]::GetTempPath()) 'metal-net-apple-docs'
+    if (Test-Path $tempDocsDir) { Remove-Item $tempDocsDir -Recurse -Force }
+    New-Item $tempDocsDir -ItemType Directory -Force | Out-Null
+
     $classes = Get-ClassNamesFromHeaders
     $total = $classes.Count
     $current = 0
-    $subPageCount = 0
+    $apiOrder = [ordered]@{}
 
-    Write-Progress -Id $idDocs -Activity 'Downloading Apple documentation' -Status "0 / $total classes" -PercentComplete 0
+    Write-Progress -Id $idDocs -Activity 'Downloading Apple documentation' -Status "0 / $total" -PercentComplete 0
 
     foreach ($entry in $classes) {
         $current++
@@ -199,27 +367,58 @@ function Update-AppleDocs {
         Write-Progress -Id $idDocs -Activity 'Downloading Apple documentation' `
             -Status "$current / $total — $($entry.FileName)" -PercentComplete $pct
 
-        $moduleDir = Join-Path $appleDocsDir $entry.Module
+        $moduleDir = Join-Path $tempDocsDir $entry.Module
         if (-not (Test-Path $moduleDir)) { New-Item $moduleDir -ItemType Directory -Force | Out-Null }
 
+        # Download the main class doc
         $mainFile = Download-DocJson -Module $entry.Module -Slug $entry.ClassName -OutDir $moduleDir
-
         if (-not $mainFile) {
             $mainFile = Join-Path $moduleDir "$($entry.ClassName).json"
         }
+        if (-not (Test-Path $mainFile)) { continue }
 
-        # Download sub-pages if the main JSON exists
-        if (Test-Path $mainFile) {
-            $subSlugs = Get-SubPageSlugs -JsonPath $mainFile -ClassName $entry.ClassName
-            foreach ($slug in $subSlugs) {
-                $result = Download-DocJson -Module $entry.Module -Slug $slug -OutDir $moduleDir
-                if ($result) { $subPageCount++ }
+        # Extract class-level summary
+        $classSummary = Extract-ClassSummary -JsonPath $mainFile
+
+        # Collect member groups from the main page
+        $allGroups = [System.Collections.Generic.List[PSCustomObject]]::new()
+        $mainGroups = Extract-MemberOrder -JsonPath $mainFile
+        foreach ($g in $mainGroups) { $allGroups.Add($g) }
+
+        # Download and collect sub-pages
+        $subPages = Get-SubPageIdentifiers -JsonPath $mainFile
+        foreach ($sub in $subPages) {
+            $subFile = Download-DocJson -Module $entry.Module -Slug $sub.Slug -OutDir $moduleDir
+            if (-not $subFile) {
+                $subFile = Join-Path $moduleDir "$($sub.Slug).json"
             }
+            if (Test-Path $subFile) {
+                $subGroups = Extract-MemberOrder -JsonPath $subFile
+                foreach ($g in $subGroups) { $allGroups.Add($g) }
+            }
+        }
+
+        if ($allGroups.Count -gt 0 -or $classSummary) {
+            $classEntry = [ordered]@{}
+            if ($classSummary) { $classEntry['summary'] = $classSummary }
+            if ($allGroups.Count -gt 0) { $classEntry['groups'] = @($allGroups) }
+            $apiOrder[$entry.ClassName] = [PSCustomObject]$classEntry
         }
     }
 
     Write-Progress -Id $idDocs -Activity 'Downloading Apple documentation' -Status 'Done' -PercentComplete 100 -Completed
-    Write-Host "  Downloaded docs for $total classes + $subPageCount sub-pages." -ForegroundColor Green
+
+    # Write the distilled api-order.json
+    $compactJson = $apiOrder | ConvertTo-Json -Depth 6 -Compress
+    $formattedJson = Format-Json $compactJson
+    [System.IO.File]::WriteAllText($apiOrderFile, $formattedJson, [System.Text.UTF8Encoding]::new($false))
+
+    # Cleanup temp docs
+    Remove-Item $tempDocsDir -Recurse -Force -ErrorAction SilentlyContinue
+
+    $classCount = $apiOrder.Count
+    $groupCount = ($apiOrder.Values | ForEach-Object { if ($_.PSObject.Properties['groups']) { $_.groups.Count } else { 0 } } | Measure-Object -Sum).Sum
+    Write-Host "  Distilled $classCount classes, $groupCount groups -> api-order.json" -ForegroundColor Green
 }
 
 #endregion
@@ -236,7 +435,7 @@ else {
 }
 
 if (-not $SkipDocs) {
-    Update-AppleDocs
+    Update-ApiOrder
 }
 else {
     Write-Host 'Skipping documentation download.' -ForegroundColor Yellow

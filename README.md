@@ -68,8 +68,8 @@ Metal.NET.slnx
     ├── CSharpEmitter.cs                ← Emits C# source files
     ├── TypeMapper.cs                   ← C++ → C# type mapping
     ├── update-sources.ps1              ← Downloads metal-cpp & Apple docs
-    ├── metal-cpp/                      ← Upstream metal-cpp headers
-    └── apple-docs/                     ← Apple documentation JSON (generated)
+    ├── api-order.json                  ← Distilled API member ordering (committed)
+    └── metal-cpp/                      ← Upstream metal-cpp headers
 ```
 
 ## Updating Bindings
