@@ -44,6 +44,7 @@ public class MTLDepthStencilDescriptor(nint nativePtr, NativeObjectOwnership own
     public Bool8 IsDepthWriteEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLDepthStencilDescriptorBindings.IsDepthWriteEnabled);
+        set => ObjectiveC.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetIsDepthWriteEnabled, value);
     }
 
     public NSString Label
@@ -76,6 +77,8 @@ file static class MTLDepthStencilDescriptorBindings
     public static readonly Selector SetDepthWriteEnabled = "setDepthWriteEnabled:";
 
     public static readonly Selector SetFrontFaceStencil = "setFrontFaceStencil:";
+
+    public static readonly Selector SetIsDepthWriteEnabled = "setDepthWriteEnabled:";
 
     public static readonly Selector SetLabel = "setLabel:";
 }

@@ -758,6 +758,15 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 setter = s;
                 used.Add(s);
             }
+            else if (m.CppName.StartsWith("is") && m.CppName.Length > 2 && char.IsUpper(m.CppName[2]))
+            {
+                string altPropName = char.ToLower(m.CppName[2]) + m.CppName[3..];
+                if (setterMap.TryGetValue(altPropName, out MethodInfo? altSetter))
+                {
+                    setter = altSetter;
+                    used.Add(altSetter);
+                }
+            }
 
             properties.Add(new PropertyDef(m, setter));
             used.Add(m);

@@ -54,16 +54,19 @@ public class MTLFXTemporalScalerDescriptor(nint nativePtr, NativeObjectOwnership
     public Bool8 IsAutoExposureEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalScalerDescriptorBindings.IsAutoExposureEnabled);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetIsAutoExposureEnabled, value);
     }
 
     public Bool8 IsInputContentPropertiesEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalScalerDescriptorBindings.IsInputContentPropertiesEnabled);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetIsInputContentPropertiesEnabled, value);
     }
 
     public Bool8 IsReactiveMaskTextureEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalScalerDescriptorBindings.IsReactiveMaskTextureEnabled);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetIsReactiveMaskTextureEnabled, value);
     }
 
     public MTLPixelFormat MotionTextureFormat
@@ -100,21 +103,6 @@ public class MTLFXTemporalScalerDescriptor(nint nativePtr, NativeObjectOwnership
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalScalerDescriptorBindings.RequiresSynchronousInitialization);
         set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetRequiresSynchronousInitialization, value);
-    }
-
-    public void SetAutoExposureEnabled(bool enabled)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetAutoExposureEnabled, enabled);
-    }
-
-    public void SetInputContentPropertiesEnabled(bool enabled)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetInputContentPropertiesEnabled, enabled);
-    }
-
-    public void SetReactiveMaskTextureEnabled(bool enabled)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXTemporalScalerDescriptorBindings.SetReactiveMaskTextureEnabled, enabled);
     }
 
     public MTLFXTemporalScaler NewTemporalScaler(MTLDevice pDevice)
@@ -190,8 +178,6 @@ file static class MTLFXTemporalScalerDescriptorBindings
 
     public static readonly Selector RequiresSynchronousInitialization = "requiresSynchronousInitialization";
 
-    public static readonly Selector SetAutoExposureEnabled = "setAutoExposureEnabled:";
-
     public static readonly Selector SetColorTextureFormat = "setColorTextureFormat:";
 
     public static readonly Selector SetDepthTextureFormat = "setDepthTextureFormat:";
@@ -200,11 +186,15 @@ file static class MTLFXTemporalScalerDescriptorBindings
 
     public static readonly Selector SetInputContentMinScale = "setInputContentMinScale:";
 
-    public static readonly Selector SetInputContentPropertiesEnabled = "setInputContentPropertiesEnabled:";
-
     public static readonly Selector SetInputHeight = "setInputHeight:";
 
     public static readonly Selector SetInputWidth = "setInputWidth:";
+
+    public static readonly Selector SetIsAutoExposureEnabled = "setAutoExposureEnabled:";
+
+    public static readonly Selector SetIsInputContentPropertiesEnabled = "setInputContentPropertiesEnabled:";
+
+    public static readonly Selector SetIsReactiveMaskTextureEnabled = "setReactiveMaskTextureEnabled:";
 
     public static readonly Selector SetMotionTextureFormat = "setMotionTextureFormat:";
 
@@ -213,8 +203,6 @@ file static class MTLFXTemporalScalerDescriptorBindings
     public static readonly Selector SetOutputTextureFormat = "setOutputTextureFormat:";
 
     public static readonly Selector SetOutputWidth = "setOutputWidth:";
-
-    public static readonly Selector SetReactiveMaskTextureEnabled = "setReactiveMaskTextureEnabled:";
 
     public static readonly Selector SetReactiveMaskTextureFormat = "setReactiveMaskTextureFormat:";
 

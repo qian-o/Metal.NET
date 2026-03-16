@@ -86,6 +86,7 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr, NativeObjectOwnership ow
     public Bool8 IsDepthReversed
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLFXFrameInterpolatorBaseBindings.IsDepthReversed);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetIsDepthReversed, value);
     }
 
     public Bool8 IsUITextureComposited
@@ -197,11 +198,6 @@ public class MTLFXFrameInterpolatorBase(nint nativePtr, NativeObjectOwnership ow
     {
         ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetUITexture, uiTexture.NativePtr);
     }
-
-    public void SetDepthReversed(bool depthReversed)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBaseBindings.SetDepthReversed, depthReversed);
-    }
 }
 
 file static class MTLFXFrameInterpolatorBaseBindings
@@ -270,8 +266,6 @@ file static class MTLFXFrameInterpolatorBaseBindings
 
     public static readonly Selector SetDeltaTime = "setDeltaTime:";
 
-    public static readonly Selector SetDepthReversed = "setDepthReversed:";
-
     public static readonly Selector SetDepthTexture = "setDepthTexture:";
 
     public static readonly Selector SetFarPlane = "setFarPlane:";
@@ -279,6 +273,8 @@ file static class MTLFXFrameInterpolatorBaseBindings
     public static readonly Selector SetFence = "setFence:";
 
     public static readonly Selector SetFieldOfView = "setFieldOfView:";
+
+    public static readonly Selector SetIsDepthReversed = "setDepthReversed:";
 
     public static readonly Selector SetIsUITextureComposited = "setIsUITextureComposited:";
 

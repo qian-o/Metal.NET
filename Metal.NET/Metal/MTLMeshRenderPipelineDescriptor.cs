@@ -68,16 +68,19 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnersh
     public Bool8 IsAlphaToCoverageEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.IsAlphaToCoverageEnabled);
+        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetIsAlphaToCoverageEnabled, value);
     }
 
     public Bool8 IsAlphaToOneEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.IsAlphaToOneEnabled);
+        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetIsAlphaToOneEnabled, value);
     }
 
     public Bool8 IsRasterizationEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.IsRasterizationEnabled);
+        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetIsRasterizationEnabled, value);
     }
 
     public NSString Label
@@ -287,6 +290,12 @@ file static class MTLMeshRenderPipelineDescriptorBindings
     public static readonly Selector SetFragmentFunction = "setFragmentFunction:";
 
     public static readonly Selector SetFragmentLinkedFunctions = "setFragmentLinkedFunctions:";
+
+    public static readonly Selector SetIsAlphaToCoverageEnabled = "setAlphaToCoverageEnabled:";
+
+    public static readonly Selector SetIsAlphaToOneEnabled = "setAlphaToOneEnabled:";
+
+    public static readonly Selector SetIsRasterizationEnabled = "setRasterizationEnabled:";
 
     public static readonly Selector SetLabel = "setLabel:";
 

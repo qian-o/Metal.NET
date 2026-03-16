@@ -59,6 +59,7 @@ public class MTL4RenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership 
     public Bool8 IsRasterizationEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTL4RenderPipelineDescriptorBindings.IsRasterizationEnabled);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetIsRasterizationEnabled, value);
     }
 
     public nuint MaxVertexAmplificationCount
@@ -162,6 +163,8 @@ file static class MTL4RenderPipelineDescriptorBindings
     public static readonly Selector SetFragmentStaticLinkingDescriptor = "setFragmentStaticLinkingDescriptor:";
 
     public static readonly Selector SetInputPrimitiveTopology = "setInputPrimitiveTopology:";
+
+    public static readonly Selector SetIsRasterizationEnabled = "setRasterizationEnabled:";
 
     public static readonly Selector SetMaxVertexAmplificationCount = "setMaxVertexAmplificationCount:";
 
