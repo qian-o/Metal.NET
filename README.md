@@ -68,7 +68,7 @@ Metal.NET.slnx
     ├── CSharpEmitter.cs                ← Emits C# source files
     ├── TypeMapper.cs                   ← C++ → C# type mapping
     ├── update-sources.ps1              ← Downloads metal-cpp & Apple docs
-    ├── api-order.json                  ← Distilled API member ordering (committed)
+    ├── metal-docs.json                 ← Distilled API docs & member ordering (committed)
     └── metal-cpp/                      ← Upstream metal-cpp headers
 ```
 

@@ -6,12 +6,13 @@
     1. Fetches the latest metal-cpp archive from developer.apple.com and replaces the local metal-cpp/ directory.
     2. Scans the downloaded headers to derive class names for each framework.
     3. Downloads the corresponding Apple documentation JSON into a temporary directory.
-    4. Distills the JSON into a single api-order.json containing only member ordering and grouping.
+    4. Distills the JSON into a single metal-docs.json containing member ordering, grouping, and summaries.
     5. Writes a version.json with metadata about the download.
 
-    The api-order.json file contains only factual API names and their logical grouping order,
-    suitable for committing to the repository. The full Apple documentation JSON files are
-    downloaded to a temporary directory and cleaned up after distillation.
+    The metal-docs.json file contains factual API names, their logical grouping order,
+    and short documentation summaries suitable for generating XML doc comments.
+    The full Apple documentation JSON files are downloaded to a temporary directory
+    and cleaned up after distillation.
 
 .EXAMPLE
     pwsh -File update-sources.ps1
@@ -28,7 +29,7 @@ $ErrorActionPreference = 'Stop'
 
 $scriptDir = $PSScriptRoot
 $metalCppDir = Join-Path $scriptDir 'metal-cpp'
-$apiOrderFile = Join-Path $scriptDir 'api-order.json'
+$apiOrderFile = Join-Path $scriptDir 'metal-docs.json'
 
 # Framework subdirectory -> Apple documentation module name
 $frameworkMap = @{
@@ -408,7 +409,7 @@ function Update-ApiOrder {
 
     Write-Progress -Id $idDocs -Activity 'Downloading Apple documentation' -Status 'Done' -PercentComplete 100 -Completed
 
-    # Write the distilled api-order.json
+    # Write the distilled metal-docs.json
     $compactJson = $apiOrder | ConvertTo-Json -Depth 6 -Compress
     $formattedJson = Format-Json $compactJson
     [System.IO.File]::WriteAllText($apiOrderFile, $formattedJson, [System.Text.UTF8Encoding]::new($false))
@@ -418,7 +419,7 @@ function Update-ApiOrder {
 
     $classCount = $apiOrder.Count
     $groupCount = ($apiOrder.Values | ForEach-Object { if ($_.PSObject.Properties['groups']) { $_.groups.Count } else { 0 } } | Measure-Object -Sum).Sum
-    Write-Host "  Distilled $classCount classes, $groupCount groups -> api-order.json" -ForegroundColor Green
+    Write-Host "  Distilled $classCount classes, $groupCount groups -> metal-docs.json" -ForegroundColor Green
 }
 
 #endregion

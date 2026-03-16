@@ -1,22 +1,22 @@
-﻿# Generator Enhancement: Add XML Doc Comments from `api-order.json`
+﻿# Generator Enhancement: Integrate `metal-docs.json`
 
-## Overview
+## Background
 
-The `api-order.json` file now contains Apple documentation summaries for Metal API classes and their members. The code generator should use this data to emit `/// <summary>` XML documentation comments on generated C# types and members.
+The `update-sources.ps1` script generates `metal-docs.json`, which contains per-class and per-member metadata distilled from Apple documentation. **This file has never been consumed by the generator.** This is a first-time integration.
 
-## `api-order.json` Schema
+## `metal-docs.json` Schema
 
 ```jsonc
 {
-  "<class-slug>": {                    // e.g. "mtldevice", "mtl4commandbuffer"
-    "summary": "<class description>",  // Optional. Apple doc summary for the class.
-    "groups": [                        // Optional. Ordered member groups.
+  "<class-slug>": {                    // Lowercase namespace+class, e.g. "mtldevice", "mtl4commandbuffer"
+    "summary": "<class description>",  // Optional.
+    "groups": [                        // Optional.
       {
-        "title": "<group title>",      // e.g. "Instance Properties", "Instance Methods"
+        "title": "<group title>",
         "members": [
           {
-            "name": "<member-name>",     // Swift-style selector, e.g. "makeCommandQueue(descriptor:)"
-            "summary": "<description>"   // Optional. Apple doc summary for the member.
+            "name": "<swift-selector>", // e.g. "makeCommandQueue(descriptor:)"
+            "summary": "<description>"  // Optional.
           }
         ]
       }
@@ -25,102 +25,39 @@ The `api-order.json` file now contains Apple documentation summaries for Metal A
 }
 ```
 
-### Key Points
-
-- **`summary`** fields are short, factual API descriptions (1-2 sentences).
-- **`name`** values use Swift selector syntax (e.g. `makeCommandQueue(descriptor:)`). The generator already maps these to C++ method names; use the same mapping to match generated C# members.
-- Some members have **no `summary`** (value is absent, not null). Skip doc comment generation for those.
-- Some classes have **only `summary`** with no `groups`** (abstract base classes with no own members).
-- The `groups` array also defines **member ordering** — generated members should appear in the same order.
-
 ## Requirements
 
-### 1. Class-Level Doc Comments
+1. **Load `metal-docs.json`** at generator startup (located in `Metal.NET.Generator/`). Pass the data to `CSharpEmitter`.
 
-For each generated C# class, if the corresponding entry in `api-order.json` has a `summary`, emit an XML doc comment above the class declaration:
+2. **Class body layout** — Within each generated class, members must be laid out in this fixed order:
 
-```csharp
-/// <summary>
-/// The main Metal interface to a GPU that apps use to draw graphics and run computations in parallel.
-/// </summary>
-public class MTLDevice : NSObject, INativeObject<MTLDevice>
-{
-```
+   1. `#region INativeObject` (existing)
+   2. Constructor (if applicable)
+   3. Grouped properties — properties that appear in `metal-docs.json` groups, wrapped in `#region <GroupTitle> - Properties`, ordered by JSON group order and intra-group member order
+   4. Ungrouped properties — properties not found in any JSON group, in their original order
+   5. Indexer (if applicable, existing `subscript(_:)` logic — keep as-is, no region needed)
+   6. Grouped methods — methods that appear in `metal-docs.json` groups, wrapped in `#region <GroupTitle> - Methods`, ordered by JSON group order and intra-group member order
+   7. Ungrouped methods — methods not found in any JSON group, in their original order
+   8. Free functions (P/Invoke wrappers — keep as-is, no region or doc comments)
 
-### 2. Member-Level Doc Comments
+   Properties and methods must always be separated, even if they belong to the same JSON group. A JSON group that contains both properties and methods produces two `#region` blocks: one in the properties section, one in the methods section.
 
-For each generated property or method, if the corresponding member in `api-order.json` has a `summary`, emit an XML doc comment:
+3. **Class-level `/// <summary>`** — If a class entry has a `summary`, emit an XML doc comment above the class declaration.
 
-```csharp
-/// <summary>
-/// The full name of the GPU device.
-/// </summary>
-public NSString Name { get; }
+4. **Member-level `/// <summary>`** — If a matched member has a `summary`, emit an XML doc comment above the property or method declaration. Members without `summary` get no doc comment. When a member already has a `[Obsolete]` attribute with its own `/// <summary>Deprecated: ...</summary>`, the JSON `summary` takes priority (replace, not duplicate).
 
-/// <summary>
-/// Creates a queue you use to submit rendering and computation commands to a GPU.
-/// </summary>
-public MTLCommandQueue MakeCommandQueue() { ... }
-```
+5. **Name matching** — Match JSON member names (Swift selector syntax) to generated C# members using the existing Swift-to-C++ name mapping logic. Strip parameter labels and disambiguation suffixes (e.g. `-5o46e`) when matching. When multiple JSON entries map to the same C++ name (overloads with different suffixes), match by name + parameter count. If ambiguous, use the first match.
 
-### 3. Member Ordering (Already Implemented)
+6. **XML escaping** — Escape `<`, `>`, and `&` in summaries. Preserve Unicode characters (curly quotes, em dashes, etc.) as-is.
 
-The generator already uses `api-order.json` for member ordering. The new `summary` fields are additive — existing ordering logic should continue to work. The structure change is:
+7. **No empty doc comments** — If `summary` is absent, omit the `/// <summary>` block entirely.
 
-**Before** (old format):
-```json
-{
-  "mtldevice": [
-    { "title": "...", "members": ["name", "makeCommandQueue()"] }
-  ]
-}
-```
+8. **Scope** — Only generated class files are affected. Enums, structs, delegates (`MTLDelegates.cs`), and `ObjectiveC.cs` are out of scope. Hand-written classes in `SkipClasses` are also unaffected.
 
-**After** (new format):
-```json
-{
-  "mtldevice": {
-    "summary": "...",
-    "groups": [
-      { "title": "...", "members": [{ "name": "name", "summary": "..." }] }
-    ]
-  }
-}
-```
+## Notes
 
-The ordering data moved from `apiOrder["class"]` (array of groups) to `apiOrder["class"].groups` (array of groups under a `groups` key). Member names moved from plain strings to objects with `name` and optional `summary` properties. **Update any existing code that reads `api-order.json` accordingly.**
-
-### 4. Special Characters
-
-Some summaries contain Unicode characters (e.g. curly quotes `'`, em dashes `—`). These should be preserved as-is in the XML doc comments. The generator should properly XML-escape `<`, `>`, and `&` if they appear in summaries.
-
-### 5. Summary Text Rules
-
-- Do **not** modify the summary text (no truncation, no casing changes).
-- If a summary is missing for a member or class, simply omit the `/// <summary>` block — do not generate an empty one.
-- Each summary should be on a single line within the `<summary>` tags (no multi-line wrapping needed since all summaries are 1-2 sentences).
-
-## Lookup Strategy
-
-When the generator processes a C++ header class:
-
-1. Convert the class name to a slug: lowercase the namespace + class name (e.g. `MTL::Device` → `mtldevice`, `MTL4::CommandBuffer` → `mtl4commandbuffer`).
-2. Look up `apiOrder[slug]` to get the class entry.
-3. Read `.summary` for the class-level doc comment.
-4. Read `.groups` for member ordering and per-member summaries.
-5. For each member in `.groups[*].members`, match `.name` to the generated C# member using the existing Swift-to-C++ name mapping logic.
-6. If matched and `.summary` exists, emit the XML doc comment above the C# member.
-
-## Files to Modify
-
-- **Generator source files** that read `api-order.json` — update to handle the new schema (object with `summary` + `groups` instead of bare array of groups).
-- **Generator source files** that emit C# class/member declarations — add logic to prepend `/// <summary>` comments.
-
-## Testing
-
-After implementation, verify:
-1. Generated `MTLDevice.cs` has a class-level `/// <summary>` comment.
-2. Generated members like `Name`, `MakeCommandQueue()` have `/// <summary>` comments.
-3. Members without summaries in `api-order.json` have no doc comments (no empty `<summary>` blocks).
-4. Classes with only `summary` and no `groups` (e.g. `MTL4FunctionDescriptor`) still compile correctly.
-5. Member ordering is preserved (no regression from schema change).
+- **Slug computation**: `(prefix + className).ToLowerInvariant()` where prefix comes from `TypeMapper.GetPrefix()`. Examples: `MTL::Device` → `mtldevice`, `CA::MetalDrawable` → `cametaldrawable`, `MTLFX::SpatialScaler` → `mtlfxspatialscaler`.
+- **Summary-only classes**: 7 classes have `summary` but no `groups` (e.g. `mtl4functiondescriptor`). These get a class-level doc comment but no member reordering or regions.
+- **`Deprecated` groups**: Some JSON groups are titled `"Deprecated"`. These should still produce regions like any other group.
+- **`init(...)` / `subscript(_:)` entries**: The JSON contains `init(...)` and `subscript(_:)` entries that don't map to generated C# members (constructors and indexers are emitted separately). These should be silently skipped during matching.
+- **Current alphabetical sort**: Properties are currently sorted alphabetically in `CategorizeMembers`. The new JSON-based ordering replaces this.
