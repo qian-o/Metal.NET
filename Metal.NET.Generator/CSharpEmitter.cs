@@ -758,13 +758,21 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 setter = s;
                 used.Add(s);
             }
-            else if (m.CppName.StartsWith("is") && m.CppName.Length > 2 && char.IsUpper(m.CppName[2]))
+            else
             {
-                string altPropName = char.ToLower(m.CppName[2]) + m.CppName[3..];
-                if (setterMap.TryGetValue(altPropName, out MethodInfo? altSetter))
+                // Use the ObjC selector to derive the property name for matching.
+                // In ObjC, boolean properties use "isXxx" as the getter selector and
+                // "setXxx:" as the setter selector, so the property name is "xxx".
+                // The selector accessor is more reliable than the C++ method name.
+                string accessor = m.SelectorAccessor ?? m.CppName;
+                if (accessor.StartsWith("is") && accessor.Length > 2 && char.IsUpper(accessor[2]))
                 {
-                    setter = altSetter;
-                    used.Add(altSetter);
+                    string altPropName = char.ToLower(accessor[2]) + accessor[3..];
+                    if (setterMap.TryGetValue(altPropName, out MethodInfo? altSetter))
+                    {
+                        setter = altSetter;
+                        used.Add(altSetter);
+                    }
                 }
             }
 
