@@ -15,6 +15,8 @@ public class MTLAttribute(nint nativePtr, NativeObjectOwnership ownership) : NSO
     {
     }
 
+    /// <summary>Deprecated: please use isActive instead</summary>
+    [Obsolete("please use isActive instead")]
     public Bool8 Active
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLAttributeBindings.Active);
@@ -50,11 +52,15 @@ public class MTLAttribute(nint nativePtr, NativeObjectOwnership ownership) : NSO
         get => GetProperty(ref field, MTLAttributeBindings.Name);
     }
 
+    /// <summary>Deprecated: please use isPatchControlPointData instead</summary>
+    [Obsolete("please use isPatchControlPointData instead")]
     public Bool8 PatchControlPointData
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLAttributeBindings.PatchControlPointData);
     }
 
+    /// <summary>Deprecated: please use isPatchData instead</summary>
+    [Obsolete("please use isPatchData instead")]
     public Bool8 PatchData
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLAttributeBindings.PatchData);

@@ -38,6 +38,8 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         get => (MTLArgumentBuffersTier)ObjectiveC.MsgSendULong(NativePtr, MTLDeviceBindings.ArgumentBuffersSupport);
     }
 
+    /// <summary>Deprecated: please use areBarycentricCoordsSupported instead</summary>
+    [Obsolete("please use areBarycentricCoordsSupported instead")]
     public Bool8 BarycentricCoordsSupported
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLDeviceBindings.BarycentricCoordsSupported);
@@ -53,6 +55,8 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLDeviceBindings.CurrentAllocatedSize);
     }
 
+    /// <summary>Deprecated: please use isDepth24Stencil8PixelFormatSupported instead</summary>
+    [Obsolete("please use isDepth24Stencil8PixelFormatSupported instead")]
     public Bool8 Depth24Stencil8PixelFormatSupported
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLDeviceBindings.Depth24Stencil8PixelFormatSupported);
@@ -63,6 +67,8 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         get => ObjectiveC.MsgSendBool(NativePtr, MTLDeviceBindings.HasUnifiedMemory);
     }
 
+    /// <summary>Deprecated: please use isHeadless instead</summary>
+    [Obsolete("please use isHeadless instead")]
     public Bool8 Headless
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLDeviceBindings.Headless);
@@ -98,6 +104,8 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLDeviceBindings.LocationNumber);
     }
 
+    /// <summary>Deprecated: please use isLowPower instead</summary>
+    [Obsolete("please use isLowPower instead")]
     public Bool8 LowPower
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLDeviceBindings.LowPower);
@@ -153,11 +161,15 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         get => ObjectiveC.MsgSendUInt(NativePtr, MTLDeviceBindings.PeerIndex);
     }
 
+    /// <summary>Deprecated: please use areProgrammableSamplePositionsSupported instead</summary>
+    [Obsolete("please use areProgrammableSamplePositionsSupported instead")]
     public Bool8 ProgrammableSamplePositionsSupported
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLDeviceBindings.ProgrammableSamplePositionsSupported);
     }
 
+    /// <summary>Deprecated: please use areRasterOrderGroupsSupported instead</summary>
+    [Obsolete("please use areRasterOrderGroupsSupported instead")]
     public Bool8 RasterOrderGroupsSupported
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLDeviceBindings.RasterOrderGroupsSupported);
@@ -178,6 +190,8 @@ public partial class MTLDevice(nint nativePtr, NativeObjectOwnership ownership) 
         get => ObjectiveC.MsgSendULong(NativePtr, MTLDeviceBindings.RegistryID);
     }
 
+    /// <summary>Deprecated: please use isRemovable instead</summary>
+    [Obsolete("please use isRemovable instead")]
     public Bool8 Removable
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLDeviceBindings.Removable);

@@ -51,6 +51,8 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.FirstMipmapInTail);
     }
 
+    /// <summary>Deprecated: please use isFramebufferOnly instead</summary>
+    [Obsolete("please use isFramebufferOnly instead")]
     public Bool8 FramebufferOnly
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindings.FramebufferOnly);
@@ -131,6 +133,8 @@ public class MTLTexture(nint nativePtr, NativeObjectOwnership ownership) : MTLRe
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindings.SampleCount);
     }
 
+    /// <summary>Deprecated: please use isShareable instead</summary>
+    [Obsolete("please use isShareable instead")]
     public Bool8 Shareable
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindings.Shareable);

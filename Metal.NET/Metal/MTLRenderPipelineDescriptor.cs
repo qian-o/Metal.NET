@@ -15,12 +15,16 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership o
     {
     }
 
+    /// <summary>Deprecated: please use isAlphaToCoverageEnabled instead</summary>
+    [Obsolete("please use isAlphaToCoverageEnabled instead")]
     public Bool8 AlphaToCoverageEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.AlphaToCoverageEnabled);
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetAlphaToCoverageEnabled, value);
     }
 
+    /// <summary>Deprecated: please use isAlphaToOneEnabled instead</summary>
+    [Obsolete("please use isAlphaToOneEnabled instead")]
     public Bool8 AlphaToOneEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.AlphaToOneEnabled);
@@ -129,6 +133,8 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership o
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetRasterSampleCount, value);
     }
 
+    /// <summary>Deprecated: please use isRasterizationEnabled instead</summary>
+    [Obsolete("please use isRasterizationEnabled instead")]
     public Bool8 RasterizationEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.RasterizationEnabled);
@@ -183,6 +189,8 @@ public class MTLRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership o
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineDescriptorBindings.SetTessellationFactorFormat, (nuint)value);
     }
 
+    /// <summary>Deprecated: please use isTessellationFactorScaleEnabled instead</summary>
+    [Obsolete("please use isTessellationFactorScaleEnabled instead")]
     public Bool8 TessellationFactorScaleEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineDescriptorBindings.TessellationFactorScaleEnabled);

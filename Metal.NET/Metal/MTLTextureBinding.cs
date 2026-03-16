@@ -16,6 +16,8 @@ public class MTLTextureBinding(nint nativePtr, NativeObjectOwnership ownership) 
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindingBindings.ArrayLength);
     }
 
+    /// <summary>Deprecated: please use isDepthTexture instead</summary>
+    [Obsolete("please use isDepthTexture instead")]
     public Bool8 DepthTexture
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindingBindings.DepthTexture);

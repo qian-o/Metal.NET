@@ -20,6 +20,8 @@ public class MTLArgument(nint nativePtr, NativeObjectOwnership ownership) : NSOb
         get => (MTLBindingAccess)ObjectiveC.MsgSendULong(NativePtr, MTLArgumentBindings.Access);
     }
 
+    /// <summary>Deprecated: please use isActive instead</summary>
+    [Obsolete("please use isActive instead")]
     public Bool8 Active
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLArgumentBindings.Active);

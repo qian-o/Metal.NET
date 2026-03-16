@@ -27,6 +27,8 @@ public class MTLDepthStencilDescriptor(nint nativePtr, NativeObjectOwnership own
         set => ObjectiveC.MsgSend(NativePtr, MTLDepthStencilDescriptorBindings.SetDepthCompareFunction, (nuint)value);
     }
 
+    /// <summary>Deprecated: please use isDepthWriteEnabled instead</summary>
+    [Obsolete("please use isDepthWriteEnabled instead")]
     public Bool8 DepthWriteEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLDepthStencilDescriptorBindings.DepthWriteEnabled);

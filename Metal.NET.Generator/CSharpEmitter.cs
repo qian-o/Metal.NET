@@ -941,6 +941,12 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             selectors.TryAdd(setSelName, setSelObjC);
         }
 
+        if (getter.DeprecationMessage != null)
+        {
+            sb.AppendLine($"    /// <summary>Deprecated: {getter.DeprecationMessage}</summary>");
+            sb.AppendLine($"    [Obsolete(\"{getter.DeprecationMessage}\")]");
+        }
+
         if (isNSArray)
         {
             sb.AppendLine($"    public {nsArrayElemType}[] {csPropName}");
@@ -1296,6 +1302,12 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string staticKw = isStaticClassMethod ? "static " : "";
         string unsafeKw = needsUnsafeContext ? "unsafe " : "";
         string csReturnType = returnsArray ? $"{returnArrayElemType}[]" : (isVoid ? "void" : returnType);
+
+        if (method.DeprecationMessage != null)
+        {
+            sb.AppendLine($"    /// <summary>Deprecated: {method.DeprecationMessage}</summary>");
+            sb.AppendLine($"    [Obsolete(\"{method.DeprecationMessage}\")]");
+        }
 
         sb.AppendLine($"    public {staticKw}{unsafeKw}{csReturnType} {csMethodName}({paramStr})");
         sb.AppendLine("    {");

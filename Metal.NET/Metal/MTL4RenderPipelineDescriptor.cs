@@ -73,6 +73,8 @@ public class MTL4RenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership 
         set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPipelineDescriptorBindings.SetRasterSampleCount, value);
     }
 
+    /// <summary>Deprecated: please use isRasterizationEnabled instead</summary>
+    [Obsolete("please use isRasterizationEnabled instead")]
     public Bool8 RasterizationEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTL4RenderPipelineDescriptorBindings.RasterizationEnabled);

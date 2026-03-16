@@ -964,7 +964,7 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
             }
 
             string classBody = content[(braceStart + 1)..braceEnd];
-            List<(string ReturnType, string Name, bool IsStatic, bool IsConst, List<ParamDef> Params)> rawMethods =
+            List<(string ReturnType, string Name, bool IsStatic, bool IsConst, List<ParamDef> Params, string? DeprecationMessage)> rawMethods =
                 ParseMethodDeclarations(classBody);
 
             Dictionary<(string MethodName, int ParamCount, int OverloadIndex), ImplInfo> implInfo =
@@ -972,7 +972,7 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
 
             List<MethodInfo> methods = [];
             Dictionary<(string, int), int> overloadCounter = [];
-            foreach ((string retType, string name, bool isStatic, bool isConst, List<ParamDef> parameters) in rawMethods)
+            foreach ((string retType, string name, bool isStatic, bool isConst, List<ParamDef> parameters, string? deprecationMessage) in rawMethods)
             {
                 if (SkipMethods.Contains(name))
                 {
@@ -998,7 +998,8 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                     IsConst = isConst,
                     Parameters = parameters,
                     UsesClassTarget = usesClassTarget,
-                    SelectorAccessor = selAccessor
+                    SelectorAccessor = selAccessor,
+                    DeprecationMessage = deprecationMessage
                 });
             }
 
@@ -1049,13 +1050,15 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
         return -1;
     }
 
-    static List<(string ReturnType, string Name, bool IsStatic, bool IsConst, List<ParamDef> Params)>
+    static List<(string ReturnType, string Name, bool IsStatic, bool IsConst, List<ParamDef> Params, string? DeprecationMessage)>
         ParseMethodDeclarations(string classBody)
     {
-        List<(string, string, bool, bool, List<ParamDef>)> result = [];
+        List<(string, string, bool, bool, List<ParamDef>, string?)> result = [];
 
         string cleaned = SingleLineCommentRegex().Replace(classBody, "");
         cleaned = MultiLineCommentRegex().Replace(cleaned, "");
+
+        string? pendingDeprecation = null;
 
         foreach (string rawLine in cleaned.Split('\n'))
         {
@@ -1071,11 +1074,19 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
                 continue;
             }
 
+            Match deprecatedMatch = DeprecatedAttrRegex().Match(line);
+            if (deprecatedMatch.Success)
+            {
+                pendingDeprecation = deprecatedMatch.Groups[1].Value;
+                continue;
+            }
+
             line = PreprocessInlineBlocks(line);
 
             Match methodMatch = MethodDeclRegex().Match(line);
             if (!methodMatch.Success)
             {
+                pendingDeprecation = null;
                 continue;
             }
 
@@ -1087,11 +1098,13 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
 
             if (returnType is "class" or "struct")
             {
+                pendingDeprecation = null;
                 continue;
             }
 
             List<ParamDef> parameters = ParseParameters(paramsStr);
-            result.Add((returnType, name, isStatic, isConst, parameters));
+            result.Add((returnType, name, isStatic, isConst, parameters, pendingDeprecation));
+            pendingDeprecation = null;
         }
 
         return result;
@@ -1415,6 +1428,9 @@ partial class CppParser(string metalCppDir, GeneratorContext context)
 
     [GeneratedRegex(@"^(static\s+)?(.+?)\s+(\w+)\s*\(([^)]*)\)\s*(const)?\s*;?\s*$")]
     private static partial Regex MethodDeclRegex();
+
+    [GeneratedRegex(@"\[\[deprecated\(""(.+?)""\)\]\]")]
+    private static partial Regex DeprecatedAttrRegex();
 
     [GeneratedRegex(@"_\w+_PRIVATE_CLS\(")]
     private static partial Regex ClsCheckRegex();

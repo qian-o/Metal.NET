@@ -15,12 +15,16 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnersh
     {
     }
 
+    /// <summary>Deprecated: please use isAlphaToCoverageEnabled instead</summary>
+    [Obsolete("please use isAlphaToCoverageEnabled instead")]
     public Bool8 AlphaToCoverageEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.AlphaToCoverageEnabled);
         set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetAlphaToCoverageEnabled, value);
     }
 
+    /// <summary>Deprecated: please use isAlphaToOneEnabled instead</summary>
+    [Obsolete("please use isAlphaToOneEnabled instead")]
     public Bool8 AlphaToOneEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.AlphaToOneEnabled);
@@ -164,6 +168,8 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnersh
         set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetRasterSampleCount, value);
     }
 
+    /// <summary>Deprecated: please use isRasterizationEnabled instead</summary>
+    [Obsolete("please use isRasterizationEnabled instead")]
     public Bool8 RasterizationEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.RasterizationEnabled);

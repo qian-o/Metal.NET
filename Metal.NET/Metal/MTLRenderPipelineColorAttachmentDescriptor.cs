@@ -21,6 +21,8 @@ public class MTLRenderPipelineColorAttachmentDescriptor(nint nativePtr, NativeOb
         set => ObjectiveC.MsgSend(NativePtr, MTLRenderPipelineColorAttachmentDescriptorBindings.SetAlphaBlendOperation, (nuint)value);
     }
 
+    /// <summary>Deprecated: please use isBlendingEnabled instead</summary>
+    [Obsolete("please use isBlendingEnabled instead")]
     public Bool8 BlendingEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLRenderPipelineColorAttachmentDescriptorBindings.BlendingEnabled);

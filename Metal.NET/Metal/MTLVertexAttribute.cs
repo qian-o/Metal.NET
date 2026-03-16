@@ -15,6 +15,8 @@ public class MTLVertexAttribute(nint nativePtr, NativeObjectOwnership ownership)
     {
     }
 
+    /// <summary>Deprecated: please use isActive instead</summary>
+    [Obsolete("please use isActive instead")]
     public Bool8 Active
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.Active);
@@ -50,11 +52,15 @@ public class MTLVertexAttribute(nint nativePtr, NativeObjectOwnership ownership)
         get => GetProperty(ref field, MTLVertexAttributeBindings.Name);
     }
 
+    /// <summary>Deprecated: please use isPatchControlPointData instead</summary>
+    [Obsolete("please use isPatchControlPointData instead")]
     public Bool8 PatchControlPointData
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.PatchControlPointData);
     }
 
+    /// <summary>Deprecated: please use isPatchData instead</summary>
+    [Obsolete("please use isPatchData instead")]
     public Bool8 PatchData
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.PatchData);
