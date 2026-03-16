@@ -61,7 +61,7 @@ The `update-sources.ps1` script generates `metal-docs.json`, which contains per-
 
 7. **No empty doc comments** — If `summary` is absent, omit the `/// <summary>` block entirely.
 
-8. **Scope** — Generated class files and enum files are affected. Structs, delegates (`MTLDelegates.cs`), and `ObjectiveC.cs` are out of scope. Hand-written classes in `SkipClasses` are also unaffected.
+8. **Scope** — Generated class files and enum files are affected. Structs, delegates (`MTLDelegates.cs`), and `ObjectiveC.cs` are out of scope. Hand-written classes in `SkipClasses` are **not** regenerated, but should receive doc comments via a separate mechanism (see requirement 11).
 
 9. **Enum doc comments** — If an enum's slug has an entry in `metal-docs.json`:
    - Emit a class-level `/// <summary>` above the `public enum` declaration if `summary` is present.
@@ -72,6 +72,29 @@ The `update-sources.ps1` script generates `metal-docs.json`, which contains per-
     - If a C# member already has a header-derived `[Obsolete]`, keep it — do not overwrite with JSON data.
     - If a C# member has no header-derived `[Obsolete]` but the matched JSON member has `"deprecated": true`, emit `[Obsolete("deprecatedMessage")]` (or `[Obsolete]` if no message).
     - For classes/enums: if the JSON entry has `"deprecated": true`, emit `[Obsolete("deprecatedMessage")]` on the type declaration.
+
+11. **Hand-written class doc comments** — The following hand-written classes are in `SkipClasses` and are not regenerated, but they have corresponding entries in `metal-docs.json` (14 out of 16). The generator should add class-level `/// <summary>` comments to these files by patching them in-place (insert before the `public class` declaration if no summary exists yet):
+
+    | Class | Slug | Has JSON |
+    |---|---|---|
+    | `NSString` | `nsstring` | ✅ |
+    | `NSError` | `nserror` | ✅ |
+    | `NSArray` | `nsarray` | ✅ |
+    | `NSURL` | `nsurl` | ✅ |
+    | `NSDictionary` | `nsdictionary` | ✅ |
+    | `NSNotification` | `nsnotification` | ✅ |
+    | `NSNotificationCenter` | `nsnotificationcenter` | ✅ |
+    | `NSSet` | `nsset` | ✅ |
+    | `NSEnumerator` | `nsenumerator` | ✅ |
+    | `NSObject` | `nsobject` | ❌ |
+    | `NSProcessInfo` | `nsprocessinfo` | ✅ |
+    | `NSBundle` | `nsbundle` | ✅ |
+    | `NSAutoreleasePool` | `nsautoreleasepool` | ✅ |
+    | `NSNumber` | `nsnumber` | ✅ |
+    | `NSValue` | `nsvalue` | ❌ |
+    | `NSDate` | `nsdate` | ✅ |
+
+    Member-level doc comments for hand-written classes are **out of scope** — these classes have custom implementations that don't follow the generated member layout, so member matching is not feasible. Only the class-level `/// <summary>` should be synced.
 
 ## Notes
 
