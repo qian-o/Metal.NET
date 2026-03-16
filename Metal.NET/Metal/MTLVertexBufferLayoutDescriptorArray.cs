@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>An array of vertex buffer layout descriptor instances.</summary>
 public class MTLVertexBufferLayoutDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLVertexBufferLayoutDescriptorArray>
 {
     #region INativeObject

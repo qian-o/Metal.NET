@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>An instance that represents an attribute of a vertex function.</summary>
 public class MTLVertexAttribute(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLVertexAttribute>
 {
     #region INativeObject
@@ -15,41 +16,50 @@ public class MTLVertexAttribute(nint nativePtr, NativeObjectOwnership ownership)
     {
     }
 
-    /// <summary>Deprecated: please use isActive instead</summary>
-    [Obsolete("please use isActive instead")]
-    public Bool8 Active
+    #region Describing the attribute - Properties
+
+    /// <summary>The name of the attribute.</summary>
+    public NSString Name
     {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.Active);
+        get => GetProperty(ref field, MTLVertexAttributeBindings.Name);
     }
 
+    /// <summary>The index of the attribute, as declared in Metal shader source code.</summary>
     public nuint AttributeIndex
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLVertexAttributeBindings.AttributeIndex);
     }
 
+    /// <summary>The data type for the attribute, as declared in Metal shader source code.</summary>
     public MTLDataType AttributeType
     {
         get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLVertexAttributeBindings.AttributeType);
     }
 
+    /// <summary>A Boolean value that indicates whether this vertex attribute is active.</summary>
     public Bool8 IsActive
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsActive);
     }
 
+    /// <summary>A Boolean value that indicates whether this vertex attribute represents control point data.</summary>
     public Bool8 IsPatchControlPointData
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsPatchControlPointData);
     }
 
+    /// <summary>A Boolean value that indicates whether this vertex attribute represents patch data.</summary>
     public Bool8 IsPatchData
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.IsPatchData);
     }
+    #endregion
 
-    public NSString Name
+    /// <summary>Deprecated: please use isActive instead</summary>
+    [Obsolete("please use isActive instead")]
+    public Bool8 Active
     {
-        get => GetProperty(ref field, MTLVertexAttributeBindings.Name);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLVertexAttributeBindings.Active);
     }
 
     /// <summary>Deprecated: please use isPatchControlPointData instead</summary>

@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>Groups together parameters for configuring a counter heap object at creation time.</summary>
 public class MTL4CounterHeapDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CounterHeapDescriptor>
 {
     #region INativeObject
@@ -15,17 +16,22 @@ public class MTL4CounterHeapDescriptor(nint nativePtr, NativeObjectOwnership own
     {
     }
 
+    #region Instance Properties - Properties
+
+    /// <summary>Assigns the number of entries in the heap.</summary>
     public nuint Count
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4CounterHeapDescriptorBindings.Count);
         set => ObjectiveC.MsgSend(NativePtr, MTL4CounterHeapDescriptorBindings.SetCount, value);
     }
 
+    /// <summary>Assigns the type of data that the heap contains.</summary>
     public MTL4CounterHeapType Type
     {
         get => (MTL4CounterHeapType)ObjectiveC.MsgSendLong(NativePtr, MTL4CounterHeapDescriptorBindings.Type);
         set => ObjectiveC.MsgSend(NativePtr, MTL4CounterHeapDescriptorBindings.SetType, (nint)value);
     }
+    #endregion
 }
 
 file static class MTL4CounterHeapDescriptorBindings

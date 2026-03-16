@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>A description of an acceleration structure that Metal derives from instances of primitive acceleration structures that the GPU can populate.</summary>
 public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLAccelerationStructureDescriptor(nativePtr, ownership), INativeObject<MTLIndirectInstanceAccelerationStructureDescriptor>
 {
     #region INativeObject
@@ -14,6 +15,8 @@ public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr, 
     public MTLIndirectInstanceAccelerationStructureDescriptor() : this(ObjectiveC.AllocInit(MTLIndirectInstanceAccelerationStructureDescriptorBindings.Class), NativeObjectOwnership.Managed)
     {
     }
+
+    #region Instance Properties - Properties
 
     public MTLBuffer InstanceCountBuffer
     {
@@ -75,6 +78,7 @@ public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr, 
         set => SetProperty(ref field, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformBuffer, value);
     }
 
+    /// <summary>The offset, in bytes, to the descripton of the first motion transform.</summary>
     public nuint MotionTransformBufferOffset
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformBufferOffset);
@@ -104,6 +108,7 @@ public class MTLIndirectInstanceAccelerationStructureDescriptor(nint nativePtr, 
         get => (MTLTransformType)ObjectiveC.MsgSendLong(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.MotionTransformType);
         set => ObjectiveC.MsgSend(NativePtr, MTLIndirectInstanceAccelerationStructureDescriptorBindings.SetMotionTransformType, (nint)value);
     }
+    #endregion
 
     public static MTLIndirectInstanceAccelerationStructureDescriptor Descriptor()
     {

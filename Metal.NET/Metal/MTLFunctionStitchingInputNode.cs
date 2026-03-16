@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>A call graph node that describes an input to the call graph.</summary>
 public class MTLFunctionStitchingInputNode(nint nativePtr, NativeObjectOwnership ownership) : MTLFunctionStitchingNode(nativePtr, ownership), INativeObject<MTLFunctionStitchingInputNode>
 {
     #region INativeObject
@@ -15,11 +16,15 @@ public class MTLFunctionStitchingInputNode(nint nativePtr, NativeObjectOwnership
     {
     }
 
+    #region Configuring an input node - Properties
+
+    /// <summary>The index in the command’s buffer argument table that declares which data to read for this input node.</summary>
     public nuint ArgumentIndex
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFunctionStitchingInputNodeBindings.ArgumentIndex);
         set => ObjectiveC.MsgSend(NativePtr, MTLFunctionStitchingInputNodeBindings.SetArgumentIndex, value);
     }
+    #endregion
 }
 
 file static class MTLFunctionStitchingInputNodeBindings

@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>Groups together properties to configure and create a specialized function by passing it to a factory method.</summary>
 public class MTL4SpecializedFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4FunctionDescriptor(nativePtr, ownership), INativeObject<MTL4SpecializedFunctionDescriptor>
 {
     #region INativeObject
@@ -15,23 +16,29 @@ public class MTL4SpecializedFunctionDescriptor(nint nativePtr, NativeObjectOwner
     {
     }
 
+    #region Instance Properties - Properties
+
+    /// <summary>Configures optional function constant values to associate with the function.</summary>
     public MTLFunctionConstantValues ConstantValues
     {
         get => GetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.ConstantValues);
         set => SetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.SetConstantValues, value);
     }
 
+    /// <summary>Provides a descriptor that corresponds to a base function that the specialization applies to.</summary>
     public MTL4FunctionDescriptor FunctionDescriptor
     {
         get => GetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.FunctionDescriptor);
         set => SetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.SetFunctionDescriptor, value);
     }
 
+    /// <summary>Assigns an optional name to the specialized function.</summary>
     public NSString SpecializedName
     {
         get => GetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.SpecializedName);
         set => SetProperty(ref field, MTL4SpecializedFunctionDescriptorBindings.SetSpecializedName, value);
     }
+    #endregion
 }
 
 file static class MTL4SpecializedFunctionDescriptorBindings

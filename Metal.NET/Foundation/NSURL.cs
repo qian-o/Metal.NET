@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>An object that represents the location of a resource, such as an item on a remote server or the path to a local file.</summary>
 public class NSURL(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSURL>
 {
     #region INativeObject

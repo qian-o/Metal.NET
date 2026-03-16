@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>A protocol to identify call graph nodes.</summary>
 public class MTLFunctionStitchingNode(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionStitchingNode>
 {
     #region INativeObject

@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>An object wrapper for primitive scalar numeric values.</summary>
 public class NSNumber(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSNumber>
 {
     #region INativeObject

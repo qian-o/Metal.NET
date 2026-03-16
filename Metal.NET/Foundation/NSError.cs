@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>Information about an error condition including a domain, a domain-specific error code, and application-specific information.</summary>
 public class NSError(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSError>
 {
     #region INativeObject

@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>A type that synchronizes memory operations to one or more resources within a single Metal device.</summary>
 public class MTLEvent(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLEvent>
 {
     #region INativeObject
@@ -11,16 +12,21 @@ public class MTLEvent(nint nativePtr, NativeObjectOwnership ownership) : NSObjec
     }
     #endregion
 
+    #region Identifying the event - Properties
+
+    /// <summary>The device object that created the event.</summary>
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTLEventBindings.Device);
     }
 
+    /// <summary>A string that identifies the event.</summary>
     public NSString Label
     {
         get => GetProperty(ref field, MTLEventBindings.Label);
         set => SetProperty(ref field, MTLEventBindings.SetLabel, value);
     }
+    #endregion
 }
 
 file static class MTLEventBindings

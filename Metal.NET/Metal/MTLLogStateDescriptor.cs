@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>An interface that represents a log state configuration.</summary>
 public class MTLLogStateDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLLogStateDescriptor>
 {
     #region INativeObject
@@ -15,17 +16,22 @@ public class MTLLogStateDescriptor(nint nativePtr, NativeObjectOwnership ownersh
     {
     }
 
+    #region Instance properties - Properties
+
+    /// <summary>The size of the internal buffer the log state uses, specified in bytes.</summary>
     public nint BufferSize
     {
         get => ObjectiveC.MsgSendNInt(NativePtr, MTLLogStateDescriptorBindings.BufferSize);
         set => ObjectiveC.MsgSend(NativePtr, MTLLogStateDescriptorBindings.SetBufferSize, value);
     }
 
+    /// <summary>The minimum level of messages that the shader can log.</summary>
     public MTLLogLevel Level
     {
         get => (MTLLogLevel)ObjectiveC.MsgSendLong(NativePtr, MTLLogStateDescriptorBindings.Level);
         set => ObjectiveC.MsgSend(NativePtr, MTLLogStateDescriptorBindings.SetLevel, (nint)value);
     }
+    #endregion
 }
 
 file static class MTLLogStateDescriptorBindings

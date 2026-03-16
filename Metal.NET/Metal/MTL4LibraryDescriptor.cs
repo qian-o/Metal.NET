@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>Serves as the base descriptor for creating a Metal library.</summary>
 public class MTL4LibraryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4LibraryDescriptor>
 {
     #region INativeObject
@@ -15,23 +16,29 @@ public class MTL4LibraryDescriptor(nint nativePtr, NativeObjectOwnership ownersh
     {
     }
 
+    #region Instance Properties - Properties
+
+    /// <summary>Assigns an optional name to the Metal library.</summary>
     public NSString Name
     {
         get => GetProperty(ref field, MTL4LibraryDescriptorBindings.Name);
         set => SetProperty(ref field, MTL4LibraryDescriptorBindings.SetName, value);
     }
 
+    /// <summary>Provides compile-time options for the Metal library.</summary>
     public MTLCompileOptions Options
     {
         get => GetProperty(ref field, MTL4LibraryDescriptorBindings.Options);
         set => SetProperty(ref field, MTL4LibraryDescriptorBindings.SetOptions, value);
     }
 
+    /// <summary>Assigns an optional string containing the source code of the shader language program to compile into a Metal library.</summary>
     public NSString Source
     {
         get => GetProperty(ref field, MTL4LibraryDescriptorBindings.Source);
         set => SetProperty(ref field, MTL4LibraryDescriptorBindings.SetSource, value);
     }
+    #endregion
 }
 
 file static class MTL4LibraryDescriptorBindings

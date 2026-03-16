@@ -364,6 +364,29 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             return [];
         }
 
+        // Build the C++ name lookup once (same structure as MatchDocMembers)
+        Dictionary<string, List<(object Member, int ParamCount)>> cppLookup = new(StringComparer.OrdinalIgnoreCase);
+        foreach (PropertyDef prop in properties)
+        {
+            string key = prop.Getter.CppName.ToLowerInvariant();
+            if (!cppLookup.TryGetValue(key, out var list))
+            {
+                list = [];
+                cppLookup[key] = list;
+            }
+            list.Add((prop, -1));
+        }
+        foreach (MethodInfo m in methods)
+        {
+            string key = m.CppName.ToLowerInvariant();
+            if (!cppLookup.TryGetValue(key, out var list))
+            {
+                list = [];
+                cppLookup[key] = list;
+            }
+            list.Add((m, m.Parameters.Count));
+        }
+
         Dictionary<string, (string GroupTitle, int Order)> result = [];
         int globalOrder = 0;
 
@@ -397,29 +420,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 else
                 {
                     baseName = swiftName;
-                }
-
-                // Build the same lookup as MatchDocMembers to find the C++ key
-                Dictionary<string, List<(object Member, int ParamCount)>> cppLookup = new(StringComparer.OrdinalIgnoreCase);
-                foreach (PropertyDef prop in properties)
-                {
-                    string key = prop.Getter.CppName.ToLowerInvariant();
-                    if (!cppLookup.TryGetValue(key, out var list))
-                    {
-                        list = [];
-                        cppLookup[key] = list;
-                    }
-                    list.Add((prop, -1));
-                }
-                foreach (MethodInfo m in methods)
-                {
-                    string key = m.CppName.ToLowerInvariant();
-                    if (!cppLookup.TryGetValue(key, out var list))
-                    {
-                        list = [];
-                        cppLookup[key] = list;
-                    }
-                    list.Add((m, m.Parameters.Count));
                 }
 
                 string? matchedKey = TryMatchSwiftName(baseName, isMethod, paramCount, cppLookup);

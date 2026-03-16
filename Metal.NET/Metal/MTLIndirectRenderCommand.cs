@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>A render command in an indirect command buffer.</summary>
 public class MTLIndirectRenderCommand(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLIndirectRenderCommand>
 {
     #region INativeObject
@@ -11,19 +12,74 @@ public class MTLIndirectRenderCommand(nint nativePtr, NativeObjectOwnership owne
     }
     #endregion
 
-    public void ClearBarrier()
+    #region Setting command arguments - Methods
+
+    /// <summary>Sets the render pipeline state for the command.</summary>
+    public void SetRenderPipelineState(MTLRenderPipelineState pipelineState)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.ClearBarrier);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetRenderPipelineState, pipelineState.NativePtr);
     }
 
+    /// <summary>Sets a vertex buffer argument for the command.</summary>
+    public void SetVertexBuffer(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetVertexBuffer, buffer.NativePtr, offset, stride, index);
+    }
+
+    /// <summary>Sets a vertex buffer argument for the command.</summary>
+    public void SetVertexBuffer(MTLBuffer buffer, nuint offset, nuint index)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetVertexBufferoffsetatIndex, buffer.NativePtr, offset, index);
+    }
+
+    /// <summary>Sets a fragment buffer argument for the command.</summary>
+    public void SetFragmentBuffer(MTLBuffer buffer, nuint offset, nuint index)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetFragmentBuffer, buffer.NativePtr, offset, index);
+    }
+    #endregion
+
+    #region Encoding a drawing command - Methods
+
+    /// <summary>Encodes a command to render a number of instances of primitives using vertex data in contiguous array elements, starting from the base instance.</summary>
+    public void DrawPrimitives(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount, nuint instanceCount, nuint baseInstance)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.DrawPrimitives, (nuint)primitiveType, vertexStart, vertexCount, instanceCount, baseInstance);
+    }
+
+    /// <summary>Encodes a command to render a number of instances of primitives using an index list specified in a buffer, starting from the base vertex of the base instance.</summary>
+    public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, MTLBuffer indexBuffer, nuint indexBufferOffset, nuint instanceCount, nint baseVertex, nuint baseInstance)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.DrawIndexedPrimitives, (nuint)primitiveType, indexCount, (nuint)indexType, indexBuffer.NativePtr, indexBufferOffset, instanceCount, baseVertex, baseInstance);
+    }
+
+    /// <summary>Encodes a command to render a number of instances of tessellated patches.</summary>
+    public void DrawPatches(nuint numberOfPatchControlPoints, nuint patchStart, nuint patchCount, MTLBuffer patchIndexBuffer, nuint patchIndexBufferOffset, nuint instanceCount, nuint baseInstance, MTLBuffer buffer, nuint offset, nuint instanceStride)
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.DrawPatches, numberOfPatchControlPoints, patchStart, patchCount, patchIndexBuffer.NativePtr, patchIndexBufferOffset, instanceCount, baseInstance, buffer.NativePtr, offset, instanceStride);
+    }
+
+    /// <summary>Encodes a command to render a number of instances of tessellated patches, using a control point index buffer.</summary>
     public void DrawIndexedPatches(nuint numberOfPatchControlPoints, nuint patchStart, nuint patchCount, MTLBuffer patchIndexBuffer, nuint patchIndexBufferOffset, MTLBuffer controlPointIndexBuffer, nuint controlPointIndexBufferOffset, nuint instanceCount, nuint baseInstance, MTLBuffer buffer, nuint offset, nuint instanceStride)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.DrawIndexedPatches, numberOfPatchControlPoints, patchStart, patchCount, patchIndexBuffer.NativePtr, patchIndexBufferOffset, controlPointIndexBuffer.NativePtr, controlPointIndexBufferOffset, instanceCount, baseInstance, buffer.NativePtr, offset, instanceStride);
     }
+    #endregion
 
-    public void DrawIndexedPrimitives(MTLPrimitiveType primitiveType, nuint indexCount, MTLIndexType indexType, MTLBuffer indexBuffer, nuint indexBufferOffset, nuint instanceCount, nint baseVertex, nuint baseInstance)
+    #region Resetting a command - Methods
+
+    /// <summary>Resets the command to its default state.</summary>
+    public void Reset()
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.DrawIndexedPrimitives, (nuint)primitiveType, indexCount, (nuint)indexType, indexBuffer.NativePtr, indexBufferOffset, instanceCount, baseVertex, baseInstance);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.Reset);
+    }
+    #endregion
+
+    #region Instance Methods - Methods
+
+    public void ClearBarrier()
+    {
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.ClearBarrier);
     }
 
     public void DrawMeshThreadgroups(MTLSize threadgroupsPerGrid, MTLSize threadsPerObjectThreadgroup, MTLSize threadsPerMeshThreadgroup)
@@ -34,21 +90,6 @@ public class MTLIndirectRenderCommand(nint nativePtr, NativeObjectOwnership owne
     public void DrawMeshThreads(MTLSize threadsPerGrid, MTLSize threadsPerObjectThreadgroup, MTLSize threadsPerMeshThreadgroup)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.DrawMeshThreads, threadsPerGrid, threadsPerObjectThreadgroup, threadsPerMeshThreadgroup);
-    }
-
-    public void DrawPatches(nuint numberOfPatchControlPoints, nuint patchStart, nuint patchCount, MTLBuffer patchIndexBuffer, nuint patchIndexBufferOffset, nuint instanceCount, nuint baseInstance, MTLBuffer buffer, nuint offset, nuint instanceStride)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.DrawPatches, numberOfPatchControlPoints, patchStart, patchCount, patchIndexBuffer.NativePtr, patchIndexBufferOffset, instanceCount, baseInstance, buffer.NativePtr, offset, instanceStride);
-    }
-
-    public void DrawPrimitives(MTLPrimitiveType primitiveType, nuint vertexStart, nuint vertexCount, nuint instanceCount, nuint baseInstance)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.DrawPrimitives, (nuint)primitiveType, vertexStart, vertexCount, instanceCount, baseInstance);
-    }
-
-    public void Reset()
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.Reset);
     }
 
     public void SetBarrier()
@@ -76,11 +117,6 @@ public class MTLIndirectRenderCommand(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetDepthStencilState, depthStencilState.NativePtr);
     }
 
-    public void SetFragmentBuffer(MTLBuffer buffer, nuint offset, nuint index)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetFragmentBuffer, buffer.NativePtr, offset, index);
-    }
-
     public void SetFrontFacingWinding(MTLWinding frontFacingWinding)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetFrontFacingWinding, (nuint)frontFacingWinding);
@@ -101,25 +137,11 @@ public class MTLIndirectRenderCommand(nint nativePtr, NativeObjectOwnership owne
         ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetObjectThreadgroupMemoryLength, length, index);
     }
 
-    public void SetRenderPipelineState(MTLRenderPipelineState pipelineState)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetRenderPipelineState, pipelineState.NativePtr);
-    }
-
     public void SetTriangleFillMode(MTLTriangleFillMode fillMode)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetTriangleFillMode, (nuint)fillMode);
     }
-
-    public void SetVertexBuffer(MTLBuffer buffer, nuint offset, nuint index)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetVertexBuffer, buffer.NativePtr, offset, index);
-    }
-
-    public void SetVertexBuffer(MTLBuffer buffer, nuint offset, nuint stride, nuint index)
-    {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectRenderCommandBindings.SetVertexBufferoffsetattributeStrideatIndex, buffer.NativePtr, offset, stride, index);
-    }
+    #endregion
 }
 
 file static class MTLIndirectRenderCommandBindings
@@ -164,7 +186,7 @@ file static class MTLIndirectRenderCommandBindings
 
     public static readonly Selector SetTriangleFillMode = "setTriangleFillMode:";
 
-    public static readonly Selector SetVertexBuffer = "setVertexBuffer:offset:atIndex:";
+    public static readonly Selector SetVertexBuffer = "setVertexBuffer:offset:attributeStride:atIndex:";
 
-    public static readonly Selector SetVertexBufferoffsetattributeStrideatIndex = "setVertexBuffer:offset:attributeStride:atIndex:";
+    public static readonly Selector SetVertexBufferoffsetatIndex = "setVertexBuffer:offset:atIndex:";
 }

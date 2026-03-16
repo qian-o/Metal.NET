@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>Base interface for describing a Metal 4 shader function.</summary>
 public class MTL4FunctionDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4FunctionDescriptor>
 {
     #region INativeObject

@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>A constant that specializes the behavior of a shader.</summary>
 public class MTLFunctionConstant(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionConstant>
 {
     #region INativeObject
@@ -15,25 +16,32 @@ public class MTLFunctionConstant(nint nativePtr, NativeObjectOwnership ownership
     {
     }
 
-    public nuint Index
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFunctionConstantBindings.Index);
-    }
+    #region Reading the function constant’s properties - Properties
 
+    /// <summary>The name of the function constant.</summary>
     public NSString Name
     {
         get => GetProperty(ref field, MTLFunctionConstantBindings.Name);
     }
 
-    public Bool8 Required
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLFunctionConstantBindings.Required);
-    }
-
+    /// <summary>The data type of the function constant.</summary>
     public MTLDataType Type
     {
         get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLFunctionConstantBindings.Type);
     }
+
+    /// <summary>The index of the function constant.</summary>
+    public nuint Index
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFunctionConstantBindings.Index);
+    }
+
+    /// <summary>A Boolean value indicating whether the function constant needs to be provided to specialize the function.</summary>
+    public Bool8 Required
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLFunctionConstantBindings.Required);
+    }
+    #endregion
 }
 
 file static class MTLFunctionConstantBindings

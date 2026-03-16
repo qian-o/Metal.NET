@@ -11,16 +11,11 @@ public class MTLTextureBinding(nint nativePtr, NativeObjectOwnership ownership) 
     }
     #endregion
 
+    #region Instance Properties - Properties
+
     public nuint ArrayLength
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureBindingBindings.ArrayLength);
-    }
-
-    /// <summary>Deprecated: please use isDepthTexture instead</summary>
-    [Obsolete("please use isDepthTexture instead")]
-    public Bool8 DepthTexture
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindingBindings.DepthTexture);
     }
 
     public Bool8 IsDepthTexture
@@ -36,6 +31,14 @@ public class MTLTextureBinding(nint nativePtr, NativeObjectOwnership ownership) 
     public MTLTextureType TextureType
     {
         get => (MTLTextureType)ObjectiveC.MsgSendULong(NativePtr, MTLTextureBindingBindings.TextureType);
+    }
+    #endregion
+
+    /// <summary>Deprecated: please use isDepthTexture instead</summary>
+    [Obsolete("please use isDepthTexture instead")]
+    public Bool8 DepthTexture
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureBindingBindings.DepthTexture);
     }
 }
 

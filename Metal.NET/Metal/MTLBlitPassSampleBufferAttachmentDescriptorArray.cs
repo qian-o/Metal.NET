@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>A container that stores an array of sample buffer attachments for a blit pass.</summary>
 public class MTLBlitPassSampleBufferAttachmentDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLBlitPassSampleBufferAttachmentDescriptorArray>
 {
     #region INativeObject

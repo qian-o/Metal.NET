@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>Describes bounding-box geometry suitable for ray tracing.</summary>
 public class MTL4AccelerationStructureBoundingBoxGeometryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4AccelerationStructureGeometryDescriptor(nativePtr, ownership), INativeObject<MTL4AccelerationStructureBoundingBoxGeometryDescriptor>
 {
     #region INativeObject
@@ -15,23 +16,29 @@ public class MTL4AccelerationStructureBoundingBoxGeometryDescriptor(nint nativeP
     {
     }
 
+    #region Instance Properties - Properties
+
+    /// <summary>References a buffer containing bounding box data in MTLAxisAlignedBoundingBoxes format.</summary>
     public MTL4BufferRange BoundingBoxBuffer
     {
         get => ObjectiveC.MsgSendMTL4BufferRange(NativePtr, MTL4AccelerationStructureBoundingBoxGeometryDescriptorBindings.BoundingBoxBuffer);
         set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBuffer, value);
     }
 
+    /// <summary>Describes the number of bounding boxes the boundingBoxBuffer contains.</summary>
     public nuint BoundingBoxCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4AccelerationStructureBoundingBoxGeometryDescriptorBindings.BoundingBoxCount);
         set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxCount, value);
     }
 
+    /// <summary>Assigns the stride, in bytes, between bounding boxes in the bounding box buffer boundingBoxBuffer references.</summary>
     public nuint BoundingBoxStride
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4AccelerationStructureBoundingBoxGeometryDescriptorBindings.BoundingBoxStride);
         set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxStride, value);
     }
+    #endregion
 }
 
 file static class MTL4AccelerationStructureBoundingBoxGeometryDescriptorBindings

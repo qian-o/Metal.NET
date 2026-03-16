@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>A static collection of objects associated with unique keys.</summary>
 public class NSDictionary(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSDictionary>
 {
     #region INativeObject

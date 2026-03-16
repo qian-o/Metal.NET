@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>Base class for Metal 4 acceleration structure descriptors.</summary>
 public class MTL4AccelerationStructureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLAccelerationStructureDescriptor(nativePtr, ownership), INativeObject<MTL4AccelerationStructureDescriptor>
 {
     #region INativeObject

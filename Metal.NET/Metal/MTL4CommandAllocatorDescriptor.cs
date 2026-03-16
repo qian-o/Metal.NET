@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>Groups together parameters for creating a command allocator.</summary>
 public class MTL4CommandAllocatorDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CommandAllocatorDescriptor>
 {
     #region INativeObject
@@ -15,11 +16,15 @@ public class MTL4CommandAllocatorDescriptor(nint nativePtr, NativeObjectOwnershi
     {
     }
 
+    #region Instance Properties - Properties
+
+    /// <summary>An optional label you can assign to the command allocator to aid debugging.</summary>
     public NSString Label
     {
         get => GetProperty(ref field, MTL4CommandAllocatorDescriptorBindings.Label);
         set => SetProperty(ref field, MTL4CommandAllocatorDescriptorBindings.SetLabel, value);
     }
+    #endregion
 }
 
 file static class MTL4CommandAllocatorDescriptorBindings

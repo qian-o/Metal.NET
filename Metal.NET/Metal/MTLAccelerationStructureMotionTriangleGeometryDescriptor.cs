@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>A description of a list of triangle primitives, as motion keyframe data, to turn into an acceleration structure.</summary>
 public class MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLAccelerationStructureGeometryDescriptor(nativePtr, ownership), INativeObject<MTLAccelerationStructureMotionTriangleGeometryDescriptor>
 {
     #region INativeObject
@@ -15,23 +16,58 @@ public class MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativ
     {
     }
 
+    #region Specifying the number of triangles - Properties
+
+    /// <summary>The number of triangles in the buffers.</summary>
+    public nuint TriangleCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.TriangleCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetTriangleCount, value);
+    }
+    #endregion
+
+    #region Specifying index data - Properties
+
+    /// <summary>A buffer that contains indices for the vertices that compose the triangle list.</summary>
     public MTLBuffer IndexBuffer
     {
         get => GetProperty(ref field, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.IndexBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetIndexBuffer, value);
     }
 
-    public nuint IndexBufferOffset
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.IndexBufferOffset);
-        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetIndexBufferOffset, value);
-    }
-
+    /// <summary>The data type of indices in the index buffer.</summary>
     public MTLIndexType IndexType
     {
         get => (MTLIndexType)ObjectiveC.MsgSendULong(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.IndexType);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetIndexType, (nuint)value);
     }
+
+    /// <summary>The offset, in bytes, to the first index in the buffer.</summary>
+    public nuint IndexBufferOffset
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.IndexBufferOffset);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetIndexBufferOffset, value);
+    }
+    #endregion
+
+    #region Specifying vertex data - Properties
+
+    /// <summary>An array of motion keyframes, each containing triangle data.</summary>
+    public MTLMotionKeyframeData[] VertexBuffers
+    {
+        get => GetArrayProperty<MTLMotionKeyframeData>(MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.VertexBuffers);
+        set => SetArrayProperty(MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetVertexBuffers, value);
+    }
+
+    /// <summary>The stride, in bytes, between vertices in each vertex buffer.</summary>
+    public nuint VertexStride
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.VertexStride);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetVertexStride, value);
+    }
+    #endregion
+
+    #region Instance Properties - Properties
 
     public MTLBuffer TransformationMatrixBuffer
     {
@@ -51,29 +87,12 @@ public class MTLAccelerationStructureMotionTriangleGeometryDescriptor(nint nativ
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetTransformationMatrixLayout, (nint)value);
     }
 
-    public nuint TriangleCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.TriangleCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetTriangleCount, value);
-    }
-
-    public MTLMotionKeyframeData[] VertexBuffers
-    {
-        get => GetArrayProperty<MTLMotionKeyframeData>(MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.VertexBuffers);
-        set => SetArrayProperty(MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetVertexBuffers, value);
-    }
-
     public MTLAttributeFormat VertexFormat
     {
         get => (MTLAttributeFormat)ObjectiveC.MsgSendULong(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.VertexFormat);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetVertexFormat, (nuint)value);
     }
-
-    public nuint VertexStride
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.VertexStride);
-        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionTriangleGeometryDescriptorBindings.SetVertexStride, value);
-    }
+    #endregion
 
     public static MTLAccelerationStructureMotionTriangleGeometryDescriptor Descriptor()
     {

@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>An array of attribute descriptor objects.</summary>
 public class MTLAttributeDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLAttributeDescriptorArray>
 {
     #region INativeObject

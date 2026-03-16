@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>Descriptions for the rasterization rates to apply to the set of layers in a rate map.</summary>
 public class MTLRasterizationRateLayerArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRasterizationRateLayerArray>
 {
     #region INativeObject

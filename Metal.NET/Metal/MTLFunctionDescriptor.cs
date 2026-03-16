@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>A description of a function object to create.</summary>
 public class MTLFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionDescriptor>
 {
     #region INativeObject
@@ -15,35 +16,43 @@ public class MTLFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownersh
     {
     }
 
-    public MTLBinaryArchive[] BinaryArchives
-    {
-        get => GetArrayProperty<MTLBinaryArchive>(MTLFunctionDescriptorBindings.BinaryArchives);
-        set => SetArrayProperty(MTLFunctionDescriptorBindings.SetBinaryArchives, value);
-    }
+    #region Specifying the function configuration - Properties
 
-    public MTLFunctionConstantValues ConstantValues
-    {
-        get => GetProperty(ref field, MTLFunctionDescriptorBindings.ConstantValues);
-        set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetConstantValues, value);
-    }
-
+    /// <summary>The name of the function to fetch from the library.</summary>
     public NSString Name
     {
         get => GetProperty(ref field, MTLFunctionDescriptorBindings.Name);
         set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetName, value);
     }
 
+    /// <summary>A new name for the created function object.</summary>
+    public NSString SpecializedName
+    {
+        get => GetProperty(ref field, MTLFunctionDescriptorBindings.SpecializedName);
+        set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetSpecializedName, value);
+    }
+
+    /// <summary>The set of constant values assigned to the function constants.</summary>
+    public MTLFunctionConstantValues ConstantValues
+    {
+        get => GetProperty(ref field, MTLFunctionDescriptorBindings.ConstantValues);
+        set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetConstantValues, value);
+    }
+
+    /// <summary>Flags specifying how Metal should create the new function object.</summary>
     public MTLFunctionOptions Options
     {
         get => (MTLFunctionOptions)ObjectiveC.MsgSendULong(NativePtr, MTLFunctionDescriptorBindings.Options);
         set => ObjectiveC.MsgSend(NativePtr, MTLFunctionDescriptorBindings.SetOptions, (nuint)value);
     }
 
-    public NSString SpecializedName
+    /// <summary>The binary archives to search for a previously-compiled version of this function.</summary>
+    public MTLBinaryArchive[] BinaryArchives
     {
-        get => GetProperty(ref field, MTLFunctionDescriptorBindings.SpecializedName);
-        set => SetProperty(ref field, MTLFunctionDescriptorBindings.SetSpecializedName, value);
+        get => GetArrayProperty<MTLBinaryArchive>(MTLFunctionDescriptorBindings.BinaryArchives);
+        set => SetArrayProperty(MTLFunctionDescriptorBindings.SetBinaryArchives, value);
     }
+    #endregion
 
     public static MTLFunctionDescriptor FunctionDescriptor()
     {

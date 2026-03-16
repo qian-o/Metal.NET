@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>An array of length matching the rank, holding the dimensions of a tensor.</summary>
 public class MTLTensorExtents(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTensorExtents>
 {
     #region INativeObject
@@ -15,10 +16,14 @@ public class MTLTensorExtents(nint nativePtr, NativeObjectOwnership ownership) :
     {
     }
 
+    #region Instance Properties - Properties
+
+    /// <summary>Obtains the rank of the tensor.</summary>
     public nuint Rank
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTensorExtentsBindings.Rank);
     }
+    #endregion
 
     public nint ExtentAtDimensionIndex(nuint dimensionIndex)
     {

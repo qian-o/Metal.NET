@@ -11,10 +11,14 @@ public class MTL4FXTemporalScaler(nint nativePtr, NativeObjectOwnership ownershi
     }
     #endregion
 
+    #region Instance Methods - Methods
+
+    /// <summary>Encode this spatial scaler work into a command buffer.</summary>
     public void EncodeToCommandBuffer(MTL4CommandBuffer pCommandBuffer)
     {
         ObjectiveC.MsgSend(NativePtr, MTL4FXTemporalScalerBindings.EncodeToCommandBuffer, pCommandBuffer.NativePtr);
     }
+    #endregion
 }
 
 file static class MTL4FXTemporalScalerBindings

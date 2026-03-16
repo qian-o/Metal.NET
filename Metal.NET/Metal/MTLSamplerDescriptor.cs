@@ -1,5 +1,6 @@
 ﻿namespace Metal.NET;
 
+/// <summary>An object that you use to configure a texture sampler.</summary>
 public class MTLSamplerDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLSamplerDescriptor>
 {
     #region INativeObject
@@ -15,107 +16,145 @@ public class MTLSamplerDescriptor(nint nativePtr, NativeObjectOwnership ownershi
     {
     }
 
-    public MTLSamplerBorderColor BorderColor
-    {
-        get => (MTLSamplerBorderColor)ObjectiveC.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.BorderColor);
-        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetBorderColor, (nuint)value);
-    }
+    #region Declaring the coordinate space - Properties
 
-    public MTLCompareFunction CompareFunction
-    {
-        get => (MTLCompareFunction)ObjectiveC.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.CompareFunction);
-        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetCompareFunction, (nuint)value);
-    }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLSamplerDescriptorBindings.Label);
-        set => SetProperty(ref field, MTLSamplerDescriptorBindings.SetLabel, value);
-    }
-
-    public Bool8 LodAverage
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLSamplerDescriptorBindings.LodAverage);
-        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetLodAverage, value);
-    }
-
-    public float LodBias
-    {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLSamplerDescriptorBindings.LodBias);
-        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetLodBias, value);
-    }
-
-    public float LodMaxClamp
-    {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLSamplerDescriptorBindings.LodMaxClamp);
-        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetLodMaxClamp, value);
-    }
-
-    public float LodMinClamp
-    {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLSamplerDescriptorBindings.LodMinClamp);
-        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetLodMinClamp, value);
-    }
-
-    public MTLSamplerMinMagFilter MagFilter
-    {
-        get => (MTLSamplerMinMagFilter)ObjectiveC.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.MagFilter);
-        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetMagFilter, (nuint)value);
-    }
-
-    public nuint MaxAnisotropy
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLSamplerDescriptorBindings.MaxAnisotropy);
-        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetMaxAnisotropy, value);
-    }
-
-    public MTLSamplerMinMagFilter MinFilter
-    {
-        get => (MTLSamplerMinMagFilter)ObjectiveC.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.MinFilter);
-        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetMinFilter, (nuint)value);
-    }
-
-    public MTLSamplerMipFilter MipFilter
-    {
-        get => (MTLSamplerMipFilter)ObjectiveC.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.MipFilter);
-        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetMipFilter, (nuint)value);
-    }
-
+    /// <summary>A Boolean value that indicates whether texture coordinates are normalized to the range [0.0, 1.0].</summary>
     public Bool8 NormalizedCoordinates
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLSamplerDescriptorBindings.NormalizedCoordinates);
         set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetNormalizedCoordinates, value);
     }
+    #endregion
 
+    #region Declaring addressing modes - Properties
+
+    /// <summary>The address mode for the texture depth (r) coordinate.</summary>
     public MTLSamplerAddressMode RAddressMode
     {
         get => (MTLSamplerAddressMode)ObjectiveC.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.RAddressMode);
         set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetRAddressMode, (nuint)value);
     }
 
-    public MTLSamplerReductionMode ReductionMode
-    {
-        get => (MTLSamplerReductionMode)ObjectiveC.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.ReductionMode);
-        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetReductionMode, (nuint)value);
-    }
-
+    /// <summary>The address mode for the texture width (s) coordinate.</summary>
     public MTLSamplerAddressMode SAddressMode
     {
         get => (MTLSamplerAddressMode)ObjectiveC.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.SAddressMode);
         set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetSAddressMode, (nuint)value);
     }
 
-    public Bool8 SupportArgumentBuffers
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLSamplerDescriptorBindings.SupportArgumentBuffers);
-        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetSupportArgumentBuffers, value);
-    }
-
+    /// <summary>The address mode for the texture height (t) coordinate.</summary>
     public MTLSamplerAddressMode TAddressMode
     {
         get => (MTLSamplerAddressMode)ObjectiveC.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.TAddressMode);
         set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetTAddressMode, (nuint)value);
     }
+
+    /// <summary>The border color for clamped texture values.</summary>
+    public MTLSamplerBorderColor BorderColor
+    {
+        get => (MTLSamplerBorderColor)ObjectiveC.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.BorderColor);
+        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetBorderColor, (nuint)value);
+    }
+    #endregion
+
+    #region Declaring filter modes - Properties
+
+    /// <summary>The filtering option for combining pixels within one mipmap level when the sample footprint is larger than a pixel (minification).</summary>
+    public MTLSamplerMinMagFilter MinFilter
+    {
+        get => (MTLSamplerMinMagFilter)ObjectiveC.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.MinFilter);
+        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetMinFilter, (nuint)value);
+    }
+
+    /// <summary>The filtering operation for combining pixels within one mipmap level when the sample footprint is smaller than a pixel (magnification).</summary>
+    public MTLSamplerMinMagFilter MagFilter
+    {
+        get => (MTLSamplerMinMagFilter)ObjectiveC.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.MagFilter);
+        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetMagFilter, (nuint)value);
+    }
+
+    /// <summary>The filtering option for combining pixels between two mipmap levels.</summary>
+    public MTLSamplerMipFilter MipFilter
+    {
+        get => (MTLSamplerMipFilter)ObjectiveC.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.MipFilter);
+        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetMipFilter, (nuint)value);
+    }
+
+    /// <summary>The minimum level of detail (LOD) to use when sampling from a texture.</summary>
+    public float LodMinClamp
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLSamplerDescriptorBindings.LodMinClamp);
+        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetLodMinClamp, value);
+    }
+
+    /// <summary>The maximum level of detail (LOD) to use when sampling from a texture.</summary>
+    public float LodMaxClamp
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLSamplerDescriptorBindings.LodMaxClamp);
+        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetLodMaxClamp, value);
+    }
+
+    /// <summary>A Boolean value that specifies whether the GPU can use an average level of detail (LOD) when sampling from a texture.</summary>
+    public Bool8 LodAverage
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLSamplerDescriptorBindings.LodAverage);
+        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetLodAverage, value);
+    }
+
+    /// <summary>The number of samples that can be taken to improve the quality of sample footprints that are anisotropic.</summary>
+    public nuint MaxAnisotropy
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLSamplerDescriptorBindings.MaxAnisotropy);
+        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetMaxAnisotropy, value);
+    }
+    #endregion
+
+    #region Declaring the depth comparison mode - Properties
+
+    /// <summary>The sampler comparison function used when performing a sample compare operation on a depth texture.</summary>
+    public MTLCompareFunction CompareFunction
+    {
+        get => (MTLCompareFunction)ObjectiveC.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.CompareFunction);
+        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetCompareFunction, (nuint)value);
+    }
+    #endregion
+
+    #region Declaring whether the sampler can be used in argument buffers - Properties
+
+    /// <summary>A Boolean value that indicates whether you can reference a sampler, that you make with this descriptor, by its resource ID from an argument buffer.</summary>
+    public Bool8 SupportArgumentBuffers
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLSamplerDescriptorBindings.SupportArgumentBuffers);
+        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetSupportArgumentBuffers, value);
+    }
+    #endregion
+
+    #region Identifying the sampler - Properties
+
+    /// <summary>A string that identifies the sampler.</summary>
+    public NSString Label
+    {
+        get => GetProperty(ref field, MTLSamplerDescriptorBindings.Label);
+        set => SetProperty(ref field, MTLSamplerDescriptorBindings.SetLabel, value);
+    }
+    #endregion
+
+    #region Instance Properties - Properties
+
+    /// <summary>Sets the level-of-detail (lod) bias when sampling from a texture.</summary>
+    public float LodBias
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLSamplerDescriptorBindings.LodBias);
+        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetLodBias, value);
+    }
+
+    /// <summary>Sets the reduction mode for filtering contributing samples.</summary>
+    public MTLSamplerReductionMode ReductionMode
+    {
+        get => (MTLSamplerReductionMode)ObjectiveC.MsgSendULong(NativePtr, MTLSamplerDescriptorBindings.ReductionMode);
+        set => ObjectiveC.MsgSend(NativePtr, MTLSamplerDescriptorBindings.SetReductionMode, (nuint)value);
+    }
+    #endregion
 }
 
 file static class MTLSamplerDescriptorBindings
