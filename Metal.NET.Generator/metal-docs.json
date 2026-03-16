@@ -1,4 +1,3568 @@
 ﻿{
+  "nsarray": {
+    "summary": "A static ordered collection of objects.",
+    "groups": [
+      {
+        "title": "Creating an Array",
+        "members": [
+          {
+            "name": "init(object:)",
+            "summary": "Creates and returns an array containing a given object."
+          },
+          {
+            "name": "init(objects:count:)-7dct1",
+            "summary": "Creates and returns an array that includes a given number of objects from a given C array."
+          }
+        ]
+      },
+      {
+        "title": "Initializing an Array",
+        "members": [
+          {
+            "name": "init()",
+            "summary": "Initializes a newly allocated array."
+          },
+          {
+            "name": "init(array:)-o72h",
+            "summary": "Initializes a newly allocated array by placing in it the objects contained in a given array."
+          },
+          {
+            "name": "init(array:copyItems:)",
+            "summary": "Initializes a newly allocated array using anArray as the source of data objects for the array."
+          },
+          {
+            "name": "init(contentsOfFile:)",
+            "summary": "Initializes a newly allocated array with the contents of the file specified by a given path."
+          },
+          {
+            "name": "init(objects:count:)-5odxv",
+            "summary": "Initializes a newly allocated array to include a given number of objects from a given C array."
+          }
+        ]
+      },
+      {
+        "title": "Querying an Array",
+        "members": [
+          {
+            "name": "contains(_:)",
+            "summary": "Returns a Boolean value that indicates whether a given object is present in the array."
+          },
+          {
+            "name": "count",
+            "summary": "The number of objects in the array."
+          },
+          {
+            "name": "firstObject",
+            "summary": "The first object in the array."
+          },
+          {
+            "name": "lastObject",
+            "summary": "The last object in the array."
+          },
+          {
+            "name": "object(at:)",
+            "summary": "Returns the object located at the specified index."
+          },
+          {
+            "name": "subscript(_:)",
+            "summary": "Returns the object at the specified index."
+          },
+          {
+            "name": "objects(at:)",
+            "summary": "Returns an array containing the objects in the array at the indexes specified by a given index set."
+          },
+          {
+            "name": "objectEnumerator()",
+            "summary": "Returns an enumerator object that lets you access each object in the array."
+          },
+          {
+            "name": "reverseObjectEnumerator()",
+            "summary": "Returns an enumerator object that lets you access each object in the array, in reverse order."
+          }
+        ]
+      },
+      {
+        "title": "Finding Objects in an Array",
+        "members": [
+          {
+            "name": "index(of:)",
+            "summary": "Returns the lowest index whose corresponding array value is equal to a given object."
+          },
+          {
+            "name": "index(of:in:)",
+            "summary": "Returns the lowest index within a specified range whose corresponding array value is equal to a given object ."
+          },
+          {
+            "name": "indexOfObjectIdentical(to:)",
+            "summary": "Returns the lowest index whose corresponding array value is identical to a given object."
+          },
+          {
+            "name": "indexOfObjectIdentical(to:in:)",
+            "summary": "Returns the lowest index within a specified range whose corresponding array value is equal to a given object ."
+          },
+          {
+            "name": "indexOfObject(passingTest:)",
+            "summary": "Returns the index of the first object in the array that passes a test in a given block."
+          },
+          {
+            "name": "indexOfObject(options:passingTest:)",
+            "summary": "Returns the index of an object in the array that passes a test in a given block for a given set of enumeration options."
+          },
+          {
+            "name": "indexOfObject(at:options:passingTest:)",
+            "summary": "Returns the index, from a given set of indexes, of the first object in the array that passes a test in a given block for a given set of enumeration options."
+          },
+          {
+            "name": "indexesOfObjects(passingTest:)",
+            "summary": "Returns the indexes of objects in the array that pass a test in a given block."
+          },
+          {
+            "name": "indexesOfObjects(options:passingTest:)",
+            "summary": "Returns the indexes of objects in the array that pass a test in a given block for a given set of enumeration options."
+          },
+          {
+            "name": "indexesOfObjects(at:options:passingTest:)",
+            "summary": "Returns the indexes, from a given set of indexes, of objects in the array that pass a test in a given block for a given set of enumeration options."
+          },
+          {
+            "name": "index(of:inSortedRange:options:usingComparator:)",
+            "summary": "Returns the index, within a specified range, of an object compared with elements in the array using a given NSComparator block."
+          }
+        ]
+      },
+      {
+        "title": "Sending Messages to Elements",
+        "members": [
+          {
+            "name": "enumerateObjects(_:)",
+            "summary": "Executes a given closure or block using each object in the array, starting with the first object and continuing through the array to the last object."
+          },
+          {
+            "name": "enumerateObjects(options:using:)",
+            "summary": "Executes a given closure or block using each object in the array with the specified options."
+          },
+          {
+            "name": "enumerateObjects(at:options:using:)",
+            "summary": "Executes a given block using the objects in the array at the specified indexes."
+          }
+        ]
+      },
+      {
+        "title": "Comparing Arrays",
+        "members": [
+          {
+            "name": "firstObjectCommon(with:)",
+            "summary": "Returns the first object contained in the receiving array that’s equal to an object in another given array."
+          },
+          {
+            "name": "isEqual(to:)",
+            "summary": "Compares the receiving array to another array."
+          }
+        ]
+      },
+      {
+        "title": "Deriving New Arrays",
+        "members": [
+          {
+            "name": "adding(_:)",
+            "summary": "Returns a new array that is a copy of the receiving array with a given object added to the end."
+          },
+          {
+            "name": "addingObjects(from:)",
+            "summary": "Returns a new array that is a copy of the receiving array with the objects contained in another array added to the end."
+          },
+          {
+            "name": "filtered(using:)",
+            "summary": "Evaluates a given predicate against each object in the receiving array and returns a new array containing the objects for which the predicate returns true."
+          },
+          {
+            "name": "subarray(with:)",
+            "summary": "Returns a new array containing the receiving array’s elements that fall within the limits specified by a given range."
+          }
+        ]
+      },
+      {
+        "title": "Sorting",
+        "members": [
+          {
+            "name": "sortedArrayHint",
+            "summary": "Analyzes the array and returns a “hint” that speeds the sorting of the array when the hint is supplied to ."
+          },
+          {
+            "name": "sortedArray(_:context:)",
+            "summary": "Returns a new array that lists the receiving array’s elements in ascending order as defined by the comparison function comparator."
+          },
+          {
+            "name": "sortedArray(_:context:hint:)",
+            "summary": "Returns a new array that lists the receiving array’s elements in ascending order as defined by the comparison function comparator."
+          },
+          {
+            "name": "sortedArray(using:)-82wi1",
+            "summary": "Returns a copy of the receiving array sorted as specified by a given array of sort descriptors."
+          },
+          {
+            "name": "sortedArray(using:)-9nhh9",
+            "summary": "Returns an array that lists the receiving array’s elements in ascending order, as determined by the comparison method specified by a given selector."
+          },
+          {
+            "name": "sortedArray(comparator:)",
+            "summary": "Returns an array that lists the receiving array’s elements in ascending order, as determined by the comparison method specified by a given NSComparator block."
+          },
+          {
+            "name": "sortedArray(options:usingComparator:)",
+            "summary": "Returns an array that lists the receiving array’s elements in ascending order, as determined by the comparison method specified by a given NSComparator block."
+          }
+        ]
+      },
+      {
+        "title": "Working with String Elements",
+        "members": [
+          {
+            "name": "componentsJoined(by:)",
+            "summary": "Constructs and returns an NSString object that is the result of interposing a given separator between the elements of the array."
+          }
+        ]
+      },
+      {
+        "title": "Creating a Description",
+        "members": [
+          {
+            "name": "description",
+            "summary": "A string that represents the contents of the array, formatted as a property list."
+          },
+          {
+            "name": "description(withLocale:)",
+            "summary": "Returns a string that represents the contents of the array, formatted as a property list."
+          },
+          {
+            "name": "description(withLocale:indent:)",
+            "summary": "Returns a string that represents the contents of the array, formatted as a property list."
+          }
+        ]
+      },
+      {
+        "title": "Storing Arrays",
+        "members": [
+          {
+            "name": "write(toFile:atomically:)",
+            "summary": "Writes the contents of the array to a file at a given path."
+          },
+          {
+            "name": "write(to:atomically:)",
+            "summary": "Writes the contents of the array to the location specified by a given URL."
+          }
+        ]
+      },
+      {
+        "title": "Collecting Paths",
+        "members": [
+          {
+            "name": "pathsMatchingExtensions(_:)",
+            "summary": "Returns an array containing all the pathname elements in the receiving array that have filename extensions from a given array."
+          }
+        ]
+      },
+      {
+        "title": "Key-Value Observing",
+        "members": [
+          {
+            "name": "addObserver(_:forKeyPath:options:context:)",
+            "summary": "Raises an exception."
+          },
+          {
+            "name": "removeObserver(_:forKeyPath:)",
+            "summary": "Raises an exception."
+          },
+          {
+            "name": "removeObserver(_:forKeyPath:context:)",
+            "summary": "Raises an exception."
+          },
+          {
+            "name": "removeObserver(_:fromObjectsAt:forKeyPath:context:)",
+            "summary": "Raises an exception."
+          },
+          {
+            "name": "addObserver(_:toObjectsAt:forKeyPath:options:context:)",
+            "summary": "Registers an observer to receive key value observer notifications for the specified key-path relative to the objects at the indexes."
+          },
+          {
+            "name": "removeObserver(_:fromObjectsAt:forKeyPath:)",
+            "summary": "Removes anObserver from all key value observer notifications associated with the specified keyPath relative to the array’s objects at indexes."
+          }
+        ]
+      },
+      {
+        "title": "Key-Value Coding",
+        "members": [
+          {
+            "name": "setValue(_:forKey:)",
+            "summary": "Invokes  on each of the array’s items using the specified value and key."
+          },
+          {
+            "name": "value(forKey:)",
+            "summary": "Returns an array containing the results of invoking  using key on each of the array’s objects."
+          }
+        ]
+      },
+      {
+        "title": "Randomly Shuffling an Array",
+        "members": [
+          {
+            "name": "shuffled()",
+            "summary": "Returns a new array that lists this array’s elements in a random order."
+          },
+          {
+            "name": "shuffled(using:)",
+            "summary": "Returns a new array that lists this array’s elements in a random order, using the specified random source."
+          }
+        ]
+      },
+      {
+        "title": "New Methods",
+        "members": [
+          {
+            "name": "init(coder:)"
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(array:)-9rh7",
+            "summary": "Initializes a newly allocated array by placing in it the objects contained in a given array."
+          },
+          {
+            "name": "init(contentsOf:)"
+          },
+          {
+            "name": "init(contentsOf:error:)"
+          },
+          {
+            "name": "init(objects:)"
+          }
+        ]
+      },
+      {
+        "title": "Instance Methods",
+        "members": [
+          {
+            "name": "write(to:)"
+          }
+        ]
+      },
+      {
+        "title": "Default Implementations",
+        "members": [
+          {
+            "name": "ExpressibleByArrayLiteral-Implementations"
+          },
+          {
+            "name": "NSArray-Implementations"
+          },
+          {
+            "name": "Sequence-Implementations"
+          }
+        ]
+      }
+    ]
+  },
+  "nsautoreleasepool": {
+    "summary": "An object that supports Cocoa’s reference-counted memory management system.",
+    "groups": [
+      {
+        "title": "Managing a Pool",
+        "members": [
+          {
+            "name": "drain",
+            "summary": "In a reference-counted environment, releases and pops the receiver; in a garbage-collected environment, triggers garbage collection if the memory allocated since the last collection is greater than the current threshold."
+          }
+        ]
+      },
+      {
+        "title": "Adding an Object to a Pool",
+        "members": [
+          {
+            "name": "addObject:-c.type.method",
+            "summary": "Adds a given object to the active autorelease pool in the current thread."
+          },
+          {
+            "name": "addObject:-c.method",
+            "summary": "Adds a given object to the receiver"
+          }
+        ]
+      },
+      {
+        "title": "Debugging",
+        "members": [
+          {
+            "name": "showPools",
+            "summary": "Displays the state of the current thread’s autorelease pool stack to stderr."
+          }
+        ]
+      }
+    ]
+  },
+  "nsbundle": {
+    "summary": "A representation of the code and resources stored in a bundle directory on disk.",
+    "groups": [
+      {
+        "title": "Getting Standard Bundle Objects",
+        "members": [
+          {
+            "name": "main",
+            "summary": "Returns the bundle object that contains the current executable."
+          },
+          {
+            "name": "allFrameworks",
+            "summary": "Returns an array of all of the application’s bundles that represent frameworks."
+          },
+          {
+            "name": "allBundles",
+            "summary": "Returns an array of all the application’s non-framework bundles."
+          }
+        ]
+      },
+      {
+        "title": "Creating and Initializing a Bundle",
+        "members": [
+          {
+            "name": "init(for:)",
+            "summary": "Returns the NSBundle object with which the specified class is associated."
+          },
+          {
+            "name": "init(identifier:)",
+            "summary": "Returns the NSBundle instance that has the specified bundle identifier."
+          },
+          {
+            "name": "init(url:)",
+            "summary": "Returns an NSBundle object initialized to correspond to the specified file URL."
+          },
+          {
+            "name": "init(path:)",
+            "summary": "Returns an NSBundle object initialized to correspond to the specified directory."
+          }
+        ]
+      },
+      {
+        "title": "Loading Nib Files",
+        "members": [
+          {
+            "name": "loadNibNamed(_:owner:options:)",
+            "summary": "Unarchives the contents of a nib file located in the receiver’s bundle."
+          },
+          {
+            "name": "loadNibNamed(_:owner:topLevelObjects:)",
+            "summary": "Loads a nib from the bundle with the specified file name and owner."
+          }
+        ]
+      },
+      {
+        "title": "Finding Resource Files",
+        "members": [
+          {
+            "name": "url(forResource:withExtension:subdirectory:)",
+            "summary": "Returns the file URL for the resource file identified by the specified name and extension and residing in a given bundle directory."
+          },
+          {
+            "name": "url(forResource:withExtension:)",
+            "summary": "Returns the file URL for the resource identified by the specified name and file extension."
+          },
+          {
+            "name": "urls(forResourcesWithExtension:subdirectory:)",
+            "summary": "Returns an array of file URLs for all resources identified by the specified file extension and located in the specified bundle subdirectory."
+          },
+          {
+            "name": "url(forResource:withExtension:subdirectory:localization:)",
+            "summary": "Returns the file URL for the resource identified by the specified name and file extension, located in the specified bundle subdirectory, and limited to global resources and those associated with the specified localization."
+          },
+          {
+            "name": "urls(forResourcesWithExtension:subdirectory:localization:)",
+            "summary": "Returns an array containing the file URLs for all bundle resources having the specified filename extension, residing in the specified resource subdirectory, and limited to global resources and those associated with the specified localization."
+          },
+          {
+            "name": "url(forResource:withExtension:subdirectory:in:)",
+            "summary": "Creates and returns a file URL for the resource with the specified name and extension in the specified bundle."
+          },
+          {
+            "name": "urls(forResourcesWithExtension:subdirectory:in:)",
+            "summary": "Returns an array containing the file URLs for all bundle resources having the specified filename extension, residing in the specified resource subdirectory, within the specified bundle."
+          },
+          {
+            "name": "path(forResource:ofType:)",
+            "summary": "Returns the full pathname for the resource identified by the specified name and file extension."
+          },
+          {
+            "name": "path(forResource:ofType:inDirectory:)-swift.method",
+            "summary": "Returns the full pathname for the resource identified by the specified name and file extension and located in the specified bundle subdirectory."
+          },
+          {
+            "name": "path(forResource:ofType:inDirectory:forLocalization:)",
+            "summary": "Returns the full pathname for the resource identified by the specified name and file extension, located in the specified bundle subdirectory, and limited to global resources and those associated with the specified localization."
+          },
+          {
+            "name": "paths(forResourcesOfType:inDirectory:)-swift.method",
+            "summary": "Returns an array containing the pathnames for all bundle resources having the specified filename extension and residing in the resource subdirectory."
+          },
+          {
+            "name": "paths(forResourcesOfType:inDirectory:forLocalization:)",
+            "summary": "Returns an array containing the file for all bundle resources having the specified filename extension, residing in the specified resource subdirectory, and limited to global resources and those associated with the specified localization."
+          },
+          {
+            "name": "path(forResource:ofType:inDirectory:)-swift.type.method",
+            "summary": "Returns the full pathname for the resource file identified by the specified name and extension and residing in a given bundle directory."
+          },
+          {
+            "name": "paths(forResourcesOfType:inDirectory:)-swift.type.method",
+            "summary": "Returns an array containing the pathnames for all bundle resources having the specified extension and residing in the bundle directory at the specified path."
+          }
+        ]
+      },
+      {
+        "title": "Finding Image Resources",
+        "members": [
+          {
+            "name": "urlForImageResource(_:)",
+            "summary": "Returns the location of the specified image resource as an NSURL."
+          },
+          {
+            "name": "pathForImageResource(_:)",
+            "summary": "Returns the location of the specified image resource file."
+          },
+          {
+            "name": "image(forResource:)",
+            "summary": "Returns an NSImage instance associated with the specified name, which can be backed by multiple files representing different resolution versions of the image."
+          }
+        ]
+      },
+      {
+        "title": "Finding Sound Resources",
+        "members": [
+          {
+            "name": "path(forSoundResource:)",
+            "summary": "Returns the location of the specified sound resource file."
+          }
+        ]
+      },
+      {
+        "title": "Fetching Localized Strings",
+        "members": [
+          {
+            "name": "localizedString(forKey:value:table:)",
+            "summary": "Returns a localized version of the string designated by the specified key and residing in the specified table."
+          }
+        ]
+      },
+      {
+        "title": "Fetching Context Help Resources",
+        "members": [
+          {
+            "name": "contextHelp(forKey:)",
+            "summary": "Returns the context-sensitive help for the specified key from the bundle’s help file."
+          }
+        ]
+      },
+      {
+        "title": "Getting the Standard Bundle Directories",
+        "members": [
+          {
+            "name": "resourceURL",
+            "summary": "The file URL of the bundle’s subdirectory containing resource files."
+          },
+          {
+            "name": "executableURL",
+            "summary": "The file URL of the receiver’s executable file."
+          },
+          {
+            "name": "privateFrameworksURL",
+            "summary": "The file URL of the bundle’s subdirectory containing private frameworks."
+          },
+          {
+            "name": "sharedFrameworksURL",
+            "summary": "The file URL of the receiver’s subdirectory containing shared frameworks."
+          },
+          {
+            "name": "builtInPlugInsURL",
+            "summary": "The file URL of the receiver’s subdirectory containing plug-ins."
+          },
+          {
+            "name": "url(forAuxiliaryExecutable:)",
+            "summary": "Returns the file URL of the executable with the specified name in the receiver’s bundle."
+          },
+          {
+            "name": "sharedSupportURL",
+            "summary": "The file URL of the bundle’s subdirectory containing shared support files."
+          },
+          {
+            "name": "appStoreReceiptURL",
+            "summary": "The file URL for the bundle’s App Store receipt.",
+            "deprecated": true,
+            "deprecatedMessage": "Use AppTransaction.shared and Transaction.all from StoreKit.framework instead"
+          },
+          {
+            "name": "resourcePath",
+            "summary": "The full pathname of the bundle’s subdirectory containing resources."
+          },
+          {
+            "name": "executablePath",
+            "summary": "The full pathname of the receiver’s executable file."
+          },
+          {
+            "name": "privateFrameworksPath",
+            "summary": "The full pathname of the bundle’s subdirectory containing private frameworks."
+          },
+          {
+            "name": "sharedFrameworksPath",
+            "summary": "The full pathname of the bundle’s subdirectory containing shared frameworks."
+          },
+          {
+            "name": "builtInPlugInsPath",
+            "summary": "The full pathname of the receiver’s subdirectory containing plug-ins."
+          },
+          {
+            "name": "path(forAuxiliaryExecutable:)",
+            "summary": "Returns the full pathname of the executable with the specified name in the receiver’s bundle."
+          },
+          {
+            "name": "sharedSupportPath",
+            "summary": "The full pathname of the bundle’s subdirectory containing shared support files."
+          }
+        ]
+      },
+      {
+        "title": "Getting Bundle Information",
+        "members": [
+          {
+            "name": "bundleURL",
+            "summary": "The full URL of the receiver’s bundle directory."
+          },
+          {
+            "name": "bundlePath",
+            "summary": "The full pathname of the receiver’s bundle directory."
+          },
+          {
+            "name": "bundleIdentifier",
+            "summary": "The receiver’s bundle identifier."
+          },
+          {
+            "name": "infoDictionary",
+            "summary": "A dictionary, constructed from the bundle’s Info.plist file, that contains information about the receiver."
+          },
+          {
+            "name": "object(forInfoDictionaryKey:)",
+            "summary": "Returns the value associated with the specified key in the receiver’s information property list."
+          }
+        ]
+      },
+      {
+        "title": "Getting Localization Information",
+        "members": [
+          {
+            "name": "localizations",
+            "summary": "A list of all the localizations contained in the bundle."
+          },
+          {
+            "name": "preferredLocalizations",
+            "summary": "An ordered list of preferred localizations contained in the bundle."
+          },
+          {
+            "name": "developmentLocalization",
+            "summary": "The localization for the development language."
+          },
+          {
+            "name": "localizedInfoDictionary",
+            "summary": "A dictionary with the keys from the bundle’s localized property list."
+          },
+          {
+            "name": "preferredLocalizations(from:)",
+            "summary": "Returns one or more localizations from the specified list that a bundle object would use to locate resources for the current user."
+          },
+          {
+            "name": "preferredLocalizations(from:forPreferences:)",
+            "summary": "Returns locale identifiers for which a bundle would provide localized content, given a specified list of candidates for a user’s language preferences."
+          }
+        ]
+      },
+      {
+        "title": "Managing Preservation Priority for On Demand Resources",
+        "members": [
+          {
+            "name": "setPreservationPriority(_:forTags:)",
+            "summary": "A hint to the system of the relative order for purging tagged sets of resources in the bundle."
+          },
+          {
+            "name": "preservationPriority(forTag:)",
+            "summary": "Returns the current preservation priority for the specified tag."
+          }
+        ]
+      },
+      {
+        "title": "Getting Classes from a Bundle",
+        "members": [
+          {
+            "name": "classNamed(_:)",
+            "summary": "Returns the Class object for the specified name."
+          },
+          {
+            "name": "principalClass",
+            "summary": "The bundle’s principal class."
+          },
+          {
+            "name": "didLoadNotification",
+            "summary": "A notification that lets observers know when classes are dynamically loaded."
+          }
+        ]
+      },
+      {
+        "title": "Loading Code from a Bundle",
+        "members": [
+          {
+            "name": "executableArchitectures",
+            "summary": "An array of numbers indicating the architecture types supported by the bundle’s executable."
+          },
+          {
+            "name": "preflight()",
+            "summary": "Returns a Boolean value indicating whether the bundle’s executable code could be loaded successfully."
+          },
+          {
+            "name": "load()",
+            "summary": "Dynamically loads the bundle’s executable code into a running program, if the code has not already been loaded."
+          },
+          {
+            "name": "loadAndReturnError()",
+            "summary": "Loads the bundle’s executable code and returns any errors."
+          },
+          {
+            "name": "unload()",
+            "summary": "Unloads the code associated with the receiver."
+          },
+          {
+            "name": "isLoaded",
+            "summary": "The load status of a bundle."
+          }
+        ]
+      },
+      {
+        "title": "Structures",
+        "members": [
+          {
+            "name": "DidLoadMessage"
+          }
+        ]
+      },
+      {
+        "title": "Instance Methods",
+        "members": [
+          {
+            "name": "loadAppleScriptObjectiveCScripts()"
+          },
+          {
+            "name": "localizedString(forKey:value:table:localizations:)",
+            "summary": "Look up a localized string given a list of available languages."
+          }
+        ]
+      }
+    ]
+  },
+  "nsdate": {
+    "summary": "A representation of a specific point in time, independent of any calendar or time zone.",
+    "groups": [
+      {
+        "title": "Initializing a Date",
+        "members": [
+          {
+            "name": "init()",
+            "summary": "Returns a date object initialized to the current date and time."
+          },
+          {
+            "name": "init(timeIntervalSinceNow:)",
+            "summary": "Returns a date object initialized relative to the current date and time by a given number of seconds."
+          },
+          {
+            "name": "init(timeIntervalSinceReferenceDate:)",
+            "summary": "Returns a date object initialized relative to 00:00:00 UTC on 1 January 2001 by a given number of seconds."
+          },
+          {
+            "name": "init(timeIntervalSince1970:)",
+            "summary": "Returns a date object initialized relative to 00:00:00 UTC on 1 January 1970 by a given number of seconds."
+          },
+          {
+            "name": "init(coder:)",
+            "summary": "Returns a date object initialized from data in the given unarchiver."
+          }
+        ]
+      },
+      {
+        "title": "Getting Temporal Boundaries",
+        "members": [
+          {
+            "name": "distantFuture",
+            "summary": "A date object representing a date in the distant future."
+          },
+          {
+            "name": "distantPast",
+            "summary": "A date object representing a date in the distant past."
+          }
+        ]
+      },
+      {
+        "title": "Retrieving the Current Date",
+        "members": [
+          {
+            "name": "now",
+            "summary": "The current date and time, as of the time of access."
+          }
+        ]
+      },
+      {
+        "title": "Comparing Dates",
+        "members": [
+          {
+            "name": "isEqual(to:)",
+            "summary": "Returns a Boolean value that indicates whether a given object is a date that is exactly equal the receiver."
+          },
+          {
+            "name": "earlierDate(_:)",
+            "summary": "Returns the earlier of the receiver and another given date."
+          },
+          {
+            "name": "laterDate(_:)",
+            "summary": "Returns the later of the receiver and another given date."
+          },
+          {
+            "name": "compare(_:)",
+            "summary": "Indicates the temporal ordering of the receiver and another given date."
+          }
+        ]
+      },
+      {
+        "title": "Getting Time Intervals",
+        "members": [
+          {
+            "name": "timeIntervalSince(_:)",
+            "summary": "Returns the interval between the receiver and another given date."
+          },
+          {
+            "name": "timeIntervalSinceNow",
+            "summary": "The interval between the date object and the current date and time."
+          },
+          {
+            "name": "timeIntervalSinceReferenceDate-swift.property",
+            "summary": "The interval between the date object and 00:00:00 UTC on 1 January 2001."
+          },
+          {
+            "name": "timeIntervalSince1970",
+            "summary": "The interval between the date object and 00:00:00 UTC on 1 January 1970."
+          },
+          {
+            "name": "timeIntervalSinceReferenceDate-swift.type.property",
+            "summary": "The interval between 00:00:00 UTC on 1 January 2001 and the current date and time."
+          }
+        ]
+      },
+      {
+        "title": "Adding Time Intervals",
+        "members": [
+          {
+            "name": "addingTimeInterval(_:)",
+            "summary": "Returns a new date object that is set to a given number of seconds relative to the receiver."
+          }
+        ]
+      },
+      {
+        "title": "Describing Dates",
+        "members": [
+          {
+            "name": "description",
+            "summary": "A string representation of the date object."
+          },
+          {
+            "name": "description(with:)",
+            "summary": "Returns a string representation of the date using the given locale."
+          },
+          {
+            "name": "customPlaygroundQuickLook",
+            "summary": "A custom playground Quick Look for this object.",
+            "deprecated": true,
+            "deprecatedMessage": "NSDate.customPlaygroundQuickLook will be removed in a future Swift version"
+          }
+        ]
+      },
+      {
+        "title": "Legacy Operations",
+        "members": [
+          {
+            "name": "date(withNaturalLanguageString:)",
+            "summary": "Creates and returns a date object set to the date and time specified by a given string.",
+            "deprecated": true
+          },
+          {
+            "name": "date(withNaturalLanguageString:locale:)",
+            "summary": "Creates and returns a date object set to the date and time specified by a given string.",
+            "deprecated": true
+          },
+          {
+            "name": "date(with:)",
+            "summary": "Creates and returns a date object with a date and time value specified by a given string in the international string representation format (YYYY-MM-DD HH:MM:SS ±HHMM).",
+            "deprecated": true
+          },
+          {
+            "name": "init(string:)",
+            "summary": "Returns a date object initialized with a date and time value specified by a given string in the international string representation format.",
+            "deprecated": true
+          },
+          {
+            "name": "addTimeInterval(_:)",
+            "summary": "Returns a new date object that is set to a given number of seconds relative to the receiver.",
+            "deprecated": true
+          },
+          {
+            "name": "date(withCalendarFormat:timeZone:)",
+            "summary": "Converts the receiver to a calendar date with a given format string and time zone.",
+            "deprecated": true
+          },
+          {
+            "name": "description(withCalendarFormat:timeZone:locale:)",
+            "summary": "Returns a string representation of the date formatted as specified by given conversion specifiers.",
+            "deprecated": true
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(SRAbsoluteTime:)-886t8"
+          },
+          {
+            "name": "init(SRAbsoluteTime:)-9wpl1"
+          },
+          {
+            "name": "init(timeInterval:since:)"
+          }
+        ]
+      },
+      {
+        "title": "Instance Properties",
+        "members": [
+          {
+            "name": "srAbsoluteTime"
+          }
+        ]
+      },
+      {
+        "title": "Default Implementations",
+        "members": [
+          {
+            "name": "NSDate-Implementations"
+          }
+        ]
+      }
+    ]
+  },
+  "nsdictionary": {
+    "summary": "A static collection of objects associated with unique keys.",
+    "groups": [
+      {
+        "title": "Creating an Empty Dictionary",
+        "members": [
+          {
+            "name": "init()",
+            "summary": "Initializes a newly allocated dictionary."
+          }
+        ]
+      },
+      {
+        "title": "Creating a Dictionary from Objects and Keys",
+        "members": [
+          {
+            "name": "init(objects:forKeys:)",
+            "summary": "Initializes a newly allocated dictionary with key-value pairs constructed from the provided arrays of keys and objects."
+          },
+          {
+            "name": "init(objects:forKeys:count:)",
+            "summary": "Initializes a newly allocated dictionary with the specified number of key-value pairs constructed from the provided C arrays of keys and objects."
+          },
+          {
+            "name": "init(object:forKey:)",
+            "summary": "Creates a dictionary containing a given key and value."
+          }
+        ]
+      },
+      {
+        "title": "Creating a Dictionary from Another Dictionary",
+        "members": [
+          {
+            "name": "init(dictionary:)-9fw1u",
+            "summary": "Initializes a newly allocated dictionary by placing in it the keys and values contained in another given dictionary."
+          },
+          {
+            "name": "init(dictionary:copyItems:)",
+            "summary": "Initializes a newly allocated dictionary using the objects contained in another given dictionary."
+          }
+        ]
+      },
+      {
+        "title": "Creating a Dictionary from an External Source",
+        "members": [
+          {
+            "name": "init(contentsOfURL:error:)",
+            "summary": "Initializes a newly allocated dictionary using the keys and values found at a given URL."
+          },
+          {
+            "name": "init(contentsOfFile:)",
+            "summary": "Initializes a newly allocated dictionary using the keys and values found in a file at a given path."
+          }
+        ]
+      },
+      {
+        "title": "Creating a Dictionary from an NSCoder",
+        "members": [
+          {
+            "name": "init(coder:)",
+            "summary": "Creates a dictionary initialized from data in the provided unarchiver."
+          }
+        ]
+      },
+      {
+        "title": "Creating Key Sets for Shared-Key Optimized Dictionaries",
+        "members": [
+          {
+            "name": "sharedKeySet(forKeys:)",
+            "summary": "Creates a shared key set object for the specified keys."
+          }
+        ]
+      },
+      {
+        "title": "Counting Entries",
+        "members": [
+          {
+            "name": "count",
+            "summary": "The number of entries in the dictionary."
+          }
+        ]
+      },
+      {
+        "title": "Comparing Dictionaries",
+        "members": [
+          {
+            "name": "isEqual(to:)",
+            "summary": "Returns a Boolean value that indicates whether the contents of the receiving dictionary are equal to the contents of another given dictionary."
+          }
+        ]
+      },
+      {
+        "title": "Accessing Keys and Values",
+        "members": [
+          {
+            "name": "allKeys",
+            "summary": "A new array containing the dictionary’s keys, or an empty array if the dictionary has no entries."
+          },
+          {
+            "name": "allKeys(for:)",
+            "summary": "Returns a new array containing the keys corresponding to all occurrences of a given object in the dictionary."
+          },
+          {
+            "name": "allValues",
+            "summary": "A new array containing the dictionary’s values, or an empty array if the dictionary has no entries."
+          },
+          {
+            "name": "value(forKey:)",
+            "summary": "Returns the value associated with a given key."
+          },
+          {
+            "name": "objects(forKeys:notFoundMarker:)",
+            "summary": "Returns as a static array the set of objects from the dictionary that corresponds to the specified keys."
+          },
+          {
+            "name": "object(forKey:)",
+            "summary": "Returns the value associated with a given key."
+          },
+          {
+            "name": "subscript(_:)-52n56",
+            "summary": "Returns the value associated with a given key."
+          },
+          {
+            "name": "subscript(_:)-1bt1b",
+            "summary": "Accesses the value associated with a given key."
+          }
+        ]
+      },
+      {
+        "title": "Enumerating Dictionaries",
+        "members": [
+          {
+            "name": "keyEnumerator()",
+            "summary": "Provides an enumerator to access the keys in the dictionary."
+          },
+          {
+            "name": "objectEnumerator()",
+            "summary": "Returns an enumerator object that lets you access each value in the dictionary."
+          },
+          {
+            "name": "enumerateKeysAndObjects(_:)",
+            "summary": "Applies a given block object to the entries of the dictionary."
+          },
+          {
+            "name": "enumerateKeysAndObjects(options:using:)",
+            "summary": "Applies a given block object to the entries of the dictionary, with options specifying how the enumeration is performed."
+          },
+          {
+            "name": "makeIterator()",
+            "summary": "Returns an iterator over the elements of this sequence."
+          }
+        ]
+      },
+      {
+        "title": "Sorting Dictionaries",
+        "members": [
+          {
+            "name": "keysSortedByValue(using:)",
+            "summary": "Returns an array of the dictionary’s keys, in the order they would be in if the dictionary were sorted by its values."
+          },
+          {
+            "name": "keysSortedByValue(comparator:)",
+            "summary": "Returns an array of the dictionary’s keys, in the order they would be in if the dictionary were sorted by its values using a given comparator block."
+          },
+          {
+            "name": "keysSortedByValue(options:usingComparator:)",
+            "summary": "Returns an array of the dictionary’s keys, in the order they would be in if the dictionary were sorted by its values using a given comparator block and a specified set of options."
+          }
+        ]
+      },
+      {
+        "title": "Filtering Dictionaries",
+        "members": [
+          {
+            "name": "keysOfEntries(passingTest:)",
+            "summary": "Returns the set of keys whose corresponding value satisfies a constraint described by a block object."
+          },
+          {
+            "name": "keysOfEntries(options:passingTest:)",
+            "summary": "Returns the set of keys whose corresponding value satisfies a constraint described by a block object."
+          }
+        ]
+      },
+      {
+        "title": "Storing Dictionaries",
+        "members": [
+          {
+            "name": "write(to:)",
+            "summary": "Writes a property list representation of the contents of the dictionary to a given URL."
+          },
+          {
+            "name": "write(to:atomically:)",
+            "summary": "Writes a property list representation of the contents of the dictionary to a given URL.",
+            "deprecated": true
+          },
+          {
+            "name": "write(toFile:atomically:)",
+            "summary": "Writes a property list representation of the contents of the dictionary to a given path.",
+            "deprecated": true
+          }
+        ]
+      },
+      {
+        "title": "Accessing File Attributes",
+        "members": [
+          {
+            "name": "fileSize()",
+            "summary": "Returns the file’s size, in bytes."
+          },
+          {
+            "name": "fileType()",
+            "summary": "Returns the file type."
+          },
+          {
+            "name": "fileCreationDate()",
+            "summary": "Returns the file’s creation date."
+          },
+          {
+            "name": "fileModificationDate()",
+            "summary": "Returns file’s modification date."
+          },
+          {
+            "name": "filePosixPermissions()",
+            "summary": "Returns the file’s POSIX permissions."
+          },
+          {
+            "name": "fileOwnerAccountID()",
+            "summary": "Returns the file’s owner account ID."
+          },
+          {
+            "name": "fileOwnerAccountName()",
+            "summary": "Returns the file’s owner account name."
+          },
+          {
+            "name": "fileGroupOwnerAccountID()",
+            "summary": "Returns file’s group owner account ID."
+          },
+          {
+            "name": "fileGroupOwnerAccountName()",
+            "summary": "Returns the file’s group owner account name."
+          },
+          {
+            "name": "fileExtensionHidden()",
+            "summary": "Returns a Boolean value indicating whether the file hides its extension."
+          },
+          {
+            "name": "fileIsImmutable()",
+            "summary": "Returns a Boolean value indicating whether the file is immutable."
+          },
+          {
+            "name": "fileIsAppendOnly()",
+            "summary": "Returns a Boolean value indicating whether the file is append only."
+          },
+          {
+            "name": "fileSystemFileNumber()",
+            "summary": "Returns the filesystem file number."
+          },
+          {
+            "name": "fileSystemNumber()",
+            "summary": "Returns the filesystem number."
+          },
+          {
+            "name": "fileHFSTypeCode()",
+            "summary": "Returns file’s HFS type code."
+          },
+          {
+            "name": "fileHFSCreatorCode()",
+            "summary": "Returns the file’s HFS creator code."
+          }
+        ]
+      },
+      {
+        "title": "Describing a Dictionary",
+        "members": [
+          {
+            "name": "description",
+            "summary": "A string that represents the contents of the dictionary, formatted as a property list."
+          },
+          {
+            "name": "descriptionInStringsFileFormat",
+            "summary": "A string that represents the contents of the dictionary, formatted in .strings file format."
+          },
+          {
+            "name": "description(withLocale:)",
+            "summary": "Returns a string object that represents the contents of the dictionary, formatted as a property list."
+          },
+          {
+            "name": "description(withLocale:indent:)",
+            "summary": "Returns a string object that represents the contents of the dictionary, formatted as a property list."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(contentsOf:)"
+          },
+          {
+            "name": "init(contentsOf:error:)"
+          },
+          {
+            "name": "init(dictionary:)-4gc13",
+            "summary": "Initializes a newly allocated dictionary and adds to it objects from another given dictionary."
+          }
+        ]
+      },
+      {
+        "title": "Default Implementations",
+        "members": [
+          {
+            "name": "NSDictionary-Implementations"
+          },
+          {
+            "name": "Sequence-Implementations"
+          }
+        ]
+      }
+    ]
+  },
+  "nsenumerator": {
+    "summary": "An abstract class whose subclasses enumerate collections of objects, such as arrays and dictionaries.",
+    "groups": [
+      {
+        "title": "Getting the Enumerated Objects",
+        "members": [
+          {
+            "name": "allObjects",
+            "summary": "The array of unenumerated objects."
+          },
+          {
+            "name": "nextObject()",
+            "summary": "Returns the next object from the collection being enumerated."
+          }
+        ]
+      },
+      {
+        "title": "Default Implementations",
+        "members": [
+          {
+            "name": "Sequence-Implementations"
+          }
+        ]
+      }
+    ]
+  },
+  "nserror": {
+    "summary": "Information about an error condition including a domain, a domain-specific error code, and application-specific information.",
+    "groups": [
+      {
+        "title": "Creating Error Objects",
+        "members": [
+          {
+            "name": "init(domain:code:userInfo:)",
+            "summary": "Returns an NSError object initialized for a given domain and code with a given userInfo dictionary."
+          }
+        ]
+      },
+      {
+        "title": "Getting Error Properties",
+        "members": [
+          {
+            "name": "code",
+            "summary": "The error code."
+          },
+          {
+            "name": "domain",
+            "summary": "A string containing the error domain."
+          },
+          {
+            "name": "userInfo",
+            "summary": "The user info dictionary."
+          }
+        ]
+      },
+      {
+        "title": "Getting a Localized Error Description",
+        "members": [
+          {
+            "name": "localizedDescription",
+            "summary": "A string containing the localized description of the error."
+          },
+          {
+            "name": "localizedRecoveryOptions",
+            "summary": "An array containing the localized titles of buttons appropriate for displaying in an alert panel."
+          },
+          {
+            "name": "localizedRecoverySuggestion",
+            "summary": "A string containing the localized recovery suggestion for the error."
+          },
+          {
+            "name": "localizedFailureReason",
+            "summary": "A string containing the localized explanation of the reason for the error."
+          }
+        ]
+      },
+      {
+        "title": "Providing Error User Info",
+        "members": [
+          {
+            "name": "setUserInfoValueProvider(forDomain:provider:)",
+            "summary": "Specifies a block to call when the corresponding property is not present in the user info dictionary."
+          },
+          {
+            "name": "userInfoValueProvider(forDomain:)",
+            "summary": "Returns any user info provider specified for a given error domain."
+          },
+          {
+            "name": "UserInfoKey",
+            "summary": "These keys may exist in the user info dictionary."
+          }
+        ]
+      },
+      {
+        "title": "Getting the Error Recovery Attempter",
+        "members": [
+          {
+            "name": "recoveryAttempter",
+            "summary": "The object in the user info dictionary corresponding to the  key."
+          }
+        ]
+      },
+      {
+        "title": "Displaying a Help Anchor",
+        "members": [
+          {
+            "name": "helpAnchor",
+            "summary": "A string to display in response to an alert panel help anchor button being pressed."
+          }
+        ]
+      },
+      {
+        "title": "Instance Properties",
+        "members": [
+          {
+            "name": "underlyingErrors"
+          }
+        ]
+      },
+      {
+        "title": "Type Methods",
+        "members": [
+          {
+            "name": "fileProviderErrorForCollision(with:)",
+            "summary": "Returns a properly formatted error object with a NSFileProviderItemCollisionError error code."
+          },
+          {
+            "name": "fileProviderErrorForNonExistentItem(withIdentifier:)"
+          },
+          {
+            "name": "fileProviderErrorForRejectedDeletion(of:)"
+          }
+        ]
+      }
+    ]
+  },
+  "nslock": {
+    "summary": "An object that coordinates the operation of multiple threads of execution within the same application.",
+    "groups": [
+      {
+        "title": "Acquiring a Lock",
+        "members": [
+          {
+            "name": "lock(before:)",
+            "summary": "Attempts to acquire a lock before a given time and returns a Boolean value indicating whether the attempt was successful."
+          },
+          {
+            "name": "try()",
+            "summary": "Attempts to acquire a lock and immediately returns a Boolean value that indicates whether the attempt was successful."
+          }
+        ]
+      },
+      {
+        "title": "Naming the Lock",
+        "members": [
+          {
+            "name": "name",
+            "summary": "The name associated with the receiver."
+          }
+        ]
+      }
+    ]
+  },
+  "nsnotification": {
+    "summary": "A container for information broadcast through a notification center to all registered observers.",
+    "groups": [
+      {
+        "title": "Creating Notifications",
+        "members": [
+          {
+            "name": "init(coder:)",
+            "summary": "Initializes a notification with the data from an unarchiver."
+          },
+          {
+            "name": "init(name:object:)",
+            "summary": "Returns a new notification object with a specified name and object."
+          },
+          {
+            "name": "init(name:object:userInfo:)",
+            "summary": "Initializes a notification with a specified name, object, and user information."
+          },
+          {
+            "name": "Name-swift.struct",
+            "summary": "A structure that defines the name of a notification."
+          }
+        ]
+      },
+      {
+        "title": "Getting Notification Information",
+        "members": [
+          {
+            "name": "name-swift.property",
+            "summary": "The name of the notification."
+          },
+          {
+            "name": "object",
+            "summary": "The object associated with the notification."
+          },
+          {
+            "name": "userInfo",
+            "summary": "The user information dictionary associated with the notification."
+          }
+        ]
+      }
+    ]
+  },
+  "nsnotificationcenter": {
+    "summary": "A notification dispatch mechanism that enables the broadcast of information to registered observers.",
+    "groups": [
+      {
+        "title": "Getting the default notification center",
+        "members": [
+          {
+            "name": "default",
+            "summary": "The app’s default notification center."
+          }
+        ]
+      },
+      {
+        "title": "Adding and removing notification observers",
+        "members": [
+          {
+            "name": "addObserver(forName:object:queue:using:)",
+            "summary": "Adds an entry to the notification center to receive notifications that passed to the provided block."
+          },
+          {
+            "name": "addObserver(_:selector:name:object:)",
+            "summary": "Adds an entry to the notification center to call the provided selector with the notification."
+          },
+          {
+            "name": "removeObserver(_:name:object:)",
+            "summary": "Removes matching entries from the notification center’s dispatch table."
+          },
+          {
+            "name": "removeObserver(_:)-2yciv",
+            "summary": "Removes all entries specifying an observer from the notification center’s dispatch table."
+          }
+        ]
+      },
+      {
+        "title": "Posting notifications",
+        "members": [
+          {
+            "name": "post(_:)-3x2st",
+            "summary": "Posts a given notification to the notification center."
+          },
+          {
+            "name": "post(name:object:userInfo:)",
+            "summary": "Creates a notification with a given name, sender, and information and posts it to the notification center."
+          },
+          {
+            "name": "post(name:object:)",
+            "summary": "Creates a notification with a given name and sender and posts it to the notification center."
+          }
+        ]
+      },
+      {
+        "title": "Receiving notifications as an asynchronous sequence",
+        "members": [
+          {
+            "name": "notifications(named:object:)",
+            "summary": "Returns an asynchronous sequence of notifications produced by this center for a given notification name and optional source object."
+          },
+          {
+            "name": "Notifications",
+            "summary": "An asynchronous sequence of notifications generated by a notification center."
+          }
+        ]
+      },
+      {
+        "title": "Receiving notifications as a Combine publisher",
+        "members": [
+          {
+            "name": "publisher(for:object:)",
+            "summary": "Returns a publisher that emits events when broadcasting notifications."
+          },
+          {
+            "name": "Publisher",
+            "summary": "A publisher that emits elements when broadcasting notifications."
+          }
+        ]
+      },
+      {
+        "title": "Declaring a message",
+        "members": [
+          {
+            "name": "MainActorMessage",
+            "summary": "A protocol for creating types that you can post to a notification center and bind to the main actor."
+          },
+          {
+            "name": "AsyncMessage",
+            "summary": "A protocol for creating types that you can post to a notification center, which posts them to an arbitrary isolation."
+          }
+        ]
+      },
+      {
+        "title": "Using message identifiers",
+        "members": [
+          {
+            "name": "MessageIdentifier",
+            "summary": "An optional identifier to associate a given message with a given type."
+          },
+          {
+            "name": "BaseMessageIdentifier",
+            "summary": "A type for use when defining optional Message identifiers."
+          }
+        ]
+      },
+      {
+        "title": "Observing concurrency-safe notifications",
+        "members": [
+          {
+            "name": "addObserver(of:for:using:)-4d19x",
+            "summary": "Adds an observer to a center for messages delivered on the main actor with a given subject and identifier."
+          },
+          {
+            "name": "addObserver(of:for:using:)-90os",
+            "summary": "Adds an observer to a center for messages delivered on the main actor with a given subject and identifier."
+          },
+          {
+            "name": "addObserver(of:for:using:)-56bn4",
+            "summary": "Adds an observer to a center for messages delivered on the main actor with a given subject and message type."
+          },
+          {
+            "name": "addObserver(of:for:using:)-twm3",
+            "summary": "Adds an observer to a center for messages delivered asynchronously with a given subject and identifier."
+          },
+          {
+            "name": "addObserver(of:for:using:)-t1wr",
+            "summary": "Adds an observer to a center for messages delivered asynchronously with a given subject and message type."
+          },
+          {
+            "name": "addObserver(of:for:using:)-64uw3",
+            "summary": "Adds an observer to a center for messages delivered asynchronously with a given subject and message type."
+          },
+          {
+            "name": "removeObserver(_:)-2gmm0",
+            "summary": "Stops the observation represented by the given observation token."
+          },
+          {
+            "name": "ObservationToken",
+            "summary": "A unique token representing a single observer registration in a notification center."
+          }
+        ]
+      },
+      {
+        "title": "Receiving notifications as asynchronous sequences",
+        "members": [
+          {
+            "name": "messages(of:for:bufferSize:)-4tof0",
+            "summary": "Returns an asynchronous sequence of messages produced by this center for a given subject and identifier."
+          },
+          {
+            "name": "messages(of:for:bufferSize:)-1ub69",
+            "summary": "Returns an asynchronous sequence of messages produced by this center for a given subject type and identifier."
+          },
+          {
+            "name": "messages(of:for:bufferSize:)-623kg",
+            "summary": "Returns an asynchronous sequence of messages produced by this center for a given subject and message type."
+          }
+        ]
+      },
+      {
+        "title": "Posting notification messages",
+        "members": [
+          {
+            "name": "post(_:subject:)-87dbk",
+            "summary": "Posts a given main actor message to the notification center."
+          },
+          {
+            "name": "post(_:)-19s7b",
+            "summary": "Posts a given main actor message to the notification center."
+          },
+          {
+            "name": "post(_:subject:)-5271w",
+            "summary": "Posts a given asynchronous message to the notification center."
+          },
+          {
+            "name": "post(_:)-7ia4j",
+            "summary": "Posts a given asynchronous message to the notification center."
+          }
+        ]
+      }
+    ]
+  },
+  "nsnumber": {
+    "summary": "An object wrapper for primitive scalar numeric values.",
+    "groups": [
+      {
+        "title": "Initializing an NSNumber Object",
+        "members": [
+          {
+            "name": "init(value:)-1ojz2",
+            "summary": "Returns an NSNumber object initialized to contain a given value, treated as a BOOL."
+          },
+          {
+            "name": "init(value:)-8krjs",
+            "summary": "Returns an NSNumber object initialized to contain a given value, treated as a signed char."
+          },
+          {
+            "name": "init(value:)-15chk",
+            "summary": "Returns an NSNumber object initialized to contain value, treated as a double."
+          },
+          {
+            "name": "init(value:)-2vlwk",
+            "summary": "Returns an NSNumber object initialized to contain a given value, treated as a float."
+          },
+          {
+            "name": "init(value:)-7jvmg",
+            "summary": "Returns an NSNumber object initialized to contain a given value, treated as a signed int."
+          },
+          {
+            "name": "init(value:)-5jcjl",
+            "summary": "Returns an NSNumber object initialized to contain a given value, treated as an NSInteger."
+          },
+          {
+            "name": "init(value:)-40ad0",
+            "summary": "Returns an NSNumber object initialized to contain value, treated as a signed long long."
+          },
+          {
+            "name": "init(value:)-16drx",
+            "summary": "Returns an NSNumber object initialized to contain a given value, treated as a signed short."
+          },
+          {
+            "name": "init(value:)-8se67",
+            "summary": "Returns an NSNumber object initialized to contain a given value, treated as an unsigned char."
+          },
+          {
+            "name": "init(value:)-47coa",
+            "summary": "Returns an NSNumber object initialized to contain a given value, treated as an unsigned int."
+          },
+          {
+            "name": "init(value:)-3l4ek",
+            "summary": "Returns an NSNumber object initialized to contain a given value, treated as an NSUInteger."
+          },
+          {
+            "name": "init(value:)-43lc7",
+            "summary": "Returns an NSNumber object initialized to contain a given value, treated as an unsigned long long."
+          },
+          {
+            "name": "init(value:)-87y9m",
+            "summary": "Returns an NSNumber object initialized to contain a given value, treated as an unsigned short."
+          }
+        ]
+      },
+      {
+        "title": "Accessing Numeric Values",
+        "members": [
+          {
+            "name": "boolValue",
+            "summary": "The number object’s value expressed as a Boolean value."
+          },
+          {
+            "name": "int8Value",
+            "summary": "The number object’s value expressed as a char."
+          },
+          {
+            "name": "decimalValue",
+            "summary": "The number object’s value expressed as an  structure."
+          },
+          {
+            "name": "doubleValue",
+            "summary": "The number object’s value expressed as a double, converted as necessary."
+          },
+          {
+            "name": "floatValue",
+            "summary": "The number object’s value expressed as a float, converted as necessary."
+          },
+          {
+            "name": "int32Value",
+            "summary": "The number object’s value expressed as an int, converted as necessary."
+          },
+          {
+            "name": "intValue-95zzp",
+            "summary": "The number object’s value expressed as an NSInteger object, converted as necessary."
+          },
+          {
+            "name": "int64Value",
+            "summary": "The number object’s value expressed as a long long, converted as necessary."
+          },
+          {
+            "name": "int16Value",
+            "summary": "The number object’s value expressed as a short, converted as necessary."
+          },
+          {
+            "name": "uint8Value",
+            "summary": "The number object’s value expressed as an unsigned char, converted as necessary."
+          },
+          {
+            "name": "uintValue",
+            "summary": "The number object’s value expressed as an NSUInteger object, converted as necessary."
+          },
+          {
+            "name": "uint32Value",
+            "summary": "The number object’s value expressed as an unsigned int, converted as necessary."
+          },
+          {
+            "name": "uint64Value",
+            "summary": "The number object’s value expressed as an unsigned long long, converted as necessary."
+          },
+          {
+            "name": "uint16Value",
+            "summary": "The number object’s value expressed as an unsigned short, converted as necessary."
+          }
+        ]
+      },
+      {
+        "title": "Retrieving String Representations",
+        "members": [
+          {
+            "name": "description(withLocale:)",
+            "summary": "Returns a string that represents the contents of the number object for a given locale."
+          },
+          {
+            "name": "stringValue",
+            "summary": "The number object’s value expressed as a human-readable string."
+          }
+        ]
+      },
+      {
+        "title": "Comparing NSNumber Objects",
+        "members": [
+          {
+            "name": "compare(_:)",
+            "summary": "Returns an NSComparisonResult value that indicates whether the number object’s value is greater than, equal to, or less than a given number."
+          },
+          {
+            "name": "isEqual(to:)",
+            "summary": "Returns a Boolean value that indicates whether the number object’s value and a given number are equal."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(coder:)"
+          }
+        ]
+      },
+      {
+        "title": "Default Implementations",
+        "members": [
+          {
+            "name": "ExpressibleByBooleanLiteral-Implementations"
+          },
+          {
+            "name": "ExpressibleByFloatLiteral-Implementations"
+          },
+          {
+            "name": "ExpressibleByIntegerLiteral-Implementations"
+          }
+        ]
+      }
+    ]
+  },
+  "nsprocessinfo": {
+    "summary": "A collection of information about the current process.",
+    "groups": [
+      {
+        "title": "Getting the Process Information Agent",
+        "members": [
+          {
+            "name": "processInfo",
+            "summary": "Returns the process information agent for the process."
+          }
+        ]
+      },
+      {
+        "title": "Accessing Process Information",
+        "members": [
+          {
+            "name": "arguments",
+            "summary": "Array of strings with the command-line arguments for the process."
+          },
+          {
+            "name": "environment",
+            "summary": "The variable names (keys) and their values in the environment from which the process was launched."
+          },
+          {
+            "name": "globallyUniqueString",
+            "summary": "Global unique identifier for the process."
+          },
+          {
+            "name": "isMacCatalystApp",
+            "summary": "A Boolean value that indicates whether the process originated as an iOS app and runs on macOS."
+          },
+          {
+            "name": "isiOSAppOnMac",
+            "summary": "A Boolean value that indicates whether the process is an iPhone or iPad app running on a Mac."
+          },
+          {
+            "name": "isiOSAppOnVision",
+            "summary": "A Boolean value that indicates whether the process is an iPhone or iPad app running on visionOS."
+          },
+          {
+            "name": "processIdentifier",
+            "summary": "The identifier of the process (often called process ID)."
+          },
+          {
+            "name": "processName",
+            "summary": "The name of the process."
+          }
+        ]
+      },
+      {
+        "title": "Accessing User Information",
+        "members": [
+          {
+            "name": "userName",
+            "summary": "Returns the account name of the current user."
+          },
+          {
+            "name": "fullUserName",
+            "summary": "Returns the full name of the current user."
+          }
+        ]
+      },
+      {
+        "title": "Sudden Application Termination",
+        "members": [
+          {
+            "name": "disableSuddenTermination()",
+            "summary": "Disables the application for quickly killing using sudden termination."
+          },
+          {
+            "name": "enableSuddenTermination()",
+            "summary": "Enables the application for quick killing using sudden termination."
+          }
+        ]
+      },
+      {
+        "title": "Controlling Automatic Termination",
+        "members": [
+          {
+            "name": "disableAutomaticTermination(_:)",
+            "summary": "Disables automatic termination for the application."
+          },
+          {
+            "name": "enableAutomaticTermination(_:)",
+            "summary": "Enables automatic termination for the application."
+          },
+          {
+            "name": "automaticTerminationSupportEnabled",
+            "summary": "A Boolean value indicating whether the app supports automatic termination."
+          }
+        ]
+      },
+      {
+        "title": "Getting Host Information",
+        "members": [
+          {
+            "name": "hostName",
+            "summary": "The name of the host computer on which the process is executing."
+          },
+          {
+            "name": "operatingSystemVersionString",
+            "summary": "A string containing the version of the operating system on which the process is executing."
+          },
+          {
+            "name": "operatingSystemVersion",
+            "summary": "The version of the operating system on which the process is executing."
+          },
+          {
+            "name": "isOperatingSystemAtLeast(_:)",
+            "summary": "Returns a Boolean value indicating whether the version of the operating system on which the process is executing is the same or later than the given version."
+          },
+          {
+            "name": "operatingSystem()",
+            "summary": "Returns a constant to indicate the operating system on which the process is executing.",
+            "deprecated": true,
+            "deprecatedMessage": "Use operatingSystemVersion or isOperatingSystemAtLeast(_:) instead"
+          },
+          {
+            "name": "operatingSystemName()",
+            "summary": "Returns a string containing the name of the operating system on which the process is executing.",
+            "deprecated": true,
+            "deprecatedMessage": "Use operatingSystemVersionString instead."
+          }
+        ]
+      },
+      {
+        "title": "Getting Computer Information",
+        "members": [
+          {
+            "name": "processorCount",
+            "summary": "The number of processing cores available on the computer."
+          },
+          {
+            "name": "activeProcessorCount",
+            "summary": "The number of active processing cores available on the computer."
+          },
+          {
+            "name": "physicalMemory",
+            "summary": "The amount of physical memory on the computer in bytes."
+          },
+          {
+            "name": "isDeviceCertified(for:)",
+            "summary": "Indicates whether the device supports the requested performance tier."
+          },
+          {
+            "name": "hasPerformanceProfile(_:)",
+            "summary": "Indicates whether an app is running under a known performance profile."
+          },
+          {
+            "name": "systemUptime",
+            "summary": "The amount of time the system has been awake since the last time it was restarted."
+          }
+        ]
+      },
+      {
+        "title": "Managing Activities",
+        "members": [
+          {
+            "name": "beginActivity(options:reason:)",
+            "summary": "Begin an activity using the given options and reason."
+          },
+          {
+            "name": "endActivity(_:)",
+            "summary": "Ends the given activity."
+          },
+          {
+            "name": "performActivity(options:reason:using:)",
+            "summary": "Synchronously perform an activity defined by a given block using the given options."
+          },
+          {
+            "name": "performExpiringActivity(withReason:using:)",
+            "summary": "Performs the specified block asynchronously and notifies you if the process is about to be suspended."
+          },
+          {
+            "name": "ActivityOptions",
+            "summary": "Option flags used with  and ."
+          }
+        ]
+      },
+      {
+        "title": "Getting the Thermal State",
+        "members": [
+          {
+            "name": "thermalState-swift.property",
+            "summary": "The current thermal state of the system."
+          },
+          {
+            "name": "ThermalState-swift.enum",
+            "summary": "Values used to indicate the system’s thermal state."
+          }
+        ]
+      },
+      {
+        "title": "Determining Whether Low Power Mode is Enabled",
+        "members": [
+          {
+            "name": "isLowPowerModeEnabled",
+            "summary": "A Boolean value that indicates the current state of Low Power Mode."
+          }
+        ]
+      },
+      {
+        "title": "Notifications",
+        "members": [
+          {
+            "name": "thermalStateDidChangeNotification",
+            "summary": "Posts when the thermal state of the system changes."
+          }
+        ]
+      },
+      {
+        "title": "Structures",
+        "members": [
+          {
+            "name": "PowerStateDidChangeMessage"
+          },
+          {
+            "name": "ThermalStateDidChangeMessage"
+          }
+        ]
+      }
+    ]
+  },
+  "nsprocessinfothermalstate": {
+    "summary": "Values used to indicate the system’s thermal state."
+  },
+  "nsrange": {
+    "summary": "A structure used to describe a portion of a series, such as characters in a string or objects in an array.",
+    "groups": [
+      {
+        "title": "Instance Properties",
+        "members": [
+          {
+            "name": "length"
+          },
+          {
+            "name": "location"
+          }
+        ]
+      }
+    ]
+  },
+  "nsset": {
+    "summary": "A static, unordered collection of unique objects.",
+    "groups": [
+      {
+        "title": "Creating a Set",
+        "members": [
+          {
+            "name": "init(object:)",
+            "summary": "Creates and returns a set that contains a single given object."
+          },
+          {
+            "name": "init(objects:count:)-65ni4",
+            "summary": "Creates and returns a set containing a specified number of objects from a given C array of objects."
+          },
+          {
+            "name": "adding(_:)",
+            "summary": "Returns a new set formed by adding a given object to the receiving set."
+          },
+          {
+            "name": "addingObjects(from:)-2i31h",
+            "summary": "Returns a new set formed by adding the objects in a given set to the receiving set."
+          },
+          {
+            "name": "addingObjects(from:)-544m9",
+            "summary": "Returns a new set formed by adding the objects in a given array to the receiving set."
+          }
+        ]
+      },
+      {
+        "title": "Initializing a Set",
+        "members": [
+          {
+            "name": "init(array:)",
+            "summary": "Initializes a newly allocated set with the objects that are contained in a given array."
+          },
+          {
+            "name": "init(objects:count:)-7kift",
+            "summary": "Initializes a newly allocated set with a specified number of objects from a given C array of objects."
+          },
+          {
+            "name": "init(set:)-1xovx",
+            "summary": "Initializes a newly allocated set and adds to it objects from another given set."
+          },
+          {
+            "name": "init(set:copyItems:)",
+            "summary": "Initializes a newly allocated set and adds to it members of another given set."
+          },
+          {
+            "name": "init()",
+            "summary": "Initializes a newly allocated set."
+          }
+        ]
+      },
+      {
+        "title": "Counting Entries",
+        "members": [
+          {
+            "name": "count",
+            "summary": "The number of members in the set."
+          }
+        ]
+      },
+      {
+        "title": "Accessing Set Members",
+        "members": [
+          {
+            "name": "allObjects",
+            "summary": "An array containing the set’s members, or an empty array if the set has no members."
+          },
+          {
+            "name": "anyObject()",
+            "summary": "Returns one of the objects in the set, or nil if the set contains no objects."
+          },
+          {
+            "name": "contains(_:)",
+            "summary": "Returns a Boolean value that indicates whether a given object is present in the set."
+          },
+          {
+            "name": "filtered(using:)",
+            "summary": "Evaluates a given predicate against each object in the receiving set and returns a new set containing the objects for which the predicate returns true."
+          },
+          {
+            "name": "member(_:)",
+            "summary": "Determines whether a given object is present in the set, and returns that object if it is."
+          },
+          {
+            "name": "objectEnumerator()",
+            "summary": "Returns an enumerator object that lets you access each object in the set."
+          },
+          {
+            "name": "enumerateObjects(_:)",
+            "summary": "Executes a given block using each object in the set."
+          },
+          {
+            "name": "enumerateObjects(options:using:)",
+            "summary": "Executes a given block using each object in the set, using the specified enumeration options."
+          },
+          {
+            "name": "objects(passingTest:)",
+            "summary": "Returns a set of objects that pass a test in a given block."
+          },
+          {
+            "name": "objects(options:passingTest:)",
+            "summary": "Returns a set of objects that pass a test in a given block, using the specified enumeration options."
+          }
+        ]
+      },
+      {
+        "title": "Comparing Sets",
+        "members": [
+          {
+            "name": "isSubset(of:)",
+            "summary": "Returns a Boolean value that indicates whether every object in the receiving set is also present in another given set."
+          },
+          {
+            "name": "intersects(_:)",
+            "summary": "Returns a Boolean value that indicates whether at least one object in the receiving set is also present in another given set."
+          },
+          {
+            "name": "isEqual(to:)",
+            "summary": "Compares the receiving set to another set."
+          },
+          {
+            "name": "value(forKey:)",
+            "summary": "Return a set containing the results of invoking valueForKey: on each of the receiving set’s members."
+          },
+          {
+            "name": "setValue(_:forKey:)",
+            "summary": "Invokes setValue:forKey: on each of the set’s members."
+          }
+        ]
+      },
+      {
+        "title": "Creating a Sorted Array",
+        "members": [
+          {
+            "name": "sortedArray(using:)",
+            "summary": "Returns an array of the set’s content sorted as specified by a given array of sort descriptors."
+          }
+        ]
+      },
+      {
+        "title": "Key-Value Observing",
+        "members": [
+          {
+            "name": "addObserver(_:forKeyPath:options:context:)",
+            "summary": "Raises an exception."
+          },
+          {
+            "name": "removeObserver(_:forKeyPath:context:)",
+            "summary": "Raises an exception."
+          },
+          {
+            "name": "removeObserver(_:forKeyPath:)",
+            "summary": "Raises an exception."
+          }
+        ]
+      },
+      {
+        "title": "Describing a Set",
+        "members": [
+          {
+            "name": "description",
+            "summary": "A string that represents the contents of the set, formatted as a property list."
+          },
+          {
+            "name": "description(withLocale:)",
+            "summary": "Returns a string that represents the contents of the set, formatted as a property list."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(coder:)"
+          },
+          {
+            "name": "init(collectionViewIndexPath:)"
+          },
+          {
+            "name": "init(collectionViewIndexPaths:)"
+          },
+          {
+            "name": "init(objects:)"
+          },
+          {
+            "name": "init(set:)-7a7ws",
+            "summary": "Initializes a newly allocated set and adds to it objects from another given set."
+          }
+        ]
+      },
+      {
+        "title": "Instance Methods",
+        "members": [
+          {
+            "name": "enumerateIndexPaths(options:using:)"
+          }
+        ]
+      },
+      {
+        "title": "Default Implementations",
+        "members": [
+          {
+            "name": "Sequence-Implementations"
+          }
+        ]
+      }
+    ]
+  },
+  "nsstring": {
+    "summary": "A static, plain-text Unicode string object.",
+    "groups": [
+      {
+        "title": "Creating and Initializing Strings",
+        "members": [
+          {
+            "name": "init()",
+            "summary": "Returns an initialized NSString object that contains no characters."
+          },
+          {
+            "name": "init(bytes:length:encoding:)",
+            "summary": "Returns an initialized NSString object containing a given number of bytes from a given buffer of bytes interpreted in a given encoding."
+          },
+          {
+            "name": "init(bytesNoCopy:length:encoding:freeWhenDone:)",
+            "summary": "Returns an initialized NSString object that contains a given number of bytes from a given buffer of bytes interpreted in a given encoding, and optionally frees the buffer."
+          },
+          {
+            "name": "init(characters:length:)",
+            "summary": "Returns an initialized NSString object that contains a given number of characters from a given C array of UTF-16 code units."
+          },
+          {
+            "name": "init(charactersNoCopy:length:freeWhenDone:)",
+            "summary": "Returns an initialized NSString object that contains a given number of characters from a given C array of UTF-16 code units."
+          },
+          {
+            "name": "init(string:)-210xa",
+            "summary": "Returns an NSString object initialized by copying the characters from another given string."
+          },
+          {
+            "name": "init(format:arguments:)",
+            "summary": "Returns an NSString object initialized by using a given format string as a template into which the remaining argument values are substituted without any localization."
+          },
+          {
+            "name": "init(format:locale:arguments:)",
+            "summary": "Returns an NSString object initialized by using a given format string as a template into which the remaining argument values are substituted according to given locale information. This method is meant to be called from within a variadic function, where the argument list will be available."
+          },
+          {
+            "name": "init(data:encoding:)",
+            "summary": "Returns an NSString object initialized by converting given data into UTF-16 code units using a given encoding."
+          },
+          {
+            "name": "localizedUserNotificationString(forKey:arguments:)",
+            "summary": "Returns a localized string intended for display in a notification alert."
+          },
+          {
+            "name": "localizedStringWithFormat(_:_:)"
+          }
+        ]
+      },
+      {
+        "title": "Creating and Initializing a String from a File",
+        "members": [
+          {
+            "name": "init(contentsOfFile:encoding:)",
+            "summary": "Returns an NSString object initialized by reading data from the file at a given path using a given encoding."
+          },
+          {
+            "name": "init(contentsOfFile:usedEncoding:)",
+            "summary": "Returns an NSString object initialized by reading data from the file at a given path and returns by reference the encoding used to interpret the characters."
+          }
+        ]
+      },
+      {
+        "title": "Getting a String’s Length",
+        "members": [
+          {
+            "name": "length",
+            "summary": "The number of UTF-16 code units in the receiver."
+          },
+          {
+            "name": "lengthOfBytes(using:)",
+            "summary": "Returns the number of bytes required to store the receiver in a given encoding."
+          },
+          {
+            "name": "maximumLengthOfBytes(using:)",
+            "summary": "Returns the maximum number of bytes needed to store the receiver in a given encoding."
+          }
+        ]
+      },
+      {
+        "title": "Getting Characters and Bytes",
+        "members": [
+          {
+            "name": "character(at:)",
+            "summary": "Returns the character at a given UTF-16 code unit index."
+          },
+          {
+            "name": "getCharacters(_:range:)",
+            "summary": "Copies characters from a given range in the receiver into a given buffer."
+          },
+          {
+            "name": "getBytes(_:maxLength:usedLength:encoding:options:range:remaining:)",
+            "summary": "Gets a given range of characters as bytes in a specified encoding."
+          }
+        ]
+      },
+      {
+        "title": "Getting C Strings",
+        "members": [
+          {
+            "name": "cString(using:)",
+            "summary": "Returns a representation of the string as a C string using a given encoding."
+          },
+          {
+            "name": "getCString(_:maxLength:encoding:)",
+            "summary": "Converts the string to a given encoding and stores it in a buffer."
+          },
+          {
+            "name": "utf8String",
+            "summary": "A null-terminated UTF8 representation of the string."
+          }
+        ]
+      },
+      {
+        "title": "Identifying and Comparing Strings",
+        "members": [
+          {
+            "name": "caseInsensitiveCompare(_:)",
+            "summary": "Returns the result of invoking  with NSCaseInsensitiveSearch as the only option."
+          },
+          {
+            "name": "localizedCaseInsensitiveCompare(_:)",
+            "summary": "Compares the string with a given string using a case-insensitive, localized, comparison."
+          },
+          {
+            "name": "compare(_:)",
+            "summary": "Returns the result of invoking  with no options and the receiver’s full extent as the range."
+          },
+          {
+            "name": "localizedCompare(_:)",
+            "summary": "Compares the string and a given string using a localized comparison."
+          },
+          {
+            "name": "compare(_:options:)",
+            "summary": "Compares the string with the specified string using the given options."
+          },
+          {
+            "name": "compare(_:options:range:)",
+            "summary": "Returns the result of invoking  with a nil locale."
+          },
+          {
+            "name": "compare(_:options:range:locale:)",
+            "summary": "Compares the string using the specified options and returns the lexical ordering for the range."
+          },
+          {
+            "name": "localizedStandardCompare(_:)",
+            "summary": "Compares strings as sorted by the Finder."
+          },
+          {
+            "name": "hasPrefix(_:)",
+            "summary": "Returns a Boolean value that indicates whether a given string matches the beginning characters of the receiver."
+          },
+          {
+            "name": "hasSuffix(_:)",
+            "summary": "Returns a Boolean value that indicates whether a given string matches the ending characters of the receiver."
+          },
+          {
+            "name": "isEqual(to:)",
+            "summary": "Returns a Boolean value that indicates whether a given string is equal to the receiver using a literal Unicode-based comparison."
+          },
+          {
+            "name": "hash",
+            "summary": "An unsigned integer that can be used as a hash table address."
+          },
+          {
+            "name": "CompareOptions",
+            "summary": "These values represent the options available to many of the string classes’ search and comparison methods."
+          },
+          {
+            "name": "EncodingConversionOptions",
+            "summary": "Options for converting string encodings."
+          }
+        ]
+      },
+      {
+        "title": "Combining Strings",
+        "members": [
+          {
+            "name": "appendingFormat(_:_:)"
+          },
+          {
+            "name": "appending(_:)",
+            "summary": "Returns a new string made by appending a given string to the receiver."
+          },
+          {
+            "name": "padding(toLength:withPad:startingAt:)",
+            "summary": "Returns a new string formed from the receiver by either removing characters from the end, or by appending as many occurrences as necessary of a given pad string."
+          }
+        ]
+      },
+      {
+        "title": "Changing Case",
+        "members": [
+          {
+            "name": "lowercased",
+            "summary": "A lowercase representation of the string."
+          },
+          {
+            "name": "localizedLowercase",
+            "summary": "Returns a version of the string with all letters converted to lowercase, taking into account the current locale."
+          },
+          {
+            "name": "lowercased(with:)",
+            "summary": "Returns a version of the string with all letters converted to lowercase, taking into account the specified locale."
+          },
+          {
+            "name": "uppercased",
+            "summary": "An uppercase representation of the string."
+          },
+          {
+            "name": "localizedUppercase",
+            "summary": "Returns a version of the string with all letters converted to uppercase, taking into account the current locale."
+          },
+          {
+            "name": "uppercased(with:)",
+            "summary": "Returns a version of the string with all letters converted to uppercase, taking into account the specified locale."
+          },
+          {
+            "name": "capitalized",
+            "summary": "A capitalized representation of the string."
+          },
+          {
+            "name": "localizedCapitalized",
+            "summary": "Returns a capitalized representation of the receiver using the current locale."
+          },
+          {
+            "name": "capitalized(with:)",
+            "summary": "Returns a capitalized representation of the receiver using the specified locale."
+          }
+        ]
+      },
+      {
+        "title": "Dividing Strings",
+        "members": [
+          {
+            "name": "components(separatedBy:)-238fy",
+            "summary": "Returns an array containing substrings from the receiver that have been divided by a given separator."
+          },
+          {
+            "name": "components(separatedBy:)-27x9g",
+            "summary": "Returns an array containing substrings from the receiver that have been divided by characters in a given set."
+          },
+          {
+            "name": "trimmingCharacters(in:)",
+            "summary": "Returns a new string made by removing from both ends of the receiver characters contained in a given character set."
+          },
+          {
+            "name": "substring(from:)",
+            "summary": "Returns a new string containing the characters of the receiver from the one at a given index to the end."
+          },
+          {
+            "name": "substring(with:)",
+            "summary": "Returns a string object containing the characters of the receiver that lie within a given range."
+          },
+          {
+            "name": "substring(to:)",
+            "summary": "Returns a new string containing the characters of the receiver up to, but not including, the one at a given index."
+          }
+        ]
+      },
+      {
+        "title": "Normalizing Strings",
+        "members": [
+          {
+            "name": "decomposedStringWithCanonicalMapping",
+            "summary": "A string made by normalizing the string’s contents using the Unicode Normalization Form D."
+          },
+          {
+            "name": "decomposedStringWithCompatibilityMapping",
+            "summary": "A string made by normalizing the receiver’s contents using the Unicode Normalization Form KD."
+          },
+          {
+            "name": "precomposedStringWithCanonicalMapping",
+            "summary": "A string made by normalizing the string’s contents using the Unicode Normalization Form C."
+          },
+          {
+            "name": "precomposedStringWithCompatibilityMapping",
+            "summary": "A string made by normalizing the receiver’s contents using the Unicode Normalization Form KC."
+          }
+        ]
+      },
+      {
+        "title": "Folding Strings",
+        "members": [
+          {
+            "name": "folding(options:locale:)",
+            "summary": "Creates a string suitable for comparison by removing the specified character distinctions from a string."
+          }
+        ]
+      },
+      {
+        "title": "Transforming Strings",
+        "members": [
+          {
+            "name": "applyingTransform(_:reverse:)",
+            "summary": "Returns a new string by applying a specified transform to the string."
+          }
+        ]
+      },
+      {
+        "title": "Finding Characters and Substrings",
+        "members": [
+          {
+            "name": "contains(_:)",
+            "summary": "Returns a Boolean value indicating whether the string contains a given string by performing a case-sensitive, locale-unaware search."
+          },
+          {
+            "name": "localizedCaseInsensitiveContains(_:)",
+            "summary": "Returns a Boolean value indicating whether the string contains a given string by performing a case-insensitive, locale-aware search."
+          },
+          {
+            "name": "localizedStandardContains(_:)",
+            "summary": "Returns a Boolean value indicating whether the string contains a given string by performing a case and diacritic insensitive, locale-aware search."
+          },
+          {
+            "name": "rangeOfCharacter(from:)",
+            "summary": "Finds and returns the range in the string of the first character from a given character set."
+          },
+          {
+            "name": "rangeOfCharacter(from:options:)",
+            "summary": "Finds and returns the range in the string of the first character, using given options, from a given character set."
+          },
+          {
+            "name": "rangeOfCharacter(from:options:range:)",
+            "summary": "Finds and returns the range in the string of the first character from a given character set found in a given range with given options."
+          },
+          {
+            "name": "range(of:)",
+            "summary": "Finds and returns the range of the first occurrence of a given string within the string."
+          },
+          {
+            "name": "range(of:options:)",
+            "summary": "Finds and returns the range of the first occurrence of a given string within the string, subject to given options."
+          },
+          {
+            "name": "range(of:options:range:)",
+            "summary": "Finds and returns the range of the first occurrence of a given string, within the given range of the string, subject to given options."
+          },
+          {
+            "name": "range(of:options:range:locale:)",
+            "summary": "Finds and returns the range of the first occurrence of a given string within a given range of the string, subject to given options, using the specified locale, if any."
+          },
+          {
+            "name": "localizedStandardRange(of:)",
+            "summary": "Finds and returns the range of the first occurrence of a given string within the string by performing a case and diacritic insensitive, locale-aware search."
+          },
+          {
+            "name": "enumerateLines(_:)",
+            "summary": "Enumerates all the lines in the string."
+          },
+          {
+            "name": "enumerateSubstrings(in:options:using:)",
+            "summary": "Enumerates the substrings of the specified type in the specified range of the string."
+          }
+        ]
+      },
+      {
+        "title": "Replacing Substrings",
+        "members": [
+          {
+            "name": "replacingOccurrences(of:with:)",
+            "summary": "Returns a new string in which all occurrences of a target string in the receiver are replaced by another given string."
+          },
+          {
+            "name": "replacingOccurrences(of:with:options:range:)",
+            "summary": "Returns a new string in which all occurrences of a target string in a specified range of the receiver are replaced by another given string."
+          },
+          {
+            "name": "replacingCharacters(in:with:)",
+            "summary": "Returns a new string in which the characters in a specified range of the receiver are replaced by a given string."
+          }
+        ]
+      },
+      {
+        "title": "Getting a Shared Prefix",
+        "members": [
+          {
+            "name": "commonPrefix(with:options:)",
+            "summary": "Returns a string containing characters the receiver and a given string have in common, starting from the beginning of each up to the first characters that aren’t equivalent."
+          }
+        ]
+      },
+      {
+        "title": "Performing Linguistic Analysis",
+        "members": [
+          {
+            "name": "enumerateLinguisticTags(in:scheme:options:orthography:using:)",
+            "summary": "Performs linguistic analysis on the specified string by enumerating the specific range of the string, providing the Block with the located tags.",
+            "deprecated": true
+          },
+          {
+            "name": "linguisticTags(in:scheme:options:orthography:tokenRanges:)",
+            "summary": "Returns an array of linguistic tags for the specified range and requested tags within the receiving string.",
+            "deprecated": true
+          },
+          {
+            "name": "EnumerationOptions",
+            "summary": "Constants to specify kinds of substrings and styles of enumeration."
+          }
+        ]
+      },
+      {
+        "title": "Determining Line and Paragraph Ranges",
+        "members": [
+          {
+            "name": "getLineStart(_:end:contentsEnd:for:)",
+            "summary": "Returns by reference the beginning of the first line and the end of the last line touched by the given range."
+          },
+          {
+            "name": "lineRange(for:)",
+            "summary": "Returns the range of characters representing the line or lines containing a given range."
+          },
+          {
+            "name": "getParagraphStart(_:end:contentsEnd:for:)",
+            "summary": "Returns by reference the beginning of the first paragraph and the end of the last paragraph touched by the given range."
+          },
+          {
+            "name": "paragraphRange(for:)",
+            "summary": "Returns the range of characters representing the paragraph or paragraphs containing a given range."
+          }
+        ]
+      },
+      {
+        "title": "Determining Composed Character Sequences",
+        "members": [
+          {
+            "name": "rangeOfComposedCharacterSequence(at:)",
+            "summary": "Returns the range in the receiver of the composed character sequence located at a given index."
+          },
+          {
+            "name": "rangeOfComposedCharacterSequences(for:)",
+            "summary": "Returns the range in the string of the composed character sequences for a given range."
+          }
+        ]
+      },
+      {
+        "title": "Writing to a File or URL",
+        "members": [
+          {
+            "name": "write(toFile:atomically:encoding:)",
+            "summary": "Writes the contents of the receiver to a file at a given path using a given encoding."
+          },
+          {
+            "name": "write(to:atomically:encoding:)",
+            "summary": "Writes the contents of the receiver to the URL specified by url using the specified encoding."
+          }
+        ]
+      },
+      {
+        "title": "Converting String Contents Into a Property List",
+        "members": [
+          {
+            "name": "propertyList()",
+            "summary": "Parses the receiver as a text representation of a property list, returning an NSString, NSData, NSArray, or NSDictionary object, according to the topmost element."
+          },
+          {
+            "name": "propertyListFromStringsFileFormat()",
+            "summary": "Returns a dictionary object initialized with the keys and values found in the receiver."
+          }
+        ]
+      },
+      {
+        "title": "Sizing and Drawing Strings",
+        "members": [
+          {
+            "name": "draw(at:withAttributes:)",
+            "summary": "Draws the receiver with the font and other display characteristics of the given attributes, at the specified point in the current graphics context."
+          },
+          {
+            "name": "draw(in:withAttributes:)",
+            "summary": "Draws the attributed string inside the specified bounding rectangle."
+          },
+          {
+            "name": "draw(with:options:attributes:context:)",
+            "summary": "Draws the attributed string in the specified bounding rectangle using the provided options."
+          },
+          {
+            "name": "boundingRect(with:options:attributes:context:)",
+            "summary": "Calculates and returns the bounding rect for the receiver drawn using the given options and display characteristics, within the specified rectangle in the current graphics context."
+          },
+          {
+            "name": "size(withAttributes:)",
+            "summary": "Returns the bounding box size the receiver occupies when drawn with the given attributes."
+          },
+          {
+            "name": "variantFittingPresentationWidth(_:)",
+            "summary": "Returns a string variation suitable for the specified presentation width."
+          }
+        ]
+      },
+      {
+        "title": "Getting Numeric Values",
+        "members": [
+          {
+            "name": "doubleValue",
+            "summary": "The floating-point value of the string as a double."
+          },
+          {
+            "name": "floatValue",
+            "summary": "The floating-point value of the string as a float."
+          },
+          {
+            "name": "intValue",
+            "summary": "The integer value of the string."
+          },
+          {
+            "name": "integerValue",
+            "summary": "The NSInteger value of the string."
+          },
+          {
+            "name": "longLongValue",
+            "summary": "The long long value of the string."
+          },
+          {
+            "name": "boolValue",
+            "summary": "The Boolean value of the string."
+          }
+        ]
+      },
+      {
+        "title": "Working with Encodings",
+        "members": [
+          {
+            "name": "availableStringEncodings",
+            "summary": "Returns a zero-terminated list of the encodings string objects support in the application’s environment."
+          },
+          {
+            "name": "defaultCStringEncoding",
+            "summary": "Returns the C-string encoding assumed for any method accepting a C string as an argument."
+          },
+          {
+            "name": "stringEncoding(for:encodingOptions:convertedString:usedLossyConversion:)",
+            "summary": "Returns the string encoding for the given data as detected by attempting to create a string according to the specified encoding options."
+          },
+          {
+            "name": "localizedName(of:)",
+            "summary": "Returns a human-readable string giving the name of a given encoding."
+          },
+          {
+            "name": "canBeConverted(to:)",
+            "summary": "Returns a Boolean value that indicates whether the receiver can be converted to a given encoding without loss of information."
+          },
+          {
+            "name": "data(using:)",
+            "summary": "Returns an NSData object containing a representation of the receiver encoded using a given encoding."
+          },
+          {
+            "name": "data(using:allowLossyConversion:)",
+            "summary": "Returns an NSData object containing a representation of the receiver encoded using a given encoding."
+          },
+          {
+            "name": "description"
+          },
+          {
+            "name": "fastestEncoding",
+            "summary": "The fastest encoding to which the receiver may be converted without loss of information."
+          },
+          {
+            "name": "smallestEncoding",
+            "summary": "The smallest encoding to which the receiver can be converted without loss of information."
+          }
+        ]
+      },
+      {
+        "title": "Working with Paths",
+        "members": [
+          {
+            "name": "path(withComponents:)",
+            "summary": "Returns a string built from the strings in a given array by concatenating them with a path separator between each pair."
+          },
+          {
+            "name": "pathComponents",
+            "summary": "The file-system path components of the receiver."
+          },
+          {
+            "name": "completePath(into:caseSensitive:matchesInto:filterTypes:)",
+            "summary": "Interprets the receiver as a path in the file system and attempts to perform filename completion, returning a numeric value that indicates whether a match was possible, and by reference the longest path that matches the receiver."
+          },
+          {
+            "name": "fileSystemRepresentation",
+            "summary": "A file system-specific representation of the receiver."
+          },
+          {
+            "name": "getFileSystemRepresentation(_:maxLength:)",
+            "summary": "Interprets the receiver as a system-independent path and fills a buffer with a C-string in a format and encoding suitable for use with file-system calls."
+          },
+          {
+            "name": "isAbsolutePath",
+            "summary": "A Boolean value that indicates whether the receiver represents an absolute path."
+          },
+          {
+            "name": "lastPathComponent",
+            "summary": "The last path component of the receiver."
+          },
+          {
+            "name": "pathExtension",
+            "summary": "The path extension, if any, of the string as interpreted as a path."
+          },
+          {
+            "name": "abbreviatingWithTildeInPath",
+            "summary": "A new string that replaces the current home directory portion of the current path with a tilde (~) character."
+          },
+          {
+            "name": "appendingPathComponent(_:)",
+            "summary": "Returns a new string made by appending to the receiver a given string."
+          },
+          {
+            "name": "appendingPathExtension(_:)",
+            "summary": "Returns a new string made by appending to the receiver an extension separator followed by a given extension."
+          },
+          {
+            "name": "deletingLastPathComponent",
+            "summary": "A new string made by deleting the last path component from the receiver, along with any final path separator."
+          },
+          {
+            "name": "deletingPathExtension",
+            "summary": "A new string made by deleting the extension (if any, and only the last) from the receiver."
+          },
+          {
+            "name": "expandingTildeInPath",
+            "summary": "A new string made by expanding the initial component of the receiver to its full path value."
+          },
+          {
+            "name": "resolvingSymlinksInPath",
+            "summary": "A new string made from the receiver by resolving all symbolic links and standardizing path."
+          },
+          {
+            "name": "standardizingPath",
+            "summary": "A new string made by removing extraneous path components from the receiver."
+          },
+          {
+            "name": "strings(byAppendingPaths:)",
+            "summary": "Returns an array of strings made by separately appending to the receiver each string in a given array."
+          }
+        ]
+      },
+      {
+        "title": "Working with URL Strings",
+        "members": [
+          {
+            "name": "addingPercentEncoding(withAllowedCharacters:)",
+            "summary": "Returns a new string made from the receiver by replacing all characters not in the specified set with percent-encoded characters."
+          },
+          {
+            "name": "removingPercentEncoding",
+            "summary": "Returns a new string made from the receiver by replacing all percent encoded sequences with the matching UTF-8 characters."
+          }
+        ]
+      },
+      {
+        "title": "Deprecated",
+        "members": [
+          {
+            "name": "string(withCString:)",
+            "summary": "Creates a new string using a given C-string.",
+            "deprecated": true
+          },
+          {
+            "name": "init(CString:)-vkuo",
+            "summary": "Initializes the receiver, a newly allocated NSString object, by converting the data in a given C-string from the default C-string encoding into the Unicode character encoding.",
+            "deprecated": true
+          },
+          {
+            "name": "string(withCString:length:)",
+            "summary": "Returns a string containing the characters in a given C-string.",
+            "deprecated": true
+          },
+          {
+            "name": "init(CString:length:)-5ure3",
+            "summary": "Initializes the receiver, a newly allocated NSString object, by converting the data in a given C-string from the default C-string encoding into the Unicode character encoding.",
+            "deprecated": true
+          },
+          {
+            "name": "init(CStringNoCopy:length:freeWhenDone:)-86dm2",
+            "summary": "Initializes the receiver, a newly allocated NSString object, by converting the data in a given C-string from the default C-string encoding into the Unicode character encoding.",
+            "deprecated": true
+          },
+          {
+            "name": "string(withContentsOfFile:)",
+            "summary": "Returns a string created by reading data from the file named by a given path.",
+            "deprecated": true
+          },
+          {
+            "name": "init(contentsOfFile:)",
+            "summary": "Initializes the receiver, a newly allocated NSString object, by reading data from the file named by path.",
+            "deprecated": true
+          },
+          {
+            "name": "string(withContentsOf:)",
+            "summary": "Returns a string created by reading data from the file named by a given URL.",
+            "deprecated": true
+          },
+          {
+            "name": "init(contentsOfURL:)",
+            "summary": "Initializes the receiver, a newly allocated NSString object, by reading data from the location named by a given URL.",
+            "deprecated": true
+          },
+          {
+            "name": "write(toFile:atomically:)",
+            "summary": "Writes the contents of the receiver to the file specified by a given path.",
+            "deprecated": true
+          },
+          {
+            "name": "write(to:atomically:)",
+            "summary": "Writes the contents of the receiver to the location specified by a given URL.",
+            "deprecated": true
+          },
+          {
+            "name": "getCharacters(_:)",
+            "summary": "Copies all characters from the receiver into a given buffer.",
+            "deprecated": true
+          },
+          {
+            "name": "cString()",
+            "summary": "Returns a representation of the receiver as a C string in the default C-string encoding.",
+            "deprecated": true,
+            "deprecatedMessage": "Use cString(using:) or utf8String instead."
+          },
+          {
+            "name": "lossyCString()",
+            "summary": "Returns a representation of the receiver as a C string in the default C-string encoding, possibly losing information in converting to that encoding.",
+            "deprecated": true,
+            "deprecatedMessage": "Use cString(using:) or data(using:allowLossyConversion:) instead."
+          },
+          {
+            "name": "cStringLength()",
+            "summary": "Returns the length in char-sized units of the receiver’s C-string representation in the default C-string encoding.",
+            "deprecated": true,
+            "deprecatedMessage": "Use lengthOfBytes(using:) or maximumLengthOfBytes(using:) instead."
+          },
+          {
+            "name": "getCString(_:)",
+            "summary": "Invokes  with NSMaximumStringLength as the maximum length, the receiver’s entire extent as the range, and NULL for the remaining range.",
+            "deprecated": true
+          },
+          {
+            "name": "getCString(_:maxLength:)",
+            "summary": "Invokes  with maxLength as the maximum length in char-sized units, the receiver’s entire extent as the range, and NULL for the remaining range.",
+            "deprecated": true
+          },
+          {
+            "name": "getCString(_:maxLength:range:remaining:)",
+            "summary": "Converts the receiver’s content to the default C-string encoding and stores them in a given buffer.",
+            "deprecated": true
+          },
+          {
+            "name": "addingPercentEscapes(using:)",
+            "summary": "Returns a representation of the receiver using a given encoding to determine the percent escapes necessary to convert the receiver into a legal URL string.",
+            "deprecated": true
+          },
+          {
+            "name": "replacingPercentEscapes(using:)",
+            "summary": "Returns a new string made by replacing in the receiver all percent escapes with the matching characters as determined by a given encoding.",
+            "deprecated": true
+          },
+          {
+            "name": "draw(with:options:attributes:)",
+            "summary": "Draws the receiver with the specified options and other display characteristics of the given attributes, within the specified rectangle in the current graphics context."
+          },
+          {
+            "name": "boundingRect(with:options:attributes:)",
+            "summary": "Calculates and returns the bounding rect for the receiver drawn using the given options and display characteristics, within the specified rectangle in the current graphics context."
+          }
+        ]
+      },
+      {
+        "title": "Structures",
+        "members": [
+          {
+            "name": "DrawingOptions"
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(bytesNoCopy:length:encoding:deallocator:)"
+          },
+          {
+            "name": "init(cString:)",
+            "deprecated": true
+          },
+          {
+            "name": "init(cString:encoding:)"
+          },
+          {
+            "name": "init(cString:length:)",
+            "deprecated": true
+          },
+          {
+            "name": "init(cStringNoCopy:length:freeWhenDone:)",
+            "deprecated": true
+          },
+          {
+            "name": "init(charactersNoCopy:length:deallocator:)"
+          },
+          {
+            "name": "init(coder:)"
+          },
+          {
+            "name": "init(contentsOf:)",
+            "deprecated": true
+          },
+          {
+            "name": "init(contentsOf:encoding:)"
+          },
+          {
+            "name": "init(contentsOf:usedEncoding:)"
+          },
+          {
+            "name": "init(format:_:)"
+          },
+          {
+            "name": "init(format:locale:_:)"
+          },
+          {
+            "name": "init(string:)-7xgq7",
+            "summary": "Returns an NSString object initialized by copying the characters from another given string."
+          },
+          {
+            "name": "init(utf8String:)"
+          }
+        ]
+      },
+      {
+        "title": "Instance Properties",
+        "members": [
+          {
+            "name": "customPlaygroundQuickLook",
+            "summary": "A custom playground Quick Look for this instance.",
+            "deprecated": true,
+            "deprecatedMessage": "NSString.customPlaygroundQuickLook will be removed in a future Swift version"
+          }
+        ]
+      },
+      {
+        "title": "Instance Methods",
+        "members": [
+          {
+            "name": "appendingPathComponent(_:conformingTo:)"
+          },
+          {
+            "name": "appendingPathExtension(for:)"
+          },
+          {
+            "name": "sr_sensorForDeletionRecordsFromSensor()"
+          }
+        ]
+      },
+      {
+        "title": "Type Methods",
+        "members": [
+          {
+            "name": "deferredLocalizedIntentsString(with:_:)"
+          },
+          {
+            "name": "deferredLocalizedIntentsString(with:table:_:)"
+          },
+          {
+            "name": "deferredLocalizedIntentsString(with:table:arguments:)"
+          }
+        ]
+      },
+      {
+        "title": "Default Implementations",
+        "members": [
+          {
+            "name": "ExpressibleByStringLiteral-Implementations"
+          },
+          {
+            "name": "NSString-Implementations"
+          }
+        ]
+      },
+      {
+        "title": "Constants",
+        "members": [
+          {
+            "name": "characterConversionException",
+            "summary": "NSString raises an NSCharacterConversionException if a string cannot be represented in a file-system or string encoding."
+          },
+          {
+            "name": "parseErrorException",
+            "summary": "NSString raises an NSParseErrorException if a string cannot be parsed as a property list."
+          }
+        ]
+      }
+    ]
+  },
+  "nsstringencoding": {
+    "summary": "The following constants are provided by NSString as possible string encodings."
+  },
+  "nsstringcompareoptions": {
+    "summary": "These values represent the options available to many of the string classes’ search and comparison methods."
+  },
+  "nsurl": {
+    "summary": "An object that represents the location of a resource, such as an item on a remote server or the path to a local file.",
+    "groups": [
+      {
+        "title": "Creating a URL object",
+        "members": [
+          {
+            "name": "init(string:)",
+            "summary": "Initializes an NSURL object with a provided URL string."
+          },
+          {
+            "name": "init(string:encodingInvalidCharacters:)",
+            "summary": "Creates an instance from the provided string, optionally IDNA- and percent-encoding any invalid characters."
+          },
+          {
+            "name": "init(string:relativeTo:)",
+            "summary": "Initializes an NSURL object with a base URL and a relative string."
+          },
+          {
+            "name": "fileURL(withPath:isDirectory:)",
+            "summary": "Initializes and returns a newly created NSURL object as a file URL with a specified path."
+          },
+          {
+            "name": "init(fileURLWithPath:isDirectory:)",
+            "summary": "Initializes a newly created NSURL referencing the local file or directory at path."
+          },
+          {
+            "name": "fileURL(withPath:relativeTo:)"
+          },
+          {
+            "name": "init(fileURLWithPath:relativeTo:)"
+          },
+          {
+            "name": "fileURL(withPath:isDirectory:relativeTo:)"
+          },
+          {
+            "name": "init(fileURLWithPath:isDirectory:relativeTo:)"
+          },
+          {
+            "name": "fileURL(withPath:)",
+            "summary": "Initializes and returns a newly created NSURL object as a file URL with a specified path."
+          },
+          {
+            "name": "init(fileURLWithPath:)",
+            "summary": "Initializes a newly created NSURL referencing the local file or directory at path."
+          },
+          {
+            "name": "fileURL(withPathComponents:)",
+            "summary": "Initializes and returns a newly created NSURL object as a file URL with specified path components."
+          },
+          {
+            "name": "init(resolvingAliasFileAt:options:)",
+            "summary": "Returns a new URL made by resolving the alias file at url."
+          },
+          {
+            "name": "init(resolvingBookmarkData:options:relativeTo:bookmarkDataIsStale:)",
+            "summary": "Initializes a newly created NSURL that points to a location specified by resolving bookmark data."
+          },
+          {
+            "name": "fileURL(withFileSystemRepresentation:isDirectory:relativeTo:)",
+            "summary": "Returns a new URL object initialized with a C string representing a local file system path."
+          },
+          {
+            "name": "getFileSystemRepresentation(_:maxLength:)",
+            "summary": "Fills the provided buffer with a C string representing a local file system path."
+          },
+          {
+            "name": "init(fileURLWithFileSystemRepresentation:isDirectory:relativeTo:)",
+            "summary": "Initializes a URL object with a C string representing a local file system path."
+          },
+          {
+            "name": "absoluteURL(withDataRepresentation:relativeTo:)"
+          },
+          {
+            "name": "init(absoluteURLWithDataRepresentation:relativeTo:)"
+          },
+          {
+            "name": "init(dataRepresentation:relativeTo:)"
+          },
+          {
+            "name": "dataRepresentation"
+          }
+        ]
+      },
+      {
+        "title": "Querying an NSURL",
+        "members": [
+          {
+            "name": "checkResourceIsReachableAndReturnError(_:)",
+            "summary": "Returns whether the resource pointed to by a file URL can be reached."
+          },
+          {
+            "name": "isFileReferenceURL()",
+            "summary": "Returns whether the URL is a file reference URL."
+          },
+          {
+            "name": "isFileURL",
+            "summary": "A boolean value that determines whether the receiver is a file URL."
+          }
+        ]
+      },
+      {
+        "title": "Accessing the Parts of the URL",
+        "members": [
+          {
+            "name": "absoluteString",
+            "summary": "The URL string for the receiver as an absolute URL. (read-only)"
+          },
+          {
+            "name": "absoluteURL",
+            "summary": "An absolute URL that refers to the same resource as the receiver. (read-only)"
+          },
+          {
+            "name": "baseURL",
+            "summary": "The base URL. (read-only)"
+          },
+          {
+            "name": "fileSystemRepresentation",
+            "summary": "A C string containing the URL’s file system path. (read-only)"
+          },
+          {
+            "name": "fragment",
+            "summary": "The fragment identifier, conforming to RFC 1808. (read-only)"
+          },
+          {
+            "name": "host",
+            "summary": "The host, conforming to RFC 1808. (read-only)"
+          },
+          {
+            "name": "lastPathComponent",
+            "summary": "The last path component. (read-only)"
+          },
+          {
+            "name": "parameterString",
+            "summary": "The parameter string conforming to RFC 1808. (read-only)",
+            "deprecated": true,
+            "deprecatedMessage": "The parameterString method is deprecated. Post deprecation for applications linked with or after the macOS 10.15, and for all iOS, watchOS, and tvOS applications, parameterString will always return nil, and the path method will return the complete path including the semicolon separator and params component if the URL string contains them."
+          },
+          {
+            "name": "password",
+            "summary": "The password conforming to RFC 1808. (read-only)"
+          },
+          {
+            "name": "path",
+            "summary": "The path, conforming to RFC 1808. (read-only)"
+          },
+          {
+            "name": "pathComponents",
+            "summary": "An array containing the  path components. (read-only)"
+          },
+          {
+            "name": "pathExtension",
+            "summary": "The path extension. (read-only)"
+          },
+          {
+            "name": "port",
+            "summary": "The port, conforming to RFC 1808."
+          },
+          {
+            "name": "query",
+            "summary": "The query string, conforming to RFC 1808."
+          },
+          {
+            "name": "relativePath",
+            "summary": "The relative path, conforming to RFC 1808. (read-only)"
+          },
+          {
+            "name": "relativeString",
+            "summary": "A string representation of the relative portion of the URL. (read-only)"
+          },
+          {
+            "name": "resourceSpecifier",
+            "summary": "The resource specifier. (read-only)"
+          },
+          {
+            "name": "scheme",
+            "summary": "The scheme. (read-only)"
+          },
+          {
+            "name": "standardized",
+            "summary": "A copy of the URL with any instances of \"..\" or \".\" removed from its path. (read-only)"
+          },
+          {
+            "name": "user",
+            "summary": "The user name, conforming to RFC 1808."
+          }
+        ]
+      },
+      {
+        "title": "Accessing Resource Values",
+        "members": [
+          {
+            "name": "resourceValues(forKeys:)",
+            "summary": "Returns the resource values for the properties identified by specified array of keys."
+          },
+          {
+            "name": "getResourceValue(_:forKey:)",
+            "summary": "Returns the value of the resource property for the specified key."
+          },
+          {
+            "name": "setResourceValue(_:forKey:)",
+            "summary": "Sets the URL’s resource property for a given key to a given value."
+          },
+          {
+            "name": "setResourceValues(_:)",
+            "summary": "Sets the URL’s resource properties for a given set of keys to a given set of values."
+          },
+          {
+            "name": "removeAllCachedResourceValues()",
+            "summary": "Removes all cached resource values and temporary resource values from the URL object."
+          },
+          {
+            "name": "removeCachedResourceValue(forKey:)",
+            "summary": "Removes the cached resource value identified by a given key from the URL object."
+          },
+          {
+            "name": "setTemporaryResourceValue(_:forKey:)",
+            "summary": "Sets a temporary resource value on the URL object."
+          }
+        ]
+      },
+      {
+        "title": "Modifying and Converting a File URL",
+        "members": [
+          {
+            "name": "filePathURL",
+            "summary": "A file path URL that points to the same resource as the URL object. (read-only)"
+          },
+          {
+            "name": "fileReferenceURL()",
+            "summary": "Returns a new file reference URL that points to the same resource as the receiver."
+          },
+          {
+            "name": "appendingPathComponent(_:)",
+            "summary": "Returns a new URL by appending a path component to the original URL."
+          },
+          {
+            "name": "appendingPathComponent(_:isDirectory:)",
+            "summary": "Returns a new URL by appending a path component to the original URL, along with a trailing slash if the component is a directory."
+          },
+          {
+            "name": "appendingPathComponent(_:conformingTo:)",
+            "summary": "Returns a URL by appending the specified path component with the file extension for a uniform type identifier."
+          },
+          {
+            "name": "appendingPathExtension(_:)",
+            "summary": "Returns a new URL by appending a path extension to the original URL."
+          },
+          {
+            "name": "appendingPathExtension(for:)",
+            "summary": "Returns a URL by appending the path extension for a uniform type identifier."
+          },
+          {
+            "name": "deletingLastPathComponent",
+            "summary": "A URL you create by removing the last path component from the receiver. (read-only)"
+          },
+          {
+            "name": "deletingPathExtension",
+            "summary": "A URL you create by removing the path extension from the receiver, if any. (read-only)"
+          },
+          {
+            "name": "resolvingSymlinksInPath",
+            "summary": "A URL that points to the same resource as the receiver and includes no symbolic links. (read-only)"
+          },
+          {
+            "name": "standardizingPath",
+            "summary": "A URL that points to the same resource as the original URL using an absolute path. (read-only)"
+          },
+          {
+            "name": "hasDirectoryPath",
+            "summary": "A Boolean value that indicates whether the URL string’s path represents a directory."
+          }
+        ]
+      },
+      {
+        "title": "Working with Bookmark Data",
+        "members": [
+          {
+            "name": "bookmarkData(withContentsOf:)",
+            "summary": "Initializes and returns bookmark data derived from an alias file pointed to by a specified URL."
+          },
+          {
+            "name": "bookmarkData(options:includingResourceValuesForKeys:relativeTo:)",
+            "summary": "Returns a bookmark for the URL, created with specified options and resource values."
+          },
+          {
+            "name": "resourceValues(forKeys:fromBookmarkData:)",
+            "summary": "Returns the resource values for properties identified by a specified array of keys contained in specified bookmark data."
+          },
+          {
+            "name": "writeBookmarkData(_:to:options:)",
+            "summary": "Creates an alias file on disk at a specified location with specified bookmark data."
+          },
+          {
+            "name": "startAccessingSecurityScopedResource()",
+            "summary": "In an app that has adopted App Sandbox, makes the resource pointed to by a security-scoped URL available to the app."
+          },
+          {
+            "name": "stopAccessingSecurityScopedResource()",
+            "summary": "In an app that adopts App Sandbox, revokes access to the resource pointed to by a security-scoped URL."
+          },
+          {
+            "name": "BookmarkFileCreationOptions",
+            "summary": "Options used when creating file bookmark data"
+          },
+          {
+            "name": "BookmarkCreationOptions",
+            "summary": "Options used when creating bookmark data."
+          },
+          {
+            "name": "BookmarkResolutionOptions",
+            "summary": "Options used when resolving bookmark data."
+          }
+        ]
+      },
+      {
+        "title": "Working with Promised Items",
+        "members": [
+          {
+            "name": "checkPromisedItemIsReachableAndReturnError(_:)",
+            "summary": "Returns whether the promised item can be reached."
+          },
+          {
+            "name": "getPromisedItemResourceValue(_:forKey:)",
+            "summary": "Returns the value of the resource property for the specified key."
+          },
+          {
+            "name": "promisedItemResourceValues(forKeys:)",
+            "summary": "Returns the resource values for the properties identified by specified array of keys."
+          }
+        ]
+      },
+      {
+        "title": "Working with Pasteboards",
+        "members": [
+          {
+            "name": "init(fromPasteboard:)",
+            "summary": "Reads an NSURL object off of the specified pasteboard."
+          },
+          {
+            "name": "write(to:)",
+            "summary": "Writes the URL to the specified pasteboard."
+          }
+        ]
+      },
+      {
+        "title": "Using Quick Looks",
+        "members": [
+          {
+            "name": "customPlaygroundQuickLook",
+            "summary": "A custom playground Quick Look for this instance.",
+            "deprecated": true,
+            "deprecatedMessage": "NSURL.customPlaygroundQuickLook will be removed in a future Swift version"
+          }
+        ]
+      },
+      {
+        "title": "Deprecated",
+        "members": [
+          {
+            "name": "init(scheme:host:path:)",
+            "summary": "Initializes a newly created NSURL with a specified scheme, host, and path.",
+            "deprecated": true
+          }
+        ]
+      },
+      {
+        "title": "Constants",
+        "members": [
+          {
+            "name": "keysOfUnsetValuesKey",
+            "summary": "Key for the resource properties that have not been set after the  method returns an error, returned as an array of NSString objects."
+          }
+        ]
+      }
+    ]
+  },
   "mtl4accelerationstructuredescriptor": {
     "summary": "Base class for Metal 4 acceleration structure descriptors."
   },

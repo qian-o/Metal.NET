@@ -34,6 +34,7 @@ $apiOrderFile = Join-Path $scriptDir 'metal-docs.json'
 # Framework subdirectory -> Apple documentation module name
 $frameworkMap = @{
     'Metal'      = 'metal'
+    'Foundation'  = 'foundation'
     'MetalFX'    = 'metalfx'
     'QuartzCore' = 'quartzcore'
 }
@@ -278,8 +279,12 @@ function Format-Json {
 function Get-SubPageIdentifiers {
     param([string]$JsonPath)
 
-    $json = [System.IO.File]::ReadAllText($JsonPath, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
     $result = [System.Collections.Generic.List[PSCustomObject]]::new()
+    try {
+        $json = [System.IO.File]::ReadAllText($JsonPath, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
+    } catch {
+        return $result
+    }
 
     $sections = $json.PSObject.Properties['topicSections']
     if (-not $sections -or -not $sections.Value) { return $result }
@@ -367,8 +372,12 @@ function Extract-MemberOrder {
         [string]$ModuleDir = ''
     )
 
-    $json = [System.IO.File]::ReadAllText($JsonPath, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
     $groups = [System.Collections.Generic.List[PSCustomObject]]::new()
+    try {
+        $json = [System.IO.File]::ReadAllText($JsonPath, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
+    } catch {
+        return $groups
+    }
 
     $sections = $json.PSObject.Properties['topicSections']
     if (-not $sections -or -not $sections.Value) { return $groups }
@@ -414,12 +423,18 @@ function Extract-MemberOrder {
                             $memberFile = Join-Path $ModuleDir "$($memberSlug -replace '/', [System.IO.Path]::DirectorySeparatorChar).json"
                         }
                         if (Test-Path $memberFile) {
-                            $memberJson = [System.IO.File]::ReadAllText($memberFile, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
-                            $dsProp = $memberJson.PSObject.Properties['deprecationSummary']
-                            if ($dsProp -and $dsProp.Value) {
-                                $memberRefs = $null
-                                if ($memberJson.PSObject.Properties['references']) { $memberRefs = $memberJson.references }
-                                $deprecatedMessage = Render-DeprecationSummary $dsProp.Value $memberRefs
+                            try {
+                                $memberJson = [System.IO.File]::ReadAllText($memberFile, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
+                            } catch {
+                                $memberJson = $null
+                            }
+                            if ($memberJson) {
+                                $dsProp = $memberJson.PSObject.Properties['deprecationSummary']
+                                if ($dsProp -and $dsProp.Value) {
+                                    $memberRefs = $null
+                                    if ($memberJson.PSObject.Properties['references']) { $memberRefs = $memberJson.references }
+                                    $deprecatedMessage = Render-DeprecationSummary $dsProp.Value $memberRefs
+                                }
                             }
                         }
                     }
@@ -449,7 +464,11 @@ function Extract-MemberOrder {
 function Extract-ClassSummary {
     param([string]$JsonPath)
 
-    $json = [System.IO.File]::ReadAllText($JsonPath, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
+    try {
+        $json = [System.IO.File]::ReadAllText($JsonPath, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
+    } catch {
+        return $null
+    }
     $absProp = $json.PSObject.Properties['abstract']
     if (-not $absProp -or -not $absProp.Value) { return $null }
     return Render-Abstract $absProp.Value
@@ -458,7 +477,11 @@ function Extract-ClassSummary {
 function Extract-DeprecationSummary {
     param([string]$JsonPath)
 
-    $json = [System.IO.File]::ReadAllText($JsonPath, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
+    try {
+        $json = [System.IO.File]::ReadAllText($JsonPath, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
+    } catch {
+        return $null
+    }
     $dsProp = $json.PSObject.Properties['deprecationSummary']
     if (-not $dsProp -or -not $dsProp.Value) { return $null }
     $refs = $null
