@@ -102,6 +102,8 @@ function Update-MetalCpp {
 # Regex matching the C++ class declaration pattern used in metal-cpp headers:
 #   class ClassName : public NS::Referencing<ClassName> or NS::Copying<ClassName>
 $classPattern = [regex]'class\s+(\w+)\s*:\s*public\s+NS::(?:Referencing|Copying)\s*<'
+# Regex matching enum/options declarations: _MTL_ENUM(type, Name) { ... } or _MTLFX_OPTIONS(type, Name) { ... }
+$enumPattern = [regex]'_(\w+)_(ENUM|OPTIONS)\s*\(\s*[^,]+?\s*,\s*(\w+)\s*\)'
 # Regex to find namespace declarations: namespace MTL { ... }
 $nsPattern = [regex]'namespace\s+(\w+)\s*\{'
 
@@ -185,6 +187,31 @@ function Get-ClassNamesFromHeaders {
                     }
                 }
             }
+
+            # Extract enum/options declarations from the same header
+            foreach ($em in $enumPattern.Matches($content)) {
+                $enumName = $em.Groups[3].Value
+
+                # Find the enclosing namespace for this enum declaration
+                $ns = ''
+                for ($i = $nsPositions.Count - 1; $i -ge 0; $i--) {
+                    if ($nsPositions[$i].Pos -lt $em.Index) {
+                        $ns = $nsPositions[$i].Ns
+                        break
+                    }
+                }
+
+                $prefix = if ($nsPrefixMap.ContainsKey($ns)) { $nsPrefixMap[$ns] } else { $ns }
+                $slug = ($prefix + $enumName).ToLowerInvariant()
+
+                if ($seen.Add($slug)) {
+                    $classes.Add([PSCustomObject]@{
+                        Module    = $docModule
+                        ClassName = $slug
+                        FileName  = $name
+                    })
+                }
+            }
         }
     }
 
@@ -200,6 +227,10 @@ function Download-DocJson {
 
     $url = "https://developer.apple.com/tutorials/data/documentation/$Module/$Slug.json"
     $outFile = Join-Path $OutDir "$Slug.json"
+
+    # Ensure parent directory exists for nested slugs (e.g., "class/member")
+    $outDir2 = [System.IO.Path]::GetDirectoryName($outFile)
+    if (-not (Test-Path $outDir2)) { New-Item $outDir2 -ItemType Directory -Force | Out-Null }
 
     if (Test-Path $outFile) { return $null }
 
@@ -290,8 +321,51 @@ function Render-Abstract {
     return $text
 }
 
+function Render-DeprecationSummary {
+    param(
+        [object[]]$Nodes,
+        [object]$References = $null
+    )
+
+    if (-not $Nodes) { return $null }
+
+    # deprecationSummary is an array of paragraph objects, each with inlineContent
+    $parts = [System.Collections.Generic.List[string]]::new()
+    foreach ($node in $Nodes) {
+        if (-not $node.PSObject.Properties['inlineContent']) { continue }
+        foreach ($ic in $node.inlineContent) {
+            switch ($ic.type) {
+                'text'      { $parts.Add($ic.text) }
+                'codeVoice' { $parts.Add($ic.code) }
+                'reference' {
+                    # Resolve title from the page's references section
+                    $title = $null
+                    if ($References -and $ic.PSObject.Properties['identifier']) {
+                        $refEntry = $References.PSObject.Properties[$ic.identifier]
+                        if ($refEntry -and $refEntry.Value.PSObject.Properties['title']) {
+                            $title = $refEntry.Value.title
+                        }
+                    }
+                    if (-not $title -and $ic.PSObject.Properties['title']) {
+                        $title = $ic.title
+                    }
+                    if ($title) { $parts.Add($title) }
+                }
+            }
+        }
+    }
+
+    $text = ($parts -join '').Trim()
+    if ($text.Length -eq 0) { return $null }
+    return $text
+}
+
 function Extract-MemberOrder {
-    param([string]$JsonPath)
+    param(
+        [string]$JsonPath,
+        [string]$Module = '',
+        [string]$ModuleDir = ''
+    )
 
     $json = [System.IO.File]::ReadAllText($JsonPath, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
     $groups = [System.Collections.Generic.List[PSCustomObject]]::new()
@@ -299,8 +373,9 @@ function Extract-MemberOrder {
     $sections = $json.PSObject.Properties['topicSections']
     if (-not $sections -or -not $sections.Value) { return $groups }
 
-    # Build a lookup from identifier -> summary text using the references section
+    # Build lookups from identifier -> summary text and identifier -> deprecated flag
     $refSummaries = @{}
+    $refDeprecated = [System.Collections.Generic.HashSet[string]]::new()
     $refsProp = $json.PSObject.Properties['references']
     if ($refsProp -and $refsProp.Value) {
         foreach ($rp in $refsProp.Value.PSObject.Properties) {
@@ -310,6 +385,10 @@ function Extract-MemberOrder {
                 if ($summary) {
                     $refSummaries[$rp.Name] = $summary
                 }
+            }
+            $depProp = $rp.Value.PSObject.Properties['deprecated']
+            if ($depProp -and $depProp.Value -eq $true) {
+                [void]$refDeprecated.Add($rp.Name)
             }
         }
     }
@@ -323,9 +402,35 @@ function Extract-MemberOrder {
             if ($id -match '/documentation/[^/]+/[^/]+/([^/]+)$') {
                 $memberName = $Matches[1]
                 $summary = if ($refSummaries.ContainsKey($id)) { $refSummaries[$id] } else { $null }
+                $isDeprecated = $refDeprecated.Contains($id)
+
+                $deprecatedMessage = $null
+                if ($isDeprecated -and $Module -and $ModuleDir) {
+                    # Extract member slug from identifier: .../Module/Class/member -> class/member
+                    if ($id -match '/documentation/[^/]+/([^/]+/[^/]+)$') {
+                        $memberSlug = $Matches[1].ToLowerInvariant()
+                        $memberFile = Download-DocJson -Module $Module -Slug $memberSlug -OutDir $ModuleDir
+                        if (-not $memberFile) {
+                            $memberFile = Join-Path $ModuleDir "$($memberSlug -replace '/', [System.IO.Path]::DirectorySeparatorChar).json"
+                        }
+                        if (Test-Path $memberFile) {
+                            $memberJson = [System.IO.File]::ReadAllText($memberFile, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
+                            $dsProp = $memberJson.PSObject.Properties['deprecationSummary']
+                            if ($dsProp -and $dsProp.Value) {
+                                $memberRefs = $null
+                                if ($memberJson.PSObject.Properties['references']) { $memberRefs = $memberJson.references }
+                                $deprecatedMessage = Render-DeprecationSummary $dsProp.Value $memberRefs
+                            }
+                        }
+                    }
+                }
 
                 $memberObj = [ordered]@{ name = $memberName }
                 if ($summary) { $memberObj['summary'] = $summary }
+                if ($isDeprecated) {
+                    $memberObj['deprecated'] = $true
+                    if ($deprecatedMessage) { $memberObj['deprecatedMessage'] = $deprecatedMessage }
+                }
                 $members.Add([PSCustomObject]$memberObj)
             }
         }
@@ -348,6 +453,17 @@ function Extract-ClassSummary {
     $absProp = $json.PSObject.Properties['abstract']
     if (-not $absProp -or -not $absProp.Value) { return $null }
     return Render-Abstract $absProp.Value
+}
+
+function Extract-DeprecationSummary {
+    param([string]$JsonPath)
+
+    $json = [System.IO.File]::ReadAllText($JsonPath, [System.Text.Encoding]::UTF8) | ConvertFrom-Json
+    $dsProp = $json.PSObject.Properties['deprecationSummary']
+    if (-not $dsProp -or -not $dsProp.Value) { return $null }
+    $refs = $null
+    if ($json.PSObject.Properties['references']) { $refs = $json.references }
+    return Render-DeprecationSummary $dsProp.Value $refs
 }
 
 function Update-ApiOrder {
@@ -378,12 +494,13 @@ function Update-ApiOrder {
         }
         if (-not (Test-Path $mainFile)) { continue }
 
-        # Extract class-level summary
+        # Extract class-level summary and deprecation info
         $classSummary = Extract-ClassSummary -JsonPath $mainFile
+        $classDeprecation = Extract-DeprecationSummary -JsonPath $mainFile
 
         # Collect member groups from the main page
         $allGroups = [System.Collections.Generic.List[PSCustomObject]]::new()
-        $mainGroups = Extract-MemberOrder -JsonPath $mainFile
+        $mainGroups = Extract-MemberOrder -JsonPath $mainFile -Module $entry.Module -ModuleDir $moduleDir
         foreach ($g in $mainGroups) { $allGroups.Add($g) }
 
         # Download and collect sub-pages
@@ -394,14 +511,18 @@ function Update-ApiOrder {
                 $subFile = Join-Path $moduleDir "$($sub.Slug).json"
             }
             if (Test-Path $subFile) {
-                $subGroups = Extract-MemberOrder -JsonPath $subFile
+                $subGroups = Extract-MemberOrder -JsonPath $subFile -Module $entry.Module -ModuleDir $moduleDir
                 foreach ($g in $subGroups) { $allGroups.Add($g) }
             }
         }
 
-        if ($allGroups.Count -gt 0 -or $classSummary) {
+        if ($allGroups.Count -gt 0 -or $classSummary -or $classDeprecation) {
             $classEntry = [ordered]@{}
             if ($classSummary) { $classEntry['summary'] = $classSummary }
+            if ($classDeprecation) {
+                $classEntry['deprecated'] = $true
+                $classEntry['deprecatedMessage'] = $classDeprecation
+            }
             if ($allGroups.Count -gt 0) { $classEntry['groups'] = @($allGroups) }
             $apiOrder[$entry.ClassName] = [PSCustomObject]$classEntry
         }
@@ -419,7 +540,7 @@ function Update-ApiOrder {
 
     $classCount = $apiOrder.Count
     $groupCount = ($apiOrder.Values | ForEach-Object { if ($_.PSObject.Properties['groups']) { $_.groups.Count } else { 0 } } | Measure-Object -Sum).Sum
-    Write-Host "  Distilled $classCount classes, $groupCount groups -> metal-docs.json" -ForegroundColor Green
+    Write-Host "  Distilled $classCount entries (classes + enums), $groupCount groups -> metal-docs.json" -ForegroundColor Green
 }
 
 #endregion

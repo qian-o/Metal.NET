@@ -582,6 +582,28 @@
       }
     ]
   },
+  "mtl4binaryfunctionoptions": {
+    "summary": "Options for configuring the creation of binary functions.",
+    "groups": [
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      },
+      {
+        "title": "Type Properties",
+        "members": [
+          {
+            "name": "pipelineIndependent",
+            "summary": "Compiles the function to have its function handles return a constant MTLResourceID across all pipeline states. The function needs to be linked to the pipeline that will use this function."
+          }
+        ]
+      }
+    ]
+  },
   "mtl4commandallocatordescriptor": {
     "summary": "Groups together parameters for creating a command allocator.",
     "groups": [
@@ -766,6 +788,32 @@
           {
             "name": "waitForFence(_:beforeEncoderStages:)",
             "summary": "Encodes a command that instructs the GPU to pause before starting one or more stages of the pass until a pass updates a fence."
+          }
+        ]
+      }
+    ]
+  },
+  "mtl4visibilityoptions": {
+    "summary": "Memory consistency options for synchronization commands.",
+    "groups": [
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      },
+      {
+        "title": "Type Properties",
+        "members": [
+          {
+            "name": "device",
+            "summary": "Flushes caches to the GPU (device) memory coherence point."
+          },
+          {
+            "name": "resourceAlias",
+            "summary": "Flushes caches to ensure that aliased virtual addresses are memory consistent."
           }
         ]
       }
@@ -1033,6 +1081,40 @@
           {
             "name": "waitUntilCompleted",
             "summary": "Waits synchronously for this compile task to complete by blocking the calling thread."
+          }
+        ]
+      }
+    ]
+  },
+  "mtl4compilertaskstatus": {
+    "summary": "Represents the status of a compiler task.",
+    "groups": [
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "compiling",
+            "summary": "The compiler task is currently compiling."
+          },
+          {
+            "name": "finished",
+            "summary": "The compiler task is finished."
+          },
+          {
+            "name": "none",
+            "summary": "No status."
+          },
+          {
+            "name": "scheduled",
+            "summary": "The compiler task is currently scheduled."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
           }
         ]
       }
@@ -1355,6 +1437,58 @@
           {
             "name": "resolveCounterRange(_:)",
             "summary": "Resolves heap data on the CPU timeline."
+          }
+        ]
+      }
+    ]
+  },
+  "mtl4counterheaptype": {
+    "summary": "Defines the type of a  and the contents of its entries.",
+    "groups": [
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "invalid",
+            "summary": "Specifies that  entries contain invalid data."
+          },
+          {
+            "name": "timestamp",
+            "summary": "Specifies that  entries contain GPU timestamp data."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtl4timestampgranularity": {
+    "summary": "Provides a hint to the system about the desired accuracy when writing GPU counter timestamps.",
+    "groups": [
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "precise",
+            "summary": "A timestamp as precise as possible."
+          },
+          {
+            "name": "relaxed",
+            "summary": "A minimally-invasive timestamp which may be less precise."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
           }
         ]
       }
@@ -1734,6 +1868,32 @@
       }
     ]
   },
+  "mtl4pipelinedatasetserializerconfiguration": {
+    "summary": "Configuration options for pipeline dataset serializer objects.",
+    "groups": [
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      },
+      {
+        "title": "Type Properties",
+        "members": [
+          {
+            "name": "captureBinaries",
+            "summary": "Enables serializing pipeline binary functions."
+          },
+          {
+            "name": "captureDescriptors",
+            "summary": "Enables serializing pipeline scripts."
+          }
+        ]
+      }
+    ]
+  },
   "mtl4pipelineoptions": {
     "summary": "Provides options controlling how to compile a pipeline state.",
     "groups": [
@@ -1765,6 +1925,140 @@
           {
             "name": "options",
             "summary": "Provides compile-time options when you build the pipeline."
+          }
+        ]
+      }
+    ]
+  },
+  "mtl4alphatoonestate": {
+    "summary": "Enumeration for controlling alpha-to-one state of a pipeline state object.",
+    "groups": [
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "disabled",
+            "summary": "Disables alpha-to-one."
+          },
+          {
+            "name": "enabled",
+            "summary": "Enables alpha-to-one."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtl4alphatocoveragestate": {
+    "summary": "Enumeration for controlling alpha-to-coverage state of a pipeline state object.",
+    "groups": [
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "disabled",
+            "summary": "Disables alpha-to-coverage."
+          },
+          {
+            "name": "enabled",
+            "summary": "Enables alpha-to-coverage."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtl4blendstate": {
+    "summary": "Enumeration for controlling the blend state of a pipeline state object.",
+    "groups": [
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "disabled",
+            "summary": "Disables blending."
+          },
+          {
+            "name": "enabled",
+            "summary": "Enables blending."
+          },
+          {
+            "name": "unspecialized",
+            "summary": "Defers determining the blending stage."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtl4indirectcommandbuffersupportstate": {
+    "summary": "Enumeration for controlling support for .",
+    "groups": [
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "disabled",
+            "summary": "Disables support for indirect command buffers."
+          },
+          {
+            "name": "enabled",
+            "summary": "Enables support for indirect command buffers."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtl4shaderreflection": {
+    "summary": "Option mask for requesting reflection information at pipeline build time.",
+    "groups": [
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      },
+      {
+        "title": "Type Properties",
+        "members": [
+          {
+            "name": "bindingInfo",
+            "summary": "Requests reflection information for bindings."
+          },
+          {
+            "name": "bufferTypeInfo",
+            "summary": "Requests reflection information for buffer types."
           }
         ]
       }
@@ -2018,6 +2312,32 @@
           {
             "name": "writeTimestamp(granularity:after:counterHeap:index:)",
             "summary": "Writes a GPU timestamp into the given  at index after stage completes."
+          }
+        ]
+      }
+    ]
+  },
+  "mtl4renderencoderoptions": {
+    "summary": "Custom render pass options you specify at encoder creation time.",
+    "groups": [
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      },
+      {
+        "title": "Type Properties",
+        "members": [
+          {
+            "name": "resuming",
+            "summary": "Configures the render pass to as resuming."
+          },
+          {
+            "name": "suspending",
+            "summary": "Configures the render pass as suspending."
           }
         ]
       }
@@ -2291,6 +2611,32 @@
           {
             "name": "reset()",
             "summary": "Resets this descriptor to its default state."
+          }
+        ]
+      }
+    ]
+  },
+  "mtl4logicaltophysicalcolorattachmentmappingstate": {
+    "summary": "Enumerates possible behaviors of how a pipeline maps its logical outputs to its color attachments.",
+    "groups": [
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "identity",
+            "summary": "Treats the logical color attachment descriptor array for render and tile render pipelines to match the physical one."
+          },
+          {
+            "name": "inherited",
+            "summary": "Deduces the color attachment mapping by inheriting it from the color attachment map of the current encoder."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
           }
         ]
       }
@@ -2966,6 +3312,291 @@
       }
     ]
   },
+  "mtlmatrixlayout": {
+    "groups": [
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "columnMajor"
+          },
+          {
+            "name": "rowMajor"
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlmotionbordermode": {
+    "summary": "Options for specifying how the acceleration structure handles timestamps that are outside the specified range.",
+    "groups": [
+      {
+        "title": "Specifying motion modes",
+        "members": [
+          {
+            "name": "clamp",
+            "summary": "A mode that specifies treating times outside the specified endpoint as if they were at the endpoint."
+          },
+          {
+            "name": "vanish",
+            "summary": "A mode that specifies that times outside the specified endpoint need to prevent any ray-intersections with the primitive."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlcurvetype": {
+    "groups": [
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "flat"
+          },
+          {
+            "name": "round"
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlcurvebasis": {
+    "groups": [
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "bSpline"
+          },
+          {
+            "name": "bezier"
+          },
+          {
+            "name": "catmullRom"
+          },
+          {
+            "name": "linear"
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlcurveendcaps": {
+    "groups": [
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "disk"
+          },
+          {
+            "name": "none"
+          },
+          {
+            "name": "sphere"
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlaccelerationstructureinstancedescriptortype": {
+    "summary": "Options for specifying different kinds of instance types.",
+    "groups": [
+      {
+        "title": "Specifying the instance descriptor type",
+        "members": [
+          {
+            "name": "default",
+            "summary": "An option specifying that the instance uses the default characteristics."
+          },
+          {
+            "name": "userID",
+            "summary": "An option specifying that the instance contains a user identifier."
+          },
+          {
+            "name": "motion",
+            "summary": "An option specifying that the instance contains motion data."
+          },
+          {
+            "name": "indirect",
+            "summary": "An option that enables an instance descriptor memory layout the GPU can populate."
+          },
+          {
+            "name": "indirectMotion",
+            "summary": "An option specifying that the instance contains motion data, and enables using an instance descriptor memory layout that the GPU can populate."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtltransformtype": {
+    "groups": [
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "component"
+          },
+          {
+            "name": "packedFloat4x3"
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlaccelerationstructurerefitoptions": {
+    "groups": [
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      },
+      {
+        "title": "Type Properties",
+        "members": [
+          {
+            "name": "perPrimitiveData"
+          },
+          {
+            "name": "vertexData"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlaccelerationstructureusage": {
+    "summary": "Options that affect how Metal builds an acceleration structure and the behavior of that acceleration structure.",
+    "groups": [
+      {
+        "title": "Applying options",
+        "members": [
+          {
+            "name": "refit",
+            "summary": "An option that lets you update an acceleration structure after creating it."
+          },
+          {
+            "name": "preferFastBuild",
+            "summary": "An option that instructs Metal to build an acceleration structure quickly."
+          },
+          {
+            "name": "preferFastIntersection",
+            "summary": "An option that instructs Metal to prioritize building an acceleration structure with better intersection performance."
+          },
+          {
+            "name": "minimizeMemory",
+            "summary": "An option that instructs Metal to prioritize building an acceleration structure that needs less memory."
+          },
+          {
+            "name": "extendedLimits",
+            "summary": "An option that increases an acceleration structure’s storage capacity."
+          }
+        ]
+      },
+      {
+        "title": "Swift support",
+        "members": [
+          {
+            "name": "init(rawValue:)",
+            "summary": "Creates new usage options instance from a raw integer value."
+          }
+        ]
+      }
+    ]
+  },
+  "mtlaccelerationstructureinstanceoptions": {
+    "summary": "Options for adjusting the behavior of an instanced acceleration structure.",
+    "groups": [
+      {
+        "title": "Creating instance flags",
+        "members": [
+          {
+            "name": "init(rawValue:)",
+            "summary": "Creates new usage options from a raw integer value."
+          }
+        ]
+      },
+      {
+        "title": "Usage options",
+        "members": [
+          {
+            "name": "disableTriangleCulling",
+            "summary": "An option that turns off culling for this instance if ray intersector has culling enabled."
+          },
+          {
+            "name": "triangleFrontFacingWindingCounterClockwise",
+            "summary": "Specifies that the instance specifies front facing triangles in counter-clockwise order."
+          },
+          {
+            "name": "opaque",
+            "summary": "Specifies that intersectors should treat the instance as opaque."
+          },
+          {
+            "name": "nonOpaque",
+            "summary": "Specifies that intersectors should treat the instance as non-opaque."
+          }
+        ]
+      }
+    ]
+  },
   "mtlaccelerationstructurecommandencoder": {
     "summary": "Encodes commands that build and refit acceleration structures for a single pass.",
     "groups": [
@@ -3361,23 +3992,28 @@
         "members": [
           {
             "name": "name",
-            "summary": "The name of the argument."
+            "summary": "The name of the argument.",
+            "deprecated": true
           },
           {
             "name": "isActive",
-            "summary": "A Boolean that indicates whether the compiled function uses the argument."
+            "summary": "A Boolean that indicates whether the compiled function uses the argument.",
+            "deprecated": true
           },
           {
             "name": "index",
-            "summary": "The index in the argument table that corresponds to the function argument."
+            "summary": "The index in the argument table that corresponds to the function argument.",
+            "deprecated": true
           },
           {
             "name": "type",
-            "summary": "The argument’s resource type."
+            "summary": "The argument’s resource type.",
+            "deprecated": true
           },
           {
             "name": "access",
-            "summary": "The argument’s read and/or write access."
+            "summary": "The argument’s read and/or write access.",
+            "deprecated": true
           }
         ]
       },
@@ -3386,23 +4022,28 @@
         "members": [
           {
             "name": "bufferAlignment",
-            "summary": "The required byte alignment in memory for the buffer data."
+            "summary": "The required byte alignment in memory for the buffer data.",
+            "deprecated": true
           },
           {
             "name": "bufferDataSize",
-            "summary": "The size, in bytes, of the buffer data."
+            "summary": "The size, in bytes, of the buffer data.",
+            "deprecated": true
           },
           {
             "name": "bufferDataType",
-            "summary": "The data type of the buffer data."
+            "summary": "The data type of the buffer data.",
+            "deprecated": true
           },
           {
             "name": "bufferStructType",
-            "summary": "A description of the structure data of a buffer argument."
+            "summary": "A description of the structure data of a buffer argument.",
+            "deprecated": true
           },
           {
             "name": "bufferPointerType",
-            "summary": "A description of the pointer to a buffer argument."
+            "summary": "A description of the pointer to a buffer argument.",
+            "deprecated": true
           }
         ]
       },
@@ -3411,15 +4052,18 @@
         "members": [
           {
             "name": "textureDataType",
-            "summary": "The data type of a texture argument."
+            "summary": "The data type of a texture argument.",
+            "deprecated": true
           },
           {
             "name": "textureType",
-            "summary": "The texture type of a texture argument."
+            "summary": "The texture type of a texture argument.",
+            "deprecated": true
           },
           {
             "name": "isDepthTexture",
-            "summary": "A Boolean value that indicates whether the texture is a depth texture."
+            "summary": "A Boolean value that indicates whether the texture is a depth texture.",
+            "deprecated": true
           }
         ]
       },
@@ -3428,7 +4072,8 @@
         "members": [
           {
             "name": "arrayLength",
-            "summary": "The number of elements, if the argument is an array."
+            "summary": "The number of elements, if the argument is an array.",
+            "deprecated": true
           }
         ]
       },
@@ -3437,11 +4082,13 @@
         "members": [
           {
             "name": "threadgroupMemoryAlignment",
-            "summary": "The required byte alignment in memory for the threadgroup data."
+            "summary": "The required byte alignment in memory for the threadgroup data.",
+            "deprecated": true
           },
           {
             "name": "threadgroupMemoryDataSize",
-            "summary": "The size, in bytes, of the threadgroup data."
+            "summary": "The size, in bytes, of the threadgroup data.",
+            "deprecated": true
           }
         ]
       }
@@ -3566,6 +4213,180 @@
           {
             "name": "tensorDataType",
             "summary": "The underlying data format of this tensor."
+          }
+        ]
+      }
+    ]
+  },
+  "mtlindextype": {
+    "summary": "The index type for an index buffer that references vertices of geometric primitives.",
+    "groups": [
+      {
+        "title": "Index types",
+        "members": [
+          {
+            "name": "uint16",
+            "summary": "A 16-bit unsigned integer used as a primitive index."
+          },
+          {
+            "name": "uint32",
+            "summary": "A 32-bit unsigned integer used as a primitive index."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlbindingtype": {
+    "groups": [
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "buffer"
+          },
+          {
+            "name": "imageblock"
+          },
+          {
+            "name": "imageblockData"
+          },
+          {
+            "name": "instanceAccelerationStructure"
+          },
+          {
+            "name": "intersectionFunctionTable"
+          },
+          {
+            "name": "objectPayload"
+          },
+          {
+            "name": "primitiveAccelerationStructure"
+          },
+          {
+            "name": "sampler"
+          },
+          {
+            "name": "tensor"
+          },
+          {
+            "name": "texture"
+          },
+          {
+            "name": "threadgroupMemory"
+          },
+          {
+            "name": "visibleFunctionTable"
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlargumenttype": {
+    "summary": "The resource type for an argument of a function.",
+    "groups": [
+      {
+        "title": "Argument types",
+        "members": [
+          {
+            "name": "buffer",
+            "summary": "The argument is a buffer.",
+            "deprecated": true
+          },
+          {
+            "name": "threadgroupMemory",
+            "summary": "The argument is a pointer to threadgroup memory.",
+            "deprecated": true
+          },
+          {
+            "name": "texture",
+            "summary": "The argument is a texture.",
+            "deprecated": true
+          },
+          {
+            "name": "sampler",
+            "summary": "The argument is a texture sampler.",
+            "deprecated": true
+          },
+          {
+            "name": "imageblock",
+            "summary": "The argument is an imageblock.",
+            "deprecated": true
+          },
+          {
+            "name": "imageblockData",
+            "summary": "The argument is imageblock data.",
+            "deprecated": true
+          },
+          {
+            "name": "visibleFunctionTable",
+            "summary": "The argument is a visible function table.",
+            "deprecated": true
+          },
+          {
+            "name": "intersectionFunctionTable",
+            "summary": "The argument is an intersection function table.",
+            "deprecated": true
+          },
+          {
+            "name": "primitiveAccelerationStructure",
+            "summary": "The argument is a bottom-level ray tracing acceleraton structure for a set of primitives.",
+            "deprecated": true
+          },
+          {
+            "name": "instanceAccelerationStructure",
+            "summary": "The argument is a top-level ray tracing acceleration structure for a set of instances.",
+            "deprecated": true
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)",
+            "deprecated": true
+          }
+        ]
+      }
+    ]
+  },
+  "mtlbindingaccess": {
+    "groups": [
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "readOnly"
+          },
+          {
+            "name": "readWrite"
+          },
+          {
+            "name": "writeOnly"
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
           }
         ]
       }
@@ -3828,6 +4649,49 @@
       }
     ]
   },
+  "mtlbinaryarchiveerror": {
+    "summary": "An error that occurred when creating a binary shader archive.",
+    "groups": [
+      {
+        "title": "Error codes",
+        "members": [
+          {
+            "name": "none",
+            "summary": "An error code that represents the absence of any problems."
+          },
+          {
+            "name": "invalidFile",
+            "summary": "An error code that indicates an app is using an invalid reference to an archive file, typically related to a URL."
+          },
+          {
+            "name": "compilationFailure",
+            "summary": "An error code that indicates the archive’s inability to compile its contents, typically when serializing it to a URL."
+          },
+          {
+            "name": "unexpectedElement",
+            "summary": "An error code that indicates a problem with a configuration, typically in a descriptor or an archive’s inability to add linked functions."
+          },
+          {
+            "name": "internalError",
+            "summary": "An error code that indicates the Metal framework has an internal problem."
+          },
+          {
+            "name": "Code",
+            "summary": "Error codes when creating binary archives of compiled shader code."
+          }
+        ]
+      },
+      {
+        "title": "Error domain",
+        "members": [
+          {
+            "name": "errorDomain",
+            "summary": "The current binary archive error domain."
+          }
+        ]
+      }
+    ]
+  },
   "mtlblitcommandencoder": {
     "summary": "Encodes commands that copy and modify resources for a single blit pass.",
     "groups": [
@@ -3992,11 +4856,49 @@
         "members": [
           {
             "name": "getTextureAccessCounters(_:region:mipLevel:slice:resetCounters:countersBuffer:countersBufferOffset:)",
-            "summary": "Encodes a command that retrieves a sparse texture’s access data for a specific region, mipmap level, and slice."
+            "summary": "Encodes a command that retrieves a sparse texture’s access data for a specific region, mipmap level, and slice.",
+            "deprecated": true
           },
           {
             "name": "resetTextureAccessCounters(_:region:mipLevel:slice:)",
-            "summary": "Encodes a command that resets a sparse texture’s access data for a specific region, mipmap level, and slice."
+            "summary": "Encodes a command that resets a sparse texture’s access data for a specific region, mipmap level, and slice.",
+            "deprecated": true
+          }
+        ]
+      }
+    ]
+  },
+  "mtlblitoption": {
+    "summary": "The options that enable behavior for some blit operations.",
+    "groups": [
+      {
+        "title": "Depth and stencil buffer options",
+        "members": [
+          {
+            "name": "depthFromDepthStencil",
+            "summary": "A blit option that copies the depth portion of a combined depth and stencil texture to or from a buffer."
+          },
+          {
+            "name": "stencilFromDepthStencil",
+            "summary": "A blit option that copies the stencil portion of a combined depth and stencil texture to or from a buffer."
+          }
+        ]
+      },
+      {
+        "title": "Texture compression options",
+        "members": [
+          {
+            "name": "rowLinearPVRTC",
+            "summary": "A blit option that copies PVRTC data between a texture and a buffer."
+          }
+        ]
+      },
+      {
+        "title": "Swift support",
+        "members": [
+          {
+            "name": "init(rawValue:)",
+            "summary": "Creates a blit option from a raw value."
           }
         ]
       }
@@ -4208,15 +5110,18 @@
           },
           {
             "name": "startCapture(device:)",
-            "summary": "Starts capturing any of your app’s Metal commands that are executed by the device object."
+            "summary": "Starts capturing any of your app’s Metal commands that are executed by the device object.",
+            "deprecated": true
           },
           {
             "name": "startCapture(commandQueue:)",
-            "summary": "Starts capturing any of your app’s Metal commands that are executed by the command queue."
+            "summary": "Starts capturing any of your app’s Metal commands that are executed by the command queue.",
+            "deprecated": true
           },
           {
             "name": "startCapture(scope:)",
-            "summary": "Starts capturing any of your app’s Metal commands that are in the specified capture scope."
+            "summary": "Starts capturing any of your app’s Metal commands that are in the specified capture scope.",
+            "deprecated": true
           }
         ]
       },
@@ -4243,6 +5148,62 @@
         "members": [
           {
             "name": "makeCaptureScope(commandQueue:)-9wie3"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlcaptureerror": {
+    "summary": "Errors returned by capture sessions.",
+    "groups": [
+      {
+        "title": "Errors",
+        "members": [
+          {
+            "name": "alreadyCapturing",
+            "summary": "A capture error that indicates the session is already in progress."
+          },
+          {
+            "name": "invalidDescriptor",
+            "summary": "A capture error that indicates your descriptor has invalid properties."
+          },
+          {
+            "name": "notSupported",
+            "summary": "A capture error that indicates the capture options you’re requesting aren’t available."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlcapturedestination": {
+    "summary": "The kinds of destinations for captured command data.",
+    "groups": [
+      {
+        "title": "Choosing a destination",
+        "members": [
+          {
+            "name": "developerTools",
+            "summary": "An option specifying that data should be captured to Xcode and that execution should stop in Xcode after the data is captured."
+          },
+          {
+            "name": "gpuTraceDocument",
+            "summary": "An option specifying that the captured command data should be saved to a GPU trace document."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
           }
         ]
       }
@@ -4604,6 +5565,213 @@
       }
     ]
   },
+  "mtlcommandbufferstatus": {
+    "summary": "The discrete states for a command buffer that represent its life cycle stages.",
+    "groups": [
+      {
+        "title": "Command buffer states",
+        "members": [
+          {
+            "name": "notEnqueued",
+            "summary": "A command buffer’s initial state, which indicates its command queue isn’t reserving a place for it."
+          },
+          {
+            "name": "enqueued",
+            "summary": "A command buffer’s second state, which indicates its command queue is reserving a place for it."
+          },
+          {
+            "name": "committed",
+            "summary": "A command buffer’s third state, which indicates the command queue is preparing to schedule the command buffer by resolving its dependencies."
+          },
+          {
+            "name": "scheduled",
+            "summary": "A command buffer’s fourth state, which indicates the command buffer has its resources ready and is waiting for the GPU to run its commands."
+          },
+          {
+            "name": "completed",
+            "summary": "A command buffer’s successful, final state, which indicates the GPU finished running the command buffer’s commands without any problems."
+          },
+          {
+            "name": "error",
+            "summary": "A command buffer’s unsuccessful, final state, which indicates the GPU stopped running the buffer’s commands because of a runtime issue."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlcommandbuffererror": {
+    "summary": "The command buffer error codes that indicate why the GPU doesn’t finish executing a command buffer.",
+    "groups": [
+      {
+        "title": "Errors codes",
+        "members": [
+          {
+            "name": "none",
+            "summary": "An error code that represents the absence of any problems."
+          },
+          {
+            "name": "timeout",
+            "summary": "An error code that indicates the system interrupted and terminated the command buffer before it finished running."
+          },
+          {
+            "name": "pageFault",
+            "summary": "An error code that indicates the command buffer generated a page fault the GPU can’t service."
+          },
+          {
+            "name": "notPermitted",
+            "summary": "An error code that indicates a process doesn’t have access to a GPU device."
+          },
+          {
+            "name": "outOfMemory",
+            "summary": "An error code that indicates the GPU device doesn’t have sufficient memory to execute a command buffer."
+          },
+          {
+            "name": "invalidResource",
+            "summary": "An error code that indicates the command buffer has an invalid reference to resource."
+          },
+          {
+            "name": "memoryless",
+            "summary": "An error code that indicates the GPU ran out of one or more of its internal resources that support memoryless render pass attachments."
+          },
+          {
+            "name": "deviceRemoved",
+            "summary": "An error code that indicates a person physically removed the GPU device before the command buffer finished running."
+          },
+          {
+            "name": "stackOverflow",
+            "summary": "An error code that indicates the GPU terminated the command buffer because a kernel function of tile shader used too many stack frames."
+          },
+          {
+            "name": "accessRevoked",
+            "summary": "An error code that indicates the system has revoked the Metal device’s access because it’s responsible for too many timeouts or hangs."
+          },
+          {
+            "name": "internal",
+            "summary": "An error code that indicates the Metal framework has an internal problem."
+          },
+          {
+            "name": "Code",
+            "summary": "Error codes that indicate why a GPU is unable to finish running a command buffer."
+          }
+        ]
+      },
+      {
+        "title": "Error domain",
+        "members": [
+          {
+            "name": "errorDomain",
+            "summary": "The current command buffer error domain."
+          }
+        ]
+      },
+      {
+        "title": "Deprecated",
+        "members": [
+          {
+            "name": "blacklisted",
+            "summary": "A former error code that indicates the system has revoked the Metal device’s access because it’s responsible for too many timeouts or hangs.",
+            "deprecated": true,
+            "deprecatedMessage": "Use accessRevoked instead."
+          }
+        ]
+      }
+    ]
+  },
+  "mtlcommandencodererrorstate": {
+    "summary": "Possible error conditions for the command encoder’s commands.",
+    "groups": [
+      {
+        "title": "Getting the error state",
+        "members": [
+          {
+            "name": "completed",
+            "summary": "A state that indicates the GPU successfully executed the commands without any errors."
+          },
+          {
+            "name": "pending",
+            "summary": "An error state that indicates the GPU didn’t execute the commands."
+          },
+          {
+            "name": "affected",
+            "summary": "An error state that indicates the GPU failed to fully execute the commands because of an error."
+          },
+          {
+            "name": "faulted",
+            "summary": "An error state that indicates the commands in the command buffer are the cause of an error."
+          },
+          {
+            "name": "unknown",
+            "summary": "An error state that indicates the command buffer doesn’t know the state of its commands on the GPU."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtldispatchtype": {
+    "summary": "The type of dispatch method to use when calling encoded functions.",
+    "groups": [
+      {
+        "title": "Execution dispatch types",
+        "members": [
+          {
+            "name": "concurrent",
+            "summary": "Sets a command encoder to dispatch encoded commands concurrently during your pass."
+          },
+          {
+            "name": "serial",
+            "summary": "Sets a command encoder to dispatch encoded commands serially during your pass."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlcommandbuffererroroption": {
+    "summary": "Options for reporting errors from a command buffer.",
+    "groups": [
+      {
+        "title": "Buffer error options",
+        "members": [
+          {
+            "name": "encoderExecutionStatus",
+            "summary": "An option that instructs a command buffer to save additional details about a GPU runtime error."
+          }
+        ]
+      },
+      {
+        "title": "Protocol support",
+        "members": [
+          {
+            "name": "init(rawValue:)",
+            "summary": "Creates a set of error options from a raw integer value."
+          }
+        ]
+      }
+    ]
+  },
   "mtlcommandencoder": {
     "summary": "An encoder that writes GPU commands into a command buffer.",
     "groups": [
@@ -4652,6 +5820,145 @@
           {
             "name": "barrier(afterQueueStages:beforeStages:)",
             "summary": "Encodes a consumer barrier on work you commit to the same command queue."
+          }
+        ]
+      }
+    ]
+  },
+  "mtlresourceusage": {
+    "summary": "Options that describe how a graphics or compute function uses an argument buffer’s resource.",
+    "groups": [
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)",
+            "summary": "Creates a set of resource options from a raw value."
+          }
+        ]
+      },
+      {
+        "title": "Type Properties",
+        "members": [
+          {
+            "name": "read",
+            "summary": "An option that enables reading from the resource."
+          },
+          {
+            "name": "sample",
+            "summary": "An option that enables sampling from the resource.",
+            "deprecated": true
+          },
+          {
+            "name": "write",
+            "summary": "An option that enables writing to the resource."
+          }
+        ]
+      }
+    ]
+  },
+  "mtlbarrierscope": {
+    "summary": "Describes the types of resources that a barrier operates on.",
+    "groups": [
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      },
+      {
+        "title": "Type Properties",
+        "members": [
+          {
+            "name": "buffers",
+            "summary": "The barrier affects any buffer objects."
+          },
+          {
+            "name": "renderTargets",
+            "summary": "The barrier affects any render targets."
+          },
+          {
+            "name": "textures",
+            "summary": "The barrier affects textures."
+          }
+        ]
+      }
+    ]
+  },
+  "mtlstages": {
+    "summary": "The segments of command execution within the Metal pass types.",
+    "groups": [
+      {
+        "title": "Render pass stages",
+        "members": [
+          {
+            "name": "vertex",
+            "summary": "Represents all vertex shader stage work in a render pass."
+          },
+          {
+            "name": "fragment",
+            "summary": "Represents all fragment shader stage work in a render pass."
+          },
+          {
+            "name": "tile",
+            "summary": "Represents all tile shading stage work in a render pass."
+          },
+          {
+            "name": "object",
+            "summary": "Represents all object shader stage work in a render pass."
+          },
+          {
+            "name": "mesh",
+            "summary": "Represents all mesh shader stage work work in a render pass."
+          }
+        ]
+      },
+      {
+        "title": "Compute pass stages",
+        "members": [
+          {
+            "name": "dispatch",
+            "summary": "Represents all compute dispatches in a compute pass."
+          },
+          {
+            "name": "blit",
+            "summary": "Represents all blit operations in a pass."
+          },
+          {
+            "name": "accelerationStructure",
+            "summary": "Represents all acceleration structure operations."
+          },
+          {
+            "name": "machineLearning",
+            "summary": "Represents all machine learning network dispatch operations."
+          }
+        ]
+      },
+      {
+        "title": "Resource pass stages",
+        "members": [
+          {
+            "name": "resourceState",
+            "summary": "Represents all sparse and placement sparse resource mapping updates."
+          }
+        ]
+      },
+      {
+        "title": "Convenience values",
+        "members": [
+          {
+            "name": "all",
+            "summary": "Convenience mask representing all stages of GPU work."
+          }
+        ]
+      },
+      {
+        "title": "Swift support",
+        "members": [
+          {
+            "name": "init(rawValue:)"
           }
         ]
       }
@@ -4721,7 +6028,9 @@
         "members": [
           {
             "name": "insertDebugCaptureBoundary()",
-            "summary": "Informs Xcode about when GPU Frame Capture starts and stops."
+            "summary": "Informs Xcode about when GPU Frame Capture starts and stops.",
+            "deprecated": true,
+            "deprecatedMessage": "Use MTLCaptureManager and MTLCaptureScope instead. See Naming resources and commands for more information."
           }
         ]
       }
@@ -5051,7 +6360,8 @@
         "members": [
           {
             "name": "arguments",
-            "summary": "An array of instances that describe the arguments of a compute function."
+            "summary": "An array of instances that describe the arguments of a compute function.",
+            "deprecated": true
           }
         ]
       },
@@ -5152,7 +6462,9 @@
           },
           {
             "name": "insertLibraries",
-            "summary": "The dynamic libraries that contain precompiled shader functions you want to link."
+            "summary": "The dynamic libraries that contain precompiled shader functions you want to link.",
+            "deprecated": true,
+            "deprecatedMessage": "Use the preloadedLibraries property instead."
           }
         ]
       },
@@ -5402,6 +6714,41 @@
           {
             "name": "sampleCount",
             "summary": "The number of samples in the buffer."
+          }
+        ]
+      }
+    ]
+  },
+  "mtlcountersamplebuffererror": {
+    "summary": "The error codes that indicate why a GPU driver can’t create a counter sample buffer.",
+    "groups": [
+      {
+        "title": "Error code values",
+        "members": [
+          {
+            "name": "outOfMemory",
+            "summary": "An error code that indicates the GPU device doesn’t have sufficient memory to create a counter sample buffer."
+          },
+          {
+            "name": "invalid",
+            "summary": "An error code that indicates the descriptor for creating a counter sample buffer descriptor has an invalid property."
+          },
+          {
+            "name": "internal",
+            "summary": "An error code that indicates the Metal framework has an internal problem."
+          },
+          {
+            "name": "Code",
+            "summary": "The underlying error code type that indicates why a GPU driver can’t create a counter sample buffer."
+          }
+        ]
+      },
+      {
+        "title": "Error domain",
+        "members": [
+          {
+            "name": "errorDomain",
+            "summary": "The current counter sample buffer error domain."
           }
         ]
       }
@@ -6004,6 +7351,106 @@
       }
     ]
   },
+  "mtlcomparefunction": {
+    "summary": "Options used to specify how a sample compare operation should be performed on a depth texture.",
+    "groups": [
+      {
+        "title": "Compare function options",
+        "members": [
+          {
+            "name": "never",
+            "summary": "A new value never passes the comparison test."
+          },
+          {
+            "name": "less",
+            "summary": "A new value passes the comparison test if it is less than the existing value."
+          },
+          {
+            "name": "equal",
+            "summary": "A new value passes the comparison test if it is equal to the existing value."
+          },
+          {
+            "name": "lessEqual",
+            "summary": "A new value passes the comparison test if it is less than or equal to the existing value."
+          },
+          {
+            "name": "greater",
+            "summary": "A new value passes the comparison test if it is greater than the existing value."
+          },
+          {
+            "name": "notEqual",
+            "summary": "A new value passes the comparison test if it is not equal to the existing value."
+          },
+          {
+            "name": "greaterEqual",
+            "summary": "A new value passes the comparison test if it is greater than or equal to the existing value."
+          },
+          {
+            "name": "always",
+            "summary": "A new value always passes the comparison test."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlstenciloperation": {
+    "summary": "The operation performed on a currently stored stencil value when a comparison test passes or fails.",
+    "groups": [
+      {
+        "title": "Stencil operations",
+        "members": [
+          {
+            "name": "keep",
+            "summary": "A stencil operation that doesn’t modify a stencil value."
+          },
+          {
+            "name": "zero",
+            "summary": "A stencil operation that sets a stencil value to zero."
+          },
+          {
+            "name": "replace",
+            "summary": "A stencil operation that replaces a stencil value with a reference value."
+          },
+          {
+            "name": "incrementClamp",
+            "summary": "A stencil operation that increases a stencil value by one, but only when the current value isn’t the maximum representable value."
+          },
+          {
+            "name": "decrementClamp",
+            "summary": "A stencil operation that decreases a nonzero stencil value by one."
+          },
+          {
+            "name": "invert",
+            "summary": "A stencil operation that applies a logical bitwise NOT to a stencil value."
+          },
+          {
+            "name": "incrementWrap",
+            "summary": "A stencil operation that decreases a nonzero stencil value by one, or when it’s the maximum representable value, resets it to zero."
+          },
+          {
+            "name": "decrementWrap",
+            "summary": "A stencil operation that decreases a nonzero stencil value by one, or when it’s zero, resets it to the maximum representable value."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
   "mtlargumentdescriptor": {
     "summary": "A representation of an argument within an argument buffer.",
     "groups": [
@@ -6165,7 +7612,8 @@
           },
           {
             "name": "supportsFeatureSet(_:)",
-            "summary": "Returns a Boolean value that indicates whether the GPU device supports a specific feature set."
+            "summary": "Returns a Boolean value that indicates whether the GPU device supports a specific feature set.",
+            "deprecated": true
           }
         ]
       },
@@ -6223,7 +7671,9 @@
           },
           {
             "name": "areBarycentricCoordsSupported",
-            "summary": "A Boolean value that indicates whether the GPU supports barycentric coordinates."
+            "summary": "A Boolean value that indicates whether the GPU supports barycentric coordinates.",
+            "deprecated": true,
+            "deprecatedMessage": "Use supportsShaderBarycentricCoordinates instead."
           }
         ]
       },
@@ -6405,11 +7855,13 @@
           },
           {
             "name": "makeIOHandle(url:)",
-            "summary": "Creates an input/output file handle instance that represents a file at a URL."
+            "summary": "Creates an input/output file handle instance that represents a file at a URL.",
+            "deprecated": true
           },
           {
             "name": "makeIOHandle(url:compressionMethod:)",
-            "summary": "Creates an input/output file handle instance that represents a compressed file at a URL."
+            "summary": "Creates an input/output file handle instance that represents a compressed file at a URL.",
+            "deprecated": true
           }
         ]
       },
@@ -6749,7 +8201,8 @@
           },
           {
             "name": "makeLibrary(filepath:)",
-            "summary": "Creates a Metal library instance that contains the functions in the Metal library file at a file path."
+            "summary": "Creates a Metal library instance that contains the functions in the Metal library file at a file path.",
+            "deprecated": true
           }
         ]
       },
@@ -6788,6 +8241,595 @@
           {
             "name": "Code",
             "summary": "Error codes when creating binary archives of compiled shader code."
+          }
+        ]
+      }
+    ]
+  },
+  "mtliocompressionmethod": {
+    "summary": "The compression codecs that Metal supports for input/output handles.",
+    "groups": [
+      {
+        "title": "Compression codecs",
+        "members": [
+          {
+            "name": "zlib",
+            "summary": "Indicates that a file uses the zlib compression algorithm codec."
+          },
+          {
+            "name": "lzfse",
+            "summary": "Indicates that a file uses the LZFSE compression algorithm codec."
+          },
+          {
+            "name": "lz4",
+            "summary": "Indicates that a file uses the LZ4 compression algorithm codec."
+          },
+          {
+            "name": "lzma",
+            "summary": "Indicates that a file uses the LZMA compression algorithm codec."
+          },
+          {
+            "name": "lzBitmap",
+            "summary": "Indicates that a file uses the LZBitmap compression algorithm codec."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlfeatureset": {
+    "summary": "The device feature sets that define specific platform, hardware, and software configurations.",
+    "deprecated": true,
+    "deprecatedMessage": "Use MTLGPUFamily instead.",
+    "groups": [
+      {
+        "title": "iOS GPU family 5",
+        "members": [
+          {
+            "name": "iOS_GPUFamily5_v1",
+            "summary": "The GPU family 5, version 1 feature set for iOS.",
+            "deprecated": true
+          }
+        ]
+      },
+      {
+        "title": "iOS GPU family 4",
+        "members": [
+          {
+            "name": "iOS_GPUFamily4_v2",
+            "summary": "The GPU family 4, version 2 feature set for iOS.",
+            "deprecated": true
+          },
+          {
+            "name": "iOS_GPUFamily4_v1",
+            "summary": "The GPU family 4, version 1 feature set for iOS.",
+            "deprecated": true
+          }
+        ]
+      },
+      {
+        "title": "iOS GPU family 3",
+        "members": [
+          {
+            "name": "iOS_GPUFamily3_v4",
+            "summary": "The GPU family 3, version 4 feature set for iOS.",
+            "deprecated": true
+          },
+          {
+            "name": "iOS_GPUFamily3_v3",
+            "summary": "The GPU family 3, version 3 feature set for iOS.",
+            "deprecated": true
+          },
+          {
+            "name": "iOS_GPUFamily3_v2",
+            "summary": "The GPU family 3, version 2 feature set for iOS.",
+            "deprecated": true
+          },
+          {
+            "name": "iOS_GPUFamily3_v1",
+            "summary": "The GPU family 3, version 1 feature set for iOS.",
+            "deprecated": true
+          }
+        ]
+      },
+      {
+        "title": "iOS GPU family 2",
+        "members": [
+          {
+            "name": "iOS_GPUFamily2_v5",
+            "summary": "The GPU family 2, version 5 feature set for iOS.",
+            "deprecated": true
+          },
+          {
+            "name": "iOS_GPUFamily2_v4",
+            "summary": "The GPU family 2, version 4 feature set for iOS.",
+            "deprecated": true
+          },
+          {
+            "name": "iOS_GPUFamily2_v3",
+            "summary": "The GPU family 2, version 3 feature set for iOS.",
+            "deprecated": true
+          },
+          {
+            "name": "iOS_GPUFamily2_v2",
+            "summary": "The GPU family 2, version 2 feature set for iOS.",
+            "deprecated": true
+          },
+          {
+            "name": "iOS_GPUFamily2_v1",
+            "summary": "The GPU family 2, version 1 feature set for iOS.",
+            "deprecated": true
+          }
+        ]
+      },
+      {
+        "title": "iOS GPU family 1",
+        "members": [
+          {
+            "name": "iOS_GPUFamily1_v5",
+            "summary": "The GPU family 1, version 5 feature set for iOS.",
+            "deprecated": true
+          },
+          {
+            "name": "iOS_GPUFamily1_v4",
+            "summary": "The GPU family 1, version 4 feature set for iOS.",
+            "deprecated": true
+          },
+          {
+            "name": "iOS_GPUFamily1_v3",
+            "summary": "The GPU family 1, version 3 feature set for iOS.",
+            "deprecated": true
+          },
+          {
+            "name": "iOS_GPUFamily1_v2",
+            "summary": "The GPU family 1, version 2 feature set for iOS.",
+            "deprecated": true
+          },
+          {
+            "name": "iOS_GPUFamily1_v1",
+            "summary": "The GPU family 1, version 1 feature set for iOS.",
+            "deprecated": true
+          }
+        ]
+      },
+      {
+        "title": "tvOS GPU family 2",
+        "members": [
+          {
+            "name": "tvOS_GPUFamily2_v2",
+            "summary": "The GPU family 2, version 2 feature set for tvOS.",
+            "deprecated": true
+          },
+          {
+            "name": "tvOS_GPUFamily2_v1",
+            "summary": "The GPU family 2, version 1 feature set for tvOS.",
+            "deprecated": true
+          }
+        ]
+      },
+      {
+        "title": "tvOS GPU family 1",
+        "members": [
+          {
+            "name": "tvOS_GPUFamily1_v4",
+            "summary": "The GPU family 1, version 4 feature set for tvOS.",
+            "deprecated": true
+          },
+          {
+            "name": "tvOS_GPUFamily1_v3",
+            "summary": "The GPU family 1, version 3 feature set for tvOS.",
+            "deprecated": true
+          },
+          {
+            "name": "tvOS_GPUFamily1_v2",
+            "summary": "The GPU family 1, version 2 feature set for tvOS.",
+            "deprecated": true
+          },
+          {
+            "name": "tvOS_GPUFamily1_v1-swift.enum.case",
+            "summary": "The GPU family 1, version 1 feature set for tvOS.",
+            "deprecated": true
+          }
+        ]
+      },
+      {
+        "title": "macOS GPU family 2",
+        "members": [
+          {
+            "name": "macOS_GPUFamily2_v1",
+            "summary": "The GPU family 2, version 1 feature set for macOS.",
+            "deprecated": true
+          }
+        ]
+      },
+      {
+        "title": "macOS GPU family 1",
+        "members": [
+          {
+            "name": "macOS_GPUFamily1_v4",
+            "summary": "The GPU family 1, version 4 feature set for macOS.",
+            "deprecated": true
+          },
+          {
+            "name": "macOS_GPUFamily1_v3",
+            "summary": "The GPU family 1, version 3 feature set for macOS.",
+            "deprecated": true
+          },
+          {
+            "name": "macOS_GPUFamily1_v2",
+            "summary": "The GPU family 1, version 2 feature set for macOS.",
+            "deprecated": true
+          },
+          {
+            "name": "macOS_GPUFamily1_v1",
+            "summary": "The GPU family 1, version 1 feature set for macOS.",
+            "deprecated": true
+          }
+        ]
+      },
+      {
+        "title": "macOS tier 2",
+        "members": [
+          {
+            "name": "macOS_ReadWriteTextureTier2",
+            "summary": "The read-write texture, tier 2 feature set for macOS.",
+            "deprecated": true
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)",
+            "deprecated": true
+          }
+        ]
+      },
+      {
+        "title": "Type Properties",
+        "members": [
+          {
+            "name": "osx_GPUFamily1_v1",
+            "deprecated": true
+          },
+          {
+            "name": "osx_GPUFamily1_v2",
+            "deprecated": true
+          },
+          {
+            "name": "osx_ReadWriteTextureTier2",
+            "deprecated": true
+          },
+          {
+            "name": "tvos_GPUFamily1_v1-swift.type.property",
+            "deprecated": true
+          }
+        ]
+      }
+    ]
+  },
+  "mtlgpufamily": {
+    "summary": "Represents the functionality for families of GPUs.",
+    "groups": [
+      {
+        "title": "Checking for Metal family GPU support",
+        "members": [
+          {
+            "name": "metal4"
+          },
+          {
+            "name": "metal3",
+            "summary": "Represents the Metal 3 features."
+          }
+        ]
+      },
+      {
+        "title": "Checking for Apple family GPU support",
+        "members": [
+          {
+            "name": "apple9",
+            "summary": "Represents the Apple family 9 GPU features that correspond to the Apple A17, M3, and M4 GPUs."
+          },
+          {
+            "name": "apple8",
+            "summary": "Represents the Apple family 8 GPU features that correspond to the Apple A15, A16, and M2 GPUs."
+          },
+          {
+            "name": "apple7",
+            "summary": "Represents the Apple family 7 GPU features that correspond to the Apple A14 and M1 GPUs."
+          },
+          {
+            "name": "apple6",
+            "summary": "Represents the Apple family 6 GPU features that correspond to the Apple A13 GPUs."
+          },
+          {
+            "name": "apple5",
+            "summary": "Represents the Apple family 5 GPU features that correspond to the Apple A12 GPUs."
+          },
+          {
+            "name": "apple4",
+            "summary": "Represents the Apple family 4 GPU features that correspond to the Apple A11 GPUs."
+          },
+          {
+            "name": "apple3",
+            "summary": "Represents the Apple family 3 GPU features that correspond to the Apple A9 and A10 GPUs."
+          },
+          {
+            "name": "apple2",
+            "summary": "Represents the Apple family 2 GPU features that correspond to the Apple A8 GPUs."
+          },
+          {
+            "name": "apple1",
+            "summary": "Represents the Apple family 1 GPU features that correspond to the Apple A7 GPUs."
+          }
+        ]
+      },
+      {
+        "title": "Checking for common GPU support",
+        "members": [
+          {
+            "name": "common3",
+            "summary": "Represents the Common family 3 GPU features."
+          },
+          {
+            "name": "common2",
+            "summary": "Represents the Common family 2 GPU features."
+          },
+          {
+            "name": "common1",
+            "summary": "Represents the Common family 1 GPU features."
+          }
+        ]
+      },
+      {
+        "title": "Checking for macOS family GPU support",
+        "members": [
+          {
+            "name": "mac2",
+            "summary": "Represents the Mac family 2 GPU features."
+          },
+          {
+            "name": "mac1",
+            "summary": "Represents the Mac family 1 GPU features.",
+            "deprecated": true,
+            "deprecatedMessage": "Use MTLGPUFamily.mac2 instead."
+          }
+        ]
+      },
+      {
+        "title": "Checking for Mac Catalyst family GPU support",
+        "members": [
+          {
+            "name": "macCatalyst2",
+            "summary": "Represents a family 2 Mac GPU when running an app you built with Mac Catalyst.",
+            "deprecated": true,
+            "deprecatedMessage": "Use MTLGPUFamily.mac2 instead."
+          },
+          {
+            "name": "macCatalyst1",
+            "summary": "Represents a family 1 Mac GPU when running an app you built with Mac Catalyst.",
+            "deprecated": true,
+            "deprecatedMessage": "Use MTLGPUFamily.mac2 instead."
+          }
+        ]
+      },
+      {
+        "title": "Swift support",
+        "members": [
+          {
+            "name": "init(rawValue:)",
+            "summary": "Creates a GPU family instance from a raw value."
+          }
+        ]
+      },
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "apple10"
+          }
+        ]
+      }
+    ]
+  },
+  "mtldevicelocation": {
+    "summary": "Indicates the location of the GPU relative to the system it’s connect to.",
+    "groups": [
+      {
+        "title": "Determining the GPU’s location",
+        "members": [
+          {
+            "name": "builtIn",
+            "summary": "A location that indicates the GPU is permanently connected to the system internally."
+          },
+          {
+            "name": "slot",
+            "summary": "A GPU location that indicates a person connected the GPU to a system’s internal slot."
+          },
+          {
+            "name": "external",
+            "summary": "A GPU location that indicates a person connected the GPU to the system with an external interface, such as Thunderbolt."
+          },
+          {
+            "name": "unspecified",
+            "summary": "A value that indicates the system can’t determine how the GPU connects to it."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlreadwritetexturetier": {
+    "summary": "The support level for read-write texture formats.",
+    "groups": [
+      {
+        "title": "Enumeration cases",
+        "members": [
+          {
+            "name": "tier1",
+            "summary": "Indicates the system supports tier 1 read-write textures."
+          },
+          {
+            "name": "tier2",
+            "summary": "Indicates the system supports tier 2 read-write textures."
+          },
+          {
+            "name": "tierNone",
+            "summary": "Indicates the system doesn’t support read-write textures."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlargumentbufferstier": {
+    "summary": "The values that determine the limits and capabilities of argument buffers.",
+    "groups": [
+      {
+        "title": "Enumeration cases",
+        "members": [
+          {
+            "name": "tier1",
+            "summary": "Support for tier 1 argument buffers."
+          },
+          {
+            "name": "tier2",
+            "summary": "Support for tier 2 argument buffers."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlsparsetextureregionalignmentmode": {
+    "summary": "Options used when converting between a pixel-based region within a texture to a tile-based region.",
+    "groups": [
+      {
+        "title": "Specifying the alignment mode",
+        "members": [
+          {
+            "name": "outward",
+            "summary": "The tile region includes any partially covered tiles."
+          },
+          {
+            "name": "inward",
+            "summary": "The tile region ignores partially covered tiles."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlcountersamplingpoint": {
+    "summary": "Options for different times when you can sample GPU counters.",
+    "groups": [
+      {
+        "title": "Reading sampling boundary types",
+        "members": [
+          {
+            "name": "atBlitBoundary",
+            "summary": "Counter sampling is allowed between blit commands in a blit pass."
+          },
+          {
+            "name": "atDispatchBoundary",
+            "summary": "Counter sampling is allowed between kernel dispatches in a compute pass."
+          },
+          {
+            "name": "atDrawBoundary",
+            "summary": "Counter sampling is allowed between draw commands in a render pass."
+          },
+          {
+            "name": "atStageBoundary",
+            "summary": "Counter sampling is allowed at the start and end of a render pass’s vertex and fragment stages, and at the start and end of compute and blit passes."
+          },
+          {
+            "name": "atTileDispatchBoundary",
+            "summary": "Counter sampling is allowed between tile dispatches in a render pass."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlpipelineoption": {
+    "summary": "Options that determine how Metal prepares the pipeline.",
+    "groups": [
+      {
+        "title": "Retrieving argument information",
+        "members": [
+          {
+            "name": "bufferTypeInfo",
+            "summary": "An option instance that provides detailed buffer type information for buffer arguments."
+          },
+          {
+            "name": "failOnBinaryArchiveMiss",
+            "summary": "An option that instructs the compiler to return an error when a GPU function isn’t in a binary archive."
+          },
+          {
+            "name": "argumentInfo",
+            "summary": "An option instance that provides argument information for textures and threadgroup memory.",
+            "deprecated": true
+          }
+        ]
+      },
+      {
+        "title": "Creating compilation options",
+        "members": [
+          {
+            "name": "init(rawValue:)",
+            "summary": "Creates empty compilation options."
+          }
+        ]
+      },
+      {
+        "title": "Type properties",
+        "members": [
+          {
+            "name": "bindingInfo",
+            "summary": "An option that provides binding information for pipeline state resources."
           }
         ]
       }
@@ -6863,6 +8905,53 @@
           {
             "name": "serialize(to:)",
             "summary": "Writes the contents of the dynamic library to a file."
+          }
+        ]
+      }
+    ]
+  },
+  "mtldynamiclibraryerror": {
+    "summary": "Errors when compiling dynamic libraries.",
+    "groups": [
+      {
+        "title": "Error codes",
+        "members": [
+          {
+            "name": "none",
+            "summary": "An error code that represents the absence of any problems."
+          },
+          {
+            "name": "invalidFile",
+            "summary": "An error code that indicates an app is using an invalid reference to a library file, typically related to a URL."
+          },
+          {
+            "name": "compilationFailure",
+            "summary": "An error code that indicates Metal couldn’t compile a dynamic library."
+          },
+          {
+            "name": "unresolvedInstallName",
+            "summary": "An error code that indicates Metal couldn’t resolve the installation name for a new dynamic library."
+          },
+          {
+            "name": "dependencyLoadFailure",
+            "summary": "An error code that indicates a dynamic library couldn’t link to other dynamic libraries."
+          },
+          {
+            "name": "unsupported",
+            "summary": "An error code that indicates the GPU device doesn’t support dynamic libraries."
+          },
+          {
+            "name": "Code",
+            "summary": "Error codes that Metal can generate when creating dynamic libraries."
+          }
+        ]
+      },
+      {
+        "title": "Error domain",
+        "members": [
+          {
+            "name": "errorDomain",
+            "summary": "The current dynamic library error domain."
           }
         ]
       }
@@ -7041,6 +9130,47 @@
   "mtlintersectionfunctiondescriptor": {
     "summary": "A description of an intersection function that performs an intersection test."
   },
+  "mtlfunctionoptions": {
+    "summary": "Options that define how Metal compiles a GPU function.",
+    "groups": [
+      {
+        "title": "Function compilation options",
+        "members": [
+          {
+            "name": "failOnBinaryArchiveMiss",
+            "summary": "An option that instructs the compiler to return an error when a GPU function isn’t in a binary archive."
+          },
+          {
+            "name": "compileToBinary",
+            "summary": "An option that instructs the compiler to generate a binary format for dynamic linking."
+          },
+          {
+            "name": "pipelineIndependent",
+            "summary": "An option that generates the same function handle across all pipeline states that link a function, which lets you share function tables across pipeline states."
+          },
+          {
+            "name": "storeFunctionInMetalPipelinesScript",
+            "summary": "An option that instructs the compiler to store function information for inspecting binary archives."
+          },
+          {
+            "name": "storeFunctionInMetalScript",
+            "summary": "An option that instructs the compiler to store function information for inspecting binary archives.",
+            "deprecated": true,
+            "deprecatedMessage": "Use storeFunctionInMetalPipelinesScript instead."
+          }
+        ]
+      },
+      {
+        "title": "Swift support",
+        "members": [
+          {
+            "name": "init(rawValue:)",
+            "summary": "Creates a new function options structure from a raw value."
+          }
+        ]
+      }
+    ]
+  },
   "mtlfunctionhandle": {
     "summary": "An object representing a function that you can add to a visible function table.",
     "groups": [
@@ -7126,6 +9256,28 @@
           {
             "name": "function",
             "summary": "When known, the function object corresponding to the logged message."
+          }
+        ]
+      }
+    ]
+  },
+  "mtlfunctionlogtype": {
+    "summary": "Options for different kinds of function logs.",
+    "groups": [
+      {
+        "title": "Enumeration cases",
+        "members": [
+          {
+            "name": "validation",
+            "summary": "A message related to usage validation."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
           }
         ]
       }
@@ -7253,6 +9405,30 @@
           },
           {
             "name": "options"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlstitchedlibraryoptions": {
+    "groups": [
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      },
+      {
+        "title": "Type Properties",
+        "members": [
+          {
+            "name": "failOnBinaryArchiveMiss",
+            "summary": "An option that instructs the compiler to return an error when a GPU function for a stitched library isn’t in a binary archive."
+          },
+          {
+            "name": "storeLibraryInMetalPipelinesScript"
           }
         ]
       }
@@ -7421,6 +9597,36 @@
       }
     ]
   },
+  "mtlheaptype": {
+    "summary": "The options you use to choose the heap type.",
+    "groups": [
+      {
+        "title": "Specifying the heap type",
+        "members": [
+          {
+            "name": "automatic",
+            "summary": "A heap that automatically places new resource allocations."
+          },
+          {
+            "name": "placement",
+            "summary": "The app controls placement of resources on the heap."
+          },
+          {
+            "name": "sparse",
+            "summary": "The heap contains sparse texture tiles."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
   "mtlindirectcommandbufferdescriptor": {
     "summary": "A configuration you create to customize an indirect command buffer.",
     "groups": [
@@ -7559,6 +9765,60 @@
         "members": [
           {
             "name": "gpuResourceID"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlindirectcommandtype": {
+    "summary": "The types of commands that you can encode into the indirect command buffer.",
+    "groups": [
+      {
+        "title": "Creating a set of command types",
+        "members": [
+          {
+            "name": "init(rawValue:)",
+            "summary": "Initializes the set of command types from a raw integer value."
+          }
+        ]
+      },
+      {
+        "title": "Specifying command types",
+        "members": [
+          {
+            "name": "draw",
+            "summary": "A draw call command."
+          },
+          {
+            "name": "drawIndexed",
+            "summary": "An indexed draw call command."
+          },
+          {
+            "name": "drawPatches",
+            "summary": "A draw call command for tessellated patches."
+          },
+          {
+            "name": "drawIndexedPatches",
+            "summary": "An indexed draw call command for tessellated patches."
+          },
+          {
+            "name": "concurrentDispatch",
+            "summary": "A compute command using a grid aligned to threadgroup boundaries."
+          },
+          {
+            "name": "concurrentDispatchThreads",
+            "summary": "A compute command using an arbitrarily sized grid."
+          }
+        ]
+      },
+      {
+        "title": "Type Properties",
+        "members": [
+          {
+            "name": "drawMeshThreadgroups"
+          },
+          {
+            "name": "drawMeshThreads"
           }
         ]
       }
@@ -7829,6 +10089,63 @@
       }
     ]
   },
+  "mtlintersectionfunctionsignature": {
+    "summary": "Constants for specifying different types of custom intersection functions.",
+    "groups": [
+      {
+        "title": "Initializing the intersection function signature",
+        "members": [
+          {
+            "name": "init(rawValue:)",
+            "summary": "Returns a new signature description from a specified raw value."
+          }
+        ]
+      },
+      {
+        "title": "Specifying the intersection function signature",
+        "members": [
+          {
+            "name": "instancing",
+            "summary": "A flag indicating that function signature uses instancing."
+          },
+          {
+            "name": "triangleData",
+            "summary": "A flag indicating that function signature uses triangle data."
+          },
+          {
+            "name": "worldSpaceData",
+            "summary": "A flag indicating that function signature uses world space data."
+          }
+        ]
+      },
+      {
+        "title": "Type Properties",
+        "members": [
+          {
+            "name": "curveData"
+          },
+          {
+            "name": "extendedLimits"
+          },
+          {
+            "name": "instanceMotion"
+          },
+          {
+            "name": "intersectionFunctionBuffer"
+          },
+          {
+            "name": "maxLevels"
+          },
+          {
+            "name": "primitiveMotion"
+          },
+          {
+            "name": "userData"
+          }
+        ]
+      }
+    ]
+  },
   "mtliocommandbuffer": {
     "summary": "A command buffer that contains input/output commands that work with files in the file systems and Metal resources.",
     "groups": [
@@ -7947,6 +10264,40 @@
       }
     ]
   },
+  "mtliostatus": {
+    "summary": "Represents the state of an input/output command buffer.",
+    "groups": [
+      {
+        "title": "I/O command queue states",
+        "members": [
+          {
+            "name": "pending",
+            "summary": "Indicates the GPU hasn’t finished executing the input/output command buffer."
+          },
+          {
+            "name": "complete",
+            "summary": "Indicates the GPU has successfully finished executing the input/output command buffer."
+          },
+          {
+            "name": "cancelled",
+            "summary": "Indicates the GPU has successfully abandoned the input/output command buffer."
+          },
+          {
+            "name": "error",
+            "summary": "Indicates the GPU experienced a problem with the input/output command buffer."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
   "mtliocommandqueue": {
     "summary": "A command queue that schedules input/output commands for reading files in the file system, and writing to GPU resources and memory.",
     "groups": [
@@ -8055,6 +10406,93 @@
           {
             "name": "label",
             "summary": "An optional name for the file that the handle represents."
+          }
+        ]
+      }
+    ]
+  },
+  "mtliopriority": {
+    "summary": "Designates the priority for a new input/output command queue.",
+    "groups": [
+      {
+        "title": "I/O command queue priorities",
+        "members": [
+          {
+            "name": "normal",
+            "summary": "Designates the normal priority for a new input/output command queue."
+          },
+          {
+            "name": "low",
+            "summary": "Designates the low priority for a new input/output command queue."
+          },
+          {
+            "name": "high",
+            "summary": "Sets a new input/output command queue’s priority to a high priority."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtliocommandqueuetype": {
+    "summary": "Designates the queue type for a new input/output command queue.",
+    "groups": [
+      {
+        "title": "I/O command queue types",
+        "members": [
+          {
+            "name": "concurrent",
+            "summary": "Sets a new input/output command queue’s type to a queue that runs commands concurrently."
+          },
+          {
+            "name": "serial",
+            "summary": "Sets a new input/output command queue’s type to a queue that runs commands serially."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlioerror": {
+    "summary": "The categories of errors for creating an input/output file handle.",
+    "groups": [
+      {
+        "title": "Error codes",
+        "members": [
+          {
+            "name": "urlInvalid",
+            "summary": "An error that represents a problem with a file URL."
+          },
+          {
+            "name": "internal",
+            "summary": "An error that represents a problem internal to the Metal framework."
+          },
+          {
+            "name": "Code",
+            "summary": "The error codes for creating an input/output file handle."
+          }
+        ]
+      },
+      {
+        "title": "Error domain",
+        "members": [
+          {
+            "name": "errorDomain",
+            "summary": "The current error domain for input/output command queues."
           }
         ]
       }
@@ -8226,7 +10664,8 @@
           },
           {
             "name": "makeArgumentEncoder(bufferIndex:reflection:)",
-            "summary": "Creates an argument encoder and returns reflection information for an argument buffer that’s one of this function’s arguments"
+            "summary": "Creates an argument encoder and returns reflection information for an argument buffer that’s one of this function’s arguments",
+            "deprecated": true
           }
         ]
       }
@@ -8272,7 +10711,9 @@
           },
           {
             "name": "fastMathEnabled",
-            "summary": "A Boolean value that indicates whether the compiler can perform optimizations for floating-point arithmetic that may violate the IEEE 754 standard."
+            "summary": "A Boolean value that indicates whether the compiler can perform optimizations for floating-point arithmetic that may violate the IEEE 754 standard.",
+            "deprecated": true,
+            "deprecatedMessage": "Use mathMode instead."
           }
         ]
       },
@@ -8413,6 +10854,331 @@
       }
     ]
   },
+  "mtlpatchtype": {
+    "summary": "Types of tessellation patches that can be inputs of a post-tessellation vertex function.",
+    "groups": [
+      {
+        "title": "Patch types",
+        "members": [
+          {
+            "name": "none",
+            "summary": "An option that indicates that this isn’t a post-tessellation vertex function."
+          },
+          {
+            "name": "triangle",
+            "summary": "A triangle patch."
+          },
+          {
+            "name": "quad",
+            "summary": "A quad patch."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlfunctiontype": {
+    "summary": "The type of a top-level Metal Shading Language (MSL) function.",
+    "groups": [
+      {
+        "title": "Function types",
+        "members": [
+          {
+            "name": "vertex",
+            "summary": "A vertex function you can use in a render pipeline state object."
+          },
+          {
+            "name": "fragment",
+            "summary": "A fragment function you can use in a render pipeline state object."
+          },
+          {
+            "name": "kernel",
+            "summary": "A kernel you can use in a compute pipeline state object."
+          },
+          {
+            "name": "intersection",
+            "summary": "A function you can use in an intersection function table."
+          },
+          {
+            "name": "visible",
+            "summary": "A function you can use in a visible function table."
+          }
+        ]
+      },
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "mesh"
+          },
+          {
+            "name": "object"
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtllanguageversion": {
+    "summary": "Metal shading language versions.",
+    "groups": [
+      {
+        "title": "Version numbers",
+        "members": [
+          {
+            "name": "version1_1",
+            "summary": "Version 1.1 of the Metal shading language."
+          },
+          {
+            "name": "version1_2",
+            "summary": "Version 1.2 of the Metal shading language."
+          },
+          {
+            "name": "version2_0",
+            "summary": "Version 2.0 of the Metal shading language."
+          },
+          {
+            "name": "version2_1",
+            "summary": "Version 2.1 of the Metal shading language."
+          },
+          {
+            "name": "version2_2",
+            "summary": "Version 2.2 of the Metal shading language."
+          },
+          {
+            "name": "version2_3",
+            "summary": "Version 2.3 of the Metal shading language."
+          },
+          {
+            "name": "version2_4",
+            "summary": "Version 2.4 of the Metal shading language."
+          },
+          {
+            "name": "version3_0",
+            "summary": "Version 3.0 of the Metal shading language."
+          },
+          {
+            "name": "version3_1",
+            "summary": "Version 3.1 of the Metal shading language."
+          },
+          {
+            "name": "version3_2",
+            "summary": "Version 3.2 of the Metal shading language."
+          },
+          {
+            "name": "version1_0",
+            "summary": "Version 1.0 of the Metal shading language.",
+            "deprecated": true,
+            "deprecatedMessage": "Use a newer version of the Metal Shading Language (MSL) standard, such as MTLLanguageVersion.version1_1 instead."
+          }
+        ]
+      },
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "version4_0"
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtllibrarytype": {
+    "summary": "A set of options for Metal library types.",
+    "groups": [
+      {
+        "title": "Library options",
+        "members": [
+          {
+            "name": "executable",
+            "summary": "A library that can create pipeline state objects."
+          },
+          {
+            "name": "dynamic",
+            "summary": "A library that you can dynamically link to from other libraries."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtllibraryoptimizationlevel": {
+    "summary": "The optimization options for the Metal compiler.",
+    "groups": [
+      {
+        "title": "Optimization options",
+        "members": [
+          {
+            "name": "default",
+            "summary": "An optimization option for the Metal compiler that prioritizes runtime performance."
+          },
+          {
+            "name": "size",
+            "summary": "An optimization option for the Metal compiler that prioritizes minimizing the size of its output binaries, which may also reduce compile time."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlcompilesymbolvisibility": {
+    "groups": [
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "default"
+          },
+          {
+            "name": "hidden"
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlmathmode": {
+    "summary": "An indication of whether the compiler can perform optimizations for floating-point arithmetic that may violate the IEEE 754 standard.",
+    "groups": [
+      {
+        "title": "Modes",
+        "members": [
+          {
+            "name": "fast",
+            "summary": "An indicator of the mode the compiler uses to make aggressive, potentially lossy assumptions about floating-point math."
+          },
+          {
+            "name": "relaxed",
+            "summary": "An indicator of the mode the compiler uses to make aggressive, potentially lossy assumptions about floating-point math, while honoring Inf/NaN."
+          },
+          {
+            "name": "safe",
+            "summary": "An indicator of the mode the compiler uses to disable unsafe floating-point optimizations by preventing the compiler from making any transformations that could affect the results."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlmathfloatingpointfunctions": {
+    "summary": "Indicates which FP32 math functions Metal uses.",
+    "groups": [
+      {
+        "title": "Function sets",
+        "members": [
+          {
+            "name": "fast",
+            "summary": "An indication that Metal uses the fast version of the 32b floating-point math functions."
+          },
+          {
+            "name": "precise",
+            "summary": "An indication that Metal uses the precise version of the 32b floating-point math functions."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtllibraryerror": {
+    "summary": "Metal errors related to libraries.",
+    "groups": [
+      {
+        "title": "Errors",
+        "members": [
+          {
+            "name": "unsupported",
+            "summary": "Metal couldn’t support the requested action."
+          },
+          {
+            "name": "internal",
+            "summary": "The action caused an internal error."
+          },
+          {
+            "name": "compileFailure",
+            "summary": "The library or function failed to compile."
+          },
+          {
+            "name": "compileWarning",
+            "summary": "The library or function compiled successfully but generated warnings."
+          },
+          {
+            "name": "fileNotFound",
+            "summary": "Metal couldn’t find the Metal source file."
+          },
+          {
+            "name": "functionNotFound",
+            "summary": "Metal couldn’t find the specified Metal function."
+          }
+        ]
+      },
+      {
+        "title": "Error domain",
+        "members": [
+          {
+            "name": "errorDomain",
+            "summary": "The error domain used by Metal when returning library or function creation errors."
+          }
+        ]
+      }
+    ]
+  },
   "mtllinkedfunctions": {
     "summary": "A set of related functions that Metal links to when necessary to create the function instance.",
     "groups": [
@@ -8466,6 +11232,71 @@
           {
             "name": "level",
             "summary": "The minimum level of messages that the shader can log."
+          }
+        ]
+      }
+    ]
+  },
+  "mtlloglevel": {
+    "summary": "The supported log levels for shader logging.",
+    "groups": [
+      {
+        "title": "Enumeration cases",
+        "members": [
+          {
+            "name": "debug",
+            "summary": "The log level that captures diagnostic information."
+          },
+          {
+            "name": "info",
+            "summary": "The log level that captures additional information."
+          },
+          {
+            "name": "notice",
+            "summary": "The log level that captures notifications."
+          },
+          {
+            "name": "error",
+            "summary": "The log level that captures error information."
+          },
+          {
+            "name": "fault",
+            "summary": "The log level that captures fault information."
+          },
+          {
+            "name": "undefined",
+            "summary": "The log level when the log level hasn’t been configured."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtllogstateerror": {
+    "groups": [
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "invalid"
+          },
+          {
+            "name": "invalidSize"
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
           }
         ]
       }
@@ -8537,6 +11368,66 @@
           {
             "name": "subscript(_:)",
             "summary": "Returns the pipeline buffer descriptor at the specified array index."
+          }
+        ]
+      }
+    ]
+  },
+  "mtlmutability": {
+    "summary": "The options that determine the mutability of a buffer’s contents.",
+    "groups": [
+      {
+        "title": "Enumeration cases",
+        "members": [
+          {
+            "name": "default",
+            "summary": "The default behavior, based on the buffer’s type."
+          },
+          {
+            "name": "mutable",
+            "summary": "An option that states that you can modify the buffer’s contents."
+          },
+          {
+            "name": "immutable",
+            "summary": "An option that states that you can’t modify the buffer’s contents."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlshadervalidation": {
+    "summary": "Indicates whether shader validation in an enabled or disabled state, or neither state.",
+    "groups": [
+      {
+        "title": "Validation states",
+        "members": [
+          {
+            "name": "default",
+            "summary": "The default value when the property isn’t set."
+          },
+          {
+            "name": "disabled",
+            "summary": "Disables shader validation."
+          },
+          {
+            "name": "enabled",
+            "summary": "Enables shader validation."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
           }
         ]
       }
@@ -8789,35 +11680,51 @@
         "members": [
           {
             "name": "pvrtc_rgb_2bpp",
-            "summary": "A compressed format that uses PVRTC compression and 2bpp for RGB components."
+            "summary": "A compressed format that uses PVRTC compression and 2bpp for RGB components.",
+            "deprecated": true,
+            "deprecatedMessage": "Use one of the other formats with astc/ASTC, etc2/ETC2, or bc/BC instead."
           },
           {
             "name": "pvrtc_rgb_2bpp_srgb",
-            "summary": "A compressed format that uses PVRTC compression and 2bpp for RGB components with a conversion between sRGB and linear space."
+            "summary": "A compressed format that uses PVRTC compression and 2bpp for RGB components with a conversion between sRGB and linear space.",
+            "deprecated": true,
+            "deprecatedMessage": "Use one of the other formats with astc/ASTC, etc2/ETC2, or bc/BC instead."
           },
           {
             "name": "pvrtc_rgb_4bpp",
-            "summary": "A compressed format that uses PVRTC compression and 4bpp for RGB components."
+            "summary": "A compressed format that uses PVRTC compression and 4bpp for RGB components.",
+            "deprecated": true,
+            "deprecatedMessage": "Use one of the other formats with astc/ASTC, etc2/ETC2, or bc/BC instead."
           },
           {
             "name": "pvrtc_rgb_4bpp_srgb",
-            "summary": "A compressed format that uses PVRTC compression and 4bpp for RGB components with a conversion between sRGB and linear space."
+            "summary": "A compressed format that uses PVRTC compression and 4bpp for RGB components with a conversion between sRGB and linear space.",
+            "deprecated": true,
+            "deprecatedMessage": "Use one of the other formats with astc/ASTC, etc2/ETC2, or bc/BC instead."
           },
           {
             "name": "pvrtc_rgba_2bpp",
-            "summary": "A compressed format that uses PVRTC compression and 2bpp for RGBA components."
+            "summary": "A compressed format that uses PVRTC compression and 2bpp for RGBA components.",
+            "deprecated": true,
+            "deprecatedMessage": "Use one of the other formats with astc/ASTC, etc2/ETC2, or bc/BC instead."
           },
           {
             "name": "pvrtc_rgba_2bpp_srgb",
-            "summary": "A compressed format that uses PVRTC compression and 2bpp for RGBA components with a conversion between sRGB and linear space."
+            "summary": "A compressed format that uses PVRTC compression and 2bpp for RGBA components with a conversion between sRGB and linear space.",
+            "deprecated": true,
+            "deprecatedMessage": "Use one of the other formats with astc/ASTC, etc2/ETC2, or bc/BC instead."
           },
           {
             "name": "pvrtc_rgba_4bpp",
-            "summary": "A compressed format that uses PVRTC compression and 4bpp for RGBA components."
+            "summary": "A compressed format that uses PVRTC compression and 4bpp for RGBA components.",
+            "deprecated": true,
+            "deprecatedMessage": "Use one of the other formats with astc/ASTC, etc2/ETC2, or bc/BC instead."
           },
           {
             "name": "pvrtc_rgba_4bpp_srgb",
-            "summary": "A compressed format that uses PVRTC compression and 4bpp for RGBA components with a conversion between sRGB and linear space."
+            "summary": "A compressed format that uses PVRTC compression and 4bpp for RGBA components with a conversion between sRGB and linear space.",
+            "deprecated": true,
+            "deprecatedMessage": "Use one of the other formats with astc/ASTC, etc2/ETC2, or bc/BC instead."
           }
         ]
       },
@@ -10120,39 +13027,264 @@
         "members": [
           {
             "name": "useResource(_:usage:)",
-            "summary": "Ensures the shaders in the render pass’s subsequent draw commands have access to a resource."
+            "summary": "Ensures the shaders in the render pass’s subsequent draw commands have access to a resource.",
+            "deprecated": true
           },
           {
             "name": "use(_:usage:stages:)",
-            "summary": "Ensures the shaders in the render pass’s subsequent draw commands have access to a resource."
+            "summary": "Ensures the shaders in the render pass’s subsequent draw commands have access to a resource.",
+            "deprecated": true
           },
           {
             "name": "useResources(_:usage:)",
-            "summary": "Ensures the shaders in the render pass’s subsequent draw commands have access to multiple resources."
+            "summary": "Ensures the shaders in the render pass’s subsequent draw commands have access to multiple resources.",
+            "deprecated": true
           },
           {
             "name": "use(_:count:usage:stages:)",
-            "summary": "Ensures the shaders in the render pass’s subsequent draw commands have access to multiple resources."
+            "summary": "Ensures the shaders in the render pass’s subsequent draw commands have access to multiple resources.",
+            "deprecated": true
           },
           {
             "name": "useHeap(_:)",
-            "summary": "Ensures the shaders in the render pass’s subsequent draw commands have access to the resources you allocate from a heap."
+            "summary": "Ensures the shaders in the render pass’s subsequent draw commands have access to the resources you allocate from a heap.",
+            "deprecated": true
           },
           {
             "name": "use(_:stages:)",
-            "summary": "Ensures the shaders in the render pass’s subsequent draw commands have access to the resources you allocate from a heap."
+            "summary": "Ensures the shaders in the render pass’s subsequent draw commands have access to the resources you allocate from a heap.",
+            "deprecated": true
           },
           {
             "name": "useHeaps(_:)",
-            "summary": "Ensures the shaders in the render pass’s subsequent draw commands have access to the resources you allocate from multiple heaps."
+            "summary": "Ensures the shaders in the render pass’s subsequent draw commands have access to the resources you allocate from multiple heaps.",
+            "deprecated": true
           },
           {
             "name": "use(_:count:stages:)",
-            "summary": "Ensures the shaders in the render pass’s subsequent draw commands have access to the resources you allocate from multiple heaps."
+            "summary": "Ensures the shaders in the render pass’s subsequent draw commands have access to the resources you allocate from multiple heaps.",
+            "deprecated": true
           },
           {
             "name": "textureBarrier()",
-            "summary": "Adds a barrier, which forces any texture read operations to wait until write operations to the same texture finish."
+            "summary": "Adds a barrier, which forces any texture read operations to wait until write operations to the same texture finish.",
+            "deprecated": true,
+            "deprecatedMessage": "Call memoryBarrier(scope:after:before:) instead."
+          }
+        ]
+      }
+    ]
+  },
+  "mtlprimitivetype": {
+    "summary": "The geometric primitive type for drawing commands.",
+    "groups": [
+      {
+        "title": "Geometric primitive types",
+        "members": [
+          {
+            "name": "point",
+            "summary": "Rasterize a point at each vertex. The vertex shader needs to provide [[point_size]], or the point size is undefined."
+          },
+          {
+            "name": "line",
+            "summary": "Rasterize a line between each separate pair of vertices, resulting in a series of unconnected lines. If there are an odd number of vertices, the last vertex is ignored."
+          },
+          {
+            "name": "lineStrip",
+            "summary": "Rasterize a line between each pair of adjacent vertices, resulting in a series of connected lines (also called a polyline)."
+          },
+          {
+            "name": "triangle",
+            "summary": "For every separate set of three vertices, rasterize a triangle. If the number of vertices is not a multiple of three, either one or two vertices is ignored."
+          },
+          {
+            "name": "triangleStrip",
+            "summary": "For every three adjacent vertices, rasterize a triangle."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlvisibilityresultmode": {
+    "summary": "The mode that determines what, if anything, the GPU writes to the results buffer, after the GPU executes the render pass.",
+    "groups": [
+      {
+        "title": "Result modes",
+        "members": [
+          {
+            "name": "disabled",
+            "summary": "The result doesn’t contain any data because visibility testing was disabled."
+          },
+          {
+            "name": "boolean",
+            "summary": "The result records whether any samples passed depth and stencil tests."
+          },
+          {
+            "name": "counting",
+            "summary": "The result records how many samples passed depth and stencil tests."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlcullmode": {
+    "summary": "The mode that determines whether to perform culling and which type of primitive to cull.",
+    "groups": [
+      {
+        "title": "Cull modes",
+        "members": [
+          {
+            "name": "none",
+            "summary": "Does not cull any primitives."
+          },
+          {
+            "name": "front",
+            "summary": "Culls front-facing primitives."
+          },
+          {
+            "name": "back",
+            "summary": "Culls back-facing primitives."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlwinding": {
+    "summary": "The vertex winding rule that determines a front-facing primitive.",
+    "groups": [
+      {
+        "title": "Winding options",
+        "members": [
+          {
+            "name": "clockwise",
+            "summary": "Primitives whose vertices are specified in clockwise order are front-facing."
+          },
+          {
+            "name": "counterClockwise",
+            "summary": "Primitives whose vertices are specified in counter-clockwise order are front-facing."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtldepthclipmode": {
+    "summary": "The mode that determines how to deal with fragments outside of the near or far planes.",
+    "groups": [
+      {
+        "title": "Clip modes",
+        "members": [
+          {
+            "name": "clip",
+            "summary": "Clip fragments outside the near or far planes."
+          },
+          {
+            "name": "clamp",
+            "summary": "Clamp fragments outside the near or far planes."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtltrianglefillmode": {
+    "summary": "Specifies how to rasterize triangle and triangle strip primitives.",
+    "groups": [
+      {
+        "title": "Fill modes",
+        "members": [
+          {
+            "name": "fill",
+            "summary": "Rasterize triangle and triangle strip primitives as filled triangles."
+          },
+          {
+            "name": "lines",
+            "summary": "Rasterize triangle and triangle strip primitives as lines."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlrenderstages": {
+    "summary": "The stages in a render pass that triggers a synchronization command.",
+    "groups": [
+      {
+        "title": "Render pass stages",
+        "members": [
+          {
+            "name": "object",
+            "summary": "The object rendering stage."
+          },
+          {
+            "name": "mesh",
+            "summary": "The mesh rendering stage."
+          },
+          {
+            "name": "vertex",
+            "summary": "The vertex rendering stage."
+          },
+          {
+            "name": "fragment",
+            "summary": "The fragment rendering stage."
+          },
+          {
+            "name": "tile",
+            "summary": "The tile rendering stage."
+          }
+        ]
+      },
+      {
+        "title": "Swift support",
+        "members": [
+          {
+            "name": "init(rawValue:)",
+            "summary": "Creates a render stage from a raw value."
           }
         ]
       }
@@ -10462,6 +13594,183 @@
       }
     ]
   },
+  "mtlloadaction": {
+    "summary": "Types of actions performed for an attachment at the start of a rendering pass.",
+    "groups": [
+      {
+        "title": "Load actions",
+        "members": [
+          {
+            "name": "dontCare",
+            "summary": "The GPU has permission to discard the existing contents of the attachment at the start of the render pass, replacing them with arbitrary data."
+          },
+          {
+            "name": "load",
+            "summary": "The GPU preserves the existing contents of the attachment at the start of the render pass."
+          },
+          {
+            "name": "clear",
+            "summary": "The GPU writes a value to every pixel in the attachment at the start of the render pass."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlstoreaction": {
+    "summary": "Types of actions performed for an attachment at the end of a rendering pass.",
+    "groups": [
+      {
+        "title": "Store actions",
+        "members": [
+          {
+            "name": "dontCare",
+            "summary": "The GPU has permission to discard the rendered contents of the attachment at the end of the render pass, replacing them with arbitrary data."
+          },
+          {
+            "name": "store",
+            "summary": "The GPU stores the rendered contents to the texture."
+          },
+          {
+            "name": "multisampleResolve",
+            "summary": "The GPU resolves the multisampled data to one sample per pixel and stores the data to the resolve texture, discarding the multisample data afterwards."
+          },
+          {
+            "name": "storeAndMultisampleResolve",
+            "summary": "The GPU stores the multisample data to the multisample texture, resolves the data to a sample per pixel, and stores the data to the resolve texture."
+          },
+          {
+            "name": "unknown",
+            "summary": "The system selects a store action when it encodes the render pass."
+          },
+          {
+            "name": "customSampleDepthStore",
+            "summary": "The GPU stores depth data in a sample-position–agnostic representation."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlvisibilityresulttype": {
+    "summary": "This enumeration controls if Metal accumulates visibility results between render encoders or resets them.",
+    "groups": [
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "accumulate",
+            "summary": "Accumulate visibility results data across multiple render passes."
+          },
+          {
+            "name": "reset",
+            "summary": "Reset visibility result data when you create a render command encoder."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlmultisampledepthresolvefilter": {
+    "summary": "Filtering options for controlling an MSAA depth resolve operation.",
+    "groups": [
+      {
+        "title": "Depth resolve filters",
+        "members": [
+          {
+            "name": "sample0",
+            "summary": "No filter is applied."
+          },
+          {
+            "name": "min",
+            "summary": "The GPU compares all depth samples in the pixel and selects the sample with the smallest value."
+          },
+          {
+            "name": "max",
+            "summary": "The GPU compares all depth samples in the pixel and selects the sample with the largest value."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlmultisamplestencilresolvefilter": {
+    "summary": "Constants used to control the multisample stencil resolve operation.",
+    "groups": [
+      {
+        "title": "Stencil resolve filters",
+        "members": [
+          {
+            "name": "depthResolvedSample",
+            "summary": "Chooses the stencil sample corresponding to the depth sample selected by the depth resolve filter."
+          },
+          {
+            "name": "sample0",
+            "summary": "Chooses the first stencil sample in the pixel."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlstoreactionoptions": {
+    "summary": "Options that modify a store action.",
+    "groups": [
+      {
+        "title": "Using programmable sample positions",
+        "members": [
+          {
+            "name": "customSamplePositions",
+            "summary": "An option that stores data in a sample-position–agnostic representation."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)",
+            "summary": "Creates a store action option from a raw integer value."
+          }
+        ]
+      }
+    ]
+  },
   "mtlrenderpipelinecolorattachmentdescriptor": {
     "summary": "A color render target that specifies the color configuration and color operations for a render pipeline.",
     "groups": [
@@ -10573,15 +13882,21 @@
         "members": [
           {
             "name": "vertexArguments",
-            "summary": "An array of argument instances, each of which represent a parameter of the pipeline state’s vertex shader."
+            "summary": "An array of argument instances, each of which represent a parameter of the pipeline state’s vertex shader.",
+            "deprecated": true,
+            "deprecatedMessage": "Use vertexBindings instead."
           },
           {
             "name": "fragmentArguments",
-            "summary": "An array of argument instances, each of which represent a parameter of the pipeline state’s fragment shader."
+            "summary": "An array of argument instances, each of which represent a parameter of the pipeline state’s fragment shader.",
+            "deprecated": true,
+            "deprecatedMessage": "Use fragmentBindings instead."
           },
           {
             "name": "tileArguments",
-            "summary": "An array of argument instances, each of which represent a parameter of the pipeline state’s tile shader."
+            "summary": "An array of argument instances, each of which represent a parameter of the pipeline state’s tile shader.",
+            "deprecated": true,
+            "deprecatedMessage": "Use tileBindings instead."
           }
         ]
       }
@@ -10688,7 +14003,9 @@
           },
           {
             "name": "sampleCount",
-            "summary": "The number of samples the pipeline applies for each fragment."
+            "summary": "The number of samples the pipeline applies for each fragment.",
+            "deprecated": true,
+            "deprecatedMessage": "Use rasterSampleCount instead."
           }
         ]
       },
@@ -11228,6 +14545,353 @@
       }
     ]
   },
+  "mtlblendfactor": {
+    "summary": "The source and destination blend factors are often needed to complete specification of a blend operation. In most cases, the blend factor for both RGB values (F(rgb)) and alpha values (F(a)) are similar to one another, but in some cases, such as MTLBlendFactorSourceAlphaSaturated, the blend factor is slightly different. Four blend factors (MTLBlendFactorBlendColor, MTLBlendFactorOneMinusBlendColor, MTLBlendFactorBlendAlpha, and MTLBlendFactorOneMinusBlendAlpha) refer to a constant blend color value that is set by the  method of MTLRenderCommandEncoder.",
+    "groups": [
+      {
+        "title": "Blend factors",
+        "members": [
+          {
+            "name": "zero",
+            "summary": "Blend factor of zero."
+          },
+          {
+            "name": "one",
+            "summary": "Blend factor of one."
+          },
+          {
+            "name": "sourceColor",
+            "summary": "Blend factor of source values."
+          },
+          {
+            "name": "oneMinusSourceColor",
+            "summary": "Blend factor of one minus source values."
+          },
+          {
+            "name": "sourceAlpha",
+            "summary": "Blend factor of source alpha."
+          },
+          {
+            "name": "oneMinusSourceAlpha",
+            "summary": "Blend factor of one minus source alpha."
+          },
+          {
+            "name": "destinationColor",
+            "summary": "Blend factor of destination values."
+          },
+          {
+            "name": "oneMinusDestinationColor",
+            "summary": "Blend factor of one minus destination values."
+          },
+          {
+            "name": "destinationAlpha",
+            "summary": "Blend factor of destination alpha."
+          },
+          {
+            "name": "oneMinusDestinationAlpha",
+            "summary": "Blend factor of one minus destination alpha."
+          },
+          {
+            "name": "sourceAlphaSaturated",
+            "summary": "Blend factor of the minimum of either source alpha or one minus destination alpha."
+          },
+          {
+            "name": "blendColor",
+            "summary": "A blend factor that applies the blend color’s red, green, and blue components."
+          },
+          {
+            "name": "oneMinusBlendColor",
+            "summary": "A blend factor that applies one minus the blend color’s red, green, and blue components."
+          },
+          {
+            "name": "blendAlpha",
+            "summary": "Blend factor of alpha value."
+          },
+          {
+            "name": "oneMinusBlendAlpha",
+            "summary": "Blend factor of one minus alpha value."
+          },
+          {
+            "name": "source1Color",
+            "summary": "Blend factor of source values. This option supports dual-source blending and reads from the second color output of the fragment function."
+          },
+          {
+            "name": "oneMinusSource1Color",
+            "summary": "Blend factor of one minus source values. This option supports dual-source blending and reads from the second color output of the fragment function."
+          },
+          {
+            "name": "source1Alpha",
+            "summary": "Blend factor of source alpha. This option supports dual-source blending and reads from the second color output of the fragment function."
+          },
+          {
+            "name": "oneMinusSource1Alpha",
+            "summary": "Blend factor of one minus source alpha. This option supports dual-source blending and reads from the second color output of the fragment function."
+          }
+        ]
+      },
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "unspecialized",
+            "summary": "Defers assigning the blend factor."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlblendoperation": {
+    "summary": "For every pixel, MTLBlendOperation determines how to combine and weight the source fragment values with the destination values. Some blend operations multiply the source values by a source blend factor (SBF), multiply the destination values by a destination blend factor (DBF), and then combine the results using addition or subtraction. Other blend operations use either a minimum or maximum function to determine the result.",
+    "groups": [
+      {
+        "title": "Blend operations",
+        "members": [
+          {
+            "name": "add",
+            "summary": "Add portions of both source and destination pixel values."
+          },
+          {
+            "name": "subtract",
+            "summary": "Subtract a portion of the destination pixel values from a portion of the source."
+          },
+          {
+            "name": "reverseSubtract",
+            "summary": "Subtract a portion of the source values from a portion of the destination pixel values."
+          },
+          {
+            "name": "min",
+            "summary": "Minimum of the source and destination pixel values."
+          },
+          {
+            "name": "max",
+            "summary": "Maximum of the source and destination pixel values."
+          }
+        ]
+      },
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "unspecialized",
+            "summary": "Defers assigning the blend operation."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlprimitivetopologyclass": {
+    "summary": "The primitive topologies available for rendering.",
+    "groups": [
+      {
+        "title": "Topology classes",
+        "members": [
+          {
+            "name": "unspecified",
+            "summary": "An unspecified primitive."
+          },
+          {
+            "name": "point",
+            "summary": "A point primitive."
+          },
+          {
+            "name": "line",
+            "summary": "A line primitive."
+          },
+          {
+            "name": "triangle",
+            "summary": "A triangle primitive."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtltessellationpartitionmode": {
+    "summary": "Options for choosing the partition mode that the tessellator applies when deriving the number and spacing of segments for subdividing a corresponding edge.",
+    "groups": [
+      {
+        "title": "Partition modes",
+        "members": [
+          {
+            "name": "pow2",
+            "summary": "A power of two partitioning mode."
+          },
+          {
+            "name": "integer",
+            "summary": "An integer partitioning mode."
+          },
+          {
+            "name": "fractionalOdd",
+            "summary": "A fractional odd partitioning mode."
+          },
+          {
+            "name": "fractionalEven",
+            "summary": "A fractional even partitioning mode."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtltessellationfactorstepfunction": {
+    "summary": "Options for specifying the step function that determines the tessellation factors for a patch from the tessellation factor buffer.",
+    "groups": [
+      {
+        "title": "Factor step functions",
+        "members": [
+          {
+            "name": "constant",
+            "summary": "A constant step function. For all instances, the tessellation factor for all patches in a patch draw call is at the offset location in the tessellation factor buffer."
+          },
+          {
+            "name": "perPatch",
+            "summary": "A per-patch step function. For all instances, the tessellation factor for all patches in a patch draw call is at the offset + (drawPatchIndex * tessellationFactorStride) location in the tessellation factor buffer."
+          },
+          {
+            "name": "perInstance",
+            "summary": "A per-instance step function. For a given instance ID, the tessellation factor for a patch in a patch draw call is at the offset + (instanceID * instanceStride) location in the tessellation factor buffer."
+          },
+          {
+            "name": "perPatchAndPerInstance",
+            "summary": "A per-patch and per-instance step function. For a given instance ID, the tessellation factor for a patch in a patch draw call is at the offset + (drawPatchIndex * tessellationFactorStride + instanceID * instanceStride) location in the tessellation factor buffer."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtltessellationfactorformat": {
+    "summary": "Options for specifying the format of the tessellation factors in a tessellation factor buffer.",
+    "groups": [
+      {
+        "title": "Factor formats",
+        "members": [
+          {
+            "name": "half",
+            "summary": "A 16-bit floating-point format."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtltessellationcontrolpointindextype": {
+    "summary": "Options for specifying the size of the control point indices in a control point index buffer.",
+    "groups": [
+      {
+        "title": "Index types",
+        "members": [
+          {
+            "name": "none",
+            "summary": "No size. This value should only be used when drawing patches without a control point index buffer."
+          },
+          {
+            "name": "uint16",
+            "summary": "The size of a 16-bit unsigned integer."
+          },
+          {
+            "name": "uint32",
+            "summary": "The size of a 32-bit unsigned integer."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlcolorwritemask": {
+    "summary": "Values used to specify a mask to permit or restrict writing to color channels of a color value.",
+    "groups": [
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)",
+            "summary": "Returns a new color write mask from a specified raw value."
+          }
+        ]
+      },
+      {
+        "title": "Type Properties",
+        "members": [
+          {
+            "name": "all",
+            "summary": "All color channels are enabled."
+          },
+          {
+            "name": "alpha",
+            "summary": "The alpha color channel is enabled."
+          },
+          {
+            "name": "blue",
+            "summary": "The blue color channel is enabled."
+          },
+          {
+            "name": "green",
+            "summary": "The green color channel is enabled."
+          },
+          {
+            "name": "red",
+            "summary": "The red color channel is enabled."
+          },
+          {
+            "name": "unspecialized",
+            "summary": "Defers assigning the color write mask."
+          }
+        ]
+      }
+    ]
+  },
   "mtlresidencysetdescriptor": {
     "summary": "A configuration that customizes the behavior for a residency set.",
     "groups": [
@@ -11415,6 +15079,283 @@
       }
     ]
   },
+  "mtlpurgeablestate": {
+    "summary": "The purgeable state of the resource.",
+    "groups": [
+      {
+        "title": "Specifying purgeable states",
+        "members": [
+          {
+            "name": "keepCurrent",
+            "summary": "The current state is queried but doesn’t change."
+          },
+          {
+            "name": "nonVolatile",
+            "summary": "The contents of the resource aren’t allowed to be discarded."
+          },
+          {
+            "name": "volatile",
+            "summary": "The system is allowed to discard the resource to free up memory."
+          },
+          {
+            "name": "empty",
+            "summary": "A state that indicates to the system that it needs to consider the contents of a resource as invalid, typically because you’re discarding it."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlcpucachemode": {
+    "summary": "Options for the CPU cache mode that define the CPU mapping of the resource.",
+    "groups": [
+      {
+        "title": "Specifying the cache mode",
+        "members": [
+          {
+            "name": "defaultCache",
+            "summary": "The default CPU cache mode for the resource, which guarantees that read and write operations are executed in the expected order."
+          },
+          {
+            "name": "writeCombined",
+            "summary": "A write-combined CPU cache mode that is optimized for resources that the CPU writes into, but never reads."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlstoragemode": {
+    "summary": "Options for the memory location and access permissions for a resource.",
+    "groups": [
+      {
+        "title": "Storage mode options",
+        "members": [
+          {
+            "name": "shared",
+            "summary": "The CPU and GPU share access to the resource, allocated in system memory."
+          },
+          {
+            "name": "managed",
+            "summary": "The CPU and GPU may maintain separate copies of the resource, and any changes need to be explicitly synchronized."
+          },
+          {
+            "name": "private",
+            "summary": "The resource is only available to the GPU."
+          },
+          {
+            "name": "memoryless",
+            "summary": "The resource’s contents are only available to the GPU, and only exist temporarily during a render pass."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlhazardtrackingmode": {
+    "summary": "Options that control whether Metal automatically tracks and prevents memory hazards for resources.",
+    "groups": [
+      {
+        "title": "Selecting the tracking mode",
+        "members": [
+          {
+            "name": "default",
+            "summary": "An option that applies the default tracking behavior in Metal based on the resource or heap type you’re creating."
+          },
+          {
+            "name": "untracked",
+            "summary": "An option that disables automatic memory hazard tracking in Metal for a resource at runtime."
+          },
+          {
+            "name": "tracked",
+            "summary": "An option that directs Metal to apply runtime safeguards that prevent memory hazards when commands access a resource."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlsparsepagesize": {
+    "summary": "The page size options, in kilobytes, for sparse textures.",
+    "groups": [
+      {
+        "title": "Sparse texture page sizes",
+        "members": [
+          {
+            "name": "size16",
+            "summary": "Represents a sparse texture’s page size of 16 kilobytes."
+          },
+          {
+            "name": "size64",
+            "summary": "Represents a sparse texture’s page size of 64 kilobytes."
+          },
+          {
+            "name": "size256",
+            "summary": "Represents a sparse texture’s page size of 256 kilobytes."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlbuffersparsetier": {
+    "summary": "Enumerates the different support levels for sparse buffers.",
+    "groups": [
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "tier1",
+            "summary": "Indicates support for sparse buffers tier 1."
+          },
+          {
+            "name": "tierNone",
+            "summary": "Indicates that the buffer is not sparse."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtltexturesparsetier": {
+    "summary": "Enumerates the different support levels for sparse textures.",
+    "groups": [
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "tier1",
+            "summary": "Indicates support for sparse textures tier 1."
+          },
+          {
+            "name": "tier2",
+            "summary": "Indicates support for sparse textures tier 2."
+          },
+          {
+            "name": "tierNone",
+            "summary": "Indicates that the texture is not sparse."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlresourceoptions": {
+    "summary": "Optional arguments used to set the behavior of a resource.",
+    "groups": [
+      {
+        "title": "Initializing resource options",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      },
+      {
+        "title": "Specifying CPU cache modes",
+        "members": [
+          {
+            "name": "cpuCacheModeWriteCombined",
+            "summary": "A write-combined CPU cache mode that is optimized for resources that the CPU writes into, but never reads."
+          }
+        ]
+      },
+      {
+        "title": "Specifying storage modes",
+        "members": [
+          {
+            "name": "storageModeShared",
+            "summary": "The CPU and GPU share access to the resource, allocated in system memory."
+          },
+          {
+            "name": "storageModeManaged",
+            "summary": "The CPU and GPU may maintain separate copies of the resource, and any changes need to be explicitly synchronized."
+          },
+          {
+            "name": "storageModePrivate",
+            "summary": "The resource is only available to the GPU."
+          },
+          {
+            "name": "storageModeMemoryless",
+            "summary": "The resource’s contents are only available to the GPU, and only exist temporarily during a render pass."
+          }
+        ]
+      },
+      {
+        "title": "Specifying hazard tracking",
+        "members": [
+          {
+            "name": "hazardTrackingModeTracked",
+            "summary": "An option that instructs Metal to apply safeguards for a resource at runtime to avoid memory hazards for the applicable commands."
+          },
+          {
+            "name": "hazardTrackingModeUntracked",
+            "summary": "A resource option that instructs Metal to ignore memory hazards for a resource at runtime."
+          }
+        ]
+      },
+      {
+        "title": "Deprecated options",
+        "members": [
+          {
+            "name": "optionCPUCacheModeWriteCombined",
+            "summary": "This constant was deprecated in iOS 9.0 and macOS 10.11.",
+            "deprecated": true,
+            "deprecatedMessage": "Use cpuCacheModeWriteCombined instead."
+          }
+        ]
+      }
+    ]
+  },
   "mtlresourcestatecommandencoder": {
     "summary": "An encoder that encodes commands that modify resource configurations.",
     "groups": [
@@ -11458,6 +15399,32 @@
         "members": [
           {
             "name": "moveTextureMappings(sourceTexture:sourceSlice:sourceLevel:sourceOrigin:sourceSize:destinationTexture:destinationSlice:destinationLevel:destinationOrigin:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlsparsetexturemappingmode": {
+    "summary": "Options for sparse texture mapping.",
+    "groups": [
+      {
+        "title": "Specifying the mapping mode",
+        "members": [
+          {
+            "name": "map",
+            "summary": "A request to map sparse tiles from the heap to a region in the texture."
+          },
+          {
+            "name": "unmap",
+            "summary": "A request to remove any mappings for a region in the texture."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
           }
         ]
       }
@@ -11700,6 +15667,164 @@
       }
     ]
   },
+  "mtlsamplerminmagfilter": {
+    "summary": "Filtering options for determining which pixel value is returned within a mipmap level.",
+    "groups": [
+      {
+        "title": "Filter options",
+        "members": [
+          {
+            "name": "nearest",
+            "summary": "Select the single pixel nearest to the sample point."
+          },
+          {
+            "name": "linear",
+            "summary": "Select two pixels in each dimension and interpolate linearly between them."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlsamplermipfilter": {
+    "summary": "Filtering options for determining what pixel value is returned with multiple mipmap levels.",
+    "groups": [
+      {
+        "title": "Specifying mip filter options",
+        "members": [
+          {
+            "name": "notMipmapped",
+            "summary": "The texture is sampled from mipmap level 0, and other mipmap levels are ignored."
+          },
+          {
+            "name": "nearest",
+            "summary": "The nearest mipmap level is selected."
+          },
+          {
+            "name": "linear",
+            "summary": "If the filter falls between mipmap levels, both levels are sampled and the results are determined by linear interpolation between levels."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlsampleraddressmode": {
+    "summary": "Modes that determine the texture coordinate at each pixel when a fetch falls outside the bounds of a texture.",
+    "groups": [
+      {
+        "title": "Address mode options",
+        "members": [
+          {
+            "name": "clampToEdge",
+            "summary": "Texture coordinates are clamped between 0.0 and 1.0, inclusive."
+          },
+          {
+            "name": "mirrorClampToEdge",
+            "summary": "Between -1.0 and 1.0, the texture coordinates are mirrored across the axis; outside -1.0 and 1.0, texture coordinates are clamped."
+          },
+          {
+            "name": "repeat",
+            "summary": "Texture coordinates wrap to the other side of the texture, effectively keeping only the fractional part of the texture coordinate."
+          },
+          {
+            "name": "mirrorRepeat",
+            "summary": "Between -1.0 and 1.0, the texture coordinates are mirrored across the axis; outside -1.0 and 1.0, the image is repeated."
+          },
+          {
+            "name": "clampToZero",
+            "summary": "Out-of-range texture coordinates return transparent zero (0,0,0,0) for images with an alpha channel and return opaque zero (0,0,0,1) for images without an alpha channel."
+          },
+          {
+            "name": "clampToBorderColor",
+            "summary": "Out-of-range texture coordinates return the value specified by the  property."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlsamplerbordercolor": {
+    "summary": "Values that determine the border color for clamped texture values when the sampler address mode is .",
+    "groups": [
+      {
+        "title": "Specifying border color options",
+        "members": [
+          {
+            "name": "transparentBlack",
+            "summary": "A transparent black color (0,0,0,0) for texture values outside the border."
+          },
+          {
+            "name": "opaqueBlack",
+            "summary": "An opaque black color (0,0,0,1) for texture values outside the border"
+          },
+          {
+            "name": "opaqueWhite",
+            "summary": "An opaque white color (1,1,1,1) for texture values outside the border."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlsamplerreductionmode": {
+    "summary": "Configures how the sampler aggregates contributing samples to a final value.",
+    "groups": [
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "maximum",
+            "summary": "A reduction mode that finds the maximum contributing sample value by separately evaluating each channel."
+          },
+          {
+            "name": "minimum",
+            "summary": "A reduction mode that finds the minimum contributing sample value by separately evaluating each channel."
+          },
+          {
+            "name": "weightedAverage",
+            "summary": "A reduction mode that adds together the product of each contributing sample value by its weight."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
   "mtlbufferlayoutdescriptor": {
     "summary": "A description of how a compute function fetches input data for an attribute.",
     "groups": [
@@ -11807,6 +15932,334 @@
           {
             "name": "reset()",
             "summary": "Resets the default state for the descriptor."
+          }
+        ]
+      }
+    ]
+  },
+  "mtlattributeformat": {
+    "summary": "The data format options for acceleration structures.",
+    "groups": [
+      {
+        "title": "32-bit floating-point formats",
+        "members": [
+          {
+            "name": "float",
+            "summary": "A 32-bit floating-point value."
+          },
+          {
+            "name": "float2",
+            "summary": "A two-component vector with 32-bit floating-point values."
+          },
+          {
+            "name": "float3",
+            "summary": "A three-component vector with 32-bit floating-point values."
+          },
+          {
+            "name": "float4",
+            "summary": "A four-component vector with 32-bit floating-point values."
+          },
+          {
+            "name": "floatRG11B10",
+            "summary": "One packed 32-bit value representing pixel data containing 11-bit float red and green channels, and a 10-bit float blue channel."
+          },
+          {
+            "name": "floatRGB9E5",
+            "summary": "One packed 32-bit value representing pixel data containing 9-bit float red, green, and blue channels, and a 5-bit float shared exponent channel."
+          }
+        ]
+      },
+      {
+        "title": "32-bit integer formats",
+        "members": [
+          {
+            "name": "int",
+            "summary": "A 32-bit, signed integer value."
+          },
+          {
+            "name": "int2",
+            "summary": "A two-component vector with 32-bit, signed integer values."
+          },
+          {
+            "name": "int3",
+            "summary": "A three-component vector with 32-bit, signed integer values."
+          },
+          {
+            "name": "int4",
+            "summary": "A four-component vector with 32-bit, signed integer values."
+          },
+          {
+            "name": "uint",
+            "summary": "A 32-bit, unsigned integer value."
+          },
+          {
+            "name": "uint2",
+            "summary": "A two-component vector with 32-bit, unsigned integer values."
+          },
+          {
+            "name": "uint3",
+            "summary": "A three-component vector with 32-bit, unsigned integer values."
+          },
+          {
+            "name": "uint4",
+            "summary": "A four-component vector with 32-bit, unsigned integer values."
+          }
+        ]
+      },
+      {
+        "title": "32-bit normalized integer formats",
+        "members": [
+          {
+            "name": "int1010102Normalized",
+            "summary": "One packed 32-bit value with four normalized signed two’s complement integer values, arranged as 10 bits, 10 bits, 10 bits, and 2 bits."
+          },
+          {
+            "name": "uint1010102Normalized",
+            "summary": "One packed 32-bit value with four normalized unsigned integer values, arranged as 10 bits, 10 bits, 10 bits, and 2 bits."
+          },
+          {
+            "name": "uchar4Normalized_bgra",
+            "summary": "Four unsigned normalized 8-bit values, arranged as blue, green, red, and alpha components."
+          }
+        ]
+      },
+      {
+        "title": "16-bit floating-point formats",
+        "members": [
+          {
+            "name": "half",
+            "summary": "A 16-bit floating-point value."
+          },
+          {
+            "name": "half2",
+            "summary": "A two-component vector with 16-bit floating-point values."
+          },
+          {
+            "name": "half3",
+            "summary": "A three-component vector with 16-bit floating-point values."
+          },
+          {
+            "name": "half4",
+            "summary": "A four-component vector with 16-bit floating-point values."
+          }
+        ]
+      },
+      {
+        "title": "16-bit integer formats",
+        "members": [
+          {
+            "name": "short",
+            "summary": "A 16-bit, signed integer value."
+          },
+          {
+            "name": "short2",
+            "summary": "A two-component vector with 16-bit, signed integer values."
+          },
+          {
+            "name": "short3",
+            "summary": "A three-component vector with 16-bit, signed integer values."
+          },
+          {
+            "name": "short4",
+            "summary": "A four-component vector with 16-bit, signed integer values."
+          },
+          {
+            "name": "ushort",
+            "summary": "A 16-bit, unsigned integer value."
+          },
+          {
+            "name": "ushort2",
+            "summary": "A two-component vector with 16-bit, unsigned integer values."
+          },
+          {
+            "name": "ushort3",
+            "summary": "A three-component vector with 16-bit, unsigned integer values."
+          },
+          {
+            "name": "ushort4",
+            "summary": "A four-component vector with 16-bit, unsigned integer values."
+          }
+        ]
+      },
+      {
+        "title": "16-bit normalized integer formats",
+        "members": [
+          {
+            "name": "shortNormalized",
+            "summary": "A 16-bit, normalized, signed integer value."
+          },
+          {
+            "name": "short2Normalized",
+            "summary": "A two-component vector with 16-bit, normalized, signed integer values."
+          },
+          {
+            "name": "short3Normalized",
+            "summary": "A three-component vector with 16-bit, normalized, signed integer values."
+          },
+          {
+            "name": "short4Normalized",
+            "summary": "A four-component vector with 16-bit, normalized, signed integer values."
+          },
+          {
+            "name": "ushortNormalized",
+            "summary": "A 16-bit, normalized, unsigned integer value."
+          },
+          {
+            "name": "ushort2Normalized",
+            "summary": "Two unsigned normalized 16-bit values"
+          },
+          {
+            "name": "ushort3Normalized",
+            "summary": "A three-component vector with 16-bit, normalized, unsigned integer values."
+          },
+          {
+            "name": "ushort4Normalized",
+            "summary": "A four-component vector with 16-bit, normalized, unsigned integer values."
+          }
+        ]
+      },
+      {
+        "title": "8-bit integer formats",
+        "members": [
+          {
+            "name": "char",
+            "summary": "An 8-bit, signed integer value."
+          },
+          {
+            "name": "char2",
+            "summary": "A two-component vector with 8-bit, signed integer values."
+          },
+          {
+            "name": "char3",
+            "summary": "A three-component vector with 8-bit, signed integer values."
+          },
+          {
+            "name": "char4",
+            "summary": "A four-component vector with 8-bit, signed integer values."
+          },
+          {
+            "name": "uchar",
+            "summary": "An 8-bit, unsigned integer value."
+          },
+          {
+            "name": "uchar2",
+            "summary": "A two-component vector with 8-bit, unsigned integer values."
+          },
+          {
+            "name": "uchar3",
+            "summary": "A three-component vector with 8-bit, unsigned integer values."
+          },
+          {
+            "name": "uchar4",
+            "summary": "A four-component vector with 8-bit, unsigned integer values."
+          }
+        ]
+      },
+      {
+        "title": "8-bit normalized integer formats",
+        "members": [
+          {
+            "name": "charNormalized",
+            "summary": "An 8-bit, normalized, signed integer value."
+          },
+          {
+            "name": "char2Normalized",
+            "summary": "A two-component vector with 8-bit, normalized, signed integer values."
+          },
+          {
+            "name": "char3Normalized",
+            "summary": "A three-component vector with 8-bit, normalized, signed integer values."
+          },
+          {
+            "name": "char4Normalized",
+            "summary": "A four-component vector with 8-bit, normalized, signed integer values."
+          },
+          {
+            "name": "ucharNormalized",
+            "summary": "An 8-bit, normalized, unsigned integer value."
+          },
+          {
+            "name": "uchar2Normalized",
+            "summary": "A two-component vector with 8-bit, normalized, unsigned integer values."
+          },
+          {
+            "name": "uchar3Normalized",
+            "summary": "A three-component vector with 8-bit, normalized, unsigned integer values."
+          },
+          {
+            "name": "uchar4Normalized",
+            "summary": "A four-component vector with 8-bit, normalized, unsigned integer values."
+          }
+        ]
+      },
+      {
+        "title": "Sentinel values",
+        "members": [
+          {
+            "name": "invalid",
+            "summary": "A sentinel value that represents an invalid attribute format."
+          }
+        ]
+      },
+      {
+        "title": "Swift support",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtlstepfunction": {
+    "summary": "The frequency and locations at which a function fetches attribute data.",
+    "groups": [
+      {
+        "title": "Step options",
+        "members": [
+          {
+            "name": "constant",
+            "summary": "The function fetches attribute data once."
+          },
+          {
+            "name": "perInstance",
+            "summary": "The function fetches data based on the instance index."
+          },
+          {
+            "name": "perPatch",
+            "summary": "The post-tessellation function fetches data based on the patch index of the patch."
+          },
+          {
+            "name": "perPatchControlPoint",
+            "summary": "The post-tessellation function fetches data based on the control-point indices associated with the patch."
+          },
+          {
+            "name": "perVertex",
+            "summary": "The vertex function fetches data for every vertex."
+          },
+          {
+            "name": "threadPositionInGridX",
+            "summary": "The compute function fetches data based on the thread’s x coordinate."
+          },
+          {
+            "name": "threadPositionInGridY",
+            "summary": "The compute function fetches data based on the thread’s y coordinate."
+          },
+          {
+            "name": "threadPositionInGridXIndexed",
+            "summary": "The compute function fetches data by using the thread’s x coordinate to look up a value in the index buffer."
+          },
+          {
+            "name": "threadPositionInGridYIndexed",
+            "summary": "The compute function fetches data by using the thread’s y coordinate to look up a value in the index buffer."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
           }
         ]
       }
@@ -11927,6 +16380,90 @@
           {
             "name": "replace(sliceOrigin:sliceDimensions:withBytes:strides:)",
             "summary": "Replaces the contents of a slice of this tensor with data you provide."
+          }
+        ]
+      }
+    ]
+  },
+  "mtltensordatatype": {
+    "summary": "The possible data types for the elements of a tensor.",
+    "groups": [
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "bfloat16"
+          },
+          {
+            "name": "float16"
+          },
+          {
+            "name": "float32"
+          },
+          {
+            "name": "int16"
+          },
+          {
+            "name": "int32"
+          },
+          {
+            "name": "int4"
+          },
+          {
+            "name": "int8"
+          },
+          {
+            "name": "none"
+          },
+          {
+            "name": "uint16"
+          },
+          {
+            "name": "uint32"
+          },
+          {
+            "name": "uint4"
+          },
+          {
+            "name": "uint8"
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtltensorusage": {
+    "summary": "The type that represents the different contexts for a tensor.",
+    "groups": [
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      },
+      {
+        "title": "Type Properties",
+        "members": [
+          {
+            "name": "compute",
+            "summary": "A tensor context that applies to compute encoders."
+          },
+          {
+            "name": "machineLearning",
+            "summary": "A tensor context that applies to machine learning encoders."
+          },
+          {
+            "name": "render",
+            "summary": "A tensor context that applies to render encoders."
           }
         ]
       }
@@ -12202,7 +16739,9 @@
           },
           {
             "name": "rootResource",
-            "summary": "The resource that owns the storage for this texture."
+            "summary": "The resource that owns the storage for this texture.",
+            "deprecated": true,
+            "deprecatedMessage": "Use parent or buffer instead."
           }
         ]
       },
@@ -12264,6 +16803,172 @@
         "members": [
           {
             "name": "newTextureView(with:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtltexturetype": {
+    "summary": "The dimension of each image, including whether multiple images are arranged into an array or a cube.",
+    "groups": [
+      {
+        "title": "Specifying the texture type",
+        "members": [
+          {
+            "name": "type1D",
+            "summary": "A one-dimensional texture image."
+          },
+          {
+            "name": "type1DArray",
+            "summary": "An array of one-dimensional texture images."
+          },
+          {
+            "name": "type2D",
+            "summary": "A two-dimensional texture image."
+          },
+          {
+            "name": "type2DArray",
+            "summary": "An array of two-dimensional texture images."
+          },
+          {
+            "name": "type2DMultisample",
+            "summary": "A two-dimensional texture image that uses more than one sample for each pixel."
+          },
+          {
+            "name": "typeCube",
+            "summary": "A cube texture with six two-dimensional images."
+          },
+          {
+            "name": "typeCubeArray",
+            "summary": "An array of cube textures, each with six two-dimensional images."
+          },
+          {
+            "name": "type3D",
+            "summary": "A three-dimensional texture image."
+          },
+          {
+            "name": "type2DMultisampleArray",
+            "summary": "An array of two-dimensional texture images that use more than one sample for each pixel."
+          },
+          {
+            "name": "typeTextureBuffer",
+            "summary": "A texture buffer."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtltextureswizzle": {
+    "summary": "A set of options to choose from when creating a texture swizzle pattern.",
+    "groups": [
+      {
+        "title": "Specifying swizzle channels",
+        "members": [
+          {
+            "name": "alpha",
+            "summary": "The alpha channel of the source pixel is copied to the destination channel."
+          },
+          {
+            "name": "blue",
+            "summary": "The blue channel of the source pixel is copied to the destination channel."
+          },
+          {
+            "name": "green",
+            "summary": "The green channel of the source pixel is copied to the destination channel."
+          },
+          {
+            "name": "red",
+            "summary": "The red channel of the source pixel is copied to the destination channel."
+          },
+          {
+            "name": "one",
+            "summary": "A value of 1.0 is copied to the destination channel."
+          },
+          {
+            "name": "zero",
+            "summary": "A value of 0.0 is copied to the destination channel."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtltexturecompressiontype": {
+    "groups": [
+      {
+        "title": "Enumeration Cases",
+        "members": [
+          {
+            "name": "lossless"
+          },
+          {
+            "name": "lossy"
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
+          }
+        ]
+      }
+    ]
+  },
+  "mtltextureusage": {
+    "summary": "An enumeration for the various options that determine how you can use a texture.",
+    "groups": [
+      {
+        "title": "Specifying texture usage options",
+        "members": [
+          {
+            "name": "unknown",
+            "summary": "An option for a texture whose usage is unknown."
+          },
+          {
+            "name": "shaderRead",
+            "summary": "An option for reading or sampling from the texture in a shader."
+          },
+          {
+            "name": "shaderWrite",
+            "summary": "An option for writing to the texture in a shader."
+          },
+          {
+            "name": "shaderAtomic",
+            "summary": "An option that enables atomic memory operations on texture elements in shader code."
+          },
+          {
+            "name": "renderTarget",
+            "summary": "An option for rendering to the texture in a render pass."
+          },
+          {
+            "name": "pixelFormatView",
+            "summary": "An option to create texture views with a different component layout."
+          }
+        ]
+      },
+      {
+        "title": "Creating texture usage options",
+        "members": [
+          {
+            "name": "init(rawValue:)",
+            "summary": "Creates new, empty usage options."
           }
         ]
       }
@@ -12385,6 +17090,319 @@
           {
             "name": "layouts",
             "summary": "An array of state data that describes how data are fetched by a vertex shader function when rendering primitives."
+          }
+        ]
+      }
+    ]
+  },
+  "mtlvertexformat": {
+    "summary": "The vertex data format options for render pipelines.",
+    "groups": [
+      {
+        "title": "32-bit floating-point formats",
+        "members": [
+          {
+            "name": "float",
+            "summary": "A 32-bit floating-point value."
+          },
+          {
+            "name": "float2",
+            "summary": "A two-component vector with 32-bit floating-point values."
+          },
+          {
+            "name": "float3",
+            "summary": "A three-component vector with 32-bit floating-point values."
+          },
+          {
+            "name": "float4",
+            "summary": "A four-component vector with 32-bit floating-point values."
+          },
+          {
+            "name": "floatRG11B10",
+            "summary": "A three-component vector with 11-bit floating-point values for red and green, and a 10-bit value for blue."
+          },
+          {
+            "name": "floatRGB9E5",
+            "summary": "A three-component vector with 9-bit floating-point values for red, green, and blue, and a 5-bit shared exponent."
+          }
+        ]
+      },
+      {
+        "title": "32-bit integer formats",
+        "members": [
+          {
+            "name": "int",
+            "summary": "A 32-bit, signed integer value."
+          },
+          {
+            "name": "int2",
+            "summary": "A two-component vector with 32-bit, signed integer values."
+          },
+          {
+            "name": "int3",
+            "summary": "A three-component vector with 32-bit, signed integer values."
+          },
+          {
+            "name": "int4",
+            "summary": "A four-component vector with 32-bit, signed integer values."
+          },
+          {
+            "name": "uint",
+            "summary": "A 32-bit, unsigned integer value."
+          },
+          {
+            "name": "uint2",
+            "summary": "A two-component vector with 32-bit, unsigned integer values."
+          },
+          {
+            "name": "uint3",
+            "summary": "A three-component vector with 32-bit, unsigned integer values."
+          },
+          {
+            "name": "uint4",
+            "summary": "A four-component vector with 32-bit, unsigned integer values."
+          }
+        ]
+      },
+      {
+        "title": "32-bit normalized integer formats",
+        "members": [
+          {
+            "name": "int1010102Normalized",
+            "summary": "A four-component vector with 10-bit, normalized, signed integer values for red, green, and blue, and a 2-bit value for alpha."
+          },
+          {
+            "name": "uint1010102Normalized",
+            "summary": "A four-component vector with 10-bit, normalized, unsigned integer values for red, green, and blue, and a 2-bit value for alpha."
+          },
+          {
+            "name": "uchar4Normalized_bgra",
+            "summary": "A four-component vector with 8-bit, normalized, unsigned integer values for blue, green, red, and alpha."
+          }
+        ]
+      },
+      {
+        "title": "16-bit floating-point formats",
+        "members": [
+          {
+            "name": "half",
+            "summary": "A 16-bit floating-point value."
+          },
+          {
+            "name": "half2",
+            "summary": "A two-component vector with 16-bit floating-point values."
+          },
+          {
+            "name": "half3",
+            "summary": "A three-component vector with 16-bit floating-point values."
+          },
+          {
+            "name": "half4",
+            "summary": "A four-component vector with 16-bit floating-point values."
+          }
+        ]
+      },
+      {
+        "title": "16-bit integer formats",
+        "members": [
+          {
+            "name": "short",
+            "summary": "A 16-bit, signed integer value."
+          },
+          {
+            "name": "short2",
+            "summary": "A two-component vector with 16-bit, signed integer values."
+          },
+          {
+            "name": "short3",
+            "summary": "A three-component vector with 16-bit, signed integer values."
+          },
+          {
+            "name": "short4",
+            "summary": "A four-component vector with 16-bit, signed integer values."
+          },
+          {
+            "name": "ushort",
+            "summary": "A 16-bit, unsigned integer value."
+          },
+          {
+            "name": "ushort2",
+            "summary": "A two-component vector with 16-bit, unsigned integer values."
+          },
+          {
+            "name": "ushort3",
+            "summary": "A three-component vector with 16-bit, unsigned integer values."
+          },
+          {
+            "name": "ushort4",
+            "summary": "A four-component vector with 16-bit, unsigned integer values."
+          }
+        ]
+      },
+      {
+        "title": "16-bit normalized integer formats",
+        "members": [
+          {
+            "name": "shortNormalized",
+            "summary": "A 16-bit, normalized, signed integer value."
+          },
+          {
+            "name": "short2Normalized",
+            "summary": "A two-component vector with 16-bit, normalized, signed integer values."
+          },
+          {
+            "name": "short3Normalized",
+            "summary": "A three-component vector with 16-bit, normalized, signed integer values."
+          },
+          {
+            "name": "short4Normalized",
+            "summary": "A four-component vector with 16-bit, normalized, signed integer values."
+          },
+          {
+            "name": "ushortNormalized",
+            "summary": "A 16-bit, normalized, unsigned integer value."
+          },
+          {
+            "name": "ushort2Normalized",
+            "summary": "A two-component vector with 16-bit, normalized, unsigned integer values."
+          },
+          {
+            "name": "ushort3Normalized",
+            "summary": "A three-component vector with 16-bit, normalized, unsigned integer values."
+          },
+          {
+            "name": "ushort4Normalized",
+            "summary": "A four-component vector with 16-bit, normalized, unsigned integer values."
+          }
+        ]
+      },
+      {
+        "title": "8-bit integer formats",
+        "members": [
+          {
+            "name": "char",
+            "summary": "An 8-bit, signed integer value."
+          },
+          {
+            "name": "char2",
+            "summary": "A two-component vector with 8-bit, signed integer values."
+          },
+          {
+            "name": "char3",
+            "summary": "A three-component vector with 8-bit, signed integer values."
+          },
+          {
+            "name": "char4",
+            "summary": "A four-component vector with 8-bit, signed integer values."
+          },
+          {
+            "name": "uchar",
+            "summary": "An 8-bit, unsigned integer value."
+          },
+          {
+            "name": "uchar2",
+            "summary": "A two-component vector with 8-bit, unsigned integer values."
+          },
+          {
+            "name": "uchar3",
+            "summary": "A three-component vector with 8-bit, unsigned integer values."
+          },
+          {
+            "name": "uchar4",
+            "summary": "A four-component vector with 8-bit, unsigned integer values."
+          }
+        ]
+      },
+      {
+        "title": "8-bit normalized integer formats",
+        "members": [
+          {
+            "name": "charNormalized",
+            "summary": "An 8-bit, normalized, signed integer value."
+          },
+          {
+            "name": "char2Normalized",
+            "summary": "A two-component vector with 8-bit, normalized, signed integer values."
+          },
+          {
+            "name": "char3Normalized",
+            "summary": "A three-component vector with 8-bit, normalized, signed integer values."
+          },
+          {
+            "name": "char4Normalized",
+            "summary": "A four-component vector with 8-bit, normalized, signed integer values."
+          },
+          {
+            "name": "ucharNormalized",
+            "summary": "An 8-bit, normalized, unsigned integer value."
+          },
+          {
+            "name": "uchar2Normalized",
+            "summary": "A two-component vector with 8-bit, normalized, unsigned integer values."
+          },
+          {
+            "name": "uchar3Normalized",
+            "summary": "A three-component vector with 8-bit, normalized, unsigned integer values."
+          },
+          {
+            "name": "uchar4Normalized",
+            "summary": "A four-component vector with 8-bit, normalized, unsigned integer values."
+          }
+        ]
+      },
+      {
+        "title": "Sentinel values",
+        "members": [
+          {
+            "name": "invalid",
+            "summary": "A sentinel value that represents an empty set of vertex format options."
+          }
+        ]
+      },
+      {
+        "title": "Swift support",
+        "members": [
+          {
+            "name": "init(rawValue:)",
+            "summary": "Creates a vertex format from a raw integer value."
+          }
+        ]
+      }
+    ]
+  },
+  "mtlvertexstepfunction": {
+    "summary": "The frequency with which the vertex function or post-tessellation vertex function fetches attribute data.",
+    "groups": [
+      {
+        "title": "Step functions",
+        "members": [
+          {
+            "name": "constant",
+            "summary": "The vertex function fetches attribute data once and uses that data for every vertex."
+          },
+          {
+            "name": "perVertex",
+            "summary": "The vertex function fetches and uses new attribute data for every vertex."
+          },
+          {
+            "name": "perInstance",
+            "summary": "The vertex function regularly fetches new attribute data for a number of instances that is determined by stepRate."
+          },
+          {
+            "name": "perPatch",
+            "summary": "The post-tessellation vertex function fetches data based on the patch index of the patch."
+          },
+          {
+            "name": "perPatchControlPoint",
+            "summary": "The post-tessellation vertex function fetches data based on the control-point indices associated with the patch."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
           }
         ]
       }
@@ -12988,6 +18006,36 @@
           {
             "name": "encode(commandBuffer:)",
             "summary": "Adds the spatial scaler to a render pass’s command buffer."
+          }
+        ]
+      }
+    ]
+  },
+  "mtlfxspatialscalercolorprocessingmode": {
+    "summary": "The color space modes for the input and output textures you use with a spatial scaling effect instance.",
+    "groups": [
+      {
+        "title": "Color space modes",
+        "members": [
+          {
+            "name": "linear",
+            "summary": "Indicates your input and output textures use a linear color space."
+          },
+          {
+            "name": "perceptual",
+            "summary": "Indicates your input and output textures use a perceptual color space."
+          },
+          {
+            "name": "hdr",
+            "summary": "Indicates your input and output textures use a high dynamic range color space."
+          }
+        ]
+      },
+      {
+        "title": "Initializers",
+        "members": [
+          {
+            "name": "init(rawValue:)"
           }
         ]
       }
