@@ -1561,7 +1561,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     /// Computes a parameter type signature key for method overload conflict detection.
     /// Handles array merging (OBJ_ARRAY + count → single array param) and error out params.
     /// </summary>
-    string ComputeParamTypesKey(MethodInfo method)
+    static string ComputeParamTypesKey(MethodInfo method)
     {
         List<string> types = [];
         for (int i = 0; i < method.Parameters.Count; i++)
@@ -1634,9 +1634,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             List<(MethodInfo Method, string Simplified, string Full, string ParamKey)> items = [.. group];
 
             bool hasConflict = items.Count > 1 || propertyNames.Contains(items[0].Simplified);
-            foreach (var item in items)
+            foreach (var (method, simplified, full, _) in items)
             {
-                result[item.Method] = hasConflict ? item.Full : item.Simplified;
+                result[method] = hasConflict ? full : simplified;
             }
         }
 
