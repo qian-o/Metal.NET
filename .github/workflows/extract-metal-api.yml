@@ -520,7 +520,7 @@ jobs:
                       api["enums"].append(e)
               elif kind == "ObjCProtocolDecl":
                   t = extract_type(node)
-                  if t and (t["methods"] or t["properties"]):
+                  if t:
                       t["framework"] = fw
                       api["protocols"].append(t)
               elif kind == "ObjCInterfaceDecl":
