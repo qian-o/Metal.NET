@@ -1,12 +1,9 @@
 ﻿# Third-Party Notices
 
-## metal-cpp
+This project does not bundle any third-party source code.
 
-- **Source:** <https://developer.apple.com/metal/cpp/>
-- **Copyright:** Copyright © 2020-2025 Apple Inc.
-- **License:** Apache License 2.0
+The C# bindings are auto-generated from Apple's Metal Objective-C headers
+using Clang AST extraction (via a GitHub Actions workflow). No third-party
+headers or libraries are included in this repository.
 
-The metal-cpp headers included in `Metal.NET.Generator/metal-cpp/` are
-used as input for the offline code generator that produces C# bindings.
-The full license text is available at
-[`Metal.NET.Generator/metal-cpp/LICENSE.txt`](Metal.NET.Generator/metal-cpp/LICENSE.txt).
+"Metal" is a trademark of Apple Inc.
