@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// An object that represents a tensor bound to a graphics or compute function or a machine learning function.
-/// </summary>
 public class MTLTensorBinding(nint nativePtr, NativeObjectOwnership ownership) : MTLBinding(nativePtr, ownership), INativeObject<MTLTensorBinding>
 {
     #region INativeObject
@@ -14,32 +11,20 @@ public class MTLTensorBinding(nint nativePtr, NativeObjectOwnership ownership) :
     }
     #endregion
 
-    #region Instance Properties - Properties
-
-    /// <summary>
-    /// The array of sizes, in elements, one for each dimension of this tensor.
-    /// </summary>
-    public MTLTensorExtents Dimensions
+    public MTLTensorDataType TensorDataType
     {
-        get => GetProperty(ref field, MTLTensorBindingBindings.Dimensions);
+        get => (MTLTensorDataType)ObjectiveC.MsgSendLong(NativePtr, MTLTensorBindingBindings.TensorDataType);
     }
 
-    /// <summary>
-    /// The data format you use for indexing into the tensor.
-    /// </summary>
     public MTLDataType IndexType
     {
         get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLTensorBindingBindings.IndexType);
     }
 
-    /// <summary>
-    /// The underlying data format of this tensor.
-    /// </summary>
-    public MTLTensorDataType TensorDataType
+    public MTLTensorExtents Dimensions
     {
-        get => (MTLTensorDataType)ObjectiveC.MsgSendLong(NativePtr, MTLTensorBindingBindings.TensorDataType);
+        get => GetProperty(ref field, MTLTensorBindingBindings.Dimensions);
     }
-    #endregion
 }
 
 file static class MTLTensorBindingBindings

@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// An array of pipeline buffer descriptors.
-/// </summary>
 public class MTLPipelineBufferDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLPipelineBufferDescriptorArray>
 {
     #region INativeObject
@@ -13,10 +10,6 @@ public class MTLPipelineBufferDescriptorArray(nint nativePtr, NativeObjectOwners
         return new(nativePtr, ownership);
     }
     #endregion
-
-    public MTLPipelineBufferDescriptorArray() : this(ObjectiveC.AllocInit(MTLPipelineBufferDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
-    {
-    }
 
     public MTLPipelineBufferDescriptor this[nuint bufferIndex]
     {
@@ -35,8 +28,6 @@ public class MTLPipelineBufferDescriptorArray(nint nativePtr, NativeObjectOwners
 
 file static class MTLPipelineBufferDescriptorArrayBindings
 {
-    public static readonly nint Class = ObjectiveC.GetClass("MTLPipelineBufferDescriptorArray");
-
     public static readonly Selector Object = "objectAtIndexedSubscript:";
 
     public static readonly Selector SetObject = "setObject:atIndexedSubscript:";

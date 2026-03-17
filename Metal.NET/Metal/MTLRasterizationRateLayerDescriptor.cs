@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// The minimum rasterization rates to apply to sections of a layer in the render target.
-/// </summary>
 public class MTLRasterizationRateLayerDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRasterizationRateLayerDescriptor>
 {
     #region INativeObject
@@ -18,41 +15,16 @@ public class MTLRasterizationRateLayerDescriptor(nint nativePtr, NativeObjectOwn
     {
     }
 
-    #region Inspecting the layer rate function parameters - Properties
-
-    /// <summary>
-    /// The number of rows and columns in the layer map.
-    /// </summary>
     public MTLSize SampleCount
     {
         get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLRasterizationRateLayerDescriptorBindings.SampleCount);
         set => ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateLayerDescriptorBindings.SetSampleCount, value);
     }
 
-    /// <summary>
-    /// The maximum number of rows and columns in the layer map.
-    /// </summary>
     public MTLSize MaxSampleCount
     {
         get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLRasterizationRateLayerDescriptorBindings.MaxSampleCount);
     }
-
-    /// <summary>
-    /// The horizontal rasterization rates for the layer map’s rows.
-    /// </summary>
-    public MTLRasterizationRateSampleArray Horizontal
-    {
-        get => GetProperty(ref field, MTLRasterizationRateLayerDescriptorBindings.Horizontal);
-    }
-
-    /// <summary>
-    /// The vertical rasterization rates for the layer map’s rows.
-    /// </summary>
-    public MTLRasterizationRateSampleArray Vertical
-    {
-        get => GetProperty(ref field, MTLRasterizationRateLayerDescriptorBindings.Vertical);
-    }
-    #endregion
 
     public float HorizontalSampleStorage
     {
@@ -63,6 +35,26 @@ public class MTLRasterizationRateLayerDescriptor(nint nativePtr, NativeObjectOwn
     {
         get => ObjectiveC.MsgSendFloat(NativePtr, MTLRasterizationRateLayerDescriptorBindings.VerticalSampleStorage);
     }
+
+    public MTLRasterizationRateSampleArray Horizontal
+    {
+        get => GetProperty(ref field, MTLRasterizationRateLayerDescriptorBindings.Horizontal);
+    }
+
+    public MTLRasterizationRateSampleArray Vertical
+    {
+        get => GetProperty(ref field, MTLRasterizationRateLayerDescriptorBindings.Vertical);
+    }
+
+    public nint InitWithSampleCount(MTLSize sampleCount)
+    {
+        return ObjectiveC.MsgSendNInt(NativePtr, MTLRasterizationRateLayerDescriptorBindings.InitWithSampleCount, sampleCount);
+    }
+
+    public nint InitWithSampleCountHorizontalVertical(MTLSize sampleCount, float horizontal, float vertical)
+    {
+        return ObjectiveC.MsgSendNInt(NativePtr, MTLRasterizationRateLayerDescriptorBindings.InitWithSampleCounthorizontalvertical, sampleCount, horizontal, vertical);
+    }
 }
 
 file static class MTLRasterizationRateLayerDescriptorBindings
@@ -72,6 +64,10 @@ file static class MTLRasterizationRateLayerDescriptorBindings
     public static readonly Selector Horizontal = "horizontal";
 
     public static readonly Selector HorizontalSampleStorage = "horizontalSampleStorage";
+
+    public static readonly Selector InitWithSampleCount = "initWithSampleCount:";
+
+    public static readonly Selector InitWithSampleCounthorizontalvertical = "initWithSampleCount:horizontal:vertical:";
 
     public static readonly Selector MaxSampleCount = "maxSampleCount";
 

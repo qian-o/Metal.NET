@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// An array of render pipeline color attachment descriptor objects.
-/// </summary>
 public class MTLRenderPipelineColorAttachmentDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRenderPipelineColorAttachmentDescriptorArray>
 {
     #region INativeObject
@@ -13,10 +10,6 @@ public class MTLRenderPipelineColorAttachmentDescriptorArray(nint nativePtr, Nat
         return new(nativePtr, ownership);
     }
     #endregion
-
-    public MTLRenderPipelineColorAttachmentDescriptorArray() : this(ObjectiveC.AllocInit(MTLRenderPipelineColorAttachmentDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
-    {
-    }
 
     public MTLRenderPipelineColorAttachmentDescriptor this[nuint attachmentIndex]
     {
@@ -35,8 +28,6 @@ public class MTLRenderPipelineColorAttachmentDescriptorArray(nint nativePtr, Nat
 
 file static class MTLRenderPipelineColorAttachmentDescriptorArrayBindings
 {
-    public static readonly nint Class = ObjectiveC.GetClass("MTLRenderPipelineColorAttachmentDescriptorArray");
-
     public static readonly Selector Object = "objectAtIndexedSubscript:";
 
     public static readonly Selector SetObject = "setObject:atIndexedSubscript:";

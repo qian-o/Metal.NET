@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Represents a binary function.
-/// </summary>
 public class MTL4BinaryFunction(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4BinaryFunction>
 {
     #region INativeObject
@@ -13,30 +10,8 @@ public class MTL4BinaryFunction(nint nativePtr, NativeObjectOwnership ownership)
         return new(nativePtr, ownership);
     }
     #endregion
-
-    #region Instance Properties - Properties
-
-    /// <summary>
-    /// Describes the type of this binary function.
-    /// </summary>
-    public MTLFunctionType FunctionType
-    {
-        get => (MTLFunctionType)ObjectiveC.MsgSendULong(NativePtr, MTL4BinaryFunctionBindings.FunctionType);
-    }
-
-    /// <summary>
-    /// Obtains the optional name of this binary function.
-    /// </summary>
-    public NSString Name
-    {
-        get => GetProperty(ref field, MTL4BinaryFunctionBindings.Name);
-    }
-    #endregion
 }
 
 file static class MTL4BinaryFunctionBindings
 {
-    public static readonly Selector FunctionType = "functionType";
-
-    public static readonly Selector Name = "name";
 }

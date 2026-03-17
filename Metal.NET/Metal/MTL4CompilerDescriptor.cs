@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Groups together properties for creating a compiler context.
-/// </summary>
 public class MTL4CompilerDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CompilerDescriptor>
 {
     #region INativeObject
@@ -18,26 +15,17 @@ public class MTL4CompilerDescriptor(nint nativePtr, NativeObjectOwnership owners
     {
     }
 
-    #region Instance Properties - Properties
-
-    /// <summary>
-    /// Assigns an optional descriptor label to the compiler for debugging purposes.
-    /// </summary>
     public NSString Label
     {
         get => GetProperty(ref field, MTL4CompilerDescriptorBindings.Label);
         set => SetProperty(ref field, MTL4CompilerDescriptorBindings.SetLabel, value);
     }
 
-    /// <summary>
-    /// Assigns a pipeline data set serializer into which this compiler stores data for all pipelines it creates.
-    /// </summary>
     public MTL4PipelineDataSetSerializer PipelineDataSetSerializer
     {
         get => GetProperty(ref field, MTL4CompilerDescriptorBindings.PipelineDataSetSerializer);
         set => SetProperty(ref field, MTL4CompilerDescriptorBindings.SetPipelineDataSetSerializer, value);
     }
-    #endregion
 }
 
 file static class MTL4CompilerDescriptorBindings

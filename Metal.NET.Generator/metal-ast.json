@@ -25987,6 +25987,36 @@
         "MTLFXFrameInterpolatorBase"
       ],
       "framework": "MetalFX"
+    },
+    {
+      "kind": "protocol",
+      "name": "MTLFunctionStitchingNode",
+      "methods": [],
+      "properties": [],
+      "protocols": [
+        "NSObject"
+      ],
+      "framework": "Metal"
+    },
+    {
+      "kind": "protocol",
+      "name": "MTLFunctionStitchingAttribute",
+      "methods": [],
+      "properties": [],
+      "protocols": [
+        "NSObject"
+      ],
+      "framework": "Metal"
+    },
+    {
+      "kind": "protocol",
+      "name": "MTLFXFrameInterpolatableScaler",
+      "methods": [],
+      "properties": [],
+      "protocols": [
+        "NSObject"
+      ],
+      "framework": "MetalFX"
     }
   ],
   "classes": [

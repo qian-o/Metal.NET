@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A configuration for a resource state pass, used to create a resource state command encoder.
-/// </summary>
 public class MTLResourceStatePassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLResourceStatePassDescriptor>
 {
     #region INativeObject
@@ -18,16 +15,10 @@ public class MTLResourceStatePassDescriptor(nint nativePtr, NativeObjectOwnershi
     {
     }
 
-    #region Specifying sample buffers for GPU counters - Properties
-
-    /// <summary>
-    /// The array of sample buffers that the resource state pass can access.
-    /// </summary>
     public MTLResourceStatePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
     {
         get => GetProperty(ref field, MTLResourceStatePassDescriptorBindings.SampleBufferAttachments);
     }
-    #endregion
 
     public static MTLResourceStatePassDescriptor ResourceStatePassDescriptor()
     {

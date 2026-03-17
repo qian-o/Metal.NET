@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A container that stores an array of sample buffer attachments for a compute pass.
-/// </summary>
 public class MTLComputePassSampleBufferAttachmentDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLComputePassSampleBufferAttachmentDescriptorArray>
 {
     #region INativeObject
@@ -13,10 +10,6 @@ public class MTLComputePassSampleBufferAttachmentDescriptorArray(nint nativePtr,
         return new(nativePtr, ownership);
     }
     #endregion
-
-    public MTLComputePassSampleBufferAttachmentDescriptorArray() : this(ObjectiveC.AllocInit(MTLComputePassSampleBufferAttachmentDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
-    {
-    }
 
     public MTLComputePassSampleBufferAttachmentDescriptor this[nuint attachmentIndex]
     {
@@ -35,8 +28,6 @@ public class MTLComputePassSampleBufferAttachmentDescriptorArray(nint nativePtr,
 
 file static class MTLComputePassSampleBufferAttachmentDescriptorArrayBindings
 {
-    public static readonly nint Class = ObjectiveC.GetClass("MTLComputePassSampleBufferAttachmentDescriptorArray");
-
     public static readonly Selector Object = "objectAtIndexedSubscript:";
 
     public static readonly Selector SetObject = "setObject:atIndexedSubscript:";

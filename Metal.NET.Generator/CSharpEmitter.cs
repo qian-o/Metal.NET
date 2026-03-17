@@ -1,14 +1,13 @@
 ﻿using System.Text;
-using System.Text.RegularExpressions;
 
 namespace Metal.NET.Generator;
 
 /// <summary>
-/// Emits C# source files from parsed metal-cpp definitions.
+/// Emits C# source files from parsed metal-ast.json definitions.
 /// Generates enum types, NativeObject-based classes with properties/methods, and P/Invoke free functions.
 /// Also auto-generates Common/ObjectiveC.cs with all required MsgSend overloads.
 /// </summary>
-class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeMapper, Dictionary<string, DocEntry> docDb)
+class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeMapper)
 {
     /// <summary>Hand-written classes to skip during generation.</summary>
     static readonly HashSet<string> SkipClasses =
@@ -128,313 +127,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         return null;
     }
 
-    /// <summary>Escapes XML special characters for doc comment content.</summary>
-    static string XmlEscape(string text)
-    {
-        return text.Replace("&", "&amp;").Replace("<", "&lt;").Replace(">", "&gt;");
-    }
-
-    /// <summary>Regex to strip Apple documentation disambiguation suffixes like <c>-5o46e</c>.</summary>
-    static readonly Regex DisambiguationSuffix = new(@"-[a-z0-9]+$", RegexOptions.Compiled);
-
-    /// <summary>
-    /// Matches Swift selector names from the documentation JSON to C# properties and methods.
-    /// Returns a mapping of C++ name (lowered) to the matched <see cref="DocMember"/>.
-    /// For methods with overloads, uses param count to disambiguate.
-    /// </summary>
-    static Dictionary<string, DocMember> MatchDocMembers(
-        DocEntry docEntry,
-        List<PropertyDef> properties,
-        List<MethodInfo> methods)
-    {
-        if (docEntry.Groups is null || docEntry.Groups.Count == 0)
-        {
-            return [];
-        }
-
-        // Build lookup: C++ name (lowered) → list of (member, paramCount)
-        // For properties, paramCount = -1 to distinguish from methods
-        Dictionary<string, List<(object Member, int ParamCount)>> cppLookup = new(StringComparer.OrdinalIgnoreCase);
-
-        foreach (PropertyDef prop in properties)
-        {
-            string key = prop.Getter.CppName.ToLowerInvariant();
-            if (!cppLookup.TryGetValue(key, out var list))
-            {
-                list = [];
-                cppLookup[key] = list;
-            }
-            list.Add((prop, -1));
-        }
-
-        foreach (MethodInfo method in methods)
-        {
-            string key = method.CppName.ToLowerInvariant();
-            if (!cppLookup.TryGetValue(key, out var list))
-            {
-                list = [];
-                cppLookup[key] = list;
-            }
-            list.Add((method, method.Parameters.Count));
-        }
-
-        Dictionary<string, DocMember> result = [];
-
-        foreach (DocGroup group in docEntry.Groups)
-        {
-            foreach (DocMember member in group.Members)
-            {
-                string swiftName = DisambiguationSuffix.Replace(member.Name, "");
-
-                // Skip init(...) and subscript(_:) entries
-                if (swiftName.StartsWith("init(") || swiftName.StartsWith("init)") ||
-                    swiftName == "init" ||
-                    swiftName.StartsWith("subscript("))
-                {
-                    continue;
-                }
-
-                bool isMethod = swiftName.Contains('(');
-                string baseName;
-                int paramCount = 0;
-
-                if (isMethod)
-                {
-                    int parenIdx = swiftName.IndexOf('(');
-                    baseName = swiftName[..parenIdx];
-                    string paramPart = swiftName[(parenIdx + 1)..].TrimEnd(')');
-                    paramCount = string.IsNullOrEmpty(paramPart) ? 0 : paramPart.Split(':').Length - 1;
-                    if (paramCount == 0 && paramPart.Contains(':'))
-                    {
-                        paramCount = 1;
-                    }
-                }
-                else
-                {
-                    baseName = swiftName;
-                }
-
-                // Try matching the Swift base name against C++ names
-                string? matchedKey = TryMatchSwiftName(baseName, isMethod, paramCount, cppLookup);
-
-                if (matchedKey != null && !result.ContainsKey(matchedKey))
-                {
-                    result[matchedKey] = member;
-                }
-            }
-        }
-
-        return result;
-    }
-
-    /// <summary>
-    /// Attempts to match a Swift base name to a C++ name in the lookup table.
-    /// Handles <c>make</c> prefix → <c>new</c> prefix and prefix matching for overloaded methods.
-    /// </summary>
-    static string? TryMatchSwiftName(
-        string baseName,
-        bool isMethod,
-        int paramCount,
-        Dictionary<string, List<(object Member, int ParamCount)>> cppLookup)
-    {
-        // Direct match (case-insensitive)
-        if (cppLookup.TryGetValue(baseName, out var directMatches))
-        {
-            if (!isMethod)
-            {
-                // Property match: look for paramCount == -1
-                if (directMatches.Any(m => m.ParamCount == -1))
-                {
-                    return baseName.ToLowerInvariant();
-                }
-            }
-            else
-            {
-                // Method match: prefer exact param count
-                var exactParam = directMatches.FirstOrDefault(m => m.ParamCount == paramCount);
-                if (exactParam.Member != null)
-                {
-                    return baseName.ToLowerInvariant();
-                }
-                // Fall back to any method match
-                if (directMatches.Any(m => m.ParamCount >= 0))
-                {
-                    return baseName.ToLowerInvariant();
-                }
-            }
-        }
-
-        if (!isMethod)
-        {
-            return null;
-        }
-
-        // Handle "make" prefix → strip and try without it, also try "new" prefix
-        if (baseName.Length > 4 && baseName.StartsWith("make") && char.IsUpper(baseName[4]))
-        {
-            string stripped = char.ToLower(baseName[4]) + baseName[5..];
-
-            // Try the stripped name (e.g., makeCommandBuffer → commandBuffer)
-            string? strippedResult = TryPrefixMatch(stripped, paramCount, cppLookup);
-            if (strippedResult != null)
-            {
-                return strippedResult;
-            }
-
-            // Try "new" + rest (e.g., makeArchive → newArchive)
-            string newPrefixed = "new" + baseName[4..];
-            string? newResult = TryPrefixMatch(newPrefixed, paramCount, cppLookup);
-            if (newResult != null)
-            {
-                return newResult;
-            }
-        }
-
-        // Prefix match: find C++ names that start with baseName
-        return TryPrefixMatch(baseName, paramCount, cppLookup);
-    }
-
-    /// <summary>
-    /// Tries prefix matching against C++ names. If the base name is a prefix of a C++ name,
-    /// uses param count to disambiguate among candidates.
-    /// </summary>
-    static string? TryPrefixMatch(
-        string baseName,
-        int paramCount,
-        Dictionary<string, List<(object Member, int ParamCount)>> cppLookup)
-    {
-        // Direct exact match first
-        if (cppLookup.TryGetValue(baseName, out var exact))
-        {
-            var paramMatch = exact.FirstOrDefault(m => m.ParamCount == paramCount);
-            if (paramMatch.Member != null)
-            {
-                return baseName.ToLowerInvariant();
-            }
-            if (exact.Any(m => m.ParamCount >= 0))
-            {
-                return baseName.ToLowerInvariant();
-            }
-        }
-
-        // Prefix match: find all keys that start with baseName (case-insensitive)
-        List<(string Key, int ParamCount)> prefixCandidates = [];
-        foreach (var kvp in cppLookup)
-        {
-            if (kvp.Key.StartsWith(baseName, StringComparison.OrdinalIgnoreCase) &&
-                kvp.Key.Length > baseName.Length)
-            {
-                foreach (var item in kvp.Value)
-                {
-                    if (item.ParamCount >= 0)
-                    {
-                        prefixCandidates.Add((kvp.Key.ToLowerInvariant(), item.ParamCount));
-                    }
-                }
-            }
-        }
-
-        if (prefixCandidates.Count == 0)
-        {
-            return null;
-        }
-
-        // Prefer candidate with matching param count
-        var paramCandidate = prefixCandidates.FirstOrDefault(c => c.ParamCount == paramCount);
-        if (paramCandidate.Key != null)
-        {
-            return paramCandidate.Key;
-        }
-
-        return prefixCandidates[0].Key;
-    }
-
-    /// <summary>
-    /// Builds a mapping from C++ name (lowered) to (GroupTitle, OrderInGroup) for ordering members.
-    /// </summary>
-    static Dictionary<string, (string GroupTitle, int Order)> BuildMemberGroupOrder(
-        DocEntry docEntry,
-        List<PropertyDef> properties,
-        List<MethodInfo> methods)
-    {
-        Dictionary<string, DocMember> matched = MatchDocMembers(docEntry, properties, methods);
-
-        if (docEntry.Groups is null || matched.Count == 0)
-        {
-            return [];
-        }
-
-        // Build the C++ name lookup once (same structure as MatchDocMembers)
-        Dictionary<string, List<(object Member, int ParamCount)>> cppLookup = new(StringComparer.OrdinalIgnoreCase);
-        foreach (PropertyDef prop in properties)
-        {
-            string key = prop.Getter.CppName.ToLowerInvariant();
-            if (!cppLookup.TryGetValue(key, out var list))
-            {
-                list = [];
-                cppLookup[key] = list;
-            }
-            list.Add((prop, -1));
-        }
-        foreach (MethodInfo m in methods)
-        {
-            string key = m.CppName.ToLowerInvariant();
-            if (!cppLookup.TryGetValue(key, out var list))
-            {
-                list = [];
-                cppLookup[key] = list;
-            }
-            list.Add((m, m.Parameters.Count));
-        }
-
-        Dictionary<string, (string GroupTitle, int Order)> result = [];
-        int globalOrder = 0;
-
-        foreach (DocGroup group in docEntry.Groups)
-        {
-            foreach (DocMember member in group.Members)
-            {
-                string swiftName = DisambiguationSuffix.Replace(member.Name, "");
-                bool isMethod = swiftName.Contains('(');
-                string baseName;
-                int paramCount = 0;
-
-                if (swiftName.StartsWith("init(") || swiftName.StartsWith("init)") ||
-                    swiftName == "init" || swiftName.StartsWith("subscript("))
-                {
-                    globalOrder++;
-                    continue;
-                }
-
-                if (isMethod)
-                {
-                    int parenIdx = swiftName.IndexOf('(');
-                    baseName = swiftName[..parenIdx];
-                    string paramPart = swiftName[(parenIdx + 1)..].TrimEnd(')');
-                    paramCount = string.IsNullOrEmpty(paramPart) ? 0 : paramPart.Split(':').Length - 1;
-                    if (paramCount == 0 && paramPart.Contains(':'))
-                    {
-                        paramCount = 1;
-                    }
-                }
-                else
-                {
-                    baseName = swiftName;
-                }
-
-                string? matchedKey = TryMatchSwiftName(baseName, isMethod, paramCount, cppLookup);
-                if (matchedKey != null && !result.ContainsKey(matchedKey))
-                {
-                    result[matchedKey] = (group.Title, globalOrder);
-                }
-
-                globalOrder++;
-            }
-        }
-
-        return result;
-    }
-
     /// <summary>
     /// Records a MsgSend overload signature for later generation of ObjectiveC.cs.
     /// </summary>
@@ -443,7 +135,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string key = string.Join(", ", argTypes);
         if (!context.MsgSendSignatures.TryGetValue(group, out var set))
         {
+#pragma warning disable IDE0028 // Collection initialization can be simplified (requires custom comparer)
             set = new SortedSet<string>(StringComparer.Ordinal);
+#pragma warning restore IDE0028
             context.MsgSendSignatures[group] = set;
         }
         set.Add(key);
@@ -454,17 +148,17 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     public void GenerateAll()
     {
         // Group enums by namespace into consolidated files (e.g., MTLEnums.cs, NSEnums.cs, MTLFXEnums.cs)
-        var enumsBySubdir = context.Enums.GroupBy(e => TypeMapper.GetOutputSubdir(e.CppNamespace));
+        var enumsBySubdir = context.Enums.GroupBy(e => TypeMapper.GetOutputSubdir(e.Namespace));
         foreach (var group in enumsBySubdir)
         {
-            GenerateEnumFile(group.Key, group.ToList());
+            GenerateEnumFile(group.Key, [.. group]);
         }
 
         // Group structs by namespace into consolidated files (e.g., MTLStructs.cs)
-        var structsBySubdir = context.Structs.GroupBy(s => TypeMapper.GetOutputSubdir(s.CppNamespace));
+        var structsBySubdir = context.Structs.GroupBy(s => TypeMapper.GetOutputSubdir(s.Namespace));
         foreach (var group in structsBySubdir)
         {
-            GenerateStructFile(group.Key, group.ToList());
+            GenerateStructFile(group.Key, [.. group]);
         }
 
         // Generate consolidated delegate file for block type aliases
@@ -476,7 +170,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         // Build known class names (both generated and hand-written)
         foreach (ClassDef classDef in context.Classes)
         {
-            string prefix = TypeMapper.GetPrefix(classDef.CppNamespace);
+            string prefix = TypeMapper.GetPrefix(classDef.Namespace);
             context.KnownClassNames.Add(prefix + classDef.Name);
         }
         context.KnownClassNames.UnionWith(["NSObject", "NSString", "NSError", "NSArray", "NSURL", "NSDictionary", "NSNumber", "NSData", "NSBundle", "NativeObject"]);
@@ -485,12 +179,12 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         Dictionary<string, HashSet<string>> classPropertyMap = [];
         foreach (ClassDef classDef in context.Classes)
         {
-            string prefix = TypeMapper.GetPrefix(classDef.CppNamespace);
+            string prefix = TypeMapper.GetPrefix(classDef.Namespace);
             string csClassName = prefix + classDef.Name;
             classPropertyMap[csClassName] =
             [
                 .. classDef.Methods.Where(m => m.Parameters.Count == 0 && m.ReturnType != "void" && !m.UsesClassTarget && m.IsConst)
-                                   .Select(m => TypeMapper.ToPascalCase(m.CppName))
+                                   .Select(m => TypeMapper.ToPascalCase(m.Name))
             ];
         }
 
@@ -502,12 +196,12 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             {
                 return result;
             }
-            ClassDef classDef = context.Classes.First(c => TypeMapper.GetPrefix(c.CppNamespace) + c.Name == csClassName);
+            ClassDef classDef = context.Classes.First(c => TypeMapper.GetPrefix(c.Namespace) + c.Name == csClassName);
             string? current = classDef.BaseClassName;
             while (current != null && context.KnownClassNames.Contains(current) && classPropertyMap.TryGetValue(current, out HashSet<string>? parentProps))
             {
                 result.UnionWith(parentProps);
-                ClassDef? parentDef = context.Classes.FirstOrDefault(c => TypeMapper.GetPrefix(c.CppNamespace) + c.Name == current);
+                ClassDef? parentDef = context.Classes.FirstOrDefault(c => TypeMapper.GetPrefix(c.Namespace) + c.Name == current);
                 current = parentDef?.BaseClassName;
             }
             return result;
@@ -548,7 +242,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         foreach (ClassDef classDef in context.Classes)
         {
-            string prefix = TypeMapper.GetPrefix(classDef.CppNamespace);
+            string prefix = TypeMapper.GetPrefix(classDef.Namespace);
             string csClassName = prefix + classDef.Name;
             HashSet<string> inheritedProps = GetInheritedProperties(csClassName);
             freeFuncsByClass.TryGetValue(csClassName, out List<FreeFunctionDef>? classFuncs);
@@ -556,14 +250,16 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
 
         GenerateObjectiveCFile();
-
-        PatchHandwrittenClasses();
     }
 
     #endregion
 
     #region Enum Generation
 
+    /// <summary>
+    /// Generates a consolidated enum file (e.g., <c>Metal/MTLEnums.cs</c>) containing
+    /// all enums for the given output subdirectory.
+    /// </summary>
     void GenerateEnumFile(string subdir, List<EnumDef> enums)
     {
         string dir = Path.Combine(outputDir, subdir);
@@ -579,7 +275,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         foreach (EnumDef enumDef in enums)
         {
-            string prefix = TypeMapper.GetPrefix(enumDef.CppNamespace);
+            string prefix = TypeMapper.GetPrefix(enumDef.Namespace);
             string oldFile = Path.Combine(dir, $"{prefix}{enumDef.Name}.cs");
             if (File.Exists(oldFile))
             {
@@ -590,30 +286,18 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         StringBuilder sb = new();
         sb.AppendLine("namespace Metal.NET;");
 
-        List<EnumDef> sortedEnums = [.. enums.OrderBy(e => TypeMapper.GetPrefix(e.CppNamespace) + e.Name)];
-
-        for (int ei = 0; ei < sortedEnums.Count; ei++)
+        for (int ei = 0; ei < enums.Count; ei++)
         {
-            EnumDef enumDef = sortedEnums[ei];
-            string prefix = TypeMapper.GetPrefix(enumDef.CppNamespace);
+            EnumDef enumDef = enums[ei];
+            string prefix = TypeMapper.GetPrefix(enumDef.Namespace);
             string csEnumName = prefix + enumDef.Name;
-            string slug = csEnumName.ToLowerInvariant();
-            docDb.TryGetValue(slug, out DocEntry? enumDoc);
 
             sb.AppendLine();
 
-            // Enum-level doc comment
-            if (enumDoc?.Summary is { } enumSummary)
+            // Enum-level [Obsolete] from AST
+            if (enumDef.Deprecated)
             {
-                sb.AppendLine("/// <summary>");
-                sb.AppendLine($"/// {XmlEscape(enumSummary)}");
-                sb.AppendLine("/// </summary>");
-            }
-
-            // Enum-level [Obsolete] from JSON
-            if (enumDoc is { Deprecated: true })
-            {
-                sb.AppendLine(enumDoc.DeprecatedMessage is { } dm
+                sb.AppendLine(enumDef.DeprecationMessage is { } dm
                     ? $"[Obsolete(\"{dm}\")]"
                     : "[Obsolete]");
             }
@@ -621,20 +305,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             if (enumDef.IsFlags)
             {
                 sb.AppendLine("[Flags]");
-            }
-
-            // Build case-insensitive member doc lookup from JSON groups
-            Dictionary<string, DocMember> memberDocs = new(StringComparer.OrdinalIgnoreCase);
-            if (enumDoc?.Groups is { } groups)
-            {
-                foreach (DocGroup group in groups)
-                {
-                    foreach (DocMember dm in group.Members)
-                    {
-                        string cleanName = DisambiguationSuffix.Replace(dm.Name, "");
-                        memberDocs.TryAdd(cleanName, dm);
-                    }
-                }
             }
 
             sb.AppendLine($"public enum {csEnumName} : {enumDef.BackingType}");
@@ -647,24 +317,6 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 if (i > 0)
                 {
                     sb.AppendLine();
-                }
-
-                // Try to find a doc entry for this enum member (case-insensitive)
-                if (memberDocs.TryGetValue(member.Name, out DocMember? memberDoc))
-                {
-                    if (memberDoc.Summary is { } memberSummary)
-                    {
-                        sb.AppendLine("    /// <summary>");
-                        sb.AppendLine($"    /// {XmlEscape(memberSummary)}");
-                        sb.AppendLine("    /// </summary>");
-                    }
-
-                    if (memberDoc is { Deprecated: true })
-                    {
-                        sb.AppendLine(memberDoc.DeprecatedMessage is { } mdm
-                            ? $"    [Obsolete(\"{mdm}\")]"
-                            : "    [Obsolete]");
-                    }
                 }
 
                 sb.AppendLine($"    {member.Name} = {member.Value}{comma}");
@@ -681,14 +333,17 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Struct Generation
 
+    /// <summary>
+    /// Generates a consolidated struct file (e.g., <c>Metal/MTLStructs.cs</c>) containing
+    /// all packed structs for the given output subdirectory, with primary constructors.
+    /// </summary>
     void GenerateStructFile(string subdir, List<StructDef> structs)
     {
-        static string GetCsStructName(StructDef s) => TypeMapper.GetPrefix(s.CppNamespace) + s.Name;
+        static string GetCsStructName(StructDef s) => TypeMapper.GetPrefix(s.Namespace) + s.Name;
 
         // Filter out hand-written structs
-        List<StructDef> generatable = structs
-            .Where(s => !SkipStructs.Contains(GetCsStructName(s)))
-            .ToList();
+        List<StructDef> generatable = [.. structs
+            .Where(s => !SkipStructs.Contains(GetCsStructName(s)))];
 
         if (generatable.Count == 0)
         {
@@ -711,9 +366,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         sb.AppendLine();
         sb.AppendLine("namespace Metal.NET;");
 
-        List<StructDef> sortedStructs = [.. generatable.OrderBy(s => GetCsStructName(s))];
-
-        foreach (StructDef structDef in sortedStructs)
+        foreach (StructDef structDef in generatable)
         {
             string csStructName = GetCsStructName(structDef);
 
@@ -724,7 +377,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             List<string> fieldLines = [];
             foreach (StructFieldDef field in structDef.Fields)
             {
-                string csType = TypeMapper.MapCppType(field.CppType, structDef.CppNamespace);
+                string csType = TypeMapper.MapType(field.Type);
                 string csFieldName = TypeMapper.ToPascalCase(field.Name);
                 string csParamName = TypeMapper.ToCamelCase(field.Name);
 
@@ -774,7 +427,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         foreach (BlockTypeAlias alias in context.BlockTypeAliases.OrderBy(a => a.CsDelegateName))
         {
             // Skip the first parameter (block pointer) – it's always nint block
-            List<BlockParam> callbackParams = alias.Parameters.Skip(1).ToList();
+            List<BlockParam> callbackParams = [.. alias.Parameters.Skip(1)];
 
             // Build the strong-typed Action<> argument types and trampoline body
             List<string> actionTypeArgs = [];
@@ -783,7 +436,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
             foreach (BlockParam p in callbackParams)
             {
-                string strongType = ResolveStrongType(p, alias.CppNamespace);
+                string strongType = ResolveStrongType(p);
                 actionTypeArgs.Add(strongType);
 
                 // Trampoline receives the low-level type
@@ -840,32 +493,36 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     /// Pointer types that map to known NativeObject classes get their class name;
     /// value types (ulong, long, nuint, nint from void*) pass through unchanged.
     /// </summary>
-    static string ResolveStrongType(BlockParam param, string cppNamespace)
+    static string ResolveStrongType(BlockParam param)
     {
         // Value types pass through directly
-        if (!param.CppType.TrimEnd().EndsWith('*'))
+        if (!param.ObjCType.TrimEnd().EndsWith('*'))
         {
             return param.CsType;
         }
 
         // void* stays as nint (e.g., MTLDeallocator's pointer param)
-        string stripped = param.CppType.TrimEnd().TrimEnd('*').Trim();
+        string stripped = param.ObjCType.TrimEnd().TrimEnd('*').Trim();
         if (stripped is "void" or "")
         {
             return "nint";
         }
 
         // Use TypeMapper to resolve the strong type
-        return TypeMapper.MapCppType(param.CppType, cppNamespace);
+        return TypeMapper.MapType(param.ObjCType);
     }
 
     #endregion
 
     #region Class Generation
 
+    /// <summary>
+    /// Generates a single C# class file: constructor, properties, methods, indexer,
+    /// free-function wrappers, and the companion <c>Bindings</c> selector-lookup class.
+    /// </summary>
     void GenerateClass(ClassDef classDef, HashSet<string> inheritedProperties, List<FreeFunctionDef> freeFunctions)
     {
-        string prefix = TypeMapper.GetPrefix(classDef.CppNamespace);
+        string prefix = TypeMapper.GetPrefix(classDef.Namespace);
         string csClassName = prefix + classDef.Name;
 
         if (SkipClasses.Contains(csClassName))
@@ -873,16 +530,16 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             return;
         }
 
-        string subdir = TypeMapper.GetOutputSubdir(classDef.CppNamespace);
+        string subdir = TypeMapper.GetOutputSubdir(classDef.Namespace);
         string dir = Path.Combine(outputDir, subdir);
         Directory.CreateDirectory(dir);
 
-        bool hasClassField = context.RegisteredClasses.Contains(csClassName);
+        bool hasClassField = classDef.HasAllocInit;
         bool hasFreeFunctions = freeFunctions.Count > 0;
 
         List<MethodInfo> validMethods =
         [
-            .. classDef.Methods.Where(m => !m.Parameters.Any(p => p.CppType == "ARRAY_PARAM")
+            .. classDef.Methods.Where(m => !m.Parameters.Any(p => p.Type == "ARRAY_PARAM")
                                             && !HasUnmergableArrayParam(m)
                                             && !HasFunctionPointerParam(m)
                                             && !HasUnmappableParam(m))
@@ -892,75 +549,21 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         [
             .. validMethods
                 .Where(m => m.Parameters.Count == 0 && m.ReturnType != "void" && !m.UsesClassTarget)
-                .Select(m => m.CppName)
+                .Select(m => m.Name)
         ];
 
         (List<PropertyDef> properties, List<MethodInfo> methods) = CategorizeMembers(validMethods);
 
-        // Look up documentation for this class
-        string slug = csClassName.ToLowerInvariant();
-        docDb.TryGetValue(slug, out DocEntry? classDoc);
-        Dictionary<string, DocMember> memberDocs = classDoc != null
-            ? MatchDocMembers(classDoc, properties, methods)
-            : [];
-        Dictionary<string, (string GroupTitle, int Order)> memberGroups = classDoc != null
-            ? BuildMemberGroupOrder(classDoc, properties, methods)
-            : [];
-
-        // Separate properties into grouped (ordered by JSON) and ungrouped
-        List<PropertyDef> groupedProps = [];
-        List<PropertyDef> ungroupedProps = [];
-        foreach (PropertyDef prop in properties)
-        {
-            string key = prop.Getter.CppName.ToLowerInvariant();
-            if (memberGroups.ContainsKey(key))
-            {
-                groupedProps.Add(prop);
-            }
-            else
-            {
-                ungroupedProps.Add(prop);
-            }
-        }
-        groupedProps.Sort((a, b) => memberGroups[a.Getter.CppName.ToLowerInvariant()].Order
-            .CompareTo(memberGroups[b.Getter.CppName.ToLowerInvariant()].Order));
-
-        // Separate methods into grouped and ungrouped (excluding indexer)
+        // Detect indexer
         MethodInfo? indexerGetter = methods.FirstOrDefault(m =>
-            m.SelectorAccessor is "objectAtIndexedSubscript_"
-            || (m.CppName == "object" && m.Parameters.Count == 1 && m.ReturnType != "void"));
+            m.Selector is "objectAtIndexedSubscript:"
+            || (m.Name == "object" && m.Parameters.Count == 1 && m.ReturnType != "void"));
         MethodInfo? indexerSetter = methods.FirstOrDefault(m =>
-            m.SelectorAccessor is "setObject_atIndexedSubscript_"
-            || (m.CppName == "setObject" && m.Parameters.Count == 2 && m.ReturnType == "void"));
+            m.Selector is "setObject:atIndexedSubscript:"
+            || (m.Name == "setObject" && m.Parameters.Count == 2 && m.ReturnType == "void"));
 
-        List<MethodInfo> nonIndexerMethods = methods
-            .Where(m => m != indexerGetter && m != indexerSetter)
-            .ToList();
-
-        List<MethodInfo> groupedMethods = [];
-        List<MethodInfo> ungroupedMethods = [];
-        foreach (MethodInfo method in nonIndexerMethods)
-        {
-            string key = method.CppName.ToLowerInvariant();
-            if (memberGroups.ContainsKey(key))
-            {
-                groupedMethods.Add(method);
-            }
-            else
-            {
-                ungroupedMethods.Add(method);
-            }
-        }
-        groupedMethods.Sort((a, b) => memberGroups[a.CppName.ToLowerInvariant()].Order
-            .CompareTo(memberGroups[b.CppName.ToLowerInvariant()].Order));
-
-        // Build grouped property regions: group title -> ordered list of properties
-        List<(string Title, List<PropertyDef> Props)> propRegions = BuildGroupedRegions(
-            groupedProps, p => p.Getter.CppName.ToLowerInvariant(), memberGroups);
-
-        // Build grouped method regions: group title -> ordered list of methods
-        List<(string Title, List<MethodInfo> Methods)> methodRegions = BuildGroupedRegions(
-            groupedMethods, m => m.CppName.ToLowerInvariant(), memberGroups);
+        List<MethodInfo> nonIndexerMethods = [.. methods
+            .Where(m => m != indexerGetter && m != indexerSetter)];
 
         SortedDictionary<string, string> selectors = [];
         StringBuilder sb = new();
@@ -979,26 +582,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             : "NSObject";
         string partialKeyword = hasFreeFunctions ? "partial " : "";
 
-        // Class-level doc comment
-        if (classDoc?.Summary is { } classSummary)
-        {
-            sb.AppendLine("/// <summary>");
-            sb.AppendLine($"/// {XmlEscape(classSummary)}");
-            sb.AppendLine("/// </summary>");
-        }
-
-        // Class-level [Obsolete] from JSON
-        if (classDoc is { Deprecated: true })
-        {
-            sb.AppendLine(classDoc.DeprecatedMessage is { } cdm
-                ? $"[Obsolete(\"{cdm}\")]"
-                : "[Obsolete]");
-        }
-
         sb.AppendLine($"public {partialKeyword}class {csClassName}(nint nativePtr, NativeObjectOwnership ownership) : {baseClass}(nativePtr, ownership), INativeObject<{csClassName}>");
         sb.AppendLine("{");
         string newKeyword = baseClass is not "NativeObject" ? "new " : "";
-        sb.AppendLine($"    #region INativeObject");
+        sb.AppendLine("    #region INativeObject");
         sb.AppendLine($"    public static {newKeyword}{csClassName} Null {{ get; }} = new(0, NativeObjectOwnership.Borrowed);");
         sb.AppendLine();
         sb.AppendLine($"    public static {newKeyword}{csClassName} New(nint nativePtr, NativeObjectOwnership ownership)");
@@ -1019,24 +606,8 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             hasPrecedingMember = true;
         }
 
-        // === Grouped properties (with regions) ===
-        foreach ((string title, List<PropertyDef> regionProps) in propRegions)
-        {
-            sb.AppendLine();
-            sb.AppendLine($"    #region {title} - Properties");
-
-            foreach (PropertyDef prop in regionProps)
-            {
-                sb.AppendLine();
-                EmitPropertyWithDocs(sb, prop, csClassName, classDef.CppNamespace, selectors, inheritedProperties, memberDocs);
-            }
-
-            sb.AppendLine("    #endregion");
-            hasPrecedingMember = true;
-        }
-
-        // === Ungrouped properties ===
-        foreach (PropertyDef prop in ungroupedProps)
+        // === Properties (in JSON order, no grouping) ===
+        foreach (PropertyDef prop in properties)
         {
             int prevLen = sb.Length;
             if (hasPrecedingMember)
@@ -1044,7 +615,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 sb.AppendLine();
             }
 
-            if (EmitPropertyWithDocs(sb, prop, csClassName, classDef.CppNamespace, selectors, inheritedProperties, memberDocs))
+            if (EmitProperty(sb, prop, csClassName, selectors, inheritedProperties))
             {
                 hasPrecedingMember = true;
             }
@@ -1062,7 +633,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
             selectors.TryAdd("Object", getterSelectorObjC);
 
-            string elemType = TypeMapper.MapCppType(indexerGetter.ReturnType, classDef.CppNamespace);
+            string elemType = TypeMapper.MapType(indexerGetter.ReturnType);
             string indexParam = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(indexerGetter.Parameters[0].Name));
 
             sb.AppendLine();
@@ -1091,31 +662,15 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             hasPrecedingMember = true;
         }
 
-        // === Grouped methods (with regions) ===
-        foreach ((string title, List<MethodInfo> regionMethods) in methodRegions)
-        {
-            sb.AppendLine();
-            sb.AppendLine($"    #region {title} - Methods");
-
-            foreach (MethodInfo method in regionMethods)
-            {
-                sb.AppendLine();
-                EmitMethodWithDocs(sb, method, csClassName, classDef.CppNamespace, selectors, hasZeroParamVersion, memberDocs);
-            }
-
-            sb.AppendLine("    #endregion");
-            hasPrecedingMember = true;
-        }
-
-        // === Ungrouped methods ===
-        foreach (MethodInfo method in ungroupedMethods)
+        // === Methods (in JSON order, no grouping) ===
+        foreach (MethodInfo method in nonIndexerMethods)
         {
             if (hasPrecedingMember)
             {
                 sb.AppendLine();
             }
 
-            EmitMethodWithDocs(sb, method, csClassName, classDef.CppNamespace, selectors, hasZeroParamVersion, memberDocs);
+            EmitMethod(sb, method, csClassName, selectors, hasZeroParamVersion);
             hasPrecedingMember = true;
         }
 
@@ -1127,7 +682,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 sb.AppendLine();
             }
 
-            EmitFreeFunction(sb, func, classDef.CppNamespace, csClassName);
+            EmitFreeFunction(sb, func, csClassName);
             hasPrecedingMember = true;
         }
 
@@ -1159,189 +714,12 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         Console.WriteLine($"  Generated: {subdir}/{csClassName}.cs");
     }
 
-    /// <summary>
-    /// Builds a list of (GroupTitle, Items) pairs for grouped members, preserving JSON group order.
-    /// Members within each group are in their JSON order.
-    /// </summary>
-    static List<(string Title, List<T> Items)> BuildGroupedRegions<T>(
-        List<T> groupedItems,
-        Func<T, string> getKey,
-        Dictionary<string, (string GroupTitle, int Order)> memberGroups)
-    {
-        List<(string Title, List<T> Items)> regions = [];
-        Dictionary<string, List<T>> regionMap = [];
-
-        foreach (T item in groupedItems)
-        {
-            string key = getKey(item);
-            string title = memberGroups[key].GroupTitle;
-            if (!regionMap.TryGetValue(title, out var list))
-            {
-                list = [];
-                regionMap[title] = list;
-                regions.Add((title, list));
-            }
-            list.Add(item);
-        }
-
-        return regions;
-    }
-
-    /// <summary>Emits a property with doc comments and JSON-based [Obsolete] if applicable.</summary>
-    bool EmitPropertyWithDocs(
-        StringBuilder sb, PropertyDef prop, string csClassName, string ns,
-        SortedDictionary<string, string> selectors, HashSet<string> inheritedProperties,
-        Dictionary<string, DocMember> memberDocs)
-    {
-        string key = prop.Getter.CppName.ToLowerInvariant();
-        memberDocs.TryGetValue(key, out DocMember? docMember);
-
-        // Check if this property would be skipped (inherited) before emitting doc comments
-        string csPropName = TypeMapper.ToPascalCase(prop.Getter.CppName);
-        if (inheritedProperties.Contains(csPropName))
-        {
-            return false;
-        }
-
-        // Emit doc comment from JSON (takes priority over header-derived deprecation summary)
-        if (docMember?.Summary is { } summary)
-        {
-            sb.AppendLine("    /// <summary>");
-            sb.AppendLine($"    /// {XmlEscape(summary)}");
-            sb.AppendLine("    /// </summary>");
-        }
-
-        // JSON-based [Obsolete]: only if no header-derived deprecation
-        if (docMember is { Deprecated: true } && prop.Getter.DeprecationMessage == null)
-        {
-            sb.AppendLine(docMember.DeprecatedMessage is { } dm
-                ? $"    [Obsolete(\"{dm}\")]"
-                : "    [Obsolete]");
-        }
-
-        return EmitProperty(sb, prop, csClassName, ns, selectors, inheritedProperties, skipDocComment: docMember?.Summary != null);
-    }
-
-    /// <summary>Emits a method with doc comments and JSON-based [Obsolete] if applicable.</summary>
-    void EmitMethodWithDocs(
-        StringBuilder sb, MethodInfo method, string csClassName, string ns,
-        SortedDictionary<string, string> selectors, HashSet<string> hasZeroParamVersion,
-        Dictionary<string, DocMember> memberDocs)
-    {
-        string key = method.CppName.ToLowerInvariant();
-        memberDocs.TryGetValue(key, out DocMember? docMember);
-
-        // Emit doc comment from JSON (takes priority over header-derived deprecation summary)
-        if (docMember?.Summary is { } summary)
-        {
-            sb.AppendLine("    /// <summary>");
-            sb.AppendLine($"    /// {XmlEscape(summary)}");
-            sb.AppendLine("    /// </summary>");
-        }
-
-        // JSON-based [Obsolete]: only if no header-derived deprecation
-        if (docMember is { Deprecated: true } && method.DeprecationMessage == null)
-        {
-            sb.AppendLine(docMember.DeprecatedMessage is { } dm
-                ? $"    [Obsolete(\"{dm}\")]"
-                : "    [Obsolete]");
-        }
-
-        EmitMethod(sb, method, csClassName, ns, selectors, hasZeroParamVersion, skipDocComment: docMember?.Summary != null);
-    }
-
-    /// <summary>
-    /// Patches hand-written class files (in SkipClasses) to add class-level doc comments
-    /// from metal-docs.json, if they don't already have one.
-    /// </summary>
-    void PatchHandwrittenClasses()
-    {
-        foreach (string className in SkipClasses)
-        {
-            string slug = className.ToLowerInvariant();
-            if (!docDb.TryGetValue(slug, out DocEntry? entry) || entry.Summary is null)
-            {
-                continue;
-            }
-
-            // Determine the output subdirectory for this class
-            string subdir = className.StartsWith("NS") ? "Foundation" : "Metal";
-            string filePath = Path.Combine(outputDir, subdir, $"{className}.cs");
-            if (!File.Exists(filePath))
-            {
-                continue;
-            }
-
-            string content = File.ReadAllText(filePath);
-
-            // Find the class declaration line
-            string classLine = $"public class {className}";
-            string staticClassLine = $"public static class {className}";
-
-            string targetLine;
-            int idx = content.IndexOf(classLine);
-            if (idx >= 0)
-            {
-                targetLine = classLine;
-            }
-            else
-            {
-                idx = content.IndexOf(staticClassLine);
-                if (idx >= 0)
-                {
-                    targetLine = staticClassLine;
-                }
-                else
-                {
-                    continue;
-                }
-            }
-
-            // Check if a doc comment already exists immediately before the class declaration
-            int lineStart = content.LastIndexOf('\n', idx);
-            if (lineStart > 0)
-            {
-                string precedingContent = content[..lineStart].TrimEnd();
-                if (precedingContent.EndsWith("</summary>"))
-                {
-                    // Find the start of the existing doc comment block
-                    int summaryStart = precedingContent.LastIndexOf("/// <summary>");
-                    if (summaryStart < 0)
-                    {
-                        continue;
-                    }
-
-                    // Check if it's already in three-line format
-                    string existingBlock = precedingContent[summaryStart..];
-                    string expected = $"/// <summary>\n/// {XmlEscape(entry.Summary)}\n/// </summary>";
-                    if (existingBlock == expected)
-                    {
-                        continue;
-                    }
-
-                    // Remove the old doc comment block and any trailing whitespace/newline
-                    int removeEnd = idx;
-                    content = content[..summaryStart] + content[removeEnd..];
-                    idx = content.IndexOf(classLine);
-                    if (idx < 0) idx = content.IndexOf(staticClassLine);
-                    if (idx < 0) continue;
-                }
-            }
-
-            string docComment = $"/// <summary>\n/// {XmlEscape(entry.Summary)}\n/// </summary>\n";
-            content = content.Insert(idx, docComment);
-
-            File.WriteAllText(filePath, content, new UTF8Encoding(true));
-            Console.WriteLine($"  Patched: {subdir}/{className}.cs (added doc comment)");
-        }
-    }
-
     #endregion
 
     #region Member Categorization
 
     /// <summary>
-    /// Derives the ObjC property name from a method's selector accessor (or C++ name).
+    /// Derives the ObjC property name from a method's name.
     /// Strips <c>set</c> then <c>is</c> prefixes sequentially so that setters and boolean
     /// getters always resolve to the same canonical name:
     /// <list type="bullet">
@@ -1353,9 +731,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     /// </summary>
     static string GetPropertyName(MethodInfo m)
     {
-        string name = m.SelectorAccessor ?? m.CppName;
+        string name = m.Name;
 
-        // Selector accessors use trailing _ for ObjC colons (e.g., setFoo_ → setFoo:).
+        // Strip trailing underscore (e.g., setFoo_ → setFoo).
         if (name.EndsWith('_'))
         {
             name = name[..^1];
@@ -1381,19 +759,21 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     /// A method is treated as a property getter if it has no parameters, returns non-void,
     /// is const, is not static, and is not an ownership-transfer method (new/alloc/copy/init).
     /// Getter-setter pairing uses <see cref="GetPropertyName"/> to derive the ObjC property
-    /// name from each method's selector accessor, so all naming conventions (including
+    /// name from each method's name, so all naming conventions (including
     /// boolean <c>isXxx</c> getters paired with <c>setXxx:</c> setters) are handled uniformly.
     /// </summary>
     static (List<PropertyDef> Properties, List<MethodInfo> Methods) CategorizeMembers(List<MethodInfo> allMethods)
     {
         List<PropertyDef> properties = [];
         List<MethodInfo> methods = [];
+#pragma warning disable IDE0028 // Collection initialization can be simplified (requires custom comparer)
         HashSet<MethodInfo> used = new(ReferenceEqualityComparer.Instance);
 
         Dictionary<string, MethodInfo> setterMap = new(StringComparer.Ordinal);
+#pragma warning restore IDE0028
         foreach (MethodInfo m in allMethods)
         {
-            if (m.CppName.StartsWith("set") && m.CppName.Length > 3 && char.IsUpper(m.CppName[3]) &&
+            if (m.Name.StartsWith("set") && m.Name.Length > 3 && char.IsUpper(m.Name[3]) &&
                 m.ReturnType == "void" && m.Parameters.Count == 1)
             {
                 setterMap[GetPropertyName(m)] = m;
@@ -1422,12 +802,12 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 continue;
             }
 
-            if (m.CppName.StartsWith("set") && m.CppName.Length > 3 && char.IsUpper(m.CppName[3]))
+            if (m.Name.StartsWith("set") && m.Name.Length > 3 && char.IsUpper(m.Name[3]))
             {
                 continue;
             }
 
-            if (TypeMapper.IsOwnershipTransferMethod(m.CppName))
+            if (TypeMapper.IsOwnershipTransferMethod(m.Name))
             {
                 continue;
             }
@@ -1466,93 +846,95 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     #region Method Filtering
 
     /// <summary>
-    /// Returns true if the method has std::function or unknown function pointer params that should be skipped.
-    /// Block handler params (Handler/Block types and INLINE_BLOCK: markers) are NOT considered function pointers.
+    /// Returns <see langword="true"/> if the method has <c>std::function</c> or unknown function
+    /// pointer params. Block handler params (<c>Handler</c>/<c>Block</c> types and <c>INLINE_BLOCK:</c>
+    /// markers) are <b>not</b> considered function pointers.
     /// </summary>
     bool HasFunctionPointerParam(MethodInfo method)
     {
         return method.Parameters.Any(p =>
         {
-            if (p.CppType.StartsWith("INLINE_BLOCK:"))
+            if (p.Type.StartsWith("INLINE_BLOCK:"))
             {
-                string delegateName = p.CppType["INLINE_BLOCK:".Length..];
+                string delegateName = p.Type["INLINE_BLOCK:".Length..];
                 return delegateName == "UNKNOWN_BLOCK";
             }
 
-            if (p.CppType.Contains("std::function") || p.CppType.Contains("Function&") || p.CppType.Contains("Function &"))
+            if (p.Type.Contains("std::function") || p.Type.Contains("Function&") || p.Type.Contains("Function &"))
             {
                 return true;
             }
 
-            if (p.CppType.Contains("Handler") || p.CppType.Contains("Block"))
+            if (p.Type.Contains("Handler") || p.Type.Contains("Block"))
             {
-                string csType = TypeMapper.MapCppType(p.CppType, "MTL");
+                string csType = TypeMapper.MapType(p.Type);
                 return !context.BlockTypeAliases.Any(b => b.CsDelegateName == csType);
             }
 
-            if (p.CppType.Contains("function") || p.CppType.Contains("void("))
-            {
-                return true;
-            }
-
-            return false;
+            return p.Type.Contains("function") || p.Type.Contains("void(");
         });
     }
 
-    /// <summary>
-    /// Returns true if the C++ parameter type is a known block handler type (using-aliased).
-    /// </summary>
-    bool IsBlockHandlerCppType(string cppType)
+    /// <summary>Returns <see langword="true"/> if the parameter type is a known block handler typedef.</summary>
+    bool IsBlockHandlerType(string type)
     {
-        if (cppType.Contains("Handler") || cppType.Contains("Block"))
+        if (type.Contains("Handler") || type.Contains("Block"))
         {
-            string csType = TypeMapper.MapCppType(cppType, "MTL");
+            string csType = TypeMapper.MapType(type);
             return context.BlockTypeAliases.Any(b => b.CsDelegateName == csType);
         }
 
         return false;
     }
 
+    /// <summary>
+    /// Returns <see langword="true"/> if any parameter's type is unmappable (excluding
+    /// special prefixed types and block handler types which are handled separately).
+    /// </summary>
     static bool HasUnmappableParam(MethodInfo method)
     {
         foreach (ParamDef p in method.Parameters)
         {
-            if (p.CppType.StartsWith("OBJ_ARRAY:") ||
-                p.CppType.StartsWith("PRIM_ARRAY:") ||
-                p.CppType.StartsWith("STRUCT_ARRAY:") ||
-                p.CppType.StartsWith("INLINE_BLOCK:") ||
-                p.CppType == "ARRAY_PARAM")
+            if (p.Type.StartsWith("OBJ_ARRAY:") ||
+                p.Type.StartsWith("PRIM_ARRAY:") ||
+                p.Type.StartsWith("STRUCT_ARRAY:") ||
+                p.Type.StartsWith("INLINE_BLOCK:") ||
+                p.Type == "ARRAY_PARAM")
             {
                 continue;
             }
 
-            if (p.CppType.Contains("Handler") || p.CppType.Contains("Block") ||
-                p.CppType.Contains("Function&") || p.CppType.Contains("Function &") ||
-                p.CppType.Contains("std::function"))
+            if (p.Type.Contains("Handler") || p.Type.Contains("Block") ||
+                p.Type.Contains("Function&") || p.Type.Contains("Function &") ||
+                p.Type.Contains("std::function"))
             {
                 continue;
             }
 
-            if (TypeMapper.IsUnmappableCppType(p.CppType))
+            if (TypeMapper.IsUnmappableType(p.Type))
             {
                 return true;
             }
         }
 
-        return TypeMapper.IsUnmappableCppType(method.ReturnType);
+        return TypeMapper.IsUnmappableType(method.ReturnType);
     }
 
+    /// <summary>
+    /// Returns <see langword="true"/> if the method has an array parameter whose
+    /// next parameter is <b>not</b> a matching <c>count</c> parameter.
+    /// </summary>
     static bool HasUnmergableArrayParam(MethodInfo method)
     {
         List<ParamDef> p = method.Parameters;
         for (int i = 0; i < p.Count; i++)
         {
-            if (p[i].CppType.StartsWith("OBJ_ARRAY:") ||
-                p[i].CppType.StartsWith("PRIM_ARRAY:") ||
-                p[i].CppType.StartsWith("STRUCT_ARRAY:"))
+            if (p[i].Type.StartsWith("OBJ_ARRAY:") ||
+                p[i].Type.StartsWith("PRIM_ARRAY:") ||
+                p[i].Type.StartsWith("STRUCT_ARRAY:"))
             {
                 bool nextIsCount = i + 1 < p.Count &&
-                    p[i + 1].CppType is "NS::UInteger" &&
+                    p[i + 1].Type is "NS::UInteger" &&
                     p[i + 1].Name is "count";
                 if (!nextIsCount)
                 {
@@ -1567,17 +949,21 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Property Emission
 
-    bool EmitProperty(StringBuilder sb, PropertyDef prop, string csClassName, string ns, SortedDictionary<string, string> selectors, HashSet<string> inheritedProperties, bool skipDocComment = false)
+    /// <summary>
+    /// Emits a single property (getter + optional setter) into <paramref name="sb"/>.
+    /// Returns <see langword="false"/> if the property is inherited and should be skipped.
+    /// </summary>
+    bool EmitProperty(StringBuilder sb, PropertyDef prop, string csClassName, SortedDictionary<string, string> selectors, HashSet<string> inheritedProperties)
     {
         MethodInfo getter = prop.Getter;
-        string csPropName = TypeMapper.ToPascalCase(getter.CppName);
+        string csPropName = TypeMapper.ToPascalCase(getter.Name);
 
         if (inheritedProperties.Contains(csPropName))
         {
             return false;
         }
 
-        string csType = TypeMapper.MapCppType(getter.ReturnType, ns);
+        string csType = TypeMapper.MapType(getter.ReturnType);
 
         string? nsArrayElemType = null;
         if (csType == "NSArray")
@@ -1592,15 +978,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         bool isBool = csType == "bool";
 
         string selectorName = csPropName;
-        string selectorObjC;
-        if (getter.SelectorAccessor != null && context.SelectorMap.TryGetValue(getter.SelectorAccessor, out string? objcSel))
-        {
-            selectorObjC = objcSel;
-        }
-        else
-        {
-            selectorObjC = getter.CppName;
-        }
+        string selectorObjC = getter.Selector ?? getter.Name;
         selectors.TryAdd(selectorName, selectorObjC);
 
         const string Target = "NativePtr";
@@ -1611,27 +989,16 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         string? setSelName = null;
         if (prop.Setter != null)
         {
-            setSelName = TypeMapper.ToPascalCase(prop.Setter.CppName);
-            string setSelObjC;
-            if (prop.Setter.SelectorAccessor != null && context.SelectorMap.TryGetValue(prop.Setter.SelectorAccessor, out string? setObjC))
-            {
-                setSelObjC = setObjC;
-            }
-            else
-            {
-                setSelObjC = "set" + csPropName + ":";
-            }
+            setSelName = TypeMapper.ToPascalCase(prop.Setter.Name);
+            string setSelObjC = prop.Setter.Selector ?? "set" + csPropName + ":";
             selectors.TryAdd(setSelName, setSelObjC);
         }
 
         if (getter.DeprecationMessage != null)
         {
-            if (!skipDocComment)
-            {
-                sb.AppendLine("    /// <summary>");
-                sb.AppendLine($"    /// Deprecated: {getter.DeprecationMessage}");
-                sb.AppendLine("    /// </summary>");
-            }
+            sb.AppendLine("    /// <summary>");
+            sb.AppendLine($"    /// Deprecated: {getter.DeprecationMessage}");
+            sb.AppendLine("    /// </summary>");
             sb.AppendLine($"    [Obsolete(\"{getter.DeprecationMessage}\")]");
         }
 
@@ -1723,54 +1090,58 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
     #region Method Emission
 
-    void EmitMethod(StringBuilder sb, MethodInfo method, string csClassName, string ns, SortedDictionary<string, string> selectors, HashSet<string> hasZeroParamVersion, bool skipDocComment = false)
+    /// <summary>
+    /// Emits a single method into <paramref name="sb"/>, handling parameter marshalling
+    /// (arrays, blocks, out-params, enums) and selecting the correct <c>MsgSend</c> variant.
+    /// </summary>
+    void EmitMethod(StringBuilder sb, MethodInfo method, string csClassName, SortedDictionary<string, string> selectors, HashSet<string> hasZeroParamVersion)
     {
         string csMethodName;
         string selectorObjC;
-        string cppName = method.CppName;
+        string methodName = method.Name;
 
-        if (method.SelectorAccessor != null)
+        if (method.Selector != null)
         {
-            if (context.SelectorMap.TryGetValue(method.SelectorAccessor, out string? objcSel))
-            {
-                selectorObjC = objcSel;
-            }
-            else
-            {
-                selectorObjC = method.SelectorAccessor.Replace('_', ':');
-            }
+            selectorObjC = method.Selector;
 
             string selectorBaseName = selectorObjC.Contains(':')
                 ? selectorObjC[..selectorObjC.IndexOf(':')]
                 : selectorObjC;
 
-            if (hasZeroParamVersion.Contains(cppName) && method.Parameters.Count > 0)
+            // Multi-part selector (e.g., "presentDrawable:atTime:") → use full selector for method name
+            int colonCount = selectorObjC.Count(c => c == ':');
+            if (colonCount > 1)
+            {
+                // Build name from all parts: "presentDrawable:atTime:" → "PresentDrawableAtTime"
+                csMethodName = BuildMethodNameFromSelector(selectorObjC);
+            }
+            else if (hasZeroParamVersion.Contains(methodName) && method.Parameters.Count > 0)
             {
                 csMethodName = TypeMapper.ToPascalCase(selectorBaseName);
             }
             else
             {
-                csMethodName = TypeMapper.ToPascalCase(cppName);
+                csMethodName = TypeMapper.ToPascalCase(methodName);
             }
         }
         else
         {
-            csMethodName = TypeMapper.ToPascalCase(cppName);
+            csMethodName = TypeMapper.ToPascalCase(methodName);
             int colonCount = method.Parameters.Count;
-            selectorObjC = method.CppName + (colonCount > 0 ? new string(':', colonCount) : "");
+            selectorObjC = method.Name + (colonCount > 0 ? new string(':', colonCount) : "");
         }
 
         bool isStaticClassMethod = method.IsStatic && method.UsesClassTarget;
         string target = isStaticClassMethod ? $"{csClassName}Bindings.Class" : "NativePtr";
 
         string selectorKey;
-        if (hasZeroParamVersion.Contains(method.CppName) && method.Parameters.Count > 0)
+        if (hasZeroParamVersion.Contains(method.Name) && method.Parameters.Count > 0)
         {
             selectorKey = TypeMapper.ToPascalCase(selectorObjC.Replace(":", " ").Trim()).Replace(" ", "");
         }
         else
         {
-            selectorKey = TypeMapper.ToPascalCase(method.CppName);
+            selectorKey = TypeMapper.ToPascalCase(method.Name);
         }
         if (selectors.TryGetValue(selectorKey, out string? existingSelector) && existingSelector != selectorObjC)
         {
@@ -1780,7 +1151,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         string selectorRef = $"{csClassName}Bindings.{selectorKey}";
 
-        string returnType = TypeMapper.MapCppType(method.ReturnType, ns);
+        string returnType = TypeMapper.MapType(method.ReturnType);
 
         string? returnArrayElemType = null;
         if (returnType == "NSArray")
@@ -1795,7 +1166,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         bool isBool = returnType == "bool";
         bool isVoid = returnType == "void";
 
-        bool hasOutError = method.Parameters.Any(p => p.CppType.Contains("Error**"));
+        bool hasOutError = method.Parameters.Any(p => p.Type.Contains("Error**"));
 
         List<string> csParams = [];
         List<string> callArgs = [target, selectorRef];
@@ -1809,22 +1180,22 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         for (int pi = 0; pi < method.Parameters.Count; pi++)
         {
             ParamDef param = method.Parameters[pi];
-            if (param.CppType == "ARRAY_PARAM")
+            if (param.Type == "ARRAY_PARAM")
             {
                 continue;
             }
 
-            if (param.CppType.StartsWith("OBJ_ARRAY:"))
+            if (param.Type.StartsWith("OBJ_ARRAY:"))
             {
                 needsUnsafeContext = true;
-                string elemCppType = param.CppType["OBJ_ARRAY:".Length..];
-                string elemCsType = TypeMapper.MapCppType(elemCppType + "*", ns);
+                string elemType = param.Type["OBJ_ARRAY:".Length..];
+                string elemCsType = TypeMapper.MapType(elemType + "*");
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
                 csParams.Add($"{elemCsType}[] {csParamName}");
 
                 bool nextIsCount = pi + 1 < method.Parameters.Count &&
-                    method.Parameters[pi + 1].CppType is "NS::UInteger" &&
+                    method.Parameters[pi + 1].Type is "NS::UInteger" &&
                     method.Parameters[pi + 1].Name is "count";
 
                 string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
@@ -1846,10 +1217,10 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 continue;
             }
 
-            if (param.CppType.StartsWith("PRIM_ARRAY:"))
+            if (param.Type.StartsWith("PRIM_ARRAY:"))
             {
                 needsUnsafeContext = true;
-                string elemType = param.CppType["PRIM_ARRAY:".Length..];
+                string elemType = param.Type["PRIM_ARRAY:".Length..];
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
                 csParams.Add($"{elemType}[] {csParamName}");
@@ -1866,17 +1237,17 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 continue;
             }
 
-            if (param.CppType.StartsWith("STRUCT_ARRAY:"))
+            if (param.Type.StartsWith("STRUCT_ARRAY:"))
             {
                 needsUnsafeContext = true;
-                string elemCppType = param.CppType["STRUCT_ARRAY:".Length..];
-                string elemCsType = TypeMapper.MapCppType(elemCppType, ns);
+                string elemType = param.Type["STRUCT_ARRAY:".Length..];
+                string elemCsType = TypeMapper.MapType(elemType);
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
                 csParams.Add($"{elemCsType}[] {csParamName}");
 
                 bool nextIsCount = pi + 1 < method.Parameters.Count &&
-                    method.Parameters[pi + 1].CppType is "NS::UInteger" &&
+                    method.Parameters[pi + 1].Type is "NS::UInteger" &&
                     method.Parameters[pi + 1].Name is "count";
 
                 string ptrVar = $"p{TypeMapper.ToPascalCase(param.Name)}";
@@ -1894,9 +1265,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 continue;
             }
 
-            if (param.CppType.StartsWith("INLINE_BLOCK:"))
+            if (param.Type.StartsWith("INLINE_BLOCK:"))
             {
-                string delegateName = param.CppType["INLINE_BLOCK:".Length..];
+                string delegateName = param.Type["INLINE_BLOCK:".Length..];
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
                 csParams.Add($"{delegateName} {csParamName}");
                 callArgs.Add($"{csParamName}.NativePtr");
@@ -1904,9 +1275,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 continue;
             }
 
-            if (IsBlockHandlerCppType(param.CppType))
+            if (IsBlockHandlerType(param.Type))
             {
-                string csType = TypeMapper.MapCppType(param.CppType, ns);
+                string csType = TypeMapper.MapType(param.Type);
                 string csParamName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
                 csParams.Add($"{csType} {csParamName}");
                 callArgs.Add($"{csParamName}.NativePtr");
@@ -1914,14 +1285,14 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 continue;
             }
 
-            string csParamType = TypeMapper.MapCppType(param.CppType, ns);
+            string csParamType = TypeMapper.MapType(param.Type);
             string paramName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(param.Name));
 
             // Autoreleased* types → out parameters (strip "Autoreleased" prefix to resolve underlying type)
-            if (param.CppType.Contains("Autoreleased"))
+            if (param.Type.Contains("Autoreleased"))
             {
-                string resolvedCppType = param.CppType.Replace("Autoreleased", "");
-                string csType = TypeMapper.MapCppType(resolvedCppType, ns);
+                string resolvedType = param.Type.Replace("Autoreleased", "");
+                string csType = TypeMapper.MapType(resolvedType);
                 string ptrVarName = $"{paramName}Ptr";
                 csParams.Add($"out {csType} {paramName}");
                 callArgs.Add($"out nint {ptrVarName}");
@@ -1930,7 +1301,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 continue;
             }
 
-            if (param.CppType.Contains("Error**"))
+            if (param.Type.Contains("Error**"))
             {
                 csParams.Add("out NSError error");
                 callArgs.Add("out nint errorPtr");
@@ -1938,7 +1309,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 continue;
             }
 
-            if (param.CppType.Contains("Timestamp*") && !param.CppType.Contains("TimestampGranularity"))
+            if (param.Type.Contains("Timestamp*") && !param.Type.Contains("TimestampGranularity"))
             {
                 csParams.Add($"out ulong {paramName}");
                 callArgs.Add($"out {paramName}");
@@ -1993,12 +1364,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         if (method.DeprecationMessage != null)
         {
-            if (!skipDocComment)
-            {
-                sb.AppendLine("    /// <summary>");
-                sb.AppendLine($"    /// Deprecated: {method.DeprecationMessage}");
-                sb.AppendLine("    /// </summary>");
-            }
+            sb.AppendLine("    /// <summary>");
+            sb.AppendLine($"    /// Deprecated: {method.DeprecationMessage}");
+            sb.AppendLine("    /// </summary>");
             sb.AppendLine($"    [Obsolete(\"{method.DeprecationMessage}\")]");
         }
 
@@ -2132,18 +1500,38 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         sb.AppendLine("    }");
     }
 
+    /// <summary>
+    /// Builds a C# method name from a multi-part ObjC selector.
+    /// E.g., "presentDrawable:atTime:" → "PresentDrawableAtTime"
+    /// E.g., "newBufferWithLength:options:" → "NewBufferWithLength"
+    /// </summary>
+    static string BuildMethodNameFromSelector(string selector)
+    {
+        string[] parts = selector.Split(':', StringSplitOptions.RemoveEmptyEntries);
+        StringBuilder sb = new();
+        foreach (string part in parts)
+        {
+            sb.Append(TypeMapper.ToPascalCase(part));
+        }
+        return sb.ToString();
+    }
+
     #endregion
 
     #region Free Function Emission
 
-    void EmitFreeFunction(StringBuilder sb, FreeFunctionDef func, string cppNamespace, string csClassName)
+    /// <summary>
+    /// Emits a free function as a <c>[LibraryImport]</c> P/Invoke declaration followed
+    /// by a public static wrapper that handles <c>NativeObject</c> marshalling.
+    /// </summary>
+    void EmitFreeFunction(StringBuilder sb, FreeFunctionDef func, string csClassName)
     {
-        string csReturnType = TypeMapper.MapCppType(func.ReturnType, cppNamespace);
+        string csReturnType = TypeMapper.MapType(func.ReturnType);
 
         string? returnArrayElemType = null;
         if (csReturnType == "NSArray")
         {
-            returnArrayElemType = TryResolveNSArrayElementType(csClassName, func.CppName);
+            returnArrayElemType = TryResolveNSArrayElementType(csClassName, func.Name);
         }
         bool returnsArray = returnArrayElemType != null;
         bool nullable = !returnsArray && typeMapper.IsNativeObjectType(csReturnType);
@@ -2151,7 +1539,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         List<string> pinvokeParams = [];
         foreach (ParamDef p in func.Parameters)
         {
-            string csType = TypeMapper.MapCppType(p.CppType, cppNamespace);
+            string csType = TypeMapper.MapType(p.Type);
             if (typeMapper.IsNativeObjectType(csType))
             {
                 pinvokeParams.Add($"nint {TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(p.Name))}");
@@ -2172,7 +1560,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         List<string> callArgs = [];
         foreach (ParamDef p in func.Parameters)
         {
-            string csType = TypeMapper.MapCppType(p.CppType, cppNamespace);
+            string csType = TypeMapper.MapType(p.Type);
             string csName = TypeMapper.EscapeReservedWord(TypeMapper.ToCamelCase(p.Name));
             if (typeMapper.IsNativeObjectType(csType))
             {
@@ -2192,7 +1580,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
 
         if (returnsArray)
         {
-            sb.AppendLine($"    public static {csFullReturnType} {func.CppName}({wrapperParamStr})");
+            sb.AppendLine($"    public static {csFullReturnType} {func.Name}({wrapperParamStr})");
             sb.AppendLine("    {");
             sb.AppendLine($"        nint nativePtr = {func.CEntryPoint}({callArgStr});");
             sb.AppendLine();
@@ -2205,7 +1593,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
         else if (nullable)
         {
-            sb.AppendLine($"    public static {csFullReturnType} {func.CppName}({wrapperParamStr})");
+            sb.AppendLine($"    public static {csFullReturnType} {func.Name}({wrapperParamStr})");
             sb.AppendLine("    {");
             sb.AppendLine($"        nint nativePtr = {func.CEntryPoint}({callArgStr});");
             sb.AppendLine();
@@ -2214,11 +1602,11 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         }
         else if (csReturnType == "void")
         {
-            sb.AppendLine($"    public static void {func.CppName}({wrapperParamStr}) => {func.CEntryPoint}({callArgStr});");
+            sb.AppendLine($"    public static void {func.Name}({wrapperParamStr}) => {func.CEntryPoint}({callArgStr});");
         }
         else
         {
-            sb.AppendLine($"    public static {csReturnType} {func.CppName}({wrapperParamStr}) => {func.CEntryPoint}({callArgStr});");
+            sb.AppendLine($"    public static {csReturnType} {func.Name}({wrapperParamStr}) => {func.CEntryPoint}({callArgStr});");
         }
     }
 
@@ -2336,7 +1724,7 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 string callArgs = BuildCallArgs(parameters);
                 string callExpr = $"(({delegateType})msgSend)(receiver, selector{callArgs})";
 
-                EmitCallBody(sb, callExpr, returnType, isVoid, parameters);
+                EmitCallBody(sb, callExpr, isVoid, parameters);
 
                 sb.AppendLine("    }");
             }
@@ -2488,13 +1876,13 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
     /// Emits the method body after the null guard: fixed blocks, call expression,
     /// and return statement.
     /// </summary>
-    static void EmitCallBody(StringBuilder sb, string callExpr, string returnType, bool isVoid, ParsedParam[] parameters)
+    static void EmitCallBody(StringBuilder sb, string callExpr, bool isVoid, ParsedParam[] parameters)
     {
         var outParams = parameters.Where(p => p.Kind == ParamKind.Out).ToList();
         bool hasOutParams = outParams.Count > 0;
 
         // Each fixed block nests inside the previous, increasing indent by 4 spaces
-        string baseIndent = "        ";
+        const string baseIndent = "        ";
         string innerIndent = hasOutParams ? baseIndent + new string(' ', 4 * outParams.Count) : baseIndent;
 
         // Emit nested fixed blocks

@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Groups together properties that describe a shader function suitable for stitching.
-/// </summary>
 public class MTL4StitchedFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4FunctionDescriptor(nativePtr, ownership), INativeObject<MTL4StitchedFunctionDescriptor>
 {
     #region INativeObject
@@ -18,26 +15,17 @@ public class MTL4StitchedFunctionDescriptor(nint nativePtr, NativeObjectOwnershi
     {
     }
 
-    #region Instance Properties - Properties
-
-    /// <summary>
-    /// Configures an array of function descriptors with references to functions that contribute to the stitching process.
-    /// </summary>
-    public MTL4FunctionDescriptor[] FunctionDescriptors
-    {
-        get => GetArrayProperty<MTL4FunctionDescriptor>(MTL4StitchedFunctionDescriptorBindings.FunctionDescriptors);
-        set => SetArrayProperty(MTL4StitchedFunctionDescriptorBindings.SetFunctionDescriptors, value);
-    }
-
-    /// <summary>
-    /// Sets the graph representing how to stitch functions together.
-    /// </summary>
     public MTLFunctionStitchingGraph FunctionGraph
     {
         get => GetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.FunctionGraph);
         set => SetProperty(ref field, MTL4StitchedFunctionDescriptorBindings.SetFunctionGraph, value);
     }
-    #endregion
+
+    public MTL4FunctionDescriptor[] FunctionDescriptors
+    {
+        get => GetArrayProperty<MTL4FunctionDescriptor>(MTL4StitchedFunctionDescriptorBindings.FunctionDescriptors);
+        set => SetArrayProperty(MTL4StitchedFunctionDescriptorBindings.SetFunctionDescriptors, value);
+    }
 }
 
 file static class MTL4StitchedFunctionDescriptorBindings

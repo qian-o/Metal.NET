@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A base class for descriptors that contain geometry data to convert into a ray-tracing acceleration structure.
-/// </summary>
 public class MTLAccelerationStructureGeometryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLAccelerationStructureGeometryDescriptor>
 {
     #region INativeObject
@@ -18,46 +15,29 @@ public class MTLAccelerationStructureGeometryDescriptor(nint nativePtr, NativeOb
     {
     }
 
-    #region Specifying base geometry properties - Properties
-
-    /// <summary>
-    /// A label for the geometry structure, suitable for debugging.
-    /// </summary>
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLAccelerationStructureGeometryDescriptorBindings.Label);
-        set => SetProperty(ref field, MTLAccelerationStructureGeometryDescriptorBindings.SetLabel, value);
-    }
-
-    /// <summary>
-    /// An index into the intersection table for determining which intersection function Metal calls when it intersects a ray with the acceleration structure.
-    /// </summary>
     public nuint IntersectionFunctionTableOffset
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.IntersectionFunctionTableOffset);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.SetIntersectionFunctionTableOffset, value);
     }
 
-    /// <summary>
-    /// A Boolean value that determines whether the geometry data in the acceleration structure needs to skip triangle-intersection tests.
-    /// </summary>
     public Bool8 Opaque
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.Opaque);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.SetOpaque, value);
     }
 
-    /// <summary>
-    /// A Boolean value that indicates whether Metal calls the ray-intersection test more than once per primitive on the structure.
-    /// </summary>
     public Bool8 AllowDuplicateIntersectionFunctionInvocation
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.AllowDuplicateIntersectionFunctionInvocation);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.SetAllowDuplicateIntersectionFunctionInvocation, value);
     }
-    #endregion
 
-    #region Instance Properties - Properties
+    public NSString Label
+    {
+        get => GetProperty(ref field, MTLAccelerationStructureGeometryDescriptorBindings.Label);
+        set => SetProperty(ref field, MTLAccelerationStructureGeometryDescriptorBindings.SetLabel, value);
+    }
 
     public MTLBuffer PrimitiveDataBuffer
     {
@@ -71,18 +51,17 @@ public class MTLAccelerationStructureGeometryDescriptor(nint nativePtr, NativeOb
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.SetPrimitiveDataBufferOffset, value);
     }
 
-    public nuint PrimitiveDataElementSize
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.PrimitiveDataElementSize);
-        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.SetPrimitiveDataElementSize, value);
-    }
-
     public nuint PrimitiveDataStride
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.PrimitiveDataStride);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.SetPrimitiveDataStride, value);
     }
-    #endregion
+
+    public nuint PrimitiveDataElementSize
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.PrimitiveDataElementSize);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureGeometryDescriptorBindings.SetPrimitiveDataElementSize, value);
+    }
 }
 
 file static class MTLAccelerationStructureGeometryDescriptorBindings

@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Information about the arguments of a graphics function.
-/// </summary>
 public class MTLRenderPipelineReflection(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRenderPipelineReflection>
 {
     #region INativeObject
@@ -14,88 +11,61 @@ public class MTLRenderPipelineReflection(nint nativePtr, NativeObjectOwnership o
     }
     #endregion
 
-    public MTLRenderPipelineReflection() : this(ObjectiveC.AllocInit(MTLRenderPipelineReflectionBindings.Class), NativeObjectOwnership.Managed)
+    public MTLBinding[] VertexBindings
     {
+        get => GetArrayProperty<MTLBinding>(MTLRenderPipelineReflectionBindings.VertexBindings);
     }
 
-    #region Inspecting a shader’s parameter - Properties
-
-    /// <summary>
-    /// An array of binding instances, each of which represents a parameter of the pipeline state’s fragment shader.
-    /// </summary>
     public MTLBinding[] FragmentBindings
     {
         get => GetArrayProperty<MTLBinding>(MTLRenderPipelineReflectionBindings.FragmentBindings);
     }
 
-    /// <summary>
-    /// An array of binding instances, each of which represents a parameter of the pipeline state’s mesh shader.
-    /// </summary>
+    public MTLBinding[] TileBindings
+    {
+        get => GetArrayProperty<MTLBinding>(MTLRenderPipelineReflectionBindings.TileBindings);
+    }
+
+    public MTLBinding[] ObjectBindings
+    {
+        get => GetArrayProperty<MTLBinding>(MTLRenderPipelineReflectionBindings.ObjectBindings);
+    }
+
     public MTLBinding[] MeshBindings
     {
         get => GetArrayProperty<MTLBinding>(MTLRenderPipelineReflectionBindings.MeshBindings);
     }
 
     /// <summary>
-    /// An array of binding instances, each of which represents a parameter of the pipeline state’s object shader.
+    /// Deprecated: Use vertexBindings instead
     /// </summary>
-    public MTLBinding[] ObjectBindings
-    {
-        get => GetArrayProperty<MTLBinding>(MTLRenderPipelineReflectionBindings.ObjectBindings);
-    }
-
-    /// <summary>
-    /// An array of binding instances, each of which represents a parameter of the pipeline state’s tile shader.
-    /// </summary>
-    public MTLBinding[] TileBindings
-    {
-        get => GetArrayProperty<MTLBinding>(MTLRenderPipelineReflectionBindings.TileBindings);
-    }
-
-    /// <summary>
-    /// An array of binding instances, each of which represents a parameter of the pipeline state’s vertex shader.
-    /// </summary>
-    public MTLBinding[] VertexBindings
-    {
-        get => GetArrayProperty<MTLBinding>(MTLRenderPipelineReflectionBindings.VertexBindings);
-    }
-    #endregion
-
-    #region Deprecated - Properties
-
-    /// <summary>
-    /// An array of argument instances, each of which represent a parameter of the pipeline state’s vertex shader.
-    /// </summary>
-    [Obsolete("Use vertexBindings instead.")]
+    [Obsolete("Use vertexBindings instead")]
     public MTLArgument[] VertexArguments
     {
         get => GetArrayProperty<MTLArgument>(MTLRenderPipelineReflectionBindings.VertexArguments);
     }
 
     /// <summary>
-    /// An array of argument instances, each of which represent a parameter of the pipeline state’s fragment shader.
+    /// Deprecated: Use fragmentBindings instead
     /// </summary>
-    [Obsolete("Use fragmentBindings instead.")]
+    [Obsolete("Use fragmentBindings instead")]
     public MTLArgument[] FragmentArguments
     {
         get => GetArrayProperty<MTLArgument>(MTLRenderPipelineReflectionBindings.FragmentArguments);
     }
 
     /// <summary>
-    /// An array of argument instances, each of which represent a parameter of the pipeline state’s tile shader.
+    /// Deprecated: Use tileBindings instead
     /// </summary>
-    [Obsolete("Use tileBindings instead.")]
+    [Obsolete("Use tileBindings instead")]
     public MTLArgument[] TileArguments
     {
         get => GetArrayProperty<MTLArgument>(MTLRenderPipelineReflectionBindings.TileArguments);
     }
-    #endregion
 }
 
 file static class MTLRenderPipelineReflectionBindings
 {
-    public static readonly nint Class = ObjectiveC.GetClass("MTLRenderPipelineReflection");
-
     public static readonly Selector FragmentArguments = "fragmentArguments";
 
     public static readonly Selector FragmentBindings = "fragmentBindings";

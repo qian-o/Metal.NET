@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// An object that configures new render pipeline state objects for mesh shading.
-/// </summary>
 public class MTLMeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLMeshRenderPipelineDescriptor>
 {
     #region INativeObject
@@ -18,12 +15,109 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnersh
     {
     }
 
-    #region Instance Properties - Properties
-
-    public MTLBinaryArchive[] BinaryArchives
+    public NSString Label
     {
-        get => GetArrayProperty<MTLBinaryArchive>(MTLMeshRenderPipelineDescriptorBindings.BinaryArchives);
-        set => SetArrayProperty(MTLMeshRenderPipelineDescriptorBindings.SetBinaryArchives, value);
+        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.Label);
+        set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetLabel, value);
+    }
+
+    public MTLFunction ObjectFunction
+    {
+        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.ObjectFunction);
+        set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetObjectFunction, value);
+    }
+
+    public MTLFunction MeshFunction
+    {
+        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.MeshFunction);
+        set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetMeshFunction, value);
+    }
+
+    public MTLFunction FragmentFunction
+    {
+        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.FragmentFunction);
+        set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetFragmentFunction, value);
+    }
+
+    public nuint MaxTotalThreadsPerObjectThreadgroup
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLMeshRenderPipelineDescriptorBindings.MaxTotalThreadsPerObjectThreadgroup);
+        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetMaxTotalThreadsPerObjectThreadgroup, value);
+    }
+
+    public nuint MaxTotalThreadsPerMeshThreadgroup
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLMeshRenderPipelineDescriptorBindings.MaxTotalThreadsPerMeshThreadgroup);
+        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetMaxTotalThreadsPerMeshThreadgroup, value);
+    }
+
+    public Bool8 ObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.ObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth);
+        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth, value);
+    }
+
+    public Bool8 MeshThreadgroupSizeIsMultipleOfThreadExecutionWidth
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.MeshThreadgroupSizeIsMultipleOfThreadExecutionWidth);
+        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth, value);
+    }
+
+    public nuint PayloadMemoryLength
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLMeshRenderPipelineDescriptorBindings.PayloadMemoryLength);
+        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetPayloadMemoryLength, value);
+    }
+
+    public nuint MaxTotalThreadgroupsPerMeshGrid
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLMeshRenderPipelineDescriptorBindings.MaxTotalThreadgroupsPerMeshGrid);
+        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetMaxTotalThreadgroupsPerMeshGrid, value);
+    }
+
+    public MTLPipelineBufferDescriptorArray ObjectBuffers
+    {
+        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.ObjectBuffers);
+    }
+
+    public MTLPipelineBufferDescriptorArray MeshBuffers
+    {
+        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.MeshBuffers);
+    }
+
+    public MTLPipelineBufferDescriptorArray FragmentBuffers
+    {
+        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.FragmentBuffers);
+    }
+
+    public nuint RasterSampleCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLMeshRenderPipelineDescriptorBindings.RasterSampleCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetRasterSampleCount, value);
+    }
+
+    public Bool8 IsAlphaToCoverageEnabled
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.IsAlphaToCoverageEnabled);
+        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetIsAlphaToCoverageEnabled, value);
+    }
+
+    public Bool8 IsAlphaToOneEnabled
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.IsAlphaToOneEnabled);
+        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetIsAlphaToOneEnabled, value);
+    }
+
+    public Bool8 IsRasterizationEnabled
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.IsRasterizationEnabled);
+        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetIsRasterizationEnabled, value);
+    }
+
+    public nuint MaxVertexAmplificationCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLMeshRenderPipelineDescriptorBindings.MaxVertexAmplificationCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetMaxVertexAmplificationCount, value);
     }
 
     public MTLRenderPipelineColorAttachmentDescriptorArray ColorAttachments
@@ -37,150 +131,6 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnersh
         set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetDepthAttachmentPixelFormat, (nuint)value);
     }
 
-    public MTLPipelineBufferDescriptorArray FragmentBuffers
-    {
-        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.FragmentBuffers);
-    }
-
-    public MTLFunction FragmentFunction
-    {
-        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.FragmentFunction);
-        set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetFragmentFunction, value);
-    }
-
-    public MTLLinkedFunctions FragmentLinkedFunctions
-    {
-        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.FragmentLinkedFunctions);
-        set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetFragmentLinkedFunctions, value);
-    }
-
-    public Bool8 IsAlphaToCoverageEnabled
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.IsAlphaToCoverageEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetAlphaToCoverageEnabled, value);
-    }
-
-    public Bool8 IsAlphaToOneEnabled
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.IsAlphaToOneEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetAlphaToOneEnabled, value);
-    }
-
-    public Bool8 IsRasterizationEnabled
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.IsRasterizationEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetRasterizationEnabled, value);
-    }
-
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.Label);
-        set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetLabel, value);
-    }
-
-    public nuint MaxTotalThreadgroupsPerMeshGrid
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLMeshRenderPipelineDescriptorBindings.MaxTotalThreadgroupsPerMeshGrid);
-        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetMaxTotalThreadgroupsPerMeshGrid, value);
-    }
-
-    public nuint MaxTotalThreadsPerMeshThreadgroup
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLMeshRenderPipelineDescriptorBindings.MaxTotalThreadsPerMeshThreadgroup);
-        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetMaxTotalThreadsPerMeshThreadgroup, value);
-    }
-
-    public nuint MaxTotalThreadsPerObjectThreadgroup
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLMeshRenderPipelineDescriptorBindings.MaxTotalThreadsPerObjectThreadgroup);
-        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetMaxTotalThreadsPerObjectThreadgroup, value);
-    }
-
-    public nuint MaxVertexAmplificationCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLMeshRenderPipelineDescriptorBindings.MaxVertexAmplificationCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetMaxVertexAmplificationCount, value);
-    }
-
-    public MTLPipelineBufferDescriptorArray MeshBuffers
-    {
-        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.MeshBuffers);
-    }
-
-    public MTLFunction MeshFunction
-    {
-        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.MeshFunction);
-        set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetMeshFunction, value);
-    }
-
-    public MTLLinkedFunctions MeshLinkedFunctions
-    {
-        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.MeshLinkedFunctions);
-        set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetMeshLinkedFunctions, value);
-    }
-
-    public Bool8 MeshThreadgroupSizeIsMultipleOfThreadExecutionWidth
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.MeshThreadgroupSizeIsMultipleOfThreadExecutionWidth);
-        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth, value);
-    }
-
-    public MTLPipelineBufferDescriptorArray ObjectBuffers
-    {
-        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.ObjectBuffers);
-    }
-
-    public MTLFunction ObjectFunction
-    {
-        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.ObjectFunction);
-        set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetObjectFunction, value);
-    }
-
-    public MTLLinkedFunctions ObjectLinkedFunctions
-    {
-        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.ObjectLinkedFunctions);
-        set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetObjectLinkedFunctions, value);
-    }
-
-    public Bool8 ObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.ObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth);
-        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth, value);
-    }
-
-    public nuint PayloadMemoryLength
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLMeshRenderPipelineDescriptorBindings.PayloadMemoryLength);
-        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetPayloadMemoryLength, value);
-    }
-
-    public nuint RasterSampleCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLMeshRenderPipelineDescriptorBindings.RasterSampleCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetRasterSampleCount, value);
-    }
-
-    public MTLSize RequiredThreadsPerMeshThreadgroup
-    {
-        get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLMeshRenderPipelineDescriptorBindings.RequiredThreadsPerMeshThreadgroup);
-        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetRequiredThreadsPerMeshThreadgroup, value);
-    }
-
-    public MTLSize RequiredThreadsPerObjectThreadgroup
-    {
-        get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLMeshRenderPipelineDescriptorBindings.RequiredThreadsPerObjectThreadgroup);
-        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetRequiredThreadsPerObjectThreadgroup, value);
-    }
-
-    /// <summary>
-    /// A value that enables or disables shader validation for the pipeline.
-    /// </summary>
-    public MTLShaderValidation ShaderValidation
-    {
-        get => (MTLShaderValidation)ObjectiveC.MsgSendLong(NativePtr, MTLMeshRenderPipelineDescriptorBindings.ShaderValidation);
-        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetShaderValidation, (nint)value);
-    }
-
     public MTLPixelFormat StencilAttachmentPixelFormat
     {
         get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLMeshRenderPipelineDescriptorBindings.StencilAttachmentPixelFormat);
@@ -192,54 +142,58 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnersh
         get => ObjectiveC.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SupportIndirectCommandBuffers);
         set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetSupportIndirectCommandBuffers, value);
     }
-    #endregion
 
-    /// <summary>
-    /// Deprecated: please use isAlphaToCoverageEnabled instead
-    /// </summary>
-    [Obsolete("please use isAlphaToCoverageEnabled instead")]
-    public Bool8 AlphaToCoverageEnabled
+    public MTLBinaryArchive[] BinaryArchives
     {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.AlphaToCoverageEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetAlphaToCoverageEnabled, value);
+        get => GetArrayProperty<MTLBinaryArchive>(MTLMeshRenderPipelineDescriptorBindings.BinaryArchives);
+        set => SetArrayProperty(MTLMeshRenderPipelineDescriptorBindings.SetBinaryArchives, value);
     }
 
-    /// <summary>
-    /// Deprecated: please use isAlphaToOneEnabled instead
-    /// </summary>
-    [Obsolete("please use isAlphaToOneEnabled instead")]
-    public Bool8 AlphaToOneEnabled
+    public MTLLinkedFunctions ObjectLinkedFunctions
     {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.AlphaToOneEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetAlphaToOneEnabled, value);
+        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.ObjectLinkedFunctions);
+        set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetObjectLinkedFunctions, value);
     }
 
-    /// <summary>
-    /// Deprecated: please use isRasterizationEnabled instead
-    /// </summary>
-    [Obsolete("please use isRasterizationEnabled instead")]
-    public Bool8 RasterizationEnabled
+    public MTLLinkedFunctions MeshLinkedFunctions
     {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLMeshRenderPipelineDescriptorBindings.RasterizationEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetRasterizationEnabled, value);
+        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.MeshLinkedFunctions);
+        set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetMeshLinkedFunctions, value);
     }
 
-    #region Instance Methods - Methods
+    public MTLLinkedFunctions FragmentLinkedFunctions
+    {
+        get => GetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.FragmentLinkedFunctions);
+        set => SetProperty(ref field, MTLMeshRenderPipelineDescriptorBindings.SetFragmentLinkedFunctions, value);
+    }
+
+    public MTLShaderValidation ShaderValidation
+    {
+        get => (MTLShaderValidation)ObjectiveC.MsgSendLong(NativePtr, MTLMeshRenderPipelineDescriptorBindings.ShaderValidation);
+        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetShaderValidation, (nint)value);
+    }
+
+    public MTLSize RequiredThreadsPerObjectThreadgroup
+    {
+        get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLMeshRenderPipelineDescriptorBindings.RequiredThreadsPerObjectThreadgroup);
+        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetRequiredThreadsPerObjectThreadgroup, value);
+    }
+
+    public MTLSize RequiredThreadsPerMeshThreadgroup
+    {
+        get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLMeshRenderPipelineDescriptorBindings.RequiredThreadsPerMeshThreadgroup);
+        set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetRequiredThreadsPerMeshThreadgroup, value);
+    }
 
     public void Reset()
     {
         ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.Reset);
     }
-    #endregion
 }
 
 file static class MTLMeshRenderPipelineDescriptorBindings
 {
     public static readonly nint Class = ObjectiveC.GetClass("MTLMeshRenderPipelineDescriptor");
-
-    public static readonly Selector AlphaToCoverageEnabled = "isAlphaToCoverageEnabled";
-
-    public static readonly Selector AlphaToOneEnabled = "isAlphaToOneEnabled";
 
     public static readonly Selector BinaryArchives = "binaryArchives";
 
@@ -287,8 +241,6 @@ file static class MTLMeshRenderPipelineDescriptorBindings
 
     public static readonly Selector PayloadMemoryLength = "payloadMemoryLength";
 
-    public static readonly Selector RasterizationEnabled = "isRasterizationEnabled";
-
     public static readonly Selector RasterSampleCount = "rasterSampleCount";
 
     public static readonly Selector RequiredThreadsPerMeshThreadgroup = "requiredThreadsPerMeshThreadgroup";
@@ -297,10 +249,6 @@ file static class MTLMeshRenderPipelineDescriptorBindings
 
     public static readonly Selector Reset = "reset";
 
-    public static readonly Selector SetAlphaToCoverageEnabled = "setAlphaToCoverageEnabled:";
-
-    public static readonly Selector SetAlphaToOneEnabled = "setAlphaToOneEnabled:";
-
     public static readonly Selector SetBinaryArchives = "setBinaryArchives:";
 
     public static readonly Selector SetDepthAttachmentPixelFormat = "setDepthAttachmentPixelFormat:";
@@ -308,6 +256,12 @@ file static class MTLMeshRenderPipelineDescriptorBindings
     public static readonly Selector SetFragmentFunction = "setFragmentFunction:";
 
     public static readonly Selector SetFragmentLinkedFunctions = "setFragmentLinkedFunctions:";
+
+    public static readonly Selector SetIsAlphaToCoverageEnabled = "setAlphaToCoverageEnabled:";
+
+    public static readonly Selector SetIsAlphaToOneEnabled = "setAlphaToOneEnabled:";
+
+    public static readonly Selector SetIsRasterizationEnabled = "setRasterizationEnabled:";
 
     public static readonly Selector SetLabel = "setLabel:";
 
@@ -332,8 +286,6 @@ file static class MTLMeshRenderPipelineDescriptorBindings
     public static readonly Selector SetObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth = "setObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth:";
 
     public static readonly Selector SetPayloadMemoryLength = "setPayloadMemoryLength:";
-
-    public static readonly Selector SetRasterizationEnabled = "setRasterizationEnabled:";
 
     public static readonly Selector SetRasterSampleCount = "setRasterSampleCount:";
 

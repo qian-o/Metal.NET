@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A description of an acceleration structure that derives from instances of primitive acceleration structures.
-/// </summary>
 public class MTLInstanceAccelerationStructureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLAccelerationStructureDescriptor(nativePtr, ownership), INativeObject<MTLInstanceAccelerationStructureDescriptor>
 {
     #region INativeObject
@@ -18,102 +15,70 @@ public class MTLInstanceAccelerationStructureDescriptor(nint nativePtr, NativeOb
     {
     }
 
-    #region Specifying the instance structures - Properties
-
-    /// <summary>
-    /// The format of the instance data in the descriptor buffer.
-    /// </summary>
-    public MTLAccelerationStructureInstanceDescriptorType InstanceDescriptorType
-    {
-        get => (MTLAccelerationStructureInstanceDescriptorType)ObjectiveC.MsgSendULong(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorType);
-        set => ObjectiveC.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorType, (nuint)value);
-    }
-
-    /// <summary>
-    /// The bottom-level acceleration structures that instances use in the instance acceleration structure .
-    /// </summary>
-    public MTLAccelerationStructure[] InstancedAccelerationStructures
-    {
-        get => GetArrayProperty<MTLAccelerationStructure>(MTLInstanceAccelerationStructureDescriptorBindings.InstancedAccelerationStructures);
-        set => SetArrayProperty(MTLInstanceAccelerationStructureDescriptorBindings.SetInstancedAccelerationStructures, value);
-    }
-    #endregion
-
-    #region Specifying the list of instances - Properties
-
-    /// <summary>
-    /// The number of instances in the instance descriptor buffer.
-    /// </summary>
-    public nuint InstanceCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.InstanceCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceCount, value);
-    }
-
-    /// <summary>
-    /// A buffer that contains descriptions of each instance in the acceleration structure.
-    /// </summary>
     public MTLBuffer InstanceDescriptorBuffer
     {
         get => GetProperty(ref field, MTLInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorBuffer);
         set => SetProperty(ref field, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorBuffer, value);
     }
 
-    /// <summary>
-    /// The offset, in bytes, to the descripton of the first instance.
-    /// </summary>
     public nuint InstanceDescriptorBufferOffset
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorBufferOffset);
         set => ObjectiveC.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorBufferOffset, value);
     }
 
-    /// <summary>
-    /// The stride, in bytes, between instance descriptions.
-    /// </summary>
     public nuint InstanceDescriptorStride
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorStride);
         set => ObjectiveC.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorStride, value);
     }
-    #endregion
 
-    #region Specifying motion data - Properties
-
-    /// <summary>
-    /// The number of motion transforms in the motion transform buffer.
-    /// </summary>
-    public nuint MotionTransformCount
+    public nuint InstanceCount
     {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.MotionTransformCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetMotionTransformCount, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.InstanceCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceCount, value);
     }
 
-    /// <summary>
-    /// A buffer that contains descriptions of each motion transform in the acceleration structure.
-    /// </summary>
+    public MTLAccelerationStructure[] InstancedAccelerationStructures
+    {
+        get => GetArrayProperty<MTLAccelerationStructure>(MTLInstanceAccelerationStructureDescriptorBindings.InstancedAccelerationStructures);
+        set => SetArrayProperty(MTLInstanceAccelerationStructureDescriptorBindings.SetInstancedAccelerationStructures, value);
+    }
+
+    public MTLAccelerationStructureInstanceDescriptorType InstanceDescriptorType
+    {
+        get => (MTLAccelerationStructureInstanceDescriptorType)ObjectiveC.MsgSendULong(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.InstanceDescriptorType);
+        set => ObjectiveC.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorType, (nuint)value);
+    }
+
     public MTLBuffer MotionTransformBuffer
     {
         get => GetProperty(ref field, MTLInstanceAccelerationStructureDescriptorBindings.MotionTransformBuffer);
         set => SetProperty(ref field, MTLInstanceAccelerationStructureDescriptorBindings.SetMotionTransformBuffer, value);
     }
 
-    /// <summary>
-    /// The offset, in bytes, to the descripton of the first motion transform.
-    /// </summary>
     public nuint MotionTransformBufferOffset
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.MotionTransformBufferOffset);
         set => ObjectiveC.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetMotionTransformBufferOffset, value);
     }
-    #endregion
 
-    #region Instance Properties - Properties
+    public nuint MotionTransformCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.MotionTransformCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetMotionTransformCount, value);
+    }
 
     public MTLMatrixLayout InstanceTransformationMatrixLayout
     {
         get => (MTLMatrixLayout)ObjectiveC.MsgSendLong(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.InstanceTransformationMatrixLayout);
         set => ObjectiveC.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetInstanceTransformationMatrixLayout, (nint)value);
+    }
+
+    public MTLTransformType MotionTransformType
+    {
+        get => (MTLTransformType)ObjectiveC.MsgSendLong(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.MotionTransformType);
+        set => ObjectiveC.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetMotionTransformType, (nint)value);
     }
 
     public nuint MotionTransformStride
@@ -122,18 +87,9 @@ public class MTLInstanceAccelerationStructureDescriptor(nint nativePtr, NativeOb
         set => ObjectiveC.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetMotionTransformStride, value);
     }
 
-    public MTLTransformType MotionTransformType
+    public static nint Descriptor()
     {
-        get => (MTLTransformType)ObjectiveC.MsgSendLong(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.MotionTransformType);
-        set => ObjectiveC.MsgSend(NativePtr, MTLInstanceAccelerationStructureDescriptorBindings.SetMotionTransformType, (nint)value);
-    }
-    #endregion
-
-    public static MTLInstanceAccelerationStructureDescriptor Descriptor()
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(MTLInstanceAccelerationStructureDescriptorBindings.Class, MTLInstanceAccelerationStructureDescriptorBindings.Descriptor);
-
-        return new(nativePtr, NativeObjectOwnership.Owned);
+        return ObjectiveC.MsgSendNInt(MTLInstanceAccelerationStructureDescriptorBindings.Class, MTLInstanceAccelerationStructureDescriptorBindings.Descriptor);
     }
 }
 

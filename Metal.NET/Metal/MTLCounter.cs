@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// An individual counter a GPU device lists within one of its counter sets.
-/// </summary>
 public class MTLCounter(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCounter>
 {
     #region INativeObject
@@ -14,16 +11,10 @@ public class MTLCounter(nint nativePtr, NativeObjectOwnership ownership) : NSObj
     }
     #endregion
 
-    #region Identifying a counter - Properties
-
-    /// <summary>
-    /// The name of a GPU’s counter instance.
-    /// </summary>
     public NSString Name
     {
         get => GetProperty(ref field, MTLCounterBindings.Name);
     }
-    #endregion
 }
 
 file static class MTLCounterBindings

@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// An instance that defines how a texture should be sampled.
-/// </summary>
 public class MTLSamplerState(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLSamplerState>
 {
     #region INativeObject
@@ -14,32 +11,20 @@ public class MTLSamplerState(nint nativePtr, NativeObjectOwnership ownership) : 
     }
     #endregion
 
-    #region Identifying the sampler - Properties
+    public NSString Label
+    {
+        get => GetProperty(ref field, MTLSamplerStateBindings.Label);
+    }
 
-    /// <summary>
-    /// The device object that created the sampler.
-    /// </summary>
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTLSamplerStateBindings.Device);
     }
 
-    /// <summary>
-    /// A string that identifies the sampler.
-    /// </summary>
-    public NSString Label
-    {
-        get => GetProperty(ref field, MTLSamplerStateBindings.Label);
-    }
-    #endregion
-
-    #region Instance Properties - Properties
-
     public MTLResourceID GpuResourceID
     {
         get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLSamplerStateBindings.GpuResourceID);
     }
-    #endregion
 }
 
 file static class MTLSamplerStateBindings
