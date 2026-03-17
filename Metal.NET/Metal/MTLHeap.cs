@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLHeap(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLHeap>
+public class MTLHeap(nint nativePtr, NativeObjectOwnership ownership) : MTLAllocation(nativePtr, ownership), INativeObject<MTLHeap>
 {
     #region INativeObject
     public static new MTLHeap Null { get; } = new(0, NativeObjectOwnership.Borrowed);

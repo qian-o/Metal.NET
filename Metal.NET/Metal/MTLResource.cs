@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLResource>
+public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLAllocation(nativePtr, ownership), INativeObject<MTLResource>
 {
     #region INativeObject
     public static new MTLResource Null { get; } = new(0, NativeObjectOwnership.Borrowed);
@@ -52,11 +52,6 @@ public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : NSOb
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResourceBindings.HeapOffset);
     }
 
-    public nuint AllocatedSize
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResourceBindings.AllocatedSize);
-    }
-
     public Bool8 IsAliasable
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLResourceBindings.IsAliasable);
@@ -75,8 +70,6 @@ public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : NSOb
 
 file static class MTLResourceBindings
 {
-    public static readonly Selector AllocatedSize = "allocatedSize";
-
     public static readonly Selector CpuCacheMode = "cpuCacheMode";
 
     public static readonly Selector Device = "device";

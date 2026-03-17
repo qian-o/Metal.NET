@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTLBuffer(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLBuffer>
+public class MTLBuffer(nint nativePtr, NativeObjectOwnership ownership) : MTLResource(nativePtr, ownership), INativeObject<MTLBuffer>
 {
     #region INativeObject
     public static new MTLBuffer Null { get; } = new(0, NativeObjectOwnership.Borrowed);

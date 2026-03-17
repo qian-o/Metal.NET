@@ -1,6 +1,6 @@
 ﻿namespace Metal.NET;
 
-public class MTL4FXTemporalScaler(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4FXTemporalScaler>
+public class MTL4FXTemporalScaler(nint nativePtr, NativeObjectOwnership ownership) : MTLFXTemporalScalerBase(nativePtr, ownership), INativeObject<MTL4FXTemporalScaler>
 {
     #region INativeObject
     public static new MTL4FXTemporalScaler Null { get; } = new(0, NativeObjectOwnership.Borrowed);
