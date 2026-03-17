@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Groups together properties that provide linking properties for render pipelines.
-/// </summary>
 public class MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4RenderPipelineDynamicLinkingDescriptor>
 {
     #region INativeObject
@@ -18,48 +15,30 @@ public class MTL4RenderPipelineDynamicLinkingDescriptor(nint nativePtr, NativeOb
     {
     }
 
-    #region Instance Properties - Properties
+    public MTL4PipelineStageDynamicLinkingDescriptor VertexLinkingDescriptor
+    {
+        get => GetProperty(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.VertexLinkingDescriptor);
+    }
 
-    /// <summary>
-    /// Controls properties for linking the fragment stage of the render pipeline.
-    /// </summary>
     public MTL4PipelineStageDynamicLinkingDescriptor FragmentLinkingDescriptor
     {
         get => GetProperty(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.FragmentLinkingDescriptor);
     }
 
-    /// <summary>
-    /// Controls properties for linking the mesh stage of the render pipeline.
-    /// </summary>
-    public MTL4PipelineStageDynamicLinkingDescriptor MeshLinkingDescriptor
-    {
-        get => GetProperty(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.MeshLinkingDescriptor);
-    }
-
-    /// <summary>
-    /// Controls properties for link the object stage of the render pipeline.
-    /// </summary>
-    public MTL4PipelineStageDynamicLinkingDescriptor ObjectLinkingDescriptor
-    {
-        get => GetProperty(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.ObjectLinkingDescriptor);
-    }
-
-    /// <summary>
-    /// Controls properties for linking the tile stage of the render pipeline.
-    /// </summary>
     public MTL4PipelineStageDynamicLinkingDescriptor TileLinkingDescriptor
     {
         get => GetProperty(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.TileLinkingDescriptor);
     }
 
-    /// <summary>
-    /// Controls properties for linking the vertex stage of the render pipeline.
-    /// </summary>
-    public MTL4PipelineStageDynamicLinkingDescriptor VertexLinkingDescriptor
+    public MTL4PipelineStageDynamicLinkingDescriptor ObjectLinkingDescriptor
     {
-        get => GetProperty(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.VertexLinkingDescriptor);
+        get => GetProperty(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.ObjectLinkingDescriptor);
     }
-    #endregion
+
+    public MTL4PipelineStageDynamicLinkingDescriptor MeshLinkingDescriptor
+    {
+        get => GetProperty(ref field, MTL4RenderPipelineDynamicLinkingDescriptorBindings.MeshLinkingDescriptor);
+    }
 }
 
 file static class MTL4RenderPipelineDynamicLinkingDescriptorBindings

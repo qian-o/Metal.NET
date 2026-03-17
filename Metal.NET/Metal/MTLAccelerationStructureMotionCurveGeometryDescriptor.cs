@@ -15,8 +15,6 @@ public class MTLAccelerationStructureMotionCurveGeometryDescriptor(nint nativePt
     {
     }
 
-    #region Instance Properties - Properties
-
     public MTLMotionKeyframeData[] ControlPointBuffers
     {
         get => GetArrayProperty<MTLMotionKeyframeData>(MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.ControlPointBuffers);
@@ -29,52 +27,16 @@ public class MTLAccelerationStructureMotionCurveGeometryDescriptor(nint nativePt
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetControlPointCount, value);
     }
 
-    public MTLAttributeFormat ControlPointFormat
-    {
-        get => (MTLAttributeFormat)ObjectiveC.MsgSendULong(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.ControlPointFormat);
-        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetControlPointFormat, (nuint)value);
-    }
-
     public nuint ControlPointStride
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.ControlPointStride);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetControlPointStride, value);
     }
 
-    public MTLCurveBasis CurveBasis
+    public MTLAttributeFormat ControlPointFormat
     {
-        get => (MTLCurveBasis)ObjectiveC.MsgSendLong(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.CurveBasis);
-        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetCurveBasis, (nint)value);
-    }
-
-    public MTLCurveEndCaps CurveEndCaps
-    {
-        get => (MTLCurveEndCaps)ObjectiveC.MsgSendLong(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.CurveEndCaps);
-        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetCurveEndCaps, (nint)value);
-    }
-
-    public MTLCurveType CurveType
-    {
-        get => (MTLCurveType)ObjectiveC.MsgSendLong(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.CurveType);
-        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetCurveType, (nint)value);
-    }
-
-    public MTLBuffer IndexBuffer
-    {
-        get => GetProperty(ref field, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.IndexBuffer);
-        set => SetProperty(ref field, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetIndexBuffer, value);
-    }
-
-    public nuint IndexBufferOffset
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.IndexBufferOffset);
-        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetIndexBufferOffset, value);
-    }
-
-    public MTLIndexType IndexType
-    {
-        get => (MTLIndexType)ObjectiveC.MsgSendULong(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.IndexType);
-        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetIndexType, (nuint)value);
+        get => (MTLAttributeFormat)ObjectiveC.MsgSendULong(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.ControlPointFormat);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetControlPointFormat, (nuint)value);
     }
 
     public MTLMotionKeyframeData[] RadiusBuffers
@@ -95,10 +57,22 @@ public class MTLAccelerationStructureMotionCurveGeometryDescriptor(nint nativePt
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetRadiusStride, value);
     }
 
-    public nuint SegmentControlPointCount
+    public MTLBuffer IndexBuffer
     {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SegmentControlPointCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetSegmentControlPointCount, value);
+        get => GetProperty(ref field, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.IndexBuffer);
+        set => SetProperty(ref field, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetIndexBuffer, value);
+    }
+
+    public nuint IndexBufferOffset
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.IndexBufferOffset);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetIndexBufferOffset, value);
+    }
+
+    public MTLIndexType IndexType
+    {
+        get => (MTLIndexType)ObjectiveC.MsgSendULong(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.IndexType);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetIndexType, (nuint)value);
     }
 
     public nuint SegmentCount
@@ -106,13 +80,34 @@ public class MTLAccelerationStructureMotionCurveGeometryDescriptor(nint nativePt
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SegmentCount);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetSegmentCount, value);
     }
-    #endregion
 
-    public static MTLAccelerationStructureMotionCurveGeometryDescriptor Descriptor()
+    public nuint SegmentControlPointCount
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.Class, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.Descriptor);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SegmentControlPointCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetSegmentControlPointCount, value);
+    }
 
-        return new(nativePtr, NativeObjectOwnership.Owned);
+    public MTLCurveType CurveType
+    {
+        get => (MTLCurveType)ObjectiveC.MsgSendLong(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.CurveType);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetCurveType, (nint)value);
+    }
+
+    public MTLCurveBasis CurveBasis
+    {
+        get => (MTLCurveBasis)ObjectiveC.MsgSendLong(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.CurveBasis);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetCurveBasis, (nint)value);
+    }
+
+    public MTLCurveEndCaps CurveEndCaps
+    {
+        get => (MTLCurveEndCaps)ObjectiveC.MsgSendLong(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.CurveEndCaps);
+        set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.SetCurveEndCaps, (nint)value);
+    }
+
+    public static nint Descriptor()
+    {
+        return ObjectiveC.MsgSendNInt(MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.Class, MTLAccelerationStructureMotionCurveGeometryDescriptorBindings.Descriptor);
     }
 }
 

@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// An array of buffer layout descriptor objects.
-/// </summary>
 public class MTLBufferLayoutDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLBufferLayoutDescriptorArray>
 {
     #region INativeObject
@@ -13,10 +10,6 @@ public class MTLBufferLayoutDescriptorArray(nint nativePtr, NativeObjectOwnershi
         return new(nativePtr, ownership);
     }
     #endregion
-
-    public MTLBufferLayoutDescriptorArray() : this(ObjectiveC.AllocInit(MTLBufferLayoutDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
-    {
-    }
 
     public MTLBufferLayoutDescriptor this[nuint index]
     {
@@ -35,8 +28,6 @@ public class MTLBufferLayoutDescriptorArray(nint nativePtr, NativeObjectOwnershi
 
 file static class MTLBufferLayoutDescriptorArrayBindings
 {
-    public static readonly nint Class = ObjectiveC.GetClass("MTLBufferLayoutDescriptorArray");
-
     public static readonly Selector Object = "objectAtIndexedSubscript:";
 
     public static readonly Selector SetObject = "setObject:atIndexedSubscript:";

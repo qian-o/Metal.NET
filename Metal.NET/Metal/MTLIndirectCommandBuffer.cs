@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A command buffer containing reusable commands, encoded either on the CPU or GPU.
-/// </summary>
 public class MTLIndirectCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : MTLResource(nativePtr, ownership), INativeObject<MTLIndirectCommandBuffer>
 {
     #region INativeObject
@@ -14,52 +11,31 @@ public class MTLIndirectCommandBuffer(nint nativePtr, NativeObjectOwnership owne
     }
     #endregion
 
-    #region Determining the maximum number of commands - Properties
-
-    /// <summary>
-    /// The number of commands contained in the indirect command buffer.
-    /// </summary>
     public nuint Size
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferBindings.Size);
     }
-    #endregion
-
-    #region Instance Properties - Properties
 
     public MTLResourceID GpuResourceID
     {
         get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLIndirectCommandBufferBindings.GpuResourceID);
     }
-    #endregion
 
-    #region Retrieving commands - Methods
-
-    /// <summary>
-    /// Gets the compute command at the given index.
-    /// </summary>
-    public MTLIndirectComputeCommand IndirectComputeCommand(nuint commandIndex)
+    public void ResetWithRange(NSRange range)
     {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIndirectCommandBufferBindings.IndirectComputeCommand, commandIndex);
+        ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferBindings.ResetWithRange, range);
+    }
+
+    public MTLIndirectRenderCommand IndirectRenderCommandAtIndex(nuint commandIndex)
+    {
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIndirectCommandBufferBindings.IndirectRenderCommandAtIndex, commandIndex);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
-    #endregion
 
-    #region Resetting commands - Methods
-
-    /// <summary>
-    /// Resets a range of commands to their default state.
-    /// </summary>
-    public void Reset(NSRange range)
+    public MTLIndirectComputeCommand IndirectComputeCommandAtIndex(nuint commandIndex)
     {
-        ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferBindings.Reset, range);
-    }
-    #endregion
-
-    public MTLIndirectRenderCommand IndirectRenderCommand(nuint commandIndex)
-    {
-        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIndirectCommandBufferBindings.IndirectRenderCommand, commandIndex);
+        nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIndirectCommandBufferBindings.IndirectComputeCommandAtIndex, commandIndex);
 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
@@ -69,11 +45,11 @@ file static class MTLIndirectCommandBufferBindings
 {
     public static readonly Selector GpuResourceID = "gpuResourceID";
 
-    public static readonly Selector IndirectComputeCommand = "indirectComputeCommandAtIndex:";
+    public static readonly Selector IndirectComputeCommandAtIndex = "indirectComputeCommandAtIndex:";
 
-    public static readonly Selector IndirectRenderCommand = "indirectRenderCommandAtIndex:";
+    public static readonly Selector IndirectRenderCommandAtIndex = "indirectRenderCommandAtIndex:";
 
-    public static readonly Selector Reset = "resetWithRange:";
+    public static readonly Selector ResetWithRange = "resetWithRange:";
 
     public static readonly Selector Size = "size";
 }

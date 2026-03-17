@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A group of properties that configures the counter sample buffers you create with it.
-/// </summary>
 public class MTLCounterSampleBufferDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCounterSampleBufferDescriptor>
 {
     #region INativeObject
@@ -18,44 +15,29 @@ public class MTLCounterSampleBufferDescriptor(nint nativePtr, NativeObjectOwners
     {
     }
 
-    #region Configuring a descriptor for a counter sample buffer - Properties
-
-    /// <summary>
-    /// A GPU device’s counter set instance that you want to sample.
-    /// </summary>
     public MTLCounterSet CounterSet
     {
         get => GetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.CounterSet);
         set => SetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.SetCounterSet, value);
     }
 
-    /// <summary>
-    /// The name for the counter sample buffer you create with the descriptor.
-    /// </summary>
     public NSString Label
     {
         get => GetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.Label);
         set => SetProperty(ref field, MTLCounterSampleBufferDescriptorBindings.SetLabel, value);
     }
 
-    /// <summary>
-    /// The number of instances of a counter set’s data that a counter sample buffer can store.
-    /// </summary>
-    public nuint SampleCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLCounterSampleBufferDescriptorBindings.SampleCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorBindings.SetSampleCount, value);
-    }
-
-    /// <summary>
-    /// The memory storage mode for the counter sample buffers you create with the descriptor.
-    /// </summary>
     public MTLStorageMode StorageMode
     {
         get => (MTLStorageMode)ObjectiveC.MsgSendULong(NativePtr, MTLCounterSampleBufferDescriptorBindings.StorageMode);
         set => ObjectiveC.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorBindings.SetStorageMode, (nuint)value);
     }
-    #endregion
+
+    public nuint SampleCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLCounterSampleBufferDescriptorBindings.SampleCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLCounterSampleBufferDescriptorBindings.SetSampleCount, value);
+    }
 }
 
 file static class MTLCounterSampleBufferDescriptorBindings

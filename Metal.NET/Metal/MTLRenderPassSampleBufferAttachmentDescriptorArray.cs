@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// An array of sample buffer attachments for a render pass.
-/// </summary>
 public class MTLRenderPassSampleBufferAttachmentDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRenderPassSampleBufferAttachmentDescriptorArray>
 {
     #region INativeObject
@@ -13,10 +10,6 @@ public class MTLRenderPassSampleBufferAttachmentDescriptorArray(nint nativePtr, 
         return new(nativePtr, ownership);
     }
     #endregion
-
-    public MTLRenderPassSampleBufferAttachmentDescriptorArray() : this(ObjectiveC.AllocInit(MTLRenderPassSampleBufferAttachmentDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
-    {
-    }
 
     public MTLRenderPassSampleBufferAttachmentDescriptor this[nuint attachmentIndex]
     {
@@ -35,8 +28,6 @@ public class MTLRenderPassSampleBufferAttachmentDescriptorArray(nint nativePtr, 
 
 file static class MTLRenderPassSampleBufferAttachmentDescriptorArrayBindings
 {
-    public static readonly nint Class = ObjectiveC.GetClass("MTLRenderPassSampleBufferAttachmentDescriptorArray");
-
     public static readonly Selector Object = "objectAtIndexedSubscript:";
 
     public static readonly Selector SetObject = "setObject:atIndexedSubscript:";

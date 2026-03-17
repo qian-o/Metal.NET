@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A configuration you create to customize an indirect command buffer.
-/// </summary>
 public class MTLIndirectCommandBufferDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLIndirectCommandBufferDescriptor>
 {
     #region INativeObject
@@ -18,123 +15,76 @@ public class MTLIndirectCommandBufferDescriptor(nint nativePtr, NativeObjectOwne
     {
     }
 
-    #region Declaring command types to encode - Properties
-
-    /// <summary>
-    /// The set of command types that you can encode into the indirect command buffer.
-    /// </summary>
     public MTLIndirectCommandType CommandTypes
     {
         get => (MTLIndirectCommandType)ObjectiveC.MsgSendULong(NativePtr, MTLIndirectCommandBufferDescriptorBindings.CommandTypes);
         set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetCommandTypes, (nuint)value);
     }
-    #endregion
 
-    #region Declaring command inheritance - Properties
+    public Bool8 InheritPipelineState
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLIndirectCommandBufferDescriptorBindings.InheritPipelineState);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetInheritPipelineState, value);
+    }
 
-    /// <summary>
-    /// A Boolean value that determines where commands in the indirect command buffer get their buffer arguments from when you execute them.
-    /// </summary>
     public Bool8 InheritBuffers
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLIndirectCommandBufferDescriptorBindings.InheritBuffers);
         set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetInheritBuffers, value);
     }
 
-    /// <summary>
-    /// A Boolean value that determines where commands in the indirect command buffer get their pipeline state from when you execute them.
-    /// </summary>
-    public Bool8 InheritPipelineState
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLIndirectCommandBufferDescriptorBindings.InheritPipelineState);
-        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetInheritPipelineState, value);
-    }
-    #endregion
-
-    #region Declaring the maximum number of argument buffers per command - Properties
-
-    /// <summary>
-    /// The maximum number of buffers that you can set per command for the vertex stage.
-    /// </summary>
-    public nuint MaxVertexBufferBindCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferDescriptorBindings.MaxVertexBufferBindCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetMaxVertexBufferBindCount, value);
-    }
-
-    /// <summary>
-    /// The maximum number of buffers that you can set per command for the fragment stage.
-    /// </summary>
-    public nuint MaxFragmentBufferBindCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferDescriptorBindings.MaxFragmentBufferBindCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetMaxFragmentBufferBindCount, value);
-    }
-
-    /// <summary>
-    /// The maximum number of buffers that you can set per command for the compute kernel.
-    /// </summary>
-    public nuint MaxKernelBufferBindCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferDescriptorBindings.MaxKernelBufferBindCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetMaxKernelBufferBindCount, value);
-    }
-    #endregion
-
-    #region Instance Properties - Properties
-
-    /// <summary>
-    /// Configures whether the indirect command buffer inherits the cull mode from the encoder.
-    /// </summary>
-    public Bool8 InheritCullMode
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLIndirectCommandBufferDescriptorBindings.InheritCullMode);
-        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetInheritCullMode, value);
-    }
-
-    /// <summary>
-    /// Configures whether the indirect command buffer inherits the depth bias from the encoder.
-    /// </summary>
-    public Bool8 InheritDepthBias
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLIndirectCommandBufferDescriptorBindings.InheritDepthBias);
-        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetInheritDepthBias, value);
-    }
-
-    /// <summary>
-    /// Configures whether the indirect command buffer inherits the depth clip mode from the encoder.
-    /// </summary>
-    public Bool8 InheritDepthClipMode
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLIndirectCommandBufferDescriptorBindings.InheritDepthClipMode);
-        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetInheritDepthClipMode, value);
-    }
-
-    /// <summary>
-    /// Configures whether the indirect command buffer inherits the depth stencil state from the encoder.
-    /// </summary>
     public Bool8 InheritDepthStencilState
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLIndirectCommandBufferDescriptorBindings.InheritDepthStencilState);
         set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetInheritDepthStencilState, value);
     }
 
-    /// <summary>
-    /// Configures whether the indirect command buffer inherits the front facing winding from the encoder.
-    /// </summary>
+    public Bool8 InheritDepthBias
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLIndirectCommandBufferDescriptorBindings.InheritDepthBias);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetInheritDepthBias, value);
+    }
+
+    public Bool8 InheritDepthClipMode
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLIndirectCommandBufferDescriptorBindings.InheritDepthClipMode);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetInheritDepthClipMode, value);
+    }
+
+    public Bool8 InheritCullMode
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLIndirectCommandBufferDescriptorBindings.InheritCullMode);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetInheritCullMode, value);
+    }
+
     public Bool8 InheritFrontFacingWinding
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLIndirectCommandBufferDescriptorBindings.InheritFrontFacingWinding);
         set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetInheritFrontFacingWinding, value);
     }
 
-    /// <summary>
-    /// Configures whether the indirect command buffer inherits the triangle fill mode from the encoder.
-    /// </summary>
     public Bool8 InheritTriangleFillMode
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLIndirectCommandBufferDescriptorBindings.InheritTriangleFillMode);
         set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetInheritTriangleFillMode, value);
+    }
+
+    public nuint MaxVertexBufferBindCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferDescriptorBindings.MaxVertexBufferBindCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetMaxVertexBufferBindCount, value);
+    }
+
+    public nuint MaxFragmentBufferBindCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferDescriptorBindings.MaxFragmentBufferBindCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetMaxFragmentBufferBindCount, value);
+    }
+
+    public nuint MaxKernelBufferBindCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferDescriptorBindings.MaxKernelBufferBindCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetMaxKernelBufferBindCount, value);
     }
 
     public nuint MaxKernelThreadgroupMemoryBindCount
@@ -143,16 +93,16 @@ public class MTLIndirectCommandBufferDescriptor(nint nativePtr, NativeObjectOwne
         set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetMaxKernelThreadgroupMemoryBindCount, value);
     }
 
-    public nuint MaxMeshBufferBindCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferDescriptorBindings.MaxMeshBufferBindCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetMaxMeshBufferBindCount, value);
-    }
-
     public nuint MaxObjectBufferBindCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferDescriptorBindings.MaxObjectBufferBindCount);
         set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetMaxObjectBufferBindCount, value);
+    }
+
+    public nuint MaxMeshBufferBindCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferDescriptorBindings.MaxMeshBufferBindCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetMaxMeshBufferBindCount, value);
     }
 
     public nuint MaxObjectThreadgroupMemoryBindCount
@@ -161,13 +111,10 @@ public class MTLIndirectCommandBufferDescriptor(nint nativePtr, NativeObjectOwne
         set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetMaxObjectThreadgroupMemoryBindCount, value);
     }
 
-    /// <summary>
-    /// Specifies if the indirect command buffer should support color attachment mapping.
-    /// </summary>
-    public Bool8 SupportColorAttachmentMapping
+    public Bool8 SupportRayTracing
     {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SupportColorAttachmentMapping);
-        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetSupportColorAttachmentMapping, value);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SupportRayTracing);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetSupportRayTracing, value);
     }
 
     public Bool8 SupportDynamicAttributeStride
@@ -176,12 +123,11 @@ public class MTLIndirectCommandBufferDescriptor(nint nativePtr, NativeObjectOwne
         set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetSupportDynamicAttributeStride, value);
     }
 
-    public Bool8 SupportRayTracing
+    public Bool8 SupportColorAttachmentMapping
     {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SupportRayTracing);
-        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetSupportRayTracing, value);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SupportColorAttachmentMapping);
+        set => ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferDescriptorBindings.SetSupportColorAttachmentMapping, value);
     }
-    #endregion
 }
 
 file static class MTLIndirectCommandBufferDescriptorBindings

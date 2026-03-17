@@ -5,7 +5,6 @@ on:
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   extract:
@@ -119,6 +118,9 @@ jobs:
               type_str = re.sub(r'\bAPI_AVAILABLE\b\s*', '', type_str)
               type_str = re.sub(r'\bNS_RETURNS_RETAINED\b\s*', '', type_str)
               return type_str.strip()
+
+          # NOTE: framework is now tracked via last_file in the main loop
+          # because clang AST only emits loc.file on file transitions.
 
           def extract_fields(record_node):
               fields = []
@@ -428,6 +430,8 @@ jobs:
                       merged[name] = item
                   else:
                       existing = merged[name]
+                      if item.get("kind") != "category" and item.get("framework"):
+                          existing["framework"] = item["framework"]
                       seen_sel = {m["selector"] for m in existing["methods"]}
                       for m in item["methods"]:
                           if m["selector"] not in seen_sel:
@@ -478,7 +482,23 @@ jobs:
               "typedefs": [], "functions": [], "structs": [],
           }
 
+          last_file = ""
           for node in ast.get("inner", []):
+              loc = node.get("loc", {})
+              for _key in ("file", ):
+                  _fp = loc.get(_key, "")
+                  if _fp:
+                      last_file = _fp
+                      break
+              else:
+                  for _sub in ("spellingLoc", "expansionLoc"):
+                      _fp = loc.get(_sub, {}).get("file", "")
+                      if _fp:
+                          last_file = _fp
+                          break
+              _fw_match = re.search(r'/(\w+)\.framework/', last_file)
+              fw = _fw_match.group(1) if _fw_match else None
+
               kind = node.get("kind", "")
               name = node.get("name", "")
               if kind == "ObjCCategoryDecl":
@@ -487,6 +507,7 @@ jobs:
                       t = extract_type(node)
                       t["name"] = cat_name
                       t["kind"] = "category"
+                      t["framework"] = fw
                       if t["methods"] or t["properties"]:
                           api["classes"].append(t)
                   continue
@@ -495,18 +516,21 @@ jobs:
               if kind == "EnumDecl":
                   e = extract_enum(node)
                   if e:
+                      e["framework"] = fw
                       api["enums"].append(e)
               elif kind == "ObjCProtocolDecl":
                   t = extract_type(node)
-                  if t and (t["methods"] or t["properties"]):
+                  if t:
+                      t["framework"] = fw
                       api["protocols"].append(t)
               elif kind == "ObjCInterfaceDecl":
                   t = extract_type(node)
                   if t:
+                      t["framework"] = fw
                       api["classes"].append(t)
               elif kind == "TypedefDecl":
                   ut = (node.get("type") or {}).get("qualType", "")
-                  api["typedefs"].append({"name": name, "underlyingType": ut})
+                  api["typedefs"].append({"name": name, "underlyingType": ut, "framework": fw})
                   if ut.startswith("struct "):
                       fields, method = None, None
                       fields = find_struct_fields(node)
@@ -524,7 +548,7 @@ jobs:
                               if fields:
                                   method = f"by-name({m.group(1)})"
                       if fields:
-                          api["structs"].append({"name": name, "fields": fields})
+                          api["structs"].append({"name": name, "fields": fields, "framework": fw})
                           print(f"  Struct '{name}': {len(fields)} fields via {method}")
                       else:
                           print(f"  WARNING: typedef '{name}' -> '{ut}' could not find struct fields")
@@ -542,19 +566,20 @@ jobs:
                       "name": name,
                       "returnType": clean_type(ret_type),
                       "parameters": params,
+                      "framework": fw,
                   }
                   _apply_deprecation(fn_entry, get_attrs(node))
                   api["functions"].append(fn_entry)
               elif kind == "RecordDecl" and node.get("tagUsed") == "struct":
                   fields = extract_fields(node) or find_struct_fields(node)
                   if fields:
-                      api["structs"].append({"name": name, "fields": fields})
+                      api["structs"].append({"name": name, "fields": fields, "framework": fw})
               elif kind == "RecordDecl":
                   tag = node.get("tagUsed", "<none>")
                   if tag != "union":
                       fields = find_struct_fields(node)
                       if fields:
-                          api["structs"].append({"name": name, "fields": fields})
+                          api["structs"].append({"name": name, "fields": fields, "framework": fw})
                           print(f"  Struct '{name}' via RecordDecl (tagUsed={tag}): {len(fields)} fields")
 
           api["enums"] = _dedup_by_key(api["enums"], "name")
@@ -576,28 +601,19 @@ jobs:
                          for p in t.get('properties', []) if p.get('deprecated'))
           print(f"Deprecated: {dep_methods} methods, {dep_props} properties")
 
-          with open(out_path, "w") as f:
+          with open(out_path, "w", encoding="utf-8-sig") as f:
               json.dump(api, f, indent=2, ensure_ascii=False)
           print(f"Written: {out_path} ({os.path.getsize(out_path) / 1024:.0f} KB)")
           os.remove(raw_path)
           PYEOF
 
-      - name: Create Pull Request
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Commit changes
         run: |
           SDK_VERSION=$(xcrun --show-sdk-version)
-          BRANCH="update/metal-ast-sdk-${SDK_VERSION}"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add Metal.NET.Generator/metal-ast.json
           git diff --cached --quiet && echo "No changes" && exit 0
-          git checkout -b "$BRANCH"
           git commit -m "Update metal-ast.json (SDK $SDK_VERSION)"
-          git push -f -u origin "$BRANCH"
-          gh pr create \
-            --title "Update metal-ast.json (SDK $SDK_VERSION)" \
-            --body "Auto-generated from macOS SDK $SDK_VERSION via Extract Metal API workflow." \
-            --base master \
-            --head "$BRANCH" || echo "PR already exists"
+          git push
 

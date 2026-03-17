@@ -11,10 +11,6 @@ public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray(n
     }
     #endregion
 
-    public MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray() : this(ObjectiveC.AllocInit(MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
-    {
-    }
-
     public MTLAccelerationStructurePassSampleBufferAttachmentDescriptor this[nuint attachmentIndex]
     {
         get
@@ -32,8 +28,6 @@ public class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray(n
 
 file static class MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArrayBindings
 {
-    public static readonly nint Class = ObjectiveC.GetClass("MTLAccelerationStructurePassSampleBufferAttachmentDescriptorArray");
-
     public static readonly Selector Object = "objectAtIndexedSubscript:";
 
     public static readonly Selector SetObject = "setObject:atIndexedSubscript:";

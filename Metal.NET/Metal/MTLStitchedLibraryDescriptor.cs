@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A description of a new library of procedurally generated functions.
-/// </summary>
 public class MTLStitchedLibraryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLStitchedLibraryDescriptor>
 {
     #region INativeObject
@@ -18,28 +15,17 @@ public class MTLStitchedLibraryDescriptor(nint nativePtr, NativeObjectOwnership 
     {
     }
 
-    #region Configuring a stitched library - Properties
-
-    /// <summary>
-    /// The list of functions for creating the stitched library.
-    /// </summary>
-    public MTLFunction[] Functions
-    {
-        get => GetArrayProperty<MTLFunction>(MTLStitchedLibraryDescriptorBindings.Functions);
-        set => SetArrayProperty(MTLStitchedLibraryDescriptorBindings.SetFunctions, value);
-    }
-
-    /// <summary>
-    /// The function graphs that define the new stitched library’s functions.
-    /// </summary>
     public MTLFunctionStitchingGraph[] FunctionGraphs
     {
         get => GetArrayProperty<MTLFunctionStitchingGraph>(MTLStitchedLibraryDescriptorBindings.FunctionGraphs);
         set => SetArrayProperty(MTLStitchedLibraryDescriptorBindings.SetFunctionGraphs, value);
     }
-    #endregion
 
-    #region Instance Properties - Properties
+    public MTLFunction[] Functions
+    {
+        get => GetArrayProperty<MTLFunction>(MTLStitchedLibraryDescriptorBindings.Functions);
+        set => SetArrayProperty(MTLStitchedLibraryDescriptorBindings.SetFunctions, value);
+    }
 
     public MTLBinaryArchive[] BinaryArchives
     {
@@ -52,7 +38,6 @@ public class MTLStitchedLibraryDescriptor(nint nativePtr, NativeObjectOwnership 
         get => (MTLStitchedLibraryOptions)ObjectiveC.MsgSendULong(NativePtr, MTLStitchedLibraryDescriptorBindings.Options);
         set => ObjectiveC.MsgSend(NativePtr, MTLStitchedLibraryDescriptorBindings.SetOptions, (nuint)value);
     }
-    #endregion
 }
 
 file static class MTLStitchedLibraryDescriptorBindings

@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A configuration that instructs the GPU where to store counter data from the beginning and end of a blit pass.
-/// </summary>
 public class MTLBlitPassSampleBufferAttachmentDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLBlitPassSampleBufferAttachmentDescriptor>
 {
     #region INativeObject
@@ -18,35 +15,23 @@ public class MTLBlitPassSampleBufferAttachmentDescriptor(nint nativePtr, NativeO
     {
     }
 
-    #region Configuring the sample buffer attachment - Properties
-
-    /// <summary>
-    /// A specialized memory buffer that the GPU uses to store its counter data during the blit pass.
-    /// </summary>
     public MTLCounterSampleBuffer SampleBuffer
     {
         get => GetProperty(ref field, MTLBlitPassSampleBufferAttachmentDescriptorBindings.SampleBuffer);
         set => SetProperty(ref field, MTLBlitPassSampleBufferAttachmentDescriptorBindings.SetSampleBuffer, value);
     }
 
-    /// <summary>
-    /// An index within a counter sample buffer that tells the GPU where to store counter data from the start of a blit pass.
-    /// </summary>
     public nuint StartOfEncoderSampleIndex
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorBindings.StartOfEncoderSampleIndex);
         set => ObjectiveC.MsgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorBindings.SetStartOfEncoderSampleIndex, value);
     }
 
-    /// <summary>
-    /// An index within a counter sample buffer that tells the GPU where to store counter data from the end of a blit pass.
-    /// </summary>
     public nuint EndOfEncoderSampleIndex
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorBindings.EndOfEncoderSampleIndex);
         set => ObjectiveC.MsgSend(NativePtr, MTLBlitPassSampleBufferAttachmentDescriptorBindings.SetEndOfEncoderSampleIndex, value);
     }
-    #endregion
 }
 
 file static class MTLBlitPassSampleBufferAttachmentDescriptorBindings

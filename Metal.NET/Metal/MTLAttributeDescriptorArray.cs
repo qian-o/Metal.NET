@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// An array of attribute descriptor objects.
-/// </summary>
 public class MTLAttributeDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLAttributeDescriptorArray>
 {
     #region INativeObject
@@ -13,10 +10,6 @@ public class MTLAttributeDescriptorArray(nint nativePtr, NativeObjectOwnership o
         return new(nativePtr, ownership);
     }
     #endregion
-
-    public MTLAttributeDescriptorArray() : this(ObjectiveC.AllocInit(MTLAttributeDescriptorArrayBindings.Class), NativeObjectOwnership.Managed)
-    {
-    }
 
     public MTLAttributeDescriptor this[nuint index]
     {
@@ -35,8 +28,6 @@ public class MTLAttributeDescriptorArray(nint nativePtr, NativeObjectOwnership o
 
 file static class MTLAttributeDescriptorArrayBindings
 {
-    public static readonly nint Class = ObjectiveC.GetClass("MTLAttributeDescriptorArray");
-
     public static readonly Selector Object = "objectAtIndexedSubscript:";
 
     public static readonly Selector SetObject = "setObject:atIndexedSubscript:";

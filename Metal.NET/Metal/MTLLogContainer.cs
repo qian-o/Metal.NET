@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// A collection of logged messages, created when a Metal device runs a command buffer.
-/// </summary>
 public class MTLLogContainer(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLLogContainer>
 {
     #region INativeObject

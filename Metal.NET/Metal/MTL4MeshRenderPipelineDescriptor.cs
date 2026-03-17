@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Groups together properties you use to create a mesh render pipeline state object.
-/// </summary>
 public class MTL4MeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4PipelineDescriptor(nativePtr, ownership), INativeObject<MTL4MeshRenderPipelineDescriptor>
 {
     #region INativeObject
@@ -18,253 +15,159 @@ public class MTL4MeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwners
     {
     }
 
-    #region Instance Properties - Properties
-
-    /// <summary>
-    /// Indicates whether to read and use the alpha channel fragment output of color attachments to compute a sample coverage mask.
-    /// </summary>
-    public MTL4AlphaToCoverageState AlphaToCoverageState
-    {
-        get => (MTL4AlphaToCoverageState)ObjectiveC.MsgSendLong(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.AlphaToCoverageState);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetAlphaToCoverageState, (nint)value);
-    }
-
-    /// <summary>
-    /// Indicates whether the pipeline forces alpha channel values of color attachments to the largest representable value.
-    /// </summary>
-    public MTL4AlphaToOneState AlphaToOneState
-    {
-        get => (MTL4AlphaToOneState)ObjectiveC.MsgSendLong(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.AlphaToOneState);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetAlphaToOneState, (nint)value);
-    }
-
-    /// <summary>
-    /// Sets the logical-to-physical rendering remap state.
-    /// </summary>
-    public MTL4LogicalToPhysicalColorAttachmentMappingState ColorAttachmentMappingState
-    {
-        get => (MTL4LogicalToPhysicalColorAttachmentMappingState)ObjectiveC.MsgSendLong(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.ColorAttachmentMappingState);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetColorAttachmentMappingState, (nint)value);
-    }
-
-    /// <summary>
-    /// Accesses an array containing descriptions of the color attachments this pipeline writes to.
-    /// </summary>
-    public MTL4RenderPipelineColorAttachmentDescriptorArray ColorAttachments
-    {
-        get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.ColorAttachments);
-    }
-
-    /// <summary>
-    /// Assigns a function descriptor representing the function this pipeline executes for each fragment.
-    /// </summary>
-    public MTL4FunctionDescriptor FragmentFunctionDescriptor
-    {
-        get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.FragmentFunctionDescriptor);
-        set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetFragmentFunctionDescriptor, value);
-    }
-
-    /// <summary>
-    /// Provides static linking information for the fragment stage of the render pipeline.
-    /// </summary>
-    public MTL4StaticLinkingDescriptor FragmentStaticLinkingDescriptor
-    {
-        get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.FragmentStaticLinkingDescriptor);
-        set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetFragmentStaticLinkingDescriptor, value);
-    }
-
-    /// <summary>
-    /// Determines whether the pipeline rasterizes primitives.
-    /// </summary>
-    public Bool8 IsRasterizationEnabled
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.IsRasterizationEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetRasterizationEnabled, value);
-    }
-
-    /// <summary>
-    /// Controls the largest number of threads the pipeline state can execute when the object stage of a mesh render pipeline you create from this descriptor dispatches its mesh stage.
-    /// </summary>
-    public nuint MaxTotalThreadgroupsPerMeshGrid
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.MaxTotalThreadgroupsPerMeshGrid);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetMaxTotalThreadgroupsPerMeshGrid, value);
-    }
-
-    /// <summary>
-    /// Controls the largest number of threads the pipeline state can execute in a single mesh shader threadgroup dispatch.
-    /// </summary>
-    public nuint MaxTotalThreadsPerMeshThreadgroup
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.MaxTotalThreadsPerMeshThreadgroup);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetMaxTotalThreadsPerMeshThreadgroup, value);
-    }
-
-    /// <summary>
-    /// Controls the largest number of threads the pipeline state can execute in a single object shader threadgroup dispatch.
-    /// </summary>
-    public nuint MaxTotalThreadsPerObjectThreadgroup
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.MaxTotalThreadsPerObjectThreadgroup);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetMaxTotalThreadsPerObjectThreadgroup, value);
-    }
-
-    /// <summary>
-    /// Determines the maximum value that can you can pass as the pipeline’s amplification count.
-    /// </summary>
-    public nuint MaxVertexAmplificationCount
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.MaxVertexAmplificationCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetMaxVertexAmplificationCount, value);
-    }
-
-    /// <summary>
-    /// Assigns a function descriptor representing the function this pipeline executes for each primitive in the mesh shader stage.
-    /// </summary>
-    public MTL4FunctionDescriptor MeshFunctionDescriptor
-    {
-        get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.MeshFunctionDescriptor);
-        set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetMeshFunctionDescriptor, value);
-    }
-
-    /// <summary>
-    /// Provides static linking information for the mesh stage of the render pipeline.
-    /// </summary>
-    public MTL4StaticLinkingDescriptor MeshStaticLinkingDescriptor
-    {
-        get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.MeshStaticLinkingDescriptor);
-        set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetMeshStaticLinkingDescriptor, value);
-    }
-
-    /// <summary>
-    /// Provides a guarantee to Metal regarding the number of threadgroup threads for the mesh stage of a pipeline you create from this descriptor.
-    /// </summary>
-    public Bool8 MeshThreadgroupSizeIsMultipleOfThreadExecutionWidth
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.MeshThreadgroupSizeIsMultipleOfThreadExecutionWidth);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth, value);
-    }
-
-    /// <summary>
-    /// Assigns a function descriptor representing the function this pipeline executes for each object in the object shader stage.
-    /// </summary>
     public MTL4FunctionDescriptor ObjectFunctionDescriptor
     {
         get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.ObjectFunctionDescriptor);
         set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetObjectFunctionDescriptor, value);
     }
 
-    /// <summary>
-    /// Provides static linking information for the object stage of the render pipeline.
-    /// </summary>
-    public MTL4StaticLinkingDescriptor ObjectStaticLinkingDescriptor
+    public MTL4FunctionDescriptor MeshFunctionDescriptor
     {
-        get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.ObjectStaticLinkingDescriptor);
-        set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetObjectStaticLinkingDescriptor, value);
+        get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.MeshFunctionDescriptor);
+        set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetMeshFunctionDescriptor, value);
     }
 
-    /// <summary>
-    /// Provides a guarantee to Metal regarding the number of threadgroup threads for the object stage of a pipeline you create from this descriptor.
-    /// </summary>
-    public Bool8 ObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth
+    public MTL4FunctionDescriptor FragmentFunctionDescriptor
     {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.ObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth, value);
+        get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.FragmentFunctionDescriptor);
+        set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetFragmentFunctionDescriptor, value);
     }
 
-    /// <summary>
-    /// Reserves storage for the object-to-mesh stage payload.
-    /// </summary>
-    public nuint PayloadMemoryLength
+    public nuint MaxTotalThreadsPerObjectThreadgroup
     {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.PayloadMemoryLength);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetPayloadMemoryLength, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.MaxTotalThreadsPerObjectThreadgroup);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetMaxTotalThreadsPerObjectThreadgroup, value);
     }
 
-    /// <summary>
-    /// Sets number of samples this pipeline applies for each fragment.
-    /// </summary>
-    public nuint RasterSampleCount
+    public nuint MaxTotalThreadsPerMeshThreadgroup
     {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.RasterSampleCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetRasterSampleCount, value);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.MaxTotalThreadsPerMeshThreadgroup);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetMaxTotalThreadsPerMeshThreadgroup, value);
     }
 
-    /// <summary>
-    /// Controls the required number of mesh threads-per-threadgroup when drawing with a mesh shader pipeline you create from this descriptor.
-    /// </summary>
-    public MTLSize RequiredThreadsPerMeshThreadgroup
-    {
-        get => ObjectiveC.MsgSendMTLSize(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.RequiredThreadsPerMeshThreadgroup);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetRequiredThreadsPerMeshThreadgroup, value);
-    }
-
-    /// <summary>
-    /// Controls the required number of object threads-per-threadgroup when drawing with a mesh shader pipeline you create from this descriptor.
-    /// </summary>
     public MTLSize RequiredThreadsPerObjectThreadgroup
     {
         get => ObjectiveC.MsgSendMTLSize(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.RequiredThreadsPerObjectThreadgroup);
         set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetRequiredThreadsPerObjectThreadgroup, value);
     }
 
-    /// <summary>
-    /// Indicates whether you can use the render pipeline to create new pipelines by adding binary functions to the fragment shader function’s callable functions list.
-    /// </summary>
-    public Bool8 SupportFragmentBinaryLinking
+    public MTLSize RequiredThreadsPerMeshThreadgroup
     {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SupportFragmentBinaryLinking);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetSupportFragmentBinaryLinking, value);
+        get => ObjectiveC.MsgSendMTLSize(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.RequiredThreadsPerMeshThreadgroup);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetRequiredThreadsPerMeshThreadgroup, value);
     }
 
-    /// <summary>
-    /// Indicates whether the pipeline supports indirect command buffers.
-    /// </summary>
-    public MTL4IndirectCommandBufferSupportState SupportIndirectCommandBuffers
+    public Bool8 ObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth
     {
-        get => (MTL4IndirectCommandBufferSupportState)ObjectiveC.MsgSendLong(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SupportIndirectCommandBuffers);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetSupportIndirectCommandBuffers, (nint)value);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.ObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth, value);
     }
 
-    /// <summary>
-    /// Indicates whether you can use the render pipeline to create new pipelines by adding binary functions to the mesh shader function’s callable functions list.
-    /// </summary>
+    public Bool8 MeshThreadgroupSizeIsMultipleOfThreadExecutionWidth
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.MeshThreadgroupSizeIsMultipleOfThreadExecutionWidth);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetMeshThreadgroupSizeIsMultipleOfThreadExecutionWidth, value);
+    }
+
+    public nuint PayloadMemoryLength
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.PayloadMemoryLength);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetPayloadMemoryLength, value);
+    }
+
+    public nuint MaxTotalThreadgroupsPerMeshGrid
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.MaxTotalThreadgroupsPerMeshGrid);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetMaxTotalThreadgroupsPerMeshGrid, value);
+    }
+
+    public nuint RasterSampleCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.RasterSampleCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetRasterSampleCount, value);
+    }
+
+    public MTL4AlphaToCoverageState AlphaToCoverageState
+    {
+        get => (MTL4AlphaToCoverageState)ObjectiveC.MsgSendLong(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.AlphaToCoverageState);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetAlphaToCoverageState, (nint)value);
+    }
+
+    public MTL4AlphaToOneState AlphaToOneState
+    {
+        get => (MTL4AlphaToOneState)ObjectiveC.MsgSendLong(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.AlphaToOneState);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetAlphaToOneState, (nint)value);
+    }
+
+    public Bool8 IsRasterizationEnabled
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.IsRasterizationEnabled);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetIsRasterizationEnabled, value);
+    }
+
+    public nuint MaxVertexAmplificationCount
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.MaxVertexAmplificationCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetMaxVertexAmplificationCount, value);
+    }
+
+    public MTL4RenderPipelineColorAttachmentDescriptorArray ColorAttachments
+    {
+        get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.ColorAttachments);
+    }
+
+    public MTL4StaticLinkingDescriptor ObjectStaticLinkingDescriptor
+    {
+        get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.ObjectStaticLinkingDescriptor);
+        set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetObjectStaticLinkingDescriptor, value);
+    }
+
+    public MTL4StaticLinkingDescriptor MeshStaticLinkingDescriptor
+    {
+        get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.MeshStaticLinkingDescriptor);
+        set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetMeshStaticLinkingDescriptor, value);
+    }
+
+    public MTL4StaticLinkingDescriptor FragmentStaticLinkingDescriptor
+    {
+        get => GetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.FragmentStaticLinkingDescriptor);
+        set => SetProperty(ref field, MTL4MeshRenderPipelineDescriptorBindings.SetFragmentStaticLinkingDescriptor, value);
+    }
+
+    public Bool8 SupportObjectBinaryLinking
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SupportObjectBinaryLinking);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetSupportObjectBinaryLinking, value);
+    }
+
     public Bool8 SupportMeshBinaryLinking
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SupportMeshBinaryLinking);
         set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetSupportMeshBinaryLinking, value);
     }
 
-    /// <summary>
-    /// Indicates whether you can use the render pipeline to create new pipelines by adding binary functions to the object shader function’s callable functions list.
-    /// </summary>
-    public Bool8 SupportObjectBinaryLinking
+    public Bool8 SupportFragmentBinaryLinking
     {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SupportObjectBinaryLinking);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetSupportObjectBinaryLinking, value);
-    }
-    #endregion
-
-    /// <summary>
-    /// Deprecated: please use isRasterizationEnabled instead
-    /// </summary>
-    [Obsolete("please use isRasterizationEnabled instead")]
-    public Bool8 RasterizationEnabled
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.RasterizationEnabled);
-        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetRasterizationEnabled, value);
+        get => ObjectiveC.MsgSendBool(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SupportFragmentBinaryLinking);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetSupportFragmentBinaryLinking, value);
     }
 
-    #region Instance Methods - Methods
+    public MTL4LogicalToPhysicalColorAttachmentMappingState ColorAttachmentMappingState
+    {
+        get => (MTL4LogicalToPhysicalColorAttachmentMappingState)ObjectiveC.MsgSendLong(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.ColorAttachmentMappingState);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetColorAttachmentMappingState, (nint)value);
+    }
 
-    /// <summary>
-    /// Resets this descriptor to its default state.
-    /// </summary>
+    public MTL4IndirectCommandBufferSupportState SupportIndirectCommandBuffers
+    {
+        get => (MTL4IndirectCommandBufferSupportState)ObjectiveC.MsgSendLong(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SupportIndirectCommandBuffers);
+        set => ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.SetSupportIndirectCommandBuffers, (nint)value);
+    }
+
     public void Reset()
     {
         ObjectiveC.MsgSend(NativePtr, MTL4MeshRenderPipelineDescriptorBindings.Reset);
     }
-    #endregion
 }
 
 file static class MTL4MeshRenderPipelineDescriptorBindings
@@ -307,8 +210,6 @@ file static class MTL4MeshRenderPipelineDescriptorBindings
 
     public static readonly Selector PayloadMemoryLength = "payloadMemoryLength";
 
-    public static readonly Selector RasterizationEnabled = "isRasterizationEnabled";
-
     public static readonly Selector RasterSampleCount = "rasterSampleCount";
 
     public static readonly Selector RequiredThreadsPerMeshThreadgroup = "requiredThreadsPerMeshThreadgroup";
@@ -326,6 +227,8 @@ file static class MTL4MeshRenderPipelineDescriptorBindings
     public static readonly Selector SetFragmentFunctionDescriptor = "setFragmentFunctionDescriptor:";
 
     public static readonly Selector SetFragmentStaticLinkingDescriptor = "setFragmentStaticLinkingDescriptor:";
+
+    public static readonly Selector SetIsRasterizationEnabled = "setRasterizationEnabled:";
 
     public static readonly Selector SetMaxTotalThreadgroupsPerMeshGrid = "setMaxTotalThreadgroupsPerMeshGrid:";
 
@@ -348,8 +251,6 @@ file static class MTL4MeshRenderPipelineDescriptorBindings
     public static readonly Selector SetObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth = "setObjectThreadgroupSizeIsMultipleOfThreadExecutionWidth:";
 
     public static readonly Selector SetPayloadMemoryLength = "setPayloadMemoryLength:";
-
-    public static readonly Selector SetRasterizationEnabled = "setRasterizationEnabled:";
 
     public static readonly Selector SetRasterSampleCount = "setRasterSampleCount:";
 

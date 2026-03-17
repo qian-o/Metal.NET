@@ -3,7 +3,7 @@
 namespace Metal.NET.Generator;
 
 /// <summary>
-/// Maps C++ types to C# types, resolves MsgSend method variants,
+/// Maps ObjC types to C# types, resolves MsgSend method variants,
 /// and provides naming helpers (PascalCase, camelCase, reserved word escaping).
 /// </summary>
 partial class TypeMapper(GeneratorContext context)
@@ -17,10 +17,12 @@ partial class TypeMapper(GeneratorContext context)
         "MTLVertexAmplificationViewMapping", "MTL4BufferRange",
         "MTL4CopySparseBufferMappingOperation", "MTL4CopySparseTextureMappingOperation",
         "MTL4UpdateSparseBufferMappingOperation", "MTL4UpdateSparseTextureMappingOperation",
-        "SimdFloat4x4"
+        "SimdFloat4x4",
+        "MTLPackedFloat3", "MTLPackedFloatQuaternion", "MTLPackedFloat4x3",
+        "MTLIndirectCommandBufferExecutionRange",
     ];
 
-    /// <summary>Known typos in metal-cpp headers (parameter name corrections).</summary>
+    /// <summary>Known typos in metal-ast.json parameter names (parameter name corrections).</summary>
     static readonly Dictionary<string, string> ParamNameCorrections = new()
     {
         ["frontFacingWindning"] = "frontFacingWinding"
@@ -42,7 +44,8 @@ partial class TypeMapper(GeneratorContext context)
 
     #region Namespace Mapping
 
-    public static string GetPrefix(string cppNamespace) => cppNamespace switch
+    /// <summary>Returns the ObjC class-name prefix for the given namespace (e.g., "MTL" → "MTL").</summary>
+    public static string GetPrefix(string ns) => ns switch
     {
         "MTL" => "MTL",
         "MTL4" => "MTL4",
@@ -50,10 +53,11 @@ partial class TypeMapper(GeneratorContext context)
         "CA" => "CA",
         "MTLFX" => "MTLFX",
         "MTL4FX" => "MTL4FX",
-        _ => cppNamespace
+        _ => ns
     };
 
-    public static string GetOutputSubdir(string cppNamespace) => cppNamespace switch
+    /// <summary>Returns the output subdirectory for a given namespace (e.g., "MTL" → "Metal").</summary>
+    public static string GetOutputSubdir(string ns) => ns switch
     {
         "MTL" or "MTL4" => "Metal",
         "NS" => "Foundation",
@@ -67,12 +71,13 @@ partial class TypeMapper(GeneratorContext context)
     #region Type Mapping
 
     /// <summary>
-    /// Maps a C++ type string to a C# type name.
-    /// Handles pointers, namespaced types (e.g., MTL::Device*), and special aliases.
+    /// Maps an ObjC type string to a C# type name.
+    /// Handles pointers, namespaced types (e.g., MTL::Device*), ObjC types (e.g., MTLDevice*),
+    /// and special aliases.
     /// </summary>
-    public static string MapCppType(string cppType, string defaultNs)
+    public static string MapType(string objcType)
     {
-        string t = cppType.Trim();
+        string t = objcType.Trim();
 
         // Remove const and class keywords
         t = t.Replace("const ", "").Replace("class ", "").Trim();
@@ -105,6 +110,10 @@ partial class TypeMapper(GeneratorContext context)
             "NS::Integer" when isPointer => "nint",
             "NS::UInteger" => "nuint",
             "NS::Integer" => "nint",
+            "NSUInteger" when isPointer => "nint",
+            "NSInteger" when isPointer => "nint",
+            "NSUInteger" => "nuint",
+            "NSInteger" => "nint",
             "uint32_t" => "uint",
             "int32_t" => "int",
             "uint8_t" => "byte",
@@ -115,7 +124,7 @@ partial class TypeMapper(GeneratorContext context)
             "int64_t" or "std::int64_t" => "long",
             "float" => "float",
             "double" => "double",
-            "bool" => "bool",
+            "bool" or "BOOL" => "bool",
             "char" when isPointer => "nint",
             "IOSurfaceRef" => "nint",
             "dispatch_queue_t" => "DispatchQueue",
@@ -123,7 +132,11 @@ partial class TypeMapper(GeneratorContext context)
             "CGColorSpaceRef" => "CGColorSpace",
             "CFTimeInterval" => "double",
             "CGSize" => "CGSize",
+            "CGFloat" => "double",
             "simd::float4x4" => "SimdFloat4x4",
+            "SimdFloat4x4" => "SimdFloat4x4",
+            "MTLGPUAddress" => "nuint",
+            "MTLCoordinate2D" => "MTLSamplePosition",
             _ => null
         };
         if (simple != null)
@@ -191,74 +204,37 @@ partial class TypeMapper(GeneratorContext context)
                 return "nint";
             }
 
-            string prefix = GetPrefix(defaultNs);
-            return prefix + t;
+            // ObjC types: the type name already has a prefix (e.g., MTLDevice, NSString)
+            // Just return it as-is since it matches the C# class name
+            return t;
         }
 
         return "nint";
     }
 
     /// <summary>
-    /// Returns true if the C# type represents a NativeObject subclass (not a primitive, struct, or enum).
+    /// Returns <see langword="true"/> if the C# type represents a <c>NativeObject</c> subclass
+    /// (not a primitive, struct, or enum).
     /// </summary>
-    public bool IsNativeObjectType(string csType)
-    {
-        if (csType is "void" or "bool" or "nint" or "nuint" or "uint" or "int" or "ulong" or "long" or "float" or "double"
-            or "byte" or "sbyte" or "short" or "ushort")
-        {
-            return false;
-        }
+    public bool IsNativeObjectType(string csType) =>
+        csType is not ("void" or "bool" or "nint" or "nuint" or "uint" or "int" or "ulong" or "long"
+            or "float" or "double" or "byte" or "sbyte" or "short" or "ushort")
+        && !StructTypes.Contains(csType)
+        && !context.EnumBackingTypes.ContainsKey(csType);
 
-        if (StructTypes.Contains(csType))
-        {
-            return false;
-        }
-
-        if (context.EnumBackingTypes.ContainsKey(csType))
-        {
-            return false;
-        }
-
-        return true;
-    }
-
+    /// <summary>Returns <see langword="true"/> if <paramref name="csType"/> is a generated enum.</summary>
     public bool IsEnumType(string csType) => context.EnumBackingTypes.ContainsKey(csType);
 
     /// <summary>
-    /// Returns true if the C++ type cannot be mapped to a C# type (templates, references, etc.).
+    /// Returns <see langword="true"/> if the ObjC type cannot be mapped to a C# type
+    /// (templates, references, const pointer qualifiers, or unsupported framework types).
     /// </summary>
-    public static bool IsUnmappableCppType(string cppType)
-    {
-        string t = cppType;
-
-        if (t.Contains('<') || t.Contains('>'))
-        {
-            return true;
-        }
-
-        if (t.Contains('&'))
-        {
-            return true;
-        }
-
-        if (t.Contains("* const") && !t.Contains("**"))
-        {
-            return true;
-        }
-
-        if (t.Contains("NS::Process") ||
-            t.Contains("NS::Observer"))
-        {
-            return true;
-        }
-
-        if (t.Contains("kern_return_t") || t.Contains("task_id_token_t"))
-        {
-            return true;
-        }
-
-        return false;
-    }
+    public static bool IsUnmappableType(string objcType) =>
+        objcType.Contains('<') || objcType.Contains('>') ||
+        objcType.Contains('&') ||
+        (objcType.Contains("* const") && !objcType.Contains("**")) ||
+        objcType.Contains("NS::Process") || objcType.Contains("NS::Observer") ||
+        objcType.Contains("kern_return_t") || objcType.Contains("task_id_token_t");
 
     #endregion
 
@@ -342,43 +318,27 @@ partial class TypeMapper(GeneratorContext context)
     #region Ownership
 
     /// <summary>
-    /// Returns true if the method name implies an ownership transfer per ObjC naming conventions
-    /// (new*, alloc*, copy*, mutableCopy*, init*). Callers receive owned references from these methods.
+    /// Returns <see langword="true"/> if the method name implies an ownership transfer per ObjC
+    /// naming conventions (<c>new*</c>, <c>alloc*</c>, <c>copy*</c>, <c>mutableCopy*</c>, <c>init*</c>).
+    /// Callers receive owned references from these methods.
     /// </summary>
-    public static bool IsOwnershipTransferMethod(string cppName)
+    public static bool IsOwnershipTransferMethod(string name)
     {
-        if (cppName.StartsWith("new") && (cppName.Length == 3 || char.IsUpper(cppName[3])))
-        {
-            return true;
-        }
+        return StartsWithFollowedByUpperOrEnd(name, "new")
+            || StartsWithFollowedByUpperOrEnd(name, "alloc")
+            || StartsWithFollowedByUpperOrEnd(name, "copy")
+            || StartsWithFollowedByUpperOrEnd(name, "mutableCopy")
+            || StartsWithFollowedByUpperOrEnd(name, "init");
 
-        if (cppName.StartsWith("alloc") && (cppName.Length == 5 || char.IsUpper(cppName[5])))
-        {
-            return true;
-        }
-
-        if (cppName.StartsWith("copy") && (cppName.Length == 4 || char.IsUpper(cppName[4])))
-        {
-            return true;
-        }
-
-        if (cppName.StartsWith("mutableCopy") && (cppName.Length == 11 || char.IsUpper(cppName[11])))
-        {
-            return true;
-        }
-
-        if (cppName.StartsWith("init") && (cppName.Length == 4 || char.IsUpper(cppName[4])))
-        {
-            return true;
-        }
-
-        return false;
+        static bool StartsWithFollowedByUpperOrEnd(string value, string prefix) =>
+            value.StartsWith(prefix) && (value.Length == prefix.Length || char.IsUpper(value[prefix.Length]));
     }
 
     #endregion
 
     #region Naming Helpers
 
+    /// <summary>Converts the first character of <paramref name="name"/> to uppercase (PascalCase).</summary>
     public static string ToPascalCase(string name)
     {
         if (string.IsNullOrEmpty(name))
@@ -394,6 +354,7 @@ partial class TypeMapper(GeneratorContext context)
         return char.ToUpper(name[0]) + name[1..];
     }
 
+    /// <summary>Converts the first character of <paramref name="name"/> to lowercase (camelCase), applying known corrections.</summary>
     public static string ToCamelCase(string name)
     {
         if (string.IsNullOrEmpty(name))
@@ -414,6 +375,7 @@ partial class TypeMapper(GeneratorContext context)
         return char.ToLower(name[0]) + name[1..];
     }
 
+    /// <summary>Prefixes <paramref name="name"/> with <c>@</c> if it collides with a C# reserved word.</summary>
     public static string EscapeReservedWord(string name) =>
         CSharpReservedWords.Contains(name) ? "@" + name : name;
 

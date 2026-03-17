@@ -3,7 +3,17 @@
 [![NuGet Version](https://img.shields.io/nuget/v/Metal.NET)](https://nuget.org/packages/Metal.NET)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-C# bindings for Apple's Metal graphics API, auto-generated from [metal-cpp](https://developer.apple.com/metal/cpp/) headers.
+C# bindings for Apple's **Metal** graphics API, auto-generated from the Objective-C headers via **Clang AST extraction**.
+
+The generator parses `metal-ast.json` — an AST snapshot extracted directly from the macOS SDK using `clang -ast-dump=json` — and emits idiomatic C# wrappers that call into the Objective-C runtime via `objc_msgSend`.
+
+## Features
+
+- **Comprehensive API coverage** — Metal, Metal 4, MetalFX, QuartzCore, Foundation, CoreGraphics and GCD bindings.
+- **Clang AST-based generation** — bindings are extracted from the SDK headers, not from a hand-maintained IDL.
+- **Automatic memory management** — three ownership modes (`Borrowed`, `Owned`, `Managed`) with deterministic disposal and optional finalizer safety net.
+- **Objective-C block support** — `NativeBlock` wrappers use `UnmanagedCallersOnly` function pointers for zero-overhead callbacks.
+- **Native AOT & trimming ready** — the library is annotated with `IsAotCompatible` and `IsTrimmable`.
 
 ## Installation
 
@@ -18,12 +28,33 @@ dotnet add package Metal.NET
 ```csharp
 using Metal.NET;
 
+// Obtain the default GPU device
 MTLDevice device = MTLDevice.CreateSystemDefaultDevice();
 
+// Create a command queue
 using MTLCommandQueue queue = device.NewCommandQueue();
 
+// Load the default shader library
 using MTLLibrary library = device.NewDefaultLibrary();
+
+// Look up a compute function and create a pipeline state
+using MTLFunction kernel = library.NewFunction("myKernel");
+using MTLComputePipelineState pso = device.NewComputePipelineState(kernel);
+
+// Create a buffer
+using MTLBuffer buffer = device.NewBuffer(1024, MTLResourceOptions.StorageModeShared);
 ```
+
+## API Coverage
+
+| Framework | Namespace | Contents |
+|-----------|-----------|----------|
+| **Metal** | `Metal.NET` | Devices, command queues & buffers, encoders, pipeline states, acceleration structures, Metal 4 APIs (`MTL4*`), and more. |
+| **MetalFX** | `Metal.NET` | Temporal / spatial scalers, frame interpolators. |
+| **QuartzCore** | `Metal.NET` | `CAMetalLayer`, `CAMetalDrawable`. |
+| **Foundation** | `Metal.NET` | Hand-written `NSObject`, `NSString`, `NSArray`, `NSError`, `NSURL`, `NSData`, etc. |
+| **CoreGraphics** | `Metal.NET` | `CGColorSpace`. |
+| **GCD** | `Metal.NET` | `DispatchQueue`, `DispatchData`, `DispatchObject`. |
 
 ## Memory Management
 
@@ -50,54 +81,40 @@ MTLDevice device = commandQueue.Device;
 
 ```
 Metal.NET.slnx
-├── Metal.NET/                          ← Runtime library
+├── Metal.NET/                          ← Runtime library (NuGet package)
 │   ├── Common/                         ← Hand-written interop core
 │   │   ├── NativeObject.cs             ← Base class for all ObjC wrappers
-│   │   ├── NativeBlock.cs              ← Base class for ObjC block wrappers
+│   │   ├── NativeBlock.cs              ← ObjC block wrappers (UnmanagedCallersOnly)
 │   │   ├── ObjectiveC.cs               ← Auto-generated objc_msgSend overloads
 │   │   └── ...
 │   ├── Foundation/                     ← Hand-written NS* wrappers
-│   ├── Metal/                          ← Auto-generated Metal API (231 files)
-│   │   ├── MTLDelegates.cs             ← Auto-generated block handler classes
-│   │   └── ...
-│   ├── MetalFX/                        ← Auto-generated MetalFX API (18 files)
-│   └── QuartzCore/                     ← Auto-generated QuartzCore API (2 files)
+│   ├── CoreGraphics/                   ← Hand-written CG* wrappers
+│   ├── GCD/                            ← Hand-written Dispatch* wrappers
+│   ├── Metal/                          ← Auto-generated Metal & Metal 4 API
+│   │   ├── MTLEnums.cs                 ← All Metal enumerations
+│   │   ├── MTLStructs.cs               ← All Metal structs
+│   │   ├── MTLDelegates.cs             ← Block handler classes
+│   │   └── MTL*.cs / MTL4*.cs          ← Protocol & class wrappers
+│   ├── MetalFX/                        ← Auto-generated MetalFX API
+│   └── QuartzCore/                     ← Auto-generated QuartzCore API
 │
-└── Metal.NET.Generator/                ← Code generator
-    ├── CppParser.cs                    ← Parses metal-cpp headers
+└── Metal.NET.Generator/                ← Code generator (not shipped)
+    ├── AstJsonParser.cs                ← Parses metal-ast.json
     ├── CSharpEmitter.cs                ← Emits C# source files
-    ├── TypeMapper.cs                   ← C++ → C# type mapping
-    ├── update-sources.ps1              ← Downloads metal-cpp & Apple docs
-    ├── metal-docs.json                 ← Distilled API docs & member ordering (committed)
-    └── metal-cpp/                      ← Upstream metal-cpp headers
+    ├── TypeMapper.cs                   ← ObjC → C# type mapping
+    └── metal-ast.json                  ← Extracted API definitions (generated by CI)
 ```
 
 ## Updating Bindings
 
-Run the update script to fetch the latest metal-cpp headers and Apple documentation JSON, then regenerate:
+1. Run the **Extract Metal API** GitHub Action (`extract-metal-api.yml`) to regenerate `metal-ast.json` from the latest Xcode SDK.
+2. Regenerate the C# bindings and verify:
 
 ```bash
-pwsh -File Metal.NET.Generator/update-sources.ps1
 dotnet run --project Metal.NET.Generator
 dotnet build Metal.NET
-```
-
-You can also update them independently:
-
-```bash
-pwsh -File Metal.NET.Generator/update-sources.ps1 -SkipDocs       # only update metal-cpp
-pwsh -File Metal.NET.Generator/update-sources.ps1 -SkipMetalCpp   # only refresh documentation JSON
 ```
 
 ## Disclaimer
 
 > **This library was built with AI assistance.** It has undergone preliminary testing but has **not** been exhaustively validated in production scenarios. Please test thoroughly before production use.
-
-## Alternatives
-
-- [SharpMetal](https://github.com/IsaacMarovitz/SharpMetal)
-- [dotnet/macios](https://github.com/dotnet/macios)
-
-## License
-
-[MIT License](LICENSE) · "Metal" is a trademark of Apple Inc. · See [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md).

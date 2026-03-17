@@ -11,8 +11,6 @@ public class MTLObjectPayloadBinding(nint nativePtr, NativeObjectOwnership owner
     }
     #endregion
 
-    #region Instance Properties - Properties
-
     public nuint ObjectPayloadAlignment
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLObjectPayloadBindingBindings.ObjectPayloadAlignment);
@@ -22,7 +20,6 @@ public class MTLObjectPayloadBinding(nint nativePtr, NativeObjectOwnership owner
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLObjectPayloadBindingBindings.ObjectPayloadDataSize);
     }
-    #endregion
 }
 
 file static class MTLObjectPayloadBindingBindings

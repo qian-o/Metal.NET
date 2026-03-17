@@ -11,455 +11,293 @@ public class MTLFXTemporalDenoisedScalerBase(nint nativePtr, NativeObjectOwnersh
     }
     #endregion
 
-    #region Instance Properties - Properties
+    public MTLTextureUsage ColorTextureUsage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.ColorTextureUsage);
+    }
 
-    /// <summary>
-    /// Assigns the color texture this scaler evaluates.
-    /// </summary>
+    public MTLTextureUsage DepthTextureUsage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.DepthTextureUsage);
+    }
+
+    public MTLTextureUsage MotionTextureUsage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.MotionTextureUsage);
+    }
+
+    public MTLTextureUsage ReactiveTextureUsage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.ReactiveTextureUsage);
+    }
+
+    public MTLTextureUsage DiffuseAlbedoTextureUsage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.DiffuseAlbedoTextureUsage);
+    }
+
+    public MTLTextureUsage SpecularAlbedoTextureUsage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SpecularAlbedoTextureUsage);
+    }
+
+    public MTLTextureUsage NormalTextureUsage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.NormalTextureUsage);
+    }
+
+    public MTLTextureUsage RoughnessTextureUsage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.RoughnessTextureUsage);
+    }
+
+    public MTLTextureUsage SpecularHitDistanceTextureUsage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SpecularHitDistanceTextureUsage);
+    }
+
+    public MTLTextureUsage DenoiseStrengthMaskTextureUsage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.DenoiseStrengthMaskTextureUsage);
+    }
+
+    public MTLTextureUsage TransparencyOverlayTextureUsage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.TransparencyOverlayTextureUsage);
+    }
+
+    public MTLTextureUsage OutputTextureUsage
+    {
+        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.OutputTextureUsage);
+    }
+
     public MTLTexture ColorTexture
     {
         get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.ColorTexture);
         set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetColorTexture, value);
     }
 
-    /// <summary>
-    /// The pixel format of the input color texture for this denoiser scaler.
-    /// </summary>
-    public MTLPixelFormat ColorTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.ColorTextureFormat);
-    }
-
-    /// <summary>
-    /// The minimal texture usage options that your app’s input color texture needs in order to support this denoiser scaler.
-    /// </summary>
-    public MTLTextureUsage ColorTextureUsage
-    {
-        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.ColorTextureUsage);
-    }
-
-    /// <summary>
-    /// The denoise strength mask texture this scaler evaluates.
-    /// </summary>
-    public MTLTexture DenoiseStrengthMaskTexture
-    {
-        get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.DenoiseStrengthMaskTexture);
-        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetDenoiseStrengthMaskTexture, value);
-    }
-
-    /// <summary>
-    /// The pixel format of the input denoise strength mask texture for this denoiser scaler.
-    /// </summary>
-    public MTLPixelFormat DenoiseStrengthMaskTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.DenoiseStrengthMaskTextureFormat);
-    }
-
-    /// <summary>
-    /// The minimal texture usage options that your app’s input denoise strength texture needs in order to support this denoiser scaler.
-    /// </summary>
-    public MTLTextureUsage DenoiseStrengthMaskTextureUsage
-    {
-        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.DenoiseStrengthMaskTextureUsage);
-    }
-
-    /// <summary>
-    /// The depth texture this scaler evaluates.
-    /// </summary>
     public MTLTexture DepthTexture
     {
         get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.DepthTexture);
         set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetDepthTexture, value);
     }
 
-    /// <summary>
-    /// The pixel format of the input depth texture for this denoiser scaler.
-    /// </summary>
-    public MTLPixelFormat DepthTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.DepthTextureFormat);
-    }
-
-    /// <summary>
-    /// The minimal texture usage options that your app’s input depth texture needs in order to support this denoiser scaler.
-    /// </summary>
-    public MTLTextureUsage DepthTextureUsage
-    {
-        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.DepthTextureUsage);
-    }
-
-    /// <summary>
-    /// The diffuse albedo texture this scaler evaluates.
-    /// </summary>
-    public MTLTexture DiffuseAlbedoTexture
-    {
-        get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.DiffuseAlbedoTexture);
-        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetDiffuseAlbedoTexture, value);
-    }
-
-    /// <summary>
-    /// The pixel format of the input diffuse albedo texture for this denoiser scaler.
-    /// </summary>
-    public MTLPixelFormat DiffuseAlbedoTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.DiffuseAlbedoTextureFormat);
-    }
-
-    /// <summary>
-    /// The minimal texture usage options that your app’s input diffuse albedo texture needs in order to support this denoiser scaler.
-    /// </summary>
-    public MTLTextureUsage DiffuseAlbedoTextureUsage
-    {
-        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.DiffuseAlbedoTextureUsage);
-    }
-
-    /// <summary>
-    /// An exposure texture that this denoiser scaler evaluates.
-    /// </summary>
-    public MTLTexture ExposureTexture
-    {
-        get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.ExposureTexture);
-        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetExposureTexture, value);
-    }
-
-    /// <summary>
-    /// An optional fence that this denoiser scaler waits for and updates.
-    /// </summary>
-    public MTLFence Fence
-    {
-        get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.Fence);
-        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetFence, value);
-    }
-
-    /// <summary>
-    /// The maximum input content scale this scaler supports.
-    /// </summary>
-    public float InputContentMaxScale
-    {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.InputContentMaxScale);
-    }
-
-    /// <summary>
-    /// The minimum input content scale this scaler supports.
-    /// </summary>
-    public float InputContentMinScale
-    {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.InputContentMinScale);
-    }
-
-    /// <summary>
-    /// The height, in pixels, of the input color texture for the scaler.
-    /// </summary>
-    public nuint InputHeight
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.InputHeight);
-    }
-
-    /// <summary>
-    /// The width, in pixels, of the input color texture for the scaler.
-    /// </summary>
-    public nuint InputWidth
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.InputWidth);
-    }
-
-    /// <summary>
-    /// A Boolean value that indicates whether the depth texture uses zero to represent the farthest distance.
-    /// </summary>
-    public Bool8 IsDepthReversed
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.IsDepthReversed);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetDepthReversed, value);
-    }
-
-    /// <summary>
-    /// The horizontal component of the subpixel sampling coordinate you use to generate the color texture input.
-    /// </summary>
-    public float JitterOffsetX
-    {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.JitterOffsetX);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetJitterOffsetX, value);
-    }
-
-    /// <summary>
-    /// The vertical component of the subpixel sampling coordinate you use to generate the color texture input.
-    /// </summary>
-    public float JitterOffsetY
-    {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.JitterOffsetY);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetJitterOffsetY, value);
-    }
-
-    /// <summary>
-    /// The motion texture this scaler evaluates.
-    /// </summary>
     public MTLTexture MotionTexture
     {
         get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.MotionTexture);
         set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetMotionTexture, value);
     }
 
-    /// <summary>
-    /// The pixel format of the input motion texture for this denoiser scaler.
-    /// </summary>
-    public MTLPixelFormat MotionTextureFormat
+    public MTLTexture DiffuseAlbedoTexture
     {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.MotionTextureFormat);
+        get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.DiffuseAlbedoTexture);
+        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetDiffuseAlbedoTexture, value);
     }
 
-    /// <summary>
-    /// The minimal texture usage options that your app’s input motion texture needs in order to support this denoiser scaler.
-    /// </summary>
-    public MTLTextureUsage MotionTextureUsage
-    {
-        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.MotionTextureUsage);
-    }
-
-    /// <summary>
-    /// The horizontal scale factor the denoiser scaler applies to the input motion texture.
-    /// </summary>
-    public float MotionVectorScaleX
-    {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.MotionVectorScaleX);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetMotionVectorScaleX, value);
-    }
-
-    /// <summary>
-    /// The vertical scale factor the denoiser scaler applies to the input motion texture.
-    /// </summary>
-    public float MotionVectorScaleY
-    {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.MotionVectorScaleY);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetMotionVectorScaleY, value);
-    }
-
-    /// <summary>
-    /// The normal texture this scaler evaluates.
-    /// </summary>
-    public MTLTexture NormalTexture
-    {
-        get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.NormalTexture);
-        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetNormalTexture, value);
-    }
-
-    /// <summary>
-    /// The pixel format of the input normal texture for this denoiser scaler.
-    /// </summary>
-    public MTLPixelFormat NormalTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.NormalTextureFormat);
-    }
-
-    /// <summary>
-    /// The minimal texture usage options that your app’s input normal texture needs in order to support this denoiser scaler.
-    /// </summary>
-    public MTLTextureUsage NormalTextureUsage
-    {
-        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.NormalTextureUsage);
-    }
-
-    /// <summary>
-    /// The height, in pixels, of the output color texture for the scaler.
-    /// </summary>
-    public nuint OutputHeight
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.OutputHeight);
-    }
-
-    /// <summary>
-    /// The output texture into which this denoiser scaler writes its output.
-    /// </summary>
-    public MTLTexture OutputTexture
-    {
-        get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.OutputTexture);
-        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetOutputTexture, value);
-    }
-
-    /// <summary>
-    /// The pixel format of the output color texture for this denoiser scaler.
-    /// </summary>
-    public MTLPixelFormat OutputTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.OutputTextureFormat);
-    }
-
-    /// <summary>
-    /// The minimal texture usage options that your app’s output texture needs in order to support this denoiser scaler.
-    /// </summary>
-    public MTLTextureUsage OutputTextureUsage
-    {
-        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.OutputTextureUsage);
-    }
-
-    /// <summary>
-    /// The width, in pixels, of the output color texture for the scaler.
-    /// </summary>
-    public nuint OutputWidth
-    {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.OutputWidth);
-    }
-
-    /// <summary>
-    /// A pre-exposure value for this scaler to evaluate.
-    /// </summary>
-    public float PreExposure
-    {
-        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.PreExposure);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetPreExposure, value);
-    }
-
-    /// <summary>
-    /// A reactive-mask texture input for this scaler to evaluate.
-    /// </summary>
-    public MTLTexture ReactiveMaskTexture
-    {
-        get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.ReactiveMaskTexture);
-        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetReactiveMaskTexture, value);
-    }
-
-    /// <summary>
-    /// The pixel format of the input reactive mask texture for this denoiser scaler.
-    /// </summary>
-    public MTLPixelFormat ReactiveMaskTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.ReactiveMaskTextureFormat);
-    }
-
-    /// <summary>
-    /// The minimal texture usage options that your app’s input reactive texture needs in order to support this denoiser scaler.
-    /// </summary>
-    public MTLTextureUsage ReactiveTextureUsage
-    {
-        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.ReactiveTextureUsage);
-    }
-
-    /// <summary>
-    /// The roughness texture this scaler evaluates.
-    /// </summary>
-    public MTLTexture RoughnessTexture
-    {
-        get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.RoughnessTexture);
-        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetRoughnessTexture, value);
-    }
-
-    /// <summary>
-    /// The pixel format of the input normal texture for this denoiser scaler.
-    /// </summary>
-    public MTLPixelFormat RoughnessTextureFormat
-    {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.RoughnessTextureFormat);
-    }
-
-    /// <summary>
-    /// The minimal texture usage options that your app’s input roughness texture needs in order to support this denoiser scaler.
-    /// </summary>
-    public MTLTextureUsage RoughnessTextureUsage
-    {
-        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.RoughnessTextureUsage);
-    }
-
-    /// <summary>
-    /// A Boolean property indicating whether to reset history.
-    /// </summary>
-    public Bool8 ShouldResetHistory
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.ShouldResetHistory);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetShouldResetHistory, value);
-    }
-
-    /// <summary>
-    /// The specular albedo texture this scaler evaluates.
-    /// </summary>
     public MTLTexture SpecularAlbedoTexture
     {
         get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SpecularAlbedoTexture);
         set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetSpecularAlbedoTexture, value);
     }
 
-    /// <summary>
-    /// The pixel format of the input specular albedo for this denoiser scaler.
-    /// </summary>
-    public MTLPixelFormat SpecularAlbedoTextureFormat
+    public MTLTexture NormalTexture
     {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SpecularAlbedoTextureFormat);
+        get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.NormalTexture);
+        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetNormalTexture, value);
     }
 
-    /// <summary>
-    /// The minimal texture usage options that your app’s input specular albedo texture needs in order to support this denoiser scaler.
-    /// </summary>
-    public MTLTextureUsage SpecularAlbedoTextureUsage
+    public MTLTexture RoughnessTexture
     {
-        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SpecularAlbedoTextureUsage);
+        get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.RoughnessTexture);
+        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetRoughnessTexture, value);
     }
 
-    /// <summary>
-    /// The specular hit texture this scaler evaluates.
-    /// </summary>
     public MTLTexture SpecularHitDistanceTexture
     {
         get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SpecularHitDistanceTexture);
         set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetSpecularHitDistanceTexture, value);
     }
 
-    /// <summary>
-    /// The pixel format of the input specular hit distance texture for this denoiser scaler.
-    /// </summary>
-    public MTLPixelFormat SpecularHitDistanceTextureFormat
+    public MTLTexture DenoiseStrengthMaskTexture
     {
-        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SpecularHitDistanceTextureFormat);
+        get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.DenoiseStrengthMaskTexture);
+        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetDenoiseStrengthMaskTexture, value);
     }
 
-    /// <summary>
-    /// The minimal texture usage options that your app’s input specular hit texture needs in order to support this denoiser scaler.
-    /// </summary>
-    public MTLTextureUsage SpecularHitDistanceTextureUsage
-    {
-        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SpecularHitDistanceTextureUsage);
-    }
-
-    /// <summary>
-    /// The transparency overlay texture that this scaler evaluates.
-    /// </summary>
     public MTLTexture TransparencyOverlayTexture
     {
         get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.TransparencyOverlayTexture);
         set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetTransparencyOverlayTexture, value);
     }
 
-    /// <summary>
-    /// The pixel format of the input transparency overlay texture for this denoiser scaler.
-    /// </summary>
+    public MTLTexture OutputTexture
+    {
+        get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.OutputTexture);
+        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetOutputTexture, value);
+    }
+
+    public MTLTexture ExposureTexture
+    {
+        get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.ExposureTexture);
+        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetExposureTexture, value);
+    }
+
+    public float PreExposure
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.PreExposure);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetPreExposure, value);
+    }
+
+    public MTLTexture ReactiveMaskTexture
+    {
+        get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.ReactiveMaskTexture);
+        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetReactiveMaskTexture, value);
+    }
+
+    public float JitterOffsetX
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.JitterOffsetX);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetJitterOffsetX, value);
+    }
+
+    public float JitterOffsetY
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.JitterOffsetY);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetJitterOffsetY, value);
+    }
+
+    public float MotionVectorScaleX
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.MotionVectorScaleX);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetMotionVectorScaleX, value);
+    }
+
+    public float MotionVectorScaleY
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.MotionVectorScaleY);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetMotionVectorScaleY, value);
+    }
+
+    public Bool8 ShouldResetHistory
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.ShouldResetHistory);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetShouldResetHistory, value);
+    }
+
+    public Bool8 IsDepthReversed
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.IsDepthReversed);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetIsDepthReversed, value);
+    }
+
+    public MTLPixelFormat ColorTextureFormat
+    {
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.ColorTextureFormat);
+    }
+
+    public MTLPixelFormat DepthTextureFormat
+    {
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.DepthTextureFormat);
+    }
+
+    public MTLPixelFormat MotionTextureFormat
+    {
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.MotionTextureFormat);
+    }
+
+    public MTLPixelFormat DiffuseAlbedoTextureFormat
+    {
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.DiffuseAlbedoTextureFormat);
+    }
+
+    public MTLPixelFormat SpecularAlbedoTextureFormat
+    {
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SpecularAlbedoTextureFormat);
+    }
+
+    public MTLPixelFormat NormalTextureFormat
+    {
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.NormalTextureFormat);
+    }
+
+    public MTLPixelFormat RoughnessTextureFormat
+    {
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.RoughnessTextureFormat);
+    }
+
+    public MTLPixelFormat SpecularHitDistanceTextureFormat
+    {
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SpecularHitDistanceTextureFormat);
+    }
+
+    public MTLPixelFormat DenoiseStrengthMaskTextureFormat
+    {
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.DenoiseStrengthMaskTextureFormat);
+    }
+
     public MTLPixelFormat TransparencyOverlayTextureFormat
     {
         get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.TransparencyOverlayTextureFormat);
     }
 
-    /// <summary>
-    /// The minimal texture usage options that your app’s input transparency overlay texture needs in order to support this denoiser scaler.
-    /// </summary>
-    public MTLTextureUsage TransparencyOverlayTextureUsage
+    public MTLPixelFormat ReactiveMaskTextureFormat
     {
-        get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.TransparencyOverlayTextureUsage);
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.ReactiveMaskTextureFormat);
     }
 
-    /// <summary>
-    /// The view-to-clip coordinates transformation matrix this scaler uses as part of its operation.
-    /// </summary>
+    public MTLPixelFormat OutputTextureFormat
+    {
+        get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.OutputTextureFormat);
+    }
+
+    public nuint InputWidth
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.InputWidth);
+    }
+
+    public nuint InputHeight
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.InputHeight);
+    }
+
+    public nuint OutputWidth
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.OutputWidth);
+    }
+
+    public nuint OutputHeight
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.OutputHeight);
+    }
+
+    public float InputContentMinScale
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.InputContentMinScale);
+    }
+
+    public float InputContentMaxScale
+    {
+        get => ObjectiveC.MsgSendFloat(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.InputContentMaxScale);
+    }
+
+    public SimdFloat4x4 WorldToViewMatrix
+    {
+        get => ObjectiveC.MsgSendSimdFloat4x4(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.WorldToViewMatrix);
+        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetWorldToViewMatrix, value);
+    }
+
     public SimdFloat4x4 ViewToClipMatrix
     {
         get => ObjectiveC.MsgSendSimdFloat4x4(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.ViewToClipMatrix);
         set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetViewToClipMatrix, value);
     }
 
-    /// <summary>
-    /// The world-to-view transformation matrix this scaler uses as part of its operation.
-    /// </summary>
-    public SimdFloat4x4 WorldToViewMatrix
+    public MTLFence Fence
     {
-        get => ObjectiveC.MsgSendSimdFloat4x4(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.WorldToViewMatrix);
-        set => ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBaseBindings.SetWorldToViewMatrix, value);
+        get => GetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.Fence);
+        set => SetProperty(ref field, MTLFXTemporalDenoisedScalerBaseBindings.SetFence, value);
     }
-    #endregion
 }
 
 file static class MTLFXTemporalDenoisedScalerBaseBindings
@@ -550,8 +388,6 @@ file static class MTLFXTemporalDenoisedScalerBaseBindings
 
     public static readonly Selector SetDenoiseStrengthMaskTexture = "setDenoiseStrengthMaskTexture:";
 
-    public static readonly Selector SetDepthReversed = "setDepthReversed:";
-
     public static readonly Selector SetDepthTexture = "setDepthTexture:";
 
     public static readonly Selector SetDiffuseAlbedoTexture = "setDiffuseAlbedoTexture:";
@@ -559,6 +395,8 @@ file static class MTLFXTemporalDenoisedScalerBaseBindings
     public static readonly Selector SetExposureTexture = "setExposureTexture:";
 
     public static readonly Selector SetFence = "setFence:";
+
+    public static readonly Selector SetIsDepthReversed = "setDepthReversed:";
 
     public static readonly Selector SetJitterOffsetX = "setJitterOffsetX:";
 

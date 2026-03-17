@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// An object that configures new render pipeline state objects for tile shading.
-/// </summary>
 public class MTLTileRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTileRenderPipelineDescriptor>
 {
     #region INativeObject
@@ -18,137 +15,51 @@ public class MTLTileRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnersh
     {
     }
 
-    #region Identifying the render pipeline - Properties
-
-    /// <summary>
-    /// A string that identifies the tile pipeline descriptor.
-    /// </summary>
     public NSString Label
     {
         get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.Label);
         set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetLabel, value);
     }
-    #endregion
 
-    #region Specifying graphics functions and associated data - Properties
-
-    /// <summary>
-    /// The compute kernel or fragment function the pipeline calls.
-    /// </summary>
     public MTLFunction TileFunction
     {
         get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.TileFunction);
         set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetTileFunction, value);
     }
 
-    /// <summary>
-    /// An array that contains the buffer mutability options for a render pipeline’s tile function.
-    /// </summary>
-    public MTLPipelineBufferDescriptorArray TileBuffers
+    public nuint RasterSampleCount
     {
-        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.TileBuffers);
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTileRenderPipelineDescriptorBindings.RasterSampleCount);
+        set => ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetRasterSampleCount, value);
     }
 
-    /// <summary>
-    /// The maximum call stack depth for indirect function calls in tile shaders.
-    /// </summary>
-    public nuint MaxCallStackDepth
+    public MTLTileRenderPipelineColorAttachmentDescriptorArray ColorAttachments
     {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTileRenderPipelineDescriptorBindings.MaxCallStackDepth);
-        set => ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetMaxCallStackDepth, value);
+        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.ColorAttachments);
     }
-    #endregion
 
-    #region Specifying rasterization and visibility state - Properties
-
-    /// <summary>
-    /// A Boolean value that indicates whether all threadgroups for this pipeline completely cover tiles.
-    /// </summary>
     public Bool8 ThreadgroupSizeMatchesTileSize
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLTileRenderPipelineDescriptorBindings.ThreadgroupSizeMatchesTileSize);
         set => ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetThreadgroupSizeMatchesTileSize, value);
     }
 
-    /// <summary>
-    /// The number of samples in each fragment.
-    /// </summary>
-    public nuint RasterSampleCount
+    public MTLPipelineBufferDescriptorArray TileBuffers
     {
-        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTileRenderPipelineDescriptorBindings.RasterSampleCount);
-        set => ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetRasterSampleCount, value);
+        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.TileBuffers);
     }
-    #endregion
 
-    #region Specifying rendering pipeline state - Properties
-
-    /// <summary>
-    /// An array of attachments that store color data.
-    /// </summary>
-    public MTLTileRenderPipelineColorAttachmentDescriptorArray ColorAttachments
-    {
-        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.ColorAttachments);
-    }
-    #endregion
-
-    #region Specifying threads per threadgroup - Properties
-
-    /// <summary>
-    /// The maximum number of threads in a threadgroup when dispatching a command using the pipeline.
-    /// </summary>
     public nuint MaxTotalThreadsPerThreadgroup
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTileRenderPipelineDescriptorBindings.MaxTotalThreadsPerThreadgroup);
         set => ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetMaxTotalThreadsPerThreadgroup, value);
     }
-    #endregion
 
-    #region Specifying precompiled shader binaries - Properties
-
-    /// <summary>
-    /// A Boolean value that indicates whether you can use the pipeline to create new pipelines by adding binary functions to its callable functions list.
-    /// </summary>
-    public Bool8 SupportAddingBinaryFunctions
-    {
-        get => ObjectiveC.MsgSendBool(NativePtr, MTLTileRenderPipelineDescriptorBindings.SupportAddingBinaryFunctions);
-        set => ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetSupportAddingBinaryFunctions, value);
-    }
-
-    /// <summary>
-    /// An array of binary archives to search for precompiled versions of the shader.
-    /// </summary>
     public MTLBinaryArchive[] BinaryArchives
     {
         get => GetArrayProperty<MTLBinaryArchive>(MTLTileRenderPipelineDescriptorBindings.BinaryArchives);
         set => SetArrayProperty(MTLTileRenderPipelineDescriptorBindings.SetBinaryArchives, value);
     }
-    #endregion
-
-    #region Specifying callable functions for the pipeline - Properties
-
-    /// <summary>
-    /// Functions that you can specify as function arguments for the tile shader when encoding commands that use the pipeline.
-    /// </summary>
-    public MTLLinkedFunctions LinkedFunctions
-    {
-        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.LinkedFunctions);
-        set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetLinkedFunctions, value);
-    }
-    #endregion
-
-    #region Specifying shader validation - Properties
-
-    /// <summary>
-    /// A value that enables or disables shader validation for the pipeline.
-    /// </summary>
-    public MTLShaderValidation ShaderValidation
-    {
-        get => (MTLShaderValidation)ObjectiveC.MsgSendLong(NativePtr, MTLTileRenderPipelineDescriptorBindings.ShaderValidation);
-        set => ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetShaderValidation, (nint)value);
-    }
-    #endregion
-
-    #region Instance Properties - Properties
 
     public MTLDynamicLibrary[] PreloadedLibraries
     {
@@ -156,23 +67,40 @@ public class MTLTileRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnersh
         set => SetArrayProperty(MTLTileRenderPipelineDescriptorBindings.SetPreloadedLibraries, value);
     }
 
+    public MTLLinkedFunctions LinkedFunctions
+    {
+        get => GetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.LinkedFunctions);
+        set => SetProperty(ref field, MTLTileRenderPipelineDescriptorBindings.SetLinkedFunctions, value);
+    }
+
+    public Bool8 SupportAddingBinaryFunctions
+    {
+        get => ObjectiveC.MsgSendBool(NativePtr, MTLTileRenderPipelineDescriptorBindings.SupportAddingBinaryFunctions);
+        set => ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetSupportAddingBinaryFunctions, value);
+    }
+
+    public nuint MaxCallStackDepth
+    {
+        get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTileRenderPipelineDescriptorBindings.MaxCallStackDepth);
+        set => ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetMaxCallStackDepth, value);
+    }
+
+    public MTLShaderValidation ShaderValidation
+    {
+        get => (MTLShaderValidation)ObjectiveC.MsgSendLong(NativePtr, MTLTileRenderPipelineDescriptorBindings.ShaderValidation);
+        set => ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetShaderValidation, (nint)value);
+    }
+
     public MTLSize RequiredThreadsPerThreadgroup
     {
         get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLTileRenderPipelineDescriptorBindings.RequiredThreadsPerThreadgroup);
         set => ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.SetRequiredThreadsPerThreadgroup, value);
     }
-    #endregion
 
-    #region Specifying rendering pipeline state - Methods
-
-    /// <summary>
-    /// Specifies the default rendering pipeline state values for the descriptor.
-    /// </summary>
     public void Reset()
     {
         ObjectiveC.MsgSend(NativePtr, MTLTileRenderPipelineDescriptorBindings.Reset);
     }
-    #endregion
 }
 
 file static class MTLTileRenderPipelineDescriptorBindings

@@ -15,26 +15,24 @@ public class MTLTextureViewDescriptor(nint nativePtr, NativeObjectOwnership owne
     {
     }
 
-    #region Instance Properties - Properties
-
-    /// <summary>
-    /// A desired range of mip levels of a texture view.
-    /// </summary>
-    public NSRange LevelRange
-    {
-        get => ObjectiveC.MsgSendNSRange(NativePtr, MTLTextureViewDescriptorBindings.LevelRange);
-        set => ObjectiveC.MsgSend(NativePtr, MTLTextureViewDescriptorBindings.SetLevelRange, value);
-    }
-
     public MTLPixelFormat PixelFormat
     {
         get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLTextureViewDescriptorBindings.PixelFormat);
         set => ObjectiveC.MsgSend(NativePtr, MTLTextureViewDescriptorBindings.SetPixelFormat, (nuint)value);
     }
 
-    /// <summary>
-    /// A desired range of slices of a texture view.
-    /// </summary>
+    public MTLTextureType TextureType
+    {
+        get => (MTLTextureType)ObjectiveC.MsgSendULong(NativePtr, MTLTextureViewDescriptorBindings.TextureType);
+        set => ObjectiveC.MsgSend(NativePtr, MTLTextureViewDescriptorBindings.SetTextureType, (nuint)value);
+    }
+
+    public NSRange LevelRange
+    {
+        get => ObjectiveC.MsgSendNSRange(NativePtr, MTLTextureViewDescriptorBindings.LevelRange);
+        set => ObjectiveC.MsgSend(NativePtr, MTLTextureViewDescriptorBindings.SetLevelRange, value);
+    }
+
     public NSRange SliceRange
     {
         get => ObjectiveC.MsgSendNSRange(NativePtr, MTLTextureViewDescriptorBindings.SliceRange);
@@ -46,13 +44,6 @@ public class MTLTextureViewDescriptor(nint nativePtr, NativeObjectOwnership owne
         get => ObjectiveC.MsgSendMTLTextureSwizzleChannels(NativePtr, MTLTextureViewDescriptorBindings.Swizzle);
         set => ObjectiveC.MsgSend(NativePtr, MTLTextureViewDescriptorBindings.SetSwizzle, value);
     }
-
-    public MTLTextureType TextureType
-    {
-        get => (MTLTextureType)ObjectiveC.MsgSendULong(NativePtr, MTLTextureViewDescriptorBindings.TextureType);
-        set => ObjectiveC.MsgSend(NativePtr, MTLTextureViewDescriptorBindings.SetTextureType, (nuint)value);
-    }
-    #endregion
 }
 
 file static class MTLTextureViewDescriptorBindings

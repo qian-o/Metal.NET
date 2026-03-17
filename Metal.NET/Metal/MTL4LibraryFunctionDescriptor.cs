@@ -1,8 +1,5 @@
 ﻿namespace Metal.NET;
 
-/// <summary>
-/// Describes a shader function from a Metal library.
-/// </summary>
 public class MTL4LibraryFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4FunctionDescriptor(nativePtr, ownership), INativeObject<MTL4LibraryFunctionDescriptor>
 {
     #region INativeObject
@@ -18,26 +15,17 @@ public class MTL4LibraryFunctionDescriptor(nint nativePtr, NativeObjectOwnership
     {
     }
 
-    #region Instance Properties - Properties
-
-    /// <summary>
-    /// Returns a reference to the library containing the function.
-    /// </summary>
-    public MTLLibrary Library
-    {
-        get => GetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.Library);
-        set => SetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.SetLibrary, value);
-    }
-
-    /// <summary>
-    /// Assigns a name to the function.
-    /// </summary>
     public NSString Name
     {
         get => GetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.Name);
         set => SetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.SetName, value);
     }
-    #endregion
+
+    public MTLLibrary Library
+    {
+        get => GetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.Library);
+        set => SetProperty(ref field, MTL4LibraryFunctionDescriptorBindings.SetLibrary, value);
+    }
 }
 
 file static class MTL4LibraryFunctionDescriptorBindings
