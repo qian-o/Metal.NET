@@ -601,7 +601,7 @@ jobs:
                          for p in t.get('properties', []) if p.get('deprecated'))
           print(f"Deprecated: {dep_methods} methods, {dep_props} properties")
 
-          with open(out_path, "w") as f:
+          with open(out_path, "w", encoding="utf-8-sig") as f:
               json.dump(api, f, indent=2, ensure_ascii=False)
           print(f"Written: {out_path} ({os.path.getsize(out_path) / 1024:.0f} KB)")
           os.remove(raw_path)
