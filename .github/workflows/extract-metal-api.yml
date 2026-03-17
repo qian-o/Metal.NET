@@ -268,6 +268,42 @@ jobs:
           with open(raw_path) as f:
               ast = json.load(f)
 
+          def extract_fields(record_node):
+              """Extract FieldDecl children from a RecordDecl node."""
+              fields = []
+              for c in record_node.get("inner", []):
+                  if c.get("kind") == "FieldDecl":
+                      fields.append({
+                          "name": c.get("name", ""),
+                          "type": clean_type((c.get("type") or {}).get("qualType", "")),
+                      })
+              return fields
+
+          def find_struct_fields(node):
+              """Recursively search a node tree for a RecordDecl with FieldDecl children."""
+              if node.get("kind") == "RecordDecl":
+                  fields = extract_fields(node)
+                  if fields:
+                      return fields
+              for c in node.get("inner", []):
+                  result = find_struct_fields(c)
+                  if result:
+                      return result
+              return None
+
+          # First pass: collect ALL top-level struct RecordDecl definitions by name
+          # (including non-wanted names like _MTLPackedFloat3, to be matched via typedef)
+          top_struct_defs = {}
+          for node in ast.get("inner", []):
+              if node.get("kind") == "RecordDecl" and node.get("tagUsed") == "struct":
+                  rec_name = node.get("name", "")
+                  if rec_name:
+                      fields = extract_fields(node)
+                      if fields:
+                          top_struct_defs[rec_name] = fields
+
+          print(f"Pre-scan: {len(top_struct_defs)} named struct definitions at top level")
+
           api = {
               "sdkVersion": sdk_version,
               "enums": [],
@@ -281,6 +317,18 @@ jobs:
           for node in ast.get("inner", []):
               kind = node.get("kind", "")
               name = node.get("name", "")
+
+              # ObjCCategoryDecl uses interface name, not node name
+              if kind == "ObjCCategoryDecl":
+                  cat_name = node.get("interface", {}).get("name", "")
+                  if is_wanted(cat_name):
+                      t = extract_type(node)
+                      t["name"] = cat_name
+                      t["kind"] = "category"
+                      if t["methods"] or t["properties"]:
+                          api["classes"].append(t)
+                  continue
+
               if not is_wanted(name):
                   continue
 
@@ -296,30 +344,23 @@ jobs:
                   t = extract_type(node)
                   if t:
                       api["classes"].append(t)
-              elif kind == "ObjCCategoryDecl":
-                  cat_name = node.get("interface", {}).get("name", "")
-                  if is_wanted(cat_name):
-                      t = extract_type(node)
-                      t["name"] = cat_name
-                      t["kind"] = "category"
-                      if t["methods"] or t["properties"]:
-                          api["classes"].append(t)
               elif kind == "TypedefDecl":
+                  ut = (node.get("type") or {}).get("qualType", "")
                   api["typedefs"].append({
                       "name": name,
-                      "underlyingType": (node.get("type") or {}).get("qualType", ""),
+                      "underlyingType": ut,
                   })
-                  for c in node.get("inner", []):
-                      if c.get("kind") == "RecordDecl" and c.get("tagUsed") == "struct":
-                          fields = []
-                          for f in c.get("inner", []):
-                              if f.get("kind") == "FieldDecl":
-                                  fields.append({
-                                      "name": f.get("name", ""),
-                                      "type": clean_type((f.get("type") or {}).get("qualType", "")),
-                                  })
-                          if fields:
-                              api["structs"].append({"name": name, "fields": fields})
+                  # Extract struct if this typedef references a struct type
+                  if ut.startswith("struct "):
+                      # Method 1: recursively search inside TypedefDecl for embedded RecordDecl
+                      fields = find_struct_fields(node)
+                      if not fields:
+                          # Method 2: match struct name from underlyingType to top-level defs
+                          m = re.match(r'^struct\s+(\w+)$', ut)
+                          if m:
+                              fields = top_struct_defs.get(m.group(1))
+                      if fields:
+                          api["structs"].append({"name": name, "fields": fields})
               elif kind == "FunctionDecl":
                   ft = (node.get("type") or {}).get("qualType", "")
                   params = []
@@ -337,13 +378,7 @@ jobs:
                       "availability": get_availability(node),
                   })
               elif kind == "RecordDecl" and node.get("tagUsed") == "struct":
-                  fields = []
-                  for c in node.get("inner", []):
-                      if c.get("kind") == "FieldDecl":
-                          fields.append({
-                              "name": c.get("name", ""),
-                              "type": clean_type((c.get("type") or {}).get("qualType", "")),
-                          })
+                  fields = extract_fields(node)
                   if fields:
                       api["structs"].append({"name": name, "fields": fields})
 
