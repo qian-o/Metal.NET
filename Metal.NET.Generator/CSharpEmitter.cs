@@ -319,6 +319,13 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                     sb.AppendLine();
                 }
 
+                if (member.Deprecated)
+                {
+                    sb.AppendLine(member.DeprecationMessage is { } mdm
+                        ? $"    [Obsolete(\"{mdm}\")]"
+                        : "    [Obsolete]");
+                }
+
                 sb.AppendLine($"    {member.Name} = {member.Value}{comma}");
             }
 

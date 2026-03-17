@@ -3,8 +3,8 @@
 /// <summary>Parsed enum definition with its namespace, backing type, members, and deprecation info.</summary>
 record EnumDef(string Namespace, string Name, string BackingType, bool IsFlags, List<EnumMember> Members, bool Deprecated = false, string? DeprecationMessage = null);
 
-/// <summary>A single enum member with its resolved C# name and numeric value.</summary>
-record EnumMember(string Name, string Value);
+/// <summary>A single enum member with its resolved C# name, numeric value, and deprecation info.</summary>
+record EnumMember(string Name, string Value, bool Deprecated = false, string? DeprecationMessage = null);
 
 /// <summary>A free C function declared with <c>extern "C"</c> in the Metal framework headers.</summary>
 record FreeFunctionDef(string CEntryPoint, string ReturnType, string Name, List<ParamDef> Parameters, string LibraryPath, string Namespace, string TargetClassName);

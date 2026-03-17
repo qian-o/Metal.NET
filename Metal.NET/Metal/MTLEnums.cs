@@ -7,6 +7,7 @@ public enum MTLResourceUsage : ulong
 
     Write = 2,
 
+    [Obsolete("Use MTLResourceUsageRead instead")]
     Sample = 4
 }
 
@@ -105,8 +106,10 @@ public enum MTLResourceOptions : ulong
 
     HazardTrackingModeTracked = 512,
 
+    [Obsolete("Use MTLResourceCPUCacheModeDefaultCache instead")]
     OptionCPUCacheModeDefault = 0,
 
+    [Obsolete("Use MTLResourceCPUCacheModeWriteCombined instead")]
     OptionCPUCacheModeWriteCombined = 1
 }
 
@@ -277,20 +280,28 @@ public enum MTLPixelFormat : ulong
 
     BC7_RGBAUnorm_sRGB = 153,
 
+    [Obsolete("Usage of ASTC/ETC2/BC formats is recommended instead.")]
     PVRTC_RGB_2BPP = 160,
 
+    [Obsolete("Usage of ASTC/ETC2/BC formats is recommended instead.")]
     PVRTC_RGB_2BPP_sRGB = 161,
 
+    [Obsolete("Usage of ASTC/ETC2/BC formats is recommended instead.")]
     PVRTC_RGB_4BPP = 162,
 
+    [Obsolete("Usage of ASTC/ETC2/BC formats is recommended instead.")]
     PVRTC_RGB_4BPP_sRGB = 163,
 
+    [Obsolete("Usage of ASTC/ETC2/BC formats is recommended instead.")]
     PVRTC_RGBA_2BPP = 164,
 
+    [Obsolete("Usage of ASTC/ETC2/BC formats is recommended instead.")]
     PVRTC_RGBA_2BPP_sRGB = 165,
 
+    [Obsolete("Usage of ASTC/ETC2/BC formats is recommended instead.")]
     PVRTC_RGBA_4BPP = 166,
 
+    [Obsolete("Usage of ASTC/ETC2/BC formats is recommended instead.")]
     PVRTC_RGBA_4BPP_sRGB = 167,
 
     EAC_R11Unorm = 170,
@@ -783,10 +794,13 @@ public enum MTLBindingAccess : ulong
 
     WriteOnly = 2,
 
+    [Obsolete("Use MTLBindingAccessReadOnly instead")]
     ArgumentAccessReadOnly = 0,
 
+    [Obsolete("Use MTLBindingAccessReadWrite instead")]
     ArgumentAccessReadWrite = 1,
 
+    [Obsolete("Use MTLBindingAccessWriteOnly instead")]
     ArgumentAccessWriteOnly = 2
 }
 
@@ -799,6 +813,7 @@ public enum MTLFunctionOptions : ulong
 
     StoreFunctionInMetalPipelinesScript = 2,
 
+    [Obsolete("Use MTLFunctionOptionStoreFunctionInMetalPipelinesScript instead")]
     StoreFunctionInMetalScript = 2,
 
     FailOnBinaryArchiveMiss = 4,
@@ -834,6 +849,7 @@ public enum MTLFunctionType : ulong
 
 public enum MTLLanguageVersion : ulong
 {
+    [Obsolete("Use a newer language standard")]
     MTL1_0 = 65536,
 
     MTL1_1 = 65537,
@@ -1049,6 +1065,7 @@ public enum MTLGPUFamily : long
 
     Apple10 = 1010,
 
+    [Obsolete("Use MTLGPUFamilyMac2 instead")]
     Mac1 = 2001,
 
     Mac2 = 2002,
@@ -1059,8 +1076,10 @@ public enum MTLGPUFamily : long
 
     Common3 = 3003,
 
+    [Obsolete("Use MTLGPUFamilyMac2 instead")]
     MacCatalyst1 = 4001,
 
+    [Obsolete("Use MTLGPUFamilyMac2 instead")]
     MacCatalyst2 = 4002,
 
     Metal3 = 5001,
@@ -1084,6 +1103,7 @@ public enum MTLPipelineOption : ulong
 {
     None = 0,
 
+    [Obsolete("Use MTLPipelineOptionBindingInfo instead")]
     ArgumentInfo = 1,
 
     BindingInfo = 1,
@@ -1228,6 +1248,7 @@ public enum MTLCommandBufferError : ulong
 
     PageFault = 3,
 
+    [Obsolete("Use MTLCommandBufferErrorAccessRevoked instead")]
     Blacklisted = 4,
 
     AccessRevoked = 4,

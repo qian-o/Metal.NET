@@ -236,7 +236,7 @@ partial class AstJsonParser
                     memberName = m.Name;
                 }
 
-                members.Add(new EnumMember(memberName, m.Value));
+                members.Add(new EnumMember(memberName, m.Value, m.Deprecated, m.DeprecationMessage));
             }
 
             // Strip common PascalCase prefix shared by all enum members
@@ -268,7 +268,7 @@ partial class AstJsonParser
                             break;
                         }
 
-                        stripped.Add(new EnumMember(newName, em.Value));
+                        stripped.Add(new EnumMember(newName, em.Value, em.Deprecated, em.DeprecationMessage));
                     }
 
                     if (valid)
@@ -1196,6 +1196,12 @@ class AstEnumMember
 
     [JsonPropertyName("value")]
     public string Value { get; set; } = "";
+
+    [JsonPropertyName("deprecated")]
+    public bool Deprecated { get; set; }
+
+    [JsonPropertyName("deprecationMessage")]
+    public string? DeprecationMessage { get; set; }
 }
 
 class AstClass
