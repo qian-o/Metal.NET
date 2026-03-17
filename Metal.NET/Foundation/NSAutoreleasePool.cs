@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>An object that supports Cocoa’s reference-counted memory management system.</summary>
+/// <summary>
+/// An object that supports Cocoa’s reference-counted memory management system.
+/// </summary>
 public class NSAutoreleasePool(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<NSAutoreleasePool>
 {
     #region INativeObject

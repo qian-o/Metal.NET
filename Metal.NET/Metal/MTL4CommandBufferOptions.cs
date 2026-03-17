@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>Options to configure a command buffer before encoding work into it.</summary>
+/// <summary>
+/// Options to configure a command buffer before encoding work into it.
+/// </summary>
 public class MTL4CommandBufferOptions(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CommandBufferOptions>
 {
     #region INativeObject
@@ -18,7 +20,9 @@ public class MTL4CommandBufferOptions(nint nativePtr, NativeObjectOwnership owne
 
     #region Instance Properties - Properties
 
-    /// <summary>Contains information related to shader logging.</summary>
+    /// <summary>
+    /// Contains information related to shader logging.
+    /// </summary>
     public MTLLogState LogState
     {
         get => GetProperty(ref field, MTL4CommandBufferOptionsBindings.LogState);

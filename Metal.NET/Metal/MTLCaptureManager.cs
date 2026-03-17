@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>An instance you use to capture Metal command data in your app.</summary>
+/// <summary>
+/// An instance you use to capture Metal command data in your app.
+/// </summary>
 public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCaptureManager>
 {
     #region INativeObject
@@ -18,7 +20,9 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
 
     #region Creating a capture scope - Properties
 
-    /// <summary>The capture scope to use when a capture is initiated in Xcode.</summary>
+    /// <summary>
+    /// The capture scope to use when a capture is initiated in Xcode.
+    /// </summary>
     public MTLCaptureScope DefaultCaptureScope
     {
         get => GetProperty(ref field, MTLCaptureManagerBindings.DefaultCaptureScope);
@@ -28,7 +32,9 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
 
     #region Monitoring capture - Properties
 
-    /// <summary>A Boolean value that indicates whether Metal commands are being captured.</summary>
+    /// <summary>
+    /// A Boolean value that indicates whether Metal commands are being captured.
+    /// </summary>
     public Bool8 IsCapturing
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLCaptureManagerBindings.IsCapturing);
@@ -37,7 +43,9 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
 
     #region Obtaining the shared capture manager - Methods
 
-    /// <summary>Provides the shared capture manager for your Metal app.</summary>
+    /// <summary>
+    /// Provides the shared capture manager for your Metal app.
+    /// </summary>
     public static MTLCaptureManager SharedCaptureManager()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLCaptureManagerBindings.Class, MTLCaptureManagerBindings.SharedCaptureManager);
@@ -48,7 +56,9 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
 
     #region Querying support for a capture destination - Methods
 
-    /// <summary>Checks to see whether a particular capture destination is supported.</summary>
+    /// <summary>
+    /// Checks to see whether a particular capture destination is supported.
+    /// </summary>
     public bool SupportsDestination(MTLCaptureDestination destination)
     {
         return ObjectiveC.MsgSendBool(NativePtr, MTLCaptureManagerBindings.SupportsDestination, (nint)destination);
@@ -57,7 +67,9 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
 
     #region Creating a capture scope - Methods
 
-    /// <summary>Creates a capture scope for commands submitted to a specific device object.</summary>
+    /// <summary>
+    /// Creates a capture scope for commands submitted to a specific device object.
+    /// </summary>
     public MTLCaptureScope NewCaptureScope(MTLDevice device)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCaptureManagerBindings.NewCaptureScope, device.NativePtr);
@@ -65,7 +77,9 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    /// <summary>Creates a capture scope for commands submitted to a specific device object.</summary>
+    /// <summary>
+    /// Creates a capture scope for commands submitted to a specific device object.
+    /// </summary>
     public MTLCaptureScope NewCaptureScope(MTLCommandQueue commandQueue)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCaptureManagerBindings.NewCaptureScopeWithCommandQueue, commandQueue.NativePtr);
@@ -73,7 +87,9 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    /// <summary>Creates a capture scope for commands submitted to a specific device object.</summary>
+    /// <summary>
+    /// Creates a capture scope for commands submitted to a specific device object.
+    /// </summary>
     public MTLCaptureScope NewCaptureScope(MTL4CommandQueue commandQueue)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCaptureManagerBindings.NewCaptureScopeWithMTL4CommandQueue, commandQueue.NativePtr);
@@ -84,7 +100,9 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
 
     #region Starting capture - Methods
 
-    /// <summary>Starts capturing any of your app’s Metal commands, with the capture session defined by a descriptor object.</summary>
+    /// <summary>
+    /// Starts capturing any of your app’s Metal commands, with the capture session defined by a descriptor object.
+    /// </summary>
     public bool StartCapture(MTLCaptureDescriptor descriptor, out NSError error)
     {
         bool result = ObjectiveC.MsgSendBool(NativePtr, MTLCaptureManagerBindings.StartCapture, descriptor.NativePtr, out nint errorPtr);
@@ -94,19 +112,25 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
         return result;
     }
 
-    /// <summary>Starts capturing any of your app’s Metal commands, with the capture session defined by a descriptor object.</summary>
+    /// <summary>
+    /// Starts capturing any of your app’s Metal commands, with the capture session defined by a descriptor object.
+    /// </summary>
     public void StartCapture(MTLDevice device)
     {
         ObjectiveC.MsgSend(NativePtr, MTLCaptureManagerBindings.StartCaptureWithDevice, device.NativePtr);
     }
 
-    /// <summary>Starts capturing any of your app’s Metal commands, with the capture session defined by a descriptor object.</summary>
+    /// <summary>
+    /// Starts capturing any of your app’s Metal commands, with the capture session defined by a descriptor object.
+    /// </summary>
     public void StartCapture(MTLCommandQueue commandQueue)
     {
         ObjectiveC.MsgSend(NativePtr, MTLCaptureManagerBindings.StartCaptureWithCommandQueue, commandQueue.NativePtr);
     }
 
-    /// <summary>Starts capturing any of your app’s Metal commands, with the capture session defined by a descriptor object.</summary>
+    /// <summary>
+    /// Starts capturing any of your app’s Metal commands, with the capture session defined by a descriptor object.
+    /// </summary>
     public void StartCapture(MTLCaptureScope captureScope)
     {
         ObjectiveC.MsgSend(NativePtr, MTLCaptureManagerBindings.StartCaptureWithScope, captureScope.NativePtr);
@@ -115,7 +139,9 @@ public class MTLCaptureManager(nint nativePtr, NativeObjectOwnership ownership) 
 
     #region Stopping capture - Methods
 
-    /// <summary>Stops capturing Metal commands.</summary>
+    /// <summary>
+    /// Stops capturing Metal commands.
+    /// </summary>
     public void StopCapture()
     {
         ObjectiveC.MsgSend(NativePtr, MTLCaptureManagerBindings.StopCapture);

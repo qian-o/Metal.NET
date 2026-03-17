@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>An object that defines the front-facing or back-facing stencil operations of a depth and stencil state object.</summary>
+/// <summary>
+/// An object that defines the front-facing or back-facing stencil operations of a depth and stencil state object.
+/// </summary>
 public class MTLStencilDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLStencilDescriptor>
 {
     #region INativeObject
@@ -18,28 +20,36 @@ public class MTLStencilDescriptor(nint nativePtr, NativeObjectOwnership ownershi
 
     #region Configuring stencil functions and operations - Properties
 
-    /// <summary>The operation that is performed to update the values in the stencil attachment when the stencil test fails.</summary>
+    /// <summary>
+    /// The operation that is performed to update the values in the stencil attachment when the stencil test fails.
+    /// </summary>
     public MTLStencilOperation StencilFailureOperation
     {
         get => (MTLStencilOperation)ObjectiveC.MsgSendULong(NativePtr, MTLStencilDescriptorBindings.StencilFailureOperation);
         set => ObjectiveC.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetStencilFailureOperation, (nuint)value);
     }
 
-    /// <summary>The operation that is performed to update the values in the stencil attachment when the stencil test passes, but the depth test fails.</summary>
+    /// <summary>
+    /// The operation that is performed to update the values in the stencil attachment when the stencil test passes, but the depth test fails.
+    /// </summary>
     public MTLStencilOperation DepthFailureOperation
     {
         get => (MTLStencilOperation)ObjectiveC.MsgSendULong(NativePtr, MTLStencilDescriptorBindings.DepthFailureOperation);
         set => ObjectiveC.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetDepthFailureOperation, (nuint)value);
     }
 
-    /// <summary>The operation that is performed to update the values in the stencil attachment when both the stencil test and the depth test pass.</summary>
+    /// <summary>
+    /// The operation that is performed to update the values in the stencil attachment when both the stencil test and the depth test pass.
+    /// </summary>
     public MTLStencilOperation DepthStencilPassOperation
     {
         get => (MTLStencilOperation)ObjectiveC.MsgSendULong(NativePtr, MTLStencilDescriptorBindings.DepthStencilPassOperation);
         set => ObjectiveC.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetDepthStencilPassOperation, (nuint)value);
     }
 
-    /// <summary>The comparison that is performed between the masked reference value and a masked value in the stencil attachment.</summary>
+    /// <summary>
+    /// The comparison that is performed between the masked reference value and a masked value in the stencil attachment.
+    /// </summary>
     public MTLCompareFunction StencilCompareFunction
     {
         get => (MTLCompareFunction)ObjectiveC.MsgSendULong(NativePtr, MTLStencilDescriptorBindings.StencilCompareFunction);
@@ -49,14 +59,18 @@ public class MTLStencilDescriptor(nint nativePtr, NativeObjectOwnership ownershi
 
     #region Configuring stencil bit mask properties - Properties
 
-    /// <summary>A bitmask that determines from which bits that stencil comparison tests can read.</summary>
+    /// <summary>
+    /// A bitmask that determines from which bits that stencil comparison tests can read.
+    /// </summary>
     public uint ReadMask
     {
         get => ObjectiveC.MsgSendUInt(NativePtr, MTLStencilDescriptorBindings.ReadMask);
         set => ObjectiveC.MsgSend(NativePtr, MTLStencilDescriptorBindings.SetReadMask, value);
     }
 
-    /// <summary>A bitmask that determines to which bits that stencil operations can write.</summary>
+    /// <summary>
+    /// A bitmask that determines to which bits that stencil operations can write.
+    /// </summary>
     public uint WriteMask
     {
         get => ObjectiveC.MsgSendUInt(NativePtr, MTLStencilDescriptorBindings.WriteMask);

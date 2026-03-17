@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>A description of a structure.</summary>
+/// <summary>
+/// A description of a structure.
+/// </summary>
 public class MTLStructType(nint nativePtr, NativeObjectOwnership ownership) : MTLType(nativePtr, ownership), INativeObject<MTLStructType>
 {
     #region INativeObject
@@ -18,7 +20,9 @@ public class MTLStructType(nint nativePtr, NativeObjectOwnership ownership) : MT
 
     #region Obtaining information about struct members - Properties
 
-    /// <summary>An array of instances that describe the fields in the struct.</summary>
+    /// <summary>
+    /// An array of instances that describe the fields in the struct.
+    /// </summary>
     public MTLStructMember[] Members
     {
         get => GetArrayProperty<MTLStructMember>(MTLStructTypeBindings.Members);
@@ -27,7 +31,9 @@ public class MTLStructType(nint nativePtr, NativeObjectOwnership ownership) : MT
 
     #region Obtaining information about struct members - Methods
 
-    /// <summary>Provides a representation of a struct member.</summary>
+    /// <summary>
+    /// Provides a representation of a struct member.
+    /// </summary>
     public MTLStructMember MemberByName(NSString name)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLStructTypeBindings.MemberByName, name.NativePtr);

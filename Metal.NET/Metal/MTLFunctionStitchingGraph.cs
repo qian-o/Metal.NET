@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>A description of a new stitched function.</summary>
+/// <summary>
+/// A description of a new stitched function.
+/// </summary>
 public class MTLFunctionStitchingGraph(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionStitchingGraph>
 {
     #region INativeObject
@@ -18,28 +20,36 @@ public class MTLFunctionStitchingGraph(nint nativePtr, NativeObjectOwnership own
 
     #region Configuring a function graph - Properties
 
-    /// <summary>The name of the new stitched function.</summary>
+    /// <summary>
+    /// The name of the new stitched function.
+    /// </summary>
     public NSString FunctionName
     {
         get => GetProperty(ref field, MTLFunctionStitchingGraphBindings.FunctionName);
         set => SetProperty(ref field, MTLFunctionStitchingGraphBindings.SetFunctionName, value);
     }
 
-    /// <summary>The nodes in the function’s call graph.</summary>
+    /// <summary>
+    /// The nodes in the function’s call graph.
+    /// </summary>
     public MTLFunctionStitchingFunctionNode[] Nodes
     {
         get => GetArrayProperty<MTLFunctionStitchingFunctionNode>(MTLFunctionStitchingGraphBindings.Nodes);
         set => SetArrayProperty(MTLFunctionStitchingGraphBindings.SetNodes, value);
     }
 
-    /// <summary>The node with the output that’s the output of the new stitched function.</summary>
+    /// <summary>
+    /// The node with the output that’s the output of the new stitched function.
+    /// </summary>
     public MTLFunctionStitchingFunctionNode OutputNode
     {
         get => GetProperty(ref field, MTLFunctionStitchingGraphBindings.OutputNode);
         set => SetProperty(ref field, MTLFunctionStitchingGraphBindings.SetOutputNode, value);
     }
 
-    /// <summary>A list of attributes to configure how the Metal device object generates the new stitched function.</summary>
+    /// <summary>
+    /// A list of attributes to configure how the Metal device object generates the new stitched function.
+    /// </summary>
     public MTLFunctionStitchingAttribute[] Attributes
     {
         get => GetArrayProperty<MTLFunctionStitchingAttribute>(MTLFunctionStitchingGraphBindings.Attributes);

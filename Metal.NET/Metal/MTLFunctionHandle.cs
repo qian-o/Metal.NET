@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>An object representing a function that you can add to a visible function table.</summary>
+/// <summary>
+/// An object representing a function that you can add to a visible function table.
+/// </summary>
 public class MTLFunctionHandle(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFunctionHandle>
 {
     #region INativeObject
@@ -14,19 +16,25 @@ public class MTLFunctionHandle(nint nativePtr, NativeObjectOwnership ownership) 
 
     #region Querying handle properties - Properties
 
-    /// <summary>The device object that created the shader function.</summary>
+    /// <summary>
+    /// The device object that created the shader function.
+    /// </summary>
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTLFunctionHandleBindings.Device);
     }
 
-    /// <summary>The shader function’s type.</summary>
+    /// <summary>
+    /// The shader function’s type.
+    /// </summary>
     public MTLFunctionType FunctionType
     {
         get => (MTLFunctionType)ObjectiveC.MsgSendULong(NativePtr, MTLFunctionHandleBindings.FunctionType);
     }
 
-    /// <summary>The function’s name.</summary>
+    /// <summary>
+    /// The function’s name.
+    /// </summary>
     public NSString Name
     {
         get => GetProperty(ref field, MTLFunctionHandleBindings.Name);

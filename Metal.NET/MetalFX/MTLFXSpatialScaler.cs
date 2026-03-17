@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>An upscaling effect that generates a higher resolution texture in a render pass by spatially analyzing an input texture.</summary>
+/// <summary>
+/// An upscaling effect that generates a higher resolution texture in a render pass by spatially analyzing an input texture.
+/// </summary>
 public class MTLFXSpatialScaler(nint nativePtr, NativeObjectOwnership ownership) : MTLFXSpatialScalerBase(nativePtr, ownership), INativeObject<MTLFXSpatialScaler>
 {
     #region INativeObject
@@ -14,7 +16,9 @@ public class MTLFXSpatialScaler(nint nativePtr, NativeObjectOwnership ownership)
 
     #region Encoding a spatial scaler - Methods
 
-    /// <summary>Adds the spatial scaler to a render pass’s command buffer.</summary>
+    /// <summary>
+    /// Adds the spatial scaler to a render pass’s command buffer.
+    /// </summary>
     public void EncodeToCommandBuffer(MTLCommandBuffer pCommandBuffer)
     {
         ObjectiveC.MsgSend(NativePtr, MTLFXSpatialScalerBindings.EncodeToCommandBuffer, pCommandBuffer.NativePtr);

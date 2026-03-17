@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>The minimum rasterization rates to apply to sections of a layer in the render target.</summary>
+/// <summary>
+/// The minimum rasterization rates to apply to sections of a layer in the render target.
+/// </summary>
 public class MTLRasterizationRateLayerDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRasterizationRateLayerDescriptor>
 {
     #region INativeObject
@@ -18,26 +20,34 @@ public class MTLRasterizationRateLayerDescriptor(nint nativePtr, NativeObjectOwn
 
     #region Inspecting the layer rate function parameters - Properties
 
-    /// <summary>The number of rows and columns in the layer map.</summary>
+    /// <summary>
+    /// The number of rows and columns in the layer map.
+    /// </summary>
     public MTLSize SampleCount
     {
         get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLRasterizationRateLayerDescriptorBindings.SampleCount);
         set => ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateLayerDescriptorBindings.SetSampleCount, value);
     }
 
-    /// <summary>The maximum number of rows and columns in the layer map.</summary>
+    /// <summary>
+    /// The maximum number of rows and columns in the layer map.
+    /// </summary>
     public MTLSize MaxSampleCount
     {
         get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLRasterizationRateLayerDescriptorBindings.MaxSampleCount);
     }
 
-    /// <summary>The horizontal rasterization rates for the layer map’s rows.</summary>
+    /// <summary>
+    /// The horizontal rasterization rates for the layer map’s rows.
+    /// </summary>
     public MTLRasterizationRateSampleArray Horizontal
     {
         get => GetProperty(ref field, MTLRasterizationRateLayerDescriptorBindings.Horizontal);
     }
 
-    /// <summary>The vertical rasterization rates for the layer map’s rows.</summary>
+    /// <summary>
+    /// The vertical rasterization rates for the layer map’s rows.
+    /// </summary>
     public MTLRasterizationRateSampleArray Vertical
     {
         get => GetProperty(ref field, MTLRasterizationRateLayerDescriptorBindings.Vertical);

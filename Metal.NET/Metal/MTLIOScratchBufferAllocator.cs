@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>A protocol your app implements to provide scratch memory to an input/output command queue.</summary>
+/// <summary>
+/// A protocol your app implements to provide scratch memory to an input/output command queue.
+/// </summary>
 public class MTLIOScratchBufferAllocator(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLIOScratchBufferAllocator>
 {
     #region INativeObject
@@ -14,7 +16,9 @@ public class MTLIOScratchBufferAllocator(nint nativePtr, NativeObjectOwnership o
 
     #region Providing scratch memory to a queue - Methods
 
-    /// <summary>Creates a scratch memory buffer for an input/output command queue.</summary>
+    /// <summary>
+    /// Creates a scratch memory buffer for an input/output command queue.
+    /// </summary>
     public MTLIOScratchBuffer NewScratchBuffer(nuint minimumSize)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIOScratchBufferAllocatorBindings.NewScratchBuffer, minimumSize);

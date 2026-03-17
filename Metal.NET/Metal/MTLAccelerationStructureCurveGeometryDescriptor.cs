@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>A descriptor you configure with curve geometry for building acceleration structures.</summary>
+/// <summary>
+/// A descriptor you configure with curve geometry for building acceleration structures.
+/// </summary>
 public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLAccelerationStructureGeometryDescriptor(nativePtr, ownership), INativeObject<MTLAccelerationStructureCurveGeometryDescriptor>
 {
     #region INativeObject
@@ -18,119 +20,153 @@ public class MTLAccelerationStructureCurveGeometryDescriptor(nint nativePtr, Nat
 
     #region Instance Properties - Properties
 
-    /// <summary>A buffer that contains curve control points.</summary>
+    /// <summary>
+    /// A buffer that contains curve control points.
+    /// </summary>
     public MTLBuffer ControlPointBuffer
     {
         get => GetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.ControlPointBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetControlPointBuffer, value);
     }
 
-    /// <summary>The offset, in bytes, to the control point data in the buffer.</summary>
+    /// <summary>
+    /// The offset, in bytes, to the control point data in the buffer.
+    /// </summary>
     public nuint ControlPointBufferOffset
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.ControlPointBufferOffset);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetControlPointBufferOffset, value);
     }
 
-    /// <summary>The number of control points in the control point buffer.</summary>
+    /// <summary>
+    /// The number of control points in the control point buffer.
+    /// </summary>
     public nuint ControlPointCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.ControlPointCount);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetControlPointCount, value);
     }
 
-    /// <summary>The format of the control points in the buffer.</summary>
+    /// <summary>
+    /// The format of the control points in the buffer.
+    /// </summary>
     public MTLAttributeFormat ControlPointFormat
     {
         get => (MTLAttributeFormat)ObjectiveC.MsgSendULong(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.ControlPointFormat);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetControlPointFormat, (nuint)value);
     }
 
-    /// <summary>The stride, in bytes, between control points in the buffer.</summary>
+    /// <summary>
+    /// The stride, in bytes, between control points in the buffer.
+    /// </summary>
     public nuint ControlPointStride
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.ControlPointStride);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetControlPointStride, value);
     }
 
-    /// <summary>The basis function for the curve geometry.</summary>
+    /// <summary>
+    /// The basis function for the curve geometry.
+    /// </summary>
     public MTLCurveBasis CurveBasis
     {
         get => (MTLCurveBasis)ObjectiveC.MsgSendLong(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.CurveBasis);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetCurveBasis, (nint)value);
     }
 
-    /// <summary>An end-cap type for the curves in the geometry.</summary>
+    /// <summary>
+    /// An end-cap type for the curves in the geometry.
+    /// </summary>
     public MTLCurveEndCaps CurveEndCaps
     {
         get => (MTLCurveEndCaps)ObjectiveC.MsgSendLong(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.CurveEndCaps);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetCurveEndCaps, (nint)value);
     }
 
-    /// <summary>A curve type for curves in the geometry.</summary>
+    /// <summary>
+    /// A curve type for curves in the geometry.
+    /// </summary>
     public MTLCurveType CurveType
     {
         get => (MTLCurveType)ObjectiveC.MsgSendLong(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.CurveType);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetCurveType, (nint)value);
     }
 
-    /// <summary>A buffer that contains references to control points in the control point buffer.</summary>
+    /// <summary>
+    /// A buffer that contains references to control points in the control point buffer.
+    /// </summary>
     public MTLBuffer IndexBuffer
     {
         get => GetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.IndexBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetIndexBuffer, value);
     }
 
-    /// <summary>The offset, in bytes, to the index data in the buffer.</summary>
+    /// <summary>
+    /// The offset, in bytes, to the index data in the buffer.
+    /// </summary>
     public nuint IndexBufferOffset
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.IndexBufferOffset);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetIndexBufferOffset, value);
     }
 
-    /// <summary>The size of each index in the index buffer.</summary>
+    /// <summary>
+    /// The size of each index in the index buffer.
+    /// </summary>
     public MTLIndexType IndexType
     {
         get => (MTLIndexType)ObjectiveC.MsgSendULong(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.IndexType);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetIndexType, (nuint)value);
     }
 
-    /// <summary>A buffer that contains the curve radius for each control point.</summary>
+    /// <summary>
+    /// A buffer that contains the curve radius for each control point.
+    /// </summary>
     public MTLBuffer RadiusBuffer
     {
         get => GetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.RadiusBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetRadiusBuffer, value);
     }
 
-    /// <summary>The offset, in bytes, to the radius data in the buffer.</summary>
+    /// <summary>
+    /// The offset, in bytes, to the radius data in the buffer.
+    /// </summary>
     public nuint RadiusBufferOffset
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.RadiusBufferOffset);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetRadiusBufferOffset, value);
     }
 
-    /// <summary>The format of each radius in the radius buffer.</summary>
+    /// <summary>
+    /// The format of each radius in the radius buffer.
+    /// </summary>
     public MTLAttributeFormat RadiusFormat
     {
         get => (MTLAttributeFormat)ObjectiveC.MsgSendULong(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.RadiusFormat);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetRadiusFormat, (nuint)value);
     }
 
-    /// <summary>The stride, in bytes, between the radius elements in the radius buffer.</summary>
+    /// <summary>
+    /// The stride, in bytes, between the radius elements in the radius buffer.
+    /// </summary>
     public nuint RadiusStride
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.RadiusStride);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetRadiusStride, value);
     }
 
-    /// <summary>The number of control points in each curve segment.</summary>
+    /// <summary>
+    /// The number of control points in each curve segment.
+    /// </summary>
     public nuint SegmentControlPointCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SegmentControlPointCount);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SetSegmentControlPointCount, value);
     }
 
-    /// <summary>The number of curve segments in each curve of the geometry.</summary>
+    /// <summary>
+    /// The number of curve segments in each curve of the geometry.
+    /// </summary>
     public nuint SegmentCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureCurveGeometryDescriptorBindings.SegmentCount);

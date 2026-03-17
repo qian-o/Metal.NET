@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>An instance that you use to configure new Metal texture instances.</summary>
+/// <summary>
+/// An instance that you use to configure new Metal texture instances.
+/// </summary>
 public class MTLTextureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLTextureDescriptor>
 {
     #region INativeObject
@@ -18,105 +20,135 @@ public class MTLTextureDescriptor(nint nativePtr, NativeObjectOwnership ownershi
 
     #region Specifying texture attributes - Properties
 
-    /// <summary>The dimension and arrangement of texture image data.</summary>
+    /// <summary>
+    /// The dimension and arrangement of texture image data.
+    /// </summary>
     public MTLTextureType TextureType
     {
         get => (MTLTextureType)ObjectiveC.MsgSendULong(NativePtr, MTLTextureDescriptorBindings.TextureType);
         set => ObjectiveC.MsgSend(NativePtr, MTLTextureDescriptorBindings.SetTextureType, (nuint)value);
     }
 
-    /// <summary>The size and bit layout of all pixels in the texture.</summary>
+    /// <summary>
+    /// The size and bit layout of all pixels in the texture.
+    /// </summary>
     public MTLPixelFormat PixelFormat
     {
         get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, MTLTextureDescriptorBindings.PixelFormat);
         set => ObjectiveC.MsgSend(NativePtr, MTLTextureDescriptorBindings.SetPixelFormat, (nuint)value);
     }
 
-    /// <summary>The width of the texture image for the base level mipmap, in pixels.</summary>
+    /// <summary>
+    /// The width of the texture image for the base level mipmap, in pixels.
+    /// </summary>
     public nuint Width
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureDescriptorBindings.Width);
         set => ObjectiveC.MsgSend(NativePtr, MTLTextureDescriptorBindings.SetWidth, value);
     }
 
-    /// <summary>The height of the texture image for the base level mipmap, in pixels.</summary>
+    /// <summary>
+    /// The height of the texture image for the base level mipmap, in pixels.
+    /// </summary>
     public nuint Height
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureDescriptorBindings.Height);
         set => ObjectiveC.MsgSend(NativePtr, MTLTextureDescriptorBindings.SetHeight, value);
     }
 
-    /// <summary>The depth of the texture image for the base level mipmap, in pixels.</summary>
+    /// <summary>
+    /// The depth of the texture image for the base level mipmap, in pixels.
+    /// </summary>
     public nuint Depth
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureDescriptorBindings.Depth);
         set => ObjectiveC.MsgSend(NativePtr, MTLTextureDescriptorBindings.SetDepth, value);
     }
 
-    /// <summary>The number of mipmap levels for this texture.</summary>
+    /// <summary>
+    /// The number of mipmap levels for this texture.
+    /// </summary>
     public nuint MipmapLevelCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureDescriptorBindings.MipmapLevelCount);
         set => ObjectiveC.MsgSend(NativePtr, MTLTextureDescriptorBindings.SetMipmapLevelCount, value);
     }
 
-    /// <summary>The number of samples in each fragment.</summary>
+    /// <summary>
+    /// The number of samples in each fragment.
+    /// </summary>
     public nuint SampleCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureDescriptorBindings.SampleCount);
         set => ObjectiveC.MsgSend(NativePtr, MTLTextureDescriptorBindings.SetSampleCount, value);
     }
 
-    /// <summary>The number of array elements for this texture.</summary>
+    /// <summary>
+    /// The number of array elements for this texture.
+    /// </summary>
     public nuint ArrayLength
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLTextureDescriptorBindings.ArrayLength);
         set => ObjectiveC.MsgSend(NativePtr, MTLTextureDescriptorBindings.SetArrayLength, value);
     }
 
-    /// <summary>The behavior of a new memory allocation.</summary>
+    /// <summary>
+    /// The behavior of a new memory allocation.
+    /// </summary>
     public MTLResourceOptions ResourceOptions
     {
         get => (MTLResourceOptions)ObjectiveC.MsgSendULong(NativePtr, MTLTextureDescriptorBindings.ResourceOptions);
         set => ObjectiveC.MsgSend(NativePtr, MTLTextureDescriptorBindings.SetResourceOptions, (nuint)value);
     }
 
-    /// <summary>The CPU cache mode used for the CPU mapping of the texture.</summary>
+    /// <summary>
+    /// The CPU cache mode used for the CPU mapping of the texture.
+    /// </summary>
     public MTLCPUCacheMode CpuCacheMode
     {
         get => (MTLCPUCacheMode)ObjectiveC.MsgSendULong(NativePtr, MTLTextureDescriptorBindings.CpuCacheMode);
         set => ObjectiveC.MsgSend(NativePtr, MTLTextureDescriptorBindings.SetCpuCacheMode, (nuint)value);
     }
 
-    /// <summary>The location and access permissions of the texture.</summary>
+    /// <summary>
+    /// The location and access permissions of the texture.
+    /// </summary>
     public MTLStorageMode StorageMode
     {
         get => (MTLStorageMode)ObjectiveC.MsgSendULong(NativePtr, MTLTextureDescriptorBindings.StorageMode);
         set => ObjectiveC.MsgSend(NativePtr, MTLTextureDescriptorBindings.SetStorageMode, (nuint)value);
     }
 
-    /// <summary>The texture’s hazard tracking mode.</summary>
+    /// <summary>
+    /// The texture’s hazard tracking mode.
+    /// </summary>
     public MTLHazardTrackingMode HazardTrackingMode
     {
         get => (MTLHazardTrackingMode)ObjectiveC.MsgSendULong(NativePtr, MTLTextureDescriptorBindings.HazardTrackingMode);
         set => ObjectiveC.MsgSend(NativePtr, MTLTextureDescriptorBindings.SetHazardTrackingMode, (nuint)value);
     }
 
-    /// <summary>A Boolean value indicating whether the GPU is allowed to adjust the texture’s contents to improve GPU performance.</summary>
+    /// <summary>
+    /// A Boolean value indicating whether the GPU is allowed to adjust the texture’s contents to improve GPU performance.
+    /// </summary>
     public Bool8 AllowGPUOptimizedContents
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLTextureDescriptorBindings.AllowGPUOptimizedContents);
         set => ObjectiveC.MsgSend(NativePtr, MTLTextureDescriptorBindings.SetAllowGPUOptimizedContents, value);
     }
 
-    /// <summary>Options that determine how you can use the texture.</summary>
+    /// <summary>
+    /// Options that determine how you can use the texture.
+    /// </summary>
     public MTLTextureUsage Usage
     {
         get => (MTLTextureUsage)ObjectiveC.MsgSendULong(NativePtr, MTLTextureDescriptorBindings.Usage);
         set => ObjectiveC.MsgSend(NativePtr, MTLTextureDescriptorBindings.SetUsage, (nuint)value);
     }
 
-    /// <summary>The pattern you want the GPU to apply to pixels when you read or sample pixels from the texture.</summary>
+    /// <summary>
+    /// The pattern you want the GPU to apply to pixels when you read or sample pixels from the texture.
+    /// </summary>
     public MTLTextureSwizzleChannels Swizzle
     {
         get => ObjectiveC.MsgSendMTLTextureSwizzleChannels(NativePtr, MTLTextureDescriptorBindings.Swizzle);
@@ -132,7 +164,9 @@ public class MTLTextureDescriptor(nint nativePtr, NativeObjectOwnership ownershi
         set => ObjectiveC.MsgSend(NativePtr, MTLTextureDescriptorBindings.SetCompressionType, (nint)value);
     }
 
-    /// <summary>Determines the page size for a placement sparse texture.</summary>
+    /// <summary>
+    /// Determines the page size for a placement sparse texture.
+    /// </summary>
     public MTLSparsePageSize PlacementSparsePageSize
     {
         get => (MTLSparsePageSize)ObjectiveC.MsgSendLong(NativePtr, MTLTextureDescriptorBindings.PlacementSparsePageSize);
@@ -142,7 +176,9 @@ public class MTLTextureDescriptor(nint nativePtr, NativeObjectOwnership ownershi
 
     #region Creating texture descriptors - Methods
 
-    /// <summary>Creates a texture descriptor object for a 2D texture.</summary>
+    /// <summary>
+    /// Creates a texture descriptor object for a 2D texture.
+    /// </summary>
     public static MTLTextureDescriptor Texture2DDescriptor(MTLPixelFormat pixelFormat, nuint width, nuint height, bool mipmapped)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.Texture2DDescriptor, (nuint)pixelFormat, width, height, mipmapped);
@@ -150,7 +186,9 @@ public class MTLTextureDescriptor(nint nativePtr, NativeObjectOwnership ownershi
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    /// <summary>Creates a texture descriptor object for a cube texture.</summary>
+    /// <summary>
+    /// Creates a texture descriptor object for a cube texture.
+    /// </summary>
     public static MTLTextureDescriptor TextureCubeDescriptor(MTLPixelFormat pixelFormat, nuint size, bool mipmapped)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.TextureCubeDescriptor, (nuint)pixelFormat, size, mipmapped);
@@ -158,7 +196,9 @@ public class MTLTextureDescriptor(nint nativePtr, NativeObjectOwnership ownershi
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    /// <summary>Creates a texture descriptor object for a texture buffer.</summary>
+    /// <summary>
+    /// Creates a texture descriptor object for a texture buffer.
+    /// </summary>
     public static MTLTextureDescriptor TextureBufferDescriptor(MTLPixelFormat pixelFormat, nuint width, MTLResourceOptions resourceOptions, MTLTextureUsage usage)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(MTLTextureDescriptorBindings.Class, MTLTextureDescriptorBindings.TextureBufferDescriptor, (nuint)pixelFormat, width, (nuint)resourceOptions, (nuint)usage);

@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>A command buffer containing reusable commands, encoded either on the CPU or GPU.</summary>
+/// <summary>
+/// A command buffer containing reusable commands, encoded either on the CPU or GPU.
+/// </summary>
 public class MTLIndirectCommandBuffer(nint nativePtr, NativeObjectOwnership ownership) : MTLResource(nativePtr, ownership), INativeObject<MTLIndirectCommandBuffer>
 {
     #region INativeObject
@@ -14,7 +16,9 @@ public class MTLIndirectCommandBuffer(nint nativePtr, NativeObjectOwnership owne
 
     #region Determining the maximum number of commands - Properties
 
-    /// <summary>The number of commands contained in the indirect command buffer.</summary>
+    /// <summary>
+    /// The number of commands contained in the indirect command buffer.
+    /// </summary>
     public nuint Size
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLIndirectCommandBufferBindings.Size);
@@ -31,7 +35,9 @@ public class MTLIndirectCommandBuffer(nint nativePtr, NativeObjectOwnership owne
 
     #region Retrieving commands - Methods
 
-    /// <summary>Gets the compute command at the given index.</summary>
+    /// <summary>
+    /// Gets the compute command at the given index.
+    /// </summary>
     public MTLIndirectComputeCommand IndirectComputeCommand(nuint commandIndex)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIndirectCommandBufferBindings.IndirectComputeCommand, commandIndex);
@@ -42,7 +48,9 @@ public class MTLIndirectCommandBuffer(nint nativePtr, NativeObjectOwnership owne
 
     #region Resetting commands - Methods
 
-    /// <summary>Resets a range of commands to their default state.</summary>
+    /// <summary>
+    /// Resets a range of commands to their default state.
+    /// </summary>
     public void Reset(NSRange range)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIndirectCommandBufferBindings.Reset, range);

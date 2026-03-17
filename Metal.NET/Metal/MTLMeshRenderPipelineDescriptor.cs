@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>An object that configures new render pipeline state objects for mesh shading.</summary>
+/// <summary>
+/// An object that configures new render pipeline state objects for mesh shading.
+/// </summary>
 public class MTLMeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLMeshRenderPipelineDescriptor>
 {
     #region INativeObject
@@ -170,7 +172,9 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnersh
         set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetRequiredThreadsPerObjectThreadgroup, value);
     }
 
-    /// <summary>A value that enables or disables shader validation for the pipeline.</summary>
+    /// <summary>
+    /// A value that enables or disables shader validation for the pipeline.
+    /// </summary>
     public MTLShaderValidation ShaderValidation
     {
         get => (MTLShaderValidation)ObjectiveC.MsgSendLong(NativePtr, MTLMeshRenderPipelineDescriptorBindings.ShaderValidation);
@@ -190,7 +194,9 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnersh
     }
     #endregion
 
-    /// <summary>Deprecated: please use isAlphaToCoverageEnabled instead</summary>
+    /// <summary>
+    /// Deprecated: please use isAlphaToCoverageEnabled instead
+    /// </summary>
     [Obsolete("please use isAlphaToCoverageEnabled instead")]
     public Bool8 AlphaToCoverageEnabled
     {
@@ -198,7 +204,9 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnersh
         set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetAlphaToCoverageEnabled, value);
     }
 
-    /// <summary>Deprecated: please use isAlphaToOneEnabled instead</summary>
+    /// <summary>
+    /// Deprecated: please use isAlphaToOneEnabled instead
+    /// </summary>
     [Obsolete("please use isAlphaToOneEnabled instead")]
     public Bool8 AlphaToOneEnabled
     {
@@ -206,7 +214,9 @@ public class MTLMeshRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnersh
         set => ObjectiveC.MsgSend(NativePtr, MTLMeshRenderPipelineDescriptorBindings.SetAlphaToOneEnabled, value);
     }
 
-    /// <summary>Deprecated: please use isRasterizationEnabled instead</summary>
+    /// <summary>
+    /// Deprecated: please use isRasterizationEnabled instead
+    /// </summary>
     [Obsolete("please use isRasterizationEnabled instead")]
     public Bool8 RasterizationEnabled
     {

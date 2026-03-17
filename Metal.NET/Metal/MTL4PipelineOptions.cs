@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>Provides options controlling how to compile a pipeline state.</summary>
+/// <summary>
+/// Provides options controlling how to compile a pipeline state.
+/// </summary>
 public class MTL4PipelineOptions(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4PipelineOptions>
 {
     #region INativeObject
@@ -18,14 +20,18 @@ public class MTL4PipelineOptions(nint nativePtr, NativeObjectOwnership ownership
 
     #region Instance Properties - Properties
 
-    /// <summary>Controls whether to include Metal shader reflection in this pipeline.</summary>
+    /// <summary>
+    /// Controls whether to include Metal shader reflection in this pipeline.
+    /// </summary>
     public MTL4ShaderReflection ShaderReflection
     {
         get => (MTL4ShaderReflection)ObjectiveC.MsgSendULong(NativePtr, MTL4PipelineOptionsBindings.ShaderReflection);
         set => ObjectiveC.MsgSend(NativePtr, MTL4PipelineOptionsBindings.SetShaderReflection, (nuint)value);
     }
 
-    /// <summary>Controls whether to enable or disable Metal Shader Validation for the pipeline.</summary>
+    /// <summary>
+    /// Controls whether to enable or disable Metal Shader Validation for the pipeline.
+    /// </summary>
     public MTLShaderValidation ShaderValidation
     {
         get => (MTLShaderValidation)ObjectiveC.MsgSendLong(NativePtr, MTL4PipelineOptionsBindings.ShaderValidation);

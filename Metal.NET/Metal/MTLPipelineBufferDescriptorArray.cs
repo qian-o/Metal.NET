@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>An array of pipeline buffer descriptors.</summary>
+/// <summary>
+/// An array of pipeline buffer descriptors.
+/// </summary>
 public class MTLPipelineBufferDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLPipelineBufferDescriptorArray>
 {
     #region INativeObject

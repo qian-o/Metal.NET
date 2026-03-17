@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>A description of a list of bounding boxes to turn into an acceleration structure.</summary>
+/// <summary>
+/// A description of a list of bounding boxes to turn into an acceleration structure.
+/// </summary>
 public class MTLAccelerationStructureBoundingBoxGeometryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLAccelerationStructureGeometryDescriptor(nativePtr, ownership), INativeObject<MTLAccelerationStructureBoundingBoxGeometryDescriptor>
 {
     #region INativeObject
@@ -18,7 +20,9 @@ public class MTLAccelerationStructureBoundingBoxGeometryDescriptor(nint nativePt
 
     #region Specifying the number of bounding boxes - Properties
 
-    /// <summary>The number of bounding boxes in the bounding box buffer.</summary>
+    /// <summary>
+    /// The number of bounding boxes in the bounding box buffer.
+    /// </summary>
     public nuint BoundingBoxCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.BoundingBoxCount);
@@ -28,21 +32,27 @@ public class MTLAccelerationStructureBoundingBoxGeometryDescriptor(nint nativePt
 
     #region Specifying bounding boxes data - Properties
 
-    /// <summary>A buffer that contains an array of bounding box structures.</summary>
+    /// <summary>
+    /// A buffer that contains an array of bounding box structures.
+    /// </summary>
     public MTLBuffer BoundingBoxBuffer
     {
         get => GetProperty(ref field, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.BoundingBoxBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBuffer, value);
     }
 
-    /// <summary>The offset, in bytes, to the first bounding box in the buffer.</summary>
+    /// <summary>
+    /// The offset, in bytes, to the first bounding box in the buffer.
+    /// </summary>
     public nuint BoundingBoxBufferOffset
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.BoundingBoxBufferOffset);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBufferOffset, value);
     }
 
-    /// <summary>The stride, in bytes, between bounding boxes in the buffer.</summary>
+    /// <summary>
+    /// The stride, in bytes, between bounding boxes in the buffer.
+    /// </summary>
     public nuint BoundingBoxStride
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureBoundingBoxGeometryDescriptorBindings.BoundingBoxStride);

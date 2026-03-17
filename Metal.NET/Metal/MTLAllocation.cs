@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>A memory allocation from a Metal GPU device, such as a memory heap, texture, or data buffer.</summary>
+/// <summary>
+/// A memory allocation from a Metal GPU device, such as a memory heap, texture, or data buffer.
+/// </summary>
 public class MTLAllocation(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLAllocation>
 {
     #region INativeObject
@@ -14,7 +16,9 @@ public class MTLAllocation(nint nativePtr, NativeObjectOwnership ownership) : NS
 
     #region Inspecting an allocation - Properties
 
-    /// <summary>The amount of memory, in byes, a resource consumes, such as for a buffer, texture, or heap.</summary>
+    /// <summary>
+    /// The amount of memory, in byes, a resource consumes, such as for a buffer, texture, or heap.
+    /// </summary>
     public nuint AllocatedSize
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAllocationBindings.AllocatedSize);

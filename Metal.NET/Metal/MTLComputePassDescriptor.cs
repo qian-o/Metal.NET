@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>A description of how to dispatch execution of pass commands and GPU performance sampling.</summary>
+/// <summary>
+/// A description of how to dispatch execution of pass commands and GPU performance sampling.
+/// </summary>
 public class MTLComputePassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLComputePassDescriptor>
 {
     #region INativeObject
@@ -18,7 +20,9 @@ public class MTLComputePassDescriptor(nint nativePtr, NativeObjectOwnership owne
 
     #region Configuring the dispatch mechanism - Properties
 
-    /// <summary>The strategy for dispatching any compute commands encoded in the compute pass.</summary>
+    /// <summary>
+    /// The strategy for dispatching any compute commands encoded in the compute pass.
+    /// </summary>
     public MTLDispatchType DispatchType
     {
         get => (MTLDispatchType)ObjectiveC.MsgSendULong(NativePtr, MTLComputePassDescriptorBindings.DispatchType);
@@ -28,7 +32,9 @@ public class MTLComputePassDescriptor(nint nativePtr, NativeObjectOwnership owne
 
     #region Specifying sample buffers for GPU counters - Properties
 
-    /// <summary>The sample buffers that the compute pass can access.</summary>
+    /// <summary>
+    /// The sample buffers that the compute pass can access.
+    /// </summary>
     public MTLComputePassSampleBufferAttachmentDescriptorArray SampleBufferAttachments
     {
         get => GetProperty(ref field, MTLComputePassDescriptorBindings.SampleBufferAttachments);

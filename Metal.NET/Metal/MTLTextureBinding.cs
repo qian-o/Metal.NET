@@ -34,7 +34,9 @@ public class MTLTextureBinding(nint nativePtr, NativeObjectOwnership ownership) 
     }
     #endregion
 
-    /// <summary>Deprecated: please use isDepthTexture instead</summary>
+    /// <summary>
+    /// Deprecated: please use isDepthTexture instead
+    /// </summary>
     [Obsolete("please use isDepthTexture instead")]
     public Bool8 DepthTexture
     {

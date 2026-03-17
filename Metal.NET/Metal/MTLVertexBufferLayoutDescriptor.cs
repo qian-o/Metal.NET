@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>An object that configures how a render pipeline fetches data to send to the vertex function.</summary>
+/// <summary>
+/// An object that configures how a render pipeline fetches data to send to the vertex function.
+/// </summary>
 public class MTLVertexBufferLayoutDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLVertexBufferLayoutDescriptor>
 {
     #region INativeObject
@@ -18,21 +20,27 @@ public class MTLVertexBufferLayoutDescriptor(nint nativePtr, NativeObjectOwnersh
 
     #region Organizing the vertex buffer layout - Properties
 
-    /// <summary>The circumstances under which the vertex and its attributes are presented to the vertex function.</summary>
+    /// <summary>
+    /// The circumstances under which the vertex and its attributes are presented to the vertex function.
+    /// </summary>
     public MTLVertexStepFunction StepFunction
     {
         get => (MTLVertexStepFunction)ObjectiveC.MsgSendULong(NativePtr, MTLVertexBufferLayoutDescriptorBindings.StepFunction);
         set => ObjectiveC.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorBindings.SetStepFunction, (nuint)value);
     }
 
-    /// <summary>The interval at which the vertex and its attributes are presented to the vertex function.</summary>
+    /// <summary>
+    /// The interval at which the vertex and its attributes are presented to the vertex function.
+    /// </summary>
     public nuint StepRate
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLVertexBufferLayoutDescriptorBindings.StepRate);
         set => ObjectiveC.MsgSend(NativePtr, MTLVertexBufferLayoutDescriptorBindings.SetStepRate, value);
     }
 
-    /// <summary>The number of bytes between the first byte of two consecutive vertices in a buffer.</summary>
+    /// <summary>
+    /// The number of bytes between the first byte of two consecutive vertices in a buffer.
+    /// </summary>
     public nuint Stride
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLVertexBufferLayoutDescriptorBindings.Stride);

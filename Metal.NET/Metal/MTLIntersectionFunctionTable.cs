@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>A table of intersection functions that Metal calls to perform ray-tracing intersection tests.</summary>
+/// <summary>
+/// A table of intersection functions that Metal calls to perform ray-tracing intersection tests.
+/// </summary>
 public class MTLIntersectionFunctionTable(nint nativePtr, NativeObjectOwnership ownership) : MTLResource(nativePtr, ownership), INativeObject<MTLIntersectionFunctionTable>
 {
     #region INativeObject
@@ -22,7 +24,9 @@ public class MTLIntersectionFunctionTable(nint nativePtr, NativeObjectOwnership 
 
     #region Setting a table entry - Methods
 
-    /// <summary>Sets an entry in the table.</summary>
+    /// <summary>
+    /// Sets an entry in the table.
+    /// </summary>
     public void SetFunction(MTLFunctionHandle function, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetFunction, function.NativePtr, index);
@@ -31,13 +35,17 @@ public class MTLIntersectionFunctionTable(nint nativePtr, NativeObjectOwnership 
 
     #region Specifying arguments for intersection functions - Methods
 
-    /// <summary>Sets a buffer for the intersection functions.</summary>
+    /// <summary>
+    /// Sets a buffer for the intersection functions.
+    /// </summary>
     public void SetBuffer(MTLBuffer buffer, nuint offset, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetBuffer, buffer.NativePtr, offset, index);
     }
 
-    /// <summary>Sets a visible function table for the intersection functions.</summary>
+    /// <summary>
+    /// Sets a visible function table for the intersection functions.
+    /// </summary>
     public void SetVisibleFunctionTable(MTLVisibleFunctionTable functionTable, nuint bufferIndex)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetVisibleFunctionTable, functionTable.NativePtr, bufferIndex);
@@ -46,13 +54,17 @@ public class MTLIntersectionFunctionTable(nint nativePtr, NativeObjectOwnership 
 
     #region Specifying opaque triangle intersection testing - Methods
 
-    /// <summary>Sets an entry in the intersection table to point to a system-defined opaque triangle intersection function.</summary>
+    /// <summary>
+    /// Sets an entry in the intersection table to point to a system-defined opaque triangle intersection function.
+    /// </summary>
     public void SetOpaqueTriangleIntersectionFunction(MTLIntersectionFunctionSignature signature, nuint index)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetOpaqueTriangleIntersectionFunction, (nuint)signature, index);
     }
 
-    /// <summary>Sets an entry in the intersection table to point to a system-defined opaque triangle intersection function.</summary>
+    /// <summary>
+    /// Sets an entry in the intersection table to point to a system-defined opaque triangle intersection function.
+    /// </summary>
     public void SetOpaqueTriangleIntersectionFunction(MTLIntersectionFunctionSignature signature, NSRange range)
     {
         ObjectiveC.MsgSend(NativePtr, MTLIntersectionFunctionTableBindings.SetOpaqueTriangleIntersectionFunctionWithSignaturewithRange, (nuint)signature, range);

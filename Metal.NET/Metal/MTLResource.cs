@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>An allocation of memory accessible to a GPU.</summary>
+/// <summary>
+/// An allocation of memory accessible to a GPU.
+/// </summary>
 public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLAllocation(nativePtr, ownership), INativeObject<MTLResource>
 {
     #region INativeObject
@@ -14,13 +16,17 @@ public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLA
 
     #region Identifying the resource - Properties
 
-    /// <summary>The device object that created the resource.</summary>
+    /// <summary>
+    /// The device object that created the resource.
+    /// </summary>
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTLResourceBindings.Device);
     }
 
-    /// <summary>A string that identifies the resource.</summary>
+    /// <summary>
+    /// A string that identifies the resource.
+    /// </summary>
     public NSString Label
     {
         get => GetProperty(ref field, MTLResourceBindings.Label);
@@ -30,25 +36,33 @@ public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLA
 
     #region Reading memory and storage properties - Properties
 
-    /// <summary>The CPU cache mode that defines the CPU mapping of the resource.</summary>
+    /// <summary>
+    /// The CPU cache mode that defines the CPU mapping of the resource.
+    /// </summary>
     public MTLCPUCacheMode CpuCacheMode
     {
         get => (MTLCPUCacheMode)ObjectiveC.MsgSendULong(NativePtr, MTLResourceBindings.CpuCacheMode);
     }
 
-    /// <summary>The location and access permissions of the resource.</summary>
+    /// <summary>
+    /// The location and access permissions of the resource.
+    /// </summary>
     public MTLStorageMode StorageMode
     {
         get => (MTLStorageMode)ObjectiveC.MsgSendULong(NativePtr, MTLResourceBindings.StorageMode);
     }
 
-    /// <summary>A mode that determines whether Metal tracks and synchronizes resource access.</summary>
+    /// <summary>
+    /// A mode that determines whether Metal tracks and synchronizes resource access.
+    /// </summary>
     public MTLHazardTrackingMode HazardTrackingMode
     {
         get => (MTLHazardTrackingMode)ObjectiveC.MsgSendULong(NativePtr, MTLResourceBindings.HazardTrackingMode);
     }
 
-    /// <summary>The storage mode, CPU cache mode, and hazard tracking mode of the resource.</summary>
+    /// <summary>
+    /// The storage mode, CPU cache mode, and hazard tracking mode of the resource.
+    /// </summary>
     public MTLResourceOptions ResourceOptions
     {
         get => (MTLResourceOptions)ObjectiveC.MsgSendULong(NativePtr, MTLResourceBindings.ResourceOptions);
@@ -57,13 +71,17 @@ public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLA
 
     #region Managing heap resources - Properties
 
-    /// <summary>The distance, in bytes, from the beginning of the heap to the first byte of the resource, if you allocated the resource on a heap.</summary>
+    /// <summary>
+    /// The distance, in bytes, from the beginning of the heap to the first byte of the resource, if you allocated the resource on a heap.
+    /// </summary>
     public nuint HeapOffset
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLResourceBindings.HeapOffset);
     }
 
-    /// <summary>The heap on which the resource is allocated, if any.</summary>
+    /// <summary>
+    /// The heap on which the resource is allocated, if any.
+    /// </summary>
     public MTLHeap Heap
     {
         get => GetProperty(ref field, MTLResourceBindings.Heap);
@@ -76,7 +94,9 @@ public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLA
 
     #region Setting the purgeable state of the resource - Methods
 
-    /// <summary>Specifies or queries the resource’s purgeable state.</summary>
+    /// <summary>
+    /// Specifies or queries the resource’s purgeable state.
+    /// </summary>
     public MTLPurgeableState SetPurgeableState(MTLPurgeableState state)
     {
         return (MTLPurgeableState)ObjectiveC.MsgSendULong(NativePtr, MTLResourceBindings.SetPurgeableState, (nuint)state);
@@ -85,13 +105,17 @@ public class MTLResource(nint nativePtr, NativeObjectOwnership ownership) : MTLA
 
     #region Managing heap resources - Methods
 
-    /// <summary>Allows future heap resource allocations to alias against the resource’s memory, reusing it.</summary>
+    /// <summary>
+    /// Allows future heap resource allocations to alias against the resource’s memory, reusing it.
+    /// </summary>
     public void MakeAliasable()
     {
         ObjectiveC.MsgSend(NativePtr, MTLResourceBindings.MakeAliasable);
     }
 
-    /// <summary>A Boolean value that indicates whether future heap resource allocations may alias against the resource’s memory.</summary>
+    /// <summary>
+    /// A Boolean value that indicates whether future heap resource allocations may alias against the resource’s memory.
+    /// </summary>
     public bool IsAliasable()
     {
         return ObjectiveC.MsgSendBool(NativePtr, MTLResourceBindings.IsAliasable);

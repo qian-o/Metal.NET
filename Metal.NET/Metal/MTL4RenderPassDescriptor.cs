@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>Describes a render pass.</summary>
+/// <summary>
+/// Describes a render pass.
+/// </summary>
 public class MTL4RenderPassDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4RenderPassDescriptor>
 {
     #region INativeObject
@@ -18,104 +20,134 @@ public class MTL4RenderPassDescriptor(nint nativePtr, NativeObjectOwnership owne
 
     #region Instance Properties - Properties
 
-    /// <summary>Accesses the array of state information for render attachments that store color data.</summary>
+    /// <summary>
+    /// Accesses the array of state information for render attachments that store color data.
+    /// </summary>
     public MTLRenderPassColorAttachmentDescriptorArray ColorAttachments
     {
         get => GetProperty(ref field, MTL4RenderPassDescriptorBindings.ColorAttachments);
     }
 
-    /// <summary>Sets the default raster sample count for the render pass when it references no attachments.</summary>
+    /// <summary>
+    /// Sets the default raster sample count for the render pass when it references no attachments.
+    /// </summary>
     public nuint DefaultRasterSampleCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorBindings.DefaultRasterSampleCount);
         set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetDefaultRasterSampleCount, value);
     }
 
-    /// <summary>Accesses state information for a render attachment that stores depth data.</summary>
+    /// <summary>
+    /// Accesses state information for a render attachment that stores depth data.
+    /// </summary>
     public MTLRenderPassDepthAttachmentDescriptor DepthAttachment
     {
         get => GetProperty(ref field, MTL4RenderPassDescriptorBindings.DepthAttachment);
         set => SetProperty(ref field, MTL4RenderPassDescriptorBindings.SetDepthAttachment, value);
     }
 
-    /// <summary>Assigns the per-sample size, in bytes, of the largest explicit imageblock layout in the render pass.</summary>
+    /// <summary>
+    /// Assigns the per-sample size, in bytes, of the largest explicit imageblock layout in the render pass.
+    /// </summary>
     public nuint ImageblockSampleLength
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorBindings.ImageblockSampleLength);
         set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetImageblockSampleLength, value);
     }
 
-    /// <summary>Assigns an optional variable rasterization rate map that Metal uses in the render pass.</summary>
+    /// <summary>
+    /// Assigns an optional variable rasterization rate map that Metal uses in the render pass.
+    /// </summary>
     public MTLRasterizationRateMap RasterizationRateMap
     {
         get => GetProperty(ref field, MTL4RenderPassDescriptorBindings.RasterizationRateMap);
         set => SetProperty(ref field, MTL4RenderPassDescriptorBindings.SetRasterizationRateMap, value);
     }
 
-    /// <summary>Assigns the number of layers that all attachments this descriptor references have.</summary>
+    /// <summary>
+    /// Assigns the number of layers that all attachments this descriptor references have.
+    /// </summary>
     public nuint RenderTargetArrayLength
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorBindings.RenderTargetArrayLength);
         set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetRenderTargetArrayLength, value);
     }
 
-    /// <summary>Sets the height, in pixels, to which Metal constrains the render target.</summary>
+    /// <summary>
+    /// Sets the height, in pixels, to which Metal constrains the render target.
+    /// </summary>
     public nuint RenderTargetHeight
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorBindings.RenderTargetHeight);
         set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetRenderTargetHeight, value);
     }
 
-    /// <summary>Sets the width, in pixels, to which Metal constrains the render target.</summary>
+    /// <summary>
+    /// Sets the width, in pixels, to which Metal constrains the render target.
+    /// </summary>
     public nuint RenderTargetWidth
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorBindings.RenderTargetWidth);
         set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetRenderTargetWidth, value);
     }
 
-    /// <summary>Accesses state information for a render attachment that stores stencil data.</summary>
+    /// <summary>
+    /// Accesses state information for a render attachment that stores stencil data.
+    /// </summary>
     public MTLRenderPassStencilAttachmentDescriptor StencilAttachment
     {
         get => GetProperty(ref field, MTL4RenderPassDescriptorBindings.StencilAttachment);
         set => SetProperty(ref field, MTL4RenderPassDescriptorBindings.SetStencilAttachment, value);
     }
 
-    /// <summary>Controls if the render pass supports color attachment mapping.</summary>
+    /// <summary>
+    /// Controls if the render pass supports color attachment mapping.
+    /// </summary>
     public Bool8 SupportColorAttachmentMapping
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTL4RenderPassDescriptorBindings.SupportColorAttachmentMapping);
         set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetSupportColorAttachmentMapping, value);
     }
 
-    /// <summary>Assigns the per-tile size, in bytes, of the persistent threadgroup memory allocation of this render pass.</summary>
+    /// <summary>
+    /// Assigns the per-tile size, in bytes, of the persistent threadgroup memory allocation of this render pass.
+    /// </summary>
     public nuint ThreadgroupMemoryLength
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorBindings.ThreadgroupMemoryLength);
         set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetThreadgroupMemoryLength, value);
     }
 
-    /// <summary>The height of the tiles, in pixels, a render pass you create with this descriptor applies to its attachments.</summary>
+    /// <summary>
+    /// The height of the tiles, in pixels, a render pass you create with this descriptor applies to its attachments.
+    /// </summary>
     public nuint TileHeight
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorBindings.TileHeight);
         set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetTileHeight, value);
     }
 
-    /// <summary>The width of the tiles, in pixels, a render pass you create with this descriptor applies to its attachments.</summary>
+    /// <summary>
+    /// The width of the tiles, in pixels, a render pass you create with this descriptor applies to its attachments.
+    /// </summary>
     public nuint TileWidth
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4RenderPassDescriptorBindings.TileWidth);
         set => ObjectiveC.MsgSend(NativePtr, MTL4RenderPassDescriptorBindings.SetTileWidth, value);
     }
 
-    /// <summary>Configures a buffer into which Metal writes counts of fragments (pixels) passing the depth and stencil tests.</summary>
+    /// <summary>
+    /// Configures a buffer into which Metal writes counts of fragments (pixels) passing the depth and stencil tests.
+    /// </summary>
     public MTLBuffer VisibilityResultBuffer
     {
         get => GetProperty(ref field, MTL4RenderPassDescriptorBindings.VisibilityResultBuffer);
         set => SetProperty(ref field, MTL4RenderPassDescriptorBindings.SetVisibilityResultBuffer, value);
     }
 
-    /// <summary>Determines if Metal accumulates visibility results between render encoders or resets them.</summary>
+    /// <summary>
+    /// Determines if Metal accumulates visibility results between render encoders or resets them.
+    /// </summary>
     public MTLVisibilityResultType VisibilityResultType
     {
         get => (MTLVisibilityResultType)ObjectiveC.MsgSendLong(NativePtr, MTL4RenderPassDescriptorBindings.VisibilityResultType);

@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>An interface that represents a GPU pipeline configuration for running kernels in a compute pass.</summary>
+/// <summary>
+/// An interface that represents a GPU pipeline configuration for running kernels in a compute pass.
+/// </summary>
 public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership ownership) : MTLAllocation(nativePtr, ownership), INativeObject<MTLComputePipelineState>
 {
     #region INativeObject
@@ -14,19 +16,25 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
 
     #region Identifying a pipeline state - Properties
 
-    /// <summary>The device instance that created the pipeline state.</summary>
+    /// <summary>
+    /// The device instance that created the pipeline state.
+    /// </summary>
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTLComputePipelineStateBindings.Device);
     }
 
-    /// <summary>An unique identifier that represents the pipeline state, which you can add to an argument buffer.</summary>
+    /// <summary>
+    /// An unique identifier that represents the pipeline state, which you can add to an argument buffer.
+    /// </summary>
     public MTLResourceID GpuResourceID
     {
         get => ObjectiveC.MsgSendMTLResourceID(NativePtr, MTLComputePipelineStateBindings.GpuResourceID);
     }
 
-    /// <summary>A string that helps you identify the compute pipeline state during debugging.</summary>
+    /// <summary>
+    /// A string that helps you identify the compute pipeline state during debugging.
+    /// </summary>
     public NSString Label
     {
         get => GetProperty(ref field, MTLComputePipelineStateBindings.Label);
@@ -35,19 +43,25 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
 
     #region Checking threadgroup attributes - Properties
 
-    /// <summary>The maximum number of threads in a threadgroup that you can dispatch to the pipeline.</summary>
+    /// <summary>
+    /// The maximum number of threads in a threadgroup that you can dispatch to the pipeline.
+    /// </summary>
     public nuint MaxTotalThreadsPerThreadgroup
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLComputePipelineStateBindings.MaxTotalThreadsPerThreadgroup);
     }
 
-    /// <summary>The number of threads that the GPU executes simultaneously.</summary>
+    /// <summary>
+    /// The number of threads that the GPU executes simultaneously.
+    /// </summary>
     public nuint ThreadExecutionWidth
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLComputePipelineStateBindings.ThreadExecutionWidth);
     }
 
-    /// <summary>The length, in bytes, of statically allocated threadgroup memory.</summary>
+    /// <summary>
+    /// The length, in bytes, of statically allocated threadgroup memory.
+    /// </summary>
     public nuint StaticThreadgroupMemoryLength
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLComputePipelineStateBindings.StaticThreadgroupMemoryLength);
@@ -56,7 +70,9 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
 
     #region Checking indirect command buffer support - Properties
 
-    /// <summary>A Boolean value that indicates whether the compute pipeline supports indirect command buffers.</summary>
+    /// <summary>
+    /// A Boolean value that indicates whether the compute pipeline supports indirect command buffers.
+    /// </summary>
     public Bool8 SupportIndirectCommandBuffers
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLComputePipelineStateBindings.SupportIndirectCommandBuffers);
@@ -65,7 +81,9 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
 
     #region Checking shader validation - Properties
 
-    /// <summary>The current state of shader validation for the pipeline.</summary>
+    /// <summary>
+    /// The current state of shader validation for the pipeline.
+    /// </summary>
     public MTLShaderValidation ShaderValidation
     {
         get => (MTLShaderValidation)ObjectiveC.MsgSendLong(NativePtr, MTLComputePipelineStateBindings.ShaderValidation);
@@ -87,7 +105,9 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
 
     #region Checking imageblock attributes - Methods
 
-    /// <summary>Returns the length of reserved memory for an imageblock of a given size.</summary>
+    /// <summary>
+    /// Returns the length of reserved memory for an imageblock of a given size.
+    /// </summary>
     public nuint ImageblockMemoryLength(MTLSize imageblockDimensions)
     {
         return ObjectiveC.MsgSendNUInt(NativePtr, MTLComputePipelineStateBindings.ImageblockMemoryLength, imageblockDimensions);
@@ -96,7 +116,9 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
 
     #region Creating function handles - Methods
 
-    /// <summary>Creates a function handle for a visible function.</summary>
+    /// <summary>
+    /// Creates a function handle for a visible function.
+    /// </summary>
     public MTLFunctionHandle FunctionHandle(NSString name)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.FunctionHandle, name.NativePtr);
@@ -104,7 +126,9 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    /// <summary>Creates a function handle for a visible function.</summary>
+    /// <summary>
+    /// Creates a function handle for a visible function.
+    /// </summary>
     public MTLFunctionHandle FunctionHandle(MTL4BinaryFunction function)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithBinaryFunction, function.NativePtr);
@@ -112,7 +136,9 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    /// <summary>Creates a function handle for a visible function.</summary>
+    /// <summary>
+    /// Creates a function handle for a visible function.
+    /// </summary>
     public MTLFunctionHandle FunctionHandle(MTLFunction function)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.FunctionHandleWithFunction, function.NativePtr);
@@ -123,7 +149,9 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
 
     #region Creating function tables - Methods
 
-    /// <summary>Creates a new visible function table.</summary>
+    /// <summary>
+    /// Creates a new visible function table.
+    /// </summary>
     public MTLVisibleFunctionTable NewVisibleFunctionTable(MTLVisibleFunctionTableDescriptor descriptor)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.NewVisibleFunctionTable, descriptor.NativePtr);
@@ -131,7 +159,9 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    /// <summary>Creates a new intersection function table.</summary>
+    /// <summary>
+    /// Creates a new intersection function table.
+    /// </summary>
     public MTLIntersectionFunctionTable NewIntersectionFunctionTable(MTLIntersectionFunctionTableDescriptor descriptor)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLComputePipelineStateBindings.NewIntersectionFunctionTable, descriptor.NativePtr);
@@ -142,7 +172,9 @@ public class MTLComputePipelineState(nint nativePtr, NativeObjectOwnership owner
 
     #region Instance Methods - Methods
 
-    /// <summary>Allocates a new compute pipeline state by adding binary functions to this pipeline state.</summary>
+    /// <summary>
+    /// Allocates a new compute pipeline state by adding binary functions to this pipeline state.
+    /// </summary>
     public MTLComputePipelineState NewComputePipelineState(MTLFunction[] functions, out NSError error)
     {
         nint pFunctions = NSArray.FromArray(functions);

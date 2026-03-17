@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>A Core Animation layer that Metal can render into, typically displayed onscreen.</summary>
+/// <summary>
+/// A Core Animation layer that Metal can render into, typically displayed onscreen.
+/// </summary>
 public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<CAMetalLayer>
 {
     #region INativeObject
@@ -18,7 +20,9 @@ public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NSO
 
     #region Configuring the Metal Device - Properties
 
-    /// <summary>The Metal device responsible for the layer’s drawable resources.</summary>
+    /// <summary>
+    /// The Metal device responsible for the layer’s drawable resources.
+    /// </summary>
     public MTLDevice Device
     {
         get => GetProperty(ref field, CAMetalLayerBindings.Device);
@@ -28,28 +32,36 @@ public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NSO
 
     #region Configuring the Layer’s Drawable Objects - Properties
 
-    /// <summary>The pixel format of the layer’s textures.</summary>
+    /// <summary>
+    /// The pixel format of the layer’s textures.
+    /// </summary>
     public MTLPixelFormat PixelFormat
     {
         get => (MTLPixelFormat)ObjectiveC.MsgSendULong(NativePtr, CAMetalLayerBindings.PixelFormat);
         set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetPixelFormat, (nuint)value);
     }
 
-    /// <summary>The color space of the rendered content.</summary>
+    /// <summary>
+    /// The color space of the rendered content.
+    /// </summary>
     public CGColorSpace Colorspace
     {
         get => GetProperty(ref field, CAMetalLayerBindings.Colorspace);
         set => SetProperty(ref field, CAMetalLayerBindings.SetColorspace, value);
     }
 
-    /// <summary>A Boolean value that determines whether the layer’s textures are used only for rendering.</summary>
+    /// <summary>
+    /// A Boolean value that determines whether the layer’s textures are used only for rendering.
+    /// </summary>
     public Bool8 FramebufferOnly
     {
         get => ObjectiveC.MsgSendBool(NativePtr, CAMetalLayerBindings.FramebufferOnly);
         set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetFramebufferOnly, value);
     }
 
-    /// <summary>The size, in pixels, of textures for rendering layer content.</summary>
+    /// <summary>
+    /// The size, in pixels, of textures for rendering layer content.
+    /// </summary>
     public CGSize DrawableSize
     {
         get => ObjectiveC.MsgSendCGSize(NativePtr, CAMetalLayerBindings.DrawableSize);
@@ -59,7 +71,9 @@ public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NSO
 
     #region Configuring Presentation Behavior - Properties
 
-    /// <summary>A Boolean value that determines whether the layer synchronizes its updates to the display’s refresh rate.</summary>
+    /// <summary>
+    /// A Boolean value that determines whether the layer synchronizes its updates to the display’s refresh rate.
+    /// </summary>
     public Bool8 DisplaySyncEnabled
     {
         get => ObjectiveC.MsgSendBool(NativePtr, CAMetalLayerBindings.DisplaySyncEnabled);
@@ -69,14 +83,18 @@ public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NSO
 
     #region Obtaining a Metal Drawable - Properties
 
-    /// <summary>The number of Metal drawables in the resource pool managed by Core Animation.</summary>
+    /// <summary>
+    /// The number of Metal drawables in the resource pool managed by Core Animation.
+    /// </summary>
     public nuint MaximumDrawableCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, CAMetalLayerBindings.MaximumDrawableCount);
         set => ObjectiveC.MsgSend(NativePtr, CAMetalLayerBindings.SetMaximumDrawableCount, value);
     }
 
-    /// <summary>A Boolean value that determines whether requests for a new buffer expire if the system can’t satisfy them.</summary>
+    /// <summary>
+    /// A Boolean value that determines whether requests for a new buffer expire if the system can’t satisfy them.
+    /// </summary>
     public Bool8 AllowsNextDrawableTimeout
     {
         get => ObjectiveC.MsgSendBool(NativePtr, CAMetalLayerBindings.AllowsNextDrawableTimeout);
@@ -94,7 +112,9 @@ public class CAMetalLayer(nint nativePtr, NativeObjectOwnership ownership) : NSO
 
     #region Obtaining a Metal Drawable - Methods
 
-    /// <summary>Waits until a Metal drawable is available, and then returns it.</summary>
+    /// <summary>
+    /// Waits until a Metal drawable is available, and then returns it.
+    /// </summary>
     public CAMetalDrawable NextDrawable()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, CAMetalLayerBindings.NextDrawable);

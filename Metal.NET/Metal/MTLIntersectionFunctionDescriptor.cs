@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>A description of an intersection function that performs an intersection test.</summary>
+/// <summary>
+/// A description of an intersection function that performs an intersection test.
+/// </summary>
 public class MTLIntersectionFunctionDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLFunctionDescriptor(nativePtr, ownership), INativeObject<MTLIntersectionFunctionDescriptor>
 {
     #region INativeObject

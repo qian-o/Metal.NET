@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>Describes motion bounding box geometry, suitable for motion ray tracing.</summary>
+/// <summary>
+/// Describes motion bounding box geometry, suitable for motion ray tracing.
+/// </summary>
 public class MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4AccelerationStructureGeometryDescriptor(nativePtr, ownership), INativeObject<MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor>
 {
     #region INativeObject
@@ -18,21 +20,27 @@ public class MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptor(nint n
 
     #region Instance Properties - Properties
 
-    /// <summary>Configures a reference to a buffer where each entry contains a reference to a buffer of bounding boxes.</summary>
+    /// <summary>
+    /// Configures a reference to a buffer where each entry contains a reference to a buffer of bounding boxes.
+    /// </summary>
     public MTL4BufferRange BoundingBoxBuffers
     {
         get => ObjectiveC.MsgSendMTL4BufferRange(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.BoundingBoxBuffers);
         set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxBuffers, value);
     }
 
-    /// <summary>Declares the number of bounding boxes in each buffer that boundingBoxBuffer references.</summary>
+    /// <summary>
+    /// Declares the number of bounding boxes in each buffer that boundingBoxBuffer references.
+    /// </summary>
     public nuint BoundingBoxCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.BoundingBoxCount);
         set => ObjectiveC.MsgSend(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.SetBoundingBoxCount, value);
     }
 
-    /// <summary>Declares the stride, in bytes, between bounding boxes in the bounding box buffers each entry in boundingBoxBuffer references.</summary>
+    /// <summary>
+    /// Declares the stride, in bytes, between bounding boxes in the bounding box buffers each entry in boundingBoxBuffer references.
+    /// </summary>
     public nuint BoundingBoxStride
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4AccelerationStructureMotionBoundingBoxGeometryDescriptorBindings.BoundingBoxStride);

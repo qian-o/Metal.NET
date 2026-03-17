@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>Information about the arguments of a compute function.</summary>
+/// <summary>
+/// Information about the arguments of a compute function.
+/// </summary>
 public class MTLComputePipelineReflection(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLComputePipelineReflection>
 {
     #region INativeObject
@@ -18,7 +20,9 @@ public class MTLComputePipelineReflection(nint nativePtr, NativeObjectOwnership 
 
     #region Obtaining the arguments of the compute function - Properties
 
-    /// <summary>An array of instances that describe the arguments of a compute function.</summary>
+    /// <summary>
+    /// An array of instances that describe the arguments of a compute function.
+    /// </summary>
     [Obsolete]
     public MTLArgument[] Arguments
     {

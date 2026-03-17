@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>Groups together properties to drive the dynamic linking process of a pipeline stage.</summary>
+/// <summary>
+/// Groups together properties to drive the dynamic linking process of a pipeline stage.
+/// </summary>
 public class MTL4PipelineStageDynamicLinkingDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4PipelineStageDynamicLinkingDescriptor>
 {
     #region INativeObject
@@ -18,21 +20,27 @@ public class MTL4PipelineStageDynamicLinkingDescriptor(nint nativePtr, NativeObj
 
     #region Instance Properties - Properties
 
-    /// <summary>Provides the array of binary functions to link.</summary>
+    /// <summary>
+    /// Provides the array of binary functions to link.
+    /// </summary>
     public MTL4BinaryFunction[] BinaryLinkedFunctions
     {
         get => GetArrayProperty<MTL4BinaryFunction>(MTL4PipelineStageDynamicLinkingDescriptorBindings.BinaryLinkedFunctions);
         set => SetArrayProperty(MTL4PipelineStageDynamicLinkingDescriptorBindings.SetBinaryLinkedFunctions, value);
     }
 
-    /// <summary>Limits the maximum depth of the call stack for indirect function calls in the pipeline stage function.</summary>
+    /// <summary>
+    /// Limits the maximum depth of the call stack for indirect function calls in the pipeline stage function.
+    /// </summary>
     public nuint MaxCallStackDepth
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorBindings.MaxCallStackDepth);
         set => ObjectiveC.MsgSend(NativePtr, MTL4PipelineStageDynamicLinkingDescriptorBindings.SetMaxCallStackDepth, value);
     }
 
-    /// <summary>Provides an array of dynamic libraries the compiler loads when it builds the pipeline.</summary>
+    /// <summary>
+    /// Provides an array of dynamic libraries the compiler loads when it builds the pipeline.
+    /// </summary>
     public MTLDynamicLibrary[] PreloadedLibraries
     {
         get => GetArrayProperty<MTLDynamicLibrary>(MTL4PipelineStageDynamicLinkingDescriptorBindings.PreloadedLibraries);

@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>An attribute to specify that Metal needs to inline all of the function calls when generating the stitched function.</summary>
+/// <summary>
+/// An attribute to specify that Metal needs to inline all of the function calls when generating the stitched function.
+/// </summary>
 public class MTLFunctionStitchingAttributeAlwaysInline(nint nativePtr, NativeObjectOwnership ownership) : MTLFunctionStitchingAttribute(nativePtr, ownership), INativeObject<MTLFunctionStitchingAttributeAlwaysInline>
 {
     #region INativeObject

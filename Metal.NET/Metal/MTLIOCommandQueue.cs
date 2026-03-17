@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>A command queue that schedules input/output commands for reading files in the file system, and writing to GPU resources and memory.</summary>
+/// <summary>
+/// A command queue that schedules input/output commands for reading files in the file system, and writing to GPU resources and memory.
+/// </summary>
 public class MTLIOCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLIOCommandQueue>
 {
     #region INativeObject
@@ -14,7 +16,9 @@ public class MTLIOCommandQueue(nint nativePtr, NativeObjectOwnership ownership) 
 
     #region Naming the queue - Properties
 
-    /// <summary>An optional name for the input/output command queue.</summary>
+    /// <summary>
+    /// An optional name for the input/output command queue.
+    /// </summary>
     public NSString Label
     {
         get => GetProperty(ref field, MTLIOCommandQueueBindings.Label);
@@ -24,7 +28,9 @@ public class MTLIOCommandQueue(nint nativePtr, NativeObjectOwnership ownership) 
 
     #region Creating a input/output command buffer - Methods
 
-    /// <summary>Creates an input/output command buffer for the command queue.</summary>
+    /// <summary>
+    /// Creates an input/output command buffer for the command queue.
+    /// </summary>
     public MTLIOCommandBuffer CommandBuffer()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIOCommandQueueBindings.CommandBuffer);
@@ -32,7 +38,9 @@ public class MTLIOCommandQueue(nint nativePtr, NativeObjectOwnership ownership) 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    /// <summary>Creates an input/output command buffer for the command queue that doesn’t retain the instances you pass to its methods.</summary>
+    /// <summary>
+    /// Creates an input/output command buffer for the command queue that doesn’t retain the instances you pass to its methods.
+    /// </summary>
     public MTLIOCommandBuffer CommandBufferWithUnretainedReferences()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLIOCommandQueueBindings.CommandBufferWithUnretainedReferences);
@@ -43,7 +51,9 @@ public class MTLIOCommandQueue(nint nativePtr, NativeObjectOwnership ownership) 
 
     #region Adding a barrier to the queue - Methods
 
-    /// <summary>Appends a barrier that tells the input/output command queue to finish running all in-flight command buffers before running any new command buffers.</summary>
+    /// <summary>
+    /// Appends a barrier that tells the input/output command queue to finish running all in-flight command buffers before running any new command buffers.
+    /// </summary>
     public void EnqueueBarrier()
     {
         ObjectiveC.MsgSend(NativePtr, MTLIOCommandQueueBindings.EnqueueBarrier);

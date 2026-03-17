@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>An array of vertex attribute descriptor instances.</summary>
+/// <summary>
+/// An array of vertex attribute descriptor instances.
+/// </summary>
 public class MTLVertexAttributeDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLVertexAttributeDescriptorArray>
 {
     #region INativeObject

@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>A type that can programmatically customize a GPU frame capture.</summary>
+/// <summary>
+/// A type that can programmatically customize a GPU frame capture.
+/// </summary>
 public class MTLCaptureScope(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCaptureScope>
 {
     #region INativeObject
@@ -14,20 +16,26 @@ public class MTLCaptureScope(nint nativePtr, NativeObjectOwnership ownership) : 
 
     #region Identifying the capture scope - Properties
 
-    /// <summary>A string that helps you identify the capture scope.</summary>
+    /// <summary>
+    /// A string that helps you identify the capture scope.
+    /// </summary>
     public NSString Label
     {
         get => GetProperty(ref field, MTLCaptureScopeBindings.Label);
         set => SetProperty(ref field, MTLCaptureScopeBindings.SetLabel, value);
     }
 
-    /// <summary>The device object from which you created the capture scope.</summary>
+    /// <summary>
+    /// The device object from which you created the capture scope.
+    /// </summary>
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTLCaptureScopeBindings.Device);
     }
 
-    /// <summary>The command queue that this capture scope uses to limit which commands are recorded.</summary>
+    /// <summary>
+    /// The command queue that this capture scope uses to limit which commands are recorded.
+    /// </summary>
     public MTLCommandQueue CommandQueue
     {
         get => GetProperty(ref field, MTLCaptureScopeBindings.CommandQueue);
@@ -36,13 +44,17 @@ public class MTLCaptureScope(nint nativePtr, NativeObjectOwnership ownership) : 
 
     #region Defining capture scope boundaries - Methods
 
-    /// <summary>Tells Metal to begin recording command information.</summary>
+    /// <summary>
+    /// Tells Metal to begin recording command information.
+    /// </summary>
     public void BeginScope()
     {
         ObjectiveC.MsgSend(NativePtr, MTLCaptureScopeBindings.BeginScope);
     }
 
-    /// <summary>Tells Metal to stop recording command information.</summary>
+    /// <summary>
+    /// Tells Metal to stop recording command information.
+    /// </summary>
     public void EndScope()
     {
         ObjectiveC.MsgSend(NativePtr, MTLCaptureScopeBindings.EndScope);

@@ -13,7 +13,9 @@ public class MTLFXTemporalDenoisedScaler(nint nativePtr, NativeObjectOwnership o
 
     #region Instance Methods - Methods
 
-    /// <summary>Encode this scaler denoiser’s work into a command buffer.</summary>
+    /// <summary>
+    /// Encode this scaler denoiser’s work into a command buffer.
+    /// </summary>
     public void EncodeToCommandBuffer(MTLCommandBuffer commandBuffer)
     {
         ObjectiveC.MsgSend(NativePtr, MTLFXTemporalDenoisedScalerBindings.EncodeToCommandBuffer, commandBuffer.NativePtr);

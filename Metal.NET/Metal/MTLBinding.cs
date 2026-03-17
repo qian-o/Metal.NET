@@ -44,14 +44,18 @@ public class MTLBinding(nint nativePtr, NativeObjectOwnership ownership) : NSObj
     }
     #endregion
 
-    /// <summary>Deprecated: please use isArgument instead</summary>
+    /// <summary>
+    /// Deprecated: please use isArgument instead
+    /// </summary>
     [Obsolete("please use isArgument instead")]
     public Bool8 Argument
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLBindingBindings.Argument);
     }
 
-    /// <summary>Deprecated: please use isUsed instead</summary>
+    /// <summary>
+    /// Deprecated: please use isUsed instead
+    /// </summary>
     [Obsolete("please use isUsed instead")]
     public Bool8 Used
     {

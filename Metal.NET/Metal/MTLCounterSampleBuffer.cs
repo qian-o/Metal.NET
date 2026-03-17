@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>A specialized memory buffer that stores a GPU’s counter set data.</summary>
+/// <summary>
+/// A specialized memory buffer that stores a GPU’s counter set data.
+/// </summary>
 public class MTLCounterSampleBuffer(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCounterSampleBuffer>
 {
     #region INativeObject
@@ -14,19 +16,25 @@ public class MTLCounterSampleBuffer(nint nativePtr, NativeObjectOwnership owners
 
     #region Inspecting the counter sample buffer’s configuration - Properties
 
-    /// <summary>A string that identifies the counter sample buffer.</summary>
+    /// <summary>
+    /// A string that identifies the counter sample buffer.
+    /// </summary>
     public NSString Label
     {
         get => GetProperty(ref field, MTLCounterSampleBufferBindings.Label);
     }
 
-    /// <summary>The GPU device instance that owns the counter sample buffer.</summary>
+    /// <summary>
+    /// The GPU device instance that owns the counter sample buffer.
+    /// </summary>
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTLCounterSampleBufferBindings.Device);
     }
 
-    /// <summary>The number of samples in the buffer.</summary>
+    /// <summary>
+    /// The number of samples in the buffer.
+    /// </summary>
     public nuint SampleCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLCounterSampleBufferBindings.SampleCount);
@@ -35,7 +43,9 @@ public class MTLCounterSampleBuffer(nint nativePtr, NativeObjectOwnership owners
 
     #region Resolving the counter sample buffer’s data - Methods
 
-    /// <summary>Transforms samples of a GPU’s counter set from the driver’s internal format to a standard Metal data structure.</summary>
+    /// <summary>
+    /// Transforms samples of a GPU’s counter set from the driver’s internal format to a standard Metal data structure.
+    /// </summary>
     public NSData ResolveCounterRange(NSRange range)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCounterSampleBufferBindings.ResolveCounterRange, range);

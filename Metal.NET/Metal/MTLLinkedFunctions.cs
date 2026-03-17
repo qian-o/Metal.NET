@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>A set of related functions that Metal links to when necessary to create the function instance.</summary>
+/// <summary>
+/// A set of related functions that Metal links to when necessary to create the function instance.
+/// </summary>
 public class MTLLinkedFunctions(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLLinkedFunctions>
 {
     #region INativeObject
@@ -18,28 +20,36 @@ public class MTLLinkedFunctions(nint nativePtr, NativeObjectOwnership ownership)
 
     #region Specifying related functions - Properties
 
-    /// <summary>An array of function objects to link to the new function.</summary>
+    /// <summary>
+    /// An array of function objects to link to the new function.
+    /// </summary>
     public MTLFunction[] Functions
     {
         get => GetArrayProperty<MTLFunction>(MTLLinkedFunctionsBindings.Functions);
         set => SetArrayProperty(MTLLinkedFunctionsBindings.SetFunctions, value);
     }
 
-    /// <summary>An array of function objects already compiled to a binary representation to link.</summary>
+    /// <summary>
+    /// An array of function objects already compiled to a binary representation to link.
+    /// </summary>
     public MTLFunction[] BinaryFunctions
     {
         get => GetArrayProperty<MTLFunction>(MTLLinkedFunctionsBindings.BinaryFunctions);
         set => SetArrayProperty(MTLLinkedFunctionsBindings.SetBinaryFunctions, value);
     }
 
-    /// <summary>An optional list of groups specifying which functions your shader can call at each call site.</summary>
+    /// <summary>
+    /// An optional list of groups specifying which functions your shader can call at each call site.
+    /// </summary>
     public NSDictionary Groups
     {
         get => GetProperty(ref field, MTLLinkedFunctionsBindings.Groups);
         set => SetProperty(ref field, MTLLinkedFunctionsBindings.SetGroups, value);
     }
 
-    /// <summary>An array of function objects to link to the new function, without exporting the functions publicly.</summary>
+    /// <summary>
+    /// An array of function objects to link to the new function, without exporting the functions publicly.
+    /// </summary>
     public MTLFunction[] PrivateFunctions
     {
         get => GetArrayProperty<MTLFunction>(MTLLinkedFunctionsBindings.PrivateFunctions);

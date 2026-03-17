@@ -17,7 +17,9 @@ public class MTLTextureViewDescriptor(nint nativePtr, NativeObjectOwnership owne
 
     #region Instance Properties - Properties
 
-    /// <summary>A desired range of mip levels of a texture view.</summary>
+    /// <summary>
+    /// A desired range of mip levels of a texture view.
+    /// </summary>
     public NSRange LevelRange
     {
         get => ObjectiveC.MsgSendNSRange(NativePtr, MTLTextureViewDescriptorBindings.LevelRange);
@@ -30,7 +32,9 @@ public class MTLTextureViewDescriptor(nint nativePtr, NativeObjectOwnership owne
         set => ObjectiveC.MsgSend(NativePtr, MTLTextureViewDescriptorBindings.SetPixelFormat, (nuint)value);
     }
 
-    /// <summary>A desired range of slices of a texture view.</summary>
+    /// <summary>
+    /// A desired range of slices of a texture view.
+    /// </summary>
     public NSRange SliceRange
     {
         get => ObjectiveC.MsgSendNSRange(NativePtr, MTLTextureViewDescriptorBindings.SliceRange);

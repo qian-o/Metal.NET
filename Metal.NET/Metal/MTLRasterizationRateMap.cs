@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>A compiled read-only instance that determines how to apply variable rasterization rates when rendering.</summary>
+/// <summary>
+/// A compiled read-only instance that determines how to apply variable rasterization rates when rendering.
+/// </summary>
 public class MTLRasterizationRateMap(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRasterizationRateMap>
 {
     #region INativeObject
@@ -14,13 +16,17 @@ public class MTLRasterizationRateMap(nint nativePtr, NativeObjectOwnership owner
 
     #region Identifying the rate map - Properties
 
-    /// <summary>The device object that created the rate map.</summary>
+    /// <summary>
+    /// The device object that created the rate map.
+    /// </summary>
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTLRasterizationRateMapBindings.Device);
     }
 
-    /// <summary>A string that identifies the rate map.</summary>
+    /// <summary>
+    /// A string that identifies the rate map.
+    /// </summary>
     public NSString Label
     {
         get => GetProperty(ref field, MTLRasterizationRateMapBindings.Label);
@@ -29,19 +35,25 @@ public class MTLRasterizationRateMap(nint nativePtr, NativeObjectOwnership owner
 
     #region Inspecting geometric and rendering properties - Properties
 
-    /// <summary>The number of layers in the rate map.</summary>
+    /// <summary>
+    /// The number of layers in the rate map.
+    /// </summary>
     public nuint LayerCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLRasterizationRateMapBindings.LayerCount);
     }
 
-    /// <summary>The logical size, in pixels, of the viewport coordinate system.</summary>
+    /// <summary>
+    /// The logical size, in pixels, of the viewport coordinate system.
+    /// </summary>
     public MTLSize ScreenSize
     {
         get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapBindings.ScreenSize);
     }
 
-    /// <summary>The granularity, in physical pixels, at which the rasterization rate varies.</summary>
+    /// <summary>
+    /// The granularity, in physical pixels, at which the rasterization rate varies.
+    /// </summary>
     public MTLSize PhysicalGranularity
     {
         get => ObjectiveC.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapBindings.PhysicalGranularity);
@@ -55,7 +67,9 @@ public class MTLRasterizationRateMap(nint nativePtr, NativeObjectOwnership owner
 
     #region Inspecting geometric and rendering properties - Methods
 
-    /// <summary>Returns the dimensions, in pixels, of the area in the render target affected by the rasterization rate map.</summary>
+    /// <summary>
+    /// Returns the dimensions, in pixels, of the area in the render target affected by the rasterization rate map.
+    /// </summary>
     public MTLSize PhysicalSize(nuint layerIndex)
     {
         return ObjectiveC.MsgSendMTLSize(NativePtr, MTLRasterizationRateMapBindings.PhysicalSize, layerIndex);
@@ -64,7 +78,9 @@ public class MTLRasterizationRateMap(nint nativePtr, NativeObjectOwnership owner
 
     #region Obtaining coordinate transformation data - Methods
 
-    /// <summary>Copies the parameter data into the provided buffer.</summary>
+    /// <summary>
+    /// Copies the parameter data into the provided buffer.
+    /// </summary>
     public void CopyParameterDataToBuffer(MTLBuffer buffer, nuint offset)
     {
         ObjectiveC.MsgSend(NativePtr, MTLRasterizationRateMapBindings.CopyParameterDataToBuffer, buffer.NativePtr, offset);

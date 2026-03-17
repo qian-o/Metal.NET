@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>An instance that provides information about a field in a structure.</summary>
+/// <summary>
+/// An instance that provides information about a field in a structure.
+/// </summary>
 public class MTLStructMember(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLStructMember>
 {
     #region INativeObject
@@ -18,25 +20,33 @@ public class MTLStructMember(nint nativePtr, NativeObjectOwnership ownership) : 
 
     #region Describing the struct member - Properties
 
-    /// <summary>The name of the struct member.</summary>
+    /// <summary>
+    /// The name of the struct member.
+    /// </summary>
     public NSString Name
     {
         get => GetProperty(ref field, MTLStructMemberBindings.Name);
     }
 
-    /// <summary>The data type of the struct member.</summary>
+    /// <summary>
+    /// The data type of the struct member.
+    /// </summary>
     public MTLDataType DataType
     {
         get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLStructMemberBindings.DataType);
     }
 
-    /// <summary>The location of this member relative to the start of its struct, in bytes.</summary>
+    /// <summary>
+    /// The location of this member relative to the start of its struct, in bytes.
+    /// </summary>
     public nuint Offset
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLStructMemberBindings.Offset);
     }
 
-    /// <summary>The index in the argument table that corresponds to the struct member.</summary>
+    /// <summary>
+    /// The index in the argument table that corresponds to the struct member.
+    /// </summary>
     public nuint ArgumentIndex
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLStructMemberBindings.ArgumentIndex);
@@ -45,7 +55,9 @@ public class MTLStructMember(nint nativePtr, NativeObjectOwnership ownership) : 
 
     #region Obtaining struct member details - Methods
 
-    /// <summary>Provides a description of the underlying array when the struct member holds an array.</summary>
+    /// <summary>
+    /// Provides a description of the underlying array when the struct member holds an array.
+    /// </summary>
     public MTLArrayType ArrayType()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLStructMemberBindings.ArrayType);
@@ -53,7 +65,9 @@ public class MTLStructMember(nint nativePtr, NativeObjectOwnership ownership) : 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    /// <summary>Provides a description of the underlying struct when the struct member holds a struct.</summary>
+    /// <summary>
+    /// Provides a description of the underlying struct when the struct member holds a struct.
+    /// </summary>
     public MTLStructType StructType()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLStructMemberBindings.StructType);
@@ -61,7 +75,9 @@ public class MTLStructMember(nint nativePtr, NativeObjectOwnership ownership) : 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    /// <summary>Provides a description of the underlying pointer when the struct member holds a pointer.</summary>
+    /// <summary>
+    /// Provides a description of the underlying pointer when the struct member holds a pointer.
+    /// </summary>
     public MTLPointerType PointerType()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLStructMemberBindings.PointerType);
@@ -69,7 +85,9 @@ public class MTLStructMember(nint nativePtr, NativeObjectOwnership ownership) : 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    /// <summary>Provides a description of the underlying texture when the struct member holds a texture.</summary>
+    /// <summary>
+    /// Provides a description of the underlying texture when the struct member holds a texture.
+    /// </summary>
     public MTLTextureReferenceType TextureReferenceType()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLStructMemberBindings.TextureReferenceType);
@@ -80,7 +98,9 @@ public class MTLStructMember(nint nativePtr, NativeObjectOwnership ownership) : 
 
     #region Instance Methods - Methods
 
-    /// <summary>Provides a description of the underlying tensor type when this struct member holds a tensor.</summary>
+    /// <summary>
+    /// Provides a description of the underlying tensor type when this struct member holds a tensor.
+    /// </summary>
     public MTLTensorReferenceType TensorReferenceType()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLStructMemberBindings.TensorReferenceType);

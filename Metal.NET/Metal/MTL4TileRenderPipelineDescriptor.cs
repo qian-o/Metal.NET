@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>Groups together properties you use to create a tile render pipeline state object.</summary>
+/// <summary>
+/// Groups together properties you use to create a tile render pipeline state object.
+/// </summary>
 public class MTL4TileRenderPipelineDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4PipelineDescriptor(nativePtr, ownership), INativeObject<MTL4TileRenderPipelineDescriptor>
 {
     #region INativeObject
@@ -18,55 +20,71 @@ public class MTL4TileRenderPipelineDescriptor(nint nativePtr, NativeObjectOwners
 
     #region Instance Properties - Properties
 
-    /// <summary>Access an array of descriptors that configure the properties of each color attachment in the tile render pipeline.</summary>
+    /// <summary>
+    /// Access an array of descriptors that configure the properties of each color attachment in the tile render pipeline.
+    /// </summary>
     public MTLTileRenderPipelineColorAttachmentDescriptorArray ColorAttachments
     {
         get => GetProperty(ref field, MTL4TileRenderPipelineDescriptorBindings.ColorAttachments);
     }
 
-    /// <summary>Sets the maximum number of threads that the GPU can execute simultaneously within a single threadgroup in the tile render pipeline.</summary>
+    /// <summary>
+    /// Sets the maximum number of threads that the GPU can execute simultaneously within a single threadgroup in the tile render pipeline.
+    /// </summary>
     public nuint MaxTotalThreadsPerThreadgroup
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4TileRenderPipelineDescriptorBindings.MaxTotalThreadsPerThreadgroup);
         set => ObjectiveC.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetMaxTotalThreadsPerThreadgroup, value);
     }
 
-    /// <summary>Configures the number of samples per pixel used for multisampling.</summary>
+    /// <summary>
+    /// Configures the number of samples per pixel used for multisampling.
+    /// </summary>
     public nuint RasterSampleCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4TileRenderPipelineDescriptorBindings.RasterSampleCount);
         set => ObjectiveC.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetRasterSampleCount, value);
     }
 
-    /// <summary>Sets the required number of threads per threadgroup for tile dispatches.</summary>
+    /// <summary>
+    /// Sets the required number of threads per threadgroup for tile dispatches.
+    /// </summary>
     public MTLSize RequiredThreadsPerThreadgroup
     {
         get => ObjectiveC.MsgSendMTLSize(NativePtr, MTL4TileRenderPipelineDescriptorBindings.RequiredThreadsPerThreadgroup);
         set => ObjectiveC.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetRequiredThreadsPerThreadgroup, value);
     }
 
-    /// <summary>Configures an object that contains information about functions to link to the tile render pipeline when Metal builds it.</summary>
+    /// <summary>
+    /// Configures an object that contains information about functions to link to the tile render pipeline when Metal builds it.
+    /// </summary>
     public MTL4StaticLinkingDescriptor StaticLinkingDescriptor
     {
         get => GetProperty(ref field, MTL4TileRenderPipelineDescriptorBindings.StaticLinkingDescriptor);
         set => SetProperty(ref field, MTL4TileRenderPipelineDescriptorBindings.SetStaticLinkingDescriptor, value);
     }
 
-    /// <summary>Indicates whether the pipeline supports linking binary functions.</summary>
+    /// <summary>
+    /// Indicates whether the pipeline supports linking binary functions.
+    /// </summary>
     public Bool8 SupportBinaryLinking
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SupportBinaryLinking);
         set => ObjectiveC.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetSupportBinaryLinking, value);
     }
 
-    /// <summary>Indicating whether the size of the threadgroup matches the size of a tile in the render pipeline.</summary>
+    /// <summary>
+    /// Indicating whether the size of the threadgroup matches the size of a tile in the render pipeline.
+    /// </summary>
     public Bool8 ThreadgroupSizeMatchesTileSize
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTL4TileRenderPipelineDescriptorBindings.ThreadgroupSizeMatchesTileSize);
         set => ObjectiveC.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.SetThreadgroupSizeMatchesTileSize, value);
     }
 
-    /// <summary>Configures the tile function that the render pipeline executes for each tile in the tile shader stage.</summary>
+    /// <summary>
+    /// Configures the tile function that the render pipeline executes for each tile in the tile shader stage.
+    /// </summary>
     public MTL4FunctionDescriptor TileFunctionDescriptor
     {
         get => GetProperty(ref field, MTL4TileRenderPipelineDescriptorBindings.TileFunctionDescriptor);
@@ -76,7 +94,9 @@ public class MTL4TileRenderPipelineDescriptor(nint nativePtr, NativeObjectOwners
 
     #region Instance Methods - Methods
 
-    /// <summary>Resets the descriptor to the default state.</summary>
+    /// <summary>
+    /// Resets the descriptor to the default state.
+    /// </summary>
     public void Reset()
     {
         ObjectiveC.MsgSend(NativePtr, MTL4TileRenderPipelineDescriptorBindings.Reset);

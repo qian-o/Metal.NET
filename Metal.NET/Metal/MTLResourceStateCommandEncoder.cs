@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>An encoder that encodes commands that modify resource configurations.</summary>
+/// <summary>
+/// An encoder that encodes commands that modify resource configurations.
+/// </summary>
 public class MTLResourceStateCommandEncoder(nint nativePtr, NativeObjectOwnership ownership) : MTLCommandEncoder(nativePtr, ownership), INativeObject<MTLResourceStateCommandEncoder>
 {
     #region INativeObject
@@ -14,19 +16,25 @@ public class MTLResourceStateCommandEncoder(nint nativePtr, NativeObjectOwnershi
 
     #region Updating texture memory assignments - Methods
 
-    /// <summary>Encodes a command to update the texture mappings for a region in a single texture mipmap.</summary>
+    /// <summary>
+    /// Encodes a command to update the texture mappings for a region in a single texture mipmap.
+    /// </summary>
     public void UpdateTextureMapping(MTLTexture texture, MTLSparseTextureMappingMode mode, MTLRegion region, nuint mipLevel, nuint slice)
     {
         ObjectiveC.MsgSend(NativePtr, MTLResourceStateCommandEncoderBindings.UpdateTextureMapping, texture.NativePtr, (nuint)mode, region, mipLevel, slice);
     }
 
-    /// <summary>Encodes a command to update the texture mappings for a region in a single texture mipmap.</summary>
+    /// <summary>
+    /// Encodes a command to update the texture mappings for a region in a single texture mipmap.
+    /// </summary>
     public void UpdateTextureMapping(MTLTexture texture, MTLSparseTextureMappingMode mode, MTLBuffer indirectBuffer, nuint indirectBufferOffset)
     {
         ObjectiveC.MsgSend(NativePtr, MTLResourceStateCommandEncoderBindings.UpdateTextureMappingmodeindirectBufferindirectBufferOffset, texture.NativePtr, (nuint)mode, indirectBuffer.NativePtr, indirectBufferOffset);
     }
 
-    /// <summary>Encodes a command to update memory mappings for multiple regions inside a texture.</summary>
+    /// <summary>
+    /// Encodes a command to update memory mappings for multiple regions inside a texture.
+    /// </summary>
     public void UpdateTextureMappings(MTLTexture texture, MTLSparseTextureMappingMode mode, MTLRegion regions, nint mipLevels, nint slices, nuint numRegions)
     {
         ObjectiveC.MsgSend(NativePtr, MTLResourceStateCommandEncoderBindings.UpdateTextureMappings, texture.NativePtr, (nuint)mode, regions, mipLevels, slices, numRegions);
@@ -35,13 +43,17 @@ public class MTLResourceStateCommandEncoder(nint nativePtr, NativeObjectOwnershi
 
     #region Performing fence operations - Methods
 
-    /// <summary>Encodes a command that instructs the GPU to update a fence, which signals passes waiting on the fence.</summary>
+    /// <summary>
+    /// Encodes a command that instructs the GPU to update a fence, which signals passes waiting on the fence.
+    /// </summary>
     public void UpdateFence(MTLFence fence)
     {
         ObjectiveC.MsgSend(NativePtr, MTLResourceStateCommandEncoderBindings.UpdateFence, fence.NativePtr);
     }
 
-    /// <summary>Encodes a command that instructs the GPU to pause before starting the resource state commands until another pass updates a fence.</summary>
+    /// <summary>
+    /// Encodes a command that instructs the GPU to pause before starting the resource state commands until another pass updates a fence.
+    /// </summary>
     public void WaitForFence(MTLFence fence)
     {
         ObjectiveC.MsgSend(NativePtr, MTLResourceStateCommandEncoderBindings.WaitForFence, fence.NativePtr);

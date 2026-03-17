@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>Information about an argument of a graphics or compute function.</summary>
+/// <summary>
+/// Information about an argument of a graphics or compute function.
+/// </summary>
 public class MTLArgument(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLArgument>
 {
     #region INativeObject
@@ -18,35 +20,45 @@ public class MTLArgument(nint nativePtr, NativeObjectOwnership ownership) : NSOb
 
     #region Describing the argument - Properties
 
-    /// <summary>The name of the argument.</summary>
+    /// <summary>
+    /// The name of the argument.
+    /// </summary>
     [Obsolete]
     public NSString Name
     {
         get => GetProperty(ref field, MTLArgumentBindings.Name);
     }
 
-    /// <summary>A Boolean that indicates whether the compiled function uses the argument.</summary>
+    /// <summary>
+    /// A Boolean that indicates whether the compiled function uses the argument.
+    /// </summary>
     [Obsolete]
     public Bool8 IsActive
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLArgumentBindings.IsActive);
     }
 
-    /// <summary>The index in the argument table that corresponds to the function argument.</summary>
+    /// <summary>
+    /// The index in the argument table that corresponds to the function argument.
+    /// </summary>
     [Obsolete]
     public nuint Index
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArgumentBindings.Index);
     }
 
-    /// <summary>The argument’s resource type.</summary>
+    /// <summary>
+    /// The argument’s resource type.
+    /// </summary>
     [Obsolete]
     public MTLArgumentType Type
     {
         get => (MTLArgumentType)ObjectiveC.MsgSendULong(NativePtr, MTLArgumentBindings.Type);
     }
 
-    /// <summary>The argument’s read and/or write access.</summary>
+    /// <summary>
+    /// The argument’s read and/or write access.
+    /// </summary>
     [Obsolete]
     public MTLBindingAccess Access
     {
@@ -56,35 +68,45 @@ public class MTLArgument(nint nativePtr, NativeObjectOwnership ownership) : NSOb
 
     #region Describing a buffer argument - Properties
 
-    /// <summary>The required byte alignment in memory for the buffer data.</summary>
+    /// <summary>
+    /// The required byte alignment in memory for the buffer data.
+    /// </summary>
     [Obsolete]
     public nuint BufferAlignment
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArgumentBindings.BufferAlignment);
     }
 
-    /// <summary>The size, in bytes, of the buffer data.</summary>
+    /// <summary>
+    /// The size, in bytes, of the buffer data.
+    /// </summary>
     [Obsolete]
     public nuint BufferDataSize
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArgumentBindings.BufferDataSize);
     }
 
-    /// <summary>The data type of the buffer data.</summary>
+    /// <summary>
+    /// The data type of the buffer data.
+    /// </summary>
     [Obsolete]
     public MTLDataType BufferDataType
     {
         get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLArgumentBindings.BufferDataType);
     }
 
-    /// <summary>A description of the structure data of a buffer argument.</summary>
+    /// <summary>
+    /// A description of the structure data of a buffer argument.
+    /// </summary>
     [Obsolete]
     public MTLStructType BufferStructType
     {
         get => GetProperty(ref field, MTLArgumentBindings.BufferStructType);
     }
 
-    /// <summary>A description of the pointer to a buffer argument.</summary>
+    /// <summary>
+    /// A description of the pointer to a buffer argument.
+    /// </summary>
     [Obsolete]
     public MTLPointerType BufferPointerType
     {
@@ -94,21 +116,27 @@ public class MTLArgument(nint nativePtr, NativeObjectOwnership ownership) : NSOb
 
     #region Describing a texture argument - Properties
 
-    /// <summary>The data type of a texture argument.</summary>
+    /// <summary>
+    /// The data type of a texture argument.
+    /// </summary>
     [Obsolete]
     public MTLDataType TextureDataType
     {
         get => (MTLDataType)ObjectiveC.MsgSendULong(NativePtr, MTLArgumentBindings.TextureDataType);
     }
 
-    /// <summary>The texture type of a texture argument.</summary>
+    /// <summary>
+    /// The texture type of a texture argument.
+    /// </summary>
     [Obsolete]
     public MTLTextureType TextureType
     {
         get => (MTLTextureType)ObjectiveC.MsgSendULong(NativePtr, MTLArgumentBindings.TextureType);
     }
 
-    /// <summary>A Boolean value that indicates whether the texture is a depth texture.</summary>
+    /// <summary>
+    /// A Boolean value that indicates whether the texture is a depth texture.
+    /// </summary>
     [Obsolete]
     public Bool8 IsDepthTexture
     {
@@ -118,7 +146,9 @@ public class MTLArgument(nint nativePtr, NativeObjectOwnership ownership) : NSOb
 
     #region Describing an array argument - Properties
 
-    /// <summary>The number of elements, if the argument is an array.</summary>
+    /// <summary>
+    /// The number of elements, if the argument is an array.
+    /// </summary>
     [Obsolete]
     public nuint ArrayLength
     {
@@ -128,14 +158,18 @@ public class MTLArgument(nint nativePtr, NativeObjectOwnership ownership) : NSOb
 
     #region Describing a threadgroup memory argument - Properties
 
-    /// <summary>The required byte alignment in memory for the threadgroup data.</summary>
+    /// <summary>
+    /// The required byte alignment in memory for the threadgroup data.
+    /// </summary>
     [Obsolete]
     public nuint ThreadgroupMemoryAlignment
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLArgumentBindings.ThreadgroupMemoryAlignment);
     }
 
-    /// <summary>The size, in bytes, of the threadgroup data.</summary>
+    /// <summary>
+    /// The size, in bytes, of the threadgroup data.
+    /// </summary>
     [Obsolete]
     public nuint ThreadgroupMemoryDataSize
     {
@@ -143,7 +177,9 @@ public class MTLArgument(nint nativePtr, NativeObjectOwnership ownership) : NSOb
     }
     #endregion
 
-    /// <summary>Deprecated: please use isActive instead</summary>
+    /// <summary>
+    /// Deprecated: please use isActive instead
+    /// </summary>
     [Obsolete("please use isActive instead")]
     public Bool8 Active
     {

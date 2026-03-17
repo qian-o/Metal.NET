@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>Groups together parameters for the creation of a new command queue.</summary>
+/// <summary>
+/// Groups together parameters for the creation of a new command queue.
+/// </summary>
 public class MTL4CommandQueueDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4CommandQueueDescriptor>
 {
     #region INativeObject
@@ -18,14 +20,18 @@ public class MTL4CommandQueueDescriptor(nint nativePtr, NativeObjectOwnership ow
 
     #region Instance Properties - Properties
 
-    /// <summary>Assigns a dispatch queue to which Metal submits feedback notification blocks.</summary>
+    /// <summary>
+    /// Assigns a dispatch queue to which Metal submits feedback notification blocks.
+    /// </summary>
     public DispatchQueue FeedbackQueue
     {
         get => GetProperty(ref field, MTL4CommandQueueDescriptorBindings.FeedbackQueue);
         set => SetProperty(ref field, MTL4CommandQueueDescriptorBindings.SetFeedbackQueue, value);
     }
 
-    /// <summary>Assigns an optional label to the command queue instance for debugging purposes.</summary>
+    /// <summary>
+    /// Assigns an optional label to the command queue instance for debugging purposes.
+    /// </summary>
     public NSString Label
     {
         get => GetProperty(ref field, MTL4CommandQueueDescriptorBindings.Label);

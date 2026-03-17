@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>A description of how a compute function fetches input data for an attribute.</summary>
+/// <summary>
+/// A description of how a compute function fetches input data for an attribute.
+/// </summary>
 public class MTLBufferLayoutDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLBufferLayoutDescriptor>
 {
     #region INativeObject
@@ -18,21 +20,27 @@ public class MTLBufferLayoutDescriptor(nint nativePtr, NativeObjectOwnership own
 
     #region Describing fetch behavior - Properties
 
-    /// <summary>The number of bytes from one buffer entry to the next.</summary>
+    /// <summary>
+    /// The number of bytes from one buffer entry to the next.
+    /// </summary>
     public nuint Stride
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLBufferLayoutDescriptorBindings.Stride);
         set => ObjectiveC.MsgSend(NativePtr, MTLBufferLayoutDescriptorBindings.SetStride, value);
     }
 
-    /// <summary>Determines how and when compute functions fetch data.</summary>
+    /// <summary>
+    /// Determines how and when compute functions fetch data.
+    /// </summary>
     public MTLStepFunction StepFunction
     {
         get => (MTLStepFunction)ObjectiveC.MsgSendULong(NativePtr, MTLBufferLayoutDescriptorBindings.StepFunction);
         set => ObjectiveC.MsgSend(NativePtr, MTLBufferLayoutDescriptorBindings.SetStepFunction, (nuint)value);
     }
 
-    /// <summary>How frequently the step function should load data.</summary>
+    /// <summary>
+    /// How frequently the step function should load data.
+    /// </summary>
     public nuint StepRate
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLBufferLayoutDescriptorBindings.StepRate);

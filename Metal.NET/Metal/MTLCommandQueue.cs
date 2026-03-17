@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>An instance you use to create, submit, and schedule command buffers to a specific GPU device to run the commands within those buffers.</summary>
+/// <summary>
+/// An instance you use to create, submit, and schedule command buffers to a specific GPU device to run the commands within those buffers.
+/// </summary>
 public class MTLCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCommandQueue>
 {
     #region INativeObject
@@ -14,13 +16,17 @@ public class MTLCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : 
 
     #region Identifying the command queue - Properties
 
-    /// <summary>The GPU device that creates the command queue.</summary>
+    /// <summary>
+    /// The GPU device that creates the command queue.
+    /// </summary>
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTLCommandQueueBindings.Device);
     }
 
-    /// <summary>An optional name that can help you identify the command queue.</summary>
+    /// <summary>
+    /// An optional name that can help you identify the command queue.
+    /// </summary>
     public NSString Label
     {
         get => GetProperty(ref field, MTLCommandQueueBindings.Label);
@@ -30,7 +36,9 @@ public class MTLCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : 
 
     #region Creating command buffers - Methods
 
-    /// <summary>Returns a command buffer from the command queue that you configure with a descriptor.</summary>
+    /// <summary>
+    /// Returns a command buffer from the command queue that you configure with a descriptor.
+    /// </summary>
     public MTLCommandBuffer CommandBuffer()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandQueueBindings.CommandBuffer);
@@ -38,7 +46,9 @@ public class MTLCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    /// <summary>Returns a command buffer from the command queue that you configure with a descriptor.</summary>
+    /// <summary>
+    /// Returns a command buffer from the command queue that you configure with a descriptor.
+    /// </summary>
     public MTLCommandBuffer CommandBufferWithDescriptor(MTLCommandBufferDescriptor descriptor)
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandQueueBindings.CommandBufferWithDescriptor, descriptor.NativePtr);
@@ -46,7 +56,9 @@ public class MTLCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : 
         return new(nativePtr, NativeObjectOwnership.Owned);
     }
 
-    /// <summary>Returns a command buffer from the command queue that doesn’t maintain strong references to resources.</summary>
+    /// <summary>
+    /// Returns a command buffer from the command queue that doesn’t maintain strong references to resources.
+    /// </summary>
     public MTLCommandBuffer CommandBufferWithUnretainedReferences()
     {
         nint nativePtr = ObjectiveC.MsgSendNInt(NativePtr, MTLCommandQueueBindings.CommandBufferWithUnretainedReferences);
@@ -57,13 +69,17 @@ public class MTLCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : 
 
     #region Attaching residency sets - Methods
 
-    /// <summary>Applies a residency set to a queue, which Metal applies to the queue’s command buffers as you commit them.</summary>
+    /// <summary>
+    /// Applies a residency set to a queue, which Metal applies to the queue’s command buffers as you commit them.
+    /// </summary>
     public void AddResidencySet(MTLResidencySet residencySet)
     {
         ObjectiveC.MsgSend(NativePtr, MTLCommandQueueBindings.AddResidencySet, residencySet.NativePtr);
     }
 
-    /// <summary>Applies multiple residency sets to a queue, which Metal applies to the queue’s command buffers as you commit them.</summary>
+    /// <summary>
+    /// Applies multiple residency sets to a queue, which Metal applies to the queue’s command buffers as you commit them.
+    /// </summary>
     public unsafe void AddResidencySets(MTLResidencySet[] residencySets)
     {
         nint* pResidencySets = stackalloc nint[residencySets.Length];
@@ -78,13 +94,17 @@ public class MTLCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : 
 
     #region Detaching residency sets - Methods
 
-    /// <summary>Removes a residency set from a command queue’s list, which means Metal doesn’t apply it to the queue’s command buffers as you commit them.</summary>
+    /// <summary>
+    /// Removes a residency set from a command queue’s list, which means Metal doesn’t apply it to the queue’s command buffers as you commit them.
+    /// </summary>
     public void RemoveResidencySet(MTLResidencySet residencySet)
     {
         ObjectiveC.MsgSend(NativePtr, MTLCommandQueueBindings.RemoveResidencySet, residencySet.NativePtr);
     }
 
-    /// <summary>Removes multiple residency sets from a command queue’s list, which means Metal doesn’t apply them to the queue’s command buffers as you commit them.</summary>
+    /// <summary>
+    /// Removes multiple residency sets from a command queue’s list, which means Metal doesn’t apply them to the queue’s command buffers as you commit them.
+    /// </summary>
     public unsafe void RemoveResidencySets(MTLResidencySet[] residencySets)
     {
         nint* pResidencySets = stackalloc nint[residencySets.Length];
@@ -99,7 +119,9 @@ public class MTLCommandQueue(nint nativePtr, NativeObjectOwnership ownership) : 
 
     #region Deprecated - Methods
 
-    /// <summary>Informs Xcode about when GPU Frame Capture starts and stops.</summary>
+    /// <summary>
+    /// Informs Xcode about when GPU Frame Capture starts and stops.
+    /// </summary>
     [Obsolete("Use MTLCaptureManager and MTLCaptureScope instead. See Naming resources and commands for more information.")]
     public void InsertDebugCaptureBoundary()
     {

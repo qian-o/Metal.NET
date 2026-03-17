@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>A description of a list of triangle primitives to turn into an acceleration structure.</summary>
+/// <summary>
+/// A description of a list of triangle primitives to turn into an acceleration structure.
+/// </summary>
 public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTLAccelerationStructureGeometryDescriptor(nativePtr, ownership), INativeObject<MTLAccelerationStructureTriangleGeometryDescriptor>
 {
     #region INativeObject
@@ -18,7 +20,9 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr, 
 
     #region Configuring the number of triangles - Properties
 
-    /// <summary>The number of triangles in the buffers.</summary>
+    /// <summary>
+    /// The number of triangles in the buffers.
+    /// </summary>
     public nuint TriangleCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.TriangleCount);
@@ -28,21 +32,27 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr, 
 
     #region Configuring index data - Properties
 
-    /// <summary>The data type of indices in the index buffer.</summary>
+    /// <summary>
+    /// The data type of indices in the index buffer.
+    /// </summary>
     public MTLIndexType IndexType
     {
         get => (MTLIndexType)ObjectiveC.MsgSendULong(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.IndexType);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetIndexType, (nuint)value);
     }
 
-    /// <summary>A buffer that contains indices for the vertices that compose the triangle list.</summary>
+    /// <summary>
+    /// A buffer that contains indices for the vertices that compose the triangle list.
+    /// </summary>
     public MTLBuffer IndexBuffer
     {
         get => GetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.IndexBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetIndexBuffer, value);
     }
 
-    /// <summary>The offset, in bytes, to the first index in the buffer.</summary>
+    /// <summary>
+    /// The offset, in bytes, to the first index in the buffer.
+    /// </summary>
     public nuint IndexBufferOffset
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.IndexBufferOffset);
@@ -52,28 +62,36 @@ public class MTLAccelerationStructureTriangleGeometryDescriptor(nint nativePtr, 
 
     #region Configuring vertex data - Properties
 
-    /// <summary>The format of each vertex position in the vertex buffer property.</summary>
+    /// <summary>
+    /// The format of each vertex position in the vertex buffer property.
+    /// </summary>
     public MTLAttributeFormat VertexFormat
     {
         get => (MTLAttributeFormat)ObjectiveC.MsgSendULong(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.VertexFormat);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetVertexFormat, (nuint)value);
     }
 
-    /// <summary>A buffer that contains vertex data.</summary>
+    /// <summary>
+    /// A buffer that contains vertex data.
+    /// </summary>
     public MTLBuffer VertexBuffer
     {
         get => GetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.VertexBuffer);
         set => SetProperty(ref field, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetVertexBuffer, value);
     }
 
-    /// <summary>The offset, in bytes, for the first vertex in the vertex buffer.</summary>
+    /// <summary>
+    /// The offset, in bytes, for the first vertex in the vertex buffer.
+    /// </summary>
     public nuint VertexBufferOffset
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.VertexBufferOffset);
         set => ObjectiveC.MsgSend(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.SetVertexBufferOffset, value);
     }
 
-    /// <summary>The stride, in bytes, between vertices in the vertex buffer.</summary>
+    /// <summary>
+    /// The stride, in bytes, between vertices in the vertex buffer.
+    /// </summary>
     public nuint VertexStride
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTLAccelerationStructureTriangleGeometryDescriptorBindings.VertexStride);

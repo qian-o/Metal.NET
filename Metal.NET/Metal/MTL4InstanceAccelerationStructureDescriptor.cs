@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>Descriptor for an instance acceleration structure.</summary>
+/// <summary>
+/// Descriptor for an instance acceleration structure.
+/// </summary>
 public class MTL4InstanceAccelerationStructureDescriptor(nint nativePtr, NativeObjectOwnership ownership) : MTL4AccelerationStructureDescriptor(nativePtr, ownership), INativeObject<MTL4InstanceAccelerationStructureDescriptor>
 {
     #region INativeObject
@@ -18,63 +20,81 @@ public class MTL4InstanceAccelerationStructureDescriptor(nint nativePtr, NativeO
 
     #region Instance Properties - Properties
 
-    /// <summary>Controls the number of instance descriptors in the instance descriptor buffer references.</summary>
+    /// <summary>
+    /// Controls the number of instance descriptors in the instance descriptor buffer references.
+    /// </summary>
     public nuint InstanceCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4InstanceAccelerationStructureDescriptorBindings.InstanceCount);
         set => ObjectiveC.MsgSend(NativePtr, MTL4InstanceAccelerationStructureDescriptorBindings.SetInstanceCount, value);
     }
 
-    /// <summary>Assigns a reference to a buffer containing instance descriptors for acceleration structures to reference.</summary>
+    /// <summary>
+    /// Assigns a reference to a buffer containing instance descriptors for acceleration structures to reference.
+    /// </summary>
     public MTL4BufferRange InstanceDescriptorBuffer
     {
         get => ObjectiveC.MsgSendMTL4BufferRange(NativePtr, MTL4InstanceAccelerationStructureDescriptorBindings.InstanceDescriptorBuffer);
         set => ObjectiveC.MsgSend(NativePtr, MTL4InstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorBuffer, value);
     }
 
-    /// <summary>Sets the stride, in bytes, between instance descriptors the instance descriptor buffer references.</summary>
+    /// <summary>
+    /// Sets the stride, in bytes, between instance descriptors the instance descriptor buffer references.
+    /// </summary>
     public nuint InstanceDescriptorStride
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4InstanceAccelerationStructureDescriptorBindings.InstanceDescriptorStride);
         set => ObjectiveC.MsgSend(NativePtr, MTL4InstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorStride, value);
     }
 
-    /// <summary>The type of instance descriptor that the instance descriptor buffer references.</summary>
+    /// <summary>
+    /// The type of instance descriptor that the instance descriptor buffer references.
+    /// </summary>
     public MTLAccelerationStructureInstanceDescriptorType InstanceDescriptorType
     {
         get => (MTLAccelerationStructureInstanceDescriptorType)ObjectiveC.MsgSendULong(NativePtr, MTL4InstanceAccelerationStructureDescriptorBindings.InstanceDescriptorType);
         set => ObjectiveC.MsgSend(NativePtr, MTL4InstanceAccelerationStructureDescriptorBindings.SetInstanceDescriptorType, (nuint)value);
     }
 
-    /// <summary>Specifies the layout for the transformation matrices in the instance descriptor buffer and the motion transformation matrix buffer.</summary>
+    /// <summary>
+    /// Specifies the layout for the transformation matrices in the instance descriptor buffer and the motion transformation matrix buffer.
+    /// </summary>
     public MTLMatrixLayout InstanceTransformationMatrixLayout
     {
         get => (MTLMatrixLayout)ObjectiveC.MsgSendLong(NativePtr, MTL4InstanceAccelerationStructureDescriptorBindings.InstanceTransformationMatrixLayout);
         set => ObjectiveC.MsgSend(NativePtr, MTL4InstanceAccelerationStructureDescriptorBindings.SetInstanceTransformationMatrixLayout, (nint)value);
     }
 
-    /// <summary>A buffer containing transformation information for instance motion keyframes, formatted according to the motion transform type.</summary>
+    /// <summary>
+    /// A buffer containing transformation information for instance motion keyframes, formatted according to the motion transform type.
+    /// </summary>
     public MTL4BufferRange MotionTransformBuffer
     {
         get => ObjectiveC.MsgSendMTL4BufferRange(NativePtr, MTL4InstanceAccelerationStructureDescriptorBindings.MotionTransformBuffer);
         set => ObjectiveC.MsgSend(NativePtr, MTL4InstanceAccelerationStructureDescriptorBindings.SetMotionTransformBuffer, value);
     }
 
-    /// <summary>Controls the total number of motion transforms in the motion transform buffer.</summary>
+    /// <summary>
+    /// Controls the total number of motion transforms in the motion transform buffer.
+    /// </summary>
     public nuint MotionTransformCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4InstanceAccelerationStructureDescriptorBindings.MotionTransformCount);
         set => ObjectiveC.MsgSend(NativePtr, MTL4InstanceAccelerationStructureDescriptorBindings.SetMotionTransformCount, value);
     }
 
-    /// <summary>Specify the stride for motion transform.</summary>
+    /// <summary>
+    /// Specify the stride for motion transform.
+    /// </summary>
     public nuint MotionTransformStride
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4InstanceAccelerationStructureDescriptorBindings.MotionTransformStride);
         set => ObjectiveC.MsgSend(NativePtr, MTL4InstanceAccelerationStructureDescriptorBindings.SetMotionTransformStride, value);
     }
 
-    /// <summary>Controls the type of motion transforms, either as a matrix or individual components.</summary>
+    /// <summary>
+    /// Controls the type of motion transforms, either as a matrix or individual components.
+    /// </summary>
     public MTLTransformType MotionTransformType
     {
         get => (MTLTransformType)ObjectiveC.MsgSendLong(NativePtr, MTL4InstanceAccelerationStructureDescriptorBindings.MotionTransformType);

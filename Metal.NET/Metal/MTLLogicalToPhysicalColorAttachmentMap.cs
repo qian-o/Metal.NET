@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>Allows you to easily specify color attachment remapping from logical to physical indices.</summary>
+/// <summary>
+/// Allows you to easily specify color attachment remapping from logical to physical indices.
+/// </summary>
 public class MTLLogicalToPhysicalColorAttachmentMap(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLLogicalToPhysicalColorAttachmentMap>
 {
     #region INativeObject

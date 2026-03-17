@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>An array of sample buffer attachments for a render pass.</summary>
+/// <summary>
+/// An array of sample buffer attachments for a render pass.
+/// </summary>
 public class MTLRenderPassSampleBufferAttachmentDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLRenderPassSampleBufferAttachmentDescriptorArray>
 {
     #region INativeObject

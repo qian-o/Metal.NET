@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>Compilation settings for a Metal shader library.</summary>
+/// <summary>
+/// Compilation settings for a Metal shader library.
+/// </summary>
 public class MTLCompileOptions(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLCompileOptions>
 {
     #region INativeObject
@@ -18,63 +20,81 @@ public class MTLCompileOptions(nint nativePtr, NativeObjectOwnership ownership) 
 
     #region Configuring the compiler options - Properties
 
-    /// <summary>A Boolean value that enables shader logging.</summary>
+    /// <summary>
+    /// A Boolean value that enables shader logging.
+    /// </summary>
     public Bool8 EnableLogging
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLCompileOptionsBindings.EnableLogging);
         set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetEnableLogging, value);
     }
 
-    /// <summary>An indication of whether the compiler can perform optimizations for floating-point arithmetic that may violate the IEEE 754 standard.</summary>
+    /// <summary>
+    /// An indication of whether the compiler can perform optimizations for floating-point arithmetic that may violate the IEEE 754 standard.
+    /// </summary>
     public MTLMathMode MathMode
     {
         get => (MTLMathMode)ObjectiveC.MsgSendLong(NativePtr, MTLCompileOptionsBindings.MathMode);
         set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetMathMode, (nint)value);
     }
 
-    /// <summary>The FP32 math functions Metal uses.</summary>
+    /// <summary>
+    /// The FP32 math functions Metal uses.
+    /// </summary>
     public MTLMathFloatingPointFunctions MathFloatingPointFunctions
     {
         get => (MTLMathFloatingPointFunctions)ObjectiveC.MsgSendLong(NativePtr, MTLCompileOptionsBindings.MathFloatingPointFunctions);
         set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetMathFloatingPointFunctions, (nint)value);
     }
 
-    /// <summary>A Boolean value that indicates whether the compiler compiles vertex shaders conservatively to generate consistent position calculations.</summary>
+    /// <summary>
+    /// A Boolean value that indicates whether the compiler compiles vertex shaders conservatively to generate consistent position calculations.
+    /// </summary>
     public Bool8 PreserveInvariance
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTLCompileOptionsBindings.PreserveInvariance);
         set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetPreserveInvariance, value);
     }
 
-    /// <summary>The language version for interpreting the library source code.</summary>
+    /// <summary>
+    /// The language version for interpreting the library source code.
+    /// </summary>
     public MTLLanguageVersion LanguageVersion
     {
         get => (MTLLanguageVersion)ObjectiveC.MsgSendULong(NativePtr, MTLCompileOptionsBindings.LanguageVersion);
         set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetLanguageVersion, (nuint)value);
     }
 
-    /// <summary>A list of preprocessor macros to apply when compiling the library source.</summary>
+    /// <summary>
+    /// A list of preprocessor macros to apply when compiling the library source.
+    /// </summary>
     public NSDictionary PreprocessorMacros
     {
         get => GetProperty(ref field, MTLCompileOptionsBindings.PreprocessorMacros);
         set => SetProperty(ref field, MTLCompileOptionsBindings.SetPreprocessorMacros, value);
     }
 
-    /// <summary>An option that tells the compiler what to prioritize when it compiles Metal shader code.</summary>
+    /// <summary>
+    /// An option that tells the compiler what to prioritize when it compiles Metal shader code.
+    /// </summary>
     public MTLLibraryOptimizationLevel OptimizationLevel
     {
         get => (MTLLibraryOptimizationLevel)ObjectiveC.MsgSendLong(NativePtr, MTLCompileOptionsBindings.OptimizationLevel);
         set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetOptimizationLevel, (nint)value);
     }
 
-    /// <summary>An array of dynamic libraries the Metal compiler links against.</summary>
+    /// <summary>
+    /// An array of dynamic libraries the Metal compiler links against.
+    /// </summary>
     public MTLDynamicLibrary[] Libraries
     {
         get => GetArrayProperty<MTLDynamicLibrary>(MTLCompileOptionsBindings.Libraries);
         set => SetArrayProperty(MTLCompileOptionsBindings.SetLibraries, value);
     }
 
-    /// <summary>A Boolean value that indicates whether the compiler can perform optimizations for floating-point arithmetic that may violate the IEEE 754 standard.</summary>
+    /// <summary>
+    /// A Boolean value that indicates whether the compiler can perform optimizations for floating-point arithmetic that may violate the IEEE 754 standard.
+    /// </summary>
     [Obsolete("Use mathMode instead.")]
     public Bool8 FastMathEnabled
     {
@@ -85,14 +105,18 @@ public class MTLCompileOptions(nint nativePtr, NativeObjectOwnership ownership) 
 
     #region Configuring the library output options - Properties
 
-    /// <summary>The kind of library to create.</summary>
+    /// <summary>
+    /// The kind of library to create.
+    /// </summary>
     public MTLLibraryType LibraryType
     {
         get => (MTLLibraryType)ObjectiveC.MsgSendLong(NativePtr, MTLCompileOptionsBindings.LibraryType);
         set => ObjectiveC.MsgSend(NativePtr, MTLCompileOptionsBindings.SetLibraryType, (nint)value);
     }
 
-    /// <summary>For a dynamic library, the name to use when installing the library.</summary>
+    /// <summary>
+    /// For a dynamic library, the name to use when installing the library.
+    /// </summary>
     public NSString InstallName
     {
         get => GetProperty(ref field, MTLCompileOptionsBindings.InstallName);

@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>The mutability options for a buffer that a render or compute pipeline uses.</summary>
+/// <summary>
+/// The mutability options for a buffer that a render or compute pipeline uses.
+/// </summary>
 public class MTLPipelineBufferDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLPipelineBufferDescriptor>
 {
     #region INativeObject
@@ -18,7 +20,9 @@ public class MTLPipelineBufferDescriptor(nint nativePtr, NativeObjectOwnership o
 
     #region Setting buffer mutability - Properties
 
-    /// <summary>A mutability option that determines whether you can update a buffer’s contents before related commands use the buffer.</summary>
+    /// <summary>
+    /// A mutability option that determines whether you can update a buffer’s contents before related commands use the buffer.
+    /// </summary>
     public MTLMutability Mutability
     {
         get => (MTLMutability)ObjectiveC.MsgSendULong(NativePtr, MTLPipelineBufferDescriptorBindings.Mutability);

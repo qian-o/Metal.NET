@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>A synchronization mechanism that orders memory operations between GPU passes.</summary>
+/// <summary>
+/// A synchronization mechanism that orders memory operations between GPU passes.
+/// </summary>
 public class MTLFence(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLFence>
 {
     #region INativeObject
@@ -14,13 +16,17 @@ public class MTLFence(nint nativePtr, NativeObjectOwnership ownership) : NSObjec
 
     #region Identifying a fence - Properties
 
-    /// <summary>The device object that created the fence.</summary>
+    /// <summary>
+    /// The device object that created the fence.
+    /// </summary>
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTLFenceBindings.Device);
     }
 
-    /// <summary>A string that identifies the fence.</summary>
+    /// <summary>
+    /// A string that identifies the fence.
+    /// </summary>
     public NSString Label
     {
         get => GetProperty(ref field, MTLFenceBindings.Label);

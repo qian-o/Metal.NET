@@ -605,7 +605,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
             // Enum-level doc comment
             if (enumDoc?.Summary is { } enumSummary)
             {
-                sb.AppendLine($"/// <summary>{XmlEscape(enumSummary)}</summary>");
+                sb.AppendLine("/// <summary>");
+                sb.AppendLine($"/// {XmlEscape(enumSummary)}");
+                sb.AppendLine("/// </summary>");
             }
 
             // Enum-level [Obsolete] from JSON
@@ -652,7 +654,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 {
                     if (memberDoc.Summary is { } memberSummary)
                     {
-                        sb.AppendLine($"    /// <summary>{XmlEscape(memberSummary)}</summary>");
+                        sb.AppendLine("    /// <summary>");
+                        sb.AppendLine($"    /// {XmlEscape(memberSummary)}");
+                        sb.AppendLine("    /// </summary>");
                     }
 
                     if (memberDoc is { Deprecated: true })
@@ -978,7 +982,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         // Class-level doc comment
         if (classDoc?.Summary is { } classSummary)
         {
-            sb.AppendLine($"/// <summary>{XmlEscape(classSummary)}</summary>");
+            sb.AppendLine("/// <summary>");
+            sb.AppendLine($"/// {XmlEscape(classSummary)}");
+            sb.AppendLine("/// </summary>");
         }
 
         // Class-level [Obsolete] from JSON
@@ -1200,7 +1206,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         // Emit doc comment from JSON (takes priority over header-derived deprecation summary)
         if (docMember?.Summary is { } summary)
         {
-            sb.AppendLine($"    /// <summary>{XmlEscape(summary)}</summary>");
+            sb.AppendLine("    /// <summary>");
+            sb.AppendLine($"    /// {XmlEscape(summary)}");
+            sb.AppendLine("    /// </summary>");
         }
 
         // JSON-based [Obsolete]: only if no header-derived deprecation
@@ -1226,7 +1234,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         // Emit doc comment from JSON (takes priority over header-derived deprecation summary)
         if (docMember?.Summary is { } summary)
         {
-            sb.AppendLine($"    /// <summary>{XmlEscape(summary)}</summary>");
+            sb.AppendLine("    /// <summary>");
+            sb.AppendLine($"    /// {XmlEscape(summary)}");
+            sb.AppendLine("    /// </summary>");
         }
 
         // JSON-based [Obsolete]: only if no header-derived deprecation
@@ -1294,11 +1304,31 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
                 string precedingContent = content[..lineStart].TrimEnd();
                 if (precedingContent.EndsWith("</summary>"))
                 {
-                    continue;
+                    // Find the start of the existing doc comment block
+                    int summaryStart = precedingContent.LastIndexOf("/// <summary>");
+                    if (summaryStart < 0)
+                    {
+                        continue;
+                    }
+
+                    // Check if it's already in three-line format
+                    string existingBlock = precedingContent[summaryStart..];
+                    string expected = $"/// <summary>\n/// {XmlEscape(entry.Summary)}\n/// </summary>";
+                    if (existingBlock == expected)
+                    {
+                        continue;
+                    }
+
+                    // Remove the old doc comment block and any trailing whitespace/newline
+                    int removeEnd = idx;
+                    content = content[..summaryStart] + content[removeEnd..];
+                    idx = content.IndexOf(classLine);
+                    if (idx < 0) idx = content.IndexOf(staticClassLine);
+                    if (idx < 0) continue;
                 }
             }
 
-            string docComment = $"/// <summary>{XmlEscape(entry.Summary)}</summary>\n";
+            string docComment = $"/// <summary>\n/// {XmlEscape(entry.Summary)}\n/// </summary>\n";
             content = content.Insert(idx, docComment);
 
             File.WriteAllText(filePath, content, new UTF8Encoding(true));
@@ -1598,7 +1628,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         {
             if (!skipDocComment)
             {
-                sb.AppendLine($"    /// <summary>Deprecated: {getter.DeprecationMessage}</summary>");
+                sb.AppendLine("    /// <summary>");
+                sb.AppendLine($"    /// Deprecated: {getter.DeprecationMessage}");
+                sb.AppendLine("    /// </summary>");
             }
             sb.AppendLine($"    [Obsolete(\"{getter.DeprecationMessage}\")]");
         }
@@ -1963,7 +1995,9 @@ class CSharpEmitter(string outputDir, GeneratorContext context, TypeMapper typeM
         {
             if (!skipDocComment)
             {
-                sb.AppendLine($"    /// <summary>Deprecated: {method.DeprecationMessage}</summary>");
+                sb.AppendLine("    /// <summary>");
+                sb.AppendLine($"    /// Deprecated: {method.DeprecationMessage}");
+                sb.AppendLine("    /// </summary>");
             }
             sb.AppendLine($"    [Obsolete(\"{method.DeprecationMessage}\")]");
         }

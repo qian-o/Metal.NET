@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>Groups parameters for the creation of a Metal argument table.</summary>
+/// <summary>
+/// Groups parameters for the creation of a Metal argument table.
+/// </summary>
 public class MTL4ArgumentTableDescriptor(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTL4ArgumentTableDescriptor>
 {
     #region INativeObject
@@ -18,42 +20,54 @@ public class MTL4ArgumentTableDescriptor(nint nativePtr, NativeObjectOwnership o
 
     #region Instance Properties - Properties
 
-    /// <summary>Configures whether Metal initializes the bindings to nil values upon creation of argument table.</summary>
+    /// <summary>
+    /// Configures whether Metal initializes the bindings to nil values upon creation of argument table.
+    /// </summary>
     public Bool8 InitializeBindings
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTL4ArgumentTableDescriptorBindings.InitializeBindings);
         set => ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetInitializeBindings, value);
     }
 
-    /// <summary>Assigns an optional label with the argument table for debug purposes.</summary>
+    /// <summary>
+    /// Assigns an optional label with the argument table for debug purposes.
+    /// </summary>
     public NSString Label
     {
         get => GetProperty(ref field, MTL4ArgumentTableDescriptorBindings.Label);
         set => SetProperty(ref field, MTL4ArgumentTableDescriptorBindings.SetLabel, value);
     }
 
-    /// <summary>Determines the number of buffer-binding slots for the argument table.</summary>
+    /// <summary>
+    /// Determines the number of buffer-binding slots for the argument table.
+    /// </summary>
     public nuint MaxBufferBindCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4ArgumentTableDescriptorBindings.MaxBufferBindCount);
         set => ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetMaxBufferBindCount, value);
     }
 
-    /// <summary>Determines the number of sampler state-binding slots for the argument table.</summary>
+    /// <summary>
+    /// Determines the number of sampler state-binding slots for the argument table.
+    /// </summary>
     public nuint MaxSamplerStateBindCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4ArgumentTableDescriptorBindings.MaxSamplerStateBindCount);
         set => ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetMaxSamplerStateBindCount, value);
     }
 
-    /// <summary>Determines the number of texture-binding slots for the argument table.</summary>
+    /// <summary>
+    /// Determines the number of texture-binding slots for the argument table.
+    /// </summary>
     public nuint MaxTextureBindCount
     {
         get => ObjectiveC.MsgSendNUInt(NativePtr, MTL4ArgumentTableDescriptorBindings.MaxTextureBindCount);
         set => ObjectiveC.MsgSend(NativePtr, MTL4ArgumentTableDescriptorBindings.SetMaxTextureBindCount, value);
     }
 
-    /// <summary>Controls whether Metal should reserve memory for attribute strides in the argument table.</summary>
+    /// <summary>
+    /// Controls whether Metal should reserve memory for attribute strides in the argument table.
+    /// </summary>
     public Bool8 SupportAttributeStrides
     {
         get => ObjectiveC.MsgSendBool(NativePtr, MTL4ArgumentTableDescriptorBindings.SupportAttributeStrides);

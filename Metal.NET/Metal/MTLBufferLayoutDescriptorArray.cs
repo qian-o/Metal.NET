@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>An array of buffer layout descriptor objects.</summary>
+/// <summary>
+/// An array of buffer layout descriptor objects.
+/// </summary>
 public class MTLBufferLayoutDescriptorArray(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLBufferLayoutDescriptorArray>
 {
     #region INativeObject

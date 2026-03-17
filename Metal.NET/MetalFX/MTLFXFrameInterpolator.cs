@@ -13,7 +13,9 @@ public class MTLFXFrameInterpolator(nint nativePtr, NativeObjectOwnership owners
 
     #region Instance Methods - Methods
 
-    /// <summary>Encode this frame interpolator’s work into a command buffer.</summary>
+    /// <summary>
+    /// Encode this frame interpolator’s work into a command buffer.
+    /// </summary>
     public void EncodeToCommandBuffer(MTLCommandBuffer commandBuffer)
     {
         ObjectiveC.MsgSend(NativePtr, MTLFXFrameInterpolatorBindings.EncodeToCommandBuffer, commandBuffer.NativePtr);

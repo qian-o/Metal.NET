@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>An instance that defines how a texture should be sampled.</summary>
+/// <summary>
+/// An instance that defines how a texture should be sampled.
+/// </summary>
 public class MTLSamplerState(nint nativePtr, NativeObjectOwnership ownership) : NSObject(nativePtr, ownership), INativeObject<MTLSamplerState>
 {
     #region INativeObject
@@ -14,13 +16,17 @@ public class MTLSamplerState(nint nativePtr, NativeObjectOwnership ownership) : 
 
     #region Identifying the sampler - Properties
 
-    /// <summary>The device object that created the sampler.</summary>
+    /// <summary>
+    /// The device object that created the sampler.
+    /// </summary>
     public MTLDevice Device
     {
         get => GetProperty(ref field, MTLSamplerStateBindings.Device);
     }
 
-    /// <summary>A string that identifies the sampler.</summary>
+    /// <summary>
+    /// A string that identifies the sampler.
+    /// </summary>
     public NSString Label
     {
         get => GetProperty(ref field, MTLSamplerStateBindings.Label);

@@ -1,6 +1,8 @@
 ﻿namespace Metal.NET;
 
-/// <summary>A static ordered collection of objects.</summary>
+/// <summary>
+/// A static ordered collection of objects.
+/// </summary>
 public static class NSArray
 {
     public static T[] ToArray<T>(nint nativePtr) where T : NativeObject, INativeObject<T>
